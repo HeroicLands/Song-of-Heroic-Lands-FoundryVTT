@@ -96,8 +96,8 @@
         }
     ],
     "socket": true,
-    "manifest": "https://www.dropbox.com/s/510urlhupyh0zkm/system.json?dl=1",
-    "download": "https://www.dropbox.com/s/4pzfv5koxwbr276/system.zip?dl=1",
+    "manifest": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json",
+    "download": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/download/v0.4.0/system.zip",
     "grid": {
         "distance": 5,
         "units": "ft"
