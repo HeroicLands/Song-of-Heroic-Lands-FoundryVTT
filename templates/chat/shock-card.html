@@ -1,0 +1,85 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    {{#if (gt shockTestMod 0)}}
+    <div class="grid grid-2col">
+        <div class="card-content">
+            <span class="label">Target:</span>
+            <span class="value">{{origShockML}}</span>
+        </div>
+
+        <div class="card-content">
+            <span class="label">Modifier:</span>
+            <span class="value">{{stPlusMinus}}{{shockTestMod}}</span>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <span class="label">Shock Test Eff Target:</span>
+        <span class="value"
+            >{{origShockML}} {{stPlusMinus}} {{shockTestMod}} =
+            <strong>{{shockML}}</strong></span
+        >
+    </div>
+    {{else}}
+    <div class="card-content">
+        <span class="label">Target:</span>
+        <span class="value">{{shockML}}</span>
+    </div>
+    {{/if}} {{#if successLevelMod}}
+    <div class="card-content">
+        <span class="label">Success Level Modifier:</span>
+        <span class="value">{{successLevelMod}}</span>
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <span class="label">Roll:</span>
+        <span
+            class="value {{#if isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{stRollValue}}</span
+        >
+    </div>
+
+    {{#if origShockIndex}}
+    <div class="card-content">
+        <span class="label">Shock Index:</span>
+        <span class="value"
+            >{{origShockIndex}} {{siPlusMinus}} {{shockRollMod}} =
+            <strong>{{finalShockIndex}}</strong></span
+        >
+    </div>
+    {{/if}} {{#if shockText}} {{#if shockUpgradeText}}
+    <div class="card-content center">
+        <span>{{shockUpgradeText}}</span>
+    </div>
+    {{/if}}
+
+    <div class="card-content center">
+        <span class="label">Shock State:</span>
+        <span class="value failure-text">{{shockText}}</span>
+    </div>
+
+    <div class="card-content center">
+        <span class="value">NOTE: Shock state must be manually modified.</span>
+    </div>
+    {{/if}} {{#if isSuccess}} {{#if isCritical}}
+    <footer class="card-footer critical-success-block">
+        <span>{{description}}</span>
+    </footer>
+    {{else}}
+    <footer class="card-footer success-text">
+        <span>{{description}}</span>
+    </footer>
+    {{/if}} {{else}} {{#if isCritical}}
+    <footer class="card-footer critical-failure-block">
+        <span>{{description}}</span>
+    </footer>
+    {{else}}
+    <footer class="card-footer failure-text">
+        <span>{{description}}</span>
+    </footer>
+    {{/if}} {{/if}}
+</div>

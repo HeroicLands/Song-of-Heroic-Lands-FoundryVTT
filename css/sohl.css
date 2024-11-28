@@ -1,0 +1,1565 @@
+@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+/* Global styles */
+/*.window-app {
+  font-family: $font-primary;
+}*/
+.rollable:hover, .rollable:focus {
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
+}
+
+section.highlight {
+  padding: 0 5px;
+  background: rgba(247, 230, 2, 0.05);
+  border: 1px solid #666;
+}
+
+.grid,
+.grid-2col {
+  display: grid;
+  grid-column: span 2/span 2;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(40px, auto);
+  gap: 0 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.grid-fixed-row {
+  grid-template-rows: 40px;
+}
+
+.grid-3col {
+  grid-column: span 3/span 3;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4col {
+  grid-column: span 4/span 4;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5col {
+  grid-column: span 5/span 5;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.grid-6col {
+  grid-column: span 6/span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.grid-7col {
+  grid-column: span 7/span 7;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.grid-8col {
+  grid-column: span 8/span 8;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.grid-9col {
+  grid-column: span 9/span 9;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.grid-10col {
+  grid-column: span 10/span 10;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.grid-11col {
+  grid-column: span 11/span 11;
+  grid-template-columns: repeat(11, minmax(0, 1fr));
+}
+
+.grid-12col {
+  grid-column: span 12/span 12;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.flex-group-center,
+.flex-group-left,
+.flex-group-right {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.flex-group-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.flex-group-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
+
+.chat-card {
+  font-style: normal;
+  font-size: 15px;
+}
+.chat-card .card-header {
+  text-align: center;
+  padding: 3px 0;
+  border-top: 2px groove #fff;
+  border-bottom: 2px groove #fff;
+  background-color: #bbb;
+  color: #111;
+}
+.chat-card .card-header h3 {
+  flex: 1;
+  margin: 0;
+  line-height: 25px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4b4a44;
+}
+.chat-card .card-header h4 {
+  flex: 1;
+  margin: 0;
+  line-height: 20px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #4b4a44;
+}
+.chat-card .card-header h3:hover {
+  color: #111;
+  text-shadow: 0 0 10px red;
+}
+.chat-card .mingap {
+  gap: 3px;
+}
+.chat-card .header {
+  text-align: center;
+  font-weight: bold;
+}
+.chat-card .center {
+  text-align: center;
+}
+.chat-card .result-desc {
+  color: blue;
+  font-weight: bold;
+}
+.chat-card .weapon-broke {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}
+.chat-card .card-content {
+  margin: 5px 0;
+}
+.chat-card .card-content h3 {
+  font-size: 12px;
+  margin: 0;
+  font-weight: bold;
+}
+.chat-card .card-content .label {
+  font-weight: bold;
+  padding-right: 5px;
+  text-align: right;
+}
+.chat-card .card-content .value {
+  text-align: left;
+}
+.chat-card .card-content .adjustment {
+  border-top: 2px groove #fff;
+  border-bottom: 2px groove #fff;
+}
+.chat-card .card-content .adj-name {
+  text-align: left;
+  flex: 1 0 10px;
+}
+.chat-card .card-content .adj-value {
+  text-align: left;
+  padding-left: 10px;
+  flex: 0 0 80px;
+}
+.chat-card .card-footer {
+  padding: 3px 0 0;
+  border-top: 2px groove #fff;
+  text-align: center;
+  font-size: 16px;
+}
+.chat-card .critical-success-block {
+  background-color: green;
+  color: white;
+}
+.chat-card .critical-failure-block {
+  background-color: red;
+  color: white;
+}
+.chat-card .critical-success-text {
+  color: green;
+  font-weight: bold;
+}
+.chat-card .critical-failure-text {
+  color: red;
+  font-weight: bold;
+}
+.chat-card .note {
+  font-style: italic;
+}
+.chat-card .notice-header {
+  border-top: 2px groove;
+  color: red;
+  text-align: center;
+  font-weight: bold;
+}
+.chat-card .notice-body {
+  color: red;
+  text-align: center;
+}
+.chat-card .success-text {
+  color: green;
+}
+.chat-card .failure-text {
+  color: red;
+}
+.chat-card .emphasize-text {
+  font-style: italic;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltiptext {
+  text-transform: none;
+  font-size: 12px;
+  visibility: hidden;
+  width: 240px;
+  background-color: rgb(216, 189, 36);
+  color: #111;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 5px;
+  /* Position the tooltip */
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(216, 189, 36) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.sheet nav.sheet-tabs {
+  height: 32px;
+  flex: 0 0 32px;
+  margin: 4px 0;
+  line-height: 32px;
+  border: none;
+}
+.sheet nav.sheet-tabs .item {
+  padding: 0;
+}
+
+#hotbar li.macro {
+  background: url("../ui/parchment.jpg");
+}
+
+/* Styles limited to sohl sheets */
+.sohl {
+  @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+}
+.sohl .window-content {
+  background: url("../ui/parchment.jpg") repeat;
+  font-size: 13px;
+  color: #191813;
+}
+.sohl .print-window-content {
+  font-size: 13px;
+  color: #191813;
+  background: white;
+}
+.sohl input[type=text],
+.sohl input[type=number],
+.sohl select {
+  height: calc(100% - 2px);
+  border: 1px solid #7a7971;
+  background: rgba(0, 0, 0, 0.05);
+  color: #191813;
+}
+.sohl input[type=text]:hover,
+.sohl input[type=number]:hover,
+.sohl input[type=text]:focus,
+.sohl input[type=number]:focus {
+  border: 1px solid #111;
+  box-shadow: 0 0 8px red;
+}
+.sohl input:disabled,
+.sohl select:disabled,
+.sohl textarea:disabled {
+  color: #4b4a44;
+}
+.sohl input:disabled:hover,
+.sohl select:disabled:hover,
+.sohl textarea:disabled:hover,
+.sohl input:disabled:focus,
+.sohl select:disabled:focus,
+.sohl textarea:disabled:focus {
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+  outline: none !important;
+}
+.sohl button {
+  background: rgba(0, 0, 0, 0.1);
+  border: 2px groove #eeede0;
+}
+.sohl label.checkbox {
+  flex: auto;
+  padding: 0;
+  margin: 0;
+  height: 22px;
+  line-height: 22px;
+  font-size: 11px;
+}
+.sohl label.checkbox > input[type=checkbox] {
+  width: 16px;
+  height: 16px;
+  margin: 0 2px 0 0;
+  position: relative;
+  top: 4px;
+}
+.sohl label.checkbox.right > input[type=checkbox] {
+  margin: 0 0 0 2px;
+}
+.sohl label.init-checkbox {
+  flex: auto;
+  padding: 0;
+  margin: 0 0 0 2px;
+  height: 22px;
+  line-height: 22px;
+}
+.sohl .sheet .window-content {
+  overflow-y: hidden;
+  padding: 5px;
+  background: url("../ui/parchment.jpg") repeat;
+  font-size: 13px;
+  color: #191813;
+}
+.sohl .sheet .window-content form {
+  height: 100%;
+  overflow: hidden;
+}
+.sohl .sheet .window-content .tab {
+  height: 100%;
+  overflow-y: hidden;
+  align-content: flex-start;
+}
+.sohl .sheet input[type=text],
+.sohl .sheet input[type=number] {
+  background: none;
+  border: 1px solid transparent;
+}
+.sohl .sheet input[type=text]:hover,
+.sohl .sheet input[type=number]:hover,
+.sohl .sheet input[type=text]:focus,
+.sohl .sheet input[type=number]:focus {
+  border: 1px solid #111;
+}
+.sohl .sheet select {
+  flex: 1;
+  font-size: 12px;
+  height: 22px;
+  background: transparent;
+}
+.sohl .sheet .editable .rollable:hover {
+  color: #000;
+  text-shadow: 0 0 10px red;
+  cursor: pointer;
+}
+.sohl .sheet span.sep {
+  flex: none;
+  margin: 0 1px;
+  display: inline;
+  position: relative;
+  color: #7a7971;
+  font-weight: normal;
+}
+.sohl .sheet .editor {
+  height: 100%;
+}
+.sohl .sheet .editor .tox-toolbar-overlord,
+.sohl .sheet .editor .tox-toolbar__primary {
+  background: none;
+}
+.sohl .sheet .sheet-header .header-details {
+  font-size: 20px;
+  font-weight: 700;
+}
+.sohl .sheet .sheet-header h1 {
+  flex: 1;
+  border-bottom: none;
+  height: 60px;
+  margin: 0;
+  padding: 5px;
+}
+.sohl .sheet .sheet-header h1 input {
+  display: block;
+  height: 50px;
+  font-size: 32px;
+  margin: 0;
+}
+.sohl .sheet .sheet-header img.profile {
+  flex: 0 0 100px;
+  max-width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border: none;
+  border-right: 2px groove #eeede0;
+}
+.sohl .sheet .sheet-header .summary {
+  flex: 0 0 100%;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px groove #eeede0;
+  border-bottom: none;
+}
+.sohl .sheet .sheet-header .summary li {
+  height: calc(100% - 6px);
+  float: left;
+  margin: 2px 0;
+  padding: 0;
+  border-right: 2px groove #eeede0;
+  line-height: 34px;
+  color: #4b4a44;
+}
+.sohl .sheet .sheet-header .summary li :last-child {
+  border-right: none;
+}
+.sohl .sheet .sheet-header .subtype {
+  font-size: 16px;
+  font-weight: 700;
+}
+.sohl .sheet .sheet-navigation {
+  flex: 0 0 30px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.sohl .sheet .sheet-navigation .item {
+  height: 30px;
+  line-height: 32px;
+  margin: 0 24px;
+  border-bottom: 3px solid #b5b3a4;
+}
+.sohl .sheet .sheet-navigation .item .active {
+  border-bottom: 3px solid #44191a;
+}
+.sohl .sheet-body .macro .command {
+  height: calc(100% - 80px);
+}
+.sohl .sheet-body .macro .command textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.sohl .search-bar {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-bottom: 5px;
+}
+.sohl img.token-image {
+  flex: 0 0 120px;
+  height: 120px;
+  margin-right: 10px;
+  object-fit: contain;
+  background: white;
+}
+.sohl img.bio-image {
+  flex: 0 0 200px;
+  margin-right: 10px;
+  object-fit: contain;
+  background: white;
+}
+.sohl label.header {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: left;
+  padding-left: 4px;
+}
+.sohl .search-items {
+  display: flex;
+  padding-bottom: 2px;
+}
+.sohl .search-items .search-criteria {
+  flex: 1 0 100px;
+  text-align: left;
+  padding-left: 5px;
+}
+.sohl .search-items .search-controls {
+  flex: 0 0 25px;
+  text-align: right;
+  line-height: var(--form-field-height);
+}
+.sohl .search-items .search-controls .search-control {
+  flex: 0 0 22px;
+  font-size: 16px;
+  vertical-align: -0.125em;
+  text-align: right;
+  color: #4b4a44;
+  padding-right: 5px;
+}
+.sohl .search-items .search-controls .disabled {
+  color: #9a998f;
+}
+.sohl .facade img.facade-image {
+  flex: 0 0 200px;
+  object-fit: contain;
+  background: white;
+}
+.sohl .facade .facade-description {
+  margin-left: 5px;
+}
+.sohl .item-form {
+  font-family: "Signika", sans-serif;
+}
+.sohl form .form-group .form-fields {
+  justify-content: flex-start;
+}
+.sohl .sheet .sheet-header-entity {
+  flex: 0 0 120px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  border-bottom: 2px groove #eeede0;
+}
+.sohl .sheet .sheet-header-entity .profile-img {
+  flex: 0 0 120px;
+  height: 120px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute {
+  border-bottom: 2px groove #eeede0;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute h1.charname {
+  height: 40px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+  flex: 1 0 200px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute h1.charname input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .healtharea {
+  flex: 0 0 110px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .health {
+  text-align: center;
+  padding: 5px 0 0;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .health .label {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .healthbar {
+  width: 100%;
+  margin-bottom: 5px;
+  background: #7a7971;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .healthbar .bar {
+  height: 4px;
+  margin: 1px;
+  display: block;
+  background: #afebff;
+  border: 1px solid #000;
+  border-radius: 2px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .name-attribute .empty {
+  height: 100%;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-stat-block {
+  flex: 0 0 140px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-stat-block .penalties {
+  padding: 0 0 5px;
+  font-size: 12px;
+  font-weight: bold;
+  align-items: center;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-stat-block .penalties .capacity-value {
+  font-size: 14px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-stat-block .penalties .capacity-label {
+  text-transform: uppercase;
+  font-size: 14px;
+  flex: 0 0 100px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-attributes {
+  font-size: 10px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-attributes textarea.description {
+  resize: none;
+  font-family: "Signika", sans-serif;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-attributes .attribute {
+  min-height: 40px;
+  margin: 2px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-attributes .attribute .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.sohl .sheet .sheet-header-entity .header-fields .header-attributes .attribute .value {
+  font-size: 18px;
+  height: calc(100% - 6px);
+}
+.sohl .sheet .sheet-header-entity .header-fields .effect-buttons {
+  flex: 0 0 300px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .effect-buttons .effect-button {
+  border: 1px;
+  color: black;
+  padding: 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  border-radius: 16px;
+  border-style: solid;
+  height: 30px;
+  width: 40px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .effect-buttons .active {
+  color: white;
+  background-color: blue;
+}
+.sohl .sheet .sheet-header-entity .header-fields .bodypart-statuses {
+  margin: 0;
+  gap: 2px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .bodypart-statuses .bodypart-status {
+  border: 1px;
+  color: black;
+  padding-top: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  border-radius: 16px;
+  border-style: solid;
+  height: 25px;
+}
+.sohl .sheet .sheet-header-entity .header-fields .bodypart-statuses .none {
+  background-color: #ddd;
+}
+.sohl .sheet .sheet-header-entity .header-fields .bodypart-statuses .impaired {
+  background-color: rgb(212, 208, 12);
+}
+.sohl .sheet .sheet-header-entity .header-fields .bodypart-statuses .unusable {
+  background-color: rgb(245, 75, 75);
+}
+.sohl .sheet-header-object {
+  flex: 0 0 120px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+  border-bottom: 2px groove #eeede0;
+}
+.sohl .sheet-header-object .profile-img {
+  flex: 0 0 120px;
+  height: 120px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+.sohl .sheet-header-object .header-fields .name-attribute {
+  border-bottom: 2px groove #eeede0;
+}
+.sohl .sheet-header-object .header-fields .name-attribute h1.charname {
+  height: 40px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+  flex: 1 0 350px;
+}
+.sohl .sheet-header-object .header-fields .name-attribute h1.charname input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block {
+  flex: 0 0 140px;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .penalties {
+  padding: 0 0 5px;
+  font-size: 12px;
+  font-weight: bold;
+  align-items: center;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .penalties .capacity-value {
+  font-size: 14px;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .penalties .capacity-label {
+  text-transform: uppercase;
+  font-size: 14px;
+  flex: 0 0 100px;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .endurance {
+  text-align: center;
+  padding: 5px 0 0;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .endurance .label {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .endbar {
+  flex: 0 0 8px;
+  width: 100%;
+  margin-bottom: 5px;
+  background: #7a7971;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+.sohl .sheet-header-object .header-fields .header-stat-block .endbar .bar {
+  height: 4px;
+  margin: 1px;
+  display: block;
+  background: #afebff;
+  border: 1px solid #000;
+  border-radius: 2px;
+}
+.sohl .sheet-header-object .header-fields .header-attributes {
+  font-size: 10px;
+}
+.sohl .sheet-header-object .header-fields .header-attributes textarea.description {
+  resize: none;
+  font-family: "Signika", sans-serif;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+}
+.sohl .sheet-header-object .header-fields .header-attributes .attribute {
+  min-height: 40px;
+  margin: 2px;
+}
+.sohl .sheet-header-object .header-fields .header-attributes .attribute .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.sohl .sheet-header-object .header-fields .header-attributes .attribute .value {
+  font-size: 18px;
+  height: calc(100% - 6px);
+}
+.sohl .sheet-header-object .header-fields .effect-buttons {
+  flex: 1 0 300px;
+}
+.sohl .sheet-header-object .header-fields .effect-buttons .effect-button {
+  border: 1px;
+  color: black;
+  padding: 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  border-radius: 16px;
+  border-style: solid;
+  height: 30px;
+  width: 40px;
+}
+.sohl .sheet-header-object .header-fields .effect-buttons .active {
+  color: white;
+  background-color: blue;
+}
+.sohl .sheet-header-object .header-fields .zone-statuses {
+  margin: 0;
+  gap: 2px;
+}
+.sohl .sheet-header-object .header-fields .zone-statuses .bodyzone-status {
+  border: 1px;
+  color: black;
+  padding-top: 3px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  border-radius: 16px;
+  border-style: solid;
+  height: 25px;
+}
+.sohl .sheet-header-object .header-fields .zone-statuses .none {
+  background-color: #ddd;
+}
+.sohl .sheet-header-object .header-fields .zone-statuses .impaired {
+  background-color: rgb(212, 208, 12);
+}
+.sohl .sheet-header-object .header-fields .zone-statuses .unusable {
+  background-color: rgb(245, 75, 75);
+}
+.sohl .sheet-tabs {
+  flex: 0;
+}
+.sohl .sheet-body,
+.sohl .sheet-body .tab,
+.sohl .sheet-body .tab .editor {
+  height: 100%;
+}
+.sohl .tox .tox-edit-area {
+  padding: 0 8px;
+}
+.sohl .resource {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+.sohl .resource .time-label {
+  flex: 0 0 100px;
+}
+.sohl .resource .time-control {
+  flex: 0 0 60px;
+}
+.sohl .resource-label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.sohl .artifact {
+  padding-top: 5px;
+  align-items: center;
+}
+.sohl .text-field {
+  align-items: top;
+}
+.sohl .text-field label {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.sohl .tabs {
+  flex: 0 0 30px;
+  margin-bottom: 5px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+.sohl .tabs .item {
+  height: 30px;
+  line-height: 32px;
+  margin: 0 24px;
+  border-bottom: 3px solid #b5b3a4;
+}
+.sohl .tabs .item.active {
+  text-shadow: none;
+  border-bottom: 3px solid black;
+  font-size: 25px;
+}
+.sohl .sheet-body .tab {
+  margin-right: 5px;
+}
+.sohl .items h2 {
+  flex: 1;
+  margin: 0;
+  line-height: 36px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4b4a44;
+  background-color: #bbb;
+  border-top: 2px groove #fff;
+  border-bottom: 2px groove #fff;
+  padding: 5px;
+}
+.sohl .items .danger {
+  color: red;
+}
+.sohl .items .disabled {
+  color: #9a998f;
+}
+.sohl .items .nocarry {
+  color: #9a998f;
+}
+.sohl .items .items-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+.sohl .items .items-list .items-header {
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  border: 2px groove #eeede0;
+  font-weight: bold;
+  line-height: 24px;
+}
+.sohl .items .items-list .items-header h3 {
+  margin: 0;
+  padding-left: 5px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.sohl .items .items-list .items-header h3 .fas {
+  padding-right: 5px;
+}
+.sohl .items .items-list .items-header .item-name {
+  color: #191813;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .items .items-list .items-header .item-name i {
+  font-size: 12px;
+  padding-left: 5px;
+}
+.sohl .items .items-list .items-header .capacity {
+  flex: 0 0 140px;
+  text-align: right;
+  padding-right: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .items .items-list .items-header .overmaxcap {
+  color: red;
+  font-weight: bold;
+}
+.sohl .items .items-list .items-header .overencumberedcap {
+  color: #c18c00;
+  font-weight: bold;
+}
+.sohl .items .items-list .item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sohl .items .items-list .name {
+  flex: 0 0 200px;
+  cursor: pointer;
+  max-height: 30px;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .items .items-list .name h4 {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.sohl .items .items-list .short-name {
+  flex: 0 0 120px;
+  cursor: pointer;
+  max-height: 30px;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .items .items-list .short-name h4 {
+  margin: 0;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sohl .items .items-list .detail {
+  font-size: 12px;
+  border-right: 1px solid #c9c7b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .items .items-list .notes {
+  flex: 1 0 25px;
+  text-align: left;
+  padding-left: 5px;
+}
+.sohl .items .items-list .type {
+  flex: 0 0 60px;
+  text-align: center;
+}
+.sohl .items .items-list .subtype {
+  flex: 0 0 90px;
+  text-align: center;
+}
+.sohl .items .items-list .impact {
+  flex: 0 0 60px;
+  text-align: center;
+}
+.sohl .items .items-list .ele {
+  flex: 0 0 40px;
+  text-align: center;
+}
+.sohl .items .items-list .duration {
+  flex: 0 0 100px;
+  text-align: center;
+  padding-left: 1px;
+  padding-right: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .items .items-list .duration .value {
+  padding-left: 3px;
+}
+.sohl .items .items-list .source {
+  flex: 0 0 120px;
+  text-align: left;
+  padding-left: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .items .items-list .aspect {
+  flex: 0 0 60px;
+  text-align: center;
+}
+.sohl .items .items-list .item-controls {
+  flex: 0 0 45px;
+  text-align: right;
+  padding-right: 5px;
+  font-size: 12px;
+}
+.sohl .items .items-list .item-controls .item-control {
+  flex: 0 0 22px;
+}
+.sohl .items .items-list .item-controls-wide {
+  flex: 0 0 65px;
+  text-align: right;
+  padding-right: 5px;
+  font-size: 12px;
+}
+.sohl .items .items-list .item-controls-wide .item-control {
+  flex: 0 0 22px;
+}
+.sohl .items .items-list .item {
+  line-height: 24px;
+  padding: 0 2px;
+  border-bottom: 1px solid #c9c7b8;
+}
+.sohl .items .items-list .item .item-image {
+  flex: 0 0 30px;
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  margin-right: 5px;
+}
+.sohl .items .items-list .item .print-item-image {
+  flex: 0 0 30px;
+  margin-right: 5px;
+}
+.sohl .items .items-list .item img {
+  display: block;
+}
+.sohl .items .items-list .item:last-child {
+  border-bottom: none;
+}
+.sohl .items-block + .items-block {
+  margin-top: 10px;
+}
+.sohl .attribute-scores {
+  flex: 0 0 80px;
+  gap: 0;
+  margin: 0;
+  justify-content: center;
+}
+.sohl .attribute-scores .attribute {
+  display: block;
+  align-items: center;
+  text-align: center;
+  padding: 3px 0 0 0;
+  flex: 0 0 80px;
+  border: 2px groove #eeede0;
+}
+.sohl .attribute-scores .attribute .name {
+  margin: 0 0 2px;
+  font-size: 13px;
+}
+.sohl .attribute-scores .attribute .value {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 0 0 2px;
+  border-bottom: none;
+}
+.sohl .attribute-scores .attribute .label {
+  margin: 0 0 2px;
+  font-size: 13px;
+  border-bottom: 1px solid black;
+}
+.sohl .attribute-scores .attribute .attribute-box {
+  border-top: 1px solid black;
+}
+.sohl .attribute-scores .attribute .secmod {
+  font-size: 13px;
+  text-align: center;
+}
+.sohl .attribute-scores .attribute .test {
+  font-size: 13px;
+  text-align: center;
+}
+.sohl .attribute-scores .attribute .test:hover {
+  background-image: url("../../../icons/svg/d20-grey.svg") !important;
+  background-size: 27px;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: black;
+}
+.sohl .traits h2 {
+  flex: 1;
+  margin: 0;
+  line-height: 36px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4b4a44;
+  background-color: #bbb;
+  border-top: 2px groove #fff;
+  border-bottom: 2px groove #fff;
+  padding: 5px;
+}
+.sohl .traits .traits-list {
+  list-style: none;
+  margin: 7px 2px;
+  padding: 0;
+  overflow-y: hidden;
+}
+.sohl .traits .traits-list .trait .trait-name {
+  flex: 0 0 150px;
+}
+.sohl .traits .traits-list .trait .trait-notes {
+  flex: 1 0 50px;
+  text-align: left;
+  padding-left: 5px;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .traits .traits-list .trait .trait-type {
+  flex: 0 0 80px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .traits .traits-list .trait .trait-intensity {
+  flex: 0 0 80px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .traits .traits-list .trait .trait-value {
+  flex: 0 0 120px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .affiliations h2 {
+  padding: 5px;
+}
+.sohl .affiliations .affiliation-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+.sohl .affiliations .affiliation-list .affiliation {
+  border-bottom: 1px solid #bbb;
+}
+.sohl .affiliations .affiliation-list .affiliation .image {
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+.sohl .affiliations .affiliation-list .affiliation img {
+  display: block;
+}
+.sohl .affiliations .affiliation-list .name {
+  flex: 0 0 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .affiliations .affiliation-list .ele {
+  flex: 0 0 40px;
+  text-align: center;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .affiliations .affiliation-list .notes {
+  flex: 1 0 50px;
+  text-align: left;
+  padding-left: 5px;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .affiliations .affiliation-list .wideele {
+  flex: 0 0 120px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .profile-params {
+  margin-top: 5px;
+  align-items: center;
+  flex: 0 1 10px;
+}
+.sohl .profile-params .profile-item {
+  align-items: center;
+  border-top: 2px groove #eeede0;
+  border-bottom: 2px groove #eeede0;
+  margin-top: 12px;
+  padding: 5px 0;
+}
+.sohl .profile-params .profile-item .attribute {
+  align-items: center;
+}
+.sohl .profile-params .profile-item .attribute .label {
+  flex: 0 0 60px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: right;
+  padding-right: 4px;
+}
+.sohl .profile-params .profile-item .attribute .value {
+  flex: 0 0 150px;
+}
+.sohl .profile-desc {
+  margin-top: 5px;
+}
+.sohl .profile-desc .label {
+  padding-left: 5px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 16px;
+  margin: 2px 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px groove #eeede0;
+  font-weight: bold;
+  line-height: 24px;
+}
+.sohl .profile-desc .label i {
+  font-size: 12px;
+  padding-left: 5px;
+}
+.sohl .profile-desc .description {
+  margin-left: 5px;
+}
+.sohl .profile img.bio-image {
+  flex: 0 0 200px;
+  object-fit: contain;
+  background: white;
+}
+.sohl .bodylocations .zone-list {
+  list-style: none;
+  margin: 7px 0px;
+  padding: 0;
+  overflow-y: hidden;
+  line-height: normal;
+}
+.sohl .bodylocations .zone-list .body-drop {
+  flex: 0 0 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.sohl .bodylocations .zone-list .full-location-name {
+  flex: 0 0 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sohl .bodylocations .zone-list .bodylocation-header {
+  font-weight: bold;
+}
+.sohl .bodylocations .zone-list .bodylocation {
+  border-bottom: 1px solid #bbb;
+  align-items: center;
+  line-height: normal;
+}
+.sohl .bodylocations .zone-list .bodylocation .bodylocation-image {
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+.sohl .bodylocations .zone-list .bodylocation img {
+  display: block;
+}
+.sohl .bodylocations .zone-list .bodylocation-name {
+  flex: 0 0 120px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 5px;
+}
+.sohl .bodylocations .zone-list .bodylocation-layers {
+  flex: 0 0 120px;
+  text-align: left;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .bodylocations .zone-list .bodylocation-part {
+  flex: 0 0 80px;
+}
+.sohl .bodylocations .zone-list .bodylocation-ele {
+  flex: 0 0 40px;
+  text-align: center;
+}
+.sohl .bodylocations .zone-list .bodylocation-notes {
+  flex: 1 0 100px;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .bodylocations .zone-list .zone-header {
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #bbb;
+}
+.sohl .bodylocations .zone-list .zone-header .zone-image {
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+.sohl .bodylocations .zone-list .zone-header img {
+  display: block;
+}
+.sohl .bodylocations .zone-list .zone-header .zone-name {
+  flex: 0 0 140px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 5px;
+}
+.sohl .bodylocations .zone-list .zone-header .zone-name h4 {
+  font-weight: bold;
+}
+.sohl .bodylocations .zone-list .zone-header .zone-zonenumbers {
+  flex: 0 0 100px;
+  text-align: left;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .bodylocations .zone-list .zone-header .zone-notes {
+  flex: 1 0 100px;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .bodylocations .zone-list .bodypart-header {
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #bbb;
+}
+.sohl .bodylocations .zone-list .bodypart-header .bodypart-image {
+  flex: 0 0 24px;
+  margin-right: 5px;
+}
+.sohl .bodylocations .zone-list .bodypart-header img {
+  display: block;
+}
+.sohl .bodylocations .zone-list .bodypart-header .bodypart-name {
+  flex: 0 0 130px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-left: 5px;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .bodylocations .zone-list .bodypart-header .bodypart-name h4 {
+  font-weight: bold;
+}
+.sohl .bodylocations .zone-list .bodypart-header .bodypart-notes {
+  flex: 1 0 100px;
+  padding-left: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects h2 {
+  flex: 1;
+  margin: 0;
+  line-height: 36px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4b4a44;
+  background-color: #bbb;
+  border-top: 2px groove #fff;
+  border-bottom: 2px groove #fff;
+  padding: 5px;
+}
+.sohl .effects .danger {
+  color: red;
+}
+.sohl .effects .disabled {
+  color: #9a998f;
+}
+.sohl .effects .effects-list {
+  list-style: none;
+  margin: 7px 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+.sohl .effects .effects-list .effects-header {
+  margin: 2px 0;
+  padding: 0;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.15);
+  border: 2px groove #eeede0;
+  font-weight: bold;
+  line-height: 24px;
+}
+.sohl .effects .effects-list .effects-header h3 {
+  margin: 0;
+  padding-left: 5px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-size: 16px;
+}
+.sohl .effects .effects-list .effects-header .name {
+  color: #191813;
+  flex: 0 0 150px;
+  border-right: 1px solid #c9c7b8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .effects-header .name i {
+  font-size: 12px;
+  padding-left: 5px;
+}
+.sohl .effects .effects-list .effects-header .effect-controls {
+  flex: 0 0 45px;
+  text-align: right;
+  padding-right: 5px;
+  color: #191813;
+}
+.sohl .effects .effects-list .effect-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sohl .effects .effects-list .effect {
+  border-bottom: 1px solid #c9c7b8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .effect .image {
+  flex: 0 0 30px;
+  background-size: 30px;
+  margin-right: 5px;
+}
+.sohl .effects .effects-list .effect img {
+  display: block;
+}
+.sohl .effects .effects-list .effect .name {
+  flex: 0 0 150px;
+  max-height: 30px;
+  border-right: 1px solid #c9c7b8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .effect .name h4 {
+  margin: 0;
+}
+.sohl .effects .effects-list .effect:last-child {
+  border-bottom: none;
+}
+.sohl .effects .effects-list .detail {
+  font-size: 12px;
+  border-right: 1px solid #c9c7b8;
+}
+.sohl .effects .effects-list .ele {
+  flex: 0 0 40px;
+  text-align: center;
+}
+.sohl .effects .effects-list .duration {
+  flex: 0 0 100px;
+  text-align: center;
+}
+.sohl .effects .effects-list .source {
+  flex: 0 0 150px;
+  text-align: center;
+  padding-left: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .target {
+  flex: 0 0 150px;
+  text-align: center;
+  padding-left: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .changes {
+  flex: 1 0 60px;
+  text-align: left;
+  padding-left: 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sohl .effects .effects-list .effect-controls {
+  flex: 0 0 45px;
+  text-align: right;
+  padding-right: 5px;
+  font-size: 12px;
+  color: #191813;
+}
+.sohl .effects .effects-list .effect-controls .effect-control {
+  flex: 0 0 22px;
+}
+
+/*# sourceMappingURL=sohl.css.map */

@@ -1,0 +1,130 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body skill-body">
+        {{!-- Properties Tab --}}
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <div class="grid grid-2col">
+                {{formField fields.abbrev rootId="bodyzone-abbrev" classes="text-field" stacked=true value=system.abbrev}}
+                <div class="form-group stacked">
+                    <label for="bodyzone-affmob" class="text-field">Affects Mobility</label>            
+                    <input id="bodyzone-affmob" type="checkbox" name="flags.sohl.legendary.affectsMobility" {{checked flags.sohl.affectsMobility}} data-dtype="Boolean" />
+                </div>
+            </div>
+            <fieldset class="bodyzone-zones-list" id="bodyzone-zones-list">
+                <legend>Zone Numbers</legend>
+                <div class="bodyzone-zones flexrow" id="bodyzone-zones-add">
+                    <a class="add-array-item" data-array="flags.sohl.legendary.zones" data-dtype="Number"
+                        data-default-value="0" data-title="Zone Numbers"><i class="fas fa-plus"></i> Add Zone Number</a>
+                </div>
+                <ol class="grid grid-4col">
+                    {{#each flags.sohl.legendary.zones}}
+                    <li class="bodyzone-zone">
+                        <p class="name">{{this}}</p>
+                        <a class="delete-array-item" data-array="flags.sohl.legendary.zones" data-value="{{this}}"
+                            title="Delete Zone Number"><i class="fas fa-trash"></i></a>
+                    </li>
+                    {{/each}}
+                </ol>
+            </fieldset>
+            <fieldset class="bodyzone-affectedattributes-list">
+                <legend>Affected Attributes</legend>
+                <div class="bodyzone-affectedattributes flexrow">
+                    <a class="add-array-item" data-array="flags.sohl.legendary.affectedAttributes" data-dtype="String"
+                        data-default-value="" data-title="Affected Attributes" ><i class="fas fa-plus"></i>
+			            Add Affected Attribute</a>
+                </div>
+                <ol
+                    class="grid grid-4col"
+                    id="bodyzone-affectedattributes-display">
+                    {{#each flags.sohl.legendary.affectedAttributes}}
+                    <li class="armor-location">
+                        <span class="name">{{this}}</span>
+                        <a class="delete-array-item" data-array="flags.sohl.legendary.affectedAttributes" data-value="{{this}}"
+                            title="Delete Affected Attribute" ><i class="fas fa-trash"></i></a>
+                    </li>
+                    {{/each}}
+                </ol>
+            </fieldset>
+            <fieldset
+                class="bodyzone-affectedskills-list"
+                id="bodyzone-affectedskills-list">
+                <legend>Affected Skills</legend>
+                <div
+                    class="bodyzone-affectedskills flexrow">
+                    <a class="add-array-item" data-array="flags.sohl.legendary.affectedSkills" data-dtype="String"
+                        data-default-value="" data-title="Affected Skills"><i class="fas fa-plus"></i>
+			            Add Affected Skills</a>
+                </div>
+		        <ol class="grid grid-4col">
+                    {{#each flags.sohl.legendary.affectedSkills}}
+                    <li class="armor-location">
+                        <span class="name">{{this}}</span>
+                        <a class="delete-array-item" data-array="flags.sohl.legendary.affectedSkills" data-value="{{this}}"
+                            title="Delete Affected Skills" ><i class="fas fa-trash"></i></a>
+                    </li>
+                    {{/each}}
+                </ol>
+            </fieldset>
+
+            <div class="items">
+                <div class="items-list">
+                    <header class="items-header flexrow">
+                        <h3 class="item-name name">Area Name</h3>
+                        <div class="detail ele">Ratio</div>
+                        <div class="item-controls">
+                            <a class="item-control add-array-item" data-array="system.aim" data-object-type="Aim"
+                                data-title="Aim"><i class="fas fa-plus"></i> Add</a>
+                        </div>
+                    </header>
+                    <ol class="items-list">
+                        {{#each item.system.$aim as | aim |}}
+                        <li class="item flexrow">
+                            <div class="item-name name">{{aim.name}}</div>
+                            <div class="detail ele">{{formatNumber aim.probWeight.pct decimals=2}}%</div>
+                            <div class="item-controls">
+                                <a class="edit-array-item" data-array="system.aim" data-index="{{@index}}"
+                                    title="Edit Aim Area"><i class="fas fa-edit"></i></a>
+                                <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
+                                    title="Delete Aim Area"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            </div>
+
+            {{> "sohl.item-refnote"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab description" data-group="primary" data-tab="description">
+            {{editor idata.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div class="tab nesteditems" data-group="primary" data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

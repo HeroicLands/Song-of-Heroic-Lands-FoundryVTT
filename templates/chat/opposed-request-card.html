@@ -1,0 +1,34 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexcol">
+        <h3 class="title">Opposed Test Offer</h3>
+        <h4 class="subtitle">{{sourceToken.name}} vs. {{targetToken.name}}</h4>
+    </header>
+
+    <div class="card-content flex-group-center">
+        <span class="label">Source:</span>
+        <span class="value">{{sourceToken.name}}</span>
+    </div>
+    <div class="card-content flex-group-center">
+        <span class="label">Test:</span>
+        <span class="value">{{testItem.name}}</span>
+    </div>
+    <div class="card-content flex-group-center">
+        <span class="label">Target:</span>
+        <span class="value">{{targetToken.name}}</span>
+    </div>
+    <div class="card-content center">
+        <span class="result-desc">Target must now choose</span>
+        <span class="result-desc">a test to respond with</span>
+    </div>
+    <div class="card-buttons">
+        <button
+            data-action="opposedTestResume"
+            data-target-uuid="{{targetToken.uuid}}"
+            data-source-token-uuid="{{sourceToken.uuid}}"
+            data-atk-item-uuid="{{testItem.uuid}}"
+            data-success-level-mod="{{successLevelMod}}"
+            data-modifier="{{modifier}}">
+            <i class="fas fa-arrow-down-left-and-arrow-up-right-to-center"></i> Opposed Roll
+        </button>
+    </div>
+</div>

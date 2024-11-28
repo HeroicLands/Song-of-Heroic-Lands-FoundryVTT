@@ -1,0 +1,77 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Properties Tab --}}
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <div class="grid grid-2col">
+                {{formField fields.categories rootId="dom-cat" classes="text-field" stacked=true value=system.categories}}
+                {{formField fields.abbrev rootId="dom-abbr" classes="text-field" stacked=true value=system.abbrev}}
+            </div>
+            {{#if (setHas system.categories "divine")}}
+            <fieldset class="dom-divasp-list" id="dom-divasp-list">
+                <legend>Divine Aspects</legend>
+                <div class="dom-divasp flexrow" id="dom-divasp-value">
+                    <a class="add-array-item"
+                        data-array="flags.sohl.aspects"
+                        data-dtype="String"
+                        data-default-value=""
+                        data-unique="true"
+                        data-title="Divine Aspect"
+                        ><i class="fas fa-plus"></i> Add Divine Aspect</a>
+                </div>
+                <ol class="grid grid-4col" id="dom-divasp-display">
+                    {{#each flags.sohl.aspects}}
+                    <li class="armor-location">
+                        <span class="name">{{this}}</span>
+                        <a class="delete-array-item"
+                            data-array="flags.sohl.aspects"
+                            data-value="{{this}}"
+                            title="Divine Aspect"
+                            ><i class="fas fa-trash"></i></a>
+                    </li>
+                    {{/each}}
+                </ol>
+            </fieldset>
+            {{/if}}
+            {{> "sohl.item-refnote"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div
+            class="tab description"
+            data-group="primary"
+            data-tab="description">
+            {{editor idata.description target="system.description" button=true
+            owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div
+            class="tab nesteditems"
+            data-group="primary"
+            data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

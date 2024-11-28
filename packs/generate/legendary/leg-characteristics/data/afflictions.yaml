@@ -1,0 +1,820 @@
+- name: Black Death
+  id: gNNVfPh0ooYkfJZU
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>The Black Death, also known as the bubonic plague, is an infectious disease caused by the bacterium <em>Yersinia pestis</em>. It was responsible for devastating pandemics. Transmitted primarily through the bites of infected fleas on rodents, the disease presents with sudden high fever, chills, headache, muscle aches, and swollen lymph nodes known as buboes, which can become blackened. If untreated, it can progress to septicemic or pneumonic plague, both of which are more deadly. Without timely medical intervention, the mortality rate is exceedingly high.</p>
+    <p><strong>Cause:</strong> Bacterium <em>Yersinia pestis</em>, often transmitted by flea bites from rodents
+    <strong>Symptoms:</strong> Initial symptoms include sudden onset of fever, chills, headache, fatigue, and muscle aches. Swollen, painful lymph nodes (buboes) typically develop in the groin, armpits, or neck.
+    <strong>Progression:</strong> If untreated, the infection can progress to septicemic plague (bacteria enter the bloodstream) causing abdominal pain, shock, and bleeding into the skin and other organs, or pneumonic plague (infecting the lungs) causing severe respiratory symptoms and a high risk of person-to-person transmission.
+    <strong>Treatment:</strong></p>
+    <ul>
+    <li>Herbal antibiotics (Garlic, Echinacea, Goldenseal)</li>
+    <li>Lancing buboes (may result in infection)</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Leprosy
+  id: JLwnXqD0Ih30vIQY
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 1
+  transmission: contact
+  description: |-
+    <p>Leprosy, or Hansen’s disease, is a chronic infectious disease caused by the bacterium <em>Mycobacterium leprae</em>. This disease primarily affects the skin, peripheral nerves, mucosal surfaces of the upper respiratory tract, and the eyes. Early symptoms include light or dark skin patches with loss of sensation, as well as muscle weakness. If left untreated, it can lead to severe nerve damage, resulting in debilitating complications like muscle wasting, paralysis, and deformities. Leprosy is not highly contagious, but prolonged, close contact with untreated cases can lead to transmission.</p>
+    <p><strong>Cause:</strong> Bacterium <em>Mycobacterium leprae</em>
+    <strong>Symptoms:</strong> Early signs include discolored skin patches with loss of sensation, numbness, and weakness in the hands and feet. Muscle weakness and eye problems like dry eyes and reduced blinking may occur.
+    <strong>Progression:</strong> If untreated, the disease can cause progressive and permanent damage to the skin, nerves, limbs, and eyes. Severe cases result in significant disfigurement and disability, including clawed hands, dropped foot, and blindness.
+    <strong>Treatment:</strong></p>
+    <ul>
+    <li>Neem leaves (antimicrobial) can be applied as a paste on affected areas or consumed as tea.</li>
+    <li>Chaulmoogra Oil used in various forms.</li>
+    <li>Possible amputation of affected limbs.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Smallpox
+  id: ft652e2oEuiW1EOq
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Smallpox is an acute, contagious disease caused by the variola virus.  The disease starts with high fever, fatigue, headache, and back pain, followed by a characteristic rash that progresses from macules to papules, vesicles, pustules, and scabs over the course of weeks. The rash is most dense on the face and extremities, and survivors often bear deep scars. Severe cases can cause blindness and death, but smallpox no longer poses a threat thanks to the success of vaccines.</p>
+    <p><strong>Cause:</strong> Variola virus
+    <strong>Symptoms:</strong> Begins with high fever, fatigue, headache, and back pain. This is followed by the development of a characteristic rash, starting as red spots on the face and spreading to the arms, legs, and torso. These spots turn into pus-filled sores that eventually scab over and fall off.
+    <strong>Progression:</strong> Over a span of about two weeks, the sores evolve through stages of macules, papules, vesicles, pustules, and finally scabs. Severe cases can lead to blindness, permanent scarring, and death.
+    <strong>Treatment:</strong></p>
+    <ul>
+    <li>Neem leaves used to bathe skin</li>
+    <li>Aloe Vera to sooth skin</li>
+    <li>Topical Calendula to promote healing</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Typhoid Fever
+  id: G7W1ahZqC5iXEINh
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Typhoid fever is a life-threatening bacterial infection caused by <em>Salmonella typhi</em>, often spread through contaminated water or food. The symptoms include prolonged high fever, fatigue, headache, abdominal pain, loss of appetite, and sometimes a distinctive rash of flat, rose-colored spots. Without treatment, the disease can cause serious complications such as intestinal perforation and hemorrhage, leading to septicemia and potentially death. Typhoid fever is particularly prevalent in areas with poor sanitation and limited clean water access.</p>
+    <p><strong>Cause:</strong> Bacterium <em>Salmonella typhi</em>, usually spread through contaminated food or water
+    <strong>Symptoms:</strong> Initial symptoms include prolonged fever, fatigue, headache, nausea, and abdominal pain. Patients may also experience diarrhea or constipation, and a characteristic rash of flat, rose-colored spots may appear.
+    <strong>Progression:</strong> If untreated, the disease can cause serious complications, including intestinal bleeding or perforation, which can lead to severe abdominal pain, shock, and death.
+    <strong>Treatment:</strong></p>
+    <ul>
+    <li>Herbal antibiotics (Garlic, Echinacea, Goldenseal)</li>
+    <li>Fever reducers (basil)</li>
+    <li>Clove used to alleviate infection</li>
+    <li>Rest and fluids; prayer may be helpful.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Chicken Pox
+  id: JRZbKLzCE4lM3PeX
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Chicken pox, caused by the varicella-zoster virus (VZV), is a highly contagious viral infection primarily affecting children. Symptoms start with fever, fatigue, and headache, followed by an itchy rash that turns into fluid-filled blisters, eventually crusting over. The rash usually begins on the face, back, and chest before spreading to the rest of the body. Though usually mild, chickenpox can lead to complications such as bacterial infections of the skin, pneumonia, and encephalitis, particularly in immunocompromised individuals. Immunization with the varicella vaccine has significantly reduced the incidence of chickenpox.</p>
+    <p><strong>Cause:</strong> Varicella-zoster virus (VZV)
+    <strong>Symptoms:</strong> Initial symptoms are fever, fatigue, and headache, followed by a highly itchy rash that starts as small red spots and progresses to fluid-filled blisters. These blisters eventually burst and form scabs.
+    <strong>Progression:</strong> The rash typically appears in multiple waves, starting on the face, back, and chest before spreading to the rest of the body. Complications can include bacterial infections of the skin, pneumonia, and encephalitis (brain inflammation).
+    <strong>Treatment:</strong></p>
+    <ul>
+    <li>Oatmeal Baths to reduce itching and soothe skin</li>
+    <li>Calendula applied topically to reduce inflammation</li>
+    <li>Chamomile applied topically or bath infusion to soothe skin</li>
+    <li>Supportive care to prevent patient from scratching and secondary infections</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Malaria
+  id: RuyvpAU3VHXfCCgQ
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Malaria is a parasitic disease caused by <em>Plasmodium</em> species, transmitted through the bites of infected Anopheles mosquitoes. It presents with cyclical episodes of fever, chills, sweating, headache, nausea, and vomiting. Severe malaria can cause anemia, respiratory distress, cerebral malaria (affecting the brain), multi-organ failure, and death, especially in young children and pregnant women in endemic regions. Prompt medical treatment with antimalarial drugs and preventive measures like mosquito nets and insect repellents are vital for controlling and treating the disease.</p>
+    <p><strong>Cause:</strong> Plasmodium parasites, transmitted through the bite of infected Anopheles mosquitoes
+    <strong>Symptoms:</strong> Initial symptoms include high fever, chills, sweats, headaches, nausea, vomiting, and muscle pain, often occurring in cyclical patterns due to the lifecycle of the parasite.
+    <strong>Progression:</strong> Without treatment, malaria can lead to severe complications such as anemia, respiratory distress, cerebral malaria (affecting the brain), multiple organ failure, and death.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Artemisia (Sweet Wormwood, source of artemisinin)</li>
+    <li>Cinchona bark (containing quinine)</li>
+    <li>Neem leaves (used to reduce fever and symptoms)</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Tuburculosis
+  id: cENpCaIDYMMmBt9v
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Tuberculosis (TB) is a contagious bacterial infection caused by <em>Mycobacterium tuberculosis</em>, primarily affecting the lungs but can spread to other organs. Symptoms include a persistent cough that may produce blood-tinged sputum, chest pain, night sweats, fever, weight loss, and fatigue. TB spreads through airborne droplets when an infected person coughs or sneezes. If untreated, it can cause extensive lung damage, respiratory failure, and death. Multi-drug resistant TB is a growing concern, making early detection and consistent treatment critical for controlling the disease.</p>
+    <p><strong>Cause:</strong> Bacterium <em>Mycobacterium tuberculosis</em>
+    <strong>Symptoms:</strong> Primary symptoms include a persistent cough that may produce blood-tinged sputum, chest pain, fatigue, weight loss, fever, and night sweats.
+    <strong>Progression:</strong> If untreated, TB can spread from the lungs to other parts of the body (extrapulmonary TB), including the spine, brain, and kidneys, causing severe health issues like meningitis, spinal pain, joint damage, and organ dysfunction.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Herbal Antibacterials (Garlic, Echinacea, Goldenseal)</li>
+    <li>Ginger (to relieve symptoms of congestion and inflammation)</li>
+    <li>Peppermint (to soothe respiratory tract irritation)</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Cholera
+  id: G77cuNmZpBjx6pNU
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Cholera is an acute diarrheal illness caused by the bacterium <em>Vibrio cholerae</em>, usually spread through contaminated water or food. It is characterized by the sudden onset of profuse, watery diarrhea described as &quot;rice-water stools,&quot; accompanied by vomiting and rapid dehydration. Severe dehydration can lead to shock, kidney failure, and death if not promptly treated. Cholera outbreaks are common in areas with poor water sanitation and insufficient access to clean drinking water. Immediate rehydration therapy, alongside antibiotic treatment, is essential to manage and control the disease.</p>
+    <p><strong>Cause:</strong> Bacterium <em>Vibrio cholerae</em>, usually spread through contaminated water or food
+    <strong>Symptoms:</strong> The disease typically begins with sudden onset of profuse, watery diarrhea described as “rice-water stools,” accompanied by vomiting and leg cramps.
+    <strong>Progression:</strong> Rapid fluid loss can lead to severe dehydration, characterized by dry mouth, sunken eyes, low blood pressure, rapid heart rate, and shock. Without prompt rehydration, cholera can be fatal within hours.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Ginger (reduce symptoms of nausea and vomiting)</li>
+    <li>Mint (ease digestive discomfort)</li>
+    <li>Clove (antibacterial)</li>
+    <li>Focus on rehydration using dilute salt-sugar solution</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Pneumonia
+  id: MWnYy93iS3DO1cqD
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Pneumonia is an infectious respiratory condition where the air sacs in one or both lungs fill with fluid or pus, caused by bacteria (e.g., <em>Streptococcus pneumoniae</em>), viruses, or fungi. Symptoms include fever, chills, cough producing mucus, shortness of breath, chest pain, and fatigue. Severe cases can cause respiratory failure, sepsis, or lung abscesses. It poses a significant risk to young children, the elderly, and individuals with weakened immune systems. Treatment typically involves antibiotics for bacterial pneumonia, antiviral medications, rest, and fluids to maintain hydration.</p>
+    <p><strong>Cause:</strong> Bacteria (e.g., <em>Streptococcus pneumoniae</em>), viruses (e.g., influenza), or fungi, leading to infection and inflammation of the air sacs in the lungs
+    <strong>Symptoms:</strong> Symptoms include a high fever, chills, cough producing green or yellow mucus, shortness of breath, chest pain, and fatigue.
+    <strong>Progression:</strong> If untreated, pneumonia can lead to complications like respiratory failure, sepsis (spread of infection to the bloodstream), lung abscesses, and pleural effusion (fluid around the lungs).
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Eucalyptus (inhaling steam can ease breathing)</li>
+    <li>Thyme (antimicrobial, used as tea)</li>
+    <li>Astragalus (boost immune response)</li>
+    <li>Enforce rest</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Bronchitis
+  id: 8yXf2j4lDpH7otHO
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Bronchitis is the inflammation of the bronchial tubes, which carry air to and from the lungs, commonly caused by viral infections like colds and the flu. Symptoms include a persistent cough that produces mucus, wheezing, chest discomfort, shortness of breath, and fatigue. Acute bronchitis is usually self-limiting and resolves within weeks, while chronic bronchitis, typically related to smoking or long-term exposure to irritants, is a form of chronic obstructive pulmonary disease (COPD) that requires ongoing management. Treatment focuses on relieving symptoms and reducing exposure to irritants.</p>
+    <p><strong>Cause:</strong> Typically viruses that cause colds and flu, but can also be caused by bacterial infections or irritants like smoke and pollution
+    <strong>Symptoms:</strong> Presentation includes a persistent cough that produces mucus, wheezing, shortness of breath, and chest discomfort. Acute bronchitis often follows a cold or respiratory infection.
+    <strong>Progression:</strong> Acute bronchitis is usually self-limiting, resolving within a few weeks. Chronic bronchitis, frequently caused by long-term exposure to irritants like tobacco smoke, can lead to chronic obstructive pulmonary disease (COPD).
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Licorice Root (soothe throat and anti-inflammatory)</li>
+    <li>Ginger (reduce inflammation and soothe respiration)</li>
+    <li>Peppermint (steam inhalation to clear airways)</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Measles
+  id: Dlzv1oqgflmAtInB
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: airborne
+  description: |-
+    <p>Measles is a highly contagious viral infection caused by the measles virus. It begins with high fever, cough, runny nose, and red eyes, followed by the appearance of Koplik spots inside the mouth and a red, blotchy rash that starts on the face and spreads to the rest of the body. Complications can include ear infections, severe diarrhea, pneumonia, encephalitis, and death, particularly in young children and immunocompromised individuals. Vaccination with the measles, mumps, and rubella (MMR) vaccine is highly effective in preventing the disease.</p>
+    <p><strong>Cause:</strong> Measles virus
+    <strong>Symptoms:</strong> Initial symptoms include high fever, cough, runny nose, and red eyes. These are followed by the appearance of tiny white spots (Koplik spots) inside the mouth and a characteristic red rash that spreads from the face down to the rest of the body.
+    <strong>Progression:</strong> The rash usually subsides in about a week, but complications can include ear infections, severe diarrhea, pneumonia, encephalitis (brain inflammation), and death.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Neem leaves (a bath to soothe skin and itching)</li>
+    <li>Calendula (topically to reduce skin inflammation)</li>
+    <li>Echinacea (support immune response)</li>
+    <li>Isolate to prevent transmission.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Dengue Fever
+  id: wB9ANiSb5sC9YX5P
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Dengue fever is a mosquito-borne viral illness caused by the dengue virus, transmitted by Aedes mosquitoes. Symptoms include high fever, severe headache, pain behind the eyes, joint and muscle pain (hence &quot;breakbone fever&quot;), rash, and mild bleeding manifestations like nose or gum bleeding. Most cases are self-limiting, but a severe form, dengue hemorrhagic fever, can result in severe bleeding, blood plasma leakage, organ damage, and potentially fatal dengue shock syndrome. Supportive care to manage symptoms and maintain hydration is critical.</p>
+    <p><strong>Cause:</strong> Dengue virus, transmitted by Aedes mosquitoes
+    <strong>Symptoms:</strong> Presentation includes high fever, severe headache, pain behind the eyes, joint and muscle pain, rash, and mild bleeding (such as nose or gum bleeds).
+    <strong>Progression:</strong> Severe dengue (dengue hemorrhagic fever) can develop, causing bleeding, plasma leakage, shock, and potentially death. Recovery generally occurs within a few weeks, but severe forms may require hospitalization.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Papaya Leaf Extract (to boost blood)</li>
+    <li>Giloy (boost immunity)</li>
+    <li>Coriander (teas to reduce fever)</li>
+    <li>Rest</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Leishmaniasis
+  id: nnRrIAu42BuORIP6
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Leishmaniasis is a parasitic disease caused by <em>Leishmania</em> parasites, transmitted by the bite of infected sandflies. It manifests in two main forms: cutaneous, causing skin sores that can become ulcers, and visceral, affecting internal organs like the spleen and liver. Visceral leishmaniasis, also known as kala-azar, presents with fever, weight loss, anemia, enlarged spleen, and liver, and can be fatal if untreated. Cutaneous leishmaniasis may heal on its own but can leave significant scars. The disease primarily affects people in tropical and subtropical regions.</p>
+    <p><strong>Cause:</strong> <em>Leishmania</em> parasites, transmitted by infected sandfly bites
+    <strong>Forms:</strong></p>
+    <ul>
+    <li><strong>Cutaneous leishmaniasis:</strong> Presents as skin sores that can develop into ulcers and leave scars.</li>
+    <li><strong>Visceral leishmaniasis:</strong> Manifests with fever, weight loss, enlargement of the spleen and liver, and anemia.
+    <strong>Progression:</strong> Cutaneous leishmaniasis may heal spontaneously but leave notable scars. Visceral leishmaniasis can be fatal if untreated, causing significant organ damage and susceptibility to other infections.
+    <strong>Treatments:</strong><ul>
+    <li>Neem leaves (to treat skin sores)</li>
+    <li>Aloe Vera (applied to lesions to soothe and heal)</li>
+    <li>Turmeric (topical or consumed for anti-inflammatory effects)</li>
+    <li>Surgical removal of infected tissue or nodules where possible</li>
+    </ul>
+    </li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Elephantiasis
+  id: 6xeeY5YQQiPIe326
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Elephantiasis, or lymphatic filariasis, is a parasitic infection caused by filarial worms (<em>Wuchereria bancrofti, Brugia malayi,</em> and <em>Brugia timori</em>), transmitted through mosquito bites. People afflicted develop severe swelling and thickening of the skin and underlying tissues, typically in the legs, arms, or genital area. The disease often starts asymptomatically, but chronic infection leads to lymphatic system damage, resulting in lymphedema and significant disability due to the grossly enlarged and disfigured body parts. The condition can cause significant physical impairment and social stigma.</p>
+    <p><strong>Cause:</strong> Parasitic worms (filarial worms) transmitted by mosquito bites
+    <strong>Symptoms:</strong> Often initially asymptomatic. Chronic infection leads to severe swelling and thickening of the skin in the legs, arms, or genital area.
+    <strong>Progression:</strong> Without proper treatment and care, affected limbs can become grossly enlarged and disfigured, leading to disability, secondary infections, and severe social stigma.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Garlic (to kill parasites)</li>
+    <li>Tumeric (anti-inflammatory to help with swelling)</li>
+    <li>Castor Bean oil (to reduce swelling)</li>
+    <li>Possible surgical drainage of lymphatic fluid.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: River Blindness
+  id: 3XsslO0k18M7rRWx
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>River blindness, or onchocerciasis, is a parasitic disease caused by the filarial worm <em>Onchocerca volvulus</em>, transmitted through the bites of infected blackflies. The disease results in severe itching, skin rashes, and nodules under the skin. Chronic infection can lead to vision impairment and eventual blindness due to the inflammatory response to dying microfilariae in the eyes.</p>
+    <p><strong>Cause:</strong> <em>Onchocerca volvulus</em> worms, transmitted by blackfly bites
+    <strong>Symptoms:</strong> Initial symptoms include intense itching, skin rashes, and nodules under the skin. Severe cases result in vision impairment and eventual blindness.
+    <strong>Progression:</strong> Chronic skin lesions and persistent itching can lead to significant discomfort and skin conditions like leopard skin. The progressive vision loss ultimately leads to blindness if untreated.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Neem oil (insecticidal, topical application)</li>
+    <li>Garlic (anti-parasite)</li>
+    <li>Black Walnut Hull (to kill parasites)</li>
+    <li>Surgical removal of skin nodules containing larvae.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Trachoma
+  id: 3BGrdy9PCIzWr20Y
+  img: systems/sohl/assets/icons/disease.svg
+  subType: disease
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: contact
+  description: |-
+    <p>Trachoma is a bacterial infection of the eye caused by <em>Chlamydia trachomatis</em>. It begins with symptoms like mild itching and irritation of the eyes and eyelids, followed by blurred vision and eye pain as the disease progresses. Repeated infections cause scarring of the inner eyelid, leading to trichiasis (inward turning of eyelashes) that scratch the cornea, resulting in blindness if untreated. The condition is closely linked to poor sanitation and hygiene.</p>
+    <p><strong>Cause:</strong> Bacterial infection (Chlamydia trachomatis) spread by direct contact with infected eye discharge or via flies
+    <strong>Symptoms:</strong> Early symptoms include eye irritation, discharge, pain, and swelling of the eyelids. Repeated infections cause scarring of the inner eyelid, leading to trichiasis (inward turning of the eyelashes).
+    <strong>Progression:</strong> Progressive scarring of the cornea from trichiasis can lead to opacification and blindness if left untreated.
+    <strong>Treatments:</strong></p>
+    <ul>
+    <li>Chamomile compress (soothe irritated eyes)</li>
+    <li>Aloe Vera (reduce inflammation and soothe eyes)</li>
+    <li>Goldenseal (antibacterial eye wash)</li>
+    <li>Surgery to correct in-turned eyelashes</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: AcBtDYVewyDiK9zA
+- name: Hemotoxin
+  id: qgDF3vVDt9BX1B93
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Hemotoxins are toxins that destroy red blood cells, disrupt blood clotting, and cause tissue damage. These toxins lead to symptoms including severe pain, swelling, bruising, and internal bleeding. The destructive effect on blood components and tissues can cause complications such as kidney failure and disseminated intravascular coagulation, where blood clots form throughout the bloodstream. Hemotoxins act by breaking down cell membranes and proteins, making the affected area necrotic, and causing extensive damage that requires immediate medical attention.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Severe pain and swelling at bite site, localized tissue damage.</li>
+    <li><strong>Progression:</strong> Bleeding disorders (disseminated intravascular coagulation), vomiting, diarrhea, muscle tremors, severe swelling and bruising, systemic symptoms like hypotension, and potential kidney failure.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Garlic:</strong> Applied as a poultice for its antibacterial and anti-inflammatory properties.</li>
+    <li><strong>Activated Charcoal:</strong> Ingested to adsorb toxins.</li>
+    <li><strong>Herbal Teas:</strong> Made from Echinacea or Goldenseal for immune support.</li>
+    <li><strong>Debridement:</strong> Surgical removal of dead tissue.</li>
+    <li><strong>Incision and Drainage:</strong> To alleviate pressure and prevent necrosis.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Neurotoxin
+  id: ieVNDIy56rNOgjzq
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Neurotoxins are a class of toxins that specifically target the nervous system, leading to paralysis, convulsions, and potentially death. Neurotoxins work by interfering with the transmission of nerve signals, either by blocking neurotransmitter release or by disrupting ion channels, which results in muscle paralysis and respiratory failure. Symptoms start with localized pain, numbness, and tingling, progressing to more severe systemic effects like muscle weakness, difficulty breathing, and, in severe cases, death if respiratory muscles are paralyzed.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Local pain, numbness, tingling.</li>
+    <li><strong>Progression:</strong> Muscle paralysis, respiratory difficulty, drooling, slurred speech, loss of coordination, seizures, respiratory failure, and if untreated, death.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Garlic:</strong> Consumed for its general anti-toxic properties.</li>
+    <li><strong>Ginger:</strong> Consumed to improve blood circulation and mitigate the effects of the toxin.</li>
+    <li><strong>Coconut Water:</strong> To maintain hydration and potentially neutralize toxins.</li>
+    <li>Supportive care through manual ventilation (if respiratory failure occurs) and keeping the patient calm and immobile.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Cytotoxin
+  id: uXdY3E1OzXepSS9S
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Cytotoxins are toxins that cause cell death and tissue damage at the site of the injection. These toxins destroy cell membranes and lead to localized necrosis, resulting in ulceration and other severe skin lesions. Symptoms include intense pain, redness, and swelling at the injection site, which can progress to large, necrotic wounds. Systemic effects may include fever, chills, and muscle aches, and if untreated, infection and sepsis can set in. The tissue damage caused by cytotoxins often requires surgical intervention to remove dead tissue and to promote healing.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Pain at the injection site, redness, and swelling.</li>
+    <li><strong>Progression:</strong> Tissue necrosis, ulceration, systemic symptoms like fever, chills, and muscle aches; possible sepsis if infection spreads.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Pineapple Pulp:</strong> Applied as poultice for its enzymatic debridement properties.</li>
+    <li><strong>Turmeric:</strong> Mixed into a paste and applied for its anti-inflammatory properties.</li>
+    <li><strong>Aloe Vera:</strong> Gel applied topically to promote healing.</li>
+    <li><strong>Debridement:</strong> Removing necrotic tissue to prevent infection.</li>
+    <li><strong>Wound Care:</strong> Regular cleaning and dressing of ulcers.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Hemorrhagic Venom
+  id: GF1c8zMqVPVGGAhW
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Hemorrhagic venom causes widespread bleeding and disrupts the body&#39;s ability to clot blood. These toxins lead to extensive internal and external bleeding due to their effect on blood vessel integrity and platelet function. Initial symptoms include severe pain and swelling at the injection site, rapidly followed by bruising and bleeding from gums, nose, and other mucous membranes. Hemorrhagic venom can lead to hemorrhagic shock, organ failure, and death if not treated promptly. The toxins damage capillaries and blood vessels, causing a loss of blood and plasma, and impair clotting mechanisms, leading to disseminated intravascular coagulation.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Intense pain, swelling, and bruising at injection site.</li>
+    <li><strong>Progression:</strong> Systemic bleeding (internal and external), coagulation disorders, severe hypotension, organ failure, and death if untreated.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Dandelion:</strong> Taken as a tea to support liver function.</li>
+    <li><strong>Basil:</strong> Applied as a poultice to control bleeding and swelling.</li>
+    <li><strong>Shepherd&#39;s Purse:</strong> Taken as a tincture to help stop bleeding.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Bee Venom
+  id: EMqdYaJ7X8tGEhRi
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Melittin is a major component of bee venom, responsible for the pain and inflammation associated with bee stings. It is a powerful anti-inflammatory agent that increases the permeability of cell membranes, leading to the lysis of cells and the release of cellular contents, which causes localized pain, redness, and swelling. In non-allergic individuals, these symptoms are typically mild and resolve within hours. However, in allergic individuals, melittin can trigger systemic reactions, including anaphylaxis, characterized by hives, swelling, difficulty breathing, and potentially, death if untreated.</p>
+    <p><strong>Animals/Insects:</strong></p>
+    <ul>
+    <li><strong>Honey Bees</strong>
+    <strong>Vector of Transmission:</strong> Sting</li>
+    </ul>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Sharp pain, swelling, redness at the sting site.</li>
+    <li><strong>Progression:</strong> For non-allergic individuals, symptoms subside within a few hours. In allergic individuals, systemic reactions such as hives, swelling (angioedema), difficulty breathing, and anaphylactic shock.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Baking Soda Paste:</strong> Applied to neutralize venom.</li>
+    <li><strong>Honey:</strong> Applied topically for its antimicrobial properties and soothing effect.</li>
+    <li><strong>Plantain Leaf:</strong> Chewed and applied to draw out toxins and reduce inflammation.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Wasp Venom
+  id: SZ2fZ54CUPIhJz8I
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Wasp venom contains a complex mixture of toxins, including peptides, enzymes, and amines, such as phospholipases and hyaluronidases. These substances cause intense pain, swelling, and inflammation at the sting site by breaking down cellular membranes and promoting the release of inflammatory mediators. In some cases, particularly in individuals with venom allergies, wasp stings can cause severe systemic reactions, including anaphylaxis, characterized by extensive swelling, hives, difficulty breathing, and low blood pressure. The venom’s components can also degrade extracellular matrix components, facilitating the spread of other toxins through the tissues, exacerbating the body&#39;s inflammatory response, and leading to more severe localized and systemic effects.</p>
+    <p><strong>Animals/Insects:</strong></p>
+    <ul>
+    <li><strong>Wasps and Hornets</strong>
+    <strong>Vector of Transmission:</strong> Sting</li>
+    </ul>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Severe pain, redness, swelling at the sting site.</li>
+    <li><strong>Progression:</strong> Localized to severe systemic allergic reactions, including swelling (angioedema), urticaria, difficulty breathing, anaphylaxis.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Vinegar Compress:</strong> Applied to the sting site to neutralize the alkaline venom.</li>
+    <li><strong>Lavender Essential Oil:</strong> Applied to reduce pain and inflammation.</li>
+    <li><strong>Papaya:</strong> Applied as a paste to break down venom proteins.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Cnidarian Toxin
+  id: dK0hw4BkUWAi5KiK
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Cnidarian toxins, found in creatures like jellyfish, are delivered through specialized cells called cnidocytes. These cells contain nematocysts, which release toxins upon contact with the skin, causing immediate, excruciating pain, welts, and sometimes systemic symptoms like nausea, vomiting, difficulty breathing, muscle spasms, and cardiovascular collapse in severe cases. Some varieties are highly potent and can cause death within minutes due to its cardiotoxic properties, leading to cardiac arrest. The toxins act by targeting the nervous system and dermal tissues, often resulting in severe inflammatory responses and potential necrosis at the site of contact.</p>
+    <p><strong>Animals/Insects:</strong></p>
+    <ul>
+    <li><strong>Jellyfish and other aquatic species</strong>
+    <strong>Vector of Transmission:</strong> Contact with tentacles</li>
+    </ul>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Intense pain, burning, red or purplish welts.</li>
+    <li><strong>Progression:</strong> Nausea, vomiting, difficulty breathing, muscle spasms, cardiovascular collapse in severe cases (especially box jellyfish).</li>
+    </ul>
+    <p><strong>Traditional/Homeopathic Treatments:</strong></p>
+    <ul>
+    <li><strong>Vinegar Rinse:</strong> To neutralize toxins (especially important for box jellyfish stings).</li>
+    <li><strong>Baking Soda Paste:</strong> Applied to soothe skin irritation and pain.</li>
+    <li><strong>Papaya:</strong> Applied topically to breakdown toxins and reduce pain.</li>
+    <li>Removal of tentacles using tweezers, followed by submersion in hot water to alleviate pain.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Protein Toxin
+  id: 1hB1Y3KMI1an8IOn
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Toxins from marine animals contain potent protein toxins that cause severe pain, swelling, and tissue necrosis. Contact with venomous spines results in the injection of these proteins, leading to immediate and intense pain that can radiate and intensify, potentially lasting for hours to days. The toxins disrupt cell membranes and interfere with cellular metabolism, causing localized tissue damage and systemic symptoms like fever, muscle weakness, and cardiovascular distress. Severe cases may involve shock and death if the venom spreads rapidly through the bloodstream. The excruciating pain and possible tissue necrosis necessitate prompt and effective first aid measures, such as hot water immersion, to denature the toxins.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Immediate and intense pain, swelling at the site of the sting.</li>
+    <li><strong>Progression:</strong> Local necrosis, cardiovascular symptoms (hypotension, tachycardia), fever, and systemic toxicity leading to shock and potentially death if untreated.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Hot Water Immersion:</strong> To denature proteins and relieve pain (not herbal but essential first aid).</li>
+    <li><strong>Turmeric Paste:</strong> Applied to reduce inflammation and pain.</li>
+    <li><strong>Garlic:</strong> Consumed to boost general health and potentially neutralize some toxins.</li>
+    <li>Removal of spines remains to prevent further toxin release and monitor for secondary infections.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Tetrodotoxin
+  id: zZjDfgjLxkRw2uHz
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Tetrodotoxin is a potent neurotoxin found in Octopuses and certain species of newts and frogs. It blocks sodium channels on nerve cell membranes, preventing nerve signal transmission, leading to paralysis. Initial symptoms include numbness and tingling around the mouth and extremities, followed by nausea, vomiting, and increasing paralysis that affects voluntary muscles. Most critically, it can lead to respiratory paralysis, causing death by asphyxiation if not treated promptly. Tetrodotoxin&#39;s high affinity for sodium channels makes it extremely lethal even in small quantities, with no known antidote, making immediate supportive care, such as artificial respiration, crucial for survival.</p>
+    <p><strong>Animals/Insects:</strong></p>
+    <ul>
+    <li><strong>Octopus, newts and frogs</strong>
+    <strong>Vector of Transmission:</strong> Bite or ingestion</li>
+    </ul>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Numbness and tingling around the mouth, salivation, nausea.</li>
+    <li><strong>Progression:</strong> Increasing paralysis starting with face and extremities, loss of motor function, respiratory paralysis, and death due to respiratory failure if untreated.</li>
+    </ul>
+    <p><strong>Treatments:</strong></p>
+    <ul>
+    <li><strong>Activated Charcoal:</strong> Ingested to try to adsorb toxins (primarily if ingested).</li>
+    <li><strong>Ginger Tea:</strong> Consumed to reduce nausea and support mild detoxification processes.</li>
+    <li><strong>Coconut Water:</strong> To support hydration and potentially neutralize toxins.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Poneratoxin
+  id: qzCiP0GibDhQ9mcg
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Poneratoxin is a powerful neurotoxic peptide. It affects voltage-gated sodium channels in nerve cells, leading to overexcitement of the nerves and excessive pain transmission. A sting delivers this toxin, resulting in an immediate, intense, and prolonged pain that can last up to 24 hours. The pain is often described as one of the most painful insect stings in the world. Though not typically fatal, the venom can cause significant local swelling, redness, and systemic reactions such as nausea, vomiting, and dizziness. The potent effects of poneratoxin make the sting a severe and memorable experience, often used in traditional initiation rites in some cultures.</p>
+    <p><strong>Symptoms and Progression:</strong></p>
+    <ul>
+    <li><strong>Initial:</strong> Intense, burning pain often described as the most painful of insect stings.</li>
+    <li><strong>Progression:</strong> Pain can last up to 24 hours, with possible systemic symptoms such as nausea, vomiting, and vertigo (though not typically fatal).</li>
+    </ul>
+    <p><strong>Traditional/Homeopathic Treatments:</strong></p>
+    <ul>
+    <li><strong>Plantain Leaf:</strong> Chewed and applied to the sting site to draw out toxins and reduce pain.</li>
+    <li><strong>Clove Oil:</strong> Applied to numb the area and reduce pain.</li>
+    <li><strong>Basil Poultice:</strong> For its anti-inflammatory and pain-relieving properties.</li>
+    </ul>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Arsenic
+  id: cKYHVFfg3w78eeEO
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Arsenic, often referred to as the &quot;king of poisons,&quot; is a naturally occurring element that is commonly used for poisoning. It is favored for its potent and insidious effects, often administered secretly in food or drink.</p>
+    <p><strong>Symptoms and Progression:</strong> Initial symptoms include abdominal pain, vomiting, and diarrhea, often mistaken for food poisoning. Over time, it causes severe dehydration, gastrointestinal bleeding, and damage to the kidneys and liver. Chronic exposure can lead to hair loss, skin changes, and neurological symptoms like numbness and confusion, which can eventually result in death.</p>
+    <p><strong>Treatment:</strong> Activated charcoal to absorb the poison, emetics to induce vomiting (e.g., mustard seed in warm water), and milk or egg whites to coat the stomach lining. Hydration with herbal teas and electrolyte replenishment using natural sources like coconut water.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Belladonna
+  id: bzbN2G3r1SWRZMYt
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Belladonna contains tropane alkaloids such as atropine and scopolamine. It is used for poisoning and as a cosmetic to dilate pupils. Both the berries and leaves are extremely toxic.</p>
+    <p><strong>Symptoms and Progression:</strong> Symptoms include dry mouth, difficulty swallowing, blurred vision, hallucinations, rapid heartbeat, and delirium. The progression can lead to convulsions, paralysis, coma, and death due to respiratory failure.</p>
+    <p><strong>Treatment:</strong> Inducing vomiting with emetics like mustard seed and water, activated charcoal to absorb toxins, and using cold compresses to reduce fever. Cooling drinks to manage temperature and herbs like chamomile to calm the nervous system.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Hemlock
+  id: XiXrJMPZpSmdZrpv
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Hemlock (Conium maculatum) is a highly toxic plant. All parts of the plant contain toxic alkaloids, but the seeds and root are especially potent.</p>
+    <p><strong>Symptoms and Progression:</strong> Symptoms begin with nervous system disturbances, including trembling, salivation, and dilated pupils. As poisoning progresses, muscle weakness and paralysis set in, starting from the extremities and moving inward. The victim eventually dies from respiratory failure as the diaphragm becomes paralyzed.</p>
+    <p><strong>Treatment:</strong> Inducing vomiting with emetics, ingesting activated charcoal, and using supportive measures such as garlic and herbal infusions to maintain hydration.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Aconite
+  id: avyDvHvhyDC2zxVd
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Aconite contains highly potent alkaloids such as aconitine, which are used both for poisoning and applied to arrow tips as a weapon. Aconite can cause severe cardiac and neurological disturbances.</p>
+    <p><strong>Symptoms and Progression:</strong> Symptoms include a burning sensation in the mouth and throat, vomiting, diarrhea, numbness, and muscle weakness. Progression leads to cardiac arrhythmias, respiratory paralysis, and death.</p>
+    <p><strong>Treatment:</strong> An immediate emetic like mustard powder mixed with water, activated charcoal, and herbal teas (such as ginger or peppermint) to alleviate nausea and support digestion. Keeping the victim warm and calm to counteract shock.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Digitalis
+  id: ymlS24R2v3lM5fjO
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Digitalis is derived from the foxglove plant and contains cardiac glycosides. It is used in various formulas for poisoning and can be administered covertly due to its potency even in small amounts.</p>
+    <p><strong>Symptoms and Progression:</strong> Symptoms include nausea, vomiting, diarrhea, confusion, visual disturbances (such as seeing halos), and severe cardiac effects like bradycardia or arrhythmias, potentially leading to cardiac arrest.</p>
+    <p><strong>Treatment:</strong> Activated charcoal to absorb poison, infusion of licorice root to counteract some of the cardiac effects, and use of calming herbs like valerian to manage symptoms of distress.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Curare
+  id: QSI1Des4pKMMbCRO
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: vector
+  description: |-
+    <p>Curare is a plant-derived toxin used by indigenous tribes for its potent paralyzing effect, often used on arrow tips.</p>
+    <p><strong>Symptoms and Progression:</strong> Curare blocks neuromuscular transmission, leading to muscle paralysis. Initial symptoms include weakness and difficulty moving, progressing rapidly to total paralysis, including respiratory muscles, resulting in death by asphyxiation if untreated.</p>
+    <p><strong>Treatment:</strong> While detailed herbal countermeasures for curare are limited, maintaining airway patency and manual ventilation techniques are used to keep the victim breathing until the effect of the toxin wears off, alongside the use of stimulant herbs like caffeine-containing plants to stimulate the respiratory system.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Mandrake
+  id: jbQU6N7jQuWpoU7c
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Mandrake, known for its psychoactive and toxic properties, is used both medicinally and for poisoning. It contains tropane alkaloids such as hyoscyamine and scopolamine.</p>
+    <p><strong>Symptoms and Progression:</strong> Symptoms include hallucinations, dilation of pupils, dry mouth, rapid heartbeat, and confusion. Large doses cause delirium, seizures, and death due to respiratory failure.</p>
+    <p><strong>Treatment:</strong> Emesis induced with mustard seed water, activated charcoal, and calming herbal teas with chamomile or valerian to soothe the nervous system and provide supportive care.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB
+- name: Ricin
+  id: V7zgaQ5ATKC1BXm0
+  img: systems/sohl/assets/icons/poison-bottle.svg
+  subType: poisontoxin
+  diagnosisBonus: 0
+  level: 1
+  healingRate: 3
+  contagionIndex: 3
+  transmission: injested
+  description: |-
+    <p>Ricin is a highly potent toxin derived from the castor bean plant. Even a small amount can be lethal, making it a favored tool for assassination.</p>
+    <p><strong>Symptoms and Progression:</strong> Initial symptoms (if ingested) include nausea, vomiting, diarrhea, and severe abdominal pain, leading to dehydration and a drop in blood pressure. Over days, it can cause liver, kidney, and spleen failure, leading to death.</p>
+    <p><strong>Treatment:</strong> Immediate emesis, cleansing the stomach with emetics like mustard seed water, and supportive treatments such as herbal teas to manage dehydration and pain. No specific antidote, so focus is on systemic support.</p>
+  macros: []
+  effects: []
+  flags: {}
+  folderId: ZSPorSdfrawLi3WB

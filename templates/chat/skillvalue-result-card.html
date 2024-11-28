@@ -1,0 +1,21 @@
+<div class="chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    <div class="card-content flexrow">
+        <span class="label">Skill Value:</span>
+        <span class="value">{{skillValue}}</span>
+    </div>
+
+    {{#if victoryStars}}
+    <div class="card-content flexrow">
+        <span class="label">Victory Stars:</span>
+        <span class="value">{{victoryStarsText}}</span>
+    </div>
+    {{/if}} {{#if isCritFail}}
+    <div class="card-content center">
+        <span>NOTE: Critical Failure</span>
+    </div>
+    {{/if}}
+</div>

@@ -1,0 +1,53 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Properties Tab --}}
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <div class="grid grid-3col">
+                {{formField fields.society rootId="aff-soc" classes="text-field" stacked=true value=system.society}}
+                {{formField fields.office rootId="aff-off" classes="text-field" stacked=true value=system.office}}
+                {{formField fields.title rootId="aff-title" classes="text-field" stacked=true value=system.title}}
+                {{formField fields.level rootId="aff-lvl" classes="text-field" stacked=true value=system.level}}
+            </div>
+        </div>
+
+        {{!-- Description Tab --}}
+        <div
+            class="tab description"
+            id="affiliation-desc"
+            data-group="primary"
+            data-tab="description">
+            {{editor idata.description target="system.description" button=true
+            owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div
+            class="tab nesteditems"
+            data-group="primary"
+            data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

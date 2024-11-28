@@ -1,0 +1,106 @@
+{
+    "id": "sohl",
+    "title": "Song of Heroic Lands",
+    "description": "Song of Heroic Lands",
+    "version": "0.4.0",
+    "authors": [
+        {
+            "name": "Toasty",
+            "discord": "toasty#8538",
+            "flags": {}
+        }
+    ],
+    "url": "https://github.com/toastygm/HarnMaster-Kethira-FoundryVTT/",
+    "license": "LICENSE",
+    "readme": "README.md",
+    "bugs": "https://github.com/toastygm/HarnMaster-Kethira-FoundryVTT/issues",
+    "flags": {
+        "allowBugReporter": true,
+        "needsMigrationVersion": "0.3.5",
+        "compatibleMigrationVersion": "0.3.0"
+    },
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12.323"
+    },
+    "esmodules": ["module/sohl.js"],
+    "styles": ["css/sohl.css"],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
+    "packFolders": [
+        {
+            "name": "Song of Heroic Lands",
+            "sorting": "m",
+            "color": "#094fcb",
+            "folders": [
+                {
+                    "name": "Legendary",
+                    "sorting": "m",
+                    "color": "#ac09cb",
+                    "packs": [
+                        "leg-characters",
+                        "leg-creatures",
+                        "leg-characteristics",
+                        "leg-mysteries",
+                        "leg-possessions"
+                    ]
+                }
+            ]
+        }
+    ],
+    "packs": [
+        {
+            "label": "Characters",
+            "type": "Actor",
+            "name": "leg-characters",
+            "system": "sohl",
+            "path": "packs/leg-characters",
+            "private": false
+        },
+        {
+            "label": "Creatures",
+            "type": "Actor",
+            "name": "leg-creatures",
+            "system": "sohl",
+            "path": "packs/leg-creatures",
+            "private": false
+        },
+        {
+            "label": "Characteristics",
+            "type": "Item",
+            "name": "leg-characteristics",
+            "system": "sohl",
+            "path": "packs/leg-characteristics",
+            "private": false
+        },
+        {
+            "label": "Mysteries",
+            "type": "Item",
+            "name": "leg-mysteries",
+            "system": "sohl",
+            "path": "packs/leg-mysteries",
+            "private": false
+        },
+        {
+            "label": "Possessions",
+            "type": "Item",
+            "name": "leg-possessions",
+            "system": "sohl",
+            "path": "packs/leg-possessions",
+            "private": false
+        }
+    ],
+    "socket": true,
+    "manifest": "https://www.dropbox.com/s/510urlhupyh0zkm/system.json?dl=1",
+    "download": "https://www.dropbox.com/s/4pzfv5koxwbr276/system.zip?dl=1",
+    "grid": {
+        "distance": 5,
+        "units": "ft"
+    },
+    "primaryTokenAttribute": "health"
+}

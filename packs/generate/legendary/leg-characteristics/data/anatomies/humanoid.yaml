@@ -1,0 +1,1056 @@
+properties:
+  name: Humanoid
+  id: M10pzGVlLgO1zsnh
+  notes: ""
+  textReference: ""
+  description: ""
+  defaultAim: ""
+  weaponLimbs:
+    - Left Arm
+    - Right Arm
+    - Left Arm, Right Arm
+  macros: []
+  flags: {}
+  effects: []
+bodyZones:
+  - name: Head
+    id: XQJBDj4Zd2ILR5rH
+    img: systems/sohl/assets/icons/body.svg
+    desc: ""
+    aim:
+      - name: Body
+        probWeightBase: 1
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags:
+      sohl:
+        zones:
+          - 1
+        affectsMobility: true
+        affectedSkills:
+          - Acrobatics
+          - Climbing
+          - Legerdemain
+          - Melee
+          - Archery
+          - Riding
+          - Stealth
+          - Swimming
+        affectedAttributes:
+          - Agility
+          - Dexterity
+          - Strength
+  - name: Arms
+    id: DzyCHcZwLLZekBgq
+    img: systems/sohl/assets/icons/body.svg
+    desc: ""
+    aim:
+      - name: Body
+        probWeightBase: 1
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags:
+      sohl:
+        zones:
+          - 2
+          - 3
+        affectsMobility: false
+        affectedSkills:
+          - Acrobatics
+          - Climbing
+          - Legerdemain
+          - Melee
+          - Archery
+          - Riding
+          - Swimming
+        affectedAttributes:
+          - Dexterity
+          - Strength
+  - name: Torso
+    id: qPncC1ZBr2H8lPSy
+    img: systems/sohl/assets/icons/body.svg
+    desc: ""
+    aim:
+      - name: Body
+        probWeightBase: 1
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags:
+      sohl:
+        zones:
+          - 4
+          - 5
+          - 6
+          - 7
+        affectsMobility: true
+        affectedSkills:
+          - Acrobatics
+          - Climbing
+          - Melee
+          - Archery
+          - Riding
+          - Stealth
+          - Swimming
+        affectedAttributes:
+          - Agility
+          - Dexterity
+          - Strength
+  - name: Legs
+    id: KFrOQEbBNicAxikZ
+    img: systems/sohl/assets/icons/body.svg
+    desc: ""
+    aim:
+      - name: Body
+        probWeightBase: 1
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags:
+      sohl:
+        zones:
+          - 8
+          - 9
+          - 10
+        affectsMobility: true
+        affectedSkills:
+          - Acrobatics
+          - Climbing
+          - Melee
+          - Archery
+          - Riding
+          - Stealth
+          - Swimming
+        affectedAttributes:
+          - Agility
+          - Strength
+bodyParts:
+  - name: Head
+    id: WljCPWk6oAmUZ73d
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Head
+    abbrev: Head
+    canHoldItem: false
+    health: 16
+    aim:
+      - name: Body
+        probWeightBase: 100
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+  - name: Left Arm
+    id: rnqBua6Rduc0u0P6
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Arms
+    abbrev: LArm
+    canHoldItem: true
+    health: 8
+    aim:
+      - name: Body
+        probWeightBase: 50
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+  - name: Right Arm
+    id: Tsrx9WQ2L9HyAVvi
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Arms
+    abbrev: RArm
+    canHoldItem: true
+    health: 8
+    aim:
+      - name: Body
+        probWeightBase: 50
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+  - name: Torso
+    id: ltL67w6gOzXDgHYD
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Torso
+    abbrev: Torso
+    canHoldItem: false
+    health: 16
+    aim:
+      - name: Body
+        probWeightBase: 100
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+  - name: Left Leg
+    id: KocnXsjJtL3doBVr
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Legs
+    abbrev: LLeg
+    canHoldItem: false
+    health: 8
+    aim:
+      - name: Body
+        probWeightBase: 50
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+  - name: Right Leg
+    id: 30kOIuDmY81IosL4
+    img: systems/sohl/assets/icons/body.svg
+    bodyZone: Legs
+    abbrev: RLeg
+    canHoldItem: false
+    health: 8
+    aim:
+      - name: Body
+        probWeightBase: 50
+    notes: ""
+    textReference: ""
+    description: ""
+    effects: []
+    flags: {}
+bodyLocations:  
+  - name: Skull
+    id: 0XmtjaBJDxMk0Ucd
+    injuryLocation: Skull
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 5
+    bleedingSevThreshold: 5
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 500
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Eye
+    id: 6kX9YIUIVja3Y0MP
+    injuryLocation: Eye
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 5
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 15
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Eye
+    id: QEfArWukfNxKta0f
+    injuryLocation: Eye
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 5
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 15
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Nose
+    id: QRVralNrMEk93Kwj
+    injuryLocation: Nose
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Cheek
+    id: 8J1XWjV1tsFyugVH
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 60
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Cheek
+    id: ofe4FzVdGkKkZQV2
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 60
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Ear
+    id: UwvPtm6rbB5noi7l
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 15
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Ear
+    id: htpEEuxEAhz7AAsP
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 15
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Mouth
+    id: U30OhbPBl2QhBQoF
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Jaw
+    id: ogK3sN7cu2ajAT5K
+    injuryLocation: Face
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 60
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Neck
+    id: vZA6OW3EaN0ggS6U
+    injuryLocation: Neck
+    bodyPart: Head
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -10
+    shockValue: 5
+    bleedingSevThreshold: 3
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 200
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Shoulder
+    id: nuInmwcEVKaPbhiH
+    injuryLocation: Shoulder
+    bodyPart: Left Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 3
+    bleedingSevThreshold: 4
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Upper Arm
+    id: NGjZLBbjFzHdvv0l
+    injuryLocation: Upper Arm
+    bodyPart: Left Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Elbow
+    id: ubWdclQbNEQ70pEe
+    injuryLocation: Elbow
+    bodyPart: Left Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Forearm
+    id: 6mLZet21nySm9VVd
+    injuryLocation: Forearm
+    bodyPart: Left Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 20
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Hand
+    id: SrpubIBD6K42tsO1
+    injuryLocation: Hand
+    bodyPart: Left Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -30
+    shockValue: 2
+    bleedingSevThreshold: 0
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Shoulder
+    id: V7F5ilVtTWnzoyu6
+    injuryLocation: Shoulder
+    bodyPart: Right Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 3
+    bleedingSevThreshold: 4
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Upper Arm
+    id: YfN7RARAAi0UrPld
+    injuryLocation: Upper Arm
+    bodyPart: Right Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Elbow
+    id: 1kH02rurCS8ft63Q
+    injuryLocation: Elbow
+    bodyPart: Right Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Forearm
+    id: pNB4IdNQHFPOnvwD
+    injuryLocation: Forearm
+    bodyPart: Right Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 20
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Hand
+    id: Rfi2iUDdK2qQz2pv
+    injuryLocation: Hand
+    bodyPart: Right Arm
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: true
+    isRigid: false
+    amputatePenalty: -30
+    shockValue: 2
+    bleedingSevThreshold: 0
+    affectsMobility: false
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Thorax
+    id: Sfp6lj3H6N20woHc
+    injuryLocation: Thorax
+    bodyPart: Torso
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 40
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Abdomen
+    id: GYWlGzJ1oE2QlVc0
+    injuryLocation: Abdomen
+    bodyPart: Torso
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 3
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 40
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Pelvis
+    id: yMsU1PHsaPfGlygr
+    injuryLocation: Pelvis
+    bodyPart: Torso
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: false
+    isFumble: false
+    isRigid: false
+    amputatePenalty: 0
+    shockValue: 4
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 20
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Thigh
+    id: pOsgjfKKFAr8I8aE
+    injuryLocation: Thigh
+    bodyPart: Left Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -10
+    shockValue: 3
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 40
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Knee
+    id: gi2S9Dt4w46x2wOL
+    injuryLocation: Knee
+    bodyPart: Left Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 5
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Calf
+    id: IX6Bbg9YSahDwI45
+    injuryLocation: Calf
+    bodyPart: Left Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Left Foot
+    id: REmu5X3CBlbfLqvh
+    injuryLocation: Foot
+    bodyPart: Left Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 0
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 20
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Thigh
+    id: AJwjP1rJBbmpamNe
+    injuryLocation: Thigh
+    bodyPart: Right Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -10
+    shockValue: 3
+    bleedingSevThreshold: 4
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 40
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Knee
+    id: WUnUX9Vw3f9aJXuR
+    injuryLocation: Knee
+    bodyPart: Right Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 5
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 10
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Calf
+    id: Zb9lV9AXinrSftXd
+    injuryLocation: Calf
+    bodyPart: Right Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 1
+    bleedingSevThreshold: 5
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 30
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}
+  - name: Right Foot
+    id: aGOXGJxHUfwnfB5M
+    injuryLocation: Foot
+    bodyPart: Right Leg
+    layers: ""
+    quality: 0
+    blunt: 0
+    edged: 0
+    piercing: 0
+    fire: 0
+    isStumble: true
+    isFumble: false
+    isRigid: false
+    amputatePenalty: -20
+    shockValue: 2
+    bleedingSevThreshold: 0
+    affectsMobility: true
+    aim:
+      - name: Body
+        probWeightBase: 20
+    notes: ""
+    textReference: ""
+    desc: ""
+    macros: []
+    effects: []
+    flags: {}

@@ -1,0 +1,103 @@
+<div class="hmk chat-card item-card" data-actor-uuid="{{initActorUuid}}">
+    <header class="card-header">
+        <h3 class="title">{{title}}</h3>
+        {{#if isOpposedTest}}
+        <h4 class="subtitle">{{initTokenName}} vs. {{targetTokenName}}</h4>
+        {{/if}}
+    </header>
+
+    {{#if modHtml}}
+    <div class="card-content">
+        {{{modHtml}}}
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <span class="label">Target:</span>
+        <span class="value">{{effTarget}}</span>
+    </div>
+
+    {{#if successLevelMod}}
+    <div class="card-content">
+        <span class="label">Success Level Modifier:</span>
+        <span class="value">{{successLevelMod}}</span>
+    </div>
+    {{/if}}
+
+    {{#unless isOpposedTest}}
+    <div class="card-content">
+        <span class="label">Roll:</span>
+        <span 
+        {{#if isSuccess}}
+        class="value success-text"
+        {{else}}
+        class="value failure-text"
+        {{/if}}
+        >{{rollTotal}}</span>
+    </div>
+    {{/unless}}
+    
+        
+    {{#if isSuccessValue}}
+    <div class="card-content">
+        <span class="label">Success Value:</span>
+        <span class="value">{{successValueExpr}} = {{successValue}}</span>
+    </div>
+    {{/if}}
+
+    {{#if resultText}}
+    <div class="card-content">
+        <span class="label">Result:</span>
+        <span
+            {{#if (ifThen isSuccessValue svSuccess isSuccess)}}
+            class="value success-text"
+            {{else}}
+            class="value failure-text"
+            {{/if}}
+            >{{resultText}}</span>
+    </div>
+
+        {{#if resultDesc}}
+            <div class="card-content">
+                <span class="value">{{resultDesc}}</span>
+            </div>
+        {{/if}}
+    {{/if}}
+    {{#if testResult.askFate}}
+    <div class="card-buttons">
+        <button
+            data-action="fateTest",
+            data-target-uuid="{{targetUuid}}"
+            data-next-action="successTestToChat"
+            data-next-target-uuid="{{nextTargetUuid}}"
+            data-next-title="{{title}}"
+            data-next-type="{{type}}"
+            data-test-prop-name="testResult"
+            data-test-result-json="{{testResultJson}}">
+            <i class="fas fa-stars"></i> Use Fate
+        </button>
+    </div>
+    {{/if}}
+    
+    {{#if isSuccess}}
+        {{#if isCritical}}
+            <footer class="card-footer critical-success-block">
+                <span>{{description}}</span>
+            </footer>
+        {{else}}
+            <footer class="card-footer success-text">
+                <span>{{description}}</span>
+            </footer>
+        {{/if}}
+    {{else}}
+        {{#if isCritical}}
+            <footer class="card-footer critical-failure-block">
+                <span>{{description}}</span>
+            </footer>
+        {{else}}
+            <footer class="card-footer failure-text">
+                <span>{{description}}</span>
+            </footer>
+        {{/if}}
+    {{/if}}
+</div>

@@ -1,0 +1,20 @@
+<div class="resource" id="ml-skillbaseformula">
+    <label class="resource-label">Skill Base Formula</label>
+    {{formInput fields.skillBaseFormula value=system.skillBaseFormula}}
+</div>
+{{#if hasActor}}
+<div class="resource" id="ml-skillbasevalue">
+    <label class="resource-label">Skill Base (SB)</label>
+    {{#if (not item.system.masteryLevel.valid)}}
+    <span>Invalid Formula</span>
+    {{else}}
+    <span>{{ item.system.masteryLevel.skillBaseValue }}</span>
+    {{/if}}
+</div>
+{{else}}
+<div></div>
+{{/if}}
+<div class="resource" id="ml-masterylevel">
+    <label class="resource-label">Mastery Level (ML)</label>
+    {{formInput fields.masteryLevelBase value=system.masteryLevelBase}}
+</div>

@@ -1,0 +1,58 @@
+<div class="items">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-gear" value="" aria-label="Search Gear"
+            placeholder="Search Gear" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control nested-item-create" data-tooltip="Add Gear"
+                data-type="gear"><i class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+
+    {{#each containers as |citem cid|}}
+    <div class="items-list" data-container-id="{{citem.id}}"
+        data-container-name="{{citem.name}}">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">{{citem.name}}</h3>
+            <div class="detail subtype">Type</div>
+            <div class="detail ele">Qty</div>
+            <div class="detail ele">Weight</div>
+            <div class="detail ele">Qual</div>
+            <div class="detail ele">Dur</div>
+            <div class="detail notes">Notes</div>
+            <div
+                {{#if (eq system.$capacity.status 2)}}
+                    class="detail capacity overmaxcap"
+                {{else}}
+                    class="detail capacity"
+                {{/if}}>Capacity: {{system.totalWeight.modifier}}/{{system.$capacity.max.effective}}</div>
+        </header>
+        <ol class="item-list">
+            {{#each citem.items as | item |}}
+                <li class="item {{#unless system.isCarried}}nocarry{{/unless}} flexrow"
+                    data-item-id="{{item.id}}" data-item-name="{{item.name}}">
+                    <div class="item-name name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                        <h4>{{item.name}}</h4>
+                    </div>
+                    <div class="detail subtype" data-tooltip="{{lookup config.Item.typeLabels item.type}}">
+                        {{lookup config.Item.typeLabels item.type}}
+                    </div>
+                    <div class="detail ele">{{system.quantity}}</div>
+                    <div class="detail ele">{{system.totalWeight.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$quality.abbrev}}">{{numberFormat system.$quality.effective sign=true}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$durability.abbrev}}">{{system.$durability.effective}}</div>
+                    <div class="detail notes">{{system.notes}}</div>
+                    {{#unless printable}}
+                        <div class="item-controls">
+                            <a class="item-control nested-item-edit"
+                                title="Edit Item"><i class="active fas fa-edit"></i></a>
+                            <a class="item-control nested-item-delete"
+                                title="Delete Item"><i class="active fas fa-trash"></i></a>    
+                        </div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+        </ol>
+    </div>
+    {{/each}}
+</div>

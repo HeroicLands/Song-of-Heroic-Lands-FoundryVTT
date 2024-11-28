@@ -1,0 +1,95 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span>{{notes}}</span>
+    </div>
+    {{/if}}
+
+    <fieldset>
+        <legend>Impact Modifier</legend>
+        <div class="card-content">
+            <div class="adjustment">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each impact.mods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="grid grid-2col">
+        <div class="card-content center">
+            <div class="flexrow">
+                <span class="label">Formula:</span>
+                <span class="value">{{impactFormula}}</span>
+            </div>
+        </div>
+
+        <div class="card-content center">
+            <div class="flexrow">
+                <span class="label">Roll:</span>
+                <span class="value"
+                    >{{rolledResult}} = <strong>{{rolledTotal}}</strong></span
+                >
+            </div>
+        </div>
+    </div>
+
+    {{#if isBlunt}}
+    <div class="card-content center">
+        <span class="value"
+            >Missile is blunted, so actual damage will be halved.</span
+        >
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <div class="flexrow flex-center">
+            <span class="label">Final Impact:</span>
+            <span class="value"><strong>{{totalImpact}}</strong></span>
+        </div>
+    </div>
+
+    {{#if impact.armorReduction.effective}}
+    <fieldset>
+        <legend>Armor Reduction</legend>
+        <div class="card-content">{{genModHtml impact.mods}}</div>
+
+        <div class="card-content">
+            <div class="flexrow flex-center">
+                <span class="label">Armor Reduction:</span>
+                <span class="value">{{impact.armorReduction.effective}}</span>
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+    <div class="card-buttons">
+        {{#if (and targetToken totalImpact)}}
+        <button
+            data-action="injury"
+            data-handler-uuid="{{targetToken.actor.uuid}}"
+            data-aspect="{{impact.aspect}}"
+            data-impact="{{totalImpact}}"
+            data-armor-reduction="{{impact.armorReduction.effective}}"
+            data-extra-bleed-risk="{{extraBleedRisk}}"
+            data-zone-die-formula="{{zoneDieFormula}}"
+            data-is-projectile="{{isProjectile}}"
+            data-body-location="{{bodyLocation}}">
+            Calculate {{targetToken.name}} Injury
+        </button>
+        {{/if}}
+    </div>
+</div>

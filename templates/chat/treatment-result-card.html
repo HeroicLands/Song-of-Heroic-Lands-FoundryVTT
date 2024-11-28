@@ -1,0 +1,48 @@
+<div class="chat-card">
+    <header class="card-header flexrow">
+        <h3 class="title">Treatment Result</h3>
+    </header>
+
+    <div class="grid grid-2col flex-center">
+        <div class="card-content flexrow">
+            <span class="label">Aspect:</span>
+            <span class="value">{{aspect}}</span>
+        </div>
+
+        <div class="card-content flexrow">
+            <span class="label">Severity:</span>
+            <span class="value">{{severity}}</span>
+        </div>
+    </div>
+
+    <div class="card-content center">
+        <span class="label">Treatment:</span>
+        <span class="value">{{treatment}}</span>
+    </div>
+
+    <div class="card-content center">
+        <span class="label">Heal Rate:</span>
+        <span class="value">{{#if (lt hr 0)}}Healed{{else}}H{{hr}}{{/if}}</span>
+    </div>
+
+    {{#if infect}}
+    <div class="card-content center">
+        <span>NOTE: Infection risk.</span>
+    </div>
+    {{/if}} {{#if impair}}
+    <div class="card-content center">
+        <span>NOTE: Permanent impairment risk.</span>
+    </div>
+    {{/if}} {{#if bleed}}
+    <div class="card-content center">
+        <span>Treatment results in a bleeder.</span>
+    </div>
+    {{/if}} {{#if (gt newInj 0)}}
+    <div class="card-content center">
+        <span
+            >Amputation results in a new {{newSev}}{{newInj}} edged
+            injury.</span
+        >
+    </div>
+    {{/if}}
+</div>

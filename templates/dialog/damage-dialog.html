@@ -1,0 +1,120 @@
+<form>
+    {{#if askImpact}}
+    <fieldset>
+        <legend>Impact</legend>
+        <div class="flex flex-3col">
+            <div class="form-group">
+                <label>Aspect:</label>
+                <select name="impactAspect">
+                    {{#select impact.aspect}} {{#each const.ASPECTTYPES}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Die:</label>
+                <select name="impactDie">
+                    {{#select impact.die}} {{#each const.IMPACTDICE}}
+                    <option value="{{this}}">d{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Modifier:</label>
+                <input
+                    type="number"
+                    name="impactModifier"
+                    value="{{impact.effective}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+    </fieldset>
+    {{else}}
+    <div class="form-group">
+        <label>Impact:</label>
+        <span>{{impactFormula}}</span>
+    </div>
+
+    <fieldset>
+        <legend>Impact Modifiers</legend>
+        <div class="form-group">
+            <div class="flex flex-2col">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each impact.mods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+    <div class="form-group">
+        <label>Impact TAs:</label>
+        <input
+            type="number"
+            name="numImpactTAs"
+            value="{{numImpactTAs}}"
+            data-dtype="Number" />
+    </div>
+
+    <div class="form-group">
+        <label>Addl Weapon Impact:</label>
+        <input
+            type="number"
+            name="addlWeaponImpact"
+            value="{{addlWeaponImpact}}"
+            data-dtype="Number" />
+    </div>
+
+    <div class="form-group">
+        <input
+            type="checkbox"
+            name="extraBleedRisk"
+            value="{{impact.extraBleedRisk}}"
+            data-dtype="Boolean"
+            {{checked
+            impact.extraBleedRisk}} />
+        <label>Extra Bleed Risk</label>
+    </div>
+
+    {{#if impact.armorReduction.effective}}
+    <fieldset>
+        <legend>Armor Reduction Modifiers</legend>
+        <div class="form-group">
+            <div class="flex flex-2col" name="attackmods">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each impact.armorReduction.mods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+    <div class="form-group">
+        <label>Addl Armor Reduction:</label>
+        <input
+            type="number"
+            name="addlArmorReduction"
+            value="{{addlArmorReduction}}"
+            data-dtype="Number" />
+    </div>
+</form>

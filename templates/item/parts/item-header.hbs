@@ -1,0 +1,27 @@
+<header class="sheet-header">
+    <img
+        class="profile-img"
+        src="{{ item.img }}"
+        data-edit="img"
+        title="{{ item.name }}" />
+    <div class="header-fields">
+        <h1 class="charname">
+            <input
+                name="name"
+                type="text"
+                value="{{ item.name }}"
+                placeholder="Name"
+                data-dtype="String" />
+        </h1>
+        {{#if system.subType}}
+        <div>
+            <label class="subtype">Type:</label><span> {{lookup (lookup (lookup config.Item.dataModels item.type) "subTypes") system.subType}}</span>
+        </div>
+        {{/if}}
+        {{#if inContainer}}
+        <div>
+            <label class="subtype">In Container:</label><span> {{inContainer.name}}</span>
+        </div>
+        {{/if}}
+    </div>
+</header>

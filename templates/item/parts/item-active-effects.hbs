@@ -1,0 +1,68 @@
+<ol class="effects-list">
+    <li class="effects-header flexrow">
+        <h3 class="name flexrow">Effect</h3>
+        <div class="detail target">Target</div>
+        <div class="detail duration">Remaining</div>
+        <div class="detail changes">Changes</div>
+        <a class="effect-controls effect-control"
+            title="Add Effect" data-action="create"
+            ><span class="active"><i class="fas fa-plus"></i> Add</span></a>
+    </li>
+    <ol class="effect-list item-list">
+        {{#each effects as |effect id|}}
+        <li class="effect {{optionalString effect.disabled "disabled"}} flexrow"
+            data-effect-name="{{ effect.name }}" data-effect-id="{{ effect.id }}"
+            data-effect-parent-uuid="{{ effect.parent.uuid }}">
+            <div class="name">
+                <h4>{{ effect.name }}</h4>
+            </div>
+            <div class="detail target" data-tooltip="{{ effect.system.targetLabel }}">
+                {{ effect.system.targetLabel }}
+            </div>
+            <div class="detail duration">
+                {{#if (eq effect.duration.type "none")}}
+                Indefinite
+                {{else}}
+                {{{effect.duration.endTimeHtml}}}
+                {{/if}}
+            </div>
+            <div class="detail changes" data-tooltip="{{ effect._aeChanges }}">
+                {{ effect._aeChanges }}
+            </div>
+            <div class="effect-controls">
+                <a class="effect-control effect-contextmenu" title="Menu"><i
+                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+</ol>
+
+<ol class="effects-list">
+    <li class="effects-header flexrow">
+        <h3 class="name">Transferred Effect</h3>
+        <div class="detail source">Source</div>
+        <div class="detail duration">Remaining</div>
+        <div class="detail changes">Changes</div>
+    </li>
+    <ol class="effect-list item-list">
+        {{#each transferredEffects as |effect id|}}
+        <li class="effect {{optionalString effect.disabled "disabled"}} flexrow"
+            data-effect-name="{{ effect.label }}" data-effect-id="{{ effect.id }}"
+            data-effect-parent-uuid="{{ effect.parent.uuid }}">
+            <div class="name">
+                <h4>{{ effect.name }}</h4>
+            </div>
+            <div class="detail source" data-tooltip="{{ effect.sourceName }}">
+                {{ effect.sourceName }}
+            </div>
+            <div class="detail duration">
+                {{optionalString (eq effect.duration.label "None") "Indefinite" effect.duration.label}}
+            </div>
+            <div class="detail changes" data-tooltip="{{ effect.changes }}">
+                {{ effect.changes }}
+            </div>
+        </li>
+        {{/each}}
+    </ol>
+</ol>

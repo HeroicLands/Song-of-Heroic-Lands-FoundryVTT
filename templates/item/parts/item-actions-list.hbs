@@ -1,0 +1,65 @@
+<div class="items actions">
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Custom Actions</h3>
+            <div class="ele">Type</div>
+            <div class="notes">Notes</div>
+            <div class="item-controls-wide">
+                <a class="item-control action-create"><i class="fas fa-plus"></i> Add</a>
+            </div>
+        </header>
+        <ol class="items-list action-list">
+            {{#each system.actions as |action|}}
+            {{#unless flags.sohl.isIntrinsicAction}}
+            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.nestedIn.uuid }}" data-item-id="{{action.id}}">
+                <div class="item-name name flexrow">
+                    <div
+                        class="item-image"
+                        style="background-image: url('{{ action.img }}')"></div>
+                    <h4>{{ action.name }}</h4>
+                </div>
+                <div class="ele">{{ action.type }}</div>
+                <div class="notes">{{ action.flags.sohl.notes }}</div>
+                <div class="item-controls-wide">
+                    {{#unless flags.sohl.isIntrinsicAction}}
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    {{/unless}}
+                </div>
+            </li>
+            {{/unless}}
+            {{/each}}
+        </ol>
+    </div>
+
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Intrinsic Actions</h3>
+            <div class="ele">Type</div>
+            <div class="notes">Notes</div>
+            <div class="item-controls"></div>
+        </header>
+        <ol class="items-list action-list">
+            {{#each system.actions as |action|}}
+            {{#if flags.sohl.isIntrinsicAction}}
+            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.nestedIn.uuid }}" data-item-id="{{action.id}}">
+                <div class="item-name name flexrow">
+                    <div
+                        class="item-image"
+                        style="background-image: url('{{ action.img }}')"></div>
+                    <h4>{{ action.name }}</h4>
+                </div>
+                <div class="ele">{{ action.type }}</div>
+                <div class="notes">{{ action.flags.sohl.notes }}</div>
+                <div class="item-controls">
+                    {{#if action.canExecute}}
+                    <a class="item-control item-contextmenu" title="Menu"><i
+                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    {{/if}}
+                </div>
+            </li>
+            {{/if}}
+            {{/each}}
+        </ol>
+    </div>
+</div>

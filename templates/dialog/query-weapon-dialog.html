@@ -1,0 +1,12 @@
+<form id="weapon-query">
+    <p>{{prompt}}<br /></p>
+
+    <div class="form-group">
+        <label>Weapon:</label>
+        <select name="weaponUuid">
+            {{#select weaponUuid}} {{#each weapons}}
+            <option value="{{this.uuid}}">{{this.name}}</option>
+            {{/each}} {{/select}}
+        </select>
+    </div>
+</form>

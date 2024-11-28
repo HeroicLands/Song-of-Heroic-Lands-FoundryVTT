@@ -1,0 +1,104 @@
+<form>
+    <div class="grid grid-2col">
+        <div class="form-group">
+            <label>Mode</label>
+            <input
+                type="text"
+                name="mode"
+                value="{{mode}}"
+                data-dtype="String" />
+        </div>
+        <div class="form-group">
+            <label>Min Parts:</label>
+            <input
+                type="number"
+                name="minParts"
+                value="{{minParts}}"
+                data-dtype="Number" />
+        </div>
+        <div class="form-group">
+            <label>Assoc Skill:</label>
+            <input
+                type="text"
+                name="assocSkill"
+                value="{{assocSkill}}"
+                data-dtype="String" />
+        </div>
+        <div class="form-group">
+            <label>Zone Die:</label>
+            <select name="zoneDie">
+                {{#select zoneDie}} {{#each const.ZONEDICE}}
+                <option value="{{this}}">d{{this}}</option>
+                {{/each}} {{/select}}
+            </select>
+        </div>
+    </div>
+    <fieldset>
+        <legend>Missile Properties</legend>
+        <div class="flex">
+            <div class="form-group">
+                <label>Projectile Type:</label>
+                <select name="projectileType">
+                    {{#select projectileType}} {{#each const.PROJECTILETYPE}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Max Volley Mult:</label>
+                <input
+                    type="number"
+                    name="maxVolleyMult"
+                    value="{{maxVolleyMult}}"
+                    data-dtype="Number" />
+            </div>
+            <div class="form-group">
+                <label>Base Range:</label>
+                <input
+                    type="number"
+                    name="baseRange"
+                    value="{{baseRange}}"
+                    data-dtype="Number" />
+            </div>
+            <div class="form-group">
+                <label>Draw:</label>
+                <input
+                    type="number"
+                    name="draw"
+                    value="{{draw}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Impact</legend>
+        <div class="flex">
+            <div class="form-group">
+                <label>Aspect:</label>
+                <select name="impactAspect">
+                    {{#select impactAspect}} {{#each const.ASPECTTYPES}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Die:</label>
+                <select name="impactDie">
+                    {{#select impactDie}} {{#each const.IMPACTDICE}}
+                    <option value="{{this}}">d{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Modifier:</label>
+                <input
+                    type="number"
+                    name="impactBase"
+                    value="{{impactBase}}"
+                    data-dtype="Number" />
+            </div>
+        </div>
+    </fieldset>
+</form>

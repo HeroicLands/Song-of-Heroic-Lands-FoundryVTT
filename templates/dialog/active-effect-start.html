@@ -1,0 +1,103 @@
+<form id="active-effect-start">
+    <h2>Effect Start</h2>
+
+    <div class="form-group flexrow">
+        <div class="form-group stacked">
+            <label>Current Start Time:</label>
+            <span>{{displayWorldTime startTime}}</span>
+        </div>
+
+        {{#if combatId}}
+        <div class="form-group stacked">
+            <label>Current Combat Time:</label>
+            <span>Round {{combatRound}}, Turn {{combatTurn}}</span>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="form-group flexrow">
+        <label>Effect Name:</label>
+        <div class="form-fields">
+            {{textInput effectName name="effectName" required=true}}
+        </div>
+    </div>
+
+    <div class="grid grid-2col">
+        <div class="form-group stacked">
+            <label>Target Type</label>
+            <div class="form-fields">
+                <select name="targetType">
+                    {{selectOptions targetTypes selected=type}}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group stacked">
+            <label class="resource-label">Target Name</label>
+            <div class="form-fields resource-value">
+                {{textInput targetName name="targetName"}}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label>Event Start Type</label>
+        <div class="form-fields">
+            {{radioBoxes "startType" startChoices checked=startType}}
+        </div>
+    </div>
+
+    <fieldset id="worldTime">
+        <legend>World Time</legend>
+        <div class="resource">
+            <div class="flexrow">
+                <label class="resource-label time-label">Start Time</label>
+                <a class="alter-time time-control" title="Change Start Time"
+                    data-time="{{startTime}}"
+                    ><i class="fas fa-plus"></i> Change</a>
+            </div>
+            {{displayWorldTime startTime}}
+        </div>
+        <div class="form-group flexrow">
+            <label>Duration (Secs):</label>
+            <div class="form-fields">
+                {{numberInput duration name="duration" required=true}}
+            </div>
+        </div>
+    </fieldset>
+    {{else}}
+    <fieldset id="combatTime">
+        <legend>Combat Time</legend>
+        <div class="flexrow">
+            <div class="form-group stacked">
+                <label class="resource-label">Start Round</label>
+                <div class="form-fields">
+                    {{numberInput combatRound name="combatRound" required=true}}
+                </div>
+            </div>
+            <div class="form-group stacked">
+                <label class="resource-label">Start Turn</label>
+                <div class="form-fields">
+                    {{numberInput combatTurn name="combatTurn" required=true}}
+                </div>
+            </div>
+        </div>
+        <div class="flexrow">
+            <div class="form-group stacked">
+                <label class="resource-label">Duration Rounds</label>
+                <div class="form-fields">
+                    {{numberInput durationRounds name="durationRounds" required=true}}
+                </div>
+            </div>
+            <div class="form-group stacked">
+                <label class="resource-label">Duration Turns</label>
+                <div class="form-fields">
+                    {{numberInput durationTurns name="durationTurns" required=true}}
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+</form>

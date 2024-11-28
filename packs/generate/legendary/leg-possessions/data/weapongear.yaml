@@ -1,0 +1,2454 @@
+- id: PeH3MPvcfb0Z0eS7
+  name: Battleaxe
+  type: Axe
+  img: systems/sohl/assets/icons/battle-axe.svg
+  durability: 12
+  weight: 6
+  value: 108
+  heft: 17
+  length: 6
+  noblock: false
+  abbrev: BAxe
+  createdEventId: QeHHpdmYojnZ5jMc
+  description: |-
+    <p>The battleaxe is a formidable weapon featuring a heavy, broad blade mounted on a long handle. It is designed for powerful, cleaving strikes used to split shields, armor, and bones. In the heat of battle, warriors wield the battleaxe in sweeping motions, leveraging the momentum of its weight to deliver devastating blows. Its considerable reach and impact make it effective for both infantry and cavalry.</p>
+    <p>Common variants of the battleaxe include the Danish axe, known for its elongated, crescent-shaped blade ideal for slashing and hooking movements, and the pollaxe, which features a hammer or spike on the reverse side, adding versatility in combat against armored foes.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#axes">Medieval Battle Axes</a></li>
+    <li><a href="https://royalarmouries.org/collection/">Royal Armouries: European Arms and Armour</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: RtCK7eRRsiCFr7Qi
+  name: Handaxe
+  type: Axe
+  img: systems/sohl/assets/icons/axe.svg
+  durability: 11
+  weight: 4
+  value: 84
+  heft: 13
+  length: 5
+  noblock: false
+  abbrev: HAxe
+  createdEventId: 0Rj159TO1fNSDvvX
+  description: |-
+    <p>The handaxe is a small, one-handed weapon perfect for close-quarter combat and utility tasks. It features a short handle and a single blade, offering the balance and versatility needed for fast, precise strikes. In medieval warfare, the handaxe is often paired with a shield for defense while delivering quick, chopping blows to opponents.</p>
+    <p>Variants of the handaxe include the tomahawk, known for its straight handle and lightweight construction, and the francisca, a throwing axe used by the Franks, designed for both melee and ranged combat applications.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.realmofhistory.com/2018/02/26/10-facts-francisca-frankish">Francesca: The Throwing Axe of the Franks</a></li>
+    <li><a href="https://www.americantomahawk.com/pages/tomahawk-history">Tomahawk and Hatchet History</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: ZiZtg2TWwtkDoeHJ
+  name: Hatchet
+  type: Axe
+  img: systems/sohl/assets/icons/axe.svg
+  durability: 9
+  weight: 2
+  value: 6
+  heft: 10
+  length: 4
+  noblock: false
+  abbrev: Hcht
+  createdEventId: V4TqEHsxBkKWxcIt
+  description: |-
+    <p>The hatchet is a compact, versatile tool that also serves as a weapon. With a short handle and a sturdy, sharp blade, the hatchet is perfect for close combat and general utility tasks such as chopping wood or crafting. In battle, it is used for quick, forceful strikes at close range, making it a reliable secondary weapon.</p>
+    <p>Specialized variants include throwing hatchets, designed for balanced flight and accuracy, and heavy-duty versions, which are more robust for splitting wood and performing other demanding tasks.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.instructables.com/History-of-the-Hatchet/">The History of the Hatchet</a></li>
+    <li><a href="https://www.forestschoolshop.co.uk/hints-and-tips/history-of-the-hatchet/">Traditional Tools: Hatchets</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: iZCrSuwiRH2wjWgg
+  name: Pickaxe
+  type: Axe
+  img: systems/sohl/assets/icons/pickaxe.svg
+  durability: 9
+  weight: 7
+  value: 18
+  heft: 18
+  length: 5
+  noblock: false
+  abbrev: PkAxe
+  createdEventId: 3CRGVcwguOFYzYgo
+  description: |-
+    <p>The pickaxe features a dual-ended head: one side with a pointed pick and the other with a flat adze. Originally a tool for mining, in combat, it is repurposed for its ability to penetrate armor and fortifications. The weapon is swung in powerful arcs to leverage the pointed end for piercing and the adze for chopping or tearing.</p>
+    <p>Variants include the miner&#39;s pickaxe, which is heavier and designed primarily for breaking through hard materials, and lighter versions optimized for faster, efficient strikes in combat scenarios.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.traditionaltools.org/pickaxe/">Understanding the Pickaxe</a></li>
+    <li><a href="https://www.hardwoodhandles.com/pages/the-original-pickaxe">The Original Pickaxe</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 151T3dMzXMoMtwZc
+  name: Sickle
+  type: Axe
+  img: systems/sohl/assets/icons/sickle.svg
+  durability: 9
+  weight: 1
+  value: 10
+  heft: 9
+  length: 3
+  noblock: false
+  abbrev: Skl
+  createdEventId: pWj5mKKziEnCdLuH
+  description: |-
+    <p>The sickle is originally an agricultural tool repurposed as a weapon for its sharp, curved blade. It is primarily used for slashing motions, making it effective in close combat against unarmored or lightly armored foes. Peasants and irregular troops often wield sickles as impromptu weapons during uprisings.</p>
+    <p>Variants include the billhook, which has a longer handle and a more robust blade, providing additional reach and cutting power. The kama, a similar weapon from Japan, is also used in martial arts and has both combat and gardening applications.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/sickle-agriculture">Sickle as a Tool and Weapon</a></li>
+    <li><a href="https://www.traditionaltools.org/billhook-and-kama/">Billhook and Kama: Sickle Variants</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: rnhIdHoRpWS9hipo
+  name: Throwing Axe
+  type: Axe
+  img: systems/sohl/assets/icons/axe.svg
+  durability: 10
+  weight: 2
+  value: 48
+  heft: 10
+  length: 5
+  noblock: false
+  abbrev: Shkn
+  createdEventId: L2MvnBIaxFATIOsY
+  description: |-
+    <p>A throwing axe is a specialized weapon designed for being hurled at targets with precision and force. Typically featuring a weighted head and a balanced handle, the throwing axe utilizes the momentum and rotation generated by the thrower to ensure the blade strikes the target effectively.  Characterized by their distinctive curved blade, the throwing axe creates a tumbling motion that increases the likelihood of inflicting damage upon impact, regardless of which part of the axe hits the target. </p>
+    <p>In combat, the throwing axe is used to disrupt enemy lines just before engaging in melee fighting. Warriors would throw their axes at advancing foes to break shields, injure soldiers, and create chaos among ranks. This tactic weakens the enemy&#39;s front line, making them vulnerable to subsequent close-quarters attacks. The throwing axe thus plays a crucial role in both offensive and defensive military strategies, serving as a precursor to direct combat by maximizing initial damage and disarray.</p>
+    <p>For further information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#throwingaxes">Medieval Weaponry: Throwing Axes on Medieval Warfare Info</a></li>
+    <li><a href="https://www.ancient.eu/Francisca/">The Francisca: A Medieval Throwing Axe on Ancient.eu</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 9arQDGIipaW8T5ul
+  name: Warhammer
+  type: Axe
+  img: systems/sohl/assets/icons/warhammer.svg
+  durability: 11
+  weight: 4
+  value: 84
+  heft: 13
+  length: 5
+  noblock: false
+  abbrev: Whmr
+  createdEventId: KdfQBRhbH51T3rbN
+  description: |-
+    <p>The warhammer is a weapon designed to deliver blunt force trauma, featuring a heavy, hammer-like head on one side and often a piercing spike on the other. It is used to hammer and crush armor, delivering powerful, concussive strikes that can incapacitate an opponent even if the armor is not penetrated. The spike is useful for piercing armor&#39;s weaker points.</p>
+    <p>Common variants include the maul, which features a larger, heavier hammerhead, and the lucerne hammer, which incorporates additional spikes and flanges for increased utility in combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Warhammer - Arms and Armour in Medieval Europe</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#hammer">Medieval Weapons: War Hammer</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: sVa6nVcQxN6bqf0L
+  name: Wood Axe
+  type: Axe
+  img: systems/sohl/assets/icons/axe.svg
+  durability: 9
+  weight: 5
+  value: 12
+  heft: 16
+  length: 5
+  noblock: false
+  abbrev: WAxe
+  createdEventId: iXUtbVVHHrVCcuHN
+  description: |-
+    <p>The wood axe is primarily a tool for chopping wood but can be adapted for use in combat. It features a longer handle and a broad, heavy blade for powerful, cleaving strokes. In battle, it is less common due to its primary function, but it can deliver substantial, sweeping blows when needed.</p>
+    <p>Variants include the felling axe, designed for cutting down trees with its finely honed blade, and the splitting axe, which has a thicker head for splitting logs.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.americanaxefactorymuseum.com/history/">The History of the Axe</a></li>
+    <li><a href="https://www.woodmagazine.com/materials-guide/tools/history-of-the-axe">Traditional Wood Axes</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: QRiORm95BTr4XREA
+  name: Blowgun
+  type: Blowgun
+  img: systems/sohl/assets/icons/blowgun.svg
+  durability: 8
+  weight: 1
+  value: 30
+  heft: 10
+  length: 0
+  noblock: false
+  abbrev: BGun
+  createdEventId: UkDID4khRhre9mWO
+  description: |-
+    <p>The blowgun is a simple ranged weapon consisting of a long, narrow tube through which projectiles such as darts are blown. It relies on the user’s lung capacity to expel the dart with sufficient force. While not commonly associated with medieval European warfare, it sees use in various cultures around the world, particularly in hunting and assassination.</p>
+    <p>Variants include the Japanese fukiya, which is used in traditional Japanese martial arts, and the South American blowgun, which often employs poison-tipped darts for increased lethality.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.militaryhistory.org/articles/the-blowgun-what-you-need-to-know.htm">The History and Use of the Blowgun</a></li>
+    <li><a href="https://www.swordsofmight.com/blowgun-weapon-history/">Traditions of the Blowgun</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: SKuhS0wEblXOmOlt
+  name: Composite Bow 100
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 12
+  weight: 3
+  value: 540
+  heft: 12
+  length: 4
+  noblock: false
+  abbrev: CBw100
+  createdEventId: yKTiBLnsWErN5qFI
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: eVIPrpvF4wOv9asM
+  name: Composite Bow 120
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 12
+  weight: 4
+  value: 600
+  heft: 13
+  length: 4
+  noblock: false
+  abbrev: CBw120
+  createdEventId: 5kh0dMspJ3oCtvoR
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: y8trdeWcTIxJch7W
+  name: Composite Bow 140
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 12
+  weight: 4
+  value: 660
+  heft: 13
+  length: 4
+  noblock: false
+  abbrev: CBw140
+  createdEventId: e7VSUJXI1ZHoFtG8
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 1XHE433lMCMaDjvu
+  name: Composite Bow 40
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 2
+  value: 360
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: CBw40
+  createdEventId: 1pIyHJWYe2XcotTa
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: wqQirtSicsibG8ip
+  name: Composite Bow 60
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 2
+  value: 420
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: CBw60
+  createdEventId: KaYBVbMXWjc6mfhW
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: qkDtym8AHiF4DrMt
+  name: Composite Bow 80
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 3
+  value: 480
+  heft: 12
+  length: 4
+  noblock: false
+  abbrev: CBw80
+  createdEventId: F5bHoAhoyitalhrD
+  description: |-
+    <p>The composite bow is a highly efficient and powerful bow made from multiple materials such as wood, horn, and sinew. These materials are layered to create a bow with superior strength and elasticity. In combat, it excels in both mounted and foot archery, providing excellent range, power, and accuracy.</p>
+    <p>Variants include the Mongolian composite bow, which is shorter and designed for use on horseback, and the Persian composite bow, known for its exceptional craftsmanship and performance.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-composite-bow/">The Art of the Composite Bow</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/yari/hd_yari.htm">Ancient Weapons: Composite Bow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: DaJiW4RWuvOYLB9T
+  name: Longbow 100
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 10
+  weight: 3
+  value: 54
+  heft: 13
+  length: 6
+  noblock: false
+  abbrev: LBw100
+  createdEventId: K1SDVAXZU69Y6nj1
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 2D8bccD7IaGE81m7
+  name: Longbow 125
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 3
+  value: 63
+  heft: 13
+  length: 6
+  noblock: false
+  abbrev: LBw125
+  createdEventId: OScR0kzjhFzy7x3J
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Po5sBJKLMr2pgC0N
+  name: Longbow 150
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 4
+  value: 72
+  heft: 14
+  length: 7
+  noblock: false
+  abbrev: LBw150
+  createdEventId: zO2VUp1RxMt9peR0
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 4Y0zPMrFAwBMsgPt
+  name: Longbow 175
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 11
+  weight: 4
+  value: 81
+  heft: 14
+  length: 7
+  noblock: false
+  abbrev: LBw175
+  createdEventId: GGM444AUOdaeqBQ4
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 2ukbTddPtKvHuMjj
+  name: Longbow 50
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 10
+  weight: 2
+  value: 36
+  heft: 12
+  length: 5
+  noblock: false
+  abbrev: LBw50
+  createdEventId: tJVnv8I6H2GVxC3O
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: stIt7vogUhgZtDTE
+  name: Longbow 75
+  type: Bow
+  img: systems/sohl/assets/icons/longbow.svg
+  durability: 10
+  weight: 2
+  value: 45
+  heft: 12
+  length: 5
+  noblock: false
+  abbrev: LBw75
+  createdEventId: gdkvGoIXTR7WzGnU
+  description: |-
+    <p>The longbow is a powerful and long-ranged bow used predominantly by English archers. It features a tall, narrow stave that allows for a long draw length, maximizing the potential energy stored in the bow. Archers use the longbow to launch arrows over great distances with remarkable accuracy, making it effective for both battlefield engagements and sieges.</p>
+    <p>Common variants include the English longbow, renowned for its use during battles like Agincourt, and the Welsh longbow, which has similar design features but adapted to local materials and techniques.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-longbow/">The History of the Longbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#b">Longbow: Construction and Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: pX3qKPrPcgPMjsX5
+  name: Boomerang
+  type: Club
+  img: systems/sohl/assets/icons/boomerang.svg
+  durability: 11
+  weight: 1
+  value: 15
+  heft: 8
+  length: 3
+  noblock: false
+  abbrev: Bmrg
+  createdEventId: CaQ6kgC5074cLgeZ
+  description: |-
+    <p>The boomerang is a curved throwing tool that returns to the thrower when thrown correctly. Used primarily for hunting, it also finds application as a weapon in some cultures. Its flight path is stable and predictable, making it useful for striking targets at a distance.</p>
+    <p>Variants include the returning boomerang, which is designed to come back to the thrower, and the non-returning boomerang, which is heavier and used like a throwing stick to hit targets directly.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.scientificamerican.com/article/the-first-boomerang">The Ancient History of the Boomerang</a></li>
+    <li><a href="https://www.nationalgeographic.com/history">Boomerang Use in Various Cultures</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: CsKoW7OcMvIoyZN5
+  name: Club
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 9
+  weight: 3
+  value: 12
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: Clb
+  createdEventId: cCrckRsYcTf07tIa
+  description: |-
+    <p>The club is one of the simplest and oldest weapons, consisting of a heavy, blunt head affixed to a handle. It delivers powerful, concussive blows to incapacitate or kill an opponent. Clubs are easy to make and highly effective, making them a popular choice for peasant armies and irregular troops.</p>
+    <p>Variants include the mace, which features a more refined design with additional weight and sometimes spikes or flanges for increased damage, and the cudgel, a shorter, heavier club used for close combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-club/">History of the Club in Warfare</a></li>
+    <li><a href="https://www.weaponhistory.com/club-weapon-overview-and-history">Ancient and Medieval Clubs</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: C4KPc3hjFv6KfIbP
+  name: Club, Improvised
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 8
+  weight: 3
+  value: 0
+  heft: 12
+  length: 4
+  noblock: false
+  abbrev: ClbImp
+  createdEventId: zBCU5CjhX8urzxb0
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 5MB9HLkTUNScCTDW
+  name: Club, Large
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 9
+  weight: 5
+  value: 18
+  heft: 14
+  length: 5
+  noblock: false
+  abbrev: ClbLg
+  createdEventId: 09Wlifffe8GqBThb
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 14K5PZes1RJUsm7H
+  name: Crowbar
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 11
+  weight: 6
+  value: 9
+  heft: 16
+  length: 4
+  noblock: false
+  abbrev: Crwbr
+  createdEventId: cdswWKFKy6SJyUtv
+  description: |-
+    <p>The crowbar, while primarily a tool for prying and levering, can serve as a weapon. It features a long metal shaft with one end curved into a claw for prying and the other tapered to a point. In combat, it is used for powerful, blunt attacks and leveraging techniques.</p>
+    <p>While not designed as a weapon, its versatility and availability make it a practical choice for armed conflicts when conventional weapons are not accessible.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a344/crowbars-4058014/">The Crowbar and Its Uses</a></li>
+    <li><a href="https://www.historyoftools.com/crowbar-history">Crowbars: Tools or Weapons</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: HSggjzbSPU2MvMvG
+  name: Cudgel
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 9
+  weight: 3
+  value: 12
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: Cdgl
+  createdEventId: O0xR0gYSS5iXLE0m
+  description: |-
+    <p>The cudgel is a short, thick club designed for close-quarters combat. It is a simple weapon, easy to wield and effective at delivering blunt force trauma. In battle, the cudgel is swung with one or both hands to incapacitate opponents with its heavy strikes.</p>
+    <p>This weapon is often used by peasants and lower-class fighters, as it can be made from any solid piece of wood or metal, making it a readily available and efficient tool for self-defense.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/the-cudgel-in-history">Cudgels in Historical Context</a></li>
+    <li><a href="https://www.martialartshistory.com/cudgel-history">History of Martial Arts Weapons: The Cudgel</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Jfu4nHF79lOF9R7g
+  name: Gada
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Gada
+  createdEventId: R3U0065NC30U6LoP
+  description: |-
+    <p>The gada is a traditional Indian mace with a long handle and a heavy, often spiked, bulbous head designed for delivering powerful, crushing blows. It is a symbol of strength and valor in Indian mythology, famously associated with the deity Hanuman. In combat, the gada is used to break through shields and armor with its sheer weight and impact force.</p>
+    <p>Variants include the heavy war gada, designed for maximum damage, and ceremonial versions, which are often decorated and used in rituals.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.academia.edu/1234570/Indian_Gada">The Gada Mace: History and Symbolism</a></li>
+    <li><a href="https://www.historyextra.com/period/the-mace-in-indian-warfare/">The Strength of the Gada</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Ql08V4MDq3SgEWjH
+  name: Mace, Steel Handle
+  type: Club
+  img: systems/sohl/assets/icons/flanged-mace.svg
+  durability: 12
+  weight: 4
+  value: 108
+  heft: 13
+  length: 4
+  noblock: false
+  abbrev: StlMce
+  createdEventId: 2twoboYhVT1ESZ0S
+  description: |-
+    <p>The steel handle mace is a blunt weapon with a heavy head, often spiked or flanged, mounted on a sturdy handle. Designed to break through armor and cause significant blunt force trauma, it is a preferred weapon for fighting heavily armored opponents. The steel handle makes it more durable and less susceptible to damage.</p>
+    <p>Common variants include the flanged mace, which features multiple protrusions to concentrate the force of a blow, and the spiked mace, which adds piercing capabilities to its blunt force impact.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://royalarmouries.org/media/">Royal Armouries: Mace</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Arms and Armor – Mace</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: bm9SbGIuZs3AH5f4
+  name: Mace, Wood Handle
+  type: Club
+  img: systems/sohl/assets/icons/flanged-mace.svg
+  durability: 11
+  weight: 3
+  value: 84
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: WdMce
+  createdEventId: PuJWGUiAMAI20hAB
+  description: |-
+    <p>The wood handle mace features a heavy, blunt head, often spiked or flanged, mounted on a wooden handle. This makes it lighter and easier to wield compared to its steel-handled counterpart. In combat, it delivers powerful, armor-crushing blows that can incapacitate or kill an opponent.</p>
+    <p>Variants include the flanged head, designed to focus the impact force and break through armor plate, and the ball and chain variant, which adds flexibility to the weapon, allowing for dynamic striking patterns.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://medievalwarfare.info/weapons.htm#buckler">Understanding Maces in Medieval Warfare</a></li>
+    <li><a href="https://www.weaponhistory.com/mace-weapon-overview-and-history">Historical Weaponry: Maces</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: r9NZxajV7MkTZUxW
+  name: Maul
+  type: Club
+  img: systems/sohl/assets/icons/hammer.svg
+  durability: 12
+  weight: 7
+  value: 96
+  heft: 18
+  length: 5
+  noblock: false
+  abbrev: Maul
+  createdEventId: rTSTxbH20l00tD0J
+  description: |-
+    <p>The maul is a large, heavy hammer-like weapon designed for delivering powerful, crushing blows. It features a long handle and a broad, massive head, which can be swung with great force to break shields, armor, and bones. The maul is particularly effective in siege warfare for breaking down doors and fortifications.</p>
+    <p>Common variants include the splitting maul, primarily used for splitting wood but effective against fortified doors in combat, and the medieval war maul, which is specifically designed for battlefield use with a reinforced head and handle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a344/the-maul-4058014/">The Maul: Its History and Uses</a></li>
+    <li><a href="https://www.historyextra.com/period/historical-tools/">Mauls in Warfare and Construction</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: c8FbFCrF09XPfy5w
+  name: Morningstar
+  type: Club
+  img: systems/sohl/assets/icons/mace.svg
+  durability: 11
+  weight: 5
+  value: 48
+  heft: 15
+  length: 5
+  noblock: false
+  abbrev: MgStr
+  createdEventId: ZyBo0gbZrzvw6xii
+  description: |-
+    <p>The morningstar is a spiked club or mace designed to deliver both blunt and piercing damage. It features a heavy, rounded head adorned with spikes, making it highly effective against both armor and flesh. In battle, it is used to deliver powerful, crushing strikes that can pierce through armor or cause severe blunt force injuries.</p>
+    <p>Variants include the flail morningstar, which has the spiked head attached to a chain, allowing for flexible striking, and the fixed-head morningstar, which provides more control and impact force.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a351/morningstar-4058025/">The Morningstar: Development and Use</a></li>
+    <li><a href="https://www.martialartshistory.com/morningstar-history">Historical Weapons: Morningstar</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: SEpQZB9ufqHIt0IJ
+  name: Sledgehammer
+  type: Club
+  img: systems/sohl/assets/icons/hammer.svg
+  durability: 10
+  weight: 6
+  value: 24
+  heft: 18
+  length: 5
+  noblock: false
+  abbrev: SlgHmr
+  createdEventId: SnobhW12zPAKDS9U
+  description: |-
+    <p>The sledgehammer is a large, heavy hammer used primarily as a tool for construction but also adapted for combat in certain situations. It features a long handle and a massive head designed for delivering powerful, crushing blows. In siege warfare, it is used to break down fortifications, doors, and other structures.</p>
+    <p>While not typically a primary weapon, the sledgehammer&#39;s sheer force makes it a formidable tool in close combat situations, particularly in breaking through defensive structures or armor.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-sledgehammer/">History of the Sledgehammer</a></li>
+    <li><a href="https://www.popularmechanics.com/science/tools/a350/sledgehammer-4058057/">Sledgehammer Uses in Construction and Combat</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: qYFSh2Fr38UHKT5f
+  name: Stick
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 8
+  weight: 1
+  value: 6
+  heft: 9
+  length: 3
+  noblock: false
+  abbrev: Stk
+  createdEventId: uNb1tOuk5SPmRpyO
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: D4bOi6ZeH9IatTsy
+  name: Truncheon
+  type: Club
+  img: systems/sohl/assets/icons/club.svg
+  durability: 9
+  weight: 3
+  value: 12
+  heft: 11
+  length: 4
+  noblock: false
+  abbrev: Trunch
+  createdEventId: vRx5dFMxWZ3B60nY
+  description: |-
+    <p>The truncheon is a short, stout club used primarily by law enforcement and security personnel. It features a handle designed for easy gripping and a weighted head to deliver blunt force trauma. In medieval times, it serves as a tool for crowd control and subdue without lethal force.</p>
+    <p>Variants include the baton, which is lighter and easier to maneuver, and the nightstick, which features an additional handle for a more secure grip and greater control during striking.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-truncheon/">The Truncheon: History and Function</a></li>
+    <li><a href="https://www.popularmechanics.com/science/tools/a385/truncheon-4058029/">Law Enforcement Tools: Truncheon</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: OxkcJeJalqCCxNI7
+  name: Composite Crossbow 200
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 11
+  weight: 7
+  value: 144
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: CCxBw200
+  createdEventId: pnWj4oryWGBJ4zEM
+  description: |-
+    <p>The composite crossbow integrates materials such as wood, horn, and sinew into its design, making it more powerful and effective than simple wooden crossbows. Used in both siege warfare and on the battlefield, it provides high-powered, accurate shots over long distances. The mechanical advantage allows soldiers of varying strength to use it effectively.</p>
+    <p>Variants include the repeating crossbow, which features a mechanism for rapid firing, and the Chinese composite crossbow, known for its innovative design and effectiveness in battle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-crossbow/">The Crossbow: An Ancient Engine of War</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#crossbow">Medieval Weapons: Composite Crossbow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: TcKGyr36ZsQg10xl
+  name: Composite Crossbow 300
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 12
+  weight: 9
+  value: 204
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: CCxBw300
+  createdEventId: rLfCqKzaWMtppr4L
+  description: |-
+    <p>The composite crossbow integrates materials such as wood, horn, and sinew into its design, making it more powerful and effective than simple wooden crossbows. Used in both siege warfare and on the battlefield, it provides high-powered, accurate shots over long distances. The mechanical advantage allows soldiers of varying strength to use it effectively.</p>
+    <p>Variants include the repeating crossbow, which features a mechanism for rapid firing, and the Chinese composite crossbow, known for its innovative design and effectiveness in battle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-crossbow/">The Crossbow: An Ancient Engine of War</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#crossbow">Medieval Weapons: Composite Crossbow</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: o9uvddcjqpyIAFdW
+  name: Kúzan Steelbow
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 14
+  weight: 12
+  value: 288
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: KznStlbw
+  createdEventId: SDy88OAeDW8UjEd6
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: WfPlINJLt2stPJbx
+  name: Wooden Crossbow 120
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 10
+  weight: 4
+  value: 84
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: WCxBw120
+  createdEventId: cd3gI2coEuHKdGeM
+  description: |-
+    <p>The wooden crossbow is a simpler variant of the crossbow, made entirely from wood and string. It is one of the earliest forms of this weapon, providing a mechanical advantage over traditional bows. Archers use it to deliver powerful, accurate bolts over medium to long distances, suitable for both sieges and battlefield engagements.</p>
+    <p>Common variants include the arbalest, a larger and more powerful wooden crossbow, and the hand crossbow, which is smaller and easily maneuverable.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a384/wooden-crossbow-4058051/">History of the Wooden Crossbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#arbalest">Medieval Crossbows</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: d0WpYxGlFA3a33q3
+  name: Wooden Crossbow 160
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 10
+  weight: 5
+  value: 96
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: WCxBw160
+  createdEventId: QYCjpBPxG4OXgDcA
+  description: |-
+    <p>The wooden crossbow is a simpler variant of the crossbow, made entirely from wood and string. It is one of the earliest forms of this weapon, providing a mechanical advantage over traditional bows. Archers use it to deliver powerful, accurate bolts over medium to long distances, suitable for both sieges and battlefield engagements.</p>
+    <p>Common variants include the arbalest, a larger and more powerful wooden crossbow, and the hand crossbow, which is smaller and easily maneuverable.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a384/wooden-crossbow-4058051/">History of the Wooden Crossbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#arbalest">Medieval Crossbows</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: jGe6fjplOSPfQ32V
+  name: Wooden Crossbow 80
+  type: Crossbow
+  img: systems/sohl/assets/icons/crossbow.svg
+  durability: 10
+  weight: 3
+  value: 60
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: WCxBw80
+  createdEventId: k8aRRDmzTLCXR3n8
+  description: |-
+    <p>The wooden crossbow is a simpler variant of the crossbow, made entirely from wood and string. It is one of the earliest forms of this weapon, providing a mechanical advantage over traditional bows. Archers use it to deliver powerful, accurate bolts over medium to long distances, suitable for both sieges and battlefield engagements.</p>
+    <p>Common variants include the arbalest, a larger and more powerful wooden crossbow, and the hand crossbow, which is smaller and easily maneuverable.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.popularmechanics.com/science/tools/a384/wooden-crossbow-4058051/">History of the Wooden Crossbow</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#arbalest">Medieval Crossbows</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: lU0DRdXtAk6K7BUt
+  name: Ball & Chain Flail
+  type: Flail
+  img: systems/sohl/assets/icons/flail.svg
+  durability: 12
+  weight: 4
+  value: 72
+  heft: 14
+  length: 5
+  noblock: false
+  abbrev: B&CFl
+  createdEventId: Chme5lIrjeYySuYD
+  description: |-
+    <p>The ball-and-chain flail consists of a heavy metal ball attached to a handle via a chain. This design allows for dynamic, sweeping attacks capable of overcoming shields and armor. The flexibility of the chain makes the weapon difficult to block and easy to entangle enemies&#39; defenses.</p>
+    <p>Variants include the single-ball flail, which offers better control and impact focus, and the multi-ball flail, which increases the chances of a successful strike with multiple swinging heads.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-flail/">History of the Flail</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#flail">Medieval Weapons: Flail</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: PZ928gsyeidvMtuo
+  name: Grainflail
+  type: Flail
+  img: systems/sohl/assets/icons/grainflail.svg
+  durability: 9
+  weight: 3
+  value: 16
+  heft: 11
+  length: 5
+  noblock: false
+  abbrev: GrnFl
+  createdEventId: 372ToY8vmbFPtyFE
+  description: |-
+    <p>The grainflail, primarily an agricultural tool for threshing grain, is occasionally adapted as a weapon. It consists of two wooden sticks connected by a short chain or leather thong. In combat, it is swung to deliver rapid, consecutive strikes. It is favored for its reach and the unpredictability of its attacks.</p>
+    <p>Common variants include the nunchaku, derived from similar agricultural tools and now used in martial arts, and the warflail, specifically adapted for combat with more robust construction.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-the-flail/">The Grain Flail - From Tool to Weapon</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#grainflail">Historical Approaches to the Grain Flail</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 8XkM69WwCDD6to7G
+  name: Meteor Dart
+  type: Flail
+  img: systems/sohl/assets/icons/flail.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Biao
+  createdEventId: 2BcMPebYqhlpvLBG
+  description: <p>The sheng biao, also known as a meteoric dart, is a small, pointed weapon attached to a rope designed for throwing. It often features a weighted end to stabilize its flight and enhance its penetrating power. In combat, it is used to disrupt and injure opponents from a distance, complementing close-range weapons by providing a ranged attack option.</p>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Df8gMsCyX334UUNT
+  name: Net
+  type: Flail
+  img: systems/sohl/assets/icons/net.svg
+  durability: 9
+  weight: 4
+  value: 48
+  heft: 12
+  length: 2
+  noblock: true
+  abbrev: Net
+  createdEventId: pwLK8UswiTKlxIgr
+  description: |-
+    <p>The net is a versatile tool used in both hunting and combat. It is thrown to entangle and immobilize an opponent, making them an easy target for follow-up attacks. In gladiatorial combat, the retarius uses the net alongside a trident for flexible offensive and defensive maneuvers. The weight and design of the net allow it to spread wide and capture adversaries effectively.</p>
+    <p>Variants of the net include the weighted net, which has metal weights to ensure better entanglement, and the fishing net, which can be adapted for combat with added weights or hooks. The design and construction depend largely on the intended use, whether for capturing prey or opponents in battle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/history-of-nets-in-combat/">The History and Use of Nets in Warfare</a></li>
+    <li><a href="https://www.ancient.eu/article/805/gladiatorial-weapons-of-ancient-rome/">Gladiatorial Weapons: The Retarius</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: yJgrGmh3iAdZFuvx
+  name: Warflail
+  type: Flail
+  img: systems/sohl/assets/icons/grainflail.svg
+  durability: 11
+  weight: 5
+  value: 60
+  heft: 17
+  length: 6
+  noblock: false
+  abbrev: WFl
+  createdEventId: xLGa0AvyUdukVCA3
+  description: |-
+    <p>The warflail is a sophisticated combat weapon derived from agricultural flails used for threshing grain. It comprises a wooden handle connected to a heavy, spiked head via a chain. The chain allows the weapon to swing freely, making it challenging for an opponent to block or predict its trajectory. The warflail is particularly effective at bypassing shields and causing significant damage even through armor.</p>
+    <p>Variants of the warflail include the single-head warflail, optimized for control, and the double-head warflail, which increases the chances of landing a blow with its unpredictable swinging motion. These adaptations make the warflail versatile and deadly on the battlefield.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Medieval Weapons: War Flail</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#flail">Understanding the Flail in Medieval Combat</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: gmEBhQV7Zjnv99FM
+  name: Whip
+  type: Flail
+  img: systems/sohl/assets/icons/whip.svg
+  durability: 9
+  weight: 2
+  value: 12
+  heft: 9
+  length: 10
+  noblock: false
+  abbrev: Whp
+  createdEventId: ZCGeRCtw0rjXf31t
+  description: |-
+    <p>The whip is a flexible, elongated strip of leather or cord used primarily for inflicting pain through lashes. It is swung to generate high velocity at its tip, delivering stinging pain and sometimes cutting the skin. In combat, the whip serves both as a weapon and a tool for intimidation. Warriors often use it to disarm or entangle their opponents.</p>
+    <p>Variants include the bullwhip, known for its powerful, single-strand design, and the cat-o&#39;-nine-tails, which has multiple strands designed to increase the inflicted pain and damage. Each variant offers a unique approach to combat and control.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.deephistory.org/history-of-the-whip/">The History and Use of Whips</a></li>
+    <li><a href="https://www.historicuk.com/CultureUK/Whips-in-History/">Martial Arts and Historical Uses of the Whip</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: C5LbX1fHZVwrb6nV
+  name: Whip, Reksyni
+  type: Flail
+  img: systems/sohl/assets/icons/whip.svg
+  durability: 10
+  weight: 3
+  value: 24
+  heft: 10
+  length: 10
+  noblock: false
+  abbrev: RWhp
+  createdEventId: 3ivVkGHdiORgkZsD
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: t5T8WtrQ3MljAU1c
+  name: Whip, Teamster
+  type: Flail
+  img: systems/sohl/assets/icons/whip.svg
+  durability: 9
+  weight: 1
+  value: 6
+  heft: 9
+  length: 4
+  noblock: false
+  abbrev: TWhp
+  createdEventId: zXG9i888N38OoOJI
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: LDxnrcyhRCyVyGQK
+  name: Bagh Nakh
+  type: Knife
+  img: systems/sohl/assets/icons/broad-dagger.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: BghNkh
+  createdEventId: Mubu4CXDUE37Uk7d
+  description: |-
+    <p>The bagh nakh, or &quot;tiger claw,&quot; is a traditional Indian weapon consisting of a claw-like metal device worn on the hands. It is used for slashing and ripping, designed to mimic the claws of a tiger. In combat, the bagh nakh is utilized in close-quarters fighting for surprise attacks, capable of inflicting severe wounds.</p>
+    <p>Variants include the miniaturized bagh nakh for easy concealment and the larger versions designed for more aggressive attacks.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://armsandarmor.com/explore/bagh-nakh/">The Bagh Nakh: History and Use</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/baghnakh/hd_baghnakh.htm">Traditional Indian Weapons: The Bagh Nakh</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: po0MtDrMbBIcNdyH
+  name: Bodkin
+  type: Knife
+  img: systems/sohl/assets/icons/broad-dagger.svg
+  durability: 12
+  weight: 2
+  value: 36
+  heft: 7
+  length: 3
+  noblock: false
+  abbrev: Kel
+  createdEventId: o2txm0qGTKlUoNI1
+  description: |-
+    <p>The Bodkin is a type of throwing knife, distinguished by its thin, pointed blade designed to penetrate armor and other protective coverings. The bodkin typically features a narrow, tapering design that allows it to focus the kinetic energy of a throw into a small surface area, making it particularly effective at piercing chainmail and lightly armored targets. The blade’s simplicity and lack of ornamental detailing are a testament to its utilitarian purpose on the battlefield, emphasizing function over form.</p>
+    <p>In combat, bodkin throwing knives are used to weaken and injure opponents from a distance before closing for melee engagements. Soldiers and specialized throwers employ bodkins to disrupt enemy formations, specifically targeting the gaps and weaker points in an opponent’s armor. This capability makes bodkins an invaluable asset in both open battle and during sieges, where the ability to inflict damage through armor can considerably shift the advantage. Apart from their battlefield use, bodkins also serve practical purposes in everyday tasks, further emphasizing their versatility and utility.</p>
+    <p>For further information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#throwingknives">Throwing Weapons in Medieval Warfare</a></li>
+    <li><a href="https://www.traditionalbowhunter.com/archive/points-bodkin">Understanding Bodkin Points and Their Use</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 2F1GQNY7FtnuzueG
+  name: Chakram
+  type: Knife
+  img: systems/sohl/assets/icons/circle.svg
+  durability: 11
+  weight: 0.5
+  value: 3
+  heft: 7
+  length: 3
+  noblock: false
+  abbrev: Chak
+  createdEventId: jaEd1so4fYYdybHx
+  description: |-
+    <p>The chakram is a circular, flat metal disc with a sharpened outer edge, used primarily by South Asian warriors. It is thrown like a frisbee to cut through enemies at a distance. The chakram can also be used in close combat, held in the hand for slashing movements. Its aerodynamic design allows it to travel long distances with speed and precision.</p>
+    <p>Variants include the smaller, concealed chakram, which can be hidden on the body for surprise attacks, and larger versions designed for greater reach and penetration. The weapon demands skill and practice to use effectively, making it a specialized tool for trained warriors.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.ancient.eu/Chakram/">The History and Use of Chakram</a></li>
+    <li><a href="https://opedia.org/ancient-india-weaponry/chakram/">Traditional Indian Weapons: The Chakram</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 9ijT9drcTK805O5F
+  name: Dagger
+  type: Knife
+  img: systems/sohl/assets/icons/broad-dagger.svg
+  durability: 11
+  weight: 1
+  value: 24
+  heft: 7
+  length: 3
+  noblock: false
+  abbrev: Dgr
+  createdEventId: Dg48dBTIwNaJ52JK
+  description: |-
+    <p>The dagger is a short, pointed weapon designed for stabbing and thrusting. It typically features a double-edged blade and a sturdy hilt, making it ideal for close combat and self-defense. Daggers are often carried as a secondary weapon, providing a reliable option for quick, lethal strikes when a larger weapon is impractical.</p>
+    <p>Variants include the rondel dagger, characterized by its round handle and straight, narrow blade, and the misericorde, a narrow-bladed dagger used to deliver a mercy stroke to a severely wounded opponent.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/dagr/hd_dagr.htm">Historical Arms: The European Dagger</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#daggers">Medieval Weapons: Daggers</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: QbOkvwNX1cWioyyn
+  name: Katar
+  type: Knife
+  img: systems/sohl/assets/icons/broad-dagger.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Katr
+  createdEventId: 3hhuVzTCFcizTYsA
+  description: |-
+    <p>The katar is an Indian punch dagger characterized by its H-shaped handle, which allows the user to make thrusts with a straight, punching motion. The blade is often wide at the base and tapers to a point, optimized for piercing armor. In combat, the katar is used for close-quarters fighting, delivering fast, powerful thrusts that can penetrate chain mail and plate armor.</p>
+    <p>Variants include the bichwa katar, which incorporates a curved blade resembling a scorpion&#39;s sting, and the gauntlet katar, which features an extended hand guard for additional protection and stability in combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/kat/hd_kat.htm">The Unique Design of the Katar</a></li>
+    <li><a href="https://armsandarmor.com/explore/katar/">Indian Punch Dagger: The Katar</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: ZLDPpPDbHPfTLE2Y
+  name: Knife
+  type: Knife
+  img: systems/sohl/assets/icons/dagger.svg
+  durability: 10
+  weight: 1
+  value: 6
+  heft: 6
+  length: 2
+  noblock: false
+  abbrev: Kni
+  createdEventId: lPoEsHZKcifl71qC
+  description: |-
+    <p>The knife, a fundamental tool and weapon, features a single-edged blade and a straightforward hilt. Knives are used for cutting and slicing in various contexts, from daily tasks to close-quarters combat. In battle, knives serve as secondary weapons, easily accessible for rapid strikes or for finishing incapacitated enemies.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://smithsonianmag.com/history/functions-and-history-of-knives/">The History of the Knife</a></li>
+    <li><a href="https://www.thevikingage.com/content/history/the-germanic-seax">Traditional Blades: The Seax</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: gdtGtzLTi8A8f6D1
+  name: Longknife
+  type: Knife
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 13
+  weight: 2
+  value: 96
+  heft: 7
+  length: 4
+  noblock: false
+  abbrev: LKni
+  createdEventId: GsWRxi7cpIo9fhJe
+  description: |-
+    <p>The longknife, also known as a &quot;long dagger&quot; or &quot;dirk,&quot; features an elongated blade that bridges the gap between a dagger and a short sword. This weapon is ideal for thrusting and slashing, providing the reach to engage opponents at a slightly greater distance than shorter blades. In combat, the longknife is typically used as a secondary weapon, complementing a primary weapon.</p>
+    <p>Variants include the dirk, characterized by its long, straight blade and sturdy hilt, and the stiletto, a slender, elongated dagger optimized for thrusting through gaps in armor.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.scottishhistoryconsulting.co.uk/the-scottish-dirk/">The Scottish Dirk: History and Use</a></li>
+    <li><a href="https://arms2armor.com/dirk/types_stilettos.htm">Renaissance Weapons: The Stiletto</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 03itZtd4heviT9Qv
+  name: Shuriken
+  type: Knife
+  img: systems/sohl/assets/icons/shuriken.svg
+  durability: 11
+  weight: 0.3
+  value: 5
+  heft: 6
+  length: 3
+  noblock: false
+  abbrev: Shrkn
+  createdEventId: hMn0dLKg9fUAyney
+  description: |-
+    <p>Shuriken, or &quot;throwing stars,&quot; are known for their distinctive star-shaped designs. Used primarily for throwing, shuriken are intended to distract or injure opponents from a distance. They are lightweight and easily concealed, making them ideal for surprise attacks.</p>
+    <p>Variants include the hira-shuriken, which are flat and star-shaped, and the bo-shuriken, which are straight and resemble small darts or spikes. Each variant offers different dynamics in terms of flight and impact.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.martialhistory.com/2018/09/shuriken-japanese-throwing-stars">The History and Use of Shuriken</a></li>
+    <li><a href="https://www.japantimes.co.jp/life/2008/04/19/lifestyle/throwing-between-the-lines/#.YJQ4r-hKhPY">Shuriken in Japanese Martial Arts</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 7IYD91ExpmoJb0nz
+  name: Tabûri
+  type: Knife
+  img: systems/sohl/assets/icons/broad-dagger.svg
+  durability: 10
+  weight: 1
+  value: 20
+  heft: 7
+  length: 2
+  noblock: false
+  abbrev: Tabri
+  createdEventId: 8Wx39gdbQc1PoFN6
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: ff5sR8h7GpNK89G5
+  name: Falcastra
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 9
+  weight: 7
+  value: 42
+  heft: 18
+  length: 7
+  noblock: false
+  abbrev: Falcstra
+  createdEventId: df91MNo95iHoEDQG
+  description: |-
+    <p>The falcastra is a type of curved sword. Its design features a single-edged, curved blade optimized for slashing. Warriors use the falcastra for sweeping attacks that can easily cut through flesh and lightly armored opponents.</p>
+    <p>Variants include the shorter falx, which is more compact and easier to maneuver, and the kopis, sharing the falcastra’s curved blade but incorporating a more pronounced forward curve for heavier chopping power.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://ancienthistory.com/dacian-falx/">Historical Weapons: The Falx and Falcastra</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/civs/hd_civs.htm">The Kopis in Ancient Warfare</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: xqWeqWccSXOa9bDD
+  name: Glaive
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 11
+  weight: 7
+  value: 60
+  heft: 18
+  length: 7
+  noblock: false
+  abbrev: Glv
+  createdEventId: 8EFJ6C5eBeFhv3sZ
+  description: |-
+    <p>The glaive is a polearm with a single-edged blade affixed to a long shaft, combining the reach of a spear with the slashing capability of a sword. Warriors use the glaive for sweeping strikes to keep opponents at a distance while delivering powerful cuts. It is effective both against infantry and mounted combatants.</p>
+    <p>Variants include the fauchard, featuring a more pronounced curve in the blade, and the naginata, similar in design but with unique style and execution in martial arts.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.ancient.eu/glaive/">The Glaive in Medieval Warfare</a></li>
+    <li><a href="https://naginata.org/art-of-the-naginata/">Japanese Polearms: The Naginata</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 7qGCDLyqpA1ejoyQ
+  name: Green Dragon Crescent Blade
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: GunDao
+  createdEventId: gHhn3M0VwDA9sqWV
+  description: |-
+    <p>The Green Dragon Crescent Blade is a polearm with a long, curved blade mounted on a substantial shaft. In combat, the weapon is effective for slashing, chopping, and thrusting, providing both reach and cutting power. The weapon&#39;s design allows for sweeping strikes that can cut through multiple opponents, making it a formidable tool in the hands of a trained warrior.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://chinesemartialstudies.com/2012/09/27/the-guan-dao/">The Guan Dao: History and Myth</a></li>
+    <li><a href="https://www.karate-kungfu-uniform.com/guan-dao.html">Traditional Chinese Weapons: The Guan Dao</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: bSh8evwiMWMAqaqn
+  name: Javelin, Barbed
+  type: Polearm
+  img: systems/sohl/assets/icons/spear.svg
+  durability: 10
+  weight: 3
+  value: 36
+  heft: 11
+  length: 5
+  noblock: false
+  abbrev: BarJav
+  createdEventId: VE4juIVR1SFOWxFm
+  description: |-
+    <p>The barbed javelin is a light spear designed for throwing with a barbed end to increase damage and make removal far more difficult. It is used to engage enemies at a distance with the intent to disrupt formations, injure key targets, or initiate combat. Javelins are often carried in bundles, allowing warriors to throw multiple projectiles before closing in for melee combat.</p>
+    <p>Variants include the pilum, designed to bend upon impact to prevent the enemy from throwing it back, and the assegai, a variant optimized for both throwing and close combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historynet.com/javelins/">Javelin Use in Ancient Warfare</a></li>
+    <li><a href="http://www.ancienthistory.com/roman-pilum/">The Roman Pilum</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: r43xJwDBphGaIcDe
+  name: Javelin, Bodkin
+  type: Polearm
+  img: systems/sohl/assets/icons/spear.svg
+  durability: 10
+  weight: 3
+  value: 36
+  heft: 11
+  length: 5
+  noblock: false
+  abbrev: BodJav
+  createdEventId: pITwD4ODQtv8tjxk
+  description: |-
+    <p>The bodkin javelin is a light spear designed for throwing with a barbed end to increase damage and make removal far more difficult. It is used to engage enemies at a distance with the intent to disrupt formations, injure key targets, or initiate combat. Javelins are often carried in bundles, allowing warriors to throw multiple projectiles before closing in for melee combat.</p>
+    <p>Variants include the pilum, designed to bend upon impact to prevent the enemy from throwing it back, and the assegai, a variant optimized for both throwing and close combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historynet.com/javelins/">Javelin Use in Ancient Warfare</a></li>
+    <li><a href="http://www.ancienthistory.com/roman-pilum/">The Roman Pilum</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: ZpTxK5WRmlI6Jc3C
+  name: Jousting Pole
+  type: Polearm
+  img: systems/sohl/assets/icons/lance.svg
+  durability: 8
+  weight: 6
+  value: 40
+  heft: 16
+  length: 8
+  noblock: false
+  abbrev: JPole
+  createdEventId: yUGTNFzUx8W4T6lJ
+  description: |-
+    <p>The jousting pole, or lance, is a long, sturdy pole used in medieval tournaments and cavalry charges. It features a blunt or decorated tip designed to strike an opponent off their horse without causing serious injury. In jousting, knights use the lance to display their skill and bravery in a controlled environment.</p>
+    <p>Variants include the tournament lance, which is designed specifically for sport and is often hollowed to reduce weight, and the war lance, which is sturdier and equipped with a sharp tip for battlefield engagements.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medieval-life-and-times.info/medieval-knights/medieval-jousting.htm">Jousting in the Middle Ages</a></li>
+    <li><a href="https://www.history.com/topics/ancient-rome/jousting">The History of the Lance</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: DyI7VXcT6l3URR02
+  name: Lance
+  type: Polearm
+  img: systems/sohl/assets/icons/lance.svg
+  durability: 11
+  weight: 7
+  value: 120
+  heft: 17
+  length: 8
+  noblock: false
+  abbrev: Lnc
+  createdEventId: XYt3jBIPDjEnJFIB
+  description: |-
+    <p>The lance is a long, spear-like weapon used primarily by cavalry for charging into enemy ranks. It provides the reach and impact needed to penetrate armor and disrupt formations. Lances are typically used in conjunction with a shield, allowing the rider to maximize their offensive and defensive capabilities.</p>
+    <p>Variants include the lighter, more maneuverable lance used by light cavalry and the heavier, impact-focused couched lance designed for the initial charge.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/lance-weapon">The Lance in Medieval Warfare</a></li>
+    <li><a href="https://www.historyextra.com/period/the-lance-history-and-use-in-combat/">Medieval Cavalry: Lances</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: sZZxQiawzxKh52Ml
+  name: Pike
+  type: Polearm
+  img: systems/sohl/assets/icons/spear.svg
+  durability: 12
+  weight: 10
+  value: 96
+  heft: 19
+  length: 9
+  noblock: false
+  abbrev: Pike
+  createdEventId: oPGwxfJBLXFM6d5H
+  description: |-
+    <p>The pike is a long pole weapon used primarily by infantry to counter cavalry charges. It features a spear-like tip and can reach lengths of 20 feet or more, allowing formations of pikemen to create a defensive wall. In combat, pikemen use coordinated thrusting to disrupt and repel mounted attackers.</p>
+    <p>Variants include the shorter, more flexible partisan, which can be used for both thrusting and slashing, and the halberd, which combines the pike’s reach with an axe head for increased versatility in combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://military.wikia.org/wiki/Pike_(weapon)">The Pike: Infantry Weapon of Choice</a></li>
+    <li><a href="https://www.ancient.eu/halberd/">The Halberd: Evolution of the Pike</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: uTBEpEn7heFX071U
+  name: Pitchfork
+  type: Polearm
+  img: systems/sohl/assets/icons/pitchfork.svg
+  durability: 9
+  weight: 4
+  value: 9
+  heft: 12
+  length: 5
+  noblock: false
+  abbrev: Pfrk
+  createdEventId: wcXjZokTfuX2Ai3k
+  description: |-
+    <p>The pitchfork is primarily an agricultural tool used for lifting and throwing hay but can be adapted for use as a weapon in times of need. It features a long handle and multiple prongs, making it effective for thrusting and holding opponents at bay. Peasant levies often use pitchforks as impromptu weapons during uprisings.</p>
+    <p>Common variants include the trident, which is similar in design but features three prongs and is often used in combat, and military forks, specifically made for defensive purposes with reinforced prongs.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/the-pitchfork-as-weapon/">The Pitchfork: From Tool to Weapon</a></li>
+    <li><a href="https://www.britannica.com/technology/trident-weapon">The Trident and Historical Combat</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Gdm2jEz0I0iyzDpu
+  name: Poleaxe
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 11
+  weight: 7
+  value: 96
+  heft: 18
+  length: 6
+  noblock: false
+  abbrev: PAxe
+  createdEventId: 3E37XhcKAvtZZDiw
+  description: |-
+    <p>The poleaxe is a versatile weapon combining an axe head, a hammer, and a spike on a long shaft, making it highly effective for both cutting and penetrating armor. Warriors use it for delivering powerful, multifaceted attacks in close combat. The poleaxe is a favored weapon for dismounted knights and infantry due to its versatility.</p>
+    <p>Variants include the halberd, which features a longer pole and an additional hook for dismounting riders, and the bec de corbin, emphasizing the hammer and spike for armor-piercing capabilities.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">The Poleaxe in Medieval Warfare</a></li>
+    <li><a href="https://www.ancient.eu/halberd/">Medieval Weaponry: The Halberd</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: M8YvZgWiTMJHd31Q
+  name: Qiang
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Qing
+  createdEventId: 1DR6dR4sUAdh9S68
+  description: |-
+    <p>The qiang is a Chinese spear featuring a long shaft and a leaf-shaped blade, used for thrusting and slashing. It is a versatile weapon, offering substantial reach and flexibility in combat. The qiang is also equipped with a tassel near the blade, serving to distract opponents and prevent blood from running down the shaft.</p>
+    <p>Variants include the tiger spear, with a larger and more elaborate blade, and the lighter, faster versions used in traditional Chinese martial arts.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://chinesemartialstudies.com/2012/07/19/the-qiang/">The Qiang: Historical Spear of China</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/qiang/hd_qiang.htm">Chinese Martial Arts: The Spear</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: UwGWi1DMuYtyN8X8
+  name: Spear
+  type: Polearm
+  img: systems/sohl/assets/icons/spear.svg
+  durability: 11
+  weight: 4
+  value: 60
+  heft: 13
+  length: 7
+  noblock: false
+  abbrev: Spr
+  createdEventId: YCdFis5887vUBmvZ
+  description: |-
+    <p>The spear is one of the most ancient and versatile weapons, featuring a long shaft with a pointed tip, used for thrusting and throwing. In combat, it serves as both a primary and auxiliary weapon, effective for both melee and ranged engagements. Spearmen often form defensive lines to repel cavalry and infantry attacks.</p>
+    <p>Variants include the javelin, a lighter, shorter spear designed for throwing, and the pike, a longer spear used primarily for defensive formations against cavalry.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.ancient.eu/spear/">The Evolution of the Spear</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#spears">Medieval Spears: Types and Uses</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: MHe30MVgUd2B7AXS
+  name: Staff
+  type: Polearm
+  img: systems/sohl/assets/icons/staff.svg
+  durability: 11
+  weight: 4
+  value: 24
+  heft: 12
+  length: 6
+  noblock: false
+  abbrev: Stf
+  createdEventId: fdhqKmvKtyuxh8nz
+  description: |-
+    <p>The staff is a simple, long stick used as both a weapon and a tool. In combat, it provides reach and versatility, allowing for strikes, blocks, and parries. Staffs are often used in martial arts, demonstrating techniques that exploit the weapon’s length and flexibility.</p>
+    <p>Variants include the quarterstaff, favored in martial traditions for its balance and length, and the bo staff, used in traditional eastern martial arts.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/staff-weapon">The History and Martial Use of the Staff</a></li>
+    <li><a href="https://www.historic-uk.com/CultureUK/The-Quarterstaff/">Quarterstaff in English Tradition</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 7FUayLoMMfw8tewq
+  name: Staff, Long
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: LStf
+  createdEventId: ieHiRsXqJ0kidpQE
+  description: |-
+    <p>The long staff is made of wood or metal, used in martial arts and self-defense. It is longer than a standard staff, providing extended reach and leverage for striking, blocking, and sweeping maneuvers. The bang&#39;s versatility makes it a staple weapon in both training and practical combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.chinesemartialarts.com/bang">The Use and Training of the Bang</a></li>
+    <li><a href="https://kungfulibrary.com/chinese-staff.htm">Bang in Traditional Chinese Martial Arts</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: PoMZUG3IInE8wSqz
+  name: Trident
+  type: Polearm
+  img: systems/sohl/assets/icons/trident.svg
+  durability: 12
+  weight: 6
+  value: 72
+  heft: 14
+  length: 6
+  noblock: false
+  abbrev: Tri
+  createdEventId: 2mnXHISZ8UCAQxRJ
+  description: |-
+    <p>The trident is a three-pronged spear traditionally associated with fishing but also adapted for combat. It offers superior control and versatility in both thrusting and slashing movements. Gladiators, particularly the retiarius, famously use the trident paired with a net for versatile attack and defense.</p>
+    <p>Variants include the military fork, which has reinforced prongs for combat durability, and ceremonial tridents, which are more ornate and used in rituals or as symbols of power.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/trident-weapon">The Trident: Its Uses and Evolution</a></li>
+    <li><a href="https://www.ancient.eu/trident/">Historical Overview of the Trident</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 7AH7gKN6gGBqKbdb
+  name: Trishula
+  type: Polearm
+  img: systems/sohl/assets/icons/polearm.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Trsha
+  createdEventId: 4nKSQQkaJm8iJnBI
+  description: |-
+    <p>The trishula is a trident used in Hindu mythology and traditional Indian warfare, characterized by its three prongs and associated with the deity Shiva. In combat, the trishula is used for thrusting and impaling, offering a combination of reach and piercing power. It is also a symbol of divine power and balance.</p>
+    <p>Variants include the ceremonial trishula, which is often smaller and highly decorated, and the standard combat trishula, designed for practical use in battle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.academia.edu/1234571/Indian_Trishula">The Trishula: A Divine Weapon</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/trish/hd_trish.htm">Hindu Weaponry: Trishula</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: keOzxtWCsMbPxhuV
+  name: Buckler
+  type: Shield
+  img: systems/sohl/assets/icons/round-shield.svg
+  durability: 9
+  weight: 3
+  value: 30
+  heft: 8
+  length: 1
+  noblock: false
+  abbrev: Bklr
+  createdEventId: ZnwbJWl8Q0Ud2RP6
+  description: |-
+    <p>The buckler is a small, round shield held by a handle or worn on the forearm, used for both offense and defense. It is lightweight and easy to maneuver, allowing users to parry, block, and deliver strikes with its weighted edge. The buckler is commonly paired with swords or other melee weapons.</p>
+    <p>Variants include the target, a larger buckler used for more substantial protection, and specialized pugil sticks used in training for close-quarters combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#buckler">The Buckler in Medieval Warfare</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Defensive Use of the Buckler</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: T1SviWWVvq2RfB5V
+  name: Dhal
+  type: Shield
+  img: systems/sohl/assets/icons/round-shield.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Dhal
+  createdEventId: TZLnuFsofDaZKnHC
+  description: |-
+    <p>The dhal is a traditional Indian shield, usually made from steel, leather, or brass and often elaborately decorated. It is circular and features multiple bosses for deflecting blows. In combat, the dhal is used to block and parry attacks while enabling counterstrikes with a companion weapon. It is both a practical defensive tool and a piece of art, showcasing intricate designs and craftsmanship.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/dhal/hd_dhal.htm">The Dhal Shield: Defensive Art</a></li>
+    <li><a href="https://armsandarmor.com/explore/dhal/">Historical Shields: The Indian Dhal</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: vpPLk8Ou4UsXQdTy
+  name: Kite Shield
+  type: Shield
+  img: systems/sohl/assets/icons/shield.svg
+  durability: 11
+  weight: 7
+  value: 72
+  heft: 11
+  length: 1
+  noblock: false
+  abbrev: KiSh
+  createdEventId: AkNY3pbni7GayOXQ
+  description: |-
+    <p>The kite shield is a large, elongated shield shaped like an inverted tear drop, providing extensive body coverage. It is used by knights and infantry for defense and tactics involving shield walls. The shape aids in deflecting blows while offering protection from head to shin.</p>
+    <p>Variants include the heater shield, a smaller, more maneuverable descendant.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medieval-life-and-times.info/medieval-weapons/kite-shield.htm">Medieval Kite Shield</a></li>
+    <li><a href="https://www.ancient.eu/shield/">The Evolution of Medieval Shields</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: nbt1PW1YgQTNvm8n
+  name: Knight's Shield
+  type: Shield
+  img: systems/sohl/assets/icons/shield.svg
+  durability: 11
+  weight: 5
+  value: 60
+  heft: 10
+  length: 1
+  noblock: false
+  abbrev: KnSh
+  createdEventId: xo2aKOuV3yiLm23G
+  description: |-
+    <p>The knight&#39;s shield covers a range of shield types used by knights, including the heater shield and the kite shield. These shields are designed for mounted and unmounted combat, offering both protection and heraldic display. Knights use them to block enemy strikes and perform shield bashes in close combat.</p>
+    <p>Variants include the heater shield, which is smaller and pointed at the bottom for increased maneuverability, and the larger kite shield used for comprehensive protection.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/medieval/things-you-didnt-know-medieval-knight/">Shields of the Medieval Knight</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Medieval Shields: Function and Form</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 31mlq3ytO8jnkS3n
+  name: Roundshield
+  type: Shield
+  img: systems/sohl/assets/icons/round-shield.svg
+  durability: 10
+  weight: 6
+  value: 48
+  heft: 10
+  length: 1
+  noblock: false
+  abbrev: RndSh
+  createdEventId: OtqqBUaxInK1bd8L
+  description: |-
+    <p>The roundshield is a circular shield used by various medieval cultures, providing a balance of protection and versatility. It is held with a central grip and used for both blocking and offensive maneuvers. The round shape allows for agile movements, making it popular among infantry and cavalry alike.</p>
+    <p>Variants feature a central boss for punching attacks.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/viking-shields/">The Viking Roundshield</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">Round Shields in Historical Combat</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Qr2D5btkRJF3S8cs
+  name: Tower Shield
+  type: Shield
+  img: systems/sohl/assets/icons/shield.svg
+  durability: 11
+  weight: 8
+  value: 96
+  heft: 12
+  length: 1
+  noblock: false
+  abbrev: TwrSh
+  createdEventId: w9V6EBuv6uUjVEf9
+  description: |-
+    <p>The tower shield is a large, rectangular shield offering extensive coverage, used primarily in siege warfare and defensive formations. It provides protection from head to toe and is designed to create shield walls to repel projectiles and enemy advances. This makes it a crucial tool for infantry defending strategic positions.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.medieval-life-and-times.info/medieval-weapons/tower-shield.htm">The Tower Shield in Medieval Warfare</a></li>
+    <li><a href="https://www.ancient.eu/shield/">Defensive Tactics: The Use of Tower Shields</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: tzNkaxyefuOoAjoy
+  name: Sling
+  type: Sling
+  img: systems/sohl/assets/icons/sling.svg
+  durability: 9
+  weight: 0.1
+  value: 6
+  heft: 0
+  length: 0
+  noblock: true
+  abbrev: Slng
+  createdEventId: dg2vPDFX1e7FIHLd
+  description: |-
+    <p>The sling is a simple ranged weapon used for launching small projectiles, such as stones, at high speeds. It consists of a pouch attached to two cords, with one cord released to propel the projectile. Slings are effective for both hunting and combat, offering significant range and impact with minimal materials.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/sling-weapon">The History of the Sling</a></li>
+    <li><a href="https://www.ancient.eu/sling/">Ancient and Medieval Slings</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: uawJUZQxVDGe7Lzo
+  name: Sling Staff
+  type: Sling
+  img: systems/sohl/assets/icons/staffsling.webp
+  durability: 9
+  weight: 0.1
+  value: 6
+  heft: 11
+  length: 5
+  noblock: false
+  abbrev: SlngStf
+  createdEventId: UTjjHqPOZfGF4nvH
+  description: |-
+    <p>The sling staff is an enhanced version of the traditional sling, incorporating a staff for increased leverage and distance. Users place the projectile in a pouch at the end of the staff, swing it around, and release one end to propel the projectile. This design enhances the sling&#39;s range and impact.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.ancient.eu/Sling_Staff/">The Sling Staff: An Evolution of the Sling</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#sling">Ranged Weaponry: The Sling Staff</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Jklt5Jr7EF4036th
+  name: Slingshot
+  type: Sling
+  img: systems/sohl/assets/icons/slingshot.svg
+  durability: 9
+  weight: 0.7
+  value: 12
+  heft: 7
+  length: 1
+  noblock: false
+  abbrev: SlngSht
+  createdEventId: dhBwYA2SjQSOb7qw
+  description: |-
+    <p>The slingshot has ancient roots as a small hand-powered projectile weapon. It consists of a Y-shaped frame with elastic bands attached to the upper arms, allowing users to launch small stones or pellets at high velocity. Its ease of construction and use makes it a practical tool for hunting small game and for self-defense.</p>
+    <p>Variants include the pocket slingshot, designed for portability and concealment, and the wrist-braced slingshot, which provides additional support for increased accuracy and power.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.madehow.com/Volume-6/Slingshot.html">History and Mechanics of the Slingshot</a></li>
+    <li><a href="https://www.popularmechanics.com/science/tools/a375/slingshot-4058541/">The Evolution of the Slingshot</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: uKACEmvIkemys7f9
+  name: Bastard Sword
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 5
+  value: 184
+  heft: 14
+  length: 6
+  noblock: false
+  abbrev: BstdSwd
+  createdEventId: L2HTFAg7I4Yw1LbR
+  description: |-
+    <p>The bastard sword, also known as a &quot;hand-and-a-half&quot; sword, features a longer handle that can be used with either one or two hands. This versatile design allows for powerful two-handed strikes or quick one-handed maneuvers with a shield. The blade is typically straight and double-edged, ideal for both cutting and thrusting.</p>
+    <p>Common variants include swords with different pommel shapes for balance and customization of hilt length to suit various fighting styles.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">The Bastard Sword in Medieval Combat</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#longswords">Medieval Weapons: The Bastard Sword</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: JTvhpBBj87XuIMXi
+  name: Battlesword
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 13
+  weight: 7
+  value: 240
+  heft: 18
+  length: 6
+  noblock: false
+  abbrev: BatlSwd
+  createdEventId: bZ8QRsz8hWwwD7xN
+  description: |-
+    <p>The battlesword is a broad category covering various types of swords used in medieval warfare. Typically characterized by their long, double-edged blades, battleswords are designed for both cutting and thrusting. The size and weight of these swords make them effective for delivering powerful blows capable of cutting through armor and shields. In battle, they are used with either one or both hands, allowing for versatile combat techniques.</p>
+    <p>Variants include the longsword, which has a longer blade and hilt for extended reach and leverage, and the arming sword, a shorter, more maneuverable version preferred for one-handed use, often paired with a shield.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://armsandarmor.com/explore/european-swords/">European Swords: A Practical Overview</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/aams/hd_aams.htm">The Role of Battleswords in Medieval Warfare</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: wjTLAt0dcAyim60L
+  name: Broadsword
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 3
+  value: 156
+  heft: 10
+  length: 5
+  noblock: false
+  abbrev: BrdSwd
+  createdEventId: cSi2sZ2MSICYUdN1
+  description: |-
+    <p>The broadsword is a type of heavy, wide-bladed sword designed for powerful, sweeping strikes. It features a broad, double-edged blade and a crossguard for hand protection. In combat, the broadsword is used for slashing and chopping, effective against both armored and unarmored opponents. Its weight and balance allow for forceful, decisive blows.</p>
+    <p>Common variants of the broadsword include the basket-hilted broadsword, which offers additional hand protection with a metal guard, and the claymore with a larger, two-handed grip.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/broadsword">The Broadsword: History and Use</a></li>
+    <li><a href="https://www.historic-uk.com/HistoryUK/HistoryofScotland/The-Claymore/">Scottish Broadswords: The Claymore</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: UYYIc4v2vhufWMCR
+  name: Dao
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Dao
+  createdEventId: PKVAF1bztlB3iUmI
+  description: |-
+    <p>The dao is a Chinese single-edged sword often referred to as a &quot;broadsword.&quot; It features a slightly curved blade optimized for chopping and slashing. In combat, the dao is a versatile weapon used in both offensive strikes and defensive maneuvers, making it popular among Chinese soldiers and martial artists.</p>
+    <p>Variants include the dadao, a larger version with a broad blade used for cutting and chopping, and the niuweidao, known for its upward-curving blade, which enhances its cutting power.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://chinesemartialstudies.com/2012/05/28/the-chinese-dao/">The Chinese Dao: Historical Overview</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/dao/hd_dao.htm">Martial Weaponry: The Dao</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: J0H2XxUf1n4RtHRh
+  name: Estoc
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 3
+  value: 168
+  heft: 14
+  length: 5
+  noblock: false
+  abbrev: Estc
+  createdEventId: Oksks0phZ3qC31RI
+  description: |-
+    <p>The estoc is a thrusting sword designed specifically to counter plate armor. It features a long, straight blade with a tapered point but often no sharp edges, focusing entirely on piercing capability. In combat, the estoc is used with powerful thrusts aimed at the gaps and joints in an opponent&#39;s armor, making it a specialized and highly effective weapon for dismounted knights and soldiers.</p>
+    <p>Variants include the longsword estoc, which has a longer blade and can be wielded with two hands for increased force, and shorter versions suitable for use in confined spaces or as a secondary weapon.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://armsandarmor.com/explore/estoc/">The Estoc: Weapon Against Armor</a></li>
+    <li><a href="https://www.medievalwarfare.info/weapons.htm#estoc">Understanding the Estoc in Medieval Warfare</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: YYQ9TSVo6RSRkyub
+  name: Falchion
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 3
+  value: 120
+  heft: 12
+  length: 4
+  noblock: false
+  abbrev: Falcn
+  createdEventId: QxJSquW2l5ePvwpj
+  description: |-
+    <p>The falchion is a single-edged sword with a curved blade, combining elements of a sword and an axe. Its design allows for powerful chopping and slashing strikes, making it effective against lightly armored opponents. The falchion is easier to use than other swords, due to its weight distribution and the curvature of the blade, which aids in cutting.</p>
+    <p>Variants include the early medieval falchion, which tends to have a more pronounced curve and is heavier, and the later period falchion, which is lighter and more refined, often featuring elaborate decorations on the hilt and blade.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.myarmoury.com/feature_spot_falchion.html">The Falchion: History and Evolution</a></li>
+    <li><a href="https://armsandarmor.com/explore/falchion/">Medieval Weaponry: The Falchion</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: i3K0H86rBH3rx3b3
+  name: Jian
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Jian
+  createdEventId: gDWSmibiWZX2jyRR
+  description: |-
+    <p>The jian is a double-edged straight sword known as the &quot;gentleman of weapons&quot; in Chinese martial arts. It features a narrow, flexible blade suitable for both cutting and thrusting. The jian is used for precise, fluid movements in combat, emphasizing technique and control over brute force.</p>
+    <p>Variants include the taijijian, a lighter sword adapted for Taiji practice, and the long jian, which offers extended reach for increased versatility in combat.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://chinesemartialstudies.com/2012/06/07/the-chinese-jian/">The Jian: Sword of China</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/jian/hd_jian.htm">Historical and Modern Use of the Jian</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: hjBDJ8jqOrBCEkMh
+  name: Katana
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Ktna
+  createdEventId: VpO5ruTjroYVyUfk
+  description: |-
+    <p>The katana is a traditional Japanese sword characterized by its curved, single-edged blade, circular or squared guard, and long grip that accommodates two hands. Renowned for its craftsmanship, the katana’s blade is typically crafted through a meticulous process of folding and tempering steel, which results in a sharp, resilient edge capable of cleanly slicing through targets. The process also creates a visible pattern, known as the &quot;hamon,&quot; along the blade, which is both functional and aesthetically pleasing. Samurai warriors primarily use the katana for swift, precise cutting techniques, emphasizing fluid motion and the weapon&#39;s natural curve to maximize its efficiency in both offense and defense.</p>
+    <p>Common variants of the katana include the tachi, which is worn edge-down and has a more pronounced curve, and the uchigatana, which is distinguishable by its slightly less curved blade and shorter handle, making it more suitable for close-quarters combat. The daisho pair, consisting of a katana and a shorter wakizashi or tantō, represents the dual-wielding tradition of samurai, symbolizing their social status and martial prowess. Additionally, the shinogi-zukuri katana is a subtype noted for its distinctive blade geometry that enhances its cutting ability without sacrificing durability.</p>
+    <p>For further detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.thoughtco.com/history-of-the-katana-195429">Samurai Swords: The History of the Katana</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/japb/hd_japb.htm">Metropolitan Museum of Art: The Making of a Japanese Sword</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: Ql3gc9dMj0EAofaN
+  name: Khanda
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Knda
+  createdEventId: Pg9iUGzYGV4mS3fm
+  description: |-
+    <p>The khanda is a straight, double-edged sword from India, known for its broad blade and heavy construction, making it highly effective for chopping and hacking in battle. The khanda has a distinctive hilt with a protective guard and a disk-shaped pommel, which helps balance the weapon and allows for powerful strikes. Used by Indian warriors, it is a symbol of valor and martial prowess.</p>
+    <p>Variants include the Rajput khanda, often elaborately decorated, and the Maratha khanda, which sometimes incorporates a reinforced spine known as a mahi mark.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.academia.edu/1234569/Indian_Khanda">The Khanda Sword: History and Use</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/ksw/hd_ksw.htm">Historical Indian Swords: The Khanda</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 3JX3cIkIDdIeC8jx
+  name: Kiliji
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Kiliji
+  createdEventId: 1Kl0sf4UkOk93ozx
+  description: |-
+    <p>The kiliji, or kilij, is a Turkish sword with a curved, single-edged blade that is wider towards the tip, making it effective for powerful slashing attacks. The blade&#39;s curvature and the widened tip, or &quot;yelman,&quot; concentrate the force of the cut, enabling it to slice through armor and flesh with ease. In battle, it is used for fast, devastating strikes that leverage the momentum of mounted combat.</p>
+    <p>Common variants of the kiliji include the Ottoman kilij, which has a pronounced curve and decorative elements reflecting its ceremonial as well as practical uses, and the Mongol-influenced versions that incorporate design features optimized for different combat scenarios.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.traditionalturkicweapons.com/kilij">Turkish Cultural Foundation - Kilij</a></li>
+    <li><a href="https://www.militaryheritage.com/kilij.htm">Historical Overview of the Kilij</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: tjOwyBFL3S3h7NHY
+  name: Máng
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 10
+  weight: 3
+  value: 108
+  heft: 11
+  length: 5
+  noblock: false
+  abbrev: Mang
+  createdEventId: HxpxcwYApaVeHrOJ
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: EiVXkncfZSMlqEu8
+  name: Mankar
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 11
+  weight: 2
+  value: 84
+  heft: 9
+  length: 3
+  noblock: false
+  abbrev: Mank
+  createdEventId: VCtRcCDgcbKjIYWc
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: IPeTvMjwjUsy4hw2
+  name: Pata
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Pata
+  createdEventId: 7gRtiuRY5gdGZGZX
+  description: |-
+    <p>The pata is an Indian gauntlet-sword, combining a sword blade with a forearm-length gauntlet that extends to protect the arm. This unique design allows for powerful thrusting and slashing while providing substantial protection. In combat, the pata enables warriors to deliver swift and powerful strikes, taking advantage of the gauntlet for both offense and defense.</p>
+    <p>Variants include the straight-bladed pata for thrusting and the curved-bladed pata for cutting and slashing.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://armsandarmor.com/explore/pata/">The Unique Design of the Pata</a></li>
+    <li><a href="https://www.metmuseum.org/toah/hd/pata/hd_pata.htm">Indian Gauntlet Sword: The Pata</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 6lTEELsRUiGbqSNw
+  name: Scimitar
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 3
+  value: 184
+  heft: 10
+  length: 5
+  noblock: false
+  abbrev: Scmtr
+  createdEventId: QvZrCMqtlfWMGYIv
+  description: |-
+    <p>The scimitar is a curved, single-edged sword associated with Middle Eastern and South Asian cultures. It is designed for slashing and cutting, making it highly effective in mounted combat where sweeping strikes are more practical. The scimitar&#39;s curvature allows for greater cutting surface contact during a swing, enhancing its lethality.</p>
+    <p>Variants include the shamshir, a Persian design with an elegant, deeply curved blade, and the kilij, a Turkish sword with a pronounced curve and a wider tip, optimized for powerful slashing attacks.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://armsandarmor.com/explore/scimitar/">The Scimitar: A Cultural and Historical Overview</a></li>
+    <li><a href="https://www.historicalweapons.com/scimitar.html">Understanding the Shamshir and Kilij</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 0wzqmCGrAebJzR13
+  name: Shamshir
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Shmshr
+  createdEventId: 9rWhET2NuxreoRA2
+  description: |-
+    <p>The shamshir is a Persian sword with a deeply curved, slender blade designed for swift, powerful slashing attacks. Its name means &quot;lion&#39;s claw,&quot; reflecting the weapon&#39;s sharpness and agility. In combat, the shamshir allows for quick, sweeping strikes, making it ideal for mounted troops and skilled swordsmen. Its design emphasizes speed and precision.</p>
+    <p>Variants include the Indo-Persian shamshir, which incorporates design elements from Indian and Persian metallurgy, and the Qajar shamshir, known for its intricate hilt and blade ornamentation.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/sham/hd_sham.htm">The Art of the Shamshir</a></li>
+    <li><a href="https://www.academia.edu/1234567/Persian_Shamshir">Persian Weaponry: The Shamshir</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: N4Q0mUchOQ9OPB9Z
+  name: Shortsword
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 12
+  weight: 2
+  value: 96
+  heft: 8
+  length: 4
+  noblock: false
+  abbrev: ShrtSwd
+  createdEventId: mHsCxIgeoDNpSNXX
+  description: ""
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: OTitFZ13JLsumTLp
+  name: Talwar
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Tlwr
+  createdEventId: oYvLq767ft4sAjWN
+  description: |-
+    <p>The talwar is a traditional Indian curved sword known for its sharp, broad blade and distinctive hilt with a disk-shaped pommel. Designed for efficient cutting and slashing, the talwar is effective in both mounted and foot combat. The blade&#39;s curvature enhances cutting potential, while the unique hilt design provides a firm grip and allows for powerful, controlled strikes.</p>
+    <p>Variants include the Rajput talwar, which often features intricate designs and gold inlay, and the Mughal talwar, known for its ornate craftsmanship and sometimes jeweled hilts.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.academia.edu/1234568/Indian_Talwar">Indian Weapons: The Talwar</a></li>
+    <li><a href="https://www.historicalweapons.com/talwar.html">The History of the Talwar and Other Indian Swords</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: nyibb1NL4ZONuZIf
+  name: Urumi
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Urumi
+  createdEventId: kZ8D2jGaIcX7YqhO
+  description: |-
+    <p>The urumi is an Indian flexible sword with multiple thin, flexible blades, often made of steel or iron. It is wielded like a whip, providing a combination of slashing and bludgeoning damage. The weapon requires significant skill to wield without self-injury, as the flexible blades can strike the wielder if not handled correctly. In combat, the urumi allows for dynamic, sweeping attacks that can disable multiple opponents.</p>
+    <p>Variants include single-bladed urumis and multi-bladed versions, with the latter increasing the weapon&#39;s coverage and unpredictability in battle.</p>
+    <p>For more detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.historyextra.com/period/urumi-flexible-sword/">The Urumi: An Unusual Indian Weapon</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: XQAoPtRgy7VDeNDj
+  name: Wakizashi
+  type: Sword
+  img: systems/sohl/assets/icons/sword.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Waki
+  createdEventId: h66r8tIgWGW7giPG
+  description: |-
+    <p>The wakizashi is a traditional Japanese short sword, often ranging between 12 to 24 inches (30 to 60 centimeters) in length. It is typically worn alongside the katana by samurai, forming the daisho pair, which symbolizes the warrior&#39;s social status and right to bear arms. The wakizashi is designed for versatility, being effective in both close-quarters combat and as a backup weapon when the katana is impractical. Its shorter blade allows for swift, precise strikes in confined spaces, making it ideal for indoor fighting. Additionally, the wakizashi is used for seppuku, the ritual suicide performed by samurai to restore or uphold their honor.</p>
+    <p>Common variants of the wakizashi include the hira-zukuri, which has a flat, straight blade optimized for cutting, and the shobu-zukuri, featuring a blade shape that lacks a defined yokote but emphasizes a strong, pointed tip for better penetration capability. The kaishaku-wakizashi is specially designed for assisting another samurai in performing seppuku, featuring intricate craftsmanship. The blade&#39;s design and length can sometimes blur the lines between a long tantō (dagger) and a short wakizashi, adding to its multifaceted utility in the samurai armory.</p>
+    <p>For further detailed information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.metmuseum.org/toah/hd/wakizashi/hd_wakizashi.htm">The Met Museum: Wakizashi</a></li>
+    <li><a href="https://www.thoughtco.com/history-of-the-wakizashi-195430">History of the Wakizashi</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: kreKZTbXQBV0FiBY
+  name: Bolas
+  type: Thrown
+  img: systems/sohl/assets/icons/bolas.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: ""
+  createdEventId: RpWPU4RkLDbdd9Rs
+  description: |-
+    <p>The bolas is a traditional throwing weapon used largely by indigenous peoples. It consists of two or more weighted balls connected by a length of cord. When thrown, the weights spread out and the cords wrap around the target, entangling the limbs to incapacitate them. The bola is usually used for hunting, efficiently capturing prey such as birds and small game without causing significant injury, thus preserving the meat and hide.</p>
+    <p>In tactical or combat situations, the bola can be used to disable opponents by tangling their legs, causing them to trip and fall. This non-lethal approach can be particularly useful for capturing enemies or preventing their escape. The simplicity of the bola&#39;s design allows for easy construction from readily available materials, making it an accessible and effective tool for hunters and warriors alike. Its effectiveness relies heavily on the user&#39;s skill in accurately judging distance and timing the throw to ensure maximum entanglement.</p>
+    <p>For further information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.britannica.com/technology/bolas">The History and Use of the Bola</a></li>
+    <li><a href="https://www.expatcho.com/2010/05/the-history-of-the-bolas/">Traditional Weapons: Bolas</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: cP2IsborvdaO0J6q
+  name: Fléchette
+  type: Thrown
+  img: systems/sohl/assets/icons/dart.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: Flch
+  createdEventId: hymtUsemCaGtZkGG
+  description: |-
+    The flechette is a small, pointed throwing dart designed for precision and penetration. Characterized by its slender, aerodynamic shape, the flechette is crafted to maintain stability and speed while airborne. Unlike broader-bladed throwing knives, flechettes are often more akin to mini javelins or large darts, designed to be thrown in volleys to maximize their disruptive effect on the battlefield. Typically forged from iron or steel, flechettes maximize their piercing capability, making them effective against lightly armored targets or exposed flesh.
+
+    In medieval combat, flechettes are used primarily by specialized troops or archers to harass and injure enemy soldiers before close-quarters engagement. When thrown, often in large numbers, these small projectiles can cause significant confusion and damage among enemy ranks, disrupting their formations and reducing their combat effectiveness. Flechettes are particularly useful in siege warfare and skirmishes where the ability to destabilize an opponent from a distance can provide a critical tactical advantage. Their lightweight and compact design also allow soldiers to carry multiple flechettes, enabling sustained use throughout the battle.
+
+    For further information, you can visit:
+    - [History of Flechettes on HistoryNet](https://www.historynet.com/history-of-flechettes)
+    - [Overview of Medieval Weapons on Medieval Warfare](https://www.medievalwarfare.info/weapons.htm#throwingknives)
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: PvD8SLaG28Nude2X
+  name: Meteor Hammer
+  type: Special
+  img: systems/sohl/assets/icons/bolas.svg
+  durability: 0
+  weight: 0
+  value: 0
+  heft: 0
+  length: 0
+  noblock: false
+  abbrev: ""
+  createdEventId: xqaAnJFwJjQOwa3j
+  description: |-
+    <p>The meteor hammer is a long rope or chain with a heavy metal weight attached to the end. This flexible weapon is utilized by swinging it around the body to generate momentum, then releasing it to strike the opponent with significant force. The meteor hammer&#39;s weight and speed can deliver devastating blows capable of breaking bones and inflicting serious injuries. Its design also allows for wrapping around an opponent&#39;s limbs or weapon, entangling and disarming them in the process.</p>
+    <p>In combat, the meteor hammer is prized for its versatility and unpredictability. Skilled practitioners can use it to execute a wide range of offensive and defensive maneuvers, from rapid, successive strikes to complex entangling tactics. Its reach allows the wielder to maintain a safer distance from opponents while still delivering powerful attacks. However, it requires extensive training to master, as improper handling can endanger the user themselves. The meteor hammer is often employed in martial arts demonstrations and traditional Chinese combat techniques, showcasing both its lethal potential and the skill required to wield it effectively.</p>
+    <p>For further information, you can visit:</p>
+    <ul>
+    <li><a href="https://www.kungfumagazine.com/index.php?p=article&article=1139">Meteor Hammer: History and Techniques</a></li>
+    <li><a href="https://deadliestwarrior.fandom.com/wiki/Meteor_Hammer">Chinese Weapons: The Meteor Hammer</a></li>
+    </ul>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}
+- id: 9fUBzprkjX25L734
+  name: Knuckledusters
+  type: Special
+  img: systems/sohl/assets/icons/knuckledusters.svg
+  durability: 0
+  weight: 0.5
+  value: 30
+  heft: 8
+  length: 0
+  noblock: false
+  abbrev: "kncldstr"
+  createdEventId: yNYwKbYyAJdgbSRt
+  description: |-
+    <p><strong>Knuckledusters</strong>, also known as iron fists, are small but potent melee weapons designed to fit over a character’s fingers, transforming their bare-handed strikes into devastating blows. Crafted from sturdy metals like iron, bronze, these weapons fit snugly around the knuckles, concentrating the force of a punch and turning a simple strike into an attack capable of dealing serious damage.</p>
+    <p>Knuckledusters are often used in close-quarters combat where swords or axes may be too unwieldy, making them ideal for brawlers, rogues, or warriors caught in tight spaces. Some versions may feature sharp studs or ridges to cause additional injury, perfect for characters looking to inflict extra pain on their foes. These weapons are easy to conceal, allowing players to surprise enemies with unexpected ferocity.</p>
+  notes: ""
+  textReference: ""
+  macros: []
+  flags: {}

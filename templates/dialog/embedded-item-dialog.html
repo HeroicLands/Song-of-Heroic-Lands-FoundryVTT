@@ -1,0 +1,21 @@
+<form id="create-nested-item">
+    <div class="form-group">
+        <label>{{itemLabel}}</label>
+        <input
+            type="text"
+            name="name"
+            value="{{name}}"
+            placeholder="{{placeholder}}"
+            data-dtype="String" />
+    </div>
+    {{#if typeChoices}}
+    <div class="form-group">
+        <label>Type:</label>
+        <select class="resource-value" name="type" data-dtype="String">
+            {{selectOptions typeChoices selected=type}}
+        </select>
+    </div>
+    {{else}}
+    <input type="hidden" name="type" value="{{type}}" data-dtype="String" />
+    {{/if}}
+</form>

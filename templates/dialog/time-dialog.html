@@ -1,0 +1,42 @@
+<form>
+    <div class="form-group">
+        <label>Existing Time:</label>
+        <span id="time">{{displayWorldTime setTime}}</span>
+    </div>
+
+    <div class="form-group">
+        <label>Time Base:</label>
+        <select name="timeBase">
+            {{selectOptions timeBases selected=timeBase}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Direction:</label>
+        <select name="direction">
+            {{selectOptions timeDirections selected=direction}}
+        </select>
+    </div>
+
+    <fieldset>
+        <legend>Time Setting</legend>
+        <div class="flexrow">
+            <div>
+                <label>Days</label>
+                {{numberInput days name="days" step=1 min=0}}
+            </div>
+            <div>
+                <label>Hours</label>
+                {{numberInput hours name="hours" step=1 min=0}}
+            </div>
+            <div>
+                <label>Mins</label>
+                {{numberInput mins name="mins" step=1 min=0}}
+            </div>
+            <div>
+                <label>Secs</label>
+                {{numberInput secs name="secs" step=1 min=0}}
+            </div>
+        </div>
+    </fieldset>
+</form>

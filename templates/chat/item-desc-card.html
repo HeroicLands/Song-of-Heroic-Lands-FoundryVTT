@@ -1,0 +1,26 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexcol">
+        <h3 class="title">{{name}}</h3>
+        <h4 class="subtitle">{{subtitle}}</h4>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span class="label">Notes:</span>
+        <span class="value">{{notes}}</span>
+    </div>
+    {{/if}}
+    {{#if textRef}}
+    <div class="card-note">
+        <span class="label">Text Ref:</span>
+        <span class="value">{{textRef}}</span>
+    </div>
+    {{/if}}
+    {{#if charges}}
+    <div class="card-note">
+        <span class="label">Charges:</span>
+        <span class="value">{{charges}}</span>
+    </div>
+    {{/if}}
+    <div class="card-content">{{{desc}}}</div>
+</div>

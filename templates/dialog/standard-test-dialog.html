@@ -1,0 +1,37 @@
+<form>
+    <div class="form-group">
+        <label>Target:</label>
+        <input readonly type="number" name="target" value="{{target}}" />
+    </div>
+
+    {{#if mods}}
+    <div class="form-group">
+        <div class="flex flex-2col">
+            <div class="flexrow">
+                <span class="label adj-name">Adjustment</span>
+                <span class="label adj-value">Value</span>
+            </div>
+            {{#each mods}}
+            <div class="flexrow">
+                <span class="adj-name">{{this.name}}</span>
+                <span class="adj-value"
+                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                >
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label>Situational Modifier:</label>
+        <input type="number" name="modifier" value="{{modifier}}" />
+    </div>
+    <div class="form-group">
+        <label>Success Level Modifier:</label>
+        <input
+            type="number"
+            name="successLevelMod"
+            value="{{successLevelMod}}" />
+    </div>
+</form>

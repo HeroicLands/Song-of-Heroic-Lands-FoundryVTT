@@ -1,0 +1,237 @@
+.attribute-scores {
+    flex: 0 0 80px;
+    gap: 0;
+    margin: 0;
+    justify-content: center;
+
+    .attribute {
+        display: block;
+        align-items: center;
+        text-align: center;
+        padding: 3px 0 0 0;
+        flex: 0 0 80px;
+        border: 2px groove #eeede0;
+
+        .name {
+            margin: 0 0 2px;
+            font-size: 13px;
+        }
+
+        .value {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0 0 2px;
+            border-bottom: none;
+        }
+
+        .label {
+            margin: 0 0 2px;
+            font-size: 13px;
+            border-bottom: 1px solid black;
+        }
+
+        .attribute-box {
+            border-top: 1px solid black;
+        }
+
+        .secmod {
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .test {
+            font-size: 13px;
+            text-align: center;
+
+            &:hover {
+                background-image: url("../../../icons/svg/d20-grey.svg") !important;
+                background-size: 27px;
+                background-repeat: no-repeat;
+                background-position: center;
+                color: black;
+            }
+        }
+    }
+}
+
+.traits {
+    h2 {
+        flex: 1;
+        margin: 0;
+        line-height: 36px;
+        font-family: "Modesto Condensed", "Palatino Linotype", serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #4b4a44;
+        background-color: #bbb;
+        border-top: 2px groove #fff;
+        border-bottom: 2px groove #fff;
+        padding: 5px;
+    }
+
+    .traits-list {
+        list-style: none;
+        margin: 7px 2px;
+        padding: 0;
+        overflow-y: hidden;
+
+        .trait {
+            .trait-name {
+                flex: 0 0 150px;
+            }
+
+            .trait-notes {
+                flex: 1 0 50px;
+                text-align: left;
+                padding-left: 5px;
+                border-right: 1px solid #c9c7b8;
+            }
+
+            .trait-type {
+                flex: 0 0 80px;
+                text-align: center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                border-right: 1px solid #c9c7b8;
+            }
+
+            .trait-intensity {
+                flex: 0 0 80px;
+                text-align: center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                border-right: 1px solid #c9c7b8;
+            }
+
+            .trait-value {
+                flex: 0 0 120px;
+                text-align: center;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                border-right: 1px solid #c9c7b8;
+            }
+        }
+    }
+}
+
+.affiliations {
+    h2 {
+        padding: 5px;
+    }
+
+    .affiliation-list {
+        list-style: none;
+        margin: 7px 0;
+        padding: 0;
+        overflow-y: hidden;
+
+        .affiliation {
+            border-bottom: 1px solid #bbb;
+
+            .image {
+                flex: 0 0 24px;
+                margin-right: 5px;
+            }
+    
+            img {
+                display: block;
+            }
+        }
+
+        .name {
+            flex: 0 0 150px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 1px solid #c9c7b8;
+        }
+
+        .ele {
+            flex: 0 0 40px;
+            text-align: center;
+            border-right: 1px solid #c9c7b8;
+        }
+            
+        .notes {
+            flex: 1 0 50px;
+            text-align: left;
+            padding-left: 5px;
+            border-right: 1px solid #c9c7b8;
+        }
+
+        .wideele {
+            flex: 0 0 120px;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 1px solid #c9c7b8;
+        }
+    }
+}
+
+.profile-params {
+    margin-top: 5px;
+    align-items: center;
+    flex: 0 1 10px;
+
+    .profile-item {
+        align-items: center;
+        border-top: 2px groove #eeede0;
+        border-bottom: 2px groove #eeede0;
+        margin-top: 12px;
+        padding: 5px 0;
+
+        .attribute {
+            align-items: center;
+
+            .label {
+                flex: 0 0 60px;
+                font-weight: bold;
+                text-transform: uppercase;
+                text-align: right;
+                padding-right: 4px;
+            }
+
+            .value {
+                flex: 0 0 150px;
+            }
+        }
+    }
+}
+
+.profile-desc {
+    margin-top: 5px;
+
+    .label {
+        padding-left: 5px;
+        font-family: "Modesto Condensed", "Palatino Linotype", serif;
+        font-size: 16px;
+        margin: 2px 0;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.05);
+        border: 2px groove #eeede0;
+        font-weight: bold;
+        line-height: 24px;
+
+        i {
+            font-size: 12px;
+            padding-left: 5px;
+        }
+    }
+
+    .description {
+        margin-left: 5px;
+    }
+}
+
+.profile {
+    img.bio-image {
+        flex: 0 0 200px;
+        object-fit: contain;
+        background: white;
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "tabWidth": 4,
+    "experimentalTernaries": true,
+    "bracketSameLine": true,
+    "singleAttributePerLine": false,
+    "overrides": [
+    {
+      "files": "**/*.hbs",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
+
+}

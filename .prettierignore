@@ -1,0 +1,13 @@
+audio
+css
+fonts
+images
+lang
+nogit
+packs
+system.json
+template.json
+package-lock.json
+**/*.json
+**/*.html
+**/*.hbs

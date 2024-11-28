@@ -1,0 +1,81 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    <div class="card-content">
+        <div class="adjustment">
+            <div class="flexrow">
+                <span class="label adj-name">Adjustment</span>
+                <span class="label adj-value">Value</span>
+            </div>
+            {{#each mods}}
+            <div class="flexrow">
+                <span class="adj-name">{{this.name}}</span>
+                <span class="adj-value"
+                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                >
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="card-content">
+        <span class="label">Target:</span>
+        <span class="value">{{effTarget}}</span>
+    </div>
+
+    <div class="card-content">
+        <span class="label">Roll:</span>
+        {{#if isSuccess}}
+        <span class="value success-text"
+            >{{#if showResult}}{{rollResult}} = {{/if}}{{rollValue}}</span
+        >
+        {{else}}
+        <span class="value failure-text"
+            >{{#if showResult}}{{rollResult}} = {{/if}}{{rollValue}}</span
+        >
+        {{/if}}
+    </div>
+
+    <hr />
+
+    <div class="card-content center">
+        {{#if isSuccess}} {{#if isCritical}}
+        <span class="critical-success-text"
+            >+1 success level to Fated Test and <br />
+            no FP loss, or +2 success level to<br />
+            Fated Test and loss of one FP.</span
+        >
+        {{else}}
+        <span class="success-text"
+            >+1 success level to Fated Test and<br />
+            character loses one FP.</span
+        >
+        {{/if}} {{else}} {{#if isCritical}}
+        <span class="critical-failure-text"
+            >No effect and character loses one FP.</span
+        >
+        {{else}}
+        <span class="failure-text">No effect.</span>
+        {{/if}} {{/if}}
+    </div>
+
+    {{#if isSuccess}} {{#if isCritical}}
+    <footer class="card-footer critical-success-block">
+        <span>{{description}}</span>
+    </footer>
+    {{else}}
+    <footer class="card-footer success-text">
+        <span>{{description}}</span>
+    </footer>
+    {{/if}} {{else}} {{#if isCritical}}
+    <footer class="card-footer critical-failure-block">
+        <span>{{description}}</span>
+    </footer>
+    {{else}}
+    <footer class="card-footer failure-text">
+        <span>{{description}}</span>
+    </footer>
+    {{/if}} {{/if}}
+</div>

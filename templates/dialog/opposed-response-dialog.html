@@ -1,0 +1,47 @@
+<form id="opposed-response-dlg">
+    <p>{{prompt}}<br /></p>
+
+    <div class="form-group" id="nogood">
+        <label>Opposed Item:</label>
+        <select name="opposedItemUuid">
+            {{#select opposedItemUuid}} {{#each opposedItems}}
+            <option value="{{this.value}}">{{this.name}}</option>
+            {{/each}} {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group" id="mydiv">
+        <div class="flex flex-2col" id="mods">
+            <div class="flexrow">
+                <span class="label adj-name">Adjustment</span>
+                <span class="label adj-value">Value</span>
+            </div>
+            {{#each mods}}
+            <div class="flexrow">
+                <span class="adj-name">{{this.name}}</span>
+                <span class="adj-value"
+                    >{{numberFormat this.value sign=true}}</span
+                >
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="form-group" id="modifier">
+        <label>Modifier:</label>
+        <input
+            type="number"
+            name="modifier"
+            value="{{modifier}}"
+            data-dtype="Number" />
+    </div>
+
+    <div class="form-group" id="slMod">
+        <label>Success Level Modifier:</label>
+        <input
+            type="number"
+            name="successLevelMod"
+            value="{{successLevelMod}}"
+            data-dtype="Number" />
+    </div>
+</form>

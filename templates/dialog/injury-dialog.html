@@ -1,0 +1,121 @@
+<form>
+    <div class="form-group">
+        <label>Location:</label>
+        <select name="location">
+            {{#select location}} {{#each hitLocations}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}} {{/select}}
+        </select>
+    </div>
+
+    {{#if zoneDieFormula}}
+    <div class="form-group" data-tooltip="Force final target zone if > 0">
+        <label>Zone Die Formula:</label>
+        <span>{{zoneDieFormula}}</span>
+    </div>
+    {{else}}
+    <fieldset id="zoneinfo">
+        <legend>Zone</legend>
+        <div class="grid grid-3col">
+            <div class="form-group">
+                <label>Die:</label>
+                <select name="zoneDie">
+                    {{#select zoneDie}} {{#each zoneDieChoices}}
+                    <option value="{{this}}">d{{this}}</option>
+                    {{/each}} {{/select}}
+                </select>
+            </div>
+
+            <div class="form-group" data-tooltip="Offset for zone">
+                <label>Offset:</label>
+                {{numberInput zoneOffset name="zoneOffset" step="1"}}
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+    <div class="grid grid-2col">
+        <div class="form-group">
+            <label>Aspect:</label>
+            {{#if aspect}}
+            <span>{{aspect}}</span>
+            <input type="hidden" name="aspect" value="{{aspect}}" />
+            {{else}}
+            <select name="aspect">
+                {{#select aspect}} {{#each const.ASPECTTYPES}}
+                <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                <option value="Projectile">Projectile</option>
+                <option value="Frost">Frost</option>
+                {{/select}}
+            </select>
+            {{/if}}
+        </div>
+
+        <div class="form-group" data-tooltip="Impact damage value">
+            <label>Impact:</label>
+            {{#if impactVal}}
+            <span class="value">{{impactVal}}</span>
+            <input type="hidden" name="impactVal" value="{{impactVal}}" />
+            {{else}}
+            <input type="number" name="impactVal" value="0" />
+            {{/if}}
+        </div>
+
+        <div class="form-group">
+            <input
+                type="checkbox"
+                name="extraBleedRisk"
+                value="{{extraBleedRisk}}"
+                data-dtype="Boolean"
+                {{checked
+                extraBleedRisk}} />
+            <label>Extra Bleed Risk</label>
+        </div>
+
+        <div class="form-group">
+            <input
+                type="checkbox"
+                name="isMissile"
+                value="{{isMissile}}"
+                data-dtype="Boolean"
+                {{checked
+                isMissile}} />
+            <label>Projectile</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Precision TAs:</label>
+        <input
+            type="number"
+            name="numPrecisionTAs"
+            value="{{numPrecisionTAs}}" />
+    </div>
+
+    <div class="form-group">
+        <label>Armor Reduction:</label>
+        <input type="number" name="armorReduction" value="{{armorReduction}}" />
+    </div>
+
+    <div class="form-group">
+        <label>Seconds until first healing check:</label>
+        <input
+            type="number"
+            name="secsToNextCheck"
+            value="{{secsToNextCheck}}" />
+    </div>
+
+    {{#if askRecordInjury}}
+    <div class="form-group">
+        <input
+            type="checkbox"
+            name="addToCharSheet"
+            value="{{addToCharSheet}}"
+            data-dtype="Boolean"
+            {{checked
+            addToCharSheet}} />
+        <label for="addToCharSheet">Add to Character Sheet</label>
+    </div>
+    {{/if}}
+</form>

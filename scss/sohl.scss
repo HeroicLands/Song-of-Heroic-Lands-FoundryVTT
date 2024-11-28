@@ -1,0 +1,29 @@
+// Import utilities.
+@use "sass:meta";
+@use "utils/typography";
+@use "utils/colors";
+@use "utils/mixins";
+@use "utils/variables";
+
+/* Global styles */
+@use "global/window";
+@use "global/editor";
+@use "global/grid";
+@use "global/flex";
+@use "global/chat";
+@use "global/tooltip";
+@use "global/nav";
+@use "global/hotbar";
+
+/* Styles limited to sohl sheets */
+.sohl {
+    @include meta.load-css("components/top");
+    @include meta.load-css("components/facade");
+    @include meta.load-css("components/forms");
+    @include meta.load-css("components/resource");
+    @include meta.load-css("components/tabs");
+    @include meta.load-css("components/items");
+    @include meta.load-css("components/profile");
+    @include meta.load-css("components/bodyloc");
+    @include meta.load-css("components/effects");
+}

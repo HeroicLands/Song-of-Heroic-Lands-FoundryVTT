@@ -1,0 +1,66 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Properties Tab --}}
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <div class="grid grid-3col">
+                {{formField fields.tag rootId="event-tag" classes="text-field" stacked=true value=system.tag}}
+                {{formField fields.action rootId="event-action" classes="text-field" stacked=true value=system.action}}
+                {{formField fields.activation.fields.scope rootId="event-scope" classes="text-field" stacked=true value=system.activation.scope}}
+                {{formField fields.activation.fields.targetUuid rootId="event-targetuuid" classes="text-field" stacked=true value=system.activation.targetUuid}}
+                {{formField fields.activation.fields.duration rootId="event-duration" classes="text-field" stacked=true value=system.activation.duration}}
+                {{formField fields.activation.fields.oper rootId="event-oper" classes="text-field" stacked=true value=system.activation.oper}}
+                {{formField fields.activation.fields.autoStart rootId="event-autoStart" classes="text-field" stacked=true value=system.activation.autoStart}}
+            </div>
+            <div class="resource" id="item-starttime">
+                <div class="flexrow">
+                    <label class="resource-label time-label">Initialize Time</label>
+                    <a class="alter-time time-control" title="Change Init Time"
+                        data-property="system.activation.initTime" data-time="{{idata.activation.initTime}}"
+                        ><i class="fas fa-plus"></i> Change</a>
+                </div>
+                {{displayWorldTime system.activation.initTime}}
+            </div>
+            {{> "sohl.item-refnote"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div
+            class="tab description"
+            id="event-desc"
+            data-group="primary"
+            data-tab="description">
+            {{editor idata.description target="system.description" button=true
+            owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div
+            class="tab nesteditems"
+            data-group="primary"
+            data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

@@ -1,0 +1,121 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="bodylocation properties sheet-body">
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <fieldset>
+                <legend>Basic Armor Settings</legend>
+                <div class="grid grid-3col">
+                    {{formField fields.abbrev rootId="bodyloc-abbrev" classes="text-field" hint="" stacked=true value=system.abbrev}}
+                    {{formField fields.layers rootId="bodyloc-layers" classes="text-field" hint="" stacked=true value=system.layers}}
+                </div>
+                <div class="grid grid-4col">
+                    {{formField fields.armorBase.fields.blunt rootId="arm-prot-b"
+                        classes="text-field" stacked=true value=system.armorBase.blunt}}
+                    {{formField fields.armorBase.fields.edged rootId="arm-prot-e"
+                        classes="text-field" stacked=true value=system.armorBase.edged}}
+                    {{formField fields.armorBase.fields.piercing rootId="arm-prot-p"
+                        classes="text-field" stacked=true value=system.armorBase.piercing}}
+                    {{formField fields.armorBase.fields.fire rootId="arm-prot-f" 
+                        classes="text-field" stacked=true value=system.armorBase.fire}}
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Body Location Settings</legend>
+                <div class="flexrow">
+                    <div class="grid grid-3col">
+                        <div class="form-group text-field">
+                            {{formInput fields.isStumble rootId="bodyloc-is-stumble" classes="form-fields" value=system.isStumble}}
+                            <label>Fumble</label>
+                        </div>
+                        <div class="form-group text-field">
+                            {{formInput fields.isFumble rootId="bodyloc-is-fumble" classes="form-fields" value=system.isFumble}}
+                            <label>Stumble</label>
+                        </div>
+                        <div class="form-group text-field">
+                            <input type="checkbox" name="flags.sohl.legendary.isRigid" {{checked flags.sohl.legendary.isRigid}} data-type="Boolean" />
+                            <label>Is Rigid</label>
+                        </div>
+                        <div class="form-group stacked text-field">
+                            <label>Amputate Penalty</label>
+                            <div class="form-fields">
+                                {{numberInput flags.sohl.legendary.amputatePenalty name="flags.sohl.legendary.amputatePenalty" step=1 min=0}}
+                            </div>
+                        </div>
+                        <div class="form-group stacked text-field">
+                            <label>Bleeding Sev Threshold</label>
+                            <div class="form-fields">
+                                {{numberInput flags.sohl.legendary.bleedingSevThreshold name="flags.sohl.legendary.bleedingSevThreshold" step=1 min=0}}
+                            </div>
+                        </div>
+                        <div class="form-group stacked text-field">
+                            <label>Shock Value</label>
+                            <div class="form-fields">
+                                {{numberInput flags.sohl.legendary.shockValue name="flags.sohl.legendary.shockValue" step=1 min=0}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="items">
+                <div class="items-list">
+                    <header class="items-header flexrow">
+                        <h3 class="item-name name">Area Name</h3>
+                        <div class="detail ele">Ratio</div>
+                        <div class="item-controls">
+                            <a class="item-control add-array-item" data-array="system.aim" data-object-type="Aim"
+                                data-title="Aim"><i class="fas fa-plus"></i> Add</a>
+                        </div>
+                    </header>
+                    <ol class="items-list">
+                        {{#each idata.aim}}
+                        <li class="item flexrow">
+                            <div class="item-name name">{{name}}</div>
+                            <div class="detail ele">{{probWeightBase}}:{{lookup (lookup ../item.embedItem.system.$aim name) "max"}}</div>
+                            <div class="item-controls">
+                                <a class="edit-array-item" data-array="system.aim" data-index="{{@index}}"
+                                    title="Edit Aim Area"><i class="fas fa-edit"></i></a>
+                                <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
+                                    title="Delete Aim Area"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            </div>
+
+            {{> "sohl.item-refnote"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div class="tab description" id="bodylocation-desc" data-group="primary" data-tab="description">
+            {{editor idata.description target="system.description" button=true
+            owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div class="tab nesteditems" data-group="primary" data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

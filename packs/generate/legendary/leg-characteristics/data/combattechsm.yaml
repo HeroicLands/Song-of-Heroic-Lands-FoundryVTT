@@ -1,0 +1,240 @@
+- subDesc: Bite
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 1
+  name: Unarmed 
+  id: vMwD4xyoZAW4qDSy
+  img: systems/sohl/assets/icons/fangs.svg
+  mode: Bite
+  lengthBase: 0
+  zoneDie: 2
+  impactDie: 4
+  impactMod: 0
+  impactAspect: piercing
+  minParts: 1
+  assocSkill: Melee
+  effectId: pQ9YRcot8fJbocKs
+  effectChanges:
+  - key: system.$traits.impactTAMod
+    mode: 5
+    value: "3"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Grab Hold
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 2
+  name: Unarmed 
+  id: B1EfmuOl5CtGQihu
+  img: systems/sohl/assets/icons/grab-hold.svg
+  mode: Grab (Hold)
+  lengthBase: 1
+  zoneDie: 4
+  impactDie: 0
+  impactMod: 0
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: 2wpKRk0GtcarYDiu
+  effectChanges:
+  - key: system.$traits.strRoll
+    mode: 5
+    value: "true"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Grab Take
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 3
+  name: Unarmed 
+  id: rvFq5FepPUInqjxf
+  img: systems/sohl/assets/icons/grab-take.svg
+  mode: Grab (Take)
+  lengthBase: 1
+  zoneDie: 4
+  impactDie: 0
+  impactMod: 0
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: pmW5pO68PG2edXDM
+  effectChanges:
+  - key: system.$traits.strRoll
+    mode: 5
+    value: "true"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Headbutt
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 4
+  name: Unarmed 
+  id: pqTDFnehx61A64by
+  img: systems/sohl/assets/icons/headbutt.svg
+  mode: Headbutt
+  lengthBase: 0
+  zoneDie: 4
+  impactDie: 6
+  impactMod: -2
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: 9np3UCkkiY7jXrfm
+  effectChanges:
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Kick
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 5
+  name: Unarmed 
+  id: 8fIXUjAkKWfXRweO
+  img: systems/sohl/assets/icons/high-kick.svg
+  mode: Kick
+  lengthBase: 2
+  zoneDie: 4
+  impactDie: 6
+  impactMod: -2
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: CJTKxlie1nYfdL2q
+  effectChanges:
+  - key: system.$traits.lowAim
+    mode: 2
+    value: "-20"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Limb Block
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 6
+  name: Unarmed 
+  id: xFAcnR7IGhEaR66R
+  img: systems/sohl/assets/icons/high-punch.svg
+  mode: Limb Block
+  lengthBase: 1
+  zoneDie: 0
+  impactDie: 0
+  impactMod: 0
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: BvLLfEhsPFsgLh3B
+  effectChanges:
+  - key: system.$traits.noAttack
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Press
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 7
+  name: Unarmed 
+  id: qtcn70JC4Fac5DrZ
+  img: systems/sohl/assets/icons/push.svg
+  mode: Press
+  lengthBase: 1
+  zoneDie: 0
+  impactDie: 0
+  impactMod: 0
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: rsGf6USPpR6OrzM9
+  effectChanges:
+  - key: system.$traits.strRoll
+    mode: 5
+    value: "true"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Punch
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 8
+  name: Unarmed 
+  id: m2qf74BvOkEk0cQx
+  img: systems/sohl/assets/icons/punch-blast.svg
+  mode: Punch
+  lengthBase: 1
+  zoneDie: 4
+  impactDie: 6
+  impactMod: -3
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: HekLiZmYPPet6ByF
+  effectChanges:
+  - key: system.$traits.impactTAMod
+    mode: 5
+    value: "2"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k
+- subDesc: Trip
+  combatManeuverId: B3NcsoGN9cSTKmxD
+  strikeModeNum: 9
+  name: Unarmed 
+  id: MfUTMbvLNcjIdc0q
+  img: systems/sohl/assets/icons/trip.svg
+  mode: Trip
+  lengthBase: 2
+  zoneDie: 0
+  impactDie: 0
+  impactMod: 0
+  impactAspect: blunt
+  minParts: 1
+  assocSkill: Melee
+  effectId: lyDBrC6e1Ag4qlMy
+  effectChanges:
+  - key: system.$traits.strRoll
+    mode: 5
+    value: "true"
+    priority: null
+  - key: system.$traits.noBlock
+    mode: 5
+    value: "true"
+    priority: null
+  description: ""
+  macros: []
+  flags: {}
+  folderId: dv8AthmrwfYNGB1k

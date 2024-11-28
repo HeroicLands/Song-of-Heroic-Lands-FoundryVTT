@@ -1,0 +1,144 @@
+<form class="{{cssClass}}" autocomplete="off">
+    {{> "sohl.item-header"}}
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="properties">Common</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="actions">Actions</a>
+        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="effects">Effects</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        {{!-- Properties Tab --}}
+        <div class="tab properties" data-group="primary" data-tab="properties">
+            <div class="grid grid-3col">
+                {{#if (or (eq idata.subType "grace") (eq idata.subType "piety"))}}
+                    {{#if hasActor}}
+                        <div class="form-group stacked text-field">
+                            <label>Domain</label>
+                            <div class="form-fields">
+                                <select class="value" name="system.domain">
+                                    {{selectOptions domains.divine selected=system.domain}}
+                                </select>
+                            </div>
+                        </div>
+                    {{else}}
+                        {{formField fields.domain rootId="mystery-domain" classes="text-field" stacked=true value=system.domain}}
+                    {{/if}}
+                {{else}} {{#if (eq idata.subType "totem")}}
+                    {{#if hasActor}}
+                        <div class="form-group stacked text-field">
+                            <label>Totem</label>
+                            <div class="form-fields">
+                                <select class="value" name="system.domain">
+                                    {{selectOptions domains.totem selected=system.domain}}
+                                </select>
+                            </div>
+                        </div>
+                    {{else}}
+                        {{formField fields.domain rootId="mystery-domain" label="Totem" classes="text-field" stacked=true value=system.domain}}
+                    {{/if}}
+                {{/if}} {{/if}}
+
+                {{#if (or (eq idata.subType "blessing") (eq idata.subType "ancestor"))}}
+                    {{formField fields.levelBase rootId="mystery-modifier" label="Skill Bonus" classes="text-field" stacked=true value=system.levelBase}}
+                {{/if}}
+                {{#if (eq idata.subType "fateBonus")}}
+                    {{formField fields.levelBase rootId="mystery-modifier" label="Fate Test Bonus" classes="text-field" stacked=true value=system.levelBase}}
+                    <div class="form-group stacked">
+                        <label for="mystery-isPool" class="text-field">Is Pool</label>            
+                        <input id="mystery-isPool" type="checkbox" name="flags.sohl.isPool" {{checked flags.sohl.isPool}} data-dtype="Boolean" />
+                        <p class="hint">If checked, bonus is a pool from which specific bonus amounts can be used as desired</p>
+                    </div>
+                {{/if}}
+                {{#if (eq idata.subType "fatePointIncreaseBonus")}}
+                    {{formField fields.levelBase rootId="mystery-modifier" label="Fate Point Increase Test Bonus"
+                    hint="Bonus to the fate point increase test" classes="text-field" stacked=true value=system.levelBase}}
+                {{/if}}
+            </div>
+            <div class="grid grid-3col">
+                {{#if (eq idata.subType "grace")}}
+                    <input type="hidden" name="system.charges.usesCharges" value="true" />
+                    {{formField fields.charges.fields.value rootId="mystery-grace-val" label="Current Grace" hint="Current amount of Grace available" classes="text-field" stacked=true value=system.charges.value}}
+                    {{formField fields.charges.fields.max rootId="mystery-grace-max" label="Total Grace" hint="Total amount of Grace ever awarded" classes="text-field" stacked=true value=system.charges.max}}
+                {{else}} {{#if (eq idata.subType "fate")}}
+                <input type="hidden" name="system.charges.usesCharges" value="true" />
+                <input type="hidden" name="system.charges.max" value="0" />
+                {{formField fields.charges.fields.value rootId="mystery-fate-val" label="Current Fate" hint="Current amount of Fate available" classes="text-field" stacked=true value=system.charges.value}}
+                {{else}} {{#if (eq idata.subType "piety")}}
+                <input type="hidden" name="system.charges.usesCharges" value="true" />
+                {{formField fields.charges.fields.value rootId="mystery-piety-val" label="Current Piety" hint="Current amount of Piety available" classes="text-field" stacked=true value=system.charges.value}}
+                {{formField fields.charges.fields.max rootId="mystery-piety-max" label="Max Piety" hint="Maximum amount of piety attainable" classes="text-field" stacked=true value=system.charges.max}}
+                {{else}}
+                {{formField fields.charges.fields.usesCharges rootId="mystery-charges-usesCharges" classes="text-field" stacked=true value=system.charges.usesCharges}}
+                    {{#if system.charges.usesCharges}}
+                    {{formField fields.charges.fields.value rootId="mystery-charges-val" classes="text-field" stacked=true value=system.charges.value}}
+                    {{formField fields.charges.fields.max rootId="mystery-charges-max" classes="text-field" stacked=true value=system.charges.max}}
+                    {{/if}}
+                {{/if}} {{/if}} {{/if}}
+            </div>
+            {{#if (or (eq idata.subType "fate") (eq idata.subType "fateBonus") (eq idata.subType "blessing") (eq idata.subType "ancestor"))}}
+            <fieldset class="mystery-skills-list" id="mystery-skills-list">
+                <legend>Affected Skills (all if none specified)</legend>
+                <div class="mystery-skills-add flexrow" id="mystery-skills-add">
+                    <a
+                        class="add-array-item"
+                        data-array="system.skills"
+                        data-dtype="String"
+                        data-default-value=""
+                        data-title="Skill"
+                        ><i class="fas fa-plus"></i> Add Skill</a
+                    >
+                </div>
+                <ol
+                    class="grid grid-4col"
+                    id="mystery-fateSkills-display">
+                    {{#each flags.sohl.skills}}
+                    <li class="mystery-fateSkills">
+                        <span class="name">{{this}}</span>
+                        <a
+                            class="delete-array-item"
+                            data-array="system.skills"
+                            data-value="{{this}}"
+                            title="Skill"
+                            ><i class="fas fa-trash"></i
+                        ></a>
+                    </li>
+                    {{/each}}
+                </ol>
+            </fieldset>
+            {{/if}}
+            {{> "sohl.item-refnote"}}
+        </div>
+
+        {{!-- Description Tab --}}
+        <div
+            class="tab description"
+            data-group="primary"
+            data-tab="description">
+            {{editor idata.description target="system.description" button=true
+            owner=owner editable=editable}}
+        </div>
+
+        {{!-- Actions Tab --}}
+        <div class="tab actions" data-group="primary" data-tab="actions">
+            {{> "sohl.item-actions-list"}}
+        </div>
+
+        {{!-- Embedded Items Tab --}}
+        <div
+            class="tab nesteditems"
+            data-group="primary"
+            data-tab="nesteditems">
+            {{> "sohl.item-nesteditems-list"}}
+        </div>
+
+        {{!-- Effects Tab --}}
+        <div class="tab effects" data-group="primary" data-tab="effects">
+            {{> "sohl.item-active-effects"}}
+        </div>
+    </section>
+</form>

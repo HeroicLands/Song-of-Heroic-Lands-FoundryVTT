@@ -1,0 +1,20 @@
+<div class="grid grid-3col">
+    {{formField fields.mode rootId="meleestrikemode-mode" classes="text-field" stacked=true value=system.mode}}
+    {{formField fields.minParts rootId="meleestrikemode-minparts" classes="text-field" stacked=true value=system.minParts}}
+    <div class="form-group stacked text-field">
+        <label>Zone Die</label>
+        <div class="form-fields">
+            {{numberInput flags.sohl.legendary.zoneDie name="flags.sohl.legendary.zoneDie" step=1 min=0}}
+        </div>
+        <p class="hint"></p>
+    </div>
+    {{> @partial-block}}
+</div>
+<fieldset>
+    <legend>Impact</legend>
+    <div class="grid grid-3col">
+        {{formField fields.impactBase.fields.die rootId="strikemode-imp-die" classes="text-field" stacked=true value=system.impactBase.die}}
+        {{formField fields.impactBase.fields.modifier rootId="strikemode-imp-mod" classes="text-field" stacked=true value=system.impactBase.modifier}}
+        {{formField fields.impactBase.fields.aspect rootId="strikemode-imp-asp" classes="text-field" stacked=true value=system.impactBase.aspect}}
+    </div>
+</fieldset>

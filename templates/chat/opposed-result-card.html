@@ -1,0 +1,101 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexcol">
+        <h3 class="title">Opposed Action Result</h3>
+        <h4 class="subtitle">{{atkToken.name}} vs. {{defToken.name}}</h4>
+    </header>
+
+    <div class="card-content">
+        <span class="label center">{{atkToken.name}}</span>
+        <div class="card-content">
+            {{{prevAtkResult.mlMod.chatHtml}}}
+        </div>
+    </div>
+
+    <div class="card-content">
+        <span class="label center">{{defToken.name}}</span>
+        <div class="card-content">
+            {{{prevDefResult.mlMod.chatHtml}}}
+        </div>
+    </div>
+
+    <div class="card-content flex-group-center">
+        <span class="label">{{defToken.name}} Success Level Mod:</span>
+        <span class="value"><strong>{{prevDefResult.successLevelMod}}</strong></span>
+    </div>
+
+    <div class="grid grid-2col mingap">
+        <span class="header">Attack</span>
+        <span class="header">Defend</span>
+        <span class="center">{{atkToken.name}}</span>
+        <span class="center">{{defToken.name}}</span>
+        <span class="center">{{atkItem.name}}</span>
+        <span class="center">{{defItem.name}}</span>
+        <span class="center">EML: {{prevAtkResult.effTarget}}</span>
+        <span class="center">EML: {{prevDefResult.effTarget}}</span>
+        <span class="center {{#if prevAtkResult.isCritical}}critical-{{/if}}{{#if prevAtkResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >Roll: {{prevAtkResult.rollTotal}}</span>
+        <span class="center {{#if prevDefResult.isCritical}}critical-{{/if}}{{#if prevDefResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >Roll: {{prevDefResult.rollTotal}}</span>
+        <span class="center {{#if prevAtkResult.isCritical}}critical-{{/if}}{{#if prevAtkResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{prevAtkResult.description}}</span>
+        <span class="center {{#if prevDefResult.isCritical}}critical-{{/if}}{{#if prevDefResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{prevDefResult.description}}</span>
+    </div>
+
+    <div class="card-content center">
+        {{#if (vsIsTied)}}
+        <span class="result-desc">Opposed Roll is a Tie!</span>
+        {{else}}
+            {{#if atkVictory}}
+            <span class="result-desc">{{atkToken.name}} Wins!</span>
+            {{else}} {{#if defVictory}}
+            <span class="result-desc">{{defToken.name}} Wins!</span>
+            {{/if}} {{/if}}
+        {{/if}}
+    </div>
+
+    <div class="card-content center">
+        {{#if (not (or atkVictory defVictory vsIsTied))}}
+        <span class="result-desc">Both Fail!</span>
+        {{else}} {{#if (or atkVictory defVictory)}}
+        <span class="result-desc">Victory Stars: {{vsText}}</span>
+        {{/if}} {{/if}}
+    </div>
+
+    {{#if (or prevAtkResult.askFate prevDefResult.askFate)}}
+    <div class="card-buttons">
+        {{#if prevAtkResult.askFate}}
+        <button
+            data-action="fateTest"
+            data-target-uuid="{{atkItemUuid}}"
+            data-next-action="opposedTestSendToChat"
+            data-next-target-uuid="{{defToken.uuid}}"
+            data-next-title="{{title}}"
+            data-next-type="{{type}}"
+            data-test-prop-name="prevAtkResult"
+            data-atk-item-uuid="{{atkItemUuid}}"
+            data-def-item-uuid="{{defItemUuid}}"
+            data-prev-atk-result-json="{{prevAtkResultJson}}"
+            data-prev-def-result-json="{{prevDefResultJson}}">
+            <i class="fas fa-stars"></i> {{atkToken.name}} Fate Test
+        </button>
+        {{/if}}
+        {{#if prevAtkResult.askFate}}
+        <button
+            data-action="fateTest"
+            data-target-uuid="{{defItemUuid}}"
+            data-next-action="opposedTestSendToChat"
+            data-next-target-uuid="{{defToken.uuid}}"
+            data-next-title="{{title}}"
+            data-next-type="{{type}}"
+            data-test-prop-name="prevDefResult"
+            data-atk-item-uuid="{{atkItemUuid}}"
+            data-def-item-uuid="{{defItemUuid}}"
+            data-prev-atk-result-str="{{prevAtkResultStr}}"
+            data-prev-def-result-str="{{prevDefResultStr}}">
+            <i class="fas fa-stars"></i> {{defToken.name}} Fate Test
+        </button>
+        {{/if}}
+    </div>
+    {{/if}}
+</div>

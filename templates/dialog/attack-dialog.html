@@ -1,0 +1,112 @@
+<form>
+    <div class="form-group">
+        <label>Target Distance:</label>
+        <span>{{distance}} ft.</span>
+    </div>
+
+    {{#if isMissile}}
+    <div class="form-group">
+        <label>Target Movement:</label>
+        <select name="targetMovement">
+            <option value="still">Not Moving</option>
+            <option value="moving">Moving</option>
+            <option value="evading" selected>Evading/Melee</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input
+            type="checkbox"
+            name="attackerMoving"
+            data-dtype="Boolean"
+            {{checked
+            attackerMoving}} />
+        <label>Attacker Moving</label>
+    </div>
+    {{else}}
+    <input type="hidden" name="targetState" value="still" />
+    {{/if}}
+
+    <div class="form-group">
+        <label>Zone Die:</label>
+        <select name="zoneDie">
+            {{#select zoneDie}} {{#each zoneDieChoices}}
+            <option value="{{this}}">d{{this}}</option>
+            {{/each}} {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Zone Offset</label>
+        <input type="number" name="zoneOffset" value="{{zoneOffset}}" />
+    </div>
+
+    <fieldset>
+        <legend>Attack Modifiers</legend>
+        <div class="form-group">
+            <div class="flex flex-2col" name="attackmods">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each attackMods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Situational Modifier:</label>
+            <input
+                type="number"
+                name="attackModifier"
+                value="{{attackModifier}}" />
+        </div>
+
+        <div class="form-group">
+            <label>Success Level Mod:</label>
+            <input
+                type="number"
+                name="successLevelMod"
+                value="{{successLevelMod}}" />
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Impact Modifiers</legend>
+        <div class="form-group">
+            <span class="text label">Impact:</span>
+            <span class="value label">{{impactLabel}}</span>
+        </div>
+
+        <div class="form-group">
+            <div class="flex flex-2col" name="impactmods">
+                <div class="flexrow">
+                    <span class="text label">Adjustment</span>
+                    <span class="value label">Value</span>
+                </div>
+                {{#each impactMods}}
+                <div class="flexrow">
+                    <span class="text">{{this.name}}</span>
+                    <span class="value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Addl Impact Modifier:</label>
+            <input
+                type="number"
+                name="impactModifier"
+                value="{{impactModifier}}" />
+        </div>
+    </fieldset>
+</form>

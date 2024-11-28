@@ -1,0 +1,1071 @@
+- name: Premonition
+  id: hrSi238FiXLA5O8m
+  subType: fate
+  domain: ""
+  skills: []
+  level: 0
+  usesCharges: true
+  chargesValue: 5
+  chargesMax: 0
+  description: ""
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/sparkles.svg
+  folderId: HQdjhe67Av3z8APh
+- name: "Badger: Tenacious and Independent"
+  id: WxZsuNGUm8U7JpQn
+  subType: totem
+  domain: badger
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Tenacious and solitary, badgers are fiercely independent animals that will defend their territory with determination and persistence.</p>
+    <p><strong>Human Personality:</strong> Fiercely determined and self-reliant, this individual prefers solitary tasks and will defend their personal space and principles with unwavering commitment.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, stocky build; possibly sharper, more penetrating gaze.</li>
+    <li><strong>Behavioral:</strong> Highly determined, fiercely independent, unwilling to let go of tasks.</li><li><strong>Positive Aspects:</strong> Determined, fiercely independent, and resilient.</li>
+    <li><strong>Negative Aspects:</strong> Stubborn, isolated, unwilling to let go of tasks, and resistant to collaboration.</li>
+    <li><strong>Minor Trait:</strong> Self-sufficient.</li>
+    <li><strong>Major Disorder:</strong> Obsessive-Compulsive Personality Disorder (OCPD) due to extreme stubbornness and rigidity in behaviors.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/badger.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Bear: Solitary and Calm"
+  id: IPxMGQOSQBsOi48s
+  subType: totem
+  domain: bear
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Quiet and shy, bears prefer to avoid confrontation, retreating into the wilderness where they live a largely solitary and reclusive life.</p>
+    <p><strong>Description:</strong> Quiet and reclusive, this person enjoys their own company and avoids unnecessary confrontation. They thrive in peaceful, solitary environments and are at their best when left to their own devices.</p>
+    <ul>
+    <li><strong>Physical:</strong> Large, robust frame; capable of producing an intimidating presence.</li>
+    <li><strong>Behavioral:</strong> Prefers solitude, generally calm demeanor but potentially explosive when provoked.</li><li><strong>Positive:</strong> Self-sufficient, calm, and introspective.</li>
+    <li><strong>Negative:</strong> Reclusive, avoidant, and emotionally distant.</li>
+    <li><strong>Minor Trait:</strong> Introverted.</li>
+    <li><strong>Major Disorder:</strong> Avoidant Personality Disorder, characterized by extreme shyness and avoidance of social interaction.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/bear.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Bison: Stoic and Protective"
+  id: 2CpsqSoWBpEsHCU9
+  subType: totem
+  domain: bison
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Stoic and protective, bison form strong herd bonds and will fiercely defend their young and territory from any threats.</p>
+    <p><strong>Description:</strong> Steadfast and dependable, this person places a high value on family and community. They are willing to go to great lengths to protect their loved ones and are seen as pillars of strength.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sturdy, muscular build; a grounded and imposing presence.</li>
+    <li><strong>Behavioral:</strong> Stoic in face of adversity, protective of loved ones and territory.</li><li><strong>Positive:</strong> Loyal, dependable, and community-oriented.</li>
+    <li><strong>Negative:</strong> Overprotective, inflexible, and resistant to change.</li>
+    <li><strong>Minor Trait:</strong> Reliable.</li>
+    <li><strong>Major Disorder:</strong> Protective Stoicism Disorder, exhibiting a stoic demeanor while being exceedingly overprotective, inflexible, and resistant to change. This disorder also encompasses traits of Dependent Personality Disorder, resulting in a blend of emotional rigidity, excessive caution, and an overwhelming need to guard and control their environment and relationships for a perceived sense of safety and stability.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/bison.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Boar: Willful and Determined"
+  id: jdBjqI048XnA4tfr
+  subType: totem
+  domain: boar
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Willful and stubborn, boars are highly determined and will fight vigorously when provoked, relying on their strength and tenacity.</p>
+    <p><strong>Description:</strong> Highly determined and unwavering, this person faces challenges head-on. Their strong will and resistance to giving up ensure they persevere through even the toughest situations.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, solid body; possibly more facial hair or hirsute.</li>
+    <li><strong>Behavioral:</strong> Willful, confrontational, takes a headstrong approach to challenges.</li><li><strong>Positive:</strong> Strong-willed, determined, and resilient.</li>
+    <li><strong>Negative:</strong> Stubborn, aggressive, and hard to reason with.</li>
+    <li><strong>Minor Trait:</strong> Assertive.</li>
+    <li><strong>Major Disorder:</strong> Oppositional Defiant Disorder (ODD), due to chronic stubbornness and defiance.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/boar.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Bobcat: Secretive and Cautious"
+  id: 6Y0jmaBIzCwrwz1p
+  subType: totem
+  domain: bobcat
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Secretive and cautious, bobcats are elusive hunters, using their stealth and patience to silently stalk and ambush their prey.</p>
+    <p><strong>Description:</strong> Elusive and careful, this individual is always cautious about their surroundings. They prefer to remain out of the spotlight and use their keen observation to make informed decisions.</li></p>
+    <ul>
+    <li><strong>Physical:</strong> Lean, agile physique; sharp, penetrating eyes.</li>
+    <li><strong>Behavioral:</strong> Extremely cautious, prefers to stay under the radar, secretive.</li><li><strong>Positive:</strong> Cautious, observant, and strategic.</li>
+    <li><strong>Negative:</strong> Secretive, withdrawn, and overly suspicious.</li>
+    <li><strong>Minor Trait:</strong> Vigilant.</li>
+    <li><strong>Major Disorder:</strong> Social Anxiety Disorder, linked to heightened caution and reluctance to social exposure.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/bobcat.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Bull: Destructive and Unpredictable"
+  id: kDExCsZvttQtSzlq
+  subType: totem
+  domain: bull
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Destructive and unpredictable, bulls are powerful animals that can quickly become aggressive, especially when threatened or provoked.</p>
+    <p><strong>Description:</strong> Powerful and sometimes volatile, this person can become aggressive when provoked. They possess strong emotions and their reactions can be intense and forceful.</li></p>
+    <ul>
+    <li><strong>Physical:</strong> Thick, muscular neck and broad shoulders; imposing stance.</li>
+    <li><strong>Behavioral:</strong> Potentially volatile and destructive, unpredictable in reactions.</li><li><strong>Positive:</strong> Powerful, assertive, and decisive.</li>
+    <li><strong>Negative:</strong> Aggressive, volatile, and difficult to control.</li>
+    <li><strong>Minor Trait:</strong> Decisive.</li>
+    <li><strong>Major Disorder:</strong> Intermittent Explosive Disorder, marked by episodes of aggressive outbursts.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/bull.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Catfish: Nocturnal and Opportunistic"
+  id: RbJ9D3CclnLOGenm
+  subType: totem
+  domain: catfish
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Nocturnal and opportunistic, catfish are bottom-dwellers that take advantage of the cover of darkness to feed on whatever they can find.</p>
+    <p><strong>Description:</strong> Preferring to work under the radar, this person takes advantage of situations that others might overlook. They are most active and productive in less obvious settings.</li></p>
+    <ul>
+    <li><strong>Physical:</strong> Smooth skin with a slight sheen; sinuous movements.</li>
+    <li><strong>Behavioral:</strong> Active at night, takes advantage of situations and opportunities.</li><li><strong>Positive:</strong> Adaptable, resourceful, and efficient.</li>
+    <li><strong>Negative:</strong> Opportunistic, secretive, and may avoid daytime interactions.</li>
+    <li><strong>Minor Trait:</strong> Adaptable.</li>
+    <li><strong>Major Disorder:</strong> Antisocial Personality Disorder, associated with taking advantage of situations without regard for others.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/catfish.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Chicken: Cautious and Alert"
+  id: zAcMdNEQ72INVoNU
+  subType: totem
+  domain: chicken
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Timid and skittish, chickens are easily startled and rely on their quick reflexes and flocking behavior for safety.</p>
+    <p><strong>Description:</strong> Easily startled and cautious, this individual seeks safety in familiarity and routine. They often rely on their quick reflexes and social networks to navigate potential threats.</li></p>
+    <ul>
+    <li><strong>Physical:</strong> Smaller, less imposing frame; possibly quick, jittery movements.</li>
+    <li><strong>Behavioral:</strong> Timid and easily startled, wary of risks and changes.</li><li><strong>Positive:</strong> Quick reflexes, cautious, and community-oriented.</li>
+    <li><strong>Negative:</strong> Easily startled, anxious, and overly reliant on group dynamics.</li>
+    <li><strong>Minor Trait:</strong> Cautious.</li>
+    <li><strong>Major Disorder:</strong> Generalized Anxiety Disorder (GAD), characterized by persistent worry and fear.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/chicken.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Cow: Gentle and Routine-Oriented"
+  id: zJVBT4rbche7Cmfb
+  subType: totem
+  domain: cow
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Docile and routine-oriented, cows are gentle creatures that thrive in familiar environments, following established patterns for feeding and resting.</p>
+    <p><strong>Description:</strong> Docile and calm, this person thrives on consistency and routine. They are gentle in their interactions and prefer environments where they can follow familiar patterns.</p>
+    <ul>
+    <li><strong>Physical:</strong> Robust, steady frame; calm, reflective countenance.</li>
+    <li><strong>Behavioral:</strong> Gentle, prefers routines, calm demeanor.</li><li><strong>Positive:</strong> Calm, dependable, and adaptable to routines.</li>
+    <li><strong>Negative:</strong> Predictable, resistant to change, and may lack initiative.</li>
+    <li><strong>Minor Trait:</strong> Calm.</li>
+    <li><strong>Major Disorder:</strong> Depressive Disorder related to lack of initiative and resistance to change.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/cow.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Crow: Curious and Resourceful"
+  id: XHwwkctPOTYwybx5
+  subType: totem
+  domain: crow
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Mischievous and vindictive, crows are highly intelligent birds that can hold grudges and are known to play tricks on both animals and humans.</p>
+    <p><strong>Description:</strong> Mischevous, curious, and resourceful, this person has a knack for problem-solving and enjoys playing tricks. They are curious and often use their wits to navigate complex situations.</p>
+    <ul>
+    <li><strong>Physical:</strong> Keen, observant eyes; lean and agile.</li>
+    <li><strong>Behavioral:</strong> Highly curious, resourceful in problem-solving and tool use.</li><li><strong>Positive:</strong> Resourceful, innovative, and problem-solving.</li>
+    <li><strong>Negative:</strong> Mischievous, vindictive, and may play tricks on others.</li>
+    <li><strong>Minor Trait:</strong> Innovative</li>
+    <li><strong>Major Disorder:</strong> Narcissistic Personality Disorder (NPD), linked with vindictive and manipulative behaviors.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/crow.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Deer: Alert and Elusive"
+  id: xbBAhWDbWnyD8p2l
+  subType: totem
+  domain: deer
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Alert and elusive, deer are constantly vigilant, using their keen senses to detect danger and flee at the first sign of a threat.</p>
+    <p><strong>Description:</strong> Constantly vigilant, this individual is always aware of their surroundings. They are quick to evade danger and prefer blending into the background to avoid confrontation.</p>
+    <ul>
+    <li><strong>Physical:</strong> Lean, light build; graceful and delicate movements.</li>
+    <li><strong>Behavioral:</strong> Always alert, evasive and elusive, often avoiding confrontation.</li><li><strong>Positive:</strong> Vigilant, alert, and responsive to danger.</li>
+    <li><strong>Negative:</strong> Skittish, elusive, and may avoid social interactions.</li>
+    <li><strong>Minor Trait:</strong> Responsive.</li>
+    <li><strong>Major Disorder:</strong> Hypervigilant Elusiveness Disorder, characterized by an individual&#39;s intense vigilance and alertness, combined with an elusive nature and heightened sensitivity to perceived dangers, they are constantly on guard, excessively aware of their surroundings, and quick to withdraw or evade potential threats. This combination often results in significant social and occupational difficulties due to their constant state of alertness and avoidance behaviors.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/deer.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Donkey: Patient and Obstinate"
+  id: 06wasGpojK17FTdC
+  subType: totem
+  domain: donkey
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Patient and obstinate, donkeys are known for their stubbornness and will resist any force they perceive as unreasonable or threatening.</p>
+    <p><strong>Description:</strong> Stubborn and resilient, this person stands firm in their beliefs and resists being forced into actions they perceive as unreasonable. They are patient, enduring, and steadfast.</p>
+    <ul>
+    <li><strong>Physical:</strong> Compact, sturdy build; strong legs and back.</li>
+    <li><strong>Behavioral:</strong> Extremely patient, often stubborn and resistant to change.</li><li><strong>Positive:</strong> Resilient, persistent, and patient.</li>
+    <li><strong>Negative:</strong> Stubborn, resistant to guidance, and inflexible.</li>
+    <li><strong>Minor Trait:</strong> Persistent.</li>
+    <li><strong>Major Disorder:</strong> Resilient Stubbornness Disorder, characterized by an individual&#39;s extreme patience coupled with profound obstinacy, individuals are generally calm and persistent, but as they encounter provocation or pressure, their stubbornness and inflexibility intensify dramatically. This disorder manifests as a combination of steadfast determination and an increasing resistance to change when faced with adversity or challenge.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/donkey.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Dove: Gentle and Companionable"
+  id: 7tU9QZR1Fp4H8H3v
+  subType: totem
+  domain: dove
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Gentle and peaceful, instinctively seeking harmony and companionship, often displaying strong pair bonding and a calming presence in their surroundings.</p>
+    <p><strong>Description:</strong> This person is peaceful and harmonious, seeking strong, friendly bonds with others. They are calming presences who strive for tranquility and companionship in their relationships.</p>
+    <ul>
+    <li><strong>Physical:</strong> Soft, gentle features; calm and serene appearance.</li>
+    <li><strong>Behavioral:</strong> Companionable, seeks peace and harmony in social settings.</li><li><strong>Positive:</strong> Peaceful, harmonious, and good at forming bonds.</li>
+    <li><strong>Negative:</strong> Overly dependent on companionship and may avoid conflict even when necessary.</li>
+    <li><strong>Minor Trait:</strong> Agreeable.</li>
+    <li><strong>Major Disorder:</strong> Dependent Personality Disorder, due to dependence on companionship and others for decision-making.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/dove.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Duck: Adaptable and Social"
+  id: iQHwJSWiNaowM9nN
+  subType: totem
+  domain: duck
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Gregarious and adaptable, ducks are social birds that thrive in diverse environments, often forming strong bonds with their flock.</p>
+    <p><strong>Description:</strong> Gregarious and flexible, this person thrives in diverse environments and builds strong social bonds. They easily adapt to changing circumstances and enjoy being part of a community.</p>
+    <ul>
+    <li><strong>Physical:</strong> Agile, adept at both land and water movement; webbed feet.</li>
+    <li><strong>Behavioral:</strong> Highly adaptable, enjoys social interaction, quick to adjust to surroundings.</li><li><strong>Positive:</strong> Social, adaptable, and builds strong relationships.</li>
+    <li><strong>Negative:</strong> May be too reliant on social approval and could struggle with independence.</li>
+    <li><strong>Minor Trait:</strong> Sociable.</li>
+    <li><strong>Major Disorder:</strong> Histrionic Personality Disorder (HPD), characterized by dependence on social approval and attention.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/duck.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Eagle: Merciless and Focused"
+  id: T2EpauXH7NkoWDwt
+  subType: totem
+  domain: eagle
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Blunt, impatient, and merciless, eagles are apex predators that strike with precision, showing little tolerance for any hindrances in their pursuit of prey.</p>
+    <p><strong>Description:</strong> Blunt and decisive, this individual exhibits little tolerance for obstacles and pursues their goals with ruthless efficiency. They are highly focused and not easily deterred.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sharp vision; strong, prominent features, especially the nose and brow.</li>
+    <li><strong>Behavioral:</strong> Focused to the point of being ruthless, relentless in pursuits.</li><li><strong>Positive:</strong> Blunt, decisive, and highly effective.</li>
+    <li><strong>Negative:</strong> Ruthless, intolerant of mistakes, and could be overly aggressive in pursuits.</li>
+    <li><strong>Minor Trait:</strong> Goal-oriented.</li>
+    <li><strong>Major Disorder:</strong> Antisocial Personality Disorder, characterized by ruthless and aggressive pursuit of goals.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/eagle.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Falcon: Precise and Relentless"
+  id: RakVBHejmx0qHcIn
+  subType: totem
+  domain: falcon
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Precise and relentless, falcons are master hunters that dive at incredible speeds to capture prey, showing unparalleled focus and determination.</p>
+    <p><strong>Description:</strong> This person is a master of focus and determination, diving into tasks with unmatched precision. They relentlessly pursue their objectives, often succeeding due to their intense concentration.</p>
+    <ul>
+    <li><strong>Physical:</strong> Streamlined, athletic build; intense, unwavering gaze.</li>
+    <li><strong>Behavioral:</strong> Precise in actions, relentless in efforts and pursuits.</li><li><strong>Positive:</strong> Highly focused, determined, and efficient.</li>
+    <li><strong>Negative:</strong> Can be overly intense and may not tolerate distractions or setbacks well.</li>
+    <li><strong>Minor Trait:</strong> Precise.</li>
+    <li><strong>Major Disorder:</strong> Obsessive-Compulsive Personality Disorder (OCPD), linked to relentless perfectionism.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/falcon.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Fox: Cunning and Resourceful"
+  id: YS9L9w2AUIAqL6fy
+  subType: totem
+  domain: fox
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Deceitful and cunning, foxes are highly intelligent and resourceful, using their wits to outsmart both prey and predators alike.</p>
+    <p><strong>Description:</strong> Deceitful and intelligent, this individual uses their sharp mind to navigate challenges. They are skilled at outsmarting both opponents and obstacles, often finding clever solutions.</p>
+    <ul>
+    <li><strong>Physical:</strong> Lean, quick; alert, watchful eyes.</li>
+    <li><strong>Behavioral:</strong> Smart, resourceful, able to outwit and maneuver through challenges.</li><li><strong>Positive:</strong> Clever, strategic, and resourceful.</li>
+    <li><strong>Negative:</strong> Deceitful, manipulative, and may use cunning at the expense of others&#39; trust.</li>
+    <li><strong>Minor Trait:</strong> Resourceful.</li>
+    <li><strong>Major Disorder:</strong> Antisocial Personality Disorder, due to manipulative and deceitful behavior.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/fox.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Goat: Curious and Determined"
+  id: lWxRr0XkTqO3qDNa
+  subType: totem
+  domain: goat
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Curious and determined, goats are naturally inquisitive animals that will climb, explore, and test their environment to satisfy their curiosity.</p>
+    <p><strong>Description:</strong> Inquisitive and adventurous, this person constantly explores and tests their environment. Their determination drives them to overcome barriers and satisfy their curiosity.</p>
+    <ul>
+    <li><strong>Physical:</strong> Lean, muscular legs; agile and sure-footed.</li>
+    <li><strong>Behavioral:</strong> Inquisitive and determined, won't shy away from obstacles.</li><li><strong>Positive:</strong> Inquisitive, adventurous, and resilient.</li>
+    <li><strong>Negative:</strong> Can be overly stubborn and reckless in pursuing curiosity.</li>
+    <li><strong>Minor Trait:</strong> Inquisitive.</li>
+    <li><strong>Major Disorder:</strong> Attention Deficit Hyperactivity Disorder (ADHD), characterized by impulsive and exploratory behaviors.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/goat.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Goose: Territorial and Aggressive"
+  id: deLZxIhQUl5cFaIO
+  subType: totem
+  domain: goose
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Territorial and aggressive, geese are fiercely protective of their nesting sites and will not hesitate to confront intruders with loud honks and aggressive displays.</p>
+    <p><strong>Description:</strong> Fiercely protective of their space, this individual confronts intruders with assertive behavior. They are loyal to their environment and those they care about, showing strong defensive instincts.</p>
+    <ul>
+    <li><strong>Physical:</strong> Broad, strong shoulders; sharp eyes.</li>
+    <li><strong>Behavioral:</strong> Highly territorial, can be surprisingly aggressive in defense.</li><li><strong>Positive:</strong> Loyal, protective, and assertive.</li>
+    <li><strong>Negative:</strong> Aggressive, overly territorial, and confrontational.</li>
+    <li><strong>Minor Trait:</strong> Assertive.</li>
+    <li><strong>Major Disorder:</strong> Borderline Personality Disorder (BPD), due to extreme aggression and difficulty managing relationships.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/goose.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Hamster: Cautious and Hoarding"
+  id: aVh7hIiGfJgn3CRU
+  subType: totem
+  domain: hamster
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Cautious and hoarding, hamsters instinctively gather and store food in their cheek pouches, always preparing for future scarcity.</p>
+    <p><strong>Description:</strong> Always preparing for future scarcity, this person is cautious and tends to gather resources. They prefer to have safety nets and are diligent in securing their needs.</p>
+    <ul>
+    <li><strong>Physical:</strong> Small, compact frame; nimble, capable of quick movements.</li>
+    <li><strong>Behavioral:</strong> Cautious and highly protective of personal space and possessions.</li><li><strong>Positive:</strong> Prepared, cautious, and resourceful.</li>
+    <li><strong>Negative:</strong> Overly cautious, hoarding behaviors, and may struggle with trust.</li>
+    <li><strong>Minor Trait:</strong> Prudent.</li>
+    <li><strong>Major Disorder:</strong> Hoarding Disorder, linked to excessive gathering and storage.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/hamster.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Hawk: Observant and Swift"
+  id: 2Ed7btYI6bIBYi7P
+  subType: totem
+  domain: hawk
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Observant and swift, hawks use their sharp vision to spot prey from great distances and strike with incredible speed and accuracy.</p>
+    <p><strong>Description:</strong> Highly observant and quick to act, this person spots opportunities and threats from a distance. Their swift actions and sharp focus make them effective in accomplishing their goals.</p>
+    <ul>
+    <li><strong>Physical:</strong> Piercing eyes; quick, agile movements.</li>
+    <li><strong>Behavioral:</strong> Observant, takes swift and decisive actions.</li><li><strong>Positive:</strong> Highly observant, quick-witted, and effective.</li>
+    <li><strong>Negative:</strong> May be impulsive and overly focused, potentially missing broader contexts.</li>
+    <li><strong>Minor Trait:</strong> Focused.</li>
+    <li><strong>Major Disorder:</strong> Obsessive-Compulsive Disorder (OCD), linked to hyper-focus and compulsion.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/hawk.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Hedgehog: Defensive and Solitary"
+  id: 0xUsGQi0l0TkirTM
+  subType: totem
+  domain: hedgehog
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Defensive and solitary, hedgehogs rely on their spines for protection and prefer to remain hidden and alone in their burrows.</p>
+    <p><strong>Description:</strong> Preferring to stay hidden and alone, this individual relies on their defenses to navigate social interactions. They are self-protective and often choose solitude over socializing.</p>
+    <ul>
+    <li><strong>Physical:</strong> Small, round build; defensive body language.</li>
+    <li><strong>Behavioral:</strong> Prefers solitude, defensive and wary of threats.</li><li><strong>Positive:</strong> Self-protective, independent, and resilient.</li>
+    <li><strong>Negative:</strong> Overly defensive and may isolate themselves too much.</li>
+    <li><strong>Minor Trait:</strong> Self-protective.</li>
+    <li><strong>Major Disorder:</strong> Schizoid Personality Disorder (SPD), characterized by a preference for solitude and limited social interaction.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/hedgehog.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Horse: Free-Spirited and Independent"
+  id: UZVuHQMOLIbrSvYS
+  subType: totem
+  domain: horse
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Undisciplined and irresponsible, horses in the wild are free-spirited animals that roam in herds, often following their instincts over any imposed structure.</p>
+    <p><strong>Description:</strong> This person embodies a free-spirited nature, thriving in groups but often following their instincts over structured rules. They love exploring and enjoying life on their terms.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, lean build; fluid and graceful in movements.</li>
+    <li><strong>Behavioral:</strong> Free-spirited, values independence, often rebellious.</li><li><strong>Positive:</strong> Independent, adventurous, and freedom-loving.</li>
+    <li><strong>Negative:</strong> Undisciplined, irresponsible, and resistant to structure.</li>
+    <li><strong>Minor Trait:</strong> Adventurous.</li>
+    <li><strong>Major Disorder:</strong> Conduct Disorder, linked to resistance to conformity and reckless behavior.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/horse.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Jaguar: Stealthy and Powerful"
+  id: wUJqCGHtATIIh99Q
+  subType: totem
+  domain: jaguar
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Stealthy and powerful, jaguars are solitary hunters that rely on their strength and stealth to ambush and overpower their prey in dense forests.</p>
+    <p><strong>Description:</strong> This person is a solitary and calculated individual, using their strength and stealth to achieve their goals. They are efficient and often prefer working alone.</p>
+    <ul>
+    <li><strong>Physical:</strong> Muscular and agile; quiet but powerful movements.</li>
+    <li><strong>Behavioral:</strong> Stealthy, capable of intense bursts of power and action.</li><li><strong>Positive:</strong> Strong, efficient, and strategic.</li>
+    <li><strong>Negative:</strong> Secretive, solitary, and may avoid teamwork.</li>
+    <li><strong>Minor Trait:</strong> Cunning.</li>
+    <li><strong>Major Disorder:</strong> Antisocial Personality Disorder, noted for solitary tendencies and calculating behaviors.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/jaguar.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Leopard: Independent and Secretive"
+  id: 9kURQgBvCgSoahoC
+  subType: totem
+  domain: leopard
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Independent and secretive, leopards are solitary predators that prefer to hunt alone, often dragging their kill into trees to avoid scavengers.</p>
+    <p><strong>Description:</strong> Preferring solitude, this individual is self-reliant and keeps to themselves. They are strategic, often hiding their successes from others to avoid unnecessary attention.</p>
+    <ul>
+    <li><strong>Physical:</strong> Lean and muscular; quiet and agile.</li>
+    <li><strong>Behavioral:</strong> Prefers solitude and secrecy, rarely seen but highly capable.</li><li><strong>Positive:</strong> Self-reliant, strategic, and capable.</li>
+    <li><strong>Negative:</strong> Secretive, avoidant, and may struggle with trust and collaboration.</li>
+    <li><strong>Minor Trait:</strong> Independent.</li>
+    <li><strong>Major Disorder:</strong> Schizotypal Personality Disorder (STPD), linked to odd or eccentric behavior and social isolation.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/leopard.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Lion: Dominant and Strategic"
+  id: MU6HVFla6YShVxgi
+  subType: totem
+  domain: lion
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Dominant and strategic, lions are social big cats that work cooperatively within a pride to hunt and defend their territory with calculated precision.</p>
+    <p><strong>Description:</strong> This person is a natural leader who works well within a team, using their strategic mind to lead and defend their group. They are dominant, taking charge of situations.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, dominant presence; regal and authoritative appearance.</li>
+    <li><strong>Behavioral:</strong> Dominant, strategic in leadership and social engagements.</li><li><strong>Positive:</strong> Natural leader, cooperative, and strategic.</li>
+    <li><strong>Negative:</strong> Can be domineering and may struggle with letting others take charge.</li>
+    <li><strong>Minor Trait:</strong> Assertive.</li>
+    <li><strong>Major Disorder:</strong> Narcissistic Personality Disorder (NPD), characterized by dominance and a need for admiration.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/lion.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Lynx: Elusive and Nocturnal"
+  id: HIWEuBejSbFz9oAK
+  subType: totem
+  domain: lynx
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Elusive and watchful, lynxes are solitary and nocturnal hunters that use their keen eyesight to silently stalk prey through dense forests.</p>
+    <p><strong>Description:</strong> Preferring the quiet of night, this individual is watchful and solitary. They use their keen senses to navigate effectively while remaining largely out of sight.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sharp features; keen, watchful eyes, agile.</li>
+    <li><strong>Behavioral:</strong> Highly elusive, prefers night-time activity, secretive.</li><li><strong>Positive:</strong> Highly aware, observant, and strategic.</li>
+    <li><strong>Negative:</strong> Secretive, reclusive, and may avoid daytime engagement.</li>
+    <li><strong>Minor Trait:</strong> Watchful.</li>
+    <li><strong>Major Disorder:</strong> Avoidant Personality Disorder, characterized by social withdrawal and preference for isolation.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/lynx.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Otter: Playful and Curious"
+  id: fXswwp4qhC9zXrtZ
+  subType: totem
+  domain: otter
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Playful and curious, otters are highly social animals that enjoy engaging in group activities, often seen playing in water or using tools to crack open food.</p>
+    <p><strong>Description:</strong> Highly social and inquisitive, this person thrives on interaction and enjoys playful activities. They engage actively with their environment and others, often bringing joy to those around them.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sleek, smooth build; playful and energetic movements.</li>
+    <li><strong>Behavioral:</strong> Highly curious, playful, enjoys exploring new environments.</li><li><strong>Positive:</strong> Social, curious, and engaging.</li>
+    <li><strong>Negative:</strong> May be overly playful and less focused on serious tasks.</li>
+    <li><strong>Minor Trait:</strong> Playful.</li>
+    <li><strong>Major Disorder:</strong> Hyperactivity Disorder, linked to constant need for engagement and restlessness.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/otter.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Owl: Mysterious and Patient"
+  id: Y1YuK9tAyQoCO3Pd
+  subType: totem
+  domain: owl
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Mysterious and patient, owls are nocturnal predators that silently observe their surroundings, waiting for the perfect moment to strike.</p>
+    <p><strong>Description:</strong> This individual is calm and observant, waiting for the right moment to act. They exude a sense of mystery and are often seen as wise due to their patience and thoughtful nature.</p>
+    <ul>
+    <li><strong>Physical:</strong> Large, wide eyes; silent, smooth movements.</li>
+    <li><strong>Behavioral:</strong> Patient, mysterious, often working silently behind the scenes.</li><li><strong>Positive:</strong> Wise, patient, and observant.</li>
+    <li><strong>Negative:</strong> Overly enigmatic, isolated, and may delay actions excessively waiting for the perfect moment.</li>
+    <li><strong>Minor Trait:</strong> Enigmatic.</li>
+    <li><strong>Major Disorder:</strong> Schizoid Personality Disorder (SPD), characterized by extreme introversion and emotional detachment.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/owl.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Ox: Strong and Dependable"
+  id: 5JA4yOkD0TqwsDMp
+  subType: totem
+  domain: ox
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Strong and dependable, oxen are resilient animals used in agriculture for their ability to carry heavy loads and work tirelessly in fields.</p>
+    <p><strong>Description:</strong> Reliable and resilient, this person is often seen as the backbone in any group. They carry heavy responsibilities without complaint and are known for their unwavering strength.</p>
+    <ul>
+    <li><strong>Physical:</strong> Extremely strong, robust frame; steady and solid stance.</li>
+    <li><strong>Behavioral:</strong> Dependable, reliable under pressure, does not tire easily.</li><li><strong>Positive:</strong> Reliable, strong, and hardworking.</li>
+    <li><strong>Negative:</strong> Predictable, resistant to change, and may be overly burdensome.</li>
+    <li><strong>Minor Trait:</strong> Resiliant.</li>
+    <li><strong>Major Disorder:</strong> Dependent Personality Disorder, due to excessive reliability and dependence on routines.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/ox.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Parrot: Social and Vocal"
+  id: 8tXNzvMlIs7L5c7v
+  subType: totem
+  domain: parrot
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Social and vocal, parrots are intelligent birds that thrive on interaction and are known for their ability to mimic sounds and engage with their environment.</p>
+    <p><strong>Description:</strong> Outgoing and communicative, this individual thrives on interaction and enjoys engaging with others. They are articulate and often bring life to social settings with their vocal presence.<ul></p>
+    <ul>
+    <li><strong>Physical:</strong> Bright, expressive appearance; social body language.</li>
+    <li><strong>Behavioral:</strong> Highly social, vocal and communicative, enjoys interaction.</li><li><strong>Positive:</strong> Communicative, social, and interactive.</li>
+    <li><strong>Negative:</strong> Overly talkative, needs attention, and may not enjoy solitude.</li>
+    <li><strong>Minor Trait:</strong> Expressive.</li>
+    <li><strong>Major Disorder:</strong> Histrionic Personality Disorder (HPD), characterized by a constant need for attention and approval.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/parrot.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Pigeon: Loyal and Routine"
+  id: GOFYJG8SHFbxXoPh
+  subType: totem
+  domain: pigeon
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Loyal and routine-oriented, pigeons are known for their strong homing instincts, often returning to the same location repeatedly with remarkable accuracy.</p>
+    <p><strong>Description:</strong> Routine-oriented and faithful, this person has strong homing instincts and a sense of loyalty to familiar places and people. They are dependable and consistent in their habits.</p>
+    <ul>
+    <li><strong>Physical:</strong> Compact, agile physique; soft and gentle demeanor.</li>
+    <li><strong>Behavioral:</strong> Loyal, prefers routine and familiar environments.</li><li><strong>Positive:</strong> Loyal, consistent, and routine-oriented.</li>
+    <li><strong>Negative:</strong> May be overly predictable and resistant to breaking habits or exploring new experiences.</li>
+    <li><strong>Minor Trait:</strong> Loyal.</li>
+    <li><strong>Major Disorder:</strong> Obsessive-Compulsive Personality Disorder (OCPD), linked to rigid adherence to routines and loyalty.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/pigeon.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Rabbit: Nervous and Quick"
+  id: FflqdVjsjGPrZYY9
+  subType: totem
+  domain: rabbit
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Nervous and quick, rabbits are prey animals that rely on their agility and rapid breeding to survive in environments filled with predators.</p>
+    <p><strong>Description:</strong> Agile and easily startled, this individual relies on quick thinking and rapid actions to navigate their environment. They are often seen as cautious and quick to respond to threats.</p>
+    <ul>
+    <li><strong>Physical:</strong> Small, quick, agile; alert and reactive.</li>
+    <li><strong>Behavioral:</strong> Nervous, extremely quick responses, always on alert.</li><li><strong>Positive:</strong> Agile, quick-thinking, and responsive.</li>
+    <li><strong>Negative:</strong> Easily startled and anxious, may struggle with calm environments.</li>
+    <li><strong>Minor Trait:</strong> Nervous.</li>
+    <li><strong>Major Disorder:</strong> Generalized Anxiety Disorder (GAD), characterized by persistent anxiety and quick to startle.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/rabbit.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Sea Bass: Stealthy and Opportunistic"
+  id: tGunwcnHgwsjE6Ht
+  subType: totem
+  domain: seabass
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Opportunistic and stealthy, sea bass lie in wait to ambush unsuspecting prey, capitalizing on their surroundings to strike with precision.</p>
+    <p><strong>Description:</strong> Strategic and patient, this individual waits for the perfect moment to act. They are skilled at identifying opportunities and exploit them with precision and discretion.</p>
+    <ul>
+    <li><strong>Physical:</strong> Streamlined, smooth body; fluid and silent movements.</li>
+    <li><strong>Behavioral:</strong> Stealthy, takes full advantage of opportunities that arise.</li><li><strong>Positive:</strong> Strategic, patient, and precise.</li>
+    <li><strong>Negative:</strong> Secretive, mistrustful, and opportunistic at the expense of others.</li>
+    <li><strong>Minor Trait:</strong> Reticent.</li>
+    <li><strong>Major Disorder:</strong> Predatory Stalking Disorder, characterized by a calculating and covert apporach to manipulating and exploiting others involving a distinct lack of empathy or remorse, with behavior driven by a desire for control, dominance, or personal gain and the expense of others.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/sea bass.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Shark: Relentless and Instinctive"
+  id: yKOy6VLXsYFHVggm
+  subType: totem
+  domain: shark
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Relentless and instinctive, sharks are apex predators that patrol the oceans with unyielding focus, driven by their powerful senses to hunt and survive.</p>
+    <p><strong>Description:</strong> Highly driven by their instincts, this individual pursues their goals with unyielding focus. They are relentless in their endeavors and rely on their sharp senses to succeed.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, sleek build; intense, penetrating gaze.</li>
+    <li><strong>Behavioral:</strong> Relentless, driven by strong instincts, effective in pursuit.</li><li><strong>Positive:</strong> Driven, focused, and effective.</li>
+    <li><strong>Negative:</strong> Ruthless, overly aggressive, and may not consider others&#39; feelings.</li>
+    <li><strong>Minor Trait:</strong> Driven.</li>
+    <li><strong>Major Disorder:</strong> Antisocial Personality Disorder, characterized by relentless pursuit of goals and lack of empathy.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/shark.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Sheep: Docile and Social"
+  id: WvNQBTaORsEATNRc
+  subType: totem
+  domain: sheep
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Docile and flock-minded, sheep are highly social animals that find safety in numbers, often following a leader and sticking closely to their herd.</p>
+    <p><strong>Description:</strong> Mild-mannered and sociable, this person finds comfort in numbers and follows group dynamics. They are cooperative and thrive in community settings.</p>
+    <ul>
+    <li><strong>Physical:</strong> Soft appearance; docile body language.</li>
+    <li><strong>Behavioral:</strong> Extremely social, follows group dynamics, generally docile.</li><li><strong>Positive:</strong> Cooperative, social, and mild-mannered.</li>
+    <li><strong>Negative:</strong> Overly dependent on group dynamics, lacking in individual initiative.</li>
+    <li><strong>Minor Trait:</strong> Agreeable.</li>
+    <li><strong>Major Disorder:</strong> Dependent Personality Disorder, linked to excessive reliance on social structures and leaders.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/sheep.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Snake: Silent and Patient"
+  id: An835dfH4ekHyiYC
+  subType: totem
+  domain: snake
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Silent and patient, snakes are stealthy hunters that rely on ambush tactics, waiting motionless for the perfect moment to strike their prey.</p>
+    <p><strong>Description:</strong> This individual is stealthy and waits for the opportune moment to strike. They possess a calm exterior but can be decisive and effective when necessary.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sinuous, fluid movements; steady gaze.</li>
+    <li><strong>Behavioral:</strong> Silent, patient, strategic in timing and actions.</li><li><strong>Positive:</strong> Stealthy, patient, and strategic.</li>
+    <li><strong>Negative:</strong> Secretive, distant, and may be perceived as untrustworthy.</li>
+    <li><strong>Minor Trait:</strong> Calm.</li>
+    <li><strong>Major Disorder:</strong> Avoidant Personality Disorder, characterized by social withdrawal and passive-aggressiveness.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/snake.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Stag: Proud and Vigilant"
+  id: sb0q3xC4IjjufQgP
+  subType: totem
+  domain: stag
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Proud and vigilant, stags are territorial animals that display their strength and dominance during the rutting season to attract mates and fend off rivals.</p>
+    <p><strong>Description:</strong> Proud and steadfast, this person is highly aware of their strengths and maintains a vigilant stance. They display their capabilities confidently and are protective of their territory.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong, proud stance; alert and watchful eyes.</li>
+    <li><strong>Behavioral:</strong> Proud, vigilant, always aware of surroundings.</li><li><strong>Positive:</strong> Strong, vigilant, and confident.</li>
+    <li><strong>Negative:</strong> Can be overly proud, competitive, and confrontational.</li>
+    <li><strong>Minor Trait:</strong> Confident.</li>
+    <li><strong>Major Disorder:</strong> Narcissistic Personality Disorder (NPD), characterized by excessive pride and vigilance towards threats to self-esteem.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/stag.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Sturgeon: Steadfast and Reserved"
+  id: Ck1MuvxjKNQu79F4
+  subType: totem
+  domain: sturgeon
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Resilient and steadfast, sturgeons thrive in diverse environments, moving slowly but purposefully, and enduring through various challenges with their strength and persistence.</p>
+    <p><strong>Description:</strong> This person exhibits a composed and methodical approach to life, showing remarkable resilience and consistent reliability, often providing stability and wisdom in both personal and professional settings.</p>
+    <ul>
+    <li><strong>Physical:</strong> Strong build; steady and fluid in movement.</li>
+    <li><strong>Behavioral:</strong> Steadfast, reserved, can endure a lot without complaint.</li><li><strong>Positive:</strong> Reliable, composed, and insightful.</li>
+    <li><strong>Negative:</strong> Aloof, resistant to change, and overly cautious.</li>
+    <li><strong>Minor Trait:</strong> Patient.</li>
+    <li><strong>Major Disorder:</strong> Avoidant Personality Disorder, due to social inhibition and a strong resistance to change.</li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/sturgeon.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Trout: Swift and Wary"
+  id: 7sSIfjhmqoOP3h0E
+  subType: totem
+  domain: trout
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Swift and wary, trout are agile fish that remain constantly alert, using their speed and awareness to evade predators in freshwater streams.</p>
+    <p><strong>Description:</strong> This individual is quick and cautious, constantly on the lookout for potential dangers. They rely on their speed and awareness to navigate through life efficiently.</p>
+    <ul>
+    <li><strong>Physical:</strong> Sleek, smooth build; quick, darting movements.</li>
+    <li><strong>Behavioral:</strong> Swift, wary, quick to react to threats.</li><li><strong>Positive:</strong> Agile, quick, and vigilant.</li>
+    <li><strong>Negative:</strong> Wary, easily stressed, and may struggle to relax.</li>
+    <li><strong>Minor Trait:</strong> Perceptive.</li>
+    <li><strong>Major Disorder:</strong> Generalized Anxiety Disorder (GAD), due to constant vigilance and wariness.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/trout.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Tuna: Driven and Enduring"
+  id: 1CsCdba2A5DtIurL
+  subType: totem
+  domain: tuna
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Driven and enduring, tuna are powerful swimmers that migrate vast distances across oceans, relentlessly pursuing schools of prey in their path.</p>
+    <p><strong>Description:</strong> Highly motivated and resilient, this person embarks on long-term pursuits with unwavering determination. They are powerful and persistent in achieving their objectives.</p>
+    <ul>
+    <li><strong>Physical:</strong> Robust, powerful build; exceptional stamina.</li>
+    <li><strong>Behavioral:</strong> Highly driven, endures through long challenges and pursuits.</li><li><strong>Positive:</strong> Highly motivated, resilient, and enduring.</li>
+    <li><strong>Negative:</strong> May overexert themselves and be overly single-minded.</li>
+    <li><strong>Minor Trait:</strong> Driven.</li>
+    <li><strong>Major Disorder:</strong> Obsessive-Compulsive Personality Disorder (OCPD), linked to obsessive drive and persistence.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/tuna.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Turkey: Proud and Cautious"
+  id: KkBgTFTb3CYb58uj
+  subType: totem
+  domain: turkey
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Proud and cautious, turkeys are ground-dwelling birds that display elaborate courtship rituals while remaining vigilant against predators.</p>
+    <p><strong>Description:</strong> This individual balances pride with vigilance, displaying confidence while remaining alert to threats. They engage in social displays but are always mindful of their safety.</p>
+    <ul>
+    <li><strong>Physical:</strong> Large, rounded physique; keen, observant eyes.</li>
+    <li><strong>Behavioral:</strong> Proud, cautious, always on the lookout for danger.</li><li><strong>Positive:</strong> Confident, vigilant, and social.</li>
+    <li><strong>Negative:</strong> May be overly cautious and stubbornly prideful.</li>
+    <li><strong>Minor Trait:</strong> Vigilant.</li>
+    <li><strong>Major Disorder:</strong> Paranoid Personality Disorder (PPD), characterized by cautious and overly proud behavior.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/turkey.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Whale: Majestic and Communicative"
+  id: qPI5hH1aPPOfpS35
+  subType: totem
+  domain: whale
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Majestic and communicative, whales are highly social marine mammals that travel in pods, using complex vocalizations to coordinate and express themselves.</p>
+    <p><strong>Description:</strong> Highly social and expressive, this person enjoys deep connections and uses communication to foster relationships. They navigate social settings with grace and clarity.</p>
+    <ul>
+    <li><strong>Physical:</strong> Large, commanding presence; graceful in movement.</li>
+    <li><strong>Behavioral:</strong> Majestic, highly communicative, cooperative in social structures.</li><li><strong>Positive:</strong> Social, expressive, and empathetic.</li>
+    <li><strong>Negative:</strong> Can become overwhelmed by group dynamics and may struggle with solitary tasks.</li>
+    <li><strong>Minor Trait:</strong> Sensitive.</li>
+    <li><strong>Major Disorder:</strong> Avoidant Personality Disorder, due to heightened sensitivity to social dynamics and potential rejection.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/whale.svg
+  folderId: eJSuuML2ROg3V1W6
+- name: "Wolf: Cooperative and Strategic"
+  id: wYrQBhECXQGbEMw5
+  subType: totem
+  domain: wolf
+  skills: []
+  level: 0
+  usesCharges: false
+  chargesValue: 0
+  chargesMax: 0
+  description: |-
+    <p><strong>Animal Ideal:</strong> Cooperative and strategic, wolves are pack animals that rely on teamwork and careful planning to hunt and protect their territory.</p>
+    <p><strong>Description:</strong> Strongly valuing teamwork and planning, this individual operates effectively within a group. They rely on strategy and collaboration to achieve shared goals.</p>
+    <ul>
+    <li><strong>Physical:</strong> Lean, strong build; sharp, alert movements.</li>
+    <li><strong>Behavioral:</strong> Highly cooperative, skilled in social strategies and teamwork.</li><li><strong>Positive:</strong> Team player, strategic, and cooperative.</li>
+    <li><strong>Negative:</strong> May be overly reliant on group decisions and struggle with independence.</li>
+    <li><strong>Minor Trait:</strong> Team-oriented.</li>
+    <li><strong>Major Disorder:</strong> Dependent Personality Disorder, characterized by over-reliance on group decision-making and lack of independence.</li></li>
+    </ul>
+  macros: []
+  flags: {}
+  effects: []
+  img: systems/sohl/assets/icons/wolf.svg
+  folderId: eJSuuML2ROg3V1W6

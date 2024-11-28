@@ -1,0 +1,244 @@
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexcol">
+        <h3 class="title">{{title}}</h3>
+        <h4 class="subtitle">{{attacker}} vs. {{defender}}</h4>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span>{{notes}}</span>
+    </div>
+    {{/if}} {{#if outnumbered}}
+    <div class="card-content center">
+        <span class="notice-header">Outnumbered {{outnumbered}}:1</span>
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <span class="label center">Attacker</span>
+        <div class="card-content">
+            <div class="adjustment">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each attackMods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    {{#if defendMods.length}}
+    <div class="card-content">
+        <span class="label center">Defender</span>
+        <div class="card-content">
+            <div class="adjustment">
+                <div class="flexrow">
+                    <span class="label adj-name">Adjustment</span>
+                    <span class="label adj-value">Value</span>
+                </div>
+                {{#each defendMods}}
+                <div class="flexrow">
+                    <span class="adj-name">{{this.name}}</span>
+                    <span class="adj-value"
+                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                    >
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="grid grid-2col mingap">
+        <span class="header">Attack</span>
+        <span class="header">Defend</span>
+        <span class="center">{{attackWeapon}}</span>
+        <span class="center"
+            >{{#if defense}}{{defense}}{{else}}&#8212;{{/if}}</span
+        >
+        <span class="center">Eff. AML: {{effAML}}</span>
+        <span class="center"
+            >{{#if effDML}}Eff. DML: {{effDML}}{{else}}&#8212;{{/if}}</span
+        >
+        <span class="center">Roll: {{attackRoll}}</span>
+        <span class="center"
+            >{{#if defenseRoll}}Roll:
+            {{defenseRoll}}{{else}}&#8212;{{/if}}</span
+        >
+        {{#if atkIsSuccess}}
+        <span
+            class="center {{#if atkIsCritical}}critical-success-block{{else}}success-text{{/if}}"
+            >{{atkRollResult}}</span
+        >
+        {{else}}
+        <span
+            class="center {{#if atkIsCritical}}critical-failure-block{{else}}failure-text{{/if}}"
+            >{{atkRollResult}}</span
+        >
+        {{/if}} {{#if defenseRoll}} {{#if defIsSuccess}}
+        <span
+            class="center {{#if defIsCritical}}critical-success-block{{else}}success-text{{/if}}"
+            >{{defRollResult}}</span
+        >
+        {{else}}
+        <span
+            class="center {{#if defIsCritical}}critical-failure-block{{else}}failure-text{{/if}}"
+            >{{defRollResult}}</span
+        >
+        {{/if}} {{else}}
+        <span class="center">&#8212;</span>
+        {{/if}}
+    </div>
+
+    <div class="card-content center">
+        <span class="label">Victory Stars:</span>
+        <span class="value"
+            >{{#if vsText}}{{vsText}}{{else}}<strong>None</strong>{{/if}}</span
+        >
+    </div>
+
+    <div class="card-content center">
+        <span class="result-desc">{{resultDesc}}</span>
+    </div>
+
+    {{#if numAtkTA}}
+    <div class="card-content center">
+        <span class="label">Attacker TAs:</span>
+        <span class="value">{{numAtkTA}}</span>
+    </div>
+    {{/if}} {{#if numDefTA}}
+    <div class="card-content center">
+        <span class="label">Defender TAs:</span>
+        <span class="value">{{numDefTA}}</span>
+    </div>
+    {{/if}} {{#if atkWeaponBroke}}
+    <div class="card-content center">
+        <span class="weapon-broke">{{attacker}}'s {{attackWeapon}} broke!</span>
+    </div>
+    {{/if}} {{#if defWeaponBroke}}
+    <div class="card-content center">
+        <span class="weapon-broke">{{defender}}'s {{defendWeapon}} broke!</span>
+    </div>
+    {{/if}} {{#if hasAttackHit}}
+    <div class="card-content center">
+        <span class="label">Attack Impact:</span>
+        <span class="value"><strong>{{impactFormula}}</strong></span>
+    </div>
+    {{/if}} {{#if isAtkFumbleTest}}
+    <div class="card-content center">
+        <span class="value failure-text"
+            >{{attacker}} must make Fumble test!</span
+        >
+    </div>
+    {{/if}} {{#if isDefFumbleTest}}
+    <div class="card-content center">
+        <span class="value failure-text"
+            >{{defender}} must make Fumble test!</span
+        >
+    </div>
+    {{/if}} {{#if isAtkStumbleTest}}
+    <div class="card-content center">
+        <span class="value failure-text"
+            >{{attacker}} must make Stumble test!</span
+        >
+    </div>
+    {{/if}} {{#if isDefStumbleTest}}
+    <div class="card-content center">
+        <span class="value failure-text"
+            >{{defender}} must make Stumble test!</span
+        >
+    </div>
+    {{/if}} {{#if nextSuccessLevelMod}}
+    <div class="card-content center">
+        <span class="value"
+            >{{attacker}} may increase by {{nextSuccessLevelMod}}<br />
+            success level(s) a test made within the<br />
+            next round</span
+        >
+    </div>
+    {{/if}} {{#if (or atkImpactJson defImpactJson numAtkTA numDefTA
+    isAtkStumbleTest isDefStumbleTest isAtkFumbleTest isDefFumbleTest)}}
+    <div class="card-buttons">
+        {{#if isAtkStumbleTest}}
+        <button
+            id="attacker-stumble"
+            data-action="stumble"
+            data-handler-uuid="{{atkHandlerUuid}}">
+            {{attacker}} Stumble Test
+        </button>
+        {{/if}} {{#if isDefStumbleTest}}
+        <button
+            id="defender-stumble"
+            data-action="stumble"
+            data-handler-uuid="{{defHandlerUuid}}">
+            {{defender}} Stumble Test
+        </button>
+        {{/if}} {{#if isAtkFumbleTest}}
+        <button
+            id="attacker-fumble"
+            data-action="fumble"
+            data-handler-uuid="{{atkHandlerUuid}}">
+            {{attacker}} Fumble Test
+        </button>
+        {{/if}} {{#if isDefFumbleTest}}
+        <button
+            id="defender-fumble"
+            data-action="fumble"
+            data-handler-uuid="{{defHandlerUuid}}">
+            {{defender}} Fumble Test
+        </button>
+        {{/if}} {{#if atkImpactJson}}
+        <button
+            id="attacker-damage"
+            data-action="damage"
+            data-handler-uuid="{{atkHandlerUuid}}"
+            data-weapon-name="{{attackWeapon}}"
+            data-impact-obj="{{atkImpactJson}}"
+            data-zone-die-formula="{{atkZoneDieFormula}}"
+            data-def-token-uuid="{{defTokenUuid}}"
+            data-is-projectile="{{isProjectile}}"
+            data-body-location="{{bodyLocation}}">
+            Calculate {{defender}} Damage
+        </button>
+        {{/if}} {{#if defImpactJson}}
+        <button
+            id="defender-damage"
+            data-action="damage"
+            data-handler-uuid="{{defHandlerUuid}}"
+            data-weapon-name="{{defendWeapon}}"
+            data-impact-obj="{{defImpactJson}}"
+            data-zone-die-formula="{{defZoneDieFormula}}"
+            data-def-token-uuid="{{atkTokenUuid}}"
+            data-is-projectile="{{isProjectile}}"
+            data-body-location="{{bodyLocation}}">
+            Calculate {{attacker}} Damage
+        </button>
+        {{/if}} {{#if numAtkTA}}
+        <button
+            id="attacker-ta-attack"
+            data-action="ta-attack"
+            data-handler-uuid="{{atkHandlerUuid}}"
+            data-atk-token-uuid="{{atkTokenUuid}}"
+            data-def-token-uuid="{{defTokenUuid}}">
+            Attacker TA Attack
+        </button>
+        {{/if}} {{#if numDefTA}}
+        <button
+            id="defender-ta-attack"
+            data-action="ta-attack"
+            data-handler-uuid="{{defHandlerUuid}}"
+            data-atk-token-uuid="{{defTokenUuid}}"
+            data-def-token-uuid="{{atkTokenUuid}}">
+            Defender TA Attack
+        </button>
+        {{/if}}
+    </div>
+    {{/if}}
+</div>

@@ -1,0 +1,366 @@
+@use "../utils/typography";
+
+.item-form {
+    font-family: typography.$font-primary;
+}
+
+form .form-group .form-fields {
+    justify-content: flex-start;
+}
+
+.sheet .sheet-header-entity {
+    flex: 0 0 120px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    border-bottom: 2px groove #eeede0;
+
+    .profile-img {
+        flex: 0 0 120px;
+        height: 120px;
+        margin-right: 10px;
+        object-fit: contain;
+    }
+
+    .header-fields {
+        .name-attribute {
+            border-bottom: 2px groove #eeede0;
+
+            h1.charname {
+                height: 40px;
+                padding: 0px;
+                margin: 5px 0;
+                border-bottom: 0;
+                flex: 1 0 200px;
+                input {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                }
+            }
+
+            .healtharea {
+                flex: 0 0 110px;
+            }
+
+            .health {
+                text-align: center;
+                padding: 5px 0 0;
+
+                .label {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+            }
+
+            .healthbar {
+                width: 100%;
+                margin-bottom: 5px;
+                background: #7a7971;
+                border: 1px solid #000;
+                border-radius: 3px;
+
+                .bar {
+                    height: 4px;
+                    margin: 1px;
+                    display: block;
+                    background: #afebff;
+                    border: 1px solid #000;
+                    border-radius: 2px;
+                }
+            }
+
+            .empty {
+                height: 100%;
+            }
+        }
+
+        .header-stat-block {
+            flex: 0 0 140px;
+
+            .penalties {
+                padding: 0 0 5px;
+                font-size: 12px;
+                font-weight: bold;
+                align-items: center;
+
+                .capacity-value {
+                    font-size: 14px;
+                }
+
+                .capacity-label {
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    flex: 0 0 100px;
+                }
+            }
+        }
+
+        .header-attributes {
+            font-size: 10px;
+
+            textarea.description {
+                resize: none;
+                font-family: "Signika", sans-serif;
+                font-size: 13px;
+                border: none;
+                background: transparent;
+            }
+
+            .attribute {
+                min-height: 40px;
+                margin: 2px;
+
+                .label {
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+
+                .value {
+                    font-size: 18px;
+                    height: calc(100% - 6px);
+                }
+            }
+        }
+
+        .effect-buttons {
+            flex: 0 0 300px;
+
+            .effect-button {
+                border: 1px;
+                color: black;
+                padding: 0px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                border-radius: 16px;
+                border-style: solid;
+                height: 30px;
+                width: 40px;
+            }
+
+            .active {
+                color: white;
+                background-color: blue;
+            }
+        }
+
+        .bodypart-statuses {
+            margin: 0;
+            gap: 2px;
+
+            .bodypart-status {
+                border: 1px;
+                color: black;
+                padding-top: 3px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                border-radius: 16px;
+                border-style: solid;
+                height: 25px;
+            }
+            .none {
+                background-color: #ddd;
+            }
+
+            .impaired {
+                background-color: rgb(212, 208, 12);
+            }
+
+            .unusable {
+                background-color: rgb(245, 75, 75);
+            }
+        }
+    }
+}
+
+.sheet-header-object {
+    flex: 0 0 120px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    border-bottom: 2px groove #eeede0;
+
+    .profile-img {
+        flex: 0 0 120px;
+        height: 120px;
+        margin-right: 10px;
+        object-fit: contain;
+    }
+
+    .header-fields {
+        .name-attribute {
+            border-bottom: 2px groove #eeede0;
+
+            h1.charname {
+                height: 40px;
+                padding: 0px;
+                margin: 5px 0;
+                border-bottom: 0;
+                flex: 1 0 350px;
+                input {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                }
+            }
+        }
+
+        .header-stat-block {
+            flex: 0 0 140px;
+
+            .penalties {
+                padding: 0 0 5px;
+                font-size: 12px;
+                font-weight: bold;
+                align-items: center;
+
+                .capacity-value {
+                    font-size: 14px;
+                }
+
+                .capacity-label {
+                    text-transform: uppercase;
+                    font-size: 14px;
+                    flex: 0 0 100px;
+                }
+            }
+
+            .endurance {
+                text-align: center;
+                padding: 5px 0 0;
+
+                .label {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+            }
+
+            .endbar {
+                flex: 0 0 8px;
+                width: 100%;
+                margin-bottom: 5px;
+                background: #7a7971;
+                border: 1px solid #000;
+                border-radius: 3px;
+
+                .bar {
+                    height: 4px;
+                    margin: 1px;
+                    display: block;
+                    background: #afebff;
+                    border: 1px solid #000;
+                    border-radius: 2px;
+                }
+            }
+        }
+
+        .header-attributes {
+            font-size: 10px;
+
+            textarea.description {
+                resize: none;
+                font-family: "Signika", sans-serif;
+                font-size: 13px;
+                border: none;
+                background: transparent;
+            }
+
+            .attribute {
+                min-height: 40px;
+                margin: 2px;
+
+                .label {
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+
+                .value {
+                    font-size: 18px;
+                    height: calc(100% - 6px);
+                }
+            }
+        }
+
+        .effect-buttons {
+            flex: 1 0 300px;
+
+            .effect-button {
+                border: 1px;
+                color: black;
+                padding: 0px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                border-radius: 16px;
+                border-style: solid;
+                height: 30px;
+                width: 40px;
+            }
+
+            .active {
+                color: white;
+                background-color: blue;
+            }
+        }
+
+        .zone-statuses {
+            margin: 0;
+            gap: 2px;
+
+            .bodyzone-status {
+                border: 1px;
+                color: black;
+                padding-top: 3px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                margin: 4px 2px;
+                border-radius: 16px;
+                border-style: solid;
+                height: 25px;
+            }
+            .none {
+                background-color: #ddd;
+            }
+
+            .impaired {
+                background-color: rgb(212, 208, 12);
+            }
+
+            .unusable {
+                background-color: rgb(245, 75, 75);
+            }
+        }
+    }
+}
+
+.sheet-tabs {
+    flex: 0;
+}
+
+.sheet-body,
+.sheet-body .tab,
+.sheet-body .tab .editor {
+    height: 100%;
+}
+
+.tox {
+    .tox-edit-area {
+        padding: 0 8px;
+    }
+}

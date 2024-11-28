@@ -1,0 +1,38 @@
+<div class="items nested-items">
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Items</h3>
+            <div class="detail type">Type</div>
+            <div class="detail subtype">Sub-Type</div>
+            <div class="detail notes">Notes</div>
+            <div class="item-controls">
+                <a class="item-control nested-item-create"><i class="fas fa-plus"></i> Add</a>
+            </div>
+        </header>
+        <ol class="item-list">
+            {{#each system.items as |item|}}
+            <li class="item nested-item flexrow" data-uuid="{{ item.uuid }}" data-item-id="{{ item.id }}">
+                <div class="item-name name flexrow">
+                    <div
+                        class="item-image"
+                        style="background-image: url('{{ item.img }}')"></div>
+                    <h4>{{ item.name }}</h4>
+                </div>
+                <div class="detail type" data-tooltip="{{lookup config.Item.typeLabels item.type}}">
+                    {{ lookup ../config.Item.typeLabels item.type }}
+                </div>
+                <div class="detail subtype" data-tooltip="{{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}">
+                    {{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}
+                </div>
+                <div class="detail notes">
+                    {{ system.notes }}
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i
+                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>

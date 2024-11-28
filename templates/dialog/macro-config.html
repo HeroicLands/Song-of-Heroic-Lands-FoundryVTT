@@ -1,0 +1,94 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <header class="sheet-header">
+        <img
+            src="{{data.img}}"
+            data-edit="img"
+            title="{{data.name}}"
+            height="64"
+            width="64" />
+        <h1>
+            <input
+                name="name"
+                type="text"
+                value="{{data.name}}"
+                placeholder="Name" />
+        </h1>
+    </header>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="script">Script</a>
+        <a class="item" data-tab="action">Action Properties</a>
+    </nav>
+
+    {{!-- Sheet Body --}}
+    <section class="sheet-body">
+        <div class="macro">
+        {{!-- Script Tab --}}
+        <div class="tab script" data-group="primary" data-tab="script">
+            <div class="grid grid-2col">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select name="type">
+                        {{selectOptions macroTypes selected=data.type}}
+                    </select>
+                </div>
+
+                {{#unless flags.sohl.isIntrinsicAction}}
+                <div class="form-group">
+                    <input type="checkbox" name="flags.sohl.useAsync" {{checked data.useAsync}} data-dtype="Boolean" />
+                    <label>Async</label>
+                </div>
+                {{/unless}}
+            </div>
+
+            <div class="form-group stacked">
+                <label>Notes</label>
+                <input
+                    name="flags.sohl.notes"
+                    type="text"
+                    value="{{data.notes}}"
+                    data-dtype="String" />
+            </div>
+
+            {{#unless flags.sohl.isIntrinsicAction}}
+            <div class="form-group stacked command">
+                <label>Command</label>
+                <textarea name="command">{{data.command}}</textarea>
+            </div>
+            {{/unless}}
+        </div>
+
+        <div class="tab action" data-group="primary" data-tab="action">
+            <div class="grid grid-2col">
+                {{#if flags.sohl.isIntrinsicAction}}
+                <div class="form-group stacked">
+                    <label data-tooltip="Name of Action to call on parent">Action Name</label>
+                    {{textInput data.functionName name="flags.sohl.functionName"}}
+                </div>
+                {{/if}}
+
+                <div class="form-group stacked">
+                    <label data-tooltip="Font Awesome Icon CSS Class (e.g., &ldquo;fa-solid fa-stars&rdquo;)">Icon CSS Class</label>
+                    {{textInput flags.sohl.contextIconClass name="flags.sohl.contextIconClass"}}
+                </div>
+
+                <div class="form-group stacked">
+                    <label>Group</label>
+                    <select name="flags.sohl.contextGroup">
+                        {{selectOptions config.Helper.contextMenu.sortGroups selected=flags.sohl.contextGroup inverted=true}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group stacked command">
+                <label>Condition Function</label>
+                <textarea name="flags.sohl.contextCondition">{{flags.sohl.contextCondition}}</textarea>
+            </div>
+        </div>
+        </div>
+    </section>
+    <footer class="sheet-footer flexrow">
+        <button type="submit"><i class="fas fa-save"></i> Save</button>
+        <button class="execute" type="button"><i class="fas fa-gears"></i> Execute</button>
+    </footer>
+</form>

@@ -1,0 +1,44 @@
+{{#if item.nestedIn}}
+<div class="form-group text-field">
+    {{formInput fields.transfer rootId="transf" classes="form-fields" value=system.transfer}}
+    <label>Transfer to Actor</label>
+</div>
+{{/if}}
+{{formField fields.textReference rootId="textref" classes="text-field" stacked=true value=system.textReference}}
+{{formField fields.notes rootId="itemnote" classes="text-field" stacked=true value=system.notes}}
+<div class="items events">
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name short-name">Active Events</h3>
+            <div class="detail duration">When</div>
+            <div class="detail ele">Oper</div>
+            <div class="detail type">Source</div>
+            <div class="detail type">Target</div>
+            <div class="detail notes">Action</div>
+        </header>
+        <ol class="item-list">
+            {{#each system.events as |event|}}
+            <li class="item event flexrow">
+                <div class="item-name short-name flexrow">
+                    <h4>{{ name }}</h4>
+                </div>
+                <div class="detail duration" data-tooltip="{{ when.worldDate }}">
+                    {{ remaining }}
+                </div>
+                <div class="detail ele">
+                    {{oper}}
+                </div>
+                <div class="detail type" title="{{sourceName}}">
+                    {{ sourceName }}
+                </div>
+                <div class="detail type" title="{{targetName}}">
+                    {{ targetName }}
+                </div>
+                <div class="detail notes" title="{{actionName}}">
+                    {{ actionName }}
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
