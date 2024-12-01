@@ -1,13 +1,19 @@
 <div class="items nested-items">
-    <div class="items-list">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-nested" value="" aria-label="Search Nested Items"
+            placeholder="Search Nested Items" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control nested-item-create" data-tooltip="Create Nested Item"><i
+                class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+    <div class="items-list nested-item-list">
         <header class="items-header flexrow">
             <h3 class="item-name name">Items</h3>
             <div class="detail type">Type</div>
             <div class="detail subtype">Sub-Type</div>
             <div class="detail notes">Notes</div>
-            <div class="item-controls">
-                <a class="item-control nested-item-create"><i class="fas fa-plus"></i> Add</a>
-            </div>
+            <div class="item-controls"></div>
         </header>
         <ol class="item-list">
             {{#each system.items as |item|}}

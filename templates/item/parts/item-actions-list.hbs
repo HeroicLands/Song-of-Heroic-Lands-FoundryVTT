@@ -1,12 +1,18 @@
 <div class="items actions">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-actions" value="" aria-label="Search Effects"
+            placeholder="Search Actions" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control action-create" data-tooltip="Create Action"><i
+                class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
     <div class="items-list">
         <header class="items-header flexrow">
             <h3 class="item-name name">Custom Actions</h3>
             <div class="ele">Type</div>
             <div class="notes">Notes</div>
-            <div class="item-controls-wide">
-                <a class="item-control action-create"><i class="fas fa-plus"></i> Add</a>
-            </div>
+            <div class="item-controls-wide"></div>
         </header>
         <ol class="items-list action-list">
             {{#each system.actions as |action|}}

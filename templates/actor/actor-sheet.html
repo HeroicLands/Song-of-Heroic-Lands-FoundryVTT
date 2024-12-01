@@ -647,7 +647,7 @@
                                     </div>
                                     {{/unless}}
                                 </li>
-                                <ol class="items-list">
+                                <ol class="items-list bodylocations-list">
                                     {{#each bodypart.system.$bodyLocations as | item |}}
                                         <li class="item bodylocation flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
                                             data-item-name="{{item.name}}">
@@ -769,7 +769,7 @@
                         </div>
                     </div>
 
-                    <div class="items-list ailments">
+                    <div class="items-list ailments afflictions-list">
                         {{#each itemSubtypes.affliction as | itemstlist subType |}}
                         {{#if itemstlist.items.length}}
                             <header class="items-header flexrow">
@@ -841,7 +841,7 @@
                             </div>
                         </div>
                         {{/unless}}
-                        <div class="items-list">
+                        <div class="items-list mysteries-list">
                             {{#each itemSubtypes.mystery as | itemstlist subType |}}
                             {{#if itemstlist.items.length}}
                             <header class="items-header flexrow">
@@ -894,7 +894,7 @@
                             </div>
                         </div>
                         {{/unless}}
-                        <div class="items-list">
+                        <div class="items-list mysticalabilities-list">
                             {{#if itemSubtypes.skill.esoteric.items.length}}
                                 <div class="items-list" data-category="esoteric">
                                     <header class="items-header flexrow">
@@ -1104,8 +1104,8 @@
                         </div>
                     </div>
 
-                    {{!-- Domains --}}
-                    <div class="flexcol items domains">
+                    {{!-- Philosophies --}}
+                    <div class="flexcol items philosophies">
                         <div class="items-list">
                             <header class="items-header flexrow">
                                 <h3 class="item-name name">Domain</h3>
@@ -1169,7 +1169,7 @@
             </div>
             {{/unless}}
             {{#each containers as |citem|}}
-                <div class="items-list" data-container-id="{{citem.id}}"
+                <div class="items-list gear-list" data-container-id="{{citem.id}}"
                     data-container-name="{{citem.name}}">
                     <header class="items-header flexrow">
                         <h3 class="item-name name">{{citem.name}}</h3>

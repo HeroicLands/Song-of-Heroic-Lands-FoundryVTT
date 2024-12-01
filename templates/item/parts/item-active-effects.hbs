@@ -1,12 +1,19 @@
 <ol class="effects-list">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-effects" value="" aria-label="Search Effects"
+            placeholder="Search Effects" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control effect-create" data-tooltip="Create Effect"><i
+                class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+
     <li class="effects-header flexrow">
         <h3 class="name flexrow">Effect</h3>
         <div class="detail target">Target</div>
         <div class="detail duration">Remaining</div>
         <div class="detail changes">Changes</div>
-        <a class="effect-controls effect-control"
-            title="Add Effect" data-action="create"
-            ><span class="active"><i class="fas fa-plus"></i> Add</span></a>
+        <div class="effect-controls"></div>
     </li>
     <ol class="effect-list item-list">
         {{#each effects as |effect id|}}
@@ -30,6 +37,8 @@
                 {{ effect._aeChanges }}
             </div>
             <div class="effect-controls">
+                <a class="effect-control effect-toggle"><i
+                    class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i></a>
                 <a class="effect-control effect-contextmenu" title="Menu"><i
                     class="fas fa-ellipsis-vertical fa-fw"></i></a>
             </div>

@@ -395,39 +395,35 @@ Hooks.once("ready", function () {
         /*
          * Various actions need to occur whenever there is a change to the
          * current world time.
-         *
-         * NOTE: Time change actions only apply to actors with a token on the
-         * current scene; actors that don't have a token on the current scene
-         * will not be checked.
          */
 
-        const timeChangeWork = () => {
-            if (game.user.ActiveGM?.isSelf) {
-                canvas.scene?.tokens.forEach((token) => {
-                    token.actor?.timeChangeWork();
-                });
-            }
-        };
+        if (game.user.isGM) {
+            const timeChangeWork = () => {
+                if (game.user.ActiveGM?.isSelf) {
+                    game.actors.forEach((actor) => actor.timeChangeWork());
+                }
+            };
 
-        Hooks.on("updateWorldTime", timeChangeWork);
-        Hooks.on("updateCombat", timeChangeWork);
+            Hooks.on("updateWorldTime", timeChangeWork);
+            Hooks.on("updateCombat", timeChangeWork);
 
-        /*
-         * Call the combat fatigue handler whenever combat is started or the round
-         * changes.
-         */
+            /*
+             * Call the combat fatigue handler whenever combat is started or the round
+             * changes.
+             */
 
-        // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-        Hooks.on("combatStart", (combat, updateData) => {
-            if (game.user.ActiveGM?.isSelf)
-                sohl.SOHL.cmds.handleCombatFatigue(combat);
-        });
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            Hooks.on("combatStart", (combat, updateData) => {
+                if (game.user.ActiveGM?.isSelf)
+                    sohl.SOHL.cmds.handleCombatFatigue(combat);
+            });
 
-        // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-        Hooks.on("combatRound", (combat, updateData, updateOptions) => {
-            if (game.user.ActiveGM?.isSelf)
-                sohl.SOHL.cmds.handleCombatFatigue(combat);
-        });
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            Hooks.on("combatRound", (combat, updateData, updateOptions) => {
+                if (game.user.ActiveGM?.isSelf)
+                    sohl.SOHL.cmds.handleCombatFatigue(combat);
+            });
+        }
 
         // see docs for more info https://github.com/fantasycalendar/FoundryVTT-ItemPiles/blob/master/docs/api.md
         Hooks.once("item-piles-ready", async () => {

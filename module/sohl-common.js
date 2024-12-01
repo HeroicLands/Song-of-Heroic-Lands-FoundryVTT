@@ -1899,7 +1899,7 @@ export class SohlItem extends Item {
         for (const effect of this.allApplicableEffects()) {
             if (!effect.active) continue;
             const targets = effect.targets;
-            if (!targets.length) continue;
+            if (!targets?.length) continue;
             changes.push(
                 ...effect.changes.map((change) => {
                     const c = foundry.utils.deepClone(change);
@@ -2907,19 +2907,6 @@ export class SohlActorData extends SohlBaseData {
                 label: "Biography",
                 hint: "Backstory and biographical information",
             }),
-        });
-    }
-
-    static get effectKeys() {
-        return Utility.simpleMerge(super.effectKeys, {
-            "mod:system.$engagedOpponents": {
-                label: "Engaged Opponents",
-                abbrev: "EngOpp",
-            },
-            "mod:system.$gearWeight": {
-                label: "Weight Carried",
-                abbrev: "WtCar",
-            },
         });
     }
 
@@ -9774,6 +9761,13 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
         return "icons/svg/aura.svg";
     }
 
+    static get targetTypes() {
+        return {
+            actor: "Actor",
+            this: "Parent",
+        };
+    }
+
     get targetLabel() {
         const targetType = this.targetType || "actor";
         const targetName = this.targetName || "";
@@ -9911,13 +9905,13 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
     static defineSchema() {
         return {
             targetName: new fields.StringField({
-                initial: "this",
+                initial: "",
                 label: "Target Name",
             }),
             targetType: new fields.StringField({
-                initial: "",
+                initial: "this",
                 label: "Target Type",
-                choices: SohlActiveEffect.targetTypes,
+                choices: SohlActiveEffectData.targetTypes,
             }),
         };
     }
@@ -10217,16 +10211,10 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
 }
 
 export class SohlActiveEffect extends ActiveEffect {
-    get targetTypes() {
-        return {
-            uuid: "Document UUID",
-            actor: "Actor",
-            this: "Parent",
-        };
-    }
-
-    get targetName() {
-        return this.system.target?.name || "Unknown";
+    get actor() {
+        return this.parent instanceof SohlActor
+            ? this.parent
+            : this.parent?.actor;
     }
 
     get modifiesActor() {
@@ -10472,17 +10460,54 @@ export class SohlActiveEffect extends ActiveEffect {
         }
     }
 
-    getEffectKeyValue(type, key) {
-        if (type === "this") {
-            type = this.parent.system.constructor.typeName;
+    getEffectKeyValue(key) {
+        let result;
+        let targetType = this.system.targetType || "this";
+        if (this.parent instanceof SohlActor) {
+            if (["this", "actor"].includes(targetType)) {
+                result = this.parent.system.constructor.typeName;
+            } else {
+                result =
+                    SOHL.sysVer.CONFIG.Item.dataModels?.[targetType]
+                        .effectKeys?.[key];
+            }
+        } else if (this.parent instanceof SohlItem) {
+            if (targetType === "actor") {
+                result = this.parent.actor?.system.constructor.effectKeys[key];
+            } else if (targetType === "this") {
+                result = this.parent.system.constructor.effectKeys[key];
+            } else {
+                result =
+                    SOHL.sysVer.CONFIG.Item.dataModels?.[targetType]
+                        .effectKeys?.[key];
+            }
         }
-        const eKey =
-            SOHL.sysVer.CONFIG.Item.dataModels?.[type].effectKeys?.[key];
-        return eKey || { label: "Unknown", abbrev: "UNKNOWN" };
+        return result || { label: "Unknown", abbrev: "UNKNOWN" };
     }
 
-    getEffectKeyChoices(type) {
-        return SOHL.sysVer.CONFIG.Item.dataModels?.[type].effectKeys || [];
+    getEffectKeyChoices() {
+        let result = [];
+        let targetType = this.system.targetType || "this";
+        if (this.parent instanceof SohlActor) {
+            if (["this", "actor"].includes(targetType)) {
+                result = this.parent.system.constructor.effectKeys;
+            } else {
+                result =
+                    SOHL.sysVer.CONFIG.Item.dataModels?.[targetType]
+                        .effectKeys || [];
+            }
+        } else if (this.parent instanceof SohlItem) {
+            if (targetType === "actor") {
+                result = this.parent.actor?.system.constructor.effectKeys || [];
+            } else if (targetType === "this") {
+                result = this.parent.system.constructor.effectKeys;
+            } else {
+                result =
+                    SOHL.sysVer.CONFIG.Item.dataModels?.[targetType]
+                        .effectKeys || [];
+            }
+        }
+        return result;
     }
 
     /**
@@ -10691,7 +10716,7 @@ export class SohlActiveEffect extends ActiveEffect {
                     "system.effects": newAry,
                 };
                 result = this.parent.nestedIn.update(updateData, context);
-                this.parent.sheet.render();
+                if (this.parent.sheet.rendered) this.parent.sheet.render();
             }
         } else {
             result = super.update(data, context);
@@ -10743,15 +10768,7 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
     // biome-ignore lint/correctness/noUnusedVariables: <explanation>
     async getData(options) {
         const context = await super.getData();
-        let targetType = context.data.system.targetType || "this";
-        if (targetType === "this") {
-            if (this.object.parent instanceof Item) {
-                targetType = this.object.parent.type;
-            } else if (this.object.parent instanceof Actor) {
-                targetType = "actor";
-            }
-        }
-        context.keyChoices = this.object.getEffectKeyChoices(targetType);
+        context.keyChoices = this.object.getEffectKeyChoices();
         context.sourceName = await this.object.sourceName;
         context.targetTypes = {
             this:
@@ -10762,11 +10779,8 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
                               this.object.parent.type
                           ]
                       }`,
-            uuid: "Item UUID",
+            actor: "Actor",
         };
-        if (this.object.parent instanceof Item) {
-            context.targetTypes.actor = "Actor";
-        }
 
         for (const key of Object.keys(SOHL.sysVer.CONFIG.Item.dataModels)) {
             switch (key) {
@@ -10782,10 +10796,9 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
         }
 
         if (SOHL.hasSimpleCalendar) {
-            const ct = SimpleCalendar.api.timestampToDate(
+            context.startTimeText = EventItemData.getWorldDateLabel(
                 context.data.duration.startTime,
             );
-            context.startTimeText = `${ct.display.day} ${ct.display.monthName} ${ct.display.yearPrefix}${ct.display.year}${ct.display.yearPostfix} ${ct.display.time}`;
         } else {
             const startTimeDiff =
                 game.time.worldTime - context.data.duration.startTime;
@@ -12025,6 +12038,16 @@ export class SohlActor extends Actor {
 
         // Apply item active effects
         IterWrap.create(this.allItems()).forEach((it) => {
+            // If item is nested, ensure all active effects have been started
+            if (it.isNested) {
+                it.effects.forEach((e) => {
+                    if (!e.duration.startTime) {
+                        e.update(
+                            ActiveEffect.implementation.getInitialDuration(),
+                        );
+                    }
+                });
+            }
             it.applyActiveEffects();
         });
 
@@ -12298,7 +12321,7 @@ export class SohlActor extends Actor {
         for (const effect of this.allApplicableEffects()) {
             if (!effect.active) continue;
             const targets = effect.targets;
-            if (!targets.length) continue;
+            if (!targets?.length) continue;
             changes.push(
                 ...effect.changes.map((change) => {
                     const c = foundry.utils.deepClone(change);
@@ -12573,109 +12596,15 @@ function SohlSheetMixin(Base) {
         }
 
         async _onEffectCreate() {
-            const dlgTemplate =
-                "systems/sohl/templates/dialog/active-effect-start.html";
-            const dialogData = {
-                gameTime: game.time.worldTime,
+            const aeData = {
+                name: "New Effect",
+                type: SohlActiveEffectData.typeName,
+                icon: SohlActiveEffectData.defaultImage,
+                origin: this.document.uuid,
             };
-            if (SOHL.hasSimpleCalendar) {
-                const ct = SimpleCalendar.api.timestampToDate(
-                    dialogData.gameTime,
-                );
-                dialogData.gameTime = `${ct.display.day} ${ct.display.monthName} ${ct.display.yearPrefix}${ct.display.year}${ct.display.yearPostfix} ${ct.display.time}`;
-            }
 
-            if (game.combat) {
-                dialogData.combatId = game.combat.id;
-                dialogData.combatRound = game.combat.round;
-                dialogData.combatTurn = game.combat.turn;
-            }
-            const html = await renderTemplate(dlgTemplate, dialogData);
-
-            // Create the dialog window
-            return await Dialog.prompt({
-                title: "Create Event",
-                content: html,
-                label: "OK",
-                render: (html) => {
-                    const worldTime = html.querySelector("#worldTime");
-                    const combatTime = html.querySelector("#combatTime");
-
-                    html.querySelector("[name='startType']").addEventListener(
-                        "click",
-                        (ev) => {
-                            if (ev.currentTarget.value === "worldTime") {
-                                worldTime.style.visibility = "visible";
-                                combatTime.style.visibility = "hidden";
-                            } else {
-                                worldTime.style.visibility = "hidden";
-                                combatTime.style.visibility = "visible";
-                            }
-                        },
-                    );
-                    html.querySelector(".alter-time").addEventListener(
-                        "click",
-                        (ev) => {
-                            let time = Number.parseInt(
-                                ev.currentTarget.dataset.time,
-                                10,
-                            );
-                            if (Number.isNaN(time)) time = game.time.worldTime;
-                            Utility.onAlterTime(time).then((result) => {
-                                if (result !== null) {
-                                    const updateData = {
-                                        "duration.startTime": result,
-                                    };
-                                    this.object.update(updateData);
-                                }
-                            });
-                        },
-                    );
-                },
-                callback: async (html) => {
-                    const form = html.querySelector("#active-effect-start");
-                    const fd = new FormDataExtended(form);
-                    const formdata = fd.object;
-                    const startType = formdata.startType;
-                    const formStartTime =
-                        Number.parseInt(formdata.startTime, 10) ||
-                        game.time.worldTime;
-                    const formDuration =
-                        Number.parseInt(formdata.duration, 10) || 1;
-                    const formCombatRound =
-                        Number.parseInt(formdata.combatRound, 10) ||
-                        dialogData.combatRound;
-                    const formCombatTurn =
-                        Number.parseInt(formdata.combatTurn, 10) ||
-                        dialogData.combatTurn;
-                    const formCombatDurationRounds =
-                        Number.parseInt(formdata.combatDurationRounds, 10) || 1;
-                    const formCombatDurationTurns =
-                        Number.parseInt(formdata.combatDurationTurns, 10) || 0;
-                    const aeData = {
-                        name: "New Effect",
-                        type: SohlActiveEffectData.typeName,
-                        icon: SohlActiveEffectData.defaultImage,
-                        origin: this.document.uuid,
-                        "system.targetName": formdata.targetName,
-                        "system.targetType": formdata.targetType,
-                    };
-                    if (startType === "worldTime") {
-                        aeData["duration.startTime"] = formStartTime;
-                        aeData["duration.seconds"] = formDuration;
-                    } else if (startType === "combatTime") {
-                        aeData["duration.combat"] = dialogData.combatId;
-                        aeData["duration.startRound"] = formCombatRound;
-                        aeData["duration.startTurn"] = formCombatTurn;
-                        aeData["duration.rounds"] = formCombatDurationRounds;
-                        aeData["duration.turns"] = formCombatDurationTurns;
-                    }
-                    return SohlActiveEffect.create(aeData, {
-                        parent: this.document,
-                    });
-                },
-                rejectClose: false,
-                options: { jQuery: false },
+            return SohlActiveEffect.create(aeData, {
+                parent: this.document,
             });
         }
 
@@ -13245,45 +13174,45 @@ function SohlSheetMixin(Base) {
                 this._deleteObjectKey.bind(this),
             );
 
-            // // Active Effect management
+            // Active Effect management (deprecated)
             // html.find(".effect-control").click((ev) =>
             //     SohlActiveEffect.onManageActiveEffect(ev, this.document),
             // );
 
-            // html.find(".action-create").click((ev) => {
-            //     return Utility.createAction(ev, this.document);
-            // });
+            html.find(".action-create").click((ev) => {
+                return Utility.createAction(ev, this.document);
+            });
 
-            // html.find(".action-execute").click((ev) => {
-            //     const li = ev.currentTarget.closest(".action-item");
-            //     const itemId = li.dataset.itemId;
-            //     const action = this.document.system.actions.get(itemId);
-            //     action.execute();
-            // });
+            html.find(".action-execute").click((ev) => {
+                const li = ev.currentTarget.closest(".action-item");
+                const itemId = li.dataset.itemId;
+                const action = this.document.system.actions.get(itemId);
+                action.execute();
+            });
 
-            // html.find(".action-edit").click((ev) => {
-            //     const li = ev.currentTarget.closest(".action-item");
-            //     const itemId = li.dataset.itemId;
-            //     const action = this.document.system.actions.get(itemId);
-            //     if (!action) {
-            //         throw new Error(
-            //             `Action ${itemId} not found on ${this.document.name}.`,
-            //         );
-            //     }
-            //     action.sheet.render(true);
-            // });
+            html.find(".action-edit").click((ev) => {
+                const li = ev.currentTarget.closest(".action-item");
+                const itemId = li.dataset.itemId;
+                const action = this.document.system.actions.get(itemId);
+                if (!action) {
+                    throw new Error(
+                        `Action ${itemId} not found on ${this.document.name}.`,
+                    );
+                }
+                action.sheet.render(true);
+            });
 
-            // html.find(".action-delete").click((ev) => {
-            //     const li = ev.currentTarget.closest(".action-item");
-            //     const itemId = li.dataset.itemId;
-            //     const action = this.document.system.actions.get(itemId);
-            //     if (!action) {
-            //         throw new Error(
-            //             `Action ${itemId} not found on ${this.document.name}.`,
-            //         );
-            //     }
-            //     return Utility.deleteAction(ev, action);
-            // });
+            html.find(".action-delete").click((ev) => {
+                const li = ev.currentTarget.closest(".action-item");
+                const itemId = li.dataset.itemId;
+                const action = this.document.system.actions.get(itemId);
+                if (!action) {
+                    throw new Error(
+                        `Action ${itemId} not found on ${this.document.name}.`,
+                    );
+                }
+                return Utility.deleteAction(ev, action);
+            });
 
             html.find(".default-action").click((ev) => {
                 const li = ev.currentTarget.closest(".item");
@@ -13334,31 +13263,23 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
                 },
                 {
                     inputSelector: 'input[name="search-bodylocations"]',
-                    contentSelector: ".bodylocations",
+                    contentSelector: ".bodylocations-list",
                 },
                 {
-                    inputSelector: 'input[name="search-fatigue"]',
-                    contentSelector: ".fatigues",
-                },
-                {
-                    inputSelector: 'input[name="search-ailments"]',
-                    contentSelector: ".ailments",
-                },
-                {
-                    inputSelector: 'input[name="search-stress"]',
-                    contentSelector: ".stresses",
+                    inputSelector: 'input[name="search-afflictions"]',
+                    contentSelector: ".afflictions-list",
                 },
                 {
                     inputSelector: 'input[name="search-mysteries"]',
-                    contentSelector: ".mysteries",
+                    contentSelector: ".mysteries-list",
                 },
                 {
                     inputSelector: 'input[name="search-mysticalabilities"]',
-                    contentSelector: ".mysticalabilities",
+                    contentSelector: ".mysticalabilities-list",
                 },
                 {
                     inputSelector: 'input[name="search-gear"]',
-                    contentSelector: ".gears",
+                    contentSelector: ".gear-list",
                 },
                 {
                     inputSelector: 'input[name="search-effects"]',
@@ -13846,6 +13767,20 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
             classes: ["sohl", "sheet", "item"],
             width: 560,
             height: 550,
+            filters: [
+                {
+                    inputSelector: 'input[name="search-actions"]',
+                    contentSelector: ".action-list",
+                },
+                {
+                    inputSelector: 'input[name="search-nested"]',
+                    contentSelector: ".nested-item-list",
+                },
+                {
+                    inputSelector: 'input[name="search-effects"]',
+                    contentSelector: ".effects-list",
+                },
+            ],
         });
     }
 
@@ -14216,7 +14151,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
             }
         });
 
-        // Create/edit/delete Embedded Item
+        // Create/edit/delete Nested Item
         html.find(".nested-item-create").click(
             this._createNestedItem.bind(this),
         );
