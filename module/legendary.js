@@ -2547,6 +2547,9 @@ class LgndTraitItemData extends sohl.TraitItemData {
                 parent: this,
             },
         );
+        if (this.abbrev === "fate") {
+            this.$masteryLevel.setBase(this.$score.base);
+        }
     }
 
     processSiblings() {
@@ -2593,6 +2596,30 @@ class LgndTraitItemData extends sohl.TraitItemData {
                     );
                 }
             });
+        }
+
+        if (this.abbrev === "fate") {
+            const aura = this.actor.getTraitByAbbrev("aur");
+            if (aura) {
+                this.$masteryLevel.add(
+                    "Aura Secondary Modifier",
+                    "AuraSM",
+                    aura.system.$masteryLevel.secMod,
+                );
+            }
+        }
+    }
+
+    postProcess() {
+        super.postProcess();
+        if (this.abbrev === "fate") {
+            if (this.actor.system.$magicMod.spirit) {
+                this.$masteryLevel.add(
+                    "Sunsign Modifier",
+                    "SS",
+                    this.actor.system.$magicMod.spirit,
+                );
+            }
         }
     }
 }
