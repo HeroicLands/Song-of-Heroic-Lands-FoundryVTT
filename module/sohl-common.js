@@ -13847,77 +13847,6 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
         return data;
     }
 
-    // /**
-    //  * A static function that processes changes in an effect. If the effect has no changes or an empty array of changes, it will return 'No Changes'. Otherwise, it will process each change and generate a formatted string based on the change's mode and values. The processed changes are concatenated into a single comma-separated string and returned.
-    //  *
-    //  * @static
-    //  * @param {*} effect
-    //  * @returns {*}
-    //  */
-    // static _aeChanges(effect) {
-    //     if (!effect.changes || !effect.changes.length) {
-    //         return "No Changes";
-    //     }
-
-    //     return effect.changes
-    //         .map((ch) => {
-    //             const modes = CONST.ACTIVE_EFFECT_MODES;
-    //             const key = ch.key;
-    //             const val = ch.value;
-    //             let prefix = effect.keys[effect.targetType];
-    //             if (!prefix) {
-    //                 console.warn(
-    //                     `SoHL | Effect type "${effect.targetType}" not found`,
-    //                 );
-    //                 prefix = `NOTYPE[${effect.targetType}]`;
-    //             }
-    //             if (effect.targetType === "this") {
-    //                 if (effect.parent instanceof Item) {
-    //                     if (!effect.keys[effect.parent.type]) {
-    //                         console.warn(
-    //                             `SoHL | Effect type "${effect.parent.type}" not found`,
-    //                         );
-    //                         prefix = `NOTYPE[${effect.parent.type}]`;
-    //                     } else {
-    //                         prefix = effect.keys[effect.parent.type]?.[key];
-    //                         if (!prefix) {
-    //                             console.warn(
-    //                                 `SoHL | Effect Key "${key}" not found in type "${effect.parent.type}"`,
-    //                             );
-    //                             prefix = `BADKEY[${key}]`;
-    //                         }
-    //                     }
-    //                 } else if (effect.parent instanceof Actor) {
-    //                     prefix = effect.keys["actor"][key];
-    //                     if (!prefix) {
-    //                         console.warn(
-    //                             `SoHL | Effect Key "${key}" not found in type "actor"`,
-    //                         );
-    //                         prefix = `BADKEY[${key}]`;
-    //                     }
-    //                 }
-    //             }
-
-    //             switch (ch.mode) {
-    //                 case modes.ADD:
-    //                     return `${prefix} ${val < 0 ? "-" : "+"} ${Math.abs(
-    //                         val,
-    //                     )}`;
-    //                 case modes.MULTIPLY:
-    //                     return `${prefix} ${SOHL.CONST.CHARS.TIMES} ${val}`;
-    //                 case modes.OVERRIDE:
-    //                     return `${prefix} = ${val}`;
-    //                 case modes.UPGRADE:
-    //                     return `${prefix} ${SOHL.CONST.CHARS.GREATERTHANOREQUAL} ${val}`;
-    //                 case modes.DOWNGRADE:
-    //                     return `${prefix} ${SOHL.CONST.CHARS.LESSTHANOREQUAL} ${val}`;
-    //                 default:
-    //                     return !val ? `${prefix}` : `${prefix} ~ ${val}`;
-    //             }
-    //         })
-    //         .join(", ");
-    // }
-
     async _onPrintActor() {
         // Open new window and dump HTML to it.
         const win = window.open(
@@ -13939,15 +13868,6 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
         );
         win.document.write(html);
     }
-
-    // async _onItemDelete(event) {
-    //     event.preventDefault();
-    //     const header = event.currentTarget;
-    //     const li = header.closest(".item");
-    //     const itemId = li.dataset.itemId;
-    //     const item = this.actor.getItem(itemId);
-    //     await item.system.execute("delete");
-    // }
 
     async _onItemCreate(event) {
         if (event.preventDefault) event.preventDefault();
