@@ -8920,31 +8920,7 @@
   valueDesc: []
   choices: []
   flags: {}
-  macros:
-    - name: Setup Virtual Items
-      type: script
-      _id: K1gUPA5xWgfj4J2H
-      author: 5VOJ7NCf7bEZjieU
-      img: icons/svg/dice-target.svg
-      scope: global
-      command: |-
-        this.setupVirtualItems();
-        this.$masteryLevel.disabled = false;
-        this.$masteryLevel.setBase(this.$score.base);
-        const aura = this.actor.getTraitByAbbrev("aur");
-        if (aura) {
-            this.$masteryLevel.add("Aura Secondary Modifier", "AuraSM", aura.system.$masteryLevel.secMod);
-        }
-      flags:
-        sohl:
-          notes: ""
-          functionName: setupVirtualItems
-          contextLabel: ""
-          contextIconClass: ""
-          contextCondition: ""
-          contextGroup: aaa
-          useAsync: false
-  folderId: z6GcCOGsuwgwN1Ya
+  macros: []
 - name: Sunsign
   abbrev: ss
   id: UKZU7cUxdwazKN6l
