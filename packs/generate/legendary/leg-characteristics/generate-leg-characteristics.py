@@ -58,8 +58,6 @@ for trait in traitsData:
         "flags": trait["flags"],
         "_stats": stats,
         "folder": trait["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
         "_key": "!items!" + trait["id"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -111,8 +109,6 @@ for skill in skillsData:
         "flags": skill["flags"],
         "_stats": stats,
         "folder": skill["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
         "_key": "!items!" + skill["id"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -151,8 +147,6 @@ for cmbtman in combatmaneuversData:
         "flags": cmbtman["flags"],
         "_stats": stats,
         "folder": cmbtman["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
         "_key": "!items!" + cmbtman["id"],
     }
 
@@ -168,7 +162,6 @@ for cmbttech in combattechniquesmData:
             "sohl": {
                 "legendary": {
                     "zoneDie": cmbttech["zoneDie"],
-                    "lengthBase": cmbttech["lengthBase"],
                 },
             },
         },
@@ -189,6 +182,7 @@ for cmbttech in combattechniquesmData:
             "mode": subdesc,
             "minParts": cmbttech["minParts"],
             "assocSkillName": cmbttech["assocSkill"],
+            "lengthBase": cmbttech["lengthBase"],
             "impactBase": {
                 "numDice": 1 if cmbttech["impactDie"] > 0 else 0,
                 "die": cmbttech["impactDie"],
@@ -200,8 +194,6 @@ for cmbttech in combattechniquesmData:
         "flags": cmbttech["flags"],
         "_stats": stats,
         "folder": None,
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
     }
 
     eid = cmbttech["effectId"]
@@ -234,6 +226,14 @@ for cmbttech in combattechniquesmData:
         "_key": "!items.effects!" + sm["_id"] + "." + eid,
     }
 
+    for chg in cmbttech["effectChanges"]:
+        change = {
+            "key": chg["key"],
+            "mode": int(chg["mode"]),
+            "value": str(chg["value"]),
+            "priority": None,
+        }
+        effect["changes"].append(change)
     sm["effects"].append(effect)
     combatmaneuvers[cmbttech["combatManeuverId"]]["system"]["nestedItems"].append(sm)
 
@@ -284,8 +284,6 @@ for affliction in afflictionsData:
         "flags": affliction["flags"],
         "_stats": stats,
         "folder": affliction["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
     }
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)

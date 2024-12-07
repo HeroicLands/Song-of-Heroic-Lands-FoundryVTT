@@ -827,7 +827,7 @@
   macros: []
   flags: {}
   effects: []
-  img: systems/sohl/assets/icons/sea bass.svg
+  img: systems/sohl/assets/icons/seabass.svg
   folderId: eJSuuML2ROg3V1W6
 - name: "Shark: Relentless and Instinctive"
   id: yKOy6VLXsYFHVggm
@@ -947,7 +947,7 @@
   macros: []
   flags: {}
   effects: []
-  img: systems/sohl/assets/icons/sturgeon.svg
+  img: systems/sohl/assets/icons/seabass.svg
   folderId: eJSuuML2ROg3V1W6
 - name: "Trout: Swift and Wary"
   id: 7sSIfjhmqoOP3h0E

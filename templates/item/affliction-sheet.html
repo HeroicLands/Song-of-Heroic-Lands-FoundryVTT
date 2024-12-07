@@ -5,7 +5,7 @@
         <a class="item" data-tab="properties">Common</a>
         <a class="item" data-tab="description">Description</a>
         <a class="item" data-tab="actions">Actions</a>
-        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="nesteditems">Nested</a>
         <a class="item" data-tab="effects">Effects</a>
     </nav>
 
@@ -19,7 +19,6 @@
                 {{formField fields.diagnosisBonusBase rootId="ail-level" classes="text-field" stacked=true value=system.diagnosisBonusBase}}
                 {{formField fields.isDormant rootId="ail-dormt" classes="text-field" stacked=true value=system.isDormant}}
                 {{formField fields.isTreated rootId="ail-cont" classes="text-field" stacked=true value=system.isTreated}}
-                {{formField fields.sourceUuid rootId="afl-suuid" classes="text-field" stacked=true value=system.sourceUuid}}
                 {{formField fields.contagionIndexBase rootId="ail-contidx" classes="text-field" stacked=true value=system.contagionIndexBase}}
                 {{formField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
             </div>
@@ -42,7 +41,7 @@
             {{> "sohl.item-actions-list"}}
         </div>
 
-        {{!-- Embedded Items Tab --}}
+        {{!-- Nested Items Tab --}}
         <div
             class="tab nesteditems"
             data-group="primary"

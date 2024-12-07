@@ -6,7 +6,7 @@
         <a class="item" data-tab="properties">Common</a>
         <a class="item" data-tab="description">Description</a>
         <a class="item" data-tab="actions">Actions</a>
-        <a class="item" data-tab="nesteditems">Embedded</a>
+        <a class="item" data-tab="nesteditems">Nested</a>
         <a class="item" data-tab="effects">Effects</a>
     </nav>
 
@@ -28,13 +28,7 @@
                     </div>
                     <p class="hint"></p>
                 </div>
-                <div class="form-group stacked text-field">
-                    <label>Reach</label>
-                    <div class="form-fields">
-                        {{numberInput flags.sohl.legendary.reachBase name="flags.sohl.legendary.reachBase" step=1 min=0}}
-                    </div>
-                    <p class="hint"></p>
-                </div>
+                {{formField fields.lengthBase rootId="ctsm-lengthbase" classes="text-field" stacked=true value=system.lengthBase}}
             {{/ "sohl.item-strikemode"}}
             {{> "sohl.item-refnote"}}
         </div>
@@ -54,7 +48,7 @@
             {{> "sohl.item-actions-list"}}
         </div>
 
-        {{!-- Embedded Items Tab --}}
+        {{!-- Nested Items Tab --}}
         <div
             class="tab nesteditems"
             data-group="primary"

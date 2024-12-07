@@ -1,0 +1,1116 @@
+- name: Humanoid
+  type: anatomy
+  img: systems/sohl/assets/silhouette/character-headshot.webp
+  macros: []
+  notes: ''
+  description: ''
+  defaultAim: ''
+  weaponLimbs:
+    - Left Arm
+    - Right Arm
+    - 'Left Arm, Right Arm'
+  nestedItems:
+    - name: Head
+      type: bodyzone
+      img: systems/sohl/assets/silhouette/character-headshot.webp
+      notes: ''
+      description: ''
+      source: ''
+      nestedItems:
+        - name: Head
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: Head
+          zone: Head
+          nestedItems:
+            - name: Skull
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 5
+              impactType: skull
+              location:
+                bodyPart: Head
+                probWeight: 500
+              effects: []
+              flags: {}
+              _id: 0XmtjaBJDxMk0Ucd
+              bleedingThreshold: 5
+            - name: Left Eye
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 5
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 15
+              effects: []
+              flags: {}
+              _id: 6kX9YIUIVja3Y0MP
+              bleedingThreshold: 4
+            - name: Right Eye
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 5
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 15
+              effects: []
+              flags: {}
+              _id: QEfArWukfNxKta0f
+              bleedingThreshold: 4
+            - name: Nose
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 5
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: QRVralNrMEk93Kwj
+              bleedingThreshold: 4
+            - name: Left Cheek
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 60
+              effects: []
+              flags: {}
+              _id: 8J1XWjV1tsFyugVH
+              bleedingThreshold: 4
+            - name: Right Cheek
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 60
+              effects: []
+              flags: {}
+              _id: ofe4FzVdGkKkZQV2
+              bleedingThreshold: 4
+            - name: Left Ear
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 15
+              effects: []
+              flags: {}
+              _id: UwvPtm6rbB5noi7l
+              bleedingThreshold: 4
+            - name: Right Ear
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 15
+              effects: []
+              flags: {}
+              _id: htpEEuxEAhz7AAsP
+              bleedingThreshold: 4
+            - name: Mouth
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: U30OhbPBl2QhBQoF
+              bleedingThreshold: 4
+            - name: Jaw
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: face
+              location:
+                bodyPart: Head
+                probWeight: 60
+              effects: []
+              flags: {}
+              _id: ogK3sN7cu2ajAT5K
+              bleedingThreshold: 4
+            - name: Neck
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -10
+              shockValue: 5
+              impactType: neck
+              location:
+                bodyPart: Head
+                probWeight: 200
+              effects: []
+              flags: {}
+              _id: vZA6OW3EaN0ggS6U
+              bleedingThreshold: 3
+          macros: []
+          expand: false
+          probWeight: 100
+          effects: []
+          flags: {}
+          _id: WljCPWk6oAmUZ73d
+      macros: []
+      probWeight: 0
+      affectedSkills:
+        - Acrobatics
+        - Climbing
+        - Legerdemain
+        - Melee
+        - Archery
+        - Riding
+        - Stealth
+        - Swimming
+      affectedAttributes:
+        - Agility
+        - Dexterity
+        - Strength
+      affectsMobility: true
+      effects: []
+      flags: {}
+      _id: XQJBDj4Zd2ILR5rH
+      zoneNumbers:
+        - 1
+    - name: Arms
+      type: bodyzone
+      img: systems/sohl/assets/silhouette/character-headshot.webp
+      notes: ''
+      description: ''
+      source: ''
+      nestedItems:
+        - name: Right Arm
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: RArm
+          zone: Arms
+          nestedItems:
+            - name: Right Shoulder
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 3
+              impactType: shoulder
+              location:
+                bodyPart: Right Arm
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: V7F5ilVtTWnzoyu6
+              bleedingThreshold: 4
+            - name: Right Upper Arm
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: upperarm
+              location:
+                bodyPart: Right Arm
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: YfN7RARAAi0UrPld
+              bleedingThreshold: 5
+            - name: Right Elbow
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: elbow
+              location:
+                bodyPart: Right Arm
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: 1kH02rurCS8ft63Q
+              bleedingThreshold: 5
+            - name: Right Forearm
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: forearm
+              location:
+                bodyPart: Right Arm
+                probWeight: 20
+              effects: []
+              flags: {}
+              _id: pNB4IdNQHFPOnvwD
+              bleedingThreshold: 5
+            - name: Right Hand
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -30
+              shockValue: 2
+              impactType: hand
+              location:
+                bodyPart: Right Arm
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: Rfi2iUDdK2qQz2pv
+              bleedingThreshold: 0
+          macros: []
+          expand: false
+          probWeight: 50
+          effects: []
+          flags: {}
+          _id: Tsrx9WQ2L9HyAVvi
+        - name: Left Arm
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: LArm
+          zone: Arms
+          nestedItems:
+            - name: Left Shoulder
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 3
+              impactType: shoulder
+              location:
+                bodyPart: Left Arm
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: nuInmwcEVKaPbhiH
+              bleedingThreshold: 4
+            - name: Left Upper Arm
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: upperarm
+              location:
+                bodyPart: Left Arm
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: NGjZLBbjFzHdvv0l
+              bleedingThreshold: 5
+            - name: Left Elbow
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: elbow
+              location:
+                bodyPart: Left Arm
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: ubWdclQbNEQ70pEe
+              bleedingThreshold: 5
+            - name: Left Forearm
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: forearm
+              location:
+                bodyPart: Left Arm
+                probWeight: 20
+              effects: []
+              flags: {}
+              _id: 6mLZet21nySm9VVd
+              bleedingThreshold: 5
+            - name: Left Hand
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: true
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -30
+              shockValue: 2
+              impactType: hand
+              location:
+                bodyPart: Left Arm
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: SrpubIBD6K42tsO1
+              bleedingThreshold: 0
+          macros: []
+          expand: false
+          probWeight: 50
+          effects: []
+          flags: {}
+          _id: rnqBua6Rduc0u0P6
+      macros: []
+      probWeight: 0
+      affectedSkills:
+        - Acrobatics
+        - Climbing
+        - Legerdemain
+        - Melee
+        - Archery
+        - Riding
+        - Swimming
+      affectedAttributes:
+        - Dexterity
+        - Strength
+      affectsMobility: false
+      effects: []
+      flags: {}
+      _id: DzyCHcZwLLZekBgq
+      zoneNumbers:
+        - 2
+        - 3
+    - name: Torso
+      type: bodyzone
+      img: systems/sohl/assets/silhouette/character-headshot.webp
+      notes: ''
+      description: ''
+      source: ''
+      nestedItems:
+        - name: Torso
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: Torso
+          zone: Torso
+          nestedItems:
+            - name: Thorax
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: thorax
+              location:
+                bodyPart: Torso
+                probWeight: 40
+              effects: []
+              flags: {}
+              _id: Sfp6lj3H6N20woHc
+              bleedingThreshold: 4
+            - name: Abdomen
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: abdomen
+              location:
+                bodyPart: Torso
+                probWeight: 40
+              effects: []
+              flags: {}
+              _id: GYWlGzJ1oE2QlVc0
+              bleedingThreshold: 3
+            - name: Pelvis
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: false
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: 0
+              shockValue: 4
+              impactType: pelvis
+              location:
+                bodyPart: Torso
+                probWeight: 20
+              effects: []
+              flags: {}
+              _id: yMsU1PHsaPfGlygr
+              bleedingThreshold: 4
+          macros: []
+          expand: false
+          probWeight: 100
+          effects: []
+          flags: {}
+          _id: ltL67w6gOzXDgHYD
+      macros: []
+      probWeight: 0
+      affectedSkills:
+        - Acrobatics
+        - Climbing
+        - Melee
+        - Archery
+        - Riding
+        - Stealth
+        - Swimming
+      affectedAttributes:
+        - Agility
+        - Dexterity
+        - Strength
+      affectsMobility: true
+      effects: []
+      flags: {}
+      _id: qPncC1ZBr2H8lPSy
+      zoneNumbers:
+        - 4
+        - 5
+        - 6
+        - 7
+    - name: Legs
+      type: bodyzone
+      img: systems/sohl/assets/silhouette/character-headshot.webp
+      notes: ''
+      description: ''
+      source: ''
+      nestedItems:
+        - name: Right Leg
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: RLeg
+          zone: Legs
+          nestedItems:
+            - name: Right Thigh
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -10
+              shockValue: 3
+              impactType: thigh
+              location:
+                bodyPart: Right Leg
+                probWeight: 40
+              effects: []
+              flags: {}
+              _id: AJwjP1rJBbmpamNe
+              bleedingThreshold: 4
+            - name: Right Knee
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: knee
+              location:
+                bodyPart: Right Leg
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: WUnUX9Vw3f9aJXuR
+              bleedingThreshold: 5
+            - name: Right Calf
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: calf
+              location:
+                bodyPart: Right Leg
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: Zb9lV9AXinrSftXd
+              bleedingThreshold: 5
+            - name: Right Foot
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: foot
+              location:
+                bodyPart: Right Leg
+                probWeight: 20
+              effects: []
+              flags: {}
+              _id: aGOXGJxHUfwnfB5M
+              bleedingThreshold: 0
+          macros: []
+          expand: false
+          probWeight: 50
+          effects: []
+          flags: {}
+          _id: 30kOIuDmY81IosL4
+        - name: Left Leg
+          type: bodypart
+          img: systems/sohl/assets/silhouette/character-headshot.webp
+          notes: ''
+          description: ''
+          source: ''
+          abbrev: LLeg
+          zone: Legs
+          nestedItems:
+            - name: Left Thigh
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -10
+              shockValue: 3
+              impactType: thigh
+              location:
+                bodyPart: Left Leg
+                probWeight: 40
+              effects: []
+              flags: {}
+              _id: pOsgjfKKFAr8I8aE
+              bleedingThreshold: 4
+            - name: Left Knee
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: knee
+              location:
+                bodyPart: Left Leg
+                probWeight: 10
+              effects: []
+              flags: {}
+              _id: gi2S9Dt4w46x2wOL
+              bleedingThreshold: 5
+            - name: Left Calf
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 1
+              impactType: calf
+              location:
+                bodyPart: Left Leg
+                probWeight: 30
+              effects: []
+              flags: {}
+              _id: IX6Bbg9YSahDwI45
+              bleedingThreshold: 5
+            - name: Left Foot
+              type: bodylocation
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              notes: ''
+              description: ''
+              nestedItems: []
+              macros: []
+              source: ''
+              layers: ''
+              quality: 0
+              blunt: 0
+              edged: 0
+              piercing: 0
+              fire: 0
+              isFumble: false
+              isStumble: true
+              isRigid: false
+              bleedingSevThreshold: 0
+              amputatePenalty: -20
+              shockValue: 2
+              impactType: foot
+              location:
+                bodyPart: Left Leg
+                probWeight: 20
+              effects: []
+              flags: {}
+              _id: REmu5X3CBlbfLqvh
+              bleedingThreshold: 0
+          macros: []
+          expand: false
+          probWeight: 50
+          effects: []
+          flags: {}
+          _id: KocnXsjJtL3doBVr
+      macros: []
+      probWeight: 0
+      affectedSkills:
+        - Acrobatics
+        - Climbing
+        - Melee
+        - Archery
+        - Riding
+        - Stealth
+        - Swimming
+      affectedAttributes:
+        - Agility
+        - Strength
+      affectsMobility: true
+      effects: []
+      flags: {}
+      _id: KFrOQEbBNicAxikZ
+      zoneNumbers:
+        - 8
+        - 9
+        - 10
+  effects: []
+  flags: {}
+  _id: M10pzGVlLgO1zsnh
+  folder: "P390fTDcDdREKmgz"
+  

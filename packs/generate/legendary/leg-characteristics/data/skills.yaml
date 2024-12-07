@@ -898,10 +898,10 @@
   folderId: RiDyrDDcTmeSzOcJ
   initSM: 0
   baseSkill: ''
-- name: Magic
-  abbrev: pvarism
+- name: Thaumaturgy
+  abbrev: magic
   id: K5XmdHDxovuKxcxQ
-  img: systems/sohl/assets/icons/pvarism.svg
+  img: systems/sohl/assets/icons/pentacle.svg
   subType: esoteric
   skillBaseFormula: '@aur, @rea'
   weaponGroup: none
@@ -909,7 +909,7 @@
   macros: []
   effects: []
   flags: {}
-  description: ''
+  description: "Thaumaturgy is the philosophical and magical practice of harnessing and harmonizing the elemental forces that shape existence: fire, water, earth, spirit, wind, metal, and arcana. Rooted in the belief that these elements form the foundation of reality, Thaumaturgy seeks to balance their dynamic interplay, allowing practitioners to channel their raw power with wisdom and purpose. More than just a method of wielding magic, it is a path of understanding, where thaumaturges explore the interconnectedness of the cosmos and their role within it. Through discipline, reverence, and insight, Thaumaturgy empowers its adherents to shape the world while honoring the elemental forces that sustain it."
   folderId: 5ZTScnOxLg4we0Zo
   initSM: 0
   baseSkill: ''

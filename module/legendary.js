@@ -1624,6 +1624,7 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
     $healingBase;
     $encumbrance;
     $sunsign;
+    $magicMod;
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
@@ -1722,18 +1723,14 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
             },
         });
         this.$encumbrance.floor("Min Zero", "Min0", 0);
+        this.$magicMod = {};
     }
 }
 
 function LgndStrikeModeItemDataMixin(BaseMLID) {
     return class LgndStrikeModeItemData extends BaseMLID {
-        $length;
         $reach;
         $heft;
-
-        get lengthBase() {
-            return this.item.getFlag("sohl", "legendary.lengthBase") || 0;
-        }
 
         get heftBase() {
             return this.item.getFlag("sohl", "legendary.heftBase") || 0;
@@ -1814,7 +1811,6 @@ function LgndStrikeModeItemDataMixin(BaseMLID) {
 
         prepareBaseData() {
             super.prepareBaseData();
-            this.$length = new sohl.ValueModifier(this);
             this.$reach = new sohl.ValueModifier(this);
             this.$heft = new sohl.ValueModifier(this);
             foundry.utils.mergeObject(this.$traits, {
@@ -1925,6 +1921,7 @@ function LgndStrikeModeItemDataMixin(BaseMLID) {
                 }
             }
 
+            this.$reach.floor("Min Reach", "Min", 0);
             this.$reach.addVM(this.$length, {
                 includeBase: true,
             });
@@ -2226,17 +2223,12 @@ class LgndMissileWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
             armorReduction: 0,
             bleed: false,
         });
-        this.$maxVolleyMult = this.item.getFlag(
-            "sohl",
-            "legendary.maxVolleyMult",
+        this.$maxVolleyMult = new sohl.ValueModifier(this).setBase(
+            this.maxVolleyMult,
         );
         this.$baseRange = new sohl.ValueModifier(this).setBase(
-            this.item.getFlag("sohl", "legendary.baseRangeBase"),
+            this.baseRangeBase,
         );
-        this.$draw = new sohl.ValueModifier(this).setBase(
-            this.item.getFlag("sohl", "legendary.drawBase"),
-        );
-
         this.$draw = new sohl.ValueModifier(this).setBase(this.drawBase);
         this.$pull = new sohl.ValueModifier(this);
     }
@@ -2273,14 +2265,6 @@ class LgndCombatTechniqueStrikeModeItemData extends LgndStrikeModeItemDataMixin(
                 abbrev: "StrRoll",
             },
         });
-    }
-
-    get zoneDie() {
-        return this.item.getFlag("sohl", "legendary.zoneDie") || 0;
-    }
-
-    get reachBase() {
-        return this.item.getFlag("sohl", "legendary.reachBase") || 0;
     }
 
     get intrinsicActions() {
@@ -2346,22 +2330,10 @@ class LgndCombatTechniqueStrikeModeItemData extends LgndStrikeModeItemDataMixin(
         foundry.utils.mergeObject(this.$traits, {
             strRoll: false,
         });
-
-        const reachBase = this.item.getFlag("sohl", "legendary.reachBase") || 0;
-        this.$reach.setBase(reachBase);
     }
 
     processSiblings() {
         super.processSiblings();
-        const size = this.actor.getTraitByAbbrev("siz");
-        if (size?.system.$params) {
-            this.$reach.add(
-                `${size.system.displayVal} Creature Size`,
-                "CSize",
-                size.system.$params.reachMod,
-            );
-        }
-
         const strength = this.actor.getTraitByAbbrev("str");
         if (strength) {
             const strValue = strength.system.$score?.effective || 0;
@@ -2371,21 +2343,6 @@ class LgndCombatTechniqueStrikeModeItemData extends LgndStrikeModeItemDataMixin(
                     "Strength Impact Modifier",
                     "StrImpMod",
                     strImpactMod,
-                );
-            }
-        }
-    }
-
-    postProcess() {
-        super.postProcess();
-        if (this.item.nestedIn instanceof sohl.GearItemData) {
-            this.$reach.setBase(this.item.nestedIn.system.lengthBase);
-            const size = this.actor.getTraitByAbbrev("siz");
-            if (size?.system.$params) {
-                this.$reach.add(
-                    `${size.system.displayVal} Creature Size`,
-                    "CSize",
-                    size.system.$params.reachMod,
                 );
             }
         }
@@ -2426,15 +2383,7 @@ function LgndMasteryLevelItemDataMixin(BaseMLID) {
     };
 }
 
-class LgndDomainItemData extends sohl.DomainItemData {
-    $divineAspects;
-
-    prepareBaseData() {
-        super.prepareBaseData();
-        const aspects = this.item.getFlag("sohl", "legendary.aspects") || [];
-        this.$divineAspects = new Set(aspects);
-    }
-}
+class LgndDomainItemData extends sohl.DomainItemData {}
 
 class LgndInjuryItemData extends sohl.InjuryItemData {
     static get aspectTypes() {
@@ -2719,76 +2668,6 @@ class LgndSkillItemData extends LgndMasteryLevelItemDataMixin(
 }
 
 class LgndAfflictionItemData extends sohl.AfflictionItemData {
-    static get fatigueKinds() {
-        return {
-            windedness: "Windedness",
-            weariness: "Weariness",
-            weakness: "Weakness",
-        };
-    }
-
-    static get afflictionType() {
-        return foundry.utils.mergeObject(super.afflictionType, {
-            psyche: "Psyche Stress",
-            auralshock: "Aural Shock",
-        });
-    }
-
-    static get privationKinds() {
-        return {
-            asphixia: "Asphixia",
-            cold: "Cold Exposure",
-            heat: "Heat Exposure",
-            starvation: "Starvation",
-            dehydration: "Dehydration",
-            nosleep: "Sleep Deprivation",
-        };
-    }
-    static get fearLevels() {
-        return [
-            "No Effect",
-            "Brave",
-            "Steady",
-            "Afraid",
-            "Terrified",
-            "Catatonic",
-        ];
-    }
-
-    static get moraleLevels() {
-        return [
-            "No Effect",
-            "Brave",
-            "Steady",
-            "Withdrawing",
-            "Routed",
-            "Catatonic",
-        ];
-    }
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions;
-        actions.push({
-            functionName: "infectionCourseTest",
-            name: "Infection Course Test",
-            contextIconClass: "fas fa-bullseye",
-            contextCondition: (header) => {
-                header = header instanceof HTMLElement ? header : header[0];
-                const li = header.closest(".item");
-                const affliction = fromUuidSync(li.dataset.uuid);
-                return (
-                    affliction &&
-                    affliction.system.subType === "infection" &&
-                    !affliction.system.$healingRate.effective < 6
-                );
-            },
-            contextGroup: sohl.SohlContextMenu.sortGroups.Primary,
-        });
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
     /** @override */
     setupVirtualItems() {
         super.setupVirtualItems();
@@ -4873,20 +4752,25 @@ export class LgndUtility extends sohl.Utility {
 class LgndActorSheet extends sohl.SohlActorSheet {
     getData() {
         const data = super.getData();
-        data.effectStatus = {
-            sleep: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Sleep),
-            prone: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Prone),
-            stun: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Stunned),
-            incapacitated: this.actor.statuses.has(
-                LGND.CONST.STATUSEFFECTS.Incapacitated,
-            ),
-            unconscious: this.actor.statuses.has(
-                LGND.CONST.STATUSEFFECTS.Unconscious,
-            ),
-            dead: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Dead),
-        };
+        // data.effectStatus = {
+        //     sleep: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Sleep),
+        //     prone: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Prone),
+        //     stun: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Stunned),
+        //     incapacitated: this.actor.statuses.has(
+        //         LGND.CONST.STATUSEFFECTS.Incapacitated,
+        //     ),
+        //     unconscious: this.actor.statuses.has(
+        //         LGND.CONST.STATUSEFFECTS.Unconscious,
+        //     ),
+        //     dead: this.actor.statuses.has(LGND.CONST.STATUSEFFECTS.Dead),
+        //     auralshock: data.itemTypes.affliction.some(
+        //         (it) => it.system.subType === "auralshock",
+        //     ),
+        //     fatigue: data.itemTypes.affliction.some(
+        //         (it) => it.system.subType === "fatigue",
+        //     ),
+        // };
 
-        data.fateMods = this.actor.system.$ssMod;
         return data;
     }
 }

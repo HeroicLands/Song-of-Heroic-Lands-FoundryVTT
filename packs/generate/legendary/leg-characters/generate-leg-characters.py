@@ -35,7 +35,6 @@ for folder in foldersData:
         "folder": folder["parentFolderId"] or None,
         "type": "Item",
         "_id": folder["id"],
-        "sort": 0,
         "color": folder["color"],
         "flags": {},
         "_stats": stats,

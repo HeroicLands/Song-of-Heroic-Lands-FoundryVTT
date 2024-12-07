@@ -18,15 +18,19 @@
                 <div class="flexcol header-fields">
                     <div class="flexrow name-attribute">
                         <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" data-dtype="String" /></h1>
-                        <div class="effect-buttons" data-tooltip-direction="DOWN">
-                            <ol>
+                        <div class="effect-buttons flexcol" data-tooltip-direction="DOWN">
+                            <div class="flexrow">
+                                <button class="effect-button {{#if effectStatus.auralshock}}active{{/if}}" name="auralshock" type="button" data-status-id="auralshock" data-tooltip="Aural Shock">AShk</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.sleep}}active{{/if}}" name="sleep" type="button" data-status-id="sleep" data-tooltip="Sleep">SLP</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.prone}}active{{/if}}" name="prone" type="button" data-status-id="prone" data-tooltip="Prone">PRN</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.stun}}active{{/if}}" name="stun" type="button" data-status-id="stun" data-tooltip="Stun">STN</button>
+                            </div>
+                            <div class="flexrow">
+                                <button class="effect-button {{#if effectStatus.fatigue}}active{{/if}}" name="fatigue" type="button" data-status-id="fatigue" data-tooltip="Fatigue">Fatg</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.incapacitated}}active{{/if}}" name="incapacitated" type="button" data-status-id="incapacitated" data-tooltip="Incapacitated">INC</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.unconscious}}active{{/if}}" name="unconscious" type="button" data-status-id="unconscious" data-tooltip="Unconscious">UNC</button>
                                 <button class="effect-button toggle-status-effect {{#if effectStatus.dead}}active{{/if}}" name="dead" type="button" data-status-id="dead" data-tooltip="Dead">KIA</button>
-                            </ol>
+                            </div>
                         </div>
                         <div class="flexcol healtharea">
                             <div class="health flexrow">
@@ -370,8 +374,14 @@
                                     <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                                     <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                 </div>
-                                <div class="detail ele">{{system.$reach.effective}}</div>
-                                <div class="detail ele">{{lookup ../config.Item.dataModels.bodyzone.dice system.zoneDie}}</div>
+                                <div class="detail ele" data-tooltip="{{system.$reach.abbrev}}">{{system.$reach.effective}}</div>
+                                <div class="detail ele">
+                                    {{#unless (or system.$attack.disabled system.$impact.disabled (eq system.zoneDie 0))}}
+                                    <span>d{{system.zoneDie}}</span>
+                                    {{else}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{/unless}}
+                                </div>
                                 <div class="detail impact">
                                     {{#unless (or system.$attack.disabled system.$impact.disabled)}}
                                     <span data-tooltip="{{system.$impact.abbrev}}">{{system.$impact.label}}</span>
@@ -556,11 +566,28 @@
                         <input class="search-criteria" type="search" name="search-bodylocations" value="" aria-label="Search Body Locations"
                             placeholder="Search Body Locations" autocomplete="off" />
                         <div class="search-controls">
-                            <a class="search-control item-create" data-tooltip="Create Body Zone/Part/Location"
-                                data-type="body"><i class="fas fa-file-plus"></i></a>
+                            {{#unless anatomy}}
+                            <a class="search-control item-create" data-tooltip="Create Anatomy"
+                                data-type="anatomy"><i class="fas fa-file-plus"></i></a>
+                            {{/unless}}
                         </div>
                     </div>
                     {{/unless}}
+                    {{#if anatomy}}
+                    <div class="items-list">
+                        <ol class="item-list">
+                            <li class="item anatomy flexrow" data-item-id="{{anatomy.id}}" data-uuid="{{anatomy.uuid}}" data-item-name="{{anatomy.name}}">
+                                <div class="detail notes">Anatomy: {{anatomy.name}}</div>
+                                {{#unless printable}}
+                                <div class="item-controls">
+                                    <a class="item-control item-contextmenu" title="Menu"><i
+                                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                </div>
+                                {{/unless}}
+                            </li>
+                        </ol>
+                    </div>
+                    {{/if}}
                     <div class="zone-list items-list">
                         <header class="items-header flexrow">
                             <h3 class="item-name full-location-name">Body Locations</h3>
@@ -578,9 +605,6 @@
                                 <a class="item-control toggle-visibility"
                                     data-tooltip="Expand All"><i
                                     class="fas fa-square-plus fa-lg"></i></a>
-                                <a class="item-control item-create" data-tooltip="Create Body Zone"
-                                    data-type="bodyzone"><i
-                                    class="fas fa-file-plus fa-lg"></i></a>
                             </div>
                             {{/unless}}
                         </header>
@@ -600,12 +624,6 @@
                                 <div class="ele"></div>
                                 <div class="ele"></div>
                                 <div class="notes"></div>
-                                {{#unless printable}}
-                                <div class="item-controls">
-                                    <a class="item-control item-create" data-tooltip="Create Body Part"
-                                        data-type="bodypart"><i class="fas fa-file-plus fa-lg"></i></a>
-                                </div>
-                                {{/unless}}
                             </header>
                             <ol class="item-list">
                                 {{#each bodyzone.system.$bodyParts as | bodypart |}}
@@ -647,7 +665,7 @@
                                     </div>
                                     {{/unless}}
                                 </li>
-                                <ol class="items-list">
+                                <ol class="items-list bodylocations-list">
                                     {{#each bodypart.system.$bodyLocations as | item |}}
                                         <li class="item bodylocation flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
                                             data-item-name="{{item.name}}">
@@ -769,7 +787,7 @@
                         </div>
                     </div>
 
-                    <div class="items-list ailments">
+                    <div class="items-list ailments afflictions-list">
                         {{#each itemSubtypes.affliction as | itemstlist subType |}}
                         {{#if itemstlist.items.length}}
                             <header class="items-header flexrow">
@@ -841,7 +859,7 @@
                             </div>
                         </div>
                         {{/unless}}
-                        <div class="items-list">
+                        <div class="items-list mysteries-list">
                             {{#each itemSubtypes.mystery as | itemstlist subType |}}
                             {{#if itemstlist.items.length}}
                             <header class="items-header flexrow">
@@ -894,7 +912,7 @@
                             </div>
                         </div>
                         {{/unless}}
-                        <div class="items-list">
+                        <div class="items-list mysticalabilities-list">
                             {{#if itemSubtypes.skill.esoteric.items.length}}
                                 <div class="items-list" data-category="esoteric">
                                     <header class="items-header flexrow">
@@ -1104,47 +1122,40 @@
                         </div>
                     </div>
 
-                    {{!-- Domains --}}
-                    <div class="flexcol items domains">
-                        <div class="items-list">
-                            <header class="items-header flexrow">
-                                <h3 class="item-name name">Domain</h3>
-                                <div class="detail source">Categories</div>
+                    {{!-- Philosophies --}}
+                    <div class="flexcol items philosophies">
+                        <ol class="items-list">
+                            <li class="items-header flexrow">
+                                <h3 class="item-name name">Philosophies</h3>
+                                <div class="detail source">Category</div>
                                 <div class="detail notes">Notes</div>
                                 {{#unless printable}}
                                 <div class="item-controls">
-                                    <a class="item-control item-create" data-tooltip="Create Domain"
-                                        data-type="domain"><i class="fas fa-file-plus fa-lg"></i></a>
+                                    <a class="item-control item-create" data-tooltip="Create Philosophy"
+                                        data-type="philosophy"><i class="fas fa-file-plus fa-lg"></i></a>
                                 </div>
                                 {{/unless}}
-                            </header>
-                            {{#each philosophies as | phil |}}
-                            {{#if phil.domains.length}}
-                                <ol class="item-list">
-                                    <header class="items-header flexrow">
-                                        <h3 class="item-name notes">{{phil.name}}</h3>
-                                    </header>
-                                    {{#each phil.domains as |item|}}
-                                        <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
-                                            data-item-name="{{item.name}}">
-                                            <div class="item-name name default-action flexrow">
-                                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-                                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
-                                            </div>
-                                            <div class="detail source">{{system.categoriesLabel}}</div>
-                                            <div class="detail notes">{{system.notes}}</div>
-                                            {{#unless printable}}
-                                            <div class="item-controls">
-                                                <a class="item-control item-contextmenu" title="Menu"><i
-                                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
-                                            </div>
-                                            {{/unless}}
-                                        </li>
-                                    {{/each}}
-                                </ol>
-                            {{/if}}
-                            {{/each}}
-                        </div>
+                            </li>
+                            <ol class="item-list">
+                                {{#each itemTypes.philosophy as |item|}}
+                                    <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                                        data-item-name="{{item.name}}">
+                                        <div class="item-name name default-action flexrow">
+                                            <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                            <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                                        </div>
+                                        <div class="detail source">{{system.category}}</div>
+                                        <div class="detail notes">{{system.notes}}</div>
+                                        {{#unless printable}}
+                                        <div class="item-controls">
+                                            <a class="item-control item-contextmenu" title="Menu"><i
+                                                class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                        </div>
+                                        {{/unless}}
+                                    </li>
+                                {{/each}}
+                            </ol>        
+                        </ol>
                     </div>
                 </div>
             {{/if}}
@@ -1169,7 +1180,7 @@
             </div>
             {{/unless}}
             {{#each containers as |citem|}}
-                <div class="items-list" data-container-id="{{citem.id}}"
+                <div class="items-list gear-list" data-container-id="{{citem.id}}"
                     data-container-name="{{citem.name}}">
                     <header class="items-header flexrow">
                         <h3 class="item-name name">{{citem.name}}</h3>
