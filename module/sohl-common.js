@@ -956,6 +956,10 @@ export class ImpactModifier extends ValueModifier {
         return disabled;
     }
 
+    set disabled(val) {
+        this._disabled = !!val;
+    }
+
     static get aspectTypes() {
         return {
             blunt: "Blunt",
@@ -1341,9 +1345,7 @@ export class MasteryLevelModifier extends ValueModifier {
             // have its own success value table included; if
             // so, then that one will be used, otherwise the
             // default one will be used.
-            const svTable =
-                this.parent.item.getFlag("sohl", "successValueTable") ||
-                SOHL.sysVer.CONST.SUCCESS_VALUE_TABLE;
+            const svTable = this.parent.item.system.successValueTable;
 
             // The meaning of the success value bonus ("svBonus") is
             // unique to each type of success value.  Sometimes it
@@ -1499,7 +1501,7 @@ export class SohlItem extends Item {
 
     _initialize(options = {}) {
         super._initialize(options);
-        if (options.cause) this.cause = options.cause;
+        if (options.cause) this._cause = options.cause;
     }
 
     get cause() {
@@ -1554,10 +1556,10 @@ export class SohlItem extends Item {
         // Collect all of the effects in the actor that match this item"s name
         const actorThisItemEffects = this.actor.effects.reduce(
             (itEffects, e) => {
-                // If the effect"s targetType is not the same as this item, ignore it
+                // If the effect's targetType is not the same as this item, ignore it
                 if (e.system.targetType !== this.actor.type) return itEffects;
 
-                // Ignore the effect if it"s name doesn"t match the targetName
+                // Ignore the effect if it"s name doesn't match the targetName
                 const effectTargetName = new RegExp(e.system.targetNameRE);
                 if (effectTargetName.test(this.actor.name))
                     return itEffects.concat(e);
@@ -1874,7 +1876,7 @@ export class SohlItem extends Item {
 
     *allApplicableEffects() {
         // Grab all of the effects on this item that affects itself
-        const effects = this.actor.effects.filter(
+        const effects = this.effects.filter(
             (e) => e.system.targetType === "this",
         );
         for (const effect of effects) {
@@ -1896,9 +1898,10 @@ export class SohlItem extends Item {
 
         // Organize non-disabled effects by their application priority
         const changes = [];
-        for (const effect of this.allApplicableEffects()) {
+        const allEffects = this.allApplicableEffects();
+        for (const effect of allEffects) {
             if (!effect.active) continue;
-            const targets = effect.targets;
+            const targets = effect.system.targets;
             if (!targets?.length) continue;
             changes.push(
                 ...effect.changes.map((change) => {
@@ -1919,9 +1922,14 @@ export class SohlItem extends Item {
             change.targets.forEach((t) => {
                 const changes = change.effect.apply(t, change);
                 if (Object.keys(changes).length) {
-                    if (typeof overrides[t.id] === "object")
-                        foundry.utils.mergeObject(overrides[t.id], changes);
-                    else overrides[t.id] = changes;
+                    const obj = overrides[t.id];
+                    if (typeof obj === "object") {
+                        Object.entries(changes).forEach(([k, v]) => {
+                            foundry.utils.setProperty(obj, k, v);
+                        });
+                    } else {
+                        overrides[t.id] = changes;
+                    }
                 }
             });
         }
@@ -2579,7 +2587,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         let ary = [];
         this.macros.forEach((m) => {
             const macro = new SohlMacro(m, {
-                nestedIn: this.parent,
+                cause: this.parent,
                 keepId: true,
             });
             if (!macro) {
@@ -2629,7 +2637,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                             },
                         },
                     },
-                    { nestedIn: this.parent },
+                    { cause: this.parent },
                 );
 
                 ary.push([macro.id, macro]);
@@ -2657,21 +2665,15 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
 
         ary.sort((a, b) => {
             const contextGroupA =
-                a[1].getFlag("sohl", "contextGroup") ||
-                SohlContextMenu.sortGroups.General;
+                a[1].contextGroup || SohlContextMenu.sortGroups.General;
             const contextGroupB =
-                b[1].getFlag("sohl", "contextGroup") ||
-                SohlContextMenu.sortGroups.General;
+                b[1].contextGroup || SohlContextMenu.sortGroups.General;
             return contextGroupA.localeCompare(contextGroupB);
         });
 
         // If no default was specified, then make the first element the default
         if (!hasDefault && ary.length) {
-            foundry.utils.setProperty(
-                ary[0][1],
-                "flags.sohl.contextGroup",
-                SohlContextMenu.sortGroups.Default,
-            );
+            ary[0][1].contextGroup = SohlContextMenu.sortGroups.Default;
         }
 
         if (this._collections.actions) delete this._collections.actions;
@@ -2696,8 +2698,9 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
     }
 
     get events() {
-        const result =
-            IterWrap.create(this.actor?.allItems()).reduce((obj, it) => {
+        const result = {};
+        if (this.actor) {
+            IterWrap.create(this.actor.allItems()).reduce((obj, it) => {
                 if (it.system instanceof EventItemData && it.system.isEnabled) {
                     // First, get all events targetting this item.
                     if (it.system.$targetUuid === this.uuid) {
@@ -2748,7 +2751,8 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     }
                 }
                 return obj;
-            }, {}) || {};
+            }, result);
+        }
         return result;
     }
 
@@ -2948,6 +2952,18 @@ export class SohlItemData extends SohlBaseData {
         return `systems/sohl/templates/item/${this.typeName}-sheet.html`;
     }
 
+    /**
+     * Static property that returns a boolean value indicating whether this item
+     * must be nested or not.
+     *
+     * @static
+     * @readonly
+     * @type {boolean}
+     */
+    static get nestOnly() {
+        return false;
+    }
+
     getEvent(eventTag) {
         return this.items.find(
             (it) =>
@@ -2989,18 +3005,6 @@ export class SohlItemData extends SohlBaseData {
         throw new Error(
             `Invalid SohlItemData: must be associated with an SohlItem parent`,
         );
-    }
-
-    get topItem() {
-        if (!this.item.cause) {
-            if (!this.item.nestedIn) {
-                return this.item;
-            } else {
-                return this.item.nestedIn.system.topItem;
-            }
-        } else {
-            return this.item.cause.system.topItem;
-        }
     }
 
     /** @override */
@@ -3217,12 +3221,17 @@ export class SohlItemData extends SohlBaseData {
     prepareBaseData() {
         super.prepareBaseData();
 
-        // Construct Embedded Collections
+        // Construct Nested Collection
         if (this._collections.items) delete this._collections.items;
         this.nestedItems
             .toSorted((a, b) => a.sort - b.sort)
             .forEach((ni) => {
-                const item = new SohlItem(ni, {
+                const data = foundry.utils.deepClone(ni);
+                const uuid = this.item.uuid;
+                data.effects?.forEach((e) => {
+                    e.origin = uuid;
+                });
+                const item = new SohlItem(data, {
                     nestedIn: this.item,
                     keepId: true,
                 });
@@ -3272,6 +3281,7 @@ export class SohlItemData extends SohlBaseData {
      */
     processSiblings() {
         // Subclass provide implementation
+        return;
     }
 
     /**
@@ -3281,6 +3291,7 @@ export class SohlItemData extends SohlBaseData {
      */
     postProcess() {
         // Subclass provide implementation
+        return;
     }
 
     /**
@@ -3288,6 +3299,7 @@ export class SohlItemData extends SohlBaseData {
      */
     checkExpired() {
         // Subclass provide implementation
+        return;
     }
 }
 
@@ -4000,10 +4012,7 @@ export class AnimateEntityActorData extends SohlActorData {
         this.$engagedOpponents = new ValueModifier(this);
         this.$engagedOpponents.setBase(0);
         this.$domains = Object.fromEntries(
-            Object.keys(DomainItemData.categories).map((c) => [
-                c,
-                new Collection(),
-            ]),
+            Object.keys(PhilosophyItemData.categories).map((c) => [c, []]),
         );
     }
 }
@@ -4152,9 +4161,16 @@ function SubtypeMixin(Base) {
 export class StrikeModeItemData extends SohlItemData {
     $traits;
     $assocSkill;
+    $length;
     $impact;
     $attack;
     $defense;
+    $durability;
+
+    /** @override */
+    static get nestOnly() {
+        return true;
+    }
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
@@ -4205,7 +4221,7 @@ export class StrikeModeItemData extends SohlItemData {
                 die: new fields.NumberField({
                     integer: true,
                     initial: 6,
-                    min: 1,
+                    min: 0,
                     label: "Die",
                 }),
                 modifier: new fields.NumberField({
@@ -4324,6 +4340,8 @@ export class StrikeModeItemData extends SohlItemData {
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
+        this.$durability = new ValueModifier(this);
+        this.$length = new ValueModifier(this);
         this.$attack = new CombatModifier(this);
         this.$defense = {
             block: new CombatModifier(this),
@@ -4335,7 +4353,11 @@ export class StrikeModeItemData extends SohlItemData {
             aspect: this.impactBase.aspect,
             die: this.impactBase.die,
         });
-        this.$impact.setBase(this.impactBase.modifier);
+        if (!this.impactBase.modifier && !this.impactBase.die) {
+            this.$impact.disabled = true;
+        } else {
+            this.$impact.setBase(this.impactBase.modifier);
+        }
         this.$traits = {
             noAttack: false,
             noBlock: false,
@@ -4344,6 +4366,13 @@ export class StrikeModeItemData extends SohlItemData {
 
     postProcess() {
         super.postProcess();
+        if (this.item.nestedIn?.system instanceof GearItemData) {
+            this.$durability.addVM(this.item.nestedIn.system.$durability, {
+                includeBase: true,
+            });
+        } else {
+            this.$durability.disabled = true;
+        }
         this.$assocSkill = this.actor.getItem(this.assocSkillName, {
             types: [SkillItemData.typeName],
         });
@@ -4377,8 +4406,6 @@ export class StrikeModeItemData extends SohlItemData {
 }
 
 export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
-    $length;
-
     static get typeName() {
         return "meleestrikemode";
     }
@@ -4505,18 +4532,16 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
         return chatResult;
     }
 
-    /** @override */
     prepareBaseData() {
         super.prepareBaseData();
-        this.$length = new ValueModifier(this);
+        // Length is only set if this Strike Mode is nested in a WeaponGear
+        if (this.item.nestedIn instanceof WeaponGearItemData) {
+            this.$length.setBase(this.item.nestedIn.system.lengthBase);
+        }
     }
 
     processSiblings() {
         super.processSiblings();
-        // Length is only set if this Strike Mode is nested in a WeaponGear
-        if (this.item.nestedIn instanceof WeaponGearItemData) {
-            this.$length = this.item.nestedIn.system.lengthBase;
-        }
         this.$assocSkill = this.actor.getItem(this.assocSkillName, {
             types: [SkillItemData.typeName],
         });
@@ -4593,8 +4618,6 @@ export class MissileWeaponStrikeModeItemData extends StrikeModeItemData {
 }
 
 export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
-    $length;
-
     static get typeName() {
         return "combattechniquestrikemode";
     }
@@ -4608,8 +4631,8 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
-            "mod:system.defense.block": { label: "Block", abbrev: "Blk" },
-            "mod:system.defense.counterstrike": {
+            "mod:system.$defense.block": { label: "Block", abbrev: "Blk" },
+            "mod:system.$defense.counterstrike": {
                 label: "Counterstrike",
                 abbrev: "CX",
             },
@@ -4655,6 +4678,17 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
 
         actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
         return actions;
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            lengthBase: new fields.NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+                label: "Length",
+            }),
+        });
     }
 
     assistedBlockTest(
@@ -4730,7 +4764,6 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
-        this.$length = new ValueModifier(this);
         this.$length.setBase(this.lengthBase);
     }
 
@@ -4788,10 +4821,26 @@ export class CombatManeuverItemData extends SohlItemData {
         return "systems/sohl/assets/icons/sparkle.svg";
     }
 }
+
 export class MasteryLevelItemData extends SohlItemData {
     $boosts;
     $skillBase;
     $masteryLevel;
+
+    get successValueTable() {
+        return (
+            this.item.getFlag("sohl", "successValueTable") ||
+            SOHL.sysVer.CONST.SUCCESS_VALUE_TABLE
+        );
+    }
+
+    get fateSkills() {
+        return this.item.getFlag("sohl", "fateSkills") || [];
+    }
+
+    get magicMod() {
+        return 0;
+    }
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
@@ -4815,35 +4864,48 @@ export class MasteryLevelItemData extends SohlItemData {
         return this.$boosts;
     }
 
+    /**
+     * Searches through all of the Fate mysteries on the actor, gathering any that
+     * are applicable to this skill, and returns them.
+     *
+     * @readonly
+     * @type {SohlItem[]} An array of Mystery fate items that apply to this skill.
+     */
     get availableFate() {
-        if (this.$masteryLevel.disabled) return null;
-        return (
-            IterWrap.create(this.actor?.allItems()).reduce((ary, it) => {
+        let result = [];
+        if (this.actor && !this.$masteryLevel.disabled) {
+            IterWrap.create(this.actor.allItems()).reduce((ary, it) => {
                 if (
                     it.system instanceof MysteryItemData &&
                     it.system.subType === "fate"
                 ) {
-                    const fateSkills = this.item.getFlag("sohl", "fateSkills");
+                    const fateSkills = this.fateSkills;
+                    // If a fate item has a list of fate skills, then that fate
+                    // item is only applicable to those skills.  If the fate item
+                    // has no list of skills, then the fate item is applicable
+                    // to all skills.
                     if (
-                        !fateSkills?.length ||
+                        !fateSkills.length ||
                         fateSkills.includes(this.item.name)
                     ) {
                         if (it.system.$level.effective > 0) ary.push(it);
                     }
                 }
                 return ary;
-            }, []) || []
-        );
+            }, result);
+        }
+        return result;
     }
 
     get fateBonusItems() {
-        return (
+        let result = [];
+        if (this.actor) {
             IterWrap.create(this.actor?.allItems()).reduce((ary, it) => {
                 if (
                     it.system instanceof MysteryItemData &&
                     it.system.subType === "fateBonus"
                 ) {
-                    const skills = it.getFlag("sohl", "fateSkills");
+                    const skills = it.fateSkills;
                     if (!skills || skills.includes(this.item.name)) {
                         if (
                             !it.system.$charges.disabled ||
@@ -4853,8 +4915,9 @@ export class MasteryLevelItemData extends SohlItemData {
                         }
                     }
                 }
-            }, []) || []
-        );
+            }, result);
+        }
+        return result;
     }
 
     get canImprove() {
@@ -5530,31 +5593,6 @@ export class MasteryLevelItemData extends SohlItemData {
             items: Array.from(this.actor.allItems()),
         });
 
-        if (this.abbrev === "fate") {
-            // Fate trait itself doesn't have fate, obviously!
-            this.$masteryLevel.fate.disabled = true;
-        } else if (this.skillBase.attributes.includes("Aura")) {
-            this.$masteryLevel.fate.set("Aura-Based, No Fate", "AurBsd", 0);
-            this.$masteryLevel.fate.disabled = true;
-        } else {
-            const fate = this.actor.getTraitByAbbrev("fate");
-            if (fate) {
-                this.$masteryLevel.fate.addVM(fate.system.$masteryLevel, {
-                    includeBase: true,
-                });
-            } else {
-                this.$masteryLevel.fate.setBase(50);
-            }
-
-            this.fateBonusItems.forEach((it) => {
-                this.$masteryLevel.fate.add(
-                    it.label,
-                    "FateBns",
-                    it.system.$level.effective,
-                );
-            });
-        }
-
         if (this.$masteryLevel.base > 0) {
             let newML = this.$masteryLevel.base;
 
@@ -5570,23 +5608,44 @@ export class MasteryLevelItemData extends SohlItemData {
             this.$masteryLevel.setBase(this.$masteryLevel.max);
         }
 
-        this.$masteryLevel.fate.disabled ||= this.$masteryLevel.disabled;
-
-        // Apply Fate
-        if (
-            !this.$masteryLevel.fate.base &&
-            !this.$masteryLevel.fate.disabled
-        ) {
-            this.$masteryLevel.fate.addVM(this.actor.system.$fate, {
-                includeBase: true,
-            });
-            this.$masteryLevel.fate.disabled = this.actor.system.$fate.disabled;
+        if (this.skillBase.attributes.includes("Aura")) {
+            // Any skill that has Aura in its SB formula cannot use fate
+            this.$masteryLevel.fate.set("Aura-Based, No Fate", "AurBsd", 0);
+            this.$masteryLevel.fate.disabled = true;
         }
     }
 
     /** @override */
     postProcess() {
         super.postProcess();
+        this.$masteryLevel.fate.disabled ||= this.$masteryLevel.disabled;
+        if (!this.$masteryLevel.fate.disabled) {
+            const fate = this.actor.getTraitByAbbrev("fate");
+            if (fate) {
+                this.$masteryLevel.fate.addVM(fate.system.$score, {
+                    includeBase: true,
+                });
+            } else {
+                this.$masteryLevel.fate.setBase(50);
+            }
+
+            // Apply magic modifiers
+            if (this.magicMod) {
+                this.$masteryLevel.fate.add(
+                    "Magic Modifier",
+                    "MagicMod",
+                    this.magicMod,
+                );
+            }
+
+            this.fateBonusItems.forEach((it) => {
+                this.$masteryLevel.fate.add(
+                    it.label,
+                    "FateBns",
+                    it.system.$level.effective,
+                );
+            });
+        }
         this.applyPenalties();
     }
 }
@@ -6055,16 +6114,20 @@ export class MysticalAbilityItemData extends SubtypeMixin(
     }
 }
 
-export class DomainItemData extends SohlItemData {
+export class PhilosophyItemData extends SohlItemData {
     static get typeName() {
-        return "domain";
+        return "philosophy";
     }
 
     static get typeLabel() {
         return {
-            singular: "Domain",
-            plural: "Domains",
+            singular: "Philosophy",
+            plural: "Philosophies",
         };
+    }
+
+    static get defaultImage() {
+        return "systems/sohl/assets/icons/sparkle.svg";
     }
 
     static get categories() {
@@ -6081,44 +6144,117 @@ export class DomainItemData extends SohlItemData {
         return Array.from(this.categories.values()).sort().join(", ");
     }
 
-    static get defaultImage() {
-        return "systems/sohl/assets/icons/sparkle.svg";
+    static get divineEmbodiments() {
+        return {
+            dreams: "Dreams",
+            death: "Death",
+            storms: "Storms",
+            fertility: "Fertility",
+            order: "Order",
+            knowledge: "Knowledge",
+            prosperity: "Prosperity",
+            fire: "Fire",
+            creation: "Creation",
+            voyager: "Voyager",
+            decay: "Decay",
+        };
+    }
+
+    static get elements() {
+        return {
+            fire: "Fire",
+            water: "Water",
+            earth: "Earth",
+            spirit: "Spirit",
+            wind: "Wind",
+            metal: "Metal",
+            arcana: "Arcana",
+        };
     }
 
     static defineSchema() {
         return foundry.utils.mergeObject(
             super.defineSchema(),
             {
-                categories: new fields.SetField(
-                    new fields.StringField({
-                        required: "true",
-                        blank: false,
-                        label: "Category",
-                        choices: DomainItemData.categories,
-                    }),
-                    { label: "Categories" },
-                ),
+                category: new fields.StringField({
+                    required: "true",
+                    blank: false,
+                    label: "Category",
+                    choices: PhilosophyItemData.categories,
+                }),
+            },
+            { inplace: false },
+        );
+    }
+}
+
+export class DomainItemData extends SohlItemData {
+    $category;
+
+    static get typeName() {
+        return "domain";
+    }
+
+    static get typeLabel() {
+        return {
+            singular: "Domain",
+            plural: "Domains",
+        };
+    }
+
+    static get defaultImage() {
+        return "systems/sohl/assets/icons/sparkle.svg";
+    }
+
+    /** @override */
+    static get nestOnly() {
+        return true;
+    }
+
+    get cusp() {
+        return !!this.item.getFlag("sohl", "cusp");
+    }
+
+    get magicMod() {
+        return this.item.getFlag("sohl", "magicMod") || {};
+    }
+
+    get embodiments() {
+        return this.item.getFlag("sohl", "embodiments") || [];
+    }
+
+    get intrinsicActions() {
+        return super.intrinsicActions;
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(
+            super.defineSchema(),
+            {
                 abbrev: new fields.StringField({
                     initial: "",
                     label: "Abbreviation",
-                }),
-                philosophy: new fields.StringField({
-                    initial: "",
-                    label: "Philosophy",
                 }),
             },
             { inplace: false },
         );
     }
 
+    prepareBaseData() {
+        super.prepareBaseData();
+        if (this.item.nestedIn.system instanceof PhilosophyItemData) {
+            this.$category = this.item.nestedIn?.system.category;
+        }
+    }
+
     processSiblings() {
         super.processSiblings();
 
-        // Load up the domain lists
-        this.categories.forEach((c) => {
-            this.actor.system.$domains[c] ??= new Collection();
-            this.actor.system.$domains[c].set(this.abbrev, this);
-        });
+        if (this.$category) {
+            // Load up the domain lists
+            this.actor.system.$domains[this.$category] ??= [];
+            this.actor.system.$domains[this.$category].push(this.item);
+        }
     }
 }
 
@@ -6426,7 +6562,7 @@ export class InjuryItemData extends SohlItemData {
                 tag: "created",
                 activation: {
                     scope: "self",
-                    initTime: game.time.worldTime,
+                    startTime: game.time.worldTime,
                     oper: "indefinite",
                 },
             },
@@ -6453,7 +6589,7 @@ export class InjuryItemData extends SohlItemData {
                     actionName: "healTest",
                     activation: {
                         scope: "item",
-                        initTime: game.time.worldTime,
+                        startTime: game.time.worldTime,
                         duration: options.healTestDuration,
                         oper: "duration",
                     },
@@ -6524,6 +6660,8 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
             fear: "Fear",
             morale: "Morale",
             shadow: "Shadow",
+            psyche: "Psyche Stress",
+            auralshock: "Aural Shock",
         };
     }
 
@@ -6537,6 +6675,8 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
             fear: "Fear",
             morale: "Morl",
             shadow: "Shdw",
+            psyche: "Psy",
+            auralshock: "AShk",
         };
     }
     static get transmissionTypes() {
@@ -6552,6 +6692,46 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
             arcane: "Arcane",
             divine: "Divine",
             spirit: "Spirit",
+        };
+    }
+
+    static get fatigueKinds() {
+        return {
+            windedness: "Windedness",
+            weariness: "Weariness",
+            weakness: "Weakness",
+        };
+    }
+
+    static get privationKinds() {
+        return {
+            asphixia: "Asphixia",
+            cold: "Cold Exposure",
+            heat: "Heat Exposure",
+            starvation: "Starvation",
+            dehydration: "Dehydration",
+            nosleep: "Sleep Deprivation",
+        };
+    }
+    static get fearLevels() {
+        return {
+            none: "No Effect",
+            brave: "Brave",
+            steady: "Steady",
+            afraid: "Afraid",
+            terrified: "Terrified",
+            catatonic: "Catatonic",
+        };
+    }
+
+    static get moraleLevels() {
+        return {
+            none: "No Effect",
+            brave: "Brave",
+            steady: "Steady",
+            withdraw: "Withdrawing",
+            routed: "Routed",
+            catatonic: "Catatonic",
         };
     }
 
@@ -6679,6 +6859,22 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     const endurance = item?.actor?.getTraitByAbbrev("end");
                     return (
                         endurance && !endurance.system.$masteryLevel.disabled
+                    );
+                },
+                contextGroup: SohlContextMenu.sortGroups.Primary,
+            },
+            {
+                functionName: "infectionCourseTest",
+                name: "Infection Course Test",
+                contextIconClass: "fas fa-bullseye",
+                contextCondition: (header) => {
+                    header = header instanceof HTMLElement ? header : header[0];
+                    const li = header.closest(".item");
+                    const affliction = fromUuidSync(li.dataset.uuid);
+                    return (
+                        affliction &&
+                        affliction.system.subType === "infection" &&
+                        !affliction.system.$healingRate.effective < 6
                     );
                 },
                 contextGroup: SohlContextMenu.sortGroups.Primary,
@@ -6922,7 +7118,7 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
-            "system.score": { label: "Score", abbrev: "Scor" },
+            "system.$score": { label: "Score", abbrev: "Scor" },
             "system.$masteryLevel": { label: "Value", abbrev: "Val" },
             "system.textValue": { label: "Text", abbrev: "Text" },
         });
@@ -7056,6 +7252,16 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
         }
     }
 
+    processSiblings() {
+        super.processSiblings();
+        if (this.abbrev === "ss") {
+            const magicDomain = this.actor.itemTypes.domain.find(
+                (it) => it.system.abbrev === this.textValue,
+            );
+            this.actor.system.$magicMod = magicDomain?.system.magicMod || {};
+        }
+    }
+
     /** @override */
     postProcess() {
         super.postProcess();
@@ -7137,6 +7343,40 @@ export class SkillItemData extends SubtypeMixin(MasteryLevelItemData) {
             maneuver: "Combat Maneuver",
             meleemaneuver: "Melee & Combat Maneuver",
         };
+    }
+
+    get magicMod() {
+        let mod;
+        switch (this.subType) {
+            case "social":
+                mod = this.actor.system.$magicMod.water;
+                break;
+            case "nature":
+                mod = this.actor.system.$magicMod.earth;
+                break;
+            case "craft":
+                mod = this.actor.system.$magicMod.metal;
+                break;
+            case "lore":
+                mod = this.actor.system.$magicMod.spirit;
+                break;
+            case "language":
+                mod = this.actor.system.$magicMod.social;
+                break;
+            case "script":
+                mod = this.actor.system.$magicMod.lore;
+                break;
+            case "ritual":
+                mod = this.actor.system.$magicMod.lore;
+                break;
+            case "physical":
+                mod = this.actor.system.$magicMod.air;
+                break;
+            case "combat":
+                mod = this.actor.system.$magicMod.fire;
+                break;
+        }
+        return mod || 0;
     }
 
     /**
@@ -7288,6 +7528,11 @@ export class BodyZoneItemData extends SohlItemData {
         return "systems/sohl/assets/icons/person.svg";
     }
 
+    /** @override */
+    static get nestOnly() {
+        return true;
+    }
+
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
             abbrev: new fields.StringField({
@@ -7395,6 +7640,11 @@ export class BodyPartItemData extends SohlItemData {
 
     static get defaultImage() {
         return "systems/sohl/assets/icons/ribcage.svg";
+    }
+
+    /** @override */
+    static get nestOnly() {
+        return true;
     }
 
     static defineSchema() {
@@ -7570,6 +7820,11 @@ export class BodyLocationItemData extends SohlItemData {
         return Utility.simpleMerge(super.effectKeys, aspects);
     }
 
+    /** @override */
+    static get nestOnly() {
+        return true;
+    }
+
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
             abbrev: new fields.StringField({
@@ -7731,6 +7986,11 @@ export class MysticalDeviceItemData extends SubtypeMixin(SohlItemData) {
             ancestor: "Ancestor Spirit Power",
             totem: "Totem Spirit Power",
         };
+    }
+
+    /** @override */
+    static get nestOnly() {
+        return true;
     }
 
     static defineSchema() {
@@ -8264,12 +8524,12 @@ export class ProjectileGearItemData extends SubtypeMixin(GearItemData) {
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
-            "system.traits.blunt": {
+            "system.$traits.blunt": {
                 label: "Blunt Impact",
                 abbrev: "ProjBlunt",
             },
-            "system.traits.bleed": { label: "Bleeding", abbrev: "ProjBld" },
-            "system.traits.armorReduction": {
+            "system.$traits.bleed": { label: "Bleeding", abbrev: "ProjBld" },
+            "system.$traits.armorReduction": {
                 label: "Armor Reduction",
                 abbrev: "ProjAR",
             },
@@ -8405,22 +8665,26 @@ export class EventItemData extends SohlItemData {
                         blank: false,
                         choices: EventItemData.actionScopes,
                         label: "Action Scope",
+                        hint: "Where the action will run",
                     }),
                     targetUuid: new fields.StringField({
                         initial: "",
                         label: "Target UUID",
+                        hint: "If action scope is other, this is the UUID of the document where the action will run",
                     }),
                     duration: new fields.NumberField({
                         integer: true,
                         initial: 0,
                         min: 0,
                         label: "Duration",
+                        hint: "Number of seconds after start time until the action is triggered",
                     }),
-                    initTime: new fields.NumberField({
+                    startTime: new fields.NumberField({
                         integer: true,
                         initial: Number.MAX_SAFE_INTEGER,
                         min: 0,
-                        label: "Initialize Time",
+                        label: "Start Time",
+                        hint: "Game time when the event timer started",
                     }),
                     oper: new fields.StringField({
                         initial: "gte",
@@ -8433,6 +8697,7 @@ export class EventItemData extends SohlItemData {
                         blank: false,
                         choices: EventItemData.autoRestartStates,
                         label: "Auto Restart",
+                        hint: "Whether the event should automatically restart when triggered",
                     }),
                 },
                 {
@@ -8464,16 +8729,16 @@ export class EventItemData extends SohlItemData {
         return result;
     }
 
-    get initiated() {
-        return this.activation.initTime >= game.time.worldTime;
+    get started() {
+        return this.activation.startTime <= game.time.worldTime;
     }
 
-    get initTime() {
+    get startTime() {
         return {
             worldDate: EventItemData.getWorldDateLabel(
-                this.activation.initTime,
+                this.activation.startTime,
             ),
-            time: this.activation.initTime,
+            time: this.activation.startTime,
         };
     }
 
@@ -8488,7 +8753,7 @@ export class EventItemData extends SohlItemData {
             time = game.time.worldTime;
         } else {
             const activateTime =
-                this.activation.initTime + this.activation.duration;
+                this.activation.startTime + this.activation.duration;
             worldDate = EventItemData.getWorldDateLabel(activateTime);
             time = activateTime;
         }
@@ -8512,7 +8777,7 @@ export class EventItemData extends SohlItemData {
 
     get remainingDuration() {
         let label, value;
-        if (!this.initiated) {
+        if (!this.started) {
             label = "Not Initiated";
             value = 0;
         } else if (this.activation.oper === "indefinite") {
@@ -8533,9 +8798,9 @@ export class EventItemData extends SohlItemData {
     }
 
     get elapsedDuration() {
-        const duration = game.time.worldTime - this.activation.initTime;
+        const duration = game.time.worldTime - this.activation.startTime;
         let label, value;
-        if (!this.initiated) {
+        if (!this.started) {
             label = "Not Initiated";
             value = 0;
         } else {
@@ -8564,7 +8829,7 @@ export class EventItemData extends SohlItemData {
 
     static _start(item, { time = game.time.worldTime } = {}) {
         const updateData = {
-            "system.activation.initTime": time,
+            "system.activation.startTime": time,
         };
 
         if (item.system.activation.autoRestart === "once") {
@@ -8581,13 +8846,13 @@ export class EventItemData extends SohlItemData {
 
     async stop() {
         const updateData = {
-            "system.activation.initTime": Number.MAX_SAFE_INTEGER,
+            "system.activation.startTime": Number.MAX_SAFE_INTEGER,
         };
         return await this.item.update(updateData);
     }
 
     async checkAndExecute() {
-        if (!this.initiated) return false;
+        if (!this.started) return false;
 
         let isActivated = false;
         switch (EventItemData.operators[this.activation.oper]) {
@@ -9132,9 +9397,7 @@ export class Utility {
                 const formData = foundry.utils.expandObject(fd.object);
 
                 const hasAction = parent.system.actions.some(
-                    (it) =>
-                        !it.getFlag("sohl", "isIntrinsicAction") &&
-                        it.name === formData.name,
+                    (it) => !it.isIntrinsicAction && it.name === formData.name,
                 );
                 if (hasAction) {
                     ui.notifications.error(
@@ -10211,15 +10474,31 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
 }
 
 export class SohlActiveEffect extends ActiveEffect {
+    static defineSchema() {
+        return foundry.utils.mergeObject(
+            super.defineSchema(),
+            {
+                type: new fields.DocumentTypeField(this, {
+                    initial: SohlActiveEffectData.typeName,
+                }),
+            },
+            { inplace: false },
+        );
+    }
+
+    get item() {
+        return this.parent instanceof SohlItem && this.parent;
+    }
+
     get actor() {
         return this.parent instanceof SohlActor
             ? this.parent
-            : this.parent?.actor;
+            : this.item?.actor;
     }
 
     get modifiesActor() {
         if (!this.active) return false;
-        return this.parent instanceof SohlItem
+        return this.item
             ? this.system.targetType === "actor"
             : ["actor", "this"].includes(this.system.targetType);
     }
@@ -10240,22 +10519,20 @@ export class SohlActiveEffect extends ActiveEffect {
         if (!this.origin) return true;
         // }
 
-        if (this.parent instanceof SohlItem) {
-            const source = this.parent;
-            // If the item is a unequipped gear, then its effects are suppressed
-            if (
-                source.system instanceof GearItemData &&
-                !source.system.isEquipped
-            )
-                return true;
-        } else {
-            const source = fromUuidSync(this.origin);
-            if (!source) {
-                console.warn(
-                    `Actor ${this.parent.name} effect ${this.name} has invalid origin ${this.origin}`,
-                );
-                return true;
-            }
+        const source = this.item || fromUuidSync(this.origin);
+
+        if (
+            source?.system instanceof GearItemData &&
+            !source.system.isEquipped
+        ) {
+            return true;
+        }
+
+        if (!source) {
+            console.warn(
+                `Actor ${this.parent.name} effect ${this.name} has invalid origin ${this.origin}`,
+            );
+            return true;
         }
 
         // if (
@@ -10405,9 +10682,7 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     _handleAEMods(doc, change, changes) {
-        const parts = change.key.split(":");
-        const modId = parts[1];
-        const modKey = parts[2];
+        const modKey = change.key.slice(4);
 
         const mods = foundry.utils.getProperty(doc, modKey);
         if (!(mods instanceof ValueModifier)) {
@@ -10417,12 +10692,10 @@ export class SohlActiveEffect extends ActiveEffect {
             return;
         }
 
-        const modName =
-            modId === "AE"
-                ? `AE: ${this.sourceName}`
-                : doc.system.constructor.mods[modId].name;
-        const modAbbr =
-            modId === "AE" ? "AE" : doc.system.constructor.mods[modId].abbrev;
+        const effectKeyValue = this.getEffectKeyValue(modKey);
+
+        const modName = effectKeyValue.label;
+        const modAbbr = effectKeyValue.abbrev;
 
         switch (change.mode) {
             case CONST.ACTIVE_EFFECT_MODES.ADD:
@@ -10525,20 +10798,7 @@ export class SohlActiveEffect extends ActiveEffect {
                 const modes = CONST.ACTIVE_EFFECT_MODES;
                 const key = ch.key;
                 const val = ch.value;
-                let prefix = this.getEffectKeyValue(
-                    this.system.targetType,
-                    key,
-                ).abbrev;
-                if (this.system.targetType === "this") {
-                    if (this.parent instanceof SohlItem) {
-                        prefix = this.getEffectKeyValue(
-                            this.parent.type,
-                            key,
-                        ).abbrev;
-                    } else if (this.parent instanceof SohlActor) {
-                        prefix = this.getEffectKeyValue("actor", key).abbrev;
-                    }
-                }
+                let prefix = this.getEffectKeyValue(key).abbrev;
 
                 switch (ch.mode) {
                     case modes.ADD:
@@ -10648,8 +10908,21 @@ export class SohlActiveEffect extends ActiveEffect {
             };
         }
     }
+
+    async _preCreate(newData, options, user) {
+        let origin = newData.origin || this.parent?.uuid;
+        this.updateSource({
+            type: SohlActiveEffectData.typeName,
+            origin: origin,
+        });
+        return super._preCreate(newData, options, user);
+    }
+
     static async create(data, options = {}) {
-        let newData = foundry.utils.deepClone(data);
+        let newData =
+            data instanceof Document
+                ? data.toObject()
+                : foundry.utils.deepClone(data);
 
         if (Object.keys(newData).some((k) => /\./.test(k))) {
             newData = foundry.utils.expandObject(newData);
@@ -10830,6 +11103,8 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
 }
 
 export class SohlMacro extends Macro {
+    _cause;
+
     /** @override */
     _configure(options) {
         if (this.parent && !(this.parent instanceof SohlActor)) {
@@ -10853,6 +11128,25 @@ export class SohlMacro extends Macro {
             writable: false,
             enumerable: false,
         });
+    }
+
+    _initialize(options = {}) {
+        super._initialize(options);
+        if (options.cause) this._cause = options.cause;
+    }
+
+    get cause() {
+        return this._cause || this.nestedIn;
+    }
+
+    set cause(item) {
+        if (!this.actor) return;
+        if (!(item instanceof SohlItem))
+            throw new Error("must provide a valid cause");
+        this._cause = item;
+        if (!this.actor.system.virtualItems.has(this.id)) {
+            this.actor.system.virtualItems.set(this.id, this);
+        }
     }
 
     get isNested() {
@@ -11242,10 +11536,8 @@ export class SohlMacro extends Macro {
     }
 
     async update(data = [], context = {}) {
+        this.updateSource(data, context);
         if (this.nestedIn) {
-            this.updateSource(data, context);
-            this.sheet.render();
-
             let result = null;
             const idx = this.nestedIn.system.macros.findIndex(
                 (obj) => obj._id === this.id,
@@ -11260,13 +11552,14 @@ export class SohlMacro extends Macro {
                     { "system.macros": newAry },
                     context,
                 );
+                this.sheet.render();
             } else {
                 console.error(
                     `Update called on SohlMacro that doesn't exist in ${this.nestedIn.name}, id=${this.id}`,
                 );
             }
             return result;
-        } else {
+        } else if (this.parent) {
             return super.update(data, context);
         }
     }
@@ -11279,7 +11572,9 @@ export class SohlMacro extends Macro {
             await this.nestedIn.update({ "system.macros": filtered }, context);
             this.sheet.close();
             return this;
-        } else {
+        } else if (this.cause) {
+            this.cause.system.actions.delete(this.id);
+        } else if (this.parent) {
             return super.delete(context);
         }
     }
@@ -12124,11 +12419,7 @@ export class SohlActor extends Actor {
         if (combatSkill) {
             return combatSkill.system.$masteryLevel;
         } else {
-            return new MasteryLevelModifier(this.system).set(
-                `No ${name} Combat Skill`,
-                "NoSkill",
-                0,
-            );
+            return null;
         }
     }
 
@@ -12276,7 +12567,7 @@ export class SohlActor extends Actor {
                 const actorEffects = it.effects.filter(
                     (e) => e.system.targetType === "actor",
                 );
-                return effects.concat(actorEffects);
+                return effects.push(...actorEffects);
             },
             [],
         );
@@ -12286,8 +12577,8 @@ export class SohlActor extends Actor {
 
     *allApplicableEffects() {
         // Grab all of the effects on this actor that affect this actor
-        const effects = this.effects.filter(
-            (e) => e.system.targetType === "this",
+        const effects = this.effects.filter((e) =>
+            ["this", "actor"].includes(e.system.targetType),
         );
         for (const effect of effects) {
             yield effect;
@@ -12306,21 +12597,13 @@ export class SohlActor extends Actor {
         const overrides = {
             [this.id]: {},
         };
-
-        this.statuses ??= new Set();
-
-        // Identify which special statuses had been active
-        const specialStatuses = new Map();
-        for (const statusId of Object.values(CONFIG.specialStatusEffects)) {
-            specialStatuses.set(statusId, this.statuses.has(statusId));
-        }
         this.statuses.clear();
 
         // Organize non-disabled effects by their application priority
         const changes = [];
         for (const effect of this.allApplicableEffects()) {
             if (!effect.active) continue;
-            const targets = effect.targets;
+            const targets = effect.system.targets;
             if (!targets?.length) continue;
             changes.push(
                 ...effect.changes.map((change) => {
@@ -12355,16 +12638,6 @@ export class SohlActor extends Actor {
             if (overrides[it.id])
                 it.overrides = foundry.utils.expandObject(overrides[it.id]);
         });
-
-        // Apply special statuses that changed to active tokens
-        let tokens;
-        for (const [statusId, wasActive] of specialStatuses) {
-            const isActive = this.statuses.has(statusId);
-            if (isActive === wasActive) continue;
-            tokens ??= this.getActiveTokens();
-            for (const token of tokens)
-                token._onApplyStatusEffect(statusId, isActive);
-        }
     }
 
     /**
@@ -12908,6 +13181,58 @@ function SohlSheetMixin(Base) {
             }
         }
 
+        async _addChoiceArrayItem(event) {
+            const dataset = event.currentTarget.dataset;
+            let array = foundry.utils
+                .getProperty(this.document, dataset.array)
+                .concat();
+            const choices = dataset.choices.split(";");
+            let formTemplate =
+                '<form id="get-choice"><div class="form-group"><select name="choice">';
+            choices.forEach((c) => {
+                let [label, val] = c.split(":").map((v) => v.trim());
+                formTemplate += `<option name="${val}">${label}</option>`;
+            });
+            formTemplate += `</select></div></form>`;
+            const compiled = Handlebars.compile(formTemplate);
+            const html = compiled(
+                {},
+                {
+                    allowProtoMethodsByDefault: true,
+                    allowProtoPropertiesByDefault: true,
+                },
+            );
+
+            const dlgResult = await Dialog.prompt({
+                title: dataset.title,
+                content: html.trim(),
+                label: `Add ${dataset.title}`,
+                callback: (html) => {
+                    const form = html.querySelector("form");
+                    const fd = new FormDataExtended(form);
+                    const formData = foundry.utils.expandObject(fd.object);
+                    return formData.choice;
+                },
+                rejectClose: false,
+                options: { jQuery: false },
+            });
+
+            // if dialog was closed, do nothing
+            if (!dlgResult) return null;
+
+            if (array.some((a) => a === dlgResult)) {
+                ui.notifications.warn(
+                    `Choice with value "${dlgResult} already exists, ignoring`,
+                );
+                return null;
+            }
+
+            array.push(dlgResult);
+            const updateData = { [dataset.array]: array };
+            const result = await this.item.update(updateData);
+            return result;
+        }
+
         async _addAimArrayItem(event) {
             const dataset = event.currentTarget.dataset;
             let array = foundry.utils
@@ -13034,6 +13359,8 @@ function SohlSheetMixin(Base) {
                 result = await this._addAimArrayItem(event);
             } else if (dataset.objectType === "ValueDesc") {
                 result = await this._valueDescArrayItem(event);
+            } else if (dataset.choices) {
+                result = await this._addChoiceArrayItem(event);
             }
             if (result) this.render();
             return result;
@@ -13309,12 +13636,32 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
         data.labels = this.actor.labels || {};
         data.itemTypes = this.actor.itemTypes;
         data.itemSubtypes = this.actor.itemSubtypes;
+        data.anatomy = this.actor.itemTypes.anatomy.at(0);
         data.effectStatus = IterWrap.create(
             this.actor.statuses.values(),
         ).reduce((obj, s) => {
             obj[s] = true;
             return obj;
         }, {});
+        data.effectStatus.auralshock = data.itemTypes.affliction.reduce(
+            (b, a) => {
+                if (b) return b;
+                if (
+                    a.system.subType === "auralshock" &&
+                    a.system.$level.effective > 0
+                )
+                    return true;
+            },
+            false,
+        );
+        data.effectStatus.fatigue = data.itemTypes.affliction.reduce((b, a) => {
+            if (b) return b;
+            if (a.system.subType === "fatigue" && a.system.$level.effective > 0)
+                return true;
+        }, false);
+
+        data.magicMod = this.actor.system.$magicMod;
+
         data.macroTypes = foundry.utils.deepClone(
             game.system.documentTypes.Macro,
         );
@@ -14383,6 +14730,7 @@ export const SohlItemDataModels = {
     [MissileWeaponStrikeModeItemData.typeName]: MissileWeaponStrikeModeItemData,
     [MysteryItemData.typeName]: MysteryItemData,
     [MysticalAbilityItemData.typeName]: MysticalAbilityItemData,
+    [PhilosophyItemData.typeName]: PhilosophyItemData,
     [DomainItemData.typeName]: DomainItemData,
     [MysticalDeviceItemData.typeName]: MysticalDeviceItemData,
     [ProjectileGearItemData.typeName]: ProjectileGearItemData,
@@ -14410,6 +14758,7 @@ export const SohlItemTypeIcons = {
     [MissileWeaponStrikeModeItemData.typeName]: "fas fa-bow-arrow",
     [MysteryItemData.typeName]: "fas fa-sparkles",
     [MysticalAbilityItemData.typeName]: "fas fa-hand-sparkles",
+    [PhilosophyItemData.typeName]: "fas fa-sparkle",
     [DomainItemData.typeName]: "fas fa-sparkle",
     [MysticalDeviceItemData.typeName]: "fas fa-wand-sparkles",
     [ProjectileGearItemData.typeName]: "fas fa-bow-arrow",
@@ -14450,6 +14799,7 @@ export const SohlItemTypeLabels = {
     [MysteryItemData.typeName]: MysteryItemData.typeLabel.singular,
     [MysticalAbilityItemData.typeName]:
         MysticalAbilityItemData.typeLabel.singular,
+    [PhilosophyItemData.typeName]: PhilosophyItemData.typeLabel.singular,
     [DomainItemData.typeName]: DomainItemData.typeLabel.singular,
     [MysticalDeviceItemData.typeName]:
         MysticalDeviceItemData.typeLabel.singular,

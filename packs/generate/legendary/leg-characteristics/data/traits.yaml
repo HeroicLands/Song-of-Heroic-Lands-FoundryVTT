@@ -8711,10 +8711,6 @@
             spaces: 1,
             feet: 5
         };
-      folder: null
-      sort: "0"
-      ownership:
-        default: "0"
       flags:
         sohl:
           notes: ""
@@ -8924,304 +8920,21 @@
   valueDesc: []
   choices: []
   flags: {}
-  macros: {}
-  folderId: z6GcCOGsuwgwN1Ya
-- name: Sunsign
-  abbrev: ss
-  id: UKZU7cUxdwazKN6l
-  img: systems/sohl/assets/icons/astrology.svg
-  subType: transcendent
-  description: ""
-  intensity: trait
-  skillBaseFormula: ""
-  textValue: ulandus
-  max: 0
-  isNumeric: false
-  valueDesc: []
-  choices:
-    ulandus: Ùlándus
-    ulandusaralius: Ùlándus-Arálius
-    aralius: Arálius
-    araliusfeneri: Arálius-Fenéri
-    feneri: Fenéri
-    feneriahnu: Fenéri-Áhnù
-    ahnu: Áhnù
-    ahnuangberelius: Áhnù-Angberélius
-    angberelius: Angberélius
-    angbereliusnadai: Angberélius-Nadái
-    nadai: Nadái
-    nadaihirin: Nadái-Hîrin
-    hirin: Hîrin
-    hirintarael: Hîrin-Táræl
-    tarael: Táræl
-    taraeltai: Táræl-Tai
-    tai: Tai
-    taiskorus: Tai-Skôrus
-    skorus: Skôrus
-    skorusmasara: Skôrus-Masâra
-    masara: Masâra
-    masaralado: Masâra-Ládo
-    lado: Ládo
-    ladoulandus: Ládo-Ùlándus
-  flags:
-    sohl:
-      legendary:
-        values:
-          ulandus:
-            label: Ùlándus
-            cusp: false
-            ssMod:
-              earth: "15"
-              metal: "5"
-              fire: "-5"
-              air: "-15"
-              aura: "-5"
-              water: "5"
-          ulandusaralius:
-            label: Ùlándus-Arálius
-            cusp: true
-            ssMod:
-              earth: "15"
-              metal: "10"
-              fire: "0"
-              air: "-10"
-              aura: "-5"
-              water: "5"
-          aralius:
-            label: Arálius
-            cusp: false
-            ssMod:
-              earth: "10"
-              metal: "10"
-              fire: "0"
-              air: "-10"
-              aura: "-10"
-              water: "0"
-          araliusfeneri:
-            label: Arálius-Fenéri
-            cusp: true
-            ssMod:
-              earth: "10"
-              metal: "15"
-              fire: "5"
-              air: "-5"
-              aura: "-10"
-              water: "0"
-          feneri:
-            label: Fenéri
-            cusp: false
-            ssMod:
-              earth: "5"
-              metal: "15"
-              fire: "5"
-              air: "-5"
-              aura: "-15"
-              water: "-5"
-          feneriahnu:
-            label: Fenéri-Áhnù
-            cusp: true
-            ssMod:
-              earth: "5"
-              metal: "15"
-              fire: "10"
-              air: "0"
-              aura: "-10"
-              water: "-5"
-          ahnu:
-            label: Áhnù
-            cusp: false
-            ssMod:
-              earth: "0"
-              metal: "10"
-              fire: "10"
-              air: "0"
-              aura: "-10"
-              water: "-10"
-          ahnuangberelius:
-            label: Áhnù-Angberélius
-            cusp: true
-            ssMod:
-              earth: "0"
-              metal: "10"
-              fire: "15"
-              air: "5"
-              aura: "-5"
-              water: "-10"
-          angberelius:
-            label: Angberélius
-            cusp: false
-            ssMod:
-              earth: "-5"
-              metal: "5"
-              fire: "15"
-              air: "5"
-              aura: "-5"
-              water: "-15"
-          angbereliusnadai:
-            label: Angberélius-Nadái
-            cusp: true
-            ssMod:
-              earth: "-5"
-              metal: "5"
-              fire: "15"
-              air: "10"
-              aura: "0"
-              water: "-10"
-          nadai:
-            label: Nadái
-            cusp: false
-            ssMod:
-              earth: "-10"
-              metal: "0"
-              fire: "10"
-              air: "10"
-              aura: "0"
-              water: "-10"
-          nadaihirin:
-            label: Nadái-Hîrin
-            cusp: true
-            ssMod:
-              earth: "-10"
-              metal: "0"
-              fire: "10"
-              air: "10"
-              aura: "0"
-              water: "-5"
-          hirin:
-            label: Hîrin
-            cusp: false
-            ssMod:
-              earth: "-15"
-              metal: "-5"
-              fire: "5"
-              air: "15"
-              aura: "5"
-              water: "-5"
-          hirintarael:
-            label: Hîrin-Táræl
-            cusp: true
-            ssMod:
-              earth: "-10"
-              metal: "-5"
-              fire: "5"
-              air: "15"
-              aura: "10"
-              water: "0"
-          tarael:
-            label: Táræl
-            cusp: false
-            ssMod:
-              earth: "-10"
-              metal: "-10"
-              fire: "0"
-              air: "10"
-              aura: "10"
-              water: "0"
-          taraeltai:
-            label: Táræl-Tai
-            cusp: true
-            ssMod:
-              earth: "-5"
-              metal: "-10"
-              fire: "0"
-              air: "10"
-              aura: "15"
-              water: "5"
-          tai:
-            label: Tai
-            cusp: false
-            ssMod:
-              earth: "-5"
-              metal: "-15"
-              fire: "-5"
-              air: "5"
-              aura: "15"
-              water: "5"
-          taiskorus:
-            label: Tai-Skôrus
-            cusp: true
-            ssMod:
-              earth: "0"
-              metal: "-10"
-              fire: "-5"
-              air: "5"
-              aura: "15"
-              water: "10"
-          skorus:
-            label: Skôrus
-            cusp: false
-            ssMod:
-              earth: "0"
-              metal: "-10"
-              fire: "-10"
-              air: "0"
-              aura: "10"
-              water: "10"
-          skorusmasara:
-            label: Skôrus-Masâra
-            cusp: true
-            ssMod:
-              earth: "5"
-              metal: "-5"
-              fire: "-10"
-              air: "0"
-              aura: "10"
-              water: "15"
-          masara:
-            label: Masâra
-            cusp: false
-            ssMod:
-              earth: "5"
-              metal: "-5"
-              fire: "-15"
-              air: "-5"
-              aura: "5"
-              water: "15"
-          masaralado:
-            label: Masâra-Ládo
-            cusp: true
-            ssMod:
-              earth: "10"
-              metal: "0"
-              fire: "-10"
-              air: "-5"
-              aura: "5"
-              water: "15"
-          lado:
-            label: Ládo
-            cusp: false
-            ssMod:
-              earth: "10"
-              metal: "0"
-              fire: "-10"
-              air: "-10"
-              aura: "0"
-              water: "10"
-          ladoulandus:
-            label: Ládo-Ùlándus
-            cusp: true
-            ssMod:
-              earth: "15"
-              metal: "5"
-              fire: "-5"
-              air: "-10"
-              aura: "0"
-              water: "10"
   macros:
     - name: Setup Virtual Items
       type: script
-      _id: PIqhsQx8cNUItQQU
+      _id: K1gUPA5xWgfj4J2H
       author: 5VOJ7NCf7bEZjieU
       img: icons/svg/dice-target.svg
       scope: global
       command: |-
         this.setupVirtualItems();
-        const values = this.item.getFlag("sohl", "values");
-        this.actor.system.$ssMod = values[this.textValue];
-      folder: null
-      sort: "0"
-      ownership:
-        default: "0"
+        this.$masteryLevel.disabled = false;
+        this.$masteryLevel.setBase(this.$score.base);
+        const aura = this.actor.getTraitByAbbrev("aur");
+        if (aura) {
+            this.$masteryLevel.add("Aura Secondary Modifier", "AuraSM", aura.system.$masteryLevel.secMod);
+        }
       flags:
         sohl:
           notes: ""
@@ -9231,6 +8944,46 @@
           contextCondition: ""
           contextGroup: aaa
           useAsync: false
+  folderId: z6GcCOGsuwgwN1Ya
+- name: Sunsign
+  abbrev: ss
+  id: UKZU7cUxdwazKN6l
+  img: systems/sohl/assets/icons/astrology.svg
+  subType: transcendent
+  description: ""
+  intensity: trait
+  skillBaseFormula: ""
+  textValue: aries
+  max: 0
+  isNumeric: false
+  valueDesc: []
+  choices:
+    aries: Aries
+    ariestaurus: Aries-Taurus
+    taurus: Taurus
+    taurusgemini: Taurus-Gemini
+    gemini: Gemini
+    geminicancer: Gemini-Cancer
+    cancer: Cancer
+    cancerleo: Cancer-Leo
+    leo: Leo
+    leovirgo: Leo-Virgo
+    virgo: Virgo
+    virgolibra: Virgo-Libra
+    libra: Libra
+    libracorpio: Libra-Scorpio
+    scorpio: Scorpio
+    scorpiosagittarius: Scorpio-Sagittarius
+    sagittarius: Sagittarius
+    sagittariuscapricorn: Sagittarius-Capricorn
+    capricorn: Capricorn
+    capricornaquarius: Capricorn-Aquarius
+    aquarius: Aquarius
+    aquariuspisces: Aquarius-Pisces
+    pisces: Pisces
+    piscesaries: Pisces-Aries
+  flags: {}
+  macros: []
   folderId: z6GcCOGsuwgwN1Ya
 - name: Experience Points
   abbrev: xp

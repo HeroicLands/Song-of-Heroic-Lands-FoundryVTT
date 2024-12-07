@@ -654,7 +654,7 @@ section.highlight {
   height: calc(100% - 6px);
 }
 .sohl .sheet .sheet-header-entity .header-fields .effect-buttons {
-  flex: 0 0 300px;
+  flex: 0 0 200px;
 }
 .sohl .sheet .sheet-header-entity .header-fields .effect-buttons .effect-button {
   border: 1px;

@@ -19,40 +19,55 @@ stats = {
     "lastModifiedBy": "TMJsvJWT6ytpHZ0M",
 }
 
-with open("./data/domains.yaml", "r", encoding="utf8") as infile:
-    domainsData = yaml.safe_load(infile)
+with open("./data/philosophies.yaml", "r", encoding="utf8") as infile:
+    philosophiesData = yaml.safe_load(infile)
 
-for domain in domainsData:
-    print(f"Processing Domain {domain['name']}")
-    fname = domain["name"] + "_" + domain["id"]
+for phil in philosophiesData:
+    print(f"Processing Philosophy {phil['name']}")
+    fname = phil["name"] + "_" + phil["id"]
     fname = unidecode(fname)
     fname = re.sub(r"[^0-9a-zA-Z]+", "_", fname) + ".json"
     pname = args.outputDir + "/" + fname
 
     out = {
-        "name": domain["name"],
-        "type": "domain",
-        "img": domain["img"],
-        "_id": domain["id"],
-        "_key": "!items!" + domain["id"],
+        "name": phil["name"],
+        "type": "philosophy",
+        "img": phil["img"],
+        "_id": phil["id"],
+        "_key": "!items!" + phil["id"],
         "system": {
             "notes": "",
             "textReference": "",
-            "description": domain["description"],
-            "macros": domain["macros"],
+            "description": phil["description"],
+            "macros": phil["macros"],
             "nestedItems": [],
             "transfer": False,
-            "categories": domain["categories"],
-            "abbrev": domain["abbrev"],
-            "philosophy": domain["philosophy"],
+            "category": phil["category"],
         },
-        "effects": domain["effects"],
-        "flags": domain["flags"],
+        "effects": phil["effects"],
+        "flags": phil["flags"],
         "_stats": stats,
-        "folder": domain["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
+        "folder": phil["folderId"],
     }
+    for ni in phil["nestedItems"]:
+        nestedItem = {
+            "name": ni["name"],
+            "type": "domain",
+            "img": ni["img"],
+            "_id": ni["id"],
+            "system": {
+                "notes": "",
+                "textReference": "",
+                "description": ni["description"],
+                "macros": ni["macros"],
+                "nestedItems": [],
+                "transfer": True,
+                "abbrev": ni["abbrev"],
+            },
+            "effects": ni["effects"],
+            "flags": ni["flags"],
+        }
+        out["system"]["nestedItems"].append(nestedItem)
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
@@ -96,8 +111,6 @@ for mysticalability in mysticalabilitiesData:
         "flags": mysticalability["flags"],
         "_stats": stats,
         "folder": mysticalability["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
     }
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
@@ -139,8 +152,6 @@ for mystery in mysteriesData:
         "flags": mystery["flags"],
         "_stats": stats,
         "folder": mystery["folderId"],
-        "sort": 0,
-        "ownership": {"default": 0, "TMJsvJWT6ytpHZ0M": 3},
     }
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)

@@ -62,9 +62,6 @@
                       ]
                     },
                     "sort": 100000,
-                    "ownership": {
-                      "default": 0
-                    },
                     "_id": "0XmtjaBJDxMk0Ucd",
                     "flags": {
                       "sohl": {
@@ -106,9 +103,6 @@
                       ]
                     },
                     "sort": 200000,
-                    "ownership": {
-                      "default": 0
-                    },
                     "_id": "6kX9YIUIVja3Y0MP",
                     "flags": {
                       "sohl": {
@@ -150,9 +144,6 @@
                       ]
                     },
                     "sort": 300000,
-                    "ownership": {
-                      "default": 0
-                    },
                     "_id": "UwvPtm6rbB5noi7l",
                     "flags": {
                       "sohl": {

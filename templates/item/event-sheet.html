@@ -16,21 +16,24 @@
         <div class="tab properties" data-group="primary" data-tab="properties">
             <div class="grid grid-3col">
                 {{formField fields.tag rootId="event-tag" classes="text-field" stacked=true value=system.tag}}
-                {{formField fields.action rootId="event-action" classes="text-field" stacked=true value=system.action}}
+                {{formField fields.actionName rootId="event-action" classes="text-field" stacked=true value=system.action}}
                 {{formField fields.activation.fields.scope rootId="event-scope" classes="text-field" stacked=true value=system.activation.scope}}
                 {{formField fields.activation.fields.targetUuid rootId="event-targetuuid" classes="text-field" stacked=true value=system.activation.targetUuid}}
                 {{formField fields.activation.fields.duration rootId="event-duration" classes="text-field" stacked=true value=system.activation.duration}}
                 {{formField fields.activation.fields.oper rootId="event-oper" classes="text-field" stacked=true value=system.activation.oper}}
-                {{formField fields.activation.fields.autoStart rootId="event-autoStart" classes="text-field" stacked=true value=system.activation.autoStart}}
+                {{formField fields.activation.fields.autoRestart rootId="event-autoStart" classes="text-field" stacked=true value=system.activation.autoRestart}}
             </div>
             <div class="resource" id="item-starttime">
                 <div class="flexrow">
-                    <label class="resource-label time-label">Initialize Time</label>
-                    <a class="alter-time time-control" title="Change Init Time"
-                        data-property="system.activation.initTime" data-time="{{idata.activation.initTime}}"
-                        ><i class="fas fa-plus"></i> Change</a>
+                    <label class="resource-label time-label">Start Time</label>
+                    <div class="form-fields">
+                        <a class="alter-time time-control" title="Change Start Time"
+                            data-property="system.activation.startTime" data-time="{{idata.activation.startTime}}"
+                            ><i class="fas fa-plus"></i> Change</a>
+                    </div>
                 </div>
-                {{displayWorldTime system.activation.initTime}}
+                <p>{{displayWorldTime system.activation.startTime}}</p>
+                <p class="hint">Time when event timer started</p>
             </div>
             {{> "sohl.item-refnote"}}
         </div>

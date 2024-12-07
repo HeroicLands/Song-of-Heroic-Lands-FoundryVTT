@@ -15,29 +15,73 @@
         {{!-- Properties Tab --}}
         <div class="tab properties" data-group="primary" data-tab="properties">
             <div class="grid grid-2col">
-                {{formField fields.categories rootId="dom-cat" classes="text-field" stacked=true value=system.categories}}
                 {{formField fields.abbrev rootId="dom-abbr" classes="text-field" stacked=true value=system.abbrev}}
             </div>
-            {{#if (setHas system.categories "divine")}}
-            <fieldset class="dom-divasp-list" id="dom-divasp-list">
-                <legend>Divine Aspects</legend>
-                <div class="dom-divasp flexrow" id="dom-divasp-value">
+            {{#if (eq system.$category "astral")}}
+            <div class="form-group text-field">
+                <input type="checkbox" name="flags.sohl.cusp" {{checked flags.sohl.cusp}} data-type="Boolean" />
+                <label>Is Cusp</label>
+            </div>
+            <fieldset class="dom-ssmod" id="dom-ssmod">
+                <legend>Astral Modifiers</legend>
+                <div class="form-group stacked text-field">
+                    <label>Earth</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.earth name="flags.sohl.legendary.ssMod.earth" step=1 min=0}}
+                    </div>
+                </div>
+                <div class="form-group stacked text-field">
+                    <label>Metal</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.metal name="flags.sohl.legendary.ssMod.metal" step=1 min=0}}
+                    </div>
+                </div>
+                <div class="form-group stacked text-field">
+                    <label>Fire</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.fire name="flags.sohl.legendary.ssMod.fire" step=1 min=0}}
+                    </div>
+                </div>
+                <div class="form-group stacked text-field">
+                    <label>Wind</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.wind name="flags.sohl.legendary.ssMod.wind" step=1 min=0}}
+                    </div>
+                </div>
+                <div class="form-group stacked text-field">
+                    <label>Spirit</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.spirit name="flags.sohl.legendary.ssMod.spirit" step=1 min=0}}
+                    </div>
+                </div>
+                <div class="form-group stacked text-field">
+                    <label>Water</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.ssMod.water name="flags.sohl.legendary.ssMod.water" step=1 min=0}}
+                    </div>
+                </div>
+            </fieldset>
+            {{/if}}
+            {{#if (eq system.$category "divine")}}
+            <fieldset class="dom-divemb-list" id="dom-divemb-list">
+                <legend>Divine Embodiments</legend>
+                <div class="dom-divemb flexrow" id="dom-divemb-value">
                     <a class="add-array-item"
-                        data-array="flags.sohl.aspects"
+                        data-array="flags.sohl.legendary.embodiments"
                         data-dtype="String"
                         data-default-value=""
                         data-unique="true"
-                        data-title="Divine Aspect"
-                        ><i class="fas fa-plus"></i> Add Divine Aspect</a>
+                        data-title="Divine Embodiment"
+                        ><i class="fas fa-plus"></i> Add Divine Embodiment</a>
                 </div>
-                <ol class="grid grid-4col" id="dom-divasp-display">
-                    {{#each flags.sohl.aspects}}
+                <ol class="grid grid-4col" id="dom-divemb-display">
+                    {{#each flags.sohl.legendary.embodiments}}
                     <li class="armor-location">
                         <span class="name">{{this}}</span>
                         <a class="delete-array-item"
-                            data-array="flags.sohl.aspects"
+                            data-array="flags.sohl.legendary.embodiments"
                             data-value="{{this}}"
-                            title="Divine Aspect"
+                            title="Divine Embodiment"
                             ><i class="fas fa-trash"></i></a>
                     </li>
                     {{/each}}

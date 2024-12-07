@@ -2,26 +2,10 @@
   id: HQdjhe67Av3z8APh
   parentFolderId: ""
   color: '#e59f25'
-- name: Domains
+- name: Philosophies
   id: R5yDwwVBNF7yE4fc
   parentFolderId: ""
   color: '#008F00'
-- name: Magic
-  id: J6IAJZ5uWs3Bdqwj
-  parentFolderId: R5yDwwVBNF7yE4fc
-  color: '#088F00'
-- name: Asgardian
-  id: JPJijWGcJUmeLfSu
-  parentFolderId: R5yDwwVBNF7yE4fc
-  color: '#108F00'
-- name: Zodiac
-  id: wI7ZM7GUB6h877lc
-  parentFolderId: R5yDwwVBNF7yE4fc
-  color: '#148F00'
-- name: Totems
-  id: ZJzBrmBAMjcUijuX
-  parentFolderId: R5yDwwVBNF7yE4fc
-  color: '#188F00'
 - name: Spells
   id: gVI9JYbauW6iZ3qY
   parentFolderId: ""
@@ -38,7 +22,7 @@
   id: ODuFSQKM8KJTQ7wQ
   parentFolderId: gVI9JYbauW6iZ3qY
   color: '#00bfff'
-- name: Neutral
+- name: Arcana
   id: RpuF61QnMRyujYaM
   parentFolderId: gVI9JYbauW6iZ3qY
   color: '#5c5c5c'

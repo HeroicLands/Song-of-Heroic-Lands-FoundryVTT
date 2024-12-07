@@ -28,13 +28,7 @@
                     </div>
                     <p class="hint"></p>
                 </div>
-                <div class="form-group stacked text-field">
-                    <label>Reach</label>
-                    <div class="form-fields">
-                        {{numberInput flags.sohl.legendary.reachBase name="flags.sohl.legendary.reachBase" step=1 min=0}}
-                    </div>
-                    <p class="hint"></p>
-                </div>
+                {{formField fields.lengthBase rootId="ctsm-lengthbase" classes="text-field" stacked=true value=system.lengthBase}}
             {{/ "sohl.item-strikemode"}}
             {{> "sohl.item-refnote"}}
         </div>
