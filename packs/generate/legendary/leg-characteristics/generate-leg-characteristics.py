@@ -48,7 +48,7 @@ for trait in traitsData:
             "masteryLevelBase": 0,
             "improveFlag": False,
             "textValue": trait["textValue"],
-            "isNumeric": trait["isNumeric"] == "TRUE",
+            "isNumeric": bool(trait["isNumeric"]),
             "intensity": trait["intensity"],
             "max": trait["max"],
             "valueDesc": trait["valueDesc"],
