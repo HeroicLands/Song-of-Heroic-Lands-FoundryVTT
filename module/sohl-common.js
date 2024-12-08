@@ -2587,7 +2587,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         let ary = [];
         this.macros.forEach((m) => {
             const macro = new SohlMacro(m, {
-                cause: this.parent,
+                nestedIn: this.parent,
                 keepId: true,
             });
             if (!macro) {
@@ -11103,8 +11103,6 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
 }
 
 export class SohlMacro extends Macro {
-    _cause;
-
     /** @override */
     _configure(options) {
         if (this.parent && !(this.parent instanceof SohlActor)) {
@@ -11574,6 +11572,7 @@ export class SohlMacro extends Macro {
             return this;
         } else if (this.cause) {
             this.cause.system.actions.delete(this.id);
+            this.cause.sheet.render();
         } else if (this.parent) {
             return super.delete(context);
         }
