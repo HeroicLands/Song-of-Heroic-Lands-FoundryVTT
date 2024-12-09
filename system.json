@@ -95,6 +95,14 @@
             "private": false
         }
     ],
+    "media": [
+      {
+        "type": "setup",
+        "url": "systems/sohl/assets/ui/sohl-background.webp",
+        "thumbnail": "systems/sohl/assets/ui/sohl-background.webp"
+      }
+    ],
+    "background": "systems/sohl/assets/ui/sohl-background.webp",
     "socket": true,
     "manifest": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json",
     "download": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/download/v0.4.2/system.zip",
