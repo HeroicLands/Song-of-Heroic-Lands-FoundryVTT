@@ -2540,17 +2540,25 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         return {};
     }
 
+    static get eventTags() {
+        return {
+            none: "",
+            created: "Created",
+            modified: "Last Modified",
+        };
+    }
+
     // biome-ignore lint/correctness/noUnusedVariables: <explanation>
     getEvent(eventTag) {
         throw new Error("Subclass must define getEvent");
     }
 
-    static get eventTags() {
-        return {
-            none: "",
-            created: "Created",
-            lastmod: "Last Modified",
-        };
+    get created() {
+        return this.getEvent("created")?.system;
+    }
+
+    get modified() {
+        return this.getEvent("modified")?.system;
     }
 
     static get mods() {
@@ -2698,13 +2706,13 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
     }
 
     get events() {
-        const result = {};
+        const result = [];
         if (this.actor) {
-            IterWrap.create(this.actor.allItems()).reduce((obj, it) => {
-                if (it.system instanceof EventItemData && it.system.isEnabled) {
+            IterWrap.create(this.actor.allItems()).reduce((ary, it) => {
+                if (it.system instanceof EventItemData && it.system.started) {
                     // First, get all events targetting this item.
                     if (it.system.$targetUuid === this.uuid) {
-                        obj[it.name] = {
+                        const evt = {
                             name: it.name,
                             uuid: it.uuid,
                             source: it.nestedIn || this.actor,
@@ -2721,6 +2729,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                             actionName: it.system.actionName,
                             item: it,
                         };
+                        ary.push(evt);
                     }
 
                     // Next, add any event that are nested in this item.
@@ -2728,7 +2737,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                         it.nestedIn?.uuid === this.uuid &&
                         !Object.hasOwn(it.uuid)
                     ) {
-                        obj[it.uuid] = {
+                        const evt = {
                             name: it.name,
                             uuid: it.uuid,
                             source: it.nestedIn || this.actor,
@@ -2748,9 +2757,10 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                             actionName: it.system.actionName,
                             item: it,
                         };
+                        ary.push(evt);
                     }
                 }
-                return obj;
+                return ary;
             }, result);
         }
         return result;
@@ -2938,6 +2948,7 @@ export class SohlActorData extends SohlBaseData {
         // values correctly.
         this.$gearWeight.maxFight.setBase(50);
         this.$gearWeight.max.setBase(75);
+        this.$magicMod = {};
     }
 
     checkExpired() {
@@ -3337,6 +3348,8 @@ export class AnimateEntityActorData extends SohlActorData {
     $engagedOpponents;
 
     $domains;
+
+    $magicMod;
 
     static get typeName() {
         return "entity";
@@ -6262,6 +6275,7 @@ export class InjuryItemData extends SohlItemData {
     $healingRate;
     $bleeding;
     $injuryLevel;
+    $bodyLocation;
 
     static get typeName() {
         return "injury";
@@ -6305,18 +6319,14 @@ export class InjuryItemData extends SohlItemData {
         return foundry.utils.mergeObject(
             super.eventTags,
             {
-                nextHealingCheck: "Next Healing Check",
+                nextHealingTest: "Next Healing Test",
             },
             { inplace: false },
         );
     }
 
-    get created() {
-        return this.getEvent("created")?.system;
-    }
-
-    get nextHealingCheck() {
-        return this.getEvent("nextHealingCheck")?.system;
+    get nextHealingTest() {
+        return this.getEvent("nextHealingTest")?.system;
     }
 
     get untreatedHealing() {
@@ -6359,7 +6369,7 @@ export class InjuryItemData extends SohlItemData {
                     initial: false,
                     label: "Bleeding",
                 }),
-                bodyLocation: new fields.StringField({
+                bodyLocationUuid: new fields.StringField({
                     initial: "",
                     label: "Body Location",
                 }),
@@ -6560,6 +6570,7 @@ export class InjuryItemData extends SohlItemData {
             type: "event",
             system: {
                 tag: "created",
+                transfer: false,
                 activation: {
                     scope: "self",
                     startTime: game.time.worldTime,
@@ -6585,8 +6596,9 @@ export class InjuryItemData extends SohlItemData {
                 name: "Next Heal Test",
                 type: "event",
                 system: {
-                    tag: "nextHealingCheck",
+                    tag: "nextHealingTest",
                     actionName: "healTest",
+                    transfer: true,
                     activation: {
                         scope: "item",
                         startTime: game.time.worldTime,
@@ -6618,6 +6630,10 @@ export class InjuryItemData extends SohlItemData {
         this.$healingRate.setBase(
             this.isTreated ? this.healingRateBase : this.untreatedHealing.hr,
         );
+    }
+
+    processSiblings() {
+        this.$bodyLocation = fromUuidSync(this.bodyLocationUuid);
     }
 
     postProcess() {
@@ -6733,6 +6749,25 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
             routed: "Routed",
             catatonic: "Catatonic",
         };
+    }
+
+    static get eventTags() {
+        return foundry.utils.mergeObject(
+            super.eventTags,
+            {
+                nextCourseTest: "Next Course Test",
+                nextRecoveryTest: "Next Recovery Test",
+            },
+            { inplace: false },
+        );
+    }
+
+    get nextCourseTest() {
+        return this.getEvent("nextCourseTest")?.system;
+    }
+
+    get nextRecoveryTest() {
+        return this.getEvent("nextRecoveryTest")?.system;
     }
 
     static defineSchema() {
@@ -6883,6 +6918,94 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
 
         actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
         return actions;
+    }
+
+    /** @override */
+    async _preCreate(data, options, user) {
+        const allowed = await super._preCreate(data, options, user);
+        if (!allowed) return false;
+
+        // Create a new event to represent the create time of the affliction
+        const createdItem = await SohlItem.create({
+            name: "Created",
+            type: "event",
+            system: {
+                tag: "created",
+                transfer: false,
+                activation: {
+                    scope: "self",
+                    startTime: game.time.worldTime,
+                    oper: "indefinite",
+                },
+            },
+        });
+
+        const updateData = {
+            nestedItems: this.nestedItems.concat(createdItem.toObject()),
+        };
+
+        if (data.system.subType === "infection") {
+            // Create a new event to represent the next heal test
+            const nextInfectionCourseTest = await SohlItem.create({
+                name: "Next Infection Course Test",
+                type: "event",
+                system: {
+                    tag: "nextCourseTest",
+                    actionName: "infectionCourseTest",
+                    transfer: true,
+                    activation: {
+                        scope: "item",
+                        startTime: game.time.worldTime,
+                        duration: 86400, // one day
+                        oper: "duration",
+                    },
+                },
+            });
+            updateData["nestedItems"].push(nextInfectionCourseTest);
+        }
+
+        if (data.system.subType === "disease") {
+            // Create a new event to represent the next heal test
+            const nextDiseaseCourseTest = await SohlItem.create({
+                name: "Next Disease Course Test",
+                type: "event",
+                system: {
+                    tag: "nextCourseTest",
+                    actionName: "courseTest",
+                    transfer: true,
+                    activation: {
+                        scope: "item",
+                        startTime: game.time.worldTime,
+                        duration: 86400, // one day
+                        oper: "duration",
+                    },
+                },
+            });
+            updateData["nestedItems"].push(nextDiseaseCourseTest);
+        }
+
+        if (data.system.subType === "poisontoxin") {
+            // Create a new event to represent the next heal test
+            const nextCourseTest = await SohlItem.create({
+                name: "Next Poison/Toxin Course Test",
+                type: "event",
+                system: {
+                    tag: "nextCourseTest",
+                    actionName: "courseTest",
+                    transfer: true,
+                    activation: {
+                        scope: "item",
+                        startTime: game.time.worldTime,
+                        duration: 600, // 10 minutes
+                        oper: "duration",
+                    },
+                },
+            });
+            updateData["nestedItems"].push(nextCourseTest);
+        }
+
+        await this.updateSource(updateData);
+        return true;
     }
 
     get canTransmit() {
@@ -7296,6 +7419,16 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
             }
         } else {
             this.$masteryLevel.disabled = true;
+        }
+
+        if (this.abbrev === "fate") {
+            if (this.actor.system.$magicMod.spirit) {
+                this.$masteryLevel.add(
+                    "Sunsign Modifier",
+                    "SS",
+                    this.actor.system.$magicMod.spirit,
+                );
+            }
         }
     }
 }
@@ -8658,6 +8791,7 @@ export class EventItemData extends SohlItemData {
                 label: "Action",
                 hint: "Action to perform when time expires",
             }),
+            isEnabled: new fields.BooleanField({ initial: true }),
             activation: new fields.SchemaField(
                 {
                     scope: new fields.StringField({
@@ -8730,7 +8864,9 @@ export class EventItemData extends SohlItemData {
     }
 
     get started() {
-        return this.activation.startTime <= game.time.worldTime;
+        return (
+            this.isEnabled && this.activation.startTime <= game.time.worldTime
+        );
     }
 
     get startTime() {
@@ -8830,6 +8966,7 @@ export class EventItemData extends SohlItemData {
     static _start(item, { time = game.time.worldTime } = {}) {
         const updateData = {
             "system.activation.startTime": time,
+            "system.isEnabled": true,
         };
 
         if (item.system.activation.autoRestart === "once") {
@@ -8846,13 +8983,13 @@ export class EventItemData extends SohlItemData {
 
     async stop() {
         const updateData = {
-            "system.activation.startTime": Number.MAX_SAFE_INTEGER,
+            "system.isEnabled": false,
         };
         return await this.item.update(updateData);
     }
 
     async checkAndExecute() {
-        if (!this.started) return false;
+        if (!this.started || !this.isEnabled) return false;
 
         let isActivated = false;
         switch (EventItemData.operators[this.activation.oper]) {
@@ -8878,21 +9015,23 @@ export class EventItemData extends SohlItemData {
                 throw new Error(`Target not found`);
             }
             await target.system.execute(this.actionName);
+            let updateData = [];
             if (
                 this.activation.autoRestart ===
                 EventItemData.autoRestartStates.never
             ) {
                 await this.item.delete();
             } else {
-                const updateData = EventItemData._start(this.item);
+                updateData = EventItemData._start(this.item);
                 if (
                     this.activation.autoRestart ===
                     EventItemData.autoRestartStates.once
                 ) {
                     updateData["system.activation.autoRestart"] = "never";
                 }
-                return await this.item.update(updateData);
             }
+            updateData["system.isEnabled"] = false;
+            return await this.item.update(updateData);
         }
 
         return isActivated;
@@ -14148,7 +14287,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
             IterWrap.create(this.item.actor.allItems()).forEach((it) => {
                 // Fill appropriate lists for individual item sheets
                 if (it.system instanceof BodyLocationItemData) {
-                    data.bodyLocationChoices[it.name] = it.name;
+                    data.bodyLocationChoices[it.uuid] = it.name;
                 }
 
                 if (it.system instanceof BodyZoneItemData) {

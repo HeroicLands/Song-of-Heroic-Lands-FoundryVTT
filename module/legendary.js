@@ -126,6 +126,19 @@ const LGND = {
                     type: new fields.BooleanField({ initial: false }),
                 },
             },
+            animateActorPacks: {
+                key: "animateActorPacks",
+                data: {
+                    name: "Animate Actor Compendiums",
+                    hint: "list of Compendiums containing Animate Actors that will be searched for template actors, comma separated, in order",
+                    scope: "world",
+                    config: true,
+                    type: new fields.StringField({
+                        nullable: false,
+                        initial: "sohl.leg-characters",
+                    }),
+                },
+            },
         },
 
         injuryLocations: {
@@ -1624,7 +1637,6 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
     $healingBase;
     $encumbrance;
     $sunsign;
-    $magicMod;
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
@@ -1723,7 +1735,6 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
             },
         });
         this.$encumbrance.floor("Min Zero", "Min0", 0);
-        this.$magicMod = {};
     }
 }
 
@@ -2605,19 +2616,6 @@ class LgndTraitItemData extends sohl.TraitItemData {
                     "Aura Secondary Modifier",
                     "AuraSM",
                     aura.system.$masteryLevel.secMod,
-                );
-            }
-        }
-    }
-
-    postProcess() {
-        super.postProcess();
-        if (this.abbrev === "fate") {
-            if (this.actor.system.$magicMod.spirit) {
-                this.$masteryLevel.add(
-                    "Sunsign Modifier",
-                    "SS",
-                    this.actor.system.$magicMod.spirit,
                 );
             }
         }

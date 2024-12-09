@@ -755,7 +755,7 @@
                                         {{/if}}
                                     </div>
                                     <div class="detail aspect">{{lookup ../config.Item.dataModels.injury.aspectTypes system.aspect}}</div>
-                                    <div class="detail source">{{system.bodyLocation}}</div>
+                                    <div class="detail source">{{system.$bodyLocation.system.name}}</div>
                                     <div class="detail ele">
                                         {{#if system.isBleeding}}
                                         <a class="bloodloss-test">Yes</a>
@@ -763,8 +763,8 @@
                                         <span>No</span>
                                         {{/if}}
                                     </div>
-                                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.created.elapsedDuration.label}}"></i><span class="value" data-tooltip="{{system.created.initTime.worldDate}}">{{system.created.initTime.worldDate}}</div>
-                                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.nextHealingCheck.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextHealingCheck.activateTime.worldDate}}">{{system.nextHealingCheck.activateTime.worldDate}}</div>
+                                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.created.elapsedDuration.label}}"></i><span class="value" data-tooltip="{{system.created.startTime.worldDate}}">{{system.created.startTime.worldDate}}</div>
+                                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.nextHealingTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextHealingTest.activateTime.worldDate}}">{{system.nextHealingTest.activateTime.worldDate}}</div>
                                     <div class="detail notes">{{system.notes}}</div>
                                     {{#unless printable}}
                                     <div class="item-controls">
@@ -795,8 +795,10 @@
                                 <div class="detail ele">Level</div>
                                 <div class="detail ele">HR</div>
                                 <div class="detail source">Source</div>
-                                <div class="detail duration">Age</div>
-                                <div class="detail notes">Next Recovery</div>
+                                <div class="detail duration">Created</div>
+                                <div class="detail duration">Course Test</div>
+                                <div class="detail duration">Recovery Test</div>
+                                <div class="detail notes"></div>
                             </header>
                             <ol class="item-list">
                                 {{#each itemstlist.items as | item |}}
@@ -823,8 +825,22 @@
                                             {{/if}}
                                         </div>
                                         <div class="detail source">{{source.name}}</div>
-                                        <div class="detail duration" data-tooltip="{{system.created.worldDate}}">{{system.created.remainingDuration}}</div>
-                                        <div class="detail notes" data-tooltip="{{system.eventDates.recovery.worldDate}}">{{system.eventDates.recovery.remainingDuration}}</div>
+                                        <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.created.elapsedDuration.label}}"></i><span class="value" data-tooltip="{{system.created.startTime.worldDate}}">{{system.created.startTime.worldDate}}</div>
+                                        <div class="detail duration">
+                                            {{#if system.nextCourseTest}}
+                                            <i class="fas fa-timer" data-tooltip="{{system.nextCourseTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextCourseTest.activateTime.worldDate}}">{{system.nextCourseTest.activateTime.worldDate}}
+                                            {{else}}
+                                            <span class="value">None</span>
+                                            {{/if}}
+                                        </div>
+                                        <div class="detail duration">
+                                            {{#if system.nextRecoveryTest}}
+                                            <i class="fas fa-timer" data-tooltip="{{system.nextRecoveryTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextRecoveryTest.activateTime.worldDate}}">{{system.nextRecoveryTest.activateTime.worldDate}}
+                                            {{else}}
+                                            <span class="value">None</span>
+                                            {{/if}}
+                                        </div>
+                                        <div class="detail notes"></div>
                                         {{#unless printable}}
                                         <div class="item-controls">
                                             <a class="item-control item-contextmenu" title="Menu"><i
