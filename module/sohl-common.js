@@ -7009,22 +7009,27 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
     }
 
     get canTransmit() {
+        // TODO - Implement Affliction canTransmit
         return true;
     }
 
     get canContract() {
+        // TODO - Implement Affliction canContract
         return true;
     }
 
     get hasCourse() {
+        // TODO - Implement Affliction hasCourse
         return true;
     }
 
     get canTreat() {
+        // TODO - Implement Affliction canTreat
         return true;
     }
 
     get canHeal() {
+        // TODO - Implement Affliction canHeal
         return true;
     }
 

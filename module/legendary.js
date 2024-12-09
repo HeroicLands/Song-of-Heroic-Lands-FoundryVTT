@@ -20,71 +20,6 @@ const LGND = {
             |___/                             |___/
 ===========================================================`,
 
-        /** @enum */
-        TACADV: {
-            Action: "Action",
-            Impact: "Impact",
-            Precision: "Precision",
-            Setup: "Setup",
-        },
-
-        MODS: {
-            FATE: { NAME: "Fate", ABBR: "Fate" },
-            REACH: { NAME: "Reach", ABBR: "Rch" },
-            PULL: { NAME: "Pull", ABBR: "Pull" },
-            IMPACTTA: { NAME: "Impact Tactical Advantage", ABBR: "ImpTA" },
-            HEFT: { NAME: "Heft Penalty", ABBR: "Heft" },
-            HEAL: { NAME: "Healing Base", ABBR: "Heal" },
-            MOBILITY: { NAME: "Mobility", ABBR: "Mob" },
-            PBIMPACT: { NAME: "Point Blank Impact", ABBR: "PBImp" },
-            PBATTACK: { NAME: "Point Blank Attack", ABBR: "PBAtk" },
-            V2RANGE: { NAME: "Volley x2 Range", ABBR: "V2Rng" },
-            V3RANGE: { NAME: "Volley x3 Range", ABBR: "V3Rng" },
-            V4RANGE: { NAME: "Volley x4 Range", ABBR: "V4Rng" },
-            WTENC: { NAME: "Weight Encumbrance", ABBR: "WtEnc" },
-            AGLSTR: { NAME: "Agility/Strength Modifier", ABBR: "AglStrMod" },
-            WINDEDNESS: { NAME: "Windedness Fatigue", ABBR: "FtgWind" },
-            WEARINESS: { NAME: "Weariness Fatigue", ABBR: "FtgWear" },
-            WEAKNESS: { NAME: "Weakness Fatigue", ABBR: "FtgWeak" },
-            FATIGUE: { NAME: "Fatigue", ABBR: "Fatg" },
-            WEIGHT: { NAME: "Weight", ABBR: "Wt" },
-            ENC: { NAME: "Encumbrance", ABBR: "Enc" },
-            PRONE: { NAME: "Prone", ABBR: "Prone" },
-            SPELLDIFF: { NAME: "Spell Difficulty \u00D72", ABBR: "SpDiff" },
-            STRIMPMOD: { NAME: "Strength Impact Modifier", ABBR: "StrImpMod" },
-            ARMORREDUCTION: { NAME: "Armor Reduction", ABBR: "ArmRed" },
-            DEFARMOR: { NAME: "Defender Armor", ABBR: "DefArmor" },
-            DURABILITY: { NAME: "Durability", ABBR: "Dur" },
-            QUALITY: { NAME: "Quality", ABBR: "Qual" },
-        },
-
-        /** @enum */
-        IMPACTTA: {
-            Blunt: 3,
-            Edged: 5,
-            Piercing: 4,
-            Fire: 2,
-        },
-
-        /** @enum */
-        RANGES: {
-            PB: "PB",
-            Direct: "Direct",
-            V2: "V2",
-            V3: "V3",
-            V4: "V4",
-        },
-
-        /** @enum */
-        STATUSEFFECTS: {
-            Sleep: "sleep",
-            Prone: "prone",
-            Unconscious: "unconscious",
-            Incapacitated: "incapacitated",
-            Stunned: "stun",
-            Dead: "dead",
-        },
-
         VERSETTINGS: {
             encIncr: {
                 key: "encIncr",
@@ -140,171 +75,433 @@ const LGND = {
                 },
             },
         },
+    },
+};
 
-        injuryLocations: {
-            Custom: {
-                impactType: "custom",
-                location: { probWeight: 50 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 5,
-                bleedingSevThreshold: 0,
-                affectsMobility: false,
-            },
-            Skull: {
-                impactType: "skull",
-                location: { probWeight: 50 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 5,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Face: {
-                impactType: "face",
-                location: { probWeight: 30 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Neck: {
-                impactType: "neck",
-                location: { probWeight: 20 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: -10,
-                shockValue: 5,
-                bleedingSevThreshold: 3,
-                affectsMobility: true,
-            },
-            Shoulder: {
-                impactType: "shoulder",
-                location: { probWeight: 15 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: 0,
-                shockValue: 3,
-                bleedingSevThreshold: 4,
-                affectsMobility: false,
-            },
-            "Upper Arm": {
-                impactType: "upperarm",
-                location: { probWeight: 15 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Elbow: {
-                impactType: "elbow",
-                location: { probWeight: 5 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Forearm: {
-                impactType: "forearm",
-                location: { probWeight: 10 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Hand: {
-                impactType: "hand",
-                location: { probWeight: 5 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -30,
-                shockValue: 2,
-                bleedingSevThreshold: 0,
-                affectsMobility: false,
-            },
-            Thorax: {
-                impactType: "thorax",
-                location: { probWeight: 13 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Abdomen: {
-                impactType: "abdomen",
-                location: { probWeight: 13 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 3,
-                affectsMobility: true,
-            },
-            Pelvis: {
-                impactType: "pelvis",
-                location: { probWeight: 7 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Thigh: {
-                impactType: "thigh",
-                location: { probWeight: 20 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -10,
-                shockValue: 3,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Knee: {
-                impactType: "knee",
-                location: { probWeight: 5 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Calf: {
-                impactType: "calf",
-                location: { probWeight: 15 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Foot: {
-                impactType: "foot",
-                location: { probWeight: 10 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 0,
-                affectsMobility: true,
-            },
-        },
+class LgndImpactModifier extends sohl.ImpactModifier {
+    // List of possible dice for impact dice.
+    static get dice() {
+        return {
+            0: "None",
+            4: "d4",
+            6: "d6",
+            8: "d8",
+            10: "d10",
+            12: "d12",
+        };
+    }
 
-        meleeCombatTable: {
+    static get maxImpactDie() {
+        return Object.values(this.dice).at(-1);
+    }
+
+    get impactTA() {
+        switch (this.aspect) {
+            case "blunt":
+                return 3;
+            case "edged":
+                return 5;
+            case "piercing":
+                return 4;
+            case "fire":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+    calcStrikeImpact(numImpactTAs = 0, { impactTA = null } = {}) {
+        // TODO - Implement Impact Calculation
+        return 0;
+    }
+}
+
+class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
+    constructor(parent, initProperties = {}) {
+        super(
+            parent,
+            foundry.utils.mergeObject(
+                initProperties,
+                {
+                    secMod: (thisVM) => {
+                        const secModIncr = game.settings.get(
+                            "sohl",
+                            "attrSecModIncr",
+                        );
+                        return Math.min(
+                            25,
+                            Math.max(
+                                -25,
+                                Math.trunc(
+                                    ((thisVM.base ?? 0) / 2 - 25) / secModIncr,
+                                ) * secModIncr,
+                            ),
+                        );
+                    },
+                },
+                { inplace: false, recursive: false },
+            ),
+        );
+    }
+}
+
+class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
+    $combatReach;
+    $hasAuralShock;
+    $maxZones;
+    $healingBase;
+    $encumbrance;
+    $sunsign;
+
+    get intrinsicActions() {
+        let actions = super.intrinsicActions.map((a) => {
+            if (a.contextGroup === sohl.SohlContextMenu.sortGroups.Default) {
+                a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
+            }
+            return a;
+        });
+
+        actions.push(
+            // TODO - Add Lgnd Actor Actions
+        );
+
+        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
+        return actions;
+    }
+
+    async damageRoll({
+        targetToken,
+        impactMod,
+        numImpactTAs = 0,
+        bodyLocationUuid,
+        skipDialog = false,
+        ...options
+    } = {}) {
+        return super.damageRoll({
+            targetToken,
+            impactMod,
+            numImpactTAs,
+            bodyLocationUuid,
+            skipDialog,
+            ...options,
+        });
+    }
+
+    async _damageDialog({
+        type,
+        label,
+        strikeMode,
+        impactMod,
+        numImpactTAs = 0,
+        ...options
+    }) {
+        return super._damageDialog({
+            type,
+            label,
+            strikeMode,
+            impactMod,
+            numImpactTAs,
+            ...options,
+        });
+    }
+
+    async _damageDialogCallback(html, { type, impactMod, strikeMode }) {
+        const form = html[0].querySelector("form");
+        const formNumImpactTAs =
+            Number.parseInt(form.numImpactTAs.value, 10) || 0;
+        const newImpact = impactMod
+            ? this.constructor.create(impactMod)
+            : {
+                  die: Number.parseInt(form.impactDie.value, 10) || 0,
+                  modifier: Number.parseInt(form.impactModifier.value, 10) || 0,
+                  aspect: form.impactAspect.value,
+              };
+        if (formNumImpactTAs) {
+            const impactAdd =
+                (strikeMode?.system.$traits.impactTA || newImpact.impactTA) *
+                formNumImpactTAs;
+            newImpact.add(`${formNumImpactTAs} Impact TAs`, "ImpTA", impactAdd);
+        }
+
+        return super._damageDialogCallback(html, {
+            type,
+            impactMod,
+            strikeMode,
+        });
+    }
+
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$maxZones = 0;
+        this.$combatReach = -99;
+        this.$hasAuralShock = false;
+        this.$healingBase = new sohl.ValueModifier(this);
+        this.$encumbrance = new sohl.ValueModifier(this, {
+            total: (thisVM) => {
+                const encDiv = game.settings.get(
+                    "sohl",
+                    LGND.CONST.VERSETTINGS.encIncr.key,
+                );
+                let result = Math.round(
+                    Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
+                        encDiv,
+                );
+                return result;
+            },
+        });
+        this.$encumbrance.floor("Min Zero", "Min0", 0);
+    }
+}
+
+function LgndStrikeModeItemDataMixin(BaseMLID) {
+    return class LgndStrikeModeItemData extends BaseMLID {
+        $reach;
+        $heft;
+
+        get heftBase() {
+            return this.item.getFlag("sohl", "legendary.heftBase") || 0;
+        }
+
+        get zoneDie() {
+            return this.item.getFlag("sohl", "legendary.zoneDie") || 0;
+        }
+
+        static get tactialAdvantages() {
+            return {
+                action: "Action",
+                impact: "Impact",
+                precision: "Precision",
+            };
+        }
+
+        static get effectKeys() {
+            return sohl.Utility.simpleMerge(super.effectKeys, {
+                "mod:system.$impact.armorReduction": {
+                    label: "Armor Reduction",
+                    abbrev: "AR",
+                },
+                "system.$defense.block.successLevelMod": {
+                    label: "Block Success Level",
+                    abbrev: "BlkSL",
+                },
+                "system.$defense.counterstrike.successLevelMod": {
+                    label: "Counterstrike Success Level",
+                    abbrev: "CXSL",
+                },
+                "system.$traits.opponentDef": {
+                    label: "Opponent Defense",
+                    abbrev: "OppDef",
+                },
+                "system.$traits.entangle": {
+                    label: "Entangle",
+                    abbrev: "Entangle",
+                },
+                "system.$traits.envelop": {
+                    label: "Envelop",
+                    abbrev: "Envlp",
+                },
+                "system.$traits.lowAim": {
+                    label: "High Strike",
+                    abbrev: "HiStrike",
+                },
+                "system.$traits.impactTA": {
+                    label: "Impact Tac Adv",
+                    abbrev: "ImpTA",
+                },
+                "system.$traits.notInClose": {
+                    label: "Not In Close",
+                    abbrev: "NotInCls",
+                },
+                "system.$traits.onlyInClose": {
+                    label: "Only In Close",
+                    abbrev: "OnlyInCls",
+                },
+                "system.$traits.lowStrike": {
+                    label: "Low Strike",
+                    abbrev: "LoStrike",
+                },
+                "system.$traits.deflectTN": {
+                    label: "Deflect TN",
+                    abbrev: "DeflTN",
+                },
+                "system.$traits.shieldMod": {
+                    label: "Shield Mod",
+                    abbrev: "ShldMod",
+                },
+                "system.$traits.extraBleedRisk": {
+                    label: "Extra Bleed Risk",
+                    abbrev: "XBldRsk",
+                },
+                "system.$traits.noStrMod": {
+                    label: "No STR Mod",
+                    abbrev: "NoStrMod",
+                },
+                "system.$traits.halfImpact": {
+                    label: "Half Impact",
+                    abbrev: "HlfImp",
+                },
+            });
+        }
+
+        prepareBaseData() {
+            super.prepareBaseData();
+            this.$reach = new sohl.ValueModifier(this);
+            this.$heft = new sohl.ValueModifier(this);
+            foundry.utils.mergeObject(this.$traits, {
+                armorReduction: 0,
+                blockSLMod: 0,
+                cxSLMod: 0,
+                opponentDef: 0,
+                entangle: false,
+                envelop: false,
+                lowAim: false,
+                impactTA: 0,
+                notInClose: false,
+                onlyInClose: false,
+                deflectTN: 0,
+                shieldMod: 0,
+                extraBleedRisk: false,
+                noStrMod: false,
+                halfImpact: false,
+                noBlock: false,
+                noAttack: false,
+            });
+        }
+
+        processSiblings() {
+            super.processSiblings();
+            if (this.$traits.noBlock) this.$defense.block.disabled = true;
+            if (this.$traits.noAttack) {
+                this.$attack.disabled = true;
+                this.$defense.counterstrike.disabled = true;
+            }
+            if (this.$traits.blockSLMod)
+                this.$defense.block.successLevelMod.add(
+                    "SL Modifier",
+                    "SLMod",
+                    this.$traits.blockSLMod,
+                );
+
+            if (this.$traits.cxSLMod)
+                this.$defense.counterstrike.successLevelMod.add(
+                    "SL Modifier",
+                    "SLMod",
+                    this.$traits.cxSLMod,
+                );
+
+            const weapon = this.item.nestedIn;
+            const strength = this.actor.getTraitByAbbrev("str");
+
+            if (weapon?.system instanceof sohl.WeaponGearItemData) {
+                this.$heft.addVM(weapon.system.$heft, {
+                    includeBase: true,
+                });
+                this.$length.addVM(weapon.system.$length, {
+                    includeBase: true,
+                });
+
+                // If held in a non-favored part, attack/block/CX are at -5
+                if (!weapon.system.$heldByFavoredPart) {
+                    this.$heft.add("Held by non-favored limb", "NonFavLimb", 5);
+                }
+
+                // If held in two hands (for a weapon that only requires one hand)
+                // reduce the HFT by 5
+                if (weapon.system.$heldBy.length > this.minParts) {
+                    this.$heft.add("Multi-Limb Bonus", "MultLimb", -5);
+
+                    if (strength) {
+                        // If swung and STR is greater than base unmodified heft, impact
+                        // increases by 1
+                        if (
+                            this.$traits.swung &&
+                            strength.system.$score?.base >= this.heftBase
+                        ) {
+                            this.$impact.add(
+                                "Swung Strength Bonus",
+                                "SwgStr",
+                                1,
+                            );
+                        }
+                    }
+                }
+            } else {
+                this.$length.setBase(this.lengthBase);
+                this.$heft.setBase(this.heftBase);
+            }
+
+            if (strength) {
+                const strValue = strength.system.$score?.effective || 0;
+
+                const heftPenalty =
+                    Math.max(0, this.$heft.effective - strValue) * -5;
+
+                if (heftPenalty) {
+                    this.$attack.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                    this.$defense.block.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                    this.$defense.counterstrike.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                }
+            }
+
+            this.$reach.floor("Min Reach", "Min", 0);
+            this.$reach.addVM(this.$length, {
+                includeBase: true,
+            });
+
+            const size = this.actor.getTraitByAbbrev("siz");
+            if (size) {
+                const sizeReachMod = size.system.$params?.reachMod || 0;
+                this.$reach.add("Size Modifier", "Siz", sizeReachMod);
+            }
+        }
+    };
+}
+
+class LgndMeleeWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
+    sohl.MeleeWeaponStrikeModeItemData,
+) {
+    static get effectKeys() {
+        return sohl.Utility.simpleMerge(super.effectKeys, {
+            "mod:system.$heft": { label: "Heft", abbrev: "Hft" },
+            "system.$traits.couched": { label: "Couched", abbrev: "Couched" },
+            "system.$traits.slow": { label: "Slow", abbrev: "Slow" },
+            "system.$traits.thrust": { label: "Thrust", abbrev: "Thst" },
+            "system.$traits.swung": { label: "Swung", abbrev: "Swng" },
+            "system.$traits.halfSword": {
+                label: "Half Sword",
+                abbrev: "HlfSwd",
+            },
+            "system.$traits.twoPartLen": {
+                label: "2H Length",
+                abbrev: "2HLen",
+            },
+        });
+    }
+
+    static get tactialAdvantages() {
+        return {
+            action: "Action",
+            impact: "Impact",
+            precision: "Precision",
+            setup: "Setup",
+        };
+    }
+
+    static get combatTable() {
+        return {
             block: {
                 "cf:cf": {
                     atkFumble: true,
@@ -890,1081 +1087,7 @@ const LGND = {
                     defDice: 0,
                 },
             },
-        },
-
-        missileCombatTable: {
-            block: {
-                "cf:cf": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:cf": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:cf": { wild: false, block: false, miss: false, atkDice: 2 },
-                "cs:cf": { wild: false, block: false, miss: false, atkDice: 3 },
-
-                "cf:mf": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:mf": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:mf": { wild: false, block: false, miss: false, atkDice: 1 },
-                "cs:mf": { wild: false, block: false, miss: false, atkDice: 2 },
-
-                "cf:ms": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:ms": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:ms": { wild: false, block: true, miss: false, atkDice: 0 },
-                "cs:ms": { wild: false, block: false, miss: false, atkDice: 1 },
-
-                "cf:cs": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:cs": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:cs": { wild: false, block: true, miss: false, atkDice: 0 },
-                "cs:cs": { wild: false, block: true, miss: false, atkDice: 0 },
-            },
-            dodge: {
-                "cf:cf": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:cf": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:cf": { wild: false, block: false, miss: false, atkDice: 2 },
-                "cs:cf": { wild: false, block: false, miss: false, atkDice: 3 },
-
-                "cf:mf": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:mf": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:mf": { wild: false, block: false, miss: false, atkDice: 1 },
-                "cs:mf": { wild: false, block: false, miss: false, atkDice: 2 },
-
-                "cf:ms": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:ms": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:ms": { wild: false, block: false, miss: true, atkDice: 0 },
-                "cs:ms": { wild: false, block: false, miss: false, atkDice: 1 },
-
-                "cf:cs": { wild: true, block: false, miss: false, atkDice: 0 },
-                "mf:cs": { wild: false, block: false, miss: true, atkDice: 0 },
-                "ms:cs": { wild: false, block: false, miss: true, atkDice: 0 },
-                "cs:cs": { wild: false, block: false, miss: true, atkDice: 0 },
-            },
-            ignore: {
-                cf: { wild: true, block: false, miss: false, atkDice: 0 },
-                mf: { wild: false, block: false, miss: true, atkDice: 0 },
-                ms: { wild: false, block: false, miss: false, atkDice: 2 },
-                cs: { wild: false, block: false, miss: false, atkDice: 3 },
-            },
-        },
-
-        treatment: {
-            blunt: {
-                M: {
-                    treatment: "Compress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 30,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 4,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                S: {
-                    treatment: "Set & Splint",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 10,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 3,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 4,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Clean, Dress & Surgery",
-                    mod: null,
-                    useDexMod: true,
-                    cf: {
-                        hr: 2,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 3,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 4,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-            },
-            piercing: {
-                M: {
-                    treatment: "Clean & Dress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 10,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 4,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                S: {
-                    treatment: "Clean & Dress",
-                    mod: null,
-                    useDexMod: false,
-                    cf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 4,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Clean, Dress & Surgery",
-                    mod: {
-                        name: "Treatment Penalty",
-                        abbrev: "TrtBns",
-                        value: -10,
-                    },
-                    useDexMod: true,
-                    cf: {
-                        hr: 2,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-            },
-            edged: {
-                M: {
-                    treatment: "Clean & Dress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 20,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 4,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                S: {
-                    treatment: "Clean & Dress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 10,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Clean, Dress & Surgery",
-                    mod: null,
-                    useDexMod: true,
-                    cf: {
-                        hr: 2,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-            },
-            projectile: {
-                M: {
-                    treatment: "Clean & Dress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 10,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 4,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: { hr: 5, infect: false, impair: false, bleed: false },
-                    newInj: -1,
-                    ms: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                S: {
-                    treatment: "Extract Projectile",
-                    mod: null,
-                    useDexMod: true,
-                    cf: { hr: 3, infect: true, impair: true, bleed: false },
-                    newInj: -1,
-                    mf: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Extract Projectile",
-                    mod: {
-                        name: "Treatment Penalty",
-                        abbrev: "TrtBns",
-                        value: -10,
-                    },
-                    useDexMod: true,
-                    cf: {
-                        hr: 2,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 5,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-            },
-            fire: {
-                M: {
-                    treatment: "Compress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 20,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 4,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                S: {
-                    treatment: "Clean & Dress",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 10,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 3,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 4,
-                        infect: true,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Clean & Dress",
-                    mod: null,
-                    useDexMod: false,
-                    cf: {
-                        hr: 2,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 3,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 4,
-                        infect: true,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-            },
-            frost: {
-                M: {
-                    treatment: "Warm",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 40,
-                    },
-                    useDexMod: false,
-                    cf: { hr: 4, infect: false, impair: false, bleed: false },
-                    mf: { hr: 5, infect: false, impair: false, bleed: false },
-                    ms: { hr: -1, infect: false, impair: false, bleed: false },
-                    cs: { hr: -1, infect: false, impair: false, bleed: false },
-                },
-                S: {
-                    treatment: "Warm",
-                    mod: {
-                        name: "Treatment Bonus",
-                        abbrev: "TrtBns",
-                        value: 20,
-                    },
-                    useDexMod: false,
-                    cf: {
-                        hr: 3,
-                        infect: false,
-                        impair: true,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    mf: {
-                        hr: 4,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    ms: {
-                        hr: 5,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                    cs: {
-                        hr: 6,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: -1,
-                    },
-                },
-                G: {
-                    treatment: "Surgery & Amputate",
-                    mod: null,
-                    useDexMod: true,
-                    cf: {
-                        hr: -1,
-                        infect: true,
-                        impair: false,
-                        bleed: true,
-                        newInj: 5,
-                    },
-                    mf: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: true,
-                        newInj: 4,
-                    },
-                    ms: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: true,
-                        newInj: 3,
-                    },
-                    cs: {
-                        hr: -1,
-                        infect: false,
-                        impair: false,
-                        bleed: false,
-                        newInj: 2,
-                    },
-                },
-            },
-        },
-    },
-};
-
-class LgndImpactModifier extends sohl.ImpactModifier {
-    // List of possible dice for impact dice.
-    static get dice() {
-        return {
-            0: "None",
-            4: "d4",
-            6: "d6",
-            8: "d8",
-            10: "d10",
-            12: "d12",
         };
-    }
-
-    static get maxImpactDie() {
-        return Object.values(this.dice).at(-1);
-    }
-
-    get impactTA() {
-        switch (this.aspect) {
-            case "blunt":
-                return 3;
-            case "edged":
-                return 5;
-            case "piercing":
-                return 4;
-            case "fire":
-                return 2;
-            default:
-                return 0;
-        }
-    }
-}
-
-class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
-    constructor(parent, initProperties = {}) {
-        super(
-            parent,
-            foundry.utils.mergeObject(
-                initProperties,
-                {
-                    secMod: (thisVM) => {
-                        const secModIncr = game.settings.get(
-                            "sohl",
-                            "attrSecModIncr",
-                        );
-                        return Math.min(
-                            25,
-                            Math.max(
-                                -25,
-                                Math.trunc(
-                                    ((thisVM.base ?? 0) / 2 - 25) / secModIncr,
-                                ) * secModIncr,
-                            ),
-                        );
-                    },
-                },
-                { inplace: false, recursive: false },
-            ),
-        );
-    }
-}
-
-class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
-    $combatReach;
-    $hasAuralShock;
-    $maxZones;
-    $healingBase;
-    $encumbrance;
-    $sunsign;
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === sohl.SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
-            }
-            return a;
-        });
-
-        actions.push(
-            // TODO - Add Lgnd Actor Actions
-        );
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
-    async damageRoll({
-        targetToken,
-        impactMod,
-        numImpactTAs = 0,
-        bodyLocationUuid,
-        skipDialog = false,
-        ...options
-    } = {}) {
-        return super.damageRoll({
-            targetToken,
-            impactMod,
-            numImpactTAs,
-            bodyLocationUuid,
-            skipDialog,
-            ...options,
-        });
-    }
-
-    async _damageDialog({
-        type,
-        label,
-        strikeMode,
-        impactMod,
-        numImpactTAs = 0,
-        ...options
-    }) {
-        return super._damageDialog({
-            type,
-            label,
-            strikeMode,
-            impactMod,
-            numImpactTAs,
-            ...options,
-        });
-    }
-
-    async _damageDialogCallback(html, { type, impactMod, strikeMode }) {
-        const form = html[0].querySelector("form");
-        const formNumImpactTAs =
-            Number.parseInt(form.numImpactTAs.value, 10) || 0;
-        const newImpact = impactMod
-            ? this.constructor.create(impactMod)
-            : {
-                  die: Number.parseInt(form.impactDie.value, 10) || 0,
-                  modifier: Number.parseInt(form.impactModifier.value, 10) || 0,
-                  aspect: form.impactAspect.value,
-              };
-        if (formNumImpactTAs) {
-            const impactAdd =
-                (strikeMode?.system.$traits.impactTA || newImpact.impactTA) *
-                formNumImpactTAs;
-            newImpact.add(`${formNumImpactTAs} Impact TAs`, "ImpTA", impactAdd);
-        }
-
-        return super._damageDialogCallback(html, {
-            type,
-            impactMod,
-            strikeMode,
-        });
-    }
-
-    prepareBaseData() {
-        super.prepareBaseData();
-        this.$maxZones = 0;
-        this.$combatReach = -99;
-        this.$hasAuralShock = false;
-        this.$healingBase = new sohl.ValueModifier(this);
-        this.$encumbrance = new sohl.ValueModifier(this, {
-            total: (thisVM) => {
-                const encDiv = game.settings.get(
-                    "sohl",
-                    LGND.CONST.VERSETTINGS.encIncr.key,
-                );
-                let result = Math.round(
-                    Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
-                        encDiv,
-                );
-                return result;
-            },
-        });
-        this.$encumbrance.floor("Min Zero", "Min0", 0);
-    }
-}
-
-function LgndStrikeModeItemDataMixin(BaseMLID) {
-    return class LgndStrikeModeItemData extends BaseMLID {
-        $reach;
-        $heft;
-
-        get heftBase() {
-            return this.item.getFlag("sohl", "legendary.heftBase") || 0;
-        }
-
-        get zoneDie() {
-            return this.item.getFlag("sohl", "legendary.zoneDie") || 0;
-        }
-
-        static get effectKeys() {
-            return sohl.Utility.simpleMerge(super.effectKeys, {
-                "mod:system.$impact.armorReduction": {
-                    label: "Armor Reduction",
-                    abbrev: "AR",
-                },
-                "system.$defense.block.successLevelMod": {
-                    label: "Block Success Level",
-                    abbrev: "BlkSL",
-                },
-                "system.$defense.counterstrike.successLevelMod": {
-                    label: "Counterstrike Success Level",
-                    abbrev: "CXSL",
-                },
-                "system.$traits.opponentDef": {
-                    label: "Opponent Defense",
-                    abbrev: "OppDef",
-                },
-                "system.$traits.entangle": {
-                    label: "Entangle",
-                    abbrev: "Entangle",
-                },
-                "system.$traits.envelop": {
-                    label: "Envelop",
-                    abbrev: "Envlp",
-                },
-                "system.$traits.lowAim": {
-                    label: "High Strike",
-                    abbrev: "HiStrike",
-                },
-                "system.$traits.impactTA": {
-                    label: "Impact Tac Adv",
-                    abbrev: "ImpTA",
-                },
-                "system.$traits.notInClose": {
-                    label: "Not In Close",
-                    abbrev: "NotInCls",
-                },
-                "system.$traits.onlyInClose": {
-                    label: "Only In Close",
-                    abbrev: "OnlyInCls",
-                },
-                "system.$traits.lowStrike": {
-                    label: "Low Strike",
-                    abbrev: "LoStrike",
-                },
-                "system.$traits.deflectTN": {
-                    label: "Deflect TN",
-                    abbrev: "DeflTN",
-                },
-                "system.$traits.shieldMod": {
-                    label: "Shield Mod",
-                    abbrev: "ShldMod",
-                },
-                "system.$traits.extraBleedRisk": {
-                    label: "Extra Bleed Risk",
-                    abbrev: "XBldRsk",
-                },
-                "system.$traits.noStrMod": {
-                    label: "No STR Mod",
-                    abbrev: "NoStrMod",
-                },
-                "system.$traits.halfImpact": {
-                    label: "Half Impact",
-                    abbrev: "HlfImp",
-                },
-            });
-        }
-
-        prepareBaseData() {
-            super.prepareBaseData();
-            this.$reach = new sohl.ValueModifier(this);
-            this.$heft = new sohl.ValueModifier(this);
-            foundry.utils.mergeObject(this.$traits, {
-                armorReduction: 0,
-                blockSLMod: 0,
-                cxSLMod: 0,
-                opponentDef: 0,
-                entangle: false,
-                envelop: false,
-                lowAim: false,
-                impactTA: 0,
-                notInClose: false,
-                onlyInClose: false,
-                deflectTN: 0,
-                shieldMod: 0,
-                extraBleedRisk: false,
-                noStrMod: false,
-                halfImpact: false,
-                noBlock: false,
-                noAttack: false,
-            });
-        }
-
-        processSiblings() {
-            super.processSiblings();
-            if (this.$traits.noBlock) this.$defense.block.disabled = true;
-            if (this.$traits.noAttack) {
-                this.$attack.disabled = true;
-                this.$defense.counterstrike.disabled = true;
-            }
-            if (this.$traits.blockSLMod)
-                this.$defense.block.successLevelMod.add(
-                    "SL Modifier",
-                    "SLMod",
-                    this.$traits.blockSLMod,
-                );
-
-            if (this.$traits.cxSLMod)
-                this.$defense.counterstrike.successLevelMod.add(
-                    "SL Modifier",
-                    "SLMod",
-                    this.$traits.cxSLMod,
-                );
-
-            const weapon = this.item.nestedIn;
-            const strength = this.actor.getTraitByAbbrev("str");
-
-            if (weapon?.system instanceof sohl.WeaponGearItemData) {
-                this.$heft.addVM(weapon.system.$heft, {
-                    includeBase: true,
-                });
-                this.$length.addVM(weapon.system.$length, {
-                    includeBase: true,
-                });
-
-                // If held in a non-favored part, attack/block/CX are at -5
-                if (!weapon.system.$heldByFavoredPart) {
-                    this.$heft.add("Held by non-favored limb", "NonFavLimb", 5);
-                }
-
-                // If held in two hands (for a weapon that only requires one hand)
-                // reduce the HFT by 5
-                if (weapon.system.$heldBy.length > this.minParts) {
-                    this.$heft.add("Multi-Limb Bonus", "MultLimb", -5);
-
-                    if (strength) {
-                        // If swung and STR is greater than base unmodified heft, impact
-                        // increases by 1
-                        if (
-                            this.$traits.swung &&
-                            strength.system.$score?.base >= this.heftBase
-                        ) {
-                            this.$impact.add(
-                                "Swung Strength Bonus",
-                                "SwgStr",
-                                1,
-                            );
-                        }
-                    }
-                }
-            } else {
-                this.$length.setBase(this.lengthBase);
-                this.$heft.setBase(this.heftBase);
-            }
-
-            if (strength) {
-                const strValue = strength.system.$score?.effective || 0;
-
-                const heftPenalty =
-                    Math.max(0, this.$heft.effective - strValue) * -5;
-
-                if (heftPenalty) {
-                    this.$attack.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                    this.$defense.block.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                    this.$defense.counterstrike.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                }
-            }
-
-            this.$reach.floor("Min Reach", "Min", 0);
-            this.$reach.addVM(this.$length, {
-                includeBase: true,
-            });
-
-            const size = this.actor.getTraitByAbbrev("siz");
-            if (size) {
-                const sizeReachMod = size.system.$params?.reachMod || 0;
-                this.$reach.add("Size Modifier", "Siz", sizeReachMod);
-            }
-        }
-    };
-}
-
-class LgndMeleeWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
-    sohl.MeleeWeaponStrikeModeItemData,
-) {
-    static get effectKeys() {
-        return sohl.Utility.simpleMerge(super.effectKeys, {
-            "mod:system.$heft": { label: "Heft", abbrev: "Hft" },
-            "system.$traits.couched": { label: "Couched", abbrev: "Couched" },
-            "system.$traits.slow": { label: "Slow", abbrev: "Slow" },
-            "system.$traits.thrust": { label: "Thrust", abbrev: "Thst" },
-            "system.$traits.swung": { label: "Swung", abbrev: "Swng" },
-            "system.$traits.halfSword": {
-                label: "Half Sword",
-                abbrev: "HlfSwd",
-            },
-            "system.$traits.twoPartLen": {
-                label: "2H Length",
-                abbrev: "2HLen",
-            },
-        });
     }
 
     get intrinsicActions() {
@@ -2074,6 +1197,26 @@ class LgndMissileWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
     $canDraw;
     $pull;
 
+    static get tactialAdvantages() {
+        return foundry.utils.mergeObject(
+            super.tacticalAdvantages,
+            {
+                setup: "Setup",
+            },
+            { inplace: false },
+        );
+    }
+
+    static get ranges() {
+        return {
+            pb: "PB",
+            direct: "Direct",
+            v2: "V2",
+            v3: "V3",
+            v4: "V4",
+        };
+    }
+
     get maxVolleyMult() {
         return this.item.getFlag("sohl", "legendary.maxVolleyMult") || 0;
     }
@@ -2092,6 +1235,59 @@ class LgndMissileWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
             this.item.getFlag("sohl", "legendary.zoneDie") ||
             0
         );
+    }
+
+    static get combatTable() {
+        return {
+            block: {
+                "cf:cf": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:cf": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:cf": { wild: false, block: false, miss: false, atkDice: 2 },
+                "cs:cf": { wild: false, block: false, miss: false, atkDice: 3 },
+
+                "cf:mf": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:mf": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:mf": { wild: false, block: false, miss: false, atkDice: 1 },
+                "cs:mf": { wild: false, block: false, miss: false, atkDice: 2 },
+
+                "cf:ms": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:ms": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:ms": { wild: false, block: true, miss: false, atkDice: 0 },
+                "cs:ms": { wild: false, block: false, miss: false, atkDice: 1 },
+
+                "cf:cs": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:cs": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:cs": { wild: false, block: true, miss: false, atkDice: 0 },
+                "cs:cs": { wild: false, block: true, miss: false, atkDice: 0 },
+            },
+            dodge: {
+                "cf:cf": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:cf": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:cf": { wild: false, block: false, miss: false, atkDice: 2 },
+                "cs:cf": { wild: false, block: false, miss: false, atkDice: 3 },
+
+                "cf:mf": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:mf": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:mf": { wild: false, block: false, miss: false, atkDice: 1 },
+                "cs:mf": { wild: false, block: false, miss: false, atkDice: 2 },
+
+                "cf:ms": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:ms": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:ms": { wild: false, block: false, miss: true, atkDice: 0 },
+                "cs:ms": { wild: false, block: false, miss: false, atkDice: 1 },
+
+                "cf:cs": { wild: true, block: false, miss: false, atkDice: 0 },
+                "mf:cs": { wild: false, block: false, miss: true, atkDice: 0 },
+                "ms:cs": { wild: false, block: false, miss: true, atkDice: 0 },
+                "cs:cs": { wild: false, block: false, miss: true, atkDice: 0 },
+            },
+            ignore: {
+                cf: { wild: true, block: false, miss: false, atkDice: 0 },
+                mf: { wild: false, block: false, miss: true, atkDice: 0 },
+                ms: { wild: false, block: false, miss: false, atkDice: 2 },
+                cs: { wild: false, block: false, miss: false, atkDice: 3 },
+            },
+        };
     }
 
     get intrinsicActions() {
@@ -2408,6 +1604,658 @@ class LgndInjuryItemData extends sohl.InjuryItemData {
         };
     }
 
+    get treatments() {
+        return {
+            treatment: {
+                blunt: {
+                    M: {
+                        treatment: "Compress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 30,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    S: {
+                        treatment: "Set & Splint",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 10,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 3,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 4,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Clean, Dress & Surgery",
+                        mod: null,
+                        useDexMod: true,
+                        cf: {
+                            hr: 2,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 3,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 4,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                },
+                piercing: {
+                    M: {
+                        treatment: "Clean & Dress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 10,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    S: {
+                        treatment: "Clean & Dress",
+                        mod: null,
+                        useDexMod: false,
+                        cf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 4,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Clean, Dress & Surgery",
+                        mod: {
+                            name: "Treatment Penalty",
+                            abbrev: "TrtBns",
+                            value: -10,
+                        },
+                        useDexMod: true,
+                        cf: {
+                            hr: 2,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                },
+                edged: {
+                    M: {
+                        treatment: "Clean & Dress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 20,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    S: {
+                        treatment: "Clean & Dress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 10,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Clean, Dress & Surgery",
+                        mod: null,
+                        useDexMod: true,
+                        cf: {
+                            hr: 2,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                },
+                projectile: {
+                    M: {
+                        treatment: "Clean & Dress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 10,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                        },
+                        newInj: -1,
+                        ms: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    S: {
+                        treatment: "Extract Projectile",
+                        mod: null,
+                        useDexMod: true,
+                        cf: { hr: 3, infect: true, impair: true, bleed: false },
+                        newInj: -1,
+                        mf: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Extract Projectile",
+                        mod: {
+                            name: "Treatment Penalty",
+                            abbrev: "TrtBns",
+                            value: -10,
+                        },
+                        useDexMod: true,
+                        cf: {
+                            hr: 2,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 5,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                },
+                fire: {
+                    M: {
+                        treatment: "Compress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 20,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    S: {
+                        treatment: "Clean & Dress",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 10,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 3,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 4,
+                            infect: true,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Clean & Dress",
+                        mod: null,
+                        useDexMod: false,
+                        cf: {
+                            hr: 2,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 3,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 4,
+                            infect: true,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                },
+                frost: {
+                    M: {
+                        treatment: "Warm",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 40,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 4,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                        },
+                        mf: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                        },
+                        ms: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                        },
+                    },
+                    S: {
+                        treatment: "Warm",
+                        mod: {
+                            name: "Treatment Bonus",
+                            abbrev: "TrtBns",
+                            value: 20,
+                        },
+                        useDexMod: false,
+                        cf: {
+                            hr: 3,
+                            infect: false,
+                            impair: true,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        mf: {
+                            hr: 4,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        ms: {
+                            hr: 5,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                        cs: {
+                            hr: 6,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: -1,
+                        },
+                    },
+                    G: {
+                        treatment: "Surgery & Amputate",
+                        mod: null,
+                        useDexMod: true,
+                        cf: {
+                            hr: -1,
+                            infect: true,
+                            impair: false,
+                            bleed: true,
+                            newInj: 5,
+                        },
+                        mf: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: true,
+                            newInj: 4,
+                        },
+                        ms: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: true,
+                            newInj: 3,
+                        },
+                        cs: {
+                            hr: -1,
+                            infect: false,
+                            impair: false,
+                            bleed: false,
+                            newInj: 2,
+                        },
+                    },
+                },
+            },
+        };
+    }
+
     static calcZoneDieFormula(die, offset) {
         const result =
             (die ? "d" + die + (offset < 0 ? "" : "+") : "") + offset;
@@ -2532,7 +2380,7 @@ class LgndInjuryItemData extends sohl.InjuryItemData {
         //        const injuryDurationDays = Math.trunc((game.time.worldTime - this.item.system.createdTime) / 86400);
         if (this.alData.mayBePermanent) {
             //const permanentImpairment = Math.min(25, Math.trunc(injuryDurationDays / 20) * 5);
-            // FIXME - Permanent Injury
+            // TODO - Permanent Injury
         }
     }
 }
