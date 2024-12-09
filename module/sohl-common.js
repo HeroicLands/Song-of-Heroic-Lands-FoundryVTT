@@ -2657,13 +2657,13 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         ary.forEach((a) => {
             const isDefault =
                 foundry.utils.getProperty(a[1], "flags.sohl.contextGroup") ===
-                SohlContextMenu.sortGroups.Default;
+                "default";
             if (hasDefault) {
                 if (isDefault) {
                     foundry.utils.setProperty(
                         a[1],
                         "flags.sohl.contextGroup",
-                        SohlContextMenu.sortGroups.Primary,
+                        "essential",
                     );
                 }
             } else {
@@ -2672,16 +2672,14 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         });
 
         ary.sort((a, b) => {
-            const contextGroupA =
-                a[1].contextGroup || SohlContextMenu.sortGroups.General;
-            const contextGroupB =
-                b[1].contextGroup || SohlContextMenu.sortGroups.General;
+            const contextGroupA = a[1].contextGroup || "general";
+            const contextGroupB = b[1].contextGroup || "general";
             return contextGroupA.localeCompare(contextGroupB);
         });
 
         // If no default was specified, then make the first element the default
         if (!hasDefault && ary.length) {
-            ary[0][1].contextGroup = SohlContextMenu.sortGroups.Default;
+            ary[0][1].contextGroup = "default";
         }
 
         if (this._collections.actions) delete this._collections.actions;
@@ -2777,7 +2775,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         const contextOptions = this._getContextOptions();
         const defAction = contextOptions.find(
             (co) =>
-                co.group === SohlContextMenu.sortGroups.Default &&
+                co.group === "default" &&
                 (co.condition instanceof Function
                     ? co.condition(html)
                     : co.condition),
@@ -3128,7 +3126,7 @@ export class SohlItemData extends SohlBaseData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item?.isOwner;
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "deleteItem",
@@ -3142,7 +3140,7 @@ export class SohlItemData extends SohlBaseData {
                         !item?.isVirtual && (game.user.isGM || item?.isOwner)
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "showDescription",
@@ -3161,28 +3159,28 @@ export class SohlItemData extends SohlBaseData {
                         )
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "setupVirtualItems",
                 name: "Setup Virtual Items",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "processSiblings",
                 name: "Process Siblings",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "postProcess",
                 name: "Post-Process",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
         ];
     }
@@ -3373,8 +3371,8 @@ export class AnimateEntityActorData extends SohlActorData {
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -3385,42 +3383,42 @@ export class AnimateEntityActorData extends SohlActorData {
                 name: "Shock Test",
                 contextIconClass: "far fa-face-eyes-xmarks",
                 contextCondition: true,
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "stumbleTest",
                 name: "Stumble Test",
                 contextIconClass: "far fa-person-falling",
                 contextCondition: true,
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "fumbleTest",
                 name: "Fumble Test",
                 contextIconClass: "far fa-ball-pile",
                 contextCondition: true,
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "moraleTest",
                 name: "Morale Test",
                 contextIconClass: "far fa-people-group",
                 contextCondition: true,
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "fearTest",
                 name: "Fear Test",
                 contextIconClass: "far fa-face-scream",
                 contextCondition: true,
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "opposedTestResume",
                 name: "Opposed Test Resume",
                 contextIconClass: "far fa-gears",
                 contextCondition: false,
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "contractTest",
@@ -3435,7 +3433,7 @@ export class AnimateEntityActorData extends SohlActorData {
                         endurance && !endurance.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
         );
 
@@ -4253,8 +4251,8 @@ export class StrikeModeItemData extends SohlItemData {
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -4270,7 +4268,7 @@ export class StrikeModeItemData extends SohlItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$attack.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
             {
                 functionName: "calcImpact",
@@ -4282,7 +4280,7 @@ export class StrikeModeItemData extends SohlItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$impact.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
         );
 
@@ -4455,7 +4453,7 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$defense.block.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "assistedCounterstrikeTest",
@@ -4467,7 +4465,7 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$defense.counterstrike.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
         );
 
@@ -4656,8 +4654,8 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
         let actions = super.intrinsicActions
             .filter((a) => a.name !== "attack")
             .map((a) => {
-                if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                    a.contextGroup = SohlContextMenu.sortGroups.Primary;
+                if (a.contextGroup === "default") {
+                    a.contextGroup = "essential";
                 }
                 return a;
             });
@@ -4673,7 +4671,7 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$defense.block.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "assistedCounterstrikeTest",
@@ -4685,7 +4683,7 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$defense.counterstrike.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
         );
 
@@ -4955,8 +4953,8 @@ export class MasteryLevelItemData extends SohlItemData {
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -4972,7 +4970,7 @@ export class MasteryLevelItemData extends SohlItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$masteryLevel.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
             {
                 functionName: "successValueTest",
@@ -4984,7 +4982,7 @@ export class MasteryLevelItemData extends SohlItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.$masteryLevel.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "opposedTestStart",
@@ -4999,7 +4997,7 @@ export class MasteryLevelItemData extends SohlItemData {
                     const token = item.actor?.getToken();
                     return token && !item.system.$masteryLevel.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "fateTest",
@@ -5015,7 +5013,7 @@ export class MasteryLevelItemData extends SohlItemData {
                         item.system.availableFate.length > 0
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "setImproveFlag",
@@ -5031,7 +5029,7 @@ export class MasteryLevelItemData extends SohlItemData {
                         !item.system.improveFlag
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "unsetImproveFlag",
@@ -5047,7 +5045,7 @@ export class MasteryLevelItemData extends SohlItemData {
                         item.system.improveFlag
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "improveWithXP",
@@ -5067,7 +5065,7 @@ export class MasteryLevelItemData extends SohlItemData {
                         -1;
                     return xpItem && xpVal >= item.system.$masteryLevel.index;
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
             {
                 functionName: "improveWithSDR",
@@ -5079,7 +5077,7 @@ export class MasteryLevelItemData extends SohlItemData {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item?.system.canImprove && item.system.improveFlag;
                 },
-                contextGroup: SohlContextMenu.sortGroups.General,
+                contextGroup: "general",
             },
         ]);
 
@@ -5986,8 +5984,8 @@ export class MysticalAbilityItemData extends SubtypeMixin(
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -6002,7 +6000,7 @@ export class MysticalAbilityItemData extends SubtypeMixin(
                 const item = fromUuidSync(li.dataset.uuid);
                 return item && !item.system.$masteryLevel.disabled;
             },
-            contextGroup: SohlContextMenu.sortGroups.Default,
+            contextGroup: "default",
         });
 
         actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
@@ -6380,8 +6378,8 @@ export class InjuryItemData extends SohlItemData {
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -6401,7 +6399,7 @@ export class InjuryItemData extends SohlItemData {
                         physician && !physician.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "bloodLossAdvanceTest",
@@ -6415,7 +6413,7 @@ export class InjuryItemData extends SohlItemData {
                     const strength = item?.actor?.getTraitByAbbrev("str");
                     return strength && !strength.system.$masteryLevel?.disabled;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "treatmentTest",
@@ -6431,7 +6429,7 @@ export class InjuryItemData extends SohlItemData {
                         physician && !physician.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
             {
                 functionName: "healTest",
@@ -6447,7 +6445,7 @@ export class InjuryItemData extends SohlItemData {
                         endurance && !endurance.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
         );
 
@@ -6822,8 +6820,8 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
 
     get intrinsicActions() {
         let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = SohlContextMenu.sortGroups.Primary;
+            if (a.contextGroup === "default") {
+                a.contextGroup = "essential";
             }
             return a;
         });
@@ -6840,7 +6838,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     return item?.system.canTransmit;
                 },
 
-                contextGroup: SohlContextMenu.sortGroups.Default,
+                contextGroup: "default",
             },
             {
                 functionName: "courseTest",
@@ -6856,7 +6854,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                         endurance && !endurance.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "diagnosisTest",
@@ -6868,7 +6866,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.isTreated;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "treatmentTest",
@@ -6880,7 +6878,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     const item = fromUuidSync(li.dataset.uuid);
                     return item && !item.system.isTreated;
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "healingTest",
@@ -6896,7 +6894,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                         endurance && !endurance.system.$masteryLevel.disabled
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
             {
                 functionName: "infectionCourseTest",
@@ -6912,7 +6910,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                         !affliction.system.$healingRate.effective < 6
                     );
                 },
-                contextGroup: SohlContextMenu.sortGroups.Primary,
+                contextGroup: "essential",
             },
         );
 
@@ -10095,10 +10093,10 @@ export class IterWrap {
 export class SohlContextMenu extends ContextMenu {
     static get sortGroups() {
         return {
-            Default: "aaa",
-            Primary: "aab",
-            General: "zaa",
-            Deprecated: "zzz",
+            default: "Default",
+            essential: "Essential",
+            general: "General",
+            hidden: "Hidden",
         };
     }
 
@@ -10715,7 +10713,7 @@ export class SohlActiveEffect extends ActiveEffect {
                         );
                     }
                 },
-                group: SohlContextMenu.sortGroups.General,
+                group: "general",
             },
             {
                 name: "Delete",
@@ -10748,7 +10746,7 @@ export class SohlActiveEffect extends ActiveEffect {
                         );
                     }
                 },
-                group: SohlContextMenu.sortGroups.General,
+                group: "general",
             },
             {
                 name: "Toggle",
@@ -10774,7 +10772,7 @@ export class SohlActiveEffect extends ActiveEffect {
                         );
                     }
                 },
-                group: SohlContextMenu.sortGroups.General,
+                group: "general",
             },
         ];
         return result;
@@ -11446,7 +11444,7 @@ export class SohlMacro extends Macro {
                     const action = parent.system.actions.get(li.dataset.itemId);
                     action.execute();
                 },
-                group: SohlContextMenu.sortGroups.Default,
+                group: "default",
             },
             {
                 name: "Edit",
@@ -11459,7 +11457,7 @@ export class SohlMacro extends Macro {
                     const action = parent.system.actions.get(li.dataset.itemId);
                     action.sheet.render(true);
                 },
-                group: SohlContextMenu.sortGroups.General,
+                group: "general",
             },
             {
                 name: "Delete",
@@ -11479,7 +11477,7 @@ export class SohlMacro extends Macro {
                         },
                     });
                 },
-                group: SohlContextMenu.sortGroups.General,
+                group: "general",
             },
         ];
 
@@ -11757,6 +11755,7 @@ export class SohlMacroConfig extends MacroConfig {
         data.editable = this.isEditable;
         data.const = SOHL.sysVer.CONST;
         data.config = SOHL.sysVer.CONFIG;
+        data.contextGroupChoices = SohlContextMenu.sortGroups;
         return data;
     }
 
