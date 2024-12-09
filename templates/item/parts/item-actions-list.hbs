@@ -12,12 +12,12 @@
             <h3 class="item-name name">Custom Actions</h3>
             <div class="ele">Type</div>
             <div class="notes">Notes</div>
-            <div class="item-controls-wide"></div>
+            <div class="item-controls"></div>
         </header>
         <ol class="items-list action-list">
             {{#each system.actions as |action|}}
-            {{#unless flags.sohl.isIntrinsicAction}}
-            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.nestedIn.uuid }}" data-item-id="{{action.id}}">
+            {{#unless action.flags.sohl.isIntrinsicAction}}
+            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.cause.uuid }}" data-item-id="{{action.id}}">
                 <div class="item-name name flexrow">
                     <div
                         class="item-image"
@@ -26,11 +26,9 @@
                 </div>
                 <div class="ele">{{ action.type }}</div>
                 <div class="notes">{{ action.flags.sohl.notes }}</div>
-                <div class="item-controls-wide">
-                    {{#unless flags.sohl.isIntrinsicAction}}
-                        <a class="item-control item-contextmenu" title="Menu"><i
-                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
-                    {{/unless}}
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i
+                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
                 </div>
             </li>
             {{/unless}}
@@ -47,8 +45,8 @@
         </header>
         <ol class="items-list action-list">
             {{#each system.actions as |action|}}
-            {{#if flags.sohl.isIntrinsicAction}}
-            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.nestedIn.uuid }}" data-item-id="{{action.id}}">
+            {{#if action.flags.sohl.isIntrinsicAction}}
+            <li class="item action-item flexrow" data-action-name="{{ action.name }}" data-parent-uuid="{{ action.cause.uuid }}" data-item-id="{{action.id}}">
                 <div class="item-name name flexrow">
                     <div
                         class="item-image"

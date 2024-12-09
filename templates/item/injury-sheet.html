@@ -30,11 +30,11 @@
                     <label>Body Location</label>
                     <div class="form-fields">
                         {{#if hasActor}}
-                        <select name="system.bodyLocation">
-                            {{selectOptions bodyLocationChoices selected=idata.bodyLocation sort=true blank=false}}
+                        <select name="system.bodyLocationUuid">
+                            {{selectOptions bodyLocationChoices selected=idata.bodyLocationUuid sort=true blank=false}}
                         </select>
                         {{else}}
-                            {{formInput fields.bodyLocation rootId="inj-bodyloc" classes="text-field" stacked=true value=system.bodyLocation}}
+                            {{formInput fields.bodyLocationUuid rootId="inj-bodyloc" classes="text-field" stacked=true value=system.bodyLocationUuid}}
                         {{/if}}
                     </div>
                 </div>    
