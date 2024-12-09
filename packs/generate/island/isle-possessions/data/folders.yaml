@@ -1,0 +1,40 @@
+- name: Armor
+  id: M4nHcUWOatfVGuh3
+  parentFolderId: ""
+  color: '#c70000'
+- name: Clothing
+  id: gaC79vNjSo6VO6Ym
+  parentFolderId: ""
+  color: '#008080'
+- name: Containers
+  id: dl8lJ729W1mFlDvt
+  parentFolderId: ""
+  color: '#800080'
+- name: Expedition
+  id: s31qGPQHe3ceDuJD
+  parentFolderId: ""
+  color: '#008000'
+- name: Miscellaneous
+  id: TV3IMHs8SLZ1L1vv
+  parentFolderId: ""
+  color: '#808000'
+- name: Musical Instruments
+  id: 9x39BJgm46uJMSer
+  parentFolderId: ""
+  color: '#000080'
+- name: Projectiles
+  id: ADQPHjgKsdWsJhyy
+  parentFolderId: ""
+  color: '#800000'
+- name: Weapons
+  id: c0GXEU9oCZ1N3mSl
+  parentFolderId: ""
+  color: '#ff0000'
+- name: Alchemical Elixirs
+  id: DD6TjOQNq8uvEcrM
+  parentFolderId: ""
+  color: '#0000ff'
+- name: Herbalist Potions
+  id: V5r4IpV8f1gO3fBh
+  parentFolderId: ""
+  color: '#000080'
