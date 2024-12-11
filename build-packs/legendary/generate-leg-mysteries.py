@@ -7,6 +7,7 @@ from unidecode import unidecode
 import re
 
 parser = argparse.ArgumentParser()
+parser.add_argument("dataDir", help="folder where data files are located")
 parser.add_argument("outputDir", help="folder where generated files should be placed")
 args = parser.parse_args()
 
@@ -19,7 +20,7 @@ stats = {
     "lastModifiedBy": "TMJsvJWT6ytpHZ0M",
 }
 
-with open("./data/philosophies.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/philosophies.yaml", "r", encoding="utf8") as infile:
     philosophiesData = yaml.safe_load(infile)
 
 for phil in philosophiesData:
@@ -71,7 +72,7 @@ for phil in philosophiesData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/mysticalabilities.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/mysticalabilities.yaml", "r", encoding="utf8") as infile:
     mysticalabilitiesData = yaml.safe_load(infile)
 
 for mysticalability in mysticalabilitiesData:
@@ -115,7 +116,7 @@ for mysticalability in mysticalabilitiesData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/mysteries.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/mysteries.yaml", "r", encoding="utf8") as infile:
     mysteriesData = yaml.safe_load(infile)
 
 for mystery in mysteriesData:
@@ -156,7 +157,7 @@ for mystery in mysteriesData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/folders.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
     foldersData = yaml.safe_load(infile)
 
 for folder in foldersData:

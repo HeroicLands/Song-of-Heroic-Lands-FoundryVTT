@@ -7,11 +7,24 @@
 
 This is a game system for the Song of Heroic Lands RPG for [Foundry Virtual Tabletop](http://foundryvtt.com/).
 
-See the `LICENSE` file for details on license for this project.
+## Copyright
+
+[Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024 by Thomas Rodriguez. All rights reserved.
+
+## License
+
+All content under the `assets` folder is licensed under the
+[Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/) unless otherwise specified.  See the file [LICENSE.CC-BY-SA-4.0](./assets/LICENSE.CC-BY-SA-4.0) in the `assets` folder for more information.
+
+All other content outside of the `assets` folder is licensed under the GNU GPLv3 license.  See the file [LICENSE.GPLv3](./LICENSE.GPLv3) for more information.
+
+## Discord
+
+Please consider joining [my community on Discord](https://bit.ly/44vZ10j) to discuss and find additional content modules I have developed.
 
 # Credits
 
-The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/) under the Creative Commons (CC BY 3.0) license:
+The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/).
 
 * Agriculture by Made
 * Anvil by Nico Ilk

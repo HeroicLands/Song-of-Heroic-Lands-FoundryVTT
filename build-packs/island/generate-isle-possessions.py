@@ -8,6 +8,7 @@ from mergedeep import merge
 import re
 
 parser = argparse.ArgumentParser()
+parser.add_argument("dataDir", help="folder where data files are located")
 parser.add_argument("outputDir", help="folder where generated files should be placed")
 args = parser.parse_args()
 
@@ -20,7 +21,7 @@ stats = {
     "lastModifiedBy": "TMJsvJWT6ytpHZ0M",
 }
 
-with open("./data/miscgear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/miscgear.yaml", "r", encoding="utf8") as infile:
     miscgearData = yaml.safe_load(infile)
 
 for miscgear in miscgearData:
@@ -60,7 +61,7 @@ for miscgear in miscgearData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/containergear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/containergear.yaml", "r", encoding="utf8") as infile:
     containergearData = yaml.safe_load(infile)
 
 for containergear in containergearData:
@@ -101,7 +102,7 @@ for containergear in containergearData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/concoctiongear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/concoctiongear.yaml", "r", encoding="utf8") as infile:
     concoctiongearData = yaml.safe_load(infile)
 
 for concoctiongear in concoctiongearData:
@@ -144,7 +145,7 @@ for concoctiongear in concoctiongearData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/folders.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
     foldersData = yaml.safe_load(infile)
 
 for folder in foldersData:
@@ -169,7 +170,7 @@ for folder in foldersData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/armorgear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/armorgear.yaml", "r", encoding="utf8") as infile:
     armorgearData = yaml.safe_load(infile)
 
 for armorgear in armorgearData:
@@ -183,7 +184,7 @@ for armorgear in armorgearData:
         armorgear["flags"],
         {
             "sohl": {
-                "legendary": {
+                "island": {
                     "encumbrance": armorgear["encumbrance"],
                 },
             },
@@ -273,7 +274,7 @@ for armorgear in armorgearData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/projectilegear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/projectilegear.yaml", "r", encoding="utf8") as infile:
     projectilegearData = yaml.safe_load(infile)
 
 for projectilegear in projectilegearData:
@@ -307,8 +308,8 @@ for projectilegear in projectilegearData:
             "durabilityBase": projectilegear["durability"],
             "shortName": projectilegear["easyname"],
             "impactBase": {
-                "numDice": 1 if projectilegear["impactDie"] > 0 else 0,
-                "die": projectilegear["impactDie"],
+                "numDice": 0,
+                "die": 6,
                 "modifier": projectilegear["impactMod"],
                 "aspect": projectilegear["aspect"],
             },
@@ -377,7 +378,7 @@ for projectilegear in projectilegearData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
-with open("./data/weapongear.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/weapongear.yaml", "r", encoding="utf8") as infile:
     weapongearData = yaml.safe_load(infile)
 
 weapons = {}
@@ -395,7 +396,7 @@ for weapongear in weapongearData:
         weapongear["flags"],
         {
             "sohl": {
-                "legendary": {
+                "island": {
                     "heftBase": weapongear["heft"],
                     "lengthBase": weapongear["length"],
                 },
@@ -429,10 +430,10 @@ for weapongear in weapongearData:
         "_stats": stats,
         "folder": "c0GXEU9oCZ1N3mSl",
     }
-    weapons[weaponid]["flags"].get("legendary", {})
+    weapons[weaponid]["flags"].get("island", {})
 
 
-with open("./data/weapons-strike-modes.yaml", "r", encoding="utf8") as infile:
+with open(f"{args.dataDir}/weapons-strike-modes.yaml", "r", encoding="utf8") as infile:
     weaponsmData = yaml.safe_load(infile)
 
 for weaponsm in weaponsmData:
@@ -442,43 +443,14 @@ for weaponsm in weaponsmData:
     subdesc = weaponsm["subDesc"]
 
     traits = {
-        "armorReduction": weaponsm["AR"],
         "blockMod": weaponsm["blockMod"],
-        "counterMod": weaponsm["counterMod"],
-        "meleeMod": weaponsm["meleeMod"],
-        "opponentDef": weaponsm["oppDef"],
-        "deflectTN": weaponsm["deflectTN"],
-        "entangle": weaponsm["entangle"],
-        "envelop": weaponsm["envelop"],
-        "couched": weaponsm["couched"],
-        "blockSLMod": weaponsm["blockSLMod"],
-        "cxSLMod": weaponsm["cxSLMod"],
+        "attackMod": weaponsm["meleeMod"],
         "noAttack": weaponsm["noAttack"],
         "noBlock": weaponsm["noBlock"],
-        "lowAim": weaponsm["lowAim"],
-        "impactTA": weaponsm["impTA"],
+        "oneHandPenalty": weaponsm["oneHandPenalty"],
+        "minParts": weaponsm["minParts"],
         "long": weaponsm["long"],
-        "onlyInClose": weaponsm["onlyInClose"],
-        "shieldMod": weaponsm["shieldMod"],
-        "slow": weaponsm["slow"],
-        "thrust": weaponsm["thrust"],
-        "swung": weaponsm["swung"],
-        "halfSword": weaponsm["halfSword"],
-        "bleed": weaponsm["bleed"],
-        "twoHandLen": weaponsm["2hLength"],
-        "noStrMod": weaponsm["noStrMod"],
-        "halfImpact": weaponsm["halfImpact"],
-        "durMod": weaponsm["durabilityMod"],
     }
-
-    merge(
-        weaponsm["flags"],
-        {
-            "sohl": {
-                "legendary": {"zoneDie": weaponsm["zoneDie"]},
-            },
-        },
-    )
 
     sm = {
         "name": subdesc,
@@ -496,8 +468,8 @@ for weaponsm in weaponsmData:
             "minParts": weaponsm["minParts"],
             "assocSkillName": weaponsm["assocSkill"],
             "impactBase": {
-                "numDice": 1 if weaponsm["die"] > 0 else 1,
-                "die": weaponsm["die"] if weaponsm["die"] > 0 else 0,
+                "numDice": 0,
+                "die": 6,
                 "modifier": weaponsm["modifier"],
                 "aspect": weaponsm["aspect"],
             },
@@ -525,11 +497,13 @@ for weaponsm in weaponsmData:
             sm["flags"],
             {
                 "sohl": {
-                    "legendary": {
-                        "maxVolleyMult": weaponsm["maxVM"],
-                        "baseRangeBase": weaponsm["baseRange"],
-                        "drawBase": weaponsm["draw"],
-                        "zoneDie": weaponsm["zoneDie"],
+                    "island": {
+                        "range": {
+                            "short": weaponsm["shortRange"],
+                            "medium": weaponsm["mediumRange"],
+                            "long": weaponsm["longRange"],
+                            "extreme": weaponsm["extremeRange"],
+                        },
                     },
                 },
             },
@@ -565,62 +539,6 @@ for weaponsm in weaponsmData:
         "_key": "!items.effects!" + sm["_id"] + "." + eid,
     }
 
-    if weaponsm["shaft"]:
-        if not "sohl" in sm["flags"]:
-            sm["flags"] = {"sohl": {"legendary": {}}}
-        sm["flags"]["sohl"]["legendary"]["zoneDie"] = 8
-        sm["system"]["impactBase"]["die"] = 6
-        sm["system"]["impactBase"]["modifier"] = 1
-        sm["system"]["impactBase"]["aspect"] = "blunt"
-        traits["slow"] = False
-        traits["thrust"] = False
-        effect["changes"].append(
-            {"key": "mod:system.$length", "mode": 2, "value": -2, "priority": None}
-        )
-    if weaponsm["pommel"]:
-        if not "sohl" in sm["flags"]:
-            sm["flags"] = {"sohl": {"legendary": {}}}
-        sm["flags"]["sohl"]["legendary"]["zoneDie"] = 4
-        sm["system"]["impactBase"]["die"] = 6
-        sm["system"]["impactBase"]["modifier"] = 0
-        sm["system"]["impactBase"]["aspect"] = "blunt"
-        effect["changes"].append(
-            {"key": "mod:system.$length", "mode": 5, "value": 1, "priority": None}
-        )
-    if weaponsm["halfSword"]:
-        if sm["system"]["impactBase"]["aspect"] == "blunt":
-            sm["system"]["impactBase"]["modifier"] = 0
-            sm["system"]["impactBase"]["die"] = 6
-        if not "sohl" in sm["flags"]:
-            sm["flags"] = {"sohl": {"legendary": {}}}
-        if sm["flags"]["sohl"]["legendary"].get("zoneDie", 0) > 4:
-            sm["flags"]["sohl"]["legendary"]["zoneDie"] = (
-                sm["flags"]["sohl"]["legendary"]["zoneDie"] - 2
-            )
-        traits["thrust"] = True
-        effect["changes"].append(
-            {"key": "mod:system.$length", "mode": 2, "value": -2, "priority": None}
-        )
-        effect["changes"].append(
-            {"key": "mod:system.$length", "mode": 4, "value": 3, "priority": None}
-        )
-        effect["changes"].append(
-            {
-                "key": "system.$traits.halfSword",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["armorReduction"] > 0:
-        effect["changes"].append(
-            {
-                "key": "mod:system.$impact.armorReduction",
-                "mode": 2,
-                "value": traits["armorReduction"],
-                "priority": None,
-            }
-        )
     if traits["blockMod"]:
         effect["changes"].append(
             {
@@ -648,140 +566,10 @@ for weaponsm in weaponsmData:
                 "priority": None,
             }
         )
-    if traits["opponentDef"]:
-        effect["changes"].append(
-            {
-                "key": "mod:system.$traits.opponentDef",
-                "mode": 2,
-                "value": traits["opponentDef"],
-                "priority": None,
-            }
-        )
-    if traits["deflectTN"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.deflectTN",
-                "mode": 5,
-                "value": traits["deflectTN"],
-                "priority": None,
-            }
-        )
-    if traits["entangle"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.entangle",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["envelop"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.envelop",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["couched"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.couched",
-                "mode": 5,
-                "value": traits["couched"],
-                "priority": None,
-            }
-        )
-    if traits["impactTA"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.impactTA",
-                "mode": 5,
-                "value": traits["impactTA"],
-                "priority": None,
-            }
-        )
     if traits["long"]:
         effect["changes"].append(
             {
                 "key": "system.$traits.long",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["onlyInClose"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.onlyInClose",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["shieldMod"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.shieldMod",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["slow"]:
-        effect["changes"].append(
-            {"key": "system.$traits.slow", "mode": 5, "value": "true", "priority": None}
-        )
-    if traits["thrust"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.thrust",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["swung"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.swung",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["bleed"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.extraBleedRisk",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["twoHandLen"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.twoHandLen",
-                "mode": 2,
-                "value": traits["twoHandLen"],
-                "priority": None,
-            }
-        )
-    if traits["noStrMod"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.noStrMod",
-                "mode": 5,
-                "value": "true",
-                "priority": None,
-            }
-        )
-    if traits["halfImpact"]:
-        effect["changes"].append(
-            {
-                "key": "system.$traits.halfImpact",
                 "mode": 5,
                 "value": "true",
                 "priority": None,
@@ -793,24 +581,6 @@ for weaponsm in weaponsmData:
                 "key": "mod:system.$durability",
                 "mode": 2,
                 "value": traits["durMod"],
-                "priority": None,
-            }
-        )
-    if traits["blockSLMod"]:
-        effect["changes"].append(
-            {
-                "key": "system.$defense.block.successLevelMod",
-                "mode": 2,
-                "value": traits["blockSLMod"],
-                "priority": None,
-            }
-        )
-    if traits["cxSLMod"]:
-        effect["changes"].append(
-            {
-                "key": "system.$defense.counterstrike.successLevelMod",
-                "mode": 2,
-                "value": traits["cxSLMod"],
                 "priority": None,
             }
         )
@@ -832,10 +602,19 @@ for weaponsm in weaponsmData:
                 "priority": None,
             }
         )
-    if traits["lowAim"]:
+    if traits["oneHandPenalty"]:
         effect["changes"].append(
             {
-                "key": "system.$traits.lowAim",
+                "key": "system.$traits.oneHandPenalty",
+                "mode": 5,
+                "value": "true",
+                "priority": None,
+            }
+        )
+    if traits["long"]:
+        effect["changes"].append(
+            {
+                "key": "system.$traits.long",
                 "mode": 5,
                 "value": "true",
                 "priority": None,
