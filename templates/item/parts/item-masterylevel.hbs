@@ -5,10 +5,10 @@
 {{#if hasActor}}
 <div class="resource" id="ml-skillbasevalue">
     <label class="resource-label">Skill Base (SB)</label>
-    {{#if (not item.system.masteryLevel.valid)}}
-    <span>Invalid Formula</span>
+    {{#if (not item.system.$skillBase.valid)}}
+    <input type="text" value="Invalid Formula" readonly />
     {{else}}
-    <span>{{ item.system.masteryLevel.skillBaseValue }}</span>
+    <input type="text" value="{{ item.system.$skillBase.value }}" readonly />
     {{/if}}
 </div>
 {{else}}
