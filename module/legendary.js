@@ -20,71 +20,6 @@ const LGND = {
             |___/                             |___/
 ===========================================================`,
 
-        /** @enum */
-        TACADV: {
-            Action: "Action",
-            Impact: "Impact",
-            Precision: "Precision",
-            Setup: "Setup",
-        },
-
-        MODS: {
-            FATE: { NAME: "Fate", ABBR: "Fate" },
-            REACH: { NAME: "Reach", ABBR: "Rch" },
-            PULL: { NAME: "Pull", ABBR: "Pull" },
-            IMPACTTA: { NAME: "Impact Tactical Advantage", ABBR: "ImpTA" },
-            HEFT: { NAME: "Heft Penalty", ABBR: "Heft" },
-            HEAL: { NAME: "Healing Base", ABBR: "Heal" },
-            MOBILITY: { NAME: "Mobility", ABBR: "Mob" },
-            PBIMPACT: { NAME: "Point Blank Impact", ABBR: "PBImp" },
-            PBATTACK: { NAME: "Point Blank Attack", ABBR: "PBAtk" },
-            V2RANGE: { NAME: "Volley x2 Range", ABBR: "V2Rng" },
-            V3RANGE: { NAME: "Volley x3 Range", ABBR: "V3Rng" },
-            V4RANGE: { NAME: "Volley x4 Range", ABBR: "V4Rng" },
-            WTENC: { NAME: "Weight Encumbrance", ABBR: "WtEnc" },
-            AGLSTR: { NAME: "Agility/Strength Modifier", ABBR: "AglStrMod" },
-            WINDEDNESS: { NAME: "Windedness Fatigue", ABBR: "FtgWind" },
-            WEARINESS: { NAME: "Weariness Fatigue", ABBR: "FtgWear" },
-            WEAKNESS: { NAME: "Weakness Fatigue", ABBR: "FtgWeak" },
-            FATIGUE: { NAME: "Fatigue", ABBR: "Fatg" },
-            WEIGHT: { NAME: "Weight", ABBR: "Wt" },
-            ENC: { NAME: "Encumbrance", ABBR: "Enc" },
-            PRONE: { NAME: "Prone", ABBR: "Prone" },
-            SPELLDIFF: { NAME: "Spell Difficulty \u00D72", ABBR: "SpDiff" },
-            STRIMPMOD: { NAME: "Strength Impact Modifier", ABBR: "StrImpMod" },
-            ARMORREDUCTION: { NAME: "Armor Reduction", ABBR: "ArmRed" },
-            DEFARMOR: { NAME: "Defender Armor", ABBR: "DefArmor" },
-            DURABILITY: { NAME: "Durability", ABBR: "Dur" },
-            QUALITY: { NAME: "Quality", ABBR: "Qual" },
-        },
-
-        /** @enum */
-        IMPACTTA: {
-            Blunt: 3,
-            Edged: 5,
-            Piercing: 4,
-            Fire: 2,
-        },
-
-        /** @enum */
-        RANGES: {
-            PB: "PB",
-            Direct: "Direct",
-            V2: "V2",
-            V3: "V3",
-            V4: "V4",
-        },
-
-        /** @enum */
-        STATUSEFFECTS: {
-            Sleep: "sleep",
-            Prone: "prone",
-            Unconscious: "unconscious",
-            Incapacitated: "incapacitated",
-            Stunned: "stun",
-            Dead: "dead",
-        },
-
         VERSETTINGS: {
             encIncr: {
                 key: "encIncr",
@@ -140,171 +75,433 @@ const LGND = {
                 },
             },
         },
+    },
+};
 
-        injuryLocations: {
-            Custom: {
-                impactType: "custom",
-                location: { probWeight: 50 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 5,
-                bleedingSevThreshold: 0,
-                affectsMobility: false,
-            },
-            Skull: {
-                impactType: "skull",
-                location: { probWeight: 50 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 5,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Face: {
-                impactType: "face",
-                location: { probWeight: 30 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Neck: {
-                impactType: "neck",
-                location: { probWeight: 20 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: -10,
-                shockValue: 5,
-                bleedingSevThreshold: 3,
-                affectsMobility: true,
-            },
-            Shoulder: {
-                impactType: "shoulder",
-                location: { probWeight: 15 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: 0,
-                shockValue: 3,
-                bleedingSevThreshold: 4,
-                affectsMobility: false,
-            },
-            "Upper Arm": {
-                impactType: "upperarm",
-                location: { probWeight: 15 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Elbow: {
-                impactType: "elbow",
-                location: { probWeight: 5 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Forearm: {
-                impactType: "forearm",
-                location: { probWeight: 10 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: false,
-            },
-            Hand: {
-                impactType: "hand",
-                location: { probWeight: 5 },
-                isStumble: false,
-                isFumble: true,
-                amputatePenalty: -30,
-                shockValue: 2,
-                bleedingSevThreshold: 0,
-                affectsMobility: false,
-            },
-            Thorax: {
-                impactType: "thorax",
-                location: { probWeight: 13 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Abdomen: {
-                impactType: "abdomen",
-                location: { probWeight: 13 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 3,
-                affectsMobility: true,
-            },
-            Pelvis: {
-                impactType: "pelvis",
-                location: { probWeight: 7 },
-                isStumble: false,
-                isFumble: false,
-                amputatePenalty: 0,
-                shockValue: 4,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Thigh: {
-                impactType: "thigh",
-                location: { probWeight: 20 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -10,
-                shockValue: 3,
-                bleedingSevThreshold: 4,
-                affectsMobility: true,
-            },
-            Knee: {
-                impactType: "knee",
-                location: { probWeight: 5 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Calf: {
-                impactType: "calf",
-                location: { probWeight: 15 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 1,
-                bleedingSevThreshold: 5,
-                affectsMobility: true,
-            },
-            Foot: {
-                impactType: "foot",
-                location: { probWeight: 10 },
-                isStumble: true,
-                isFumble: false,
-                amputatePenalty: -20,
-                shockValue: 2,
-                bleedingSevThreshold: 0,
-                affectsMobility: true,
-            },
-        },
+class LgndImpactModifier extends sohl.ImpactModifier {
+    // List of possible dice for impact dice.
+    static get dice() {
+        return {
+            0: "None",
+            4: "d4",
+            6: "d6",
+            8: "d8",
+            10: "d10",
+            12: "d12",
+        };
+    }
 
-        meleeCombatTable: {
+    static get maxImpactDie() {
+        return Object.values(this.dice).at(-1);
+    }
+
+    get impactTA() {
+        switch (this.aspect) {
+            case "blunt":
+                return 3;
+            case "edged":
+                return 5;
+            case "piercing":
+                return 4;
+            case "fire":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+    calcStrikeImpact(numImpactTAs = 0, { impactTA = null } = {}) {
+        // TODO - Implement Impact Calculation
+        return 0;
+    }
+}
+
+class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
+    constructor(parent, initProperties = {}) {
+        super(
+            parent,
+            foundry.utils.mergeObject(
+                initProperties,
+                {
+                    secMod: (thisVM) => {
+                        const secModIncr = game.settings.get(
+                            "sohl",
+                            "attrSecModIncr",
+                        );
+                        return Math.min(
+                            25,
+                            Math.max(
+                                -25,
+                                Math.trunc(
+                                    ((thisVM.base ?? 0) / 2 - 25) / secModIncr,
+                                ) * secModIncr,
+                            ),
+                        );
+                    },
+                },
+                { inplace: false, recursive: false },
+            ),
+        );
+    }
+}
+
+class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
+    $combatReach;
+    $hasAuralShock;
+    $maxZones;
+    $healingBase;
+    $encumbrance;
+    $sunsign;
+
+    get intrinsicActions() {
+        let actions = super.intrinsicActions.map((a) => {
+            if (a.contextGroup === "default") {
+                a.contextGroup = "primary";
+            }
+            return a;
+        });
+
+        actions.push(
+            // TODO - Add Lgnd Actor Actions
+        );
+
+        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
+        return actions;
+    }
+
+    async damageRoll({
+        targetToken,
+        impactMod,
+        numImpactTAs = 0,
+        bodyLocationUuid,
+        skipDialog = false,
+        ...options
+    } = {}) {
+        return super.damageRoll({
+            targetToken,
+            impactMod,
+            numImpactTAs,
+            bodyLocationUuid,
+            skipDialog,
+            ...options,
+        });
+    }
+
+    async _damageDialog({
+        type,
+        label,
+        strikeMode,
+        impactMod,
+        numImpactTAs = 0,
+        ...options
+    }) {
+        return super._damageDialog({
+            type,
+            label,
+            strikeMode,
+            impactMod,
+            numImpactTAs,
+            ...options,
+        });
+    }
+
+    async _damageDialogCallback(html, { type, impactMod, strikeMode }) {
+        const form = html[0].querySelector("form");
+        const formNumImpactTAs =
+            Number.parseInt(form.numImpactTAs.value, 10) || 0;
+        const newImpact = impactMod
+            ? this.constructor.create(impactMod)
+            : {
+                  die: Number.parseInt(form.impactDie.value, 10) || 0,
+                  modifier: Number.parseInt(form.impactModifier.value, 10) || 0,
+                  aspect: form.impactAspect.value,
+              };
+        if (formNumImpactTAs) {
+            const impactAdd =
+                (strikeMode?.system.$traits.impactTA || newImpact.impactTA) *
+                formNumImpactTAs;
+            newImpact.add(`${formNumImpactTAs} Impact TAs`, "ImpTA", impactAdd);
+        }
+
+        return super._damageDialogCallback(html, {
+            type,
+            impactMod,
+            strikeMode,
+        });
+    }
+
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$maxZones = 0;
+        this.$combatReach = -99;
+        this.$hasAuralShock = false;
+        this.$healingBase = new sohl.ValueModifier(this);
+        this.$encumbrance = new sohl.ValueModifier(this, {
+            total: (thisVM) => {
+                const encDiv = game.settings.get(
+                    "sohl",
+                    LGND.CONST.VERSETTINGS.encIncr.key,
+                );
+                let result = Math.round(
+                    Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
+                        encDiv,
+                );
+                return result;
+            },
+        });
+        this.$encumbrance.floor("Min Zero", "Min0", 0);
+    }
+}
+
+function LgndStrikeModeItemDataMixin(BaseMLID) {
+    return class LgndStrikeModeItemData extends BaseMLID {
+        $reach;
+        $heft;
+
+        get heftBase() {
+            return this.item.getFlag("sohl", "legendary.heftBase") || 0;
+        }
+
+        get zoneDie() {
+            return this.item.getFlag("sohl", "legendary.zoneDie") || 0;
+        }
+
+        static get tactialAdvantages() {
+            return {
+                action: "Action",
+                impact: "Impact",
+                precision: "Precision",
+            };
+        }
+
+        static get effectKeys() {
+            return sohl.Utility.simpleMerge(super.effectKeys, {
+                "mod:system.$impact.armorReduction": {
+                    label: "Armor Reduction",
+                    abbrev: "AR",
+                },
+                "system.$defense.block.successLevelMod": {
+                    label: "Block Success Level",
+                    abbrev: "BlkSL",
+                },
+                "system.$defense.counterstrike.successLevelMod": {
+                    label: "Counterstrike Success Level",
+                    abbrev: "CXSL",
+                },
+                "system.$traits.opponentDef": {
+                    label: "Opponent Defense",
+                    abbrev: "OppDef",
+                },
+                "system.$traits.entangle": {
+                    label: "Entangle",
+                    abbrev: "Entangle",
+                },
+                "system.$traits.envelop": {
+                    label: "Envelop",
+                    abbrev: "Envlp",
+                },
+                "system.$traits.lowAim": {
+                    label: "High Strike",
+                    abbrev: "HiStrike",
+                },
+                "system.$traits.impactTA": {
+                    label: "Impact Tac Adv",
+                    abbrev: "ImpTA",
+                },
+                "system.$traits.notInClose": {
+                    label: "Not In Close",
+                    abbrev: "NotInCls",
+                },
+                "system.$traits.onlyInClose": {
+                    label: "Only In Close",
+                    abbrev: "OnlyInCls",
+                },
+                "system.$traits.lowStrike": {
+                    label: "Low Strike",
+                    abbrev: "LoStrike",
+                },
+                "system.$traits.deflectTN": {
+                    label: "Deflect TN",
+                    abbrev: "DeflTN",
+                },
+                "system.$traits.shieldMod": {
+                    label: "Shield Mod",
+                    abbrev: "ShldMod",
+                },
+                "system.$traits.extraBleedRisk": {
+                    label: "Extra Bleed Risk",
+                    abbrev: "XBldRsk",
+                },
+                "system.$traits.noStrMod": {
+                    label: "No STR Mod",
+                    abbrev: "NoStrMod",
+                },
+                "system.$traits.halfImpact": {
+                    label: "Half Impact",
+                    abbrev: "HlfImp",
+                },
+            });
+        }
+
+        prepareBaseData() {
+            super.prepareBaseData();
+            this.$reach = new sohl.ValueModifier(this);
+            this.$heft = new sohl.ValueModifier(this);
+            foundry.utils.mergeObject(this.$traits, {
+                armorReduction: 0,
+                blockSLMod: 0,
+                cxSLMod: 0,
+                opponentDef: 0,
+                entangle: false,
+                envelop: false,
+                lowAim: false,
+                impactTA: 0,
+                notInClose: false,
+                onlyInClose: false,
+                deflectTN: 0,
+                shieldMod: 0,
+                extraBleedRisk: false,
+                noStrMod: false,
+                halfImpact: false,
+                noBlock: false,
+                noAttack: false,
+            });
+        }
+
+        processSiblings() {
+            super.processSiblings();
+            if (this.$traits.noBlock) this.$defense.block.disabled = true;
+            if (this.$traits.noAttack) {
+                this.$attack.disabled = true;
+                this.$defense.counterstrike.disabled = true;
+            }
+            if (this.$traits.blockSLMod)
+                this.$defense.block.successLevelMod.add(
+                    "SL Modifier",
+                    "SLMod",
+                    this.$traits.blockSLMod,
+                );
+
+            if (this.$traits.cxSLMod)
+                this.$defense.counterstrike.successLevelMod.add(
+                    "SL Modifier",
+                    "SLMod",
+                    this.$traits.cxSLMod,
+                );
+
+            const weapon = this.item.nestedIn;
+            const strength = this.actor.getTraitByAbbrev("str");
+
+            if (weapon?.system instanceof sohl.WeaponGearItemData) {
+                this.$heft.addVM(weapon.system.$heft, {
+                    includeBase: true,
+                });
+                this.$length.addVM(weapon.system.$length, {
+                    includeBase: true,
+                });
+
+                // If held in a non-favored part, attack/block/CX are at -5
+                if (!weapon.system.$heldByFavoredPart) {
+                    this.$heft.add("Held by non-favored limb", "NonFavLimb", 5);
+                }
+
+                // If held in two hands (for a weapon that only requires one hand)
+                // reduce the HFT by 5
+                if (weapon.system.$heldBy.length > this.minParts) {
+                    this.$heft.add("Multi-Limb Bonus", "MultLimb", -5);
+
+                    if (strength) {
+                        // If swung and STR is greater than base unmodified heft, impact
+                        // increases by 1
+                        if (
+                            this.$traits.swung &&
+                            strength.system.$score?.base >= this.heftBase
+                        ) {
+                            this.$impact.add(
+                                "Swung Strength Bonus",
+                                "SwgStr",
+                                1,
+                            );
+                        }
+                    }
+                }
+            } else {
+                this.$length.setBase(this.lengthBase);
+                this.$heft.setBase(this.heftBase);
+            }
+
+            if (strength) {
+                const strValue = strength.system.$score?.effective || 0;
+
+                const heftPenalty =
+                    Math.max(0, this.$heft.effective - strValue) * -5;
+
+                if (heftPenalty) {
+                    this.$attack.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                    this.$defense.block.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                    this.$defense.counterstrike.add(
+                        "Heft Strength Penalty",
+                        "HeftStr",
+                        heftPenalty,
+                    );
+                }
+            }
+
+            this.$reach.floor("Min Reach", "Min", 0);
+            this.$reach.addVM(this.$length, {
+                includeBase: true,
+            });
+
+            const size = this.actor.getTraitByAbbrev("siz");
+            if (size) {
+                const sizeReachMod = size.system.$params?.reachMod || 0;
+                this.$reach.add("Size Modifier", "Siz", sizeReachMod);
+            }
+        }
+    };
+}
+
+class LgndMeleeWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
+    sohl.MeleeWeaponStrikeModeItemData,
+) {
+    static get effectKeys() {
+        return sohl.Utility.simpleMerge(super.effectKeys, {
+            "mod:system.$heft": { label: "Heft", abbrev: "Hft" },
+            "system.$traits.couched": { label: "Couched", abbrev: "Couched" },
+            "system.$traits.slow": { label: "Slow", abbrev: "Slow" },
+            "system.$traits.thrust": { label: "Thrust", abbrev: "Thst" },
+            "system.$traits.swung": { label: "Swung", abbrev: "Swng" },
+            "system.$traits.halfSword": {
+                label: "Half Sword",
+                abbrev: "HlfSwd",
+            },
+            "system.$traits.twoPartLen": {
+                label: "2H Length",
+                abbrev: "2HLen",
+            },
+        });
+    }
+
+    static get tactialAdvantages() {
+        return {
+            action: "Action",
+            impact: "Impact",
+            precision: "Precision",
+            setup: "Setup",
+        };
+    }
+
+    static get combatTable() {
+        return {
             block: {
                 "cf:cf": {
                     atkFumble: true,
@@ -890,9 +1087,156 @@ const LGND = {
                     defDice: 0,
                 },
             },
-        },
+        };
+    }
 
-        missileCombatTable: {
+    get intrinsicActions() {
+        let actions = super.intrinsicActions
+            .filter((a) => a.name !== "attack")
+            .map((a) => {
+                if (a.contextGroup === "default") {
+                    a.contextGroup = "primary";
+                }
+                return a;
+            });
+
+        actions.push({
+            functionName: "automatedAttack",
+            name: "Automated Attack",
+            contextIconClass: "fas fa-sword",
+            contextCondition: (header) => {
+                header = header instanceof HTMLElement ? header : header[0];
+                const li = header.closest(".item");
+                const item = fromUuidSync(li.dataset.uuid);
+                return item && !item.system.$attack.disabled;
+            },
+            contextGroup: "default",
+        });
+
+        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
+        return actions;
+    }
+
+    async automatedAttack(
+        speaker = null,
+        actor = null,
+        token = null,
+        character = null,
+        {
+            skipDialog = false,
+            noChat = false,
+            type = `${this.type}-${this.name}-bleed-stop-test`,
+            title = `${this.item.label} Bleeding Stoppage Test`,
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            ...scope
+        },
+    ) {
+        ({ speaker, actor, token, character } =
+            sohl.SohlMacro.getExecuteDefaults({
+                speaker,
+                actor,
+                token,
+                character,
+            }));
+
+        // TODO - Melee Automated Attack
+        ui.notifications.warn("Melee Automated Attack Not Implemented");
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        foundry.utils.mergeObject(this.$traits, {
+            couched: false,
+            noAttack: false,
+            noBlock: false,
+            slow: false,
+            thrust: false,
+            swung: false,
+            halfSword: false,
+            twoPartLen: 0,
+        });
+    }
+
+    processSiblings() {
+        super.processSiblings();
+
+        const strength = this.actor.getTraitByAbbrev("str");
+        if (strength) {
+            const strValue = strength.system.$score?.effective || 0;
+            const strImpactMod = LgndUtility.strImpactMod(strValue);
+            if (strImpactMod && !this.$traits.noStrMod) {
+                this.$impact.add(
+                    "Strength Impact Modifier",
+                    "StrImpMod",
+                    strImpactMod,
+                );
+            }
+        }
+
+        if (this.actor.system.$engagedOpponents.effective > 1) {
+            const outnumberedPenalty =
+                this.actor.system.$engagedOpponents.effective * -10;
+            this.$defense.block.add("Outnumbered", "Outn", outnumberedPenalty);
+            this.$defense.counterstrike.add(
+                "Outnumbered",
+                "Outn",
+                outnumberedPenalty,
+            );
+        }
+    }
+}
+
+class LgndMissileWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
+    sohl.MissileWeaponStrikeModeItemData,
+) {
+    $baseRange;
+    $draw;
+    $canDraw;
+    $pull;
+
+    static get tactialAdvantages() {
+        return foundry.utils.mergeObject(
+            super.tacticalAdvantages,
+            {
+                setup: "Setup",
+            },
+            { inplace: false },
+        );
+    }
+
+    static get ranges() {
+        return {
+            pb: "PB",
+            direct: "Direct",
+            v2: "V2",
+            v3: "V3",
+            v4: "V4",
+        };
+    }
+
+    get maxVolleyMult() {
+        return this.item.getFlag("sohl", "legendary.maxVolleyMult") || 0;
+    }
+
+    get baseRangeBase() {
+        return this.item.getFlag("sohl", "legendary.baseRangeBase") || 0;
+    }
+
+    get drawBase() {
+        return this.item.getFlag("sohl", "legendary.drawBase") || 0;
+    }
+
+    get zoneDie() {
+        return (
+            this.item.nestedIn?.getFlag("sohl", "legendary.zoneDie") ||
+            this.item.getFlag("sohl", "legendary.zoneDie") ||
+            0
+        );
+    }
+
+    static get combatTable() {
+        return {
             block: {
                 "cf:cf": { wild: true, block: false, miss: false, atkDice: 0 },
                 "mf:cf": { wild: false, block: false, miss: true, atkDice: 0 },
@@ -941,9 +1285,321 @@ const LGND = {
                 ms: { wild: false, block: false, miss: false, atkDice: 2 },
                 cs: { wild: false, block: false, miss: false, atkDice: 3 },
             },
-        },
+        };
+    }
 
-        treatment: {
+    get intrinsicActions() {
+        let actions = super.intrinsicActions
+            .filter((a) => a.name !== "attack")
+            .map((a) => {
+                if (a.contextGroup === "default") {
+                    a.contextGroup = "primary";
+                }
+                return a;
+            });
+
+        actions.push(
+            {
+                functionName: "automatedAttack",
+                name: "Automated Attack",
+                contextIconClass: "fas fa-bow-arrow",
+                contextCondition: (header) => {
+                    header = header instanceof HTMLElement ? header : header[0];
+                    const li = header.closest(".item");
+                    const item = fromUuidSync(li.dataset.uuid);
+                    return item && !item.system.$attack.disabled;
+                },
+                contextGroup: "default",
+            },
+            {
+                functionName: "directAttackTest",
+                name: "Direct Attack Test",
+                contextIconClass: "fas fa-location-arrow-up fa-rotate-90",
+                contextCondition: (header) => {
+                    header = header instanceof HTMLElement ? header : header[0];
+                    const li = header.closest(".item");
+                    const item = fromUuidSync(li.dataset.uuid);
+                    return item && !item.system.$attack.disabled;
+                },
+                contextGroup: "primary",
+            },
+            {
+                functionName: "volleyAttackTest",
+                name: "Volley Attack Test",
+                contextIconClass: "fas fa-location-arrow",
+                contextCondition: (header) => {
+                    header = header instanceof HTMLElement ? header : header[0];
+                    const li = header.closest(".item");
+                    const item = fromUuidSync(li.dataset.uuid);
+                    return item && !item.system.$attack.disabled;
+                },
+                contextGroup: "primary",
+            },
+        );
+
+        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
+        return actions;
+    }
+
+    async automatedAttack(
+        speaker = null,
+        actor = null,
+        token = null,
+        character = null,
+        {
+            skipDialog = false,
+            noChat = false,
+            type = `${this.type}-${this.name}-bleed-stop-test`,
+            title = `${this.item.label} Bleeding Stoppage Test`,
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            ...scope
+        },
+    ) {
+        ({ speaker, actor, token, character } =
+            sohl.SohlMacro.getExecuteDefaults({
+                speaker,
+                actor,
+                token,
+                character,
+            }));
+
+        // TODO - Missile Automated Attack
+        ui.notifications.warn("Missile Automated Attack Not Implemented");
+    }
+
+    volleyAttack(
+        speaker = null,
+        actor = null,
+        token = null,
+        character = null,
+        {
+            skipDialog = false,
+            noChat = false,
+            type = `${this.type}-${this.name}-volley-attack`,
+            title = `${this.item.label} Volley Attack`,
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            ...scope
+        },
+    ) {
+        ({ speaker, actor, token, character } =
+            sohl.SohlMacro.getExecuteDefaults({
+                speaker,
+                actor,
+                token,
+                character,
+            }));
+
+        // TODO - Missile Volley Attack
+        ui.notifications.warn("Missile Volley Attack Not Implemented");
+    }
+
+    directAttack(
+        speaker = null,
+        actor = null,
+        token = null,
+        character = null,
+        {
+            skipDialog = false,
+            noChat = false,
+            type = `${this.type}-${this.name}-direct-missile-attack`,
+            title = `${this.item.label} Direct Missile Attack`,
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            ...scope
+        },
+    ) {
+        ({ speaker, actor, token, character } =
+            sohl.SohlMacro.getExecuteDefaults({
+                speaker,
+                actor,
+                token,
+                character,
+            }));
+
+        // TODO - Missile Direct Attack
+        ui.notifications.warn("Missile Direct Attack Not Implemented");
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        foundry.utils.mergeObject(this.$traits, {
+            armorReduction: 0,
+            bleed: false,
+        });
+        this.$maxVolleyMult = new sohl.ValueModifier(this).setBase(
+            this.maxVolleyMult,
+        );
+        this.$baseRange = new sohl.ValueModifier(this).setBase(
+            this.baseRangeBase,
+        );
+        this.$draw = new sohl.ValueModifier(this).setBase(this.drawBase);
+        this.$pull = new sohl.ValueModifier(this);
+    }
+
+    postProcess() {
+        super.postProcess();
+        const strength = this.actor.getTraitByAbbrev("str");
+        if (strength) {
+            const strML = strength.system.$masteryLevel?.effective || 0;
+            this.$pull.add("Strength ML", "StrML", strML);
+        }
+        if (this.$assocSkill) {
+            this.$pull.add(
+                `${this.$assocSkill.name}`,
+                "AssocSkill",
+                this.$assocSkill.system.$masteryLevel.effective,
+            );
+        }
+
+        this.$canDraw =
+            !this.$pull.disabled &&
+            this.$pull.effective >= this.$draw.effective;
+        this.$attack.disabled ||= !this.$canDraw;
+    }
+}
+
+class LgndCombatTechniqueStrikeModeItemData extends LgndStrikeModeItemDataMixin(
+    sohl.CombatTechniqueStrikeModeItemData,
+) {
+    static get effectKeys() {
+        return sohl.Utility.simpleMerge(super.effectKeys, {
+            "system.$traits.strRoll": {
+                label: "Strength Roll",
+                abbrev: "StrRoll",
+            },
+        });
+    }
+
+    get intrinsicActions() {
+        let actions = super.intrinsicActions
+            .filter((a) => a.name !== "attack")
+            .map((a) => {
+                if (a.contextGroup === "default") {
+                    a.contextGroup = "primary";
+                }
+                return a;
+            });
+
+        actions.push({
+            functionName: "assistedAttack",
+            name: "Automated Attack",
+            contextIconClass: "fas fa-hand-fist fa-rotate-90",
+            contextCondition: (header) => {
+                header = header instanceof HTMLElement ? header : header[0];
+                const li = header.closest(".item");
+                const item = fromUuidSync(li.dataset.uuid);
+                return item && !item.system.$attack.disabled;
+            },
+            contextGroup: "default",
+        });
+
+        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
+        return actions;
+    }
+
+    async automatedAttack(
+        speaker = null,
+        actor = null,
+        token = null,
+        character = null,
+        {
+            skipDialog = false,
+            noChat = false,
+            type = `${this.type}-${this.name}-bleed-stop-test`,
+            title = `${this.item.label} Bleeding Stoppage Test`,
+            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+            ...scope
+        },
+    ) {
+        ({ speaker, actor, token, character } =
+            sohl.SohlMacro.getExecuteDefaults({
+                speaker,
+                actor,
+                token,
+                character,
+            }));
+
+        // TODO - Combat Technique Automated Attack
+        ui.notifications.warn(
+            "Combat Technique Automated Attack Not Implemented",
+        );
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        foundry.utils.mergeObject(this.$traits, {
+            strRoll: false,
+        });
+    }
+
+    processSiblings() {
+        super.processSiblings();
+        const strength = this.actor.getTraitByAbbrev("str");
+        if (strength) {
+            const strValue = strength.system.$score?.effective || 0;
+            const strImpactMod = LgndUtility.strImpactMod(strValue);
+            if (strImpactMod && !this.$traits.noStrMod) {
+                this.$impact.add(
+                    "Strength Impact Modifier",
+                    "StrImpMod",
+                    strImpactMod,
+                );
+            }
+        }
+    }
+}
+
+/*===============================================================*/
+/*      Legendary Data Model Classes                                   */
+/*===============================================================*/
+
+function LgndMasteryLevelItemDataMixin(BaseMLID) {
+    return class LgndMasteryLevelItemData extends BaseMLID {
+        get isFateAllowed() {
+            return (
+                super.isFateAllowed &&
+                !this.actor.system.$hasAuralShock &&
+                !this.skillBaseFormula?.includes("@aur")
+            );
+        }
+
+        /** @override */
+        applyPenalties() {
+            // Apply Encumbrance Penalty to Mastery Level
+            const sbAttrs = this.skillBase.attributes;
+            if (sbAttrs.at(0) === "Agility") {
+                const enc = this.actor.system.$encumbrance.total;
+                if (enc) this.$masteryLevel.add("Encumbrance", "Enc", -enc);
+            }
+        }
+
+        prepareBaseData() {
+            super.prepareBaseData();
+            this.$masteryLevel &&= LgndMasteryLevelModifier.create(
+                this.$masteryLevel,
+                { parent: this },
+            );
+        }
+    };
+}
+
+class LgndDomainItemData extends sohl.DomainItemData {}
+
+class LgndInjuryItemData extends sohl.InjuryItemData {
+    static get aspectTypes() {
+        return {
+            blunt: "Blunt",
+            edged: "Edged",
+            piercing: "Piercing",
+            fire: "Fire",
+            frost: "Frost",
+            projectile: "Projectile",
+        };
+    }
+
+    get treatments() {
+        return {
             blunt: {
                 M: {
                     treatment: "Compress",
@@ -1287,7 +1943,12 @@ const LGND = {
                         bleed: false,
                         newInj: -1,
                     },
-                    mf: { hr: 5, infect: false, impair: false, bleed: false },
+                    mf: {
+                        hr: 5,
+                        infect: false,
+                        impair: false,
+                        bleed: false,
+                    },
                     newInj: -1,
                     ms: {
                         hr: 6,
@@ -1488,10 +2149,30 @@ const LGND = {
                         value: 40,
                     },
                     useDexMod: false,
-                    cf: { hr: 4, infect: false, impair: false, bleed: false },
-                    mf: { hr: 5, infect: false, impair: false, bleed: false },
-                    ms: { hr: -1, infect: false, impair: false, bleed: false },
-                    cs: { hr: -1, infect: false, impair: false, bleed: false },
+                    cf: {
+                        hr: 4,
+                        infect: false,
+                        impair: false,
+                        bleed: false,
+                    },
+                    mf: {
+                        hr: 5,
+                        infect: false,
+                        impair: false,
+                        bleed: false,
+                    },
+                    ms: {
+                        hr: -1,
+                        infect: false,
+                        impair: false,
+                        bleed: false,
+                    },
+                    cs: {
+                        hr: -1,
+                        infect: false,
+                        impair: false,
+                        bleed: false,
+                    },
                 },
                 S: {
                     treatment: "Warm",
@@ -1564,847 +2245,6 @@ const LGND = {
                     },
                 },
             },
-        },
-    },
-};
-
-class LgndImpactModifier extends sohl.ImpactModifier {
-    // List of possible dice for impact dice.
-    static get dice() {
-        return {
-            0: "None",
-            4: "d4",
-            6: "d6",
-            8: "d8",
-            10: "d10",
-            12: "d12",
-        };
-    }
-
-    static get maxImpactDie() {
-        return Object.values(this.dice).at(-1);
-    }
-
-    get impactTA() {
-        switch (this.aspect) {
-            case "blunt":
-                return 3;
-            case "edged":
-                return 5;
-            case "piercing":
-                return 4;
-            case "fire":
-                return 2;
-            default:
-                return 0;
-        }
-    }
-}
-
-class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
-    constructor(parent, initProperties = {}) {
-        super(
-            parent,
-            foundry.utils.mergeObject(
-                initProperties,
-                {
-                    secMod: (thisVM) => {
-                        const secModIncr = game.settings.get(
-                            "sohl",
-                            "attrSecModIncr",
-                        );
-                        return Math.min(
-                            25,
-                            Math.max(
-                                -25,
-                                Math.trunc(
-                                    ((thisVM.base ?? 0) / 2 - 25) / secModIncr,
-                                ) * secModIncr,
-                            ),
-                        );
-                    },
-                },
-                { inplace: false, recursive: false },
-            ),
-        );
-    }
-}
-
-class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
-    $combatReach;
-    $hasAuralShock;
-    $maxZones;
-    $healingBase;
-    $encumbrance;
-    $sunsign;
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
-            if (a.contextGroup === sohl.SohlContextMenu.sortGroups.Default) {
-                a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
-            }
-            return a;
-        });
-
-        actions.push(
-            // TODO - Add Lgnd Actor Actions
-        );
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
-    async damageRoll({
-        targetToken,
-        impactMod,
-        numImpactTAs = 0,
-        bodyLocationUuid,
-        skipDialog = false,
-        ...options
-    } = {}) {
-        return super.damageRoll({
-            targetToken,
-            impactMod,
-            numImpactTAs,
-            bodyLocationUuid,
-            skipDialog,
-            ...options,
-        });
-    }
-
-    async _damageDialog({
-        type,
-        label,
-        strikeMode,
-        impactMod,
-        numImpactTAs = 0,
-        ...options
-    }) {
-        return super._damageDialog({
-            type,
-            label,
-            strikeMode,
-            impactMod,
-            numImpactTAs,
-            ...options,
-        });
-    }
-
-    async _damageDialogCallback(html, { type, impactMod, strikeMode }) {
-        const form = html[0].querySelector("form");
-        const formNumImpactTAs =
-            Number.parseInt(form.numImpactTAs.value, 10) || 0;
-        const newImpact = impactMod
-            ? this.constructor.create(impactMod)
-            : {
-                  die: Number.parseInt(form.impactDie.value, 10) || 0,
-                  modifier: Number.parseInt(form.impactModifier.value, 10) || 0,
-                  aspect: form.impactAspect.value,
-              };
-        if (formNumImpactTAs) {
-            const impactAdd =
-                (strikeMode?.system.$traits.impactTA || newImpact.impactTA) *
-                formNumImpactTAs;
-            newImpact.add(`${formNumImpactTAs} Impact TAs`, "ImpTA", impactAdd);
-        }
-
-        return super._damageDialogCallback(html, {
-            type,
-            impactMod,
-            strikeMode,
-        });
-    }
-
-    prepareBaseData() {
-        super.prepareBaseData();
-        this.$maxZones = 0;
-        this.$combatReach = -99;
-        this.$hasAuralShock = false;
-        this.$healingBase = new sohl.ValueModifier(this);
-        this.$encumbrance = new sohl.ValueModifier(this, {
-            total: (thisVM) => {
-                const encDiv = game.settings.get(
-                    "sohl",
-                    LGND.CONST.VERSETTINGS.encIncr.key,
-                );
-                let result = Math.round(
-                    Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
-                        encDiv,
-                );
-                return result;
-            },
-        });
-        this.$encumbrance.floor("Min Zero", "Min0", 0);
-    }
-}
-
-function LgndStrikeModeItemDataMixin(BaseMLID) {
-    return class LgndStrikeModeItemData extends BaseMLID {
-        $reach;
-        $heft;
-
-        get heftBase() {
-            return this.item.getFlag("sohl", "legendary.heftBase") || 0;
-        }
-
-        get zoneDie() {
-            return this.item.getFlag("sohl", "legendary.zoneDie") || 0;
-        }
-
-        static get effectKeys() {
-            return sohl.Utility.simpleMerge(super.effectKeys, {
-                "mod:system.$impact.armorReduction": {
-                    label: "Armor Reduction",
-                    abbrev: "AR",
-                },
-                "system.$defense.block.successLevelMod": {
-                    label: "Block Success Level",
-                    abbrev: "BlkSL",
-                },
-                "system.$defense.counterstrike.successLevelMod": {
-                    label: "Counterstrike Success Level",
-                    abbrev: "CXSL",
-                },
-                "system.$traits.opponentDef": {
-                    label: "Opponent Defense",
-                    abbrev: "OppDef",
-                },
-                "system.$traits.entangle": {
-                    label: "Entangle",
-                    abbrev: "Entangle",
-                },
-                "system.$traits.envelop": {
-                    label: "Envelop",
-                    abbrev: "Envlp",
-                },
-                "system.$traits.lowAim": {
-                    label: "High Strike",
-                    abbrev: "HiStrike",
-                },
-                "system.$traits.impactTA": {
-                    label: "Impact Tac Adv",
-                    abbrev: "ImpTA",
-                },
-                "system.$traits.notInClose": {
-                    label: "Not In Close",
-                    abbrev: "NotInCls",
-                },
-                "system.$traits.onlyInClose": {
-                    label: "Only In Close",
-                    abbrev: "OnlyInCls",
-                },
-                "system.$traits.lowStrike": {
-                    label: "Low Strike",
-                    abbrev: "LoStrike",
-                },
-                "system.$traits.deflectTN": {
-                    label: "Deflect TN",
-                    abbrev: "DeflTN",
-                },
-                "system.$traits.shieldMod": {
-                    label: "Shield Mod",
-                    abbrev: "ShldMod",
-                },
-                "system.$traits.extraBleedRisk": {
-                    label: "Extra Bleed Risk",
-                    abbrev: "XBldRsk",
-                },
-                "system.$traits.noStrMod": {
-                    label: "No STR Mod",
-                    abbrev: "NoStrMod",
-                },
-                "system.$traits.halfImpact": {
-                    label: "Half Impact",
-                    abbrev: "HlfImp",
-                },
-            });
-        }
-
-        prepareBaseData() {
-            super.prepareBaseData();
-            this.$reach = new sohl.ValueModifier(this);
-            this.$heft = new sohl.ValueModifier(this);
-            foundry.utils.mergeObject(this.$traits, {
-                armorReduction: 0,
-                blockSLMod: 0,
-                cxSLMod: 0,
-                opponentDef: 0,
-                entangle: false,
-                envelop: false,
-                lowAim: false,
-                impactTA: 0,
-                notInClose: false,
-                onlyInClose: false,
-                deflectTN: 0,
-                shieldMod: 0,
-                extraBleedRisk: false,
-                noStrMod: false,
-                halfImpact: false,
-                noBlock: false,
-                noAttack: false,
-            });
-        }
-
-        processSiblings() {
-            super.processSiblings();
-            if (this.$traits.noBlock) this.$defense.block.disabled = true;
-            if (this.$traits.noAttack) {
-                this.$attack.disabled = true;
-                this.$defense.counterstrike.disabled = true;
-            }
-            if (this.$traits.blockSLMod)
-                this.$defense.block.successLevelMod.add(
-                    "SL Modifier",
-                    "SLMod",
-                    this.$traits.blockSLMod,
-                );
-
-            if (this.$traits.cxSLMod)
-                this.$defense.counterstrike.successLevelMod.add(
-                    "SL Modifier",
-                    "SLMod",
-                    this.$traits.cxSLMod,
-                );
-
-            const weapon = this.item.nestedIn;
-            const strength = this.actor.getTraitByAbbrev("str");
-
-            if (weapon?.system instanceof sohl.WeaponGearItemData) {
-                this.$heft.addVM(weapon.system.$heft, {
-                    includeBase: true,
-                });
-                this.$length.addVM(weapon.system.$length, {
-                    includeBase: true,
-                });
-
-                // If held in a non-favored part, attack/block/CX are at -5
-                if (!weapon.system.$heldByFavoredPart) {
-                    this.$heft.add("Held by non-favored limb", "NonFavLimb", 5);
-                }
-
-                // If held in two hands (for a weapon that only requires one hand)
-                // reduce the HFT by 5
-                if (weapon.system.$heldBy.length > this.minParts) {
-                    this.$heft.add("Multi-Limb Bonus", "MultLimb", -5);
-
-                    if (strength) {
-                        // If swung and STR is greater than base unmodified heft, impact
-                        // increases by 1
-                        if (
-                            this.$traits.swung &&
-                            strength.system.$score?.base >= this.heftBase
-                        ) {
-                            this.$impact.add(
-                                "Swung Strength Bonus",
-                                "SwgStr",
-                                1,
-                            );
-                        }
-                    }
-                }
-            } else {
-                this.$length.setBase(this.lengthBase);
-                this.$heft.setBase(this.heftBase);
-            }
-
-            if (strength) {
-                const strValue = strength.system.$score?.effective || 0;
-
-                const heftPenalty =
-                    Math.max(0, this.$heft.effective - strValue) * -5;
-
-                if (heftPenalty) {
-                    this.$attack.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                    this.$defense.block.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                    this.$defense.counterstrike.add(
-                        "Heft Strength Penalty",
-                        "HeftStr",
-                        heftPenalty,
-                    );
-                }
-            }
-
-            this.$reach.floor("Min Reach", "Min", 0);
-            this.$reach.addVM(this.$length, {
-                includeBase: true,
-            });
-
-            const size = this.actor.getTraitByAbbrev("siz");
-            if (size) {
-                const sizeReachMod = size.system.$params?.reachMod || 0;
-                this.$reach.add("Size Modifier", "Siz", sizeReachMod);
-            }
-        }
-    };
-}
-
-class LgndMeleeWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
-    sohl.MeleeWeaponStrikeModeItemData,
-) {
-    static get effectKeys() {
-        return sohl.Utility.simpleMerge(super.effectKeys, {
-            "mod:system.$heft": { label: "Heft", abbrev: "Hft" },
-            "system.$traits.couched": { label: "Couched", abbrev: "Couched" },
-            "system.$traits.slow": { label: "Slow", abbrev: "Slow" },
-            "system.$traits.thrust": { label: "Thrust", abbrev: "Thst" },
-            "system.$traits.swung": { label: "Swung", abbrev: "Swng" },
-            "system.$traits.halfSword": {
-                label: "Half Sword",
-                abbrev: "HlfSwd",
-            },
-            "system.$traits.twoPartLen": {
-                label: "2H Length",
-                abbrev: "2HLen",
-            },
-        });
-    }
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions
-            .filter((a) => a.name !== "attack")
-            .map((a) => {
-                if (
-                    a.contextGroup === sohl.SohlContextMenu.sortGroups.Default
-                ) {
-                    a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
-                }
-                return a;
-            });
-
-        actions.push({
-            functionName: "automatedAttack",
-            name: "Automated Attack",
-            contextIconClass: "fas fa-sword",
-            contextCondition: (header) => {
-                header = header instanceof HTMLElement ? header : header[0];
-                const li = header.closest(".item");
-                const item = fromUuidSync(li.dataset.uuid);
-                return item && !item.system.$attack.disabled;
-            },
-            contextGroup: sohl.SohlContextMenu.sortGroups.Default,
-        });
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
-    async automatedAttack(
-        speaker = null,
-        actor = null,
-        token = null,
-        character = null,
-        {
-            skipDialog = false,
-            noChat = false,
-            type = `${this.type}-${this.name}-bleed-stop-test`,
-            title = `${this.item.label} Bleeding Stoppage Test`,
-            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-            ...scope
-        },
-    ) {
-        ({ speaker, actor, token, character } =
-            sohl.SohlMacro.getExecuteDefaults({
-                speaker,
-                actor,
-                token,
-                character,
-            }));
-
-        // TODO - Melee Automated Attack
-        ui.notifications.warn("Melee Automated Attack Not Implemented");
-    }
-
-    /** @override */
-    prepareBaseData() {
-        super.prepareBaseData();
-        foundry.utils.mergeObject(this.$traits, {
-            couched: false,
-            noAttack: false,
-            noBlock: false,
-            slow: false,
-            thrust: false,
-            swung: false,
-            halfSword: false,
-            twoPartLen: 0,
-        });
-    }
-
-    processSiblings() {
-        super.processSiblings();
-
-        const strength = this.actor.getTraitByAbbrev("str");
-        if (strength) {
-            const strValue = strength.system.$score?.effective || 0;
-            const strImpactMod = LgndUtility.strImpactMod(strValue);
-            if (strImpactMod && !this.$traits.noStrMod) {
-                this.$impact.add(
-                    "Strength Impact Modifier",
-                    "StrImpMod",
-                    strImpactMod,
-                );
-            }
-        }
-
-        if (this.actor.system.$engagedOpponents.effective > 1) {
-            const outnumberedPenalty =
-                this.actor.system.$engagedOpponents.effective * -10;
-            this.$defense.block.add("Outnumbered", "Outn", outnumberedPenalty);
-            this.$defense.counterstrike.add(
-                "Outnumbered",
-                "Outn",
-                outnumberedPenalty,
-            );
-        }
-    }
-}
-
-class LgndMissileWeaponStrikeModeItemData extends LgndStrikeModeItemDataMixin(
-    sohl.MissileWeaponStrikeModeItemData,
-) {
-    $baseRange;
-    $draw;
-    $canDraw;
-    $pull;
-
-    get maxVolleyMult() {
-        return this.item.getFlag("sohl", "legendary.maxVolleyMult") || 0;
-    }
-
-    get baseRangeBase() {
-        return this.item.getFlag("sohl", "legendary.baseRangeBase") || 0;
-    }
-
-    get drawBase() {
-        return this.item.getFlag("sohl", "legendary.drawBase") || 0;
-    }
-
-    get zoneDie() {
-        return (
-            this.item.nestedIn?.getFlag("sohl", "legendary.zoneDie") ||
-            this.item.getFlag("sohl", "legendary.zoneDie") ||
-            0
-        );
-    }
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions
-            .filter((a) => a.name !== "attack")
-            .map((a) => {
-                if (
-                    a.contextGroup === sohl.SohlContextMenu.sortGroups.Default
-                ) {
-                    a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
-                }
-                return a;
-            });
-
-        actions.push(
-            {
-                functionName: "automatedAttack",
-                name: "Automated Attack",
-                contextIconClass: "fas fa-bow-arrow",
-                contextCondition: (header) => {
-                    header = header instanceof HTMLElement ? header : header[0];
-                    const li = header.closest(".item");
-                    const item = fromUuidSync(li.dataset.uuid);
-                    return item && !item.system.$attack.disabled;
-                },
-                contextGroup: sohl.SohlContextMenu.sortGroups.Default,
-            },
-            {
-                functionName: "directAttackTest",
-                name: "Direct Attack Test",
-                contextIconClass: "fas fa-location-arrow-up fa-rotate-90",
-                contextCondition: (header) => {
-                    header = header instanceof HTMLElement ? header : header[0];
-                    const li = header.closest(".item");
-                    const item = fromUuidSync(li.dataset.uuid);
-                    return item && !item.system.$attack.disabled;
-                },
-                contextGroup: sohl.SohlContextMenu.sortGroups.Primary,
-            },
-            {
-                functionName: "volleyAttackTest",
-                name: "Volley Attack Test",
-                contextIconClass: "fas fa-location-arrow",
-                contextCondition: (header) => {
-                    header = header instanceof HTMLElement ? header : header[0];
-                    const li = header.closest(".item");
-                    const item = fromUuidSync(li.dataset.uuid);
-                    return item && !item.system.$attack.disabled;
-                },
-                contextGroup: sohl.SohlContextMenu.sortGroups.Primary,
-            },
-        );
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
-    async automatedAttack(
-        speaker = null,
-        actor = null,
-        token = null,
-        character = null,
-        {
-            skipDialog = false,
-            noChat = false,
-            type = `${this.type}-${this.name}-bleed-stop-test`,
-            title = `${this.item.label} Bleeding Stoppage Test`,
-            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-            ...scope
-        },
-    ) {
-        ({ speaker, actor, token, character } =
-            sohl.SohlMacro.getExecuteDefaults({
-                speaker,
-                actor,
-                token,
-                character,
-            }));
-
-        // TODO - Missile Automated Attack
-        ui.notifications.warn("Missile Automated Attack Not Implemented");
-    }
-
-    volleyAttack(
-        speaker = null,
-        actor = null,
-        token = null,
-        character = null,
-        {
-            skipDialog = false,
-            noChat = false,
-            type = `${this.type}-${this.name}-volley-attack`,
-            title = `${this.item.label} Volley Attack`,
-            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-            ...scope
-        },
-    ) {
-        ({ speaker, actor, token, character } =
-            sohl.SohlMacro.getExecuteDefaults({
-                speaker,
-                actor,
-                token,
-                character,
-            }));
-
-        // TODO - Missile Volley Attack
-        ui.notifications.warn("Missile Volley Attack Not Implemented");
-    }
-
-    directAttack(
-        speaker = null,
-        actor = null,
-        token = null,
-        character = null,
-        {
-            skipDialog = false,
-            noChat = false,
-            type = `${this.type}-${this.name}-direct-missile-attack`,
-            title = `${this.item.label} Direct Missile Attack`,
-            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-            ...scope
-        },
-    ) {
-        ({ speaker, actor, token, character } =
-            sohl.SohlMacro.getExecuteDefaults({
-                speaker,
-                actor,
-                token,
-                character,
-            }));
-
-        // TODO - Missile Direct Attack
-        ui.notifications.warn("Missile Direct Attack Not Implemented");
-    }
-
-    /** @override */
-    prepareBaseData() {
-        super.prepareBaseData();
-        foundry.utils.mergeObject(this.$traits, {
-            armorReduction: 0,
-            bleed: false,
-        });
-        this.$maxVolleyMult = new sohl.ValueModifier(this).setBase(
-            this.maxVolleyMult,
-        );
-        this.$baseRange = new sohl.ValueModifier(this).setBase(
-            this.baseRangeBase,
-        );
-        this.$draw = new sohl.ValueModifier(this).setBase(this.drawBase);
-        this.$pull = new sohl.ValueModifier(this);
-    }
-
-    postProcess() {
-        super.postProcess();
-        const strength = this.actor.getTraitByAbbrev("str");
-        if (strength) {
-            const strML = strength.system.$masteryLevel?.effective || 0;
-            this.$pull.add("Strength ML", "StrML", strML);
-        }
-        if (this.$assocSkill) {
-            this.$pull.add(
-                `${this.$assocSkill.name}`,
-                "AssocSkill",
-                this.$assocSkill.system.$masteryLevel.effective,
-            );
-        }
-
-        this.$canDraw =
-            !this.$pull.disabled &&
-            this.$pull.effective >= this.$draw.effective;
-        this.$attack.disabled ||= !this.$canDraw;
-    }
-}
-
-class LgndCombatTechniqueStrikeModeItemData extends LgndStrikeModeItemDataMixin(
-    sohl.CombatTechniqueStrikeModeItemData,
-) {
-    static get effectKeys() {
-        return sohl.Utility.simpleMerge(super.effectKeys, {
-            "system.$traits.strRoll": {
-                label: "Strength Roll",
-                abbrev: "StrRoll",
-            },
-        });
-    }
-
-    get intrinsicActions() {
-        let actions = super.intrinsicActions
-            .filter((a) => a.name !== "attack")
-            .map((a) => {
-                if (
-                    a.contextGroup === sohl.SohlContextMenu.sortGroups.Default
-                ) {
-                    a.contextGroup = sohl.SohlContextMenu.sortGroups.Primary;
-                }
-                return a;
-            });
-
-        actions.push({
-            functionName: "assistedAttack",
-            name: "Automated Attack",
-            contextIconClass: "fas fa-hand-fist fa-rotate-90",
-            contextCondition: (header) => {
-                header = header instanceof HTMLElement ? header : header[0];
-                const li = header.closest(".item");
-                const item = fromUuidSync(li.dataset.uuid);
-                return item && !item.system.$attack.disabled;
-            },
-            contextGroup: sohl.SohlContextMenu.sortGroups.Default,
-        });
-
-        actions.sort((a, b) => a.contextGroup.localeCompare(b.contextGroup));
-        return actions;
-    }
-
-    async automatedAttack(
-        speaker = null,
-        actor = null,
-        token = null,
-        character = null,
-        {
-            skipDialog = false,
-            noChat = false,
-            type = `${this.type}-${this.name}-bleed-stop-test`,
-            title = `${this.item.label} Bleeding Stoppage Test`,
-            // biome-ignore lint/correctness/noUnusedVariables: <explanation>
-            ...scope
-        },
-    ) {
-        ({ speaker, actor, token, character } =
-            sohl.SohlMacro.getExecuteDefaults({
-                speaker,
-                actor,
-                token,
-                character,
-            }));
-
-        // TODO - Combat Technique Automated Attack
-        ui.notifications.warn(
-            "Combat Technique Automated Attack Not Implemented",
-        );
-    }
-
-    /** @override */
-    prepareBaseData() {
-        super.prepareBaseData();
-        foundry.utils.mergeObject(this.$traits, {
-            strRoll: false,
-        });
-    }
-
-    processSiblings() {
-        super.processSiblings();
-        const strength = this.actor.getTraitByAbbrev("str");
-        if (strength) {
-            const strValue = strength.system.$score?.effective || 0;
-            const strImpactMod = LgndUtility.strImpactMod(strValue);
-            if (strImpactMod && !this.$traits.noStrMod) {
-                this.$impact.add(
-                    "Strength Impact Modifier",
-                    "StrImpMod",
-                    strImpactMod,
-                );
-            }
-        }
-    }
-}
-
-/*===============================================================*/
-/*      Legendary Data Model Classes                                   */
-/*===============================================================*/
-
-function LgndMasteryLevelItemDataMixin(BaseMLID) {
-    return class LgndMasteryLevelItemData extends BaseMLID {
-        get isFateAllowed() {
-            return (
-                super.isFateAllowed &&
-                !this.actor.system.$hasAuralShock &&
-                !this.skillBaseFormula?.includes("@aur")
-            );
-        }
-
-        /** @override */
-        applyPenalties() {
-            // Apply Encumbrance Penalty to Mastery Level
-            const sbAttrs = this.skillBase.attributes;
-            if (sbAttrs.at(0) === "Agility") {
-                const enc = this.actor.system.$encumbrance.total;
-                if (enc) this.$masteryLevel.add("Encumbrance", "Enc", -enc);
-            }
-        }
-
-        prepareBaseData() {
-            super.prepareBaseData();
-            this.$masteryLevel &&= LgndMasteryLevelModifier.create(
-                this.$masteryLevel,
-                { parent: this },
-            );
-        }
-    };
-}
-
-class LgndDomainItemData extends sohl.DomainItemData {}
-
-class LgndInjuryItemData extends sohl.InjuryItemData {
-    static get aspectTypes() {
-        return {
-            blunt: "Blunt",
-            edged: "Edged",
-            piercing: "Piercing",
-            fire: "Fire",
-            frost: "Frost",
-            projectile: "Projectile",
         };
     }
 
@@ -2450,22 +2290,32 @@ class LgndInjuryItemData extends sohl.InjuryItemData {
     }
 
     get untreatedHealing() {
-        const treatSev = this.$healingRate?.severity;
-        let treatmt = (treatSev !== "0"
-            ? LGND.CONST.treatment[this.aspect]?.[treatSev]?.["cf"]
-            : {
-                  hr: 6,
-                  infect: false,
-                  impair: false,
-                  bleed: false,
-                  newInj: -1,
-              }) || {
+        let treatmt = {
             hr: 5,
             infect: true,
             impair: false,
             bleed: false,
             newInj: -1,
         };
+
+        const treatSev = this.$injuryLevel?.severity;
+        if (treatSev) {
+            if (treatSev !== "0") {
+                const cf =
+                    this.constructor.treatments[this.aspect]?.[treatSev]?.[
+                        "cf"
+                    ];
+                if (typeof cf === "object") treatmt = cf;
+            } else {
+                treatmt = {
+                    hr: 6,
+                    infect: false,
+                    impair: false,
+                    bleed: false,
+                    newInj: -1,
+                };
+            }
+        }
         return treatmt;
     }
 
@@ -2532,7 +2382,7 @@ class LgndInjuryItemData extends sohl.InjuryItemData {
         //        const injuryDurationDays = Math.trunc((game.time.worldTime - this.item.system.createdTime) / 86400);
         if (this.alData.mayBePermanent) {
             //const permanentImpairment = Math.min(25, Math.trunc(injuryDurationDays / 20) * 5);
-            // FIXME - Permanent Injury
+            // TODO - Permanent Injury
         }
     }
 }
