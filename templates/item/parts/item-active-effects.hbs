@@ -55,9 +55,9 @@
         <div class="detail changes">Changes</div>
     </li>
     <ol class="effect-list item-list">
-        {{#each transferredEffects as |effect id|}}
+        {{#each trxEffects as |effect id|}}
         <li class="effect {{optionalString effect.disabled "disabled"}} flexrow"
-            data-effect-name="{{ effect.label }}" data-effect-id="{{ effect.id }}"
+            data-effect-name="{{ effect.name }}" data-effect-id="{{ effect.id }}"
             data-effect-parent-uuid="{{ effect.parent.uuid }}">
             <div class="name">
                 <h4>{{ effect.name }}</h4>
@@ -68,8 +68,8 @@
             <div class="detail duration">
                 {{optionalString (eq effect.duration.label "None") "Indefinite" effect.duration.label}}
             </div>
-            <div class="detail changes" data-tooltip="{{ effect.changes }}">
-                {{ effect.changes }}
+            <div class="detail changes" data-tooltip="{{ effect._aeChanges }}">
+                {{ effect._aeChanges }}
             </div>
         </li>
         {{/each}}

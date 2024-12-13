@@ -232,7 +232,7 @@ for armorgear in armorgearData:
     if armorgear["perception"] != 0:
         out["effects"].append(
             {
-                "name": armorgear["name"] + " Perception",
+                "name": "Skills Using Perception",
                 "icon": "icons/svg/aura.svg",
                 "changes": [
                     {
@@ -245,10 +245,10 @@ for armorgear in armorgearData:
                 "flags": {},
                 "type": "sohlactiveeffect",
                 "system": {
-                    "targetType": "this",
-                    "targetName": "",
+                    "targetType": "skill",
+                    "targetName": "attr:Perception",
                 },
-                "_id": armorgear["perceptionEffectId"],
+                "_id": armorgear["perceptionSkillEffectId"],
                 "disabled": False,
                 "duration": {
                     "startTime": None,
@@ -267,7 +267,47 @@ for armorgear in armorgearData:
                 "_key": "!items.effects!"
                 + armorgear["id"]
                 + "."
-                + armorgear["perceptionEffectId"],
+                + armorgear["perceptionSkillEffectId"],
+            }
+        )
+        out["effects"].append(
+            {
+                "name": "Perception Attribute",
+                "icon": "icons/svg/aura.svg",
+                "changes": [
+                    {
+                        "key": "mod:system.$masteryLevel",
+                        "mode": 2,
+                        "value": str(armorgear["perception"]),
+                        "priority": None,
+                    }
+                ],
+                "flags": {},
+                "type": "sohlactiveeffect",
+                "system": {
+                    "targetType": "trait",
+                    "targetName": "Perception",
+                },
+                "_id": armorgear["perceptionTraitEffectId"],
+                "disabled": False,
+                "duration": {
+                    "startTime": None,
+                    "seconds": None,
+                    "combat": None,
+                    "rounds": None,
+                    "turns": None,
+                    "startRound": None,
+                    "startTurn": None,
+                },
+                "origin": "",
+                "tint": None,
+                "transfer": False,
+                "description": "",
+                "statuses": [],
+                "_key": "!items.effects!"
+                + armorgear["id"]
+                + "."
+                + armorgear["perceptionTraitEffectId"],
             }
         )
 

@@ -1551,55 +1551,36 @@ export class SohlItem extends Item {
     }
 
     get transferredEffects() {
+        function getTrxEffects(effects, baseItem) {
+            const result = [];
+            for (const e of effects) {
+                // If the effect's targetType is not the same as this item, ignore it
+                if (e.system.targetType !== baseItem.type) continue;
+                const isTarget = e.system.targets.some(
+                    (t) => t.id === baseItem.id,
+                );
+                if (isTarget) result.push(e);
+            }
+            return result;
+        }
+
         if (!this.actor) return [];
 
-        // Collect all of the effects in the actor that match this item"s name
-        const actorThisItemEffects = this.actor.effects.reduce(
-            (itEffects, e) => {
-                // If the effect's targetType is not the same as this item, ignore it
-                if (e.system.targetType !== this.actor.type) return itEffects;
+        // Collect all of the effects in the actor that target this item
+        const result = getTrxEffects(this.actor.effects, this);
 
-                // Ignore the effect if it"s name doesn't match the targetName
-                const effectTargetName = new RegExp(e.system.targetNameRE);
-                if (effectTargetName.test(this.actor.name))
-                    return itEffects.concat(e);
+        // Search through all the siblings for any effects that are targetting
+        // this item.
+        for (const sibling of this.actor.allItems()) {
+            if (sibling.id === this.id) continue; // Not a sibling, it is this item
+            const transferredSiblingEffects = getTrxEffects(
+                sibling.effects,
+                this,
+            );
+            result.push(...transferredSiblingEffects);
+        }
 
-                return itEffects;
-            },
-            [],
-        );
-
-        // Search through all sibling items for any which are targeting this item
-        const siblingItemEffects = IterWrap.create(
-            this.actor.allItems(),
-        ).reduce((effects, it) => {
-            if (it.id === this.id) return effects;
-            const transferredItemEffects = it.effects.reduce((itEffects, e) => {
-                // If the effect"s targetType is not the same as this item, ignore it
-                if (e.system.targetType !== this.type) return itEffects;
-
-                // Accept the effect if we have a skill base and the effect target is one of our attributes
-                if (
-                    this.system instanceof MasteryLevelItemData &&
-                    e.targetAttr
-                ) {
-                    if (this.skillBase.attributes.includes(e.targetAttr)) {
-                        return itEffects.concat(e);
-                    }
-                }
-
-                // Accept the effect if it"s name matches the targetName
-                const effectTargetName = new RegExp(e.system.targetNameRE);
-                if (effectTargetName.test(this.name))
-                    return itEffects.concat(e);
-
-                // Otherwise, ignore the effect
-                return itEffects;
-            }, []);
-            return effects.concat(transferredItemEffects);
-        }, []);
-
-        return actorThisItemEffects.concat(siblingItemEffects);
+        return result;
     }
 
     static defaultName({ type, parent, pack, subType } = {}) {
@@ -1898,8 +1879,7 @@ export class SohlItem extends Item {
 
         // Organize non-disabled effects by their application priority
         const changes = [];
-        const allEffects = this.allApplicableEffects();
-        for (const effect of allEffects) {
+        for (const effect of this.effects) {
             if (!effect.active) continue;
             const targets = effect.system.targets;
             if (!targets?.length) continue;
@@ -2127,7 +2107,7 @@ export class SohlItem extends Item {
         if (updateData.img === SohlItem.DEFAULT_ICON) delete updateData.img;
 
         // Handle Mastery Level Items
-        if (sourceItem.system instanceof MasteryLevelItemData) {
+        if (sourceItem.system.isMasteryLevelItemData) {
             delete updateData.system.masteryLevelBase;
         }
 
@@ -3799,7 +3779,7 @@ export class AnimateEntityActorData extends SohlActorData {
         // Build list of acceptable opposed items on this actor
         const opposedItems = [];
         IterWrap.create(actor.allItems()).forEach((it) => {
-            if (it.system instanceof MasteryLevelItemData) {
+            if (it.system.isMasteryLevelItemData) {
                 if (!it.system.$masteryLevel.disabled) {
                     let itemTypeName =
                         it.system instanceof TraitItemData &&
@@ -4838,6 +4818,10 @@ export class MasteryLevelItemData extends SohlItemData {
     $skillBase;
     $masteryLevel;
 
+    static get isMasteryLevelItemData() {
+        return true;
+    }
+
     get successValueTable() {
         return (
             this.item.getFlag("sohl", "successValueTable") ||
@@ -5595,14 +5579,14 @@ export class MasteryLevelItemData extends SohlItemData {
             fate: new MasteryLevelModifier(this),
         });
         this.$masteryLevel.setBase(this.masteryLevelBase);
+        this.$skillBase ||= new SkillBase(this.skillBaseFormula, {
+            items: this.actor?.items,
+        });
     }
 
     processSiblings() {
         super.processSiblings();
-
-        this.$skillBase ||= new SkillBase(this.skillBaseFormula, {
-            items: Array.from(this.actor.allItems()),
-        });
+        this.$skillBase.setAttributes(this.actor.allItems());
 
         if (this.$masteryLevel.base > 0) {
             let newML = this.$masteryLevel.base;
@@ -7244,8 +7228,8 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
 
     static get effectKeys() {
         return Utility.simpleMerge(super.effectKeys, {
-            "system.$score": { label: "Score", abbrev: "Scor" },
-            "system.$masteryLevel": { label: "Value", abbrev: "Val" },
+            "system.$score": { label: "Score", abbrev: "Score" },
+            "system.$masteryLevel": { label: "Mastery Level", abbrev: "ML" },
             "system.textValue": { label: "Text", abbrev: "Text" },
         });
     }
@@ -7405,7 +7389,7 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
                 // For each occurrence of an attribute in the SB Formula, increase the ML
                 // by 5 x the score difference from the base score.
                 IterWrap.create(this.actor.allItems()).forEach((it) => {
-                    if (it.system instanceof MasteryLevelItemData) {
+                    if (it.system.isMasteryLevelItemData) {
                         const attributes = it.system.skillBase.attributes;
                         if (attributes.includes(this.item.name)) {
                             const numOccurances = attributes.filter(
@@ -9085,43 +9069,45 @@ export class SkillBase {
         this._attrs = {};
         this._sunsigns = sunsign?.system.textValue.split("-") || [];
         this._parsedFormula = formula ? this._parseFormula : [];
+        this._value = 0;
         if (items) {
-            const attributes = items.filter(
-                (it) =>
-                    it.type === "trait" &&
-                    it.system.intensity === "attribute" &&
-                    it.system.isNumeric,
-            );
-            this._parsedFormula.forEach((param) => {
-                const type = typeof param;
+            this.setAttributes(items);
+        }
+    }
 
-                if (type === "string") {
-                    const [subType, name, mult = 1] = param.split(":");
-                    if (subType === "attr") {
-                        const attr = attributes.find(
-                            (obj) => obj.system.abbrev === name,
-                        );
+    setAttributes(items) {
+        const attributes = [];
+        for (const it of items) {
+            if (
+                it.type === "trait" &&
+                it.system.intensity === "attribute" &&
+                it.system.isNumeric
+            )
+                attributes.push(it);
+        }
+        this._parsedFormula.forEach((param) => {
+            const type = typeof param;
 
-                        const score = Number.parseInt(
-                            attr.system.textValue,
-                            10,
-                        );
-                        if (Number.isInteger(score)) {
-                            this._attrs[attr.system.abbrev] = {
-                                name: attr.name,
-                                value: score * mult,
-                            };
-                        } else {
-                            throw new Error(
-                                "invalid attribute value not number",
-                            );
-                        }
+            if (type === "string") {
+                const [subType, name, mult = 1] = param.split(":");
+                if (subType === "attr") {
+                    const attr = attributes.find(
+                        (obj) => obj.system.abbrev === name,
+                    );
+
+                    const score = Number.parseInt(attr.system.textValue, 10);
+                    if (Number.isInteger(score)) {
+                        this._attrs[attr.system.abbrev] = {
+                            name: attr.name,
+                            value: score * mult,
+                        };
+                    } else {
+                        throw new Error("invalid attribute value not number");
                     }
                 }
-            });
-        }
-
-        this._value = formula ? this._calcValue() : 0;
+            }
+        });
+        this._value = this.formula ? this._calcValue() : 0;
     }
 
     get valid() {
@@ -10166,17 +10152,10 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
         return "icons/svg/aura.svg";
     }
 
-    static get targetTypes() {
-        return {
-            actor: "Actor",
-            this: "Parent",
-        };
-    }
-
     get targetLabel() {
         const targetType = this.targetType || "actor";
         const targetName = this.targetName || "";
-        const attrs = this.targetAttr?.split(",");
+        const attrs = this.targetHasAttr?.split(",");
         const actor =
             this.parent.parent instanceof SohlActor
                 ? this.parent.parent
@@ -10198,9 +10177,9 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
         } else if (attrs?.length) {
             result = `SB Formula Has: ${attrs.join(" or ")}`;
         } else if (this.targetNameRE === ".+") {
-            result = `All ${SohlItem.types[targetType].typeLabel.plural}`;
+            result = `All ${SOHL.sysVer.CONFIG.Item.dataModels[this.targetType].typeLabel.plural}`;
         } else {
-            result = `${SohlItem.types[targetType].typeLabel.singular}: ${targetName}`;
+            result = `${SOHL.sysVer.CONFIG.Item.dataModels[this.targetType].typeLabel.singular}: ${targetName}`;
         }
         return result;
     }
@@ -10208,19 +10187,28 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
     get targetNameRE() {
         let name = this.targetName;
         // CASE 1: name is empty or starts with "attr:" means all names are valid
-        if (!name || name.startsWith("attr:")) return ".+";
+        if (!name || name.startsWith("attr:") || name.startsWith("primeattr:"))
+            return ".+";
         // CASE 2: name starts with "regex:" means remainder is already a regular expression
         if (name.startsWith("regex:")) return name.slice(6).trim();
         // CASE 3: name is assumed to be in extended "glob" format, convert to RegEx
-        return this._globrex(name, { extended: true }).regex.source;
+        return this.constructor._globrex(name, { extended: true }).regex.source;
     }
 
-    get targetAttr() {
+    get targetHasAttr() {
         if (!this.targetName) return null;
 
-        const name = this.targetName;
-        if (name.startsWith("attr:")) {
-            return name.slice(5).trim();
+        if (this.targetName.startsWith("attr:")) {
+            return this.targetName.slice(5).trim();
+        }
+        return null;
+    }
+
+    get targetHasPrimaryAttr() {
+        if (!this.targetName) return null;
+
+        if (this.targetName.startsWith("primeattr:")) {
+            return this.targetName.slice(10).trim();
         }
         return null;
     }
@@ -10236,9 +10224,7 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
     /* Return all of the documents (Items and Actors) targeted by this Active Effect */
     get targets() {
         let targets = [];
-        const targetAttr = this.targetAttr;
-        const targetType = this.targetType;
-        if (targetType === "uuid") {
+        if (this.targetType === "uuid") {
             const target = fromUuidSync(this.targetName, {
                 strict: false,
             });
@@ -10252,52 +10238,76 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
         } else if (this.parent.parent instanceof SohlItem) {
             const item = this.parent.parent;
             const itemActor = item.actor;
-            if (targetType === "actor") return itemActor ? [itemActor] : [];
-            if (targetType === "this") return [item];
+            if (this.targetType === "actor")
+                return itemActor ? [itemActor] : [];
+            if (this.targetType === "this") return [item];
 
             // If there is no parent actor, then we are done
             if (!itemActor) return [];
 
-            // If the targetAttr is defined, find all of the sibling items with that attribute in their SB Formula
-            if (
-                targetAttr &&
-                SOHL.sysVer.CONFIG.Item.dataModels[targetType] instanceof
+            // If "target has an attribute" is defined, find all of the sibling items with that attribute in their SB Formula
+            const targetHasAttr = this.targetHasAttr;
+            const targetDM =
+                SOHL.sysVer.CONFIG.Item.dataModels[this.targetType];
+            const targetDMIsML = targetDM.isMasteryLevelItemData;
+            if (targetHasAttr && targetDMIsML) {
+                const targetAttrNames = this.targetHasAttr.split(",");
+                targetAttrNames.forEach((attrName) => {
+                    targets = itemActor.itemTypes[this.targetType].filter(
+                        (it) =>
+                            it.system.skillBase.attributes.includes(attrName),
+                    );
+                });
+            } else if (
+                this.targetHasPrimaryAttr &&
+                SOHL.sysVer.CONFIG.Item.dataModels[this.targetType] instanceof
                     MasteryLevelItemData
             ) {
-                const targetAttrNames = this.targetAttr.split(",");
+                const targetAttrNames = this.targetHasPrimaryAttr.split(",");
                 targetAttrNames.forEach((attrName) => {
-                    targets = itemActor.itemTypes[targetType].filter((it) =>
-                        it.system.skillBase.attributes.includes(attrName),
+                    targets = itemActor.itemTypes[this.targetType].filter(
+                        (it) =>
+                            it.system.skillBase.attributes.at(0) === attrName,
                     );
                 });
             } else {
                 // Find all of the sibling items matching the target name
                 const re = new RegExp(this.targetNameRE);
-                targets = itemActor.itemTypes[targetType].filter((it) =>
+                targets = itemActor.itemTypes[this.targetType].filter((it) =>
                     re.test(it.name),
                 );
             }
         } else if (this.parent.parent instanceof SohlActor) {
             const actor = this.parent.parent;
-            if (["actor", "this"].includes(targetType)) return [actor];
+            if (["actor", "this"].includes(this.targetType)) return [actor];
 
             // Find all actor's item targets
             if (
-                targetAttr &&
-                [
-                    SkillItemData.typeName,
-                    MysticalAbilityItemData.typeName,
-                ].includes(targetType)
+                this.targetHasAttr &&
+                SOHL.sysVer.CONFIG.Item.dataModels[this.targetType] instanceof
+                    MasteryLevelItemData
             ) {
-                const targetAttrNames = this.targetAttr.split(",");
+                const targetAttrNames = this.targetHasAttr.split(",");
                 targetAttrNames.forEach((attrName) => {
-                    targets = actor.itemTypes[targetType].filter((it) =>
+                    targets = actor.itemTypes[this.targetType].filter((it) =>
                         it.system.skillBase.attributes.includes(attrName),
+                    );
+                });
+            } else if (
+                this.targetHasPrimaryAttr &&
+                SOHL.sysVer.CONFIG.Item.dataModels[this.targetType] instanceof
+                    MasteryLevelItemData
+            ) {
+                const targetAttrNames = this.targetHasPrimaryAttr.split(",");
+                targetAttrNames.forEach((attrName) => {
+                    targets = actor.itemTypes[this.targetType].filter(
+                        (it) =>
+                            it.system.skillBase.attributes.at(0) === attrName,
                     );
                 });
             } else {
                 const re = new RegExp(this.targetNameRE);
-                targets = actor.itemTypes[targetType].filter((it) =>
+                targets = actor.itemTypes[this.targetType].filter((it) =>
                     re.test(it.name),
                 );
             }
@@ -10316,7 +10326,6 @@ export class SohlActiveEffectData extends foundry.abstract.TypeDataModel {
             targetType: new fields.StringField({
                 initial: "this",
                 label: "Target Type",
-                choices: SohlActiveEffectData.targetTypes,
             }),
         };
     }
@@ -10834,7 +10843,7 @@ export class SohlActiveEffect extends ActiveEffect {
             return;
         }
 
-        const effectKeyValue = this.getEffectKeyValue(modKey);
+        const effectKeyValue = this.getEffectKeyValue(change.key);
 
         const modName = effectKeyValue.label;
         const modAbbr = effectKeyValue.abbrev;
@@ -11185,30 +11194,23 @@ export class SohlActiveEffectConfig extends ActiveEffectConfig {
         const context = await super.getData();
         context.keyChoices = this.object.getEffectKeyChoices();
         context.sourceName = await this.object.sourceName;
-        context.targetTypes = {
-            this:
-                this.object.parent instanceof Actor
-                    ? "This Actor"
-                    : `This ${
-                          SOHL.sysVer.CONFIG.Item.typeLabels[
-                              this.object.parent.type
-                          ]
-                      }`,
-            actor: "Actor",
-        };
 
-        for (const key of Object.keys(SOHL.sysVer.CONFIG.Item.dataModels)) {
-            switch (key) {
-                case "actor":
-                    context.targetTypes[key] = "Actor";
-                    break;
-
-                default:
-                    context.targetTypes[key] =
-                        SOHL.sysVer.CONFIG.Item.typeLabels[key];
-                    break;
-            }
+        // Setup Target Types
+        context.targetTypes = {};
+        if (this.object.parent instanceof Actor) {
+            context.targetTypes["this"] = "This Actor";
+        } else {
+            context.targetTypes["this"] =
+                `This ${this.object.parent.system.constructor.typeLabel.singular}`;
+            context.targetTypes["actor"] = "Actor";
         }
+        Object.entries(SOHL.sysVer.CONFIG.Item.dataModels).reduce(
+            (obj, [key, clazz]) => {
+                obj[key] = clazz.typeLabel.singular;
+                return obj;
+            },
+            context.targetTypes,
+        );
 
         if (SOHL.hasSimpleCalendar) {
             context.startTimeText = EventItemData.getWorldDateLabel(
@@ -12704,17 +12706,15 @@ export class SohlActor extends Actor {
      */
     get transferredEffects() {
         // Gather all of the effects from all items that are targeting the Actor
-        const transferredEffects = IterWrap.create(this.allItems()).reduce(
-            (effects, it) => {
-                const actorEffects = it.effects.filter(
-                    (e) => e.system.targetType === "actor",
-                );
-                return effects.push(...actorEffects);
-            },
-            [],
-        );
+        const result = [];
+        for (const it of this.allItems()) {
+            const actorEffects = it.effects.filter(
+                (e) => e.system.targetType === "actor",
+            );
+            result.push(...actorEffects);
+        }
 
-        return transferredEffects;
+        return result;
     }
 
     *allApplicableEffects() {
@@ -12894,10 +12894,10 @@ function SohlSheetMixin(Base) {
             data.effects = this.document.effects;
 
             // Collect all effects from other Items/Actors that are affecting this item
-            data.transferredEffects = {};
+            data.trxEffects = {};
             this.document.transferredEffects.forEach((effect) => {
                 if (!effect.disabled) {
-                    data.transferredEffects[effect.id] = effect;
+                    data.trxEffects[effect.id] = effect;
                 }
             });
 
@@ -14154,10 +14154,7 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
             const item = this.actor.getItem(itemId);
 
             // Only process MasteryLevel items
-            if (
-                item?.system instanceof MasteryLevelItemData &&
-                !item.isVirtual
-            ) {
+            if (item?.system.isMasteryLevelItemData && !item.isVirtual) {
                 return item.system.toggleImproveFlag();
             }
             return null;
