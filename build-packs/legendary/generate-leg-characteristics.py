@@ -58,6 +58,7 @@ for trait in traitsData:
         "effects": [],
         "flags": trait["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": trait["folderId"],
         "_key": "!items!" + trait["id"],
     }
@@ -109,6 +110,7 @@ for skill in skillsData:
         "effects": skill["effects"],
         "flags": skill["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": skill["folderId"],
         "_key": "!items!" + skill["id"],
     }
@@ -147,6 +149,7 @@ for cmbtman in combatmaneuversData:
         "effects": cmbtman["effects"],
         "flags": cmbtman["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": cmbtman["folderId"],
         "_key": "!items!" + cmbtman["id"],
     }
@@ -194,6 +197,7 @@ for cmbttech in combattechniquesmData:
         "effects": [],
         "flags": cmbttech["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": None,
     }
 
@@ -284,6 +288,7 @@ for affliction in afflictionsData:
         "effects": affliction["effects"],
         "flags": affliction["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": affliction["folderId"],
     }
     with open(pname, "w", encoding="utf8") as outfile:

@@ -147,7 +147,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -216,7 +216,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -285,7 +285,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -354,7 +354,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -423,7 +423,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -492,7 +492,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -561,7 +561,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -630,7 +630,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -699,7 +699,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -768,7 +768,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -837,7 +837,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -906,7 +906,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -975,7 +975,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1056,7 +1056,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1111,7 +1111,7 @@
             "folder": null,
             "sort": 0,
             "ownership": {
-              "default": 0
+              "default": 3
             },
             "flags": {
               "sohl": {
@@ -1222,7 +1222,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1253,6 +1253,7 @@
             "_id": "Hm2BL94GnC3Y3HYL",
             "scope": "global",
             "command": "this.processSiblings();\nconst gw = this.actor.system.$gearWeight;\ngw.maxFight.setBase(this.$score.base);\ngw.max.setBase(this.max);",
+	    "ownership": { "default": 3 },
             "flags": {
               "sohl": {
                 "notes": "",
@@ -1286,7 +1287,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1328,6 +1329,7 @@
             "scope": "global",
             "command": "this.postProcess();\nArray.from(this.actor.allItems()).forEach((it) => {\nif (it.type === \"affliction\" && it.system.subType === \"fatigue\") {\n     this.$masteryLevel.add(\n         it.name,\n         it.system.constructor.subTypeAbbreviation[it.system.subType],\n         -it.system.$level.effective,\n     );\n}});",
             "sort": 0,
+	    "ownership": { "default": 3 },
             "flags": {
               "sohl": {
                 "notes": "",
@@ -1350,7 +1352,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1394,7 +1396,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1438,7 +1440,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1482,7 +1484,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1526,7 +1528,7 @@
       "effects": [],
       "flags": {},
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "type": "trait",
@@ -1575,7 +1577,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1620,7 +1622,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1665,7 +1667,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1710,7 +1712,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1755,7 +1757,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1800,7 +1802,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1845,7 +1847,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1890,7 +1892,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1935,7 +1937,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -1980,7 +1982,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2025,7 +2027,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2070,7 +2072,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2115,7 +2117,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2160,7 +2162,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2205,7 +2207,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2250,7 +2252,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2295,7 +2297,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2340,7 +2342,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2385,7 +2387,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2430,7 +2432,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2475,7 +2477,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2520,7 +2522,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2565,7 +2567,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2610,7 +2612,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2655,7 +2657,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2704,7 +2706,7 @@
         }
       },
       "ownership": {
-        "default": 0,
+        "default": 3,
         "RsnPoY20XgcrucTn": 3
       },
       "folder": null,
@@ -2787,7 +2789,7 @@
                         },
                         "sort": 100000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "OMbpolDwTilvL63M",
                         "flags": {
@@ -2831,7 +2833,7 @@
                         },
                         "sort": 200000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "jsXydqZOEPy5St6W",
                         "flags": {
@@ -2875,7 +2877,7 @@
                         },
                         "sort": 300000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "swKGoun17hJURWbc",
                         "flags": {
@@ -2919,7 +2921,7 @@
                         },
                         "sort": 400000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "x4Sts8plRvCqQvXp",
                         "flags": {
@@ -2963,7 +2965,7 @@
                         },
                         "sort": 500000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "b9tFA2ysZjw9GhKX",
                         "flags": {
@@ -3007,7 +3009,7 @@
                         },
                         "sort": 600000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "FLxsHKlX9aQ6f0W0",
                         "flags": {
@@ -3051,7 +3053,7 @@
                         },
                         "sort": 700000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "jA3xsDhLx7tly7iD",
                         "flags": {
@@ -3095,7 +3097,7 @@
                         },
                         "sort": 800000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "nzXZ02mSbtdhjGbe",
                         "flags": {
@@ -3139,7 +3141,7 @@
                         },
                         "sort": 900000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "TfjuvUhQvtsLxv2y",
                         "flags": {
@@ -3183,7 +3185,7 @@
                         },
                         "sort": 1000000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "pFkD9TLhSX5lYJiE",
                         "flags": {
@@ -3227,7 +3229,7 @@
                         },
                         "sort": 1100000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "fN6vbjltVlxBXnOR",
                         "flags": {
@@ -3252,7 +3254,7 @@
                   },
                   "sort": 100000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "HQmIuFMbBHgczWgx"
                 }
@@ -3267,7 +3269,7 @@
             },
             "sort": 100000,
             "ownership": {
-              "default": 0
+              "default": 3
             },
             "flags": {
               "sohl": {
@@ -3351,7 +3353,7 @@
                         },
                         "sort": 1200000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "wQEEI5phCBrgefa1",
                         "flags": {
@@ -3395,7 +3397,7 @@
                         },
                         "sort": 1300000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "7s9pfAro0NtIEhPT",
                         "flags": {
@@ -3439,7 +3441,7 @@
                         },
                         "sort": 1400000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "M8VdELhSSNiegXaB",
                         "flags": {
@@ -3483,7 +3485,7 @@
                         },
                         "sort": 1500000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "7Eahv0DVaodLChXl",
                         "flags": {
@@ -3527,7 +3529,7 @@
                         },
                         "sort": 1600000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "FI9EWgpPmPbRG6ZH",
                         "flags": {
@@ -3552,7 +3554,7 @@
                   },
                   "sort": 200000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "SuogiChpNcSHdb7F"
                 },
@@ -3600,7 +3602,7 @@
                         },
                         "sort": 1700000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "jUe7zBvkzu6pvEZS",
                         "flags": {
@@ -3644,7 +3646,7 @@
                         },
                         "sort": 1800000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "DIyVH5lP4gNzvIIn",
                         "flags": {
@@ -3688,7 +3690,7 @@
                         },
                         "sort": 1900000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "ST2U2HiLGAMGevAA",
                         "flags": {
@@ -3732,7 +3734,7 @@
                         },
                         "sort": 2000000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "7E5KlhTPK5Qhwllo",
                         "flags": {
@@ -3776,7 +3778,7 @@
                         },
                         "sort": 2100000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "KqxTDKCM6RTKC0JO",
                         "flags": {
@@ -3801,7 +3803,7 @@
                   },
                   "sort": 300000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "30yChcQenOibnotl"
                 }
@@ -3816,7 +3818,7 @@
             },
             "sort": 200000,
             "ownership": {
-              "default": 0
+              "default": 3
             },
             "flags": {
               "sohl": {
@@ -3899,7 +3901,7 @@
                         },
                         "sort": 2200000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "wUK5aTEioGzBUpIG",
                         "flags": {
@@ -3943,7 +3945,7 @@
                         },
                         "sort": 2300000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "0Lptk2RZm9KrDKsw",
                         "flags": {
@@ -3987,7 +3989,7 @@
                         },
                         "sort": 2400000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "g3hiOfxs6NCcTbdi",
                         "flags": {
@@ -4012,7 +4014,7 @@
                   },
                   "sort": 400000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "SsgmMsDaIYN0ufKS"
                 }
@@ -4027,7 +4029,7 @@
             },
             "sort": 300000,
             "ownership": {
-              "default": 0
+              "default": 3
             },
             "flags": {
               "sohl": {
@@ -4113,7 +4115,7 @@
                         },
                         "sort": 2500000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "aFlL1lDZ84Tjsmu0",
                         "flags": {
@@ -4157,7 +4159,7 @@
                         },
                         "sort": 2600000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "5yAEve9xnIEGQ6WY",
                         "flags": {
@@ -4201,7 +4203,7 @@
                         },
                         "sort": 2800000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "ZfTkupYaYKMbDPvI",
                         "flags": {
@@ -4245,7 +4247,7 @@
                         },
                         "sort": 2900000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "hssVI3CgBmGk3rfH",
                         "flags": {
@@ -4270,7 +4272,7 @@
                   },
                   "sort": 500000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "Q1J2x98atZ1QjtKY"
                 },
@@ -4318,7 +4320,7 @@
                         },
                         "sort": 3000000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "1kbYRrGl6yNM41ei",
                         "flags": {
@@ -4362,7 +4364,7 @@
                         },
                         "sort": 3100000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "aqwQQuHPH1LwMkd2",
                         "flags": {
@@ -4406,7 +4408,7 @@
                         },
                         "sort": 3200000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "1FXqlmXnbRHoj8zs",
                         "flags": {
@@ -4450,7 +4452,7 @@
                         },
                         "sort": 3300000,
                         "ownership": {
-                          "default": 0
+                          "default": 3
                         },
                         "_id": "ti4Dt1avC17psR2m",
                         "flags": {
@@ -4475,7 +4477,7 @@
                   },
                   "sort": 600000,
                   "ownership": {
-                    "default": 0
+                    "default": 3
                   },
                   "_id": "8OzUBhawHo3LSR42"
                 }
@@ -4490,7 +4492,7 @@
             },
             "sort": 400000,
             "ownership": {
-              "default": 0
+              "default": 3
             },
             "flags": {
               "sohl": {
@@ -4588,7 +4590,7 @@
       "folder": "z6GcCOGsuwgwN1Ya",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "TMJsvJWT6ytpHZ0M": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
@@ -4658,7 +4660,7 @@
       "folder": "z6GcCOGsuwgwN1Ya",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.19gtjq7sHRKI3Bmf"
@@ -4755,6 +4757,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -4838,6 +4841,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -4921,6 +4925,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -4998,6 +5003,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -5081,6 +5087,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -5158,6 +5165,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -5241,6 +5249,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -5318,6 +5327,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           },
           {
@@ -5401,6 +5411,7 @@
               "modifiedTime": 0,
               "lastModifiedBy": "TMJsvJWT6ytpHZ0M"
             },
+	    "ownership": {"default": 3},
             "folder": null
           }
         ],
@@ -5421,7 +5432,7 @@
       "folder": "dv8AthmrwfYNGB1k",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.nUrFsCdBVarDI4wO"
@@ -5452,6 +5463,7 @@
               "abbrev": "baldr"
             },
             "effects": [],
+	    "ownership": {"default": 3},
             "flags": {
               "sohl": {
                 "embodiments": [
@@ -5475,6 +5487,7 @@
               "abbrev": "freyr"
             },
             "effects": [],
+	    "ownership": {"default": 3},
             "flags": {
               "sohl": {
                 "embodiments": [
@@ -5498,6 +5511,7 @@
               "abbrev": "freyja"
             },
             "effects": [],
+	    "ownership": {"default": 3},
             "flags": {
               "sohl": {
                 "embodiments": [
@@ -5521,6 +5535,7 @@
               "abbrev": "hel"
             },
             "effects": [],
+	    "ownership": {"default": 3},
             "flags": {
               "sohl": {
                 "embodiments": [
@@ -5544,6 +5559,7 @@
               "abbrev": "loki"
             },
             "effects": [],
+	    "ownership": {"default": 3},
             "flags": {
               "sohl": {
                 "embodiments": [
@@ -5686,7 +5702,7 @@
       "folder": "R5yDwwVBNF7yE4fc",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.lPAnt62dzuOnSPam"
@@ -5997,7 +6013,7 @@
       "folder": "R5yDwwVBNF7yE4fc",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.MZH98sfR7rjr6RZy"
@@ -6728,7 +6744,7 @@
       "folder": "R5yDwwVBNF7yE4fc",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.G2PnEfb2HlJ0qpPi"
@@ -6882,7 +6898,7 @@
       "folder": "R5yDwwVBNF7yE4fc",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.LL5v3bWUqa96xoDC"
@@ -6927,7 +6943,7 @@
       "folder": "BXfH5cKFM0lUbyhg",
       "sort": 0,
       "ownership": {
-        "default": 0,
+        "default": 3,
         "nGb7SCs7T7dz9RCK": 3
       },
       "_key": "!actors.items!4cRtW25ayGwkNFtB.dvpQlV35DYjoGP0h"
@@ -6956,7 +6972,7 @@
   "_id": "4cRtW25ayGwkNFtB",
   "sort": 0,
   "ownership": {
-    "default": 0,
+    "default": 3,
     "nGb7SCs7T7dz9RCK": 3
   },
   "_key": "!actors!4cRtW25ayGwkNFtB"

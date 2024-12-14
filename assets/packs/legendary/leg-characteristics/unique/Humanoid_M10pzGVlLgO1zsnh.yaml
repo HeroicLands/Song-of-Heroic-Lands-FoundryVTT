@@ -54,7 +54,7 @@ system:
                         probWeightBase: 500
                   sort: 100000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: 0XmtjaBJDxMk0Ucd
                   flags:
                     sohl:
@@ -87,7 +87,7 @@ system:
                         probWeightBase: 15
                   sort: 200000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: 6kX9YIUIVja3Y0MP
                   flags:
                     sohl:
@@ -120,7 +120,7 @@ system:
                         probWeightBase: 15
                   sort: 300000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: UwvPtm6rbB5noi7l
                   flags:
                     sohl:
@@ -153,7 +153,7 @@ system:
                         probWeightBase: 60
                   sort: 400000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: 8J1XWjV1tsFyugVH
                   flags:
                     sohl:
@@ -186,7 +186,7 @@ system:
                         probWeightBase: 15
                   sort: 500000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: QEfArWukfNxKta0f
                   flags:
                     sohl:
@@ -219,7 +219,7 @@ system:
                         probWeightBase: 15
                   sort: 600000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: htpEEuxEAhz7AAsP
                   flags:
                     sohl:
@@ -252,7 +252,7 @@ system:
                         probWeightBase: 60
                   sort: 700000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: ofe4FzVdGkKkZQV2
                   flags:
                     sohl:
@@ -285,7 +285,7 @@ system:
                         probWeightBase: 30
                   sort: 800000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: QRVralNrMEk93Kwj
                   flags:
                     sohl:
@@ -318,7 +318,7 @@ system:
                         probWeightBase: 30
                   sort: 900000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: U30OhbPBl2QhBQoF
                   flags:
                     sohl:
@@ -351,7 +351,7 @@ system:
                         probWeightBase: 60
                   sort: 1000000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: ogK3sN7cu2ajAT5K
                   flags:
                     sohl:
@@ -384,7 +384,7 @@ system:
                         probWeightBase: 200
                   sort: 1100000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: vZA6OW3EaN0ggS6U
                   flags:
                     sohl:
@@ -399,7 +399,7 @@ system:
                   probWeightBase: 100
             sort: 100000
             ownership:
-              default: 0
+              default: 3
             _id: WljCPWk6oAmUZ73d
         abbrev: Head
         aim:
@@ -407,7 +407,7 @@ system:
             probWeightBase: 1
       sort: 100000
       ownership:
-        default: 0
+        default: 3
       flags:
         sohl:
           legendary:
@@ -475,7 +475,7 @@ system:
                         probWeightBase: 30
                   sort: 1200000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: nuInmwcEVKaPbhiH
                   flags:
                     sohl:
@@ -508,7 +508,7 @@ system:
                         probWeightBase: 30
                   sort: 1300000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: NGjZLBbjFzHdvv0l
                   flags:
                     sohl:
@@ -541,7 +541,7 @@ system:
                         probWeightBase: 10
                   sort: 1400000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: ubWdclQbNEQ70pEe
                   flags:
                     sohl:
@@ -574,7 +574,7 @@ system:
                         probWeightBase: 20
                   sort: 1500000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: 6mLZet21nySm9VVd
                   flags:
                     sohl:
@@ -607,7 +607,7 @@ system:
                         probWeightBase: 10
                   sort: 1600000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: SrpubIBD6K42tsO1
                   flags:
                     sohl:
@@ -622,7 +622,7 @@ system:
                   probWeightBase: 50
             sort: 200000
             ownership:
-              default: 0
+              default: 3
             _id: rnqBua6Rduc0u0P6
           - name: Right Arm
             type: bodypart
@@ -661,7 +661,7 @@ system:
                         probWeightBase: 30
                   sort: 1700000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: V7F5ilVtTWnzoyu6
                   flags:
                     sohl:
@@ -694,7 +694,7 @@ system:
                         probWeightBase: 30
                   sort: 1800000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: YfN7RARAAi0UrPld
                   flags:
                     sohl:
@@ -727,7 +727,7 @@ system:
                         probWeightBase: 10
                   sort: 1900000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: 1kH02rurCS8ft63Q
                   flags:
                     sohl:
@@ -760,7 +760,7 @@ system:
                         probWeightBase: 20
                   sort: 2000000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: pNB4IdNQHFPOnvwD
                   flags:
                     sohl:
@@ -793,7 +793,7 @@ system:
                         probWeightBase: 10
                   sort: 2100000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: Rfi2iUDdK2qQz2pv
                   flags:
                     sohl:
@@ -808,7 +808,7 @@ system:
                   probWeightBase: 50
             sort: 300000
             ownership:
-              default: 0
+              default: 3
             _id: Tsrx9WQ2L9HyAVvi
         abbrev: Arms
         aim:
@@ -816,7 +816,7 @@ system:
             probWeightBase: 1
       sort: 200000
       ownership:
-        default: 0
+        default: 3
       flags:
         sohl:
           legendary:
@@ -883,7 +883,7 @@ system:
                         probWeightBase: 40
                   sort: 2200000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: Sfp6lj3H6N20woHc
                   flags:
                     sohl:
@@ -916,7 +916,7 @@ system:
                         probWeightBase: 40
                   sort: 2300000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: GYWlGzJ1oE2QlVc0
                   flags:
                     sohl:
@@ -949,7 +949,7 @@ system:
                         probWeightBase: 20
                   sort: 2400000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: yMsU1PHsaPfGlygr
                   flags:
                     sohl:
@@ -964,7 +964,7 @@ system:
                   probWeightBase: 100
             sort: 400000
             ownership:
-              default: 0
+              default: 3
             _id: ltL67w6gOzXDgHYD
         abbrev: Torso
         aim:
@@ -972,7 +972,7 @@ system:
             probWeightBase: 1
       sort: 300000
       ownership:
-        default: 0
+        default: 3
       flags:
         sohl:
           legendary:
@@ -1042,7 +1042,7 @@ system:
                         probWeightBase: 40
                   sort: 2500000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: pOsgjfKKFAr8I8aE
                   flags:
                     sohl:
@@ -1075,7 +1075,7 @@ system:
                         probWeightBase: 10
                   sort: 2600000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: gi2S9Dt4w46x2wOL
                   flags:
                     sohl:
@@ -1108,7 +1108,7 @@ system:
                         probWeightBase: 30
                   sort: 2800000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: IX6Bbg9YSahDwI45
                   flags:
                     sohl:
@@ -1141,7 +1141,7 @@ system:
                         probWeightBase: 20
                   sort: 2900000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: REmu5X3CBlbfLqvh
                   flags:
                     sohl:
@@ -1156,7 +1156,7 @@ system:
                   probWeightBase: 50
             sort: 500000
             ownership:
-              default: 0
+              default: 3
             _id: KocnXsjJtL3doBVr
           - name: Right Leg
             type: bodypart
@@ -1195,7 +1195,7 @@ system:
                         probWeightBase: 40
                   sort: 3000000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: AJwjP1rJBbmpamNe
                   flags:
                     sohl:
@@ -1228,7 +1228,7 @@ system:
                         probWeightBase: 10
                   sort: 3100000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: WUnUX9Vw3f9aJXuR
                   flags:
                     sohl:
@@ -1261,7 +1261,7 @@ system:
                         probWeightBase: 30
                   sort: 3200000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: Zb9lV9AXinrSftXd
                   flags:
                     sohl:
@@ -1294,7 +1294,7 @@ system:
                         probWeightBase: 20
                   sort: 3300000
                   ownership:
-                    default: 0
+                    default: 3
                   _id: aGOXGJxHUfwnfB5M
                   flags:
                     sohl:
@@ -1309,7 +1309,7 @@ system:
                   probWeightBase: 50
             sort: 600000
             ownership:
-              default: 0
+              default: 3
             _id: 30kOIuDmY81IosL4
         abbrev: Legs
         aim:
@@ -1317,7 +1317,7 @@ system:
             probWeightBase: 1
       sort: 400000
       ownership:
-        default: 0
+        default: 3
       flags:
         sohl:
           legendary:

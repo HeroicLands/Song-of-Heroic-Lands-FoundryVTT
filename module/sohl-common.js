@@ -2342,7 +2342,7 @@ export class SohlItem extends Item {
             delete newData.pack;
             if ("ownership" in newData) {
                 newData.ownership = {
-                    default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
+                    default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                     [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                 };
             }
@@ -3060,8 +3060,9 @@ export class SohlItemData extends SohlBaseData {
     }
 
     /** @override */
-    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+    // FIXME biome-ignore lint/correctness/noUnusedVariables: <explanation>
     async _preCreate(data, options, userId) {
+        super._preCreate(data, options, userId);
         return true;
     }
 
@@ -3099,12 +3100,8 @@ export class SohlItemData extends SohlBaseData {
                 functionName: "editItem",
                 name: "Edit",
                 contextIconClass: "fas fa-edit",
-                contextCondition: (header) => {
-                    if (game.user.isGM) return true;
-                    header = header instanceof HTMLElement ? header : header[0];
-                    const li = header.closest(".item");
-                    const item = fromUuidSync(li.dataset.uuid);
-                    return item?.isOwner;
+                contextCondition: () => {
+                    if (this.actor?.isOwner || this.item.isOwner) return true;
                 },
                 contextGroup: "general",
             },
@@ -3112,13 +3109,8 @@ export class SohlItemData extends SohlBaseData {
                 functionName: "deleteItem",
                 name: "Delete",
                 contextIconClass: "fas fa-trash",
-                contextCondition: (header) => {
-                    header = header instanceof HTMLElement ? header : header[0];
-                    const li = header.closest(".item");
-                    const item = fromUuidSync(li.dataset.uuid);
-                    return (
-                        !item?.isVirtual && (game.user.isGM || item?.isOwner)
-                    );
+                contextCondition: () => {
+                    if (this.actor?.isOwner || this.item.isOwner) return true;
                 },
                 contextGroup: "general",
             },
@@ -3146,21 +3138,21 @@ export class SohlItemData extends SohlBaseData {
                 name: "Setup Virtual Items",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: "general",
+                contextGroup: "hidden",
             },
             {
                 functionName: "processSiblings",
                 name: "Process Siblings",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: "general",
+                contextGroup: "hidden",
             },
             {
                 functionName: "postProcess",
                 name: "Post-Process",
                 contextIconClass: "",
                 contextCondition: false,
-                contextGroup: "general",
+                contextGroup: "hidden",
             },
         ];
     }
@@ -3220,6 +3212,11 @@ export class SohlItemData extends SohlBaseData {
                 data.effects?.forEach((e) => {
                     e.origin = uuid;
                 });
+                if (!data.ownership) {
+                    data.ownership = {
+                        default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                    };
+                }
                 const item = new SohlItem(data, {
                     nestedIn: this.item,
                     keepId: true,
@@ -3398,7 +3395,7 @@ export class AnimateEntityActorData extends SohlActorData {
                 name: "Opposed Test Resume",
                 contextIconClass: "far fa-gears",
                 contextCondition: false,
-                contextGroup: "general",
+                contextGroup: "hidden",
             },
             {
                 functionName: "contractTest",
@@ -6237,8 +6234,8 @@ export class DomainItemData extends SohlItemData {
 
     prepareBaseData() {
         super.prepareBaseData();
-        if (this.item.nestedIn.system instanceof PhilosophyItemData) {
-            this.$category = this.item.nestedIn?.system.category;
+        if (this.item.nestedIn?.system instanceof PhilosophyItemData) {
+            this.$category = this.item.nestedIn.system.category;
         }
     }
 
@@ -9880,7 +9877,7 @@ export class Utility {
                 query["type"] = docType;
             }
             const items = await pack.getDocuments(query);
-            allDocs.push(...items);
+            allDocs.push(...items.map((it) => it.toObject()));
         }
         return allDocs;
     }
@@ -9928,7 +9925,7 @@ export class Utility {
                 );
             if ("ownership" in data) {
                 data.ownership = {
-                    default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
+                    default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                     [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                 };
             }
@@ -11502,7 +11499,7 @@ export class SohlMacro extends Macro {
                         functionName: "",
                         contextIconClass: "",
                         contextCondition: false,
-                        contextGroup: "",
+                        contextGroup: "hidden",
                         isIntrinsicAction: false,
                         useAsync: true,
                     },
@@ -12195,16 +12192,16 @@ export class SohlActor extends Actor {
 
         let content = `<div class="form-group" id="cloneActor">
         <label class="init-checkbox">Actor to Clone:</label>
-        <select name="cloneActor">`;
+        <select name="cloneActor">\n`;
         let hasSelected = false;
         Object.keys(allActors).forEach((group) => {
             if (allActors[group].length) {
-                content += `<optgroup label=${group}>`;
+                content += `<optgroup label="${group}">`;
                 allActors[group].forEach((obj) => {
-                    content += `<option value="${obj.value}"${!hasSelected ? " selected" : ""}>${obj.label}</option>`;
+                    content += `<option value="${obj.value}"${!hasSelected ? " selected" : ""}>${obj.label}</option>\n`;
                     hasSelected = true;
                 });
-                content += "</optgroup>";
+                content += "</optgroup>\n";
             }
         });
         content += `</select></div><div class="form-group" id="randomattrs">
@@ -12216,26 +12213,27 @@ export class SohlActor extends Actor {
         </select>
         <input type="text" name="rollformula" disabled data-tooltip="Roll formula" />
         </div>`;
+        content = "";
+        const dlgTemplate = "templates/sidebar/document-create.html";
+        const defActorName = this.implementation.defaultName({
+            type,
+            parent,
+            pack,
+        });
+        const dlgOptions = {
+            name: data.name || "",
+            defaultName: defActorName,
+            hasTypes: this.hasTypeData,
+            types: documentTypes,
+            type,
+            hasFolders: folders.length > 1,
+            folders,
+            folder: data.folder,
+            content,
+        };
 
         // Render the document creation form
-        const html = await renderTemplate(
-            "templates/sidebar/document-create.html",
-            {
-                name: data.name || "",
-                defaultName: this.implementation.defaultName({
-                    type,
-                    parent,
-                    pack,
-                }),
-                hasTypes: this.hasTypeData,
-                types: documentTypes,
-                type,
-                hasFolders: folders.length > 1,
-                folders,
-                folder: data.folder,
-                content,
-            },
-        );
+        const html = await renderTemplate(dlgTemplate, dlgOptions);
 
         // Render the confirmation dialog window
         return Dialog.prompt({
@@ -12349,7 +12347,7 @@ export class SohlActor extends Actor {
                 delete newData.pack;
                 if ("ownership" in newData) {
                     newData.ownership = {
-                        default: CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE,
+                        default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                         [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
                     };
                 }
@@ -12991,10 +12989,12 @@ function SohlSheetMixin(Base) {
          * @returns {*}
          */
         static _getContextOptions(doc) {
-            const result =
+            let result =
                 doc.system instanceof SohlBaseData
                     ? doc.system._getContextOptions()
                     : doc._getContextOptions();
+
+            result = result.filter((co) => co.contextGroup !== "hidden");
 
             // Sort the menu items according to group.  Expect items with no group
             // at the top, items in the "primary" group next, and items in the
@@ -14362,7 +14362,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
     }
 
     get isEditable() {
-        return this.item.isVirtual ? false : super.isEditable;
+        return !this.item.isVirtual && super.isEditable;
     }
 
     /** @inheritdoc */
