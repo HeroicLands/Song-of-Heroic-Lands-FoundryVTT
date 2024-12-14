@@ -2359,6 +2359,13 @@ export class SohlItem extends Item {
             }
         }
 
+        if (!("ownership" in newData)) {
+            newData.ownership = {
+                default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+            };
+        }
+
         if (options.parent && !(options.parent instanceof SohlActor))
             throw new Error("parent must always be an instance of SohlActor");
 
@@ -11084,6 +11091,12 @@ export class SohlActiveEffect extends ActiveEffect {
             newData.img = CONFIG.controlIcons.effects;
         }
 
+        if (!("ownership" in data)) {
+            newData.ownership = {
+                default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+            };
+        }
+
         // If nestedIn is specified, use update() on the nestedIn
         if (options.parent?.nestedIn) {
             const newAry = options.parent.nestedIn.effects.contents;
@@ -11636,6 +11649,12 @@ export class SohlMacro extends Macro {
         if (context.nestedIn) {
             if (!(data._id && context.keepId)) {
                 data._id = foundry.utils.randomID();
+            }
+
+            if (!("ownership" in data)) {
+                data.ownership = {
+                    default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                };
             }
             const macro = new SohlMacro(data, context);
             if (!macro) throw new Error(`Macro creation failed`);
