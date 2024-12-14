@@ -56,6 +56,7 @@ for miscgear in miscgearData:
         "effects": miscgear["effects"],
         "flags": miscgear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": miscgear["folderId"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -97,6 +98,7 @@ for containergear in containergearData:
         "effects": containergear["effects"],
         "flags": containergear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": "dl8lJ729W1mFlDvt",
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -140,6 +142,7 @@ for concoctiongear in concoctiongearData:
         "effects": concoctiongear["effects"],
         "flags": concoctiongear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": concoctiongear["folderId"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -165,6 +168,7 @@ for folder in foldersData:
         "color": folder["color"],
         "flags": {},
         "_stats": stats,
+        "ownership": {"default": 3},
         "_key": "!folders!" + folder["id"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -226,6 +230,7 @@ for armorgear in armorgearData:
         "effects": [],
         "flags": armorgear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": armorgear["folderId"],
     }
 
@@ -357,6 +362,7 @@ for projectilegear in projectilegearData:
         "effects": [],
         "flags": projectilegear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": "ADQPHjgKsdWsJhyy",
     }
 
@@ -468,6 +474,7 @@ for weapongear in weapongearData:
         "effects": [],
         "flags": weapongear["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": "c0GXEU9oCZ1N3mSl",
     }
     weapons[weaponid]["flags"].get("legendary", {})
@@ -546,6 +553,7 @@ for weaponsm in weaponsmData:
         "effects": [],
         "flags": weaponsm["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": None,
     }
     if subdesc == "Ranged" or subdesc == "Thrown":

@@ -15,6 +15,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The badger symbolizes fierce independence and unwavering determination. Known for its solitary nature, it defends its territory and beliefs with relentless persistence, embodying the tenacity to face challenges alone."
   - name: Bass
     abbrev: bass
@@ -23,6 +25,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The bass epitomizes patience and stealth. Lying in wait, it seizes opportunities with precision, representing a calculated and opportunistic approach to life's challenges."
   - name: Bear
     abbrev: bear
@@ -31,6 +35,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Symbolizing solitude and calm, the bear thrives in reclusion, avoiding confrontation unless provoked. It represents introspection and self-sufficiency."
   - name: Bison
     abbrev: bison
@@ -39,6 +45,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The bison is a steadfast guardian, fiercely protective of its herd. Its unyielding loyalty and stoic demeanor symbolize strength and dependability."
   - name: Boar
     abbrev: boar
@@ -47,6 +55,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The boar embodies tenacity and fierce determination, charging headlong into adversity. Its strong will and resilience inspire persistence in the face of obstacles."
   - name: Bobcat
     abbrev: bobcat
@@ -55,6 +65,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "A symbol of secrecy and caution, the bobcat moves stealthily and observes intently, representing a strategic and careful approach to life's challenges."
   - name: Bull
     abbrev: bull
@@ -63,6 +75,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The bull represents raw power and determination. It can be a force of creation or destruction, depending on its intent, embodying strength and unpredictability."
   - name: Catfish
     abbrev: catfish
@@ -71,6 +85,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Adaptability and resourcefulness define the catfish, thriving in obscurity and taking advantage of overlooked opportunities to achieve its goals."
   - name: Chicken
     abbrev: chicken
@@ -79,6 +95,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Timid and skittish, the chicken finds safety in familiarity and community. It represents caution, quick reflexes, and a reliance on collective strength."
   - name: Cow
     abbrev: cow
@@ -87,6 +105,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Gentle and routine-oriented, the cow thrives on stability and consistency. It represents nurturing energy and adaptability to harmonious environments."
   - name: Crow
     abbrev: crow
@@ -95,6 +115,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The crow symbolizes curiosity and resourcefulness. Its intelligence and cunning nature enable it to navigate challenges with wit and creativity."
   - name: Deer
     abbrev: deer
@@ -103,6 +125,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The deer is a symbol of vigilance and grace. Its keen awareness and swift movements represent an instinctive response to potential threats."
   - name: Donkey
     abbrev: donkey
@@ -111,6 +135,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The donkey epitomizes patience and stubbornness. Its unwavering determination and resilience make it a steadfast symbol of persistence."
   - name: Dove
     abbrev: dove
@@ -119,6 +145,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "A universal emblem of peace and harmony, the dove represents gentleness and the pursuit of companionship and tranquility."
   - name: Duck
     abbrev: duck
@@ -127,6 +155,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Ducks are symbols of adaptability and sociability. They thrive in diverse environments and exemplify the ability to navigate through change with ease."
   - name: Eagle
     abbrev: eagle
@@ -135,6 +165,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The eagle represents precision and unyielding focus. Its ability to rise above challenges with ruthless determination inspires a vision of relentless success."
   - name: Falcon
     abbrev: falcon
@@ -143,6 +175,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The falcon symbolizes relentless pursuit and unmatched precision. Its focus and determination inspire mastery and success."
   - name: Fox
     abbrev: fox
@@ -151,6 +185,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The fox represents intelligence and cunning. Its ability to outwit challenges through strategy and cleverness makes it a symbol of resourcefulness."
   - name: Goat
     abbrev: goat
@@ -159,6 +195,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "A symbol of curiosity and resilience, the goat's determination to explore and overcome barriers embodies adaptability and adventurous spirit."
   - name: Goose
     abbrev: goose
@@ -167,6 +205,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Fiercely territorial and protective, the goose is a symbol of loyalty and assertive defense of its space and loved ones."
   - name: Hamster
     abbrev: hamster
@@ -175,6 +215,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The hamster represents caution and preparedness, embodying a diligent and resourceful approach to safeguarding the future."
   - name: Hawk
     abbrev: hawk
@@ -183,6 +225,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Sharp vision and swift action define the hawk, symbolizing keen observation and the ability to act decisively when opportunities arise."
   - name: Hedgehog
     abbrev: hedgehog
@@ -191,6 +235,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The hedgehog represents self-reliance and defense, finding safety in solitude and a protective approach to life's challenges."
   - name: Horse
     abbrev: horse
@@ -199,6 +245,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "A free-spirited symbol, the horse embodies independence and the love of exploring life on one's own terms, valuing freedom above all else."
   - name: Jaguar
     abbrev: jaguar
@@ -207,6 +255,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The jaguar epitomizes stealth and power, moving through the shadows with precision and strength, embodying solitary success."
   - name: Leopard
     abbrev: leopard
@@ -215,6 +265,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Self-reliant and secretive, the leopard represents strategic thinking and the ability to achieve goals quietly without seeking attention."
   - name: Lion
     abbrev: lion
@@ -223,6 +275,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "A natural leader, the lion symbolizes dominance and strategy, inspiring cooperation and protection within a group dynamic."
   - name: Lynx
     abbrev: lynx
@@ -231,6 +285,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Elusive and watchful, the lynx embodies patience and solitude, thriving in quiet observation and calculated action."
   - name: Otter
     abbrev: otter
@@ -239,6 +295,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Playful and curious, the otter symbolizes joy and social connection, thriving in collaborative environments and explorative endeavors."
   - name: Owl
     abbrev: owl
@@ -247,6 +305,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The owl is a symbol of mystery and wisdom, patiently observing and acting with thoughtful precision in the quiet of night."
   - name: Ox
     abbrev: ox
@@ -255,6 +315,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The ox represents strength and dependability, tirelessly supporting its group with resilience and unshakeable dedication."
   - name: Parrot
     abbrev: parrot
@@ -263,6 +325,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The parrot embodies vibrant communication and social interaction, bringing energy and connection to every environment."
   - name: Pigeon
     abbrev: pigeon
@@ -271,6 +335,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Loyal and consistent, the pigeon symbolizes routine and the comfort of familiarity, always returning to its roots."
   - name: Rabbit
     abbrev: rabbit
@@ -279,6 +345,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The rabbit represents agility and caution, relying on quick thinking and rapid action to navigate and survive."
   - name: Sea Bass
     abbrev: seabass
@@ -287,6 +355,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Strategic and cautious, the sea bass thrives in balancing risk and reward, striking opportunities with precision."
   - name: Shark
     abbrev: shark
@@ -295,6 +365,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Relentless and instinctive, the shark symbolizes focused drive and unyielding pursuit of goals, embodying raw determination."
   - name: Sheep
     abbrev: sheep
@@ -303,6 +375,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Cooperative and mild, the sheep thrives in collective harmony, finding strength and safety within the group."
   - name: Snake
     abbrev: snake
@@ -311,6 +385,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The snake represents patience and stealth, embodying the power of silent observation and decisive action."
   - name: Stag
     abbrev: stag
@@ -319,6 +395,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Proud and vigilant, the stag symbolizes strength and confidence, standing guard over its domain with grace and dominance."
   - name: Sturgeon
     abbrev: sturgeon
@@ -327,6 +405,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The sturgeon epitomizes resilience and steadfastness, moving methodically and enduring challenges with quiet determination."
   - name: Trout
     abbrev: trout
@@ -335,6 +415,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Quick and wary, the trout symbolizes agility and vigilance, navigating swiftly through ever-changing environments."
   - name: Tuna
     abbrev: tuna
@@ -343,6 +425,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Driven and enduring, the tuna represents tireless pursuit and strength, undertaking vast challenges with unshakable focus."
   - name: Turkey
     abbrev: turkey
@@ -351,6 +435,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Balancing pride with caution, the turkey symbolizes confidence and vigilance, thriving in both social and defensive dynamics."
   - name: Whale
     abbrev: whale
@@ -359,6 +445,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Majestic and communicative, the whale represents deep connections and the graceful navigation of complex social structures."
   - name: Wolf
     abbrev: wolf
@@ -367,6 +455,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "The wolf symbolizes cooperation and strategy, thriving within the pack while maintaining the balance between individuality and teamwork."
 - name: Thaumaturgy
   id: e3DrFaxwef5hLXu8
@@ -385,6 +475,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Fire channels the primal, transformative energy of flames. Representing destruction and renewal, it is the magic of passion, power, and unrelenting force. Practitioners of Fire magic harness heat and combustion, wielding it to burn away obstacles and ignite new possibilities. This school draws from ancient beliefs in fire as both a purifier and a destroyer, embodying the cycle of endings and beginnings."
   - name: Water
     abbrev: water
@@ -393,6 +485,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Water embodies adaptability and life’s eternal flow. Practitioners manipulate the soothing and destructive powers of water, commanding tides, rain, and ice. Reflecting the ancient association of water with purification and emotional depth, this school emphasizes healing, intuition, and the ability to erode even the mightiest barriers over time. Water magic is as gentle as a stream or as fierce as a tempest."
   - name: Earth
     abbrev: earth
@@ -401,6 +495,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Rooted in the strength and stability of the land, Earth is the magic of growth, resilience, and permanence. Drawing power from the soil, rocks, and living plants, practitioners shape the physical world with their will, creating barriers, fortifications, or fertile fields. Earth magic connects to historical beliefs in the nurturing and unyielding spirit of the land, embodying the enduring force of nature."
   - name: Spirit
     abbrev: spirit
@@ -409,6 +505,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Spirit delves into the unseen realms of emotion, thought, and the ethereal connections between life and the spirit realm. Practitioners of Spirit magic commune with spectral energies, influence emotions, and gain insight into the mysteries of existence. This school represents the bridge between the mind and soul, guiding the soul through the arcane mysteries of existence."
   - name: Wind
     abbrev: wind
@@ -417,6 +515,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Wind commands the intangible forces of air and motion. Practitioners of Wind magic summon gusts, tempests, and whispers carried on the breeze, embodying freedom, swiftness, and change. Drawing from beliefs in air as the breath of life and a carrier of messages, this school represents the unending cycle of movement and communication, blending subtlety with immense power."
   - name: Metal
     abbrev: metal
@@ -425,6 +525,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Metal channels the essence of strength, craftsmanship, and transformation. Practitioners of Metal magic manipulate ores and alloys, shaping weapons, armor, and constructs imbued with arcane energy. Reflecting ancient alchemical principles and the symbolism of metal as both a tool and a treasure, this school represents mastery over the tangible and the enduring power of creation."
   - name: Arcana
     abbrev: arcana
@@ -433,6 +535,8 @@
     macros: []
     flags: {}
     effects: []
+    ownership:
+      default: 3
     description: "Arcana stands apart as the unifying force of all magical disciplines. It embodies the understanding of magic’s raw structure, weaving together the elements of fire, water, earth, spirit, wind, and metal into a cohesive whole. Practitioners of Arcana magic delve into the very fabric of the arcane, transcending individual elements to harness the universal principles that underpin all magic. Rooted in ancient mystical philosophies, this school represents ultimate mastery and enlightenment."
 - name: Asgardian Pantheon
   id: tLHbABJOLUOjUA8p
@@ -457,6 +561,8 @@
         embodiments:
           - dreams
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Baldr, revered as the god of the elder races, holds special significance for both elves and dwarves. Among these ancient and noble beings, Baldr is celebrated as the divine patron who oversees their realms and sustains their way of life. The elves, in particular, see him as a protector of their enchanted forests and hidden groves, while the dwarves honor him as a guardian of their deep, ancient halls and mystical craftsmanship.</p>
       <p>Baldr’s influence extends to dreams, where he serves as a guide through the ethereal landscapes of sleep. He is the weaver of dreamscapes, creating visions that inspire, heal, and foretell. Through his intervention, dreams become pathways to otherworldly wisdom and inner peace. His followers often engage in rituals and meditative practices to connect with him, seeking his guidance in their dreams.</p>
@@ -539,6 +645,8 @@
         embodiments:
           - fertility
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Fréyr, the compassionate god of fertility, agriculture, peace, and healing, holds a special place in the hearts of farmers and rural folk. As the deity who ensures bountiful harvests and thriving livestock, Fréyr’s blessings are vital to those who work the land. Known for his nurturing presence, he fosters growth and life, symbolizing the very essence of the natural world’s fertility.</p>
       <p>A god of peace, Fréyr tirelessly works to bring harmony among people. He is a divine mediator, striving to resolve conflicts and promote understanding. His influence is crucial in maintaining unity and preventing discord within communities. Fréyr’s followers are dedicated to his ideals, seeking to cultivate peace and compassion in their daily lives.</p>
@@ -621,6 +729,8 @@
         embodiments:
           - prosperity
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Fréyja, the goddess of love, beauty, and prosperity, stands as an alluring and multifaceted figure in the pantheon. As the embodiment of love and beauty, Fréyja inspires passion and enchantment, capturing the hearts of all who seek her favor. She is worshipped by those who revel in the pleasures of life, from romantic and carnal delights to the joys of art and nature’s splendor.</p>
       <p>However, Fréyja’s domain extends beyond the pleasures of the heart and body. As the goddess of prosperity, she is a powerful patroness for merchants, usurers, and all who pursue wealth. Many of the affluent and hedonistic followers turn to Fréyja seeking both sensual gratification and material success. Her blessings are believed to bring not only beauty and love but also abundance and financial gain.</p>
@@ -704,6 +814,8 @@
         embodiments:
           - chaos
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Hél, the god of the underworld, is a figure shrouded in darkness and malevolence. Hél harbors a profound disdain for life itself. He considers existence a blight upon the cosmos and works tirelessly to bring all creation to chaos and ruin. His dominion over the underworld is absolute, and it is a place of endless torment and despair, reflecting his contempt for living beings.</p>
       <p>Hél draws upon the power and madness of the Eye of the Void, a primordial artifact of pure, concentrated corruption. This dreadful relic amplifies his dark energies and drives him further into insanity, making him one of the most feared beings in the pantheon. The Eye of the Void’s influence corrupts everything in its vicinity, casting an aura of dread and hopelessness that seeps into the mortal world.</p>
@@ -784,6 +896,8 @@
         embodiments:
           - death
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Lôki, the god of cunning, deception, and thieves, is the archetypal trickster—an unpredictable force of chaos and disruption. He is revered and feared in equal measure, embodying a dynamic, shape-shifting energy that defies the status quo and undermines conventional power structures. Lôki’s followers are a diverse group, including assassins, thieves, and the downtrodden—those who lurk in society’s shadows and navigate its underworld.</p>
       <p>Known for his sharp intellect and silver tongue, Lôki is a master of disguise and manipulation. His trickery knows no bounds, and he delights in orchestrating elaborate schemes that bring downfall to the powerful and instigate disorder. His ultimate goal is not to elevate the marginalized but to sow chaos and dismantle established order. By toppling those in power, Lôki seeks to create a world where unpredictability reigns supreme.</p>
@@ -868,6 +982,8 @@
         embodiments:
           - knowledge
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Óðinn is revered as the god of knowledge, wisdom, and the relentless pursuit of understanding. His insatiable quest for knowledge is legendary, marked by his sacrifice of an eye at the well of Mimir in exchange for a drink of its wisdom-bestowing waters. This act symbolizes his profound commitment to enlightenment. Óðinn’s wisdom is not just scholarly but also deeply connected to the mystical and the arcane, encompassing the runes, the secrets of the cosmos, and the mysteries of life and death.</p>
       <p>Óðinn is often depicted as an imposing figure, with a long, flowing beard and a wide-brimmed hat that casts a shadow over his single, all-seeing eye. He is accompanied by his two ravens, Huginn (thought) and Muninn (memory), who fly across the world each day, gathering knowledge and news to bring back to their master. These ravens represent Óðinn’s ever-present awareness and his connection to both the conscious mind and the deeper, more hidden aspects of memory and thought.</p>
@@ -951,6 +1067,8 @@
         embodiments:
           - fire
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Súrtr, the fire giant and god of savage battle, embodies the raw, destructive force of fire and the unrelenting fury of war. He is a fearsome figure, towering over his enemies, his body wreathed in flames that consume all they touch. Súrtr’s presence is a harbinger of destruction, symbolizing the inevitable end of worlds, as foretold in the prophecies of Ragnarok, where he will lead the fire giants in the final battle, bringing an end to the cosmos as it is known.</p>
       <p>Súrtr is depicted as a massive, menacing figure, his skin blackened by the eternal flames that engulf him. He wields a colossal sword, often described as being made of fire, capable of incinerating anything in its path. This sword, said to be the weapon that will set the world ablaze during Ragnarok, is a symbol of Súrtr’s unparalleled power and his role as the destroyer of worlds.</p>
@@ -1031,6 +1149,8 @@
         embodiments:
           - storms
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Thórr, the thunderous god of war, reavers, and the sea, stands as a formidable protector and champion of both gods and humans. Known for his immense strength and unyielding courage, Thórr is the embodiment of the warrior spirit, a force of nature who defends the realms from the chaos of giants and other threats. His domain extends over the seas, making him a patron of sailors and reavers, who invoke his name for safe passage and victory in their raids.</p>
       <p>Thórr is most famously depicted wielding his mighty hammer, Mjolnir, a weapon of immense power that can crush mountains and summon thunder and lightning. Mjolnir is not only a symbol of Thórr’s might in battle but also a tool of protection, used to bless and sanctify, ensuring safety and prosperity for those under his care. Thórr’s physical appearance is that of a giant among men, muscular and bearded, with a fierce yet protective demeanor that inspires both fear and reverence.</p>
@@ -1111,6 +1231,8 @@
         embodiments:
           - order
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Týr, the god of justice and honorable combat, embodies the ideals of fairness, valor, and sacrifice. As a deity who values truth and righteousness above all, Týr is revered as the ultimate judge, whose decisions are guided by an unwavering commitment to the greater good. His most famous act of sacrifice—losing his hand to the great wolf Fenrir—exemplifies his dedication to justice and the protection of the world, even at great personal cost.</p>
       <p>Týr is depicted as a noble and stoic figure, often shown with his one remaining hand holding a sword or scales, symbolizing his role as both a warrior and a judge. His presence commands respect, as he represents the moral compass by which warriors and leaders are guided. Týr’s followers are those who seek to live by a strict code of honor, upholding the principles of fairness, truth, and duty in all aspects of their lives.</p>
@@ -1193,6 +1315,8 @@
         embodiments:
           - creation
     effects: []
+    ownership:
+      default: 3
     description: |-
       <p>Ymir, the god of creation, is a master craftsman and the divine architect of life. Ymir focuses his boundless creative energy on crafting new, unique forms of life, which he refers to as his "children." This god of innovation and experimentation resides in the physical world, where he has established vast laboratories and sprawling factories dedicated to his ceaseless work.</p>
       <p>Ymir’s passion lies in recycling the souls of his previous creations, giving them new, often experimental bodies. He is a relentless tinkerer, always seeking the perfect form and combining attributes in novel ways. However, many of his creations do not meet his high expectations and are discarded as failures. His dissatisfaction drives him to incessant experimentation, as he searches for elusive perfection. Despite the multitude of failures, some of his creations stand out, and he takes great pride in these exceptional beings.</p>
@@ -1262,6 +1386,8 @@
           spirit: -5
           water: 5
     effects: []
+    ownership:
+      default: 3
     description: "Aries, the Ram, is bold, passionate, and unrelenting. Known for their boundless energy and pioneering spirit, they thrive on challenges and are natural leaders. While their drive and courage inspire others, their impulsiveness and competitive nature can sometimes lead to conflict. Aries charges forward with unshakable determination, lighting the way with their fiery enthusiasm."
   - name: Aries-Taurus
     abbrev: ariestaurus
@@ -1279,6 +1405,8 @@
           spirit: -5
           water: 5
     effects: []
+    ownership:
+      default: 3
     description: "The Aries-Taurus cusp blends Aries' boldness and drive with Taurus' stability and determination. Individuals born under this cusp are fiercely ambitious, charging toward their goals with unstoppable energy. They balance the fiery enthusiasm of Aries with Taurus' grounded persistence, making them natural leaders who are both passionate and practical."
   - name: Taurus
     abbrev: taurus
@@ -1296,6 +1424,8 @@
           spirit: -10
           water: 0
     effects: []
+    ownership:
+      default: 3
     description: "Taurus, the Bull, represents strength, stability, and sensuality. Grounded and reliable, they are deeply connected to the material world and value comfort, beauty, and security. Their perseverance and loyalty are unmatched, though they can be stubborn and resistant to change. Taurus embodies a calm determination that anchors those around them."
   - name: Taurus-Gemini
     abbrev: taurusgemini
@@ -1313,6 +1443,8 @@
           spirit: -10
           water: 0
     effects: []
+    ownership:
+      default: 3
     description: "The Taurus-Gemini cusp merges Taurus' steady resilience with Gemini's quick wit and adaptability. These individuals are resourceful and sociable, thriving in environments that allow them to blend creativity with structure. They possess the practical grounding of Taurus and the curious intellect of Gemini, creating a dynamic personality with a love for both security and exploration."
   - name: Gemini
     abbrev: gemini
@@ -1330,6 +1462,8 @@
           spirit: -15
           water: -5
     effects: []
+    ownership:
+      default: 3
     description: "Gemini, the Twins, is lively, curious, and quick-witted. They excel at communication and adaptability, thriving in dynamic environments. Known for their dual nature, they are versatile but can struggle with indecision or restlessness. Geminis bring a spark of excitement and intellectual engagement to every interaction, keeping life endlessly interesting."
   - name: Gemini-Cancer
     abbrev: geminicancer
@@ -1347,6 +1481,8 @@
           spirit: -10
           water: -5
     effects: []
+    ownership:
+      default: 3
     description: "The Gemini-Cancer cusp combines Gemini's vibrant intellect with Cancer's emotional depth. Those born under this cusp are sensitive communicators, able to connect with others on both an intellectual and emotional level. They have a knack for storytelling and understanding feelings, making them empathetic yet quick-thinking individuals who thrive in personal connections."
   - name: Cancer
     abbrev: cancer
@@ -1364,6 +1500,8 @@
           spirit: -10
           water: -10
     effects: []
+    ownership:
+      default: 3
     description: "Cancer, the Crab, is deeply intuitive, nurturing, and protective. Ruled by emotions and a strong sense of family, they create safe havens for themselves and others. Though their sensitivity can make them guarded or moody, their empathy and devotion foster lasting bonds. Cancer’s caring nature provides warmth and comfort to all they cherish."
   - name: Cancer-Leo
     abbrev: cancerleo
@@ -1381,6 +1519,8 @@
           spirit: -5
           water: -10
     effects: []
+    ownership:
+      default: 3
     description: "The Cancer-Leo cusp melds Cancer's nurturing heart with Leo's radiant charisma. These individuals are compassionate and protective leaders who inspire loyalty through their warmth and generosity. They possess a deep emotional core combined with a love for the spotlight, using their creativity to uplift and connect with others."
   - name: Leo
     abbrev: leo
@@ -1398,6 +1538,8 @@
           spirit: -5
           water: -15
     effects: []
+    ownership:
+      default: 3
     description: "Leo, the Lion, shines with charisma, creativity, and confidence. Born leaders, they thrive in the spotlight and exude a natural charm that draws people to them. Their generosity and loyalty inspire admiration, though their pride and desire for attention can sometimes overshadow others. Leos radiate a regal energy, lighting up the lives of those they touch."
   - name: Leo-Virgo
     abbrev: leovirgo
@@ -1415,6 +1557,8 @@
           spirit: 0
           water: -10
     effects: []
+    ownership:
+      default: 3
     description: "The Leo-Virgo cusp blends Leo's confidence and creativity with Virgo's precision and practicality. People born under this cusp are both visionary and detail-oriented, capable of leading with flair while managing the finer points of their plans. Their charisma is tempered by a thoughtful approach, making them reliable and inspiring."
   - name: Virgo
     abbrev: virgo
@@ -1432,6 +1576,8 @@
           spirit: 0
           water: -10
     effects: []
+    ownership:
+      default: 3
     description: "Virgo, the Maiden, is analytical, practical, and devoted. Known for their meticulous attention to detail and pursuit of excellence, they are problem-solvers who bring order to chaos. While their perfectionism can lead to self-criticism, their diligence and reliability make them invaluable. Virgos embody grace through their thoughtful and precise approach to life."
   - name: Virgo-Libra
     abbrev: virgolibra
@@ -1449,6 +1595,8 @@
           spirit: 0
           water: -5
     effects: []
+    ownership:
+      default: 3
     description: "The Virgo-Libra cusp unites Virgo's analytical nature with Libra's charm and sense of harmony. These individuals have a keen eye for beauty and balance, often blending practical problem-solving with an appreciation for aesthetics. They are meticulous yet sociable, excelling in roles that require both organization and diplomacy."
   - name: Libra
     abbrev: libra
@@ -1466,6 +1614,8 @@
           spirit: 5
           water: -5
     effects: []
+    ownership:
+      default: 3
     description: "Libra, the Scales, represents balance, harmony, and beauty. They are diplomatic, charming, and driven by a desire for fairness and connection. Their sociability and love for aesthetics make them wonderful companions, though their indecisiveness and desire to please can be challenges. Libras bring equilibrium and elegance to their surroundings."
   - name: Libra-Scorpio
     abbrev: librascorpio
@@ -1483,6 +1633,8 @@
           spirit: 10
           water: 0
     effects: []
+    ownership:
+      default: 3
     description: "The Libra-Scorpio cusp combines Libra's love for balance and connection with Scorpio's intensity and passion. Those born under this cusp are magnetic and deeply perceptive, drawing others to them through their charm and depth. They strive for meaningful relationships and are unafraid to explore the complexities of human emotion."
   - name: Scorpio
     abbrev: scorpio
@@ -1500,6 +1652,8 @@
           spirit: 10
           water: 0
     effects: []
+    ownership:
+      default: 3
     description: "Scorpio, the Scorpion, is intense, passionate, and deeply mysterious. With a powerful drive and emotional depth, they are fearless in exploring life’s darker truths. Their loyalty and determination are unmatched, though their intensity can be overwhelming. Scorpios thrive on transformation, embracing rebirth and evolution in all forms."
   - name: Scorpio-Sagittarius
     abbrev: scorpiosagittarius
@@ -1517,6 +1671,8 @@
           spirit: 15
           water: 5
     effects: []
+    ownership:
+      default: 3
     description: "The Scorpio-Sagittarius cusp blends Scorpio's intensity and determination with Sagittarius' adventurous spirit. These individuals are driven truth-seekers, unafraid to delve into the mysteries of life while embracing the thrill of discovery. They balance emotional depth with a desire for freedom, making them passionate explorers of both the mind and the world."
   - name: Sagittarius
     abbrev: sagittarius
@@ -1534,6 +1690,8 @@
           spirit: 15
           water: 5
     effects: []
+    ownership:
+      default: 3
     description: "Sagittarius, the Archer, is adventurous, optimistic, and philosophical. They are seekers of truth and freedom, always chasing new horizons and ideas. Their enthusiasm is contagious, though their blunt honesty and restlessness can create friction. Sagittarians embody the spirit of exploration, inspiring others to dream bigger and live boldly."
   - name: Sagittarius-Capricorn
     abbrev: sagittariuscapricorn
@@ -1551,6 +1709,8 @@
           spirit: 15
           water: 10
     effects: []
+    ownership:
+      default: 3
     description: "The Sagittarius-Capricorn cusp melds Sagittarius' optimism and curiosity with Capricorn's discipline and ambition. Those born under this cusp are visionary pragmatists, blending a love for big ideas with the determination to see them through. They inspire others with their adventurous spirit and unwavering focus."
   - name: Capricorn
     abbrev: capricorn
@@ -1568,6 +1728,8 @@
           spirit: 10
           water: 10
     effects: []
+    ownership:
+      default: 3
     description: "Capricorn, the Goat, is ambitious, disciplined, and steadfast. Masters of long-term planning, they excel at overcoming obstacles to achieve their goals. Their practicality and self-reliance are admirable, though their seriousness can sometimes seem distant. Capricorns are pillars of perseverance, embodying the rewards of hard work and patience."
   - name: Capricorn-Aquarius
     abbrev: capricornaquarius
@@ -1585,6 +1747,8 @@
           spirit: 10
           water: 15
     effects: []
+    ownership:
+      default: 3
     description: "The Capricorn-Aquarius cusp combines Capricorn's steadfast ambition with Aquarius' innovative thinking. These individuals are practical visionaries, driven to achieve while challenging the status quo. They balance discipline with creativity, making them trailblazers who excel at turning unconventional ideas into tangible success."
   - name: Aquarius
     abbrev: aquarius
@@ -1602,6 +1766,8 @@
           spirit: 5
           water: 15
     effects: []
+    ownership:
+      default: 3
     description: "Aquarius, the Water Bearer, is innovative, independent, and forward-thinking. Known for their humanitarian spirit and unique perspective, they often challenge norms to promote progress. Their intellectual detachment can sometimes come across as aloof, but their vision and originality inspire change. Aquarians are the dreamers and rebels of the Zodiac."
   - name: Aquarius-Pisces
     abbrev: aquariuspisces
@@ -1619,6 +1785,8 @@
           spirit: 5
           water: 15
     effects: []
+    ownership:
+      default: 3
     description: "The Aquarius-Pisces cusp merges Aquarius' intellectual independence with Pisces' emotional depth and imagination. These individuals are dreamers and humanitarians, blending visionary ideas with deep compassion. They are creative, empathetic, and often ahead of their time, striving to make the world a better place through innovation and understanding."
   - name: Pisces
     abbrev: pisces
@@ -1636,6 +1804,8 @@
           spirit: 0
           water: 10
     effects: []
+    ownership:
+      default: 3
     description: "Pisces, the Fish, is compassionate, imaginative, and deeply intuitive. With a connection to the spiritual and emotional realms, they are empathetic and artistic souls. Their sensitivity can make them vulnerable to escapism or being overwhelmed, but their boundless creativity and kindness bring healing and inspiration. Pisces flows effortlessly between worlds, embodying the magic of dreams and reality."
   - name: Pisces-Ares
     abbrev: piscesares
@@ -1653,6 +1823,8 @@
           spirit: 0
           water: 10
     effects: []
+    ownership:
+      default: 3
     description: "The Pisces-Aries cusp unites Pisces' sensitivity and creativity with Aries' boldness and drive. Those born under this cusp are imaginative pioneers, combining emotional intuition with fearless action. They have a unique ability to turn dreams into reality, infusing their pursuits with passion and a touch of magic."
 - name: Divine Aspects
   id: XtMMmOIB03jk4MdH
@@ -1676,6 +1848,8 @@
         embodiments:
           - dreams
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Death
     abbrev: death
@@ -1687,6 +1861,8 @@
         embodiments:
           - death
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Storms
     abbrev: storms
@@ -1698,6 +1874,8 @@
         embodiments:
           - storms
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Fertility
     abbrev: fertility
@@ -1709,6 +1887,8 @@
         embodiments:
           - fertility
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Order
     abbrev: order
@@ -1720,6 +1900,8 @@
         embodiments:
           - order
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Knowledge
     abbrev: knowledge
@@ -1731,6 +1913,8 @@
         embodiments:
           - knowledge
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Prosperity
     abbrev: prosperity
@@ -1742,6 +1926,8 @@
         embodiments:
           - prosperity
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Fire
     abbrev: fire
@@ -1753,6 +1939,8 @@
         embodiments:
           - fire
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Creation
     abbrev: creation
@@ -1764,6 +1952,8 @@
         embodiments:
           - creation
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Chaos
     abbrev: chaos
@@ -1775,6 +1965,8 @@
         embodiments:
           - chaos
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Voyager
     abbrev: voyager
@@ -1786,6 +1978,8 @@
         embodiments:
           - voyager
     effects: []
+    ownership:
+      default: 3
     description: ""
   - name: Decay
     abbrev: decay
@@ -1797,4 +1991,6 @@
         embodiments:
           - decay
     effects: []
+    ownership:
+      default: 3
     description: ""

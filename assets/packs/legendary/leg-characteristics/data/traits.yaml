@@ -8188,6 +8188,8 @@
         const gw = this.actor.system.$gearWeight;
         gw.maxFight.setBase(this.$score.base);
         gw.max.setBase(this.max);
+      ownership:
+        default: 3
       flags:
         sohl:
           notes: ""
@@ -8475,6 +8477,8 @@
                  -it.system.$level.effective,
              );
         }});
+      ownership:
+        default: 3
       sort: "0"
       flags:
         sohl:
@@ -8711,6 +8715,8 @@
             spaces: 1,
             feet: 5
         };
+      ownership:
+        default: 3
       flags:
         sohl:
           notes: ""

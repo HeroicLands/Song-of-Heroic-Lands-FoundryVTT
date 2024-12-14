@@ -10,8 +10,8 @@
     <div class="items-list">
         <header class="items-header flexrow">
             <h3 class="item-name name">Custom Actions</h3>
-            <div class="ele">Type</div>
-            <div class="notes">Notes</div>
+            <div class="detail source">Group</div>
+            <div class="detail notes">Notes</div>
             <div class="item-controls"></div>
         </header>
         <ol class="items-list action-list">
@@ -24,7 +24,7 @@
                         style="background-image: url('{{ action.img }}')"></div>
                     <h4>{{ action.name }}</h4>
                 </div>
-                <div class="ele">{{ action.type }}</div>
+                <div class="detail source">{{ action.flags.sohl.contextGroup }}</div>
                 <div class="notes">{{ action.flags.sohl.notes }}</div>
                 <div class="item-controls">
                     <a class="item-control item-contextmenu" title="Menu"><i
@@ -39,8 +39,8 @@
     <div class="items-list">
         <header class="items-header flexrow">
             <h3 class="item-name name">Intrinsic Actions</h3>
-            <div class="ele">Type</div>
-            <div class="notes">Notes</div>
+            <div class="detail source">Group</div>
+            <div class="detail notes">Notes</div>
             <div class="item-controls"></div>
         </header>
         <ol class="items-list action-list">
@@ -53,8 +53,8 @@
                         style="background-image: url('{{ action.img }}')"></div>
                     <h4>{{ action.name }}</h4>
                 </div>
-                <div class="ele">{{ action.type }}</div>
-                <div class="notes">{{ action.flags.sohl.notes }}</div>
+                <div class="detail source">{{ action.flags.sohl.contextGroup }}</div>
+                <div class="detail notes">{{ action.flags.sohl.notes }}</div>
                 <div class="item-controls">
                     {{#if action.canExecute}}
                     <a class="item-control item-contextmenu" title="Menu"><i

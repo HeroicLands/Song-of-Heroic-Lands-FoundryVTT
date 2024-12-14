@@ -1276,7 +1276,7 @@
                         <div class="items-list">
                             <header class="items-header flexrow">
                                 <h3 class="item-name name">Custom Actions</h3>
-                                <div class="ele">Type</div>
+                                <div class="detail source">Group</div>
                                 <div class="notes">Notes</div>
                             </header>
                             <ol class="items-list action-list">
@@ -1289,7 +1289,7 @@
                                             style="background-image: url('{{ action.img }}')"></div>
                                         <h4>{{ action.name }}</h4>
                                     </div>
-                                    <div class="ele">{{ action.type }}</div>
+                                    <div class="detail source">{{ action.flags.sohl.contextGroup }}</div>
                                     <div class="notes">{{ action.flags.sohl.notes }}</div>
                                     {{#unless printable}}
                                     <div class="item-controls">
@@ -1306,7 +1306,7 @@
                         <div class="items-list">
                             <header class="items-header flexrow">
                                 <h3 class="item-name name">Intrinsic Actions</h3>
-                                <div class="detail source">Function Name</div>
+                                <div class="detail source">Group</div>
                                 <div class="notes">Notes</div>
                                 <div class="item-controls"></div>
                             </header>
@@ -1320,7 +1320,7 @@
                                             style="background-image: url('{{ action.img }}')"></div>
                                         <h4>{{ action.name }}</h4>
                                     </div>
-                                    <div class="detail source">{{ action.flags.sohl.functionName }}</div>
+                                    <div class="detail source">{{ action.flags.sohl.contextGroup }}</div>
                                     <div class="notes">{{ action.flags.sohl.notes }}</div>
                                     {{#unless printable}}
                                     <div class="item-controls">

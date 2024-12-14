@@ -51,6 +51,8 @@
                 bodyPart: Head
                 probWeight: 500
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: 0XmtjaBJDxMk0Ucd
               bleedingThreshold: 5
@@ -79,6 +81,8 @@
                 bodyPart: Head
                 probWeight: 15
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: 6kX9YIUIVja3Y0MP
               bleedingThreshold: 4
@@ -107,6 +111,8 @@
                 bodyPart: Head
                 probWeight: 15
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: QEfArWukfNxKta0f
               bleedingThreshold: 4
@@ -135,6 +141,8 @@
                 bodyPart: Head
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: QRVralNrMEk93Kwj
               bleedingThreshold: 4
@@ -163,6 +171,8 @@
                 bodyPart: Head
                 probWeight: 60
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: 8J1XWjV1tsFyugVH
               bleedingThreshold: 4
@@ -191,6 +201,8 @@
                 bodyPart: Head
                 probWeight: 60
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: ofe4FzVdGkKkZQV2
               bleedingThreshold: 4
@@ -219,6 +231,8 @@
                 bodyPart: Head
                 probWeight: 15
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: UwvPtm6rbB5noi7l
               bleedingThreshold: 4
@@ -247,6 +261,8 @@
                 bodyPart: Head
                 probWeight: 15
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: htpEEuxEAhz7AAsP
               bleedingThreshold: 4
@@ -275,6 +291,8 @@
                 bodyPart: Head
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: U30OhbPBl2QhBQoF
               bleedingThreshold: 4
@@ -303,6 +321,8 @@
                 bodyPart: Head
                 probWeight: 60
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: ogK3sN7cu2ajAT5K
               bleedingThreshold: 4
@@ -331,6 +351,8 @@
                 bodyPart: Head
                 probWeight: 200
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: vZA6OW3EaN0ggS6U
               bleedingThreshold: 3
@@ -338,6 +360,8 @@
           expand: false
           probWeight: 100
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: WljCPWk6oAmUZ73d
       macros: []
@@ -357,6 +381,8 @@
         - Strength
       affectsMobility: true
       effects: []
+      ownership:
+        default: 3
       flags: {}
       _id: XQJBDj4Zd2ILR5rH
       zoneNumbers:
@@ -402,6 +428,8 @@
                 bodyPart: Right Arm
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: V7F5ilVtTWnzoyu6
               bleedingThreshold: 4
@@ -430,6 +458,8 @@
                 bodyPart: Right Arm
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: YfN7RARAAi0UrPld
               bleedingThreshold: 5
@@ -458,6 +488,8 @@
                 bodyPart: Right Arm
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: 1kH02rurCS8ft63Q
               bleedingThreshold: 5
@@ -486,6 +518,8 @@
                 bodyPart: Right Arm
                 probWeight: 20
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: pNB4IdNQHFPOnvwD
               bleedingThreshold: 5
@@ -514,6 +548,8 @@
                 bodyPart: Right Arm
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: Rfi2iUDdK2qQz2pv
               bleedingThreshold: 0
@@ -521,6 +557,8 @@
           expand: false
           probWeight: 50
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: Tsrx9WQ2L9HyAVvi
         - name: Left Arm
@@ -557,6 +595,8 @@
                 bodyPart: Left Arm
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: nuInmwcEVKaPbhiH
               bleedingThreshold: 4
@@ -585,6 +625,8 @@
                 bodyPart: Left Arm
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: NGjZLBbjFzHdvv0l
               bleedingThreshold: 5
@@ -613,6 +655,8 @@
                 bodyPart: Left Arm
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: ubWdclQbNEQ70pEe
               bleedingThreshold: 5
@@ -641,6 +685,8 @@
                 bodyPart: Left Arm
                 probWeight: 20
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: 6mLZet21nySm9VVd
               bleedingThreshold: 5
@@ -669,6 +715,8 @@
                 bodyPart: Left Arm
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: SrpubIBD6K42tsO1
               bleedingThreshold: 0
@@ -676,6 +724,8 @@
           expand: false
           probWeight: 50
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: rnqBua6Rduc0u0P6
       macros: []
@@ -693,6 +743,8 @@
         - Strength
       affectsMobility: false
       effects: []
+      ownership:
+        default: 3
       flags: {}
       _id: DzyCHcZwLLZekBgq
       zoneNumbers:
@@ -739,6 +791,8 @@
                 bodyPart: Torso
                 probWeight: 40
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: Sfp6lj3H6N20woHc
               bleedingThreshold: 4
@@ -767,6 +821,8 @@
                 bodyPart: Torso
                 probWeight: 40
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: GYWlGzJ1oE2QlVc0
               bleedingThreshold: 3
@@ -795,6 +851,8 @@
                 bodyPart: Torso
                 probWeight: 20
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: yMsU1PHsaPfGlygr
               bleedingThreshold: 4
@@ -802,6 +860,8 @@
           expand: false
           probWeight: 100
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: ltL67w6gOzXDgHYD
       macros: []
@@ -820,6 +880,8 @@
         - Strength
       affectsMobility: true
       effects: []
+      ownership:
+        default: 3
       flags: {}
       _id: qPncC1ZBr2H8lPSy
       zoneNumbers:
@@ -868,6 +930,8 @@
                 bodyPart: Right Leg
                 probWeight: 40
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: AJwjP1rJBbmpamNe
               bleedingThreshold: 4
@@ -896,6 +960,8 @@
                 bodyPart: Right Leg
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: WUnUX9Vw3f9aJXuR
               bleedingThreshold: 5
@@ -924,6 +990,8 @@
                 bodyPart: Right Leg
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: Zb9lV9AXinrSftXd
               bleedingThreshold: 5
@@ -952,6 +1020,8 @@
                 bodyPart: Right Leg
                 probWeight: 20
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: aGOXGJxHUfwnfB5M
               bleedingThreshold: 0
@@ -959,6 +1029,8 @@
           expand: false
           probWeight: 50
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: 30kOIuDmY81IosL4
         - name: Left Leg
@@ -995,6 +1067,8 @@
                 bodyPart: Left Leg
                 probWeight: 40
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: pOsgjfKKFAr8I8aE
               bleedingThreshold: 4
@@ -1023,6 +1097,8 @@
                 bodyPart: Left Leg
                 probWeight: 10
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: gi2S9Dt4w46x2wOL
               bleedingThreshold: 5
@@ -1051,6 +1127,8 @@
                 bodyPart: Left Leg
                 probWeight: 30
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: IX6Bbg9YSahDwI45
               bleedingThreshold: 5
@@ -1079,6 +1157,8 @@
                 bodyPart: Left Leg
                 probWeight: 20
               effects: []
+              ownership:
+                default: 3
               flags: {}
               _id: REmu5X3CBlbfLqvh
               bleedingThreshold: 0
@@ -1086,6 +1166,8 @@
           expand: false
           probWeight: 50
           effects: []
+          ownership:
+            default: 3
           flags: {}
           _id: KocnXsjJtL3doBVr
       macros: []
@@ -1103,6 +1185,8 @@
         - Strength
       affectsMobility: true
       effects: []
+      ownership:
+        default: 3
       flags: {}
       _id: KFrOQEbBNicAxikZ
       zoneNumbers:
@@ -1110,6 +1194,8 @@
         - 9
         - 10
   effects: []
+    ownership:
+      default: 3
   flags: {}
   _id: M10pzGVlLgO1zsnh
   folder: "P390fTDcDdREKmgz"

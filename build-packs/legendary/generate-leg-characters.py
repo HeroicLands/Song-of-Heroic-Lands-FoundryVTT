@@ -39,6 +39,7 @@ for folder in foldersData:
         "color": folder["color"],
         "flags": {},
         "_stats": stats,
+        "ownership": {"default": 3},
         "_key": "!folders!" + folder["id"],
     }
     with open(pname, "w", encoding="utf8") as outfile:

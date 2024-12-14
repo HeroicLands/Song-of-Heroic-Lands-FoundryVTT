@@ -48,6 +48,7 @@ for phil in philosophiesData:
         "effects": phil["effects"],
         "flags": phil["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": phil["folderId"],
     }
     for ni in phil["nestedItems"]:
@@ -66,6 +67,7 @@ for phil in philosophiesData:
                 "abbrev": ni["abbrev"],
             },
             "effects": ni["effects"],
+            "ownership": { "default": 3 },
             "flags": ni["flags"],
         }
         out["system"]["nestedItems"].append(nestedItem)
@@ -111,6 +113,7 @@ for mysticalability in mysticalabilitiesData:
         "effects": mysticalability["effects"],
         "flags": mysticalability["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": mysticalability["folderId"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -152,6 +155,7 @@ for mystery in mysteriesData:
         "effects": mystery["effects"],
         "flags": mystery["flags"],
         "_stats": stats,
+        "ownership": {"default": 3},
         "folder": mystery["folderId"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
@@ -177,6 +181,7 @@ for folder in foldersData:
         "color": folder["color"],
         "flags": {},
         "_stats": stats,
+        "ownership": {"default": 3},
         "_key": "!folders!" + folder["id"],
     }
     with open(pname, "w", encoding="utf8") as outfile:
