@@ -772,13 +772,11 @@ export class ValueModifier {
             );
         }
 
-        const props = IterWrap.create(sourceVM._properties.entries()).reduce(
-            (obj, [key, value]) => {
-                obj[key] = value;
-                return obj;
-            },
-            {},
-        );
+        const props = {};
+        for (const [key, value] of sourceVM._properties.entries()) {
+            props[key] = value;
+        }
+
         let result = new this(parent, props);
         if (!result) throw new Error(`Not a valid ValueModifier`);
         result._mods = sourceVM._mods;
@@ -1591,9 +1589,10 @@ export class SohlItem extends Item {
             if (!(parent instanceof SohlActor)) {
                 throw new Error("parent must be an actor");
             } else {
-                collection = new Collection(
-                    IterWrap.create(parent.allItems()).map((it) => [it.id, it]),
-                );
+                collection = new Collection();
+                for (const it of parent.allItems()) {
+                    collection.set(it.id, it);
+                }
             }
         } else if (pack) {
             collection = game.packs.get(pack);
@@ -1916,10 +1915,10 @@ export class SohlItem extends Item {
 
         // Expand the set of final overrides
         this.overrides = foundry.utils.expandObject(overrides[this.id]);
-        IterWrap.create(this.actor.allItems()).forEach((it) => {
+        for (const it of this.actor.allItems()) {
             if (overrides[it.id])
                 it.overrides = foundry.utils.expandObject(overrides[it.id]);
-        });
+        }
     }
 
     /**
@@ -2693,7 +2692,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
     get events() {
         const result = [];
         if (this.actor) {
-            IterWrap.create(this.actor.allItems()).reduce((ary, it) => {
+            for (const it of this.actor.allItems()) {
                 if (it.system instanceof EventItemData && it.system.started) {
                     // First, get all events targetting this item.
                     if (it.system.$targetUuid === this.uuid) {
@@ -2714,7 +2713,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                             actionName: it.system.actionName,
                             item: it,
                         };
-                        ary.push(evt);
+                        result.push(evt);
                     }
 
                     // Next, add any event that are nested in this item.
@@ -2742,11 +2741,10 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                             actionName: it.system.actionName,
                             item: it,
                         };
-                        ary.push(evt);
+                        result.push(evt);
                     }
                 }
-                return ary;
-            }, result);
+            }
         }
         return result;
     }
@@ -2937,9 +2935,9 @@ export class SohlActorData extends SohlBaseData {
     }
 
     checkExpired() {
-        IterWrap.create(this.actor.allItems()).forEach((it) => {
+        for (const it of this.actor.allItems()) {
             it.system.checkExpired();
-        });
+        }
     }
 }
 
@@ -3782,7 +3780,7 @@ export class AnimateEntityActorData extends SohlActorData {
 
         // Build list of acceptable opposed items on this actor
         const opposedItems = [];
-        IterWrap.create(actor.allItems()).forEach((it) => {
+        for (const it of actor.allItems()) {
             if (it.system.isMasteryLevelItemData) {
                 if (!it.system.$masteryLevel.disabled) {
                     let itemTypeName =
@@ -3800,7 +3798,7 @@ export class AnimateEntityActorData extends SohlActorData {
                     });
                 }
             }
-        });
+        }
         opposedItems.sort((a, b) => a.localeCompare(b));
 
         const defaultItem = this.parent.items.find(
@@ -4873,7 +4871,7 @@ export class MasteryLevelItemData extends SohlItemData {
     get availableFate() {
         let result = [];
         if (this.actor && !this.$masteryLevel.disabled) {
-            IterWrap.create(this.actor.allItems()).reduce((ary, it) => {
+            for (const it of this.actor.allItems()) {
                 if (
                     it.system instanceof MysteryItemData &&
                     it.system.subType === "fate"
@@ -4887,11 +4885,10 @@ export class MasteryLevelItemData extends SohlItemData {
                         !fateSkills.length ||
                         fateSkills.includes(this.item.name)
                     ) {
-                        if (it.system.$level.effective > 0) ary.push(it);
+                        if (it.system.$level.effective > 0) result.push(it);
                     }
                 }
-                return ary;
-            }, result);
+            }
         }
         return result;
     }
@@ -4899,7 +4896,7 @@ export class MasteryLevelItemData extends SohlItemData {
     get fateBonusItems() {
         let result = [];
         if (this.actor) {
-            IterWrap.create(this.actor?.allItems()).reduce((ary, it) => {
+            for (const it of this.actor.allItems()) {
                 if (
                     it.system instanceof MysteryItemData &&
                     it.system.subType === "fateBonus"
@@ -4910,11 +4907,11 @@ export class MasteryLevelItemData extends SohlItemData {
                             !it.system.$charges.disabled ||
                             it.system.$charges.effective > 0
                         ) {
-                            ary.push(it);
+                            result.push(it);
                         }
                     }
                 }
-            }, result);
+            }
         }
         return result;
     }
@@ -6052,10 +6049,14 @@ export class MysticalAbilityItemData extends SubtypeMixin(
              * as a owned item on the Actor.  If for some reason that is not the case, then we
              * we need to create a virtual skill item for that particular skill.
              */
-            this.$affectedSkill = IterWrap.create(this.actor.allItems()).find(
-                (it) =>
-                    it.system instanceof SkillItemData && it.name === domain,
-            );
+
+            this.$affectedSkill = null;
+            for (const it of this.actor.allItems()) {
+                if (it.system instanceof SkillItemData && it.name === domain) {
+                    this.$affectedSkill = it;
+                    break;
+                }
+            }
 
             if (!this.$affectedSkill) {
                 // The skill doesn't exist, so we need to create a stand-in skill for it.  This skill
@@ -7392,7 +7393,7 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
 
                 // For each occurrence of an attribute in the SB Formula, increase the ML
                 // by 5 x the score difference from the base score.
-                IterWrap.create(this.actor.allItems()).forEach((it) => {
+                for (const it of this.actor.allItems()) {
                     if (it.system.isMasteryLevelItemData) {
                         const attributes = it.system.skillBase.attributes;
                         if (attributes.includes(this.item.name)) {
@@ -7406,7 +7407,7 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
                             );
                         }
                     }
-                });
+                }
             }
         } else {
             this.$masteryLevel.disabled = true;
@@ -7731,17 +7732,14 @@ export class BodyZoneItemData extends SohlItemData {
             };
         });
 
-        this.$bodyParts = IterWrap.create(this.actor.allItems()).reduce(
-            (ary, it) => {
-                if (it.system instanceof BodyPartItemData) {
-                    if (it.nestedIn?.id === this.id) {
-                        ary.push(it);
-                    }
+        this.$bodyParts = [];
+        for (const it of this.actor.allItems()) {
+            if (it.system instanceof BodyPartItemData) {
+                if (it.nestedIn?.id === this.id) {
+                    this.$bodyParts.push(it);
                 }
-                return ary;
-            },
-            [],
-        );
+            }
+        }
     }
 }
 
@@ -7872,17 +7870,14 @@ export class BodyPartItemData extends SohlItemData {
             };
         });
 
-        this.$bodyLocations = IterWrap.create(this.actor.allItems()).reduce(
-            (ary, it) => {
-                if (it.system instanceof BodyLocationItemData) {
-                    if (it.cause?.id === this.id) {
-                        ary.push(it);
-                    }
+        this.$bodyLocations = null;
+        for (const it of this.actor.allItems()) {
+            if (it.system instanceof BodyLocationItemData) {
+                if (it.cause?.id === this.id) {
+                    this.$bodyLocations.push(it);
                 }
-                return ary;
-            },
-            [],
-        );
+            }
+        }
 
         this.$heldItem =
             this.canHoldItem &&
@@ -9978,108 +9973,6 @@ export class Utility {
     }
 }
 
-/**
- * Firefox and many other browsers do not implement the latest Iterator helper
- * methods, so they are implemented in this class for compatibility.
- *
- * The reason to use this instead of Array.from() is that this class and its methods
- * do not need to create an intermediate array, but handle the iterable directly.
- */
-export class IterWrap {
-    _iter;
-
-    constructor(iter) {
-        if (!(typeof iter[Symbol.iterator] === "function")) {
-            throw new Error(
-                "Parameter to IterWrap constructor must be iterable",
-            );
-        }
-
-        this._iter = iter;
-    }
-
-    static create(iter) {
-        if (["null", "undefined"].includes(typeof iter)) return null;
-        return new IterWrap(iter);
-    }
-
-    find(callbackFn) {
-        let idx = 0;
-        let { value, done } = this._iter.next();
-        while (!done) {
-            const result = callbackFn(value, idx++);
-            if (result) return value;
-            ({ value, done } = this._iter.next());
-        }
-        return null;
-    }
-
-    filter(callbackFn) {
-        let idx = 0;
-        const ary = [];
-        let { value, done } = this._iter.next();
-        while (!done) {
-            const result = callbackFn(value, idx++);
-            if (result) ary.push(value);
-            ({ value, done } = this._iter.next());
-        }
-        return ary;
-    }
-
-    map(callbackFn) {
-        let idx = 0;
-        const ary = [];
-        let { value, done } = this._iter.next();
-        while (!done) {
-            const result = callbackFn(value, idx++);
-            ary.push(result);
-            ({ value, done } = this._iter.next());
-        }
-        return ary;
-    }
-
-    forEach(callbackFn) {
-        let idx = 0;
-        let { value, done } = this._iter.next();
-        while (!done) {
-            callbackFn(value, idx++);
-            ({ value, done } = this._iter.next());
-        }
-        return undefined;
-    }
-
-    reduce(callbackFn, initialValue = null) {
-        let idx = 0;
-        let { value, done } = this._iter.next();
-        let accumulator = initialValue;
-        if (!accumulator) {
-            if (!done) {
-                initialValue = value;
-                ({ value, done } = this._iter.next());
-            } else {
-                throw new Error("No initializer");
-            }
-        }
-
-        while (!done) {
-            callbackFn(accumulator, value, idx++);
-            ({ value, done } = this._iter.next());
-        }
-        return accumulator;
-    }
-
-    some(callbackFn) {
-        return !!this.find(callbackFn);
-    }
-
-    toArray() {
-        return Array.from(this._iter);
-    }
-
-    [Symbol.iterator]() {
-        return this._iter;
-    }
-}
 export class SohlContextMenu extends ContextMenu {
     static get sortGroups() {
         return {
@@ -11842,9 +11735,7 @@ export class SohlActor extends Actor {
         const types = Object.fromEntries(
             game.documentTypes.Item.map((t) => [t, []]),
         );
-        const ary = IterWrap.create(this.allItems())
-            .toArray()
-            .sort((a, b) => a.sort - b.sort);
+        const ary = Array.from(this.allItems()).sort((a, b) => a.sort - b.sort);
         const result = ary.reduce((obj, it) => {
             obj[it.type].push(it);
             return obj;
@@ -11871,9 +11762,7 @@ export class SohlActor extends Actor {
         );
 
         // Load up all subtype lists
-        const ary = IterWrap.create(this.allItems())
-            .toArray()
-            .sort((a, b) => a.sort - b.sort);
+        const ary = Array.from(this.allItems()).sort((a, b) => a.sort - b.sort);
         ary.forEach((it) => {
             if (it.system instanceof TraitItemData) {
                 if (it.system.intensity !== "attribute") {
@@ -12431,14 +12320,23 @@ export class SohlActor extends Actor {
 
     _onSortItem(event, itemData) {
         // Get the drag source and drop target
-        const source = IterWrap.create(this.allItems()).find(
-            (it) => it.id === itemData._id,
-        );
+        let source;
+        for (const it of this.allItems()) {
+            if (it.id === itemData._id) {
+                source = it;
+                break;
+            }
+        }
+
         const dropTarget = event.target.closest("[data-item-id]");
         if (!dropTarget) return;
-        const target = IterWrap.create(this.allItems()).find(
-            (it) => it.id === dropTarget.dataset.itemId,
-        );
+        let target;
+        for (const it of this.allItems()) {
+            if (it.id === dropTarget.dataset.itemId) {
+                target = it;
+                break;
+            }
+        }
 
         // Don't sort on yourself
         if (source.id === target.id) return;
@@ -12447,12 +12345,14 @@ export class SohlActor extends Actor {
         const siblings = [];
         for (let el of dropTarget.parentElement.children) {
             const siblingId = el.dataset.itemId;
-            if (siblingId && siblingId !== source.id)
-                siblings.push(
-                    IterWrap.create(this.allItems()).find(
-                        (it) => it.id === el.dataset.itemId,
-                    ),
-                );
+            if (siblingId && siblingId !== source.id) {
+                for (const it of this.allItems()) {
+                    if (it.id === el.dataset.itemId) {
+                        siblings.push(it);
+                        break;
+                    }
+                }
+            }
         }
 
         // Perform the sort
@@ -12493,19 +12393,19 @@ export class SohlActor extends Actor {
         }
 
         // Apply item active effects
-        IterWrap.create(this.allItems()).forEach((it) => {
+        for (const it of this.allItems()) {
             // If item is nested, ensure all active effects have been started
-            if (it.isNested) {
-                it.effects.forEach((e) => {
-                    if (!e.duration.startTime) {
-                        e.update(
-                            ActiveEffect.implementation.getInitialDuration(),
-                        );
-                    }
-                });
-            }
+            // if (it.isNested) {
+            //     it.effects.forEach((e) => {
+            //         if (!e.duration.startTime) {
+            //             e.update(
+            //                 ActiveEffect.implementation.getInitialDuration(),
+            //             );
+            //         }
+            //     });
+            // }
             it.applyActiveEffects();
-        });
+        }
 
         // Apply actor active effects
         this.applyActiveEffects();
@@ -12591,11 +12491,16 @@ export class SohlActor extends Actor {
      * @returns {SohlItem} SohlItem of the trait.
      */
     getTraitByAbbrev(abbrev) {
-        const result = IterWrap.create(this.allItems()).find(
-            (it) =>
+        let result = null;
+        for (const it of this.allItems()) {
+            if (
                 it.system instanceof TraitItemData &&
-                it.system.abbrev === abbrev,
-        );
+                it.system.abbrev === abbrev
+            ) {
+                result = it;
+                break;
+            }
+        }
         return result;
     }
 
@@ -12606,11 +12511,16 @@ export class SohlActor extends Actor {
      * @returns {SohlItem} SohlItem of the trait.
      */
     getSkillByAbbrev(abbrev) {
-        const result = IterWrap.create(this.allItems()).find(
-            (it) =>
+        let result = null;
+        for (const it of this.allItems()) {
+            if (
                 it.system instanceof SkillItemData &&
-                it.system.abbrev === abbrev,
-        );
+                it.system.abbrev === abbrev
+            ) {
+                result = it;
+                break;
+            }
+        }
         return result;
     }
 
@@ -12651,11 +12561,11 @@ export class SohlActor extends Actor {
             if (types?.length) {
                 // Type(s) have been specified, so we can use these as a hint as to where to look
                 // for the items.
-                IterWrap.create(this.allItems()).forEach((it) => {
+                for (const it of this.allItems()) {
                     if (types.includes(it.type) && it.name === itemName) {
                         items.push(it);
                     }
-                });
+                }
             } else {
                 // No types have been specified, so our only option is to assume it is an item ID and look for that
                 for (let candidate of this.allItems()) {
@@ -12793,20 +12703,20 @@ export class SohlActor extends Actor {
 
         // Expand the set of final overrides
         this.overrides = foundry.utils.expandObject(overrides[this.id]);
-        IterWrap.create(this.allItems()).forEach((it) => {
+        for (const it of this.allItems()) {
             if (overrides[it.id])
                 it.overrides = foundry.utils.expandObject(overrides[it.id]);
-        });
+        }
     }
 
     /**
      * Executes the checkAndExecute method for EventItemData instances in the allItems array and checks and disables expired effects for each item in the allItems array as well as the effects array.
      */
     timeChangeWork() {
-        IterWrap.create(this.allItems()).forEach((it) => {
+        for (const it of this.allItems()) {
             if (it.system instanceof EventItemData) it.checkAndExecute();
             it.effects.forEach((effect) => effect.checkExpiredAndDisable());
-        });
+        }
         this.effects.forEach((effect) => effect.checkExpiredAndDisable());
     }
 
@@ -13798,12 +13708,10 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
         data.itemTypes = this.actor.itemTypes;
         data.itemSubtypes = this.actor.itemSubtypes;
         data.anatomy = this.actor.itemTypes.anatomy.at(0);
-        data.effectStatus = IterWrap.create(
-            this.actor.statuses.values(),
-        ).reduce((obj, s) => {
-            obj[s] = true;
-            return obj;
-        }, {});
+        data.effectStatus = {};
+        for (const s of this.actor.statuses.values()) {
+            data.effectStatus[s] = true;
+        }
         data.effectStatus.auralshock = data.itemTypes.affliction.reduce(
             (b, a) => {
                 if (b) return b;
@@ -13844,7 +13752,7 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
         let cmData = {};
         let wpnData = {};
         let mslData = {};
-        IterWrap.create(this.actor.allItems()).forEach((it) => {
+        for (const it of this.actor.allItems()) {
             if (it.system instanceof TraitItemData) {
                 if (it.system.intensity === "attribute") {
                     data.attributes.push(it);
@@ -13910,7 +13818,7 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
                     data.domains[it.system.$category].push(it);
                 }
             }
-        });
+        }
         data.attributes.sort((a, b) => a.sort - b.sort);
         data.philosophies.forEach((p) =>
             p.domains.sort((a, b) => a.sort - b.sort),
@@ -13950,11 +13858,12 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
             },
             { total: 0 },
         );
-        IterWrap.create(this.actor.allItems()).forEach((it) => {
+
+        for (const it of this.actor.allItems()) {
             if (it.system instanceof GearItemData) {
                 data.weightCarried[it.type] += it.system.totalWeight.effective;
             }
-        });
+        }
 
         const topContainer = {
             name: "On Body",
@@ -14293,7 +14202,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
             data.domains = Object.entries(
                 this.item.actor.system.$domains,
             ).reduce((obj, [cat, coll]) => {
-                const tmpAry = IterWrap.create(coll.entries()).map(
+                const tmpAry = Array.from(coll.entries()).map(
                     ([abbrev, domain]) => [abbrev, domain.name],
                 );
 
@@ -14314,7 +14223,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
                 return obj;
             }, {});
 
-            IterWrap.create(this.item.actor.allItems()).forEach((it) => {
+            for (const it of this.item.actor.allItems()) {
                 // Fill appropriate lists for individual item sheets
                 if (it.system instanceof BodyLocationItemData) {
                     data.bodyLocationChoices[it.uuid] = it.name;
@@ -14372,7 +14281,7 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
                         }
                     }
                 }
-            });
+            }
         }
         if (!Object.keys(data.bodyLocationChoices).length) {
             data.bodyLocationChoices[""] = "None";
@@ -14539,10 +14448,12 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
         } else if (dataset.type) {
             data.type = dataset.type;
         }
-        options.items =
-            IterWrap.create(this.item.actor?.allItems()).filter(
-                (it) => it.type === dataset.type,
-            ) || [];
+        options.items = [];
+        if (this.item.actor) {
+            for (const it of this.item.actor.allItems()) {
+                if (it.type === dataset.type) options.items.push(it);
+            }
+        }
         options.items.sort((a, b) => a.sort - b.sort);
         if (dataset.subType) data["system.subType"] = dataset.subType;
         const item = await SohlItem.createDialog(data, options);
@@ -14742,18 +14653,15 @@ export class Commands {
         event.preventDefault();
         const button = event.currentTarget;
         button.disabled = true;
-        const options = IterWrap.create(button.dataset?.entries()).reduce(
-            (obj, [key, val]) => {
-                if (key.endsWith("Json")) {
-                    const newKey = key.slice(0, -4);
-                    obj[newKey] = JSON.parse(val);
-                } else {
-                    obj[key] = val;
-                }
-                return obj;
-            },
-            {},
-        );
+        const options = {};
+        for (const [key, val] of button.dataset.entries()) {
+            if (key.endsWith("Json")) {
+                const newKey = key.slice(0, -4);
+                options[newKey] = JSON.parse(val);
+            } else {
+                options[key] = val;
+            }
+        }
         let doc = await fromUuid(options.targetUuid);
         if (doc instanceof Token) {
             options.token = doc.document;
