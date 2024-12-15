@@ -700,7 +700,7 @@ for weaponsm in weaponsmData:
     if traits["opponentDef"]:
         effect["changes"].append(
             {
-                "key": "mod:system.$traits.opponentDef",
+                "key": "system.$traits.opponentDef",
                 "mode": 2,
                 "value": traits["opponentDef"],
                 "priority": None,
