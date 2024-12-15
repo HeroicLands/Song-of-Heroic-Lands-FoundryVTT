@@ -5719,12 +5719,12 @@ export class MysteryItemData extends SubtypeMixin(SohlItemData) {
             if (!this.item.actor) return this.domain;
             let field;
             if (["grace", "piety"].includes(this.subType)) {
-                field = this.item.actor.system.$domains.divine.get(
-                    this.domain,
+                field = this.item.actor.system.$domains.divine.find(
+                    (d) => d.abbrev === this.domain,
                 )?.name;
             } else if (this.subType === "totem") {
-                field = this.item.actor.system.$domains.spirit.get(
-                    this.domain,
+                field = this.item.actor.system.$domains.spirit.find(
+                    (d) => d.abbrev === this.domain,
                 )?.name;
             }
             return field || `Unknown (${this.domain})`;
@@ -13834,6 +13834,13 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
                 domains: [],
             },
         ];
+        data.domains = Object.keys(PhilosophyItemData.categories).reduce(
+            (obj, c) => {
+                obj[c] = [];
+                return obj;
+            },
+            {},
+        );
         let cmData = {};
         let wpnData = {};
         let mslData = {};
@@ -13899,6 +13906,9 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
                 }
 
                 phil.domains.push(it);
+                if (phil) {
+                    data.domains[it.system.$category].push(it);
+                }
             }
         });
         data.attributes.sort((a, b) => a.sort - b.sort);
