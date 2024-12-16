@@ -7870,7 +7870,7 @@ export class BodyPartItemData extends SohlItemData {
             };
         });
 
-        this.$bodyLocations = null;
+        this.$bodyLocations = [];
         for (const it of this.actor.allItems()) {
             if (it.system instanceof BodyLocationItemData) {
                 if (it.cause?.id === this.id) {
