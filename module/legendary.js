@@ -2417,33 +2417,33 @@ class LgndTraitItemData extends sohl.TraitItemData {
         super.processSiblings();
         if (this.isNumeric) {
             this.actionBodyParts.forEach((bp) => {
-                const bodyPart = sohl.IterWrap.create(
-                    this.actor.allItems(),
-                ).find(
-                    (it) =>
+                let it = null;
+                for (const it in this.actor.allItems()) {
+                    if (
                         it.system instanceof sohl.BodyPartItemData &&
-                        it.name === bp,
-                );
-                if (bodyPart) {
-                    if (bodyPart.system.$impairment.unusable) {
-                        this.$masteryLevel.set(
-                            `${this.item.name} Unusable`,
-                            `${this.abbrev}Unusable`,
-                            0,
-                        );
-                    } else if (bodyPart.system.$impairment.value) {
-                        this.$masteryLevel.add(
-                            `${this.item.name} Impairment`,
-                            `${this.abbrev}Imp`,
-                            bodyPart.system.$impairment.value,
-                        );
+                        it.name === bp
+                    ) {
+                        if (it.system.$impairment.unusable) {
+                            this.$masteryLevel.set(
+                                `${this.item.name} Unusable`,
+                                `${this.abbrev}Unusable`,
+                                0,
+                            );
+                        } else if (it.system.$impairment.value) {
+                            this.$masteryLevel.add(
+                                `${this.item.name} Impairment`,
+                                `${this.abbrev}Imp`,
+                                it.system.$impairment.value,
+                            );
+                        }
+                        break;
                     }
                 }
             });
         }
 
         if (this.intensity === "attribute" && this.subType === "physique") {
-            sohl.IterWrap.create(this.actor.allItems()).forEach((it) => {
+            for (const it of this.actor.allItems()) {
                 if (
                     it.system instanceof sohl.AfflictionItemData &&
                     it.system.subType === "fatigue"
@@ -2456,7 +2456,7 @@ class LgndTraitItemData extends sohl.TraitItemData {
                         -it.system.$level.effective,
                     );
                 }
-            });
+            }
         }
 
         if (this.abbrev === "fate") {
@@ -2501,30 +2501,31 @@ class LgndSkillItemData extends LgndMasteryLevelItemDataMixin(
     processSiblings() {
         super.processSiblings();
         this.actionBodyParts.forEach((bp) => {
-            const bodyPart = sohl.IterWrap.create(this.actor.allItems()).find(
-                (it) =>
+            for (const it of this.actor.allItems()) {
+                if (
                     it.system instanceof sohl.BodyPartItemData &&
-                    it.name === bp,
-            );
-            if (bodyPart) {
-                if (bodyPart.system.$impairment.unusable) {
-                    this.$masteryLevel.set(
-                        `${this.item.name} Unusable`,
-                        `${this.abbrev}Unusable`,
-                        0,
-                    );
-                } else if (bodyPart.system.$impairment.value) {
-                    this.$masteryLevel.add(
-                        `${this.item.name} Impairment`,
-                        `${this.abbrev}Imp`,
-                        bodyPart.system.$impairment.value,
-                    );
+                    it.name === bp
+                ) {
+                    if (it.system.$impairment.unusable) {
+                        this.$masteryLevel.set(
+                            `${this.item.name} Unusable`,
+                            `${this.abbrev}Unusable`,
+                            0,
+                        );
+                    } else if (it.system.$impairment.value) {
+                        this.$masteryLevel.add(
+                            `${this.item.name} Impairment`,
+                            `${this.abbrev}Imp`,
+                            it.system.$impairment.value,
+                        );
+                    }
+                    break;
                 }
             }
         });
 
         if (["craft", "combat", "physical"].includes(this.subType)) {
-            sohl.IterWrap.create(this.actor.allItems()).forEach((it) => {
+            for (const it of this.actor.allItems()) {
                 if (
                     it.system instanceof sohl.AfflictionItemData &&
                     it.system.subType === "fatigue"
@@ -2537,7 +2538,7 @@ class LgndSkillItemData extends LgndMasteryLevelItemDataMixin(
                         -it.system.$level.effective,
                     );
                 }
-            });
+            }
         }
     }
 }
