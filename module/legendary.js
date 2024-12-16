@@ -2417,7 +2417,6 @@ class LgndTraitItemData extends sohl.TraitItemData {
         super.processSiblings();
         if (this.isNumeric) {
             this.actionBodyParts.forEach((bp) => {
-                let it = null;
                 for (const it in this.actor.allItems()) {
                     if (
                         it.system instanceof sohl.BodyPartItemData &&
