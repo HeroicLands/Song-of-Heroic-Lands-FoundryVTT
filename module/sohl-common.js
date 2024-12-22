@@ -1603,6 +1603,7 @@ export class SohlItem extends Item {
         const takenNames = new Set();
         for (const document of collection) takenNames.add(document.name);
         let baseName = CONFIG[documentName].typeLabels?.[type];
+        baseName = game.i18n.localize(baseName);
         if (subType) baseName = `${cls?.subTypes?.[subType]} ${baseName}`;
         let name = baseName;
         let index = 1;
@@ -1645,6 +1646,7 @@ export class SohlItem extends Item {
                 if (types && !types.includes(type)) continue;
                 let label =
                     CONFIG[this.documentName]?.typeLabels?.[type] || type;
+                label = game.i18n.localize(label);
                 documentTypes.push({ value: type, label });
                 if (type === defaultType) defaultTypeAllowed = true;
             }
@@ -6554,7 +6556,7 @@ export class InjuryItemData extends SohlItemData {
         if (!allowed) return false;
 
         // Create a new event to represent the create time of the injury
-        const createdItem = await SohlItem.create({
+        const createdItem = new SohlItem({
             name: "Created",
             type: "event",
             system: {
@@ -6581,7 +6583,7 @@ export class InjuryItemData extends SohlItemData {
 
         if (options.healTestDuration) {
             // Create a new event to represent the next heal test
-            const nextHealTest = await SohlItem.create({
+            const nextHealTest = new SohlItem({
                 name: "Next Heal Test",
                 type: "event",
                 system: {
@@ -6596,7 +6598,7 @@ export class InjuryItemData extends SohlItemData {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextHealTest);
+            updateData["nestedItems"].push(nextHealTest.toObject());
         }
 
         await this.updateSource(updateData);
@@ -6915,7 +6917,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
         if (!allowed) return false;
 
         // Create a new event to represent the create time of the affliction
-        const createdItem = await SohlItem.create({
+        const createdItem = new SohlItem({
             name: "Created",
             type: "event",
             system: {
@@ -6935,7 +6937,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
 
         if (data.system.subType === "infection") {
             // Create a new event to represent the next heal test
-            const nextInfectionCourseTest = await SohlItem.create({
+            const nextInfectionCourseTest = new SohlItem({
                 name: "Next Infection Course Test",
                 type: "event",
                 system: {
@@ -6950,12 +6952,12 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextInfectionCourseTest);
+            updateData["nestedItems"].push(nextInfectionCourseTest.toObject());
         }
 
         if (data.system.subType === "disease") {
             // Create a new event to represent the next heal test
-            const nextDiseaseCourseTest = await SohlItem.create({
+            const nextDiseaseCourseTest = new SohlItem({
                 name: "Next Disease Course Test",
                 type: "event",
                 system: {
@@ -6970,12 +6972,12 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextDiseaseCourseTest);
+            updateData["nestedItems"].push(nextDiseaseCourseTest.toObject());
         }
 
         if (data.system.subType === "poisontoxin") {
             // Create a new event to represent the next heal test
-            const nextCourseTest = await SohlItem.create({
+            const nextCourseTest = new SohlItem({
                 name: "Next Poison/Toxin Course Test",
                 type: "event",
                 system: {
@@ -6990,7 +6992,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextCourseTest);
+            updateData["nestedItems"].push(nextCourseTest.toObject());
         }
 
         await this.updateSource(updateData);
@@ -14522,11 +14524,9 @@ export const SohlItemTypeLabels = {
     [ContainerGearItemData.typeName]: "TYPES.Item.containergear",
     [EventItemData.typeName]: "TYPES.Item.event",
     [InjuryItemData.typeName]: "TYPES.Item.injury",
-    [MeleeWeaponStrikeModeItemData.typeName]:
-        "TYPES.Item.meleeweaponstrikemode",
+    [MeleeWeaponStrikeModeItemData.typeName]: "TYPES.Item.meleestrikemode",
     [MiscGearItemData.typeName]: "TYPES.Item.miscgear",
-    [MissileWeaponStrikeModeItemData.typeName]:
-        "TYPES.Item.missileweaponstrikemode",
+    [MissileWeaponStrikeModeItemData.typeName]: "TYPES.Item.missilestrikemode",
     [MysteryItemData.typeName]: "TYPES.Item.mystery",
     [MysticalAbilityItemData.typeName]: "TYPES.Item.mysticalability",
     [PhilosophyItemData.typeName]: "TYPES.Item.philosophy",
