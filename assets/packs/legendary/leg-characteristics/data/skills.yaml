@@ -763,6 +763,21 @@
   folderId: iCteCHglnfCfQqra
   initSM: 0
   baseSkill: ''
+- name: Archery
+  abbrev: archery
+  id: sZWxSJSQoQccGYoi
+  img: systems/sohl/assets/icons/longbow.svg
+  subType: combat
+  skillBaseFormula: '@per, @dex'
+  weaponGroup: melee
+  domain: ''
+  macros: []
+  effects: []
+  flags: {}
+  description: ''
+  folderId: iCteCHglnfCfQqra
+  initSM: 1
+  baseSkill: ''
 - name: Melee
   abbrev: melee
   id: r04Yas6IuL9kUFAK
