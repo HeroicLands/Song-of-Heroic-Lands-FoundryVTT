@@ -1,1 +1,30 @@
-{}
+{
+    "TYPES.Actor.entity": "Animate Entity",
+    "TYPES.Actor.object": "Inanimate Object",
+
+    "TYPES.Item.armorgear": "Armor",
+    "TYPES.Item.weapongear": "Weapon",
+    "TYPES.Item.miscgear": "Misc Gear",
+    "TYPES.Item.projectilegear": "Projectile",
+    "TYPES.Item.containergear": "Container",
+    "TYPES.Item.concoctiongear": "Concoction",
+    "TYPES.Item.mysticaldevice": "Mystical Device",
+    "TYPES.Item.skill": "Skill",
+    "TYPES.Item.trait": "Trait",
+    "TYPES.Item.affiliation": "Affiliation",
+    "TYPES.Item.injury": "Injury",
+    "TYPES.Item.affliction": "Affliction",
+    "TYPES.Item.anatomy": "Anatomy",
+    "TYPES.Item.bodylocation": "Body Location",
+    "TYPES.Item.bodypart": "Body Part",
+    "TYPES.Item.bodyzone": "Body Zone",
+    "TYPES.Item.domain": "Domain",
+    "TYPES.Item.philosophy": "Philosophy",
+    "TYPES.Item.event": "Event",
+    "TYPES.Item.meleestrikemode": "Melee Strike Mode",
+    "TYPES.Item.combattechniquestrikemode": "Combat Technique Strike Mode",
+    "TYPES.Item.missilestrikemode": "Missile Strike Mode",
+    "TYPES.Item.combatmaneuver": "Combat Maneuver",
+    "TYPES.Item.mystery": "Mystery",
+    "TYPES.Item.mysticalability": "Mystical Ability"
+}

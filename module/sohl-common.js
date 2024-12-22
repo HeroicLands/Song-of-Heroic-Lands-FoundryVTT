@@ -3787,7 +3787,9 @@ export class AnimateEntityActorData extends SohlActorData {
                         it.system instanceof TraitItemData &&
                         it.system.intensity === "attribute"
                             ? "Attribute"
-                            : SOHL.sysVer.CONFIG.Item.typeLabels[it.type];
+                            : game.i18n.localize(
+                                  SOHL.sysVer.CONFIG.Item.typeLabels[it.type],
+                              );
                     if (it.system.subType) {
                         itemTypeName += ` (${it.system.subType})`;
                     }
@@ -11945,282 +11947,6 @@ export class SohlActor extends Actor {
         return dlgResult;
     }
 
-    static defaultName({ type, parent, pack } = {}) {
-        const documentName = this.metadata.name;
-        let collection;
-        if (parent) collection = parent.getEmbeddedCollection(documentName);
-        else if (pack) collection = game.packs.get(pack);
-        else collection = game.collections.get(documentName);
-        const takenNames = new Set();
-        for (const document of collection) takenNames.add(document.name);
-        const baseName = CONFIG.Actor.typeLabels[type]
-            ? CONFIG.Actor.typeLabels[type]
-            : type;
-        let name = baseName;
-        let index = 1;
-        while (takenNames.has(name)) name = `${baseName} (${++index})`;
-        return name;
-    }
-
-    static async createDialog(
-        data = {},
-        { parent = null, pack = null, types, ...options } = {},
-    ) {
-        const cls = this.implementation;
-
-        // Identify allowed types
-        let documentTypes = [];
-        let defaultType = CONFIG[this.documentName]?.defaultType;
-        let defaultTypeAllowed = false;
-        let hasTypes = false;
-        if (this.TYPES.length > 1) {
-            if (types?.length === 0)
-                throw new Error(
-                    "The array of sub-types to restrict to must not be empty",
-                );
-
-            // Register supported types
-            for (const type of this.TYPES) {
-                if (type === CONST.BASE_DOCUMENT_TYPE) continue;
-                if (types && !types.includes(type)) continue;
-                let label =
-                    CONFIG[this.documentName]?.typeLabels?.[type] || type;
-                documentTypes.push({ value: type, label });
-                if (type === defaultType) defaultTypeAllowed = true;
-            }
-            if (!documentTypes.length)
-                throw new Error(
-                    "No document types were permitted to be created",
-                );
-
-            if (!defaultTypeAllowed) defaultType = documentTypes[0].value;
-            // Sort alphabetically
-            documentTypes.sort((a, b) =>
-                a.label.localeCompare(b.label, game.i18n.lang),
-            );
-            hasTypes = true;
-        }
-
-        // Identify destination collection
-        let collection;
-        if (!parent) {
-            if (pack) collection = game.packs.get(pack);
-            else collection = game.collections.get(this.documentName);
-        }
-
-        // Collect data
-        const folders = collection?._formatFolderSelectOptions() ?? [];
-        const label = game.i18n.localize(this.metadata.label);
-        const title = game.i18n.format("DOCUMENT.Create", { type: label });
-        const type = data.type || defaultType;
-        let userCompendiums = game.settings
-            .get("sohl", "searchActorCompendiums")
-            .split(",")
-            .map((s) => s.trim());
-        const defaultAnimateEntity = game.settings.get(
-            "sohl",
-            "defaultAnimateEntity",
-        );
-
-        const worldActors = game.actors.reduce((ary, actor) => {
-            if (actor.type === "entity") {
-                const elem = {
-                    value: actor.uuid,
-                    label: actor.name,
-                };
-                ary.push(elem);
-            }
-            return ary;
-        }, []);
-
-        const userPackActors = (
-            await Utility.getDocsFromPacks(userCompendiums, {
-                documentName: "Actor",
-                docType: "entity",
-            })
-        ).reduce((ary, actor) => {
-            const elem = {
-                value: actor.uuid,
-                label: actor.name,
-            };
-            ary.push(elem);
-            return ary;
-        }, []);
-
-        const sysPackActors = (
-            await Utility.getDocsFromPacks(
-                SOHL.sysVer.CONFIG.Actor.compendiums,
-                { documentName: "Actor", docType: "entity" },
-            )
-        ).reduce((ary, actor) => {
-            const elem = {
-                value: actor.uuid,
-                label: actor.name,
-            };
-            ary.push(elem);
-            return ary;
-        }, []);
-        let defaultCloneActor = worldActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        defaultCloneActor ||= userPackActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        defaultCloneActor ||= sysPackActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        const allActors = {
-            "Default Actors": [{ label: "None", value: "" }],
-        };
-
-        if (worldActors.length) {
-            allActors["World Actors"] = worldActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (userPackActors.length) {
-            allActors["User Compendiums"] = userPackActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (sysPackActors.length) {
-            allActors["System Compendiums"] = sysPackActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (defaultCloneActor) {
-            allActors["Default Actors"].unshift({
-                label: defaultCloneActor.label,
-                value: defaultCloneActor.value,
-            });
-        }
-
-        let content = `<div class="form-group" id="cloneActor">
-        <label class="init-checkbox">Actor to Clone:</label>
-        <select name="cloneActor">\n`;
-        let hasSelected = false;
-        Object.keys(allActors).forEach((group) => {
-            if (allActors[group].length) {
-                content += `<optgroup label="${group}">`;
-                allActors[group].forEach((obj) => {
-                    content += `<option value="${obj.value}"${!hasSelected ? " selected" : ""}>${obj.label}</option>\n`;
-                    hasSelected = true;
-                });
-                content += "</optgroup>\n";
-            }
-        });
-        content += `</select></div><div class="form-group" id="randomattrs">
-        <label class="init-checkbox">Roll Attrs:</label>
-        <select name="rollattrs" data-tooltip="Perform random rolls for attributes">
-        <option value="" selected>No</option>
-        <option value="default">Default</option>
-        <option value="custom">Custom</option>
-        </select>
-        <input type="text" name="rollformula" disabled data-tooltip="Roll formula" />
-        </div>`;
-        content = "";
-        const dlgTemplate = "templates/sidebar/document-create.html";
-        const defActorName = this.implementation.defaultName({
-            type,
-            parent,
-            pack,
-        });
-        const dlgOptions = {
-            name: data.name || "",
-            defaultName: defActorName,
-            hasTypes: this.hasTypeData,
-            types: documentTypes,
-            type,
-            hasFolders: folders.length > 1,
-            folders,
-            folder: data.folder,
-            content,
-        };
-
-        // Render the document creation form
-        const html = await renderTemplate(dlgTemplate, dlgOptions);
-
-        // Render the confirmation dialog window
-        return Dialog.prompt({
-            title,
-            content: html,
-            label: title,
-            render: (html) => {
-                if (!hasTypes) return;
-                const doc = html[0];
-                doc.querySelector('[name="rollattrs"]').addEventListener(
-                    "change",
-                    (e) => {
-                        const rollFormula = doc.querySelector(
-                            '[name="rollformula"]',
-                        );
-                        if (e.target.value === "custom") {
-                            rollFormula.placeholder = "e.g. 4d6kh3";
-                            rollFormula.disabled = false;
-                        } else {
-                            rollFormula.placeholder = "";
-                            rollFormula.disabled = true;
-                        }
-                    },
-                );
-                doc.querySelector('[name="type"]').addEventListener(
-                    "change",
-                    (e) => {
-                        const nameInput = doc.querySelector('[name="name"]');
-                        nameInput.placeholder = cls.defaultName({
-                            type: e.target.value,
-                            parent,
-                            pack,
-                        });
-                        const isAnimateEntity = e.target.value === "entity";
-                        if (isAnimateEntity) {
-                            doc.querySelector("#cloneActor").style.visibility =
-                                "visible";
-                            doc.querySelector("#randomattrs").style.visibility =
-                                "visible";
-                        } else {
-                            doc.querySelector("#cloneActor").style.visibility =
-                                "hidden";
-                            doc.querySelector("#randomattrs").style.visibility =
-                                "hidden";
-                        }
-                    },
-                );
-            },
-            callback: (html) => {
-                const form = html[0].querySelector("form");
-                const fd = new FormDataExtended(form);
-                data.name = fd.object.name;
-                data.type = fd.object.type;
-                data.folder = fd.object.folder;
-                const cloneActorUuid = fd.object.cloneActor;
-                const rollAttrs = fd.object.rollattrs;
-                const rollFormula =
-                    rollAttrs === "custom" ? fd.object.rollformula : rollAttrs;
-                if (!data.folder) delete data["folder"];
-                if (documentTypes.length === 1) data.type = documentTypes[0];
-                if (!data.name?.trim())
-                    data.name = cls.defaultName({
-                        type: data.type,
-                        parent,
-                        pack,
-                    });
-                return this.create(data, {
-                    parent,
-                    pack,
-                    renderSheet: true,
-                    cloneActorUuid,
-                    rollFormula,
-                });
-            },
-            rejectClose: false,
-            options,
-        });
-    }
-
     /** @override */
     async _preCreate(createData, options, user) {
         const allowed = await super._preCreate(createData, options, user);
@@ -12235,7 +11961,9 @@ export class SohlActor extends Actor {
             );
         if (similarActorExists) {
             ui.notifications.warn(
-                `An ${SohlItemTypeLabels[createData.type]} with identical name ("${createData.name}") already exists, cannot create.`,
+                game.i18n.format(
+                    `An ${SohlItemTypeLabels[createData.type]} with identical name ("${createData.name}") already exists, cannot create.`,
+                ),
             );
             return false;
         }
@@ -12537,7 +12265,9 @@ export class SohlActor extends Actor {
 
         const typeNames =
             types
-                .map((t) => SOHL.sysVer.CONFIG.Item.typeLabels[t])
+                .map((t) =>
+                    game.i18n.localize(SOHL.sysVer.CONFIG.Item.typeLabels[t]),
+                )
                 .join(" or ") || "item";
 
         let item = null;
@@ -12616,11 +12346,16 @@ export class SohlActor extends Actor {
 
         if (!types.includes(item.type)) {
             throw new Error(
-                `Item ${item.system.typeLabel.singular} must be one of "${types
-                    .map((t) => SOHL.sysVer.CONFIG.Item.typeLabels[t])
-                    .join(", ")}" but type is ${
-                    SOHL.sysVer.CONFIG.Item.typeLabels[item.type]
-                }`,
+                game.i18n.localize(
+                    `Item ${item.system.typeLabel.singular} must be one of "${types
+                        .map(
+                            (t) =>
+                                game.i18SOHL.sysVer.CONFIG.Item.typeLabels[t],
+                        )
+                        .join(", ")}" but type is ${
+                        SOHL.sysVer.CONFIG.Item.typeLabels[item.type]
+                    }`,
+                ),
             );
         }
     }
@@ -13067,9 +12802,13 @@ function SohlSheetMixin(Base) {
                 // in an Anatomy object instead
                 if (isActor && itemData.type.startsWith("body")) {
                     ui.notifications.warn(
-                        `You may not drop a ${
-                            SOHL.sysVer.CONFIG.Item.typeLabels[itemData.type]
-                        } onto an Actor`,
+                        game.i18n.localize(
+                            `You may not drop a ${
+                                SOHL.sysVer.CONFIG.Item.typeLabels[
+                                    itemData.type
+                                ]
+                            } onto an Actor`,
+                        ),
                     );
                     return false;
                 }
@@ -14695,10 +14434,8 @@ export const SohlActorDataModels = {
 };
 
 export const SohlActorTypeLabels = {
-    [AnimateEntityActorData.typeName]:
-        AnimateEntityActorData.typeLabel.singular,
-    [InanimateObjectActorData.typeName]:
-        InanimateObjectActorData.typeLabel.singular,
+    [AnimateEntityActorData.typeName]: "TYPES.Actor.entity",
+    [InanimateObjectActorData.typeName]: "TYPES.Actor.object",
 };
 
 export const SohlActorTypeIcons = {
@@ -14771,39 +14508,34 @@ export const SohlModifiers = {
 };
 
 export const SohlItemTypeLabels = {
-    [AffiliationItemData.typeName]: AffiliationItemData.typeLabel.singular,
-    [AfflictionItemData.typeName]: AfflictionItemData.typeLabel.singular,
-    [AnatomyItemData.typeName]: AnatomyItemData.typeLabel.singular,
-    [ArmorGearItemData.typeName]: ArmorGearItemData.typeLabel.singular,
-    [BodyLocationItemData.typeName]: BodyLocationItemData.typeLabel.singular,
-    [BodyPartItemData.typeName]: BodyPartItemData.typeLabel.singular,
-    [BodyZoneItemData.typeName]: BodyZoneItemData.typeLabel.singular,
+    [AffiliationItemData.typeName]: "TYPES.Item.affiliation",
+    [AfflictionItemData.typeName]: "TYPES.Item.affliction",
+    [AnatomyItemData.typeName]: "TYPES.Item.anatomy",
+    [ArmorGearItemData.typeName]: "TYPES.Item.armorgear",
+    [BodyLocationItemData.typeName]: "TYPES.Item.bodylocation",
+    [BodyPartItemData.typeName]: "TYPES.Item.bodypart",
+    [BodyZoneItemData.typeName]: "TYPES.Item.bodyzone",
     [CombatTechniqueStrikeModeItemData.typeName]:
-        CombatTechniqueStrikeModeItemData.typeLabel.singular,
-    [CombatManeuverItemData.typeName]:
-        CombatManeuverItemData.typeLabel.singular,
-    [ConcoctionGearItemData.typeName]:
-        ConcoctionGearItemData.typeLabel.singular,
-    [ContainerGearItemData.typeName]: ContainerGearItemData.typeLabel.singular,
-    [EventItemData.typeName]: EventItemData.typeLabel.singular,
-    [InjuryItemData.typeName]: InjuryItemData.typeLabel.singular,
+        "TYPES.Item.combattechniquestrikemode",
+    [CombatManeuverItemData.typeName]: "TYPES.Item.combatmaneuver",
+    [ConcoctionGearItemData.typeName]: "TYPES.Item.concoctiongear",
+    [ContainerGearItemData.typeName]: "TYPES.Item.containergear",
+    [EventItemData.typeName]: "TYPES.Item.event",
+    [InjuryItemData.typeName]: "TYPES.Item.injury",
     [MeleeWeaponStrikeModeItemData.typeName]:
-        MeleeWeaponStrikeModeItemData.typeLabel.singular,
-    [MiscGearItemData.typeName]: MiscGearItemData.typeLabel.singular,
+        "TYPES.Item.meleeweaponstrikemode",
+    [MiscGearItemData.typeName]: "TYPES.Item.miscgear",
     [MissileWeaponStrikeModeItemData.typeName]:
-        MissileWeaponStrikeModeItemData.typeLabel.singular,
-    [MysteryItemData.typeName]: MysteryItemData.typeLabel.singular,
-    [MysticalAbilityItemData.typeName]:
-        MysticalAbilityItemData.typeLabel.singular,
-    [PhilosophyItemData.typeName]: PhilosophyItemData.typeLabel.singular,
-    [DomainItemData.typeName]: DomainItemData.typeLabel.singular,
-    [MysticalDeviceItemData.typeName]:
-        MysticalDeviceItemData.typeLabel.singular,
-    [ProjectileGearItemData.typeName]:
-        ProjectileGearItemData.typeLabel.singular,
-    [SkillItemData.typeName]: SkillItemData.typeLabel.singular,
-    [TraitItemData.typeName]: TraitItemData.typeLabel.singular,
-    [WeaponGearItemData.typeName]: WeaponGearItemData.typeLabel.singular,
+        "TYPES.Item.missileweaponstrikemode",
+    [MysteryItemData.typeName]: "TYPES.Item.mystery",
+    [MysticalAbilityItemData.typeName]: "TYPES.Item.mysticalability",
+    [PhilosophyItemData.typeName]: "TYPES.Item.philosophy",
+    [DomainItemData.typeName]: "TYPES.Item.domain",
+    [MysticalDeviceItemData.typeName]: "TYPES.Item.mysticaldevice",
+    [ProjectileGearItemData.typeName]: "TYPES.Item.projectilegear",
+    [SkillItemData.typeName]: "TYPES.Item.skill",
+    [TraitItemData.typeName]: "TYPES.Item.trait",
+    [WeaponGearItemData.typeName]: "TYPES.Item.weapongear",
 };
 
 SOHL.class = {
