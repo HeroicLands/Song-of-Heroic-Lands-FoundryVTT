@@ -1603,6 +1603,7 @@ export class SohlItem extends Item {
         const takenNames = new Set();
         for (const document of collection) takenNames.add(document.name);
         let baseName = CONFIG[documentName].typeLabels?.[type];
+        baseName = game.i18n.localize(baseName);
         if (subType) baseName = `${cls?.subTypes?.[subType]} ${baseName}`;
         let name = baseName;
         let index = 1;
@@ -1645,6 +1646,7 @@ export class SohlItem extends Item {
                 if (types && !types.includes(type)) continue;
                 let label =
                     CONFIG[this.documentName]?.typeLabels?.[type] || type;
+                label = game.i18n.localize(label);
                 documentTypes.push({ value: type, label });
                 if (type === defaultType) defaultTypeAllowed = true;
             }
@@ -2589,6 +2591,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     `Failure to create macro ${m.name} on ${this.parent.name}`,
                 );
             } else {
+                macro.$contextGroup = macro.contextGroup;
                 ary.push([macro.id, macro]);
             }
         });
@@ -2633,43 +2636,37 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     },
                     { cause: this.parent },
                 );
-
+                macro.$contextGroup = macro.contextGroup;
                 ary.push([macro.id, macro]);
             }
         });
 
         // Only accept the first default, all others set to Primary
         let hasDefault = false;
-        ary.forEach((a) => {
-            const isDefault =
-                foundry.utils.getProperty(a[1], "flags.sohl.contextGroup") ===
-                "default";
+        ary.forEach(([, macro]) => {
+            const isDefault = macro.contextGroup === "default";
             if (hasDefault) {
                 if (isDefault) {
-                    foundry.utils.setProperty(
-                        a[1],
-                        "flags.sohl.contextGroup",
-                        "essential",
-                    );
+                    macro.$contextGroup = "essential";
                 }
             } else {
                 hasDefault ||= isDefault;
             }
         });
 
-        ary.sort((a, b) => {
-            const contextGroupA = a[1].contextGroup || "general";
-            const contextGroupB = b[1].contextGroup || "general";
+        ary.sort(([, macroA], [, macroB]) => {
+            const contextGroupA = macroA.$contextGroup || "general";
+            const contextGroupB = macroB.$contextGroup || "general";
             return contextGroupA.localeCompare(contextGroupB);
         });
 
         // If no default was specified, then make the first element the default
         if (!hasDefault && ary.length) {
-            ary[0][1].contextGroup = "default";
+            ary[0][1].$contextGroup = "default";
         }
 
         if (this._collections.actions) delete this._collections.actions;
-        ary.forEach((a) => this.actions.set(a[0], a[1]));
+        ary.forEach(([id, macro]) => this.actions.set(id, macro));
     }
 
     get actions() {
@@ -2777,6 +2774,8 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     cond = true;
                 } else if (/^false$/i.test(contextCondition)) {
                     cond = false;
+                } else if (m.$contextGroup === "hidden") {
+                    cond = false;
                 } else {
                     cond = function (header) {
                         const fn = new Function(
@@ -2808,7 +2807,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     callback: () => {
                         this.execute(m.name);
                     },
-                    group: m.contextGroup,
+                    group: m.$contextGroup,
                 };
                 ary.push(newAction);
             }
@@ -3787,7 +3786,9 @@ export class AnimateEntityActorData extends SohlActorData {
                         it.system instanceof TraitItemData &&
                         it.system.intensity === "attribute"
                             ? "Attribute"
-                            : SOHL.sysVer.CONFIG.Item.typeLabels[it.type];
+                            : game.i18n.localize(
+                                  SOHL.sysVer.CONFIG.Item.typeLabels[it.type],
+                              );
                     if (it.system.subType) {
                         itemTypeName += ` (${it.system.subType})`;
                     }
@@ -6552,7 +6553,7 @@ export class InjuryItemData extends SohlItemData {
         if (!allowed) return false;
 
         // Create a new event to represent the create time of the injury
-        const createdItem = await SohlItem.create({
+        const createdItem = new SohlItem({
             name: "Created",
             type: "event",
             system: {
@@ -6579,7 +6580,7 @@ export class InjuryItemData extends SohlItemData {
 
         if (options.healTestDuration) {
             // Create a new event to represent the next heal test
-            const nextHealTest = await SohlItem.create({
+            const nextHealTest = new SohlItem({
                 name: "Next Heal Test",
                 type: "event",
                 system: {
@@ -6594,7 +6595,7 @@ export class InjuryItemData extends SohlItemData {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextHealTest);
+            updateData["nestedItems"].push(nextHealTest.toObject());
         }
 
         await this.updateSource(updateData);
@@ -6913,7 +6914,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
         if (!allowed) return false;
 
         // Create a new event to represent the create time of the affliction
-        const createdItem = await SohlItem.create({
+        const createdItem = new SohlItem({
             name: "Created",
             type: "event",
             system: {
@@ -6933,7 +6934,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
 
         if (data.system.subType === "infection") {
             // Create a new event to represent the next heal test
-            const nextInfectionCourseTest = await SohlItem.create({
+            const nextInfectionCourseTest = new SohlItem({
                 name: "Next Infection Course Test",
                 type: "event",
                 system: {
@@ -6948,12 +6949,12 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextInfectionCourseTest);
+            updateData["nestedItems"].push(nextInfectionCourseTest.toObject());
         }
 
         if (data.system.subType === "disease") {
             // Create a new event to represent the next heal test
-            const nextDiseaseCourseTest = await SohlItem.create({
+            const nextDiseaseCourseTest = new SohlItem({
                 name: "Next Disease Course Test",
                 type: "event",
                 system: {
@@ -6968,12 +6969,12 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextDiseaseCourseTest);
+            updateData["nestedItems"].push(nextDiseaseCourseTest.toObject());
         }
 
         if (data.system.subType === "poisontoxin") {
             // Create a new event to represent the next heal test
-            const nextCourseTest = await SohlItem.create({
+            const nextCourseTest = new SohlItem({
                 name: "Next Poison/Toxin Course Test",
                 type: "event",
                 system: {
@@ -6988,7 +6989,7 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
                     },
                 },
             });
-            updateData["nestedItems"].push(nextCourseTest);
+            updateData["nestedItems"].push(nextCourseTest.toObject());
         }
 
         await this.updateSource(updateData);
@@ -9094,14 +9095,21 @@ export class SkillBase {
                         (obj) => obj.system.abbrev === name,
                     );
 
-                    const score = Number.parseInt(attr.system.textValue, 10);
-                    if (Number.isInteger(score)) {
-                        this._attrs[attr.system.abbrev] = {
-                            name: attr.name,
-                            value: score * mult,
-                        };
-                    } else {
-                        throw new Error("invalid attribute value not number");
+                    if (attr) {
+                        const score = Number.parseInt(
+                            attr.system.textValue,
+                            10,
+                        );
+                        if (Number.isInteger(score)) {
+                            this._attrs[attr.system.abbrev] = {
+                                name: attr.name,
+                                value: score * mult,
+                            };
+                        } else {
+                            throw new Error(
+                                "invalid attribute value not number",
+                            );
+                        }
                     }
                 }
             }
@@ -11945,282 +11953,6 @@ export class SohlActor extends Actor {
         return dlgResult;
     }
 
-    static defaultName({ type, parent, pack } = {}) {
-        const documentName = this.metadata.name;
-        let collection;
-        if (parent) collection = parent.getEmbeddedCollection(documentName);
-        else if (pack) collection = game.packs.get(pack);
-        else collection = game.collections.get(documentName);
-        const takenNames = new Set();
-        for (const document of collection) takenNames.add(document.name);
-        const baseName = CONFIG.Actor.typeLabels[type]
-            ? CONFIG.Actor.typeLabels[type]
-            : type;
-        let name = baseName;
-        let index = 1;
-        while (takenNames.has(name)) name = `${baseName} (${++index})`;
-        return name;
-    }
-
-    static async createDialog(
-        data = {},
-        { parent = null, pack = null, types, ...options } = {},
-    ) {
-        const cls = this.implementation;
-
-        // Identify allowed types
-        let documentTypes = [];
-        let defaultType = CONFIG[this.documentName]?.defaultType;
-        let defaultTypeAllowed = false;
-        let hasTypes = false;
-        if (this.TYPES.length > 1) {
-            if (types?.length === 0)
-                throw new Error(
-                    "The array of sub-types to restrict to must not be empty",
-                );
-
-            // Register supported types
-            for (const type of this.TYPES) {
-                if (type === CONST.BASE_DOCUMENT_TYPE) continue;
-                if (types && !types.includes(type)) continue;
-                let label =
-                    CONFIG[this.documentName]?.typeLabels?.[type] || type;
-                documentTypes.push({ value: type, label });
-                if (type === defaultType) defaultTypeAllowed = true;
-            }
-            if (!documentTypes.length)
-                throw new Error(
-                    "No document types were permitted to be created",
-                );
-
-            if (!defaultTypeAllowed) defaultType = documentTypes[0].value;
-            // Sort alphabetically
-            documentTypes.sort((a, b) =>
-                a.label.localeCompare(b.label, game.i18n.lang),
-            );
-            hasTypes = true;
-        }
-
-        // Identify destination collection
-        let collection;
-        if (!parent) {
-            if (pack) collection = game.packs.get(pack);
-            else collection = game.collections.get(this.documentName);
-        }
-
-        // Collect data
-        const folders = collection?._formatFolderSelectOptions() ?? [];
-        const label = game.i18n.localize(this.metadata.label);
-        const title = game.i18n.format("DOCUMENT.Create", { type: label });
-        const type = data.type || defaultType;
-        let userCompendiums = game.settings
-            .get("sohl", "searchActorCompendiums")
-            .split(",")
-            .map((s) => s.trim());
-        const defaultAnimateEntity = game.settings.get(
-            "sohl",
-            "defaultAnimateEntity",
-        );
-
-        const worldActors = game.actors.reduce((ary, actor) => {
-            if (actor.type === "entity") {
-                const elem = {
-                    value: actor.uuid,
-                    label: actor.name,
-                };
-                ary.push(elem);
-            }
-            return ary;
-        }, []);
-
-        const userPackActors = (
-            await Utility.getDocsFromPacks(userCompendiums, {
-                documentName: "Actor",
-                docType: "entity",
-            })
-        ).reduce((ary, actor) => {
-            const elem = {
-                value: actor.uuid,
-                label: actor.name,
-            };
-            ary.push(elem);
-            return ary;
-        }, []);
-
-        const sysPackActors = (
-            await Utility.getDocsFromPacks(
-                SOHL.sysVer.CONFIG.Actor.compendiums,
-                { documentName: "Actor", docType: "entity" },
-            )
-        ).reduce((ary, actor) => {
-            const elem = {
-                value: actor.uuid,
-                label: actor.name,
-            };
-            ary.push(elem);
-            return ary;
-        }, []);
-        let defaultCloneActor = worldActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        defaultCloneActor ||= userPackActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        defaultCloneActor ||= sysPackActors.find(
-            (obj) => obj.label === defaultAnimateEntity,
-        );
-        const allActors = {
-            "Default Actors": [{ label: "None", value: "" }],
-        };
-
-        if (worldActors.length) {
-            allActors["World Actors"] = worldActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (userPackActors.length) {
-            allActors["User Compendiums"] = userPackActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (sysPackActors.length) {
-            allActors["System Compendiums"] = sysPackActors.sort((a, b) =>
-                a.label.localeCompare(b.label),
-            );
-        }
-
-        if (defaultCloneActor) {
-            allActors["Default Actors"].unshift({
-                label: defaultCloneActor.label,
-                value: defaultCloneActor.value,
-            });
-        }
-
-        let content = `<div class="form-group" id="cloneActor">
-        <label class="init-checkbox">Actor to Clone:</label>
-        <select name="cloneActor">\n`;
-        let hasSelected = false;
-        Object.keys(allActors).forEach((group) => {
-            if (allActors[group].length) {
-                content += `<optgroup label="${group}">`;
-                allActors[group].forEach((obj) => {
-                    content += `<option value="${obj.value}"${!hasSelected ? " selected" : ""}>${obj.label}</option>\n`;
-                    hasSelected = true;
-                });
-                content += "</optgroup>\n";
-            }
-        });
-        content += `</select></div><div class="form-group" id="randomattrs">
-        <label class="init-checkbox">Roll Attrs:</label>
-        <select name="rollattrs" data-tooltip="Perform random rolls for attributes">
-        <option value="" selected>No</option>
-        <option value="default">Default</option>
-        <option value="custom">Custom</option>
-        </select>
-        <input type="text" name="rollformula" disabled data-tooltip="Roll formula" />
-        </div>`;
-        content = "";
-        const dlgTemplate = "templates/sidebar/document-create.html";
-        const defActorName = this.implementation.defaultName({
-            type,
-            parent,
-            pack,
-        });
-        const dlgOptions = {
-            name: data.name || "",
-            defaultName: defActorName,
-            hasTypes: this.hasTypeData,
-            types: documentTypes,
-            type,
-            hasFolders: folders.length > 1,
-            folders,
-            folder: data.folder,
-            content,
-        };
-
-        // Render the document creation form
-        const html = await renderTemplate(dlgTemplate, dlgOptions);
-
-        // Render the confirmation dialog window
-        return Dialog.prompt({
-            title,
-            content: html,
-            label: title,
-            render: (html) => {
-                if (!hasTypes) return;
-                const doc = html[0];
-                doc.querySelector('[name="rollattrs"]').addEventListener(
-                    "change",
-                    (e) => {
-                        const rollFormula = doc.querySelector(
-                            '[name="rollformula"]',
-                        );
-                        if (e.target.value === "custom") {
-                            rollFormula.placeholder = "e.g. 4d6kh3";
-                            rollFormula.disabled = false;
-                        } else {
-                            rollFormula.placeholder = "";
-                            rollFormula.disabled = true;
-                        }
-                    },
-                );
-                doc.querySelector('[name="type"]').addEventListener(
-                    "change",
-                    (e) => {
-                        const nameInput = doc.querySelector('[name="name"]');
-                        nameInput.placeholder = cls.defaultName({
-                            type: e.target.value,
-                            parent,
-                            pack,
-                        });
-                        const isAnimateEntity = e.target.value === "entity";
-                        if (isAnimateEntity) {
-                            doc.querySelector("#cloneActor").style.visibility =
-                                "visible";
-                            doc.querySelector("#randomattrs").style.visibility =
-                                "visible";
-                        } else {
-                            doc.querySelector("#cloneActor").style.visibility =
-                                "hidden";
-                            doc.querySelector("#randomattrs").style.visibility =
-                                "hidden";
-                        }
-                    },
-                );
-            },
-            callback: (html) => {
-                const form = html[0].querySelector("form");
-                const fd = new FormDataExtended(form);
-                data.name = fd.object.name;
-                data.type = fd.object.type;
-                data.folder = fd.object.folder;
-                const cloneActorUuid = fd.object.cloneActor;
-                const rollAttrs = fd.object.rollattrs;
-                const rollFormula =
-                    rollAttrs === "custom" ? fd.object.rollformula : rollAttrs;
-                if (!data.folder) delete data["folder"];
-                if (documentTypes.length === 1) data.type = documentTypes[0];
-                if (!data.name?.trim())
-                    data.name = cls.defaultName({
-                        type: data.type,
-                        parent,
-                        pack,
-                    });
-                return this.create(data, {
-                    parent,
-                    pack,
-                    renderSheet: true,
-                    cloneActorUuid,
-                    rollFormula,
-                });
-            },
-            rejectClose: false,
-            options,
-        });
-    }
-
     /** @override */
     async _preCreate(createData, options, user) {
         const allowed = await super._preCreate(createData, options, user);
@@ -12235,7 +11967,9 @@ export class SohlActor extends Actor {
             );
         if (similarActorExists) {
             ui.notifications.warn(
-                `An ${SohlItemTypeLabels[createData.type]} with identical name ("${createData.name}") already exists, cannot create.`,
+                game.i18n.format(
+                    `An ${SohlItemTypeLabels[createData.type]} with identical name ("${createData.name}") already exists, cannot create.`,
+                ),
             );
             return false;
         }
@@ -12537,7 +12271,9 @@ export class SohlActor extends Actor {
 
         const typeNames =
             types
-                .map((t) => SOHL.sysVer.CONFIG.Item.typeLabels[t])
+                .map((t) =>
+                    game.i18n.localize(SOHL.sysVer.CONFIG.Item.typeLabels[t]),
+                )
                 .join(" or ") || "item";
 
         let item = null;
@@ -12616,11 +12352,16 @@ export class SohlActor extends Actor {
 
         if (!types.includes(item.type)) {
             throw new Error(
-                `Item ${item.system.typeLabel.singular} must be one of "${types
-                    .map((t) => SOHL.sysVer.CONFIG.Item.typeLabels[t])
-                    .join(", ")}" but type is ${
-                    SOHL.sysVer.CONFIG.Item.typeLabels[item.type]
-                }`,
+                game.i18n.localize(
+                    `Item ${item.system.typeLabel.singular} must be one of "${types
+                        .map(
+                            (t) =>
+                                game.i18SOHL.sysVer.CONFIG.Item.typeLabels[t],
+                        )
+                        .join(", ")}" but type is ${
+                        SOHL.sysVer.CONFIG.Item.typeLabels[item.type]
+                    }`,
+                ),
             );
         }
     }
@@ -13067,9 +12808,13 @@ function SohlSheetMixin(Base) {
                 // in an Anatomy object instead
                 if (isActor && itemData.type.startsWith("body")) {
                     ui.notifications.warn(
-                        `You may not drop a ${
-                            SOHL.sysVer.CONFIG.Item.typeLabels[itemData.type]
-                        } onto an Actor`,
+                        game.i18n.localize(
+                            `You may not drop a ${
+                                SOHL.sysVer.CONFIG.Item.typeLabels[
+                                    itemData.type
+                                ]
+                            } onto an Actor`,
+                        ),
                     );
                     return false;
                 }
@@ -14695,10 +14440,8 @@ export const SohlActorDataModels = {
 };
 
 export const SohlActorTypeLabels = {
-    [AnimateEntityActorData.typeName]:
-        AnimateEntityActorData.typeLabel.singular,
-    [InanimateObjectActorData.typeName]:
-        InanimateObjectActorData.typeLabel.singular,
+    [AnimateEntityActorData.typeName]: "TYPES.Actor.entity",
+    [InanimateObjectActorData.typeName]: "TYPES.Actor.object",
 };
 
 export const SohlActorTypeIcons = {
@@ -14771,39 +14514,32 @@ export const SohlModifiers = {
 };
 
 export const SohlItemTypeLabels = {
-    [AffiliationItemData.typeName]: AffiliationItemData.typeLabel.singular,
-    [AfflictionItemData.typeName]: AfflictionItemData.typeLabel.singular,
-    [AnatomyItemData.typeName]: AnatomyItemData.typeLabel.singular,
-    [ArmorGearItemData.typeName]: ArmorGearItemData.typeLabel.singular,
-    [BodyLocationItemData.typeName]: BodyLocationItemData.typeLabel.singular,
-    [BodyPartItemData.typeName]: BodyPartItemData.typeLabel.singular,
-    [BodyZoneItemData.typeName]: BodyZoneItemData.typeLabel.singular,
+    [AffiliationItemData.typeName]: "TYPES.Item.affiliation",
+    [AfflictionItemData.typeName]: "TYPES.Item.affliction",
+    [AnatomyItemData.typeName]: "TYPES.Item.anatomy",
+    [ArmorGearItemData.typeName]: "TYPES.Item.armorgear",
+    [BodyLocationItemData.typeName]: "TYPES.Item.bodylocation",
+    [BodyPartItemData.typeName]: "TYPES.Item.bodypart",
+    [BodyZoneItemData.typeName]: "TYPES.Item.bodyzone",
     [CombatTechniqueStrikeModeItemData.typeName]:
-        CombatTechniqueStrikeModeItemData.typeLabel.singular,
-    [CombatManeuverItemData.typeName]:
-        CombatManeuverItemData.typeLabel.singular,
-    [ConcoctionGearItemData.typeName]:
-        ConcoctionGearItemData.typeLabel.singular,
-    [ContainerGearItemData.typeName]: ContainerGearItemData.typeLabel.singular,
-    [EventItemData.typeName]: EventItemData.typeLabel.singular,
-    [InjuryItemData.typeName]: InjuryItemData.typeLabel.singular,
-    [MeleeWeaponStrikeModeItemData.typeName]:
-        MeleeWeaponStrikeModeItemData.typeLabel.singular,
-    [MiscGearItemData.typeName]: MiscGearItemData.typeLabel.singular,
-    [MissileWeaponStrikeModeItemData.typeName]:
-        MissileWeaponStrikeModeItemData.typeLabel.singular,
-    [MysteryItemData.typeName]: MysteryItemData.typeLabel.singular,
-    [MysticalAbilityItemData.typeName]:
-        MysticalAbilityItemData.typeLabel.singular,
-    [PhilosophyItemData.typeName]: PhilosophyItemData.typeLabel.singular,
-    [DomainItemData.typeName]: DomainItemData.typeLabel.singular,
-    [MysticalDeviceItemData.typeName]:
-        MysticalDeviceItemData.typeLabel.singular,
-    [ProjectileGearItemData.typeName]:
-        ProjectileGearItemData.typeLabel.singular,
-    [SkillItemData.typeName]: SkillItemData.typeLabel.singular,
-    [TraitItemData.typeName]: TraitItemData.typeLabel.singular,
-    [WeaponGearItemData.typeName]: WeaponGearItemData.typeLabel.singular,
+        "TYPES.Item.combattechniquestrikemode",
+    [CombatManeuverItemData.typeName]: "TYPES.Item.combatmaneuver",
+    [ConcoctionGearItemData.typeName]: "TYPES.Item.concoctiongear",
+    [ContainerGearItemData.typeName]: "TYPES.Item.containergear",
+    [EventItemData.typeName]: "TYPES.Item.event",
+    [InjuryItemData.typeName]: "TYPES.Item.injury",
+    [MeleeWeaponStrikeModeItemData.typeName]: "TYPES.Item.meleestrikemode",
+    [MiscGearItemData.typeName]: "TYPES.Item.miscgear",
+    [MissileWeaponStrikeModeItemData.typeName]: "TYPES.Item.missilestrikemode",
+    [MysteryItemData.typeName]: "TYPES.Item.mystery",
+    [MysticalAbilityItemData.typeName]: "TYPES.Item.mysticalability",
+    [PhilosophyItemData.typeName]: "TYPES.Item.philosophy",
+    [DomainItemData.typeName]: "TYPES.Item.domain",
+    [MysticalDeviceItemData.typeName]: "TYPES.Item.mysticaldevice",
+    [ProjectileGearItemData.typeName]: "TYPES.Item.projectilegear",
+    [SkillItemData.typeName]: "TYPES.Item.skill",
+    [TraitItemData.typeName]: "TYPES.Item.trait",
+    [WeaponGearItemData.typeName]: "TYPES.Item.weapongear",
 };
 
 SOHL.class = {
