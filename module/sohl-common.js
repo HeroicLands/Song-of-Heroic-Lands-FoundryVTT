@@ -2591,6 +2591,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     `Failure to create macro ${m.name} on ${this.parent.name}`,
                 );
             } else {
+                macro.$contextGroup = macro.contextGroup;
                 ary.push([macro.id, macro]);
             }
         });
@@ -2635,43 +2636,37 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     },
                     { cause: this.parent },
                 );
-
+                macro.$contextGroup = macro.contextGroup;
                 ary.push([macro.id, macro]);
             }
         });
 
         // Only accept the first default, all others set to Primary
         let hasDefault = false;
-        ary.forEach((a) => {
-            const isDefault =
-                foundry.utils.getProperty(a[1], "flags.sohl.contextGroup") ===
-                "default";
+        ary.forEach(([, macro]) => {
+            const isDefault = macro.contextGroup === "default";
             if (hasDefault) {
                 if (isDefault) {
-                    foundry.utils.setProperty(
-                        a[1],
-                        "flags.sohl.contextGroup",
-                        "essential",
-                    );
+                    macro.$contextGroup = "essential";
                 }
             } else {
                 hasDefault ||= isDefault;
             }
         });
 
-        ary.sort((a, b) => {
-            const contextGroupA = a[1].contextGroup || "general";
-            const contextGroupB = b[1].contextGroup || "general";
+        ary.sort(([, macroA], [, macroB]) => {
+            const contextGroupA = macroA.$contextGroup || "general";
+            const contextGroupB = macroB.$contextGroup || "general";
             return contextGroupA.localeCompare(contextGroupB);
         });
 
         // If no default was specified, then make the first element the default
         if (!hasDefault && ary.length) {
-            ary[0][1].contextGroup = "default";
+            ary[0][1].$contextGroup = "default";
         }
 
         if (this._collections.actions) delete this._collections.actions;
-        ary.forEach((a) => this.actions.set(a[0], a[1]));
+        ary.forEach(([id, macro]) => this.actions.set(id, macro));
     }
 
     get actions() {
@@ -2779,6 +2774,8 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     cond = true;
                 } else if (/^false$/i.test(contextCondition)) {
                     cond = false;
+                } else if (m.$contextGroup === "hidden") {
+                    cond = false;
                 } else {
                     cond = function (header) {
                         const fn = new Function(
@@ -2810,7 +2807,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
                     callback: () => {
                         this.execute(m.name);
                     },
-                    group: m.contextGroup,
+                    group: m.$contextGroup,
                 };
                 ary.push(newAction);
             }
@@ -9098,14 +9095,21 @@ export class SkillBase {
                         (obj) => obj.system.abbrev === name,
                     );
 
-                    const score = Number.parseInt(attr.system.textValue, 10);
-                    if (Number.isInteger(score)) {
-                        this._attrs[attr.system.abbrev] = {
-                            name: attr.name,
-                            value: score * mult,
-                        };
-                    } else {
-                        throw new Error("invalid attribute value not number");
+                    if (attr) {
+                        const score = Number.parseInt(
+                            attr.system.textValue,
+                            10,
+                        );
+                        if (Number.isInteger(score)) {
+                            this._attrs[attr.system.abbrev] = {
+                                name: attr.name,
+                                value: score * mult,
+                            };
+                        } else {
+                            throw new Error(
+                                "invalid attribute value not number",
+                            );
+                        }
                     }
                 }
             }
