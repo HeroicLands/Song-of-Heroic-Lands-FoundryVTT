@@ -23,14 +23,14 @@ Whether you’re delving into political intrigue, navigating treacherous wildern
 
 [Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024, 2025 by Thomas Rodriguez. All rights reserved.
 
-Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com).
-
 ## License
 
 All content under the `assets` folder is licensed under the
 [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/) unless otherwise specified.  See the file [LICENSE.CC-BY-SA-4.0](./assets/LICENSE.CC-BY-SA-4.0) in the `assets` folder for more information.
 
 All other content outside of the `assets` folder is licensed under the GNU GPLv3 license.  See the file [LICENSE.GPLv3](./LICENSE.GPLv3) for more information.
+
+Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com). Used with permission.
 
 ## Discord
 
