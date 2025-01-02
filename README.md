@@ -12,7 +12,7 @@ Embark on a journey through a richly detailed fantasy world with **Song of Heroi
 Designed for both seasoned veterans and new players, SoHL captures the essence of _HârnMaster_’s detailed mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.
 
 Key Features:
-- **HârnMaster Compatibility**: Compatible with _HârnMaster_’s time-tested rules, preserving the realism and depth players love.
+- **HârnMaster Compatibility**: Compatible with _HârnMaster_’s rules, preserving the realism and depth players love.
 - **Seamless Integration**: Take full advantage of Foundry VTT’s dynamic tools for character management, dice rolls, and automated systems, reducing overhead and increasing immersion.
 - **Deep Customization**: Tailor your campaigns with rich lore and tools that empower GMs and players alike to tell unforgettable stories.
 - **Visual Enhancements**: Bring the world's geography and culture to life with integrated maps, tokens, and visuals.
@@ -35,8 +35,6 @@ All other content outside of the `assets` folder is licensed under the GNU GPLv3
 Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to discuss **Song of Heroic Lands** and find related modules and content.
 
 # Credits
-
-Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com). Used with permission.
 
 The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/).
 
