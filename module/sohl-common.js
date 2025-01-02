@@ -2599,7 +2599,7 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
         // Finally, add in the intrinsic actions (unless an action with same
         // name has already been added).  All of these macros will have the
         // flag "flags.sohl.isIntrinsicAction" set to true.
-        this.intrinsicActions.forEach((intrinsicAction) => {
+        this.getIntrinsicActions().forEach((intrinsicAction) => {
             if (!ary.some(([, m]) => m.name === intrinsicAction.name)) {
                 let contextCondition;
                 const condType = typeof intrinsicAction.contextCondition;
@@ -2678,11 +2678,8 @@ export class SohlBaseData extends foundry.abstract.TypeDataModel {
      * Returns an array of predefined action descriptors for this item.  These
      * actions are already implemented in code, so they are always available.  These
      * can be specifically overridden by a macro with the same name.
-     *
-     * @readonly
-     * @type {{}}
      */
-    get intrinsicActions() {
+    getIntrinsicActions(_data = this) {
         return [];
     }
 
@@ -3098,14 +3095,14 @@ export class SohlItemData extends SohlBaseData {
         await this.item.sheet.render(true);
     }
 
-    get intrinsicActions() {
+    getIntrinsicActions(_data = this) {
         return [
             {
                 functionName: "editItem",
                 name: "Edit",
                 contextIconClass: "fas fa-edit",
                 contextCondition: () => {
-                    if (this.actor?.isOwner || this.item.isOwner) return true;
+                    if (_data.actor?.isOwner || _data.item.isOwner) return true;
                 },
                 contextGroup: "general",
             },
@@ -3114,7 +3111,7 @@ export class SohlItemData extends SohlBaseData {
                 name: "Delete",
                 contextIconClass: "fas fa-trash",
                 contextCondition: () => {
-                    if (this.actor?.isOwner || this.item.isOwner) return true;
+                    if (_data.actor?.isOwner || _data.item.isOwner) return true;
                 },
                 contextGroup: "general",
             },
@@ -3129,9 +3126,9 @@ export class SohlItemData extends SohlBaseData {
                     return (
                         item &&
                         !!(
-                            item.system.description ||
-                            item.system.notes ||
-                            item.system.textReference
+                            _data.description ||
+                            _data.notes ||
+                            _data.textReference
                         )
                     );
                 },
@@ -3350,8 +3347,8 @@ export class AnimateEntityActorData extends SohlActorData {
         });
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -4232,8 +4229,8 @@ export class StrikeModeItemData extends SohlItemData {
         });
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -4422,8 +4419,8 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
         });
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions;
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data);
 
         actions.push(
             {
@@ -4633,8 +4630,9 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
         });
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions
+    getIntrinsicActions(_data = this) {
+        let actions = super
+            .getIntrinsicActions(_data)
             .filter((a) => a.name !== "attack")
             .map((a) => {
                 if (a.contextGroup === "default") {
@@ -4937,8 +4935,8 @@ export class MasteryLevelItemData extends SohlItemData {
         return 1;
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -5968,8 +5966,8 @@ export class MysticalAbilityItemData extends SubtypeMixin(
         );
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -6224,8 +6222,8 @@ export class DomainItemData extends SohlItemData {
         return this.item.getFlag("sohl", "embodiments") || [];
     }
 
-    get intrinsicActions() {
-        return super.intrinsicActions;
+    getIntrinsicActions(_data = this) {
+        return super.getIntrinsicActions(_data);
     }
 
     static defineSchema() {
@@ -6366,8 +6364,8 @@ export class InjuryItemData extends SohlItemData {
         );
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -6808,8 +6806,8 @@ export class AfflictionItemData extends SubtypeMixin(SohlItemData) {
         );
     }
 
-    get intrinsicActions() {
-        let actions = super.intrinsicActions.map((a) => {
+    getIntrinsicActions(_data = this) {
+        let actions = super.getIntrinsicActions(_data).map((a) => {
             if (a.contextGroup === "default") {
                 a.contextGroup = "essential";
             }
@@ -7250,14 +7248,14 @@ export class TraitItemData extends SubtypeMixin(MasteryLevelItemData) {
         return result;
     }
 
-    get intrinsicActions() {
+    getIntrinsicActions(_data = this) {
         if (this.intensity === "attribute" && this.isNumeric) {
-            return super.intrinsicActions;
+            return super.getIntrinsicActions(_data);
         } else {
             // If this is not a numeric attribute, then targetlevel is
             // actually not used, so don't include its intrinsic actions
             // and instead use the intrinsic actions for SohlItemData.
-            return SohlItemData.prototype.intrinsicActions;
+            return SohlItemData.prototype.getIntrinsicActions(_data);
         }
     }
 
@@ -11674,6 +11672,7 @@ export class SohlMacroConfig extends MacroConfig {
         data.editable = this.isEditable;
         data.const = SOHL.sysVer.CONST;
         data.config = SOHL.sysVer.CONFIG;
+        data.flags = data.document.flags;
         data.contextGroupChoices = SohlContextMenu.sortGroups;
         return data;
     }
@@ -12675,7 +12674,7 @@ function SohlSheetMixin(Base) {
                     ? doc.system._getContextOptions()
                     : doc._getContextOptions();
 
-            result = result.filter((co) => co.contextGroup !== "hidden");
+            result = result.filter((co) => co.group !== "hidden");
 
             // Sort the menu items according to group.  Expect items with no group
             // at the top, items in the "primary" group next, and items in the

@@ -8197,7 +8197,7 @@
           contextLabel: ""
           contextIconClass: ""
           contextCondition: ""
-          contextGroup: aaa
+          contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
 - name: Cauliflower Ear
@@ -8487,7 +8487,7 @@
           contextLabel: ""
           contextIconClass: ""
           contextCondition: ""
-          contextGroup: aaa
+          contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
 - name: Obesity
@@ -8724,7 +8724,7 @@
           contextLabel: ""
           contextIconClass: ""
           contextCondition: ""
-          contextGroup: aaa
+          contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
 - name: Syndactyly
