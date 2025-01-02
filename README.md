@@ -30,13 +30,13 @@ All content under the `assets` folder is licensed under the
 
 All other content outside of the `assets` folder is licensed under the GNU GPLv3 license.  See the file [LICENSE.GPLv3](./LICENSE.GPLv3) for more information.
 
-Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com). Used with permission.
-
 ## Discord
 
 Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to discuss **Song of Heroic Lands** and find related modules and content.
 
 # Credits
+
+Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com). Used with permission.
 
 The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/).
 
