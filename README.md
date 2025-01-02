@@ -1,15 +1,27 @@
-# Song-of-Heroic-Lands-FoundryVTT
+# Song of Heroic Lands: A Gateway to Adventure
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/toastygm/Song-of-Heroic-Lands-FoundryVTT)  
 ![GitHub issues](https://img.shields.io/github/issues-raw/toastygm/Song-of-Heroic-Lands-FoundryVTT)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fhm)
 [![GitHub downloads (latest)](<https://img.shields.io/badge/dynamic/json?label=Downloads@latest&query=assets[?(@.name.includes('zip'))].download_count&url=https://api.github.com/repos/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest&color=green>)](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest)
 
-This is a game system for the Song of Heroic Lands RPG for [Foundry Virtual Tabletop](http://foundryvtt.com/).
+<img src="https://raw.githubusercontent.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/refs/heads/master/assets/ui/sohl-background.webp" alt="Two Knights Fighting Horrific Creatures" width="970" height="544" />
+
+Embark on a journey through a richly detailed fantasy world with **Song of Heroic Lands (SoHL)**—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned _HârnMaster_ system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.
+
+Designed for both seasoned veterans and new players, SoHL captures the essence of _HârnMaster_’s detailed mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.
+
+Key Features:
+- **HârnMaster Compatibility**: Compatible with _HârnMaster_’s time-tested rules, preserving the realism and depth players love.
+- **Seamless Integration**: Take full advantage of Foundry VTT’s dynamic tools for character management, dice rolls, and automated systems, reducing overhead and increasing immersion.
+- **Deep Customization**: Tailor your campaigns with rich lore and tools that empower GMs and players alike to tell unforgettable stories.
+- **Visual Enhancements**: Bring the world's geography and culture to life with integrated maps, tokens, and visuals.
+
+Whether you’re delving into political intrigue, navigating treacherous wilderness, or unraveling ancient mysteries, Song of Heroic Lands offers an unparalleled experience for exploring your own Heroic Lands. Begin your adventure today and let the song of the heroic echo through your campaigns!
 
 ## Copyright
 
-[Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024 by Thomas Rodriguez. All rights reserved.
+[Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024, 2025 by Thomas Rodriguez. All rights reserved.
 
 ## License
 
@@ -20,9 +32,11 @@ All other content outside of the `assets` folder is licensed under the GNU GPLv3
 
 ## Discord
 
-Please consider joining [my community on Discord](https://bit.ly/44vZ10j) to discuss and find additional content modules I have developed.
+Please consider joining [the community on Discord](https://bit.ly/44vZ10j) to discuss **Song of Heroic Lands** and find related modules and content.
 
 # Credits
+
+Hârn®, HârnWorld®, and HârnMaster® are registered trademarks of Arien Crossby, licensed by Keléstia Productions Ltd (www.kelestia.com). Used with permission.
 
 The following images were taken from [The Noun Project](https://thenounproject.com/) and [Game-Icons](https://game-icons.net/).
 
