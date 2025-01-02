@@ -11672,6 +11672,7 @@ export class SohlMacroConfig extends MacroConfig {
         data.editable = this.isEditable;
         data.const = SOHL.sysVer.CONST;
         data.config = SOHL.sysVer.CONFIG;
+        data.flags = data.document.flags;
         data.contextGroupChoices = SohlContextMenu.sortGroups;
         return data;
     }
@@ -12662,7 +12663,7 @@ function SohlSheetMixin(Base) {
                     ? doc.system._getContextOptions()
                     : doc._getContextOptions();
 
-            result = result.filter((co) => co.contextGroup !== "hidden");
+            result = result.filter((co) => co.group !== "hidden");
 
             // Sort the menu items according to group.  Expect items with no group
             // at the top, items in the "primary" group next, and items in the
