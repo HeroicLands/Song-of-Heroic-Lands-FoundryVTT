@@ -4149,7 +4149,7 @@ function SubtypeMixin(Base) {
     };
 }
 
-export class StrikeModeItemData extends SohlItemData {
+export class StrikeModeItemData extends SubtypeMixin(SohlItemData) {
     $traits;
     $assocSkill;
     $length;
@@ -4157,6 +4157,13 @@ export class StrikeModeItemData extends SohlItemData {
     $attack;
     $defense;
     $durability;
+
+    static get subTypes() {
+        return {
+            legendary: "Legendary",
+            island: "Island",
+        };
+    }
 
     /** @override */
     static get nestOnly() {
@@ -5735,7 +5742,7 @@ export class MysteryItemData extends SubtypeMixin(SohlItemData) {
                     initial: "",
                     label: "Domain",
                 }),
-                skills: new fields.SetField(
+                skills: new fields.ArrayField(
                     new fields.StringField({
                         required: "true",
                         blank: false,
@@ -7602,7 +7609,7 @@ export class AnatomyItemData extends SohlItemData {
                 initial: "",
                 label: "Default Aim",
             }),
-            weaponLimbs: new fields.SetField(
+            weaponLimbs: new fields.ArrayField(
                 new fields.StringField({
                     initial: "",
                     label: "Weapon Limb",
@@ -8474,7 +8481,7 @@ export class ArmorGearItemData extends GearItemData {
             }),
             locations: new fields.SchemaField(
                 {
-                    flexible: new fields.SetField(
+                    flexible: new fields.ArrayField(
                         new fields.StringField({
                             initial: "",
                         }),
@@ -8482,7 +8489,7 @@ export class ArmorGearItemData extends GearItemData {
                             label: "Flexible",
                         },
                     ),
-                    rigid: new fields.SetField(
+                    rigid: new fields.ArrayField(
                         new fields.StringField({
                             initial: "",
                         }),
@@ -12208,7 +12215,7 @@ export class SohlActor extends Actor {
      */
     getCombatStat(name) {
         const combatSkill = this.itemTypes[SkillItemData.typeName].find(
-            (it) => it.system.type === "Combat" && it.name === name,
+            (it) => it.system.subType === "Combat" && it.name === name,
         );
         if (combatSkill) {
             return combatSkill.system.$masteryLevel;
@@ -12926,12 +12933,13 @@ function SohlSheetMixin(Base) {
             });
         }
 
-        async _addPrimitiveSetItem(event) {
+        async _addPrimitiveArrayItem(event, { allowDuplicates = false } = {}) {
             const dataset = event.currentTarget.dataset;
-            let newSet = foundry.utils.getProperty(
+            let oldArray = foundry.utils.getProperty(
                 this.document,
                 dataset.array,
             );
+            let newArray = foundry.utils.deepClone(oldArray);
             let defaultValue = dataset.defaultValue;
             const datatype = dataset.dtype;
             const choices = dataset.choices;
@@ -12949,7 +12957,7 @@ function SohlSheetMixin(Base) {
                     <label>{{valueName}}</label>
                     {{#if choices}}
                     <select name="newValue">
-                        {{#selectOptions choices selected=newValue}}
+                        {{selectOptions choices selected=newValue}}
                     </select>
                     {{else}}
                     <input
@@ -12985,14 +12993,14 @@ function SohlSheetMixin(Base) {
                 });
 
                 // if dialog was closed, do nothing
-                if (!dlgResult) return null;
+                if (!dlgResult) return;
 
-                if (!newSet.has(dlgResult)) {
-                    newSet.set(dlgResult);
-                    const updateData = { [dataset.array]: newSet };
-                    const result = await this.item.update(updateData);
-                    if (result) this.render();
-                }
+                if (!allowDuplicates && newArray.includes(dlgResult)) return;
+
+                newArray.push(dlgResult);
+                const updateData = { [dataset.array]: newArray };
+                const result = await this.item.update(updateData);
+                if (result) this.render();
             }
         }
 
@@ -13168,14 +13176,16 @@ function SohlSheetMixin(Base) {
             await this._onSubmit(event); // Submit any unsaved changes
 
             let result;
-            if (["Number", "String"].includes(dataset.dtype)) {
-                result = await this._addPrimitiveSetItem(event);
-            } else if (dataset.objectType === "Aim") {
+            if (dataset.objectType === "Aim") {
                 result = await this._addAimArrayItem(event);
             } else if (dataset.objectType === "ValueDesc") {
                 result = await this._valueDescArrayItem(event);
             } else if (dataset.choices) {
                 result = await this._addChoiceArrayItem(event);
+            } else if (["Number", "String"].includes(dataset.dtype)) {
+                result = await this._addPrimitiveArrayItem(event, {
+                    allowDuplicates: dataset.allowDuplicates,
+                });
             }
             if (result) this.render();
             return result;
@@ -13185,17 +13195,10 @@ function SohlSheetMixin(Base) {
             const dataset = event.currentTarget.dataset;
             if (!dataset.array) return null;
             await this._onSubmit(event); // Submit any unsaved changes
-            let collection = foundry.utils.getProperty(
-                this.document,
-                dataset.array,
-            );
-            if (collection instanceof Collection) {
-                collection.delete(dataset.value);
-            } else {
-                collection = collection.filter((a) => a !== dataset.value);
-            }
+            let array = foundry.utils.getProperty(this.document, dataset.array);
+            array = array.filter((a) => a !== dataset.value);
             const result = await this.document.update({
-                [dataset.array]: collection,
+                [dataset.array]: array,
             });
             if (result) this.render();
             return result;
@@ -13505,43 +13508,48 @@ export class SohlActorSheet extends SohlSheetMixin(ActorSheet) {
                 }
             }
 
-            if (it.system instanceof CombatTechniqueStrikeModeItemData) {
-                const maneuver = it.cause;
+            // When processing the strike modes, ignore any strike modes that aren't associated
+            // with the current version.
+            if (
+                it.type.endsWith("strikemode") &&
+                it.system.subType === SOHL.sysVer.id
+            ) {
+                if (it.type === CombatTechniqueStrikeModeItemData.typeName) {
+                    const maneuver = it.cause;
 
-                if (maneuver?.system instanceof CombatManeuverItemData) {
-                    cmData[maneuver.name] ||= {
-                        item: maneuver,
-                        strikeModes: [],
-                    };
-                    cmData[maneuver.name].strikeModes.push(it);
-                }
-            }
-
-            if (it.system instanceof MeleeWeaponStrikeModeItemData) {
-                const weapon = it.cause;
-                if (
-                    weapon?.system instanceof WeaponGearItemData &&
-                    weapon.system.$isHeldBy?.length >= it.system.minParts
+                    if (maneuver?.system instanceof CombatManeuverItemData) {
+                        cmData[maneuver.name] ||= {
+                            item: maneuver,
+                            strikeModes: [],
+                        };
+                        cmData[maneuver.name].strikeModes.push(it);
+                    }
+                } else if (it.type === MeleeWeaponStrikeModeItemData.typeName) {
+                    const weapon = it.cause;
+                    if (
+                        weapon?.system instanceof WeaponGearItemData &&
+                        weapon.system.$isHeldBy?.length >= it.system.minParts
+                    ) {
+                        wpnData[weapon.name] ||= {
+                            item: weapon,
+                            strikeModes: [],
+                        };
+                        wpnData[weapon.name].strikeModes.push(it);
+                    }
+                } else if (
+                    it.type === MissileWeaponStrikeModeItemData.typeName
                 ) {
-                    wpnData[weapon.name] ||= {
-                        item: weapon,
-                        strikeModes: [],
-                    };
-                    wpnData[weapon.name].strikeModes.push(it);
-                }
-            }
-
-            if (it.system instanceof MissileWeaponStrikeModeItemData) {
-                const weapon = it.cause;
-                if (
-                    weapon?.system instanceof WeaponGearItemData &&
-                    weapon.system.$isHeldBy?.length >= it.system.minParts
-                ) {
-                    mslData[weapon.name] ||= {
-                        item: weapon,
-                        strikeModes: [],
-                    };
-                    mslData[weapon.name].strikeModes.push(it);
+                    const weapon = it.cause;
+                    if (
+                        weapon?.system instanceof WeaponGearItemData &&
+                        weapon.system.$isHeldBy?.length >= it.system.minParts
+                    ) {
+                        mslData[weapon.name] ||= {
+                            item: weapon,
+                            strikeModes: [],
+                        };
+                        mslData[weapon.name].strikeModes.push(it);
+                    }
                 }
             }
 
