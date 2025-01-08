@@ -21,6 +21,7 @@
                     <input id="bodyzone-affmob" type="checkbox" name="flags.sohl.legendary.affectsMobility" {{checked flags.sohl.affectsMobility}} data-dtype="Boolean" />
                 </div>
             </div>
+            {{#if (eq flavor "legendary")}}
             <fieldset class="bodyzone-zones-list" id="bodyzone-zones-list">
                 <legend>Zone Numbers</legend>
                 <div class="bodyzone-zones flexrow" id="bodyzone-zones-add">
@@ -76,6 +77,7 @@
                     {{/each}}
                 </ol>
             </fieldset>
+            {{/if}}
 
             <div class="items">
                 <div class="items-list">

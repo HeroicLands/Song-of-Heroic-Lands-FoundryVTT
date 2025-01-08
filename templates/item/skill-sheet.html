@@ -19,6 +19,7 @@
                 {{#if (eq system.subType config.Item.dataModels.skill.subTypes.Combat)}}
                 {{formField fields.weaponGroup rootId="skill-wpngrp" classes="text-field" stacked=true value=system.weaponGroup}}
                 {{/if}}
+                {{#if (eq flavor "legendary")}}
                 <div class="form-group stacked text-field">
                     <label>Skill Multiple</label>
                     <div class="form-fields">
@@ -39,13 +40,15 @@
                     </div>
                     <p class="hint">Parent skill if an expertise, blank otherwise</p>
                 </div>
+                {{/if}}
             </div>
+            {{#if (eq flavor "legendary")}}
             <fieldset id="skill-action-zones">
                 <legend>Action Body Parts</legend>
                 <div class="flexrow">
                     <a
                         class="add-array-item"
-                        data-array="flags.sohl.actionBodyParts"
+                        data-array="flags.sohl.legendary.actionBodyParts"
                         data-dtype="String"
                         data-default-value=""
                         data-title="Action Body Parts"
@@ -53,12 +56,12 @@
                     >
                 </div>
                 <ol class="grid grid-4col">
-                    {{#each flags.sohl.actionBodyParts}}
+                    {{#each flags.sohl.legendary.actionBodyParts}}
                     <li class="skill-action-bodypart">
                         <span class="name">{{this}}</span>
                         <a
                             class="delete-array-item"
-                            data-array="flags.sohl.actionBodyParts"
+                            data-array="flags.sohl.legendary.actionBodyParts"
                             data-value="{{this}}"
                             title="Delete Action Body Part"
                             ><i class="fas fa-trash"></i
@@ -67,6 +70,7 @@
                     {{/each}}
                 </ol>
             </fieldset>
+            {{/if}}
             {{> "sohl.item-refnote"}}
         </div>
 

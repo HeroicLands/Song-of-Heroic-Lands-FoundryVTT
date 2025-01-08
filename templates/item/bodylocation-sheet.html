@@ -42,6 +42,7 @@
                             {{formInput fields.isFumble rootId="bodyloc-is-fumble" classes="form-fields" value=system.isFumble}}
                             <label>Stumble</label>
                         </div>
+                        {{#if (eq flavor "legendary")}}
                         <div class="form-group text-field">
                             <input type="checkbox" name="flags.sohl.legendary.isRigid" {{checked flags.sohl.legendary.isRigid}} data-type="Boolean" />
                             <label>Is Rigid</label>
@@ -64,6 +65,7 @@
                                 {{numberInput flags.sohl.legendary.shockValue name="flags.sohl.legendary.shockValue" step=1 min=0}}
                             </div>
                         </div>
+                        {{/if}}
                     </div>
                 </div>
             </fieldset>

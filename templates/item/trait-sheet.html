@@ -37,12 +37,13 @@
                 {{formField fields.intensity rootId="trait-int" classes="text-field" stacked=true value=system.intensity}}
                 {{formField fields.abbrev rootId="trait-abbr" classes="text-field" stacked=true value=system.abbrev}}
             </div>
+            {{#if (eq flavor "legendary")}}
             <fieldset id="trait-action-zones">
                 <legend>Action Body Parts</legend>
                 <div class="flexrow">
                     <a
                         class="add-array-item"
-                        data-array="flags.sohl.actionBodyParts"
+                        data-array="flags.sohl.legendary.actionBodyParts"
                         data-dtype="String"
                         data-default-value=""
                         data-title="Action Body Parts"
@@ -50,12 +51,12 @@
                     >
                 </div>
                 <ol class="grid grid-4col">
-                    {{#each flags.sohl.actionBodyParts}}
+                    {{#each flags.sohl.legendary.actionBodyParts}}
                     <li class="trait-action-bodypart">
                         <span class="name">{{this}}</span>
                         <a
                             class="delete-array-item"
-                            data-array="flags.sohl.actionBodyParts"
+                            data-array="flags.sohl.legendary.actionBodyParts"
                             data-value="{{this}}"
                             title="Delete Action Body Part"
                             ><i class="fas fa-trash"></i
@@ -64,6 +65,7 @@
                     {{/each}}
                 </ol>
             </fieldset>
+            {{/if}}
 
             <div class="items">
                 <div class="items-list">
