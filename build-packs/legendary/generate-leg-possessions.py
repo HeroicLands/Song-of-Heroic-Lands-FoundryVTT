@@ -540,6 +540,7 @@ for weaponsm in weaponsmData:
             "macros": weaponsm["macros"],
             "nestedItems": [],
             "transfer": True,
+            "subType": weaponsm["subType"],
             "mode": subdesc,
             "minParts": weaponsm["minParts"],
             "assocSkillName": weaponsm["assocSkill"],

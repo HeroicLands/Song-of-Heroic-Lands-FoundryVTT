@@ -1,4 +1,5 @@
 - weaponId: lU0DRdXtAk6K7BUt
+  subType: legendary
   strikeModeNum: 1
   name: Ball & Chain Flail
   subDesc: Crush
@@ -48,6 +49,7 @@
   noBlock: false
   lowAim: false
 - weaponId: lU0DRdXtAk6K7BUt
+  subType: legendary
   strikeModeNum: 2
   name: Ball & Chain Flail
   subDesc: Pommel
@@ -97,6 +99,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uKACEmvIkemys7f9
+  subType: legendary
   strikeModeNum: 1
   name: Bastard Sword
   subDesc: Cut
@@ -146,6 +149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uKACEmvIkemys7f9
+  subType: legendary
   strikeModeNum: 2
   name: Bastard Sword
   subDesc: Impale
@@ -195,6 +199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uKACEmvIkemys7f9
+  subType: legendary
   strikeModeNum: 3
   name: Bastard Sword
   subDesc: Pommel
@@ -244,6 +249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uKACEmvIkemys7f9
+  subType: legendary
   strikeModeNum: 4
   name: Bastard Sword
   subDesc: Half-Sword Impale
@@ -293,6 +299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PeH3MPvcfb0Z0eS7
+  subType: legendary
   strikeModeNum: 1
   name: Battleaxe
   subDesc: Cut
@@ -342,6 +349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PeH3MPvcfb0Z0eS7
+  subType: legendary
   strikeModeNum: 2
   name: Battleaxe
   subDesc: Shaft
@@ -391,6 +399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: JTvhpBBj87XuIMXi
+  subType: legendary
   strikeModeNum: 1
   name: Battlesword
   subDesc: Cut
@@ -440,6 +449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: JTvhpBBj87XuIMXi
+  subType: legendary
   strikeModeNum: 2
   name: Battlesword
   subDesc: Impale
@@ -489,6 +499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: JTvhpBBj87XuIMXi
+  subType: legendary
   strikeModeNum: 3
   name: Battlesword
   subDesc: Pommel
@@ -538,6 +549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: JTvhpBBj87XuIMXi
+  subType: legendary
   strikeModeNum: 4
   name: Battlesword
   subDesc: Half-Sword Impale
@@ -587,6 +599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: QRiORm95BTr4XREA
+  subType: legendary
   strikeModeNum: 1
   name: Blowgun
   subDesc: Ranged
@@ -636,6 +649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: pX3qKPrPcgPMjsX5
+  subType: legendary
   strikeModeNum: 1
   name: Boomerang
   subDesc: Crush
@@ -685,6 +699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: pX3qKPrPcgPMjsX5
+  subType: legendary
   strikeModeNum: 2
   name: Boomerang
   subDesc: Ranged
@@ -734,6 +749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wjTLAt0dcAyim60L
+  subType: legendary
   strikeModeNum: 1
   name: Broadsword
   subDesc: Cut
@@ -783,6 +799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wjTLAt0dcAyim60L
+  subType: legendary
   strikeModeNum: 2
   name: Broadsword
   subDesc: Impale
@@ -832,6 +849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wjTLAt0dcAyim60L
+  subType: legendary
   strikeModeNum: 3
   name: Broadsword
   subDesc: Pommel
@@ -881,6 +899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wjTLAt0dcAyim60L
+  subType: legendary
   strikeModeNum: 4
   name: Broadsword
   subDesc: Half-Sword Impale
@@ -930,6 +949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: keOzxtWCsMbPxhuV
+  subType: legendary
   strikeModeNum: 1
   name: Buckler
   subDesc: Bash
@@ -979,6 +999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2F1GQNY7FtnuzueG
+  subType: legendary
   strikeModeNum: 1
   name: Chakram
   subDesc: Cut
@@ -1028,6 +1049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2F1GQNY7FtnuzueG
+  subType: legendary
   strikeModeNum: 2
   name: Chakram
   subDesc: Thrown
@@ -1077,6 +1099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: CsKoW7OcMvIoyZN5
+  subType: legendary
   strikeModeNum: 1
   name: Club
   subDesc: Crush
@@ -1126,6 +1149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: CsKoW7OcMvIoyZN5
+  subType: legendary
   strikeModeNum: 2
   name: Club
   subDesc: Pommel
@@ -1175,6 +1199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: C4KPc3hjFv6KfIbP
+  subType: legendary
   strikeModeNum: 1
   name: Club, Improvised
   subDesc: Crush
@@ -1224,6 +1249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: C4KPc3hjFv6KfIbP
+  subType: legendary
   strikeModeNum: 2
   name: Club, Improvised
   subDesc: Pommel
@@ -1273,6 +1299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 5MB9HLkTUNScCTDW
+  subType: legendary
   strikeModeNum: 1
   name: Club, Large
   subDesc: Crush
@@ -1322,6 +1349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 5MB9HLkTUNScCTDW
+  subType: legendary
   strikeModeNum: 2
   name: Club, Large
   subDesc: Shaft
@@ -1371,6 +1399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: SKuhS0wEblXOmOlt
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 100
   subDesc: Crush
@@ -1420,6 +1449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: SKuhS0wEblXOmOlt
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 100
   subDesc: Ranged
@@ -1469,6 +1499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: eVIPrpvF4wOv9asM
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 120
   subDesc: Crush
@@ -1518,6 +1549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: eVIPrpvF4wOv9asM
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 120
   subDesc: Ranged
@@ -1567,6 +1599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: y8trdeWcTIxJch7W
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 140
   subDesc: Crush
@@ -1616,6 +1649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: y8trdeWcTIxJch7W
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 140
   subDesc: Ranged
@@ -1665,6 +1699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 1XHE433lMCMaDjvu
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 40
   subDesc: Crush
@@ -1714,6 +1749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 1XHE433lMCMaDjvu
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 40
   subDesc: Ranged
@@ -1763,6 +1799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wqQirtSicsibG8ip
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 60
   subDesc: Crush
@@ -1812,6 +1849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: wqQirtSicsibG8ip
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 60
   subDesc: Ranged
@@ -1861,6 +1899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: qkDtym8AHiF4DrMt
+  subType: legendary
   strikeModeNum: 1
   name: Composite Bow 80
   subDesc: Crush
@@ -1910,6 +1949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: qkDtym8AHiF4DrMt
+  subType: legendary
   strikeModeNum: 2
   name: Composite Bow 80
   subDesc: Ranged
@@ -1959,6 +1999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: OxkcJeJalqCCxNI7
+  subType: legendary
   strikeModeNum: 1
   name: Composite Crossbow 200
   subDesc: Ranged
@@ -2008,6 +2049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: TcKGyr36ZsQg10xl
+  subType: legendary
   strikeModeNum: 1
   name: Composite Crossbow 300
   subDesc: Ranged
@@ -2057,6 +2099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 14K5PZes1RJUsm7H
+  subType: legendary
   strikeModeNum: 1
   name: Crowbar
   subDesc: Crush
@@ -2106,6 +2149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 14K5PZes1RJUsm7H
+  subType: legendary
   strikeModeNum: 2
   name: Crowbar
   subDesc: Pommel
@@ -2155,6 +2199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: HSggjzbSPU2MvMvG
+  subType: legendary
   strikeModeNum: 1
   name: Cudgel
   subDesc: Crush
@@ -2204,6 +2249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: HSggjzbSPU2MvMvG
+  subType: legendary
   strikeModeNum: 2
   name: Cudgel
   subDesc: Pommel
@@ -2253,6 +2299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9ijT9drcTK805O5F
+  subType: legendary
   strikeModeNum: 1
   name: Dagger
   subDesc: Impale
@@ -2302,6 +2349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9ijT9drcTK805O5F
+  subType: legendary
   strikeModeNum: 2
   name: Dagger
   subDesc: Cut
@@ -2351,6 +2399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9ijT9drcTK805O5F
+  subType: legendary
   strikeModeNum: 3
   name: Dagger
   subDesc: Pommel
@@ -2400,6 +2449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: J0H2XxUf1n4RtHRh
+  subType: legendary
   strikeModeNum: 1
   name: Estoc
   subDesc: Impale
@@ -2449,6 +2499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: J0H2XxUf1n4RtHRh
+  subType: legendary
   strikeModeNum: 2
   name: Estoc
   subDesc: Pommel
@@ -2498,6 +2549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: J0H2XxUf1n4RtHRh
+  subType: legendary
   strikeModeNum: 3
   name: Estoc
   subDesc: Half-Sword Impale
@@ -2547,6 +2599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ff5sR8h7GpNK89G5
+  subType: legendary
   strikeModeNum: 1
   name: Falcastra
   subDesc: Impale
@@ -2596,6 +2649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ff5sR8h7GpNK89G5
+  subType: legendary
   strikeModeNum: 2
   name: Falcastra
   subDesc: Shaft
@@ -2645,6 +2699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ff5sR8h7GpNK89G5
+  subType: legendary
   strikeModeNum: 3
   name: Falcastra
   subDesc: Half-Sword Shaft
@@ -2694,6 +2749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ff5sR8h7GpNK89G5
+  subType: legendary
   strikeModeNum: 4
   name: Falcastra
   subDesc: Half-Sword Impale
@@ -2743,6 +2799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: YYQ9TSVo6RSRkyub
+  subType: legendary
   strikeModeNum: 1
   name: Falchion
   subDesc: Cut
@@ -2792,6 +2849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: YYQ9TSVo6RSRkyub
+  subType: legendary
   strikeModeNum: 2
   name: Falchion
   subDesc: Pommel
@@ -2841,6 +2899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: xqWeqWccSXOa9bDD
+  subType: legendary
   strikeModeNum: 1
   name: Glaive
   subDesc: Cut
@@ -2890,6 +2949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: xqWeqWccSXOa9bDD
+  subType: legendary
   strikeModeNum: 2
   name: Glaive
   subDesc: Impale
@@ -2939,6 +2999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: xqWeqWccSXOa9bDD
+  subType: legendary
   strikeModeNum: 3
   name: Glaive
   subDesc: Shaft
@@ -2988,6 +3049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: xqWeqWccSXOa9bDD
+  subType: legendary
   strikeModeNum: 4
   name: Glaive
   subDesc: Half-Sword Shaft
@@ -3037,6 +3099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: xqWeqWccSXOa9bDD
+  subType: legendary
   strikeModeNum: 5
   name: Glaive
   subDesc: Half-Sword Impale
@@ -3086,6 +3149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PZ928gsyeidvMtuo
+  subType: legendary
   strikeModeNum: 1
   name: Grainflail
   subDesc: Crush
@@ -3135,6 +3199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PZ928gsyeidvMtuo
+  subType: legendary
   strikeModeNum: 2
   name: Grainflail
   subDesc: Pommel
@@ -3184,6 +3249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: RtCK7eRRsiCFr7Qi
+  subType: legendary
   strikeModeNum: 1
   name: Handaxe
   subDesc: Cut
@@ -3233,6 +3299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: RtCK7eRRsiCFr7Qi
+  subType: legendary
   strikeModeNum: 2
   name: Handaxe
   subDesc: Pommel
@@ -3282,6 +3349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZiZtg2TWwtkDoeHJ
+  subType: legendary
   strikeModeNum: 1
   name: Hatchet
   subDesc: Cut
@@ -3331,6 +3399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZiZtg2TWwtkDoeHJ
+  subType: legendary
   strikeModeNum: 2
   name: Hatchet
   subDesc: Pommel
@@ -3380,6 +3449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bSh8evwiMWMAqaqn
+  subType: legendary
   strikeModeNum: 1
   name: Javelin, Barbed
   subDesc: Impale
@@ -3429,6 +3499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bSh8evwiMWMAqaqn
+  subType: legendary
   strikeModeNum: 2
   name: Javelin, Barbed
   subDesc: Shaft
@@ -3478,6 +3549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bSh8evwiMWMAqaqn
+  subType: legendary
   strikeModeNum: 3
   name: Javelin, Barbed
   subDesc: Half-Sword Shaft
@@ -3527,6 +3599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bSh8evwiMWMAqaqn
+  subType: legendary
   strikeModeNum: 4
   name: Javelin, Barbed
   subDesc: Half-Sword Impale
@@ -3576,6 +3649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bSh8evwiMWMAqaqn
+  subType: legendary
   strikeModeNum: 5
   name: Javelin, Barbed
   subDesc: Thrown
@@ -3625,6 +3699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r43xJwDBphGaIcDe
+  subType: legendary
   strikeModeNum: 1
   name: Javelin, Bodkin
   subDesc: Impale
@@ -3674,6 +3749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r43xJwDBphGaIcDe
+  subType: legendary
   strikeModeNum: 2
   name: Javelin, Bodkin
   subDesc: Shaft
@@ -3723,6 +3799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r43xJwDBphGaIcDe
+  subType: legendary
   strikeModeNum: 3
   name: Javelin, Bodkin
   subDesc: Half-Sword Shaft
@@ -3772,6 +3849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r43xJwDBphGaIcDe
+  subType: legendary
   strikeModeNum: 4
   name: Javelin, Bodkin
   subDesc: Half-Sword Impale
@@ -3821,6 +3899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r43xJwDBphGaIcDe
+  subType: legendary
   strikeModeNum: 5
   name: Javelin, Bodkin
   subDesc: Thrown
@@ -3870,6 +3949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZpTxK5WRmlI6Jc3C
+  subType: legendary
   strikeModeNum: 1
   name: Jousting Pole
   subDesc: Crush
@@ -3919,6 +3999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZpTxK5WRmlI6Jc3C
+  subType: legendary
   strikeModeNum: 2
   name: Jousting Pole
   subDesc: Shaft
@@ -3968,6 +4049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZpTxK5WRmlI6Jc3C
+  subType: legendary
   strikeModeNum: 3
   name: Jousting Pole
   subDesc: Half-Sword Shaft
@@ -4017,6 +4099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: po0MtDrMbBIcNdyH
+  subType: legendary
   strikeModeNum: 1
   name: Kéltan
   subDesc: Impale
@@ -4066,6 +4149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: po0MtDrMbBIcNdyH
+  subType: legendary
   strikeModeNum: 2
   name: Kéltan
   subDesc: Cut
@@ -4115,6 +4199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: po0MtDrMbBIcNdyH
+  subType: legendary
   strikeModeNum: 3
   name: Kéltan
   subDesc: Pommel
@@ -4164,6 +4249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: vpPLk8Ou4UsXQdTy
+  subType: legendary
   strikeModeNum: 1
   name: Kite Shield
   subDesc: Bash
@@ -4213,6 +4299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZLDPpPDbHPfTLE2Y
+  subType: legendary
   strikeModeNum: 1
   name: Knife
   subDesc: Impale
@@ -4262,6 +4349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZLDPpPDbHPfTLE2Y
+  subType: legendary
   strikeModeNum: 2
   name: Knife
   subDesc: Cut
@@ -4311,6 +4399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: ZLDPpPDbHPfTLE2Y
+  subType: legendary
   strikeModeNum: 3
   name: Knife
   subDesc: Pommel
@@ -4360,6 +4449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: nbt1PW1YgQTNvm8n
+  subType: legendary
   strikeModeNum: 1
   name: Knight's Shield
   subDesc: Bash
@@ -4409,6 +4499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: o9uvddcjqpyIAFdW
+  subType: legendary
   strikeModeNum: 1
   name: Kúzan Steelbow
   subDesc: Ranged
@@ -4458,6 +4549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DyI7VXcT6l3URR02
+  subType: legendary
   strikeModeNum: 1
   name: Lance
   subDesc: Impale
@@ -4507,6 +4599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DyI7VXcT6l3URR02
+  subType: legendary
   strikeModeNum: 2
   name: Lance
   subDesc: Shaft
@@ -4556,6 +4649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DyI7VXcT6l3URR02
+  subType: legendary
   strikeModeNum: 3
   name: Lance
   subDesc: Half-Sword Shaft
@@ -4605,6 +4699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DyI7VXcT6l3URR02
+  subType: legendary
   strikeModeNum: 4
   name: Lance
   subDesc: Half-Sword Impale
@@ -4654,6 +4749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DaJiW4RWuvOYLB9T
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 100
   subDesc: Crush
@@ -4703,6 +4799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: DaJiW4RWuvOYLB9T
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 100
   subDesc: Ranged
@@ -4752,6 +4849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2D8bccD7IaGE81m7
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 125
   subDesc: Crush
@@ -4801,6 +4899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2D8bccD7IaGE81m7
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 125
   subDesc: Ranged
@@ -4850,6 +4949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Po5sBJKLMr2pgC0N
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 150
   subDesc: Crush
@@ -4899,6 +4999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Po5sBJKLMr2pgC0N
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 150
   subDesc: Ranged
@@ -4948,6 +5049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 4Y0zPMrFAwBMsgPt
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 175
   subDesc: Crush
@@ -4997,6 +5099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 4Y0zPMrFAwBMsgPt
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 175
   subDesc: Ranged
@@ -5046,6 +5149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2ukbTddPtKvHuMjj
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 50
   subDesc: Crush
@@ -5095,6 +5199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 2ukbTddPtKvHuMjj
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 50
   subDesc: Ranged
@@ -5144,6 +5249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: stIt7vogUhgZtDTE
+  subType: legendary
   strikeModeNum: 1
   name: Longbow 75
   subDesc: Crush
@@ -5193,6 +5299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: stIt7vogUhgZtDTE
+  subType: legendary
   strikeModeNum: 2
   name: Longbow 75
   subDesc: Ranged
@@ -5242,6 +5349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: gdtGtzLTi8A8f6D1
+  subType: legendary
   strikeModeNum: 1
   name: Longknife
   subDesc: Impale
@@ -5291,6 +5399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: gdtGtzLTi8A8f6D1
+  subType: legendary
   strikeModeNum: 2
   name: Longknife
   subDesc: Cut
@@ -5340,6 +5449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: gdtGtzLTi8A8f6D1
+  subType: legendary
   strikeModeNum: 3
   name: Longknife
   subDesc: Pommel
@@ -5389,6 +5499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Ql08V4MDq3SgEWjH
+  subType: legendary
   strikeModeNum: 1
   name: Mace, Steel Handle
   subDesc: Crush
@@ -5438,6 +5549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Ql08V4MDq3SgEWjH
+  subType: legendary
   strikeModeNum: 2
   name: Mace, Steel Handle
   subDesc: Pommel
@@ -5487,6 +5599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bm9SbGIuZs3AH5f4
+  subType: legendary
   strikeModeNum: 1
   name: Mace, Wood Handle
   subDesc: Crush
@@ -5536,6 +5649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: bm9SbGIuZs3AH5f4
+  subType: legendary
   strikeModeNum: 2
   name: Mace, Wood Handle
   subDesc: Pommel
@@ -5585,6 +5699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: tjOwyBFL3S3h7NHY
+  subType: legendary
   strikeModeNum: 1
   name: Máng
   subDesc: Cut
@@ -5634,6 +5749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: tjOwyBFL3S3h7NHY
+  subType: legendary
   strikeModeNum: 2
   name: Máng
   subDesc: Pommel
@@ -5683,6 +5799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: EiVXkncfZSMlqEu8
+  subType: legendary
   strikeModeNum: 1
   name: Mankar
   subDesc: Cut
@@ -5732,6 +5849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: EiVXkncfZSMlqEu8
+  subType: legendary
   strikeModeNum: 2
   name: Mankar
   subDesc: Pommel
@@ -5781,6 +5899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r9NZxajV7MkTZUxW
+  subType: legendary
   strikeModeNum: 1
   name: Maul
   subDesc: Crush
@@ -5830,6 +5949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: r9NZxajV7MkTZUxW
+  subType: legendary
   strikeModeNum: 2
   name: Maul
   subDesc: Shaft
@@ -5879,6 +5999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: c8FbFCrF09XPfy5w
+  subType: legendary
   strikeModeNum: 1
   name: Morningstar
   subDesc: Crush
@@ -5928,6 +6049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: c8FbFCrF09XPfy5w
+  subType: legendary
   strikeModeNum: 2
   name: Morningstar
   subDesc: Shaft
@@ -5977,6 +6099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Df8gMsCyX334UUNT
+  subType: legendary
   strikeModeNum: 1
   name: Net
   subDesc: Envelop
@@ -6026,6 +6149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Df8gMsCyX334UUNT
+  subType: legendary
   strikeModeNum: 2
   name: Net
   subDesc: Thrown
@@ -6075,6 +6199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: iZCrSuwiRH2wjWgg
+  subType: legendary
   strikeModeNum: 1
   name: Pickaxe
   subDesc: Impale
@@ -6124,6 +6249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: iZCrSuwiRH2wjWgg
+  subType: legendary
   strikeModeNum: 2
   name: Pickaxe
   subDesc: Pommel
@@ -6173,6 +6299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sZZxQiawzxKh52Ml
+  subType: legendary
   strikeModeNum: 1
   name: Pike
   subDesc: Impale
@@ -6222,6 +6349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sZZxQiawzxKh52Ml
+  subType: legendary
   strikeModeNum: 2
   name: Pike
   subDesc: Shaft
@@ -6271,6 +6399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sZZxQiawzxKh52Ml
+  subType: legendary
   strikeModeNum: 3
   name: Pike
   subDesc: Half-Sword Shaft
@@ -6320,6 +6449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sZZxQiawzxKh52Ml
+  subType: legendary
   strikeModeNum: 4
   name: Pike
   subDesc: Half-Sword Impale
@@ -6369,6 +6499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uTBEpEn7heFX071U
+  subType: legendary
   strikeModeNum: 1
   name: Pitchfork
   subDesc: Impale
@@ -6418,6 +6549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uTBEpEn7heFX071U
+  subType: legendary
   strikeModeNum: 2
   name: Pitchfork
   subDesc: Shaft
@@ -6467,6 +6599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uTBEpEn7heFX071U
+  subType: legendary
   strikeModeNum: 3
   name: Pitchfork
   subDesc: Half-Sword Shaft
@@ -6516,6 +6649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uTBEpEn7heFX071U
+  subType: legendary
   strikeModeNum: 4
   name: Pitchfork
   subDesc: Half-Sword Impale
@@ -6565,6 +6699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 1
   name: Poleaxe
   subDesc: Cut
@@ -6614,6 +6749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 2
   name: Poleaxe
   subDesc: Impale
@@ -6663,6 +6799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 3
   name: Poleaxe
   subDesc: Crush
@@ -6712,6 +6849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 4
   name: Poleaxe
   subDesc: Shaft
@@ -6761,6 +6899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 5
   name: Poleaxe
   subDesc: Half-Sword Shaft
@@ -6810,6 +6949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Gdm2jEz0I0iyzDpu
+  subType: legendary
   strikeModeNum: 6
   name: Poleaxe
   subDesc: Half-Sword Impale
@@ -6859,6 +6999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 31mlq3ytO8jnkS3n
+  subType: legendary
   strikeModeNum: 1
   name: Roundshield
   subDesc: Bash
@@ -6908,6 +7049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 6lTEELsRUiGbqSNw
+  subType: legendary
   strikeModeNum: 1
   name: Scimitar
   subDesc: Cut
@@ -6957,6 +7099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 6lTEELsRUiGbqSNw
+  subType: legendary
   strikeModeNum: 2
   name: Scimitar
   subDesc: Impale
@@ -7006,6 +7149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 6lTEELsRUiGbqSNw
+  subType: legendary
   strikeModeNum: 3
   name: Scimitar
   subDesc: Pommel
@@ -7055,6 +7199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 6lTEELsRUiGbqSNw
+  subType: legendary
   strikeModeNum: 4
   name: Scimitar
   subDesc: Half-Sword Impale
@@ -7104,6 +7249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: rnhIdHoRpWS9hipo
+  subType: legendary
   strikeModeNum: 1
   name: Shorkana
   subDesc: Cut
@@ -7153,6 +7299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: rnhIdHoRpWS9hipo
+  subType: legendary
   strikeModeNum: 2
   name: Shorkana
   subDesc: Pommel
@@ -7202,6 +7349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: rnhIdHoRpWS9hipo
+  subType: legendary
   strikeModeNum: 3
   name: Shorkana
   subDesc: Thrown
@@ -7251,6 +7399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: N4Q0mUchOQ9OPB9Z
+  subType: legendary
   strikeModeNum: 1
   name: Shortsword
   subDesc: Cut
@@ -7300,6 +7449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: N4Q0mUchOQ9OPB9Z
+  subType: legendary
   strikeModeNum: 2
   name: Shortsword
   subDesc: Impale
@@ -7349,6 +7499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: N4Q0mUchOQ9OPB9Z
+  subType: legendary
   strikeModeNum: 3
   name: Shortsword
   subDesc: Pommel
@@ -7398,6 +7549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: N4Q0mUchOQ9OPB9Z
+  subType: legendary
   strikeModeNum: 4
   name: Shortsword
   subDesc: Half-Sword Impale
@@ -7447,6 +7599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 03itZtd4heviT9Qv
+  subType: legendary
   strikeModeNum: 1
   name: Shuriken
   subDesc: Cut
@@ -7496,6 +7649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 03itZtd4heviT9Qv
+  subType: legendary
   strikeModeNum: 2
   name: Shuriken
   subDesc: Thrown
@@ -7545,6 +7699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 151T3dMzXMoMtwZc
+  subType: legendary
   strikeModeNum: 1
   name: Sickle
   subDesc: Cut
@@ -7594,6 +7749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 151T3dMzXMoMtwZc
+  subType: legendary
   strikeModeNum: 2
   name: Sickle
   subDesc: Pommel
@@ -7643,6 +7799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: SEpQZB9ufqHIt0IJ
+  subType: legendary
   strikeModeNum: 1
   name: Sledgehammer
   subDesc: Crush
@@ -7692,6 +7849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: SEpQZB9ufqHIt0IJ
+  subType: legendary
   strikeModeNum: 2
   name: Sledgehammer
   subDesc: Shaft
@@ -7741,6 +7899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: tzNkaxyefuOoAjoy
+  subType: legendary
   strikeModeNum: 1
   name: Sling
   subDesc: Ranged
@@ -7790,6 +7949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uawJUZQxVDGe7Lzo
+  subType: legendary
   strikeModeNum: 1
   name: Sling Staff
   subDesc: Crush
@@ -7839,6 +7999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: uawJUZQxVDGe7Lzo
+  subType: legendary
   strikeModeNum: 2
   name: Sling Staff
   subDesc: Ranged
@@ -7888,6 +8049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Jklt5Jr7EF4036th
+  subType: legendary
   strikeModeNum: 1
   name: Slingshot
   subDesc: Crush
@@ -7937,6 +8099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Jklt5Jr7EF4036th
+  subType: legendary
   strikeModeNum: 2
   name: Slingshot
   subDesc: Ranged
@@ -7986,6 +8149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: UwGWi1DMuYtyN8X8
+  subType: legendary
   strikeModeNum: 1
   name: Spear
   subDesc: Impale
@@ -8035,6 +8199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: UwGWi1DMuYtyN8X8
+  subType: legendary
   strikeModeNum: 2
   name: Spear
   subDesc: Shaft
@@ -8084,6 +8249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: UwGWi1DMuYtyN8X8
+  subType: legendary
   strikeModeNum: 3
   name: Spear
   subDesc: Half-Sword Shaft
@@ -8133,6 +8299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: UwGWi1DMuYtyN8X8
+  subType: legendary
   strikeModeNum: 4
   name: Spear
   subDesc: Half-Sword Impale
@@ -8182,6 +8349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: UwGWi1DMuYtyN8X8
+  subType: legendary
   strikeModeNum: 5
   name: Spear
   subDesc: Thrown
@@ -8231,6 +8399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: MHe30MVgUd2B7AXS
+  subType: legendary
   strikeModeNum: 1
   name: Staff
   subDesc: Crush
@@ -8280,6 +8449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: MHe30MVgUd2B7AXS
+  subType: legendary
   strikeModeNum: 2
   name: Staff
   subDesc: Shaft
@@ -8329,6 +8499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: MHe30MVgUd2B7AXS
+  subType: legendary
   strikeModeNum: 3
   name: Staff
   subDesc: Half-Sword Shaft
@@ -8378,6 +8549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: qYFSh2Fr38UHKT5f
+  subType: legendary
   strikeModeNum: 1
   name: Stick
   subDesc: Crush
@@ -8427,6 +8599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: qYFSh2Fr38UHKT5f
+  subType: legendary
   strikeModeNum: 2
   name: Stick
   subDesc: Pommel
@@ -8476,6 +8649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 7IYD91ExpmoJb0nz
+  subType: legendary
   strikeModeNum: 1
   name: Tabûri
   subDesc: Impale
@@ -8525,6 +8699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 7IYD91ExpmoJb0nz
+  subType: legendary
   strikeModeNum: 2
   name: Tabûri
   subDesc: Pommel
@@ -8574,6 +8749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 7IYD91ExpmoJb0nz
+  subType: legendary
   strikeModeNum: 3
   name: Tabûri
   subDesc: Thrown
@@ -8623,6 +8799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: Qr2D5btkRJF3S8cs
+  subType: legendary
   strikeModeNum: 1
   name: Tower Shield
   subDesc: Bash
@@ -8672,6 +8849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PoMZUG3IInE8wSqz
+  subType: legendary
   strikeModeNum: 1
   name: Trident
   subDesc: Impale
@@ -8721,6 +8899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PoMZUG3IInE8wSqz
+  subType: legendary
   strikeModeNum: 2
   name: Trident
   subDesc: Shaft
@@ -8770,6 +8949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PoMZUG3IInE8wSqz
+  subType: legendary
   strikeModeNum: 3
   name: Trident
   subDesc: Half-Sword Shaft
@@ -8819,6 +8999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PoMZUG3IInE8wSqz
+  subType: legendary
   strikeModeNum: 4
   name: Trident
   subDesc: Half-Sword Impale
@@ -8868,6 +9049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: D4bOi6ZeH9IatTsy
+  subType: legendary
   strikeModeNum: 1
   name: Truncheon
   subDesc: Crush
@@ -8917,6 +9099,7 @@
   noBlock: false
   lowAim: false
 - weaponId: D4bOi6ZeH9IatTsy
+  subType: legendary
   strikeModeNum: 2
   name: Truncheon
   subDesc: Pommel
@@ -8966,6 +9149,7 @@
   noBlock: false
   lowAim: false
 - weaponId: yJgrGmh3iAdZFuvx
+  subType: legendary
   strikeModeNum: 1
   name: Warflail
   subDesc: Crush
@@ -9015,6 +9199,7 @@
   noBlock: false
   lowAim: false
 - weaponId: yJgrGmh3iAdZFuvx
+  subType: legendary
   strikeModeNum: 2
   name: Warflail
   subDesc: Pommel
@@ -9064,6 +9249,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9arQDGIipaW8T5ul
+  subType: legendary
   strikeModeNum: 1
   name: Warhammer
   subDesc: Crush
@@ -9113,6 +9299,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9arQDGIipaW8T5ul
+  subType: legendary
   strikeModeNum: 2
   name: Warhammer
   subDesc: Impale
@@ -9162,6 +9349,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9arQDGIipaW8T5ul
+  subType: legendary
   strikeModeNum: 3
   name: Warhammer
   subDesc: Shaft
@@ -9211,6 +9399,7 @@
   noBlock: false
   lowAim: false
 - weaponId: gmEBhQV7Zjnv99FM
+  subType: legendary
   strikeModeNum: 1
   name: Whip
   subDesc: Lash
@@ -9260,6 +9449,7 @@
   noBlock: false
   lowAim: false
 - weaponId: gmEBhQV7Zjnv99FM
+  subType: legendary
   strikeModeNum: 2
   name: Whip
   subDesc: Pommel
@@ -9309,6 +9499,7 @@
   noBlock: false
   lowAim: false
 - weaponId: C5LbX1fHZVwrb6nV
+  subType: legendary
   strikeModeNum: 1
   name: Whip, Reksyni
   subDesc: Lash
@@ -9358,6 +9549,7 @@
   noBlock: false
   lowAim: false
 - weaponId: C5LbX1fHZVwrb6nV
+  subType: legendary
   strikeModeNum: 2
   name: Whip, Reksyni
   subDesc: Pommel
@@ -9407,6 +9599,7 @@
   noBlock: false
   lowAim: false
 - weaponId: t5T8WtrQ3MljAU1c
+  subType: legendary
   strikeModeNum: 1
   name: Whip, Teamster
   subDesc: Lash
@@ -9456,6 +9649,7 @@
   noBlock: false
   lowAim: false
 - weaponId: t5T8WtrQ3MljAU1c
+  subType: legendary
   strikeModeNum: 2
   name: Whip, Teamster
   subDesc: Pommel
@@ -9505,6 +9699,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sVa6nVcQxN6bqf0L
+  subType: legendary
   strikeModeNum: 1
   name: Wood Axe
   subDesc: Cut
@@ -9554,6 +9749,7 @@
   noBlock: false
   lowAim: false
 - weaponId: sVa6nVcQxN6bqf0L
+  subType: legendary
   strikeModeNum: 2
   name: Wood Axe
   subDesc: Pommel
@@ -9603,6 +9799,7 @@
   noBlock: false
   lowAim: false
 - weaponId: WfPlINJLt2stPJbx
+  subType: legendary
   strikeModeNum: 1
   name: Wooden Crossbow 120
   subDesc: Ranged
@@ -9652,6 +9849,7 @@
   noBlock: false
   lowAim: false
 - weaponId: d0WpYxGlFA3a33q3
+  subType: legendary
   strikeModeNum: 1
   name: Wooden Crossbow 160
   subDesc: Ranged
@@ -9701,6 +9899,7 @@
   noBlock: false
   lowAim: false
 - weaponId: jGe6fjplOSPfQ32V
+  subType: legendary
   strikeModeNum: 1
   name: Wooden Crossbow 80
   subDesc: Ranged
@@ -9750,6 +9949,7 @@
   noBlock: false
   lowAim: false
 - weaponId: 9fUBzprkjX25L734
+  subType: legendary
   strikeModeNum: 1
   name: Knuckledusters
   subDesc: Crush
@@ -9799,6 +9999,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PvD8SLaG28Nude2X
+  subType: legendary
   strikeModeNum: 1
   name: Meteor Hammer
   subDesc: Thrown
@@ -9848,6 +10049,7 @@
   noBlock: false
   lowAim: false
 - weaponId: PvD8SLaG28Nude2X
+  subType: legendary
   strikeModeNum: 2
   name: Meteor Hammer
   subDesc: Crush
