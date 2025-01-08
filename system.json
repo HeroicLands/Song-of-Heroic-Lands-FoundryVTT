@@ -2,7 +2,7 @@
     "id": "sohl",
     "title": "Song of Heroic Lands",
     "description": "<p><strong>Song of Heroic Lands: A Gateway to Adventure!</strong> Embark on a journey through a richly detailed fantasy world with Song of Heroic Lands (SoHL)—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned HârnMaster system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.</p><p>Designed for both seasoned veterans and new players, SoHL captures the essence of detailed game mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.</p>",
-    "version": "0.5.3",
+    "version": "0.5.4",
     "authors": [
         {
             "name": "Toasty",
@@ -37,19 +37,12 @@
             "name": "Song of Heroic Lands",
             "sorting": "m",
             "color": "#094fcb",
-            "folders": [
-                {
-                    "name": "Legendary",
-                    "sorting": "m",
-                    "color": "#ac09cb",
-                    "packs": [
-                        "leg-characters",
-                        "leg-creatures",
-                        "leg-characteristics",
-                        "leg-mysteries",
-                        "leg-possessions"
-                    ]
-                }
+            "packs": [
+                "characters",
+                "creatures",
+                "characteristics",
+                "mysteries",
+                "possessions"
             ]
         }
     ],
@@ -57,41 +50,41 @@
         {
             "label": "Characters",
             "type": "Actor",
-            "name": "leg-characters",
+            "name": "characters",
             "system": "sohl",
-            "path": "packs/leg-characters",
+            "path": "packs/characters",
             "private": false
         },
         {
             "label": "Creatures",
             "type": "Actor",
-            "name": "leg-creatures",
+            "name": "creatures",
             "system": "sohl",
-            "path": "packs/leg-creatures",
+            "path": "packs/creatures",
             "private": false
         },
         {
             "label": "Characteristics",
             "type": "Item",
-            "name": "leg-characteristics",
+            "name": "characteristics",
             "system": "sohl",
-            "path": "packs/leg-characteristics",
+            "path": "packs/characteristics",
             "private": false
         },
         {
             "label": "Mysteries",
             "type": "Item",
-            "name": "leg-mysteries",
+            "name": "mysteries",
             "system": "sohl",
-            "path": "packs/leg-mysteries",
+            "path": "packs/mysteries",
             "private": false
         },
         {
             "label": "Possessions",
             "type": "Item",
-            "name": "leg-possessions",
+            "name": "possessions",
             "system": "sohl",
-            "path": "packs/leg-possessions",
+            "path": "packs/possessions",
             "private": false
         }
     ],
@@ -105,7 +98,7 @@
     "background": "systems/sohl/assets/ui/sohl-background.webp",
     "socket": true,
     "manifest": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json",
-    "download": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/download/v0.5.3/system.zip",
+    "download": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/download/v0.5.4/system.zip",
     "grid": {
         "distance": 5,
         "units": "ft"

@@ -80,9 +80,9 @@ def get_item(name, type, ary):
     return None
 
 items = []
-read_json_files_to_dict("build/leg-characteristics", items)
-read_json_files_to_dict("build/leg-mysteries", items)
-read_json_files_to_dict("build/leg-possessions", items)
+read_json_files_to_dict("build/characteristics", items)
+read_json_files_to_dict("build/mysteries", items)
+read_json_files_to_dict("build/possessions", items)
 # with open("all.json", "w", encoding="utf8") as outfile:
 #     json.dump(items, outfile, indent=2, ensure_ascii=False)
 
