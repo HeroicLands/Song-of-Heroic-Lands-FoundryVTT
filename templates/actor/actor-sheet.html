@@ -1160,7 +1160,7 @@
                                             <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                                             <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                         </div>
-                                        <div class="detail source">{{system.category}}</div>
+                                        <div class="detail source">{{lookup ../config.Item.dataModels.philosophy.categories system.category}}</div>
                                         <div class="detail notes">{{system.notes}}</div>
                                         {{#unless printable}}
                                         <div class="item-controls">
@@ -1226,8 +1226,8 @@
                                         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                                         <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                     </div>
-                                    <div class="detail subtype" data-tooltip="{{lookup ../../config.Item.typeLabels item.type}}">
-                                        {{lookup ../../config.Item.typeLabels item.type}}
+                                    <div class="detail subtype" data-tooltip="{{localize (lookup ../../config.Item.typeLabels item.type)}}">
+                                        {{localize (lookup ../../config.Item.typeLabels item.type)}}
                                     </div>
                                     <div class="detail ele">{{system.quantity}}</div>
                                     <div class="detail ele">{{system.totalWeight.effective}}</div>
