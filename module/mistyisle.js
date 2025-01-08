@@ -17,48 +17,7 @@ const ISLE = {
  \\___/___/_|\\__,_|_| |_|\\__,_|
 ===========================================================`,
 
-        VERSETTINGS: {
-            encIncr: {
-                key: "encIncr",
-                data: {
-                    name: "Encumbrance tracking increment",
-                    hint: "Calculate encumbrance by specified steps",
-                    scope: "world",
-                    config: true,
-                    type: new fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        initial: 5,
-                        min: 1,
-                    }),
-                },
-            },
-            attrSecModIncr: {
-                key: "attrSecModIncr",
-                data: {
-                    name: "Attribute secondary modifier increment",
-                    hint: "Calculate attribute secondary modifier by specified steps",
-                    scope: "world",
-                    config: true,
-                    type: new fields.NumberField({
-                        required: true,
-                        nullable: false,
-                        initial: 5,
-                        min: 1,
-                    }),
-                },
-            },
-            optionGearDamage: {
-                key: "optionGearDamage",
-                data: {
-                    name: "Gear Damage",
-                    hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
-                    scope: "world",
-                    config: true,
-                    type: new fields.BooleanField({ initial: false }),
-                },
-            },
-        },
+        VERSETTINGS: {},
     },
 };
 
