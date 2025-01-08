@@ -2800,10 +2800,6 @@ class LgndWeaponGearItemData extends sohl.WeaponGearItemData {
     $length;
     $heft;
 
-    get lengthBase() {
-        return this.item.getFlag("sohl", "legendary.lengthBase") || 0;
-    }
-
     get heftBase() {
         return this.item.getFlag("sohl", "legendary.heftBase") || 0;
     }

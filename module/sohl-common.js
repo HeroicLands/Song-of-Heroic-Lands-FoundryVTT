@@ -8601,6 +8601,17 @@ export class WeaponGearItemData extends GearItemData {
         return "systems/sohl/assets/icons/sword.svg";
     }
 
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            lengthBase: new fields.NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+                label: "Length",
+            }),
+        });
+    }
+
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
@@ -12552,6 +12563,7 @@ function SohlSheetMixin(Base) {
             data.options = this.options;
             data.editable = this.isEditable;
             data.cssClass = data.owner ? "editable" : "locked";
+            data.flavor = SOHL.sysVer.id;
             data.isAnimateEntity =
                 this.document.system instanceof AnimateEntityActorData;
             data.isInanimateObject =

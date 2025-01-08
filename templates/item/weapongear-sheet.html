@@ -16,18 +16,15 @@
         <div class="tab properties" data-group="primary" data-tab="properties">
             <div class="grid grid-3col">
                 {{> "sohl.item-gear"}}
-                <div class="form-group stacked text-field">
-                    <label>Length</label>
-                    <div class="form-fields">
-                        {{numberInput flags.sohl.legendary.lengthBase name="flags.sohl.legendary.lengthBase" step=1 min=0}}
-                    </div>
-                </div>
+                {{formField fields.lengthBase rootId="wpn-lengthbase" classes="text-field" stacked=true value=system.lengthBase}}
+                {{#if (eq flavor "legendary")}}
                 <div class="form-group stacked text-field">
                     <label>Heft</label>
                     <div class="form-fields">
                         {{numberInput flags.sohl.legendary.heftBase name="flags.sohl.legendary.heftBase" step=1 min=0}}
                     </div>
                 </div>
+                {{/if}}
             </div>
             {{> "sohl.item-refnote"}}
         </div>

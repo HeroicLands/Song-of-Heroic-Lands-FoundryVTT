@@ -444,7 +444,6 @@ for weapongear in weapongearData:
             "sohl": {
                 "legendary": {
                     "heftBase": weapongear["heft"],
-                    "lengthBase": weapongear["length"],
                 },
             },
         },
@@ -466,6 +465,7 @@ for weapongear in weapongearData:
             "quantity": 1,
             "weightBase": weapongear["weight"],
             "valueBase": weapongear["value"],
+            "lengthBase": weapongear["length"],
             "isCarried": True,
             "isEquipped": False,
             "qualityBase": 0,
