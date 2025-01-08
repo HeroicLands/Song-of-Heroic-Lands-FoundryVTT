@@ -140,6 +140,22 @@ export const SOHL = {
             },
             sohlVersion: {
                 key: "sohlVersion",
+                data: {
+                    name: "Rules Flavor",
+                    hint: "Rules group to use",
+                    scope: "world",
+                    config: true,
+                    default: "legendary",
+                    type: new fields.StringField({
+                        nullable: false,
+                        blank: false,
+                        initial: "legendary",
+                        choices: {
+                            legendary: "Legendary",
+                            mistyisle: "Misty Isle",
+                        },
+                    }),
+                },
             },
             showWelcomeDialog: {
                 key: "showWelcomeDialog",
@@ -159,52 +175,6 @@ export const SOHL = {
                     scope: "world",
                     config: true,
                     type: new fields.BooleanField({ initial: true }),
-                },
-            },
-            defaultAnimateEntity: {
-                key: "defaultAnimateEntity",
-                data: {
-                    name: "Default Animate Entity",
-                    hint: "Name of default actor to use for new Animate Entities",
-                    scope: "world",
-                    config: true,
-                    type: new fields.StringField({
-                        nullable: false,
-                        blank: false,
-                        initial: "Folk, Basic",
-                    }),
-                },
-            },
-            searchActorCompendiums: {
-                key: "searchActorCompendiums",
-                data: {
-                    name: "Additional Actor Compendiums",
-                    hint:
-                        "A comma-separated list of compendium IDs that should be used " +
-                        "when searching for Actors. Local world actors first, then these " +
-                        "compendiums will be searched, and finally system-specified compendiums.",
-                    scope: "world",
-                    config: true,
-                    type: new fields.StringField({
-                        nullable: false,
-                        initial: "",
-                    }),
-                },
-            },
-            searchItemCompendiums: {
-                key: "searchItemCompendiums",
-                data: {
-                    name: "Additional Item Compendiums",
-                    hint:
-                        "A comma-separated list of compendium IDs that should be used " +
-                        "when searching for Items. Local world items first, then these " +
-                        "compendiums will be searched, and finally system-specified compendiums.",
-                    scope: "world",
-                    config: true,
-                    type: new fields.StringField({
-                        nullable: false,
-                        initial: "",
-                    }),
                 },
             },
             recordInjuries: {
@@ -258,6 +228,16 @@ export const SOHL = {
                     scope: "world",
                     config: true,
                     type: new fields.BooleanField({ initial: true }),
+                },
+            },
+            optionGearDamage: {
+                key: "optionGearDamage",
+                data: {
+                    name: "Gear Damage",
+                    hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
+                    scope: "world",
+                    config: true,
+                    type: new fields.BooleanField({ initial: false }),
                 },
             },
         },
