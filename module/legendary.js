@@ -21,8 +21,8 @@ const LGND = {
 ===========================================================`,
 
         VERSETTINGS: {
-            encIncr: {
-                key: "encIncr",
+            legEncIncr: {
+                key: "legEncIncr",
                 data: {
                     name: "Encumbrance tracking increment",
                     hint: "Calculate encumbrance by specified steps",
@@ -36,8 +36,8 @@ const LGND = {
                     }),
                 },
             },
-            attrSecModIncr: {
-                key: "attrSecModIncr",
+            legAttrSecModIncr: {
+                key: "legAttrSecModIncr",
                 data: {
                     name: "Attribute secondary modifier increment",
                     hint: "Calculate attribute secondary modifier by specified steps",
@@ -127,7 +127,7 @@ class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
                     secMod: (thisVM) => {
                         const secModIncr = game.settings.get(
                             "sohl",
-                            "attrSecModIncr",
+                            "legAttrSecModIncr",
                         );
                         return Math.min(
                             25,
@@ -241,7 +241,7 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
             total: (thisVM) => {
                 const encDiv = game.settings.get(
                     "sohl",
-                    LGND.CONST.VERSETTINGS.encIncr.key,
+                    LGND.CONST.VERSETTINGS.legEncIncr.key,
                 );
                 let result = Math.round(
                     Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
