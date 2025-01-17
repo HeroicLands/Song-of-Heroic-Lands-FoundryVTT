@@ -19,7 +19,7 @@
                 {{#if (eq system.subType config.Item.dataModels.skill.subTypes.Combat)}}
                 {{formField fields.weaponGroup rootId="skill-wpngrp" classes="text-field" stacked=true value=system.weaponGroup}}
                 {{/if}}
-                {{#if (eq flavor "legendary")}}
+                {{#if (eq variant "legendary")}}
                 <div class="form-group stacked text-field">
                     <label>Skill Multiple</label>
                     <div class="form-fields">
@@ -42,7 +42,7 @@
                 </div>
                 {{/if}}
             </div>
-            {{#if (eq flavor "legendary")}}
+            {{#if (eq variant "legendary")}}
             <fieldset id="skill-action-zones">
                 <legend>Action Body Parts</legend>
                 <div class="flexrow">

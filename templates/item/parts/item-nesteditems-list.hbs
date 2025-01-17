@@ -24,8 +24,8 @@
                         style="background-image: url('{{ item.img }}')"></div>
                     <h4>{{ item.name }}</h4>
                 </div>
-                <div class="detail type" data-tooltip="{{lookup config.Item.typeLabels item.type}}">
-                    {{ lookup ../config.Item.typeLabels item.type }}
+                <div class="detail type" data-tooltip="{{localize (lookup config.Item.typeLabels item.type)}}">
+                    {{localize (lookup ../config.Item.typeLabels item.type)}}
                 </div>
                 <div class="detail subtype" data-tooltip="{{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}">
                     {{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}

@@ -1,11 +1,13 @@
 #!./venv/bin/python3
 
-import yaml
+from ruamel.yaml import YAML
 import json
 import argparse
 from unidecode import unidecode
 from mergedeep import merge
 import re
+
+yaml = YAML(typ="rt")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dataDir", help="folder where data files are located")
@@ -22,7 +24,7 @@ stats = {
 }
 
 with open(f"{args.dataDir}/traits.yaml", "r", encoding="utf8") as infile:
-    traitsData = yaml.safe_load(infile)
+    traitsData = yaml.load(infile)
 
 for trait in traitsData:
     print(f"Processing trait {trait['name']}")
@@ -66,7 +68,7 @@ for trait in traitsData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/skills.yaml", "r", encoding="utf8") as infile:
-    skillsData = yaml.safe_load(infile)
+    skillsData = yaml.load(infile)
 
 for skill in skillsData:
     print(f"Processing skill {skill['name']}")
@@ -118,10 +120,10 @@ for skill in skillsData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/combatmaneuvers.yaml", "r", encoding="utf8") as infile:
-    combatmaneuversData = yaml.safe_load(infile)
+    combatmaneuversData = yaml.load(infile)
 
 with open(f"{args.dataDir}/combattechsm.yaml", "r", encoding="utf8") as infile:
-    combattechniquesmData = yaml.safe_load(infile)
+    combattechniquesmData = yaml.load(infile)
 
 combatmaneuvers = {}
 
@@ -254,7 +256,7 @@ for cmid in combatmaneuvers.keys():
         json.dump(combatmaneuvers[cmid], outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/afflictions.yaml", "r", encoding="utf8") as infile:
-    afflictionsData = yaml.safe_load(infile)
+    afflictionsData = yaml.load(infile)
 
 for affliction in afflictionsData:
     print(f"Processing Affliction {affliction['name']}")
@@ -294,8 +296,23 @@ for affliction in afflictionsData:
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
+with open(f"{args.dataDir}/anatomies.yaml", "r", encoding="utf8") as infile:
+    anatomiesData = yaml.load(infile)
+
+for anatomy in anatomiesData:
+    print(f"Processing Anatomy {anatomy['name']}")
+    fname = anatomy["name"] + "_" + anatomy["_id"]
+    fname = unidecode(fname)
+    fname = re.sub(r"[^0-9a-zA-Z]+", "_", fname) + ".json"
+    pname = args.outputDir + "/" + fname
+
+    anatomy["_key"] = "!items!" + anatomy["_id"]
+        
+    with open(pname, "w", encoding="utf8") as outfile:
+        json.dump(anatomy, outfile, indent=2, ensure_ascii=False)
+
 with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
-    foldersData = yaml.safe_load(infile)
+    foldersData = yaml.load(infile)
 
 for folder in foldersData:
     print(f"Processing Folder {folder['name']}")

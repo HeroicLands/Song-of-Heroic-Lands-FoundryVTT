@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import * as sohl from "./sohl-common.js";
 import * as legendary from "./legendary.js";
-
-const fields = foundry.data.fields;
+import * as mistyisle from "./mistyisle.js";
 
 function setupSohlVersion(verData) {
     console.log(verData.CONST.initVersionMessage);
@@ -78,53 +77,8 @@ function setupSohlVersion(verData) {
 /*      System Settings                                          */
 /*===============================================================*/
 function registerSystemSettings() {
-    game.settings.register(
-        "sohl",
-        sohl.SOHL.CONST.SETTINGS.systemMigrationVersion.key,
-        {
-            name: "System Migration Version",
-            scope: "world",
-            config: false,
-            type: new fields.StringField({
-                required: true,
-                nullable: false,
-                initial: "",
-            }),
-        },
-    );
-
-    if (!Object.keys(sohl.SOHL.versionsData)) {
-        throw new Error("No HM Versions Defined!");
-    }
-
-    game.settings.register("sohl", sohl.SOHL.CONST.SETTINGS.sohlVersion.key, {
-        name: "System Version",
-        hint: "What system version should be used for this world",
-        scope: "world",
-        config: false,
-        type: new fields.StringField({
-            required: true,
-            nullable: false,
-            initial: "",
-            choices: Object.entries(sohl.SOHL.versionsData).reduce(
-                (obj, v) => {
-                    obj[v[0]] = v[1];
-                    return obj;
-                },
-                { "": "None" },
-            ),
-        }),
-        requiresReload: true,
-    });
     Object.values(sohl.SOHL.CONST.SETTINGS).forEach((setting) => {
-        if (
-            ![
-                sohl.SOHL.CONST.SETTINGS.systemMigrationVersion.key,
-                sohl.SOHL.CONST.SETTINGS.sohlVersion.key,
-            ].includes(setting.key)
-        ) {
-            game.settings.register("sohl", setting.key, setting.data);
-        }
+        game.settings.register("sohl", setting.key, setting.data);
     });
 }
 
@@ -208,19 +162,20 @@ Hooks.on("closeSceneConfig", (app, html, data) => {
 });
 
 Hooks.once("init", async function () {
-    console.log(`SoHR | ${sohl.SOHL.CONST.sohlInitMessage}`);
+    console.log(`SoHL | ${sohl.SOHL.CONST.sohlInitMessage}`);
 
     game.sohl = sohl.SOHL;
 
     // Register all available SoHR versions
     sohl.SOHL.registerSystemVersion("legendary", legendary.verData);
+    sohl.SOHL.registerSystemVersion("mistyisle", mistyisle.verData);
 
     // Initialize all system settings
     registerSystemSettings();
 
     let hmVer = game.settings.get(
         "sohl",
-        sohl.SOHL.CONST.SETTINGS.sohlVersion.key,
+        sohl.SOHL.CONST.SETTINGS.sohlVariant.key,
     );
     if (hmVer) {
         setupSohlVersion(sohl.SOHL.versionsData[hmVer]);
@@ -314,55 +269,6 @@ Hooks.once("init", async function () {
  * we should perform a data migration.
  */
 Hooks.once("ready", function () {
-    // Setup world system version
-    const allSohlSystems = Object.keys(sohl.SOHL.versionsData).map((v) => [
-        sohl.SOHL.versionsData[v].id,
-        sohl.SOHL.versionsData[v].label,
-    ]);
-    let hmVer = game.settings.get(
-        "sohl",
-        sohl.SOHL.CONST.SETTINGS.sohlVersion.key,
-    );
-    if (!hmVer) {
-        if (game.user.isGM) {
-            (async function () {
-                while (!hmVer) {
-                    let dlgHtml = `<form id="select-fate">
-                        <p>Select which system version to use:</p>
-                        <div class="form-group"><select name="sohlVersion">`;
-                    allSohlSystems.forEach(([id, label]) => {
-                        dlgHtml += `<option value="${id}"}>${label}`;
-                    });
-                    dlgHtml += `</select></div></form>`;
-                    hmVer = await Dialog.prompt({
-                        title: "Choose System Version",
-                        content: dlgHtml,
-                        label: "OK",
-                        callback: async (html) => {
-                            const form = html.querySelector("form");
-                            const fd = new FormDataExtended(form);
-                            const formdata = foundry.utils.expandObject(
-                                fd.object,
-                            );
-                            return formdata.sohlVersion;
-                        },
-                        options: { jQuery: false },
-                        rejectClose: false,
-                    });
-                }
-                game.settings.set(
-                    "sohl",
-                    sohl.SOHL.CONST.SETTINGS.sohlVersion.key,
-                    hmVer,
-                );
-                game.socket.emit("reload");
-                foundry.utils.debouncedReload();
-            })();
-        } else {
-            game.logOut();
-        }
-    }
-
     //Hooks.on("hotbarDrop", (bar, data, slot) => LegendaryCommand.createHMMacro(data, slot));
 
     if (

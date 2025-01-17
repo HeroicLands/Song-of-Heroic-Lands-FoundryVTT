@@ -9,6 +9,11 @@
  */
 const fields = foundry.data.fields;
 
+export const SOHL_VARIANTS = {
+    legendary: "Legendary",
+    mistyisle: "Misty Isle",
+};
+
 /**
  * Base SOHL object containing various properties, constants, and configuration
  * parameters related to the SOHL system,
@@ -137,23 +142,30 @@ export const SOHL = {
         SETTINGS: {
             systemMigrationVersion: {
                 key: "systemMigrationVersion",
-            },
-            sohlVersion: {
-                key: "sohlVersion",
                 data: {
-                    name: "Rules Flavor",
-                    hint: "Rules group to use",
+                    name: "System Migration Version",
+                    scope: "world",
+                    config: false,
+                    type: new fields.StringField({
+                        required: true,
+                        nullable: false,
+                        initial: "",
+                    }),
+                },
+            },
+            sohlVariant: {
+                key: "sohlVariant",
+                data: {
+                    name: "Rules Variant",
+                    hint: "Which set of rules to use",
                     scope: "world",
                     config: true,
-                    default: "legendary",
+                    requiresReload: true,
                     type: new fields.StringField({
                         nullable: false,
-                        blank: false,
                         initial: "legendary",
-                        choices: {
-                            legendary: "Legendary",
-                            mistyisle: "Misty Isle",
-                        },
+                        blank: false,
+                        choices: SOHL_VARIANTS,
                     }),
                 },
             },
@@ -323,7 +335,7 @@ export class ValueModifier {
     }
 
     get index() {
-        return Math.trunc(this.effective / 10);
+        return Math.trunc((this.base || 0) / 10);
     }
 
     get disabled() {
@@ -2208,7 +2220,7 @@ export class SohlItem extends Item {
                     }
                 }
             } else {
-                ui.notification.warn(
+                ui.notifications.warn(
                     `Similar sibling already exists, move denied`,
                 );
                 return null;
@@ -3188,26 +3200,36 @@ export class SohlItemData extends SohlBaseData {
         this.nestedItems
             .toSorted((a, b) => a.sort - b.sort)
             .forEach((ni) => {
-                const data = foundry.utils.deepClone(ni);
-                const uuid = this.item.uuid;
-                data.effects?.forEach((e) => {
-                    e.origin = uuid;
-                });
-                if (!data.ownership) {
-                    data.ownership = {
-                        default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                    };
-                }
-                const item = new SohlItem(data, {
-                    nestedIn: this.item,
-                    keepId: true,
-                });
-                if (!item) {
-                    console.error(
-                        `Failure to create item ${ni.name} on ${this.nestedIn.name}`,
-                    );
-                } else {
-                    this.items.set(item.id, item);
+                const ignore =
+                    [
+                        "protection",
+                        "meleestrikemode",
+                        "missilestrikemode",
+                        "combattechniquestrikemode",
+                    ].includes(ni.type) && ni.system.subType !== SOHL.sysVer.id;
+
+                if (!ignore) {
+                    const data = foundry.utils.deepClone(ni);
+                    const uuid = this.item.uuid;
+                    data.effects?.forEach((e) => {
+                        e.origin = uuid;
+                    });
+                    if (!data.ownership) {
+                        data.ownership = {
+                            default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                        };
+                    }
+                    const item = new SohlItem(data, {
+                        nestedIn: this.item,
+                        keepId: true,
+                    });
+                    if (!item) {
+                        console.error(
+                            `Failure to create item ${ni.name} on ${this.nestedIn.name}`,
+                        );
+                    } else {
+                        this.items.set(item.id, item);
+                    }
                 }
             });
     }
@@ -3236,7 +3258,11 @@ export class SohlItemData extends SohlBaseData {
                         it.cause = this.item;
                     }
                 }
-            } else if (it.system.transferToActor) {
+            } else if (
+                it.system.transferToActor ||
+                (it.system instanceof GearItemData &&
+                    it.nestedIn?.system instanceof ContainerGearItemData)
+            ) {
                 it.cause = this.item;
             }
         });
@@ -3277,6 +3303,11 @@ export class AnimateEntityActorData extends SohlActorData {
      * @type {ValueModifier}
      */
     $health;
+
+    /**
+     * Represents the base healing rate
+     */
+    $healingBase;
 
     /**
      * Represents the sum of all zones.
@@ -3977,6 +4008,7 @@ export class AnimateEntityActorData extends SohlActorData {
                     (thisVM.effective / (thisVM.max || Number.EPSILON)) * 100,
                 ),
         });
+        this.$healingBase = new ValueModifier(this);
         this.$zoneSum = 0;
         this.$isSetup = true;
         this.$shockState = SOHL.CONST.SHOCK.None;
@@ -4129,25 +4161,149 @@ function SubtypeMixin(Base) {
     };
 }
 
+export class ProtectionItemData extends SubtypeMixin(SohlItemData) {
+    $protection;
+    $bodyLocations;
+
+    static get typeName() {
+        return "protection";
+    }
+
+    static get typeLabel() {
+        return {
+            singular: "Protection",
+            plural: "Protections",
+        };
+    }
+
+    static get subTypes() {
+        return SOHL_VARIANTS;
+    }
+
+    /** @override */
+    static get nestOnly() {
+        return true;
+    }
+
+    get transferToActor() {
+        return this.subType === SOHL.sysVer.id && super.transferToActor;
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            protectionBase: new fields.SchemaField(
+                {
+                    blunt: new fields.NumberField({
+                        integer: true,
+                        initial: 0,
+                        min: 0,
+                        label: "Blunt",
+                    }),
+                    edged: new fields.NumberField({
+                        integer: true,
+                        initial: 0,
+                        min: 0,
+                        label: "Edged",
+                    }),
+                    piercing: new fields.NumberField({
+                        integer: true,
+                        initial: 0,
+                        min: 0,
+                        label: "Piercing",
+                    }),
+                    fire: new fields.NumberField({
+                        integer: true,
+                        initial: 0,
+                        min: 0,
+                        label: "Fire",
+                    }),
+                },
+                {
+                    label: "Protection",
+                },
+            ),
+        });
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$bodyLocations = [];
+        this.$protection = {
+            blunt: new ValueModifier(this).setBase(this.protectionBase.blunt),
+            edged: new ValueModifier(this).setBase(this.protectionBase.edged),
+            piercing: new ValueModifier(this).setBase(
+                this.protectionBase.piercing,
+            ),
+            fire: new ValueModifier(this).setBase(this.protectionBase.fire),
+        };
+    }
+
+    processSiblings() {
+        super.processSiblings();
+        if (!this.item.nestedIn || this.subType !== SOHL.sysVer.id) return;
+
+        let armorGearData = null;
+        if (
+            this.item.nestedIn.system instanceof ArmorGearItemData &&
+            this.item.nestedIn.system.isEquipped
+        ) {
+            armorGearData = this.item.nestedIn.system;
+            this.$bodyLocations = this.actor.itemTypes[
+                BodyLocationItemData.typeName
+            ].filter(
+                (i) =>
+                    armorGearData.locations.flexible.includes(i.name) ||
+                    armorGearData.locations.rigid.includes(i.name),
+            );
+        } else if (this.item.nestedIn.system instanceof BodyLocationItemData) {
+            this.$bodyLocations.push(this.item.nestedIn);
+        }
+
+        this.$bodyLocations.forEach((bl) => {
+            const blData = bl.system;
+            Object.keys(this.$protection).forEach((aspect) => {
+                if (this.$protection[aspect].effective)
+                    blData.$protection[aspect]?.add(
+                        this.item.name,
+                        this.abbrev,
+                        this.$protection[aspect].effective,
+                    );
+            });
+
+            if (armorGearData) {
+                // if a material has been specified, add it to the layers
+                if (armorGearData.material) {
+                    if (blData.$layers) blData.$layers += ",";
+                    blData.$layers += armorGearData.material;
+                }
+
+                // If any of the armor is rigid, then flag the whole bodylocation as rigid.
+                blData.$traits.isRigid ||=
+                    armorGearData.locations.rigid.includes(bl.name);
+            }
+        });
+    }
+}
 export class StrikeModeItemData extends SubtypeMixin(SohlItemData) {
     $traits;
     $assocSkill;
-    $length;
     $impact;
     $attack;
     $defense;
     $durability;
 
     static get subTypes() {
-        return {
-            legendary: "Legendary",
-            island: "Island",
-        };
+        return SOHL_VARIANTS;
     }
 
     /** @override */
     static get nestOnly() {
         return true;
+    }
+
+    get transferToActor() {
+        return this.subType === SOHL.sysVer.id && super.transferToActor;
     }
 
     static get effectKeys() {
@@ -4342,6 +4498,33 @@ export class StrikeModeItemData extends SubtypeMixin(SohlItemData) {
         };
     }
 
+    setupVirtualItems() {
+        super.setupVirtualItems();
+        this.$assocSkill = this.actor.getItem(this.assocSkillName, {
+            types: [SkillItemData.typeName],
+        });
+        if (!this.$assocSkill) {
+            const msg = `${this.constructor.typeLabel.singular} ${this.name} requires skill ${this.assocSkillName} but it does not exist, creating a dummy skill with ML 0`;
+            if (ui.notifications) {
+                ui.notifications.warn(msg);
+            } else {
+                console.warn(msg);
+            }
+            this.$assocSkill = new SohlItem(
+                {
+                    name: this.assocSkillName,
+                    type: "skill",
+                    _id: foundry.utils.randomID(),
+                    system: {
+                        masteryLevelBase: 0,
+                    },
+                },
+                { parent: this.actor },
+            );
+            this.$assocSkill.cause = this.item;
+        }
+    }
+
     postProcess() {
         super.postProcess();
         if (this.item.nestedIn?.system instanceof GearItemData) {
@@ -4384,6 +4567,8 @@ export class StrikeModeItemData extends SubtypeMixin(SohlItemData) {
 }
 
 export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
+    $length;
+
     static get typeName() {
         return "meleestrikemode";
     }
@@ -4512,6 +4697,8 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
 
     prepareBaseData() {
         super.prepareBaseData();
+        this.$length = new ValueModifier(this);
+
         // Length is only set if this Strike Mode is nested in a WeaponGear
         if (this.item.nestedIn instanceof WeaponGearItemData) {
             this.$length.setBase(this.item.nestedIn.system.lengthBase);
@@ -4520,33 +4707,21 @@ export class MeleeWeaponStrikeModeItemData extends StrikeModeItemData {
 
     processSiblings() {
         super.processSiblings();
-        this.$assocSkill = this.actor.getItem(this.assocSkillName, {
-            types: [SkillItemData.typeName],
+        this.$defense.block.addVM(this.$assocSkill.system.$masteryLevel, {
+            includeBase: true,
         });
-        if (this.$assocSkill) {
-            this.$defense.block.addVM(this.$assocSkill.system.$masteryLevel, {
-                includeBase: true,
-            });
-            this.$defense.block.fate.addVM(
-                this.$assocSkill.system.$masteryLevel.fate,
-                { includeBase: true },
-            );
-            this.$defense.counterstrike.addVM(
-                this.$assocSkill.system.$masteryLevel,
-                { includeBase: true },
-            );
-            this.$defense.counterstrike.fate.addVM(
-                this.$assocSkill.system.$masteryLevel.fate,
-                { includeBase: true },
-            );
-        } else {
-            this.$attack.disabled = true;
-            this.$attack.fate.disabled = true;
-            this.$defense.block.disabled = true;
-            this.$defense.block.fate.disabled = true;
-            this.$defense.counterstrike.disabled = true;
-            this.$defense.counterstrike.fate.disabled = true;
-        }
+        this.$defense.block.fate.addVM(
+            this.$assocSkill.system.$masteryLevel.fate,
+            { includeBase: true },
+        );
+        this.$defense.counterstrike.addVM(
+            this.$assocSkill.system.$masteryLevel,
+            { includeBase: true },
+        );
+        this.$defense.counterstrike.fate.addVM(
+            this.$assocSkill.system.$masteryLevel.fate,
+            { includeBase: true },
+        );
 
         // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
         if (this.outnumberedPenalty) {
@@ -4596,6 +4771,8 @@ export class MissileWeaponStrikeModeItemData extends StrikeModeItemData {
 }
 
 export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
+    $length;
+
     static get typeName() {
         return "combattechniquestrikemode";
     }
@@ -4743,30 +4920,22 @@ export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
+        this.$length = new ValueModifier(this);
         this.$length.setBase(this.lengthBase);
     }
 
     processSiblings() {
         super.processSiblings();
-        this.$assocSkill = this.actor.getItem(this.assocSkillName, {
-            types: [SkillItemData.typeName],
+        this.$attack.addVM(this.$assocSkill.system.$masteryLevel, {
+            includeBase: true,
         });
-        if (this.$assocSkill) {
-            this.$attack.addVM(this.$assocSkill.system.$masteryLevel, {
-                includeBase: true,
-            });
-            this.$defense.block.addVM(this.$assocSkill.system.$masteryLevel, {
-                includeBase: true,
-            });
-            this.$defense.counterstrike.addVM(
-                this.$assocSkill.system.$masteryLevel,
-                { includeBase: true },
-            );
-        } else {
-            this.$attack.disabled = true;
-            this.$defense.block.disabled = true;
-            this.$defense.counterstrike.disabled = true;
-        }
+        this.$defense.block.addVM(this.$assocSkill.system.$masteryLevel, {
+            includeBase: true,
+        });
+        this.$defense.counterstrike.addVM(
+            this.$assocSkill.system.$masteryLevel,
+            { includeBase: true },
+        );
 
         // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
         if (this.outnumberedPenalty) {
@@ -5247,7 +5416,7 @@ export class MasteryLevelItemData extends SohlItemData {
 
         let target = Utility.getSingleSelectedToken({ quiet: true });
         if (!canvas.scene) {
-            ui.notification.warn(`No active scene`);
+            ui.notifications.warn(`No active scene`);
         } else if (!canvas.scene.tokens.size) {
             ui.notifications.warn(`No tokens on the active scene`);
         }
@@ -5703,11 +5872,11 @@ export class MysteryItemData extends SubtypeMixin(SohlItemData) {
             let field;
             if (["grace", "piety"].includes(this.subType)) {
                 field = this.item.actor.system.$domains.divine.find(
-                    (d) => d.abbrev === this.domain,
+                    (d) => d.system.abbrev === this.domain,
                 )?.name;
             } else if (this.subType === "totem") {
                 field = this.item.actor.system.$domains.spirit.find(
-                    (d) => d.abbrev === this.domain,
+                    (d) => d.system.abbrev === this.domain,
                 )?.name;
             }
             return field || `Unknown (${this.domain})`;
@@ -7566,7 +7735,6 @@ export class AffiliationItemData extends SohlItemData {
 
 export class AnatomyItemData extends SohlItemData {
     $sum;
-    $defaultAim;
 
     static get typeName() {
         return "anatomy";
@@ -7582,46 +7750,9 @@ export class AnatomyItemData extends SohlItemData {
     static get defaultImage() {
         return "systems/sohl/assets/icons/person.svg";
     }
-
-    static defineSchema() {
-        return foundry.utils.mergeObject(super.defineSchema(), {
-            defaultAim: new fields.StringField({
-                initial: "",
-                label: "Default Aim",
-            }),
-            weaponLimbs: new fields.ArrayField(
-                new fields.StringField({
-                    initial: "",
-                    label: "Weapon Limb",
-                }),
-                {
-                    label: "Weapon Limbs",
-                },
-            ),
-        });
-    }
-
-    prepareBaseData() {
-        super.prepareBaseData();
-        this.$defaultAim = this.defaultAim;
-        this.$sum = {};
-    }
-
-    /** @override */
-    postProcess() {
-        super.postProcess();
-
-        // Ensure our defaultAim is one of the defined aim locations;
-        // Otherwise, arbitrarily choose the first aim location as the
-        // default one.
-        if (!Object.hasOwn(this.$sum, this.$defaultAim)) {
-            this.$defaultAim = Object.keys(this.$sum).at(0) ?? "";
-        }
-    }
 }
 
 export class BodyZoneItemData extends SohlItemData {
-    $aim;
     $bodyParts;
 
     static get typeName() {
@@ -7650,37 +7781,12 @@ export class BodyZoneItemData extends SohlItemData {
                 initial: "",
                 label: "Abbreviation",
             }),
-            aim: new fields.ArrayField(
-                new fields.SchemaField(
-                    {
-                        name: new fields.StringField({
-                            initial: "",
-                            label: "Area Name",
-                            name: "Area location name",
-                        }),
-                        probWeightBase: new fields.NumberField({
-                            integer: true,
-                            initial: 0,
-                            min: 0,
-                            label: "Area Probability Weight",
-                            hint:
-                                "The ratio of how often this body " +
-                                "zone is hit compared to all body zones " +
-                                "in the same area",
-                        }),
-                    },
-                    {
-                        label: "Aim",
-                    },
-                ),
-            ),
         });
     }
 
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
-        this.$aim = {};
         this.$bodyParts = [];
     }
 
@@ -7696,28 +7802,6 @@ export class BodyZoneItemData extends SohlItemData {
             );
         }
 
-        const anatomyData = this.item.cause.system;
-        this.aim.forEach((aim) => {
-            anatomyData.$sum[aim.name] += aim.probWeightBase || 0;
-            this.$aim[aim.name] = {
-                name: aim.name,
-                probWeight: new ValueModifier(this, {
-                    pct: (thisVM) =>
-                        Math.trunc(
-                            (thisVM.effective /
-                                (anatomyData.$sum[aim.name] ||
-                                    thisVM.effective ||
-                                    1)) *
-                                100,
-                        ),
-                    ratio: (thisVM) =>
-                        `${thisVM.effective}:${
-                            anatomyData.$sum[aim.name] || thisVM.effective
-                        }`,
-                }),
-            };
-        });
-
         this.$bodyParts = [];
         for (const it of this.actor.allItems()) {
             if (it.system instanceof BodyPartItemData) {
@@ -7731,7 +7815,6 @@ export class BodyZoneItemData extends SohlItemData {
 
 export class BodyPartItemData extends SohlItemData {
     $heldItem;
-    $aim;
     $bodyLocations;
     $health;
 
@@ -7770,51 +7853,7 @@ export class BodyPartItemData extends SohlItemData {
                 initial: "",
                 label: "Held Item Id",
             }),
-            isSubordinate: new fields.BooleanField({
-                initial: false,
-                label: "Is Subordinate",
-                hint: "Whether this body part serves a lesser or supporting role compared to other body parts in the same body zone",
-            }),
-            healthBase: new fields.NumberField({
-                integer: true,
-                initial: 0,
-                min: 0,
-                label: "health",
-                hint: "How much this body part contributes to the overall health",
-            }),
-            aim: new fields.ArrayField(
-                new fields.SchemaField(
-                    {
-                        name: new fields.StringField({
-                            initial: "",
-                            label: "Area Name",
-                            name: "Area location name",
-                        }),
-                        probWeightBase: new fields.NumberField({
-                            integer: true,
-                            initial: 0,
-                            min: 0,
-                            label: "Area Probability Weight",
-                            hint:
-                                "The ratio of how often this body " +
-                                "part is hit compared to all body parts " +
-                                "in the same area for the body zone",
-                        }),
-                    },
-                    {
-                        label: "Aim",
-                    },
-                ),
-            ),
         });
-    }
-
-    /** @override */
-    prepareBaseData() {
-        super.prepareBaseData();
-        this.$aim = {};
-        this.$health = new ValueModifier(this);
-        this.$health.setBase(this.healthBase);
     }
 
     /** @override */
@@ -7829,32 +7868,6 @@ export class BodyPartItemData extends SohlItemData {
                 `Item ${this.uuid} is a BodyPart that is not nested in a BodyZone, please correct this`,
             );
         }
-
-        const bodyZoneData = this.item.cause.system;
-        this.aim.forEach((aim) => {
-            if (bodyZoneData?.$aim[aim.name]) {
-                bodyZoneData.$aim[aim.name].sum =
-                    bodyZoneData.$aim[aim.name].sum + aim.probWeightBase || 0;
-            }
-            this.$aim[aim.name] = {
-                name: aim.name,
-                probWeight: new ValueModifier(this, {
-                    pct: (thisVM) =>
-                        Math.trunc(
-                            (thisVM.effective /
-                                (bodyZoneData.$aim[aim.name].sum ||
-                                    thisVM.effective ||
-                                    1)) *
-                                100,
-                        ),
-                    ratio: (thisVM) =>
-                        `${thisVM.effective}:${
-                            bodyZoneData.$sum[aim.name] || thisVM.effective
-                        }`,
-                }).setBase(aim.probWeightBase),
-                sum: 0,
-            };
-        });
 
         this.$bodyLocations = [];
         for (const it of this.actor.allItems()) {
@@ -7896,7 +7909,6 @@ export class BodyPartItemData extends SohlItemData {
 export class BodyLocationItemData extends SohlItemData {
     $protection;
     $layers;
-    $aim;
     $traits;
 
     static get typeName() {
@@ -7936,90 +7948,14 @@ export class BodyLocationItemData extends SohlItemData {
                 initial: "",
                 label: "Abbreviation",
             }),
-            layers: new fields.StringField({
-                initial: "",
-                label: "Layers",
-                hint: "Materials that cover this location",
-            }),
-            armorBase: new fields.SchemaField(
-                {
-                    blunt: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Blunt",
-                    }),
-                    edged: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Edged",
-                    }),
-                    piercing: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Piercing",
-                    }),
-                    fire: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Fire",
-                    }),
-                },
-                {
-                    label: "Armor",
-                },
-            ),
-            isFumble: new fields.BooleanField({
-                initial: false,
-                label: "Fumble",
-                hint: "Can the location fumble",
-            }),
-            isStumble: new fields.BooleanField({
-                initial: false,
-                label: "Stumble",
-                hint: "Can the location stumble",
-            }),
-            aim: new fields.ArrayField(
-                new fields.SchemaField(
-                    {
-                        name: new fields.StringField({
-                            initial: "",
-                            label: "Area Name",
-                            hint: "location name",
-                        }),
-                        probWeightBase: new fields.NumberField({
-                            integer: true,
-                            initial: 0,
-                            min: 0,
-                            label: "Area Prob Weight",
-                            hint:
-                                "The ratio of how often this body " +
-                                "location is hit compared to all body locations " +
-                                "in the same area for the body part",
-                        }),
-                    },
-                    {
-                        label: "Aim",
-                    },
-                ),
-            ),
         });
     }
 
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
-        this.$aim = {};
-        this.$protection = {
-            blunt: new ValueModifier(this).setBase(this.armorBase.blunt),
-            edged: new ValueModifier(this).setBase(this.armorBase.edged),
-            piercing: new ValueModifier(this).setBase(this.armorBase.piercing),
-            fire: new ValueModifier(this).setBase(this.armorBase.fire),
-        };
-        this.$layers = this.layers;
+        this.$protection = {};
+        this.$layers = "";
         this.$traits = {
             isRigid: false,
         };
@@ -8037,26 +7973,6 @@ export class BodyLocationItemData extends SohlItemData {
                 `Item ${this.uuid} is a Body Location that is not nested in a Body Part, please correct this`,
             );
         }
-
-        const bodyPartData = this.item.nestedIn.system;
-        this.aim.forEach((aim) => {
-            if (bodyPartData.$aim[aim.name]) {
-                bodyPartData.$aim[aim.name].sum =
-                    bodyPartData.$aim[aim.name].sum + aim.probWeightBase || 0;
-            }
-            this.$aim[aim.name] = {
-                name: aim.name,
-                probWeight: new ValueModifier(this, {
-                    pct: (thisVM) =>
-                        Math.trunc(
-                            (thisVM.effective /
-                                (bodyPartData.$aim[aim.name]?.sum || 1)) *
-                                100,
-                        ),
-                }).setBase(aim.probWeightBase),
-                sum: 0,
-            };
-        });
     }
 }
 
@@ -8435,24 +8351,6 @@ export class ArmorGearItemData extends GearItemData {
         return "systems/sohl/assets/icons/armor.svg";
     }
 
-    static get rididArmor() {
-        return {
-            gambeson: "Gambeson",
-            kurbul: "Kurbul",
-            scale: "Scale",
-            mail: "Mail",
-            plate: "Plate",
-            shell: "Shell",
-            stone: "Stone",
-            bone: "Bone",
-            other: "Other Rigid",
-        };
-    }
-
-    get equipped() {
-        return this.isEquipped;
-    }
-
     static defineSchema() {
         return foundry.utils.mergeObject(super.defineSchema(), {
             material: new fields.StringField({
@@ -8482,83 +8380,13 @@ export class ArmorGearItemData extends GearItemData {
                     label: "Locations",
                 },
             ),
-            protectionBase: new fields.SchemaField(
-                {
-                    blunt: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Blunt",
-                    }),
-                    edged: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Edged",
-                    }),
-                    piercing: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Piercing",
-                    }),
-                    fire: new fields.NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                        label: "Fire",
-                    }),
-                },
-                {
-                    label: "Protection",
-                },
-            ),
         });
     }
 
-    /** @override */
-    prepareBaseData() {
-        super.prepareBaseData();
+    processSiblings() {
+        super.processSiblings();
         this.$protection = {};
-        Object.keys(this.protectionBase).forEach((p) => {
-            this.$protection[p] = new ValueModifier(this);
-            this.$protection[p].setBase(this.protectionBase[p]);
-        });
-    }
-
-    /** @override */
-    postProcess() {
-        super.postProcess();
-        if (this.isEquipped) {
-            const blList = this.actor.itemTypes[
-                BodyLocationItemData.typeName
-            ].filter(
-                (i) =>
-                    this.locations.flexible.has(i.name) ||
-                    this.locations.rigid.has(i.name),
-            );
-            blList.forEach((bl) => {
-                const blData = bl.system;
-
-                Object.keys(this.$protection).forEach((aspect) => {
-                    if (this.$protection[aspect].effective)
-                        blData.$protection[aspect].add(
-                            this.item.name,
-                            this.abbrev,
-                            this.$protection[aspect].effective,
-                        );
-                });
-
-                // if a material has been specified, add it to the layers
-                if (this.material) {
-                    if (blData.$layers) blData.$layers += ",";
-                    blData.$layers += this.material;
-                }
-
-                // If any of the armor is rigid, then flag the whole bodylocation as rigid.
-                blData.$traits.isRigid ||= this.locations.rigid.has(bl.name);
-            });
-        }
+        this.$traits = {};
     }
 }
 
@@ -12310,17 +12138,12 @@ export class SohlActor extends Actor {
             }
 
             if (items.length > 1) {
-                ui.notifications.warn(
-                    `Actor ${
-                        this.token?.name || this.name
-                    } has more than one ${typeNames} with name ${itemName}. The first matched item will be chosen.`,
-                );
-            } else if (items.length === 0) {
-                ui.notifications.warn(
-                    `Actor ${
-                        this.token?.name || this.name
-                    } does not have an ${typeNames} named ${itemName}`,
-                );
+                const msg = `Actor ${this.token?.name || this.name} has more than one ${typeNames} with name ${itemName}. The first matched item will be chosen.`;
+                if (ui.notifications) {
+                    ui.notifications.warn(msg);
+                } else {
+                    console.warn(msg);
+                }
                 return null;
             }
 
@@ -12331,11 +12154,12 @@ export class SohlActor extends Actor {
         }
 
         if (!item || (types.length && !types.includes(item.type))) {
-            ui.notifications.warn(
-                `Actor ${
-                    this.token?.name || this.name
-                } does not have an ${typeNames} named ${itemName}`,
-            );
+            const msg = `Actor ${this.token?.name || this.name} does not have an ${typeNames} named ${itemName}`;
+            if (ui.notifications) {
+                ui.notifications.warn(msg);
+            } else {
+                console.warn(msg);
+            }
             return null;
         }
 
@@ -12543,7 +12367,7 @@ function SohlSheetMixin(Base) {
             data.options = this.options;
             data.editable = this.isEditable;
             data.cssClass = data.owner ? "editable" : "locked";
-            data.flavor = SOHL.sysVer.id;
+            data.variant = SOHL.sysVer.id;
             data.isAnimateEntity =
                 this.document.system instanceof AnimateEntityActorData;
             data.isInanimateObject =
@@ -13945,10 +13769,8 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
             // Generate a list of domains specific to this item
             data.domains = Object.entries(
                 this.item.actor.system.$domains,
-            ).reduce((obj, [cat, coll]) => {
-                const tmpAry = Array.from(coll.entries()).map(
-                    ([abbrev, domain]) => [abbrev, domain.name],
-                );
+            ).reduce((obj, [cat, ary]) => {
+                const tmpAry = ary.map((i) => [i.system.abbrev, i.name]);
 
                 // If the current item's domain is not in the loaded set of domains, then temporarily
                 // add it (so that it doesn't get reset from the current value)
@@ -13981,10 +13803,6 @@ export class SohlItemSheet extends SohlSheetMixin(ItemSheet) {
                             data.zoneNames.push(it.name);
                         }
                     }
-                }
-
-                if (it.system instanceof AnatomyItemData) {
-                    data.weaponLimbs = it.system.weaponLimbs;
                 }
 
                 if (it.system instanceof SkillItemData) {
@@ -14481,6 +14299,7 @@ export const SohlItemTypeIcons = {
     [AffiliationItemData.typeName]: "fa-duotone fa-people-group",
     [AfflictionItemData.typeName]: "fas fa-face-nauseated",
     [AnatomyItemData.typeName]: "fas fa-person",
+    [ProtectionItemData.typeName]: "fas fa-shield",
     [ArmorGearItemData.typeName]: "fas fa-shield-halved",
     [BodyLocationItemData.typeName]: "fa-solid fa-hand",
     [BodyPartItemData.typeName]: "fa-duotone fa-skeleton-ribs",
@@ -14527,6 +14346,7 @@ export const SohlItemTypeLabels = {
     [ContainerGearItemData.typeName]: "TYPES.Item.containergear",
     [EventItemData.typeName]: "TYPES.Item.event",
     [InjuryItemData.typeName]: "TYPES.Item.injury",
+    [ProtectionItemData.typeName]: "TYPES.Item.protection",
     [MeleeWeaponStrikeModeItemData.typeName]: "TYPES.Item.meleestrikemode",
     [MiscGearItemData.typeName]: "TYPES.Item.miscgear",
     [MissileWeaponStrikeModeItemData.typeName]: "TYPES.Item.missilestrikemode",

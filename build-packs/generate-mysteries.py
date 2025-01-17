@@ -1,10 +1,12 @@
 #!./venv/bin/python3
 
-import yaml
+from ruamel.yaml import YAML
 import json
 import argparse
 from unidecode import unidecode
 import re
+
+yaml = YAML(typ="rt")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dataDir", help="folder where data files are located")
@@ -21,7 +23,7 @@ stats = {
 }
 
 with open(f"{args.dataDir}/philosophies.yaml", "r", encoding="utf8") as infile:
-    philosophiesData = yaml.safe_load(infile)
+    philosophiesData = yaml.load(infile)
 
 for phil in philosophiesData:
     print(f"Processing Philosophy {phil['name']}")
@@ -75,7 +77,7 @@ for phil in philosophiesData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/mysticalabilities.yaml", "r", encoding="utf8") as infile:
-    mysticalabilitiesData = yaml.safe_load(infile)
+    mysticalabilitiesData = yaml.load(infile)
 
 for mysticalability in mysticalabilitiesData:
     print(f"Processing Mystical Ability {mysticalability['name']}")
@@ -120,7 +122,7 @@ for mysticalability in mysticalabilitiesData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/mysteries.yaml", "r", encoding="utf8") as infile:
-    mysteriesData = yaml.safe_load(infile)
+    mysteriesData = yaml.load(infile)
 
 for mystery in mysteriesData:
     print(f"Processing Mystery {mystery['name']}")
@@ -162,7 +164,7 @@ for mystery in mysteriesData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
-    foldersData = yaml.safe_load(infile)
+    foldersData = yaml.load(infile)
 
 for folder in foldersData:
     print(f"Processing Folder {folder['name']}")

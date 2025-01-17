@@ -1,10 +1,12 @@
 #!python3
 
-import yaml
+from ruamel.yaml import YAML
 import json
 import argparse
 from unidecode import unidecode
 import re
+
+yaml = YAML(typ="rt")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dataDir", help="folder where data files are located")
@@ -21,7 +23,7 @@ stats = {
 }
 
 with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
-    foldersData = yaml.safe_load(infile)
+    foldersData = yaml.load(infile)
 
 for folder in foldersData:
     print(f"Processing Folder {folder['name']}")

@@ -1,6 +1,6 @@
 #!./venv/bin/python3
 
-import yaml
+from ruamel.yaml import YAML
 import os
 import json
 import copy
@@ -9,13 +9,14 @@ import random
 import string
 from unidecode import unidecode
 import re
+import copy
+
+yaml = YAML(typ="rt")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dataDir", help="folder where data files are located")
 parser.add_argument("outputDir", help="folder where generated files should be placed")
 args = parser.parse_args()
-
-import copy
 
 class MaxDepthExceededError(Exception):
     """Exception raised when recursion exceeds the maximum allowed depth."""
@@ -46,10 +47,6 @@ def deep_replace(dict1, dict2, max_depth=10):
     # Perform the deep replace with depth tracking
     recursive_replace(result, dict2, depth=1)
     return result
-
-def randId():
-    random_string = ''.join(random.choice(string.ascii_letters+string.digits) for i in range(16))
-    return random_string
 
 def read_json_files_to_dict(directory_path, existing_array):
     # Check if the directory exists
@@ -96,24 +93,24 @@ stats = {
 }
 
 with open(f"{args.dataDir}/characters.yaml", "r", encoding="utf8") as infile:
-    charsData = yaml.safe_load(infile)
+    charsData = yaml.load(infile)
 
 for char in charsData:
     print(f"Processing Character {char['name']}")
-    fname = char["name"] + "_" + char["id"]
+    fname = char["name"] + "_" + char["_id"]
     fname = unidecode(fname)
     fname = re.sub(r"[^0-9a-zA-Z]+", "_", fname) + ".json"
     pname = args.outputDir + "/" + fname
-    actorid = char["id"]
+    actorid = char["_id"]
     actorkey = f"!actors!{actorid}"
-    del char["id"]
+    del char["_id"]
     
     out = dict(char)
     out["_id"] = actorid
     out["_key"] = actorkey
     out["items"] = []
     for itemdesc in char["items"]:
-        itemid = randId()
+        itemid = itemdesc["_id"]
         itemkey = f"!actors.items!{actorid}.{itemid}"
         result = {}
         if itemdesc["name"] and itemdesc["type"]:
@@ -129,7 +126,7 @@ for char in charsData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
-    foldersData = yaml.safe_load(infile)
+    foldersData = yaml.load(infile)
 
 for folder in foldersData:
     print(f"Processing Folder {folder['name']}")

@@ -5,6 +5,7 @@
     },
     "Item": {
         "types": [
+            "protection",
             "armorgear",
             "weapongear",
             "miscgear",

@@ -1,11 +1,13 @@
 #!./venv/bin/python3
 
-import yaml
+from ruamel.yaml import YAML
 import json
 import argparse
 from unidecode import unidecode
 from mergedeep import merge
 import re
+
+yaml = YAML(typ="rt")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dataDir", help="folder where data files are located")
@@ -22,7 +24,7 @@ stats = {
 }
 
 with open(f"{args.dataDir}/miscgear.yaml", "r", encoding="utf8") as infile:
-    miscgearData = yaml.safe_load(infile)
+    miscgearData = yaml.load(infile)
 
 for miscgear in miscgearData:
     print(f"Processing Misc Gear {miscgear['name']}")
@@ -63,7 +65,7 @@ for miscgear in miscgearData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/containergear.yaml", "r", encoding="utf8") as infile:
-    containergearData = yaml.safe_load(infile)
+    containergearData = yaml.load(infile)
 
 for containergear in containergearData:
     print(f"Processing Container Gear {containergear['name']}")
@@ -105,7 +107,7 @@ for containergear in containergearData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/concoctiongear.yaml", "r", encoding="utf8") as infile:
-    concoctiongearData = yaml.safe_load(infile)
+    concoctiongearData = yaml.load(infile)
 
 for concoctiongear in concoctiongearData:
     print(f"Processing Concoction Gear {concoctiongear['name']}")
@@ -149,7 +151,7 @@ for concoctiongear in concoctiongearData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/folders.yaml", "r", encoding="utf8") as infile:
-    foldersData = yaml.safe_load(infile)
+    foldersData = yaml.load(infile)
 
 for folder in foldersData:
     print(f"Processing Folder {folder['name']}")
@@ -175,7 +177,7 @@ for folder in foldersData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/armorgear.yaml", "r", encoding="utf8") as infile:
-    armorgearData = yaml.safe_load(infile)
+    armorgearData = yaml.load(infile)
 
 for armorgear in armorgearData:
     print(f"Processing Armor Gear {armorgear['name']}")
@@ -220,12 +222,6 @@ for armorgear in armorgearData:
                 "flexible": armorgear["flexloc"],
                 "rigid": armorgear["rigidloc"],
             },
-            "protectionBase": {
-                "blunt": armorgear["blunt"],
-                "edged": armorgear["edged"],
-                "piercing": armorgear["piercing"],
-                "fire": armorgear["fire"],
-            },
         },
         "effects": [],
         "flags": armorgear["flags"],
@@ -233,9 +229,27 @@ for armorgear in armorgearData:
         "ownership": {"default": 3},
         "folder": armorgear["folderId"],
     }
-
+    
+    legProt = {
+        "name": "Legendary Protection",
+        "type": "protection",
+        "img": armorgear["img"],
+        "_id": armorgear["legendary"]["id"],
+        "system": {
+            "transfer": True,
+            "subType": "legendary",
+            "protectionBase": {
+                "blunt": armorgear["legendary"]["blunt"],
+                "edged": armorgear["legendary"]["edged"],
+                "piercing": armorgear["legendary"]["piercing"],
+                "fire": armorgear["legendary"]["fire"],
+            },
+        },
+        "effects": [],
+        "ownership": {"default": 3},
+    }
     if armorgear["perception"] != 0:
-        out["effects"].append(
+        legProt["effects"].append(
             {
                 "name": "Skills Using Perception",
                 "icon": "icons/svg/aura.svg",
@@ -275,7 +289,7 @@ for armorgear in armorgearData:
                 + armorgear["perceptionSkillEffectId"],
             }
         )
-        out["effects"].append(
+        legProt["effects"].append(
             {
                 "name": "Perception Attribute",
                 "icon": "icons/svg/aura.svg",
@@ -315,12 +329,32 @@ for armorgear in armorgearData:
                 + armorgear["perceptionTraitEffectId"],
             }
         )
+    out["system"]["nestedItems"].append(legProt)
+
+    out["system"]["nestedItems"].append({
+        "name": "Misty Isle Protection",
+        "type": "protection",
+        "img": armorgear["img"],
+        "_id": armorgear["mistyisle"]["id"],
+        "system": {
+            "transfer": True,
+            "subType": "mistyisle",
+            "protectionBase": {
+                "blunt": armorgear["mistyisle"]["blunt"],
+                "edged": armorgear["mistyisle"]["edged"],
+                "piercing": armorgear["mistyisle"]["piercing"],
+                "fire": armorgear["mistyisle"]["fire"],
+            },
+        },
+        "ownership": {"default": 3},        
+    })
+
 
     with open(pname, "w", encoding="utf8") as outfile:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/projectilegear.yaml", "r", encoding="utf8") as infile:
-    projectilegearData = yaml.safe_load(infile)
+    projectilegearData = yaml.load(infile)
 
 for projectilegear in projectilegearData:
     print(f"Processing Projectile Gear {projectilegear['name']}")
@@ -425,7 +459,7 @@ for projectilegear in projectilegearData:
         json.dump(out, outfile, indent=2, ensure_ascii=False)
 
 with open(f"{args.dataDir}/weapongear.yaml", "r", encoding="utf8") as infile:
-    weapongearData = yaml.safe_load(infile)
+    weapongearData = yaml.load(infile)
 
 weapons = {}
 
@@ -481,7 +515,7 @@ for weapongear in weapongearData:
 
 
 with open(f"{args.dataDir}/weapons-strike-modes.yaml", "r", encoding="utf8") as infile:
-    weaponsmData = yaml.safe_load(infile)
+    weaponsmData = yaml.load(infile)
 
 for weaponsm in weaponsmData:
     smname = f"{weaponsm['name']} ({weaponsm['subDesc']})"
@@ -519,14 +553,28 @@ for weaponsm in weaponsmData:
         "durMod": weaponsm["durabilityMod"],
     }
 
-    merge(
-        weaponsm["flags"],
-        {
-            "sohl": {
-                "legendary": {"zoneDie": weaponsm["zoneDie"]},
+    if weaponsm["subType"] == "legendary":
+        merge(
+            weaponsm["flags"],
+            {
+                "sohl": {
+                    "legendary": {
+                        "zoneDie": weaponsm["zoneDie"]
+                    },
+                },
             },
-        },
-    )
+        )
+    if weaponsm["subType"] == "mistyisle":
+        merge(
+            weaponsm["flags"],
+            {
+                "sohl": {
+                    "mistyisle": {
+                        "oneHandedPenalty": weaponsm["mistyisle"]["oneHandedPenalty"],
+                    },
+                },
+            },
+        )
 
     sm = {
         "name": subdesc,
@@ -545,7 +593,7 @@ for weaponsm in weaponsmData:
             "minParts": weaponsm["minParts"],
             "assocSkillName": weaponsm["assocSkill"],
             "impactBase": {
-                "numDice": 1 if weaponsm["die"] > 0 else 1,
+                "numDice": 1 if weaponsm["die"] > 0 else 0,
                 "die": weaponsm["die"] if weaponsm["die"] > 0 else 0,
                 "modifier": weaponsm["modifier"],
                 "aspect": weaponsm["aspect"],
@@ -571,19 +619,32 @@ for weaponsm in weaponsmData:
             sm["img"] = "systems/sohl/assets/icons/throw.svg"
         sm["type"] = "missilestrikemode"
         sm["system"]["projectileType"] = projtype
-        merge(
-            sm["flags"],
-            {
-                "sohl": {
-                    "legendary": {
-                        "maxVolleyMult": weaponsm["maxVM"],
-                        "baseRangeBase": weaponsm["baseRange"],
-                        "drawBase": weaponsm["draw"],
-                        "zoneDie": weaponsm["zoneDie"],
+        if weaponsm["subType"] == "legendary":
+            merge(
+                sm["flags"],
+                {
+                    "sohl": {
+                        "legendary": {
+                            "maxVolleyMult": weaponsm["maxVM"],
+                            "baseRangeBase": weaponsm["baseRange"],
+                            "drawBase": weaponsm["draw"],
+                        },
                     },
                 },
-            },
-        )
+            )
+        if weaponsm["subType"] == "mistyisle":
+            merge(
+                sm["flags"],
+                {
+                    "sohl": {
+                        "mistyisle": {
+                            "range": weaponsm["mistyisle"]["range"],
+                            "impact": weaponsm["mistyisle"]["impact"],
+                        },
+                    },
+                },
+            )
+            
 
     eid = weaponsm["AEID"]
     effect = {
@@ -615,7 +676,7 @@ for weaponsm in weaponsmData:
         "_key": "!items.effects!" + sm["_id"] + "." + eid,
     }
 
-    if weaponsm["shaft"]:
+    if weaponsm["shaft"] and weaponsm["subType"] == "legendary":
         if not "sohl" in sm["flags"]:
             sm["flags"] = {"sohl": {"legendary": {}}}
         sm["flags"]["sohl"]["legendary"]["zoneDie"] = 8
@@ -627,7 +688,7 @@ for weaponsm in weaponsmData:
         effect["changes"].append(
             {"key": "mod:system.$length", "mode": 2, "value": -2, "priority": None}
         )
-    if weaponsm["pommel"]:
+    if weaponsm["pommel"] and weaponsm["subType"] == "legendary":
         if not "sohl" in sm["flags"]:
             sm["flags"] = {"sohl": {"legendary": {}}}
         sm["flags"]["sohl"]["legendary"]["zoneDie"] = 4
