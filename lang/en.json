@@ -2,6 +2,7 @@
     "TYPES.Actor.entity": "Animate Entity",
     "TYPES.Actor.object": "Inanimate Object",
 
+    "TYPES.Item.protection": "Protection",
     "TYPES.Item.armorgear": "Armor",
     "TYPES.Item.weapongear": "Weapon",
     "TYPES.Item.miscgear": "Misc Gear",
