@@ -11830,8 +11830,9 @@ export class SohlActor extends Actor {
             }
 
             const artwork = this.constructor.getDefaultArtwork(this.toObject());
-            updateData["img"] ||= artwork.img;
-            updateData["prototypeToken.texture.src"] ||= artwork.texture.src;
+            if (!this.img) updateData["img"] = artwork.img;
+            if (!this.prototypeToken.texture.src)
+                updateData["prototypeToken.texture.src"] = artwork.texture.src;
 
             // If a rollFormula is provided, then we will perform the designated rolling
             // for all attributes, and then for all skills we will calculate the initial
