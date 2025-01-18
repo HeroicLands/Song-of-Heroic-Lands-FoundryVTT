@@ -11778,10 +11778,23 @@ export class SohlActor extends Actor {
         return dlgResult;
     }
 
+    static createUniqueName(baseName) {
+        if (!baseName) {
+            throw new Error("Must provide baseName");
+        }
+        const takenNames = new Set();
+        for (const document of game.actors) takenNames.add(document.name);
+        let name = baseName;
+        let index = 1;
+        while (takenNames.has(name)) name = `${baseName} (${++index})`;
+        return name;
+    }
+
     /** @override */
     async _preCreate(createData, options, user) {
         const allowed = await super._preCreate(createData, options, user);
         if (allowed === false) return false;
+        let updateData = {};
 
         const similarActorExists =
             !this.pack &&
@@ -11791,77 +11804,76 @@ export class SohlActor extends Actor {
                     actor.name === createData.name,
             );
         if (similarActorExists) {
-            ui.notifications.warn(
-                game.i18n.format(
-                    `An ${SohlItemTypeLabels[createData.type]} with identical name ("${createData.name}") already exists, cannot create.`,
-                ),
-            );
-            return false;
+            updateData["name"] = SohlActor.createUniqueName(createData.name);
         }
 
         // If the created actor has items (only applicable to duplicated actors) bypass the new actor creation logic
-        if (options.skipDefaults || createData.items) return;
-
-        let updateData = {};
-
-        if (options.cloneActorUuid) {
-            const cloneActor = await fromUuid(options.cloneActorUuid);
-            if (cloneActor) {
-                let newData = cloneActor.toObject();
-                delete newData._id;
-                delete newData.folder;
-                delete newData.sort;
-                delete newData.pack;
-                if ("ownership" in newData) {
-                    newData.ownership = {
-                        default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                        [game.user.id]: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                    };
-                }
-
-                updateData = foundry.utils.mergeObject(newData, createData);
-            }
-        }
-
-        const artwork = this.constructor.getDefaultArtwork(this.toObject());
-        updateData["img"] ||= artwork.img;
-        updateData["prototypeToken.texture.src"] ||= artwork.texture.src;
-
-        // If a rollFormula is provided, then we will perform the designated rolling
-        // for all attributes, and then for all skills we will calculate the initial
-        // mastery level based on those attributes.
-        if (options.rollFormula) {
-            for (const obj of updateData.items) {
-                if (
-                    options.rollFormula &&
-                    obj.type === "trait" &&
-                    obj.system.intensity === "attribute"
-                ) {
-                    const rollFormula =
-                        (options.rollFormula === "default"
-                            ? obj.flags?.sohl?.diceFormula
-                            : options.rollFormula) || "0";
-
-                    let roll = await Roll.create(rollFormula).evaluate();
-                    if (!roll) {
-                        ui.notifications.error(
-                            `Roll formula "${rollFormula}" is invalid`,
-                        );
-                        return false;
+        if (createData.items) {
+            if (options.cloneActorUuid) {
+                const cloneActor = await fromUuid(options.cloneActorUuid);
+                if (cloneActor) {
+                    let newData = cloneActor.toObject();
+                    delete newData._id;
+                    delete newData.folder;
+                    delete newData.sort;
+                    delete newData.pack;
+                    if ("ownership" in newData) {
+                        newData.ownership = {
+                            default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                            [game.user.id]:
+                                CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+                        };
                     }
-                    obj.system.textValue = roll.total.toString();
+
+                    updateData = foundry.utils.mergeObject(newData, createData);
                 }
             }
 
-            // Calculate initial skills mastery levels
-            for (const obj of updateData.items) {
-                if (obj.type === "skill") {
-                    if (obj.flags?.sohl?.legendary?.initSkillMult) {
-                        const sb = new SkillBase(obj.system.skillBaseFormula, {
-                            items: updateData.items,
-                        });
-                        obj.system.masteryLevelBase =
-                            sb.value * obj.flags.sohl.legendary.initSkillMult;
+            const artwork = this.constructor.getDefaultArtwork(this.toObject());
+            if (!this.img) updateData["img"] = artwork.img;
+            if (!this.prototypeToken.texture.src)
+                updateData["prototypeToken.texture.src"] = artwork.texture.src;
+
+            // If a rollFormula is provided, then we will perform the designated rolling
+            // for all attributes, and then for all skills we will calculate the initial
+            // mastery level based on those attributes.
+            if (options.rollFormula) {
+                for (const obj of updateData.items) {
+                    if (
+                        options.rollFormula &&
+                        obj.type === "trait" &&
+                        obj.system.intensity === "attribute"
+                    ) {
+                        const rollFormula =
+                            (options.rollFormula === "default"
+                                ? obj.flags?.sohl?.diceFormula
+                                : options.rollFormula) || "0";
+
+                        let roll = await Roll.create(rollFormula).evaluate();
+                        if (!roll) {
+                            ui.notifications.error(
+                                `Roll formula "${rollFormula}" is invalid`,
+                            );
+                            return false;
+                        }
+                        obj.system.textValue = roll.total.toString();
+                    }
+                }
+
+                // Calculate initial skills mastery levels
+                for (const obj of updateData.items) {
+                    if (obj.type === "skill") {
+                        if (obj.flags?.sohl?.legendary?.initSkillMult) {
+                            const sb = new SkillBase(
+                                obj.system.skillBaseFormula,
+                                {
+                                    items: updateData.items,
+                                },
+                            );
+                            obj.system.masteryLevelBase =
+                                sb.value *
+                                obj.flags.sohl.legendary.initSkillMult;
+                        }
                     }
                 }
             }
