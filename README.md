@@ -7,9 +7,9 @@
 
 <img src="https://raw.githubusercontent.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/refs/heads/master/assets/ui/sohl-background.webp" alt="Two Knights Fighting Horrific Creatures" width="970" height="544" />
 
-Embark on a journey through a richly detailed fantasy world with **Song of Heroic Lands (SoHL)**—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned _HârnMaster_ system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.
+Embark on a journey through a richly detailed fantasy world with **Song of Heroic Lands (SoHL)**—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the _HârnMaster_ system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.
 
-Designed for both seasoned veterans and new players, SoHL captures the essence of _HârnMaster_’s detailed mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.
+Designed for both seasoned veterans and new players, SoHL captures the essence of _HârnMaster_’s mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.
 
 Key Features:
 - **HârnMaster Compatibility**: Compatible with _HârnMaster_’s rules, preserving the realism and depth players love.

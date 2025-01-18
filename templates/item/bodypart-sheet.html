@@ -16,8 +16,6 @@
         <div class="tab properties" data-group="primary" data-tab="properties">
             <div class="grid grid-2col">
                 {{formField fields.abbrev rootId="bodypart-abbrev" classes="text-field" stacked=true value=system.abbrev}}
-                {{formField fields.healthBase rootId="bodypart-health" classes="text-field" stacked=true value=system.healthBase}}
-                {{formField fields.isSubordinate rootId="bodypart-subordinate" classes="text-field" stacked=true value=system.isSubordinate}}
                 {{formField fields.canHoldItem rootId="bodypart-canholditem" classes="text-field" stacked=true value=system.canHoldItem}}
                 {{#if (and system.canHoldItem hasActor)}}
                     <div class="resource" id="bodypart-held-item">
@@ -27,34 +25,13 @@
                         </select>
                     </div>
                 {{/if}}
-            </div>
-
-            <div class="items">
-                <div class="items-list">
-                    <header class="items-header flexrow">
-                        <h3 class="item-name name">Area Name</h3>
-                        <div class="detail ele">Ratio</div>
-                        <div class="item-controls">
-                            <a class="item-control add-array-item" data-array="system.aim" data-object-type="Aim"
-                                data-title="Aim"><i class="fas fa-plus"></i> Add</a>
-                        </div>
-                    </header>
-                    <ol class="items-list">
-                        {{#each idata.aim}}
-                        <li class="item flexrow">
-                            <div class="item-name name">{{name}}</div>
-                            <div class="detail ele">{{probWeightBase}}:{{lookup (lookup ../item.embedItem.system.$aim name) "max"}}</div>
-                            <div class="item-controls">
-                                <a class="edit-array-item" data-array="system.aim" data-index="{{@index}}"
-                                    title="Edit Aim Area"><i class="fas fa-edit"></i></a>
-                                <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
-                                    title="Delete Aim Area"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                        {{/each}}
-                    </ol>
+                <div class="form-group stacked text-field">
+                    <label>Probability Weight</label>
+                    <div class="form-fields">
+                        {{numberInput flags.sohl.legendary.probWeight name="flags.sohl.legendary.probWeight" step=1 min=0}}
+                    </div>
                 </div>
-            </div>
+    </div>
 
             {{> "sohl.item-refnote"}}
         </div>

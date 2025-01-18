@@ -1,7 +1,7 @@
 - name: Basic Folk
   type: entity
   folder: B7TbLzcpM0uOivzx
-  id: 4cRtW25ayGwkNFtB
+  _id: 4cRtW25ayGwkNFtB
   img: systems/sohl/assets/silhouette/character-headshot.webp
   system:
     macros: []
@@ -127,212 +127,269 @@
     texture:
       src: systems/sohl/assets/silhouette/character-token.svg
   items:
-    - name: Strength
-      type: trait
-      system:
-        textValue: "0"
-    - name: Endurance
-      type: trait
-      system:
-        textValue: "0"
-    - name: Dexterity
-      type: trait
-      system:
-        textValue: "0"
-    - name: Agility
-      type: trait
-      system:
-        textValue: "0"
-    - name: Perception
-      type: trait
-      system:
-        textValue: "0"
-    - name: Comeliness
-      type: trait
-      system:
-        textValue: "0"
-    - name: Aura
-      type: trait
-      system:
-        textValue: "0"
-    - name: Will
-      type: trait
-      system:
-        textValue: "0"
-    - name: Reasoning
-      type: trait
-      system:
-        textValue: "0"
-    - name: Creativity
-      type: trait
-      system:
-        textValue: "0"
-    - name: Empathy
-      type: trait
-      system:
-        textValue: "0"
-    - name: Eloquence
-      type: trait
-      system:
-        textValue: "0"
-    - name: Voice
-      type: trait
-      system:
-        textValue: "0"
-    - name: Morality
-      type: trait
-      system:
-        textValue: "0"
-    - name: Size
-      type: trait
-    - name: Carrying Capacity
-      type: trait
-    - name: Move
-      type: trait
-    - name: Favored Parts
-      type: trait
-    - name: Body Weight
-      type: trait
-      system:
-        textValue: "150"
-    - name: Experience Points
-      type: trait
-    - name: Area Attack Shock
-      type: trait
-    - name: Charm
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Command
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Discourse
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Guile
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Intrigue
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Theatrics
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Survival
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Singing
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Drawing
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Cookery
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Folklore
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Physician
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Awareness
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Climbing
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Dancing
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Jumping
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Riding
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Stealth
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Swimming
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Initiative
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Shock
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Melee
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Dodge
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Archery
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Throwing
-      type: skill
-      system:
-        masteryLevelBase: 0
-    - name: Premonition
-      type: mystery
-      system:
-        levelBase: 0
-        charges:
-          usesCharges: true
-          value: 5
-          max: 0
-    - name: Humanoid
-      type: anatomy
-    - name: Basic Fate
-      type: trait
-    - name: Sunsign
-      type: trait
-      system:
-        textValue: aries
-    - name: Unarmed
-      type: combatmaneuver
-    - name: Asgardian Pantheon
-      type: philosophy
-    - name: Divine Aspects
-      type: philosophy
-    - name: Zodiac
-      type: philosophy
-    - name: Thaumaturgy
-      type: philosophy
-    - name: Spirit
-      type: mysticalability
-      system:
-        masteryLevelBase: 0
-    - name: Pence
-      type: miscgear
-      system:
-        quantity: 1
+  - name: Strength
+    type: trait
+    system:
+      textValue: '0'
+    _id: Snsrpzgtk7ladtvw
+  - name: Endurance
+    type: trait
+    system:
+      textValue: '0'
+    _id: UNfApax4U5xY2HBv
+  - name: Dexterity
+    type: trait
+    system:
+      textValue: '0'
+    _id: ivHNiL8oYHqRuvIr
+  - name: Agility
+    type: trait
+    system:
+      textValue: '0'
+    _id: 8b0c2auemcBBROS7
+  - name: Perception
+    type: trait
+    system:
+      textValue: '0'
+    _id: Zg7RrAEAbeQT59DG
+  - name: Comeliness
+    type: trait
+    system:
+      textValue: '0'
+    _id: XSI3tKFuU2JW4hsP
+  - name: Aura
+    type: trait
+    system:
+      textValue: '0'
+    _id: 7nNR8fxNebg1yTqH
+  - name: Will
+    type: trait
+    system:
+      textValue: '0'
+    _id: IazyqsfwRy0MHCPE
+  - name: Reasoning
+    type: trait
+    system:
+      textValue: '0'
+    _id: K9ywMpOUk86XG1jz
+  - name: Creativity
+    type: trait
+    system:
+      textValue: '0'
+    _id: fPJLkK8kqnIDK6VQ
+  - name: Empathy
+    type: trait
+    system:
+      textValue: '0'
+    _id: cVk8ioCyt53rWBkI
+  - name: Eloquence
+    type: trait
+    system:
+      textValue: '0'
+    _id: jnov7lxhkgMWhYqg
+  - name: Voice
+    type: trait
+    system:
+      textValue: '0'
+    _id: ieUVJFvQktDjVniy
+  - name: Morality
+    type: trait
+    system:
+      textValue: '0'
+    _id: 2pyZPHSaeQtsOrHj
+  - name: Size
+    type: trait
+    _id: HHZbAOdHlBAU7FGK
+  - name: Carrying Capacity
+    type: trait
+    _id: T7XyKskzjJdt6ijj
+  - name: Move
+    type: trait
+    _id: mQM8jkUWlbOz1HQ7
+  - name: Favored Parts
+    type: trait
+    _id: oWfNY9asUBcwHrtK
+  - name: Body Weight
+    type: trait
+    system:
+      textValue: '150'
+    _id: JRmXDXZxpQzk1cLG
+  - name: Experience Points
+    type: trait
+    _id: ZUHiFyeeezDM1S1u
+  - name: Area Attack Shock
+    type: trait
+    _id: RjpZovioQ2ZVrhcg
+  - name: Charm
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: TQtE5nT3gfiJ9SOR
+  - name: Command
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 3SpOguzVXAlH1CHX
+  - name: Discourse
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 6cmGux7AOv28gS2o
+  - name: Guile
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 7GHbkyc4Iypec3Uh
+  - name: Intrigue
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: vRwCEILJdx0F26sB
+  - name: Theatrics
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 9N1lk6h6nuJ7PaKD
+  - name: Survival
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: D5NjGnOaIJvqIa8s
+  - name: Singing
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 6gTrVJSW0h4cplFE
+  - name: Drawing
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: i65203HBmO8P8uqT
+  - name: Cookery
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: CnlH5Z3wMRhhNkWe
+  - name: Folklore
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: yGXn42CmEaGemaqh
+  - name: Physician
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: OnhkBGFVjvuKP3Qw
+  - name: Awareness
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: ZIlTV5gsFmOoYtnM
+  - name: Climbing
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: DNyu1huBb3pZGlfC
+  - name: Dancing
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: dyYeffoGTCVmfK2e
+  - name: Jumping
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: vYCqAcSNQQEfjjVC
+  - name: Riding
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: sqR4p30rhRWHY1Ci
+  - name: Stealth
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: vnPMw51bMUHAyHGt
+  - name: Swimming
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: TrXrwVeUazDLVWhM
+  - name: Initiative
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: EAffqBToolNRnKi0
+  - name: Shock
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: ZLhjVg3M5uIKF2TK
+  - name: Melee
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: uW6ftwvFrxkauWSH
+  - name: Dodge
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: 9PKIZ9q0bcv6QF9y
+  - name: Archery
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: T3aHAqmLUg8Ivi5a
+  - name: Throwing
+    type: skill
+    system:
+      masteryLevelBase: 0
+    _id: Ws9eE0hbtHdTU7gQ
+  - name: Premonition
+    type: mystery
+    system:
+      levelBase: 0
+      charges:
+        usesCharges: true
+        value: 5
+        max: 0
+    _id: 3WZFKzGneBziWLBT
+  - name: Humanoid
+    type: anatomy
+    _id: 0eXbJbp8Ucb54tNR
+  - name: Basic Fate
+    type: trait
+    _id: PfH5IYrcn8S10ME8
+  - name: Sunsign
+    type: trait
+    system:
+      textValue: aries
+    _id: hxR4xiVr0PJuh0Aa
+  - name: Unarmed
+    type: combatmaneuver
+    _id: ybKtkZ9rfMF4zFWQ
+  - name: Asgardian Pantheon
+    type: philosophy
+    _id: LGHnNlcGdOdeca0q
+  - name: Divine Aspects
+    type: philosophy
+    _id: cedgljWBwtxa3CXG
+  - name: Zodiac
+    type: philosophy
+    _id: WTUFd5vrWIkaVRGk
+  - name: Thaumaturgy
+    type: philosophy
+    _id: ZbtPC94fhAEr6qKz
+  - name: Spirit
+    type: mysticalability
+    system:
+      masteryLevelBase: 0
+    _id: crLxKA4JXzozqTok
+  - name: Pence
+    type: miscgear
+    system:
+      quantity: 1
+    _id: aamolKbNrd7tevUQ
   effects: []
   sort: 0
   ownership:

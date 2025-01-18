@@ -21,8 +21,8 @@ const LGND = {
 ===========================================================`,
 
         VERSETTINGS: {
-            encIncr: {
-                key: "encIncr",
+            legEncIncr: {
+                key: "legEncIncr",
                 data: {
                     name: "Encumbrance tracking increment",
                     hint: "Calculate encumbrance by specified steps",
@@ -36,8 +36,8 @@ const LGND = {
                     }),
                 },
             },
-            attrSecModIncr: {
-                key: "attrSecModIncr",
+            legAttrSecModIncr: {
+                key: "legAttrSecModIncr",
                 data: {
                     name: "Attribute secondary modifier increment",
                     hint: "Calculate attribute secondary modifier by specified steps",
@@ -125,19 +125,7 @@ class LgndMasteryLevelModifier extends sohl.MasteryLevelModifier {
                 initProperties,
                 {
                     secMod: (thisVM) => {
-                        const secModIncr = game.settings.get(
-                            "sohl",
-                            "attrSecModIncr",
-                        );
-                        return Math.min(
-                            25,
-                            Math.max(
-                                -25,
-                                Math.trunc(
-                                    ((thisVM.base ?? 0) / 2 - 25) / secModIncr,
-                                ) * secModIncr,
-                            ),
-                        );
+                        return (thisVM.index - 5) * 5;
                     },
                 },
                 { inplace: false, recursive: false },
@@ -150,7 +138,6 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
     $combatReach;
     $hasAuralShock;
     $maxZones;
-    $healingBase;
     $encumbrance;
     $sunsign;
 
@@ -236,12 +223,11 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
         this.$maxZones = 0;
         this.$combatReach = -99;
         this.$hasAuralShock = false;
-        this.$healingBase = new sohl.ValueModifier(this);
         this.$encumbrance = new sohl.ValueModifier(this, {
             total: (thisVM) => {
                 const encDiv = game.settings.get(
                     "sohl",
-                    LGND.CONST.VERSETTINGS.encIncr.key,
+                    LGND.CONST.VERSETTINGS.legEncIncr.key,
                 );
                 let result = Math.round(
                     Math.floor((thisVM.effective + Number.EPSILON) * encDiv) /
@@ -253,6 +239,8 @@ class LgndAnimateEntityActorData extends sohl.AnimateEntityActorData {
         this.$encumbrance.floor("Min Zero", "Min0", 0);
     }
 }
+
+class LgndProtectionItemData extends sohl.ProtectionItemData {}
 
 function LgndStrikeModeItemDataMixin(BaseMLID) {
     return class LgndStrikeModeItemData extends BaseMLID {
@@ -2568,7 +2556,18 @@ class LgndAfflictionItemData extends sohl.AfflictionItemData {
     }
 }
 
+class LgndAnatomyItemData extends sohl.AnatomyItemData {
+    $maxZones;
+
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$maxZones = 0;
+    }
+}
+
 class LgndBodyZoneItemData extends sohl.BodyZoneItemData {
+    $bodyZoneProbSum;
+
     // List of possible dice for Zone Dice.
     static get dice() {
         return {
@@ -2631,13 +2630,21 @@ class LgndBodyZoneItemData extends sohl.BodyZoneItemData {
         return Object.values(this.dice).at(-1);
     }
 
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$bodyZoneProbSum = new sohl.ValueModifier(this);
+    }
+
     /** @override */
     processSiblings() {
         super.processSiblings();
-        this.actor.maxZones = Math.max(
-            this.actor.system.maxZones,
-            ...this.zoneNumbers,
-        );
+        const anatomy = this.item.nestedIn;
+        if (anatomy) {
+            anatomy.system.$maxZones = Math.max(
+                anatomy.system.$maxZones,
+                ...this.zoneNumbers,
+            );
+        }
     }
 }
 
@@ -2652,9 +2659,16 @@ class LgndBodyPartItemData extends sohl.BodyPartItemData {
      */
     $impairment;
 
+    $bodyPartProbSum;
+
+    get probWeight() {
+        return this.item.getFlag("sohl", "legendary.probWeight") || 0;
+    }
+
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
+        this.$bodyPartProbSum = new sohl.ValueModifier(this);
         this.$impairment = new sohl.ValueModifier(this, {
             unusable: false,
             value: (thisVM) => {
@@ -2666,35 +2680,43 @@ class LgndBodyPartItemData extends sohl.BodyPartItemData {
     /** @override */
     processSiblings() {
         super.processSiblings();
-        this.actor.system.$health.max += this.$health.effective;
+
+        const bodyZone = this.item.nestedIn;
+        bodyZone.system.$bodyZoneProbSum.add(
+            this.name,
+            this.abbrev,
+            this.probWeight,
+        );
+
+        //        this.actor.system.$health.max += this.$health.effective;
 
         // Add this body part's health to overall actor health.
         // If this body part is unusable, or impairment is < -10,
         // then none of the body part health is added to the
         // actor health.
         if (!this.$impairment.unusable) {
-            if (!this.$impairment.value) {
-                // If no impairment, then add full body part health
-                this.actor.system.$health.add(
-                    `${this.item.name} Impairment`,
-                    "Impair",
-                    this.$health.effective,
-                );
-            } else if (this.$impairment.effective >= -5) {
-                // If minor impairment, then add half body part health
-                this.actor.system.$health.add(
-                    `${this.item.name} Impairment`,
-                    "Impair",
-                    Math.floor(this.$health.effective / 2),
-                );
-            } else if (this.$impairment.value >= -10) {
-                // If major impairment, then add 1/4 body part health
-                this.actor.system.$health.add(
-                    `${this.item.name} Impairment`,
-                    "Impair",
-                    Math.floor(this.$health.effective / 4),
-                );
-            }
+            // if (!this.$impairment.value) {
+            //     // If no impairment, then add full body part health
+            //     this.actor.system.$health.add(
+            //         `${this.item.name} Impairment`,
+            //         "Impair",
+            //         this.$health.effective,
+            //     );
+            // } else if (this.$impairment.effective >= -5) {
+            //     // If minor impairment, then add half body part health
+            //     this.actor.system.$health.add(
+            //         `${this.item.name} Impairment`,
+            //         "Impair",
+            //         Math.floor(this.$health.effective / 2),
+            //     );
+            // } else if (this.$impairment.value >= -10) {
+            //     // If major impairment, then add 1/4 body part health
+            //     this.actor.system.$health.add(
+            //         `${this.item.name} Impairment`,
+            //         "Impair",
+            //         Math.floor(this.$health.effective / 4),
+            //     );
+            // }
         } else {
             // Body parts marked "unusable" can never hold anything.
             if (this.heldItem?.system instanceof sohl.GearItemData) {
@@ -2712,30 +2734,50 @@ class LgndBodyPartItemData extends sohl.BodyPartItemData {
 class LgndBodyLocationItemData extends sohl.BodyLocationItemData {
     $impairment;
 
-    get isRigid() {
-        return this.item.getFlag("sohl", "legendary.bleedingSevThreshold");
+    get isFumble() {
+        return !!this.item.getFlag("sohl", "legendary.isFumble");
+    }
+
+    get isStumble() {
+        return !!this.item.getFlag("sohl", "legendary.isStumble");
     }
 
     get bleedingSevThreshold() {
-        return this.item.getFlag("sohl", "legendary.isRigid");
+        return (
+            this.item.getFlag("sohl", "legendary.bleedingSevThreshold") ?? null
+        );
     }
 
-    get amputatePenalty() {
-        return this.item.getFlag("sohl", "legendary.amputatePenalty");
+    get amputateModifier() {
+        return this.item.getFlag("sohl", "legendary.amputateModifier") ?? null;
     }
 
     get shockValue() {
-        return this.item.getFlag("sohl", "legendary.shockValue");
+        return this.item.getFlag("sohl", "legendary.shockValue") || 0;
+    }
+
+    get probWeight() {
+        return this.item.getFlag("sohl", "legendary.probWeight") || 0;
     }
 
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
+        this.$protection = foundry.utils.mergeObject(
+            this.$protection,
+            {
+                blunt: new sohl.ValueModifier(this),
+                edged: new sohl.ValueModifier(this),
+                piercing: new sohl.ValueModifier(this),
+                fire: new sohl.ValueModifier(this),
+            },
+            { inplace: true },
+        );
         this.$impairment = new sohl.ValueModifier(this, { unusable: false });
     }
 
-    prepareSiblings() {
-        super.prepareSiblings();
+    processSiblings() {
+        super.processSiblings();
         // biome-ignore lint/correctness/noUnusedVariables: <explanation>
         let thisIsUnusable = this.$impairment.unusable;
 
@@ -2749,6 +2791,12 @@ class LgndBodyLocationItemData extends sohl.BodyLocationItemData {
             if (this.$impairment.unusable) {
                 bpImp.$impairment.unusable = true;
             }
+
+            bpItem.system.$bodyPartProbSum.add(
+                this.name,
+                this.abbrev,
+                this.probWeight,
+            );
         }
     }
 }
@@ -2799,10 +2847,6 @@ class LgndArmorGearItemData extends sohl.ArmorGearItemData {
 class LgndWeaponGearItemData extends sohl.WeaponGearItemData {
     $length;
     $heft;
-
-    get lengthBase() {
-        return this.item.getFlag("sohl", "legendary.lengthBase") || 0;
-    }
 
     get heftBase() {
         return this.item.getFlag("sohl", "legendary.heftBase") || 0;
@@ -3002,12 +3046,14 @@ const LgndActorDataModels = foundry.utils.mergeObject(
 const LgndItemDataModels = foundry.utils.mergeObject(
     sohl.SohlItemDataModels,
     {
+        [sohl.ProtectionItemData.typeName]: LgndProtectionItemData,
         [sohl.MysticalAbilityItemData.typeName]: LgndMysticalAbilityItemData,
         [sohl.TraitItemData.typeName]: LgndTraitItemData,
         [sohl.SkillItemData.typeName]: LgndSkillItemData,
         [sohl.InjuryItemData.typeName]: LgndInjuryItemData,
         [sohl.DomainItemData.typeName]: LgndDomainItemData,
         [sohl.AfflictionItemData.typeName]: LgndAfflictionItemData,
+        [sohl.AnatomyItemData.typeName]: LgndAnatomyItemData,
         [sohl.BodyZoneItemData.typeName]: LgndBodyZoneItemData,
         [sohl.BodyPartItemData.typeName]: LgndBodyPartItemData,
         [sohl.BodyLocationItemData.typeName]: LgndBodyLocationItemData,
@@ -3034,7 +3080,7 @@ const LgndModifiers = foundry.utils.mergeObject(
 
 export const verData = {
     id: "legendary",
-    label: "Song of Heroic Lands: Legendary Edition",
+    label: "Song of Heroic Lands: Legendary",
     CONFIG: {
         Helper: {
             modifiers: LgndModifiers,

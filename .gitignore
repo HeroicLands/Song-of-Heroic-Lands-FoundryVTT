@@ -34,7 +34,7 @@ jspm_packages/
 # Build files
 build/
 _source/
-venv/
+.venv/
 /packs
 
 # Distrubution files

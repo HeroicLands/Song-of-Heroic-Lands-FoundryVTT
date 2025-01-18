@@ -1,10 +1,10 @@
 #!/bin/bash
 PACK=$1
-PACKBASE=../../assets/packs/legendary/$PACK
+PACKBASE=../assets/packs/$PACK
 DATADIR=$PACKBASE/data
 UNIQUEDIR=$PACKBASE/unique
 BUILDDIR=build/$PACK
-PACKDIR=../../packs
+PACKDIR=../packs
 GENFILE=generate-$PACK.py
 [ ! -f $GENFILE ] && { echo -e "\033[0;31mERROR:\033[0m No such file $GENFILE"; exit 1; }
 PACKTYPE=$(grep "^type=" $PACKBASE/pack.properties| cut -d= -f2)

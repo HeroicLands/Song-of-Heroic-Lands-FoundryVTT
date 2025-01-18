@@ -21,6 +21,7 @@
                     <input id="bodyzone-affmob" type="checkbox" name="flags.sohl.legendary.affectsMobility" {{checked flags.sohl.affectsMobility}} data-dtype="Boolean" />
                 </div>
             </div>
+            {{#if (eq variant "legendary")}}
             <fieldset class="bodyzone-zones-list" id="bodyzone-zones-list">
                 <legend>Zone Numbers</legend>
                 <div class="bodyzone-zones flexrow" id="bodyzone-zones-add">
@@ -76,33 +77,7 @@
                     {{/each}}
                 </ol>
             </fieldset>
-
-            <div class="items">
-                <div class="items-list">
-                    <header class="items-header flexrow">
-                        <h3 class="item-name name">Area Name</h3>
-                        <div class="detail ele">Ratio</div>
-                        <div class="item-controls">
-                            <a class="item-control add-array-item" data-array="system.aim" data-object-type="Aim"
-                                data-title="Aim"><i class="fas fa-plus"></i> Add</a>
-                        </div>
-                    </header>
-                    <ol class="items-list">
-                        {{#each item.system.$aim as | aim |}}
-                        <li class="item flexrow">
-                            <div class="item-name name">{{aim.name}}</div>
-                            <div class="detail ele">{{formatNumber aim.probWeight.pct decimals=2}}%</div>
-                            <div class="item-controls">
-                                <a class="edit-array-item" data-array="system.aim" data-index="{{@index}}"
-                                    title="Edit Aim Area"><i class="fas fa-edit"></i></a>
-                                <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
-                                    title="Delete Aim Area"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </li>
-                        {{/each}}
-                    </ol>
-                </div>
-            </div>
+            {{/if}}
 
             {{> "sohl.item-refnote"}}
         </div>

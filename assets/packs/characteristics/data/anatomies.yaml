@@ -1,0 +1,1129 @@
+- name: Humanoid
+  type: anatomy
+  img: systems/sohl/assets/silhouette/character-headshot.webp
+  system:
+    macros: []
+    notes: ''
+    description: ''
+    nestedItems:
+      - name: Head
+        type: bodyzone
+        img: systems/sohl/assets/silhouette/character-headshot.webp
+        effects: []
+        flags:
+          sohl:
+            legendary:
+              affectedSkills:
+                - Acrobatics
+                - Climbing
+                - Legerdemain
+                - Melee
+                - Archery
+                - Riding
+                - Stealth
+                - Swimming
+              affectedAttributes:
+                - Agility
+                - Dexterity
+                - Strength
+              affectsMobility: true
+              zones:
+                - 1
+        _id: XQJBDj4Zd2ILR5rH
+        system:
+          transfer: true
+          macros: []
+          nestedItems:
+            - name: Head
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 100
+              _id: WljCPWk6oAmUZ73d
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: Head
+                macros: []
+                canHoldItem: false
+                nestedItems:
+                  - name: Skull
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: 0
+                          shockValue: 5
+                          probWeight: 500
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: 0XmtjaBJDxMk0Ucd
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Eye
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 5
+                          probWeight: 15
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: 6kX9YIUIVja3Y0MP
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Eye
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 5
+                          probWeight: 15
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: QEfArWukfNxKta0f
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Nose
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 5
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: QRVralNrMEk93Kwj
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Cheek
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 60
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: 8J1XWjV1tsFyugVH
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Cheek
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 60
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: ofe4FzVdGkKkZQV2
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Ear
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 15
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: UwvPtm6rbB5noi7l
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Ear
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 15
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: htpEEuxEAhz7AAsP
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Mouth
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: U30OhbPBl2QhBQoF
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Jaw
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 60
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: ogK3sN7cu2ajAT5K
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Neck
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 3
+                          amputateModifier: -10
+                          shockValue: 5
+                          probWeight: 200
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: vZA6OW3EaN0ggS6U
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+      - name: Arms
+        type: bodyzone
+        img: systems/sohl/assets/silhouette/character-headshot.webp
+        effects: []
+        flags:
+          sohl:
+            legendary:
+              affectedSkills:
+                - Acrobatics
+                - Climbing
+                - Legerdemain
+                - Melee
+                - Archery
+                - Riding
+                - Swimming
+              affectedAttributes:
+                - Dexterity
+                - Strength
+              affectsMobility: false
+              zones:
+                - 2
+                - 3
+        _id: DzyCHcZwLLZekBgq
+        system:
+          transfer: true
+          macros: []
+          nestedItems:
+            - name: Right Arm
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 50
+              _id: Tsrx9WQ2L9HyAVvi
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: RArm
+                macros: []
+                canHoldItem: true
+                nestedItems:
+                  - name: Right Shoulder
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 3
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: V7F5ilVtTWnzoyu6
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Upper Arm
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: YfN7RARAAi0UrPld
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Elbow
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: 1kH02rurCS8ft63Q
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Forearm
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 20
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: pNB4IdNQHFPOnvwD
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Hand
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 0
+                          amputateModifier: -30
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: Rfi2iUDdK2qQz2pv
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+            - name: Left Arm
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 50
+              _id: rnqBua6Rduc0u0P6
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: LArm
+                macros: []
+                canHoldItem: true
+                nestedItems:
+                  - name: Left Shoulder
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 3
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: nuInmwcEVKaPbhiH
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Upper Arm
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: NGjZLBbjFzHdvv0l
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Elbow
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: ubWdclQbNEQ70pEe
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Forearm
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 20
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: 6mLZet21nySm9VVd
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Hand
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: true
+                          isStumble: false
+                          bleedingSevThreshold: 0
+                          amputateModifier: -30
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: true
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: SrpubIBD6K42tsO1
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+      - name: Torso
+        type: bodyzone
+        img: systems/sohl/assets/silhouette/character-headshot.webp
+        effects: []
+        flags:
+          sohl:
+            legendary:
+              affectedSkills:
+                - Acrobatics
+                - Climbing
+                - Melee
+                - Archery
+                - Riding
+                - Stealth
+                - Swimming
+              affectedAttributes:
+                - Agility
+                - Dexterity
+                - Strength
+              affectsMobility: true
+              zones:
+                - 4
+                - 5
+                - 6
+                - 7
+        _id: qPncC1ZBr2H8lPSy
+        system:
+          transfer: true
+          macros: []
+          nestedItems:
+            - name: Torso
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 100
+              _id: ltL67w6gOzXDgHYD
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: Torso
+                macros: []
+                canHoldItem: false
+                nestedItems:
+                  - name: Thorax
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 40
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: Sfp6lj3H6N20woHc
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Abdomen
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 3
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 40
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: GYWlGzJ1oE2QlVc0
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Pelvis
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: false
+                          bleedingSevThreshold: 4
+                          amputateModifier: 0
+                          shockValue: 4
+                          probWeight: 20
+                        mistyisle:
+                          isFumble: false
+                          isStumble: false
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: yMsU1PHsaPfGlygr
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+      - name: Legs
+        type: bodyzone
+        img: systems/sohl/assets/silhouette/character-headshot.webp
+        effects: []
+        flags:
+          sohl:
+            legendary:
+              affectedSkills:
+                - Acrobatics
+                - Climbing
+                - Melee
+                - Archery
+                - Riding
+                - Stealth
+                - Swimming
+              affectedAttributes:
+                - Agility
+                - Strength
+              affectsMobility: true
+              zones:
+                - 8
+                - 9
+                - 10
+        _id: KFrOQEbBNicAxikZ
+        system:
+          transfer: true
+          macros: []
+          nestedItems:
+            - name: Right Leg
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 50
+              _id: 30kOIuDmY81IosL4
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: RLeg
+                macros: []
+                canHoldItem: false
+                nestedItems:
+                  - name: Right Thigh
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 4
+                          amputateModifier: -10
+                          shockValue: 3
+                          probWeight: 40
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: AJwjP1rJBbmpamNe
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Knee
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: WUnUX9Vw3f9aJXuR
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Calf
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: Zb9lV9AXinrSftXd
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Right Foot
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 0
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 20
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: aGOXGJxHUfwnfB5M
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+            - name: Left Leg
+              type: bodypart
+              img: systems/sohl/assets/silhouette/character-headshot.webp
+              effects: []
+              flags:
+                sohl:
+                  legendary:
+                    probWeight: 50
+              _id: KocnXsjJtL3doBVr
+              system:
+                transfer: true
+                notes: ''
+                description: ''
+                textReference: ''
+                abbrev: LLeg
+                macros: []
+                canHoldItem: false
+                nestedItems:
+                  - name: Left Thigh
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 4
+                          amputateModifier: -10
+                          shockValue: 3
+                          probWeight: 40
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: pOsgjfKKFAr8I8aE
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Knee
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 10
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: gi2S9Dt4w46x2wOL
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Calf
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 5
+                          amputateModifier: -20
+                          shockValue: 1
+                          probWeight: 30
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: IX6Bbg9YSahDwI45
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+                  - name: Left Foot
+                    type: bodylocation
+                    img: systems/sohl/assets/silhouette/character-headshot.webp
+                    effects: []
+                    flags:
+                      sohl:
+                        legendary:
+                          isFumble: false
+                          isStumble: true
+                          bleedingSevThreshold: 0
+                          amputateModifier: -20
+                          shockValue: 2
+                          probWeight: 20
+                        mistyisle:
+                          isFumble: false
+                          isStumble: true
+                          probWeight:
+                            low: 0
+                            mid: 0
+                            high: 0
+                    _id: REmu5X3CBlbfLqvh
+                    system:
+                      transfer: true
+                      notes: ''
+                      description: ''
+                      textReference: ''
+                      macros: []
+                      nestedItems: []
+  effects: []
+  flags: {}
+  _id: M10pzGVlLgO1zsnh
+  folder: "P390fTDcDdREKmgz"

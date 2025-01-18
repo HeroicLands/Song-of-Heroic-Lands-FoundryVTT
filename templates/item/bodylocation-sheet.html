@@ -34,14 +34,15 @@
                 <legend>Body Location Settings</legend>
                 <div class="flexrow">
                     <div class="grid grid-3col">
-                        <div class="form-group text-field">
-                            {{formInput fields.isStumble rootId="bodyloc-is-stumble" classes="form-fields" value=system.isStumble}}
-                            <label>Fumble</label>
+                        <div class="form-group stacked">
+                            <label for="bodyloc-is-fumble" class="text-field">Can Fumble</label>            
+                            <input id="bodyloc-is-fumble" type="checkbox" name="flags.sohl.legendary.isFumble" {{checked flags.sohl.legendary.isFumble}} data-dtype="Boolean" />
                         </div>
-                        <div class="form-group text-field">
-                            {{formInput fields.isFumble rootId="bodyloc-is-fumble" classes="form-fields" value=system.isFumble}}
-                            <label>Stumble</label>
+                        <div class="form-group stacked">
+                            <label for="bodyloc-is-stumble" class="text-field">Can Stumble</label>            
+                            <input id="bodyloc-is-stumble" type="checkbox" name="flags.sohl.legendary.isStumble" {{checked flags.sohl.legendary.isStumble}} data-dtype="Boolean" />
                         </div>
+                        {{#if (eq variant "legendary")}}
                         <div class="form-group text-field">
                             <input type="checkbox" name="flags.sohl.legendary.isRigid" {{checked flags.sohl.legendary.isRigid}} data-type="Boolean" />
                             <label>Is Rigid</label>
@@ -49,7 +50,7 @@
                         <div class="form-group stacked text-field">
                             <label>Amputate Penalty</label>
                             <div class="form-fields">
-                                {{numberInput flags.sohl.legendary.amputatePenalty name="flags.sohl.legendary.amputatePenalty" step=1 min=0}}
+                                {{numberInput flags.sohl.legendary.amputateModifier name="flags.sohl.legendary.amputateModifier" step=1 min=0}}
                             </div>
                         </div>
                         <div class="form-group stacked text-field">
@@ -64,6 +65,13 @@
                                 {{numberInput flags.sohl.legendary.shockValue name="flags.sohl.legendary.shockValue" step=1 min=0}}
                             </div>
                         </div>
+                        <div class="form-group stacked text-field">
+                            <label>Probability Weight</label>
+                            <div class="form-fields">
+                                {{numberInput flags.sohl.legendary.probWeight name="flags.sohl.legendary.probWeight" step=1 min=0}}
+                            </div>
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
             </fieldset>

@@ -33,6 +33,12 @@
                             </div>
                         </div>
                         <div class="flexcol healtharea">
+                            {{#if (eq variant "mistyisle")}}
+                            <div class="health flexrow">
+                                <span class="label">UP: {{adata.$univPenalty.effective}}</span>
+                                <span class="label">PP: {{adata.$physPenalty.effective}}</span>
+                            </div>
+                            {{/if}}
                             <div class="health flexrow">
                                 <span class="label">Health: {{adata.health.pct}}%</span>
                             </div>
@@ -153,7 +159,11 @@
                                 <h3 class="value default-action" data-tooltip="{{system.$score.abbrev}}">{{system.$score.effective}}</h3>
                                 <h4 class="label">{{system.$score.valueDesc}}</h4>
                                 <div class="attribute-modifiers flexrow">
+                                    {{#if (eq variant "legendary")}}
                                     <div class="secmod">SM: {{numberFormat system.$masteryLevel.secMod sign=true}}</div>
+                                    {{else}}
+                                    <div class="secmod"></div>
+                                    {{/if}}
                                     <div class="secmod" data-tooltip="{{system.$masteryLevel.abbrev}}">TL: {{system.$masteryLevel.effective}}</div>
                                 </div>
                             </li>
@@ -277,7 +287,9 @@
                             <div class="detail ele" data-tooltip="Skill Base">SB</div>
                             <div class="detail ele" data-tooltip="Mastery Level">ML</div>
                             <div class="detail ele" data-tooltip="Index">Index</div>
+                            {{#if (eq variant "legendary")}}
                             <div class="detail ele" data-tooltip="Secondary Modifier">SM</div>
+                            {{/if}}
                             <div class="detail ele" data-tooltip="Effective Mastery Level">EML</div>
                             <div class="detail ele" data-tooltip="Fate Mastery Level">Fate</div>
                             <div class="detail notes">Notes</div>
@@ -299,6 +311,7 @@
                                         {{system.$masteryLevel.index}}
                                         {{/if}}
                                     </div>
+                                    {{#if (eq variant "legendary")}}
                                     <div class="detail ele">
                                         {{#if system.$masteryLevel.disabled}}
                                         <i class="fas fa-xmark fa-lg"></i>
@@ -306,6 +319,7 @@
                                         {{numberFormat system.$masteryLevel.secMod sign=true}}
                                         {{/if}}
                                     </div>
+                                    {{/if}}
                                     <div class="detail ele" data-tooltip="{{system.$masteryLevel.abbrev}}">
                                         {{#if system.$masteryLevel.disabled}}
                                         <i class="fas fa-xmark fa-lg"></i>
@@ -675,7 +689,7 @@
                                             <div class="item-name bodylocation-name default-action flexrow">
                                                 <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                             </div>
-                                            <div class="detail bodylocation-layers">{{system.layers}}</div>
+                                            <div class="detail bodylocation-layers">{{system.$layers}}</div>
                                             <div class="detail ele"></div>
                                             <div class="detail ele">{{system.$protection.blunt.effective}}</div>
                                             <div class="detail ele">{{system.$protection.edged.effective}}</div>
@@ -1160,7 +1174,7 @@
                                             <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                                             <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                         </div>
-                                        <div class="detail source">{{system.category}}</div>
+                                        <div class="detail source">{{lookup ../config.Item.dataModels.philosophy.categories system.category}}</div>
                                         <div class="detail notes">{{system.notes}}</div>
                                         {{#unless printable}}
                                         <div class="item-controls">
@@ -1226,8 +1240,8 @@
                                         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                                         <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                                     </div>
-                                    <div class="detail subtype" data-tooltip="{{lookup ../../config.Item.typeLabels item.type}}">
-                                        {{lookup ../../config.Item.typeLabels item.type}}
+                                    <div class="detail subtype" data-tooltip="{{localize (lookup ../../config.Item.typeLabels item.type)}}">
+                                        {{localize (lookup ../../config.Item.typeLabels item.type)}}
                                     </div>
                                     <div class="detail ele">{{system.quantity}}</div>
                                     <div class="detail ele">{{system.totalWeight.effective}}</div>
