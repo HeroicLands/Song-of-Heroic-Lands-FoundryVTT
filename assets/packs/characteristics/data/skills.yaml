@@ -656,7 +656,7 @@
   flags: {}
   description: ''
   folderId: PI37Jcl41Y2em4KB
-  initSM: 4
+  initSM: 3
   baseSkill: ''
 - name: Language
   abbrev: lang
