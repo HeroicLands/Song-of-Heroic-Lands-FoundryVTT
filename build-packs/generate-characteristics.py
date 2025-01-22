@@ -185,6 +185,7 @@ for cmbttech in combattechniquesmData:
             "macros": cmbttech["macros"],
             "nestedItems": [],
             "transfer": True,
+            "subType": cmbttech["subType"],
             "mode": subdesc,
             "minParts": cmbttech["minParts"],
             "assocSkillName": cmbttech["assocSkill"],
