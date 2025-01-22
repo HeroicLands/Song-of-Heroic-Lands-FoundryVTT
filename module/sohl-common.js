@@ -1073,6 +1073,7 @@ export class MasteryLevelModifier extends ValueModifier {
         let mlMod = this.constructor.create(this, {
             parent: this.parent,
         });
+        let rollMode = null;
 
         if (!skipDialog) {
             // Render modal dialog
@@ -1088,11 +1089,19 @@ export class MasteryLevelModifier extends ValueModifier {
                 modifier: 0,
                 askSuccessLevelMod: true,
                 successLevelMod: mlMod.successLevelMod || 0,
+                rollMode: game.settings.get("core", "rollMode"),
+                rollModes: Object.entries(CONFIG.Dice.rollModes).map(
+                    ([k, v]) => ({
+                        group: "CHAT.RollDefault",
+                        value: k,
+                        label: v,
+                    }),
+                ),
             };
             const html = await renderTemplate(dlgTemplate, dialogData);
 
             // Create the dialog window
-            mlMod = await Dialog.prompt({
+            const result = await Dialog.prompt({
                 title: dialogData.title,
                 content: html.trim(),
                 label: "Roll",
@@ -1100,7 +1109,6 @@ export class MasteryLevelModifier extends ValueModifier {
                     const form = html.querySelector("form");
                     const fd = new FormDataExtended(form);
                     const formData = fd.object;
-
                     const formModifier = Number.parseInt(formData.modifier, 10);
                     if (formModifier) {
                         mlMod.add("Player Modifier", "PlyrMod", formModifier);
@@ -1114,13 +1122,15 @@ export class MasteryLevelModifier extends ValueModifier {
                         mlMod.successLevelMod = formSuccessLevelMod;
                     }
 
-                    return mlMod;
+                    return { mlMod, rollMode: formData.rollMode };
                 },
                 rejectClose: false,
                 options: { jQuery: false },
             });
 
-            if (!mlMod) return;
+            if (!result) return;
+            mlMod = result.mlMod;
+            rollMode = result.rollMode;
         }
 
         const roll = await new Roll("1d100").evaluate();
@@ -1135,6 +1145,7 @@ export class MasteryLevelModifier extends ValueModifier {
             rollJson: JSON.stringify(roll.toJSON()),
             type,
             title,
+            rollMode,
         };
 
         if (!noChat) this.successTestToChat(testResult);
@@ -1199,6 +1210,7 @@ export class MasteryLevelModifier extends ValueModifier {
         title,
         isSuccessValue = false,
         fateBonus = 0,
+        rollMode = CONST.DICE_ROLL_MODES.PUBLIC,
         ...testResult
     }) {
         if (!speaker) {
@@ -1363,7 +1375,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 sound: CONFIG.sounds.dice,
             };
 
-            ChatMessage.applyRollMode(messageData, "roll");
+            ChatMessage.applyRollMode(messageData, rollMode);
 
             // Create a chat message
             await ChatMessage.create(messageData);
@@ -2857,9 +2869,15 @@ export class SohlActorData extends SohlBaseData {
      */
     $isSetup;
 
+    $initiativeRank;
+
     get virtualItems() {
         if (!this.#virtualItems) this.#virtualItems = new Collection();
         return this.#virtualItems;
+    }
+
+    get initiativeRank() {
+        return this.$initiativeRank;
     }
 
     getEvent(eventTag) {
@@ -2898,6 +2916,7 @@ export class SohlActorData extends SohlBaseData {
     /** @override */
     prepareBaseData() {
         super.prepareBaseData();
+        this.$initiativeRank = 0;
         this.$collection = new Collection();
         this.$gearWeight = new ValueModifier(this, {
             maxFight: new ValueModifier(this),
@@ -7687,6 +7706,13 @@ export class SkillItemData extends SubtypeMixin(MasteryLevelItemData) {
             }),
         });
     }
+
+    prepareBaseData() {
+        super.prepareBaseData();
+        if (this.abbrev === "init") {
+            this.actor.system.$initiativeRank = this.masteryLevelBase || 0;
+        }
+    }
 }
 
 export class AffiliationItemData extends SohlItemData {
@@ -7882,6 +7908,10 @@ export class BodyPartItemData extends SohlItemData {
             this.canHoldItem &&
             this.heldItemId &&
             this.actor.items.find((it) => it.id === this.heldItemId);
+
+        if (this.$heldItem) {
+            this.$heldItem.system.$isHeldBy.push(this.item);
+        }
     }
 
     /** @override */
@@ -8088,6 +8118,10 @@ export class GearItemData extends SohlItemData {
 
     get equipped() {
         return false;
+    }
+
+    get isHeld() {
+        return !!this.$isHeldBy.length;
     }
 
     static defineSchema() {
@@ -8349,6 +8383,10 @@ export class ArmorGearItemData extends GearItemData {
 
     static get defaultImage() {
         return "systems/sohl/assets/icons/armor.svg";
+    }
+
+    get equipped() {
+        return this.isEquipped;
     }
 
     static defineSchema() {
@@ -10824,7 +10862,10 @@ export class SohlActiveEffect extends ActiveEffect {
 
         // If nestedIn is specified, use update() on the nestedIn
         if (options.parent?.nestedIn) {
-            const newAry = options.parent.nestedIn.effects.contents;
+            let doc = options.parent.nestedIn.system.nestedItems.find(
+                (it) => (it._id = options.parent.id),
+            );
+            let newAry = foundry.utils.deepClone(doc.effects);
 
             const effectExists = newAry.some((obj) => obj._id === newData._id);
             if (effectExists) {
@@ -10846,10 +10887,9 @@ export class SohlActiveEffect extends ActiveEffect {
             effectData.sort = maxSort;
             newAry.push(effectData);
 
-            const result = await options.parent.nestedIn.update(
-                { "system.effects": newAry },
-                { nestedIn: options.parent.nestedIn },
-            );
+            const result = await options.parent.update({
+                effects: newAry,
+            });
             options.parent.sheet.render();
             return result;
         } else {
@@ -11542,6 +11582,18 @@ export class SohlMacroConfig extends MacroConfig {
     }
 }
 
+export class SohlCombatant extends Combatant {
+    async _preCreate(createData, options, user) {
+        let allowed = await super._preCreate(createData, options, user);
+        if (allowed === false) return false;
+        if (!createData.initiative) {
+            this.updateSource({
+                initiative: this.actor?.system.initiativeRank || 0,
+            });
+        }
+    }
+}
+
 export class SohlActor extends Actor {
     $speaker;
 
@@ -12040,22 +12092,6 @@ export class SohlActor extends Actor {
     }
 
     /**
-     *
-     * @param {string} name Name of combat skill to find
-     * @returns {MasteryLevelModifier} clone of MasteryLevelModifier of combat skill
-     */
-    getCombatStat(name) {
-        const combatSkill = this.itemTypes[SkillItemData.typeName].find(
-            (it) => it.system.subType === "Combat" && it.name === name,
-        );
-        if (combatSkill) {
-            return combatSkill.system.$masteryLevel;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Get a reference to the trait item on the actor.
      *
      * @param {string} abbrev Abbreviation of trait Item to find
@@ -12515,8 +12551,13 @@ function SohlSheetMixin(Base) {
         }
 
         async _onEffectCreate() {
+            let name = "New Effect";
+            let i = 0;
+            while (this.document.effects.some((e) => e.name === name)) {
+                name = `New Effect ${++i}`;
+            }
             const aeData = {
-                name: "New Effect",
+                name,
                 type: SohlActiveEffectData.typeName,
                 icon: SohlActiveEffectData.defaultImage,
                 origin: this.document.uuid,
