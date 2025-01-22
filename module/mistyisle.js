@@ -1424,6 +1424,9 @@ export const verData = {
             types: [sohl.SohlActiveEffectData.typeName],
             legacyTransferral: false,
         },
+        Combatant: {
+            documentClass: sohl.SohlCombatant,
+        },
         Macro: {
             documentClass: sohl.SohlMacro,
             documentSheet: sohl.SohlMacroConfig,
