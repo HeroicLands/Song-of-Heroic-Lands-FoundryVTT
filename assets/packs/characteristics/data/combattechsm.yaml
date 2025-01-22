@@ -1,4 +1,5 @@
 - subDesc: Bite
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 1
   name: Unarmed 
@@ -27,6 +28,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Grab Hold
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 2
   name: Unarmed 
@@ -55,6 +57,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Grab Take
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 3
   name: Unarmed 
@@ -83,6 +86,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Headbutt
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 4
   name: Unarmed 
@@ -107,6 +111,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Kick
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 5
   name: Unarmed 
@@ -135,6 +140,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Limb Block
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 6
   name: Unarmed 
@@ -159,6 +165,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Press
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 7
   name: Unarmed 
@@ -187,6 +194,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Punch
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 8
   name: Unarmed 
@@ -211,6 +219,7 @@
   flags: {}
   folderId: dv8AthmrwfYNGB1k
 - subDesc: Trip
+  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 9
   name: Unarmed 
