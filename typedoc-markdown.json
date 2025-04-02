@@ -1,0 +1,14 @@
+{
+    "entryPoints": ["module/foundry/index.ts"],
+    "entryPointStrategy": "expand",
+    "tsconfig": "./tsconfig.json",
+    "out": "build/docs",
+    "plugin": ["typedoc-plugin-markdown"],
+    "theme": "markdown",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeInternal": true,
+    "includeVersion": true,
+    "readme": "assets/docs/index.md",
+    "name": "Song of Heroic Lands API"
+}
