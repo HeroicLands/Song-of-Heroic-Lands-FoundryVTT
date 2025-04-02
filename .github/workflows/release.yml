@@ -1,0 +1,80 @@
+name: Version and Release
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    version:
+        name: Version using Changesets
+        runs-on: ubuntu-latest
+        outputs:
+            published: ${{ steps.changesets.outputs.published }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Apply version bump (if changesets exist)
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  version: npx changeset version
+                  commit: "chore(release): version packages"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    release:
+        name: Build & Publish GitHub Release
+        needs: version
+        runs-on: ubuntu-latest
+        if: ${{ needs.version.outputs.published == 'true' }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build & package system
+              run: |
+                  npm run build
+
+            - name: Get version
+              id: get_version
+              run: |
+                  VERSION=$(node -p "require('./package.json').version")
+                  echo "version=v$VERSION" >> $GITHUB_OUTPUT
+
+            - name: Upload GitHub Release assets
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ steps.get_version.outputs.version }}
+                  name: Release ${{ steps.get_version.outputs.version }}
+                  generate_release_notes: true
+                  files: |
+                      build/release/system.zip
+                      build/release/system.json
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
