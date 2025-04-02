@@ -1,28 +1,69 @@
 {
-  "name": "harnmaster-foundryvtt",
-  "version": "2.0.0",
-  "description": "HarnMaster for Foundry VTT",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Tom Rodriguez",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/toastygm/HarnMaster-FoundryVTT.git"
-  },
-  "license": "LICENSE",
-  "bugs": {
-    "url": "https://github.com/toastygm/HarnMaster-FoundryVTT/issues"
-  },
-  "homepage": "https://github.com/toastygm/HarnMaster-FoundryVTT/issues",
-  "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@eslint/js": "^9.4.0",
-    "eslint": "^9.4.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "globals": "^15.3.0"
-  }
+    "name": "sohl",
+    "version": "0.6.0",
+    "description": "A Foundry VTT system for Song of Heroic Lands",
+    "type": "module",
+    "changeset": {
+        "changelog": [
+            "@changesets/changelog-github",
+            {
+                "repo": "toastygm/Song-of-Heroic-Lands-FoundryVTT"
+            }
+        ],
+        "commit": true
+    },
+    "scripts": {
+        "clean": "rm -rf build/stage build/dist build/docs build/tmp build/generated",
+        "build": "npm run clean && npm run build:types && npm run build:prepare && npm run build:release",
+        "build:local": "npm run test && npm run build",
+        "build:prepare": "npm run build:assets && npm run build:css && npm run build:compiledb && npm run build:packdb && npm run build:system && npm run docs",
+        "build:release": "npm run build:code && npm run build:pack-release",
+        "build:types": "tsc -p tsconfig.json",
+        "build:system": "node ./utils/build-system-json.mjs",
+        "build:css": "sass scss/sohl.scss build/stage/css/sohl.css",
+        "build:code": "vite build --mode release",
+        "build:assets": "node utils/copy-assets.mjs",
+        "build:compiledb": "node ./utils/packs/build-compendiums.mjs package compile",
+        "build:packdb": "node ./utils/packs/build-compendiums.mjs package pack",
+        "build:unpackdb": "node ./utils/packs/build-compendiums.mjs package unpack",
+        "build:pack-release": "node utils/pack-release.mjs",
+        "docs": "npm run docs:html && npm run docs:md",
+        "docs:html": "typedoc --options typedoc-html.json",
+        "docs:md": "typedoc --options typedoc-markdown.json",
+        "postinstall": "node ./utils/postinstall.mjs",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest run --coverage",
+        "version": "changeset version && npm run build:system",
+        "release": "changeset publish"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.28.1",
+        "@foundryvtt/foundryvtt-cli": "^1.0.4",
+        "@league-of-foundry-developers/foundry-vtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#documents-v2",
+        "@octokit/rest": "^21.1.1",
+        "@typescript-eslint/eslint-plugin": "^8.28.0",
+        "@typescript-eslint/parser": "^8.28.0",
+        "@vitest/ui": "^1.6.1",
+        "archiver": "^7.0.1",
+        "cypress": "^13.0.0",
+        "dotenv": "^16.4.7",
+        "eslint": "^9.23.0",
+        "eslint-config-prettier": "^10.1.1",
+        "eslint-plugin-import": "^2.31.0",
+        "eslint-plugin-jsdoc": "^50.6.9",
+        "ix": "^7.0.0",
+        "loglevel": "^1.9.2",
+        "loglevel-plugin-prefix": "^0.8.4",
+        "prettier": "^3.1.0",
+        "sass": "^1.69.0",
+        "typedoc": "0.27.6",
+        "typedoc-github-theme": "0.2.1",
+        "typedoc-plugin-markdown": "4.3.3",
+        "typescript": "^5.3.3",
+        "unidecode": "^1.1.0",
+        "vite": "^6.2.3",
+        "vitest": "^1.2.0"
+    }
 }

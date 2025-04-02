@@ -1,0 +1,13 @@
+{
+    "Actor": {
+        "types": ["sohlactor"],
+        "htmlFields": []
+    },
+    "Item": {
+        "types": ["sohlitem"],
+        "htmlFields": []
+    },
+    "ActiveEffect": {
+        "types": ["sohlactiveeffect"]
+    }
+}

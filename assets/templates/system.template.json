@@ -1,0 +1,137 @@
+{
+    "id": "sohl",
+    "title": "Song of Heroic Lands",
+    "description": "<p><strong>Song of Heroic Lands: A Gateway to Adventure!</strong> Embark on a journey through a richly detailed fantasy world with Song of Heroic Lands (SoHL)—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the renowned HârnMaster system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.</p><p>Designed for both seasoned veterans and new players, SoHL captures the essence of detailed game mechanics while leveraging the power of Foundry VTT to streamline gameplay, enhance storytelling, and immerse you in the lore-rich environment.</p>",
+    "version": "0.0.0",
+    "authors": [
+        {
+            "name": "Toasty",
+            "discord": "toasty#8538",
+            "flags": {}
+        }
+    ],
+    "license": "LICENSE.md",
+    "readme": "README.md",
+    "changelog": "CHANGELOG.md",
+    "flags": {
+        "allowBugReporter": true,
+        "needsMigrationVersion": "0.3.5",
+        "compatibleMigrationVersion": "0.3.0"
+    },
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12.323"
+    },
+    "scripts": ["index.js"],
+    "styles": ["css/sohl.css"],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
+    "packFolders": [
+        {
+            "name": "Song of Heroic Lands",
+            "sorting": "m",
+            "color": "#094fcb",
+            "packs": [
+                "characters",
+                "creatures",
+                "characteristics",
+                "mysteries",
+                "possessions",
+                "journals",
+                "macros"
+            ]
+        }
+    ],
+    "packs": [
+        {
+            "label": "Characters",
+            "type": "Actor",
+            "name": "characters",
+            "system": "sohl",
+            "path": "packs/characters",
+            "private": false
+        },
+        {
+            "label": "Creatures",
+            "type": "Actor",
+            "name": "creatures",
+            "system": "sohl",
+            "path": "packs/creatures",
+            "private": false
+        },
+        {
+            "label": "Characteristics",
+            "type": "Item",
+            "name": "characteristics",
+            "system": "sohl",
+            "path": "packs/characteristics",
+            "private": false
+        },
+        {
+            "label": "Mysteries",
+            "type": "Item",
+            "name": "mysteries",
+            "system": "sohl",
+            "path": "packs/mysteries",
+            "private": false
+        },
+        {
+            "label": "Possessions",
+            "type": "Item",
+            "name": "possessions",
+            "system": "sohl",
+            "path": "packs/possessions",
+            "private": false
+        },
+        {
+            "label": "Journals",
+            "type": "JournalEntry",
+            "name": "journals",
+            "system": "sohl",
+            "path": "packs/journals",
+            "private": false
+        },
+        {
+            "label": "Macros",
+            "type": "Macro",
+            "name": "macros",
+            "system": "sohl",
+            "path": "packs/macros",
+            "private": false
+        }
+    ],
+    "media": [
+        {
+            "type": "setup",
+            "url": "systems/sohl/assets/ui/sohl-setup.webp",
+            "thumbnail": "systems/sohl/assets/ui/sohl-setup-thumb.webp"
+        },
+        {
+            "type": "logo",
+            "url": "systems/sohl/assets/ui/sohl-logo.webp"
+        },
+        {
+            "type": "icon",
+            "url": "systems/sohl/assets/ui/sohl-icon.webp"
+        },
+        {
+            "type": "banner",
+            "url": "systems/sohl/assets/ui/sohl-banner.webp"
+        }
+    ],
+    "socket": true,
+    "grid": {
+        "distance": 5,
+        "units": "ft"
+    },
+    "primaryTokenAttribute": "health",
+    "url": "",
+    "bugs": "",
+    "manifest": "",
+    "download": ""
+}
