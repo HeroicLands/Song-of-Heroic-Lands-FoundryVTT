@@ -1,7 +1,7 @@
 import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 
-const systemTemplatePath = resolve("assets/system.template.json");
+const systemTemplatePath = resolve("assets/templates/system.template.json");
 const systemJsonPath = resolve("build/stage/system.json");
 const packageJsonPath = resolve("package.json");
 

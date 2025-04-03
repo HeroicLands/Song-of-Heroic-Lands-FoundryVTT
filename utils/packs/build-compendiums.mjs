@@ -32,7 +32,7 @@ fs.mkdirSync(PACK_DEST, { recursive: true });
 
 // Load system.json.
 const system = JSON.parse(
-    fs.readFileSync("./assets/system.template.json", { encoding: "utf8" }),
+    fs.readFileSync("./assets/templates/system.template.json", { encoding: "utf8" }),
 );
 
 // Configure loglevel

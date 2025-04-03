@@ -6,12 +6,14 @@ import { join, relative, resolve } from "path";
 
 export async function packStage() {
     const STAGE_DIR = resolve("./build/stage");
-    const RELEASE_DIR = resolve("./build/release");
+    const RELEASE_DIR = resolve("./build/dist");
     mkdirSync(RELEASE_DIR, { recursive: true });
 
-    const system = JSON.parse(await fsp.readFile("system.json", "utf8"));
+    const system = JSON.parse(
+        await fsp.readFile(join(STAGE_DIR, "system.json"), "utf8"),
+    );
     const version = system.version;
-    const zipPath = join(RELEASE_DIR, `system-${version}.zip`);
+    const zipPath = join(RELEASE_DIR, "system.zip");
     const output = fs.createWriteStream(zipPath);
     const archive = archiver("zip", { zlib: { level: 9 } });
 
@@ -20,8 +22,8 @@ export async function packStage() {
     await archive.finalize();
 
     await fsp.copyFile(
-        "system.json",
-        join(RELEASE_DIR, `system-${version}.json`),
+        join(STAGE_DIR, "system.json"),
+        join(RELEASE_DIR, "system.json"),
     );
 
     console.log("✅ Packaging for release complete:", relative(".", zipPath));

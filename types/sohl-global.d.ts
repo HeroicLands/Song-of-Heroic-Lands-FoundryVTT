@@ -1,42 +1,51 @@
-// Reference the Foundry VTT types
 /// <reference types="@league-of-foundry-developers/foundry-vtt-types" />
+// import type {
+//     fromUuid,
+//     fromUuidSync,
+// } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/core/utils.d.mts"; // adjust if needed
+import { BaseSystem } from "@logic/common/core/BaseSystem";
+import {
+    SohlBase,
+    SohlBaseConstructor,
+} from "@module/logic/common/core/SohlBase";
+import { SohlMap } from "@module/utils/SohlMap";
 
-// Import custom utility types
-import type { MersenneTwister } from "@module/common/mersenne-twister.mjs";
-import type { SohlLocalize } from "@module/common/sohl-localize.mjs";
-import type { SohlUtility } from "@module/common/sohl-utility.mjs";
-import * as SohlHelpers from "@module/common/sohl-helpers.mjs";
+declare const game: Game; // Foundry VTT Game object
 
-// Non-document overriden foundry classes
-import type { SohlContextMenu } from "@module/foundry/sohl-context-menu.mjs";
-
+// ✅ Custom utility types
 declare global {
-    // ✅ Custom utility typedefs
     export type PlainObject = Record<string, any>;
     export type UnknownObject = Record<string, unknown>;
+    export type EmptyObject = Record<string, never>;
     export type StrictObject<T> = Record<string, T>;
     export type Constructor<T = {}> = new (...args: any[]) => T;
     export type AnyFunction = (...args: any[]) => any;
     export type MaybePromise<T> = T | Promise<T>;
 
-    /** Used for fields that may be missing or intentionally cleared */
+    /** May be missing or intentionally cleared */
     export type Maybe<T> = T | null | undefined;
 
-    /** Used when a value is expected but may be null */
+    /** Nullable but expected */
     export type Nullable<T> = T | null;
 
-    /** Used for optional fields */
+    /** Optional field */
     export type Optional<T> = T | undefined;
+
     export type OptArray<T> = T[] | undefined;
 
-    /** A type of Object that is constructed; e.g., not a plain object */
+    /** A constructed object (non-plain) */
     export type ConstructedObject = object & {
         constructor: {
             name: Exclude<string, "Object">;
         };
     };
 
-    /** JSON */
+    export type ModifierAtom = {
+        name: string;
+        abbrev: string;
+    };
+
+    // ✅ JSON-safe types
     type JSONValue =
         | string
         | number
@@ -46,18 +55,11 @@ declare global {
         | JSONValueMap;
 
     interface JSONArray extends Array<JSONValue> {}
-
     interface JSONObject {
         [key: string]: JSONValue;
     }
 
-    /* ============== Logic Types ==================== */
-
-    /**
-     * A minimal structural type used by Logic classes to describe the parent DataModel.
-     * It must have a `parent` property which may optionally define an `update()` method,
-     * like in Foundry's embedded documents.
-     */
+    // ✅ Base Logic Compatibility
     type LogicCompatibleDataModel = {
         parent: {
             update: (data: any) => unknown;
@@ -68,72 +70,50 @@ declare global {
         parent?: TDataModel;
     };
 
-    /**
-     * Represents any Logic class tied to a Logic-compatible DataModel.
-     */
-    type AnyLogic = BaseLogic<LogicCompatibleDataModel>;
+    // GlobalThis modifications
+    // interface GlobalThis {
+    //     origFromUuid: typeof fromUuid;
+    //     origFromUuidSync: typeof fromUuidSync;
+    // }
 
-    /**
-     * Represents options passed to a Logic constructor when type parameter is not statically known.
-     */
-    type AnyLogicOptions = BaseLogicOptions<LogicCompatibleDataModel>;
+    var SohlVariant = StrictObject<BaseSystem>;
 
-    /**
-     * Extends the global `game` object to include our system data
-     */
+    // Foundry VTT modifications
     interface Game {
-        sohl: SohlSystem;
-    }
-
-    /**
-     * The shape of our game system attached to `game.sohl`
-     */
-    interface SohlSystem {
-        id: string;
-        title: string;
-        //        class: Record<string, ValueModifier>;
-        versionsData: unknown;
-        sysVer: unknown;
-        registerSystemVersion: (id: string, data: unknown) => void;
-        //        i18n: typeof SohlLocalize;
-        //        utils: typeof SohlHelpers;
-        foundry: typeof foundry;
-        //        contextMenu: typeof SohlContextMenu;
-        ready: boolean;
-        hasSimpleCalendar: boolean;
-        defaultVariant: string;
-        CONFIG: unknown;
-        CHARS: Record<string, string>;
-        SETTINGS: unknown;
-        SOHL_INIT_MESSAGE: string;
-    }
-
-    /**
-     * Variants supported by the system
-     */
-    export type SohlVariant = "default" | "legendary" | "variantA" | "variantB";
-
-    /**
-     * Global variable for system-agnostic utilities and classes
-     */
-    var sohl: {
-        //       utils: typeof SohlUtils;
-        //     i18n: typeof SohlLocalize;
-        foundry: typeof foundry;
-        //   twist: MersenneTwister;
-        game: {
-            //   contextMenu: typeof SohlContextMenu;
+        settings: GameSettings & {
+            get(module: "sohl", key: string): unknown;
         };
-    };
-}
+    }
 
-// ✅ Declare any external modules used by the system
-declare const SimpleCalendar: {
-    Hooks: {
-        Ready: string;
-        // Add more hooks if needed
+    // ✅ Global system accessor
+    var sohl: {
+        foundry: typeof foundry;
+        game: SohlSystem; // Add utility classes if needed
+        utils: import("@module/utils/helpers");
+        i18n: import("@module/utils/SohlLocalize").SohlLocalize;
+        ready: boolean; // Indicates if the system is fully initialized
+        variants: StrictObject<BaseSystem>;
+        simpleCalendar: any;
+        log: SohlLogger;
+        classRegistry: SohlBaseRegistry;
     };
-    // Extend as needed
-};
+
+    var origFromUuid: (
+        uuid: string,
+        options?: {
+            relative?: ClientDocument;
+            invalid?: boolean;
+        },
+    ) => Promise<foundry.abstract.Document.Any | null>;
+
+    var origFromUuidSync: (
+        uuid: string,
+        options?: {
+            relative?: ClientDocument;
+            invalid?: boolean;
+            strict?: boolean;
+        },
+    ) => foundry.abstract.Document.Any | Record<string, unknown> | null;
+}
 
 export {};
