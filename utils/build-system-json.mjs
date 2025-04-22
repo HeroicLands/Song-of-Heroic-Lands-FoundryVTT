@@ -1,9 +1,12 @@
-import { readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 
+const STAGE_DIR = resolve("build/stage");
 const systemTemplatePath = resolve("assets/templates/system.template.json");
-const systemJsonPath = resolve("build/stage/system.json");
+const systemJsonPath = resolve(STAGE_DIR, "system.json");
 const packageJsonPath = resolve("package.json");
+
+await mkdir(STAGE_DIR, { recursive: true });
 
 // --- Load files ---
 const [templateRaw, packageRaw] = await Promise.all([
