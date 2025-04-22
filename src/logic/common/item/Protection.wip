@@ -1,0 +1,140 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+export class ProtectionItemData extends SubtypeMixin(SohlItemData) {
+    $protection;
+    $bodyLocations;
+
+    /** @inheritdoc */
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                name: "protection",
+                locId: "PROTECTION",
+                label: "TYPES.Item.protection",
+                labelPlural: "TYPES.Item.protectionPl",
+                iconCssClass: "fas fa-shield",
+                img: "systems/sohl/assets/icons/shield.svg",
+                sheet: "systems/sohl/templates/item/protection-sheet.html",
+                nestOnly: true,
+                effectKeys: {},
+                defaultSubType: SOHL_VARIANTS.legendary,
+                subTypes: SOHL_VARIANTS,
+                schemaVersion: "0.5.6",
+            },
+            { inplace: false },
+        ),
+    );
+
+    get transferToActor() {
+        return this.subType === CONFIG.SOHL.id && super.transferToActor;
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            protectionBase: new fields.SchemaField({
+                blunt: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                edged: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                piercing: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                fire: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+            }),
+        });
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$bodyLocations = [];
+        this.$protection = {
+            blunt: new CONFIG.SOHL.class.ValueModifier(
+                {},
+                { parent: this },
+            ).setBase(this.protectionBase.blunt),
+            edged: new CONFIG.SOHL.class.ValueModifier(
+                {},
+                { parent: this },
+            ).setBase(this.protectionBase.edged),
+            piercing: new CONFIG.SOHL.class.ValueModifier(
+                {},
+                { parent: this },
+            ).setBase(this.protectionBase.piercing),
+            fire: new CONFIG.SOHL.class.ValueModifier(
+                {},
+                { parent: this },
+            ).setBase(this.protectionBase.fire),
+        };
+    }
+
+    processSiblings() {
+        super.processSiblings();
+        if (!this.item.nestedIn || this.subType !== CONFIG.SOHL.id) return;
+
+        let armorGearData = null;
+        if (
+            this.item.nestedIn.system instanceof ArmorGearItemData &&
+            this.item.nestedIn.system.isEquipped
+        ) {
+            armorGearData = this.item.nestedIn.system;
+            this.$bodyLocations = this.actor.itemTypes[
+                BodyLocationItemData.TYPE_NAME
+            ].filter(
+                (i) =>
+                    armorGearData.locations.flexible.includes(i.name) ||
+                    armorGearData.locations.rigid.includes(i.name),
+            );
+        } else if (this.item.nestedIn.system instanceof BodyLocationItemData) {
+            this.$bodyLocations.push(this.item.nestedIn);
+        }
+
+        this.$bodyLocations.forEach((bl) => {
+            const blData = bl.system;
+            Object.keys(this.$protection).forEach((aspect) => {
+                if (this.$protection[aspect].effective)
+                    blData.$protection[aspect]?.add(
+                        this.item.name,
+                        this.abbrev,
+                        this.$protection[aspect].effective,
+                    );
+            });
+
+            if (armorGearData) {
+                // if a material has been specified, add it to the layers
+                if (armorGearData.material) {
+                    if (blData.$layers) blData.$layers += ",";
+                    blData.$layers += armorGearData.material;
+                }
+
+                // If any of the armor is rigid, then flag the whole bodylocation as rigid.
+                blData.$traits.isRigid ||=
+                    armorGearData.locations.rigid.includes(bl.name);
+            }
+        });
+    }
+}

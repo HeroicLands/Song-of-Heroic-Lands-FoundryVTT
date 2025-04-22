@@ -1,26 +1,14 @@
-/**
- * @file Itr.ts
- * @project Song of Heroic Lands (SoHL)
- * @module utils
- * @author Tom Rodriguez aka "Toasty" <toasty@heroiclands.com>
- * @contact Email: toasty@heroiclands.com
- * @contact Join the SoHL Discord: https://discord.gg/f2Qjar3Rqv
- * @license GPL-3.0 (https://www.gnu.org/licenses/gpl-3.0.html)
- * @copyright (c) 2025 Tom Rodriguez
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
  *
- * Permission is granted to copy, modify, and distribute this work under the
- * terms of the GNU General Public License v3.0 (GPLv3). You must provide
- * appropriate credit, state any changes made, and distribute modified versions
- * under the same license. You may not impose additional restrictions on the
- * recipients' exercise of the rights granted under this license. This is only a
- * summary of the GNU GPLv3 License. For the full terms, see the LICENSE.md
- * file in the project root or visit: https://www.gnu.org/licenses/gpl-3.0.html
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
  *
- * @description
- * Brief description of what this file does and its role in the system.
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @see GitHub Repository: https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT
- * @see Foundry VTT System Page: https://foundryvtt.com/packages/sohl
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 export class Itr<T> implements IterableIterator<T> {
@@ -158,6 +146,16 @@ export class Itr<T> implements IterableIterator<T> {
         let index = 0;
         for (const item of this) {
             if (callback(item, index++)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check if any element matches the specified value
+     */
+    includes(value: T): boolean {
+        for (const item of this) {
+            if (item === value) return true;
         }
         return false;
     }

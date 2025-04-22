@@ -6,7 +6,6 @@
 **/nogit
 **/packs
 **/system.json
-**/template.json
 **/package-lock.json
 **/*.hbs
 

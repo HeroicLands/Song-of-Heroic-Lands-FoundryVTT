@@ -1,33 +1,25 @@
-/**
- * @file SohlLogger.ts
- * @project Song of Heroic Lands (SoHL)
- * @module utils
- * @author Tom Rodriguez aka "Toasty" <toasty@heroiclands.com>
- * @contact Email: toasty@heroiclands.com
- * @contact Join the SoHL Discord: https://discord.gg/f2Qjar3Rqv
- * @license GPL-3.0 (https://www.gnu.org/licenses/gpl-3.0.html)
- * @copyright (c) 2025 Tom Rodriguez
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
  *
- * Permission is granted to copy, modify, and distribute this work under the
- * terms of the GNU General Public License v3.0 (GPLv3). You must provide
- * appropriate credit, state any changes made, and distribute modified versions
- * under the same license. You may not impose additional restrictions on the
- * recipients' exercise of the rights granted under this license. This is only a
- * summary of the GNU GPLv3 License. For the full terms, see the LICENSE.md
- * file in the project root or visit: https://www.gnu.org/licenses/gpl-3.0.html
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
  *
- * @description
- * Brief description of what this file does and its role in the system.
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @see GitHub Repository: https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT
- * @see Foundry VTT System Page: https://foundryvtt.com/packages/sohl
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { SourceMapConsumer } from "source-map";
+import { escapeHtml } from "@utils";
+import { onError } from "@foundry/core";
+
 export enum LogLevel {
+    DEBUG = "debug",
     INFO = "info",
     WARN = "warn",
     ERROR = "error",
-    DEBUG = "debug",
 }
 
 interface LogCallerInfo {
@@ -41,8 +33,8 @@ interface LogCallerInfo {
 }
 
 interface LogOptions {
-    level: LogLevel;
-    notify?: boolean;
+    logLevel: LogLevel;
+    notifyLevel?: LogLevel | null;
     error?: Error;
     location?: string;
     useHooks?: boolean;
@@ -51,25 +43,97 @@ interface LogOptions {
 
 export class SohlLogger {
     private static _instance: SohlLogger;
+    private static _sourceMapConsumer: SourceMapConsumer | null;
+    private static _sourceMapLoading: boolean;
+    private static _threshold: LogLevel; // configurable?
 
-    // Static method to get the singleton instance
-    public static getInstance(): SohlLogger {
+    private constructor(threshold: LogLevel = LogLevel.INFO) {
+        const sourceMapUrl = "systems/sohl/index.map";
+
+        SohlLogger._threshold = threshold;
+        SohlLogger._sourceMapConsumer = null;
+        if (!SohlLogger._sourceMapLoading) {
+            SohlLogger._sourceMapLoading = true;
+            void SohlLogger.loadSourceMap(sourceMapUrl);
+        }
+    }
+
+    private static async loadSourceMap(sourceMapUrl: string): Promise<void> {
+        try {
+            const response = await fetch(sourceMapUrl);
+            if (!response.ok) throw new Error("Failed to load source map");
+
+            const rawMap = await response.json();
+            SohlLogger._sourceMapConsumer = await new SourceMapConsumer(rawMap);
+
+            console.info("✅ Source map loaded for SohlLogger.");
+        } catch (error) {
+            console.warn("⚠️ Could not load source map for logging:", error);
+        }
+    }
+
+    public static getInstance(threshold: LogLevel = LogLevel.INFO): SohlLogger {
         if (!SohlLogger._instance) {
-            SohlLogger._instance = new SohlLogger();
+            SohlLogger._instance = new SohlLogger(threshold);
         }
         return SohlLogger._instance;
     }
 
-    getCallerInfo(detailed: boolean = false): LogCallerInfo {
+    setLogThreshold(level: LogLevel) {
+        if (Object.values(LogLevel).includes(level)) {
+            SohlLogger._threshold = level;
+        } else {
+            console.warn(
+                `⚠️ Invalid log level "${level}". Valid levels are: ${Object.values(
+                    LogLevel,
+                ).join(", ")}`,
+            );
+        }
+    }
+
+    get logThreshold(): LogLevel {
+        return SohlLogger._threshold;
+    }
+
+    private static shouldLog(level: LogLevel): boolean {
+        const levels = [
+            LogLevel.DEBUG,
+            LogLevel.INFO,
+            LogLevel.WARN,
+            LogLevel.ERROR,
+        ];
+        return levels.indexOf(level) >= levels.indexOf(SohlLogger._threshold);
+    }
+
+    private static mapToOriginalPosition(
+        file: string,
+        line: number,
+        column: number,
+    ): { source: string; line: number; column: number } | null {
+        if (!SohlLogger._sourceMapConsumer) return null;
+        const pos = SohlLogger._sourceMapConsumer.originalPositionFor({
+            line,
+            column,
+        });
+        if (pos.source && pos.line != null && pos.column != null) {
+            return {
+                source: pos.source,
+                line: pos.line,
+                column: pos.column,
+            };
+        }
+        return null;
+    }
+
+    getCallerInfo(): LogCallerInfo {
         const error = new Error();
         const stackLines = error.stack?.split("\n") || [];
+        const callerLine =
+            stackLines.find((line) => !line.includes("SohlLogger"))?.trim() ??
+            "(anonymous)";
 
-        // Get the caller's line (3rd line in the stack for Node.js/Chrome)
-        const callerLine = stackLines.at(2)?.trim() || "Unknown caller";
-
-        // Regex to match class name, method name, file path, line, and column
         const match = callerLine.match(
-            /at (?:(\w+)\.)?(\w+)\s?\(?(.*?)(?:\/|\\)(\w+\.(?:ts|js)):(\d+):(\d+)\)?/,
+            /at (?:(\w+)\.)?(\w+)\s?\(?(.*?)(?:\/|\\)?(\w+\.(?:ts|js)):(\d+):(\d+)\)?/,
         );
 
         const result: LogCallerInfo = {
@@ -78,43 +142,42 @@ export class SohlLogger {
             filePath: "",
             line: 0,
             column: 0,
-            label: "Unknown Caller",
-            labelDetail: "Unknown",
+            label: "(anonymous)",
+            labelDetail: "(unknown location)",
         };
+
         if (match) {
-            result.className = match[1] || "";
-            result.methodName = match[2] || "";
-            result.filePath = match[3] ? `${match[3]}/${match[4]}` : "";
-            result.line = parseInt(match[5]) || 0;
-            result.column = parseInt(match[6]) || 0;
-            result.label =
-                result.methodName ?
-                    `${result.className}#${result.methodName}`
-                :   "UnknownMethod";
+            const [, className, methodName, path, file, lineStr, columnStr] =
+                match;
+            const fullPath = `${path}/${file}`;
+            const line = parseInt(lineStr, 10);
+            const column = parseInt(columnStr, 10);
+
+            result.className = className || "";
+            result.methodName = methodName || "";
+            result.filePath = fullPath;
+            result.line = line;
+            result.column = column;
+            result.label = `${className}#${methodName}`;
+            const mapped = SohlLogger.mapToOriginalPosition(
+                fullPath,
+                line,
+                column,
+            );
             result.labelDetail =
-                result.filePath ?
-                    `(${result.filePath}:${result.line}:${result.column})`
-                :   "Unknown Location";
+                mapped ?
+                    `(${mapped.source}:${mapped.line}:${mapped.column})`
+                :   `(${fullPath}:${line}:${column})`;
         }
 
         return result;
     }
 
-    /**
-     * Logs a message with the specified log level and additional options.
-     * @param message - The message to log.
-     * @param options - An object containing additional log options.
-     * @param options.level - The log level (INFO, WARN, ERROR, DEBUG).
-     * @param options.notify - Whether to notify the user (e.g., via UI).
-     * @param options.error - An optional error object to log.
-     * @param options.location - The location where the log occurred.
-     * @param options.data - Additional data to include in the log.
-     */
     log(
         message: string = "",
         {
-            level = LogLevel.INFO,
-            notify = false,
+            logLevel = LogLevel.INFO,
+            notifyLevel = null,
             error = undefined,
             useHooks = false,
             data = {},
@@ -127,83 +190,114 @@ export class SohlLogger {
         const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
         const timeLabel = `${hours}:${minutes}:${seconds}.${milliseconds}`;
 
-        message = sohl.i18n.format(message, data);
+        try {
+            message = sohl.i18n?.format(message, data) || message;
+        } catch (_err) {
+            // Ignore errors in i18n formatting
+        }
         const callerInfo = this.getCallerInfo();
-        const logMessage = `[${level.toUpperCase()} ${callerInfo.label}]: ${message}`;
+        const fallbackMessage = sohl.i18n.format(message, data, {
+            fallback: true,
+        });
+
+        let logMessage;
+        switch (logLevel) {
+            case LogLevel.WARN:
+                logMessage = `WARN|${timeLabel}|${callerInfo.label} ${fallbackMessage}`;
+                break;
+
+            case LogLevel.ERROR:
+                logMessage = `ERROR|${timeLabel}|${callerInfo.label} ${fallbackMessage} @ ${callerInfo.labelDetail}`;
+                break;
+
+            case LogLevel.DEBUG:
+                logMessage = `DEBUG|${timeLabel}|${callerInfo.label} ${fallbackMessage}`;
+                break;
+
+            case LogLevel.INFO:
+            default:
+                logMessage = `INFO|${timeLabel} ${fallbackMessage}`;
+                break;
+        }
 
         if (error) {
-            const newError = Object.assign(new Error(error.message), {
-                cause: error,
-            });
+            const newError = new Error(logMessage, { cause: error });
             if (useHooks) {
-                Hooks.onError(callerInfo.label, newError, {
+                onError(callerInfo.label, newError, {
                     message,
-                    log: level,
-                    notify: level,
-                    ...data,
+                    log: logLevel,
+                    notify: notifyLevel,
                 });
             } else {
-                console.error(logMessage, newError);
+                console.error(newError);
+                if (newError.cause) {
+                    console.error("Caused by:", newError.cause);
+                }
             }
         }
 
-        // Log the message based on the level
-        switch (level) {
-            case LogLevel.INFO:
-                console.info(`INFO|${timeLabel} ${logMessage}`);
-                break;
-            case LogLevel.WARN:
-                console.warn(
-                    `WARN|${timeLabel}|${callerInfo.label} ${logMessage}`,
-                );
-                break;
-            case LogLevel.ERROR:
-                console.error(
-                    `ERROR|${timeLabel}|${callerInfo.label} ${logMessage} @ ${callerInfo.labelDetail}`,
-                );
-                break;
-            case LogLevel.DEBUG:
-                console.debug(
-                    `DEBUG|${timeLabel}|${callerInfo.label} ${logMessage}`,
-                );
-                break;
+        if (!SohlLogger.shouldLog(logLevel)) return;
+
+        const localMessage = sohl.i18n.format(message, data);
+
+        if (notifyLevel && message) {
+            switch (notifyLevel) {
+                case LogLevel.INFO:
+                    this.uiInfo(localMessage);
+                    break;
+                case LogLevel.WARN:
+                    this.uiWarn(localMessage);
+                    break;
+                case LogLevel.ERROR:
+                    this.uiError(localMessage);
+                    break;
+            }
         }
-
-        if (notify)
-            ui.notifications[notify]?.(
-                sohl.utils.escapeHTML(message || error?.message),
-            );
     }
 
-    /**
-     * Logs an informational message.
-     * @param message - The message to log.
-     */
     info(message: string, data: PlainObject = {}): void {
-        this.log(message, { level: LogLevel.INFO, data });
+        this.log(message, { logLevel: LogLevel.INFO, data });
     }
 
-    /**
-     * Logs a warning message.
-     * @param message - The message to log.
-     */
     warn(message: string, data: PlainObject = {}): void {
-        this.log(message, { level: LogLevel.WARN, data });
+        this.log(message, { logLevel: LogLevel.WARN, data });
     }
 
-    /**
-     * Logs an error message.
-     * @param message - The message to log.
-     */
     error(message: string, data: PlainObject = {}): void {
-        this.log(message, { level: LogLevel.ERROR, data });
+        this.log(message, { logLevel: LogLevel.ERROR, data });
     }
 
-    /**
-     * Logs a debug message.
-     * @param message - The message to log.
-     */
     debug(message: string, data: PlainObject = {}): void {
-        this.log(message, { level: LogLevel.DEBUG, data });
+        this.log(message, { logLevel: LogLevel.DEBUG, data });
+    }
+
+    uiInfo(message: string, data: PlainObject = {}): void {
+        this.log(message, {
+            logLevel: LogLevel.INFO,
+            notifyLevel: LogLevel.INFO,
+            data,
+        });
+    }
+
+    uiWarn(message: string, data: PlainObject = {}): void {
+        this.log(message, {
+            logLevel: LogLevel.WARN,
+            notifyLevel: LogLevel.WARN,
+            data,
+        });
+    }
+    uiError(message: string, data: PlainObject = {}): void {
+        this.log(message, {
+            logLevel: LogLevel.ERROR,
+            notifyLevel: LogLevel.ERROR,
+            data,
+        });
+    }
+    uiDebug(message: string, data: PlainObject = {}): void {
+        this.log(message, {
+            logLevel: LogLevel.DEBUG,
+            notifyLevel: LogLevel.DEBUG,
+            data,
+        });
     }
 }

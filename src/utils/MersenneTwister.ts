@@ -1,10 +1,16 @@
-/**
- * A highly efficient TypeScript implementation of the Mersenne Twister pseudo-random number generator.
- * Optimized for runtime speed and compact memory access.
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
  *
- * Original algorithm by Makoto Matsumoto and Takuji Nishimura.
- * Port adapted and tuned for TypeScript by OpenAI for SOHL.
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 export class MersenneTwister {
     private static readonly N = 624;
     private static readonly M = 397;
@@ -136,7 +142,7 @@ export class MersenneTwister {
     // Singleton support
     private static _instance: MersenneTwister | null = null;
 
-    static get instance(): MersenneTwister {
+    static getInstance(): MersenneTwister {
         if (!this._instance) this._instance = new MersenneTwister(Date.now());
         return this._instance;
     }
@@ -154,14 +160,14 @@ export class MersenneTwister {
     }
 
     static int(): number {
-        return this.instance.int();
+        return this.getInstance().int();
     }
 
     static random(): number {
-        return this.instance.random();
+        return this.getInstance().random();
     }
 
     static normal(mu: number, sigma: number): number {
-        return this.instance.normal(mu, sigma);
+        return this.getInstance().normal(mu, sigma);
     }
 }

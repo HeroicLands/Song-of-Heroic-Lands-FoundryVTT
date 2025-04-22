@@ -1,0 +1,502 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import { ChatMessageRollMode } from "@foundry/core/index.mjs";
+
+export class MasteryLevelItemData extends SohlItemData {
+    $boosts;
+    $skillBase;
+    $masteryLevel;
+
+    /** @inheritdoc */
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                locId: "MASTERYLEVEL",
+                effectKeys: {
+                    "system.$boosts": {
+                        label: "SOHL.MasteryBoost",
+                        abbrev: "MBoost",
+                    },
+                    "mod:system.$masteryLevel": {
+                        label: "SOHL.MasteryLevel",
+                        abbrev: "ML",
+                    },
+                    "mod:system.$masteryLevel.fate": {
+                        label: "SOHL.Fate",
+                        abbrev: "Fate",
+                    },
+                    "system.$masteryLevel.successLevelMod": {
+                        label: "SOHL.SuccessLevel",
+                        abbrev: "SL",
+                    },
+                },
+                schemaVersion: "0.5.6",
+            },
+            { inplace: false },
+        ),
+    );
+
+    get fateSkills() {
+        return this.item.getFlag("sohl", "fateSkills") || [];
+    }
+
+    get magicMod() {
+        return 0;
+    }
+
+    get boosts() {
+        return this.$boosts;
+    }
+
+    /**
+     * Searches through all of the Fate mysteries on the actor, gathering any that
+     * are applicable to this skill, and returns them.
+     *
+     * @readonly
+     * @type {SohlItem[]} An array of Mystery fate items that apply to this skill.
+     */
+    get availableFate() {
+        let result = [];
+        if (!this.$masteryLevel.disabled) {
+            for (const it of this.actor.allItems()) {
+                if (
+                    it.system instanceof MysteryItemData &&
+                    it.system.subType === MysteryItemData.CATEGORY.FATE
+                ) {
+                    const fateSkills = this.fateSkills;
+                    // If a fate item has a list of fate skills, then that fate
+                    // item is only applicable to those skills.  If the fate item
+                    // has no list of skills, then the fate item is applicable
+                    // to all skills.
+                    if (
+                        !fateSkills.length ||
+                        fateSkills.includes(this.item.name)
+                    ) {
+                        if (it.system.$level.effective > 0) result.push(it);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    get fateBonusItems() {
+        let result = [];
+        if (this.actor) {
+            for (const it of this.actor.allItems()) {
+                if (
+                    it.system instanceof MysteryItemData &&
+                    it.system.config.category ===
+                        MysteryItemData.CATEGORY.FATEBONUS
+                ) {
+                    const skills = it.fateSkills;
+                    if (!skills || skills.includes(this.item.name)) {
+                        if (
+                            !it.system.$charges.disabled ||
+                            it.system.$charges.effective > 0
+                        ) {
+                            result.push(it);
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    get canImprove() {
+        return (
+            !this.item.isVirtual &&
+            (game.user.isGM || this.item.isOwner) &&
+            !this.$masteryLevel.disabled
+        );
+    }
+
+    get valid() {
+        return this.skillBase.valid;
+    }
+
+    get skillBase() {
+        return this.$skillBase;
+    }
+
+    get sdrIncr() {
+        return 1;
+    }
+
+    get defaultAction() {
+        return SuccessTestResult.TEST_TYPE.SKILL;
+    }
+
+    getIntrinsicActions(_data = this, defaultAction = null, actions = []) {
+        return super.getIntrinsicActions(
+            _data,
+            defaultAction,
+            Utility.uniqueActions(
+                actions,
+                [
+                    SuccessTestResult.TEST_TYPE.SKILL,
+                    SuccessTestResult.TEST_TYPE.SETIMPROVEFLAG,
+                    SuccessTestResult.TEST_TYPE.UNSETIMPROVEFLAG,
+                    SuccessTestResult.TEST_TYPE.IMPROVESDR,
+                ].map((a) => SuccessTestResult.testTypes[a]),
+            ),
+        );
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            abbrev: new fields.StringField(),
+            skillBaseFormula: new fields.StringField(),
+            masteryLevelBase: new fields.NumberField({
+                initial: 0,
+                min: 0,
+            }),
+            improveFlag: new fields.BooleanField({ initial: false }),
+        });
+    }
+
+    async successTest(speaker, actor, token, character, scope = {}) {
+        scope.mlMod = Utility.deepClone(this.$masteryLevel);
+        scope.type = `${this.item.type}-${this.item.name}-success-test`;
+        scope.title = _l("{label} Test", { label: this.item.label });
+        return await super.successTest(speaker, actor, token, character, scope);
+    }
+
+    /**
+     * Perform an opposed test
+     * @param {object} options
+     * @returns {SuccessTestChatData}
+     */
+    async opposedTestStart(speaker, actor, token, character, scope = {}) {
+        ({ speaker, actor, token, character } = SohlMacro.getExecuteDefaults({
+            speaker,
+            actor,
+            token,
+            character,
+            needsToken: true,
+            self: this,
+        }));
+        let {
+            skipDialog = false,
+            type = `${this.item.type}-${this.item.name}-source-opposedtest`,
+            title = _l("{label} Opposed Test", { label: this.item.label }),
+            targetToken,
+        } = scope;
+
+        targetToken ||= Utility.getUserTargetedToken(token);
+        if (!targetToken) return null;
+
+        if (!token) {
+            ui.notifications.warn(_l("No attacker token identified."));
+            return null;
+        }
+
+        if (!token.isOwner) {
+            ui.notifications.warn(
+                _l(
+                    "You do not have permissions to perform this operation on {name}",
+                    { name: token.name },
+                ),
+            );
+            return null;
+        }
+
+        let sourceTestResult = new CONFIG.SOHL.class.SuccessTestResult(
+            {
+                speaker,
+                item: this.item,
+                rollMode: game.settings.get("core", "rollMode"),
+                type,
+                title:
+                    title ||
+                    _l("{name} {label} Test", {
+                        name: token?.name || actor?.name,
+                        label: this.item.label,
+                    }),
+                situationalModifier: 0,
+                mlMod: Utility.deepClone(this.$masteryLevel),
+            },
+            { parent: this },
+        );
+
+        sourceTestResult = await this.successTest(
+            speaker,
+            actor,
+            token,
+            character,
+            {
+                skipDialog,
+                type,
+                title,
+                noChat: true,
+            },
+        );
+
+        const opposedTest = new CONFIG.SOHL.class.OpposedTestResult(
+            {
+                speaker,
+                targetToken,
+                sourceTestResult,
+            },
+            { parent: this },
+        );
+
+        return opposedTest.toRequestChat();
+    }
+
+    async opposedTestResume(speaker, actor, token, character, scope = {}) {
+        let {
+            noChat = false,
+            opposedTestResult,
+            testType = SuccessTestResult.TEST_TYPE.SKILL,
+        } = scope;
+
+        if (!opposedTestResult) {
+            throw new Error("Must supply opposedTestResult");
+        }
+
+        ({ speaker, actor, token, character } = SohlMacro.getExecuteDefaults({
+            speaker,
+            actor,
+            token,
+            character,
+            needsToken: true,
+            self: this,
+        }));
+
+        if (!opposedTestResult.targetTestResult) {
+            opposedTestResult.targetTestResult =
+                new CONFIG.SOHL.class.SuccessTestResult(
+                    {
+                        speaker,
+                        item: this.item,
+                        rollMode: game.settings.get("core", "rollMode"),
+                        type: SuccessTestResult.TEST_TYPE.SKILL,
+                        title: _l("Opposed {label} Test", {
+                            label: this.item.label,
+                        }),
+                        situationalModifier: 0,
+                        mlMod: Utility.deepClone(
+                            this.item.system.$masteryLevel,
+                        ),
+                    },
+                    { parent: this },
+                );
+
+            opposedTestResult.targetTestResult = this.successTest({
+                noChat: true,
+                testType,
+            });
+            if (!opposedTestResult.targetTestResult) return null;
+        } else {
+            // In this situation, where the targetTestResult is provided,
+            // the GM is modifying the result of a prior opposedTest.
+            // Therefore, we re-display the dialog for each of the prior
+            // successTests.
+            opposedTestResult.sourceTestResult =
+                opposedTestResult.sourceTestResult.item.successTest({
+                    noChat: true,
+                    successTestResult: opposedTestResult.sourceTestResult,
+                });
+            opposedTestResult.targetTestResult =
+                opposedTestResult.targetTestResult.item.successTest({
+                    noChat: true,
+                    successTestResult: opposedTestResult.targetTestResult,
+                });
+        }
+
+        let allowed = await opposedTestResult.evaluate();
+
+        if (allowed && !noChat) {
+            opposedTestResult.toChat({
+                template:
+                    "systems/sohl/templates/chat/opposed-result-card.html",
+                title: _l("Opposed Action Result"),
+            });
+        }
+
+        return allowed ? opposedTestResult : false;
+    }
+
+    async improveWithSDR(speaker) {
+        const updateData = { "system.improveFlag": false };
+        let roll = await Roll.create(`1d100 + ${this.skillBase.value}`);
+        const isSuccess = roll.total > this.$masteryLevel.base;
+
+        if (isSuccess) {
+            updateData["system.masteryLevelBase"] =
+                this.masteryLevelBase + this.sdrIncr;
+        }
+        let prefix = _l("{subType} {label}", {
+            subType: this.constructor.subTypes[this.subType],
+            label: _l(this.constructor.metadata.label),
+        });
+        const chatTemplate =
+            "systems/sohl/templates/chat/standard-test-card.html";
+        const chatTemplateData = {
+            variant: CONFIG.SOHL.id,
+            type: `${this.type}-${this.name}-improve-sdr`,
+            title: _l("{label} Development Roll", { label: this.item.label }),
+            effTarget: this.$masteryLevel.base,
+            isSuccess: isSuccess,
+            rollValue: roll.total,
+            rollResult: roll.result,
+            showResult: true,
+            resultText:
+                isSuccess ?
+                    _l("{prefix} Increase", { prefix })
+                :   _l("No {prefix} Increase", { prefix }),
+            resultDesc:
+                isSuccess ?
+                    _l("{label} increased by {incr} to {final}", {
+                        label: this.item.label,
+                        incr: this.sdrIncr,
+                        final: this.$masteryLevel.base + this.sdrIncr,
+                    })
+                :   "",
+            description:
+                isSuccess ?
+                    SuccessTestResult.SUCCESS_TEXT.SUCCESS
+                :   SuccessTestResult.SUCCESS_TEXT.FAILURE,
+            notes: "",
+            sdrIncr: this.sdrIncr,
+        };
+
+        const chatHtml = await renderTemplate(chatTemplate, chatTemplateData);
+
+        const messageData = {
+            user: game.user.id,
+            speaker,
+            content: chatHtml.trim(),
+            sound: CONFIG.sounds.dice,
+        };
+
+        ChatMessage.applyRollMode(messageData, ChatMessageRollMode.SYSTEM);
+
+        // Create a chat message
+        await ChatMessageClass.create(messageData);
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$boosts = 0;
+        this.$masteryLevel = new CONFIG.SOHL.class.MasteryLevelModifier(
+            {
+                properties: {
+                    fate: new CONFIG.SOHL.class.MasteryLevelModifier(
+                        {},
+                        { parent: this },
+                    ),
+                },
+            },
+            { parent: this },
+        );
+        this.$masteryLevel.setBase(this.masteryLevelBase);
+        if (this.actor) {
+            const fateSetting = game.settings.get("sohl", "optionFate");
+
+            if (fateSetting === "everyone") {
+                this.$masteryLevel.fate.setBase(50);
+            } else if (fateSetting === "pconly") {
+                if (this.actor.hasPlayerOwner) {
+                    this.$masteryLevel.fate.setBase(50);
+                } else {
+                    this.$masteryLevel.fate.setDisabled(
+                        _l("Non-Player Character/Creature"),
+                        "NPC",
+                    );
+                }
+            } else {
+                this.$masteryLevel.fate.setDisabled(
+                    _l("Fate Disabled in Settings"),
+                    "NoFate",
+                );
+            }
+        }
+        this.$skillBase ||= new SkillBase(this.skillBaseFormula, {
+            items: this.actor?.items,
+        });
+    }
+
+    processSiblings() {
+        super.processSiblings();
+        this.$skillBase.setAttributes(this.actor.allItems());
+
+        if (this.$masteryLevel.base > 0) {
+            let newML = this.$masteryLevel.base;
+
+            for (let i = 0; i < this.boosts; i++) {
+                newML += this.constructor.calcMasteryBoost(newML);
+            }
+
+            this.$masteryLevel.setBase(newML);
+        }
+
+        // Ensure base ML is not greater than MaxML
+        if (this.$masteryLevel.base > this.$masteryLevel.max) {
+            this.$masteryLevel.setBase(this.$masteryLevel.max);
+        }
+
+        if (this.skillBase.attributes.includes("Aura")) {
+            // Any skill that has Aura in its SB formula cannot use fate
+            this.$masteryLevel.fate.setDisabled(
+                _l("Aura-Based, No Fate"),
+                "AurBsd",
+            );
+        }
+    }
+
+    /** @override */
+    postProcess() {
+        super.postProcess();
+        if (this.$masteryLevel.disabled) {
+            this.$masteryLevel.fate.setDisabled(
+                CONFIG.SOHL.MOD.MLDSBL.name,
+                CONFIG.SOHL.MOD.MLDSBL.abbrev,
+            );
+        }
+        if (!this.$masteryLevel.fate.disabled) {
+            const fate = this.actor.getTraitByAbbrev("fate");
+            if (fate) {
+                this.$masteryLevel.fate.addVM(fate.system.$score, {
+                    includeBase: true,
+                });
+            } else {
+                this.$masteryLevel.fate.setBase(50);
+            }
+
+            // Apply magic modifiers
+            if (this.magicMod) {
+                this.$masteryLevel.fate.add(
+                    CONFIG.SOHL.MOD.MAGICMOD,
+                    this.magicMod,
+                );
+            }
+
+            this.fateBonusItems.forEach((it) => {
+                this.$masteryLevel.fate.add(
+                    CONFIG.SOHL.MOD.FATEBNS,
+                    it.system.$level.effective,
+                    { skill: it.label },
+                );
+            });
+            if (!this.availableFate.length) {
+                this.$masteryLevel.fate.setDisabled(CONFIG.SOHL.MOD.NOFATE);
+            }
+        }
+    }
+}

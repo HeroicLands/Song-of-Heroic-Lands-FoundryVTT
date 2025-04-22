@@ -3,20 +3,33 @@
 //     fromUuid,
 //     fromUuidSync,
 // } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/core/utils.d.mts"; // adjust if needed
-import { BaseSystem } from "@logic/common/core/BaseSystem";
-import {
+import type {
+    SohlSystem,
     SohlBase,
     SohlBaseConstructor,
-} from "@module/logic/common/core/SohlBase";
-import { SohlMap } from "@module/utils/SohlMap";
+} from "@module/logic/common/core";
+import type {
+    SohlMap,
+    SohlClassRegistry,
+    SohlLogger,
+    SohlLocalize,
+    MersenneTwister,
+} from "@utils";
+import type { HelperModule } from "@utils/helpers";
+import type {
+    SCAPI,
+    Calendar,
+    SCConfiguration,
+} from "foundryvtt-simple-calendar";
 
 declare const game: Game; // Foundry VTT Game object
 
 // ✅ Custom utility types
 declare global {
-    export type PlainObject = Record<string, any>;
+    export type PlainObject = PlainObject;
     export type UnknownObject = Record<string, unknown>;
     export type EmptyObject = Record<string, never>;
+    export type AnyObject = object;
     export type StrictObject<T> = Record<string, T>;
     export type Constructor<T = {}> = new (...args: any[]) => T;
     export type AnyFunction = (...args: any[]) => any;
@@ -40,24 +53,36 @@ declare global {
         };
     };
 
+    type Constructor<T = {}> = new (...args: any[]) => T;
+    type AbstractConstructor<T = {}> = abstract new (...args: any[]) => T;
+    type AnyConstructor<T = {}> = Constructor<T> | AbstractConstructor<T>;
+
+    /**
+     * Helper to expose known properties of a class.
+     * Make property K in type T recognized and required.
+     *
+     * @template T - The base type to extend.
+     * @template K - The key of the property to add or override.
+     * @template V - The type of the value for the property K.
+     */
+    //    type WithProperty<T, K extends keyof any, V> = T & { [P in K]: V };
+
+    // Foundry VTT Module types
+    type CalendarInstance = InstanceType<typeof SimpleCalendar.Calendar>;
+
     export type ModifierAtom = {
         name: string;
         abbrev: string;
     };
 
     // ✅ JSON-safe types
-    type JSONValue =
+    export type JsonValue =
         | string
         | number
         | boolean
         | null
-        | JSONArray
-        | JSONValueMap;
-
-    interface JSONArray extends Array<JSONValue> {}
-    interface JSONObject {
-        [key: string]: JSONValue;
-    }
+        | { [key: string]: JsonValue }
+        | JsonValue[];
 
     // ✅ Base Logic Compatibility
     type LogicCompatibleDataModel = {
@@ -70,13 +95,15 @@ declare global {
         parent?: TDataModel;
     };
 
+    type HTMLString = string;
+
     // GlobalThis modifications
     // interface GlobalThis {
     //     origFromUuid: typeof fromUuid;
     //     origFromUuidSync: typeof fromUuidSync;
     // }
 
-    var SohlVariant = StrictObject<BaseSystem>;
+    var SohlVariant = StrictObject<SohlSystem>;
 
     // Foundry VTT modifications
     interface Game {
@@ -85,17 +112,54 @@ declare global {
         };
     }
 
+    /**
+     * Configuration options for {@link FormDataExtended}.
+     */
+    export interface FormDataExtendedOptions {
+        /**
+         * Include disabled form fields in the result?
+         * @default false
+         */
+        disabled?: boolean;
+
+        /**
+         * Include readonly form fields in the result?
+         * @default false
+         */
+        readonly?: boolean;
+
+        /**
+         * A mapping of form field names to expected data types.
+         * For example: `{ quantity: "number" }`
+         */
+        dtypes?: Record<string, string>;
+
+        /**
+         * TinyMCE editor metadata, keyed by field name.
+         */
+        editors?: Record<string, object>;
+    }
+
     // ✅ Global system accessor
     var sohl: {
-        foundry: typeof foundry;
-        game: SohlSystem; // Add utility classes if needed
-        utils: import("@module/utils/helpers");
-        i18n: import("@module/utils/SohlLocalize").SohlLocalize;
+        registerValue: Function;
+        unregisterValue: Function;
+        registerSheet: Function;
+        unregisterSheet: Function;
+        registeredClassFactory: Function;
+        CONFIG: PlainObject;
+        CONST: PlainObject;
+        variants: StrictObject<SohlSystem>;
+        classRegistry: StrictObject<SohlClassRegistryElement>;
+        game: SohlSystem;
+        utils: typeof import("@utils/helpers");
+        i18n: SohlLocalize;
         ready: boolean; // Indicates if the system is fully initialized
-        variants: StrictObject<BaseSystem>;
-        simpleCalendar: any;
+        simpleCalendar: {
+            api: SCAPI;
+            calendar: Calendar;
+        } | null;
         log: SohlLogger;
-        classRegistry: SohlBaseRegistry;
     };
 
     var origFromUuid: (

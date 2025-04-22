@@ -6,49 +6,41 @@
         "moduleResolution": "node",
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "allowJs": false,
+        "allowJs": true,
         "checkJs": false,
         "skipLibCheck": true,
+        "useDefineForClassFields": false,
         "forceConsistentCasingInFileNames": true,
         "declaration": true,
         "emitDeclarationOnly": false,
         "outDir": "./build/generated",
-        "rootDir": "./src",
         "strict": true,
         "noEmitOnError": true,
-        "types": [
-            "vite/client",
-            "vitest/globals",
-            "@league-of-foundry-developers/foundry-vtt-types"
-        ],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "types": ["vite/client", "vitest/globals"],
         "typeRoots": ["./node_modules/@types", "./types"],
         "baseUrl": ".",
         "paths": {
-            "@src/*": ["src/*"],
-            "@common/*": ["src/logic/common/*"],
-            "@legendary/*": ["src/logic/legendary/*"],
-            "@mistyisle/*": ["src/logic/mistyisle/*"],
+            "@types/*": ["types/*"],
+            "@utils": ["src/utils/index.ts"],
+            "@utils/*": ["src/utils/*"],
+            "@foundry/*": ["src/foundry/*"],
+            "@logic/*": ["src/logic/*"],
             "@templates/*": ["templates/*"],
             "@assets/*": ["assets/*"],
             "@lang/*": ["lang/*"],
-            "@packs/*": ["packs/*"],
             "@tests/*": ["tests/*"],
-            "@generated/*": ["build/generated/*"],
             "@sohl-global": ["types/sohl-global.d.ts"]
         }
     },
     "include": [
-        "src/**/*.ts",
+        "src/foundry/**/*.mjs",
+        "src/logic/**/*.ts",
+        "src/utils/**/*.ts",
         "tests/**/*.ts",
-        "scripts/**/*.ts",
         "types/**/*.d.ts",
-        "node_modules/@league-of-foundry-developers/foundry-vtt-types/**/*.d.mts"
+        "build/docbundle/index.ts"
     ],
-    "exclude": [
-        "build",
-        "node_modules",
-        "src/**/*.mjs",
-        "src/**/*.js",
-        "node_modules/@types/node/test.d.ts"
-    ]
+    "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

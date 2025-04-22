@@ -1,49 +1,63 @@
-import { defineConfig } from "vite";
+import {
+    defineConfig,
+    type PluginOption,
+    type UserConfig,
+    type ConfigEnv,
+} from "vite";
 import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import path from "path";
+import banner from "vite-plugin-banner";
+const startYear = 2025;
+const currentYear = new Date().getFullYear();
+const licenseYears =
+    currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`;
 
-export default defineConfig(({ mode }) => {
-    const isRelease = mode === "release";
+const __filename = fileURLToPath(import.meta.url);
+const licenseBanner = `/*!
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (c) ${licenseYears} by Tom Rodriguez
+ */`;
+
+export default defineConfig((ctx: ConfigEnv): UserConfig => {
+    const isRelease = ctx.mode === "release";
 
     return {
-        root: "module",
+        root: ".",
+        plugins: [banner(licenseBanner)] satisfies PluginOption[],
         build: {
-            outDir: resolve("build/stage"),
+            outDir: path.resolve(__dirname, "build/stage"),
             emptyOutDir: false,
             target: "es2020",
             sourcemap: isRelease,
             minify: isRelease ? "esbuild" : false,
             rollupOptions: {
-                input: resolve("src/foundry/index.ts"),
+                input: path.resolve(__dirname, "src/foundry/index.mjs"),
                 output: {
                     entryFileNames: "[name].js",
                     chunkFileNames: "[name].js",
                     assetFileNames: "[name][extname]",
+                    banner: licenseBanner,
                 },
             },
         },
         resolve: {
             extensions: [".ts", ".js", ".json"],
             alias: {
-                "@src": resolve("src"),
-                "@common": resolve("src/logic/common"),
-                "@legendary": resolve("src/logic/legendary"),
-                "@mistyisle": resolve("src/logic/mistyisle"),
-                "@templates": resolve("templates"),
-                "@assets": resolve("assets"),
-                "@lang": resolve("lang"),
-                "@packs": resolve("packs"),
-                "@tests": resolve("tests"),
-                "@generated": resolve("build/generated"),
-                "@sohl-global": resolve("types/sohl-global.d.ts"),
-            },
-        },
-        test: {
-            globals: true,
-            environment: "node",
-            include: ["tests/**/*.test.ts"],
-            coverage: {
-                reporter: ["text", "html"],
+                "@types/*": path.resolve(__dirname, "types"),
+                "@utils": path.resolve(__dirname, "src/utils"),
+                "@utils/*": path.resolve(__dirname, "src/utils"),
+                "@foundry": path.resolve(__dirname, "src/foundry"),
+                "@foundry/*": path.resolve(__dirname, "src/foundry"),
+                "@logic": path.resolve(__dirname, "src/logic"),
+                "@logic/*": path.resolve(__dirname, "src/logic"),
+                "@templates/*": path.resolve(__dirname, "templates"),
+                "@assets/*": path.resolve(__dirname, "assets"),
+                "@lang/*": path.resolve(__dirname, "lang"),
+                "@tests/*": path.resolve(__dirname, "tests"),
+                "@sohl-global": path.resolve(
+                    __dirname,
+                    "types/sohl-global.d.ts",
+                ),
             },
         },
     };

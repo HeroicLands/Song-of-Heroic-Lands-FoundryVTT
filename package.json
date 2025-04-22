@@ -1,19 +1,35 @@
 {
     "name": "sohl",
-    "version": "0.6.0",
+    "productName": "Song of Heroic Lands",
     "description": "A Foundry VTT system for Song of Heroic Lands",
+    "version": "0.6.0",
+    "private": true,
+    "author": {
+        "name": "Tom Rodriguez",
+        "email": "toasty@heroiclands.org",
+        "url": "https://www.heroiclands.org"
+    },
+    "x-contact": {
+        "discord": "toasty#8538",
+        "bluesky": "@toasty.heroiclands.org"
+    },
+    "homepage": "https://www.heroicland.org",
+    "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT"
+    },
+    "bugs": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues",
+    "engines": {
+        "node": ">=20.18.0 < 23.0.0"
+    },
     "type": "module",
-    "changeset": {
-        "changelog": [
-            "@changesets/changelog-github",
-            {
-                "repo": "toastygm/Song-of-Heroic-Lands-FoundryVTT"
-            }
-        ],
-        "commit": true
+    "browser": "./index.js",
+    "exports": {
+        "import": "./index.js"
     },
     "scripts": {
-        "clean": "rm -rf build/stage build/dist build/docs build/tmp build/generated",
+        "clean": "rm -rf build",
         "build": "npm run clean && npm run build:types && npm run build:prepare && npm run build:system && npm run build:release",
         "build:local": "npm run test && npm run build",
         "build:prepare": "npm run build:assets && npm run build:css && npm run build:compiledb && npm run build:packdb && npm run build:system && npm run docs",
@@ -40,12 +56,14 @@
         "release": "changeset publish"
     },
     "devDependencies": {
+        "@babel/preset-env": "^7.26.9",
         "@changesets/cli": "^2.28.1",
         "@foundryvtt/foundryvtt-cli": "^1.0.4",
-        "@league-of-foundry-developers/foundry-vtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#documents-v2",
         "@octokit/rest": "^21.1.1",
+        "@types/file-saver": "^2.0.7",
         "@typescript-eslint/eslint-plugin": "^8.28.0",
         "@typescript-eslint/parser": "^8.28.0",
+        "@vitejs/plugin-react": "^4.4.1",
         "@vitest/ui": "^1.6.1",
         "archiver": "^7.0.1",
         "cypress": "^13.0.0",
@@ -55,6 +73,7 @@
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-jsdoc": "^50.6.9",
         "glob": "^11.0.1",
+        "handlebars": "^4.7.8",
         "ix": "^7.0.0",
         "loglevel": "^1.9.2",
         "loglevel-plugin-prefix": "^0.8.4",
@@ -66,6 +85,7 @@
         "typescript": "^5.3.3",
         "unidecode": "^1.1.0",
         "vite": "^6.2.3",
+        "vite-plugin-banner": "^0.8.0",
         "vitest": "^1.2.0"
     }
 }

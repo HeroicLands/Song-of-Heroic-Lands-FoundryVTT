@@ -1,0 +1,159 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+export class CombatTechniqueStrikeModeItemData extends StrikeModeItemData {
+    $length;
+
+    /** @inheritdoc */
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                name: "combattechniquestrikemode",
+                locId: "COMBATTECHNIQUE",
+                label: "TYPES.Item.combattechniquestrikemode",
+                labelPlural: "TYPES.Item.combattechniquestrikemodePl",
+                iconCssClass: "fas fa-hand-fist",
+                img: "systems/sohl/assets/icons/punch.svg",
+                sheet: "systems/sohl/templates/item/combattechniquestrikemode-sheet.html",
+                nestOnly: true,
+                group: "melee",
+                effectKeys: {
+                    "mod:system.$length": {
+                        label: "SOHL.Length",
+                        abbrev: "Len",
+                    },
+                    "mod:system.$defense.block": {
+                        label: "SOHL.Block",
+                        abbrev: "Blk",
+                    },
+                    "mod:system.$defense.counterstrike": {
+                        label: "SOHL.Counterstrike",
+                        abbrev: "CX",
+                    },
+                },
+                schemaVersion: "0.5.6",
+            },
+            { inplace: false },
+        ),
+    );
+
+    getIntrinsicActions(_data = this, defaultAction = null, actions = []) {
+        return super.getIntrinsicActions(
+            _data,
+            defaultAction,
+            Utility.uniqueActions(
+                actions,
+                [
+                    CombatTestResult.TEST_TYPE.MELEEATTACK,
+                    CombatTestResult.TEST_TYPE.BLOCK,
+                    CombatTestResult.TEST_TYPE.COUNTERSTRIKE,
+                ].map((a) => CombatTestResult.testTypes[a]),
+            ),
+        );
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            lengthBase: new fields.NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+        });
+    }
+
+    async attackTest(speaker, actor, token, character, scope = {}) {
+        scope.mlMod = Utility.deepClone(this.$attack);
+        scope.testType = CombatTestResult.TEST_TYPE.MELEEATTACK;
+        scope.title = _l("{weapon} {strikeModeName} Melee Attack Test", {
+            weapon: this.item.nestedIn.name,
+            strikeModeName: this.name,
+        });
+        return await CONFIG.SOHL.class.SuccessTestResult.createMacroTest(
+            speaker,
+            actor,
+            token,
+            character,
+            scope,
+        );
+    }
+
+    async blockTest(speaker, actor, token, character, scope = {}) {
+        scope.mlMod = Utility.deepClone(this.$defense.block);
+        scope.testType = CombatTestResult.TEST_TYPE.BLOCK;
+        scope.title = _l("{weapon} {strikeModeName} Block Test", {
+            weapon: this.item.nestedIn.name,
+            strikeModeName: this.name,
+        });
+        return await CONFIG.SOHL.class.SuccessTestResult.createMacroTest(
+            speaker,
+            actor,
+            token,
+            character,
+            scope,
+        );
+    }
+
+    async counterstrikeTest(speaker, actor, token, character, scope = {}) {
+        scope.mlMod = Utility.deepClone(this.$defense.counterstrike);
+        scope.testType = CombatTestResult.TEST_TYPE.COUNTERSTRIKE;
+        scope.title = _l("{weapon} {strikeModeName} Counterstrike Test", {
+            weapon: this.item.nestedIn.name,
+            strikeModeName: this.name,
+        });
+        return await CONFIG.SOHL.class.SuccessTestResult.createMacroTest(
+            speaker,
+            actor,
+            token,
+            character,
+            scope,
+        );
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$length = new CONFIG.SOHL.class.ValueModifier(
+            {},
+            { parent: this },
+        );
+        this.$length.setBase(this.lengthBase);
+    }
+
+    processSiblings() {
+        super.processSiblings();
+        this.$attack.addVM(this.$assocSkill.system.$masteryLevel, {
+            includeBase: true,
+        });
+        this.$defense.block.addVM(this.$assocSkill.system.$masteryLevel, {
+            includeBase: true,
+        });
+        this.$defense.counterstrike.addVM(
+            this.$assocSkill.system.$masteryLevel,
+            { includeBase: true },
+        );
+
+        // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
+        if (this.outnumberedPenalty) {
+            this.$defense.block.add(
+                CONFIG.SOHL.MOD.OUTNUMBERED,
+                this.outnumberedPenalty,
+            );
+            this.$defense.counterstrike.add(
+                CONFIG.SOHL.MOD.OUTNUMBERED,
+                this.outnumberedPenalty,
+            );
+        }
+    }
+}

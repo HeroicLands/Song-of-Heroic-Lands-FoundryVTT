@@ -1,0 +1,236 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+export class StrikeModeItemData extends SubtypeMixin(SohlItemData) {
+    $traits;
+    $assocSkill;
+    $impact;
+    $attack;
+    $defense;
+    $durability;
+
+    /** @inheritdoc */
+    static metadata = Object.freeze(
+        foundry.utils.mergeObject(
+            super.metadata,
+            {
+                locId: "STRIKEMODE",
+                nestOnly: true,
+                effectKeys: {
+                    "mod:system.$impact": {
+                        label: "SOHL.STRIKEMODE.effectKeys.impact",
+                        abbrev: "Imp",
+                    },
+                    "mod:system.$attack": {
+                        label: "SOHL.STRIKEMODE.effectKeys.attack",
+                        abbrev: "Atk",
+                    },
+                    "system.$defense.block": {
+                        label: "SOHL.STRIKEMODE.effectKeys.block",
+                        abbrev: "Blk",
+                    },
+                    "system.$defense.counterstrike": {
+                        label: "SOHL.STRIKEMODE.effectKeys.counterstrike",
+                        abbrev: "CXMod",
+                    },
+                    "system.$traits.noAttack": {
+                        label: "SOHL.STRIKEMODE.effectKeys.noAttack",
+                        abbrev: "NoAtk",
+                    },
+                    "system.$traits.noBlock": {
+                        label: "SOHL.STRIKEMODE.effectKeys.noBlock",
+                        abbrev: "NoBlk",
+                    },
+                },
+                subTypes: SOHL_VARIANTS,
+                schemaVersion: "0.5.6",
+            },
+            { inplace: false },
+        ),
+    );
+
+    get transferToActor() {
+        return this.subType === CONFIG.SOHL.id && super.transferToActor;
+    }
+
+    get group() {
+        throw new Error("Subclass must define group");
+    }
+
+    get strikeModeLabel() {
+        return `${this.item.nestedIn?.name} ${this.name}`;
+    }
+
+    static defineSchema() {
+        return foundry.utils.mergeObject(super.defineSchema(), {
+            mode: new fields.StringField(),
+            minParts: new fields.NumberField({
+                integer: true,
+                initial: 1,
+                min: 0,
+            }),
+            assocSkillName: new fields.StringField(),
+            impactBase: new fields.SchemaField({
+                numDice: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                die: new fields.NumberField({
+                    integer: true,
+                    initial: 6,
+                    min: 0,
+                }),
+                modifier: new fields.NumberField({
+                    integer: true,
+                    initial: 0,
+                }),
+                aspect: new fields.StringField({
+                    initial: ImpactModifier.ASPECT.BLUNT,
+                    required: true,
+                    choices: Utility.getChoicesMap(
+                        ImpactModifier.ASPECT,
+                        "SOHL.IMPACTMODIFIER.ASPECT",
+                    ),
+                }),
+            }),
+        });
+    }
+
+    async _preOpposedSuccessTest(speaker, actor, token, character, scope = {}) {
+        ({ speaker, actor, token, character } = SohlMacro.getExecuteDefaults({
+            speaker,
+            actor,
+            token,
+            character,
+            needsToken: true,
+            self: this,
+        }));
+
+        let { targetToken, sourceTestResult } = scope;
+
+        return {
+            speaker,
+            sourceTestResult,
+            targetToken,
+        };
+    }
+
+    /** @override */
+    prepareBaseData() {
+        super.prepareBaseData();
+        this.$durability = new CONFIG.SOHL.class.ValueModifier(
+            {},
+            { parent: this },
+        );
+        this.$length = new CONFIG.SOHL.class.ValueModifier(
+            {},
+            { parent: this },
+        );
+        this.$attack = new CONFIG.SOHL.class.CombatModifier(
+            {},
+            { parent: this },
+        );
+        this.$defense = {
+            block: new CONFIG.SOHL.class.CombatModifier({}, { parent: this }),
+            counterstrike: new CONFIG.SOHL.class.CombatModifier(
+                {},
+                { parent: this },
+            ),
+        };
+        this.$impact = new CONFIG.SOHL.class.ImpactModifier(
+            {
+                properties: {
+                    numDice: this.impactBase.numDice,
+                    aspect: this.impactBase.aspect,
+                    die: this.impactBase.die,
+                },
+            },
+            { parent: this },
+        );
+        if (!this.impactBase.modifier && !this.impactBase.die) {
+            this.$impact.setDisabled(
+                "SOHL.StrikeModeItemData.NoModifierNoDieDisabled",
+                "NMND",
+            );
+        } else {
+            this.$impact.setBase(this.impactBase.modifier);
+        }
+        this.$traits = {
+            noAttack: false,
+            noBlock: false,
+        };
+    }
+
+    setupVirtualItems() {
+        super.setupVirtualItems();
+        this.$assocSkill = this.actor.getItem(this.assocSkillName, {
+            types: [SkillItemData.TYPE_NAME],
+            isName: true,
+        });
+        if (!this.$assocSkill) {
+            ui.notifications?.warn(
+                _l("SOHL.StrikeModeItemData.NoAssocSkillWarning", {
+                    label: _l(this.constructor.metadata.label),
+                    skillName: this.assocSkillName,
+                }),
+            );
+            this.$assocSkill = new SohlItem(
+                {
+                    name: this.assocSkillName,
+                    type: SkillItemData.TYPE_NAME,
+                    _id: foundry.utils.randomID(),
+                    system: {
+                        masteryLevelBase: 0,
+                    },
+                },
+                { parent: this.actor },
+            );
+            this.$assocSkill.cause = this.item;
+        }
+    }
+
+    postProcess() {
+        super.postProcess();
+        if (this.item.nestedIn?.system instanceof GearItemData) {
+            this.$durability.addVM(this.item.nestedIn.system.$durability, {
+                includeBase: true,
+            });
+        } else {
+            this.$durability.setDisabled(
+                "SOHL.StrikeModeItemData.NoAssocSkillWarning",
+                "NNiG",
+            );
+        }
+        this.$assocSkill = this.actor.getItem(this.assocSkillName, {
+            types: [SkillItemData.TYPE_NAME],
+            isName: true,
+        });
+        if (this.$assocSkill) {
+            this.$attack.addVM(this.$assocSkill.system.$masteryLevel, {
+                includeBase: true,
+            });
+            this.$attack.fate.addVM(
+                this.$assocSkill.system.$masteryLevel.fate,
+                {
+                    includeBase: true,
+                },
+            );
+        } else {
+            this.$attack.setDisabled(
+                "SOHL.StrikeModeItemData.NoAssocSkillWarning",
+                "NoSkill",
+            );
+        }
+    }
+}
