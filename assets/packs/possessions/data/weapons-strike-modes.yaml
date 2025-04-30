@@ -213,7 +213,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -513,7 +513,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -863,7 +863,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -2513,7 +2513,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -2863,7 +2863,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: -5
+  blockMod: -10
   counterMod: -5
   meleeMod: 0
   oppDef: 0
@@ -4413,7 +4413,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: -10
+  blockMod: -20
   counterMod: -10
   meleeMod: 0
   oppDef: 0
@@ -7163,7 +7163,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -7513,7 +7513,7 @@
   projtype: ""
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -10
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -12919,7 +12919,7 @@
   projtype: ''
   maxVM: 0
   AR: 0
-  blockMod: 5
+  blockMod: -10
   counterMod: 5
   meleeMod: 0
   oppDef: 0
@@ -14627,7 +14627,7 @@
   projtype: ''
   maxVM: 0
   AR: 0
-  blockMod: 10
+  blockMod: -10
   counterMod: 10
   meleeMod: 0
   oppDef: 0
@@ -14932,7 +14932,7 @@
   projtype: ''
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -20
   counterMod: 0
   meleeMod: 0
   oppDef: 0
@@ -16152,7 +16152,7 @@
   projtype: ''
   maxVM: 0
   AR: 0
-  blockMod: 15
+  blockMod: -10
   counterMod: 15
   meleeMod: 0
   oppDef: 0
@@ -19263,7 +19263,7 @@
   projtype: ''
   maxVM: 0
   AR: 0
-  blockMod: 0
+  blockMod: -20
   counterMod: 0
   meleeMod: 0
   oppDef: 0
