@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { gameTimeNow, DurationValue } from "@foundry/core";
+import { gameTimeNow } from "@foundry/FoundryProxy.mjs";
 import { SohlBase, SohlBaseParent } from "@logic/common/core";
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DurationValue } from "@utils";
 
 /**
  * SohlTemporal
@@ -21,10 +21,8 @@ import { DataField, RegisterClass } from "@utils/decorators";
  * Stores the time as a number for JSON serialization and provides
  * utility methods for formatted and localized display.
  */
-@RegisterClass("SohlTemporal", "0.6.0")
 export class SohlTemporal extends SohlBase {
     /** The world time, stored as a numeric timestamp */
-    @DataField("gameTime", { type: Number, initial: () => gameTimeNow() })
     public gameTime!: number;
 
     formatWorldDate(time?: number): string {

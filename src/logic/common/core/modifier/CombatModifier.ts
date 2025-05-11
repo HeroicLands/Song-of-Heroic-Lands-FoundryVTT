@@ -13,7 +13,7 @@
 
 import { MasteryLevelModifier } from "@logic/common/core/modifier";
 import { SohlMap } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { RegisterClass } from "@utils";
 
 export type CombatModifierMap = SohlMap<string, CombatModifier>;
 

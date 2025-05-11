@@ -13,7 +13,7 @@
 
 import { describe, it, expect } from "vitest";
 import {
-    SYMBOLS,
+    SYMBOL,
     cloneDeep,
     isEqualDeep,
     isClassDerived,
@@ -38,13 +38,13 @@ import {
 
 /** @summary Unit tests for utility functions with positive and negative test cases. */
 describe("Utility Functions", () => {
-    it("SYMBOLS constants should match Unicode characters", () => {
-        expect(SYMBOLS.TIMES).toBe("×");
-        expect(SYMBOLS.GREATERTHANOREQUAL).toBe("≥");
-        expect(SYMBOLS.LESSTHANOREQUAL).toBe("≤");
-        expect(SYMBOLS.INFINITY).toBe("∞");
-        expect(SYMBOLS.STARF).toBe("★");
-        expect(SYMBOLS.STAR).toBe("☆");
+    it("SYMBOL constants should match Unicode characters", () => {
+        expect(SYMBOL.TIMES).toBe("×");
+        expect(SYMBOL.GREATERTHANOREQUAL).toBe("≥");
+        expect(SYMBOL.LESSTHANOREQUAL).toBe("≤");
+        expect(SYMBOL.INFINITY).toBe("∞");
+        expect(SYMBOL.STARF).toBe("★");
+        expect(SYMBOL.STAR).toBe("☆");
     });
 
     it("cloneDeep should deeply clone objects and handle circular refs", () => {

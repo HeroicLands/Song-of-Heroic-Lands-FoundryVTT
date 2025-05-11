@@ -11,11 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { createUniqueId, SohlMap } from "@utils";
+import { SohlMap } from "@utils";
 import { SohlTemporal } from "./SohlTemporal";
-import { AnySohlBase, SohlBase } from "@logic/common/core";
-import { DataField, RegisterClass } from "@utils/decorators";
-import { gameTimeNow } from "@foundry/core";
+import { SohlBase, SohlPerformer } from "@logic/common/core";
+import { DataField, RegisterClass } from "@utils";
+
+export const enum SohlEventState {
+    CREATED = "created", // SohlEvent has been created
+    INITIATED = "initiated", // SohlEvent has been initiated
+    ACTIVATED = "activated", // SohlEvent has been activated
+    EXPIRED = "expired", // SohlEvent has expired
+}
 
 export const enum SohlEventTerm {
     DURATION = "duration", // SohlEvent will last for a duration
@@ -71,19 +77,15 @@ export type SohlEventMap = SohlMap<string, SohlEvent>;
 export type SohlEventTermType =
     (typeof SohlEventTerm)[keyof typeof SohlEventTerm];
 
-@RegisterClass("SohlEvent", "0.6.0")
-export abstract class SohlEvent extends SohlBase {
+export interface SohlEventData {
     /** @summary Name of the event */
-    @DataField("name", { type: String, initial: "" })
-    name!: string;
+    name: string;
+
+    /** @summary The current state of the event */
+    state: SohlEventState;
 
     /** @summary When the event will be activated */
-    @DataField("whenActivate", {
-        type: String,
-        initial: SohlEventActivation.IMMEDIATE,
-        validator: (value: unknown) => isSohlEventActivation(value),
-    })
-    whenActivate!: SohlEventActivation;
+    whenActivate: SohlEventActivation;
 
     /**
      * @summary Time when the event was initiated.
@@ -98,71 +100,58 @@ export abstract class SohlEvent extends SohlBase {
      * the `initiate` time as a reference. This value will always be less than or
      * equal to the `activate` and `expire` times.
      */
-    @DataField("initiate", {
-        type: SohlTemporal,
-        initial: (thisArg: SohlEvent) => {
-            return new SohlTemporal(thisArg.parent, gameTimeNow());
-        },
-        validator: (initiate: any, thisArg: SohlEvent) => {
-            return (
-                initiate instanceof SohlTemporal && initiate <= thisArg.activate
-            );
-        },
-    })
-    initiate!: SohlTemporal;
+    initiate: SohlTemporal;
 
     /** @summary Number of seconds after initiation to delay until event is activated */
-    @DataField("delay", { type: Number, initial: 0 })
-    delay!: number;
+    delay: number;
 
-    @DataField("activate", {
-        type: SohlTemporal,
-        initial: (thisArg: SohlEvent) => {
-            let activateTime: number = Number.MAX_SAFE_INTEGER;
-            if (thisArg.whenActivate === SohlEventActivation.IMMEDIATE) {
-                activateTime = gameTimeNow();
-            } else {
-                activateTime = gameTimeNow() + thisArg.delay;
-            }
-            return new SohlTemporal(thisArg.parent, activateTime);
-        },
-        validator: (activate: any, thisArg: SohlEvent) => {
-            return (
-                activate instanceof SohlTemporal &&
-                activate >= thisArg.initiate &&
-                thisArg.initiate <= thisArg.expire
-            );
-        },
-    })
-    activate!: SohlTemporal; // Time when the event will be activated
+    activate: SohlTemporal; // Time when the event will be activated
 
-    @DataField("term", {
-        type: String,
-        initial: SohlEventTerm.DURATION,
-        validator: (value: any) => isSohlEventTerm(value),
-    })
-    term!: SohlEventTerm; // How long the event will continue
+    term: SohlEventTerm; // How long the event will continue
 
-    @DataField("duration", { type: Number, initial: 0 })
-    duration!: number; // Duration of the event if term is DURATION
+    duration: number; // Duration of the event if term is DURATION
 
     /** @summary Time when the event will expire */
-    @DataField("expire", {
-        type: SohlTemporal,
-        initial: (value: any, thisArg: SohlEvent) => {
-            return new SohlTemporal(thisArg.parent, Number.MAX_SAFE_INTEGER);
-        },
-        validator: (expire: any, thisArg: SohlEvent) => {
-            return expire instanceof SohlTemporal && expire >= thisArg.activate;
-        },
-    })
-    expire!: SohlTemporal;
+    expire: SohlTemporal;
 
     /** @summary How often the event will repeat */
-    @DataField("repeat", {
-        type: String,
-        initial: SohlEventRepeat.NONE,
-        validator: (value: any) => isSohlEventRepeat(value),
-    })
-    repeat!: SohlEventRepeat;
+    repeat: SohlEventRepeat;
+}
+
+export class SohlEvent extends SohlBase implements SohlEventData {
+    name: string;
+    state: SohlEventState;
+    whenActivate: SohlEventActivation;
+    initiate: SohlTemporal;
+    delay: number;
+    activate: SohlTemporal;
+    term: SohlEventTerm;
+    duration: number;
+    expire: SohlTemporal;
+    repeat: SohlEventRepeat;
+
+    constructor(
+        parent: SohlPerformer,
+        data: Partial<SohlEventData> = {},
+        options: PlainObject = {},
+    ) {
+        if (!data.name) {
+            throw new Error("Event name is required");
+        }
+        super(parent, data, options);
+        this.name = data.name;
+        this.state = data.state ?? SohlEventState.CREATED;
+        this.whenActivate = data.whenActivate ?? SohlEventActivation.IMMEDIATE;
+        this.initiate = data.initiate ?? new SohlTemporal(this);
+        this.delay = data.delay ?? 0;
+        this.activate = data.activate ?? new SohlTemporal(this);
+        this.term = data.term ?? SohlEventTerm.DURATION;
+        this.duration = data.duration ?? 0;
+        this.expire = data.expire ?? new SohlTemporal(this);
+        this.repeat = data.repeat ?? SohlEventRepeat.NONE;
+    }
+
+    setState(state: SohlEventState, context: PlainObject = {}): void {
+        this.state = state;
+    }
 }

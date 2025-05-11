@@ -13,7 +13,7 @@
 
 import type { ActionContext } from "@foundry/core/ActionContext.mjs";
 import { ValueModifier } from "@logic/common/core/modifier";
-import { SohlLogic } from "@logic/common/core";
+import { SohlPerformer } from "@logic/common/core";
 import { uiError } from "@foundry/core";
 import { LogLevel } from "@utils";
 
@@ -22,13 +22,13 @@ export type AccessorFunction = (thisArg: ValueModifier) => any;
 
 /** Function signature for synchronous Action functions */
 export type SyncActionFunction = (
-    this: SohlLogic,
+    this: SohlPerformer,
     context: ActionContext,
 ) => any;
 
 /** Function signature for asynchronous Action functions */
 export type AsyncActionFunction = (
-    this: SohlLogic,
+    this: SohlPerformer,
     context: ActionContext,
 ) => Promise<any>;
 
@@ -102,7 +102,7 @@ export function createActionFunction(
     const fn = safeFunctionFactory(fnStr, isAsync) as ActionFunction;
 
     return function (
-        this: SohlLogic,
+        this: SohlPerformer,
         context: ActionContext,
     ): any | Promise<any> {
         try {

@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlLogic } from "@logic/common/core";
-import { SohlSpeaker } from "@foundry/core";
-import { DataField, RegisterClass } from "@utils/decorators";
-import { SohlMap } from "@utils";
+import { SohlBase, SohlPerformer } from "@logic/common/core";
+import { SohlSpeaker } from "@logic/common/core";
+import { DataField, RegisterClass } from "@utils";
+import { SohlMap } from "@utils/collection";
 
 export type TestResultMap = SohlMap<string, TestResult>;
 

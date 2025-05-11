@@ -12,9 +12,9 @@
  */
 
 import { cloneDeep, SohlMap } from "@utils";
-import { SohlLogic } from "@logic/common/core";
+import { SohlPerformer } from "@logic/common/core";
 import { DeltaInfo, ValueModifier } from "@logic/common/core/modifier";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 import {
     renderTemplate,
     ChatMessageRollMode,
@@ -79,7 +79,7 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     constructor(
-        parent: SohlLogic,
+        parent: SohlPerformer,
         data: PlainObject = {},
         options: PlainObject = {},
     ) {

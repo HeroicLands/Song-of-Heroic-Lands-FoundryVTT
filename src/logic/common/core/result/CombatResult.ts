@@ -17,7 +17,7 @@ import {
     OpposedTestResult,
     SuccessTestResult,
 } from "@logic/common/core/result";
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DataField, RegisterClass, foundryHelpers } from "@utils";
 
 @RegisterClass("CombatTestResult", "0.6.0")
 export class CombatTestResult extends OpposedTestResult {

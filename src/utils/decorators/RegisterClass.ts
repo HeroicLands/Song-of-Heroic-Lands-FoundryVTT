@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AnySohlBaseConstructor } from "@logic/common/core";
+import { AnySohlBaseConstructor, SohlBase } from "@logic/common/core";
 
 /**
  * @summary Marks the version where the schema was last modified.
@@ -46,62 +46,4 @@ export function RegisterClass(
         ctor._metadata.name = name;
         ctor._metadata.schemaVersion = schemaVersion;
     };
-}
-
-/**
- * @summary Replacement for `instanceof` for use with dynamic subclass registration.
- *
- * @description
- * This method checks if the current instance or any of its ancestors
- * in its inheritance chain has the specified kind. It is a more flexible
- * alternative to `instanceof`, even working across mixins and other mechanisms
- * where the prototype chain may not be straightforward.
- *
- * @remarks
- * This function only works for classes that have been registered with the
- * `@RegisterClass` decorator. Note that this will return false if it encounters
- * any constructor that does not have the `_metadata` property before it finds
- * the class it is looking for.
- *
- * @param kind - The name of the class to match against.
- * @returns True if this object or any of its ancestors are of the specified class.
- * @example
- * ```ts
- * @RegisterClass({ name: "ParentClass" })
- * class ParentClass {}
- *
- * @RegisterClass({ name: "MyClass" })
- * class MyClass extends MyClass {}
- *
- * const obj = new MyClass();
- * console.log(obj.isKind("ParentClass")); // true
- * console.log(obj.isKind("MyClass")); // true
- * console.log(obj.isKind("NonExistentClass")); // false
- * ```
- */
-export function isKind(obj: any, kind: string): boolean {
-    if (obj === null) {
-        return kind === "Null";
-    }
-    const objType = typeof obj;
-    if (obj === undefined) {
-        return kind === "Undefined";
-    }
-    if (objType === "undefined" && kind === "String") return true;
-    if ((objType === "string" || obj instanceof String) && kind === "String")
-        return true;
-    if ((objType === "boolean" || obj instanceof Boolean) && kind === "Boolean")
-        return true;
-    if ((objType === "number" || obj instanceof Number) && kind === "Number")
-        return true;
-    if ((objType === "bigint" || obj instanceof BigInt) && kind === "BigInt")
-        return true;
-    if (objType !== "object") return false;
-    let current: any = obj.constructor;
-    while (current && typeof current === "function") {
-        if (!current._metadata) return false;
-        if (current._metadata.name === kind) return true;
-        current = Object.getPrototypeOf(current);
-    }
-    return false;
 }

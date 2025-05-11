@@ -12,8 +12,7 @@
  */
 
 import { SourceMapConsumer } from "source-map";
-import { escapeHtml } from "@utils";
-import { onError } from "@foundry/core";
+import { onError } from "@foundry";
 
 export enum LogLevel {
     DEBUG = "debug",
@@ -196,8 +195,9 @@ export class SohlLogger {
             // Ignore errors in i18n formatting
         }
         const callerInfo = this.getCallerInfo();
-        const fallbackMessage = sohl.i18n.format(message, data, {
-            fallback: true,
+        const fallbackMessage = sohl.i18n.format(message, {
+            ...data,
+            useFallback: true,
         });
 
         let logMessage;
@@ -301,3 +301,5 @@ export class SohlLogger {
         });
     }
 }
+
+export const log = SohlLogger.getInstance();

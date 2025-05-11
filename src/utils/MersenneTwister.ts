@@ -171,3 +171,5 @@ export class MersenneTwister {
         return this.getInstance().normal(mu, sigma);
     }
 }
+
+export const twist = MersenneTwister.getInstance();

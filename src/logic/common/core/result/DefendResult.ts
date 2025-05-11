@@ -13,7 +13,7 @@
 
 import { ImpactResult } from "@logic/common/core/result";
 import { ContextMenuSortGroup, SohlContextMenu } from "@foundry/core";
-import { RegisterClass } from "@utils/decorators";
+import { RegisterClass } from "@utils";
 
 @RegisterClass("DefendResult", "0.6.0")
 export class DefendResult extends ImpactResult {

@@ -12,7 +12,7 @@
  */
 
 import { SohlEntity } from "@logic/common/core";
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DataField, RegisterClass } from "@utils";
 
 @RegisterClass("InanimateObjectActorData", "0.6.0")
 export class InanimateObjectActorData extends SohlEntity {

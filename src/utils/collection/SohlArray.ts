@@ -12,7 +12,7 @@
  */
 
 import { SohlBase } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 import { Itr } from "@utils/Itr";
 
 /**
@@ -22,7 +22,7 @@ import { Itr } from "@utils/Itr";
  * It is used to hold ordered collections of `SohlBase`-derived objects such as Effects or nested Logic items.
  *
  * @remarks
- * The array tracks its parent context (SohlEntity or SohlLogic) and notifies it when changes occur.
+ * The array tracks its parent context (SohlEntity or SohlPerformer) and notifies it when changes occur.
  * All iterator methods return an `Itr<T>` object for functional utilities.
  *
  * ### WARNING

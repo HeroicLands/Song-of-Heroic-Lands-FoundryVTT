@@ -12,7 +12,7 @@
  */
 
 import { SohlBase } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 import { Itr } from "@utils/Itr";
 
 /**

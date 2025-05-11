@@ -11,18 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { SohlActor } from "@foundry/actor";
+import { SohlItem } from "@foundry/item";
+import { foundryHelpers } from "@utils";
+
 import {
-    deepMerge,
-    defaultToJSON,
-    deletePath,
-    getPathValue,
-    getStatic,
-    hasPath,
-    setPathValue,
     SohlMap,
+    DataField,
+    DataFieldElement,
+    RegisterClass,
+    defaultToJSON,
+    getStatic,
     SohlMetadata,
 } from "@utils";
-import { DataField, DataFieldElement, RegisterClass } from "@utils/decorators";
+import { SohlPerformer, SohlEntity } from "@logic/common/core";
 
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
@@ -33,12 +35,7 @@ export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
 export type AnySohlBaseConstructor = SohlBaseConstructor<SohlBase<any>>;
 
 export interface SohlBaseParent {
-    propertyPath: string;
-    onChange(data: PlainObject): void;
-    markForPersistence(
-        fieldName: string,
-        collectionKey?: string | number,
-    ): void;
+    parent: unknown;
 }
 
 /**
@@ -76,23 +73,17 @@ export type SohlBaseMap = SohlMap<string, AnySohlBase>;
  * registration. It provides a foundation for all Sohl-related
  * logic and ensures extensibility through a centralized registry.
  *
- * @template D - The type of the data structure for the class.
- * @template O - The type of the options that can be passed to the class.
+ * @template P - The type of the parent.
  */
 @RegisterClass("SohlBase", "0.6.0")
 export abstract class SohlBase<P extends SohlBaseParent = any> {
-    @DataField("parent", {
-        type: Function,
-        required: true,
-        transient: true,
-    })
-    parent!: P;
+    readonly parent: P;
 
     @DataField("fieldName", { type: String })
-    fieldName?: string;
+    readonly fieldName?: string;
 
     @DataField("collectionKey", { type: String })
-    collectionKey?: string;
+    readonly collectionKey?: string;
 
     @DataField("kind", {
         type: String,
@@ -100,48 +91,19 @@ export abstract class SohlBase<P extends SohlBaseParent = any> {
             (thisArg.constructor as AnySohlBaseConstructor)._metadata.name;
         },
     })
-    kind!: string;
+    readonly kind!: string;
 
     @DataField("schemaVersion", {
         type: String,
         initial: "0.0.0",
     })
-    schemaVersion!: string;
+    readonly schemaVersion!: string;
 
-    constructor(
-        parent: SohlBaseParent,
-        data: PlainObject = {},
-        options: PlainObject = {},
-    ) {}
-
-    get propertyPath(): string {
-        return `${this.parent.propertyPath}.${this.fieldName}`;
-    }
-
-    onChange(data: PlainObject): void {
-        if (!this.fieldName) return;
-        const newData = deepMerge(this.toJSON(), data);
-        this.parent.onChange({ [this.fieldName]: newData });
-    }
-
-    setTracking(
-        parent: any,
-        fieldName: string,
-        collectionKey?: string | number,
-    ): void {
+    constructor(parent: P, data: PlainObject = {}, options: PlainObject = {}) {
         this.parent = parent;
-        this.fieldName = fieldName;
-        if (collectionKey) {
-            this.collectionKey = String(collectionKey);
+        if (this.schemaVersion !== data.schemaVersion) {
+            data = SohlBase._migrateData(data);
         }
-    }
-
-    markForPersistence(
-        fieldName: string,
-        collectionKey?: string | number,
-    ): void {
-        // e.g., queue a change, or immediately sync
-        this.parent?.markForPersistence(fieldName, collectionKey);
     }
 
     /**
@@ -166,7 +128,11 @@ export abstract class SohlBase<P extends SohlBaseParent = any> {
             // serialize the object.
             // This is useful for classes that are not part of the SoHL system.
             if (!metadata) {
-                return deepMerge(result, defaultToJSON(current));
+                const obj = defaultToJSON(current) as unknown;
+                if (obj && typeof obj === "object") {
+                    foundryHelpers.mergeObject(result, obj as PlainObject);
+                }
+                return result;
             }
 
             // If the class is registered, we use the registered serializer
@@ -205,11 +171,7 @@ export abstract class SohlBase<P extends SohlBaseParent = any> {
      * been migrated. This means that calling this method multiple times on the same
      * data object should not change the result.
      */
-    @DataField("migrateData", {
-        type: Function,
-        required: true,
-    })
-    static migrateData(data: PlainObject = {}): PlainObject {
+    protected static _migrateData(data: PlainObject = {}): PlainObject {
         const result: PlainObject = {};
         const metadata = getStatic(this, "_metadata") as SohlMetadata;
 
@@ -219,59 +181,75 @@ export abstract class SohlBase<P extends SohlBaseParent = any> {
          * any properties that are missing with their default values.
          */
 
-        // Create a default template based on the schema
+        // Create a default template based on the current schema,
+        // migrating existing fields and initializing new ones.
         for (const [key, value] of Object.entries(metadata.dataFields)) {
             const prop = value as DataFieldElement;
-            result[prop.dataName] =
-                typeof prop.initial === "function" ?
-                    prop.initial({ thisArg: this, fieldName: prop.propName })
-                :   prop.initial;
+            if (data[prop.dataName] !== undefined) {
+                if (
+                    prop.dataName === KIND_KEY ||
+                    prop.dataName === SCHEMA_VERSION_KEY
+                ) {
+                    // Skip the kind and schemaVersion properties
+                    continue;
+                }
+                // Migrate the data field to the new schema version
+                result[prop.dataName] = this._migrateDataField(
+                    data[prop.dataName],
+                    prop.dataName,
+                    String(prop.propName),
+                    data.schemaVersion,
+                );
+            } else {
+                result[prop.dataName] =
+                    typeof prop.initial === "function" ?
+                        prop.initial({
+                            thisArg: this,
+                            fieldName: prop.propName,
+                        })
+                    :   prop.initial;
+            }
         }
 
-        // Merge the data object, ignoring any properties that are not
-        // in the template.
-        deepMerge(result, data, {
-            insertKeys: false,
-            insertValues: false,
-            overwrite: true,
-            enforceTypes: true,
-        });
+        // After migration, the data object should always have
+        // the kind and schemaVersion properties set to the
+        // current schema version.
+        result[KIND_KEY] = metadata.name;
+        result[SCHEMA_VERSION_KEY] = metadata.schemaVersion;
 
         return result;
     }
 
     /**
-     * @summary Simple migration of a data field from an old key to a new key.
+     * @summary Simple migration of a single data field.
      *
+     * @description
+     * This method is used to migrate a single data field from one schema version
+     * to another.
      * @remarks
-     * If the new key does not exist and the old key does, it sets the value
-     * from the old key to the new key.
-     * If an apply function is provided, it will be used to modify the value before setting.
+     * This method must handle the following cases:
      *
-     * @param data         The object containing the data to migrate.
-     * @param oldKey       The property key to be migrated from.
-     * @param newKey       The property key to be migrated to.
-     * @param apply        An optional function to transform the value during migration.
-     * @returns            `true` if migration performed successfully, `false` otherwise.
+     * - Migrating from an old schema to a new schema.
+     * - Synthesizing a new value from one or more old values.
+     * - Returning the same value if the data field is unchanged.
+     *
+     * This method is only called if the data field exists in both the old schema
+     * and the new schema, so it should always return a valid value for the new
+     * schema, even if it must synthesize it from other values in the old schema.
+     *
+     * @param data         The original data to be migrated.
+     * @param dataName     The name of the property in the original data.
+     * @param keyName      The name of the property in the new object.
+     * @param dataVersion  The version of the original data.
+     * @returns            The new value of the data field.
      */
-    static _migrateDataField(
+    protected static _migrateDataField<T>(
         data: PlainObject,
-        oldKey: string,
-        newKey: string,
-        apply: (data: PlainObject) => any,
-    ): boolean {
-        if (!hasPath(data, newKey) && hasPath(data, oldKey)) {
-            const prop = Object.getOwnPropertyDescriptor(data, oldKey);
-            if (prop && !prop.writable) return false;
-            setPathValue(
-                data,
-                newKey,
-                apply ? apply(data) : getPathValue(data, oldKey),
-            );
-            deletePath(data, oldKey);
-            return true;
-        }
-        return false;
+        dataName: string,
+        keyName: string,
+        dataVersion: string,
+    ): any {
+        return data[dataName] as T;
     }
 
     /**
@@ -285,7 +263,10 @@ export abstract class SohlBase<P extends SohlBaseParent = any> {
         options: PlainObject = {},
     ): InstanceType<T> {
         const original = this.toJSON() as PlainObject;
-        const newObj = sohl.utils.deepMerge(original, data) as PlainObject;
+        const newObj = foundryHelpers.mergeObject(
+            original,
+            data,
+        ) as PlainObject;
         return new (this.constructor as AnySohlBaseConstructor)(
             this.parent,
             newObj,

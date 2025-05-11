@@ -11,14 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlBaseParent, SohlLogic } from "@logic/common/core";
+import { SohlBase, SohlBaseParent, SohlPerformer } from "@logic/common/core";
 import { RegisterClass, DataField, CollectionType } from "./decorators";
+import { foundry } from "@foundry";
 
-/**
- * A simplified dice roller that only supports formulas like "2d6+10",
- * where the dice term (e.g. 2d6) and the modifier (+10) are both optional.
- */
-
+type FoundryRoll = foundry.dice.Roll;
 export interface SimpleRollData {
     numDice: number;
     dieFaces: number;
@@ -27,7 +24,7 @@ export interface SimpleRollData {
 }
 
 @RegisterClass("SimpleRoll", "0.6.0")
-export class SimpleRoll extends SohlBase<SohlLogic> {
+export class SimpleRoll extends SohlBase<SohlPerformer> {
     @DataField("numDice", { type: Number, initial: 0 })
     numDice!: number;
 
@@ -127,4 +124,51 @@ export class SimpleRoll extends SohlBase<SohlLogic> {
             rolls: [],
         });
     }
+
+    /**
+     * Generate a Foundry VTT Roll instance that reflects the current state.
+     * @param {SimpleRoll} simpleRoll
+     * @returns {Promise<Roll>}
+     */
+    async createRoll(): Promise<foundry.dice.Roll> {
+        /**
+         * Type Guard for DieTerm
+         * @param {RollTerm} term
+         * @returns {boolean}
+         */
+        function isDieTerm(term) {
+            const DieTerm = CONFIG.Dice.termTypes.Die;
+            return term instanceof DieTerm;
+        }
+
+        const formulaParts = [];
+        if (simpleRoll.numDice > 0 && simpleRoll.dieFaces > 0) {
+            formulaParts.push(`${simpleRoll.numDice}d${simpleRoll.dieFaces}`);
+        }
+        if (simpleRoll.modifier !== 0) {
+            formulaParts.push(
+                (simpleRoll.modifier > 0 ? "+" : "") + simpleRoll.modifier,
+            );
+        }
+
+        const formula = formulaParts.join(" ");
+        const roll = new Roll(formula);
+        for (const term of roll.terms) {
+            if (isDieTerm(term)) {
+                if (simpleRoll.rolls.length !== term.number) {
+                    throw new Error(
+                        "Mismatch between term and provided rolls.",
+                    );
+                }
+                term.results = simpleRoll.rolls.map((r) => ({
+                    result: r,
+                    active: true,
+                }));
+                await term.evaluate({ async: false });
+            }
+        }
+        return roll;
+    }
 }
+
+const foo = foundry.utils.randomID();

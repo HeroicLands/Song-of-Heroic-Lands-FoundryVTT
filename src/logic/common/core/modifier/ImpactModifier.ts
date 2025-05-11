@@ -12,30 +12,24 @@
  */
 
 import { ValueModifier } from "@logic/common/core/modifier";
-import { SohlLogic } from "@logic/common/core";
+import { SohlPerformer } from "@logic/common/core";
 import { SohlMap, SimpleRoll, SimpleRollData } from "@utils";
 
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DataField, RegisterClass } from "@utils";
 
-export enum AspectType {
-    BLUNT = "blunt",
-    EDGED = "edged",
-    PIERCING = "piercing",
-    FIRE = "fire",
-}
-
-/**
- * Validator function to check if a value is a valid AspectType.
- */
-function isAspectType(value: any): value is AspectType {
-    return Object.values(AspectType).includes(value);
-}
+export const ASPECT = {
+    BLUNT: "blunt",
+    EDGED: "edged",
+    PIERCING: "piercing",
+    FIRE: "fire",
+} as const;
+export type AspectType = (typeof ASPECT)[keyof typeof ASPECT];
 
 export const AspectChar: Record<AspectType, string> = {
-    [AspectType.BLUNT]: "b",
-    [AspectType.EDGED]: "e",
-    [AspectType.PIERCING]: "p",
-    [AspectType.FIRE]: "f",
+    [ASPECT.BLUNT]: "b",
+    [ASPECT.EDGED]: "e",
+    [ASPECT.PIERCING]: "p",
+    [ASPECT.FIRE]: "f",
 };
 
 export type ImpactModifierMap = SohlMap<string, ImpactModifier>;
@@ -48,11 +42,6 @@ export class ImpactModifier extends ValueModifier {
     @DataField("rollData", { type: SimpleRoll })
     private roll!: SimpleRoll;
 
-    @DataField("aspect", {
-        type: String,
-        initial: AspectType.BLUNT,
-        validator: (v) => isAspectType(v),
-    })
     private aspect!: AspectType;
 
     // Getter for disabled

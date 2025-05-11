@@ -17,7 +17,7 @@ import {
     ImpactResult,
     isTestTypeFor,
 } from "@logic/common/core/result";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 import { ContextMenuSortGroup } from "@foundry/core";
 
 export const TacticalAdvantages = {

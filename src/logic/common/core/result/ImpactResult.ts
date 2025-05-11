@@ -12,7 +12,7 @@
  */
 
 import { SuccessTestResult, TestResult } from "@logic/common/core/result";
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DataField, RegisterClass } from "@utils";
 import { ImpactModifier } from "@logic/common/core/modifier";
 import { SimpleRoll } from "@utils";
 

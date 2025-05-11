@@ -13,7 +13,7 @@
 
 import { SohlBase } from "@logic/common/core";
 import { Itr } from "@utils";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 
 /**
  * SohlMap - An extension of Map that returns Itr instances for iterator methods

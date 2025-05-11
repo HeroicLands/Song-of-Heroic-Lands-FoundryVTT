@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { maxPrecision, SohlMap } from "@utils";
+import { maxPrecision } from "@utils";
+import { SohlMap } from "@utils/collection";
 import {
     DeltaInfo,
     isValueDelta,
@@ -20,8 +21,8 @@ import {
     ValueDelta,
     ValueDeltaOperator,
 } from "@logic/common/core/modifier";
-import { SohlBase, SohlLogic, Utility } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { SohlBase, SohlPerformer } from "@logic/common/core";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 
 export type ValueModifierMap = SohlMap<string, ValueModifier>;
 
@@ -56,7 +57,7 @@ export abstract class ValueModifier extends SohlBase {
     private _effective!: number;
 
     constructor(
-        parent: SohlLogic,
+        parent: SohlPerformer,
         data: PlainObject = {},
         options: PlainObject = {},
     ) {
@@ -372,19 +373,19 @@ export abstract class ValueModifier extends SohlBase {
                     return `${delta.numValue >= 0 ? "+" : ""}${delta.value}`;
 
                 case ValueDeltaOperator.MULTIPLY:
-                    return `${sohl.utils.SYMBOLS.TIMES}${delta.value}`;
+                    return `${sohl.utils.SYMBOL.TIMES}${delta.value}`;
 
                 case ValueDeltaOperator.DOWNGRADE:
-                    return `${sohl.utils.SYMBOLS.LESSTHANOREQUAL}${delta.value}`;
+                    return `${sohl.utils.SYMBOL.LESSTHANOREQUAL}${delta.value}`;
 
                 case ValueDeltaOperator.UPGRADE:
-                    return `${sohl.utils.SYMBOLS.GREATERTHANOREQUAL}${delta.value}`;
+                    return `${sohl.utils.SYMBOL.GREATERTHANOREQUAL}${delta.value}`;
 
                 case ValueDeltaOperator.OVERRIDE:
                     return `=${delta.value}`;
 
                 case ValueDeltaOperator.CUSTOM:
-                    return `${sohl.utils.SYMBOLS.STAR}${delta.value}`;
+                    return `${sohl.utils.SYMBOL.STAR}${delta.value}`;
 
                 default:
                     throw Error(
@@ -425,15 +426,15 @@ export abstract class ValueModifier extends SohlBase {
                         break;
 
                     case ValueDeltaOperator.MULTIPLY:
-                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOLS.TIMES}${adj.value}`;
+                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOL.TIMES}${adj.value}`;
                         break;
 
                     case ValueDeltaOperator.DOWNGRADE:
-                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOLS.LESSTHANOREQUAL}${adj.value}`;
+                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOL.LESSTHANOREQUAL}${adj.value}`;
                         break;
 
                     case ValueDeltaOperator.UPGRADE:
-                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOLS.GREATERTHANOREQUAL}${adj.value}`;
+                        this._abbrev += `${adj.abbrev} ${sohl.utils.SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
                         break;
 
                     case ValueDeltaOperator.OVERRIDE:

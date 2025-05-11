@@ -12,9 +12,9 @@
  */
 
 import { ChatMessageRollMode, isChatMessageRollMode } from "@foundry/core";
-import { SohlLogic } from "@logic/common/core";
+import { SohlPerformer } from "@logic/common/core";
 import { SuccessTestResult, TestResult } from "@logic/common/core/result";
-import { DataField, RegisterClass } from "@utils/decorators";
+import { DataField, RegisterClass } from "@utils";
 
 export const TieBreak: StrictObject<number> = {
     SOURCE: 1,
@@ -52,7 +52,7 @@ export class OpposedTestResult extends TestResult {
     breakTies!: boolean;
 
     constructor(
-        parent: SohlLogic,
+        parent: SohlPerformer,
         data: PlainObject = {},
         options: PlainObject = {},
     ) {

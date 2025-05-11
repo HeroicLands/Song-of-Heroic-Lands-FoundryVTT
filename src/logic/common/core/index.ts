@@ -12,8 +12,10 @@
  */
 
 export * from "./SohlBase";
-export * from "./SohlLogic";
-export * from "../../../foundry/core/Utility.mjs";
+export * from "./SohlPerformer";
 export * from "./SohlScriptEngine";
 export * from "./LifecycleParticipant";
 export * from "./SohlEntity";
+export * from "./SohlSystem";
+export * from "./SohlSpeaker";
+export * from "./SohlPerformerData";

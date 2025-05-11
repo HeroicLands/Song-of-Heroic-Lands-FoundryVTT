@@ -11,22 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { CollectionType, DataField, isOfType, RegisterClass } from "@utils";
+import { SohlBase, SohlPerformer } from "@logic/common/core";
 import {
-    CollectionType,
-    DataField,
-    isKind,
-    RegisterClass,
-} from "@utils/decorators";
-import {
-    LifecycleParticipant,
-    LogicMap,
-    SohlBase,
-    SohlLogic,
-} from "@logic/common/core";
-import { SohlAction, ActionMap, SohlEffect, EffectMap } from "./event";
-import { SohlMap } from "@utils";
-import { SohlActorDataModel } from "@foundry/actor/SohlActorDataModel.mjs";
-import { ActionContext } from "@foundry/core/ActionContext.mjs";
+    SohlAction,
+    ActionMap,
+    SohlEffect,
+    EffectMap,
+} from "@logic/common/core/event";
+import { SohlMap } from "@utils/collection";
+import { ActionContext } from "@utils";
+import { SohlActor } from "@foundry/actor";
 
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
@@ -47,7 +42,7 @@ import { ActionContext } from "@foundry/core/ActionContext.mjs";
  * It provides a structure for defining the actor and position on a scene
  * in a VTT-neutral manner and managing actions, effects, and nested logics.
  */
-@RegisterClass("SohlLogic", "0.6.0")
+@RegisterClass("SohlEntity", "0.6.0")
 export class SohlEntity extends SohlBase {
     @DataField("id", { type: String, required: true })
     id!: string;
@@ -58,24 +53,29 @@ export class SohlEntity extends SohlBase {
     @DataField("description", { type: String, initial: "" })
     description!: string;
 
-    @DataField("logics", {
-        type: SohlLogic,
-        collection: CollectionType.MAP,
-        validator: (value) => isKind(value, "SohlLogic"),
+    @DataField("actor", {
+        type: SohlActor,
+        required: true,
     })
-    private logics!: SohlMap<string, SohlLogic>;
+    actor!: SohlActor;
+
+    @DataField("logic", {
+        type: SohlPerformer,
+        validator: (value) => isOfType(value, "SohlPerformer"),
+    })
+    private logics!: SohlMap<string, SohlPerformer>;
 
     @DataField("actions", {
         type: SohlAction,
         collection: CollectionType.MAP,
-        validator: (value) => isKind(value, "SohlAction"),
+        validator: (value) => isOfType(value, "SohlAction"),
     })
     private actions!: SohlMap<string, SohlAction>;
 
     @DataField("effects", {
         type: SohlEffect,
         collection: CollectionType.MAP,
-        validator: (value) => isKind(value, "SohlEffect"),
+        validator: (value) => isOfType(value, "SohlEffect"),
     })
     private effects!: SohlMap<string, SohlEffect>;
 
@@ -89,7 +89,7 @@ export class SohlEntity extends SohlBase {
      * Executes the full lifecycle for a LifecycleParticipant in the correct sequence.
      *
      * This function should only be called by SohlEntity instances, which control the lifecycle of themselves
-     * and their associated SohlLogic instances.
+     * and their associated SohlPerformer instances.
      */
     runLifecycle(): void {
         this.logics
@@ -100,4 +100,9 @@ export class SohlEntity extends SohlBase {
         this.logics.values().forEach((logic) => logic.evaluate());
         this.logics.values().forEach((logic) => logic.finalize());
     }
+}
+
+// Guard function to check if an object is an instance of SohlEntity
+export function isSohlEntity(obj: unknown): obj is SohlEntity {
+    return obj instanceof SohlEntity;
 }

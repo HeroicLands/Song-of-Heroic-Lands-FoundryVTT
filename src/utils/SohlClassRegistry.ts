@@ -18,7 +18,7 @@ import {
     SohlBase,
     SohlBaseParent,
 } from "@logic/common/core";
-import { DataFieldElement } from "@utils/decorators";
+import { DataFieldElement, isOfType } from "@utils";
 
 /**
  * @summary Class metadata for a registered class.
@@ -78,15 +78,21 @@ export class SohlClassRegistryElement implements SohlMetadata {
         this.dataFields = dataFields ?? ({} as StrictObject<DataFieldElement>);
     }
 
-    create(
+    create<T extends SohlBase>(
         parent: SohlBaseParent,
         data: PlainObject = {},
         options: PlainObject = {},
-    ): SohlBase {
+    ): T {
         if (!this.ctor) {
             throw new Error(`Class ${this.name} is not registered`);
         }
-        return new this.ctor(parent, data, options);
+        const obj = new this.ctor(parent, data, options);
+        if (isOfType(obj, "SohlBase")) {
+            return obj as T;
+        }
+
+        // We should never get here, but if we do, throw an error.
+        throw new Error(`Class ${this.name} is not a valid SohlBase instance`);
     }
 
     /**
@@ -103,7 +109,7 @@ export class SohlClassRegistryElement implements SohlMetadata {
             if (
                 element &&
                 element.schemaVersion &&
-                sohl.utils.isNewerVersion(element.schemaVersion, result)
+                foundry.utils.isNewerVersion(element.schemaVersion, result)
             ) {
                 result = element.schemaVersion;
                 break;
@@ -160,11 +166,11 @@ export class SohlClassRegistry {
     /**
      * @summary Create a new SohlBase instance from registered metadata.
      */
-    createFromData(
+    createFromData<T extends SohlBase>(
         parent: SohlBaseParent,
         data: PlainObject = {},
         options: PlainObject = {},
-    ): SohlBase {
+    ): T {
         if (!data) {
             throw new TypeError("Data cannot be empty");
         }
@@ -188,7 +194,7 @@ export class SohlClassRegistry {
             );
         }
         if (
-            sohl.utils.isNewerVersion(
+            foundry.utils.isNewerVersion(
                 classInfo.schemaVersion,
                 data.schemaVersion,
             )
@@ -201,3 +207,5 @@ export class SohlClassRegistry {
         return classInfo.create(parent, data, options);
     }
 }
+
+export const classRegistry = SohlClassRegistry.getInstance();

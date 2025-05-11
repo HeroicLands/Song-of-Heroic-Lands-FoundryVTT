@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlLogic } from "@logic/common/core";
-import { DataField } from "@utils/decorators";
+import { SohlBase, SohlPerformer } from "@logic/common/core";
+import { DataField } from "@utils";
 import { ValueModifier } from "./ValueModifier";
 
 export enum DeltaInfo {

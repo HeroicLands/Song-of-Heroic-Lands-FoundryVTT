@@ -12,8 +12,8 @@
  */
 
 import { TestResult } from "@logic/common/core/result";
-import { SohlLogic } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils/decorators";
+import { SohlPerformer } from "@logic/common/core";
+import { CollectionType, DataField, RegisterClass } from "@utils";
 import {
     isChatMessageRollMode,
     SohlSystem,
@@ -418,7 +418,7 @@ export class SuccessTestResult extends STResultBase<
     ) as StrictObject<string>;
 
     constructor(
-        parent: SohlLogic,
+        parent: SohlPerformer,
         data: PlainObject = {},
         options: Partial<SuccessTestResultOptions> = {},
     ) {

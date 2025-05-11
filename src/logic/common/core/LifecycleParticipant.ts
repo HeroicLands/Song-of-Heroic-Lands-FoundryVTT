@@ -15,7 +15,7 @@ import { ActionContext } from "@foundry/core/ActionContext.mjs";
 import { SohlBase } from "@logic/common/core";
 
 /**
- * Defines the lifecycle contract for all core data processors, including SohlEntity and SohlLogic instances.
+ * Defines the lifecycle contract for all core data processors, including SohlEntity and SohlPerformer instances.
  *
  * LifecycleParticipant ensures that each participating object follows a consistent, multi-phase lifecycle:
  *

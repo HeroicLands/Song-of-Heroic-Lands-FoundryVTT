@@ -18,29 +18,34 @@
         "noEmitOnError": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
         "types": ["vite/client", "vitest/globals"],
-        "typeRoots": ["./node_modules/@types", "./types"],
+        "typeRoots": ["node_modules/@types", "types"],
         "baseUrl": ".",
         "paths": {
             "@types/*": ["types/*"],
             "@utils": ["src/utils/index.ts"],
             "@utils/*": ["src/utils/*"],
-            "@foundry/*": ["src/foundry/*"],
             "@logic/*": ["src/logic/*"],
             "@templates/*": ["templates/*"],
             "@assets/*": ["assets/*"],
             "@lang/*": ["lang/*"],
             "@tests/*": ["tests/*"],
-            "@sohl-global": ["types/sohl-global.d.ts"]
+            "sohl-global.js": ["types/sohl-global"],
+            "@foundry/*": ["src/foundry/*"],
+            "foundry/*": [
+                "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/foundry/*"
+            ]
         }
     },
     "include": [
         "src/foundry/**/*.mjs",
+        "src/foundry/**/*.ts",
         "src/logic/**/*.ts",
         "src/utils/**/*.ts",
         "tests/**/*.ts",
         "types/**/*.d.ts",
-        "build/docbundle/index.ts"
+        "src/foundry/SohlBaseDataModel.ts"
     ],
     "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

@@ -13,7 +13,7 @@
 
 import { SohlMap } from "@utils";
 import { SohlEvent } from "@logic/common/core/event";
-import { RegisterClass } from "@utils/decorators";
+import { RegisterClass } from "@utils";
 
 export enum ActionScope {
     SELF = "self",
@@ -34,12 +34,26 @@ export type ActionMap = SohlMap<string, SohlAction>;
 /**
  * @summary Base class for all Action instances
  */
-@RegisterClass("SohlAction", "0.6.0")
 export abstract class SohlAction extends SohlEvent {
-    private scope!: ActionScope;
-    private notes!: string;
-    private description!: string;
-    private contextIconClass!: string;
-    private contextCondition!: string;
-    private contextGroup!: string;
+    scope!: ActionScope;
+    notes!: string;
+    description!: string;
+    contextIconClass!: string;
+    contextCondition!: boolean | ((element: HTMLElement) => boolean);
+    contextGroup!: string;
+
+    /**
+     * Execute an action. Executes synchronously unless otherwise specified.
+     *
+     * @param options - Optional parameters for execution.
+     * @param [options.element] - The HTML element the action applies to, if any.
+     * @param [options.async=true] - If true, the action should execute asynchronously.
+     * @param [options.*] - Any additional key-value pairs will be interpreted as scope values.
+     *                      These values will be passed to the action logic.
+     * @returns The result of execution, which may be a value or a Promise resolving to a value.
+     */
+    abstract execute(options?: {
+        element?: HTMLElement;
+        [key: string]: any;
+    }): Promise<any> | any;
 }
