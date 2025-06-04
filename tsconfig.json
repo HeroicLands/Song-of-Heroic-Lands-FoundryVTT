@@ -19,33 +19,35 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["vite/client", "vitest/globals"],
-        "typeRoots": ["node_modules/@types", "types"],
+        "typeRoots": [
+            "node_modules/@types",
+            "types",
+            "vitest/globals",
+            "vite/client"
+        ],
         "baseUrl": ".",
         "paths": {
             "@types/*": ["types/*"],
             "@utils": ["src/utils/index.ts"],
             "@utils/*": ["src/utils/*"],
-            "@logic/*": ["src/logic/*"],
+            "@common": ["src/common/index.ts"],
+            "@common/*": ["src/common/*"],
+            "@legendary": ["src/legendary/index.ts"],
+            "@legendary/*": ["src/legendary/*"],
+            "@mistyisle": ["src/mistyisle/index.ts"],
+            "@mistyisle/*": ["src/mistyisle/*"],
             "@templates/*": ["templates/*"],
             "@assets/*": ["assets/*"],
             "@lang/*": ["lang/*"],
-            "@tests/*": ["tests/*"],
-            "sohl-global.js": ["types/sohl-global"],
-            "@foundry/*": ["src/foundry/*"],
-            "foundry/*": [
-                "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/foundry/*"
-            ]
+            "@tests/*": ["tests/*"]
         }
     },
     "include": [
-        "src/foundry/**/*.mjs",
-        "src/foundry/**/*.ts",
-        "src/logic/**/*.ts",
-        "src/utils/**/*.ts",
+        "src/**/*.ts",
         "tests/**/*.ts",
-        "types/**/*.d.ts",
-        "src/foundry/SohlBaseDataModel.ts"
+        "types/index.d.ts",
+        "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/types/index.d.mts",
+        "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/foundry/index.d.mts"
     ],
     "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

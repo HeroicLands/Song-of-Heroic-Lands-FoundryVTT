@@ -11,8 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils";
 import { Itr } from "@utils/Itr";
 
 /**
@@ -38,22 +36,11 @@ import { Itr } from "@utils/Itr";
  * }
  * ```
  */
-@RegisterClass("SohlArray", "0.6.0")
-export class SohlArray<T> extends SohlBase<SohlBase> {
-    @DataField("arrayData", {
-        collection: CollectionType.ARRAY,
-        validator: (value): value is T => true,
-    })
+export class SohlArray<T> {
     private arrayData!: Array<T>;
 
-    /**
-     * @summary Notify the parent that the given index has changed.
-     * @param index - The array index that was modified.
-     */
-    private markChanged(index: number): void {
-        if (this.parent && this.fieldName != null) {
-            //this.parent.markForPersistence(this.fieldName, index);
-        }
+    constructor(...items: T[]) {
+        this.arrayData = new Array<T>(...items);
     }
 
     /**
@@ -179,10 +166,7 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
      * myArray.push("newItem");
      */
     push(...items: T[]): number {
-        const indexStart = this.arrayData.length;
-        const result = this.arrayData.push(...items);
-        items.forEach((_, i) => this.markChanged(indexStart + i));
-        return result;
+        return this.arrayData.push(...items);
     }
 
     /**
@@ -200,11 +184,7 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
      * myArray.splice(1, 2, "a", "b");
      */
     splice(start: number, deleteCount?: number, ...items: T[]): T[] {
-        const result = this.arrayData.splice(start, deleteCount ?? 0, ...items);
-        for (let i = 0; i < items.length; i++) {
-            this.markChanged(start + i);
-        }
-        return result;
+        return this.arrayData.splice(start, deleteCount ?? 0, ...items);
     }
 
     /**
@@ -218,10 +198,7 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
      * const last = myArray.pop();
      */
     pop(): T | undefined {
-        const index = this.arrayData.length - 1;
-        const value = this.arrayData.pop();
-        this.markChanged(index);
-        return value;
+        return this.arrayData.pop();
     }
 
     /**
@@ -237,9 +214,7 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
      * console.log(first); // Logs the removed first element
      */
     shift(): T | undefined {
-        const value = this.arrayData.shift();
-        this.markChanged(0);
-        return value;
+        return this.arrayData.shift();
     }
 
     /**
@@ -256,11 +231,7 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
      * console.log(myArray); // ['a', 'b', ...originalElements]
      */
     unshift(...items: T[]): number {
-        const result = this.arrayData.unshift(...items);
-        for (let i = 0; i < items.length; i++) {
-            this.markChanged(i);
-        }
-        return result;
+        return this.arrayData.unshift(...items);
     }
 
     /**
@@ -299,17 +270,6 @@ export class SohlArray<T> extends SohlBase<SohlBase> {
             throw new RangeError(
                 `Index ${index} is out of bounds (length: ${this.arrayData.length})`,
             );
-        }
-
-        this.markChanged(index);
-
-        if (
-            value &&
-            typeof value === "object" &&
-            "setTracking" in value &&
-            typeof value.setTracking === "function"
-        ) {
-            (value as any).setTracking(this.parent, this.fieldName, index);
         }
     }
 

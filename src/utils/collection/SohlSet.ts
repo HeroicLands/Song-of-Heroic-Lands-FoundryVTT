@@ -11,8 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@logic/common/core";
-import { CollectionType, DataField, RegisterClass } from "@utils";
 import { Itr } from "@utils/Itr";
 
 /**
@@ -34,22 +32,12 @@ import { Itr } from "@utils/Itr";
  * }
  * ```
  */
-@RegisterClass("SohlMap", "0.6.0")
-export class SohlSet<T> extends SohlBase<SohlBase> {
-    @DataField("mapData", {
-        collection: CollectionType.SET,
-        validator: (value): value is T => true,
-    })
+export class SohlSet<T> {
     private setData!: Set<T>;
 
-    /**
-     * @summary Notify the parent that a value was changed or updated.
-     * @param value - The value that triggered the change.
-     */
-    private markChanged(value: T): void {
-        if (this.parent && this.fieldName) {
-            // FIXME:            this.parent.markForPersistence(this.fieldName, value);
-        }
+    constructor(data?: Iterable<T>) {
+        this.setData =
+            data !== undefined ? new Set(Array.from(data)) : new Set();
     }
 
     /**
@@ -83,7 +71,6 @@ export class SohlSet<T> extends SohlBase<SohlBase> {
      */
     add(value: T): this {
         this.setData.add(value);
-        this.markChanged(value);
         return this;
     }
 
@@ -100,9 +87,7 @@ export class SohlSet<T> extends SohlBase<SohlBase> {
      * const removed = mySet.delete("oldItem");
      */
     delete(value: T): boolean {
-        const result = this.setData.delete(value);
-        if (result) this.markChanged(value);
-        return result;
+        return this.setData.delete(value);
     }
 
     /**
@@ -115,9 +100,6 @@ export class SohlSet<T> extends SohlBase<SohlBase> {
      * mySet.clear();
      */
     clear(): void {
-        for (const value of this.setData) {
-            this.markChanged(value);
-        }
         this.setData.clear();
     }
 

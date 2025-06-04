@@ -11,39 +11,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AnySohlBaseConstructor, SohlBase } from "@logic/common/core";
+import { SohlMetadata } from "@utils/SohlClassRegistry";
 
 /**
  * @summary Marks the version where the schema was last modified.
  *
  * @remarks
- * This decorator is used to register the schema version of a class in the
- * class registry. It is important for tracking changes in the data schema
- * and ensuring compatibility with different versions of the system.
+ * This decorator is used to attach metadata to a class.  This metadata can be
+ * subsequently saved to a registry.
  */
 
-export function RegisterClass(
-    name: string,
-    schemaVersion: string,
+export function RegisterClass<T extends SohlMetadata = SohlMetadata>(
+    metadata: T,
 ): ClassDecorator {
-    if (typeof name !== "string") {
-        throw new TypeError("name is required and must be a string");
-    }
-    if (typeof schemaVersion !== "string") {
-        throw new TypeError("schemaVersion is required and must be a string");
-    }
-    return function (target: Function) {
-        const ctor = target as AnySohlBaseConstructor;
-
-        // Register class name and schema version
-        const element = sohl.classRegistry.get(ctor.name);
-        element.name = name;
-        element.schemaVersion = schemaVersion;
-        element.ctor = ctor;
-        sohl.classRegistry.set(element);
-
-        // Set the metadata on the class constructor
-        ctor._metadata.name = name;
-        ctor._metadata.schemaVersion = schemaVersion;
+    return function <TFunction extends Function>(target: TFunction): void {
+        metadata.ctor = target as unknown as AnyConstructor;
+        Object.defineProperty(target, "_metadata", {
+            value: metadata,
+            enumerable: false,
+            writable: false,
+        });
     };
 }

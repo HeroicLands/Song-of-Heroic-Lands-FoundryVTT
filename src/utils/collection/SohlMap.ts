@@ -11,30 +11,64 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@logic/common/core";
-import { Itr } from "@utils";
-import { CollectionType, DataField, RegisterClass } from "@utils";
+import { defaultFromJSON, defaultToJSON, Itr } from "@utils";
 
 /**
  * SohlMap - An extension of Map that returns Itr instances for iterator methods
  * and provides functional transformations with change tracking.
  */
-@RegisterClass("SohlMap", "0.6.0")
-export class SohlMap<K extends string, V> extends SohlBase<SohlBase> {
-    @DataField("mapData", {
-        collection: CollectionType.MAP,
-        validator: (value): value is V => true,
-    })
+export class SohlMap<K extends string, V> {
     private mapData!: Map<K, V>;
 
-    /**
-     * @summary Notify the parent that a value was changed or updated.
-     * @param value - The value that triggered the change.
-     */
-    private markChanged(key: K): void {
-        if (this.parent && this.fieldName) {
-            // FIXME: this.parent.markForPersistence(this.fieldName, key);
+    constructor(entries?: [K, V][]) {
+        this.mapData = new Map<K, V>(entries);
+    }
+
+    forEach(callback: (value: V, key: K, map: SohlMap<K, V>) => void): void {
+        this.mapData.forEach((value, key) => {
+            callback(value, key, this);
+        });
+    }
+
+    every(
+        predicate: (value: V, key: K, map: SohlMap<K, V>) => boolean,
+    ): boolean {
+        for (const [key, value] of this.mapData.entries()) {
+            if (!predicate(value, key, this)) {
+                return false;
+            }
         }
+        return true;
+    }
+
+    filter(predicate: (value: V, key: K, map: Map<K, V>) => boolean): V[] {
+        const result: V[] = [];
+        for (const [key, value] of this.mapData) {
+            if (predicate(value, key, this.mapData)) {
+                result.push(value);
+            }
+        }
+        return result;
+    }
+
+    reduce<R>(
+        reducer: (accumulator: R, value: V, key: K, map: Map<K, V>) => R,
+        initialValue: R,
+    ): R {
+        let result = initialValue;
+        for (const [key, value] of this.mapData) {
+            result = reducer(result, value, key, this.mapData);
+        }
+        return result;
+    }
+
+    some(predicate: (value: V, key: K, map: Map<K, V>) => boolean): boolean {
+        for (const [key, value] of this.mapData) {
+            if (predicate(value, key, this.mapData)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -58,15 +92,6 @@ export class SohlMap<K extends string, V> extends SohlBase<SohlBase> {
      */
     set(key: K, value: V): this {
         this.mapData.set(key, value);
-        if (
-            value &&
-            typeof value === "object" &&
-            "setTracking" in value &&
-            typeof value.setTracking === "function"
-        ) {
-            (value as any).setTracking(this.parent, this.fieldName, key);
-        }
-        this.markChanged(key);
         return this;
     }
 
@@ -86,7 +111,6 @@ export class SohlMap<K extends string, V> extends SohlBase<SohlBase> {
      */
     delete(key: K): boolean {
         const result = this.mapData.delete(key);
-        if (result) this.markChanged(key);
         return result;
     }
 
@@ -108,9 +132,6 @@ export class SohlMap<K extends string, V> extends SohlBase<SohlBase> {
      * if your custom map implementation tracks data changes (e.g. `SohlMap`).
      */
     clear(): void {
-        for (const key of this.keys()) {
-            this.markChanged(key);
-        }
         this.mapData.clear();
     }
 
@@ -287,5 +308,31 @@ export class SohlMap<K extends string, V> extends SohlBase<SohlBase> {
     /** @inheritdoc */
     [Symbol.iterator](): Itr<[K, V]> {
         return new Itr(this.mapData.entries());
+    }
+
+    toJSON(): JsonValue {
+        const result: JsonValue = {};
+        for (const [key, value] of this.mapData.entries()) {
+            if (typeof (value as any).toJSON === "function") {
+                result[key] = (value as any).toJSON();
+            } else {
+                const newValue = defaultToJSON(value);
+                if (newValue === undefined) continue;
+                result[key] = newValue;
+            }
+        }
+        return result;
+    }
+
+    static fromData<T>(data: PlainObject): SohlMap<string, T> {
+        const map = new SohlMap<string, T>();
+        for (const [key, value] of Object.entries(data)) {
+            if (typeof (value as any).fromData === "function") {
+                map.set(key, (value as any).fromData(data) as T);
+            } else {
+                map.set(key, defaultFromJSON(value) as T);
+            }
+        }
+        return map;
     }
 }

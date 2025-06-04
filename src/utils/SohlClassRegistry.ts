@@ -11,14 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    AnySohlBaseConstructor,
-    KIND_KEY,
-    SCHEMA_VERSION_KEY,
-    SohlBase,
-    SohlBaseParent,
-} from "@logic/common/core";
-import { DataFieldElement, isOfType } from "@utils";
+import { SohlBase } from "@common";
 
 /**
  * @summary Class metadata for a registered class.
@@ -37,91 +30,10 @@ import { DataFieldElement, isOfType } from "@utils";
  * minification, and bundling, so it is important to store the information in the metadata
  * so it is available at runtime.
  */
-export interface SohlMetadata {
-    name: string;
-    schemaVersion: string;
-    dataFields: StrictObject<DataFieldElement>;
-}
-
-/**
- * @summary Class registry element for a registered class.
- *
- * @description
- * The `SohlClassRegistryElement` class represents the metadata of a registered class
- * in the SoHL class registry. It contains information about the class name, schema version,
- * data fields, and the constructor of the class.
- *
- * @remarks
- * This class is used to store the metadata of a class in the class registry. The critical
- * extension of this beyond the `SohlMetadata` interface is the `ctor` property, which
- * stores the constructor of the class. This allows the class registry to create instances
- * of the class when needed.
- */
-export class SohlClassRegistryElement implements SohlMetadata {
-    name: string;
-    schemaVersion: string;
-    dataFields: StrictObject<DataFieldElement>;
-    ctor?: AnySohlBaseConstructor;
-
-    constructor(
-        name: string,
-        ctor?: AnySohlBaseConstructor,
-        schemaVersion?: string,
-        dataFields?: StrictObject<DataFieldElement>,
-    ) {
-        if (!name) {
-            throw new Error("Class name cannot be empty");
-        }
-        this.name = name;
-        this.ctor = ctor;
-        this.schemaVersion = schemaVersion ?? "0.0.0";
-        this.dataFields = dataFields ?? ({} as StrictObject<DataFieldElement>);
-    }
-
-    create<T extends SohlBase>(
-        parent: SohlBaseParent,
-        data: PlainObject = {},
-        options: PlainObject = {},
-    ): T {
-        if (!this.ctor) {
-            throw new Error(`Class ${this.name} is not registered`);
-        }
-        const obj = new this.ctor(parent, data, options);
-        if (isOfType(obj, "SohlBase")) {
-            return obj as T;
-        }
-
-        // We should never get here, but if we do, throw an error.
-        throw new Error(`Class ${this.name} is not a valid SohlBase instance`);
-    }
-
-    /**
-     * @summary Walks up the prototype chain to find the highest schema version.
-     */
-    get highestSchemaVersion(): string {
-        let result = this.schemaVersion;
-        let proto = Object.getPrototypeOf(this.constructor);
-        while (proto) {
-            if (!proto || proto === Object) {
-                break;
-            }
-            const element = sohl.classRegistry.get(proto.name);
-            if (
-                element &&
-                element.schemaVersion &&
-                foundry.utils.isNewerVersion(element.schemaVersion, result)
-            ) {
-                result = element.schemaVersion;
-                break;
-            }
-        }
-        return result;
-    }
-}
 
 export class SohlClassRegistry {
     private static instance: SohlClassRegistry;
-    private classRegistry: StrictObject<SohlClassRegistryElement> = {};
+    private classRegistry: Map<string, SohlClassRegistry.Element> = new Map();
 
     private constructor() {}
 
@@ -132,79 +44,56 @@ export class SohlClassRegistry {
         return SohlClassRegistry.instance;
     }
 
-    /**
-     *
-     * @param name
-     * @returns
-     */
-    get(name: string): SohlClassRegistryElement {
-        if (!name) {
-            throw new Error("Class name cannot be empty");
-        }
-        return this.classRegistry[name] ?? new SohlClassRegistryElement(name);
+    get(name: string): SohlClassRegistry.Element | undefined {
+        return this.classRegistry.get(name);
     }
 
-    set(element: SohlClassRegistryElement): void {
-        if (!element) {
-            throw new Error("Element cannot be empty");
-        } else {
-            this.classRegistry[element.name] = element;
+    set(data: SohlClassRegistry.Metadata): void {
+        if (!data.kind) {
+            throw new Error("Class metadata must have a kind.");
         }
+        this.classRegistry.set(data.kind, data);
     }
 
     has(name: string): boolean {
-        return Object.hasOwn(this.classRegistry, name);
+        return this.classRegistry.has(name);
     }
 
-    delete(name: string): void {
-        if (!name) {
-            throw new Error("Class name cannot be empty");
+    create<T extends SohlBase.Any>(
+        name: string,
+        data: PlainObject = {},
+        options: PlainObject = {},
+    ): InstanceType<T> {
+        const cls = this.get(name)?.ctor as T;
+        if (cls) {
+            return new cls(data, options) as InstanceType<T>;
         }
-        delete this.classRegistry[name];
+        throw new Error(`Class ${name} not found in registry.`);
+    }
+}
+
+export namespace SohlClassRegistry {
+    export interface Metadata {
+        kind: string;
+        ctor?: AnyConstructor;
     }
 
     /**
-     * @summary Create a new SohlBase instance from registered metadata.
+     * @summary Class registry element for a registered class.
      */
-    createFromData<T extends SohlBase>(
-        parent: SohlBaseParent,
-        data: PlainObject = {},
-        options: PlainObject = {},
-    ): T {
-        if (!data) {
-            throw new TypeError("Data cannot be empty");
-        }
-        if (typeof data !== "object") {
-            throw new TypeError("Data must be an object");
-        }
-        if (!Object.hasOwn(data, KIND_KEY) || !data.kind) {
-            throw new TypeError(
-                `Missing or invalid ${KIND_KEY} key in SohlBaseData.`,
-            );
-        }
-        if (!Object.hasOwn(data, SCHEMA_VERSION_KEY) || !data.schemaVersion) {
-            throw new TypeError(
-                `Missing or invalid ${SCHEMA_VERSION_KEY} key in SohlBaseData.`,
-            );
-        }
-        const classInfo = this.get(data[KIND_KEY]);
-        if (!classInfo?.ctor) {
-            throw new Error(
-                `Class '${data[KIND_KEY]}' is not registered in SohlBaseRegistry.`,
-            );
-        }
-        if (
-            foundry.utils.isNewerVersion(
-                classInfo.schemaVersion,
-                data.schemaVersion,
-            )
-        ) {
-            // If the class has a migration function, call it
-            // to migrate the data to the latest version.
-            data = classInfo.ctor?.migrateData?.(data);
-        }
+    export class Element implements Metadata {
+        kind: string;
+        ctor?: AnyConstructor;
 
-        return classInfo.create(parent, data, options);
+        constructor(kind: string, ctor?: AnyConstructor) {
+            if (!kind || typeof kind !== "string") {
+                throw new TypeError(
+                    "kind is required and must be a non-blank string",
+                );
+            }
+            this.kind = kind;
+            this.ctor = ctor;
+        }
     }
 }
 

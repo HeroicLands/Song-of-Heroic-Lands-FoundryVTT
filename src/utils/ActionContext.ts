@@ -17,79 +17,88 @@
  * @description All values here are provided in domain-safe proxy form.
  */
 
-import { SohlActor } from "@foundry/actor";
-import { SohlBaseParent, SohlSpeaker } from "@logic/common/core";
-import { SohlItem } from "@foundry/item";
-import { foundryHelpers } from "@utils";
+import { SohlActor } from "@common/actor";
+import { isSohlSpeakerData, SohlSpeaker, SohlSpeakerData } from "@common";
+import { SohlItem } from "@common/item";
+import {
+    defaultToJSON,
+    foundryHelpers,
+    DocumentId,
+    DocumentUuid,
+} from "@utils";
+
+export interface ActionData {
+    speaker?: SohlSpeakerData;
+    itemUuid?: DocumentUuid;
+    targetUuid?: DocumentUuid;
+    userId?: DocumentId;
+    skipDialog: boolean;
+    noChat: boolean;
+    type: string;
+    title: string;
+    scope: UnknownObject;
+}
 
 export class ActionContext {
     private _speaker: SohlSpeaker;
-    private _chat: SohlSpeaker;
-    private _item?: SohlItem;
-    private _user: User;
-    private _actor?: SohlActor;
+    user: foundry.documents.User;
+    item?: SohlItem;
+    actor?: SohlActor;
+    skipDialog: boolean;
+    noChat: boolean;
+    type: string;
+    title: string;
+    scope: UnknownObject;
 
     /**
-     * @param {Object} options - The options to initialize the context.
-     * @param {SohlSpeaker|PlainObject} [options.speaker] - The speaker object or plain object.
-     * @param {string} [options.rollMode] - The roll mode to use.
-     * @param {string} [options.logicUuid] - The UUID of the logic.
-     * @param {string} [options.userId] - The user ID.
+     * @param {Object} data - The options to initialize the context.
+     * @param {SohlSpeaker|PlainObject} [data.speaker] - The speaker object or plain object.
+     * @param {string} [data.rollMode] - The roll mode to use.
+     * @param {string} [data.logicUuid] - The UUID of the logic.
+     * @param {string} [data.userId] - The user ID.
      */
-    constructor(
-        parent: SohlBaseParent,
-        options: {
-            speaker: SohlSpeaker | PlainObject;
-            rollMode?: string;
-            logicUuid?: string;
-            userId?: string;
-        },
-    ) {
-        if (!options.speaker) {
+    constructor(data: Partial<ActionData>) {
+        if (!data.speaker) {
             throw new Error("ActionContext requires a speaker.");
         }
-        if ((options.speaker as SohlSpeaker).chatMessageSpeaker) {
-            this._speaker = (options.speaker as SohlSpeaker).chatMessageSpeaker;
-            this._chat = options.speaker as SohlSpeaker;
-            if (options.rollMode) {
-                this._chat.rollMode = options.rollMode;
-            }
+        if (isSohlSpeakerData(data.speaker)) {
+            this._speaker = new SohlSpeaker(data.speaker);
         } else {
-            this._speaker = options.speaker as SohlSpeaker;
-            this._chat = new SohlSpeaker(parent, {
-                speaker: options.speaker,
-                rollMode: options.rollMode,
-            });
+            this._speaker = data.speaker as SohlSpeaker;
         }
 
-        if (options.logicUuid)
-            this._item = foundryHelpers.fromUuidSync(
-                options.logicUuid,
-            ) as unknown as SohlItem;
+        if (data.targetUuid) {
+            let target = foundryHelpers.fromUuidSync(data.targetUuid);
+            if (target instanceof SohlActor) {
+                this.actor = target;
+            } else if (target instanceof SohlItem) {
+                this.item = target;
+                this.actor = target.actor;
+            }
+        }
 
-        this._user = getUser(options.userId);
+        this.user = game.users.get(data.userId) ?? game.user;
+        this.skipDialog = data.skipDialog ?? false;
+        this.noChat = data.noChat ?? false;
+        this.type = data.type ?? "";
+        this.title = data.title ?? "";
+        this.scope = data.scope ?? {};
+    }
 
-        if (this._speaker.token)
-            this._token = canvas.tokens?.get(this._speaker.token);
-        this._actor =
-            this._token ?
-                this._token.actor
-            :   game.actors?.get(this._speaker.actor);
+    get character(): SohlActor | null {
+        return this.user.character ?? null;
+    }
 
-        if (!this._actor) this._actor = this._item?.entity?.actor;
-
-        this._chat ||= new SohlSpeaker({
-            speaker: this._speaker,
-            rollMode: options.rollMode,
-        });
+    get token(): foundry.documents.TokenDocument | null {
+        return game.canvas.tokens?.get(this._speaker._token) ?? null;
     }
 
     /**
-     * @summary Gets the chat context.
-     * @returns {SohlSpeaker} The chat context associated with this action context.
+     * @summary Gets the speaker.
+     * @returns {SohlSpeaker} The speaker associated with this action context.
      */
-    get chat(): SohlSpeaker {
-        return this._chat;
+    get speaker(): SohlSpeaker {
+        return this._speaker;
     }
 
     /**
@@ -97,12 +106,15 @@ export class ActionContext {
      * @returns {Object} The JSON representation of the ActionContext.
      */
     toJSON(): Record<string, unknown> {
-        const { speaker, rollMode } = this._chat.toJSON();
         return {
-            userId: this._user.id,
-            speaker: this._speaker,
-            logic: this._item?.uuid,
-            rollMode: this._chat.rollMode,
+            userId: this.user.id,
+            speaker: this._speaker.toJSON(),
+            skipDialog: this.skipDialog,
+            noChat: this.noChat,
+            type: this.type,
+            title: this.title,
+            itemUuid: (this.item as any)?.uuid,
+            scope: defaultToJSON(this.scope),
         };
     }
 
@@ -112,7 +124,7 @@ export class ActionContext {
      * @param {Object} data - The data to convert.
      * @returns {ActionContext} A new ActionContext instance.
      */
-    static fromData(data: Record<string, unknown>): ActionContext {
+    static fromData(data: ActionData): ActionContext {
         return new ActionContext(data);
     }
 
@@ -126,9 +138,12 @@ export class ActionContext {
     }
 
     evaluate(
-        fn: string | ((args: Record<string, unknown>) => unknown),
+        fn: string | ((args: UnknownObject) => unknown),
         thisArg: unknown,
-        params: Record<string, unknown> = { async: false },
+        params: {
+            async?: boolean;
+            [key: string]: unknown;
+        } = { async: false },
     ): unknown {
         if (typeof fn !== "string" && typeof fn !== "function") {
             throw new Error("evaluateSync requires a function or string.");
@@ -141,9 +156,9 @@ export class ActionContext {
         delete params.async;
 
         const args = {
-            logic: this._item,
+            logic: this.item,
             speaker: this._speaker,
-            user: this._user,
+            user: this.user,
             ...params,
         };
         if (typeof fn === "string") {
@@ -161,7 +176,4 @@ export class ActionContext {
         // unless specifically allowed, promises are ignored
         return !asyncAllowed && result instanceof Promise ? undefined : result;
     }
-}
-function getUser(userId: string | undefined): User {
-    throw new Error("Function not implemented.");
 }

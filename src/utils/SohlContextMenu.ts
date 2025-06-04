@@ -11,15 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { foundryHelpers } from "@utils";
+import { SohlItem } from "@common/item";
+import { defineType } from "@utils";
 /**
  * Options for configuring the context menu.
  */
-export interface ContextMenuOptions {
+export interface SohlContextMenuOptions {
     eventName?: string;
     onOpen?: ContextMenuCallback;
     onClose?: ContextMenuCallback;
     fixed?: boolean;
+    jQuery?: boolean;
 }
 
 /**
@@ -40,17 +42,23 @@ export interface ContextMenuRenderOptions {
 /**
  * Constants for context menu groups.
  */
-export const ContextMenuSortGroup = {
+export const {
+    kind: CONTEXTMENU_SORT_GROUP,
+    values: contextMenuSortGroups,
+    isValue: isContextMenuSortGroup,
+} = defineType("ContextMenu.SORT_GROUP", {
     DEFAULT: "default",
     ESSENTIAL: "essential",
     GENERAL: "general",
     HIDDEN: "hidden",
-} as const;
+});
+export type ContextMenuSortGroup =
+    (typeof CONTEXTMENU_SORT_GROUP)[keyof typeof CONTEXTMENU_SORT_GROUP];
 
 /**
  * Represents an entry in the context menu.
  */
-export interface ContextMenuEntry {
+export interface SohlContextMenuEntry {
     /**
      * The context menu entry identifier.
      */
@@ -84,12 +92,12 @@ export interface ContextMenuEntry {
     /**
      * Context menu group.
      */
-    group?: string;
+    group: string;
 
     /**
      * The function to call when the menu item is clicked.
      */
-    callback: ContextMenuCallback;
+    callback?: ContextMenuCallback;
 
     /**
      * A function to call or boolean value to determine if this entry appears in the menu.
@@ -100,10 +108,39 @@ export interface ContextMenuEntry {
 export class SohlContextMenu extends foundry.applications.ux.ContextMenu {
     readonly implementation!: typeof SohlContextMenu;
 
+    constructor(
+        container: HTMLElement,
+        selector: string,
+        menuItems: SohlContextMenuEntry[],
+        options: SohlContextMenuOptions = {},
+    ) {
+        options.jQuery = options.jQuery || false;
+        super(container, selector, menuItems, options);
+        this.options.eventName = this.options.eventName || "contextmenu";
+    }
+
+    static _getContextItem(header: HTMLElement): SohlItem | null {
+        const element = header.closest(".item") as HTMLElement;
+        const item =
+            element?.dataset?.effectId &&
+            foundryHelpers.fromUuidSync(element.dataset.itemId);
+        return item && typeof item === "object" ? (item as SohlItem) : null;
+    }
+
+    // _getContextEffect(header: HTMLElement): SohlActiveEffectProxy | null {
+    //     const element = header.closest(".effect") as HTMLElement;
+    //     const item =
+    //         element?.dataset?.effectId &&
+    //         foundryHelpers.fromUuidSync(element.dataset.effectId);
+    //     return item && typeof item === "object" ?
+    //             (item as SohlItem)
+    //         :   null;
+    // }
+
     _setPosition(
         element: HTMLElement,
         target: HTMLElement,
-        options?: foundry.applications.ux.ContextMenu.RenderOptions,
+        options?: PlainObject,
     ): void {
         const mouseEvent = options?.event;
         if (!mouseEvent) {

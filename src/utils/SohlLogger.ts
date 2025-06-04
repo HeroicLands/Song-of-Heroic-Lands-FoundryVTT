@@ -11,15 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { defineType } from "@utils";
 import { SourceMapConsumer } from "source-map";
-import { onError } from "@foundry";
 
-export enum LogLevel {
-    DEBUG = "debug",
-    INFO = "info",
-    WARN = "warn",
-    ERROR = "error",
-}
+export const {
+    kind: LOGLEVEL,
+    values: LogLevels,
+    isValue: isLogLevel,
+} = defineType({
+    DEBUG: "debug",
+    INFO: "info",
+    WARN: "warn",
+    ERROR: "error",
+});
+export type LogLevel = (typeof LOGLEVEL)[keyof typeof LOGLEVEL];
 
 interface LogCallerInfo {
     className: string;
@@ -33,11 +38,11 @@ interface LogCallerInfo {
 
 interface LogOptions {
     logLevel: LogLevel;
-    notifyLevel?: LogLevel | null;
-    error?: Error;
-    location?: string;
-    useHooks?: boolean;
-    data?: PlainObject;
+    notifyLevel: LogLevel | null;
+    error: Error;
+    location: string;
+    useHooks: boolean;
+    [key: string]: unknown;
 }
 
 export class SohlLogger {
@@ -46,7 +51,7 @@ export class SohlLogger {
     private static _sourceMapLoading: boolean;
     private static _threshold: LogLevel; // configurable?
 
-    private constructor(threshold: LogLevel = LogLevel.INFO) {
+    private constructor(threshold: LogLevel = LOGLEVEL.INFO) {
         const sourceMapUrl = "systems/sohl/index.map";
 
         SohlLogger._threshold = threshold;
@@ -71,20 +76,20 @@ export class SohlLogger {
         }
     }
 
-    public static getInstance(threshold: LogLevel = LogLevel.INFO): SohlLogger {
+    public static getInstance(threshold: LogLevel = LOGLEVEL.INFO): SohlLogger {
         if (!SohlLogger._instance) {
             SohlLogger._instance = new SohlLogger(threshold);
         }
         return SohlLogger._instance;
     }
 
-    setLogThreshold(level: LogLevel) {
-        if (Object.values(LogLevel).includes(level)) {
+    setLogThreshold(level: LogLevel | string) {
+        if (isLogLevel(level)) {
             SohlLogger._threshold = level;
         } else {
             console.warn(
                 `⚠️ Invalid log level "${level}". Valid levels are: ${Object.values(
-                    LogLevel,
+                    LOGLEVEL,
                 ).join(", ")}`,
             );
         }
@@ -96,10 +101,10 @@ export class SohlLogger {
 
     private static shouldLog(level: LogLevel): boolean {
         const levels = [
-            LogLevel.DEBUG,
-            LogLevel.INFO,
-            LogLevel.WARN,
-            LogLevel.ERROR,
+            LOGLEVEL.DEBUG,
+            LOGLEVEL.INFO,
+            LOGLEVEL.WARN,
+            LOGLEVEL.ERROR,
         ];
         return levels.indexOf(level) >= levels.indexOf(SohlLogger._threshold);
     }
@@ -172,16 +177,15 @@ export class SohlLogger {
         return result;
     }
 
-    log(
-        message: string = "",
-        {
-            logLevel = LogLevel.INFO,
+    log(message: string = "", options: Partial<LogOptions> = {}): void {
+        let {
+            logLevel = LOGLEVEL.INFO,
             notifyLevel = null,
-            error = undefined,
+            error = null,
+            location = null,
             useHooks = false,
-            data = {},
-        }: LogOptions,
-    ): void {
+            ...data
+        } = options;
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, "0");
         const minutes = String(now.getMinutes()).padStart(2, "0");
@@ -202,19 +206,19 @@ export class SohlLogger {
 
         let logMessage;
         switch (logLevel) {
-            case LogLevel.WARN:
+            case LOGLEVEL.WARN:
                 logMessage = `WARN|${timeLabel}|${callerInfo.label} ${fallbackMessage}`;
                 break;
 
-            case LogLevel.ERROR:
+            case LOGLEVEL.ERROR:
                 logMessage = `ERROR|${timeLabel}|${callerInfo.label} ${fallbackMessage} @ ${callerInfo.labelDetail}`;
                 break;
 
-            case LogLevel.DEBUG:
+            case LOGLEVEL.DEBUG:
                 logMessage = `DEBUG|${timeLabel}|${callerInfo.label} ${fallbackMessage}`;
                 break;
 
-            case LogLevel.INFO:
+            case LOGLEVEL.INFO:
             default:
                 logMessage = `INFO|${timeLabel} ${fallbackMessage}`;
                 break;
@@ -223,7 +227,7 @@ export class SohlLogger {
         if (error) {
             const newError = new Error(logMessage, { cause: error });
             if (useHooks) {
-                onError(callerInfo.label, newError, {
+                Hooks.onError(callerInfo.label, newError, {
                     message,
                     log: logLevel,
                     notify: notifyLevel,
@@ -242,62 +246,62 @@ export class SohlLogger {
 
         if (notifyLevel && message) {
             switch (notifyLevel) {
-                case LogLevel.INFO:
+                case LOGLEVEL.INFO:
                     this.uiInfo(localMessage);
                     break;
-                case LogLevel.WARN:
+                case LOGLEVEL.WARN:
                     this.uiWarn(localMessage);
                     break;
-                case LogLevel.ERROR:
+                case LOGLEVEL.ERROR:
                     this.uiError(localMessage);
                     break;
             }
         }
     }
 
-    info(message: string, data: PlainObject = {}): void {
-        this.log(message, { logLevel: LogLevel.INFO, data });
+    info(message: string, data?: PlainObject): void {
+        this.log(message, { ...data, logLevel: LOGLEVEL.INFO });
     }
 
-    warn(message: string, data: PlainObject = {}): void {
-        this.log(message, { logLevel: LogLevel.WARN, data });
+    warn(message: string, data?: PlainObject): void {
+        this.log(message, { ...data, logLevel: LOGLEVEL.WARN });
     }
 
-    error(message: string, data: PlainObject = {}): void {
-        this.log(message, { logLevel: LogLevel.ERROR, data });
+    error(message: string, data?: PlainObject): void {
+        this.log(message, { ...data, logLevel: LOGLEVEL.ERROR });
     }
 
-    debug(message: string, data: PlainObject = {}): void {
-        this.log(message, { logLevel: LogLevel.DEBUG, data });
+    debug(message: string, data?: PlainObject): void {
+        this.log(message, { ...data, logLevel: LOGLEVEL.DEBUG });
     }
 
-    uiInfo(message: string, data: PlainObject = {}): void {
+    uiInfo(message: string, data?: PlainObject): void {
         this.log(message, {
-            logLevel: LogLevel.INFO,
-            notifyLevel: LogLevel.INFO,
-            data,
+            ...data,
+            logLevel: LOGLEVEL.INFO,
+            notifyLevel: LOGLEVEL.INFO,
         });
     }
 
-    uiWarn(message: string, data: PlainObject = {}): void {
+    uiWarn(message: string, data?: PlainObject): void {
         this.log(message, {
-            logLevel: LogLevel.WARN,
-            notifyLevel: LogLevel.WARN,
-            data,
+            ...data,
+            logLevel: LOGLEVEL.WARN,
+            notifyLevel: LOGLEVEL.WARN,
         });
     }
-    uiError(message: string, data: PlainObject = {}): void {
+    uiError(message: string, data?: PlainObject): void {
         this.log(message, {
-            logLevel: LogLevel.ERROR,
-            notifyLevel: LogLevel.ERROR,
-            data,
+            ...data,
+            logLevel: LOGLEVEL.ERROR,
+            notifyLevel: LOGLEVEL.ERROR,
         });
     }
-    uiDebug(message: string, data: PlainObject = {}): void {
+    uiDebug(message: string, data?: PlainObject): void {
         this.log(message, {
-            logLevel: LogLevel.DEBUG,
-            notifyLevel: LogLevel.DEBUG,
-            data,
+            ...data,
+            logLevel: LOGLEVEL.DEBUG,
+            notifyLevel: LOGLEVEL.DEBUG,
         });
     }
 }

@@ -6,10 +6,10 @@ const isTest = process.env.VITEST === "true";
 export default defineConfig({
     resolve: {
         alias: {
-            "@foundry/core/foundry-helpers":
+            "@common/foundry-helpers":
                 isTest ?
                     "/tests/mocks/foundry/core/foundry-helpers.mjs"
-                :   "/src/foundry/core/foundry-helpers.mjs",
+                :   "/src/common/foundry-helpers.mjs",
         },
     },
     test: {

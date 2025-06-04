@@ -11,11 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlBaseParent, SohlPerformer } from "@logic/common/core";
-import { RegisterClass, DataField, CollectionType } from "./decorators";
-import { foundry } from "@foundry";
+import { SohlBase, SohlPerformer } from "@common";
+import { RegisterClass } from "./decorators";
 
-type FoundryRoll = foundry.dice.Roll;
 export interface SimpleRollData {
     numDice: number;
     dieFaces: number;
@@ -23,21 +21,14 @@ export interface SimpleRollData {
     rolls: number[];
 }
 
-@RegisterClass("SimpleRoll", "0.6.0")
+@RegisterClass({
+    kind: "SimpleRoll",
+    schemaVersion: "0.0.1",
+})
 export class SimpleRoll extends SohlBase<SohlPerformer> {
-    @DataField("numDice", { type: Number, initial: 0 })
     numDice!: number;
-
-    @DataField("dieFaces", { type: Number, initial: 0 })
     dieFaces!: number;
-
-    @DataField("modifier", { type: Number, initial: 0 })
     modifier!: number;
-
-    @DataField("rolls", {
-        type: Number,
-        collection: CollectionType.ARRAY,
-    })
     rolls!: number[];
 
     /**
@@ -101,7 +92,7 @@ export class SimpleRoll extends SohlBase<SohlPerformer> {
         return this.rolls.reduce((sum, r) => sum + r, 0) + this.modifier;
     }
 
-    static fromFormula(parent: SohlBaseParent, formula: string): SimpleRoll {
+    static fromFormula(formula: string): SimpleRoll {
         const match = formula
             .trim()
             .match(/^(?:(\d*)d(\d+))?(?:\s*([+-]\s*\d+))?$/i);
@@ -117,7 +108,7 @@ export class SimpleRoll extends SohlBase<SohlPerformer> {
         const dieFaces = dieFacesStr ? parseInt(dieFacesStr) : 0;
         const modifier =
             modifierStr ? parseInt(modifierStr.replace(/\s+/g, "")) : 0;
-        return new SimpleRoll(parent, {
+        return new SimpleRoll({
             numDice,
             dieFaces,
             modifier,
@@ -136,31 +127,28 @@ export class SimpleRoll extends SohlBase<SohlPerformer> {
          * @param {RollTerm} term
          * @returns {boolean}
          */
-        function isDieTerm(term) {
-            const DieTerm = CONFIG.Dice.termTypes.Die;
-            return term instanceof DieTerm;
+        function isDieTerm(term: unknown): term is foundry.dice.terms.Die {
+            return term instanceof foundry.dice.terms.Die;
         }
 
         const formulaParts = [];
-        if (simpleRoll.numDice > 0 && simpleRoll.dieFaces > 0) {
-            formulaParts.push(`${simpleRoll.numDice}d${simpleRoll.dieFaces}`);
+        if (this.numDice > 0 && this.dieFaces > 0) {
+            formulaParts.push(`${this.numDice}d${this.dieFaces}`);
         }
-        if (simpleRoll.modifier !== 0) {
-            formulaParts.push(
-                (simpleRoll.modifier > 0 ? "+" : "") + simpleRoll.modifier,
-            );
+        if (this.modifier !== 0) {
+            formulaParts.push((this.modifier > 0 ? "+" : "") + this.modifier);
         }
 
         const formula = formulaParts.join(" ");
         const roll = new Roll(formula);
         for (const term of roll.terms) {
             if (isDieTerm(term)) {
-                if (simpleRoll.rolls.length !== term.number) {
+                if (this.rolls.length !== term.number) {
                     throw new Error(
                         "Mismatch between term and provided rolls.",
                     );
                 }
-                term.results = simpleRoll.rolls.map((r) => ({
+                term.results = this.rolls.map((r) => ({
                     result: r,
                     active: true,
                 }));
@@ -170,5 +158,3 @@ export class SimpleRoll extends SohlBase<SohlPerformer> {
         return roll;
     }
 }
-
-const foo = foundry.utils.randomID();

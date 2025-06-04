@@ -11,109 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    KIND_KEY,
-    SCHEMA_VERSION_KEY,
-    SohlBase,
-    SohlBaseParent,
-} from "@logic/common/core";
-import { SohlMap } from "@utils";
-type FoundryHelpers = typeof import("foundry/common/utils/helpers.d.mts");
-type CoreUtils = typeof import("foundry/client/core/utils.d.mts");
-
-type FoundryUtilsType = FoundryHelpers &
-    CoreUtils & {
-        /**
-         * Export data content to be saved to a local file
-         * @param data     - Data content converted to a string
-         * @param type     - The type of
-         * @param filename - The filename of the resulting download
-         */
-        saveDataToFile(data: string, type: string, filename: string): void;
-
-        /**
-         * Read text data from a user provided File object
-         * @param file - A File object
-         * @returns A Promise which resolves to the loaded text data
-         */
-        readTextFromFile(file: File): Promise<string>;
-
-        /**
-         * Retrieve an Entity or Embedded Entity by its Universally Unique Identifier (uuid).
-         * @param uuid    - The uuid of the Entity or Embedded Entity to retrieve
-         * @param options - Options to configure how a UUID is resolved.
-         */
-        fromUuid<
-            ConcreteDocument extends
-                foundry.abstract.Document.Any = foundry.abstract.Document.Any,
-            const Uuid extends string = string,
-        >(
-            uuid: string | null | undefined,
-            options?: {
-                /** A Document to resolve relative UUIDs against. */
-                relative?: foundry.documents.ClientDocument;
-                /** Allow retrieving an invalid Document. (default: `false`) */
-                invalid?: boolean;
-            },
-        ): Promise<
-            | (foundry.abstract.Document.Any extends ConcreteDocument ? string
-              :   ConcreteDocument)
-            | null
-        >;
-
-        /**
-         * Retrieve a Document by its Universally Unique Identifier (uuid) synchronously. If the uuid resolves to a compendium
-         * document, that document's index entry will be returned instead.
-         * @param uuid     - The uuid of the Document to retrieve.
-         * @param relative - A document to resolve relative UUIDs against.
-         * @returns The Document or its index entry if it resides in a Compendium, otherwise null.
-         * @throws If the uuid resolves to a Document that cannot be retrieved synchronously.
-         */
-        fromUuidSync<
-            ConcreteDocument extends
-                foundry.abstract.Document.Any = foundry.abstract.Document.Any,
-            const Uuid extends string = string,
-        >(
-            uuid: string | null | undefined,
-            options?: {
-                /** A Document to resolve relative UUIDs against. */
-                relative?: foundry.documents.ClientDocument;
-                /** Allow retrieving an invalid Document. (default: `false`) */
-                invalid?: boolean;
-                /** Throw an error if the UUID cannot be resolved synchronously. (default: `true`) */
-                strict?: boolean;
-            },
-        ):
-            | (foundry.abstract.Document.Any extends ConcreteDocument ? string
-              :   ConcreteDocument)
-            | AnyObject
-            | null;
-
-        /**
-         * Resolve a series of embedded document UUID parts against a parent Document.
-         * @param parent - The parent Document.
-         * @param parts  - A series of Embedded Document UUID parts.
-         * @returns The resolved Embedded Document.
-         * @internal
-         */
-        _resolveEmbedded(
-            parent: foundry.abstract.Document.Any,
-            parts: string[],
-        ): foundry.abstract.Document.Any;
-
-        /**
-         * Return a reference to the Document class implementation which is configured for use.
-         * @param documentName - The canonical Document name, for example "Actor"
-         * @returns configured Document class implementation
-         */
-        getDocumentClass<Name extends foundry.abstract.Document.Type>(
-            documentName: Name,
-        ): foundry.abstract.Document.ImplementationClassFor<Name>;
-        cleanHTML(raw: string): string;
-        deleteProperty(obj: PlainObject, path: string): boolean;
-    };
-
-export var foundryHelpers = foundry.utils as unknown as FoundryUtilsType;
+import { SohlBase } from "@common";
+import { SohlMap } from "@utils/collection";
 
 export type SohlSettingValue =
     | string
@@ -513,11 +412,11 @@ export function registerValue(
     },
 ): void {
     if (typeof pathOrObject === "string") {
-        foundryHelpers.setProperty(sohl, pathOrObject, value);
+        foundry.utils.setProperty(sohl, pathOrObject, value);
     } else if (typeof pathOrObject === "object") {
-        const flattened = foundryHelpers.flattenObject(pathOrObject);
+        const flattened = foundry.utils.flattenObject(pathOrObject);
         for (const [path, val] of Object.entries(flattened)) {
-            foundryHelpers.setProperty(sohl, path, val);
+            foundry.utils.setProperty(sohl, path, val);
         }
     }
 }
@@ -529,54 +428,30 @@ export function registerValue(
  * @returns True if the path was successfully removed.
  */
 export function unregisterValue(path: string): boolean {
-    return foundryHelpers.deleteProperty(globalThis.sohl, path);
+    return fvtt.utils.deleteProperty(globalThis.sohl, path);
 }
 
-/**
- * Create a new SohlBase instance from registered metadata.
- *
- * The `data` object must contain both a `kind` and `schemaVersion`.
- * It retrieves the registered class constructor from the global registry,
- * and optionally migrates the data if needed.
- *
- * @param parent - The parent object to assign to the new instance.
- * @param data - The initial data used to create the object.
- * @param options - Any additional configuration options.
- * @returns A new instance of the appropriate SohlBase subclass.
- * @throws If the data is invalid or no constructor is registered for the kind.
- */
-export function registeredClassFactory(
-    parent: SohlBaseParent,
-    data: Record<string, any> = {},
-    options: Record<string, unknown> = {},
-): SohlBase {
-    if (!data) throw new TypeError("Data cannot be empty");
-    if (typeof data !== "object") throw new TypeError("Data must be an object");
+export async function toHTMLWithTemplate(
+    template: FilePath,
+    data: PlainObject = {},
+): Promise<HTMLString> {
+    const html = await fvtt.applications.handlebars.renderTemplate(
+        template,
+        data,
+    );
+    return toSanitizedHTML(html);
+}
 
-    const kind = data[KIND_KEY];
-    const schemaVersion = data[SCHEMA_VERSION_KEY];
-
-    if (!kind)
-        throw new TypeError(
-            `Missing or invalid ${KIND_KEY} key in SohlBaseData.`,
-        );
-    if (!schemaVersion)
-        throw new TypeError(
-            `Missing or invalid ${SCHEMA_VERSION_KEY} key in SohlBaseData.`,
-        );
-
-    const classInfo = sohl.classRegistry.get(kind);
-    if (!classInfo?.ctor) {
-        throw new Error(
-            `Class '${kind}' is not registered in SohlBaseRegistry.`,
-        );
-    }
-
-    if (foundryHelpers.isNewerVersion(classInfo.schemaVersion, schemaVersion)) {
-        data = classInfo.ctor?.migrateData?.(data);
-    }
-
-    return classInfo.create(parent, data, options);
+export async function toHTMLWithContent(
+    content: string,
+    data: PlainObject = {},
+): Promise<HTMLString> {
+    const compiled = Handlebars.compile(content);
+    const result = compiled(data, {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+    });
+    return toSanitizedHTML(result);
 }
 
 export function createUniqueName<T extends { name: string }>(
@@ -603,78 +478,53 @@ export function createUniqueName<T extends { name: string }>(
  * alternative to `instanceof`, even working across mixins and other mechanisms
  * where the prototype chain may not be straightforward.
  *
- * The following kinds are supported:
- * - `String`
- * - `Number`
- * - `BigInt`
- * - `Boolean`
- * - `Null`
- * - Any class name registered with the `@RegisterClass` decorator.
- *
  * @remarks
  * This function only works for classes that have been registered with the
- * `@RegisterClass` decorator. Note that this will return false if it encounters
- * any constructor that does not have the `_metadata` property before it finds
- * the class it is looking for.
+ * `@RegisterClass` decorator.
  *
- * @param kind - The name of the class to match against.
- * @returns True if this object or any of its ancestors are of the specified class.
+ * @param value - The object to check.
+ * @param cls - The class to match against.
+ * @returns `true` if the `value` or any constructor in its prototype chain has a
+ *     static `_metadata.kind` matching that of `cls`.
  * @example
  * ```ts
+ * class UnregisteredClass {}
+ *
  * @RegisterClass({ name: "ParentClass" })
- * class ParentClass {}
+ * class ParentClass extends UnregisteredClass {}
  *
  * @RegisterClass({ name: "MyClass" })
  * class MyClass extends MyClass {}
  *
  * const obj = new MyClass();
- * console.log(obj.isOfType("ParentClass")); // true
- * console.log(obj.isOfType("MyClass")); // true
- * console.log(obj.isOfType("NonExistentClass")); // false
+ * console.log(isOfKind(obj, ParentClass)); // true
+ * console.log(isOfKind(obj, MyClass)); // true
+ * console.log(isOfKind(obj, UnregisterdClass)); // false
  * ```
  */
-export function isOfType<T extends SohlBase>(
+export function isOfKind<T extends AnyConstructor>(
     value: unknown,
-    kind: string,
-): value is T {
-    if (value === undefined || kind === undefined) return false;
-    if (value === null) return kind === "Null";
+    cls: T,
+): value is InstanceType<T> {
+    if ((cls as any)._metadata?.name) {
+        const clsKind = (cls as any)._metadata?.kind;
+        if (typeof clsKind === "string") {
+            let proto = Object.getPrototypeOf(value);
 
-    const objType = typeof value;
+            while (proto && typeof proto.constructor === "function") {
+                const ctor = proto.constructor as {
+                    _metadata?: { kind: string };
+                };
 
-    if (kind === "String" && (objType === "string" || value instanceof String))
-        return true;
+                if (ctor._metadata?.kind === clsKind) {
+                    return true;
+                }
 
-    if (
-        kind === "Boolean" &&
-        (objType === "boolean" || value instanceof Boolean)
-    )
-        return true;
-
-    if (kind === "Number" && (objType === "number" || value instanceof Number))
-        return true;
-
-    if (kind === "BigInt" && (objType === "bigint" || value instanceof BigInt))
-        return true;
-
-    if (objType !== "object") return false;
-
-    if ((value as any).type === kind) return true;
-
-    // At this point, value is object-like
-    let proto = Object.getPrototypeOf(value);
-
-    while (proto && typeof proto.constructor === "function") {
-        const ctor = proto.constructor as { _metadata?: { name: string } };
-
-        if (ctor._metadata?.name === kind) {
-            return true;
+                proto = Object.getPrototypeOf(proto);
+            }
         }
-
-        proto = Object.getPrototypeOf(proto);
     }
-
-    return false;
+    return value instanceof cls;
 }
 
 export class InvalidHtmlError extends Error {
@@ -684,30 +534,146 @@ export class InvalidHtmlError extends Error {
     }
 }
 
-/**
- * @summary Validates and brands a raw string as safe HTML.
- *
- * @remarks
- * This function uses the DOMParser API to ensure that the input string is valid,
- * well-formed HTML. If the parser modifies the input in any way—such as closing tags,
- * altering nesting, or stripping content—the function will throw an {@link InvalidHtmlError}.
- *
- * If the input string is accepted without modification, it is returned as a branded
- * {@link HtmlString} type to indicate it has passed validation and is safe for use in
- * HTML contexts.
- *
- * @param raw - The raw HTML string to validate.
- * @returns The validated HTML string, branded as {@link HtmlString}.
- * @throws {InvalidHtmlError} If the HTML is malformed, unsafe, or was altered by the DOM parser.
- */
-export function safeHTML(raw: string): HtmlString {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(raw, "text/html");
-    const parsed = doc.body.innerHTML;
+export function defineType<const T extends Record<string, unknown>>(
+    prefix: string,
+    def: T,
+) {
+    type KindValue = T[keyof T];
 
-    if (parsed !== raw) {
-        throw new InvalidHtmlError("Invalid or unsafe HTML.");
+    const values = Object.values(def) as KindValue[];
+    const isValue = (value: unknown): value is KindValue =>
+        values.includes(value as KindValue);
+    const labels = Object.fromEntries(
+        Object.entries(def).map(([k, v]) => [k, `SOHL.${prefix}.${v}`]),
+    );
+    return {
+        kind: def,
+        values,
+        isValue,
+        labels,
+        Type: null as unknown as KindValue, // utility only for inference
+    };
+}
+
+type AsyncFunctionType = (...args: any[]) => Promise<any>;
+
+export const AsyncFunction = Object.getPrototypeOf(async function () {})
+    .constructor as new (...args: string[]) => AsyncFunctionType;
+
+export type FilePath = string & { __brand: "FilePath" };
+
+export const FILE_PATH_REGEX =
+    /^(file:\/\/\/?|[a-zA-Z]:[\\/]|[\\/])?[^<>:"|?*\n\r]+(?:[\\/][^<>:"|?*\n\r]+)*$/;
+
+export function isFilePath(value: string): value is FilePath {
+    return FILE_PATH_REGEX.test(value);
+}
+
+export function toFilePath(value: string): FilePath {
+    if (!isFilePath(value)) throw new Error("Invalid file path format");
+    return value as FilePath;
+}
+
+export type HTMLString = string & { __brand: "HTMLString" };
+
+export function isHTMLString(value: unknown): value is HTMLString {
+    if (typeof value !== "string") return false;
+
+    try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(value, "text/html");
+
+        // Consider it valid if it contains at least one element node
+        return Array.from(doc.body.childNodes).some(
+            (node) => node.nodeType === Node.ELEMENT_NODE,
+        );
+    } catch {
+        return false;
+    }
+}
+
+export function toHTMLString(value: string): HTMLString {
+    if (!isHTMLString(value)) throw new Error("Invalid HTML string format");
+    return value as HTMLString;
+}
+
+/**
+ * Converts a string or HTMLString into a sanitized HTMLString.
+ * If the input is plain text, wraps it in a specified HTML element (default: <p>).
+ */
+export function toSanitizedHTML(
+    value: string | HTMLString,
+    wrapperTag: "p" | "div" | "span" = "p",
+): HTMLString {
+    let raw: string;
+
+    if (isHTMLString(value)) {
+        raw = value;
+    } else {
+        const wrapper = document.createElement(wrapperTag);
+        wrapper.textContent = value;
+        raw = wrapper.outerHTML;
     }
 
-    return raw as HtmlString;
+    // DOM-based sanitization
+    const template = document.createElement("template");
+    template.innerHTML = raw;
+
+    const disallowedTags = ["script", "iframe", "object", "embed", "style"];
+    disallowedTags.forEach((tag) => {
+        const elements = template.content.querySelectorAll(tag);
+        elements.forEach((el) => el.remove());
+    });
+
+    const walker = document.createTreeWalker(
+        template.content,
+        NodeFilter.SHOW_ELEMENT,
+    );
+    while (walker.nextNode()) {
+        const el = walker.currentNode as HTMLElement;
+        for (const attr of Array.from(el.attributes)) {
+            if (
+                attr.name.startsWith("on") ||
+                attr.value.toLowerCase().startsWith("javascript:")
+            ) {
+                el.removeAttribute(attr.name);
+            }
+        }
+    }
+
+    return template.innerHTML as HTMLString;
+}
+
+export type DocumentId = string & { __brand: "DocId" };
+
+export function isDocumentId(value: unknown): value is DocumentId {
+    return typeof value === "string" && /^[a-zA-Z0-9]{16}$/.test(value);
+}
+
+export function toDocumentId(value: string): DocumentId {
+    if (!isDocumentId(value))
+        throw new TypeError(`Invalid FoundryID: ${value}`);
+    return value as DocumentId;
+}
+
+export type DocumentUuid = string & { __brand: "DocumentUuid" };
+
+const uuidRegex =
+    /^(?:[A-Z][a-zA-Z]+)\.[a-zA-Z0-9]{16}$|^Compendium\.[a-z0-9-_]+\.[A-Z][a-zA-Z]+\.[a-zA-Z0-9]{16}$/;
+
+export function isDocumentUuid(value: unknown): value is DocumentUuid {
+    return typeof value === "string" && uuidRegex.test(value);
+}
+
+export function toDocumentUuid(value: string): DocumentUuid {
+    if (!isDocumentUuid(value)) {
+        throw new TypeError(`Invalid DocumentUuid: "${value}"`);
+    }
+    return value as DocumentUuid;
+}
+
+export function baseClassOf<T extends abstract new (...args: any) => any>(
+    ctor: T,
+): T {
+    return ctor;
 }

@@ -12,4 +12,3 @@
  */
 
 export * from "./RegisterClass";
-export * from "./DataField";
