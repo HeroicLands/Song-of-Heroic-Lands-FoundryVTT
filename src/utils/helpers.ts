@@ -12,6 +12,7 @@
  */
 
 import { SohlBase } from "@common";
+import { InternalClientDocument } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document.mjs";
 import { SohlMap } from "@utils/collection";
 
 export type SohlSettingValue =
@@ -443,7 +444,7 @@ export async function toHTMLWithTemplate(
 }
 
 export async function toHTMLWithContent(
-    content: string,
+    content: HTMLString,
     data: PlainObject = {},
 ): Promise<HTMLString> {
     const compiled = Handlebars.compile(content);
@@ -532,6 +533,42 @@ export class InvalidHtmlError extends Error {
         super(message);
         this.name = "InvalidHtmlError";
     }
+}
+
+export function isString(value: unknown): value is string {
+    return typeof value === "string";
+}
+
+export function isNumber(value: unknown): value is number {
+    return typeof value === "number" && !Number.isNaN(value);
+}
+
+export function isBoolean(value: unknown): value is boolean {
+    return typeof value === "boolean";
+}
+
+export function isFunction(value: unknown): value is Function {
+    return typeof value === "function";
+}
+
+export function isObject(value: unknown): value is object {
+    return typeof value === "object" && value !== null;
+}
+
+export function isUndefined(value: unknown): value is undefined {
+    return typeof value === "undefined";
+}
+
+export function isNull(value: unknown): value is null {
+    return value === null;
+}
+
+export function isSymbol(value: unknown): value is symbol {
+    return typeof value === "symbol";
+}
+
+export function isBigInt(value: unknown): value is bigint {
+    return typeof value === "bigint";
 }
 
 export function defineType<const T extends Record<string, unknown>>(
@@ -676,4 +713,25 @@ export function baseClassOf<T extends abstract new (...args: any) => any>(
     ctor: T,
 ): T {
     return ctor;
+}
+
+export function ClientDocumentExtendedMixin<
+    TBase extends Constructor<any>,
+    TOther extends object,
+>(
+    Base: TBase,
+    other: TOther,
+): TBase &
+    Constructor<TOther> &
+    foundry.abstract.Document.Any &
+    InternalClientDocument {
+    return class extends Base {
+        constructor(...args: any[]) {
+            super(...args);
+            Object.assign(this, other);
+        }
+    } as TBase &
+        Constructor<TOther> &
+        foundry.abstract.Document.Any &
+        InternalClientDocument;
 }

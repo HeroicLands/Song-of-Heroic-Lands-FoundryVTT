@@ -14,58 +14,39 @@
 import { SohlItem } from "@common/item";
 import { SubTypeMixin } from "@common/item";
 import { RegisterClass } from "@utils/decorators";
-import {
-    ActionContext,
-    CONTEXTMENU_SORT_GROUP,
-    defineType,
-    HTMLString,
-    SohlClassRegistry,
-    SohlContextMenu,
-    SohlContextMenuEntry,
-} from "@utils";
-import { SohlDataModel, SohlPerformer } from "@common";
+import { defineType, SohlContextMenu, toHTMLString } from "@utils";
+import { SohlDataModel, SohlLogic } from "@common";
 import { ValueModifier } from "@common/modifier";
 import { SohlAction } from "@common/event";
+import { SuccessTestResult } from "@common/result";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
 const kAffliction = Symbol("Affliction");
-const kDataModel = Symbol("Affliction.DataModel");
+const kData = Symbol("Affliction.Data");
 
 @RegisterClass(
-    new SohlPerformer.Element({
+    new SohlLogic.Element({
         kind: "Affliction",
-        defaultAction: Affliction.IntrinsicActions.HEALINGTEST.id,
-        intrinsicActions: Object.values(Affliction.IntrinsicActions),
+        defaultAction: Affliction.INTRINSIC_ACTION.HEALINGTEST.id,
+        intrinsicActions: Affliction.IntrinsicActions,
     }),
 )
-export class Affliction extends SohlPerformer<Affliction.Data> {
-    isDormant: boolean;
-    isTreated: boolean;
-    diagnosisBonus: ValueModifier;
-    level: ValueModifier;
-    healingRate: ValueModifier;
-    contagionIndex: ValueModifier;
-    transmission: Affliction.Transmission;
-
+export class Affliction
+    extends SubTypeMixin(SohlLogic)
+    implements Affliction.Logic
+{
+    declare readonly parent: Affliction.Data;
+    isDormant!: boolean;
+    isTreated!: boolean;
+    diagnosisBonus!: ValueModifier;
+    level!: ValueModifier;
+    healingRate!: ValueModifier;
+    contagionIndex!: ValueModifier;
+    transmission!: Affliction.Transmission;
     readonly [kAffliction] = true;
 
     static isA(obj: unknown): obj is Affliction {
         return typeof obj === "object" && obj !== null && kAffliction in obj;
-    }
-
-    constructor(
-        parent: Affliction.Data,
-        data: PlainObject = {},
-        options: PlainObject = {},
-    ) {
-        super(parent, data, options);
-        this.isDormant = data.isDormant || false;
-        this.isTreated = data.isTreated || false;
-        this.diagnosisBonus = data.diagnosisBonusBase || 0;
-        this.level = data.levelBase || 0;
-        this.healingRate = data.healingRateBase || 0;
-        this.contagionIndex = data.contagionIndexBase || 0;
-        this.transmission = data.transmission || Affliction.TRANSMISSION.NONE;
     }
 
     get canTransmit(): boolean {
@@ -93,7 +74,7 @@ export class Affliction extends SohlPerformer<Affliction.Data> {
         return true;
     }
 
-    transmit(context: SohlAction.Context = {}): void {
+    async transmit(context: SohlAction.Context): Promise<void> {
         const {
             type = `affliction-${(this.item as any)?.name}-transmit`,
             title = `${this.label} Transmit`,
@@ -102,58 +83,82 @@ export class Affliction extends SohlPerformer<Affliction.Data> {
         sohl.log.warn("Affliction Transmit Not Implemented");
     }
 
-    contractTest(context: SohlAction.Context = {}): void {
+    async contractTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         const {
             type = `${this.label}-contract-test`,
             title = `${this.label} Contract Test`,
         } = context;
 
         // TODO - Affliction Contract Test
-        sohl.log.warn("Affliction Contract Test Not Implemented");
+        throw new Error("Affliction Contract Test Not Implemented");
     }
 
-    courseTest(context: SohlAction.Context = {}): void {
+    async courseTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         const {
             type = `${this.label}-course-test`,
             title = `${this.label} Course Test`,
         } = context;
 
         // TODO - Affliction Course Test
-        sohl.log.warn("Affliction Course Test Not Implemented");
+        throw new Error("Affliction Course Test Not Implemented");
     }
 
-    diagnosisTest(context: SohlAction.Context = {}): void {
+    async diagnosisTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         const {
             type = `${this.label}-diagnosis-test`,
             title = `${this.label} Diagnosis Test`,
         } = context;
 
         // TODO - Affliction Diagnosis Test
-        sohl.log.warn("Affliction Diagnosis Test Not Implemented");
+        throw new Error("Affliction Diagnosis Test Not Implemented");
     }
 
-    treatmentTest(context: SohlAction.Context = {}): void {
+    async treatmentTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         const {
             type = `${this.label}-treatment-test`,
             title = `${this.label} Treatment Test`,
         } = context;
 
         // TODO - Affliction Treatment Test
-        sohl.log.warn("Affliction Treatment Test Not Implemented");
+        throw new Error("Affliction Treatment Test Not Implemented");
     }
 
-    healingTest(context: SohlAction.Context = {}): void {
+    async healingTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         const {
             type = `${this.label}-healing-test`,
             title = `${this.label} Healing Test`,
         } = context;
 
         // TODO - Affliction Healing Test
-        sohl.log.warn("Affliction Healing Test Not Implemented");
+        throw new Error("Affliction Healing Test Not Implemented");
     }
 
     /** @override */
-    initialize(context: SohlAction.Context = {}): void {
+    initialize(context: SohlAction.Context): void {
+        this.isDormant = false;
+        this.isTreated = false;
+        this.diagnosisBonus = sohl.game.CONFIG.ValueModifier(
+            {},
+            { parent: this },
+        );
+        this.level = sohl.game.CONFIG.ValueModifier({}, { parent: this });
+        this.healingRate = sohl.game.CONFIG.ValueModifier({}, { parent: this });
+        this.contagionIndex = sohl.game.CONFIG.ValueModifier(
+            {},
+            { parent: this },
+        );
+        this.transmission = Affliction.TRANSMISSION.NONE;
+
         this.healingRate = sohl.game.CONFIG.ValueModifier(this);
         if (this.parent.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
@@ -169,10 +174,10 @@ export class Affliction extends SohlPerformer<Affliction.Data> {
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace Affliction {
@@ -298,33 +303,37 @@ export namespace Affliction {
     });
     export type MoraleLevel = (typeof MORALE_LEVEL)[keyof typeof MORALE_LEVEL];
 
-    export const IntrinsicActions: StrictObject<SohlContextMenuEntry> = {
-        TRANSMITAFFLICTION: {
+    export const {
+        kind: INTRINSIC_ACTION,
+        values: IntrinsicActions,
+        isValue: isIntrinsicAction,
+    } = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
+        TRANSMITAFFLICTION: new SohlContextMenu.Entry({
             id: "transmit",
             functionName: "transmitAffliction",
             name: "Transmit Affliction",
-            iconClass: "fas fa-head-side-cough",
+            iconFAClass: "fas fa-head-side-cough",
             condition: (header: HTMLElement) => {
                 const item = SohlContextMenu._getContextItem(
                     header,
                 ) as SohlItem<Affliction>;
                 return item?.system.logic.canTransmit;
             },
-            group: CONTEXTMENU_SORT_GROUP.ESSENTIAL,
-        },
-        CONTRACTAFFLICTIONTEST: {
+            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+        }),
+        CONTRACTAFFLICTIONTEST: new SohlContextMenu.Entry({
             id: "contract",
             functionName: "contractAfflictionTest",
             name: "Contract Affliction Test",
-            iconClass: "fas fa-virus",
+            iconFAClass: "fas fa-virus",
             condition: () => true,
-            group: CONTEXTMENU_SORT_GROUP.GENERAL,
-        },
-        COURSETTEST: {
+            group: SohlContextMenu.SORT_GROUP.GENERAL,
+        }),
+        COURSETTEST: new SohlContextMenu.Entry({
             id: "course",
             functionName: "courseTest",
             name: "Course Test",
-            iconClass: "fas fa-heart-pulse",
+            iconFAClass: "fas fa-heart-pulse",
             condition: (header: HTMLElement) => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
@@ -338,37 +347,37 @@ export namespace Affliction {
                 // const endurance = item?.actor?.getTraitByAbbrev("end");
                 // return endurance && !endurance.system.$masteryLevel.disabled;
             },
-            group: CONTEXTMENU_SORT_GROUP.ESSENTIAL,
-        },
-        FATIGUETEST: {
+            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+        }),
+        FATIGUETEST: new SohlContextMenu.Entry({
             id: SUBTYPE.FATIGUE,
             functionName: "fatigueTest",
             name: "Fatigue Test",
-            iconClass: "fas fa-face-downcast-sweat",
+            iconFAClass: "fas fa-face-downcast-sweat",
             condition: () => true,
-            group: CONTEXTMENU_SORT_GROUP.GENERAL,
-        },
-        MORALETEST: {
+            group: SohlContextMenu.SORT_GROUP.GENERAL,
+        }),
+        MORALETEST: new SohlContextMenu.Entry({
             id: SUBTYPE.MORALE,
             name: "Morale Test",
-            iconClass: "far fa-people-group",
+            iconFAClass: "far fa-people-group",
             condition: () => true,
-            group: CONTEXTMENU_SORT_GROUP.GENERAL,
-        },
-        FEARTEST: {
+            group: SohlContextMenu.SORT_GROUP.GENERAL,
+        }),
+        FEARTEST: new SohlContextMenu.Entry({
             id: SUBTYPE.FEAR,
             functionName: "fearTest",
             name: "Fear Test",
-            iconClass: "far fa-face-scream",
+            iconFAClass: "far fa-face-scream",
             condition: () => true,
-            group: CONTEXTMENU_SORT_GROUP.GENERAL,
-        },
+            group: SohlContextMenu.SORT_GROUP.GENERAL,
+        }),
 
-        TREATMENTTEST: {
+        TREATMENTTEST: new SohlContextMenu.Entry({
             id: "treatment",
             functionName: "treatmentTest",
             name: "Treatment Test",
-            iconClass: "fas fa-staff-snake",
+            iconFAClass: "fas fa-staff-snake",
             condition: (header: HTMLElement) => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
@@ -382,24 +391,24 @@ export namespace Affliction {
                 // const physician = item?.actor?.getSkillByAbbrev("pysn");
                 // return physician && !physician.system.$masteryLevel.disabled;
             },
-            group: CONTEXTMENU_SORT_GROUP.ESSENTIAL,
-        },
-        DIAGNOSISTEST: {
+            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+        }),
+        DIAGNOSISTEST: new SohlContextMenu.Entry({
             id: "diagnosis",
             functionName: "diagnosisTest",
             name: "Diagnosis Test",
-            iconClass: "fas fa-stethoscope",
+            iconFAClass: "fas fa-stethoscope",
             condition: (header: HTMLElement) => {
                 const item = SohlContextMenu._getContextItem(header);
                 return !!item && !item.system.isTreated;
             },
-            group: CONTEXTMENU_SORT_GROUP.ESSENTIAL,
-        },
-        HEALINGTEST: {
+            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+        }),
+        HEALINGTEST: new SohlContextMenu.Entry({
             id: "healing",
             functionName: "healingTest",
             name: "Healing Test",
-            iconClass: "fas fa-heart-pulse",
+            iconFAClass: "fas fa-heart-pulse",
             condition: (header: HTMLElement) => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
@@ -413,12 +422,41 @@ export namespace Affliction {
                 // const endurance = item?.actor?.getTraitByAbbrev("end");
                 // return endurance && !endurance.system.$masteryLevel.disabled;
             },
-            group: CONTEXTMENU_SORT_GROUP.ESSENTIAL,
-        },
-    };
+            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+        }),
+    } as StrictObject<SohlContextMenu.Entry>);
+    export type IntrinsicAction =
+        (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
-    export interface Data<TPerformer extends Affliction = Affliction>
-        extends SubTypeMixin.Data<TPerformer, SubType> {
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Affliction.Data;
+        readonly [kAffliction]: true;
+        get canTransmit(): boolean;
+        get canContract(): boolean;
+        get hasCourse(): boolean;
+        get canTreat(): boolean;
+        get canHeal(): boolean;
+        transmit(context: SohlAction.Context): Promise<void>;
+        contractTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        courseTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        diagnosisTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        treatmentTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        healingTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+    }
+
+    export interface Data extends SubTypeMixin.Data<SubType>, SohlItem.Data {
+        readonly [kData]: true;
+        get logic(): SubTypeMixin.Logic<SubType>;
         category: string;
         isDormant: boolean;
         isTreated: boolean;
@@ -428,6 +466,29 @@ export namespace Affliction {
         contagionIndexBase: number;
         transmission: Transmission;
     }
+
+    export namespace Data {
+        export function isA(
+            obj: unknown,
+            subType?: Affliction.SubType,
+        ): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
+        }
+    }
+
+    const DataModelShape = SubTypeMixin.DataModel<
+        typeof SohlItem.DataModel,
+        Affliction.SubType,
+        typeof Affliction.SubTypes
+    >(
+        SohlItem.DataModel,
+        Affliction.SubTypes,
+    ) as unknown as Constructor<Affliction.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -440,16 +501,9 @@ export namespace Affliction {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel
-        extends SubTypeMixin.DataModel<
-            typeof SohlItem.DataModel<Affliction>,
-            SubType,
-            typeof SubTypes,
-            Affliction
-        >(SohlItem.DataModel<Affliction>, SubTypes)
-        implements Data<Affliction>
-    {
-        static readonly LOCALIZATION_PREFIXES = ["Affliction"];
+    export class DataModel extends DataModelShape {
+        readonly [kData] = true;
+        static override readonly LOCALIZATION_PREFIXES = ["Affliction"];
         declare subType: SubType;
         declare category: string;
         declare isDormant: boolean;
@@ -459,13 +513,16 @@ export namespace Affliction {
         declare healingRateBase: number;
         declare contagionIndexBase: number;
         declare transmission: Transmission;
-        readonly [kDataModel] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
-        static defineSchema() {
+        get logic(): SubTypeMixin.Logic<SubType> {
+            return super.logic as SubTypeMixin.Logic<SubType>;
+        }
+
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 isDormant: new BooleanField({ initial: false }),

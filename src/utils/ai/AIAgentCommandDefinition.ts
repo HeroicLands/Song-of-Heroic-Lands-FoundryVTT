@@ -1,4 +1,4 @@
-import { ActionContext } from "@utils/ActionContext";
+import { SohlAction.Context } from "@utils/SohlAction.Context";
 import type { JSONSchema7 } from "json-schema";
 
 export interface AIExecutionResult {
@@ -22,6 +22,6 @@ export interface AIAgentCommandDefinition {
     examplePayload?: Record<string, unknown>;
     execute: (
         payload: any,
-        context: ActionContext,
+        context: SohlAction.Context,
     ) => Promise<AIExecutionResult>;
 }

@@ -70,7 +70,7 @@ export abstract class AIAdapter {
         }
 
         const aiSpeaker = new SohlSpeaker({
-            scene: speaker._scene?.id || null,
+            scene: speaker.scene?.id || null,
             actor: null,
             token: null,
             alias: "Sage",

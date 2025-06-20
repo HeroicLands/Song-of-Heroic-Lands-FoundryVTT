@@ -12,55 +12,69 @@
  */
 
 import { SohlItem } from "@common/item";
-import { SohlPerformer } from "@common";
-import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common";
+import { SohlAction, SohlEvent } from "@common/event";
 import { DocumentId, HTMLString } from "@utils";
+import { SohlActor } from "@common/actor";
 
 const kSubTypeMixin = Symbol("SubTypeMixin");
-const kDataModelMixin = Symbol("SubType.DataModelMixin");
+const kData = Symbol("SubType.Data");
 
-export function SubTypeMixin<TBase extends AnyConstructor<SohlPerformer>>(
+export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
 ): TBase {
-    return class InternalSubTypePerformer extends Base {
+    return class extends Base {
+        declare readonly parent: SubTypeMixin.Data;
+        declare readonly actions: SohlAction[];
+        declare readonly events: SohlEvent[];
+        declare readonly item: SohlItem;
+        declare readonly actor: SohlActor | null;
+        declare readonly typeLabel: string;
+        declare readonly label: string;
+        declare readonly defaultIntrinsicActionName: string;
+        declare setDefaultAction: () => void;
         readonly [kSubTypeMixin] = true;
 
-        static isA(obj: unknown): obj is TBase {
-            return (
-                typeof obj === "object" && obj !== null && kSubTypeMixin in obj
-            );
-        }
-
         /** @inheritdoc */
-        initialize(context: SohlAction.Context = {}): void {
+        initialize(context: SohlAction.Context): void {
             super.initialize(context);
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context = {}): void {
+        evaluate(context: SohlAction.Context): void {
             super.evaluate(context);
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context = {}): void {
+        finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    };
+    } as unknown as TBase & SubTypeMixin.Logic;
 }
 
 export namespace SubTypeMixin {
     export const Kind = "subtype";
 
-    export interface Data<
-        TPerformer extends SohlPerformer = SohlPerformer,
-        TSubType extends string = string,
-    > extends SohlItem.Data<TPerformer> {
+    export function isA(obj: unknown): obj is Logic {
+        return typeof obj === "object" && obj !== null && kSubTypeMixin in obj;
+    }
+
+    export interface Logic<TSubType extends string = string>
+        extends SohlItem.Logic {
+        readonly parent: Data<TSubType>;
+    }
+
+    export interface Data<TSubType extends string = string>
+        extends SohlItem.Data {
+        get logic(): Logic<TSubType>;
         subType: TSubType;
     }
 
-    export type DataModelConstructor<
-        TPerformer extends SohlPerformer = SohlPerformer,
-    > = SohlItem.DataModelConstructor<TPerformer>;
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
 
     /**
      * A mixin for item data models that have a subtype.
@@ -70,7 +84,7 @@ export namespace SubTypeMixin {
      * @template TBase The base class to mix into.
      * @template TSubType The subtype string type (union of strings).
      * @template TChoices An array type of `TSubType` strings.
-     * @template TPerformer The performer type, defaulting to `SohlPerformer`.
+     * @template TLogic The performer type, defaulting to `SohlLogic`.
      * @param Base Base class to extend (should be a `TypeDataModel` subclass).
      * @param choices Allowed choices for the `subType` property, which must be a
      *                 readonly array of `TSubType` strings.
@@ -80,33 +94,10 @@ export namespace SubTypeMixin {
         TBase extends AnyConstructor,
         TSubType extends string,
         TChoices extends readonly TSubType[],
-        TPerformer extends SohlPerformer = SohlPerformer,
-    >(Base: TBase, choices: TChoices): TBase & Data<TPerformer, TSubType> {
-        return class InternalDataModel
-            extends Base
-            implements Data<TPerformer, TSubType>
-        {
-            declare notes: HTMLString;
-            declare description: HTMLString;
-            declare textReference: HTMLString;
-            declare transfer: boolean;
-            declare nestedIn: DocumentId | null;
-            declare parent: SohlItem;
-            declare logic: SohlPerformer<any>;
-            declare actionList: PlainObject[];
-            declare eventList: PlainObject[];
+    >(Base: TBase, choices: TChoices): TBase & Data<TSubType> {
+        return class extends Base {
             declare subType: TSubType;
-            readonly [kDataModelMixin] = true;
-
-            static isA(
-                obj: unknown,
-            ): obj is TBase & Data<TPerformer, TSubType> {
-                return (
-                    typeof obj === "object" &&
-                    obj !== null &&
-                    kDataModelMixin in obj
-                );
-            }
+            readonly [kData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -121,6 +112,6 @@ export namespace SubTypeMixin {
             get choices(): TChoices {
                 return choices;
             }
-        } as unknown as TBase & Data<TPerformer, TSubType>;
+        } as unknown as TBase & Data<TSubType>;
     }
 }

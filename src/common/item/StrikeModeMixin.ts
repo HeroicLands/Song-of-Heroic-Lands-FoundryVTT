@@ -10,52 +10,144 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlPerformer, SohlVariant } from "@common";
-import { SohlAction } from "@common/event";
-import { SohlItem, SubTypeMixin } from "@common/item";
-import { ASPECT, AspectType } from "@common/modifier";
+import { SohlLogic, SohlSystem } from "@common";
+import { SohlAction, SohlEvent } from "@common/event";
+import { GearMixin, SohlItem, SubTypeMixin } from "@common/item";
+import { defineType } from "@utils";
+import {
+    CombatModifier,
+    ImpactModifier,
+    ValueModifier,
+} from "@common/modifier";
 import { SohlActor } from "@common/actor";
-import { HTMLString, DocumentId } from "@utils";
-const { StringField, NumberField, SchemaField } = (foundry.data as any).fields;
+const { StringField, NumberField, SchemaField } = foundry.data.fields;
 const kStrikeModeMixin = Symbol("StrikeModeMixin");
-const kDataModelMixin = Symbol("StrikeModeMixin.DataModel");
+const kData = Symbol("StrikeModeMixin.Data");
 
-export function StrikeModeMixin<TBase extends AnyConstructor<SohlPerformer>>(
+export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
 ): TBase {
-    return class InternalStrikeModePerformer extends Base {
+    return class extends Base {
+        declare readonly parent: StrikeModeMixin.Data;
+        declare readonly actions: SohlAction[];
+        declare readonly events: SohlEvent[];
+        declare readonly item: SohlItem;
+        declare readonly actor: SohlActor | null;
+        declare readonly typeLabel: string;
+        declare readonly label: string;
+        declare readonly defaultIntrinsicActionName: string;
+        declare setDefaultAction: () => void;
+        traits!: PlainObject;
+        assocSkill?: SohlItem;
+        impact!: ImpactModifier;
+        attack!: CombatModifier;
+        defense!: {
+            block: CombatModifier;
+        };
+        durability!: ValueModifier;
         readonly [kStrikeModeMixin] = true;
 
-        static isA(obj: unknown): obj is TBase {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kStrikeModeMixin in obj
-            );
-        }
-
         /** @inheritdoc */
-        initialize(context: SohlAction.Context = {}): void {
+        initialize(context: SohlAction.Context): void {
             super.initialize(context);
+            this.traits = {
+                noAttack: false,
+                noBlock: false,
+            };
+            this.impact = sohl.game.CONFIG.ImpactModifier({}, { parent: this });
+            this.attack = sohl.game.CONFIG.CombatModifier({}, { parent: this });
+            this.defense = {
+                block: sohl.game.CONFIG.CombatModifier({}, { parent: this }),
+            };
+            this.durability = sohl.game.CONFIG.ValueModifier(
+                {},
+                { parent: this },
+            );
+            this.impact.base = this.parent.impactBase;
+            this.assocSkill = this.actor?.itemTypes.skill.find(
+                (it) => it.name === this.parent.assocSkillName,
+            );
+            if (!this.assocSkill) {
+                sohl.log.warn("SOHL.StrikeMode.NoAssocSkillWarning", {
+                    label: sohl.i18n.localize(this.item.label),
+                    skillName: this.parent.assocSkillName,
+                });
+            }
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context = {}): void {
+        evaluate(context: SohlAction.Context): void {
             super.evaluate(context);
+            const gearData = this.item.nestedIn?.system;
+            if (GearMixin.Data.isA(gearData)) {
+                this.durability.addVM(gearData.logic.durability);
+            }
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context = {}): void {
+        finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    };
+    } as unknown as TBase;
 }
 
 export namespace StrikeModeMixin {
     export const Kind = "strikemode";
 
-    export interface Data<TPerformer extends SohlPerformer = SohlPerformer>
-        extends SubTypeMixin.Data<TPerformer, SohlVariant> {
+    export function isA(obj: unknown): obj is Logic {
+        return (
+            typeof obj === "object" && obj !== null && kStrikeModeMixin in obj
+        );
+    }
+
+    export const {
+        kind: EFFECT_KEY,
+        values: EffectKey,
+        isValue: isEffectKey,
+        labels: EffectKeyLabels,
+    } = defineType("SOHL.StrikeMode.EffectKey", {
+        IMPACT: {
+            name: "system.impact",
+            abbrev: "Imp",
+        },
+        ATTACK: {
+            name: "system.attack",
+            abbrev: "Atk",
+        },
+        BLOCK: {
+            name: "system.defense.block",
+            abbrev: "Blk",
+        },
+        COUNTERSTRIKE: {
+            name: "system.defense.counterstrike",
+            abbrev: "CXMod",
+        },
+        NOATTACK: {
+            name: "system.traits.noAttack",
+            abbrev: "NoAtk",
+        },
+        NOBLOCK: {
+            name: "system.traits.noBlock",
+            abbrev: "NoBlk",
+        },
+    } as StrictObject<SohlLogic.EffectKeyData>);
+    export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
+
+    export interface Logic extends SohlLogic.Logic {
+        readonly [kStrikeModeMixin]: true;
+        parent: StrikeModeMixin.Data;
+        traits: PlainObject;
+        assocSkill?: SohlItem;
+        impact: ImpactModifier;
+        attack: CombatModifier;
+        defense: {
+            block: CombatModifier;
+        };
+        durability: ValueModifier;
+    }
+
+    export interface Data extends SubTypeMixin.Data<SohlSystem.Variant> {
+        readonly [kData]: true;
         mode: string;
         minParts: number;
         assocSkillName: string;
@@ -63,54 +155,29 @@ export namespace StrikeModeMixin {
             numDice: number;
             die: number;
             modifier: number;
-            aspect: AspectType;
+            aspect: ImpactModifier.AspectType;
         };
     }
 
-    export type DataModelConstructor<
-        TPerformer extends SohlPerformer = SohlPerformer,
-    > = SohlItem.DataModelConstructor<TPerformer>;
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
 
-    export function DataModelMixin<
-        TBase extends AnyConstructor,
-        TPerformer extends SohlPerformer = SohlPerformer,
-    >(Base: TBase): TBase & Data<TPerformer> {
-        return class InternalDataModel
-            extends Base
-            implements Data<TPerformer>
-        {
-            declare subType: SohlVariant;
-            declare notes: HTMLString;
-            declare description: HTMLString;
-            declare textReference: HTMLString;
-            declare transfer: boolean;
-            declare nestedIn: DocumentId | null;
-            declare parent:
-                | SohlItem<SohlPerformer<SohlPerformer.Data>, any>
-                | SohlActor<SohlPerformer<SohlPerformer.Data>, any>;
-            declare logic: SohlPerformer<any>;
-            declare actionList: PlainObject[];
-            declare eventList: PlainObject[];
-            declare mode: string;
-            declare minParts: number;
-            declare assocSkillName: string;
-            declare impactBase: {
-                numDice: number;
-                die: number;
-                modifier: number;
-                aspect: AspectType;
-            };
-            readonly [kDataModelMixin] = true;
+    export type DataModelConstructor = SohlItem.DataModelConstructor;
 
-            static isA(obj: unknown): obj is TBase & Data<TPerformer> {
-                return (
-                    typeof obj === "object" &&
-                    obj !== null &&
-                    kDataModelMixin in obj
-                );
+    export function DataModel<TBase extends AnyConstructor>(
+        Base: TBase,
+    ): TBase {
+        return class extends Base {
+            readonly [kData] = true;
+
+            static isA(obj: unknown): obj is TBase {
+                return typeof obj === "object" && obj !== null && kData in obj;
             }
 
-            static defineSchema() {
+            static defineSchema(): foundry.data.fields.DataSchema {
                 return {
                     ...super.defineSchema(),
                     mode: new StringField(),
@@ -136,13 +203,13 @@ export namespace StrikeModeMixin {
                             initial: 0,
                         }),
                         aspect: new StringField({
-                            initial: ASPECT.BLUNT,
+                            initial: ImpactModifier.ASPECT.BLUNT,
                             required: true,
-                            choices: Object.values(ASPECT),
+                            choices: ImpactModifier.Aspects,
                         }),
                     }),
                 };
             }
-        } as unknown as TBase & Data<TPerformer>;
+        };
     }
 }

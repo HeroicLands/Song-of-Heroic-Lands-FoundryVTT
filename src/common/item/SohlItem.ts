@@ -12,35 +12,201 @@
  */
 
 import { SohlActor } from "@common/actor";
-import { DocumentId, HTMLString } from "@utils";
-import { SohlDataModel, SohlPerformer } from "@common";
+import {
+    ClientDocumentExtendedMixin,
+    DocumentId,
+    FilePath,
+    HTMLString,
+    SohlContextMenu,
+} from "@utils";
+import { InternalClientDocument, SohlDataModel, SohlLogic } from "@common";
+import { GearMixin } from "./GearMixin";
 const { ForeignDocumentField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
 const kDataModel = Symbol("SohlItem.DataModel");
 
 export class SohlItem<
-    TPerformer extends SohlPerformer = SohlPerformer,
-    TDataModel extends SohlItem.DataModel<TPerformer> = any,
-> extends Item {
-    declare parent: SohlActor | null;
-    declare id: DocumentId;
-    declare name: string;
-    declare img: string;
-    declare type: string;
-    declare system: TDataModel;
-    declare limited: boolean;
-    declare getFlag: (scope: string, key: string) => unknown | undefined;
-    declare setFlag: (
-        scope: string,
-        key: string,
-        value: unknown,
+        TLogic extends SohlLogic = SohlLogic,
+        TDataModel extends SohlItem.DataModel = any,
+    >
+    extends ClientDocumentExtendedMixin(
+        Item,
+        {} as InstanceType<typeof foundry.documents.BaseItem>,
+    )
+    implements InternalClientDocument
+{
+    declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
+    declare readonly collection: Collection<this, Collection.Methods<this>>;
+    declare readonly compendium: CompendiumCollection<any> | undefined;
+    declare readonly isOwner: boolean;
+    declare readonly hasPlayerOwner: boolean;
+    declare readonly limited: boolean;
+    declare readonly link: string;
+    declare readonly permission: any;
+    declare readonly sheet: foundry.applications.api.ApplicationV2.Any | null;
+    declare readonly visible: boolean;
+    declare prepareData: () => void;
+    declare prepareBaseData: () => void;
+    declare prepareEmbeddedDocuments: () => void;
+    declare prepareDerivedData: () => void;
+    declare render: (
+        force?: boolean,
+        context?:
+            | Application.RenderOptions
+            | foundry.applications.api.ApplicationV2.RenderOptions,
+    ) => void;
+    declare sortRelative: (
+        options?: ClientDocument.SortOptions<this, "sort"> | undefined,
+    ) => Promise<this>;
+    declare getRelativeUUID: (relative: ClientDocument) => string;
+    declare _dispatchDescendantDocumentEvents: (
+        event: ClientDocument.LifeCycleEventName,
+        collection: string,
+        args: never,
+        _parent: never,
+    ) => void;
+    declare _onSheetChange: (
+        options?: ClientDocument.OnSheetChangeOptions,
     ) => Promise<void>;
-
+    declare deleteDialog: (
+        options?: PlainObject,
+    ) => Promise<false | this | null | undefined>;
+    declare exportToJSON: (
+        options?: ClientDocument.ToCompendiumOptions,
+    ) => void;
+    declare toDragData: () => foundry.abstract.Document.DropData<
+        foundry.abstract.Document.Internal.Instance.Complete<any>
+    >;
+    declare importFromJSON: (json: string) => Promise<this>;
+    declare importFromJSONDialog: () => Promise<void>;
+    declare toCompendium: (
+        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
+        options?: PlainObject,
+    ) => ClientDocument.ToCompendiumReturnType<any, any>;
+    declare toAnchor: (
+        options?: TextEditor.EnrichmentAnchorOptions,
+    ) => HTMLAnchorElement;
+    declare toEmbed: (
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _buildEmbedHTML: (
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | HTMLCollection | null>;
+    declare _createInlineEmbed: (
+        content: HTMLElement | HTMLCollection,
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _createFigureEmbed: (
+        content: HTMLElement | HTMLCollection,
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _preCreateEmbeddedDocuments: (
+        embeddedName: string,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _onCreateEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _preUpdateEmbeddedDocuments: (
+        embeddedName: string,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _onUpdateEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _preDeleteEmbeddedDocuments: (
+        embeddedName: string,
+        result: string[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _onDeleteEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: string[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _preCreateDescendantDocuments: (
+        embeddedName: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare public _onCreateDescendantDocuments: (
+        embeddedName: any,
+        documents: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare public _preUpdateDescendantDocuments: (
+        embeddedName: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare public _onUpdateDescendantDocuments: (
+        embeddedName: any,
+        documents: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare public _preDeleteDescendantDocuments: (
+        embeddedName: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare public _onDeleteDescendantDocuments: (
+        embeddedName: any,
+        documents: any,
+        result: any,
+        options: any,
+        userId: any,
+    ) => void;
+    declare type: string;
+    declare img: FilePath;
+    declare static create: (
+        data: PlainObject,
+        options?: PlainObject,
+    ) => Promise<SohlItem | undefined>;
+    declare update: (
+        data: PlainObject,
+        options?: PlainObject,
+    ) => Promise<this | undefined>;
+    declare delete: (options?: PlainObject) => Promise<this | undefined>;
     readonly [kSohlItem] = true;
 
     static isA(obj: unknown): obj is SohlItem {
         return typeof obj === "object" && obj !== null && kSohlItem in obj;
+    }
+
+    get typeLabel(): string {
+        const x = this.isOwned;
+        throw new Error("Method not implemented.");
+    }
+
+    get defaultIntrinsicActionName(): string {
+        throw new Error("Method not implemented.");
     }
 
     get label() {
@@ -54,7 +220,11 @@ export class SohlItem<
     }
 
     get actor(): SohlActor | null {
-        return this.parent as SohlActor | null;
+        if (SohlActor.isA(this.parent)) {
+            return this.parent;
+        } else {
+            throw new Error("item parent must be an Actor or null");
+        }
     }
 
     get isNested(): boolean {
@@ -69,17 +239,12 @@ export class SohlItem<
         );
     }
 
-    async update(
-        data: PlainObject | PlainObject[],
-        options?: PlainObject,
-    ): Promise<SohlItem | SohlItem[]> {
-        // @ts-expect-error Foundry mixin: update is implemented at runtime
-        return await super.update(data, options);
+    static _getContextOptions(doc: SohlItem): SohlContextMenu.Entry[] {
+        return doc._getContextOptions();
     }
 
-    async delete(context?: PlainObject): Promise<SohlItem> {
-        // @ts-expect-error Foundry mixin: delete is implemented at runtime
-        return (await super.delete(context)) as SohlItem;
+    _getContextOptions(): SohlContextMenu.Entry[] {
+        return this.system.logic._getContextOptions();
     }
 
     /**
@@ -100,8 +265,8 @@ export class SohlItem<
 }
 
 export namespace SohlItem {
-    export interface Data<TPerformer extends SohlPerformer = SohlPerformer>
-        extends SohlPerformer.Data {
+    export interface Data extends SohlLogic.Data {
+        get logic(): Logic;
         notes: HTMLString;
         description: HTMLString;
         textReference: HTMLString;
@@ -109,9 +274,11 @@ export namespace SohlItem {
         nestedIn: DocumentId | null;
     }
 
-    export type DataModelConstructor<
-        TPerformer extends SohlPerformer = SohlPerformer,
-    > = SohlDataModel.Constructor<SohlItem>;
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Data;
+    }
+
+    export type DataModelConstructor = SohlDataModel.Constructor<SohlItem>;
 
     /**
      * The `SohlItemDataModel` class extends the Foundry VTT `TypeDataModel` to provide
@@ -119,10 +286,7 @@ export namespace SohlItem {
      * encapsulates logic and behavior associated with items, offering a schema
      * definition and initialization logic.
      */
-    export class DataModel<TPerformer extends SohlPerformer = SohlPerformer>
-        extends SohlDataModel<SohlItem, TPerformer>
-        implements Data<TPerformer>
-    {
+    export class DataModel extends SohlDataModel<SohlItem> implements Data {
         declare notes: HTMLString;
         declare description: HTMLString;
         declare textReference: HTMLString;
@@ -135,10 +299,9 @@ export namespace SohlItem {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        get logic(): TPerformer {
-            return ((this._logic as SohlPerformer) ??= new this.logicClass(
-                this,
-            )) as TPerformer;
+        get logic(): Logic {
+            this._logic ??= new this.logicClass(this);
+            return this._logic as Logic;
         }
 
         get item(): SohlItem {
@@ -159,6 +322,14 @@ export namespace SohlItem {
                     initial: null,
                 }),
             };
+        }
+    }
+
+    export namespace DataModel {
+        export interface Statics extends SohlDataModel.TypeDataModelStatics {
+            readonly kind: string;
+            readonly _metadata: SohlDataModel.Element;
+            isA(obj: unknown): obj is unknown;
         }
     }
 
@@ -195,6 +366,14 @@ export namespace SohlItem {
             },
         };
 
+        get item(): SohlItem {
+            return this.document as SohlItem;
+        }
+
+        get actor(): SohlActor | null {
+            return this.item.actor;
+        }
+
         override _configureRenderOptions(
             options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
         ): void {
@@ -203,7 +382,7 @@ export namespace SohlItem {
             // This is the default behavior for all data model sheets
             options.parts = ["header", "tabs"];
             // Don't show the other tabs if only limited view
-            if (this.document.limited) return;
+            if ((this.document as any).limited) return;
             // If the document is not limited, we show all parts
             options.parts.push(
                 "properties",
@@ -219,6 +398,277 @@ export namespace SohlItem {
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
         ): Promise<PlainObject> {
             return await super._prepareContext(options);
+        }
+
+        /** @override */
+        async _onDropItem(
+            event: DragEvent,
+            droppedItem: SohlItem,
+        ): Promise<void> {
+            if (!this.document.isOwner) return;
+
+            if (GearMixin.Data.isA(droppedItem.system)) {
+                this._onDropGear(event, droppedItem);
+            } else {
+                this._onDropNonGear(event, droppedItem);
+            }
+        }
+
+        async _onDropItemCreate(
+            data: PlainObject,
+            event: DragEvent,
+        ): Promise<SohlItem[] | boolean> {
+            if (!this.actor || !this.item.isOwner) return false;
+            const itemList = data instanceof Array ? data : [data];
+            const toCreate = [];
+            for (let itemData of itemList) {
+                // Determine if a similar item exists
+                let similarItem = this.actor.items.find(
+                    (it: SohlItem) =>
+                        it.name === itemData.name &&
+                        it.type === itemData.type &&
+                        it.system.subType === itemData.system.subType,
+                );
+
+                if (similarItem) {
+                    const confirm = await Dialog.confirm({
+                        title: `Confirm Overwrite: ${similarItem.label}`,
+                        content: `<p>Are You Sure?</p><p>This item will be overwritten and cannot be recovered.</p>`,
+                        options: { jQuery: false },
+                    });
+                    if (confirm) {
+                        delete itemData._id;
+                        delete itemData.pack;
+                        let result = await similarItem.delete();
+                        if (result) {
+                            result = await SohlItem.create(itemData, {
+                                parent: this.actor,
+                            });
+                        } else {
+                            sohl.log.uiWarn("Overwrite failed");
+                            continue;
+                        }
+                        toCreate.push(itemData);
+                    }
+                } else {
+                    toCreate.push(itemData);
+                }
+            }
+
+            const result = await this.actor.createEmbeddedDocuments(
+                "Item",
+                toCreate,
+            );
+            return result || false;
+        }
+
+        async _moveQtyDialog(
+            item: SohlItem,
+            destContainer: SohlItem,
+        ): Promise<number> {
+            if (!item?.actor || !destContainer) {
+                sohl.log.uiError("Invalid item or destination container");
+                return 0;
+            }
+            // Render modal dialog
+            let dlgData = {
+                itemName: item.name,
+                targetName: destContainer.name || item.actor.name,
+                maxItems: item.system.quantity,
+                sourceName: "",
+            };
+
+            if (item.nestedIn) {
+                dlgData.sourceName = `${item.nestedIn.label}`;
+            } else {
+                dlgData.sourceName = item.actor.name || "Unknown";
+            }
+
+            const compiled = Handlebars.compile(`<form id="items-to-move">
+            <p>Moving ${dlgData.itemName} from ${dlgData.sourceName} to ${dlgData.targetName}</p>
+            <div class="form-group">
+                <label>How many (0-${dlgData.maxItems})?</label>
+                {{numberInput ${dlgData.maxItems} name="itemstomove" step=1 min=0 max=${dlgData.maxItems}}}
+            </div>
+            </form>`);
+            const dlgHtml = compiled(dlgData, {
+                allowProtoMethodsByDefault: true,
+                allowProtoPropertiesByDefault: true,
+            });
+
+            // Create the dialog window
+            const result = await Dialog.prompt({
+                title: "Move Items",
+                content: dlgHtml,
+                label: "OK",
+                callback: async (element) => {
+                    const form = element.querySelector("form");
+                    if (!form) {
+                        sohl.log.uiError("Form not found in dialog");
+                        return 0;
+                    }
+                    const fd: FormDataExtended = new FormDataExtended(form);
+                    const formdata: PlainObject = foundry.utils.expandObject(
+                        fd.object,
+                    );
+                    let formQtyToMove =
+                        Number.parseInt(formdata.itemstomove) || 0;
+
+                    return formQtyToMove;
+                },
+                options: { jQuery: false },
+                rejectClose: false,
+            });
+
+            return result || 0;
+        }
+
+        async _onDropGear(
+            event: DragEvent,
+            droppedItem: SohlItem,
+        ): Promise<SohlItem | boolean> {
+            const target: HTMLElement | null = (
+                event.target as HTMLElement
+            )?.closest("[data-container-id]");
+            const destContainerId = target?.dataset.containerId;
+
+            // If no other container is specified, use this item
+            let destContainer;
+            if (destContainerId) {
+                destContainer = this.document.actor?.items.get(destContainerId);
+            }
+            destContainer ||= this.document.nestedIn;
+
+            if (droppedItem.id === destContainer?.id) {
+                // Prohibit moving a container into itself
+                sohl.log.uiWarn("Can't move a container into itself");
+                return false;
+            }
+
+            if (
+                !destContainer ||
+                destContainer.id === droppedItem.nestedIn?.id
+            ) {
+                // If dropped item source and dest containers are the same,
+                // then we are simply rearranging
+                await this._onSortItem(event, droppedItem);
+                return true;
+            }
+
+            const similarItem = destContainer
+                .nestedItems()
+                .find(
+                    (it) =>
+                        droppedItem.id === it.id ||
+                        (droppedItem.name === it.name &&
+                            droppedItem.type === it.type),
+                );
+
+            if (similarItem) {
+                sohl.log.uiError(
+                    `Similar item exists in ${destContainer.name}`,
+                );
+                return false;
+            }
+
+            let quantity = droppedItem.system.quantity;
+            if (quantity > 1 && !droppedItem.parent) {
+                // Ask how many to move
+                quantity = await this._moveQtyDialog(
+                    droppedItem,
+                    destContainer,
+                );
+            }
+
+            const itemData = droppedItem.toObject();
+            delete itemData._id; // Remove ID to create a new item
+            itemData.system.quantity = quantity;
+            return (
+                (await SohlItem.create(itemData, {
+                    parent: destContainer,
+                })) || false
+            );
+        }
+
+        async _onDropNonGear(
+            event: DragEvent,
+            droppedItem: SohlItem,
+        ): Promise<boolean> {
+            if (
+                droppedItem.nestedIn?.id === this.document.id ||
+                droppedItem.parent?.id === this.document.id
+            ) {
+                // Sort items
+                const result = await this._onSortItem(
+                    event,
+                    droppedItem.toObject(),
+                );
+                return !!result?.length;
+            } else {
+                const result = await this._onDropItemCreate(
+                    droppedItem.toObject(),
+                    event,
+                );
+                return !!result;
+            }
+        }
+
+        /**
+         * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
+         * @param event - The initiating drop event
+         * @param item - The dropped Item document
+         * @return A Promise which resolves to the sorted list of sibling items, or undefined if sorting was not possible.
+         */
+        protected _onSortItem(
+            event: DragEvent,
+            item: SohlItem,
+        ): Promise<SohlItem[]> | undefined {
+            if (!this.actor || !this.actor.isOwner) return;
+            const items = this.actor.items;
+            const sourceId = item.id;
+            if (!sourceId) return;
+            const source = items.get(sourceId);
+            if (!source) return;
+
+            // Find drop target item
+            const targetElement = (event.target as HTMLElement)?.closest(
+                "[data-item-id]",
+            ) as HTMLElement | null;
+            if (!targetElement) return;
+
+            const targetId = targetElement.dataset.itemId;
+            if (!targetId || targetId === sourceId) return;
+
+            const target: SohlItem | undefined = items.get(targetId);
+            if (!target) return;
+
+            // Build ordered list of sibling items excluding the source item
+            const siblings: SohlItem[] = Array.from(
+                targetElement.parentElement?.children || [],
+            )
+                .map((el) =>
+                    items.get((el as HTMLElement).dataset.itemId || ""),
+                )
+                .filter((i): i is SohlItem => !!i && i.id !== sourceId);
+
+            // Sort the item using Foundry's utility
+            const sorted: { target: SohlItem; update: Partial<SohlItem> }[] =
+                fvtt.utils.performIntegerSort(source, {
+                    target,
+                    siblings,
+                });
+
+            // Prepare update data
+            const updateData = sorted.map(({ target, update }) => ({
+                _id: target.id,
+                ...update,
+            }));
+
+            // Apply the sort updates
+            return this.actor.updateEmbeddedDocuments(
+                "Item",
+                updateData,
+            ) as Promise<SohlItem[]>;
         }
 
         // static get defaultOptions() {

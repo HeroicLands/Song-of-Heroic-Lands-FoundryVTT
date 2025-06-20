@@ -11,23 +11,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { RegisterClass } from "@utils/decorators";
 import { SohlAction } from "@common/event";
 import { SohlActor } from "@common/actor";
 import { SohlClassRegistry } from "@utils";
 const { NumberField } = foundry.data.fields;
+const kInanimateObject = Symbol("InanimateObject");
+const kDataModel = Symbol("InanimateObject.DataModel");
 
 @RegisterClass(new SohlClassRegistry.Element(InanimateObject.Kind))
-export class InanimateObject extends SohlPerformer<InanimateObject.Data> {
-    /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+export class InanimateObject<
+        TData extends InanimateObject.Data = InanimateObject.Data,
+    >
+    extends SohlLogic
+    implements InanimateObject.Logic<TData>
+{
+    declare readonly parent: TData;
+    readonly [kInanimateObject] = true;
+
+    static isA(obj: unknown): obj is InanimateObject {
+        return (
+            typeof obj === "object" && obj !== null && kInanimateObject in obj
+        );
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
+
+    /** @inheritdoc */
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace InanimateObject {
@@ -56,7 +72,9 @@ export namespace InanimateObject {
     /**
      * The data shape for the InanimateObject actor.
      */
-    export interface Data extends SohlActor.Data<InanimateObject> {
+    export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {}
+
+    export interface Data extends SohlActor.Data {
         maxCapacity: number;
     }
 
@@ -64,7 +82,7 @@ export namespace InanimateObject {
      * The Foundry VTT data model for the InanimateObject actor.
      */
     @RegisterClass(
-        new SohlClassRegistry.DataModelElement({
+        new SohlDataModel.Element({
             kind: Kind,
             logicClass: InanimateObject,
             iconCssClass: IconCssClass,
@@ -72,12 +90,14 @@ export namespace InanimateObject {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SohlActor.DataModel<InanimateObject>
-        implements Data
-    {
+    export class DataModel extends SohlActor.DataModel implements Data {
         maxCapacity!: number;
         static override readonly LOCALIZATION_PREFIXES = ["OBJECT"];
+        readonly [kDataModel] = true;
+
+        static isA(obj: unknown): obj is DataModel {
+            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        }
 
         static defineSchema() {
             return {

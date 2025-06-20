@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlBaseParent } from "@common";
+import { SohlBase } from "@common";
 import { DurationValue } from "@utils";
 
 /**
@@ -23,6 +23,11 @@ import { DurationValue } from "@utils";
 export class SohlTemporal extends SohlBase {
     /** The world time, stored as a numeric timestamp */
     public gameTime!: number;
+
+    constructor(data: PlainObject, options: PlainObject = {}) {
+        super(data, options);
+        this.gameTime = data.gameTime ?? fvtt.game.time.worldTime;
+    }
 
     formatWorldDate(time?: number): string {
         let worldDateLabel = "No Calendar";
@@ -100,7 +105,15 @@ export class SohlTemporal extends SohlBase {
      * Create a new instance from a numeric time value
      * @param time - The world time value to create from
      */
-    static from(parent: SohlBaseParent, time: number): SohlTemporal {
-        return new SohlTemporal(parent, { gameTime: time });
+    static from(time: number): SohlTemporal {
+        return new SohlTemporal({ gameTime: time });
+    }
+
+    /**
+     * Get the current world time
+     * @returns A new SohlTemporal instance representing the current world time
+     */
+    static now(): SohlTemporal {
+        return new SohlTemporal({ gameTime: fvtt.game.time.worldTime });
     }
 }

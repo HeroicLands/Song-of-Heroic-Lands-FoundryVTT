@@ -12,36 +12,32 @@
  */
 
 import { ValueModifier } from "@common/modifier";
-import { SimpleRoll } from "@utils";
-
-export const ASPECT = {
-    BLUNT: "blunt",
-    EDGED: "edged",
-    PIERCING: "piercing",
-    FIRE: "fire",
-} as const;
-export type AspectType = (typeof ASPECT)[keyof typeof ASPECT];
-
-export const AspectChar: Record<AspectType, string> = {
-    [ASPECT.BLUNT]: "b",
-    [ASPECT.EDGED]: "e",
-    [ASPECT.PIERCING]: "p",
-    [ASPECT.FIRE]: "f",
-};
+import { defineType, SimpleRoll } from "@utils";
 
 /**
  * Specialized ValueModifier for Impacts
  */
 export class ImpactModifier extends ValueModifier {
-    private roll!: SimpleRoll;
-    private aspect!: AspectType;
+    private roll: SimpleRoll | null;
+    private aspect: ImpactModifier.AspectType;
 
+    constructor(
+        data: Partial<ImpactModifier.Data> = {},
+        options: Partial<ImpactModifier.Options> = {},
+    ) {
+        super(data, options);
+        this.roll = data.roll ? new SimpleRoll(data.roll, options) : null;
+        this.aspect =
+            ImpactModifier.isAspect(data.aspect) ?
+                data.aspect
+            :   ImpactModifier.ASPECT.BLUNT;
+    }
     // Getter for disabled
     get disabled(): string {
         return (
             super.disabled ||
             (this.die === 0 && this.effective === 0 ?
-                "SOHL.IMPACTMODIFIER.DISABLED"
+                "SOHL.ImpactModifier.DISABLED"
             :   "")
         );
     }
@@ -68,7 +64,7 @@ export class ImpactModifier extends ValueModifier {
 
     // Getter for label
     get label(): string {
-        return `${this.diceFormula}${AspectChar[this.aspect as AspectType]}`;
+        return `${this.diceFormula}${ImpactModifier.AspectChar[this.aspect]}`;
     }
 
     // Evaluate method
@@ -77,4 +73,34 @@ export class ImpactModifier extends ValueModifier {
         this.roll = SimpleRoll.fromFormula(this.diceFormula);
         return this.roll.roll();
     }
+}
+
+export namespace ImpactModifier {
+    export const {
+        kind: ASPECT,
+        values: Aspects,
+        isValue: isAspect,
+    } = defineType("SOHL.ImpactModifier.Aspect", {
+        BLUNT: "blunt",
+        EDGED: "edged",
+        PIERCING: "piercing",
+        FIRE: "fire",
+    });
+    export type AspectType = (typeof ASPECT)[keyof typeof ASPECT];
+
+    export const AspectChar: Record<AspectType, string> = {
+        [ASPECT.BLUNT]: "b",
+        [ASPECT.EDGED]: "e",
+        [ASPECT.PIERCING]: "p",
+        [ASPECT.FIRE]: "f",
+    };
+}
+
+export namespace ImpactModifier {
+    export interface Data extends ValueModifier.Data {
+        roll: SimpleRoll;
+        aspect: ImpactModifier.AspectType;
+    }
+
+    export interface Options extends ValueModifier.Options {}
 }

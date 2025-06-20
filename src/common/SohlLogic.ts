@@ -12,10 +12,12 @@
  */
 
 import {
+    defineType,
+    isBoolean,
+    isFunction,
     SohlClassRegistry,
-    ContextMenuCondition,
-    CONTEXTMENU_SORT_GROUP,
-    SohlContextMenuEntry,
+    SohlContextMenu,
+    toHTMLString,
 } from "@utils";
 import { SohlBase, SohlDataModel } from "@common";
 import {
@@ -27,21 +29,16 @@ import {
 import { SohlItem } from "@common/item";
 import { SohlActor } from "@common/actor";
 
-export abstract class SohlPerformer<
-        TData extends SohlPerformer.Data = SohlPerformer.Data,
-    >
-    extends SohlBase
-    implements SohlPerformer.Shape<TData>
-{
-    readonly parent: TData;
+export class SohlLogic extends SohlBase implements SohlLogic.Logic {
+    readonly parent: SohlLogic.Data;
     readonly actions: SohlAction[];
     readonly events: SohlEvent[];
 
-    get item(): SohlItem | null {
+    get item(): SohlItem {
         if ("item" in this.parent) {
             return this.parent.item as SohlItem;
         } else {
-            return null;
+            throw new Error("SohlLogic must be present in an Item");
         }
     }
 
@@ -79,14 +76,18 @@ export abstract class SohlPerformer<
         });
     }
 
-    get defaultIntrinsicActionName() {
+    get defaultIntrinsicActionName(): string {
         return "";
     }
 
-    constructor(parent: TData, data?: PlainObject, options?: PlainObject) {
+    constructor(
+        parent: SohlLogic.Data,
+        data?: PlainObject,
+        options?: PlainObject,
+    ) {
         if (!parent) {
             throw new Error(
-                "SohlPerformer must be constructed with a parent item or actor.",
+                "SohlLogic must be constructed with a parent item or actor.",
             );
         }
         super(data, options);
@@ -108,14 +109,15 @@ export abstract class SohlPerformer<
         );
     }
 
-    setDefaultAction() {
+    setDefaultAction(): void {
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
         this.actions.forEach((a) => {
-            const isDefault = a.contextGroup === CONTEXTMENU_SORT_GROUP.DEFAULT;
+            const isDefault =
+                a.contextGroup === SohlContextMenu.SORT_GROUP.DEFAULT;
             if (hasDefault) {
                 if (isDefault) {
-                    a.contextGroup = CONTEXTMENU_SORT_GROUP.ESSENTIAL;
+                    a.contextGroup = SohlContextMenu.SORT_GROUP.ESSENTIAL;
                 }
             } else {
                 hasDefault ||= isDefault;
@@ -128,7 +130,7 @@ export abstract class SohlPerformer<
                 (a) => a.name === this.defaultIntrinsicActionName,
             );
             if (defaultAction) {
-                defaultAction.contextGroup = CONTEXTMENU_SORT_GROUP.DEFAULT;
+                defaultAction.contextGroup = SohlContextMenu.SORT_GROUP.DEFAULT;
                 hasDefault = true;
             }
         }
@@ -136,43 +138,44 @@ export abstract class SohlPerformer<
         const collator = new Intl.Collator(sohl.i18n.lang);
         this.actions.sort((a: SohlAction, b: SohlAction) => {
             const contextGroupA =
-                a.contextGroup || CONTEXTMENU_SORT_GROUP.GENERAL;
+                a.contextGroup || SohlContextMenu.SORT_GROUP.GENERAL;
             const contextGroupB =
-                b.contextGroup || CONTEXTMENU_SORT_GROUP.GENERAL;
+                b.contextGroup || SohlContextMenu.SORT_GROUP.GENERAL;
             return collator.compare(contextGroupA, contextGroupB);
         });
 
         // If after all that, we still don't have a default action, then
         // set the first action as the default
         if (!hasDefault && this.actions.length) {
-            this.actions[0].contextGroup = CONTEXTMENU_SORT_GROUP.DEFAULT;
+            this.actions[0].contextGroup = SohlContextMenu.SORT_GROUP.DEFAULT;
         }
     }
 
-    _getContextOptions() {
-        let result = this.actions.reduce(
-            (ary: SohlContextMenuEntry[], a: SohlAction) => {
-                let cond: ContextMenuCondition = a.contextCondition;
-                if (typeof cond !== "function") {
+    _getContextOptions(): ContextMenu.Entry[] {
+        // @ts-expect-error `ContextMenu.Entry` is misdefined, it should accept this
+        let result: ContextMenu.Entry[] = this.actions.reduce(
+            (ary: SohlContextMenu.Entry[], a: SohlAction) => {
+                // @ts-expect-error `ContextMenu.Condition` is misdefined, it should accept this
+                let cond: ContextMenu.Condition = a.contextCondition;
+                if (isBoolean(cond)) {
                     cond = () =>
                         !!(
-                            cond &&
-                            a.contextGroup !== CONTEXTMENU_SORT_GROUP.HIDDEN
+                            cond ||
+                            a.contextGroup !== SohlContextMenu.SORT_GROUP.HIDDEN
                         );
                 }
+                let callback: SohlContextMenu.Callback;
 
-                if (cond) {
-                    const newAction = {
+                const newAction: SohlContextMenu.Entry =
+                    new SohlContextMenu.Entry({
                         id: a.name,
                         name: a.name,
-                        icon: `<i class="${a.contextIconClass}${a.contextGroup === CONTEXTMENU_SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
+                        iconClass: a.contextIconClass,
+                        // @ts-expect-error `ContextMenu.Condition` is misdefined, it should accept this
                         condition: cond,
-                        callback: (element: HTMLElement) =>
-                            a.execute({ element }),
-                        group: a.contextGroup,
-                    } as SohlContextMenuEntry;
-                    ary.push(newAction);
-                }
+                        group: SohlContextMenu.toSortGroup(a.contextGroup),
+                    });
+                ary.push(newAction);
                 return ary;
             },
             [],
@@ -184,27 +187,25 @@ export abstract class SohlPerformer<
      * Initializes base state for this participant.
      * Should not rely on sibling or external logic state.
      */
-    abstract initialize(context?: SohlAction.Context): void;
+    initialize(context?: SohlAction.Context): void {}
 
     /**
      * Evaluates business logic using current and sibling state.
      */
-    abstract evaluate(context?: SohlAction.Context): void;
+    evaluate(context?: SohlAction.Context): void {}
 
     /**
      * Final stage of lifecycle — compute derived values, cleanup, etc.
      */
-    abstract finalize(context?: SohlAction.Context): void;
+    finalize(context?: SohlAction.Context): void {}
 }
 
-export namespace SohlPerformer {
-    export interface Shape<
-        TData extends SohlPerformer.Data = SohlPerformer.Data,
-    > {
-        readonly parent: TData;
+export namespace SohlLogic {
+    export interface Logic {
+        readonly parent: Data;
         readonly actions: SohlAction[];
         readonly events: SohlEvent[];
-        get item(): SohlItem | null;
+        get item(): SohlItem;
         get actor(): SohlActor | null;
         get typeLabel(): string;
         get label(): string;
@@ -214,69 +215,73 @@ export namespace SohlPerformer {
         finalize(context?: SohlAction.Context): void;
     }
 
+    export interface EffectKeyData {
+        name: string;
+        abbrev: string;
+    }
+
     export interface Metadata extends SohlClassRegistry.Metadata {
-        effectKeys: PlainObject;
+        effectKeys: StrictObject<EffectKeyData>;
         defaultAction: string;
-        intrinsicActions: SohlContextMenuEntry[];
+        intrinsicActions: SohlContextMenu.Entry[];
     }
 
     export class Element extends SohlClassRegistry.Element implements Metadata {
-        effectKeys: PlainObject;
+        effectKeys: StrictObject<EffectKeyData>;
         defaultAction: string;
-        intrinsicActions: SohlContextMenuEntry[];
+        intrinsicActions: SohlContextMenu.Entry[];
 
         constructor(data: Partial<Metadata>) {
             if (!data.kind) {
-                throw new Error(
-                    "PerformerClassRegistryElement must have a kind",
-                );
+                throw new Error("LogicClassRegistryElement must have a kind");
             }
             super(data.kind, data.ctor);
             this.effectKeys = data.effectKeys || {};
             this.defaultAction = data.defaultAction || "";
-            this.intrinsicActions = Object.values(
-                SohlPerformer.INTRINSIC_ACTIONS,
-            );
+            this.intrinsicActions = IntrinsicActions;
             if (data.intrinsicActions) {
                 this.intrinsicActions.push(...data.intrinsicActions);
             }
         }
     }
 
-    export interface Constructor<
-        D extends Data = Data,
-        T extends SohlPerformer<D> = SohlPerformer<D>,
-    > {
-        new (parent: D, data?: PlainObject, options?: PlainObject): T;
+    export interface Constructor<D extends Data = Data> {
+        new (parent: D, data?: PlainObject, options?: PlainObject): Logic;
     }
 
-    export const INTRINSIC_ACTIONS: StrictObject<SohlContextMenuEntry> = {
-        INITIALIZE: {
+    export const {
+        kind: INTRINSIC_ACTION,
+        values: IntrinsicActions,
+        isValue: isIntrinsicAction,
+    } = defineType("SOHL.Injury.INTRINSIC_ACTION", {
+        INITIALIZE: new SohlContextMenu.Entry({
             id: "initialize",
             name: "Initialize",
-            iconClass: "fas fa-gears",
+            iconFAClass: "fas fa-gears",
             condition: true,
-            group: CONTEXTMENU_SORT_GROUP.HIDDEN,
-        },
-        EVALUATE: {
+            group: SohlContextMenu.SORT_GROUP.HIDDEN,
+        }),
+        EVALUATE: new SohlContextMenu.Entry({
             id: "evaluate",
             name: "Evaluate",
-            iconClass: "fas fa-gears",
+            iconFAClass: "fas fa-gears",
             condition: true,
-            group: CONTEXTMENU_SORT_GROUP.HIDDEN,
-        },
-        FINALIZE: {
+            group: SohlContextMenu.SORT_GROUP.HIDDEN,
+        }),
+        FINALIZE: new SohlContextMenu.Entry({
             id: "finalize",
             name: "Finalize",
-            iconClass: "fas fa-gears",
+            iconFAClass: "fas fa-gears",
             condition: true,
-            group: CONTEXTMENU_SORT_GROUP.HIDDEN,
-        },
-    } as const;
+            group: SohlContextMenu.SORT_GROUP.HIDDEN,
+        }),
+    } as StrictObject<SohlContextMenu.Entry>);
+    export type IntrinsicAction =
+        (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
-    export interface Data {
+    export interface Data extends foundry.abstract.TypeDataModel<any, any> {
         readonly parent: SohlItem | SohlActor;
-        readonly logic: SohlPerformer<any>;
+        readonly logic: Logic;
         actionList: PlainObject[];
         eventList: PlainObject[];
     }

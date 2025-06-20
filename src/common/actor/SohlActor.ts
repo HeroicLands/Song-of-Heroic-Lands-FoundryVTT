@@ -13,28 +13,167 @@
 
 import { SohlMap } from "@utils/collection";
 import { SohlItem } from "@common/item";
-import { DocumentId, FilePath, HTMLString } from "@utils";
-import { SohlPerformer, SohlDataModel } from "@common";
+import {
+    ClientDocumentExtendedMixin,
+    FilePath,
+    HTMLString,
+    SohlContextMenu,
+} from "@utils";
+import { SohlLogic, SohlDataModel, InternalClientDocument } from "@common";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 const kSohlActor = Symbol("SohlActor");
 const kDataModel = Symbol("SohlActor.DataModel");
 
 export class SohlActor<
-    P extends SohlPerformer = SohlPerformer,
-    M extends SohlActor.DataModel<P> = any,
-> extends Actor {
-    declare parent: null;
-    declare id: DocumentId;
-    declare name: string;
-    declare img: FilePath;
+        TLogic extends SohlLogic = SohlLogic,
+        TDataModel extends SohlActor.DataModel = any,
+    >
+    extends ClientDocumentExtendedMixin(
+        Actor,
+        {} as InstanceType<typeof foundry.documents.BaseActor>,
+    )
+    implements InternalClientDocument
+{
+    declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
+    declare readonly collection: Collection<this, Collection.Methods<this>>;
+    declare readonly compendium: CompendiumCollection<any> | undefined;
+    declare readonly isOwner: boolean;
+    declare readonly hasPlayerOwner: boolean;
+    declare readonly limited: boolean;
+    declare readonly link: string;
+    declare readonly permission: any;
+    declare readonly sheet: foundry.applications.api.ApplicationV2.Any | null;
+    declare readonly visible: boolean;
+    declare prepareData: () => void;
+    declare prepareBaseData: () => void;
+    declare prepareEmbeddedDocuments: () => void;
+    declare prepareDerivedData: () => void;
+    declare render: (
+        force?: boolean,
+        context?:
+            | Application.RenderOptions
+            | foundry.applications.api.ApplicationV2.RenderOptions,
+    ) => void;
+    declare sortRelative: (
+        options?: ClientDocument.SortOptions<this, "sort"> | undefined,
+    ) => Promise<this>;
+    declare getRelativeUUID: (relative: ClientDocument) => string;
+    declare _dispatchDescendantDocumentEvents: (
+        event: ClientDocument.LifeCycleEventName,
+        collection: string,
+        args: never,
+        _parent: never,
+    ) => void;
+    declare _onSheetChange: (
+        options?: ClientDocument.OnSheetChangeOptions,
+    ) => Promise<void>;
+    declare deleteDialog: (
+        options?: PlainObject,
+    ) => Promise<false | this | null | undefined>;
+    declare exportToJSON: (
+        options?: ClientDocument.ToCompendiumOptions,
+    ) => void;
+    declare toDragData: () => foundry.abstract.Document.DropData<
+        foundry.abstract.Document.Internal.Instance.Complete<any>
+    >;
+    declare importFromJSON: (json: string) => Promise<this>;
+    declare importFromJSONDialog: () => Promise<void>;
+    declare toCompendium: (
+        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
+        options?: PlainObject,
+    ) => ClientDocument.ToCompendiumReturnType<any, any>;
+    declare toAnchor: (
+        options?: TextEditor.EnrichmentAnchorOptions,
+    ) => HTMLAnchorElement;
+    declare toEmbed: (
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _buildEmbedHTML: (
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | HTMLCollection | null>;
+    declare _createInlineEmbed: (
+        content: HTMLElement | HTMLCollection,
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _createFigureEmbed: (
+        content: HTMLElement | HTMLCollection,
+        config: TextEditor.DocumentHTMLEmbedConfig,
+        options?: TextEditor.EnrichmentOptions,
+    ) => Promise<HTMLElement | null>;
+    declare _preCreateEmbeddedDocuments: (
+        embeddedName: string,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _onCreateEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _preUpdateEmbeddedDocuments: (
+        embeddedName: string,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationOptions,
+        userId: string,
+    ) => void;
+    declare _onUpdateEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: AnyObject[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _preDeleteEmbeddedDocuments: (
+        embeddedName: string,
+        result: string[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _onDeleteEmbeddedDocuments: (
+        embeddedName: string,
+        documents: never,
+        result: string[],
+        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
+        userId: string,
+    ) => void;
+    declare _preCreateDescendantDocuments: (...args: any[]) => void;
+    declare public _onCreateDescendantDocuments: (...args: any[]) => void;
+    declare public _preUpdateDescendantDocuments: (...args: any[]) => void;
+    declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
+    declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
+    declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
+
     declare type: string;
-    declare system: M;
-    declare limited: boolean;
+    declare img: FilePath;
+    declare static create: (
+        data: PlainObject,
+        options?: PlainObject,
+    ) => Promise<SohlActor | undefined>;
+    declare update: (
+        data: PlainObject,
+        options?: PlainObject,
+    ) => Promise<this | undefined>;
+    declare delete: (options?: PlainObject) => Promise<this | undefined>;
+
     readonly [kSohlActor] = true;
 
     static isA(obj: unknown): obj is SohlActor {
         return typeof obj === "object" && obj !== null && kSohlActor in obj;
+    }
+
+    static _getContextOptions(doc: SohlActor): SohlContextMenu.Entry[] {
+        return doc._getContextOptions();
+    }
+
+    _getContextOptions(): SohlContextMenu.Entry[] {
+        return this.system.logic._getContextOptions();
     }
 
     get items(): SohlMap<string, SohlItem> {
@@ -44,53 +183,51 @@ export class SohlActor<
         );
     }
 
-    override get itemTypes(): StrictObject<SohlItem[]> {
-        return super.itemTypes as StrictObject<SohlItem[]>;
-    }
-
-    async update(
-        data: PlainObject | PlainObject[],
-        options?: PlainObject,
-    ): Promise<SohlActor | SohlActor[]> {
-        // @ts-expect-error Foundry mixin: update is implemented at runtime
-        return await super.update(data as any, options);
-    }
-    async delete(context?: PlainObject): Promise<SohlActor> {
-        // @ts-expect-error Foundry mixin: delete is implemented at runtime
-        return await super.delete(context);
+    get itemTypes(): StrictObject<SohlItem[]> {
+        // @ts-expect-error TypeScript does not recognize the parent `items` collection
+        return super.items.reduce(
+            (acc: StrictObject<SohlItem[]>, it: SohlItem) => {
+                const ary: SohlItem[] = acc[it.type] ?? [];
+                ary.push(it);
+                acc[it.type] = ary;
+                return acc;
+            },
+            {},
+        );
     }
 }
 
 export namespace SohlActor {
-    export interface Data<T extends SohlPerformer = SohlPerformer>
-        extends SohlPerformer.Data {
+    export interface Data extends SohlLogic.Data {
+        get logic(): Logic;
         biography: HTMLString;
         description: HTMLString;
         bioImage: FilePath;
         textReference: string;
     }
 
-    export abstract class DataModel<P extends SohlPerformer = SohlPerformer>
-        extends SohlDataModel<SohlActor, P>
-        implements SohlActor.Data<P>
-    {
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Data;
+    }
+
+    export type DataModelConstructor = SohlDataModel.Constructor<SohlActor>;
+
+    export class DataModel extends SohlDataModel<SohlActor> implements Data {
         declare parent: SohlActor;
+        declare biography: HTMLString;
+        declare description: HTMLString;
+        declare bioImage: FilePath;
+        declare textReference: string;
         static override LOCALIZATION_PREFIXES = ["SOHLACTORDATA"];
-        protected _logic!: P;
-        biography!: HTMLString;
-        description!: HTMLString;
-        bioImage!: FilePath;
-        textReference!: string;
         readonly [kDataModel] = true;
 
         static isA(obj: unknown): obj is DataModel {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        get logic(): P {
-            return ((this._logic as SohlPerformer) ??= new this.logicClass(
-                this,
-            )) as P;
+        get logic(): Logic {
+            this._logic ??= new this.logicClass(this);
+            return this._logic as Logic;
         }
 
         get actor(): SohlActor {
@@ -163,7 +300,7 @@ export namespace SohlActor {
             options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
         ): void {
             super._configureRenderOptions(options);
-            if (this.document.limited) {
+            if ((this.document as any).limited) {
                 options.parts = ["header", "facade"];
             } else {
                 options.parts = [

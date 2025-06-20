@@ -1,10 +1,10 @@
 import { InternalClientDocument } from "@common/FoundryProxy";
 import { ClientDocumentExtendedMixin } from "@utils";
 
-export class SohlTokenDocument
+export class SohlUser
     extends ClientDocumentExtendedMixin(
-        TokenDocument,
-        {} as InstanceType<typeof foundry.documents.BaseToken>,
+        User,
+        {} as InstanceType<typeof foundry.documents.BaseUser>,
     )
     implements InternalClientDocument
 {
@@ -12,6 +12,7 @@ export class SohlTokenDocument
     declare readonly collection: Collection<this, Collection.Methods<this>>;
     declare readonly compendium: CompendiumCollection<any> | undefined;
     declare readonly hasPlayerOwner: boolean;
+    declare readonly isOwner: boolean;
     declare readonly limited: boolean;
     declare readonly link: string;
     declare readonly permission: any;
@@ -121,72 +122,4 @@ export class SohlTokenDocument
     declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
     declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
     declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
-
-    declare name: string;
-    declare displayName: string;
-    declare actorId: string;
-    declare actorLink: boolean;
-    declare delta: any;
-    declare width: number;
-    declare height: number;
-    declare texture: string;
-    declare shape: number;
-    declare x: number;
-    declare y: number;
-    declare elevation: number;
-    declare sort: number;
-    declare locked: boolean;
-    declare lockRotation: boolean;
-    declare rotation: number;
-    declare alpha: number;
-    declare hidden: boolean;
-    declare disposition: number;
-    declare displayBars: boolean;
-    declare bar1: {
-        attribute: string;
-    };
-    declare bar2: {
-        attribute: string;
-    };
-    declare light: any;
-    declare sight: {
-        enabled: boolean;
-        range: number;
-        angle: number;
-        visionMode: string;
-        color: string;
-        attenuation: number;
-        brightness: number;
-        saturation: number;
-        contrast: number;
-    };
-    declare detectionModes: {
-        id: string;
-        enabled: boolean;
-        range: number;
-    }[];
-    declare occludable: {
-        radius: number;
-    };
-    declare ring: {
-        enabled: boolean;
-        colors: {
-            ring: string;
-            background: string;
-        };
-        effects: number;
-        subject: {
-            scale: number;
-            texture: string;
-        };
-    };
-    declare turnMarker: {
-        mode: number;
-        animation: string;
-        src: string;
-        disposition: boolean;
-    };
-    declare movementAction: string;
-    declare readonly parent: Token | null;
-    declare flags: any;
 }

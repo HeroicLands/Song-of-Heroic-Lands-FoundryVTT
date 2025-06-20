@@ -939,7 +939,7 @@
         },
         "Settings": {
             "SystemMigrationVersion": "System Migration Version",
-            "SohlVariant": {
+            "Variant": {
                 "Name": "Rules Variant",
                 "Hint": "Which set of rules to use"
             },

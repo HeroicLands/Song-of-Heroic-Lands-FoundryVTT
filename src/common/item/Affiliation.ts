@@ -13,19 +13,20 @@
 
 import { RegisterClass } from "@utils/decorators";
 import { SohlAction } from "@common/event";
-import { SohlDataModel, SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { SohlItem } from "@common/item";
 const { StringField, NumberField } = fvtt.data.fields;
 
 const kAffiliation = Symbol("Affiliation");
-const kDataModel = Symbol("Affiliation.DataModel");
+const kData = Symbol("Affiliation.Data");
 
 @RegisterClass(
-    new SohlPerformer.Element({
+    new SohlLogic.Element({
         kind: Affiliation.Kind,
     }),
 )
-export class Affiliation extends SohlPerformer<Affiliation.Data> {
+export class Affiliation extends SohlLogic implements Affiliation.Logic {
+    declare readonly parent: Affiliation.Data;
     readonly [kAffiliation] = true;
 
     static isA(obj: unknown): obj is Affiliation {
@@ -33,13 +34,13 @@ export class Affiliation extends SohlPerformer<Affiliation.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace Affiliation {
@@ -58,15 +59,22 @@ export namespace Affiliation {
      */
     export const Image = "systems/sohl/assets/icons/people-group.svg";
 
-    /**
-     * The data shape for the Affiliation item.
-     */
-    export interface Data<TPerformer extends Affiliation = Affiliation>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {
+        readonly [kAffiliation]: true;
+    }
+
+    export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
         society: string;
         office: string;
         title: string;
         level: number;
+    }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
     }
 
     @RegisterClass(
@@ -80,18 +88,18 @@ export namespace Affiliation {
         }),
     )
     export class DataModel
-        extends SohlItem.DataModel<Affiliation>
-        implements Data
+        extends SohlItem.DataModel
+        implements Affiliation.Data
     {
         static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
         declare society: string;
         declare office: string;
         declare title: string;
         declare level: number;
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

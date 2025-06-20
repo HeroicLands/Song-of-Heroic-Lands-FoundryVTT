@@ -13,14 +13,42 @@
 
 import { AttackResult, DefendResult, OpposedTestResult } from "@common/result";
 import { RegisterClass } from "@utils/decorators";
+const kCombatResult = Symbol("CombatResult");
+const kData = Symbol("CombatResult.Data");
+const kContext = Symbol("CombatResult.Context");
 
 @RegisterClass({
-    kind: "CombatTestResult",
+    kind: "CombatResult",
     schemaVersion: "0.6.0",
 })
 export class CombatResult extends OpposedTestResult {
-    attackResult!: AttackResult;
-    defendResult!: DefendResult;
+    attackResult: AttackResult;
+    defendResult: DefendResult;
+    readonly [kCombatResult] = true;
+
+    static isA(obj: unknown): obj is CombatResult {
+        return typeof obj === "object" && obj !== null && kCombatResult in obj;
+    }
+
+    constructor(
+        data: Partial<CombatResult.Data>,
+        options: Partial<CombatResult.Options> = {},
+    ) {
+        if (!data.attackResult || !data.defendResult) {
+            throw new Error(
+                "CombatResult requires both attackResult and defendResult",
+            );
+        }
+        super(data, options);
+        this.attackResult =
+            AttackResult.isA(data.attackResult) ?
+                data.attackResult
+            :   new AttackResult(data.attackResult, options);
+        this.defendResult =
+            DefendResult.isA(data.defendResult) ?
+                data.defendResult
+            :   new DefendResult(data.defendResult, options);
+    }
 
     calcMeleeCombatResult(opposedTestResult: OpposedTestResult) {
         // if (!opposedTestResult.targetTestResult) {
@@ -168,5 +196,37 @@ export class CombatResult extends OpposedTestResult {
         //         { overwrite: false },
         //     ),
         // );
+    }
+}
+
+export namespace CombatResult {
+    export interface Data extends OpposedTestResult.Data {
+        readonly [kData]: true;
+        attackResult: AttackResult | Partial<AttackResult.Data>;
+        defendResult: DefendResult | Partial<DefendResult.Data>;
+    }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
+    export interface Options extends OpposedTestResult.Options {}
+
+    export class Context extends OpposedTestResult.Context {
+        readonly [kContext] = true;
+
+        isA(obj: unknown): obj is Context {
+            return typeof obj === "object" && obj !== null && kContext in obj;
+        }
+
+        constructor(data: Partial<CombatResult.Context.Data> = {}) {
+            super(data);
+        }
+    }
+
+    export namespace Context {
+        export interface Data extends OpposedTestResult.Context.Data {}
     }
 }

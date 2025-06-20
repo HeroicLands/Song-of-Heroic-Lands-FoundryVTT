@@ -12,22 +12,23 @@
  */
 
 import { ValueModifier } from "@common/modifier";
-import { SohlPerformer } from "@common";
-import { ActionContext, LOGLEVEL } from "@utils";
+import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common";
+import { LOGLEVEL } from "@utils";
 
 /** Function signature for Accessor functions */
 export type AccessorFunction = (thisArg: ValueModifier) => any;
 
 /** Function signature for synchronous Action functions */
 export type SyncActionFunction = (
-    this: SohlPerformer,
-    context: ActionContext,
+    this: SohlLogic,
+    context: SohlAction.Context,
 ) => any;
 
 /** Function signature for asynchronous Action functions */
 export type AsyncActionFunction = (
-    this: SohlPerformer,
-    context: ActionContext,
+    this: SohlLogic,
+    context: SohlAction.Context,
 ) => Promise<any>;
 
 /** Union of possible Action function types */
@@ -100,8 +101,8 @@ export function createActionFunction(
     const fn = safeFunctionFactory(fnStr, isAsync) as ActionFunction;
 
     return function (
-        this: SohlPerformer,
-        context: ActionContext,
+        this: SohlLogic,
+        context: SohlAction.Context,
     ): any | Promise<any> {
         try {
             return isAsync ?

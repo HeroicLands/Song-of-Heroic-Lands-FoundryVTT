@@ -12,118 +12,54 @@
  */
 
 import { SohlItem } from "@common/item";
-import { defineType } from "@utils";
-/**
- * Options for configuring the context menu.
- */
-export interface SohlContextMenuOptions {
-    eventName?: string;
-    onOpen?: ContextMenuCallback;
-    onClose?: ContextMenuCallback;
-    fixed?: boolean;
-    jQuery?: boolean;
-}
-
-/**
- * Callback type for context menu open/close events.
- */
-export type ContextMenuCallback = (target: HTMLElement) => unknown;
-
-export type ContextMenuCondition = boolean | ((target: HTMLElement) => boolean);
-
-/**
- * Options passed during rendering the context menu.
- */
-export interface ContextMenuRenderOptions {
-    event?: Event;
-    animate?: boolean;
-}
-
-/**
- * Constants for context menu groups.
- */
-export const {
-    kind: CONTEXTMENU_SORT_GROUP,
-    values: contextMenuSortGroups,
-    isValue: isContextMenuSortGroup,
-} = defineType("ContextMenu.SORT_GROUP", {
-    DEFAULT: "default",
-    ESSENTIAL: "essential",
-    GENERAL: "general",
-    HIDDEN: "hidden",
-});
-export type ContextMenuSortGroup =
-    (typeof CONTEXTMENU_SORT_GROUP)[keyof typeof CONTEXTMENU_SORT_GROUP];
-
-/**
- * Represents an entry in the context menu.
- */
-export interface SohlContextMenuEntry {
-    /**
-     * The context menu entry identifier.
-     */
-    id: string;
-
-    /**
-     * The context menu entry label.
-     */
-    name: string;
-
-    /**
-     * If this is an intrinsic action, this is the function name to call.
-     */
-    functionName?: string;
-
-    /**
-     * The Font-Awesome CSS class to use for this menu item, such as "fas fa-plus".
-     */
-    iconClass?: string;
-
-    /**
-     * Additional CSS classes to apply to the menu item.
-     */
-    classes?: string;
-
-    /**
-     * HTML icon element for the menu item.
-     */
-    icon?: string;
-
-    /**
-     * Context menu group.
-     */
-    group: string;
-
-    /**
-     * The function to call when the menu item is clicked.
-     */
-    callback?: ContextMenuCallback;
-
-    /**
-     * A function to call or boolean value to determine if this entry appears in the menu.
-     */
-    condition: ContextMenuCondition;
-}
-
-export class SohlContextMenu extends foundry.applications.ux.ContextMenu {
-    readonly implementation!: typeof SohlContextMenu;
+import { defineType, FilePath, HTMLString, toHTMLString } from "@utils";
+export class SohlContextMenu extends ContextMenu {
+    declare readonly implementation: typeof SohlContextMenu;
 
     constructor(
         container: HTMLElement,
         selector: string,
-        menuItems: SohlContextMenuEntry[],
-        options: SohlContextMenuOptions = {},
+        menuItems: SohlContextMenu.Entry[],
+        options: SohlContextMenu.Options = {},
     ) {
+        const mItems = menuItems.map((it: SohlContextMenu.Entry) => {
+            const newItem: SohlContextMenu.Entry = new SohlContextMenu.Entry({
+                id: it.id,
+                name: it.name,
+                group: it.group as SohlContextMenu.SortGroup,
+                callback: it.callback,
+                functionName: it.functionName,
+                condition:
+                    typeof it.condition === "function" ?
+                        it.condition
+                    :   (_target: HTMLElement) => !!it.condition,
+            });
+            if (!it.callback) {
+                if (it.functionName) {
+                    newItem.callback = (target: HTMLElement) => {
+                        const item = SohlContextMenu._getContextItem(target);
+                        if (item) {
+                            item.system.logic.execute({
+                                element: target,
+                                async: true,
+                            });
+                        }
+                    };
+                } else {
+                    throw new Error(
+                        `Context menu item "${name}" does not have a callback function.`,
+                    );
+                }
+            }
+        });
         options.jQuery = options.jQuery || false;
-        super(container, selector, menuItems, options);
-        this.options.eventName = this.options.eventName || "contextmenu";
+        super(container as any, selector, menuItems as any, options);
     }
 
     static _getContextItem(header: HTMLElement): SohlItem | null {
         const element = header.closest(".item") as HTMLElement;
         const item =
-            element?.dataset?.effectId &&
-            foundryHelpers.fromUuidSync(element.dataset.itemId);
+            element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
         return item && typeof item === "object" ? (item as SohlItem) : null;
     }
 
@@ -137,6 +73,7 @@ export class SohlContextMenu extends foundry.applications.ux.ContextMenu {
     //         :   null;
     // }
 
+    // @ts-expect-error: `_setPosition` declaration is wrong, ignore until fixed.
     _setPosition(
         element: HTMLElement,
         target: HTMLElement,
@@ -211,6 +148,144 @@ export class SohlContextMenu extends foundry.applications.ux.ContextMenu {
     static _getContextLogic(element: HTMLElement): any {
         const found = element.closest(".logic") as any;
         if (!found) return null;
-        return foundryHelpers.fromUuidSync(found.dataset.uuid);
+        return fromUuidSync(found.dataset.uuid);
+    }
+}
+
+export namespace SohlContextMenu {
+    /**
+     * Options for configuring the context menu.
+     */
+    export interface Options {
+        eventName?: string;
+        onOpen?: Callback;
+        onClose?: Callback;
+        fixed?: boolean;
+        jQuery?: boolean;
+    }
+
+    /**
+     * Callback type for context menu open/close events.
+     */
+    export type Callback = (target: HTMLElement) => unknown;
+
+    export type Condition = boolean | ((target: HTMLElement) => boolean);
+
+    /**
+     * Options passed during rendering the context menu.
+     */
+    export interface RenderOptions {
+        event?: Event;
+        animate?: boolean;
+    }
+
+    /**
+     * Constants for context menu groups.
+     */
+    export const {
+        kind: SORT_GROUP,
+        values: SortGroups,
+        isValue: isSortGroup,
+    } = defineType("SOHL.ContextMenu.SORT_GROUP", {
+        DEFAULT: "default",
+        ESSENTIAL: "essential",
+        GENERAL: "general",
+        HIDDEN: "hidden",
+    });
+    export type SortGroup = (typeof SORT_GROUP)[keyof typeof SORT_GROUP];
+    export function toSortGroup(group: string): SortGroup {
+        if (isSortGroup(group)) return group;
+        return SORT_GROUP.DEFAULT;
+    }
+
+    /**
+     * Represents an entry in the context menu.
+     */
+    export class Entry {
+        /**
+         * The context menu entry label.
+         */
+        name: string;
+
+        /**
+         * HTML icon element for the menu item.
+         */
+        icon?: HTMLString;
+
+        /**
+         * Context menu group.
+         */
+        group: string;
+
+        /**
+         * The function to call when the menu item is clicked.
+         */
+        callback?: Callback;
+
+        /**
+         * A function to call or boolean value to determine if this entry appears in the menu.
+         */
+        condition: Condition;
+
+        /**
+         * The context menu entry identifier.
+         */
+        id: string;
+
+        /**
+         * The function name to call when the entry is clicked.
+         */
+        functionName?: string;
+
+        /**
+         * Creates an instance of the context menu entry.
+         * @param data The data for the context menu entry.
+         * @param data.id The unique identifier for the entry.
+         * @param data.name The name of the entry.
+         * @param data.icon The HTML Icon element for the entry.
+         * @param data.iconFAClass The Font-Awesome CSS class for the entry.
+         * @param data.functionName The function name to call when the entry is clicked.
+         * @param data.condition A function or boolean to determine if the entry should be shown.
+         * @param data.callback The callback function to call when the entry is clicked.
+         * @param data.group The group to which the entry belongs.
+         */
+        constructor(data: {
+            id: string;
+            name: string;
+            icon?: HTMLString;
+            iconFAClass?: string;
+            functionName?: string;
+            condition: Condition;
+            callback?: Callback;
+            group: SortGroup;
+        }) {
+            if (!(data.icon || data.iconFAClass)) {
+                throw new Error("Either icon or iconFAClass must be provided.");
+            }
+            if (!(data.callback || data.functionName)) {
+                throw new Error(
+                    "Either callback or functionName must be provided.",
+                );
+            }
+            this.id = data.id;
+            this.name = data.name;
+            this.icon =
+                data.icon ||
+                toHTMLString(
+                    `<i class="${data.iconFAClass}${data.group === SohlContextMenu.SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
+                );
+            this.condition = data.condition;
+            this.callback =
+                data.callback ||
+                ((element: HTMLElement) => {
+                    const a = SohlContextMenu._getContextLogic(element);
+                    if (!a) return;
+                    a.execute({
+                        element,
+                        async: true,
+                    });
+                });
+            this.group = data.group;
+        }
     }
 }

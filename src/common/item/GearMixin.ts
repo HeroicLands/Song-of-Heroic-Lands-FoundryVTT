@@ -11,15 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defineType, DocumentId, HTMLString } from "@utils";
-import { SohlDataModel, SohlPerformer } from "@common";
+import { defineType } from "@utils";
+import { SohlLogic } from "@common";
 import { SohlItem } from "@common/item";
-import { SohlAction } from "@common/event";
+import { SohlAction, SohlEvent } from "@common/event";
 import { SohlActor } from "@common/actor";
-const { StringField, NumberField, BooleanField } = (foundry.data as any).fields;
+import { ValueModifier } from "@common/modifier";
+const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
 const kGearMixin = Symbol("GearMixin");
-const kDataModel = Symbol("GearMixin.DataModel");
+const kData = Symbol("GearMixin.Data");
 
 /**
  * A mixin for item data models that represent gear.
@@ -29,38 +30,65 @@ const kDataModel = Symbol("GearMixin.DataModel");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic gear properties.
  */
-export function GearMixin<TBase extends AnyConstructor<SohlPerformer>>(
+export function GearMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
 ): TBase {
-    return class InternalGearPerformer extends Base {
+    return class extends Base {
+        declare readonly parent: GearMixin.Data;
+        declare readonly actions: SohlAction[];
+        declare readonly events: SohlEvent[];
+        declare readonly item: SohlItem;
+        declare readonly actor: SohlActor | null;
+        declare readonly typeLabel: string;
+        declare readonly label: string;
+        declare readonly defaultIntrinsicActionName: string;
+        declare setDefaultAction: () => void;
         readonly [kGearMixin] = true;
-
-        static isA(obj: unknown): obj is TBase {
-            return typeof obj === "object" && obj !== null && kGearMixin in obj;
-        }
+        weight!: ValueModifier;
+        value!: ValueModifier;
+        quality!: ValueModifier;
+        durability!: ValueModifier;
 
         /** @inheritdoc */
-        initialize(context: SohlAction.Context = {}): void {
+        initialize(context: SohlAction.Context): void {
             super.initialize(context);
+            this.weight = sohl.game.CONFIG.ValueModifier({}, { parent: this });
+            this.value = sohl.game.CONFIG.ValueModifier({}, { parent: this });
+            this.quality = sohl.game.CONFIG.ValueModifier({}, { parent: this });
+            this.durability = sohl.game.CONFIG.ValueModifier(
+                {},
+                { parent: this },
+            );
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context = {}): void {
+        evaluate(context: SohlAction.Context): void {
             super.evaluate(context);
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context = {}): void {
+        finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    };
+    } as unknown as TBase & GearMixin.Logic;
 }
 
 export namespace GearMixin {
     export const Kind = "gear";
 
-    export interface Data<TPerformer extends SohlPerformer = SohlPerformer>
-        extends SohlItem.Data<TPerformer> {
+    export function isA(obj: unknown): obj is Logic {
+        return typeof obj === "object" && obj !== null && kGearMixin in obj;
+    }
+
+    export interface Logic extends SohlItem.Logic {
+        weight: ValueModifier;
+        value: ValueModifier;
+        quality: ValueModifier;
+        durability: ValueModifier;
+    }
+
+    export interface Data extends SohlItem.Data {
+        get logic(): Logic;
         abbrev: string;
         quantity: number;
         weightBase: number;
@@ -71,9 +99,11 @@ export namespace GearMixin {
         durabilityBase: number;
     }
 
-    export type DataModelConstructor<
-        TPerformer extends SohlPerformer = SohlPerformer,
-    > = SohlItem.DataModelConstructor<TPerformer>;
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
 
     export const {
         kind: GEAR_KIND,
@@ -90,23 +120,10 @@ export namespace GearMixin {
     });
     export type GearKind = (typeof GEAR_KIND)[keyof typeof GEAR_KIND];
 
-    export function DataModel<
-        TBase extends AnyConstructor,
-        TPerformer extends SohlPerformer = SohlPerformer,
-    >(Base: TBase): TBase & Data<TPerformer> {
-        return class InternalDataModel
-            extends Base
-            implements Data<TPerformer>
-        {
-            declare notes: HTMLString;
-            declare description: HTMLString;
-            declare textReference: HTMLString;
-            declare transfer: boolean;
-            declare nestedIn: DocumentId | null;
-            declare parent: SohlItem;
-            declare logic: SohlPerformer<any>;
-            declare actionList: PlainObject[];
-            declare eventList: PlainObject[];
+    export function DataModel<TBase extends AnyConstructor>(
+        Base: TBase,
+    ): TBase & Data {
+        return class extends Base {
             declare abbrev: string;
             declare quantity: number;
             declare weightBase: number;
@@ -115,13 +132,7 @@ export namespace GearMixin {
             declare isEquipped: boolean;
             declare qualityBase: number;
             declare durabilityBase: number;
-            readonly [kDataModel] = true;
-
-            static isA(obj: unknown): obj is TBase & Data<TPerformer> {
-                return (
-                    typeof obj === "object" && obj !== null && kDataModel in obj
-                );
-            }
+            readonly [kData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -154,6 +165,6 @@ export namespace GearMixin {
                     }),
                 };
             }
-        } as unknown as TBase & Data<TPerformer>;
+        } as unknown as TBase & Data;
     }
 }

@@ -21,171 +21,76 @@ import {
     toHTMLWithContent,
     DocumentId,
     HTMLString,
+    toHTMLWithTemplate,
 } from "@utils";
 import Handlebars from "handlebars";
 import { getSystemSetting } from "./FoundryProxy";
-
-export const {
-    kind: CHATMESSAGE_ROLL_MODE,
-    values: chatMessageRollModes,
-    isValue: isChatMessageRollMode,
-} = defineType({
-    SYSTEM: "roll",
-    PUBLIC: "publicroll",
-    SELF: "selfroll",
-    BLIND: "blindroll",
-    PRIVATE: "gmroll",
-});
-export type ChatMessageRollMode =
-    (typeof CHATMESSAGE_ROLL_MODE)[keyof typeof CHATMESSAGE_ROLL_MODE];
-
-export const {
-    kind: CHATMESSAGE_STYLE,
-    values: chatMessageStyles,
-    isValue: isChatMessageStyle,
-} = defineType({
-    OTHER: 0,
-    OUT_OF_CHARACTER: 1,
-    IN_CHARACTER: 2,
-    EMOTE: 3,
-});
-export type ChatMessageStyle =
-    (typeof CHATMESSAGE_STYLE)[keyof typeof CHATMESSAGE_STYLE];
-
-export const {
-    kind: CHATMESSAGE_SOUND,
-    values: chatMessageSounds,
-    isValue: isChatMessageSound,
-} = defineType({
-    DICE: "sounds/dice.wav",
-    LOCK: "sounds/lock.wav",
-    NOTIFICATION: "sounds/notify.wav",
-    COMBAT: "sounds/drums.wav",
-});
-export type ChatMessageSound =
-    (typeof CHATMESSAGE_SOUND)[keyof typeof CHATMESSAGE_SOUND];
-
-export interface ChatOptions {
-    flavor?: string;
-    sound?: string;
-    rolls?: SimpleRoll[];
-    style?: ChatMessageStyle;
-    user?: string;
-}
-
-export function isChatOptions(data: any): data is ChatOptions {
-    return (
-        typeof data === "object" &&
-        (data.flavor === undefined || typeof data.flavor === "string") &&
-        (data.sound === undefined || typeof data.sound === "string") &&
-        (data.rolls === undefined || Array.isArray(data.rolls)) &&
-        (data.style === undefined || typeof data.style === "number") &&
-        (data.user === undefined || typeof data.user === "string")
-    );
-}
-
-export interface SohlSpeakerData {
-    token: DocumentId | null;
-    actor: DocumentId | null;
-    scene: DocumentId | null;
-    alias: string | null;
-    rollMode?: ChatMessageRollMode;
-}
-
-export function isSohlSpeakerData(data: any): data is SohlSpeakerData {
-    if (typeof data !== "object" || data === null) return false;
-    if (
-        !["token", "actor", "scene", "alias"].every(
-            (key) => !data[key] || typeof data[key] === "string",
-        )
-    )
-        return false;
-    if (data.rollMode && !isChatMessageRollMode(data.rollMode)) return false;
-    return true;
-}
+import { SohlUser } from "./user/SohlUser";
+import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents/_types.mjs";
 
 export class SohlSpeaker {
-    _speaker!: SohlSpeakerData;
-    _rollMode!: string;
-    _token: SohlTokenDocument | null;
-    _actor: SohlActor | null;
-    _scene: AnyConstructor | null;
-    _name: string;
+    _speaker!: SohlSpeaker.Data;
+    readonly rollMode: string;
+    readonly token: SohlTokenDocument | null;
+    readonly actor: SohlActor | null;
+    readonly scene: Scene | null;
+    readonly name: string;
+    readonly user: SohlUser;
 
-    constructor(
-        data: SohlSpeakerData = {
-            actor: null,
-            token: null,
-            scene: null,
-            alias: null,
-        },
-    ) {
-        this._speaker = data;
-        this._token = null;
-        this._actor = null;
-        this._scene = null;
-        this._rollMode =
-            data.rollMode ||
-            getSystemSetting<ChatMessageRollMode>("rollMode", "core") ||
-            CHATMESSAGE_ROLL_MODE.SYSTEM;
-        if (data.token) {
-            this._token = canvas.tokens?.get(data.token);
-            this._actor = this._token?.actor;
+    constructor({
+        rollMode,
+        user,
+        alias,
+        token,
+        actor,
+        scene,
+    }: Partial<SohlSpeaker.Data> = {}) {
+        this.token = null;
+        this.actor = null;
+        this.scene = null;
+        this.rollMode =
+            rollMode ||
+            getSystemSetting<SohlSpeaker.RollMode>("rollMode", "core") ||
+            SohlSpeaker.ROLL_MODE.SYSTEM;
+        if (token) {
+            this.token = canvas.tokens?.get(token);
+            this.actor = this.token?.actor;
         }
-        if (!this._actor && data.actor) {
-            this._actor = fvtt.game.actors?.get(data.actor);
+        if (!this.actor && actor) {
+            this.actor = fvtt.game.actors?.get(actor);
         }
-        if (data.scene) {
-            this._scene = fvtt.game.scenes?.get(data.scene);
+        if (scene) {
+            this.scene = fvtt.game.scenes?.get(scene);
         }
 
-        if (this._speaker.alias) {
-            this._name = this._speaker.alias;
-        } else if (this._token?.name) {
-            this._name = this._token.name;
-        } else if (this._actor?.name) {
-            this._name = this._actor.name;
+        this.user = user ? fvtt.game.users?.get(user) : fvtt.game.user;
+        if (alias) {
+            this.name = alias;
+        } else if (this.token?.name) {
+            this.name = this.token.name;
+        } else if (this.actor?.name) {
+            this.name = this.actor.name;
+        } else if ((this.user as any)?.character?.name) {
+            this.name = (this.user as any).character.name;
         } else {
-            this._name = "Unknown Speaker";
+            this.name = this.user?.name || "Unknown Speaker";
         }
     }
 
-    get name(): string {
-        return this._name;
-    }
-
-    get token(): SohlTokenDocument | null {
-        return this._token;
-    }
-
-    get actor(): SohlActor | null {
-        return this._actor;
-    }
-
-    get scene(): AnyConstructor | null {
-        return this._scene;
-    }
-
-    get rollMode(): string {
-        return this._rollMode;
+    getChatMessageSpeaker(): ChatMessageData {
+        return {
+            alias: this.name,
+            token: this.token?.id ?? null,
+            actor: this.actor?.id ?? null,
+            scene: (this.scene as any)?.id ?? null,
+        };
     }
 
     get isOwner() {
-        if (!this._speaker || typeof this._speaker !== "object") return false;
-        if (this._speaker?.alias) {
-            return true; // Alias is always considered owner
-        }
-
-        if (this._speaker?.token) {
-            const token = canvas.tokens.get(this._speaker.token);
-            if (token) {
-                return token.isOwner;
-            }
-        } else if (this._speaker?.actor) {
-            const actor = fvtt.game.actors?.get(this._speaker.actor);
-            if (actor) {
-                return actor.isOwner;
-            }
+        if (this.token) {
+            return this.token.isOwner;
+        } else if (this.actor) {
+            return this.actor.isOwner;
         }
 
         // If no token or actor is found, return false
@@ -194,11 +99,12 @@ export class SohlSpeaker {
 
     toJSON(): JsonValue {
         return {
-            token: this._token?.id ?? "",
-            actor: this._actor?.id ?? "",
-            scene: (this._scene as any)?.id ?? "",
-            alias: this._speaker.alias ?? "",
-            rollMode: this._rollMode,
+            token: this.token?.id ?? "",
+            actor: this.actor?.id ?? "",
+            scene: (this.scene as any)?.id ?? "",
+            alias: this.name,
+            user: this.user.id,
+            rollMode: this.rollMode,
         };
     }
 
@@ -227,9 +133,7 @@ export class SohlSpeaker {
         options: PlainObject = {},
     ): Promise<void> {
         const messageData = await this._prepareChat(data, options);
-        messageData.content = await (
-            fvtt.applications.handlebars as any
-        ).renderTemplate(template, data);
+        messageData.content = await toHTMLWithTemplate(template, data);
         if (messageData.rollMode) {
             ChatMessage.applyRollMode(messageData, messageData.rollMode);
             delete messageData.rollMode;
@@ -269,13 +173,13 @@ export class SohlSpeaker {
     /**
      * Prepares chat message data.
      * @param {PlainObject} [data={}] - The data for the message.
-     * @param {ChatOptions} [options={ style: CONST.CHAT_MESSAGE_STYLES.OTHER }] - The options for the message.
+     * @param {ChatOptions} [options={ style: SohlSpeaker.STYLE.OTHER }] - The options for the message.
      * @returns {PlainObject} The prepared message data.
      * @private
      */
     async _prepareChat(
         data: PlainObject = {},
-        options: ChatOptions = { style: CHATMESSAGE_STYLE.OTHER },
+        options: SohlSpeaker.ChatOptions = { style: SohlSpeaker.STYLE.OTHER },
     ): Promise<PlainObject> {
         const msgOptions = Object.fromEntries(
             Object.entries(options).filter(([key]) => key !== "rollMode"),
@@ -294,10 +198,94 @@ export class SohlSpeaker {
             }
         }
 
-        if (this._rollMode) {
-            msgData.rollMode = this._rollMode;
+        if (this.rollMode) {
+            msgData.rollMode = this.rollMode;
         }
 
         return msgData;
+    }
+}
+
+export namespace SohlSpeaker {
+    export const {
+        kind: ROLL_MODE,
+        values: RollModes,
+        isValue: isRollMode,
+    } = defineType("SOHL.SohlSpeaker.ROLL_MODE", {
+        SYSTEM: "roll",
+        PUBLIC: "publicroll",
+        SELF: "selfroll",
+        BLIND: "blindroll",
+        PRIVATE: "gmroll",
+    });
+    export type RollMode = (typeof ROLL_MODE)[keyof typeof ROLL_MODE];
+
+    export const {
+        kind: STYLE,
+        values: styles,
+        isValue: isStyle,
+    } = defineType("SOHL.SohlSpeaker.STYLE", {
+        OTHER: 0,
+        OUT_OF_CHARACTER: 1,
+        IN_CHARACTER: 2,
+        EMOTE: 3,
+    });
+    export type ChatMessageStyle = (typeof STYLE)[keyof typeof STYLE];
+
+    export const {
+        kind: SOUND,
+        values: sounds,
+        isValue: isSound,
+    } = defineType("SOHL.SohlSpeaker.SOUND", {
+        DICE: "sounds/dice.wav",
+        LOCK: "sounds/lock.wav",
+        NOTIFICATION: "sounds/notify.wav",
+        COMBAT: "sounds/drums.wav",
+    });
+    export type ChatMessageSound = (typeof SOUND)[keyof typeof SOUND];
+
+    export interface ChatOptions {
+        flavor?: string;
+        sound?: string;
+        rolls?: SimpleRoll[];
+        style?: ChatMessageStyle;
+        user?: string;
+    }
+
+    export namespace ChatOptions {
+        export function isA(data: any): data is ChatOptions {
+            return (
+                typeof data === "object" &&
+                (data.flavor === undefined ||
+                    typeof data.flavor === "string") &&
+                (data.sound === undefined || isSound(data.sound)) &&
+                (data.rolls === undefined || Array.isArray(data.rolls)) &&
+                (data.style === undefined || isStyle(data.style)) &&
+                (data.user === undefined || typeof data.user === "string")
+            );
+        }
+    }
+
+    export interface Data {
+        token: DocumentId | null;
+        actor: DocumentId | null;
+        scene: DocumentId | null;
+        alias: string | null;
+        rollMode?: RollMode;
+        user: DocumentId;
+    }
+
+    export namespace Data {
+        export function isA(data: any): data is Data {
+            if (typeof data !== "object" || data === null) return false;
+            if (
+                !["token", "actor", "scene", "alias"].every(
+                    (key) => !data[key] || typeof data[key] === "string",
+                )
+            )
+                return false;
+            if (data.rollMode && !isRollMode(data.rollMode)) return false;
+            return true;
+        }
     }
 }

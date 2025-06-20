@@ -1,4 +1,4 @@
-import { SohlDataModel, SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { SohlItem } from ".";
 import { RegisterClass } from "@utils/decorators";
 import { SohlAction } from "@common/event";
@@ -20,11 +20,15 @@ const kBodyZone = Symbol("BodyZone");
 const kDataModel = Symbol("BodyZone.DataModel");
 
 @RegisterClass(
-    new SohlPerformer.Element({
+    new SohlLogic.Element({
         kind: "BodyZone",
     }),
 )
-export class BodyZone extends SohlPerformer<BodyZone.Data> {
+export class BodyZone<TData extends BodyZone.Data = BodyZone.Data>
+    extends SohlLogic<BodyZone.Data>
+    implements BodyZone.Logic<TData>
+{
+    declare readonly parent: TData;
     readonly [kBodyZone] = true;
 
     static isA(obj: unknown): obj is BodyZone {
@@ -35,13 +39,13 @@ export class BodyZone extends SohlPerformer<BodyZone.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace BodyZone {
@@ -60,7 +64,10 @@ export namespace BodyZone {
      */
     export const Image = "systems/sohl/assets/icons/person.svg";
 
-    export interface Data extends SohlItem.Data<BodyZone> {
+    export interface Logic<TData extends Data = Data>
+        extends SohlLogic.Logic<TData> {}
+
+    export interface Data extends SohlItem.Data {
         abbrev: string;
     }
 

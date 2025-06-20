@@ -1,4 +1,4 @@
-import { SohlPerformer, SohlDataModel } from "@common";
+import { SohlLogic, SohlDataModel } from "@common";
 import { SohlAction } from "@common/event";
 import { RegisterClass } from "@utils/decorators";
 import { GearMixin, SohlItem } from ".";
@@ -15,16 +15,17 @@ import { GearMixin, SohlItem } from ".";
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-const { NumberField } = (foundry.data as any).fields;
+const { NumberField } = foundry.data.fields;
 const kContainerGear = Symbol("ContainerGear");
-const kDataModel = Symbol("ContainerGear.DataModel");
+const kData = Symbol("ContainerGear.Data");
 
 @RegisterClass(
-    new SohlPerformer.Element({
-        kind: "ContainerGearPerformer",
+    new SohlLogic.Element({
+        kind: "ContainerGear",
     }),
 )
-export class ContainerGear extends SohlPerformer<ContainerGear.Data> {
+export class ContainerGear extends SohlLogic implements ContainerGear.Logic {
+    declare readonly parent: ContainerGear.Data;
     readonly [kContainerGear] = true;
 
     static isA(obj: unknown): obj is ContainerGear {
@@ -32,13 +33,13 @@ export class ContainerGear extends SohlPerformer<ContainerGear.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace ContainerGear {
@@ -57,10 +58,21 @@ export namespace ContainerGear {
      */
     export const Image = "systems/sohl/assets/icons/sack.svg";
 
-    export interface Data<TPerformer extends ContainerGear = ContainerGear>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: ContainerGear.Data;
+        readonly [kContainerGear]: true;
+    }
+
+    export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        get logic(): ContainerGear.Logic;
         maxCapacityBase: number;
     }
+
+    const DataModelShape = GearMixin.DataModel(
+        SohlItem.DataModel,
+    ) as unknown as Constructor<ContainerGear.Data> &
+        SohlDataModel.TypeDataModelStatics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -71,19 +83,16 @@ export namespace ContainerGear {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel<TPerformer extends ContainerGear = ContainerGear>
-        extends GearMixin.DataModel(SohlItem.DataModel)
-        implements Data<TPerformer>
-    {
-        static readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
+    export class DataModel extends DataModelShape {
+        static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
         maxCapacityBase!: number;
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 maxCapacityBase: new NumberField({

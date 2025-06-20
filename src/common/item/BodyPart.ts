@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDataModel, SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { RegisterClass } from "@utils/decorators";
 import { SohlItem } from "@common/item";
 import { SohlAction } from "@common/event";
@@ -19,11 +19,16 @@ import { SohlAction } from "@common/event";
 const { BooleanField, StringField } = (foundry.data as any).fields;
 
 @RegisterClass(
-    new SohlPerformer.Element({
-        kind: "BodyPartPerformer",
+    new SohlLogic.Element({
+        kind: "BodyPartLogic",
     }),
 )
-export class BodyPart extends SohlPerformer<BodyPart.Data> {
+export class BodyPart<TData extends BodyPart.Data = BodyPart.Data>
+    extends SohlLogic<BodyPart.Data>
+    implements BodyPart.Logic<TData>
+{
+    declare readonly parent: TData;
+
     get bodyLocations(): SohlItem[] {
         return this.actor?.itemTypes.bodylocation || [];
     }
@@ -37,13 +42,13 @@ export class BodyPart extends SohlPerformer<BodyPart.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace BodyPart {
@@ -62,7 +67,10 @@ export namespace BodyPart {
      */
     export const Image = "systems/sohl/assets/icons/ribcage.svg";
 
-    export interface Data extends SohlItem.Data<BodyPart> {
+    export interface Logic<TData extends Data = Data>
+        extends SohlLogic.Logic<TData> {}
+
+    export interface Data extends SohlItem.Data {
         abbrev: string;
         canHoldItem: boolean;
         heldItemId: string | null;

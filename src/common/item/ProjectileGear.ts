@@ -10,146 +10,177 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
-import { ProjectileGearData } from "@common/item/datamodel";
-import { PerformerClassRegistryElement, SohlPerformer } from "@common";
+import { SohlLogic, SohlDataModel } from "@common";
+import { SohlAction } from "@common/event";
 import { RegisterClass } from "@utils/decorators";
-import { GearPerformer } from "./GearPerformer";
+import { GearMixin, SohlItem, SubTypeMixin } from ".";
+import { ImpactModifier, ValueModifier } from "@common/modifier";
+import { defineType } from "@utils";
+
+const { NumberField, StringField, SchemaField } = foundry.data.fields;
+const kProjectileGear = Symbol("ProjectileGear");
+const kData = Symbol("ProjectileGear.Data");
 
 @RegisterClass(
-    new PerformerClassRegistryElement({
-        kind: "ProjectileGearPerformer",
+    new SohlLogic.Element({
+        kind: "ProjectileGearLogic",
     }),
 )
-export class ProjectileGearPerformer extends GearPerformer<ProjectileGearData> {
-    /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {
-        super.initialize(options);
-    }
-
-    /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {
-        super.evaluate(options);
-    }
-
-    /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {
-        super.finalize(options);
-    }
-}
-/*
- * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
- *
- * This work is licensed under the GNU General Public License v3.0 (GPLv3).
- * You may copy, modify, and distribute it under the terms of that license.
- *
- * For full terms, see the LICENSE.md file in the project root or visit:
- * https://www.gnu.org/licenses/gpl-3.0.html
- *
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
-import { SohlItem } from "@common/item";
-import { ProjectileGearPerformer } from "@common/item/performer";
-import { GearData, GearDataModel, SubTypeData } from "@common/item/datamodel";
-import { ASPECT } from "@common/modifier";
-import { DataModelClassRegistryElement } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { defineType, isOfType } from "@utils";
-const { SchemaField, NumberField, StringField } = (foundry.data as any).fields;
-
-export const PROJECTILEGEAR_TYPE = "projectilegear" as const;
-export const isProjectileGearData = (obj: any): obj is ProjectileGearData =>
-    isOfType(obj, PROJECTILEGEAR_TYPE);
-
-export const {
-    kind: PROJECTILEGEAR_SUBTYPE,
-    values: ProjectileGearSubTypes,
-    isValue: isProjectileGearSubType,
-} = defineType({
-    NONE: "none",
-    ARROW: "arrow",
-    BOLT: "bolt",
-    BULLET: "bullet",
-    DART: "dart",
-    OTHER: "other",
-});
-export type ProjectileGearSubType =
-    (typeof PROJECTILEGEAR_SUBTYPE)[keyof typeof PROJECTILEGEAR_SUBTYPE];
-
-export interface ProjectileGearData
-    extends GearData<ProjectileGearPerformer>,
-        SubTypeData<ProjectileGearPerformer, ProjectileGearSubType> {
-    shortName: string;
-    impactBase: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: string;
-    };
-}
-
-@RegisterClass(
-    new DataModelClassRegistryElement({
-        kind: PROJECTILEGEAR_TYPE,
-        logicClass: ProjectileGearPerformer,
-        iconCssClass: "fas fa-bow-arrow",
-        img: "systems/sohl/assets/icons/arrow.svg",
-        sheet: "systems/sohl/templates/item/projectilegear-sheet.hbs",
-        schemaVersion: "0.6.0",
-    }),
-)
-export class ProjectileGearDataModel
-    extends GearDataModel<ProjectileGearPerformer>
-    implements ProjectileGearData, SubTypeData
+export class ProjectileGear
+    extends SubTypeMixin(GearMixin(SohlLogic))
+    implements ProjectileGear.Logic
 {
-    static override readonly LOCALIZATION_PREFIXES = ["PROJECTILEGEAR"];
-    declare readonly parent: SohlItem<ProjectileGearPerformer>;
-    shortName!: string;
-    impactBase!: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: string;
-    };
-    subType!: ProjectileGearSubType;
+    declare weight: ValueModifier;
+    declare value: ValueModifier;
+    declare quality: ValueModifier;
+    declare durability: ValueModifier;
+    declare readonly parent: ProjectileGear.Data;
+    readonly [kProjectileGear] = true;
 
-    get subTypeChoices(): string[] {
-        return (this.constructor as any)._metadata.subTypes;
+    static isA(obj: unknown): obj is ProjectileGear {
+        return (
+            typeof obj === "object" && obj !== null && kProjectileGear in obj
+        );
     }
 
-    static defineSchema() {
-        return {
-            ...super.defineSchema(),
-            kind: new StringField({
-                initial: PROJECTILEGEAR_SUBTYPE.NONE,
-                required: true,
-                choices: Object.values(PROJECTILEGEAR_SUBTYPE),
-            }),
-            shortName: new StringField(),
-            impactBase: new SchemaField({
-                numDice: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                die: new NumberField({
-                    integer: true,
-                    initial: 6,
-                    min: 1,
-                }),
-                modifier: new NumberField({
-                    integer: true,
-                    initial: -1,
-                    min: -1,
-                }),
-                aspect: new StringField({
-                    initial: ASPECT.BLUNT,
-                    requried: true,
-                    choices: Object.values(ASPECT),
-                }),
-            }),
+    /** @inheritdoc */
+    override initialize(context: SohlAction.Context): void {}
+
+    /** @inheritdoc */
+    override evaluate(context: SohlAction.Context): void {}
+
+    /** @inheritdoc */
+    override finalize(context: SohlAction.Context): void {}
+}
+
+export namespace ProjectileGear {
+    /**
+     * The type moniker for the ProjectileGear item.
+     */
+    export const Kind = "Projectilegear";
+
+    /**
+     * The FontAwesome icon class for the ProjectileGear item.
+     */
+    export const IconCssClass = "fas fa-sack";
+
+    /**
+     * The image path for the ProjectileGear item.
+     */
+    export const Image = "systems/sohl/assets/icons/sack.svg";
+
+    export const {
+        kind: SUBTYPE,
+        values: SubTypes,
+        isValue: isSubType,
+    } = defineType("SOHL.ProjectileGear.SubType", {
+        NONE: "none",
+        ARROW: "arrow",
+        BOLT: "bolt",
+        BULLET: "bullet",
+        DART: "dart",
+        OTHER: "other",
+    });
+    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
+
+    export interface Logic
+        extends SubTypeMixin.Logic<SubType>,
+            GearMixin.Logic {
+        readonly parent: ProjectileGear.Data;
+    }
+
+    export interface Data extends SubTypeMixin.Data<SubType>, GearMixin.Data {
+        get logic(): ProjectileGear.Logic;
+        shortName: string;
+        impactBase: {
+            numDice: number;
+            die: number;
+            modifier: number;
+            aspect: ImpactModifier.AspectType;
         };
+    }
+
+    export namespace Data {
+        export function isA(
+            obj: unknown,
+            subType?: ProjectileGear.SubType,
+        ): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as unknown as Data).subType === subType : true)
+            );
+        }
+    }
+
+    export const DataModelShape = SubTypeMixin.DataModel(
+        GearMixin.DataModel(SohlItem.DataModel),
+        SubTypes,
+    ) as unknown as Constructor<ProjectileGear.Data> &
+        SohlDataModel.TypeDataModelStatics;
+
+    @RegisterClass(
+        new SohlDataModel.Element({
+            kind: Kind,
+            logicClass: ProjectileGear,
+            iconCssClass: IconCssClass,
+            img: Image,
+            schemaVersion: "0.6.0",
+        }),
+    )
+    export class DataModel extends DataModelShape {
+        static readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
+        readonly [kData] = true;
+        declare subType: SubType;
+        declare shortName: string;
+        declare impactBase: {
+            numDice: number;
+            die: number;
+            modifier: number;
+            aspect: ImpactModifier.AspectType;
+        };
+
+        static isA(obj: unknown): obj is DataModel {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+
+        static defineSchema(): foundry.data.fields.DataSchema {
+            return {
+                ...super.defineSchema(),
+                shortName: new StringField(),
+                impactBase: new SchemaField({
+                    numDice: new NumberField({
+                        integer: true,
+                        initial: 0,
+                        min: 0,
+                    }),
+                    die: new NumberField({
+                        integer: true,
+                        initial: 6,
+                        min: 1,
+                    }),
+                    modifier: new NumberField({
+                        integer: true,
+                        initial: -1,
+                        min: -1,
+                    }),
+                    aspect: new StringField({
+                        initial: ImpactModifier.ASPECT.BLUNT,
+                        required: true,
+                        choices: ImpactModifier.Aspects,
+                    }),
+                }),
+            };
+        }
+    }
+
+    export class Sheet extends SohlItem.Sheet {
+        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
+            fvtt.utils.mergeObject(super.PARTS, {
+                properties: {
+                    template: "systems/sohl/templates/item/projectilegear.hbs",
+                },
+            });
     }
 }

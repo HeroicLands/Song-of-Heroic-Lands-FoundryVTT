@@ -41,6 +41,17 @@ export class SohlMap<K extends string, V> {
         return true;
     }
 
+    find(
+        predicate: (value: V, key: K, map: Map<K, V>) => boolean,
+    ): V | undefined {
+        for (const [key, value] of this.mapData.entries()) {
+            if (predicate(value, key, this.mapData)) {
+                return value;
+            }
+        }
+        return undefined;
+    }
+
     filter(predicate: (value: V, key: K, map: Map<K, V>) => boolean): V[] {
         const result: V[] = [];
         for (const [key, value] of this.mapData) {

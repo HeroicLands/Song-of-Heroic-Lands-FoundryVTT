@@ -11,20 +11,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlPerformer } from "@common";
-import { SohlClassRegistry } from "@utils";
+import { SohlDataModel, SohlLogic } from "@common";
+import { defineType, SohlClassRegistry } from "@utils";
 import { RegisterClass } from "@utils/decorators";
 import { MasteryLevelModifier, ValueModifier } from "@common/modifier";
 import { SohlMap } from "@utils/collection";
-import { SohlItem } from "@common/item";
-import { SohlAction } from "@common/event";
+import { Domain, Injury, SohlItem } from "@common/item";
 import { SohlActor } from "@common/actor";
+import { ImpactResult, SuccessTestResult } from "@common/result";
+import { SohlAction } from "@common/event";
+
+const kEntity = Symbol("Entity");
+const kDataModel = Symbol("Entity.DataModel");
 
 /**
  * The business logic class for the AnimateEntity actor.
  */
 @RegisterClass(new SohlClassRegistry.Element(AnimateEntity.Kind))
-export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
+export class AnimateEntity<
+        TData extends AnimateEntity.Data = AnimateEntity.Data,
+    >
+    extends SohlLogic
+    implements AnimateEntity.Logic<TData>
+{
+    declare readonly parent: TData;
+    readonly [kEntity] = true;
+
     /**
      * Represents the health of a entity.
      *
@@ -35,7 +47,7 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
     /**
      * Represents the base healing rate
      */
-    healingBase!: number;
+    healingBase!: ValueModifier;
 
     /**
      * Represents the sum of all zones.
@@ -56,13 +68,13 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
      *
      * @type {number}
      */
-    shockState!: number;
+    shockState!: Injury.Shock;
 
     fate!: MasteryLevelModifier;
 
-    engagedOpponents!: number;
+    engagedOpponents!: ValueModifier;
 
-    domains!: SohlMap<string, SohlItem>;
+    domains!: StrictObject<SohlItem[]>;
 
     magicMod!: ValueModifier;
 
@@ -93,43 +105,65 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
     //     );
     // }
 
-    async improveWithSDR(options: PlainObject = {}): Promise<void> {
+    static isA(obj: unknown): obj is AnimateEntity {
+        return typeof obj === "object" && obj !== null && kEntity in obj;
+    }
+
+    async improveWithSDR(context: SohlAction.Context): Promise<void> {
         return;
     }
 
-    async successTest(options: PlainObject = {}) {
-        return;
+    async successTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async fatigueTest(options: PlainObject = {}) {
-        return;
+    async fatigueTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async courseTest(options: PlainObject = {}) {
-        return;
+    async courseTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async treatmentTest(options: PlainObject = {}) {
-        return;
+    async treatmentTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async diagnosisTest(options: PlainObject = {}) {
-        return;
+    async diagnosisTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async healingTest(options: PlainObject = {}) {
-        return;
+    async healingTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async bleedingStoppageTest(options: PlainObject = {}) {
-        return;
+    async bleedingStoppageTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async bloodLossAdvanceTest(options: PlainObject = {}) {
-        return;
+    async bloodlossAdvanceTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
+        return null;
     }
 
-    async calcImpact(options: PlainObject = {}) {
+    async calcImpact(
+        context: SohlAction.Context,
+    ): Promise<Nullable<ImpactResult>> {
         // let { impactResult, itemId } = options;
         // if (!(impactResult instanceof ImpactResult)) {
         //     if (!itemId) {
@@ -149,9 +183,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // return impactResult.item?.system.execute("calcImpact", {
         //     impactResult,
         // });
+        return null;
     }
 
-    async shockTest(options: PlainObject = {}) {
+    async shockTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // let { testResult } = options;
         // if (!testResult) {
         //     const shockSkill = this.actor.getItem("shk", { types: ["skill"] });
@@ -170,9 +207,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // testResult = testResult.item.system.successTest(optionws);
         // testResult.shockMod = 1 - testResult.successLevel;
         // return testResult;
+        return null;
     }
 
-    async stumbleTest(options: PlainObject = {}) {
+    async stumbleTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const agility = this.actor.getItem("agl", { types: ["trait"] });
         //     const acrobatics = this.actor.getItem("acro", { types: ["skill"] });
@@ -194,9 +234,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
+        return null;
     }
 
-    async fumbleTest(options: PlainObject = {}) {
+    async fumbleTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const dexterity = this.actor.getItem("dex", { types: ["trait"] });
         //     const legerdemain = this.actor.getItem("lgdm", {
@@ -220,9 +263,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
+        return null;
     }
 
-    async moraleTest(options: PlainObject = {}) {
+    async moraleTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
         //     if (!initSkill) return null;
@@ -238,9 +284,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        return null;
     }
 
-    async fearTest(options: PlainObject = {}) {
+    async fearTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
         //     if (!initSkill) return null;
@@ -256,9 +305,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        return null;
     }
 
-    async _createTestItem(options: PlainObject = {}) {
+    async _createTestItem(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // let createItem = game.settings.get("sohl", "recordTrauma");
         // if (!options.testResult.isSuccess && createItem !== "disable") {
         //     if (createItem === "ask") {
@@ -289,9 +341,12 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         //     }
         // }
         // return options.testResult;
+        return null;
     }
 
-    async contractAfflictionTest(options: PlainObject = {}) {
+    async contractAfflictionTest(
+        context: SohlAction.Context,
+    ): Promise<Nullable<SuccessTestResult>> {
         // let { afflictionObj } = options;
         // if (!options.testResult) {
         //     if (!afflictionObj) return null;
@@ -309,6 +364,7 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        return null;
     }
 
     /**
@@ -320,7 +376,7 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
      * @param {number} [options.testType]
      * @returns {OpposedTestResult} result of the test
      */
-    async opposedTestResume(options: PlainObject = {}) {
+    async opposedTestResume(context: SohlAction.Context): Promise<void> {
         // let { opposedTestResult } = options;
         // if (!opposedTestResult) {
         //     throw new Error("Must supply opposedTestResult");
@@ -391,9 +447,11 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
         // } else {
         //     skill.system.execute("opposedTestResume", options);
         // }
+        return;
     }
 
-    prepareBaseData() {
+    /** @inheritdoc */
+    override initialize(context: SohlAction.Context): void {
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
         //             return foundry.utils.mergeObject(super.defineSchema(), {
@@ -435,13 +493,10 @@ export class AnimateEntity extends SohlPerformer<AnimateEntity.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
-
-    /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace AnimateEntity {
@@ -467,16 +522,84 @@ export namespace AnimateEntity {
      */
     export const Image = "icons/svg/item-bag.svg";
 
-    /**
-     * The data shape for the AnimateEntity actor.
-     */
-    export interface Data extends SohlActor.Data<AnimateEntity> {}
+    export const {
+        kind: EFFECT_KEY,
+        values: EffectKey,
+        isValue: isEffectKey,
+        labels: EffectKeyLabels,
+    } = defineType("SOHL.Entity.EffectKey", {
+        ENGOPP: {
+            name: "mod:system.engagedOpponents",
+            abbrev: "EngOpp",
+        },
+    } as StrictObject<SohlLogic.EffectKeyData>);
+    export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
+
+    export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {
+        health: ValueModifier;
+        healingBase: ValueModifier;
+        zoneSum: number;
+        bodyWeight: ValueModifier;
+        shockState: Injury.Shock;
+        fate: ValueModifier;
+        engagedOpponents: ValueModifier;
+        domains: StrictObject<SohlItem[]>;
+        improveWithSDR(context: SohlAction.Context): Promise<void>;
+        successTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        fatigueTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        courseTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        treatmentTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        diagnosisTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        healingTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        bleedingStoppageTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        bloodlossAdvanceTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        calcImpact(
+            context: SohlAction.Context,
+        ): Promise<Nullable<ImpactResult>>;
+        shockTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        stumbleTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        fumbleTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        moraleTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        fearTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        contractAfflictionTest(
+            context: SohlAction.Context,
+        ): Promise<Nullable<SuccessTestResult>>;
+        opposedTestResume(context: SohlAction.Context): Promise<void>;
+    }
+
+    export interface Data extends SohlActor.Data {}
 
     /**
      * The Foundry VTT data model for the AnimateEntity actor.
      */
     @RegisterClass(
-        new SohlClassRegistry.DataModelElement({
+        new SohlDataModel.Element({
             kind: Kind,
             logicClass: AnimateEntity,
             iconCssClass: IconCssClass,
@@ -484,10 +607,11 @@ export namespace AnimateEntity {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SohlActor.DataModel<AnimateEntity>
-        implements Data
-    {
+    export class DataModel extends SohlActor.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["ENTITY"];
+        readonly [kDataModel] = true;
+        static isA(obj: unknown): obj is DataModel {
+            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        }
     }
 }

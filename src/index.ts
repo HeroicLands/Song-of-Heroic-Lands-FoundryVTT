@@ -49,8 +49,8 @@ DocumentSheetConfig.registerSheet(
 /**
  * Setup version-specific configuration
  */
-function setupSohlVariant() {
-    const variantId = (game as any).settings?.get("sohl", "sohlVariant");
+function setupVariant() {
+    const variantId = (game as any).settings?.get("sohl", "variant");
     globalThis.sohl = SohlSystem.selectVariant(variantId);
     foundry.utils.mergeObject(CONFIG, sohl.game.CONFIG);
     console.log(sohl.game.initMessage);
@@ -226,7 +226,9 @@ function registerSystemHooks() {
 
     Hooks.on("renderSceneConfig", (app: any, element: HTMLElement) => {
         const scene: Scene = app.object;
-        const isTotm = (scene as any).getFlag("sohl", "isTotm") ?? false;
+        const isTotm =
+            fvtt.utils.getProperty((scene as any).flags, "sohl.isTotm") ??
+            false;
         const totmHTML = `<div class="form-group">
         <label>Theatre of the Mind</label>
         <input id="sohl-totm" type="checkbox" name="sohlTotm" data-dtype="Boolean" ${isTotm ? "checked" : ""}>
@@ -278,7 +280,7 @@ Hooks.once("init", () => {
     registerSystemSettings();
     sohl.log.setLogThreshold(getSystemSetting("logLevel") || LOGLEVEL.INFO);
     registerSystemHooks();
-    setupSohlVariant();
+    setupVariant();
 
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;

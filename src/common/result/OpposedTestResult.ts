@@ -11,20 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlPerformer } from "@common";
+import { SohlAction } from "@common/event";
 import { SuccessTestResult, TestResult } from "@common/result";
+import { SohlTokenDocument } from "@common/token";
 import { defineType } from "@utils";
-
-export const {
-    kind: TIEBREAK,
-    values: TieBreaks,
-    isValue: isTieBreak,
-} = defineType({
-    SOURCE: 1,
-    NONE: 0,
-    TARGET: -1,
-});
-export type TieBreak = (typeof TIEBREAK)[keyof typeof TIEBREAK];
 
 export class OpposedTestResult extends TestResult {
     sourceTestResult!: SuccessTestResult;
@@ -37,10 +27,33 @@ export class OpposedTestResult extends TestResult {
         if (!data.sourceTestResult) {
             throw new Error("sourceTestResult must be provided");
         }
-        if (!data.targetToken) {
-            throw new Error("Target token must be provided");
+        if (!data.targetTestResult && !data.targetTokenUuid) {
+            throw new Error(
+                "Target token UUID must be provided unless targetTestResult is given",
+            );
         }
         super(data, options);
+        this.sourceTestResult = new SuccessTestResult(
+            data.sourceTestResult,
+            options,
+        );
+
+        const tokenDoc = fromUuidSync(data.targetTokenUuid);
+        if (!(tokenDoc instanceof SohlTokenDocument)) {
+            throw new Error("Invalid target token UUID provided");
+        }
+        this.targetTestResult = new SuccessTestResult(
+            data.targetTestResult ?? {
+                token: tokenDoc,
+            },
+            options,
+        );
+        this.rollMode = data.rollMode || "roll";
+        this.tieBreak =
+            OpposedTestResult.isTieBreak(data.tieBreak) ?
+                data.tieBreak
+            :   OpposedTestResult.TIEBREAK.NONE;
+        this.breakTies = !!data.breakTies;
     }
 
     get isTied(): boolean {
@@ -112,7 +125,7 @@ export class OpposedTestResult extends TestResult {
             description: sohl.i18n.format(
                 "SOHL.OpposedTestResult.toChat.description",
                 {
-                    targetActorName: this.targetTestResult.token._name,
+                    targetActorName: this.targetTestResult.token.name,
                 },
             ),
         };
@@ -122,5 +135,61 @@ export class OpposedTestResult extends TestResult {
             msgData.rolls.push(this.targetTestResult.roll);
         }
         await this.sourceTestResult.toChat(msgData);
+    }
+}
+
+export namespace OpposedTestResult {
+    export const {
+        kind: TIEBREAK,
+        values: TieBreaks,
+        isValue: isTieBreak,
+    } = defineType("SOHL.OpposedTestResult.TieBreak", {
+        SOURCE: 1,
+        NONE: 0,
+        TARGET: -1,
+    });
+    export type TieBreak = (typeof TIEBREAK)[keyof typeof TIEBREAK];
+
+    export interface Data extends TestResult.Data {
+        sourceTestResult: SuccessTestResult;
+        targetTestResult: SuccessTestResult;
+        rollMode: string;
+        tieBreak: number;
+        breakTies: boolean;
+        targetTokenUuid: string | null;
+    }
+
+    export interface Options extends TestResult.Options {}
+
+    export class Context extends SohlAction.Context {
+        priorTestResult?: OpposedTestResult;
+
+        constructor(data: Partial<OpposedTestResult.Context.Data> = {}) {
+            if (!data.priorTestResult) {
+                throw new Error("priorTestResult must be provided");
+            }
+
+            super(data);
+            this.priorTestResult =
+                OpposedTestResult.isA(data.priorTestResult) ?
+                    data.priorTestResult
+                :   new OpposedTestResult(data.priorTestResult);
+        }
+
+        /** @inheritdoc */
+        toJSON(): Record<string, unknown> {
+            return {
+                ...super.toJSON(),
+                priorTestResult: this.priorTestResult?.toJSON() || null,
+            };
+        }
+    }
+
+    export namespace Context {
+        export interface Data extends SohlAction.Context.Data {
+            priorTestResult: Nullable<
+                OpposedTestResult.Data | OpposedTestResult
+            >;
+        }
     }
 }

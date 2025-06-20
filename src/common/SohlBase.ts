@@ -11,11 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defaultFromJSON, SohlClassRegistry } from "@utils";
+import { defaultFromJSON } from "@utils";
 import { defaultToJSON } from "@utils";
-import { SohlActor } from "./actor";
-import { SohlPerformer } from "@common";
-import { SohlItem } from "./item";
+
 const { ArrayField, ObjectField } = foundry.data.fields;
 
 /**

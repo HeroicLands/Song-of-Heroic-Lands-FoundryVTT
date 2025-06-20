@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction, SohlEventData, SohlEventState } from "@common/event";
-import { SohlPerformer } from "@common/SohlPerformer";
-import { ActionContext, ActionData, AsyncFunction } from "@utils";
+import { SohlAction, SohlEvent } from "@common/event";
+import { SohlLogic } from "@common/SohlLogic";
+import { AsyncFunction } from "@utils";
 
-export interface ScriptActionData extends SohlEventData {
+export interface ScriptActionData extends SohlEvent.Data {
     script: string;
     isAsync: boolean;
 }
@@ -40,7 +40,7 @@ export class ScriptAction extends SohlAction {
     private isAsync: boolean;
 
     constructor(
-        parent: SohlPerformer,
+        parent: SohlLogic,
         data: Partial<ScriptActionData> = {},
         options: PlainObject = {},
     ) {
@@ -62,28 +62,30 @@ export class ScriptAction extends SohlAction {
         }
     }
 
-    setState(state: SohlEventState, context?: PlainObject): void {
+    setState(state: SohlEvent.State, context?: PlainObject): void {
         super.setState(state, context);
 
-        if (state === SohlEventState.ACTIVATED) {
+        if (state === SohlEvent.STATE.ACTIVATED) {
             this.execute(context);
-            this.setState(SohlEventState.CREATED);
+            this.setState(SohlEvent.STATE.CREATED);
         }
     }
 
-    executeSync(options: Partial<ActionData>): any {
+    executeSync(options: Partial<SohlAction.Context.Data>): any {
         const result = this.execute(options);
         return result instanceof Promise ? undefined : result;
     }
 
-    async execute(options: Partial<ActionData> = {}): Promise<any> {
-        const actionContext = new ActionContext(options);
+    async execute(
+        options: Partial<SohlAction.Context.Data> = {},
+    ): Promise<any> {
+        const actionContext = new SohlAction.Context(options);
         const args = ["context", `"use strict";\n${this.script}`];
 
         const fn =
             this.isAsync ? new AsyncFunction(...args) : new Function(...args);
         try {
-            return fn.call(this, ScriptAction);
+            return fn.call(this, actionContext);
         } catch (error: any) {
             sohl.log.error("ScriptAction execution failed:", { error });
         }

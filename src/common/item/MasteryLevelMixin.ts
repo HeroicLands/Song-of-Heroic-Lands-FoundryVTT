@@ -11,12 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getSystemSetting, SohlPerformer } from "@common";
-import { SohlAction } from "@common/event";
-import { SohlItem } from "@common/item";
+import {
+    getSystemSetting,
+    getTargetedTokens,
+    SohlLogic,
+    SohlSpeaker,
+} from "@common";
+import { SohlActor } from "@common/actor";
+import { SohlAction, SohlEvent } from "@common/event";
+import { Mystery, SohlItem } from "@common/item";
 import { MasteryLevelModifier } from "@common/modifier";
-import { SuccessTestResult } from "@common/result";
-import { defineType } from "@utils";
+import { OpposedTestResult, SuccessTestResult } from "@common/result";
+import { SohlTokenDocument } from "@common/token";
+import { defineType, FilePath, toFilePath, toHTMLWithTemplate } from "@utils";
 const { StringField, NumberField, BooleanField } = (foundry.data as any).fields;
 const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
 const kDataModel = Symbol("MasteryLevelMixin.DataModel");
@@ -29,17 +36,25 @@ const kDataModel = Symbol("MasteryLevelMixin.DataModel");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic gear properties.
  */
-export function MasteryLevelMixin<
-    TBase extends Constructor<SohlPerformer.Shape>,
->(Base: TBase): TBase & Data {
-    return class InternalMasteryLevelPerformer extends Base {
+export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
+    Base: TBase,
+): TBase {
+    return class extends Base {
         declare readonly parent: MasteryLevelMixin.Data;
+        declare readonly actions: SohlAction[];
+        declare readonly events: SohlEvent[];
+        declare readonly item: SohlItem;
+        declare readonly actor: SohlActor | null;
+        declare readonly typeLabel: string;
+        declare readonly label: string;
+        declare readonly defaultIntrinsicActionName: string;
+        declare setDefaultAction: () => void;
         _boosts!: number;
-        _skillBase!: SkillBase;
+        _skillBase!: MasteryLevelMixin.SkillBase;
         _masteryLevel!: MasteryLevelModifier;
         readonly [kMasteryLevelMixin] = true;
 
-        static isA(obj: unknown): obj is TBase & Data<TPerformer, TSubType> {
+        static isA(obj: unknown): obj is TBase & MasteryLevelMixin.Logic {
             return (
                 typeof obj === "object" &&
                 obj !== null &&
@@ -47,8 +62,17 @@ export function MasteryLevelMixin<
             );
         }
 
+        get masteryLevel(): MasteryLevelModifier {
+            return this._masteryLevel;
+        }
+
         get fateSkills(): string[] {
-            return (this.item?.getFlag("sohl", "fateSkills") as string[]) || [];
+            return (
+                (fvtt.utils.getProperty(
+                    this.item,
+                    "sohl.fateSkills",
+                ) as string[]) || []
+            );
         }
 
         get magicMod(): number {
@@ -70,10 +94,8 @@ export function MasteryLevelMixin<
             let result: SohlItem[] = [];
             if (!this._masteryLevel.disabled && this.actor) {
                 this.actor.items.values().forEach((it: SohlItem) => {
-                    if (
-                        Mystery.isA(it.system) &&
-                        it.system.subType === Mystery.CATEGORY.FATE
-                    ) {
+                    if (Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATE)) {
+                        const logic = it.system.logic;
                         const fateSkills = this.fateSkills;
                         // If a fate item has a list of fate skills, then that fate
                         // item is only applicable to those skills.  If the fate item
@@ -83,7 +105,7 @@ export function MasteryLevelMixin<
                             !fateSkills.length ||
                             fateSkills.includes(this.item?.name || "")
                         ) {
-                            if (it.system.$level.effective > 0) result.push(it);
+                            if (logic.level.effective > 0) result.push(it);
                         }
                     }
                 });
@@ -91,35 +113,33 @@ export function MasteryLevelMixin<
             return result;
         }
 
-        get fateBonusItems() {
-            let result: SohlItem[] = [];
-            if (this.actor) {
-                for (const it of this.actor.allItems()) {
-                    if (
-                        Mystery.isA(it.system) &&
-                        it.system.config.category === Mystery.CATEGORY.FATEBONUS
-                    ) {
-                        const skills = it.fateSkills;
-                        if (!skills || skills.includes(this.item?.name || "")) {
-                            if (
-                                !it.system.$charges.disabled ||
-                                it.system.$charges.effective > 0
-                            ) {
-                                result.push(it);
-                            }
-                        }
-                    }
-                }
-            }
-            return result;
-        }
+        // get fateBonusItems() {
+        //     let result: SohlItem[] = [];
+        //     if (this.actor) {
+        //         this.actor.items.forEach((it: SohlItem) => {
+        //             if (
+        //                 Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATEBONUS)) {
+        //                 const skills:  = it.fateSkills;
+        //                 if (!skills || skills.includes(this.item?.name || "")) {
+        //                     if (
+        //                         !it.system.$charges.disabled ||
+        //                         it.system.$charges.effective > 0
+        //                     ) {
+        //                         result.push(it);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return result;
+        // }
 
-        get canImprove() {
-            return (
-                ((fvtt.game.user as any)?.isGM || this.item?.isOwner) &&
-                !this._masteryLevel.disabled
-            );
-        }
+        // get canImprove() {
+        //     return (
+        //         ((fvtt.game.user as any)?.isGM || this.item?.isOwner) &&
+        //         !this._masteryLevel.disabled
+        //     );
+        // }
 
         get valid() {
             return this.skillBase.valid;
@@ -134,17 +154,12 @@ export function MasteryLevelMixin<
         }
 
         async successTest(
-            context: SohlAction.Context = {},
-        ): Promise<SuccessTestResult> {
+            context: SuccessTestResult.Context,
+        ): Promise<SuccessTestResult | null | false> {
             if (!this.item) {
                 throw new Error("No item found for success test.");
             }
-            context.mlMod = fvtt.utils.deepClone(this._masteryLevel);
-            context.type = `${this.item.type}-${this.item.name}-success-test`;
-            context.title = sohl.i18n.format("{label} Test", {
-                label: this.item?.label,
-            });
-            return await super.successTest(context);
+            return await this._masteryLevel.successTest(context);
         }
 
         /**
@@ -153,34 +168,39 @@ export function MasteryLevelMixin<
          * @returns {SuccessTestChatData}
          */
         async opposedTestStart(
-            context: SohlAction.Context = {},
+            context: OpposedTestResult.Context,
         ): Promise<SuccessTestResult | null> {
-            let {
-                skipDialog = false,
-                type = `${this.item?.type}-${this.item?.name}-source-opposedtest`,
-                title = sohl.i18n.format("{label} Opposed Test", {
-                    label: this.item?.label,
-                }),
-                targetToken,
-            } = context;
-
-            targetToken ||= getUserTargetedToken(token);
-            if (!targetToken) return null;
-
-            const token = context.token;
-
-            if (!token) {
+            let successTestContext: SuccessTestResult.Context;
+            if (context.priorTestResult) {
+                const priorSrcResult = context.priorTestResult.sourceTestResult;
+                successTestContext = new SuccessTestResult.Context({
+                    speaker: context.speaker.toJSON() as SohlSpeaker.Data,
+                    scope: priorSrcResult.scope,
+                });
+            }
+            if (!context.speaker) {
+                context.speaker = new SohlSpeaker();
+            }
+            if (!context.scope) context.scope = {};
+            context.scope.targetToken ||=
+                getTargetedTokens(true)?.[0] ?? undefined;
+            if (!context.scope.targetToken) return null;
+            context.type ||= `${this.item?.type}-${this.item?.name}-opposedtest`;
+            context.title ||= sohl.i18n.format("{label} Opposed Test", {
+                label: this.item?.label,
+            });
+            if (!context.token) {
                 ui.notifications.warn(
                     sohl.i18n.format("No attacker token identified."),
                 );
                 return null;
             }
 
-            if (!token.isOwner) {
+            if (!context.token.isOwner) {
                 ui.notifications.warn(
                     sohl.i18n.format(
                         "You do not have permissions to perform this operation on {name}",
-                        { name: token.name },
+                        { name: context.token.name },
                     ),
                 );
                 return null;
@@ -188,14 +208,15 @@ export function MasteryLevelMixin<
 
             let sourceTestResult = new sohl.game.CONFIG.SuccessTestResult(
                 {
-                    speaker,
+                    speaker: context.speaker,
                     item: this.item,
                     rollMode: getSystemSetting("rollMode", "core"),
-                    type,
                     title:
-                        title ||
+                        context.title ||
                         sohl.i18n.format("{name} {label} Test", {
-                            name: token?.name || context.actor?.name,
+                            name:
+                                context.token.name ||
+                                context.speaker.actor?.name,
                             label: this.item?.label,
                         }),
                     situationalModifier: 0,
@@ -204,12 +225,20 @@ export function MasteryLevelMixin<
                 { parent: this },
             );
 
-            sourceTestResult = await this.successTest(context);
+            const successTestContext = new SuccessTestResult.Context({
+                speaker: context.speaker.toJSON() as SohlSpeaker.Data,
+                item: this.item,
+                rollMode: getSystemSetting("rollMode", "core"),
+                title: context.title,
+                situationalModifier: context.scope.situationalModifier || 0,
+                mlMod: fvtt.utils.deepClone(this._masteryLevel),
+            });
+            sourceTestResult = await this._masteryLevel.successTest(context);
 
             const opposedTest = new sohl.game.CONFIG.SOHL.OpposedTestResult(
                 {
-                    speaker,
-                    targetToken,
+                    speaker: context.speaker,
+                    targetToken: context.scope.targetToken,
                     sourceTestResult,
                 },
                 { parent: this },
@@ -219,23 +248,19 @@ export function MasteryLevelMixin<
         }
 
         async opposedTestResume(
-            context: SohlAction.Context = {},
-        ): Promise<SuccessTestResult | false | null> {
-            let {
-                noChat = false,
-                opposedTestResult,
-                testType = SuccessTestResult.TEST_TYPE.SKILL,
-            } = context;
+            context: OpposedTestResult.Context,
+        ): Promise<OpposedTestResult | false | null> {
+            let { noChat = false, priorTestResult } = context;
 
-            if (!opposedTestResult) {
-                throw new Error("Must supply opposedTestResult");
+            if (!priorTestResult) {
+                throw new Error("Must supply priorTestResult");
             }
 
-            if (!opposedTestResult.targetTestResult) {
-                opposedTestResult.targetTestResult =
+            if (!priorTestResult.targetTestResult) {
+                priorTestResult.targetTestResult =
                     new sohl.game.CONFIG.SOHL.SuccessTestResult(
                         {
-                            speaker,
+                            speaker: context.speaker || new SohlSpeaker(),
                             item: this.item,
                             rollMode: getSystemSetting("rollMode", "core"),
                             type: SuccessTestResult.TEST_TYPE.SKILL,
@@ -250,11 +275,25 @@ export function MasteryLevelMixin<
                         { parent: this },
                     );
 
-                opposedTestResult.targetTestResult = this.successTest({
-                    noChat: true,
-                    testType,
-                });
-                if (!opposedTestResult.targetTestResult) return null;
+                const targetTestResult = await this.successTest(
+                    {
+                        noChat: true,
+                        speaker: context.speaker || new SohlSpeaker(),
+                        item: this.item,
+                        rollMode: getSystemSetting("rollMode", "core"),
+                        title:
+                            context.title ||
+                            sohl.i18n.format("{name} {label} Test", {
+                                name: token?.name || context.actor?.name,
+                                label: this.item?.label,
+                            }),
+                        situationalModifier: 0,
+                        mlMod: fvtt.utils.deepClone(this._masteryLevel),
+                    },
+                    { parent: this },
+                );
+                if (!targetTestResult) return targetTestResult;
+                priorTestResult.targetTestResult = targetTestResult;
             } else {
                 // In this situation, where the targetTestResult is provided,
                 // the GM is modifying the result of a prior opposedTest.
@@ -285,7 +324,7 @@ export function MasteryLevelMixin<
             return allowed ? opposedTestResult : false;
         }
 
-        async improveWithSDR(context: SohlAction.Context = {}): Promise<void> {
+        async improveWithSDR(context: SohlAction.Context): Promise<void> {
             const updateData: PlainObject = { "system.improveFlag": false };
             let roll = await Roll.create(`1d100 + ${this.skillBase.value}`);
             const isSuccess = (roll.total ?? 0) > this._masteryLevel.base;
@@ -296,14 +335,15 @@ export function MasteryLevelMixin<
             }
             let prefix = sohl.i18n.format("{subType} {label}", {
                 subType: this.constructor.subTypes[this.subType],
-                label: _l(this.constructor.metadata.label),
+                label: sohl.i18n.format(this.constructor.metadata.label),
             });
-            const chatTemplate =
-                "systems/sohl/templates/chat/standard-test-card.html";
+            const chatTemplate: FilePath = toFilePath(
+                "systems/sohl/templates/chat/standard-test-card.html",
+            );
             const chatTemplateData = {
                 variant: CONFIG.SOHL.id,
                 type: `${this.type}-${this.name}-improve-sdr`,
-                title: _l("{label} Development Roll", {
+                title: sohl.i18n.format("{label} Development Roll", {
                     label: this.item.label,
                 }),
                 effTarget: this._masteryLevel.base,
@@ -313,25 +353,28 @@ export function MasteryLevelMixin<
                 showResult: true,
                 resultText:
                     isSuccess ?
-                        _l("{prefix} Increase", { prefix })
-                    :   _l("No {prefix} Increase", { prefix }),
+                        fvtt.i18n.format("{prefix} Increase", { prefix })
+                    :   fvtt.i18n.format("No {prefix} Increase", { prefix }),
                 resultDesc:
                     isSuccess ?
-                        _l("{label} increased by {incr} to {final}", {
-                            label: this.item.label,
-                            incr: this.sdrIncr,
-                            final: this._masteryLevel.base + this.sdrIncr,
-                        })
+                        fvtt.i18n.format(
+                            "{label} increased by {incr} to {final}",
+                            {
+                                label: this.item.label,
+                                incr: this.sdrIncr,
+                                final: this._masteryLevel.base + this.sdrIncr,
+                            },
+                        )
                     :   "",
                 description:
                     isSuccess ?
-                        SuccessTestResult.SUCCESS_TEXT.SUCCESS
-                    :   SuccessTestResult.SUCCESS_TEXT.FAILURE,
+                        fvtt.i18n.format("SOHL.TestResult.SUCCESS")
+                    :   fvtt.i18n.format("SOHL.TestResult.FAILURE"),
                 notes: "",
                 sdrIncr: this.sdrIncr,
             };
 
-            const chatHtml = await renderTemplate(
+            const chatHtml = await toHTMLWithTemplate(
                 chatTemplate,
                 chatTemplateData,
             );
@@ -350,7 +393,7 @@ export function MasteryLevelMixin<
         }
 
         /** @inheritdoc */
-        override initialize(context: SohlAction.Context = {}): void {
+        override initialize(context: SohlAction.Context): void {
             this._boosts = 0;
             this._masteryLevel = new CONFIG.SOHL.class.MasteryLevelModifier(
                 {
@@ -374,13 +417,13 @@ export function MasteryLevelMixin<
                         this._masteryLevel.fate.setBase(50);
                     } else {
                         this._masteryLevel.fate.setDisabled(
-                            _l("Non-Player Character/Creature"),
+                            fvtt.i18n.format("Non-Player Character/Creature"),
                             "NPC",
                         );
                     }
                 } else {
                     this._masteryLevel.fate.setDisabled(
-                        _l("Fate Disabled in Settings"),
+                        fvtt.i18n.format("Fate Disabled in Settings"),
                         "NoFate",
                     );
                 }
@@ -391,7 +434,7 @@ export function MasteryLevelMixin<
         }
 
         /** @inheritdoc */
-        override evaluate(context: SohlAction.Context = {}): void {
+        override evaluate(context: SohlAction.Context): void {
             this._skillBase.setAttributes(this.actor.allItems());
 
             if (this._masteryLevel.base > 0) {
@@ -412,14 +455,14 @@ export function MasteryLevelMixin<
             if (this.skillBase.attributes.includes("Aura")) {
                 // Any skill that has Aura in its SB formula cannot use fate
                 this._masteryLevel.fate.setDisabled(
-                    _l("Aura-Based, No Fate"),
+                    fvtt.i18n.format("Aura-Based, No Fate"),
                     "AurBsd",
                 );
             }
         }
 
         /** @inheritdoc */
-        override finalize(context: SohlAction.Context = {}): void {
+        override finalize(context: SohlAction.Context): void {
             if (this._masteryLevel.disabled) {
                 this._masteryLevel.fate.setDisabled(
                     CONFIG.SOHL.MOD.MLDSBL.name,
@@ -456,7 +499,7 @@ export function MasteryLevelMixin<
                 }
             }
         }
-    };
+    } as unknown as TBase & MasteryLevelMixin.Logic;
 }
 
 export namespace MasteryLevelMixin {
@@ -476,18 +519,18 @@ export namespace MasteryLevelMixin {
     });
     export type EffectKey = (typeof EFFECT_KEYS)[keyof typeof EFFECT_KEYS];
 
-    export interface Data<TPerformer extends SohlPerformer = SohlPerformer>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {}
+
+    export interface Data extends SohlItem.Data {
         abbrev: string;
         skillBaseFormula: string;
         masteryLevelBase: number;
         improveFlag: boolean;
     }
 
-    export function DataModel<
-        TBase extends AnyConstructor,
-        TPerformer extends SohlPerformer = SohlPerformer,
-    >(Base: TBase): TBase & Data<TPerformer> {
+    export function DataModel<TBase extends AnyConstructor>(
+        Base: TBase,
+    ): TBase & Data {
         class InternalDataModel extends Base {
             declare abbrev: string;
             declare skillBaseFormula: string;
@@ -495,7 +538,7 @@ export namespace MasteryLevelMixin {
             declare improveFlag: boolean;
             readonly [kDataModel] = true;
 
-            static isA(obj: unknown): obj is TBase & Data<TPerformer> {
+            static isA(obj: unknown): obj is TBase & Data {
                 return (
                     typeof obj === "object" && obj !== null && kDataModel in obj
                 );
@@ -519,7 +562,248 @@ export namespace MasteryLevelMixin {
             MasteryLevelMixin.kIsMasteryLevel
         ] = true;
 
-        return InternalDataModel as unknown as TBase &
-            SohlPerformer.Constructor;
+        return InternalDataModel as unknown as TBase & SohlLogic.Constructor;
+    }
+
+    export class SkillBase {
+        _attrs;
+        _formula;
+        _sunsigns;
+        _parsedFormula;
+        _value;
+
+        constructor(formula, { items = null, sunsign = null } = {}) {
+            if (!formula) {
+                this._formula = null;
+                this._attrs = {};
+                this._sunsigns = [];
+            }
+
+            if (items && !(Symbol.iterator in Object(items))) {
+                throw new Error("items must be iterable");
+            }
+
+            this._formula = formula || null;
+            this._attrs = {};
+            this._sunsigns = sunsign?.system.textValue.split("-") || [];
+            this._parsedFormula = formula ? this._parseFormula : [];
+            this._value = 0;
+            if (items) {
+                this.setAttributes(items);
+            }
+        }
+
+        setAttributes(items) {
+            const attributes = [];
+            for (const it of items) {
+                if (
+                    it.type === TraitItemData.DATA_TYPE &&
+                    it.system.intensity === TraitItemData.INTENSITY.ATTRIBUTE &&
+                    it.system.isNumeric
+                )
+                    attributes.push(it);
+            }
+            this._parsedFormula.forEach((param) => {
+                const type = typeof param;
+
+                if (type === "string") {
+                    const [subType, name, mult = 1] = param.split(":");
+                    if (subType === "attr") {
+                        const attr = attributes.find(
+                            (obj) => obj.system.abbrev === name,
+                        );
+
+                        if (attr) {
+                            const score = Number.parseInt(
+                                attr.system.textValue,
+                                10,
+                            );
+                            if (Number.isInteger(score)) {
+                                this._attrs[attr.system.abbrev] = {
+                                    name: attr.name,
+                                    value: score * mult,
+                                };
+                            } else {
+                                throw new Error(
+                                    "invalid attribute value not number",
+                                );
+                            }
+                        }
+                    }
+                }
+            });
+            this._value = this.formula ? this._calcValue() : 0;
+        }
+
+        get valid() {
+            return !!this.parsedFormula.length;
+        }
+
+        get formula() {
+            return this._formula;
+        }
+
+        get parsedFormula() {
+            return this._parsedFormula;
+        }
+
+        get sunsigns() {
+            return this._sunsigns;
+        }
+
+        get attributes() {
+            return Object.values(this._attrs).map((a) => a.name);
+        }
+
+        get value() {
+            return this._value;
+        }
+
+        /**
+         * Parses a skill base formula.
+         *
+         * A valid SB formula looks like this:
+         *
+         *   "@str, @int, @sta, hirin:2, ahnu, 5"
+         *
+         * meaning
+         *   average STR, INT, and STA
+         *   add 2 if sunsign hirin (modifier after colon ":")
+         *   add 1 if sunsign ahnu (1 since no modifier specified)
+         *   add 5 to result
+         *
+         * A valid formula must have exactly 2 or more attributes, everything else is optional.
+         *
+         * @returns {object[]} A parsed skill base formula
+         */
+        get _parseFormula() {
+            const parseResult = [];
+            let modifier = 0;
+
+            let isFormulaValid = true;
+            // All parts of the formula are separated by commas,
+            // and we lowercase here since the string is processed
+            // case-insensitive.
+            const sbParts = this._formula.toLowerCase().split(",");
+
+            for (let param of sbParts) {
+                if (!isFormulaValid) break;
+
+                param = param.trim();
+                if (param != "") {
+                    if (param.startsWith("@")) {
+                        // This is a reference to an attribute
+
+                        // Must have more than just the "@" sign
+                        if (param.length === 1) {
+                            isFormulaValid = false;
+                            break;
+                        }
+
+                        const paramName = param.slice(1);
+                        parseResult.push(`attr:${paramName}`);
+                        continue;
+                    }
+
+                    if (param.match(/^\W/)) {
+                        // This is a sunsign
+
+                        let ssParts = param.split(":");
+
+                        // if more than 2 parts, it's invalid
+                        if (ssParts.length > 2) {
+                            isFormulaValid = false;
+                            break;
+                        }
+
+                        const ssName = ssParts[0].trim;
+                        let ssCount = 1;
+                        // if second part provided, must be a number
+                        if (ssParts.length === 2) {
+                            const ssNumber = ssParts[1]
+                                .trim()
+                                .match(/^[-+]?\d+/);
+                            if (ssNumber) {
+                                ssCount = Number.parseInt(ssNumber[0], 10);
+                            } else {
+                                isFormulaValid = false;
+                            }
+                            break;
+                        }
+
+                        parseResult.push(`ss:${ssName}:${ssCount}`);
+
+                        continue;
+                    }
+
+                    // The only valid possibility left is a number.
+                    // If it"s not a number, it's invalid.
+                    if (param.match(/^[-+]?\d+$/)) {
+                        modifier += Number.parseInt(param, 10);
+                        parseResult.push(modifier);
+                    } else {
+                        isFormulaValid = false;
+                        break;
+                    }
+                }
+            }
+
+            return isFormulaValid ? parseResult : null;
+        }
+
+        /**
+         * Calculates a skill base value.
+         *
+         * @returns A number representing the calculated skill base
+         */
+        _calcValue() {
+            if (!this.valid) return 0;
+            let attrScores = [];
+            let ssBonus = Number.MIN_SAFE_INTEGER;
+            let modifier = 0;
+            this.parsedFormula.forEach((param) => {
+                const type = typeof param;
+
+                if (type === "number") {
+                    modifier += param;
+                } else if (type === "string") {
+                    const [subType, name, mult = 1] = param.split(":");
+                    if (subType === "attr") {
+                        attrScores.push(this._attrs[name]?.value || 0);
+                    } else if (subType === "ss") {
+                        if (this.sunsigns.includes(name)) {
+                            // We matched a character's sunsign, apply modifier
+                            // Character only gets the largest sunsign bonus
+                            ssBonus = Math.max(
+                                Number.parseInt(mult, 10),
+                                ssBonus,
+                            );
+                        }
+                    }
+                }
+            });
+
+            ssBonus = ssBonus > Number.MIN_SAFE_INTEGER ? ssBonus : 0;
+            let result = attrScores.reduce((acc, cur) => acc + cur, 0);
+            result = result / attrScores.length;
+
+            if (attrScores.length === 2) {
+                // Special rounding rule: if only two attributes, and
+                // primary attr > secondary attr, round up, otherwise round down
+                result =
+                    attrScores[0] > attrScores[1] ?
+                        Math.ceil(result)
+                    :   Math.floor(result);
+            } else {
+                // Otherwise use normal rounding rules
+                result = Math.round(result);
+            }
+
+            result += ssBonus + modifier;
+
+            result = Math.max(0, result); // Make sure result is >= 0
+
+            return result;
+        }
     }
 }

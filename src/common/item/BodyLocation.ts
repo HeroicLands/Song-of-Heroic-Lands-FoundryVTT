@@ -11,8 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BodyLocationData } from "@common/item/datamodel";
-import { SohlDataModel, SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { RegisterClass } from "@utils/decorators";
 import { SohlItem } from ".";
 import { SohlAction } from "@common/event";
@@ -21,11 +20,15 @@ const kBodyLocation = Symbol("BodyLocation");
 const kDataModel = Symbol("BodyLocation.DataModel");
 
 @RegisterClass(
-    new SohlPerformer.Element({
-        kind: "BodyLocationPerformer",
+    new SohlLogic.Element({
+        kind: "BodyLocationLogic",
     }),
 )
-export class BodyLocation extends SohlPerformer<BodyLocation.Data> {
+export class BodyLocation<TData extends BodyLocation.Data = BodyLocation.Data>
+    extends SohlLogic
+    implements BodyLocation.Logic
+{
+    declare readonly parent: TData;
     protection!: PlainObject;
     layers!: string;
     traits!: PlainObject;
@@ -44,10 +47,10 @@ export class BodyLocation extends SohlPerformer<BodyLocation.Data> {
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace BodyLocation {
@@ -66,8 +69,9 @@ export namespace BodyLocation {
      */
     export const Image = "systems/sohl/assets/icons/hand.svg";
 
-    export interface Data<TPerformer extends BodyLocation = BodyLocation>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {}
+
+    export interface Data extends SohlItem.Data {
         abbrev: string;
         isFumble: boolean;
         isStumble: boolean;
@@ -83,12 +87,8 @@ export namespace BodyLocation {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SohlItem.DataModel<BodyLocation>
-        implements Data
-    {
+    export class DataModel extends SohlItem.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
-        declare readonly parent: SohlItem<BodyLocation>;
         declare abbrev: string;
         declare isFumble: boolean;
         declare isStumble: boolean;

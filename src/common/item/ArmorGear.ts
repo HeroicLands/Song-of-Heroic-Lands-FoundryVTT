@@ -11,20 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlPerformer } from "@common";
+import { SohlDataModel, SohlLogic } from "@common";
 import { SohlAction } from "@common/event";
 import { RegisterClass } from "@utils/decorators";
 import { GearMixin, SohlItem } from "@common/item";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 const kArmorGear = Symbol("ArmorGear");
-const kDataModel = Symbol("ArmorGear.DataModel");
+const kData = Symbol("ArmorGear.Data");
 
 @RegisterClass(
-    new SohlPerformer.Element({
-        kind: "ArmorGearPerformer",
+    new SohlLogic.Element({
+        kind: "ArmorGear",
     }),
 )
-export class ArmorGear extends SohlPerformer<ArmorGear.Data> {
+export class ArmorGear extends GearMixin(SohlLogic) implements ArmorGear.Logic {
+    declare readonly parent: ArmorGear.Data;
     protection!: PlainObject;
     traits!: StrictObject<string>;
     readonly [kArmorGear] = true;
@@ -33,16 +34,17 @@ export class ArmorGear extends SohlPerformer<ArmorGear.Data> {
         return typeof obj === "object" && obj !== null && kArmorGear in obj;
     }
 
-    initialize(options?: PlainObject): void {
+    /** @inheritdoc */
+    override initialize(context: SohlAction.Context): void {
         this.protection = {};
         this.traits = {};
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace ArmorGear {
@@ -61,8 +63,14 @@ export namespace ArmorGear {
      */
     export const Image = "systems/sohl/assets/icons/armor.svg";
 
-    export interface Data<TPerformer extends ArmorGear = ArmorGear>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: ArmorGear.Data;
+        readonly [kArmorGear]: true;
+    }
+
+    export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        get logic(): ArmorGear.Logic;
         material: string;
         locations: {
             flexible: string[];
@@ -70,17 +78,27 @@ export namespace ArmorGear {
         };
     }
 
-    export class DataModel<TPerformer extends ArmorGear = ArmorGear>
-        extends GearMixin.DataModel(SohlItem.DataModel)
-        implements Data<TPerformer>
-    {
-        static readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
+    const DataModelShape = GearMixin.DataModel(
+        SohlItem.DataModel,
+    ) as unknown as Constructor<ArmorGear.Data> & SohlItem.DataModel.Statics;
+
+    @RegisterClass(
+        new SohlDataModel.Element({
+            kind: Kind,
+            logicClass: ArmorGear,
+            iconCssClass: IconCssClass,
+            img: Image,
+            schemaVersion: "0.6.0",
+        }),
+    )
+    export class DataModel extends DataModelShape {
+        static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
         declare material: string;
         declare locations: { flexible: string[]; rigid: string[] };
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -93,12 +111,6 @@ export namespace ArmorGear {
                 }),
             };
         }
-
-        initialize(context?: SohlAction.Context): void {}
-
-        evaluate(context?: SohlAction.Context): void {}
-
-        finalize(context?: SohlAction.Context): void {}
     }
 
     export class Sheet extends SohlItem.Sheet {

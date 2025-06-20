@@ -1,27 +1,37 @@
-import { SohlPerformer } from "@common";
-import { SohlActor } from "@common/actor";
-import { SohlItem } from "@common/item";
 import {
+    DialogButtonCallback,
+    inputDialog,
+    InternalClientDocument,
+    okDialog,
+    SohlLogic,
+} from "@common";
+import { AnimateEntity, InanimateObject, SohlActor } from "@common/actor";
+import { SohlItem } from "@common/item";
+import { ClientDocumentMixinBaseClass } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document.mjs";
+import {
+    FilePath,
+    HTMLString,
     SohlClassRegistry,
     SohlContextMenu,
-    SohlContextMenuEntry,
+    toFilePath,
+    toHTMLString,
+    toHTMLWithContent,
+    toHTMLWithTemplate,
 } from "@utils";
+import { SohlActiveEffect } from "./effect";
 const { ArrayField, ObjectField } = fvtt.data.fields;
 type HandlebarsTemplatePart =
     foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
 const { DocumentSheetV2, HandlebarsApplicationMixin } =
     foundry.applications.api;
 
-export abstract class SohlDataModel<
-        P extends SohlActor | SohlItem,
-        T extends SohlPerformer = SohlPerformer,
-    >
+export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
     extends foundry.abstract.TypeDataModel<foundry.data.fields.DataSchema, any>
-    implements SohlDataModel.Data<P>
+    implements SohlDataModel.Data<TParent>
 {
-    declare parent: P;
+    declare parent: TParent;
 
-    protected _logic!: T;
+    protected _logic!: SohlLogic.Logic;
 
     /**
      * The localization prefixes used to look up the translation keys for this
@@ -38,8 +48,8 @@ export abstract class SohlDataModel<
     actionList!: PlainObject[];
     eventList!: PlainObject[];
 
-    get logicClass(): SohlPerformer.Constructor {
-        return (this as any)._metadata.logicClass as SohlPerformer.Constructor;
+    get logicClass(): SohlLogic.Constructor {
+        return (this as any)._metadata.logicClass as SohlLogic.Constructor;
     }
 
     get label() {
@@ -82,21 +92,22 @@ export abstract class SohlDataModel<
         return (this.constructor as any).kind;
     }
 
-    get logic(): T {
+    get logic(): SohlLogic.Logic {
         if (!this._logic) {
-            this._logic = new this.logicClass(this) as T;
+            this._logic = new this.logicClass(this);
         }
         return this._logic;
     }
 }
 
 export namespace SohlDataModel {
-    export type Any = SohlDataModel<SohlActor | SohlItem, SohlPerformer>;
+    export type Any = SohlDataModel<SohlActor | SohlItem>;
 
     export type Constructor<TParent extends SohlActor | SohlItem> =
         AnyConstructor<Data<TParent>> & TypeDataModelStatics;
 
     export interface TypeDataModelStatics {
+        readonly LOCALIZATION_PREFIXES: string[];
         defineSchema(): foundry.data.fields.DataSchema;
     }
 
@@ -144,17 +155,17 @@ export namespace SohlDataModel {
     }
 
     export abstract class Sheet<
-        P extends SohlActor | SohlItem,
+        TParent extends SohlActor | SohlItem,
     > extends HandlebarsApplicationMixin(DocumentSheetV2) {
-        declare document: P;
+        declare document: TParent & InternalClientDocument;
         declare options: PlainObject;
         declare isEditable: boolean;
+        declare element: HTMLElement;
+        declare render: (force?: boolean, options?: any) => void;
+
         _dragDrop: DragDrop[];
 
-        constructor(
-            document: P,
-            options: Partial<foundry.applications.api.ApplicationV2.Options> = {},
-        ) {
+        constructor(document: TParent, options: PlainObject = {}) {
             super(document, options);
             this._dragDrop = this._createDragDropHandlers();
         }
@@ -182,7 +193,7 @@ export namespace SohlDataModel {
                 },
             ],
             actions: {
-                effectToggle: SohlSheet._onEffectToggle,
+                effectToggle: Sheet._onEffectToggle,
             },
         };
 
@@ -232,33 +243,33 @@ export namespace SohlDataModel {
             data.variant = sohl.game.id;
             data.const = sohl.CONST;
             data.config = sohl.CONFIG;
-            data.owner = this.document.isOwner;
+            data.owner = (this.document as InternalClientDocument).isOwner;
             data.limited = this.document.limited;
             data.options = this.options;
             data.editable = this.isEditable;
             data.cssClass = data.owner ? "editable" : "locked";
-            data.isAnimateEntity =
-                this.document.system instanceof AnimateEntityDataModel;
-            data.isInanimateObject =
-                this.document.system instanceof InanimateObjectDataModel;
+            data.isAnimateEntity = AnimateEntity.isA(this.document.system);
+            data.isInanimateObject = InanimateObject.isA(this.document.system);
             data.actor =
                 this.document instanceof SohlActor ?
                     this.document
                 :   this.document.actor;
             data.flags = this.document.flags;
             data.system = this.document.system;
-            data.isGM = game.user.isGM;
+            data.isGM = (fvtt.game.user as any).isGM;
             data.fields = this.document.system.schema.fields;
 
-            data.effects = this.document.effects;
+            data.effects = (this.document as any).effects;
 
             // Collect all effects from other Items/Actors that are affecting this item
             data.trxEffects = {};
-            this.document.transferredEffects.forEach((effect) => {
-                if (!effect.disabled) {
-                    data.trxEffects[effect.id] = effect;
-                }
-            });
+            (this.document as any).transferredEffects.forEach(
+                (effect: SohlActiveEffect) => {
+                    if (!(effect as any).disabled) {
+                        data.trxEffects[effect.id] = effect;
+                    }
+                },
+            );
 
             return data;
         }
@@ -312,7 +323,7 @@ export namespace SohlDataModel {
             }
         }
 
-        _contextMenu(element: HTMLElement) {
+        _contextMenu(element: HTMLElement): void {
             new SohlContextMenu(element, ".item", [], {
                 onOpen: this._onItemContextMenuOpen.bind(this),
             });
@@ -329,36 +340,43 @@ export namespace SohlDataModel {
             });
         }
 
-        _onItemContextMenuOpen(element: HTMLElement) {
+        _onItemContextMenuOpen(element: HTMLElement): SohlContextMenu.Entry[] {
             let ele = element.closest("[data-item-id]") as HTMLElement;
-            if (!ele) return;
+            if (!ele) return [];
             const actionName = ele?.dataset.actionName;
             const docId = ele?.dataset.itemId;
+            if (!docId) return [];
             let doc;
             if (actionName) {
                 doc = this.document.system.actions.get(docId);
             } else {
-                doc =
-                    this.document instanceof SohlItem ?
-                        this.document.getNestedItemById(docId)
-                    : this.document instanceof SohlActor ?
-                        this.document.getItem(docId)
-                    :   null;
+                let actor: SohlActor | null;
+                if (this.document instanceof SohlActor) {
+                    actor = this.document;
+                } else {
+                    actor = this.document.actor;
+                }
+                if (!actor) return [];
+                doc = actor.items.get(docId);
             }
-            if (foundry.ui.context) {
-                foundry.ui.context.menuItems =
-                    doc ? SohlContextMenu._getContextOptions(doc) : [];
+            if (doc) {
+                const uiContext = (fvtt.ui as any).context;
+                if (uiContext) {
+                    uiContext.menuItems = doc._getContextOptions();
+                }
             }
+            return [];
         }
 
-        _onEffectContextMenuOpen(element: HTMLElement) {
+        _onEffectContextMenuOpen(element: HTMLElement): void {
             let ele = element.closest("[data-effect-id]") as HTMLElement;
             if (!ele) return;
             const effectId = ele.dataset.effectId;
-            const effect = this.document.effects.get(effectId);
-            if (foundry.ui.context) {
-                foundry.ui.context.menuItems =
-                    effect ? SohlContextMenu._getContextOptions(effect) : [];
+            const effect = (this.document as any).effects.get(effectId);
+            const uiContext = (fvtt.ui as any).context;
+            if (uiContext) {
+                uiContext.menuItems =
+                    effect ? effect._getContextOptions(effect) : [];
             }
         }
 
@@ -370,43 +388,48 @@ export namespace SohlDataModel {
          * @returns {*}
          */
         static _getContextOptions(
-            doc: foundry.abstract.Document<"Item", any>,
-        ): SohlContextMenuEntry[] {
-            let result = doc.system.logic._getContextOptions();
+            doc: SohlActor | SohlItem | SohlActiveEffect,
+        ): SohlContextMenu.Entry[] {
+            let result = doc._getContextOptions();
             if (!result || !result.length) return [];
 
             result = result.filter(
-                (co) => co.group !== SohlContextMenu.SORT_GROUPS.HIDDEN,
+                (co) => co.group !== SohlContextMenu.SORT_GROUP.HIDDEN,
             );
 
             // Sort the menu items according to group.  Expect items with no group
             // at the top, items in the "primary" group next, and items in the
             // "secondary" group last.
             const collator = new Intl.Collator(sohl.i18n.lang);
-            result.sort((a: SohlContextMenuEntry, b: SohlContextMenuEntry) =>
+            result.sort((a: SohlContextMenu.Entry, b: SohlContextMenu.Entry) =>
                 collator.compare(a.group || "", b.group || ""),
             );
             return result;
         }
 
         static _onEffectToggle(event: PointerEvent, target: HTMLElement): void {
-            const thisSheet = this as unknown as SohlSheet;
             const li = target.closest(".effect") as HTMLElement;
             if (!li?.dataset.effectId) return;
-            const effect = thisSheet.document.effects.get(li.dataset.effectId);
+            const effect = (this as any).document.effects.get(
+                li.dataset.effectId,
+            );
             effect?.toggleEnabledState();
         }
 
         async _onEffectCreate(): Promise<void> {
             let name = "New Effect";
             let i = 0;
-            while (this.document.effects.some((e) => e.name === name)) {
+            while (
+                (this.document as any).effects.some(
+                    (e: SohlActiveEffect) => e.name === name,
+                )
+            ) {
                 name = `New Effect ${++i}`;
             }
             const aeData = {
                 name,
-                type: SohlActiveEffectData.TYPE_NAME,
-                icon: SohlActiveEffectData.defaultImage,
+                type: SohlActiveEffect.Kind,
+                icon: SohlActiveEffect.Image,
                 origin: this.document.uuid,
             };
 
@@ -428,13 +451,15 @@ export namespace SohlDataModel {
 
             // Owned Items
             if (li.dataset.uuid) {
-                const item = foundryHelpers.fromUuidSync(li.dataset.uuid);
+                const item = fromUuidSync(li.dataset.uuid);
                 dragData = item.toDragData();
             }
 
             // Active Effect
             else if (li.dataset.effectId && this.actor) {
-                const effect = this.actor.effects.get(li.dataset.effectId);
+                const effect = (this.actor as any).effects.get(
+                    li.dataset.effectId,
+                );
                 dragData = effect.toDragData();
             }
 
@@ -463,262 +488,73 @@ export namespace SohlDataModel {
          * @param event       The originating DragEvent
          */
         async _onDrop(event: DragEvent): Promise<void> {
-            const documentClass = foundry.utils.getDocumentClass(
-                data.type,
-            ) as foundry.abstract.Document | null;
+            const data = JSON.parse(
+                event.dataTransfer?.getData("text/plain") || "{}",
+            );
+            const documentClass = fvtt.utils.getDocumentClass(data.type);
             if (documentClass) {
-                const document = (await documentClass.fromDropData(
-                    data,
-                )) as foundry.abstract.Document;
+                const document = await documentClass.fromDropData(data);
                 switch (document.documentName) {
                     case "ActiveEffect":
-                        return this._onDropActiveEffect(
-                            event,
-                            document as SohlActiveEffect,
-                        );
+                        this._onDropActiveEffect(event, document);
+                        break;
+
                     case "Actor":
-                        return this._onDropActor(
-                            event,
-                            document as unknown as SohlActor,
-                        );
+                        this._onDropActor(event, document);
+                        break;
+
                     case "Item":
-                        return this._onDropItem(event, document as SohlItem);
+                        this._onDropItem(event, document);
+                        break;
                     case "Folder":
-                        return this._onDropFolder(event, document as Folder);
+                        this._onDropFolder(event, document);
+                        break;
                 }
             }
         }
 
-        /** @override */
+        async _onDropActiveEffect(
+            event: DragEvent,
+            droppedEffect: SohlActiveEffect,
+        ): Promise<void> {}
+
+        async _onDropActor(
+            event: DragEvent,
+            droppedActor: SohlActor,
+        ): Promise<void> {}
+
+        async _onDropFolder(
+            event: DragEvent,
+            droppedFolder: Folder,
+        ): Promise<void> {}
+
         async _onDropItem(
             event: DragEvent,
-            data: PlainObject,
-        ): Promise<boolean> {
-            if (!this.document.isOwner) return false;
-
-            const droppedItem = (await SohlItem.fromDropData(
-                data,
-            )) as SohlItem | null;
-            if (!droppedItem) return false;
-
-            if (droppedItem.system instanceof GearDataModel) {
-                return this._onDropGear(event, droppedItem);
-            } else {
-                return this._onDropNonGear(event, droppedItem);
-            }
-        }
-
-        /** @override */
-        async _onDropItemCreate(
-            data: PlainObject,
-            event: DragEvent,
-        ): Promise<boolean> {
-            if (!this.document.isOwner) return false;
-
-            const isActor = this.document instanceof SohlActor;
-            const items =
-                isActor ? this.document.items : this.document.system.items;
-
-            const itemList = data instanceof Array ? data : [data];
-            const toCreate = [];
-            for (let itemData of itemList) {
-                // Body items cannot be placed directly on actor; these must always be
-                // in an Anatomy object instead
-                if (isActor && itemData.type.startsWith("body")) {
-                    ui.notifications.warn(
-                        _l("You may not drop a {itemType} onto an Actor", {
-                            itemType: _l(`TYPES.Item.${itemData.type}.label`),
-                        }),
-                    );
-                    return false;
-                }
-
-                // Determine if a similar item exists
-                let similarItem;
-                if (isActor && itemData.type === AnatomyItemData.TYPE_NAME) {
-                    // Only one Anatomy item is allowed to be on an actor at any time,
-                    // so any existing one will be considered "similar".
-                    similarItem = items.find(
-                        (it) => it.type === AnatomyItemData.TYPE_NAME,
-                    );
-                }
-
-                if (!similarItem) {
-                    similarItem = items.find(
-                        (it) =>
-                            it.name === itemData.name &&
-                            it.type === itemData.type &&
-                            it.system.subType === itemData.system.subType,
-                    );
-                }
-
-                if (similarItem) {
-                    const confirm = await Dialog.confirm({
-                        title: `Confirm Overwrite: ${similarItem.label}`,
-                        content: `<p>Are You Sure?</p><p>This item will be overwritten and cannot be recovered.</p>`,
-                        options: { jQuery: false },
-                    });
-                    if (confirm) {
-                        delete itemData._id;
-                        delete itemData.pack;
-                        let result = await similarItem.delete();
-                        if (result) {
-                            result = await this.document.constructor.create(
-                                itemData,
-                                {
-                                    parent:
-                                        isActor ?
-                                            this.document
-                                        :   this.document.actor,
-                                    clean: true,
-                                },
-                            );
-                        } else {
-                            ui.notifications.warn("Overwrite failed");
-                            continue;
-                        }
-                        toCreate.push(itemData);
-                    }
-                } else {
-                    toCreate.push(itemData);
-                }
-            }
-
-            return super._onDropItemCreate(toCreate, event);
-        }
-
-        async _onDropGear(
-            event: DragEvent,
             droppedItem: SohlItem,
-        ): Promise<boolean> {
-            const destContainerId = event.target.closest("[data-container-id]")
-                ?.dataset.containerId;
-
-            // If no other container is specified, use this item
-            let destContainer;
-            if (this.document instanceof SohlItem) {
-                destContainer =
-                    !destContainerId ?
-                        this.document
-                    :   this.document.actor?.items.get(destContainerId) ||
-                        this.document.getNestedItemById(destContainerId) ||
-                        this.document;
-            } else {
-                destContainer =
-                    !destContainerId ?
-                        this.document
-                    :   this.document.items.get(destContainerId);
-            }
-
-            if (
-                (destContainer instanceof SohlItem &&
-                    destContainer.id === droppedItem.nestedIn?.id) ||
-                (destContainer instanceof SohlActor &&
-                    destContainer.id === droppedItem.parent?.id)
-            ) {
-                // If dropped item is already in a container and
-                // source and dest containers are the same,
-                // then we are simply rearranging
-                return await destContainer._onSortItem(
-                    event,
-                    droppedItem.toObject(),
-                );
-            }
-
-            if (droppedItem.id === destContainer.id) {
-                // Prohibit moving a container into itself
-                ui.notifications.warn("Can't move a container into itself");
-                return false;
-            }
-
-            const items =
-                destContainer instanceof SohlItem ?
-                    destContainer.system.items
-                :   destContainer.items;
-            const similarItem = items.find(
-                (it) =>
-                    droppedItem.id === it.id ||
-                    (droppedItem.name === it.name &&
-                        droppedItem.type === it.type),
-            );
-
-            if (similarItem) {
-                ui.notifications.error(
-                    `Similar item exists in ${destContainer.name}`,
-                );
-                return false;
-            }
-
-            let quantity = droppedItem.system.quantity;
-            if (quantity > 1 && !droppedItem.parent) {
-                // Ask how many to move
-                quantity = await Utility.moveQtyDialog(
-                    droppedItem,
-                    destContainer,
-                );
-            }
-
-            return await droppedItem.nestIn(destContainer, {
-                quantity,
-                destructive: true,
-            });
-        }
-
-        async _onDropNonGear(
-            event: DragEvent,
-            droppedItem: SohlItem,
-        ): Promise<boolean> {
-            if (
-                droppedItem.nestedIn?.id === this.document.id ||
-                droppedItem.parent?.id === this.document.id
-            ) {
-                // Sort items
-                return this.document._onSortItem(event, droppedItem.toObject());
-            } else {
-                if (this.document instanceof SohlActor) {
-                    const newItem = await SohlItem.create(
-                        droppedItem.toObject(),
-                        {
-                            parent: this.document,
-                        },
-                    );
-                    if (!droppedItem.fromCompendiumOrWorld) {
-                        await droppedItem.delete();
-                    }
-                    return newItem;
-                } else {
-                    const result = this._onDropItemCreate(
-                        droppedItem.toObject(),
-                        event,
-                    );
-                    return result;
-                }
-            }
-        }
+        ): Promise<void> {}
 
         async _addPrimitiveArrayItem(
             event: PointerEvent,
             { allowDuplicates = false } = {},
         ): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            let oldArray = foundryHelpers.getProperty(
-                this.document,
-                dataset.array,
-            );
-            let newArray = foundryHelpers.deepClone(oldArray);
-            let defaultValue = dataset.defaultValue;
+            const dataset = (event.currentTarget as HTMLElement)?.dataset;
+            if (!dataset?.array) return;
+            let oldArray = fvtt.utils.getProperty(this.document, dataset.array);
+            let newArray = fvtt.utils.deepClone(oldArray);
             const datatype = dataset.dtype;
             const choices = dataset.choices;
-            if (["Number", "String"].includes(dataset.dtype)) {
-                if (dataset.dtype === "Number")
-                    defaultValue = Number.parseFloat(defaultValue) || 0;
-                const dialogData = {
-                    valueName: dataset.title,
-                    newValue: defaultValue,
-                    choices,
-                };
+            const defaultValue =
+                dataset.dtype === "Number" ?
+                    String(Number.parseFloat(dataset.defaultValue || "0") || 0)
+                :   String(dataset.defaultValue);
 
-                const compiled = Handlebars.compile(`<form id="value">
+            const dialogData = {
+                valueName: dataset.title,
+                newValue: defaultValue,
+                choices,
+            };
+
+            const dlgHtml: HTMLString = toHTMLString(`<form id="value">
                 <div class="form-group">
                     <label>{{valueName}}</label>
                     {{#if choices}}
@@ -733,21 +569,19 @@ export namespace SohlDataModel {
                     {{/if}}
                 </div>
                 </form>`);
-                const dlgHtml = compiled(dialogData, {
-                    allowProtoMethodsByDefault: true,
-                    allowProtoPropertiesByDefault: true,
-                });
 
-                const dlgResult = await Dialog.prompt({
-                    title: dataset.title,
-                    content: dlgHtml.trim(),
+            const dlgResult = await okDialog({
+                title: dataset.title,
+                content: dlgHtml,
+                data: dialogData,
+                ok: {
                     label: `Add ${dataset.title}`,
-                    callback: (element) => {
-                        const form = element.querySelector("form");
+                    callback: (_event: any, button: HTMLButtonElement) => {
+                        const form = button.querySelector("form");
                         const fd = new fvtt.applications.ux.FormDataExtended(
                             form,
                         );
-                        const formData = foundryHelpers.expandObject(fd.object);
+                        const formData = fvtt.utils.expandObject(fd.object);
                         let formValue = formData.newValue;
                         if (datatype === "Number") {
                             formValue = Number.parseFloat(formValue);
@@ -756,28 +590,28 @@ export namespace SohlDataModel {
                         }
                         return formValue;
                     },
-                    rejectClose: false,
-                    options: { jQuery: false },
-                });
+                },
+                rejectClose: false,
+            });
 
-                // if dialog was closed, do nothing
-                if (!dlgResult) return;
+            // if dialog was closed, do nothing
+            if (!dlgResult) return;
 
-                if (!allowDuplicates && newArray.includes(dlgResult)) return;
+            if (!allowDuplicates && newArray.includes(dlgResult)) return;
 
-                newArray.push(dlgResult);
-                const updateData = { [dataset.array]: newArray };
-                const result = await this.item.update(updateData);
-                if (result) this.render();
-            }
+            newArray.push(dlgResult);
+            const updateData = { [dataset.array]: newArray };
+            const result = await this.document.update(updateData);
+            if (result) this.render();
         }
 
         async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            let array = foundryHelpers
-                .getProperty(this.document, dataset.array)
-                .concat();
-            const choices = dataset.choices.split(";");
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            if (!dataset.choices || !dataset.array) return;
+            let array: string[] = (
+                fvtt.utils.getProperty(this.document, dataset.array) || []
+            ).concat();
+            const choices: string[] = dataset.choices.split(";");
             let formTemplate =
                 '<form id="get-choice"><div class="form-group"><select name="choice">';
             choices.forEach((c) => {
@@ -801,7 +635,7 @@ export namespace SohlDataModel {
                 callback: (element) => {
                     const form = element.querySelector("form");
                     const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = foundryHelpers.expandObject(fd.object);
+                    const formData = fvtt.utils.expandObject(fd.object);
                     return formData.choice;
                 },
                 rejectClose: false,
@@ -809,26 +643,26 @@ export namespace SohlDataModel {
             });
 
             // if dialog was closed, do nothing
-            if (!dlgResult) return null;
+            if (!dlgResult) return;
 
-            if (array.some((a) => a === dlgResult)) {
+            if (array.some((a: string) => a === dlgResult)) {
                 ui.notifications.warn(
                     `Choice with value "${dlgResult} already exists, ignoring`,
                 );
-                return null;
+                return;
             }
 
             array.push(dlgResult);
             const updateData = { [dataset.array]: array };
-            const result = await this.item.update(updateData);
-            return result;
+            await this.document.update(updateData);
         }
 
         async _addAimArrayItem(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            let array = foundryHelpers
-                .getProperty(this.document, dataset.array)
-                .concat();
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            if (!dataset.aim || !dataset.array) return;
+            let array: { name: string; probWeightBase: number }[] = (
+                fvtt.utils.getProperty(this.document, dataset.array) || []
+            ).concat();
             const compiled = Handlebars.compile(`<form id="aim">
         <div class="form-group flexrow">
             <div class="flexcol">
@@ -853,7 +687,7 @@ export namespace SohlDataModel {
                 callback: (element) => {
                     const form = element.querySelector("form");
                     const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = foundryHelpers.expandObject(fd.object);
+                    const formData = fvtt.utils.expandObject(fd.object);
                     const result = {
                         name: formData.name,
                         probWeightBase:
@@ -866,26 +700,31 @@ export namespace SohlDataModel {
             });
 
             // if dialog was closed, do nothing
-            if (!dlgResult) return null;
+            if (!dlgResult) return;
 
-            if (array.some((a) => a.name === dlgResult.name)) {
+            if (
+                array.some(
+                    (a: { name: string; probWeightBase: number }) =>
+                        a.name === dlgResult.name,
+                )
+            ) {
                 ui.notifications.warn(
                     `Aim with name "${dlgResult.name} already exists, ignoring`,
                 );
-                return null;
+                return;
             }
 
             array.push(dlgResult);
             const updateData = { [dataset.array]: array };
-            const result = await this.item.update(updateData);
-            return result;
+            await this.document.update(updateData);
         }
 
         async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            let array = foundryHelpers
-                .getProperty(this.document, dataset.array)
-                .concat();
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            if (!dataset.valueDesc || !dataset.array) return;
+            let array: { label: string; maxValue: number }[] = (
+                fvtt.utils.getProperty(this.document, dataset.array) || []
+            ).concat();
             const compiled = Handlebars.compile(`<form id="aim">
                 <div class="form-group flexrow">
                     <div class="flexcol">
@@ -910,7 +749,7 @@ export namespace SohlDataModel {
                 callback: (element) => {
                     const form = element.querySelector("form");
                     const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = foundryHelpers.expandObject(fd.object);
+                    const formData = fvtt.utils.expandObject(fd.object);
                     const result = {
                         label: formData.label,
                         maxValue: Number.parseInt(formData.maxValue, 10) || 0,
@@ -922,52 +761,61 @@ export namespace SohlDataModel {
             });
 
             // if dialog was closed, do nothing
-            if (!dlgResult) return null;
+            if (!dlgResult) return;
 
-            if (array.some((a) => a.label === dlgResult.label)) {
+            if (
+                array.some(
+                    (a: { label: string; maxValue: number }) =>
+                        a.label === dlgResult.label,
+                )
+            ) {
                 ui.notifications.warn(
-                    `Aim with name "${dlgResult.name} already exists, ignoring`,
+                    `Aim with name "${dlgResult.label} already exists, ignoring`,
                 );
-                return null;
+                return;
             }
 
             array.push(dlgResult);
-            array.sort((a, b) => a.maxValue - b.maxValue);
+            array.sort(
+                (
+                    a: { label: string; maxValue: number },
+                    b: { label: string; maxValue: number },
+                ) => a.maxValue - b.maxValue,
+            );
             const updateData = { [dataset.array]: array };
-            const result = await this.item.update(updateData);
-            if (result) this.render();
-            return result;
+            await this.document.update(updateData);
+            this.render();
         }
 
         async _addArrayItem(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            await this._onSubmit(event); // Submit any unsaved changes
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            await (this as any)._onSubmit(event); // Submit any unsaved changes
 
-            let result;
             if (dataset.objectType === "Aim") {
-                result = await this._addAimArrayItem(event);
+                await this._addAimArrayItem(event);
             } else if (dataset.objectType === "ValueDesc") {
-                result = await this._valueDescArrayItem(event);
+                await this._addValueDescArrayItem(event);
             } else if (dataset.choices) {
-                result = await this._addChoiceArrayItem(event);
-            } else if (["Number", "String"].includes(dataset.dtype)) {
-                result = await this._addPrimitiveArrayItem(event, {
-                    allowDuplicates: dataset.allowDuplicates,
+                await this._addChoiceArrayItem(event);
+            } else if (
+                ["Number", "String"].includes(dataset.dtype || "String")
+            ) {
+                await this._addPrimitiveArrayItem(event, {
+                    allowDuplicates: dataset.allowDuplicates === "true",
                 });
             }
-            if (result) this.render();
-            return result;
+            this.render();
         }
 
         async _deleteArrayItem(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
-            if (!dataset.array) return null;
-            await this._onSubmit(event); // Submit any unsaved changes
-            let array = foundryHelpers.getProperty(
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            if (!dataset.array) return;
+            await (this as any)._onSubmit(event); // Submit any unsaved changes
+            let array: any[] = fvtt.utils.getProperty(
                 this.document,
                 dataset.array,
             );
-            array = array.filter((a) => a !== dataset.value);
+            array = array.filter((a: any) => a !== dataset.value);
             const result = await this.document.update({
                 [dataset.array]: array,
             });
@@ -975,35 +823,38 @@ export namespace SohlDataModel {
         }
 
         async _addObjectKey(event: PointerEvent): Promise<void> {
-            const dataset = event.currentTarget.dataset;
+            const dataset = (event.currentTarget as HTMLElement).dataset;
+            if (!dataset.object) return;
+            if (!dataset.title) dataset.title = "Add Key";
 
-            await this._onSubmit(event); // Submit any unsaved changes
+            await (this as any)._onSubmit(event); // Submit any unsaved changes
 
-            let object = foundryHelpers.getProperty(
-                this.document,
-                dataset.object,
-            );
+            let object = fvtt.utils.getProperty(this.document, dataset.object);
 
             const dialogData = {
-                variant: CONFIG.SOHL.id,
+                variant: sohl.game.id,
                 newKey: "",
                 newValue: "",
             };
 
-            let dlgTemplate =
-                "systems/sohl/templates/dialog/keyvalue-dialog.html";
-            const dlgHtml = await renderTemplate(dlgTemplate, dialogData);
+            let dlgTemplate: FilePath = toFilePath(
+                "systems/sohl/templates/dialog/keyvalue-dialog.html",
+            );
 
-            const dlgResult = await Dialog.prompt({
+            const dlgResult = await inputDialog({
                 title: dataset.title,
-                content: dlgHtml.trim(),
-                label: `Add ${dataset.title}`,
-                callback: (element: HTMLElement) => {
-                    const form = element.querySelector(
+                template: dlgTemplate,
+                data: dialogData,
+                callback: ((
+                    _event: PointerEvent | SubmitEvent,
+                    _button: HTMLButtonElement,
+                    dialog: HTMLDialogElement,
+                ): Promise<any> => {
+                    const form = dialog.querySelector(
                         "form",
                     ) as HTMLFormElement;
                     const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = foundryHelpers.expandObject(fd.object);
+                    const formData = fvtt.utils.expandObject(fd.object);
                     let formKey = formData.newKey;
                     let formValue = formData.newValue;
                     let value: number = Number.parseFloat(formValue);
@@ -1013,10 +864,9 @@ export namespace SohlDataModel {
                         else if (formValue === "null") value = 0;
                         else value = formValue;
                     }
-                    return { key: formKey, value: value };
-                },
+                    return Promise.resolve({ key: formKey, value: value });
+                }) as DialogButtonCallback,
                 rejectClose: false,
-                options: { jQuery: false },
             });
 
             // if dialog was closed, or key is empty, do nothing
@@ -1024,7 +874,7 @@ export namespace SohlDataModel {
 
             object[dlgResult.key] = dlgResult.value;
             const updateData = { [dataset.object]: object };
-            const result = await this.item.update(updateData);
+            const result = await this.document.update(updateData);
             if (result) this.render();
         }
 
@@ -1037,9 +887,11 @@ export namespace SohlDataModel {
          */
         async _deleteObjectKey(event: PointerEvent): Promise<void> {
             const dataset = (event.currentTarget as HTMLElement)?.dataset;
-            await this._onSubmit(event); // Submit any unsaved changes
+            if (!dataset.object) return;
+            if (!dataset.key) return;
+            await (this as any)._onSubmit(event); // Submit any unsaved changes
             // Update the list on the server
-            const result = await this.item.update({
+            const result = await this.document.update({
                 [dataset.object]: {
                     [`-=${dataset.key}`]: null,
                 },
@@ -1050,133 +902,132 @@ export namespace SohlDataModel {
             }
         }
 
-        /** @override */
-        activateListeners(html) {
-            super.activateListeners(html);
-            const element = html instanceof jQuery ? html[0] : html;
+        //     /** @override */
+        //     activateListeners(element: HTMLElement): void {
+        //         super.activateListeners(element);
 
-            // Everything below here is only needed if the sheet is editable
-            if (!this.options.editable) return;
+        //         // Everything below here is only needed if the sheet is editable
+        //         if (!this.options.editable) return;
 
-            // Ensure all text is selected when entering text input field
-            this.form
-                .querySelector("input[type='text']")
-                ?.addEventListener("click", (ev) => {
-                    const target = ev.target;
-                    if (!target.dataset?.type) {
-                        target.select();
-                    }
-                });
+        //         // Ensure all text is selected when entering text input field
+        //         this.form
+        //             .querySelector("input[type='text']")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const target = ev.target;
+        //                 if (!target.dataset?.type) {
+        //                     target.select();
+        //                 }
+        //             });
 
-            this.form
-                .querySelector(".effect-create")
-                ?.addEventListener("click", this._onEffectCreate.bind(this));
+        //         this.form
+        //             .querySelector(".effect-create")
+        //             ?.addEventListener("click", this._onEffectCreate.bind(this));
 
-            this.form
-                .querySelector(".effect-toggle")
-                ?.addEventListener("click", this._onEffectToggle.bind(this));
+        //         this.form
+        //             .querySelector(".effect-toggle")
+        //             ?.addEventListener("click", this._onEffectToggle.bind(this));
 
-            this.form
-                .querySelector(".alter-time")
-                ?.addEventListener("click", (ev) => {
-                    const property = ev.currentTarget.dataset.property;
-                    let time = Number.parseInt(
-                        ev.currentTarget.dataset.time,
-                        10,
-                    );
-                    if (Number.isNaN(time)) time = 0;
-                    Utility.onAlterTime(time).then((result) => {
-                        if (result !== null) {
-                            const updateData = { [property]: result };
-                            this.item.update(updateData);
-                        }
-                    });
-                });
+        //         this.form
+        //             .querySelector(".alter-time")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const property = ev.currentTarget.dataset.property;
+        //                 let time = Number.parseInt(
+        //                     ev.currentTarget.dataset.time,
+        //                     10,
+        //                 );
+        //                 if (Number.isNaN(time)) time = 0;
+        //                 Utility.onAlterTime(time).then((result) => {
+        //                     if (result !== null) {
+        //                         const updateData = { [property]: result };
+        //                         this.item.update(updateData);
+        //                     }
+        //                 });
+        //             });
 
-            // Add/delete Object Key
-            this.form
-                .querySelector(".add-array-item")
-                ?.addEventListener("click", this._addArrayItem.bind(this));
-            this.form
-                .querySelector(".delete-array-item")
-                ?.addEventListener("click", this._deleteArrayItem.bind(this));
+        //         // Add/delete Object Key
+        //         this.form
+        //             .querySelector(".add-array-item")
+        //             ?.addEventListener("click", this._addArrayItem.bind(this));
+        //         this.form
+        //             .querySelector(".delete-array-item")
+        //             ?.addEventListener("click", this._deleteArrayItem.bind(this));
 
-            // Add/delete Object Key
-            this.form
-                .querySelector(".add-object-key")
-                ?.addEventListener("click", this._addObjectKey.bind(this));
-            this.form
-                .querySelector(".delete-object-key")
-                ?.addEventListener("click", this._deleteObjectKey.bind(this));
+        //         // Add/delete Object Key
+        //         this.form
+        //             .querySelector(".add-object-key")
+        //             ?.addEventListener("click", this._addObjectKey.bind(this));
+        //         this.form
+        //             .querySelector(".delete-object-key")
+        //             ?.addEventListener("click", this._deleteObjectKey.bind(this));
 
-            this.form
-                .querySelector(".action-create")
-                ?.addEventListener("click", (ev) => {
-                    return Utility.createAction(ev, this.document);
-                });
+        //         this.form
+        //             .querySelector(".action-create")
+        //             ?.addEventListener("click", (ev) => {
+        //                 return Utility.createAction(ev, this.document);
+        //             });
 
-            this.form
-                .querySelector(".action-execute")
-                ?.addEventListener("click", (ev) => {
-                    const li = ev.currentTarget.closest(".action-item");
-                    const itemId = li.dataset.itemId;
-                    const action = this.document.system.actions.get(itemId);
-                    action.execute({ event: ev, dataset: li.dataset });
-                });
+        //         this.form
+        //             .querySelector(".action-execute")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const li = ev.currentTarget.closest(".action-item");
+        //                 const itemId = li.dataset.itemId;
+        //                 const action = this.document.system.actions.get(itemId);
+        //                 action.execute({ event: ev, dataset: li.dataset });
+        //             });
 
-            this.form
-                .querySelector(".action-edit")
-                ?.addEventListener("click", (ev) => {
-                    const li = ev.currentTarget.closest(".action-item");
-                    const itemId = li.dataset.itemId;
-                    const action = this.document.system.actions.get(itemId);
-                    if (!action) {
-                        throw new Error(
-                            `Action ${itemId} not found on ${this.document.name}.`,
-                        );
-                    }
-                    action.sheet.render(true);
-                });
+        //         this.form
+        //             .querySelector(".action-edit")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const li = ev.currentTarget.closest(".action-item");
+        //                 const itemId = li.dataset.itemId;
+        //                 const action = this.document.system.actions.get(itemId);
+        //                 if (!action) {
+        //                     throw new Error(
+        //                         `Action ${itemId} not found on ${this.document.name}.`,
+        //                     );
+        //                 }
+        //                 action.sheet.render(true);
+        //             });
 
-            this.form
-                .querySelector(".action-delete")
-                ?.addEventListener("click", (ev) => {
-                    const li = ev.currentTarget.closest(".action-item");
-                    const itemId = li.dataset.itemId;
-                    const action = this.document.system.actions.get(itemId);
-                    if (!action) {
-                        throw new Error(
-                            `Action ${itemId} not found on ${this.document.name}.`,
-                        );
-                    }
-                    return Utility.deleteAction(ev, action);
-                });
+        //         this.form
+        //             .querySelector(".action-delete")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const li = ev.currentTarget.closest(".action-item");
+        //                 const itemId = li.dataset.itemId;
+        //                 const action = this.document.system.actions.get(itemId);
+        //                 if (!action) {
+        //                     throw new Error(
+        //                         `Action ${itemId} not found on ${this.document.name}.`,
+        //                     );
+        //                 }
+        //                 return Utility.deleteAction(ev, action);
+        //             });
 
-            this.form
-                .querySelector(".default-action")
-                ?.addEventListener("click", (ev) => {
-                    const li = ev.currentTarget.closest(".item");
-                    const itemId = li.dataset.itemId;
-                    let item;
-                    if (this.document instanceof SohlActor) {
-                        item = this.actor.getItem(itemId);
-                    } else {
-                        item = this.item.system.items.get(itemId);
-                    }
-                    if (item) {
-                        const defaultAction = item.system.getDefaultAction(li);
-                        if (defaultAction?.callback instanceof Function) {
-                            defaultAction.callback();
-                        } else {
-                            ui.notifications.warn(
-                                `${item.label} has no available default action`,
-                            );
-                        }
-                    }
-                });
+        //         this.form
+        //             .querySelector(".default-action")
+        //             ?.addEventListener("click", (ev) => {
+        //                 const li = ev.currentTarget.closest(".item");
+        //                 const itemId = li.dataset.itemId;
+        //                 let item;
+        //                 if (this.document instanceof SohlActor) {
+        //                     item = this.actor.getItem(itemId);
+        //                 } else {
+        //                     item = this.item.system.items.get(itemId);
+        //                 }
+        //                 if (item) {
+        //                     const defaultAction = item.system.getDefaultAction(li);
+        //                     if (defaultAction?.callback instanceof Function) {
+        //                         defaultAction.callback();
+        //                     } else {
+        //                         ui.notifications.warn(
+        //                             `${item.label} has no available default action`,
+        //                         );
+        //                     }
+        //                 }
+        //             });
 
-            // Activate context menu
-            this._contextMenu(element);
-        }
+        //         // Activate context menu
+        //         this._contextMenu(element);
+        //     }
     }
 }

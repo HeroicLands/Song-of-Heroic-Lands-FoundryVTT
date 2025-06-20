@@ -11,15 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction, SohlActionData } from "@common/event";
-import { SohlPerformer } from "@common";
+import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common";
 
 export class SohlIntrinsicAction extends SohlAction {
     private intrinsicFunction: Function;
 
     constructor(
-        parent: SohlPerformer,
-        data: Partial<SohlActionData> = {},
+        parent: SohlLogic,
+        data: Partial<SohlAction.Data> = {},
         options: PlainObject = {},
     ) {
         super(parent, data, options);
@@ -34,24 +34,30 @@ export class SohlIntrinsicAction extends SohlAction {
         this.intrinsicFunction = fnTable[functionName];
     }
 
-    override execute(
+    override executeSync(
         scope: {
             element?: HTMLElement;
-            async?: boolean;
             [key: string]: any;
-        } = { async: true },
-    ): Promise<Optional<any>> | Optional<any> {
+        } = {},
+    ): Optional<unknown> {
+        scope.async = false;
+        scope.actionName = this.name;
+        scope.self = this;
+        const result = this.intrinsicFunction.call(this.parent, scope);
+        if (result instanceof Promise) return undefined;
+        return result;
+    }
+
+    override async execute(
+        scope: {
+            element?: HTMLElement;
+            [key: string]: any;
+        } = {},
+    ): Promise<Optional<unknown>> {
+        scope.async = true;
         scope.actionName = this.name;
         scope.self = this;
 
-        let result: any = this.intrinsicFunction.call(this.parent, scope);
-        if (scope.async) {
-            // Result should always be a Promise
-            return result instanceof Promise ? result : Promise.resolve(result);
-        } else {
-            // If result is a Promise, return undefined (since a synchronous function
-            // can't do anything with a Promise), otherwise return the result directly
-            return result instanceof Promise ? undefined : result;
-        }
+        return Promise.resolve(this.intrinsicFunction.call(this.parent, scope));
     }
 }

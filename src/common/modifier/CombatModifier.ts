@@ -13,4 +13,17 @@
 
 import { MasteryLevelModifier } from "@common/modifier";
 
-export class CombatModifier extends MasteryLevelModifier {}
+export class CombatModifier extends MasteryLevelModifier {
+    constructor(
+        data: Partial<CombatModifier.Data> = {},
+        options: Partial<CombatModifier.Options> = {},
+    ) {
+        super(data, options);
+    }
+}
+
+export namespace CombatModifier {
+    export interface Data extends MasteryLevelModifier.Data {}
+
+    export interface Options extends MasteryLevelModifier.Options {}
+}

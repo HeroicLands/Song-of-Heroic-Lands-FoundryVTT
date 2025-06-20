@@ -1,10 +1,3 @@
-import { SohlDataModel, SohlPerformer } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { GearMixin } from "./GearMixin";
-import { SohlAction } from "@common/event";
-import { defineType } from "@utils";
-import { SohlItem, SubTypeMixin } from ".";
-
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
  * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
@@ -17,16 +10,24 @@ import { SohlItem, SubTypeMixin } from ".";
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+import { SohlDataModel, SohlLogic } from "@common";
+import { RegisterClass } from "@utils/decorators";
+import { GearMixin } from "./GearMixin";
+import { SohlAction } from "@common/event";
+import { defineType } from "@utils";
+import { SohlItem, SubTypeMixin } from ".";
+
 const { NumberField, StringField } = (foundry.data as any).fields;
 const kConcoctionGear = Symbol("ConcoctionGear");
-const kDataModel = Symbol("ConcoctionGear.DataModel");
+const kData = Symbol("ConcoctionGear.Data");
 
 @RegisterClass(
-    new SohlPerformer.Element({
-        kind: "ConcoctionGearPerformer",
+    new SohlLogic.Element({
+        kind: "ConcoctionGear",
     }),
 )
-export class ConcoctionGear extends SohlPerformer<ConcoctionGear.Data> {
+export class ConcoctionGear extends SohlLogic implements ConcoctionGear.Logic {
+    declare readonly parent: ConcoctionGear.Data;
     readonly [kConcoctionGear] = true;
 
     static isA(obj: unknown): obj is ConcoctionGear {
@@ -36,13 +37,13 @@ export class ConcoctionGear extends SohlPerformer<ConcoctionGear.Data> {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context = {}): void {}
+    override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context = {}): void {}
+    override evaluate(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context = {}): void {}
+    override finalize(context: SohlAction.Context): void {}
 }
 
 export namespace ConcoctionGear {
@@ -70,7 +71,7 @@ export namespace ConcoctionGear {
         EXOTIC: "exotic",
         ELIXIR: "elixir",
     });
-    export type SubTypes = (typeof SUBTYPE)[keyof typeof SUBTYPE];
+    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
 
     export const {
         kind: POTENCY,
@@ -84,11 +85,36 @@ export namespace ConcoctionGear {
     });
     export type Potency = (typeof POTENCY)[keyof typeof POTENCY];
 
-    export interface Data<TPerformer extends ConcoctionGear = ConcoctionGear>
-        extends SohlItem.Data<TPerformer> {
+    export interface Logic extends SohlLogic.Logic {
+        readonly [kConcoctionGear]: true;
+        readonly parent: ConcoctionGear.Data;
+    }
+
+    export interface Data extends SubTypeMixin.Data<SubType> {
+        readonly [kData]: true;
+        get logic(): ConcoctionGear.Logic;
         potency: Potency;
         strength: number;
     }
+
+    export namespace Data {
+        export function isA(
+            obj: unknown,
+            subType?: ConcoctionGear.SubType,
+        ): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
+        }
+    }
+
+    const DataModelShape = GearMixin.DataModel(
+        SohlItem.DataModel,
+    ) as unknown as Constructor<ConcoctionGear.Data> &
+        SohlDataModel.TypeDataModelStatics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -100,27 +126,30 @@ export namespace ConcoctionGear {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel<TPerformer extends ConcoctionGear = ConcoctionGear>
-        extends GearMixin.DataModel(
-            SubTypeMixin.DataModel(SohlItem.DataModel, SubTypes),
-        )
-        implements Data<TPerformer>, SubTypeMixin.Data<TPerformer, SubTypes>
-    {
-        static readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
-        potency!: Potency;
-        strength!: number;
-        subType!: SubTypes;
-        readonly [kDataModel] = true;
+    export class DataModel extends DataModelShape {
+        static override readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
+        declare abbrev: string;
+        declare quantity: number;
+        declare weightBase: number;
+        declare valueBase: number;
+        declare isCarried: boolean;
+        declare isEquipped: boolean;
+        declare qualityBase: number;
+        declare durabilityBase: number;
+        declare subType: SubType;
+        declare potency: Potency;
+        declare strength: number;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         get subTypeChoices(): string[] {
             return (this.constructor as any)._metadata.subTypes;
         }
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 potency: new StringField({

@@ -13,96 +13,21 @@
 
 import { SohlBase } from "@common";
 import { defineType } from "@utils";
-
-export const {
-    kind: DELTAINFO,
-    values: deltaInfos,
-    isValue: isDeltaInfo,
-} = defineType<StrictObject<string>>({
-    DISABLED: "Dsbl",
-    NOMSLDEF: "NoMslDef",
-    NOMODIFIERNODIE: "NMND",
-    NOBLOCK: "NoBlk",
-    NOCOUNTERSTRIKE: "NoCX",
-    NOCHARGES: "NoChrg",
-    NOUSECHARGES: "NoUseChrg",
-    NOHEALRATE: "NoHeal",
-    NOTNUMNOSCORE: "NoScore",
-    NOTNUMNOML: "NoML",
-    ARMORPROT: "ArmProt",
-    DURABILITY: "Dur",
-    FATEBNS: "FateBns",
-    ITEMWT: "ItmWt",
-    MAGIC: "Magic",
-    MAGICMOD: "MagicMod",
-    MAXVALUE: "MaxVal",
-    MINVALUE: "MinVal",
-    MLATTRBOOST: "MlAtrBst",
-    MLDSBL: "MLDsbl",
-    NOFATE: "NoFateAvail",
-    NOTATTRNOML: "NotAttrNoML",
-    OFFHAND: "OffHnd",
-    OUTNUMBERED: "Outn",
-    PLAYER: "SitMod",
-    SSMOD: "SSMod",
-});
-export type DeltaInfo = (typeof DELTAINFO)[keyof typeof DELTAINFO];
-
-export const VALUEDELTA_ID: StrictObject<{ name: string; abbrev: string }> =
-    deltaInfos.reduce(
-        (acc, val: string) => {
-            const name = `SOHL.DELTAINFO.${val}`;
-            acc[val] = { name, abbrev: val };
-            return acc;
-        },
-        {} as StrictObject<{ name: string; abbrev: string }>,
-    );
-
-export const {
-    kind: VALUEDELTA_OPERATOR,
-    values: ValueDeltaOperators,
-    isValue: isValueDeltaOperator,
-} = defineType<StrictObject<number>>({
-    CUSTOM: 0,
-    MULTIPLY: 1,
-    ADD: 2,
-    DOWNGRADE: 3,
-    UPGRADE: 4,
-    OVERRIDE: 5,
-});
-export type ValueDeltaOperator =
-    (typeof VALUEDELTA_OPERATOR)[keyof typeof VALUEDELTA_OPERATOR];
-
-export type ValueModifierValue = string | number;
-export function isValueModifierValue(
-    value: unknown,
-): value is ValueModifierValue {
-    return (
-        typeof value === "number" ||
-        (typeof value === "string" && ['true", "false'].includes(value))
-    );
-}
-
-export interface ValueDeltaData {
-    name: string;
-    abbrev: string;
-    op: ValueDeltaOperator;
-    value: ValueModifierValue;
-}
-
-// Constructor type for ValueDelta and its subclasses
-export interface ValueDeltaConstructor<T extends ValueDelta = ValueDelta> {
-    new (data: ValueDeltaData): T;
-}
+const kValueDelta = Symbol("ValueDelta");
 
 /**
  * Represents a single change (delta) applied to a numeric value.
  */
 export class ValueDelta extends SohlBase {
-    name!: string;
-    abbrev!: string;
-    op!: number;
-    value!: string;
+    name: string;
+    abbrev: string;
+    op: number;
+    value: string;
+    readonly [kValueDelta] = true;
+
+    static isA(obj: unknown): obj is ValueDelta {
+        return typeof obj === "object" && obj !== null && kValueDelta in obj;
+    }
 
     get numValue(): number {
         if (this.value === "true") return 1;
@@ -111,20 +36,20 @@ export class ValueDelta extends SohlBase {
     }
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        const { name, abbrev, op, value } = data as ValueDeltaData;
+        const { name, abbrev, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
         if (!abbrev) {
             throw new Error("ValueDelta requires an abbrev");
         }
 
-        if (!name?.startsWith("SOHL.DELTAINFO."))
-            throw new Error("ValueDelta name must start with SOHL.DELTAINFO.");
+        if (!name?.startsWith("SOHL.INFO."))
+            throw new Error("ValueDelta name must start with SOHL.INFO.");
         super(data, options);
         this.name = name;
         this.abbrev = abbrev;
         this.op = op;
-        if (op === VALUEDELTA_OPERATOR.CUSTOM) {
+        if (op === ValueDelta.OPERATOR.CUSTOM) {
             if (typeof strValue !== "string") {
                 throw new TypeError(
                     "ValueDelta value must be a string for CUSTOM operator",
@@ -148,64 +73,118 @@ export class ValueDelta extends SohlBase {
      * @returns {number}
      */
     apply(base: number): number {
-        if (!isValueDeltaOperator(this.op)) {
-            throw new TypeError(
-                `ValueDelta operator is not a valid ValueDeltaOperator: ${this.op}`,
-            );
+        if (ValueDelta.isOperator(this.op)) {
+            if (["true", "false"].includes(this.value as string)) {
+                switch (this.op) {
+                    case ValueDelta.OPERATOR.ADD:
+                        return !!base || this.value === "true" ? 1 : 0;
+                    case ValueDelta.OPERATOR.MULTIPLY:
+                        return !!base && this.value === "true" ? 1 : 0;
+                    case ValueDelta.OPERATOR.CUSTOM:
+                    case ValueDelta.OPERATOR.UPGRADE:
+                    case ValueDelta.OPERATOR.OVERRIDE:
+                        return this.value === "true" ? 1 : 0;
+                    case ValueDelta.OPERATOR.DOWNGRADE:
+                        return this.value === "false" ? 0 : 1;
+                }
+            } else {
+                switch (this.op) {
+                    case ValueDelta.OPERATOR.ADD:
+                        return base + Number(this.value); // ADD
+                    case ValueDelta.OPERATOR.MULTIPLY:
+                        return base * Number(this.value); // MULTIPLY
+                    case ValueDelta.OPERATOR.CUSTOM:
+                    case ValueDelta.OPERATOR.OVERRIDE:
+                        return Number(this.value); // OVERRIDE
+                    case ValueDelta.OPERATOR.UPGRADE:
+                        return Math.min(base, Number(this.value)); // FLOOR
+                    case ValueDelta.OPERATOR.DOWNGRADE:
+                        return Math.max(base, Number(this.value)); // CEIL
+                }
+            }
         }
 
-        if (["true", "false"].includes(this.value as string)) {
-            switch (this.op) {
-                case VALUEDELTA_OPERATOR.ADD:
-                    return !!base || this.value === "true" ? 1 : 0;
-                case VALUEDELTA_OPERATOR.MULTIPLY:
-                    return !!base && this.value === "true" ? 1 : 0;
-                case VALUEDELTA_OPERATOR.CUSTOM:
-                case VALUEDELTA_OPERATOR.UPGRADE:
-                case VALUEDELTA_OPERATOR.OVERRIDE:
-                    return this.value === "true" ? 1 : 0;
-                case VALUEDELTA_OPERATOR.DOWNGRADE:
-                    return this.value === "false" ? 0 : 1;
-            }
-        } else {
-            switch (this.op) {
-                case VALUEDELTA_OPERATOR.ADD:
-                    return base + Number(this.value); // ADD
-                case VALUEDELTA_OPERATOR.MULTIPLY:
-                    return base * Number(this.value); // MULTIPLY
-                case VALUEDELTA_OPERATOR.CUSTOM:
-                case VALUEDELTA_OPERATOR.OVERRIDE:
-                    return Number(this.value); // OVERRIDE
-                case VALUEDELTA_OPERATOR.UPGRADE:
-                    return Math.min(base, Number(this.value)); // FLOOR
-                case VALUEDELTA_OPERATOR.DOWNGRADE:
-                    return Math.max(base, Number(this.value)); // CEIL
-            }
-        }
         throw new TypeError(
             `ValueDelta operator is not a valid ValueDeltaOperator: ${this.op}`,
         );
     }
 }
 
-/**
- * Type guard to check if a value is an instance of ValueDelta.
- * @param value - The value to check.
- * @returns {boolean} - True if the value is a ValueDelta instance, false otherwise.
- */
-export function isValueDelta(value: unknown): value is ValueDelta {
-    const valueDelta = value as unknown as ValueDelta;
-    return (
-        typeof value === "object" &&
-        value !== null &&
-        "name" in value &&
-        "abbrev" in value &&
-        "op" in value &&
-        "value" in value &&
-        typeof valueDelta.name === "string" &&
-        typeof valueDelta.abbrev === "string" &&
-        typeof valueDelta.op === "number" &&
-        (typeof valueDelta.value === "number" ||
-            typeof valueDelta.value === "string")
-    );
+export namespace ValueDelta {
+    export const {
+        kind: INFO,
+        values: infos,
+        isValue: isInfo,
+    } = defineType("ValueDelta.INFO", {
+        DISABLED: "Dsbl",
+        NOMSLDEF: "NoMslDef",
+        NOMODIFIERNODIE: "NMND",
+        NOBLOCK: "NoBlk",
+        NOCOUNTERSTRIKE: "NoCX",
+        NOCHARGES: "NoChrg",
+        NOUSECHARGES: "NoUseChrg",
+        NOHEALRATE: "NoHeal",
+        NOTNUMNOSCORE: "NoScore",
+        NOTNUMNOML: "NoML",
+        ARMORPROT: "ArmProt",
+        DURABILITY: "Dur",
+        FATEBNS: "FateBns",
+        ITEMWT: "ItmWt",
+        MAGIC: "Magic",
+        MAGICMOD: "MagicMod",
+        MAXVALUE: "MaxVal",
+        MINVALUE: "MinVal",
+        MLATTRBOOST: "MlAtrBst",
+        MLDSBL: "MLDsbl",
+        NOFATE: "NoFateAvail",
+        NOTATTRNOML: "NotAttrNoML",
+        OFFHAND: "OffHnd",
+        OUTNUMBERED: "Outn",
+        PLAYER: "SitMod",
+        SSMOD: "SSMod",
+    });
+    export type Info = (typeof INFO)[keyof typeof INFO];
+    export const ID: StrictObject<{ name: string; abbrev: string }> =
+        infos.reduce(
+            (acc, val: string) => {
+                const name = `SOHL.INFO.${val}`;
+                acc[val] = { name, abbrev: val };
+                return acc;
+            },
+            {} as StrictObject<{ name: string; abbrev: string }>,
+        );
+
+    export const {
+        kind: OPERATOR,
+        values: Operators,
+        isValue: isOperator,
+    } = defineType("ValueDelta.OPERATOR", {
+        CUSTOM: 0,
+        MULTIPLY: 1,
+        ADD: 2,
+        DOWNGRADE: 3,
+        UPGRADE: 4,
+        OVERRIDE: 5,
+    });
+    export type Operator = (typeof OPERATOR)[keyof typeof OPERATOR];
+
+    export type Value = string | number;
+    export function isValue(value: unknown): value is Value {
+        return (
+            typeof value === "number" ||
+            (typeof value === "string" && ["true", "false"].includes(value))
+        );
+    }
+
+    export interface Data {
+        name: string;
+        abbrev: string;
+        op: Operator;
+        value: Value;
+    }
+
+    // Constructor type for ValueDelta and its subclasses
+    export interface Constructor<T extends ValueDelta = ValueDelta> {
+        new (data: Data): T;
+    }
 }

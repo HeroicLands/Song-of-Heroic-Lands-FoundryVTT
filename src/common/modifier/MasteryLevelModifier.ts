@@ -12,33 +12,19 @@
  */
 
 import { DialogButtonCallback, inputDialog } from "@common/FoundryProxy";
-import { SohlPerformer, SohlSpeaker, CHATMESSAGE_ROLL_MODE } from "@common";
-import { VALUEDELTA_ID, ValueModifier } from "@common/modifier";
+import { SohlLogic, SohlSpeaker } from "@common";
+import { ValueDelta, ValueModifier } from "@common/modifier";
 import { SuccessTestResult } from "@common/result";
 import { FilePath, toFilePath } from "@utils";
 import { SohlArray } from "@utils/collection";
 
-export class TestLimitedDescription {
-    lastDigits!: SohlArray<number>;
-    label!: string | ((chatData: PlainObject) => string);
-    description!: string | ((chatData: PlainObject) => string);
-    success!: boolean;
-    result!: number | ((chatData: PlainObject) => number);
-}
-
-export class TestDetailedDescription extends TestLimitedDescription {
-    maxValue!: number;
-    limited!: SohlArray<TestLimitedDescription>;
-}
-
 export class MasteryLevelModifier extends ValueModifier {
-    declare parent: SohlPerformer;
     minTarget!: number;
     maxTarget!: number;
     successLevelMod!: number;
-    critFailureDigits!: SohlArray<number>;
+    critFailureDigits!: number[];
     critSuccessDigits!: number[];
-    testDescTable!: SohlArray<TestDetailedDescription>;
+    testDescTable!: MasteryLevelModifier.DetailedDescription[];
 
     get constrainedEffective(): number {
         return Math.min(
@@ -48,55 +34,59 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     constructor(
-        parent: SohlPerformer,
-        data: PlainObject = {},
-        options: PlainObject = {},
+        data: Partial<MasteryLevelModifier.Data> = {},
+        options: Partial<MasteryLevelModifier.Options> = {},
     ) {
-        if (!parent) {
-            throw new Error(
-                "MasteryLevelModifier must be constructed with a parent performer.",
-            );
-        }
-        options.parent = parent;
         super(data, options);
+        this.minTarget = data.minTarget ?? Number.MIN_SAFE_INTEGER;
+        this.maxTarget = data.maxTarget ?? Number.MAX_SAFE_INTEGER;
+        this.successLevelMod = data.successLevelMod ?? 0;
+        this.critFailureDigits = data.critFailureDigits ?? [];
+        this.critSuccessDigits = data.critSuccessDigits ?? [];
+        this.testDescTable = data.testDescTable ?? [];
     }
 
     /**
-     * Perform Success Test for this Item
+     * Performs a Mastery Level success test.
+     * @remarks
+     * If no `priorTestResult` is provided, this method will create a new
+     * test result based on the mastery level of the current item, displaying a
+     * dialog (unless inhibited) to collect modifiers to the test and then
+     * rolling dice to determine test outcome.
      *
-     * @param {object} options
-     * @returns `null` if the test was cancelled, `false` if the test failed,
-     *      or a `SuccessTestResult` object if the test succeeded.
+     * If a `priorTestResult` is provided, this method will display a dialog
+     * (unless inhibited) to collect modifiers but will then apply those
+     * modifiers to the prior test roll (without rolling again), generating
+     * a new test result based on the modifiers and the prior roll.
+     *
+     * The purpose of the `priorTestResult` is to allow modifiers to be changed
+     * without modifying the random dice roll itself, such as when fate is applied
+     * to an already rolled test.
+     *
+     * @param context - The context in which to perform the test.
+     * @returns A Promise resolving to `null` if the test was cancelled, `false`
+     * if there was an error during the test, or the result of the success test.
      */
-    async createSuccessTest({
-        speaker,
-        skipDialog = false,
-        type = `${this.parent.item?.type}-${this.parent.item?.name}-test`,
-        title = "SOHL.MasteryLevelModifier.successTest.title",
-        testResult,
-    }: {
-        speaker?: SohlSpeaker;
-        skipDialog?: boolean;
-        type?: string;
-        title?: string;
-        testResult?: SuccessTestResult;
-    } = {}): Promise<SuccessTestResult | null | false> {
-        if (!speaker) {
-            speaker = new SohlSpeaker();
-        }
+    async successTest(
+        context: SuccessTestResult.Context,
+    ): Promise<SuccessTestResult | null | false> {
+        const testResult: SuccessTestResult =
+            sohl.game.CONFIG.SuccessTestResult(
+                context.priorTestResult ?? {
+                    chat: context.speaker,
+                    type: context.type,
+                    title: context.title,
+                    mlMod: this.clone(),
+                },
+                {
+                    parent: this.parent,
+                },
+            );
         if (!testResult) {
-            testResult = sohl.game.CONFIG.SuccessTestResult(this.parent, {
-                chat: speaker,
-                type,
-                title,
-                mlMod: this.clone(),
-            });
-            if (!testResult) {
-                throw new Error("Failed to create SuccessTestResult.");
-            }
+            throw new Error("Failed to create SuccessTestResult.");
         }
 
-        if (!skipDialog) {
+        if (!context.skipDialog) {
             // Render modal dialog
             let dlgTemplate: FilePath = toFilePath(
                 "systems/sohl/templates/dialog/standard-test-dialog.html",
@@ -108,14 +98,14 @@ export class MasteryLevelModifier extends ValueModifier {
                 title: sohl.i18n.format(
                     "SOHL.MasteryLevelModifier.successTest.dialogTitle",
                     {
-                        name: speaker._name,
-                        title: testResult.title,
+                        name: testResult.speaker.name,
+                        title: testResult.testType,
                     },
                 ),
                 mlMod: testResult.masteryLevelModifier,
                 situationalModifier: 0,
                 rollMode: testResult.rollMode,
-                rollModes: Object.entries(CHATMESSAGE_ROLL_MODE).map(
+                rollModes: Object.entries(SohlSpeaker.ROLL_MODE).map(
                     ([k, v]) => ({
                         group: "CHAT.RollDefault",
                         value: k,
@@ -142,7 +132,7 @@ export class MasteryLevelModifier extends ValueModifier {
                     const formData = fd.object;
                     if (formData.situationalModifier) {
                         testResult.masteryLevelModifier.add(
-                            VALUEDELTA_ID.PLAYER,
+                            ValueDelta.ID.PLAYER,
                             formData.situationalModifier,
                         );
                     }
@@ -159,8 +149,8 @@ export class MasteryLevelModifier extends ValueModifier {
 
         let allowed: boolean = await testResult.evaluate();
 
-        if (allowed && speaker) {
-            await testResult.toChat({ testResult });
+        if (allowed && context.speaker) {
+            await testResult.toChat(context.speaker);
         }
         return allowed ? testResult : false;
     }
@@ -168,23 +158,20 @@ export class MasteryLevelModifier extends ValueModifier {
     static _handleDetailedDescription(
         chatData: PlainObject,
         target: number,
-        testDescTable: TestDetailedDescription[],
+        testDescTable: MasteryLevelModifier.DetailedDescription[],
     ): number | undefined {
         let result: Optional<number | ((chatData: PlainObject) => number)>;
         testDescTable.sort((a, b) => a.maxValue - b.maxValue);
-        const testDesc: Optional<TestDetailedDescription> = testDescTable.find(
-            (entry) => entry.maxValue >= target,
-        );
+        const testDesc: Optional<MasteryLevelModifier.DetailedDescription> =
+            testDescTable.find((entry) => entry.maxValue >= target);
         if (testDesc) {
             // If the test description has a limitation based on
             // the last digit, find the one that applies.
             if (testDesc.limited?.length) {
-                const limitedDesc: Optional<TestLimitedDescription> =
+                const limitedDesc: Optional<MasteryLevelModifier.LimitedDescription> =
                     testDesc.limited
                         .values()
-                        .find((d) =>
-                            d.lastDigits.values().includes(chatData.lastDigit),
-                        );
+                        .find((d) => d.lastDigits.includes(chatData.lastDigit));
                 if (limitedDesc) {
                     const label: string =
                         limitedDesc.label instanceof Function ?
@@ -218,5 +205,31 @@ export class MasteryLevelModifier extends ValueModifier {
         if (typeof result === "function") result = result(chatData);
 
         return result;
+    }
+}
+
+export namespace MasteryLevelModifier {
+    export interface Data extends ValueModifier.Data {
+        minTarget: number;
+        maxTarget: number;
+        successLevelMod: number;
+        critFailureDigits: number[];
+        critSuccessDigits: number[];
+        testDescTable: DetailedDescription[];
+    }
+
+    export interface Options extends ValueModifier.Options {}
+
+    export interface LimitedDescription {
+        lastDigits: number[];
+        label: string | ((chatData: PlainObject) => string);
+        description: string | ((chatData: PlainObject) => string);
+        success: boolean;
+        result: number | ((chatData: PlainObject) => number);
+    }
+
+    export interface DetailedDescription extends LimitedDescription {
+        maxValue: number;
+        limited: SohlArray<LimitedDescription>;
     }
 }

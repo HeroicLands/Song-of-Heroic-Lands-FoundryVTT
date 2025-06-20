@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export * from "./ActionContext";
+export * from "./SohlAction.Context";
 export * from "./helpers";
 export * from "./Itr";
 export * from "./MersenneTwister";
