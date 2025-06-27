@@ -11,8 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlMetadata } from "@utils/SohlClassRegistry";
-
 /**
  * @summary Marks the version where the schema was last modified.
  *
@@ -21,9 +19,11 @@ import { SohlMetadata } from "@utils/SohlClassRegistry";
  * subsequently saved to a registry.
  */
 
-export function RegisterClass<T extends SohlMetadata = SohlMetadata>(
-    metadata: T,
-): ClassDecorator {
+import { SohlClassRegistry } from "@utils/SohlClassRegistry";
+
+export function RegisterClass<
+    T extends SohlClassRegistry.Metadata = SohlClassRegistry.Metadata,
+>(metadata: T): ClassDecorator {
     return function <TFunction extends Function>(target: TFunction): void {
         metadata.ctor = target as unknown as AnyConstructor;
         Object.defineProperty(target, "_metadata", {

@@ -15,6 +15,8 @@ import { SohlAction } from "@common/event";
 import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
 import { defineType } from "@utils";
 import { RegisterClass } from "@utils/decorators";
+const kTrait = Symbol("Trait");
+const kData = Symbol("Trait.Data");
 const {
     ArrayField,
     ObjectField,
@@ -29,11 +31,17 @@ const {
         kind: "Trait",
     }),
 )
-export class Trait<TData extends Trait.Data = Trait.Data>
+export class Trait
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
-    implements Trait.Logic<TData>
+    implements Trait.Logic
 {
-    declare readonly parent: TData;
+    declare readonly parent: Trait.Data;
+    readonly [kTrait] = true;
+
+    static isA(obj: unknown): obj is Trait {
+        return typeof obj === "object" && obj !== null && kTrait in obj;
+    }
+
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {
         super.initialize(context);
@@ -89,12 +97,15 @@ export namespace Trait {
     });
     export type TraitIntensity = (typeof INTENSITY)[keyof typeof INTENSITY];
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
-
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Trait.Data;
+        readonly [kTrait]: true;
+    }
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<SubType> {
+        get logic(): Trait.Logic;
+        readonly [kData]: true;
         textValue: string;
         max: number | null;
         isNumeric: boolean;
@@ -106,6 +117,21 @@ export namespace Trait {
         choices: StrictObject<string>;
     }
 
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
+    const DataModelShape = SubTypeMixin.DataModel<
+        typeof SohlItem.DataModel,
+        SubType,
+        typeof SubTypes
+    >(
+        MasteryLevelMixin.DataModel(SohlItem.DataModel),
+        SubTypes,
+    ) as unknown as Constructor<Trait.Data> & SohlItem.DataModel.Statics;
+
     @RegisterClass(
         new SohlDataModel.Element({
             kind: Kind,
@@ -116,14 +142,7 @@ export namespace Trait {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel
-        extends SubTypeMixin.DataModel<
-            typeof SohlItem.DataModel<Trait>,
-            SubType,
-            typeof SubTypes
-        >(MasteryLevelMixin.DataModel(SohlItem.DataModel<Trait>), SubTypes)
-        implements Data
-    {
+    export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["TRAIT"];
         declare abbrev: string;
         declare skillBaseFormula: string;

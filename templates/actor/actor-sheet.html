@@ -11,7 +11,7 @@
 {{else}}
 <form class="{{cssClass}} sheet flexcol" autocomplete="off">
     {{!-- Sheet Header --}}
-    {{#if (or isAnimateEntity)}}
+    {{#if (or isEntity)}}
         <header class="sheet-header sheet-header-entity">
             <div class="flexrow">
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
@@ -125,7 +125,7 @@
         {{/if}}
 
         {{#unless limited}}
-            {{#if isAnimateEntity}}
+            {{#if isEntity}}
                 {{!-- Profile Tab --}}
                 {{#unless printable}}
                 <div class="tab profile" data-group="primary" data-tab="profile">
@@ -1270,7 +1270,7 @@
             {{/each}}
             </div>
 
-            {{#if isAnimateEntity}}
+            {{#if isEntity}}
                 {{!-- Actions Tab --}}
                 {{#unless printable}}
                 <div class="tab actions items" data-group="primary" data-tab="actions">

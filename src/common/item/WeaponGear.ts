@@ -80,10 +80,15 @@ export namespace WeaponGear {
         lengthBase: number;
     }
 
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
-    ) as unknown as Constructor<WeaponGear.Data> &
-        SohlDataModel.TypeDataModelStatics;
+    ) as unknown as Constructor<WeaponGear.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({

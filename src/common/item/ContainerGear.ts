@@ -72,7 +72,7 @@ export namespace ContainerGear {
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<ContainerGear.Data> &
-        SohlDataModel.TypeDataModelStatics;
+        SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -83,7 +83,7 @@ export namespace ContainerGear {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel extends DataModelShape {
+    export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
         maxCapacityBase!: number;
         readonly [kData] = true;

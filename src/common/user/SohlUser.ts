@@ -8,6 +8,7 @@ export class SohlUser
     )
     implements InternalClientDocument
 {
+    declare name: string;
     declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
     declare readonly collection: Collection<this, Collection.Methods<this>>;
     declare readonly compendium: CompendiumCollection<any> | undefined;

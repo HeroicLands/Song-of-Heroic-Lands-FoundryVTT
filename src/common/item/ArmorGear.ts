@@ -91,7 +91,7 @@ export namespace ArmorGear {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel extends DataModelShape {
+    export class DataModel extends DataModelShape implements ArmorGear.Data {
         static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
         declare material: string;
         declare locations: { flexible: string[]; rigid: string[] };

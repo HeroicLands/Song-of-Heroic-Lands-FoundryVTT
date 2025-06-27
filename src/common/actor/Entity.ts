@@ -25,14 +25,12 @@ const kEntity = Symbol("Entity");
 const kDataModel = Symbol("Entity.DataModel");
 
 /**
- * The business logic class for the AnimateEntity actor.
+ * The business logic class for the Entity actor.
  */
-@RegisterClass(new SohlClassRegistry.Element(AnimateEntity.Kind))
-export class AnimateEntity<
-        TData extends AnimateEntity.Data = AnimateEntity.Data,
-    >
+@RegisterClass(new SohlClassRegistry.Element(Entity.Kind))
+export class Entity<TData extends Entity.Data = Entity.Data>
     extends SohlLogic
-    implements AnimateEntity.Logic<TData>
+    implements Entity.Logic<TData>
 {
     declare readonly parent: TData;
     readonly [kEntity] = true;
@@ -105,7 +103,7 @@ export class AnimateEntity<
     //     );
     // }
 
-    static isA(obj: unknown): obj is AnimateEntity {
+    static isA(obj: unknown): obj is Entity {
         return typeof obj === "object" && obj !== null && kEntity in obj;
     }
 
@@ -499,26 +497,26 @@ export class AnimateEntity<
     override finalize(context: SohlAction.Context): void {}
 }
 
-export namespace AnimateEntity {
+export namespace Entity {
     /**
-     * The type moniker for the AnimateEntity actor.
+     * The type moniker for the Entity actor.
      */
     export const Kind = "object";
 
     /**
-     * The paths to the document sheet handlebars partials for the AnimateEntity actor.
+     * The paths to the document sheet handlebars partials for the Entity actor.
      */
     export const SheetPartials = [
         "systems/sohl/templates/actor/animateentity-sheet.hbs",
     ];
 
     /**
-     * The FontAwesome icon class for the AnimateEntity actor.
+     * The FontAwesome icon class for the Entity actor.
      */
     export const IconCssClass = "fas fa-person";
 
     /**
-     * The image path for the AnimateEntity actor.
+     * The image path for the Entity actor.
      */
     export const Image = "icons/svg/item-bag.svg";
 
@@ -596,12 +594,12 @@ export namespace AnimateEntity {
     export interface Data extends SohlActor.Data {}
 
     /**
-     * The Foundry VTT data model for the AnimateEntity actor.
+     * The Foundry VTT data model for the Entity actor.
      */
     @RegisterClass(
         new SohlDataModel.Element({
             kind: Kind,
-            logicClass: AnimateEntity,
+            logicClass: Entity,
             iconCssClass: IconCssClass,
             img: Image,
             schemaVersion: "0.6.0",

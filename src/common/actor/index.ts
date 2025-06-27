@@ -12,7 +12,5 @@
  */
 
 export * from "./SohlActor";
-export * from "./SohlActorSheet";
-export * from "./SohlActorDataModel";
-export * from "./AnimateEntity";
-export * from "./InanimateObject";
+export * from "./Entity";
+export * from "./Assembly";

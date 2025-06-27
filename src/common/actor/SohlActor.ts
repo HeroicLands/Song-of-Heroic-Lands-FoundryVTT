@@ -35,6 +35,8 @@ export class SohlActor<
     )
     implements InternalClientDocument
 {
+    declare readonly name: string;
+    declare readonly flags: PlainObject;
     declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
     declare readonly collection: Collection<this, Collection.Methods<this>>;
     declare readonly compendium: CompendiumCollection<any> | undefined;

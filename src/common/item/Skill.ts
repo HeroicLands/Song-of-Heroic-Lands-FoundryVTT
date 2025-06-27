@@ -16,19 +16,19 @@ import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
 import { defineType } from "@utils";
 import { RegisterClass } from "@utils/decorators";
 const kSkill = Symbol("Skill");
-const kDataModel = Symbol("Skill.DataModel");
+const kData = Symbol("Skill.Data");
 const { StringField } = (foundry.data as any).fields;
 
 @RegisterClass(
     new SohlLogic.Element({
-        kind: "SkillLogic",
+        kind: "Skill",
     }),
 )
-export class Skill<TData extends Skill.Data = Skill.Data>
+export class Skill
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
-    implements Skill.Logic<TData>
+    implements Skill.Logic
 {
-    declare readonly parent: TData;
+    declare readonly parent: Skill.Data;
     readonly [kSkill] = true;
 
     static isA(obj: unknown): obj is Skill {
@@ -100,16 +100,35 @@ export namespace Skill {
     });
     export type CombatType = (typeof COMBAT)[keyof typeof COMBAT];
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Skill.Data;
+        readonly [kSkill]: true;
+    }
 
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<SubType> {
+        get logic(): Skill.Logic;
+        readonly [kData]: true;
         weaponGroup: string;
         baseSkill: string;
         domain: string;
     }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
+    const DataModelShape = SubTypeMixin.DataModel<
+        typeof SohlItem.DataModel,
+        SubType,
+        typeof SubTypes
+    >(
+        MasteryLevelMixin.DataModel(SohlItem.DataModel),
+        SubTypes,
+    ) as unknown as Constructor<Skill.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -121,14 +140,7 @@ export namespace Skill {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel
-        extends SubTypeMixin.DataModel<
-            typeof SohlItem.DataModel<Skill>,
-            SubType,
-            typeof SubTypes
-        >(MasteryLevelMixin.DataModel(SohlItem.DataModel<Skill>), SubTypes)
-        implements Data
-    {
+    export class DataModel extends DataModelShape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Skill"];
         declare abbrev: string;
         declare skillBaseFormula: string;
@@ -138,10 +150,10 @@ export namespace Skill {
         declare baseSkill: string;
         declare domain: string;
         declare subType: SubType;
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

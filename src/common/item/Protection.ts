@@ -103,8 +103,7 @@ export namespace Protection {
     >(
         SohlItem.DataModel,
         SohlSystem.Variants,
-    ) as unknown as Constructor<Protection.Data> &
-        SohlDataModel.TypeDataModelStatics;
+    ) as unknown as Constructor<Protection.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({

@@ -652,6 +652,8 @@ export namespace SuccessTestResult {
     export class Context extends SohlAction.Context {
         priorTestResult?: SuccessTestResult;
         targetToken?: SohlTokenDocument;
+        rollMode: SohlSpeaker.RollMode;
+        situationalModifier: number;
         readonly [kContext] = true;
 
         isA(obj: unknown): obj is Context {
@@ -669,6 +671,8 @@ export namespace SuccessTestResult {
                 const targetToken = fromUuidSync(data.targetTokenUuid);
                 if (targetToken) this.targetToken = targetToken;
             }
+            this.rollMode = data.rollMode ?? SohlSpeaker.ROLL_MODE.SYSTEM;
+            this.situationalModifier = data.situationalModifier ?? 0;
         }
 
         /** @inheritdoc */
@@ -677,6 +681,8 @@ export namespace SuccessTestResult {
                 ...super.toJSON(),
                 priorTestResult: this.priorTestResult?.toJSON() || null,
                 targetTokenUuid: this.target?.uuid || null,
+                rollMode: this.rollMode,
+                situationalModifier: this.situationalModifier,
             };
         }
     }
@@ -687,6 +693,8 @@ export namespace SuccessTestResult {
                 SuccessTestResult.Data | SuccessTestResult
             >;
             targetTokenUuid: Nullable<string>;
+            rollMode: SohlSpeaker.RollMode;
+            situationalModifier: number;
         }
     }
 }

@@ -16,18 +16,16 @@ import { RegisterClass } from "@utils/decorators";
 import { SohlItem } from "@common/item";
 import { SohlAction } from "@common/event";
 
-const { BooleanField, StringField } = (foundry.data as any).fields;
+const { BooleanField, StringField, DocumentIdField } = (foundry.data as any)
+    .fields;
 
 @RegisterClass(
     new SohlLogic.Element({
         kind: "BodyPartLogic",
     }),
 )
-export class BodyPart<TData extends BodyPart.Data = BodyPart.Data>
-    extends SohlLogic<BodyPart.Data>
-    implements BodyPart.Logic<TData>
-{
-    declare readonly parent: TData;
+export class BodyPart extends SohlLogic implements BodyPart.Logic {
+    declare readonly parent: BodyPart.Data;
 
     get bodyLocations(): SohlItem[] {
         return this.actor?.itemTypes.bodylocation || [];
@@ -67,8 +65,7 @@ export namespace BodyPart {
      */
     export const Image = "systems/sohl/assets/icons/ribcage.svg";
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {}
 
     export interface Data extends SohlItem.Data {
         abbrev: string;
@@ -86,10 +83,7 @@ export namespace BodyPart {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SohlItem.DataModel<BodyPart>
-        implements Data
-    {
+    export class DataModel extends SohlItem.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
         declare readonly parent: SohlItem<BodyPart>;
         abbrev!: string;
@@ -100,7 +94,7 @@ export namespace BodyPart {
             return {
                 abbrev: new StringField(),
                 canHoldItem: new BooleanField({ initial: false }),
-                heldItemId: new StringField({ nullable: true }),
+                heldItemId: new DocumentIdField({ nullable: true }),
             };
         }
     }

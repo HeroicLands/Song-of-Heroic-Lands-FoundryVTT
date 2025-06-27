@@ -10,11 +10,10 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common";
-import { SohlDataModel } from "@common/SohlDataModel";
+import { SohlLogic, SohlDataModel } from "@common";
 import { defineType } from "@utils";
 import { RegisterClass } from "@utils/decorators";
-import { Philosophy, Skill, SohlItem, SubTypeMixin } from ".";
+import { Philosophy, Skill, SohlItem, SubTypeMixin } from "@common/item";
 import { SohlAction } from "@common/event";
 import { ValueModifier } from "@common/modifier";
 const kMystery = Symbol("Mystery");
@@ -55,7 +54,7 @@ export class Mystery extends SohlLogic implements Mystery.Logic {
             this.actor?.items.filter(
                 (it) =>
                     Skill.Data.isA(it.system) &&
-                    it.name &&
+                    !!it.name &&
                     this.parent.skills.includes(it.name),
             ) || [];
         this.level = sohl.game.CONFIG.ValueModifier(
@@ -189,8 +188,7 @@ export namespace Mystery {
     >(
         SohlItem.DataModel,
         Mystery.SubTypes,
-    ) as unknown as Constructor<Mystery.Data> &
-        SohlDataModel.TypeDataModelStatics;
+    ) as unknown as Constructor<Mystery.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -203,7 +201,7 @@ export namespace Mystery {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel extends DataModelShape {
+    export class DataModel extends DataModelShape implements Mystery.Data {
         readonly [kData] = true;
         static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
         declare subType: SubType;

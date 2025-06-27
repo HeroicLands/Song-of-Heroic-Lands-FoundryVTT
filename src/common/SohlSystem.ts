@@ -26,7 +26,7 @@ import {
     OpposedTestResult,
     SuccessTestResult,
 } from "@common/result";
-import { AnimateEntity, InanimateObject, SohlActor } from "@common/actor";
+import { Entity, Assembly, SohlActor } from "@common/actor";
 import {
     Affiliation,
     Affliction,
@@ -60,8 +60,8 @@ import { defineType, FilePath, toFilePath } from "@utils";
 import { SohlDataModel } from "@common";
 
 const ActorDataModels: Record<string, SohlDataModel.Metadata> = {
-    [AnimateEntity.DataModel.kind]: AnimateEntity.DataModel._metadata,
-    [InanimateObject.DataModel.kind]: InanimateObject.DataModel._metadata,
+    [Entity.DataModel.kind]: Entity.DataModel._metadata,
+    [Assembly.DataModel.kind]: Assembly.DataModel._metadata,
 };
 
 const ItemDataModels: Record<string, SohlDataModel.Metadata> = {
@@ -129,11 +129,15 @@ export abstract class SohlSystem {
                     types: Object.keys(ActorDataModels),
                 },
             ],
-            DataModels: Object.fromEntries(
-                Object.keys(ActorDataModels).map((i) => [
-                    i,
-                    ActorDataModels[i].ctor,
-                ]),
+            DataModels: Object.keys(ActorDataModels).reduce(
+                (acc: PlainObject, i) => {
+                    if (ActorDataModels[i].ctor)
+                        acc[i] = ActorDataModels[i].ctor as Constructor<
+                            SohlDataModel<any>
+                        >;
+                    return acc;
+                },
+                {},
             ),
             typeLabels: Object.fromEntries(
                 Object.keys(ActorDataModels).map((i) => [
@@ -141,14 +145,16 @@ export abstract class SohlSystem {
                     `TYPES.Actor.${i}`,
                 ]),
             ),
-            typeIcons: Object.fromEntries(
-                Object.keys(ActorDataModels).map((i) => [
-                    i,
-                    ActorDataModels[i].iconCssClass,
-                ]),
+            typeIcons: Object.keys(ActorDataModels).reduce(
+                (acc: PlainObject, i) => {
+                    if (ActorDataModels[i].iconCssClass)
+                        acc[i] = ActorDataModels[i].iconCssClass as FilePath;
+                    return acc;
+                },
+                {},
             ),
             types: Object.keys(ActorDataModels),
-            defaultType: AnimateEntity.DataModel.kind,
+            defaultType: Entity.DataModel.kind,
             compendiums: ["sohl.leg-characters", "sohl.leg-creatures"],
             macros: {},
         },
@@ -166,20 +172,26 @@ export abstract class SohlSystem {
                     types: [ContainerGear.DataModel.kind],
                 },
             ],
-            DataModels: Object.fromEntries(
-                Object.keys(ItemDataModels).map((i) => [
-                    i,
-                    ItemDataModels[i].ctor,
-                ]),
+            DataModels: Object.keys(ItemDataModels).reduce(
+                (acc: PlainObject, i) => {
+                    if (ItemDataModels[i].ctor)
+                        acc[i] = ItemDataModels[i].ctor as Constructor<
+                            SohlDataModel<any>
+                        >;
+                    return acc;
+                },
+                {},
             ),
             typeLabels: Object.fromEntries(
                 Object.keys(ItemDataModels).map((i) => [i, `TYPES.Item.${i}`]),
             ),
-            typeIcons: Object.fromEntries(
-                Object.keys(ItemDataModels).map((i) => [
-                    i,
-                    ItemDataModels[i].iconCssClass,
-                ]),
+            typeIcons: Object.keys(ItemDataModels).reduce(
+                (acc: PlainObject, i) => {
+                    if (ItemDataModels[i].iconCssClass)
+                        acc[i] = ItemDataModels[i].iconCssClass as FilePath;
+                    return acc;
+                },
+                {},
             ),
             types: Object.keys(ItemDataModels),
             compendiums: [
@@ -191,6 +203,7 @@ export abstract class SohlSystem {
         },
         ActiveEffect: {
             documentClass: SohlActiveEffect,
+            documentSheets: [],
             DataModels: {
                 [SohlActiveEffect.DataModel.kind]: SohlActiveEffect.DataModel,
             },
@@ -207,21 +220,26 @@ export abstract class SohlSystem {
         },
         Combatant: {
             documentClass: SohlCombatant,
+            documentSheets: [],
+            DataModels: {},
+            typeLabels: {},
+            typeIcons: {},
+            types: [],
         },
         // Macro: {
         //     documentClass: SohlMacro,
         //     documentSheet: SohlMacroConfig,
         // },
-        ValueModifier,
-        CombatModifier,
-        ImpactModifier,
-        MasteryLevelModifier,
-        SuccessTestResult,
-        OpposedTestResult,
-        ImpactResult,
-        CombatResult,
-        AttackResult,
-        DefendResult,
+        ValueModifier: ValueModifier,
+        CombatModifier: CombatModifier,
+        ImpactModifier: ImpactModifier,
+        MasteryLevelModifier: MasteryLevelModifier,
+        SuccessTestResult: SuccessTestResult,
+        OpposedTestResult: OpposedTestResult,
+        ImpactResult: ImpactResult,
+        CombatResult: CombatResult,
+        AttackResult: AttackResult,
+        DefendResult: DefendResult,
     };
 
     static readonly CONST: PlainObject = {} as const;
@@ -320,8 +338,8 @@ export abstract class SohlSystem {
             string,
             SohlMap<string, SohlDataModel.Metadata>
         >();
-        registerDataModel("Actor", AnimateEntity.DataModel._metadata);
-        registerDataModel("Actor", InanimateObject.DataModel._metadata);
+        registerDataModel("Actor", Entity.DataModel._metadata);
+        registerDataModel("Actor", Assembly.DataModel._metadata);
         registerDataModel("Item", Affiliation.DataModel._metadata);
         registerDataModel("Item", Affliction.DataModel._metadata);
         registerDataModel("Item", ArmorGear.DataModel._metadata);
@@ -398,13 +416,14 @@ export namespace SohlSystem {
             cls: any;
             types: string[];
         }>;
-        DataModels: StrictObject<SohlDataModel<any>>;
+        DataModels: StrictObject<Constructor<SohlDataModel<any>>>;
         typeLabels: StrictObject<string>;
-        typeIcons: StrictObject<FilePath>;
+        typeIcons: StrictObject<string>;
         types: string[];
         defaultType?: string;
         compendiums?: string[];
         macros?: StrictObject<FilePath>;
+        legacyTransferral?: boolean;
     }
 
     export interface Config {
@@ -415,46 +434,16 @@ export namespace SohlSystem {
         Item: DocumentConfig;
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
-        ValueModifier(
-            data: Partial<ValueModifier.Data>,
-            options?: Partial<ValueModifier.Options>,
-        ): ValueModifier;
-        CombatModifier(
-            data: Partial<CombatModifier.Data>,
-            options?: Partial<CombatModifier.Options>,
-        ): CombatModifier;
-        ImpactModifier(
-            data: Partial<ImpactModifier.Data>,
-            options?: Partial<ImpactModifier.Options>,
-        ): ImpactModifier;
-        MasteryLevelModifier(
-            data: Partial<MasteryLevelModifier.Data>,
-            options?: Partial<MasteryLevelModifier.Options>,
-        ): MasteryLevelModifier;
-        SuccessTestResult(
-            data: Partial<SuccessTestResult.Data>,
-            options?: Partial<SuccessTestResult.Options>,
-        ): SuccessTestResult;
-        OpposedTestResult(
-            data: Partial<OpposedTestResult.Data>,
-            options?: Partial<OpposedTestResult.Options>,
-        ): OpposedTestResult;
-        ImpactResult(
-            data: Partial<ImpactResult.Data>,
-            options?: Partial<ImpactResult.Options>,
-        ): ImpactResult;
-        CombatResult(
-            data: Partial<CombatResult.Data>,
-            options?: Partial<CombatResult.Options>,
-        ): CombatResult;
-        AttackResult(
-            data: Partial<AttackResult.Data>,
-            options?: Partial<AttackResult.Options>,
-        ): AttackResult;
-        DefendResult(
-            data: Partial<DefendResult.Data>,
-            options?: Partial<DefendResult.Options>,
-        ): DefendResult;
+        ValueModifier: Constructor<ValueModifier>;
+        CombatModifier: Constructor<CombatModifier>;
+        ImpactModifier: Constructor<ImpactModifier>;
+        MasteryLevelModifier: Constructor<MasteryLevelModifier>;
+        SuccessTestResult: Constructor<SuccessTestResult>;
+        OpposedTestResult: Constructor<OpposedTestResult>;
+        ImpactResult: Constructor<ImpactResult>;
+        CombatResult: Constructor<CombatResult>;
+        AttackResult: Constructor<AttackResult>;
+        DefendResult: Constructor<DefendResult>;
     }
 }
 

@@ -11,8 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { foundryHelpers } from "@utils";
-
 export const TemporalDirection = {
     PAST: "past",
     FUTURE: "future",
@@ -58,7 +56,7 @@ export class SohlLocalize {
      * @returns {string} The current language code.
      */
     get lang(): string {
-        return game.i18n.lang;
+        return fvtt.game.i18n?.lang || "en";
     }
 
     /**
@@ -92,8 +90,8 @@ export class SohlLocalize {
     ): Record<string, any>[] {
         objects.sort((a, b) => {
             return this.compare(
-                foundryHelpers.getProperty(a, key),
-                foundryHelpers.getProperty(b, key),
+                fvtt.utils.getProperty(a, key),
+                fvtt.utils.getProperty(b, key),
             );
         });
         return objects;
@@ -361,9 +359,12 @@ export class SohlLocalize {
      */
     localize(stringId: string, useFallback: boolean = false): string {
         if (!useFallback) {
-            return game.i18n.localize(stringId);
+            return fvtt.game.i18n?.localize(stringId) || "<missing>";
         } else {
-            const v = foundryHelpers.getProperty(game.i18n._fallback, stringId);
+            const v = fvtt.utils.getProperty(
+                (fvtt.game.i18n as any)?._fallback,
+                stringId,
+            );
             return typeof v === "string" ? v : stringId;
         }
     }

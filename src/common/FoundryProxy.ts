@@ -18,8 +18,6 @@ import {
     toHTMLWithTemplate,
     HTMLString,
 } from "@utils";
-import { SohlItem } from "@common/item";
-import { SohlActor } from "@common/actor";
 import { SohlTokenDocument } from "@common/token";
 /*
  * =====================================================

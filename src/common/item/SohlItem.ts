@@ -21,7 +21,7 @@ import {
 } from "@utils";
 import { InternalClientDocument, SohlDataModel, SohlLogic } from "@common";
 import { GearMixin } from "./GearMixin";
-const { ForeignDocumentField } = foundry.data.fields;
+const { StringField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
 const kDataModel = Symbol("SohlItem.DataModel");
@@ -36,6 +36,8 @@ export class SohlItem<
     )
     implements InternalClientDocument
 {
+    declare readonly name: string;
+    declare readonly flags: PlainObject;
     declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
     declare readonly collection: Collection<this, Collection.Methods<this>>;
     declare readonly compendium: CompendiumCollection<any> | undefined;
@@ -271,7 +273,7 @@ export namespace SohlItem {
         description: HTMLString;
         textReference: HTMLString;
         transfer: boolean;
-        nestedIn: DocumentId | null;
+        nestedInUuid: string | null;
     }
 
     export interface Logic extends SohlLogic.Logic {
@@ -291,7 +293,7 @@ export namespace SohlItem {
         declare description: HTMLString;
         declare textReference: HTMLString;
         declare transfer: boolean;
-        declare nestedIn: DocumentId | null;
+        declare nestedInUuid: string | null;
         static override LOCALIZATION_PREFIXES = ["SohlItem.DataModel"];
         readonly [kDataModel] = true;
 
@@ -316,8 +318,7 @@ export namespace SohlItem {
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
-                nestedIn: new ForeignDocumentField({
-                    types: ["Item"],
+                nestedInUuid: new StringField({
                     nullable: true,
                     initial: null,
                 }),
@@ -417,7 +418,7 @@ export namespace SohlItem {
         async _onDropItemCreate(
             data: PlainObject,
             event: DragEvent,
-        ): Promise<SohlItem[] | boolean> {
+        ): Promise<SohlItem[] | undefined | boolean> {
             if (!this.actor || !this.item.isOwner) return false;
             const itemList = data instanceof Array ? data : [data];
             const toCreate = [];
@@ -455,10 +456,10 @@ export namespace SohlItem {
                 }
             }
 
-            const result = await this.actor.createEmbeddedDocuments(
+            const result = (await this.actor.createEmbeddedDocuments(
                 "Item",
                 toCreate,
-            );
+            )) as SohlItem[] | undefined;
             return result || false;
         }
 
@@ -622,25 +623,27 @@ export namespace SohlItem {
         protected _onSortItem(
             event: DragEvent,
             item: SohlItem,
-        ): Promise<SohlItem[]> | undefined {
-            if (!this.actor || !this.actor.isOwner) return;
+        ): Promise<SohlItem[] | undefined> {
+            if (!this.actor || !this.actor.isOwner)
+                return Promise.resolve(undefined);
             const items = this.actor.items;
             const sourceId = item.id;
-            if (!sourceId) return;
+            if (!sourceId) return Promise.resolve(undefined);
             const source = items.get(sourceId);
-            if (!source) return;
+            if (!source) return Promise.resolve(undefined);
 
             // Find drop target item
             const targetElement = (event.target as HTMLElement)?.closest(
                 "[data-item-id]",
             ) as HTMLElement | null;
-            if (!targetElement) return;
+            if (!targetElement) return Promise.resolve(undefined);
 
             const targetId = targetElement.dataset.itemId;
-            if (!targetId || targetId === sourceId) return;
+            if (!targetId || targetId === sourceId)
+                return Promise.resolve(undefined);
 
             const target: SohlItem | undefined = items.get(targetId);
-            if (!target) return;
+            if (!target) return Promise.resolve(undefined);
 
             // Build ordered list of sibling items excluding the source item
             const siblings: SohlItem[] = Array.from(
@@ -668,7 +671,7 @@ export namespace SohlItem {
             return this.actor.updateEmbeddedDocuments(
                 "Item",
                 updateData,
-            ) as Promise<SohlItem[]>;
+            ) as Promise<SohlItem[] | undefined>;
         }
 
         // static get defaultOptions() {

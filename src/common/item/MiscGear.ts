@@ -69,8 +69,7 @@ export namespace MiscGear {
 
     export const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
-    ) as unknown as Constructor<MiscGear.Data> &
-        SohlDataModel.TypeDataModelStatics;
+    ) as unknown as Constructor<MiscGear.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -81,7 +80,7 @@ export namespace MiscGear {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel extends DataModelShape {
+    export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["MISCGEAR"];
         readonly [kData] = true;
 

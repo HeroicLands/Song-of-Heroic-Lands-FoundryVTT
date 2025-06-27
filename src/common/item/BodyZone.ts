@@ -24,11 +24,8 @@ const kDataModel = Symbol("BodyZone.DataModel");
         kind: "BodyZone",
     }),
 )
-export class BodyZone<TData extends BodyZone.Data = BodyZone.Data>
-    extends SohlLogic<BodyZone.Data>
-    implements BodyZone.Logic<TData>
-{
-    declare readonly parent: TData;
+export class BodyZone extends SohlLogic implements BodyZone.Logic {
+    declare readonly parent: BodyZone.Data;
     readonly [kBodyZone] = true;
 
     static isA(obj: unknown): obj is BodyZone {
@@ -64,8 +61,7 @@ export namespace BodyZone {
      */
     export const Image = "systems/sohl/assets/icons/person.svg";
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {}
 
     export interface Data extends SohlItem.Data {
         abbrev: string;
@@ -80,10 +76,7 @@ export namespace BodyZone {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SohlItem.DataModel<BodyZone>
-        implements Data
-    {
+    export class DataModel extends SohlItem.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
         declare readonly parent: SohlItem<BodyZone>;
         abbrev!: string;

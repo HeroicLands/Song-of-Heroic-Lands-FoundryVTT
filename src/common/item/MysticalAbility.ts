@@ -16,7 +16,7 @@ import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
 import { defineType } from "@utils";
 import { RegisterClass } from "@utils/decorators";
 const kMysticalAbility = Symbol("MysticalAbility");
-const kDataModel = Symbol("MysticalAbility.DataModel");
+const kData = Symbol("MysticalAbility.Data");
 const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
@@ -25,13 +25,14 @@ const { SchemaField, NumberField, StringField, BooleanField } =
         kind: "MysticalAbility",
     }),
 )
-export class MysticalAbility<
-        TData extends MysticalAbility.Data = MysticalAbility.Data,
-    >
+export class MysticalAbility
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
-    implements SohlLogic.Logic, SubTypeMixin.Logic, MasteryLevelMixin.Logic
+    implements
+        MysticalAbility.Logic,
+        SubTypeMixin.Logic,
+        MasteryLevelMixin.Logic
 {
-    declare readonly parent: TData;
+    declare readonly parent: MysticalAbility.Data;
     readonly [kMysticalAbility] = true;
 
     static isA(obj: unknown): obj is MysticalAbility {
@@ -104,12 +105,16 @@ export namespace MysticalAbility {
     });
     export type Degree = (typeof DEGREE)[keyof typeof DEGREE];
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: MysticalAbility.Data;
+        readonly [kMysticalAbility]: true;
+    }
 
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<SubType> {
+        get logic(): MysticalAbility.Logic;
+        readonly [kData]: true;
         config: {
             usesCharges: boolean;
             usesSkills: boolean;
@@ -126,6 +131,22 @@ export namespace MysticalAbility {
         };
     }
 
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
+    const DataModelShape = SubTypeMixin.DataModel<
+        typeof SohlItem.DataModel,
+        SubType,
+        typeof SubTypes
+    >(
+        MasteryLevelMixin.DataModel(SohlItem.DataModel),
+        SubTypes,
+    ) as unknown as Constructor<MysticalAbility.Data> &
+        SohlItem.DataModel.Statics;
+
     @RegisterClass(
         new SohlDataModel.Element({
             kind: Kind,
@@ -135,17 +156,7 @@ export namespace MysticalAbility {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel
-        extends SubTypeMixin.DataModel<
-            typeof SohlItem.DataModel<MysticalAbility>,
-            SubType,
-            typeof SubTypes
-        >(
-            MasteryLevelMixin.DataModel(SohlItem.DataModel<MysticalAbility>),
-            SubTypes,
-        )
-        implements Data
-    {
+    export class DataModel extends DataModelShape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
         declare abbrev: string;
         declare skillBaseFormula: string;
@@ -166,10 +177,10 @@ export namespace MysticalAbility {
             max: number;
         };
         declare subType: SubType;
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

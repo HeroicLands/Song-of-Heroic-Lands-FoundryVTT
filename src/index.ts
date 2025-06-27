@@ -46,16 +46,6 @@ DocumentSheetConfig.registerSheet(
     },
 );
 
-/**
- * Setup version-specific configuration
- */
-function setupVariant() {
-    const variantId = (game as any).settings?.get("sohl", "variant");
-    globalThis.sohl = SohlSystem.selectVariant(variantId);
-    foundry.utils.mergeObject(CONFIG, sohl.game.CONFIG);
-    console.log(sohl.game.initMessage);
-}
-
 function registerSystemSettings() {
     const registerSetting = (game as any).registerSetting;
     registerSetting("systemMigrationVersion", {
@@ -63,7 +53,7 @@ function registerSystemSettings() {
         scope: "world",
         config: false,
         type: String,
-        default: "",
+        initial: "",
     });
     registerSetting("sohlVariant", {
         name: "Rules Variant",
@@ -71,7 +61,7 @@ function registerSystemSettings() {
         scope: "world",
         config: true,
         requiresReload: true,
-        default: "legendary",
+        initial: "legendary",
         type: String,
         choices: {
             legendary: "Legendary",
@@ -84,16 +74,15 @@ function registerSystemSettings() {
         scope: "client",
         config: true,
         type: Boolean,
-        default: true,
+        initial: true,
     });
-    registerSetting("initMacros", {
-        name: "Ask to initialize macros",
-        hint: "The next time the user logs in, ask whether to install the default macros.",
+    registerSetting("showAssemblies", {
+        name: "Show Assemblies in Actors Tab",
+        hint: "If enabled, shows all Assembly actors you own.",
         scope: "client",
-        default: true,
         config: true,
         type: Boolean,
-        initial: true,
+        initial: false,
     });
     registerSetting("combatAudio", {
         name: "Combat sounds",
@@ -101,7 +90,6 @@ function registerSystemSettings() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: true,
         initial: true,
     });
     registerSetting("recordTrauma", {
@@ -109,9 +97,8 @@ function registerSystemSettings() {
         hint: "Automatically add physical and mental afflictions and injuries",
         scope: "world",
         config: true,
-        default: "enable",
-        type: String,
         initial: "enable",
+        type: String,
         choices: {
             enable: "Record trauma automatically",
             disable: "Don't record trauma automatically",
@@ -124,8 +111,7 @@ function registerSystemSettings() {
         scope: "world",
         config: true,
         type: Number,
-        default: 432000, // 5 days
-        initial: 432000,
+        initial: 432000, // 5 days
     });
     registerSetting("optionProjectileTracking", {
         name: "Track Projectile/Missile Quantity",
@@ -133,16 +119,14 @@ function registerSystemSettings() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: false,
         initial: false,
     });
     registerSetting("optionFate", {
         name: "Fate: Use fate rules",
         scope: "world",
         config: true,
-        default: "enable",
+        initial: "enable",
         type: String,
-        initial: "pconly",
         choices: {
             none: "Fate rules disabled",
             pconly: "Fate rules only apply to PCs",
@@ -155,16 +139,14 @@ function registerSystemSettings() {
         scope: "world",
         config: true,
         type: Boolean,
-        default: false,
         initial: false,
     });
     registerSetting("logThreshold", {
         name: "Log Level Threshold",
         scope: "world",
         config: true,
-        default: "enable",
-        type: String,
         initial: "info",
+        type: String,
         choices: {
             debug: "Debug",
             info: "Informational",
@@ -280,7 +262,6 @@ Hooks.once("init", () => {
     registerSystemSettings();
     sohl.log.setLogThreshold(getSystemSetting("logLevel") || LOGLEVEL.INFO);
     registerSystemHooks();
-    setupVariant();
 
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;

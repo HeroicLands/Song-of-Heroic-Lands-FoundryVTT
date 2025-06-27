@@ -5,9 +5,8 @@ import {
     okDialog,
     SohlLogic,
 } from "@common";
-import { AnimateEntity, InanimateObject, SohlActor } from "@common/actor";
+import { Entity, Assembly, SohlActor } from "@common/actor";
 import { SohlItem } from "@common/item";
-import { ClientDocumentMixinBaseClass } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document.mjs";
 import {
     FilePath,
     HTMLString,
@@ -15,8 +14,6 @@ import {
     SohlContextMenu,
     toFilePath,
     toHTMLString,
-    toHTMLWithContent,
-    toHTMLWithTemplate,
 } from "@utils";
 import { SohlActiveEffect } from "./effect";
 const { ArrayField, ObjectField } = fvtt.data.fields;
@@ -248,8 +245,8 @@ export namespace SohlDataModel {
             data.options = this.options;
             data.editable = this.isEditable;
             data.cssClass = data.owner ? "editable" : "locked";
-            data.isAnimateEntity = AnimateEntity.isA(this.document.system);
-            data.isInanimateObject = InanimateObject.isA(this.document.system);
+            data.isEntity = Entity.isA(this.document.system);
+            data.isAssembly = Assembly.isA(this.document.system);
             data.actor =
                 this.document instanceof SohlActor ?
                     this.document

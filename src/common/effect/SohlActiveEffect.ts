@@ -13,6 +13,7 @@ export class SohlActiveEffect extends ClientDocumentExtendedMixin(
     ActiveEffect,
     {} as InstanceType<typeof foundry.documents.BaseActiveEffect>,
 ) {
+    declare name: string;
     readonly [kSohlActiveEffect] = true;
     declare static create: (
         data: PlainObject,

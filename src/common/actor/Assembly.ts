@@ -16,24 +16,24 @@ import { RegisterClass } from "@utils/decorators";
 import { SohlAction } from "@common/event";
 import { SohlActor } from "@common/actor";
 import { SohlClassRegistry } from "@utils";
-const { NumberField } = foundry.data.fields;
-const kInanimateObject = Symbol("InanimateObject");
-const kDataModel = Symbol("InanimateObject.DataModel");
+import {
+    DocumentIdField,
+    ForeignDocumentField,
+} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/fields.mjs";
+const { NumberField, BooleanField } = foundry.data.fields;
+const kAssembly = Symbol("Assembly");
+const kDataModel = Symbol("Assembly.DataModel");
 
-@RegisterClass(new SohlClassRegistry.Element(InanimateObject.Kind))
-export class InanimateObject<
-        TData extends InanimateObject.Data = InanimateObject.Data,
-    >
+@RegisterClass(new SohlClassRegistry.Element(Assembly.Kind))
+export class Assembly<TData extends Assembly.Data = Assembly.Data>
     extends SohlLogic
-    implements InanimateObject.Logic<TData>
+    implements Assembly.Logic<TData>
 {
     declare readonly parent: TData;
-    readonly [kInanimateObject] = true;
+    readonly [kAssembly] = true;
 
-    static isA(obj: unknown): obj is InanimateObject {
-        return (
-            typeof obj === "object" && obj !== null && kInanimateObject in obj
-        );
+    static isA(obj: unknown): obj is Assembly {
+        return typeof obj === "object" && obj !== null && kAssembly in obj;
     }
 
     /** @inheritdoc */
@@ -46,53 +46,53 @@ export class InanimateObject<
     override finalize(context: SohlAction.Context): void {}
 }
 
-export namespace InanimateObject {
+export namespace Assembly {
     /**
-     * The type moniker for the InanimateObject actor.
+     * The type moniker for the Assembly actor.
      */
-    export const Kind = "object";
+    export const Kind = "assembly";
 
     /**
-     * The paths to the document sheet handlebars partials for the InanimateObject actor.
+     * The paths to the document sheet handlebars partials for the Assembly actor.
      */
     export const SheetPartials = [
-        "systems/sohl/templates/actor/inanimateobject-sheet.hbs",
+        "systems/sohl/templates/actor/assembly-sheet.hbs",
     ];
 
     /**
-     * The FontAwesome icon class for the InanimateObject actor.
+     * The FontAwesome icon class for the Assembly actor.
      */
-    export const IconCssClass = "fas fa-treasure-chest";
+    export const IconCssClass = "fas fa-layer-group";
 
     /**
-     * The image path for the InanimateObject actor.
+     * The image path for the Assembly actor.
      */
-    export const Image = "systems/sohl/assets/icons/chest.svg";
+    export const Image = "systems/sohl/assets/icons/stack.svg";
 
     /**
-     * The data shape for the InanimateObject actor.
+     * The data shape for the Assembly actor.
      */
     export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {}
 
     export interface Data extends SohlActor.Data {
-        maxCapacity: number;
+        iconicItemUuid: string | null;
     }
 
     /**
-     * The Foundry VTT data model for the InanimateObject actor.
+     * The Foundry VTT data model for the Assembly actor.
      */
     @RegisterClass(
         new SohlDataModel.Element({
             kind: Kind,
-            logicClass: InanimateObject,
+            logicClass: Assembly,
             iconCssClass: IconCssClass,
             img: Image,
             schemaVersion: "0.6.0",
         }),
     )
     export class DataModel extends SohlActor.DataModel implements Data {
-        maxCapacity!: number;
-        static override readonly LOCALIZATION_PREFIXES = ["OBJECT"];
+        declare iconicItemUuid: string | null;
+        static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];
         readonly [kDataModel] = true;
 
         static isA(obj: unknown): obj is DataModel {
@@ -102,9 +102,8 @@ export namespace InanimateObject {
         static defineSchema() {
             return {
                 ...super.defineSchema(),
-                maxCapacity: new NumberField({
-                    integer: true,
-                    initial: 0,
+                iconicItemId: new DocumentIdField({
+                    initial: null,
                 }),
             };
         }

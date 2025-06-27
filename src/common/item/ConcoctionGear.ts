@@ -114,7 +114,7 @@ export namespace ConcoctionGear {
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<ConcoctionGear.Data> &
-        SohlDataModel.TypeDataModelStatics;
+        SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({
@@ -126,7 +126,10 @@ export namespace ConcoctionGear {
             subTypes: SubTypes,
         }),
     )
-    export class DataModel extends DataModelShape {
+    export class DataModel
+        extends DataModelShape
+        implements ConcoctionGear.Data
+    {
         static override readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
         declare abbrev: string;
         declare quantity: number;

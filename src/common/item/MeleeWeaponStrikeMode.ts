@@ -27,10 +27,10 @@ const { NumberField } = (foundry.data as any).fields;
 export class MeleeWeaponStrikeMode<
         TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
     >
-    extends SohlLogic<MeleeWeaponStrikeMode.Data>
-    implements MeleeWeaponStrikeMode.Logic<TData>
+    extends SohlLogic
+    implements MeleeWeaponStrikeMode.Logic
 {
-    declare readonly parent: TData;
+    declare readonly parent: MeleeWeaponStrikeMode.Data;
     readonly [kMeleeWeaponStrikeMode] = true;
 
     static isA(obj: unknown): obj is MeleeWeaponStrikeMode {
@@ -66,8 +66,7 @@ export namespace MeleeWeaponStrikeMode {
      */
     export const Image = "systems/sohl/assets/icons/sword.svg";
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {}
 
     export interface Data extends SohlItem.Data {}
 

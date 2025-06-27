@@ -2,11 +2,11 @@
     "TYPES": {
         "Actor": {
             "entity": "Animate Entity",
-            "object": "Inanimate Object"
+            "assembly": "Item Assembly"
         },
         "Actors": {
             "entity": "Animate Entities",
-            "object": "Inanimate Objects"
+            "assembly": "Item Assembly"
         },
         "Item": {
             "affiliation": "Affiliation",

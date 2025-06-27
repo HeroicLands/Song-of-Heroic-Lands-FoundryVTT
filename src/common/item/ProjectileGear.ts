@@ -118,7 +118,7 @@ export namespace ProjectileGear {
         GearMixin.DataModel(SohlItem.DataModel),
         SubTypes,
     ) as unknown as Constructor<ProjectileGear.Data> &
-        SohlDataModel.TypeDataModelStatics;
+        SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({

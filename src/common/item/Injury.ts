@@ -17,7 +17,9 @@ import { SohlContextMenu, defineType } from "@utils";
 import { RegisterClass } from "@utils/decorators";
 import { SohlItem } from "./SohlItem";
 import { SohlDataModel } from "@common";
-const { NumberField, BooleanField, StringField } = (foundry.data as any).fields;
+const { NumberField, BooleanField, StringField, DocumentIdField } = (
+    foundry.data as any
+).fields;
 const kInjury = Symbol("Injury");
 const kDataModel = Symbol("Injury.DataModel");
 
@@ -189,7 +191,7 @@ export namespace Injury {
                 }),
                 isTreated: new BooleanField({ initial: false }),
                 isBleeding: new BooleanField({ initial: false }),
-                bodyLocationId: new StringField(),
+                bodyLocationId: new DocumentIdField(),
             };
         }
     }

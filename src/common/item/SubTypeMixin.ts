@@ -24,7 +24,6 @@ export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
 ): TBase {
     return class extends Base {
-        declare readonly parent: SubTypeMixin.Data;
         declare readonly actions: SohlAction[];
         declare readonly events: SohlEvent[];
         declare readonly item: SohlItem;

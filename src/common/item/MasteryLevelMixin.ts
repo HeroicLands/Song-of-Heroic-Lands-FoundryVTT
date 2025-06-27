@@ -11,20 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { sohl, fvtt } from "@common";
+
 import {
     getSystemSetting,
     getTargetedTokens,
     SohlLogic,
     SohlSpeaker,
+    SohlSystem,
 } from "@common";
 import { SohlActor } from "@common/actor";
 import { SohlAction, SohlEvent } from "@common/event";
 import { Mystery, SohlItem } from "@common/item";
 import { MasteryLevelModifier } from "@common/modifier";
 import { OpposedTestResult, SuccessTestResult } from "@common/result";
-import { SohlTokenDocument } from "@common/token";
 import { defineType, FilePath, toFilePath, toHTMLWithTemplate } from "@utils";
-const { StringField, NumberField, BooleanField } = (foundry.data as any).fields;
+const { StringField, NumberField, BooleanField } = fvtt.data.fields;
 const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
 const kDataModel = Symbol("MasteryLevelMixin.DataModel");
 
@@ -40,7 +42,6 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
     Base: TBase,
 ): TBase {
     return class extends Base {
-        declare readonly parent: MasteryLevelMixin.Data;
         declare readonly actions: SohlAction[];
         declare readonly events: SohlEvent[];
         declare readonly item: SohlItem;
@@ -170,14 +171,6 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
         async opposedTestStart(
             context: OpposedTestResult.Context,
         ): Promise<SuccessTestResult | null> {
-            let successTestContext: SuccessTestResult.Context;
-            if (context.priorTestResult) {
-                const priorSrcResult = context.priorTestResult.sourceTestResult;
-                successTestContext = new SuccessTestResult.Context({
-                    speaker: context.speaker.toJSON() as SohlSpeaker.Data,
-                    scope: priorSrcResult.scope,
-                });
-            }
             if (!context.speaker) {
                 context.speaker = new SohlSpeaker();
             }
@@ -205,41 +198,83 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                 );
                 return null;
             }
-
-            let sourceTestResult = new sohl.game.CONFIG.SuccessTestResult(
-                {
-                    speaker: context.speaker,
+            let sourceTestContext: SuccessTestResult.Context;
+            if (context.priorTestResult) {
+                const srcTestRes = context.priorTestResult.sourceTestResult;
+                sourceTestContext = new sohl.game.CONFIG.SuccessTestResult.Context({
+                    speaker: srcTestRes.speaker.toJSON() as SohlSpeaker.Data,
+                    item: this.item,
+                    title: srcTestRes.title,
+                    mlMod: srcTestRes.masteryLevelModifier,
+                });
+            } else {
+                context.priorTestResult = new sohl.game.CONFIG.SuccessTestResult({
+                        speaker: context.speaker,
+                        item: this.item,
+                        rollMode: getSystemSetting("rollMode", "core"),
+                        type: SuccessTestResult.TEST_TYPE.SKILL,
+                        title:
+                            context.title ||
+                            sohl.i18n.format("{name} {label} Test", {
+                                name:
+                                    context.token.name ||
+                                    context.speaker.actor?.name,
+                                label: this.item?.label,
+                            }),
+                        situationalModifier: 0,
+                        mlMod: fvtt.utils.deepClone(this._masteryLevel),
+                    },
+                    { parent: this },
+                );
+            }
+            let sourceTestContext: SuccessTestResult.Context =
+                new SuccessTestResult.Context({
+                    speaker: context.priorTestResult.speaker.toJSON() as SohlSpeaker.Data,
                     item: this.item,
                     rollMode: getSystemSetting("rollMode", "core"),
-                    title:
-                        context.title ||
-                        sohl.i18n.format("{name} {label} Test", {
-                            name:
-                                context.token.name ||
-                                context.speaker.actor?.name,
-                            label: this.item?.label,
-                        }),
-                    situationalModifier: 0,
+                    title: context.title,
+                    situationalModifier: context.situationalModifier || 0,
                     mlMod: fvtt.utils.deepClone(this._masteryLevel),
-                },
-                { parent: this },
-            );
+                });
+            let sourceTestResult =
+                context.priorTestResult?.sourceTestResult ??
+                new sohl.game.CONFIG.SuccessTestResult(
+                    {
+                        speaker: context.speaker,
+                        item: this.item,
+                        rollMode: getSystemSetting("rollMode", "core"),
+                        title:
+                            context.title ||
+                            sohl.i18n.format("{name} {label} Test", {
+                                name:
+                                    context.token.name ||
+                                    context.speaker.actor?.name,
+                                label: this.item?.label,
+                            }),
+                        situationalModifier: 0,
+                        mlMod: fvtt.utils.deepClone(this._masteryLevel),
+                    },
+                    { parent: this },
+                );
 
-            const successTestContext = new SuccessTestResult.Context({
-                speaker: context.speaker.toJSON() as SohlSpeaker.Data,
-                item: this.item,
-                rollMode: getSystemSetting("rollMode", "core"),
-                title: context.title,
-                situationalModifier: context.scope.situationalModifier || 0,
-                mlMod: fvtt.utils.deepClone(this._masteryLevel),
-            });
-            sourceTestResult = await this._masteryLevel.successTest(context);
+            const sourceTestContext: SuccessTestResult.Context =
+                new SuccessTestResult.Context({
+                    speaker: context.speaker.toJSON() as SohlSpeaker.Data,
+                    item: this.item,
+                    rollMode: getSystemSetting("rollMode", "core"),
+                    title: context.title,
+                    situationalModifier: context..sourceTestResult.situationalModifier || 0,
+                    mlMod: fvtt.utils.deepClone(this._masteryLevel),
+                });
+            const targetTestResult =
+                await this._masteryLevel.successTest(sourceTestContext);
 
-            const opposedTest = new sohl.game.CONFIG.SOHL.OpposedTestResult(
+            const opposedTest = new sohl.CONFIG.OpposedTestResult(
                 {
                     speaker: context.speaker,
                     targetToken: context.scope.targetToken,
                     sourceTestResult,
+                    targetTestResult,
                 },
                 { parent: this },
             );
@@ -256,9 +291,10 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                 throw new Error("Must supply priorTestResult");
             }
 
+            let opposedTestResult: OpposedTestResult = priorTestResult;
             if (!priorTestResult.targetTestResult) {
                 priorTestResult.targetTestResult =
-                    new sohl.game.CONFIG.SOHL.SuccessTestResult(
+                    new sohl.CONFIG.SuccessTestResult(
                         {
                             speaker: context.speaker || new SohlSpeaker(),
                             item: this.item,
@@ -275,23 +311,21 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                         { parent: this },
                     );
 
-                const targetTestResult = await this.successTest(
-                    {
-                        noChat: true,
-                        speaker: context.speaker || new SohlSpeaker(),
-                        item: this.item,
-                        rollMode: getSystemSetting("rollMode", "core"),
-                        title:
-                            context.title ||
-                            sohl.i18n.format("{name} {label} Test", {
-                                name: token?.name || context.actor?.name,
-                                label: this.item?.label,
-                            }),
-                        situationalModifier: 0,
-                        mlMod: fvtt.utils.deepClone(this._masteryLevel),
-                    },
-                    { parent: this },
-                );
+                const targetTestResult = await this.successTest(new SuccessTestResult.Context({
+                    noChat: true,
+                    rollMode:
+                        getSystemSetting("rollMode", "core") ||
+                        SohlSpeaker.ROLL_MODE.SYSTEM,
+                    title:
+                        context.title ||
+                        sohl.i18n.format("{name} {label} Test", {
+                            name:
+                                context.token?.name ||
+                                context.speaker.actor?.name,
+                            label: this.item?.label,
+                        }),
+                    situationalModifier: 0,
+                }));
                 if (!targetTestResult) return targetTestResult;
                 priorTestResult.targetTestResult = targetTestResult;
             } else {
@@ -300,7 +334,7 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                 // Therefore, we re-display the dialog for each of the prior
                 // successTests.
                 opposedTestResult.sourceTestResult =
-                    opposedTestResult.sourceTestResult.item.successTest({
+                    opposedTestResult.sourceTestResult..item.successTest({
                         noChat: true,
                         successTestResult: opposedTestResult.sourceTestResult,
                     });
@@ -353,11 +387,11 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                 showResult: true,
                 resultText:
                     isSuccess ?
-                        fvtt.i18n.format("{prefix} Increase", { prefix })
-                    :   fvtt.i18n.format("No {prefix} Increase", { prefix }),
+                        sohl.i18n.format("{prefix} Increase", { prefix })
+                    :   sohl.i18n.format("No {prefix} Increase", { prefix }),
                 resultDesc:
                     isSuccess ?
-                        fvtt.i18n.format(
+                        sohl.i18n.format(
                             "{label} increased by {incr} to {final}",
                             {
                                 label: this.item.label,
@@ -368,8 +402,8 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                     :   "",
                 description:
                     isSuccess ?
-                        fvtt.i18n.format("SOHL.TestResult.SUCCESS")
-                    :   fvtt.i18n.format("SOHL.TestResult.FAILURE"),
+                        sohl.i18n.format("SOHL.TestResult.SUCCESS")
+                    :   sohl.i18n.format("SOHL.TestResult.FAILURE"),
                 notes: "",
                 sdrIncr: this.sdrIncr,
             };
@@ -417,13 +451,13 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
                         this._masteryLevel.fate.setBase(50);
                     } else {
                         this._masteryLevel.fate.setDisabled(
-                            fvtt.i18n.format("Non-Player Character/Creature"),
+                            sohl.i18n.format("Non-Player Character/Creature"),
                             "NPC",
                         );
                     }
                 } else {
                     this._masteryLevel.fate.setDisabled(
-                        fvtt.i18n.format("Fate Disabled in Settings"),
+                        sohl.i18n.format("Fate Disabled in Settings"),
                         "NoFate",
                     );
                 }
@@ -455,7 +489,7 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
             if (this.skillBase.attributes.includes("Aura")) {
                 // Any skill that has Aura in its SB formula cannot use fate
                 this._masteryLevel.fate.setDisabled(
-                    fvtt.i18n.format("Aura-Based, No Fate"),
+                    sohl.i18n.format("Aura-Based, No Fate"),
                     "AurBsd",
                 );
             }

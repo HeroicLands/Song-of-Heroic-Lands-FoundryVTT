@@ -25,11 +25,8 @@ const { ArrayField, StringField } = (foundry.data as any).fields;
         kind: "Domain",
     }),
 )
-export class Domain<TData extends Domain.Data = Domain.Data>
-    extends SohlLogic<Domain.Data>
-    implements Domain.Logic<TData>
-{
-    declare readonly parent: TData;
+export class Domain extends SohlLogic implements Domain.Logic {
+    declare readonly parent: Domain.Data;
     category?: string;
 
     initialize(options?: PlainObject): void {
@@ -98,8 +95,7 @@ export namespace Domain {
     export type ElementCategory =
         (typeof ELEMENT_CATEGORY)[keyof typeof ELEMENT_CATEGORY];
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {}
 
     export interface Data extends SohlItem.Data {
         abbrev: string;
@@ -117,7 +113,7 @@ export namespace Domain {
             schemaVersion: "0.6.0",
         }),
     )
-    export class DataModel extends SohlItem.DataModel<Domain> implements Data {
+    export class DataModel extends SohlItem.DataModel implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Domain"];
         declare abbrev: string;
         declare cusp: string;

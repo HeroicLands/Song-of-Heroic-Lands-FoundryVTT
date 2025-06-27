@@ -18,7 +18,7 @@ export const {
     kind: LOGLEVEL,
     values: LogLevels,
     isValue: isLogLevel,
-} = defineType({
+} = defineType("SOHL.Logger.LogLevel", {
     DEBUG: "debug",
     INFO: "info",
     WARN: "warn",

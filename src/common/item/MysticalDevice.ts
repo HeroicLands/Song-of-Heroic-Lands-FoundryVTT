@@ -123,7 +123,7 @@ export namespace MysticalDevice {
         SohlItem.DataModel,
         MysticalDevice.SubTypes,
     ) as unknown as Constructor<MysticalDevice.Data> &
-        SohlDataModel.TypeDataModelStatics;
+        SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({

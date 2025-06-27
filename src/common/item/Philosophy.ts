@@ -103,8 +103,7 @@ export namespace Philosophy {
     >(
         SohlItem.DataModel,
         Philosophy.SubTypes,
-    ) as unknown as Constructor<Philosophy.Data> &
-        SohlDataModel.TypeDataModelStatics;
+    ) as unknown as Constructor<Philosophy.Data> & SohlItem.DataModel.Statics;
 
     @RegisterClass(
         new SohlDataModel.Element({

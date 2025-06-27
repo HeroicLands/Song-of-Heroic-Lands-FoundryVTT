@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+export * from "./bootstrap";
 export * from "./FoundryProxy";
 export * from "./SohlBase";
 export * from "./SohlDataModel";

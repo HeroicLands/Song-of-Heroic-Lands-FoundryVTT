@@ -13,7 +13,6 @@
 
 export * from "./SohlEvent";
 export * from "./SohlAction";
-export * from "./SohlEffect";
 export * from "./SohlIntrinsicAction";
 export * from "./SohlScriptAction";
 export * from "./SohlTemporal";
