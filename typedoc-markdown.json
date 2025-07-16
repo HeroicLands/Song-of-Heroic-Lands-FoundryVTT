@@ -1,5 +1,5 @@
 {
-    "entryPoints": ["build/docbundle/index.ts"],
+    "entryPoints": ["src/index.ts"],
     "entryPointStrategy": "expand",
     "tsconfig": "./tsconfig.json",
     "out": "build/docs",
@@ -14,5 +14,5 @@
     "includeVersion": true,
     "readme": "README.md",
     "name": "Song of Heroic Lands API",
-    "exclude": ["src/foundry"]
+    "exclude": []
 }
