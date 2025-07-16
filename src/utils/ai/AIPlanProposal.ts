@@ -5,7 +5,7 @@ const {
     kind: AI_PLAN_STATUS,
     values: AIPlanStatuses,
     isValue: isAiPlanStatus,
-} = defineType({
+} = defineType("SOHL.AIPlanStatus", {
     PENDING: "pending",
     APPROVED: "approved",
     REJECTED: "rejected",

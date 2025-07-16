@@ -112,11 +112,11 @@ export class SohlSpeaker {
         input: HTMLString | FilePath,
         data?: PlainObject,
         options?: PlainObject,
-    ): void {
+    ): Promise<ChatMessage> {
         if (isFilePath(input)) {
-            this._toChatWithTemplate(input, data, options);
+            return this._toChatWithTemplate(input, data, options);
         } else {
-            this._toChatWithContent(input, data, options);
+            return this._toChatWithContent(input, data, options);
         }
     }
 
@@ -131,7 +131,7 @@ export class SohlSpeaker {
         template: FilePath,
         data: PlainObject = {},
         options: PlainObject = {},
-    ): Promise<void> {
+    ): Promise<ChatMessage> {
         const messageData = await this._prepareChat(data, options);
         messageData.content = await toHTMLWithTemplate(template, data);
         if (messageData.rollMode) {
@@ -141,7 +141,7 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        await (fvtt.documents.ChatMessage as any).create(messageData);
+        return (fvtt.documents.ChatMessage as any).create(messageData);
     }
 
     /**
@@ -155,7 +155,7 @@ export class SohlSpeaker {
         content: HTMLString,
         data: PlainObject = {},
         options: PlainObject = {},
-    ): Promise<void> {
+    ): Promise<ChatMessage> {
         const messageData = await this._prepareChat(data, options);
 
         const compiled = Handlebars.compile(content);
@@ -167,7 +167,7 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        await (fvtt.documents.ChatMessage as any).create(messageData);
+        return (fvtt.documents.ChatMessage as any).create(messageData);
     }
 
     /**

@@ -28,8 +28,8 @@ export class MissileWeaponStrikeMode<
         TData extends
             MissileWeaponStrikeMode.Data = MissileWeaponStrikeMode.Data,
     >
-    extends SohlLogic<MissileWeaponStrikeMode.Data>
-    implements MissileWeaponStrikeMode.Logic<TData>
+    extends SohlLogic
+    implements MissileWeaponStrikeMode.Logic
 {
     declare readonly parent: TData;
     readonly [kMissileWeaponStrikeMode] = true;
@@ -66,8 +66,7 @@ export namespace MissileWeaponStrikeMode {
      */
     export const Image = "systems/sohl/assets/icons/longbow.svg";
 
-    export interface Logic<TData extends Data = Data>
-        extends SohlLogic.Logic<TData> {}
+    export interface Logic extends SohlLogic.Logic {}
 
     export interface Data extends SohlItem.Data {
         projectileType: ProjectileGear.SubType;
@@ -79,7 +78,7 @@ export namespace MissileWeaponStrikeMode {
             logicClass: MissileWeaponStrikeMode,
             iconCssClass: IconCssClass,
             img: Image,
-            sheet: "systems/sohl/templates/item/Missilestrikemode-sheet.hbs",
+            sheet: "systems/sohl/templates/item/missilestrikemode-sheet.hbs",
             schemaVersion: "0.6.0",
         }),
     )

@@ -24,23 +24,25 @@ const LgndActorDataModels = {};
 const LgndItemDataModels = {};
 
 export class LegendarySystem extends SohlSystem {
-    static override readonly CONFIG: PlainObject = foundry.utils.mergeObject(
-        SohlSystem.CONFIG,
-        {
-            Actor: {
-                dataModels: LgndActorDataModels,
+    static override get CONFIG(): SohlSystem.Config {
+        return foundry.utils.mergeObject(
+            SohlSystem.CONFIG,
+            {
+                Actor: {
+                    dataModels: LgndActorDataModels,
+                },
+                Item: {
+                    dataModels: LgndItemDataModels,
+                },
+                CombatModifier: LgndCombatModifier,
+                ImpactModifier: LgndImpactModifier,
+                SuccessTestResult: LgndSuccessTestResult,
+                OpposedTestResult: LgndOpposedTestResult,
+                CombatResult: LgndCombatResult,
             },
-            Item: {
-                dataModels: LgndItemDataModels,
-            },
-            CombatModifier: LgndCombatModifier,
-            ImpactModifier: LgndImpactModifier,
-            SuccessTestResult: LgndSuccessTestResult,
-            OpposedTestResult: LgndOpposedTestResult,
-            CombatResult: LgndCombatResult,
-        },
-        { inplace: false },
-    );
+            { inplace: false },
+        ) as unknown as SohlSystem.Config;
+    }
 
     static override readonly ID: string = "legendary";
     static override readonly TITLE: string = "Legendary";

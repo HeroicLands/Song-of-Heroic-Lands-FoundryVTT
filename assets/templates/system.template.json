@@ -19,10 +19,10 @@
         "compatibleMigrationVersion": "0.3.0"
     },
     "compatibility": {
-        "minimum": "12",
-        "verified": "12.323"
+        "minimum": "13",
+        "verified": "13.346"
     },
-    "scripts": ["index.js"],
+    "scripts": ["sohl.js"],
     "styles": ["css/sohl.css"],
     "languages": [
         {

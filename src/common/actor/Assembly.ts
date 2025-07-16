@@ -16,11 +16,7 @@ import { RegisterClass } from "@utils/decorators";
 import { SohlAction } from "@common/event";
 import { SohlActor } from "@common/actor";
 import { SohlClassRegistry } from "@utils";
-import {
-    DocumentIdField,
-    ForeignDocumentField,
-} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/data/fields.mjs";
-const { NumberField, BooleanField } = foundry.data.fields;
+const { DocumentIdField } = foundry.data.fields;
 const kAssembly = Symbol("Assembly");
 const kDataModel = Symbol("Assembly.DataModel");
 
@@ -75,7 +71,7 @@ export namespace Assembly {
     export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {}
 
     export interface Data extends SohlActor.Data {
-        iconicItemUuid: string | null;
+        canonicalItemUuid: string | null;
     }
 
     /**
@@ -91,7 +87,7 @@ export namespace Assembly {
         }),
     )
     export class DataModel extends SohlActor.DataModel implements Data {
-        declare iconicItemUuid: string | null;
+        declare canonicalItemUuid: string | null;
         static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];
         readonly [kDataModel] = true;
 
@@ -99,10 +95,10 @@ export namespace Assembly {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
-                iconicItemId: new DocumentIdField({
+                canonicalItemId: new DocumentIdField({
                     initial: null,
                 }),
             };

@@ -100,149 +100,158 @@ const ItemDataModels: Record<string, SohlDataModel.Metadata> = {
 export abstract class SohlSystem {
     protected static _variants: SohlMap<string, SohlSystem>;
     protected static _curVariant?: SohlSystem;
-    static readonly CONFIG: SohlSystem.Config = {
-        statusEffects: [
-            {
-                id: "incapacitated",
-                name: "incapacitated",
-                img: "systems/sohl/assets/icons/knockout.svg",
-            },
-            {
-                id: "vanquished",
-                name: "vanquished",
-                img: "systems/sohl/assets/icons/surrender.svg",
-            },
-        ],
-
-        specialStatusEffects: {
-            DEFEATED: "vanquished",
-        },
-
-        controlIcons: {
-            defeated: toFilePath("systems/sohl/assets/icons/surrender.svg"),
-        },
-        Actor: {
-            documentClass: SohlActor,
-            documentSheets: [
+    static get CONFIG(): SohlSystem.Config {
+        return {
+            statusEffects: [
                 {
-                    cls: SohlActor.Sheet,
-                    types: Object.keys(ActorDataModels),
-                },
-            ],
-            DataModels: Object.keys(ActorDataModels).reduce(
-                (acc: PlainObject, i) => {
-                    if (ActorDataModels[i].ctor)
-                        acc[i] = ActorDataModels[i].ctor as Constructor<
-                            SohlDataModel<any>
-                        >;
-                    return acc;
-                },
-                {},
-            ),
-            typeLabels: Object.fromEntries(
-                Object.keys(ActorDataModels).map((i) => [
-                    i,
-                    `TYPES.Actor.${i}`,
-                ]),
-            ),
-            typeIcons: Object.keys(ActorDataModels).reduce(
-                (acc: PlainObject, i) => {
-                    if (ActorDataModels[i].iconCssClass)
-                        acc[i] = ActorDataModels[i].iconCssClass as FilePath;
-                    return acc;
-                },
-                {},
-            ),
-            types: Object.keys(ActorDataModels),
-            defaultType: Entity.DataModel.kind,
-            compendiums: ["sohl.leg-characters", "sohl.leg-creatures"],
-            macros: {},
-        },
-        Item: {
-            documentClass: SohlItem,
-            documentSheets: [
-                {
-                    cls: SohlItem.Sheet,
-                    types: Object.keys(ItemDataModels).filter(
-                        (t) => t !== ContainerGear.DataModel.kind,
-                    ),
+                    id: "incapacitated",
+                    name: "incapacitated",
+                    img: "systems/sohl/assets/icons/knockout.svg",
                 },
                 {
-                    cls: ContainerGear.Sheet,
-                    types: [ContainerGear.DataModel.kind],
+                    id: "vanquished",
+                    name: "vanquished",
+                    img: "systems/sohl/assets/icons/surrender.svg",
                 },
             ],
-            DataModels: Object.keys(ItemDataModels).reduce(
-                (acc: PlainObject, i) => {
-                    if (ItemDataModels[i].ctor)
-                        acc[i] = ItemDataModels[i].ctor as Constructor<
-                            SohlDataModel<any>
-                        >;
-                    return acc;
-                },
-                {},
-            ),
-            typeLabels: Object.fromEntries(
-                Object.keys(ItemDataModels).map((i) => [i, `TYPES.Item.${i}`]),
-            ),
-            typeIcons: Object.keys(ItemDataModels).reduce(
-                (acc: PlainObject, i) => {
-                    if (ItemDataModels[i].iconCssClass)
-                        acc[i] = ItemDataModels[i].iconCssClass as FilePath;
-                    return acc;
-                },
-                {},
-            ),
-            types: Object.keys(ItemDataModels),
-            compendiums: [
-                "sohl.leg-characteristics",
-                "sohl.leg-possessions",
-                "sohl.leg-mysteries",
-            ],
-            macros: {},
-        },
-        ActiveEffect: {
-            documentClass: SohlActiveEffect,
-            documentSheets: [],
-            DataModels: {
-                [SohlActiveEffect.DataModel.kind]: SohlActiveEffect.DataModel,
-            },
-            typeLabels: {
-                [SohlActiveEffect.DataModel.kind]:
-                    `TYPES.ActiveEffect.${SohlActiveEffect.DataModel.kind}`,
-            },
-            typeIcons: {
-                [SohlActiveEffect.DataModel.kind]:
-                    SohlActiveEffect.DataModel.iconCssClass,
-            },
-            types: [SohlActiveEffect.Kind],
-            legacyTransferral: false,
-        },
-        Combatant: {
-            documentClass: SohlCombatant,
-            documentSheets: [],
-            DataModels: {},
-            typeLabels: {},
-            typeIcons: {},
-            types: [],
-        },
-        // Macro: {
-        //     documentClass: SohlMacro,
-        //     documentSheet: SohlMacroConfig,
-        // },
-        ValueModifier: ValueModifier,
-        CombatModifier: CombatModifier,
-        ImpactModifier: ImpactModifier,
-        MasteryLevelModifier: MasteryLevelModifier,
-        SuccessTestResult: SuccessTestResult,
-        OpposedTestResult: OpposedTestResult,
-        ImpactResult: ImpactResult,
-        CombatResult: CombatResult,
-        AttackResult: AttackResult,
-        DefendResult: DefendResult,
-    };
 
-    static readonly CONST: PlainObject = {} as const;
+            specialStatusEffects: {
+                DEFEATED: "vanquished",
+            },
+
+            controlIcons: {
+                defeated: toFilePath("systems/sohl/assets/icons/surrender.svg"),
+            },
+            Actor: {
+                documentClass: SohlActor,
+                documentSheets: [
+                    {
+                        cls: SohlActor.Sheet,
+                        types: Object.keys(ActorDataModels),
+                    },
+                ],
+                DataModels: Object.keys(ActorDataModels).reduce(
+                    (acc: PlainObject, i) => {
+                        if (ActorDataModels[i].ctor)
+                            acc[i] = ActorDataModels[i].ctor as Constructor<
+                                SohlDataModel<any>
+                            >;
+                        return acc;
+                    },
+                    {},
+                ),
+                typeLabels: Object.fromEntries(
+                    Object.keys(ActorDataModels).map((i) => [
+                        i,
+                        `TYPES.Actor.${i}`,
+                    ]),
+                ),
+                typeIcons: Object.keys(ActorDataModels).reduce(
+                    (acc: PlainObject, i) => {
+                        if (ActorDataModels[i].iconCssClass)
+                            acc[i] = ActorDataModels[i]
+                                .iconCssClass as FilePath;
+                        return acc;
+                    },
+                    {},
+                ),
+                types: Object.keys(ActorDataModels),
+                defaultType: Entity.DataModel.kind,
+                compendiums: ["sohl.leg-characters", "sohl.leg-creatures"],
+                macros: {},
+            },
+            Item: {
+                documentClass: SohlItem,
+                documentSheets: [
+                    {
+                        cls: SohlItem.Sheet,
+                        types: Object.keys(ItemDataModels).filter(
+                            (t) => t !== ContainerGear.DataModel.kind,
+                        ),
+                    },
+                    {
+                        cls: ContainerGear.Sheet,
+                        types: [ContainerGear.DataModel.kind],
+                    },
+                ],
+                DataModels: Object.keys(ItemDataModels).reduce(
+                    (acc: PlainObject, i) => {
+                        if (ItemDataModels[i].ctor)
+                            acc[i] = ItemDataModels[i].ctor as Constructor<
+                                SohlDataModel<any>
+                            >;
+                        return acc;
+                    },
+                    {},
+                ),
+                typeLabels: Object.fromEntries(
+                    Object.keys(ItemDataModels).map((i) => [
+                        i,
+                        `TYPES.Item.${i}`,
+                    ]),
+                ),
+                typeIcons: Object.keys(ItemDataModels).reduce(
+                    (acc: PlainObject, i) => {
+                        if (ItemDataModels[i].iconCssClass)
+                            acc[i] = ItemDataModels[i].iconCssClass as FilePath;
+                        return acc;
+                    },
+                    {},
+                ),
+                types: Object.keys(ItemDataModels),
+                compendiums: [
+                    "sohl.leg-characteristics",
+                    "sohl.leg-possessions",
+                    "sohl.leg-mysteries",
+                ],
+                macros: {},
+            },
+            ActiveEffect: {
+                documentClass: SohlActiveEffect,
+                documentSheets: [],
+                DataModels: {
+                    [SohlActiveEffect.DataModel.kind]:
+                        SohlActiveEffect.DataModel,
+                },
+                typeLabels: {
+                    [SohlActiveEffect.DataModel.kind]:
+                        `TYPES.ActiveEffect.${SohlActiveEffect.DataModel.kind}`,
+                },
+                typeIcons: {
+                    [SohlActiveEffect.DataModel.kind]:
+                        SohlActiveEffect.DataModel.iconCssClass,
+                },
+                types: [SohlActiveEffect.Kind],
+                legacyTransferral: false,
+            },
+            Combatant: {
+                documentClass: SohlCombatant,
+                documentSheets: [],
+                DataModels: {},
+                typeLabels: {},
+                typeIcons: {},
+                types: [],
+            },
+            // Macro: {
+            //     documentClass: SohlMacro,
+            //     documentSheet: SohlMacroConfig,
+            // },
+            ValueModifier: ValueModifier,
+            CombatModifier: CombatModifier,
+            ImpactModifier: ImpactModifier,
+            MasteryLevelModifier: MasteryLevelModifier,
+            SuccessTestResult: SuccessTestResult,
+            OpposedTestResult: OpposedTestResult,
+            ImpactResult: ImpactResult,
+            CombatResult: CombatResult,
+            AttackResult: AttackResult,
+            DefendResult: DefendResult,
+        };
+    }
+
+    static get CONST(): PlainObject {
+        return {} as const;
+    }
 
     /**
      * A short string ID for this system variant.

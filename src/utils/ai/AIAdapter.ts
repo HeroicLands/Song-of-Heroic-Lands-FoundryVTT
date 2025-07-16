@@ -1,5 +1,7 @@
-import { SohlSpeaker, SohlSpeakerData } from "@common";
+import { SohlSpeaker } from "@common";
 import { AIExecutionResult } from "./AIAgentCommandDefinition";
+import { SohlUser } from "@common/user/SohlUser";
+import { toHTMLString } from "@utils/helpers";
 
 export interface CompletionOptions {
     model?: string;
@@ -38,12 +40,12 @@ export abstract class AIAdapter {
      * @returns `false` to prevent the message from continuing to parse.
      */
     static chatMessage(
-        chatLog: foundry.applications.sidebar.tabs.ChatLog,
+        chatLog: ChatLog,
         message: string,
         chatData: {
-            speaker?: SohlSpeakerData;
-            user?: foundry.documents.User;
-        } = { user: game.user },
+            speaker?: SohlSpeaker.Data;
+            user: SohlUser | null;
+        } = { user: fvtt.game.user as SohlUser | null },
     ): boolean | void {
         let match: RegExpMatchArray | null = message.match(
             /^(?:\/whisper (?:sage|ai)\s+)([^]*)/i,
@@ -58,11 +60,11 @@ export abstract class AIAdapter {
     static handleAIChatCommand(
         speaker: SohlSpeaker,
         message: string,
-        user: foundry.documents.User,
+        user: SohlUser | null = null,
     ): void {
         let result: AIExecutionResult;
         try {
-            result = { message: "Not Yet Implememnted" } as AIExecutionResult;
+            result = { message: "Not Yet Implemented" } as AIExecutionResult;
         } catch (error: any) {
             result = {
                 message: "Error sending message to AI: " + error.message,
@@ -70,11 +72,11 @@ export abstract class AIAdapter {
         }
 
         const aiSpeaker = new SohlSpeaker({
-            scene: speaker.scene?.id || null,
+            scene: (speaker.scene as any)?.id || null,
             actor: null,
             token: null,
             alias: "Sage",
         });
-        speaker.toChat(result.message);
+        speaker.toChat(toHTMLString(result.message));
     }
 }

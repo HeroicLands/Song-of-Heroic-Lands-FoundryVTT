@@ -27,23 +27,25 @@ const IsleActorDataModels = {};
 const IsleItemDataModels = {};
 
 export class MistyIsleSystem extends SohlSystem {
-    static override readonly CONFIG: PlainObject = foundry.utils.mergeObject(
-        SohlSystem.CONFIG,
-        {
-            Actor: {
-                dataModels: IsleActorDataModels,
+    static override get CONFIG(): SohlSystem.Config {
+        return foundry.utils.mergeObject(
+            SohlSystem.CONFIG,
+            {
+                Actor: {
+                    dataModels: IsleActorDataModels,
+                },
+                Item: {
+                    dataModels: IsleItemDataModels,
+                },
+                CombatModifier: IsleCombatModifier,
+                ImpactModifier: IsleImpactModifier,
+                SuccessTestResult: IsleSuccessTestResult,
+                OpposedTestResult: IsleOpposedTestResult,
+                CombatResult: IsleCombatResult,
             },
-            Item: {
-                dataModels: IsleItemDataModels,
-            },
-            CombatModifier: IsleCombatModifier,
-            ImpactModifier: IsleImpactModifier,
-            SuccessTestResult: IsleSuccessTestResult,
-            OpposedTestResult: IsleOpposedTestResult,
-            CombatResult: IsleCombatResult,
-        },
-        { inplace: false },
-    );
+            { inplace: false },
+        ) as unknown as SohlSystem.Config;
+    }
 
     static override readonly ID: string = "mistyisle";
     static override readonly TITLE: string = "mistyisle";
@@ -58,6 +60,6 @@ export class MistyIsleSystem extends SohlSystem {
 ===========================================================`;
 
     static {
-        this.instances.set(this.ID, new MistyIsleSystem());
+        this._variants.set(this.ID, new MistyIsleSystem());
     }
 }

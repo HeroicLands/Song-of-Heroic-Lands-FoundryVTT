@@ -49,15 +49,6 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
         return (this as any)._metadata.logicClass as SohlLogic.Constructor;
     }
 
-    get label() {
-        return sohl.i18n.format(
-            `${(this.constructor as any).LOCALIZATION_PREFIXES}.label`,
-            {
-                name: this.parent.name,
-            },
-        );
-    }
-
     static get kind(): string {
         return this._metadata.kind;
     }

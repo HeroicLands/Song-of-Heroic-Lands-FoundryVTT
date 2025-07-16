@@ -4,7 +4,7 @@ const {
     kind: PLANNED_ACTION,
     values: PlannedActions,
     isValue: isPlannedAction,
-} = defineType({
+} = defineType("SOHL.PlannedAction", {
     CREATE_DOCUMENT: "createDocument",
     MODIFY_DOCUMENT: "modifyDocument",
     DELETE_DOCUMENT: "deleteDocument",

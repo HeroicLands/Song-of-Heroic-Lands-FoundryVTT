@@ -13,7 +13,7 @@
 
 export * from "./helpers";
 export * from "./Itr";
-export * from "./MersenneTwister";
+export * from "./SohlMersenneTwister";
 export * from "./SimpleRoll";
 export * from "./SohlClassRegistry";
 export * from "./SohlContextMenu";

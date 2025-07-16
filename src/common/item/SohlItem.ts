@@ -21,6 +21,7 @@ import {
 } from "@utils";
 import { InternalClientDocument, SohlDataModel, SohlLogic } from "@common";
 import { GearMixin } from "./GearMixin";
+import { SubTypeMixin } from "./SubTypeMixin";
 const { StringField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
@@ -203,16 +204,30 @@ export class SohlItem<
     }
 
     get typeLabel(): string {
-        const x = this.isOwned;
-        throw new Error("Method not implemented.");
-    }
-
-    get defaultIntrinsicActionName(): string {
-        throw new Error("Method not implemented.");
+        const typeText = sohl.i18n.format("TYPE.Item." + this.type);
+        if (this.system.subType) {
+            const subTypeText = sohl.i18n.format(
+                `SOHL.${this.system.langId}.Item.` + this.system.subType,
+            );
+            return sohl.i18n.format("{subType} {type}", {
+                subType: (this.constructor as any).subTypes[
+                    this.system.subType
+                ],
+                type: typeText,
+            });
+        } else {
+            return sohl.i18n.format("{type}", {
+                type: typeText,
+            });
+        }
     }
 
     get label() {
         return this.system.label;
+    }
+
+    get defaultIntrinsicActionName(): string {
+        throw new Error("Method not implemented.");
     }
 
     get nestedIn(): SohlItem | null {
@@ -268,7 +283,12 @@ export class SohlItem<
 
 export namespace SohlItem {
     export interface Data extends SohlLogic.Data {
+        get item(): SohlItem;
+        get actor(): SohlActor | null;
         get logic(): Logic;
+        get i18nPrefix(): string;
+        get kind(): string;
+        label(withName?: boolean): string;
         notes: HTMLString;
         description: HTMLString;
         textReference: HTMLString;
@@ -312,6 +332,40 @@ export namespace SohlItem {
 
         get actor(): SohlActor | null {
             return this.item.actor;
+        }
+
+        get i18nPrefix(): string {
+            return `SOHL.Item.${this.kind}`;
+        }
+
+        label(withName: boolean = true): string {
+            const typeText = sohl.i18n.localize(`TYPE.Item.${this.kind}`);
+            let profile: string;
+            if (withName) {
+                if (SubTypeMixin.Data.isA(this)) {
+                    profile = "SOHL.BASEDATA.nameLabelWithSubType";
+                } else {
+                    profile = "SOHL.BASEDATA.nameLabelWithoutSubType";
+                }
+            } else {
+                if (SubTypeMixin.Data.isA(this)) {
+                    profile = "SOHL.BASEDATA.TypeLabelWithSubType";
+                } else {
+                    profile = "SOHL.BASEDATA.TypeLabelWithoutSubType";
+                }
+            }
+            const data = {
+                type: typeText,
+                subtype: "",
+                name: this.parent.name,
+            };
+            if (SubTypeMixin.Data.isA(this)) data.subtype = this.subType;
+
+            return sohl.i18n.format(profile, {
+                type: typeText,
+                subtype: data.subtype,
+                name: this.parent.name,
+            });
         }
 
         /** @override */

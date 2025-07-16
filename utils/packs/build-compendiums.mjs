@@ -139,7 +139,7 @@ function cleanPackEntry(data, { clearSourceId = true, ownership = 0 } = {}) {
     delete data.flags?.importSource;
     delete data.flags?.exportSource;
     if (data._stats?.lastModifiedBy)
-        data._stats.lastModifiedBy = "sohlbuilder0000";
+        data._stats.lastModifiedBy = "sohlbuilder00000";
 
     // Remove empty entries in flags
     if (!data.flags) data.flags = {};

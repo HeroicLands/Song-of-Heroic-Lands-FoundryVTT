@@ -203,7 +203,7 @@ export namespace Mystery {
     )
     export class DataModel extends DataModelShape implements Mystery.Data {
         readonly [kData] = true;
-        static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
+        static override readonly LOCALIZATION_PREFIXES = [Kind];
         declare subType: SubType;
         declare config: {
             usesCharges: boolean;

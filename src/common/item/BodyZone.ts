@@ -86,7 +86,7 @@ export namespace BodyZone {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 abbrev: new StringField(),
             };

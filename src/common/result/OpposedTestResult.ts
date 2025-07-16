@@ -187,9 +187,7 @@ export namespace OpposedTestResult {
 
     export namespace Context {
         export interface Data extends SohlAction.Context.Data {
-            priorTestResult: Nullable<
-                OpposedTestResult.Data | OpposedTestResult
-            >;
+            priorTestResult: Nullable<OpposedTestResult>;
         }
     }
 }

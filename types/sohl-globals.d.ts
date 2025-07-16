@@ -4,7 +4,7 @@ import type {
     SohlClassRegistry,
     SohlLogger,
     SohlLocalize,
-    MersenneTwister,
+    SohlMersenneTwister,
 } from "@utils";
 
 // ✅ Custom utility types

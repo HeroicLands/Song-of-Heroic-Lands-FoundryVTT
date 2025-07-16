@@ -22,7 +22,7 @@ const kData = Symbol("SubType.Data");
 
 export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
-): TBase {
+): TBase & SubTypeMixin.Logic {
     return class extends Base {
         declare readonly actions: SohlAction[];
         declare readonly events: SohlEvent[];

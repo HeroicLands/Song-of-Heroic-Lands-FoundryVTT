@@ -1,4 +1,4 @@
-import { SohlAction.Context } from "@utils/SohlAction.Context";
+import { SohlAction } from "@common/event";
 import type { JSONSchema7 } from "json-schema";
 
 export interface AIExecutionResult {

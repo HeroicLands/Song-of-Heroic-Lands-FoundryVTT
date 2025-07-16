@@ -90,7 +90,7 @@ export namespace BodyPart {
         canHoldItem!: boolean;
         heldItemId!: string | null;
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 abbrev: new StringField(),
                 canHoldItem: new BooleanField({ initial: false }),

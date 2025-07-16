@@ -164,7 +164,7 @@ function registerSystemSettings() {
  */
 function registerSystemHooks() {
     Hooks.on("chatMessage", (_app, message, data) =>
-        AIAdapter.chatMessage(message, data as any),
+        AIAdapter.chatMessage(ui.chat, message, data as any),
     );
 
     Hooks.on(

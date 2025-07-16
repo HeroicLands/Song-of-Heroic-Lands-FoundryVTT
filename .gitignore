@@ -29,6 +29,7 @@
 
 # Build files
 /build/
+/coverage/
 
 # Hidden files
 /nogit/

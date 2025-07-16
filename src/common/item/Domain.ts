@@ -120,7 +120,7 @@ export namespace Domain {
         declare magicMod: ElementCategory[];
         declare embodiments: EmbodimentCategory[];
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 abbrev: new StringField(),

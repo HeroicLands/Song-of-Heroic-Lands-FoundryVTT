@@ -13,18 +13,11 @@
 
 import { sohl, fvtt } from "@common";
 
-import {
-    getSystemSetting,
-    getTargetedTokens,
-    SohlLogic,
-    SohlSpeaker,
-    SohlSystem,
-} from "@common";
+import { SohlLogic } from "@common";
 import { SohlActor } from "@common/actor";
 import { SohlAction, SohlEvent } from "@common/event";
 import { Mystery, SohlItem, Trait } from "@common/item";
 import { MasteryLevelModifier } from "@common/modifier";
-import { OpposedTestResult, SuccessTestResult } from "@common/result";
 import { defineType, FilePath, toFilePath, toHTMLWithTemplate } from "@utils";
 const { StringField, NumberField, BooleanField } = fvtt.data.fields;
 const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
@@ -38,10 +31,11 @@ const kDataModel = Symbol("MasteryLevelMixin.DataModel");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic gear properties.
  */
-export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
+export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
-): TBase {
-    return class extends Base {
+): TBase & MasteryLevelMixin.Logic {
+    return class extends Base implements MasteryLevelMixin.Logic {
+        declare parent: MasteryLevelMixin.Data;
         declare readonly actions: SohlAction[];
         declare readonly events: SohlEvent[];
         declare readonly item: SohlItem;
@@ -65,6 +59,242 @@ export function MasteryLevelMixin<TBase extends Constructor<SohlLogic.Logic>>(
 
         get masteryLevel(): MasteryLevelModifier {
             return this._masteryLevel;
+        }
+
+        async improveWithSDR(context: SohlAction.Context): Promise<void> {
+            const updateData: PlainObject = { "system.improveFlag": false };
+            let roll = await Roll.create(`1d100 + ${this.skillBase.value}`);
+            const isSuccess = (roll.total ?? 0) > this._masteryLevel.base;
+
+            if (isSuccess) {
+                updateData["system.masteryLevelBase"] =
+                    this.parent.masteryLevelBase + this.sdrIncr;
+            }
+            const chatTemplate: FilePath = toFilePath(
+                "systems/sohl/templates/chat/standard-test-card.html",
+            );
+            const chatTemplateData = {
+                variant: sohl.game.id,
+                type: `${this.parent.kind}-${this.parent.item.name}-improve-sdr`,
+                title: `${this.parent.label(false)} Development Roll`,
+                effTarget: this._masteryLevel.base,
+                isSuccess: isSuccess,
+                rollValue: roll.total,
+                rollResult: roll.result,
+                showResult: true,
+                resultText:
+                    isSuccess ?
+                        sohl.i18n.format("{prefix} Increase", {
+                            prefix: this.parent.item.label,
+                        })
+                    :   sohl.i18n.format("No {prefix} Increase", {
+                            prefix: this.parent.item.label,
+                        }),
+                resultDesc:
+                    isSuccess ?
+                        sohl.i18n.format(
+                            "{label} increased by {incr} to {final}",
+                            {
+                                label: this.parent.item.label,
+                                incr: this.sdrIncr,
+                                final: this._masteryLevel.base + this.sdrIncr,
+                            },
+                        )
+                    :   "",
+                description:
+                    isSuccess ?
+                        sohl.i18n.format("SOHL.TestResult.SUCCESS")
+                    :   sohl.i18n.format("SOHL.TestResult.FAILURE"),
+                notes: "",
+                sdrIncr: this.sdrIncr,
+            };
+
+            context.speaker.toChat(chatTemplate, chatTemplateData);
+        }
+
+        get fateSkills(): string[] {
+            return (
+                (fvtt.utils.getProperty(
+                    this.parent.item,
+                    "sohl.fateSkills",
+                ) as string[]) || []
+            );
+        }
+
+        get magicMod(): number {
+            return 0;
+        }
+
+        get boosts(): number {
+            return this._boosts;
+        }
+
+        /**
+         * Searches through all of the Fate mysteries on the actor, gathering any that
+         * are applicable to this skill, and returns them.
+         *
+         * @readonly
+         * @type {SohlItem[]} An array of Mystery fate items that apply to this skill.
+         */
+        get availableFate() {
+            let result: SohlItem[] = [];
+            if (!this._masteryLevel.disabled && this.parent.actor) {
+                this.parent.actor.items.values().forEach((it: SohlItem) => {
+                    if (Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATE)) {
+                        const logic = it.system.logic;
+                        const fateSkills = this.fateSkills;
+                        // If a fate item has a list of fate skills, then that fate
+                        // item is only applicable to those skills.  If the fate item
+                        // has no list of skills, then the fate item is applicable
+                        // to all skills.
+                        if (
+                            !fateSkills.length ||
+                            fateSkills.includes(this.parent.item?.name || "")
+                        ) {
+                            if (logic.level.effective > 0) result.push(it);
+                        }
+                    }
+                });
+            }
+            return result;
+        }
+
+        // get fateBonusItems() {
+        //     let result: SohlItem[] = [];
+        //     if (this.actor) {
+        //         this.actor.items.forEach((it: SohlItem) => {
+        //             if (
+        //                 Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATEBONUS)) {
+        //                 const skills:  = it.fateSkills;
+        //                 if (!skills || skills.includes(this.parent.item?.name || "")) {
+        //                     if (
+        //                         !it.system.$charges.disabled ||
+        //                         it.system.$charges.effective > 0
+        //                     ) {
+        //                         result.push(it);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return result;
+        // }
+
+        // get canImprove() {
+        //     return (
+        //         ((fvtt.game.user as any)?.isGM || this.parent.item?.isOwner) &&
+        //         !this._masteryLevel.disabled
+        //     );
+        // }
+
+        get valid() {
+            return this.skillBase.valid;
+        }
+
+        get skillBase() {
+            return this._skillBase;
+        }
+
+        get sdrIncr() {
+            return 1;
+        }
+
+        initialize(context: SohlAction.Context): void {
+            this._boosts = 0;
+            // this._masteryLevel = new CONFIG.SOHL.class.MasteryLevelModifier(
+            //     {
+            //         properties: {
+            //             fate: new CONFIG.SOHL.class.MasteryLevelModifier(
+            //                 {},
+            //                 { parent: this },
+            //             ),
+            //         },
+            //     },
+            //     { parent: this },
+            // );
+            // this._masteryLevel.setBase(this.masteryLevelBase);
+            // if (this.actor) {
+            //     const fateSetting = game.settings.get("sohl", "optionFate");
+
+            //     if (fateSetting === "everyone") {
+            //         this._masteryLevel.fate.setBase(50);
+            //     } else if (fateSetting === "pconly") {
+            //         if (this.actor.hasPlayerOwner) {
+            //             this._masteryLevel.fate.setBase(50);
+            //         } else {
+            //             this._masteryLevel.fate.setDisabled(
+            //                 sohl.i18n.format("Non-Player Character/Creature"),
+            //                 "NPC",
+            //             );
+            //         }
+            //     } else {
+            //         this._masteryLevel.fate.setDisabled(
+            //             sohl.i18n.format("Fate Disabled in Settings"),
+            //             "NoFate",
+            //         );
+            //     }
+            // }
+            // this._skillBase ||= new SkillBase(this.skillBaseFormula, {
+            //     items: this.actor?.items,
+            // });
+        }
+
+        evaluate(context: SohlAction.Context): void {
+            // this._skillBase.setAttributes(this.actor.allItems());
+            // if (this._masteryLevel.base > 0) {
+            //     let newML = this._masteryLevel.base;
+            //     for (let i = 0; i < this.boosts; i++) {
+            //         newML += this.constructor.calcMasteryBoost(newML);
+            //     }
+            //     this._masteryLevel.setBase(newML);
+            // }
+            // // Ensure base ML is not greater than MaxML
+            // if (this._masteryLevel.base > this._masteryLevel.max) {
+            //     this._masteryLevel.setBase(this._masteryLevel.max);
+            // }
+            // if (this.skillBase.attributes.includes("Aura")) {
+            //     // Any skill that has Aura in its SB formula cannot use fate
+            //     this._masteryLevel.fate.setDisabled(
+            //         sohl.i18n.format("Aura-Based, No Fate"),
+            //         "AurBsd",
+            //     );
+            // }
+        }
+
+        finalize(context: SohlAction.Context): void {
+            // if (this._masteryLevel.disabled) {
+            //     this._masteryLevel.fate.setDisabled(
+            //         CONFIG.SOHL.MOD.MLDSBL.name,
+            //         CONFIG.SOHL.MOD.MLDSBL.abbrev,
+            //     );
+            // }
+            // if (!this._masteryLevel.fate.disabled) {
+            //     const fate = this.actor.getTraitByAbbrev("fate");
+            //     if (fate) {
+            //         this._masteryLevel.fate.addVM(fate.system.$score, {
+            //             includeBase: true,
+            //         });
+            //     } else {
+            //         this._masteryLevel.fate.setBase(50);
+            //     }
+            //     // Apply magic modifiers
+            //     if (this.magicMod) {
+            //         this._masteryLevel.fate.add(
+            //             CONFIG.SOHL.MOD.MAGICMOD,
+            //             this.magicMod,
+            //         );
+            //     }
+            //     this.fateBonusItems.forEach((it) => {
+            //         this._masteryLevel.fate.add(
+            //             CONFIG.SOHL.MOD.FATEBNS,
+            //             it.system.$level.effective,
+            //             { skill: it.label },
+            //         );
+            //     });
+            //     if (!this.availableFate.length) {
+            //         this._masteryLevel.fate.setDisabled(CONFIG.SOHL.MOD.NOFATE);
+            //     }
+            // }
         }
     } as unknown as TBase & MasteryLevelMixin.Logic;
 }
@@ -111,7 +341,7 @@ export namespace MasteryLevelMixin {
                 );
             }
 
-            static defineSchema() {
+            static defineSchema(): foundry.data.fields.DataSchema {
                 return {
                     ...super.defineSchema(),
                     abbrev: new StringField(),
@@ -129,11 +359,11 @@ export namespace MasteryLevelMixin {
             MasteryLevelMixin.kIsMasteryLevel
         ] = true;
 
-        return InternalDataModel as unknown as TBase & SohlLogic.Constructor;
+        return InternalDataModel as unknown as TBase & Data;
     }
 
     export class SkillBase {
-        _attrs: StrictObject<string>;
+        _attrs: StrictObject<{ name: string; value: number }>;
         _formula: string | null;
         _sunsigns: string[];
         _parsedFormula: string[] | null;
@@ -179,7 +409,7 @@ export namespace MasteryLevelMixin {
                 const type = typeof param;
 
                 if (type === "string") {
-                    const [subType, name, mult = 1] = param.split(":");
+                    const [subType, name, multval] = param.split(":");
                     if (subType === "attr") {
                         const attr = attributes.find(
                             (obj) => obj.system.abbrev === name,
@@ -191,6 +421,15 @@ export namespace MasteryLevelMixin {
                                 10,
                             );
                             if (Number.isInteger(score)) {
+                                let mult =
+                                    typeof multval === "string" ?
+                                        Number.parseInt(multval, 10)
+                                    :   1;
+                                if (Number.isNaN(mult)) {
+                                    throw new Error(
+                                        "invalid attribute multiplier not number",
+                                    );
+                                }
                                 this._attrs[attr.system.abbrev] = {
                                     name: attr.name,
                                     value: score * mult,
@@ -208,7 +447,7 @@ export namespace MasteryLevelMixin {
         }
 
         get valid(): boolean {
-            return !!this.parsedFormula.length;
+            return !!this.parsedFormula?.length;
         }
 
         get formula(): string | null {
@@ -256,7 +495,7 @@ export namespace MasteryLevelMixin {
             // All parts of the formula are separated by commas,
             // and we lowercase here since the string is processed
             // case-insensitive.
-            const sbParts = this._formula.toLowerCase().split(",");
+            const sbParts = this._formula?.toLowerCase().split(",") || [];
 
             for (let param of sbParts) {
                 if (!isFormulaValid) break;
@@ -309,18 +548,21 @@ export namespace MasteryLevelMixin {
                     }
 
                     // The only valid possibility left is a number.
-                    // If it"s not a number, it's invalid.
-                    if (param.match(/^[-+]?\d+$/)) {
-                        modifier += Number.parseInt(param, 10);
-                        parseResult.push(modifier);
-                    } else {
+                    // If it's not a number, it's invalid.
+                    const num = Number.parseInt(param, 10);
+                    if (Number.isNaN(num)) {
                         isFormulaValid = false;
                         break;
+                    } else {
+                        modifier += num;
+                        parseResult.push(modifier.toString());
                     }
                 }
             }
 
-            return isFormulaValid ? parseResult : null;
+            return (
+                (isFormulaValid && parseResult.length && parseResult) || null
+            );
         }
 
         /**
@@ -328,30 +570,37 @@ export namespace MasteryLevelMixin {
          *
          * @returns A number representing the calculated skill base
          */
-        _calcValue() {
+        _calcValue(): number {
             if (!this.valid) return 0;
-            let attrScores = [];
-            let ssBonus = Number.MIN_SAFE_INTEGER;
-            let modifier = 0;
-            this.parsedFormula.forEach((param) => {
+            let attrScores: number[] = [];
+            let ssBonus: number = Number.MIN_SAFE_INTEGER;
+            let modifier: number = 0;
+            this.parsedFormula?.forEach((param) => {
+                let val: number;
                 const type = typeof param;
-
-                if (type === "number") {
-                    modifier += param;
+                val = Number.parseInt(param, 10);
+                if (Number.isInteger(val)) {
+                    modifier += val;
                 } else if (type === "string") {
-                    const [subType, name, mult = 1] = param.split(":");
+                    const [subType, name, multval] = param.split(":");
+                    let mult = Math.max(
+                        1,
+                        (typeof multval === "string" &&
+                            Number.parseInt(multval, 10)) ||
+                            1,
+                    );
+
                     if (subType === "attr") {
                         attrScores.push(this._attrs[name]?.value || 0);
                     } else if (subType === "ss") {
                         if (this.sunsigns.includes(name)) {
                             // We matched a character's sunsign, apply modifier
                             // Character only gets the largest sunsign bonus
-                            ssBonus = Math.max(
-                                Number.parseInt(mult, 10),
-                                ssBonus,
-                            );
+                            ssBonus = Math.max(mult, ssBonus);
                         }
                     }
+                } else {
+                    sohl.log.error(`Invalid skill base formula part: ${param}`);
                 }
             });
 

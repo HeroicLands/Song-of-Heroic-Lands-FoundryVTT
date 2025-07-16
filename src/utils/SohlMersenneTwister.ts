@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export class MersenneTwister {
+export class SohlMersenneTwister {
     private static readonly N = 624;
     private static readonly M = 397;
     private static readonly MATRIX_A = 0x9908b0df;
@@ -19,8 +19,8 @@ export class MersenneTwister {
     private static readonly LOWER_MASK = 0x7fffffff;
     private static readonly MAX_INT = 4294967296.0;
 
-    private mt: number[] = new Array(MersenneTwister.N);
-    private mti = MersenneTwister.N + 1;
+    private mt: number[] = new Array(SohlMersenneTwister.N);
+    private mti = SohlMersenneTwister.N + 1;
     private _seed: number;
 
     constructor(seed: number = Date.now()) {
@@ -29,7 +29,7 @@ export class MersenneTwister {
 
     seed(seed: number): number {
         this.mt[0] = seed >>> 0;
-        for (this.mti = 1; this.mti < MersenneTwister.N; this.mti++) {
+        for (this.mti = 1; this.mti < SohlMersenneTwister.N; this.mti++) {
             const prev = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);
             this.mt[this.mti] =
                 ((((prev & 0xffff0000) >>> 16) * 1812433253) << 16) +
@@ -43,7 +43,7 @@ export class MersenneTwister {
     seedArray(vector: number[]): void {
         let i = 1,
             j = 0,
-            k = Math.max(MersenneTwister.N, vector.length);
+            k = Math.max(SohlMersenneTwister.N, vector.length);
         this.seed(19650218);
         while (k--) {
             const s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);
@@ -53,10 +53,10 @@ export class MersenneTwister {
                 vector[j] +
                 j;
             this.mt[i] >>>= 0;
-            i = (i + 1) % MersenneTwister.N;
+            i = (i + 1) % SohlMersenneTwister.N;
             j = (j + 1) % vector.length;
         }
-        for (k = MersenneTwister.N - 1; k > 0; k--) {
+        for (k = SohlMersenneTwister.N - 1; k > 0; k--) {
             const s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);
             this.mt[i] =
                 (this.mt[i] ^
@@ -64,13 +64,13 @@ export class MersenneTwister {
                         (s & 0xffff) * 1566083941)) -
                 i;
             this.mt[i] >>>= 0;
-            i = (i + 1) % MersenneTwister.N;
+            i = (i + 1) % SohlMersenneTwister.N;
         }
         this.mt[0] = 0x80000000;
     }
 
     int(): number {
-        if (this.mti >= MersenneTwister.N) this.twist();
+        if (this.mti >= SohlMersenneTwister.N) this.twist();
 
         let y = this.mt[this.mti++];
         y ^= y >>> 11;
@@ -81,7 +81,7 @@ export class MersenneTwister {
     }
 
     private twist(): void {
-        const { N, M, UPPER_MASK, LOWER_MASK, MATRIX_A } = MersenneTwister;
+        const { N, M, UPPER_MASK, LOWER_MASK, MATRIX_A } = SohlMersenneTwister;
         const mag01 = [0, MATRIX_A];
         let y: number;
         let kk = 0;
@@ -104,15 +104,15 @@ export class MersenneTwister {
     }
 
     real(): number {
-        return this.int() * (1.0 / (MersenneTwister.MAX_INT - 1));
+        return this.int() * (1.0 / (SohlMersenneTwister.MAX_INT - 1));
     }
 
     realx(): number {
-        return (this.int() + 0.5) * (1.0 / MersenneTwister.MAX_INT);
+        return (this.int() + 0.5) * (1.0 / SohlMersenneTwister.MAX_INT);
     }
 
     rnd(): number {
-        return this.int() * (1.0 / MersenneTwister.MAX_INT);
+        return this.int() * (1.0 / SohlMersenneTwister.MAX_INT);
     }
 
     random(): number {
@@ -140,18 +140,19 @@ export class MersenneTwister {
     }
 
     // Singleton support
-    private static _instance: MersenneTwister | null = null;
+    private static _instance: SohlMersenneTwister | null = null;
 
-    static getInstance(): MersenneTwister {
-        if (!this._instance) this._instance = new MersenneTwister(Date.now());
+    static getInstance(): SohlMersenneTwister {
+        if (!this._instance)
+            this._instance = new SohlMersenneTwister(Date.now());
         return this._instance;
     }
 
     static setSeed(seed: number): void {
-        this._instance = new MersenneTwister(seed);
+        this._instance = new SohlMersenneTwister(seed);
     }
 
-    static useMock(mock: MersenneTwister): void {
+    static useMock(mock: SohlMersenneTwister): void {
         this._instance = mock;
     }
 
@@ -171,5 +172,3 @@ export class MersenneTwister {
         return this.getInstance().normal(mu, sigma);
     }
 }
-
-export const twist = MersenneTwister.getInstance();

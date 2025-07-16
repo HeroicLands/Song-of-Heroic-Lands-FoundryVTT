@@ -172,7 +172,7 @@ export namespace Injury {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        static defineSchema() {
+        static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 injuryLevelBase: new NumberField({
