@@ -1,5 +1,5 @@
 {
-    "entryPoints": ["src/index.ts"],
+    "entryPoints": ["src/sohl.ts"],
     "entryPointStrategy": "expand",
     "tsconfig": "./tsconfig.json",
     "out": "build/stage/docs",

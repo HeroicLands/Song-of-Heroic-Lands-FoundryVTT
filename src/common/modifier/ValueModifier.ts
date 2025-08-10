@@ -11,10 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { maxPrecision } from "@utils";
-import { ValueDelta } from "@common/modifier";
-import { SohlBase, SohlLogic } from "@common";
-import { SYMBOL } from "@utils/constants";
+import { maxPrecision } from "@utils/helpers";
+import { ValueDelta } from "@common/modifier/ValueDelta";
+import { SohlBase } from "@common/SohlBase";
+import { SohlLogic } from "@common/SohlLogic";
+import {
+    SYMBOL,
+    VALUE_DELTA_INFO,
+    VALUE_DELTA_OPERATOR,
+    ValueDeltaOperator,
+} from "@utils/constants";
 
 /**
  * Represents a value and its modifying deltas.
@@ -72,15 +78,15 @@ export class ValueModifier extends SohlBase {
                 if (typeof value === "number") {
                     value ||= 0;
                     switch (adj.op) {
-                        case ValueDelta.OPERATOR.ADD:
+                        case VALUE_DELTA_OPERATOR.ADD:
                             this._effective += value;
                             break;
 
-                        case ValueDelta.OPERATOR.MULTIPLY:
+                        case VALUE_DELTA_OPERATOR.MULTIPLY:
                             this._effective *= value;
                             break;
 
-                        case ValueDelta.OPERATOR.UPGRADE:
+                        case VALUE_DELTA_OPERATOR.UPGRADE:
                             // set minVal to the largest minimum value
                             minVal = Math.max(
                                 minVal ?? Number.MIN_SAFE_INTEGER,
@@ -88,7 +94,7 @@ export class ValueModifier extends SohlBase {
                             );
                             break;
 
-                        case ValueDelta.OPERATOR.DOWNGRADE:
+                        case VALUE_DELTA_OPERATOR.DOWNGRADE:
                             // set maxVal to the smallest maximum value
                             maxVal = Math.min(
                                 maxVal ?? Number.MAX_SAFE_INTEGER,
@@ -96,37 +102,37 @@ export class ValueModifier extends SohlBase {
                             );
                             break;
 
-                        case ValueDelta.OPERATOR.OVERRIDE:
+                        case VALUE_DELTA_OPERATOR.OVERRIDE:
                             overrideVal = value;
                             break;
                     }
                 } else if (typeof value === "boolean") {
                     switch (adj.op) {
-                        case ValueDelta.OPERATOR.ADD:
+                        case VALUE_DELTA_OPERATOR.ADD:
                             this._effective ||= value ? 1 : 0;
                             break;
 
-                        case ValueDelta.OPERATOR.MULTIPLY:
+                        case VALUE_DELTA_OPERATOR.MULTIPLY:
                             this._effective = value && this._effective ? 1 : 0;
                             break;
 
-                        case ValueDelta.OPERATOR.UPGRADE:
+                        case VALUE_DELTA_OPERATOR.UPGRADE:
                             // set minVal to the largest minimum value
                             minVal = 0;
                             break;
 
-                        case ValueDelta.OPERATOR.DOWNGRADE:
+                        case VALUE_DELTA_OPERATOR.DOWNGRADE:
                             // set maxVal to the smallest maximum value
                             maxVal = 1;
                             break;
 
-                        case ValueDelta.OPERATOR.OVERRIDE:
+                        case VALUE_DELTA_OPERATOR.OVERRIDE:
                             overrideVal = value ? 1 : 0;
                             break;
                     }
                 } else if (typeof value === "string") {
                     switch (adj.op) {
-                        case ValueDelta.OPERATOR.CUSTOM:
+                        case VALUE_DELTA_OPERATOR.CUSTOM:
                             overrideVal = 0;
                     }
                 }
@@ -209,7 +215,7 @@ export class ValueModifier extends SohlBase {
         name: string,
         abbrev: string = "",
         value: string | number = 0,
-        op: ValueDelta.Operator = ValueDelta.OPERATOR.ADD,
+        op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
     ): ValueModifier {
         if (!ValueDelta.isA(op)) {
@@ -218,18 +224,18 @@ export class ValueModifier extends SohlBase {
             !(typeof name === "string" && name.startsWith("SOHL.MOD."))
         ) {
             throw new TypeError("name is not valid");
-        } else if (op === ValueDelta.OPERATOR.CUSTOM && !this.customFunction) {
+        } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }
 
         abbrev ||= data.abbrev;
 
         const existingOverride = this.deltas.find(
-            (m) => m.op === ValueDelta.OPERATOR.OVERRIDE,
+            (m) => m.op === VALUE_DELTA_OPERATOR.OVERRIDE,
         );
         if (existingOverride) {
             // If the operation is not override, then ignore it (leave current override in place)
-            if (op === ValueDelta.OPERATOR.OVERRIDE) {
+            if (op === VALUE_DELTA_OPERATOR.OVERRIDE) {
                 // If this ValueModifier already been overriden to zero, all other modifications are ignored.
                 if (existingOverride.numValue !== 0) {
                     // If this ValueModifier is being overriden, throw out all other modifications
@@ -274,7 +280,7 @@ export class ValueModifier extends SohlBase {
         } else {
             [name, abbrev, value, data = {}] = args;
         }
-        return this._oper(name, abbrev, value, ValueDelta.OPERATOR.ADD, data);
+        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.ADD, data);
     }
 
     addVM(
@@ -295,7 +301,7 @@ export class ValueModifier extends SohlBase {
             name,
             abbrev,
             value,
-            ValueDelta.OPERATOR.MULTIPLY,
+            VALUE_DELTA_OPERATOR.MULTIPLY,
             data,
         );
     }
@@ -311,7 +317,7 @@ export class ValueModifier extends SohlBase {
             name,
             abbrev,
             value,
-            ValueDelta.OPERATOR.OVERRIDE,
+            VALUE_DELTA_OPERATOR.OVERRIDE,
             data,
         );
     }
@@ -327,7 +333,7 @@ export class ValueModifier extends SohlBase {
             name,
             abbrev,
             value,
-            ValueDelta.OPERATOR.UPGRADE,
+            VALUE_DELTA_OPERATOR.UPGRADE,
             data,
         );
     }
@@ -349,7 +355,7 @@ export class ValueModifier extends SohlBase {
             name,
             abbrev,
             value,
-            ValueDelta.OPERATOR.DOWNGRADE,
+            VALUE_DELTA_OPERATOR.DOWNGRADE,
             data,
         );
     }
@@ -357,22 +363,22 @@ export class ValueModifier extends SohlBase {
     get chatHtml(): string {
         function getValue(delta: ValueDelta): string {
             switch (delta.op) {
-                case ValueDelta.OPERATOR.ADD:
+                case VALUE_DELTA_OPERATOR.ADD:
                     return `${delta.numValue >= 0 ? "+" : ""}${delta.value}`;
 
-                case ValueDelta.OPERATOR.MULTIPLY:
+                case VALUE_DELTA_OPERATOR.MULTIPLY:
                     return `${SYMBOL.TIMES}${delta.value}`;
 
-                case ValueDelta.OPERATOR.DOWNGRADE:
+                case VALUE_DELTA_OPERATOR.DOWNGRADE:
                     return `${SYMBOL.LESSTHANOREQUAL}${delta.value}`;
 
-                case ValueDelta.OPERATOR.UPGRADE:
+                case VALUE_DELTA_OPERATOR.UPGRADE:
                     return `${SYMBOL.GREATERTHANOREQUAL}${delta.value}`;
 
-                case ValueDelta.OPERATOR.OVERRIDE:
+                case VALUE_DELTA_OPERATOR.OVERRIDE:
                     return `=${delta.value}`;
 
-                case ValueDelta.OPERATOR.CUSTOM:
+                case VALUE_DELTA_OPERATOR.CUSTOM:
                     return `${SYMBOL.STAR}${delta.value}`;
 
                 default:
@@ -401,7 +407,7 @@ export class ValueModifier extends SohlBase {
     _calcAbbrev() {
         this._abbrev = "";
         if (this.disabled) {
-            this._abbrev = ValueDelta.INFO.DISABLED;
+            this._abbrev = VALUE_DELTA_INFO.DISABLED;
         } else {
             this.deltas.forEach((adj) => {
                 if (this._abbrev) {
@@ -409,27 +415,27 @@ export class ValueModifier extends SohlBase {
                 }
 
                 switch (adj.op) {
-                    case ValueDelta.OPERATOR.ADD:
+                    case VALUE_DELTA_OPERATOR.ADD:
                         this._abbrev += `${adj.abbrev} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
                         break;
 
-                    case ValueDelta.OPERATOR.MULTIPLY:
+                    case VALUE_DELTA_OPERATOR.MULTIPLY:
                         this._abbrev += `${adj.abbrev} ${SYMBOL.TIMES}${adj.value}`;
                         break;
 
-                    case ValueDelta.OPERATOR.DOWNGRADE:
+                    case VALUE_DELTA_OPERATOR.DOWNGRADE:
                         this._abbrev += `${adj.abbrev} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
                         break;
 
-                    case ValueDelta.OPERATOR.UPGRADE:
+                    case VALUE_DELTA_OPERATOR.UPGRADE:
                         this._abbrev += `${adj.abbrev} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
                         break;
 
-                    case ValueDelta.OPERATOR.OVERRIDE:
+                    case VALUE_DELTA_OPERATOR.OVERRIDE:
                         this._abbrev += `${adj.abbrev} =${adj.value}`;
                         break;
 
-                    case ValueDelta.OPERATOR.CUSTOM:
+                    case VALUE_DELTA_OPERATOR.CUSTOM:
                         if (adj.value === "disabled")
                             this._abbrev += `${adj.abbrev}`;
                         break;

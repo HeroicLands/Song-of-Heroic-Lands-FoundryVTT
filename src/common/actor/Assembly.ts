@@ -11,16 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDataModel, SohlLogic } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { SohlAction } from "@common/event";
-import { SohlActor } from "@common/actor";
-import { SohlClassRegistry } from "@utils";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlActor } from "@common/actor/SohlActor";
 const { DocumentIdField } = foundry.data.fields;
 const kAssembly = Symbol("Assembly");
 const kDataModel = Symbol("Assembly.DataModel");
 
-@RegisterClass(new SohlClassRegistry.Element(Assembly.Kind))
 export class Assembly<TData extends Assembly.Data = Assembly.Data>
     extends SohlLogic
     implements Assembly.Logic<TData>
@@ -44,26 +41,11 @@ export class Assembly<TData extends Assembly.Data = Assembly.Data>
 
 export namespace Assembly {
     /**
-     * The type moniker for the Assembly actor.
-     */
-    export const Kind = "assembly";
-
-    /**
      * The paths to the document sheet handlebars partials for the Assembly actor.
      */
     export const SheetPartials = [
         "systems/sohl/templates/actor/assembly-sheet.hbs",
     ];
-
-    /**
-     * The FontAwesome icon class for the Assembly actor.
-     */
-    export const IconCssClass = "fas fa-layer-group";
-
-    /**
-     * The image path for the Assembly actor.
-     */
-    export const Image = "systems/sohl/assets/icons/stack.svg";
 
     /**
      * The data shape for the Assembly actor.
@@ -77,15 +59,6 @@ export namespace Assembly {
     /**
      * The Foundry VTT data model for the Assembly actor.
      */
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Assembly,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends SohlActor.DataModel implements Data {
         declare canonicalItemUuid: string | null;
         static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];

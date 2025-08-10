@@ -11,94 +11,127 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlMap } from "@utils/collection";
+import { SohlMap } from "@utils/collection/SohlMap";
+import { SohlDataModel } from "@common/SohlDataModel";
+import { ImpactModifier } from "@common/modifier/ImpactModifier";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import { CombatModifier } from "@common/modifier/CombatModifier";
+import { AttackResult } from "@common/result/AttackResult";
+import { DefendResult } from "@common/result/DefendResult";
+import { CombatResult } from "@common/result/CombatResult";
+import { ImpactResult } from "@common/result/ImpactResult";
+import { OpposedTestResult } from "@common/result/OpposedTestResult";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { Entity } from "@common/actor/Entity";
+import { Assembly } from "@common/actor/Assembly";
+import { SohlActor } from "@common/actor/SohlActor";
+import { SohlItem } from "@common/item/SohlItem";
+import { Affiliation } from "@common/item/Affiliation";
+import { Affliction } from "@common/item/Affliction";
+import { ArmorGear } from "@common/item/ArmorGear";
+import { BodyLocation } from "@common/item/BodyLocation";
+import { BodyPart } from "@common/item/BodyPart";
+import { BodyZone } from "@common/item/BodyZone";
+import { CombatTechniqueStrikeMode } from "@common/item/CombatTechniqueStrikeMode";
+import { ConcoctionGear } from "@common/item/ConcoctionGear";
+import { ContainerGear } from "@common/item/ContainerGear";
+import { Domain } from "@common/item/Domain";
+import { Injury } from "@common/item/Injury";
+import { MeleeWeaponStrikeMode } from "@common/item/MeleeWeaponStrikeMode";
+import { MiscGear } from "@common/item/MiscGear";
+import { MissileWeaponStrikeMode } from "@common/item/MissileWeaponStrikeMode";
+import { Mystery } from "@common/item/Mystery";
+import { MysticalAbility } from "@common/item/MysticalAbility";
+import { MysticalDevice } from "@common/item/MysticalDevice";
+import { Philosophy } from "@common/item/Philosophy";
+import { ProjectileGear } from "@common/item/ProjectileGear";
+import { Protection } from "@common/item/Protection";
+import { Skill } from "@common/item/Skill";
+import { Trait } from "@common/item/Trait";
+import { WeaponGear } from "@common/item/WeaponGear";
+import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
+import { SohlCombatant } from "@common/combatant/SohlCombatant";
+import * as utils from "@utils/helpers";
+import { FilePath, toFilePath } from "@utils/helpers";
+import { SohlLocalize } from "@utils/SohlLocalize";
+import { SohlLogger } from "@utils/SohlLogger";
+import { Itr } from "@utils/Itr";
+import { SohlBase } from "@common/SohlBase";
+import { SohlActiveEffectData } from "@common/effect/SohlActiveEffectData";
 import {
-    ImpactModifier,
-    MasteryLevelModifier,
-    ValueModifier,
-    CombatModifier,
-} from "@common/modifier";
-import {
-    AttackResult,
-    CombatResult,
-    DefendResult,
-    ImpactResult,
-    OpposedTestResult,
-    SuccessTestResult,
-} from "@common/result";
-import { Entity, Assembly, SohlActor } from "@common/actor";
-import {
-    Affiliation,
-    Affliction,
-    ArmorGear,
-    BodyLocation,
-    BodyPart,
-    BodyZone,
-    CombatTechniqueStrikeMode,
-    ConcoctionGear,
-    ContainerGear,
-    Domain,
-    Injury,
-    MeleeWeaponStrikeMode,
-    MiscGear,
-    MissileWeaponStrikeMode,
-    Mystery,
-    MysticalAbility,
-    MysticalDevice,
-    Philosophy,
-    ProjectileGear,
-    Protection,
-    SohlItem,
-    Skill,
-    Trait,
-    WeaponGear,
-} from "@common/item";
-import { SohlActiveEffect } from "@common/effect";
-import { SohlCombatant } from "@common/combatant";
-import * as utils from "@utils";
-import { defineType, FilePath, toFilePath } from "@utils";
-import { SohlDataModel } from "@common";
+    ACTOR_KIND,
+    ACTOR_METADATA,
+    ActorKinds,
+    ActorMetadatas,
+    defineType,
+    EFFECT_METADATA,
+    EffectMetadatas,
+    ITEM_KIND,
+    ITEM_METADATA,
+    ItemKinds,
+    ItemMetadatas,
+} from "@utils/constants";
 
-const ActorDataModels: Record<string, SohlDataModel.Metadata> = {
-    [Entity.DataModel.kind]: Entity.DataModel._metadata,
-    [Assembly.DataModel.kind]: Assembly.DataModel._metadata,
-};
+const {
+    kind: ACTOR_DATA_MODEL,
+    values: ActorDataModels,
+    isValue: isActorDataModel,
+    labels: ActorDataModelLabels,
+} = defineType("TYPES.Actor", {
+    [ACTOR_KIND.ENTITY]: Entity.DataModel,
+    [ACTOR_KIND.ASSEMBLY]: Assembly.DataModel,
+} as Record<string, Constructor<SohlDataModel<any>>>);
 
-const ItemDataModels: Record<string, SohlDataModel.Metadata> = {
-    [Affiliation.DataModel.kind]: Affiliation.DataModel._metadata,
-    [Affliction.DataModel.kind]: Affliction.DataModel._metadata,
-    [ArmorGear.DataModel.kind]: ArmorGear.DataModel._metadata,
-    [BodyLocation.DataModel.kind]: BodyLocation.DataModel._metadata,
-    [BodyPart.DataModel.kind]: BodyPart.DataModel._metadata,
-    [BodyZone.DataModel.kind]: BodyZone.DataModel._metadata,
-    [CombatTechniqueStrikeMode.DataModel.kind]:
-        CombatTechniqueStrikeMode.DataModel._metadata,
-    [ConcoctionGear.DataModel.kind]: ConcoctionGear.DataModel._metadata,
-    [ContainerGear.DataModel.kind]: ContainerGear.DataModel._metadata,
-    [Domain.DataModel.kind]: Domain.DataModel._metadata,
-    [Injury.DataModel.kind]: Injury.DataModel._metadata,
-    [MeleeWeaponStrikeMode.DataModel.kind]:
-        MeleeWeaponStrikeMode.DataModel._metadata,
-    [MiscGear.DataModel.kind]: MiscGear.DataModel._metadata,
-    [MissileWeaponStrikeMode.DataModel.kind]:
-        MissileWeaponStrikeMode.DataModel._metadata,
-    [Mystery.DataModel.kind]: Mystery.DataModel._metadata,
-    [MysticalAbility.DataModel.kind]: MysticalAbility.DataModel._metadata,
-    [MysticalDevice.DataModel.kind]: MysticalDevice.DataModel._metadata,
-    [Philosophy.DataModel.kind]: Philosophy.DataModel._metadata,
-    [ProjectileGear.DataModel.kind]: ProjectileGear.DataModel._metadata,
-    [Protection.DataModel.kind]: Protection.DataModel._metadata,
-    [Skill.DataModel.kind]: Skill.DataModel._metadata,
-    [Trait.DataModel.kind]: Trait.DataModel._metadata,
-    [WeaponGear.DataModel.kind]: WeaponGear.DataModel._metadata,
-};
+const {
+    kind: ITEM_DATA_MODEL,
+    values: ItemDataModels,
+    isValue: isItemDataModel,
+    labels: ItemDataModelLabels,
+} = defineType("TYPES.Item", {
+    [ITEM_KIND.AFFILIATION]: Affiliation.DataModel,
+    [ITEM_KIND.AFFLICTION]: Affliction.DataModel,
+    [ITEM_KIND.ARMORGEAR]: ArmorGear.DataModel,
+    [ITEM_KIND.BODYLOCATION]: BodyLocation.DataModel,
+    [ITEM_KIND.BODYPART]: BodyPart.DataModel,
+    [ITEM_KIND.BODYZONE]: BodyZone.DataModel,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeMode.DataModel,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGear.DataModel,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGear.DataModel,
+    [ITEM_KIND.DOMAIN]: Domain.DataModel,
+    [ITEM_KIND.INJURY]: Injury.DataModel,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeMode.DataModel,
+    [ITEM_KIND.MISCGEAR]: MiscGear.DataModel,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeMode.DataModel,
+    [ITEM_KIND.MYSTERY]: Mystery.DataModel,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbility.DataModel,
+    [ITEM_KIND.MYSTICALDEVICE]: MysticalDevice.DataModel,
+    [ITEM_KIND.PHILOSOPHY]: Philosophy.DataModel,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGear.DataModel,
+    [ITEM_KIND.PROTECTION]: Protection.DataModel,
+    [ITEM_KIND.SKILL]: Skill.DataModel,
+    [ITEM_KIND.TRAIT]: Trait.DataModel,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGear.DataModel,
+} as Record<string, Constructor<SohlDataModel<any>>>);
+
+const {
+    kind: EFFECT_DATA_MODEL,
+    values: EffectDataModels,
+    isValue: isEffectDataModel,
+    labels: EffectDataModelLabels,
+} = defineType("TYPES.Effect", {
+    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlActiveEffectData.DataModel,
+} as Record<string, Constructor<SohlDataModel<any>>>);
 
 /**
  * Abstract class representing a system variant for the Song of Heroic Lands (SoHL).
  * This class provides a structure for defining system-specific properties and methods.
  */
 export abstract class SohlSystem {
-    protected static _variants: SohlMap<string, SohlSystem>;
+    protected static _variants: SohlMap<string, SohlSystem> = new SohlMap<
+        string,
+        SohlSystem
+    >();
     protected static _curVariant?: SohlSystem;
     static get CONFIG(): SohlSystem.Config {
         return {
@@ -127,36 +160,19 @@ export abstract class SohlSystem {
                 documentSheets: [
                     {
                         cls: SohlActor.Sheet,
-                        types: Object.keys(ActorDataModels),
+                        types: ActorKinds,
                     },
                 ],
-                DataModels: Object.keys(ActorDataModels).reduce(
-                    (acc: PlainObject, i) => {
-                        if (ActorDataModels[i].ctor)
-                            acc[i] = ActorDataModels[i].ctor as Constructor<
-                                SohlDataModel<any>
-                            >;
-                        return acc;
-                    },
-                    {},
-                ),
-                typeLabels: Object.fromEntries(
-                    Object.keys(ActorDataModels).map((i) => [
-                        i,
-                        `TYPES.Actor.${i}`,
+                dataModels: ACTOR_DATA_MODEL,
+                typeLabels: ActorDataModelLabels,
+                typeIcons: Object.fromEntries(
+                    Object.values(ACTOR_KIND).map((kind) => [
+                        kind,
+                        ACTOR_METADATA[kind].IconCssClass,
                     ]),
                 ),
-                typeIcons: Object.keys(ActorDataModels).reduce(
-                    (acc: PlainObject, i) => {
-                        if (ActorDataModels[i].iconCssClass)
-                            acc[i] = ActorDataModels[i]
-                                .iconCssClass as FilePath;
-                        return acc;
-                    },
-                    {},
-                ),
-                types: Object.keys(ActorDataModels),
-                defaultType: Entity.DataModel.kind,
+                types: ActorKinds,
+                defaultType: ACTOR_KIND.ENTITY,
                 compendiums: ["sohl.leg-characters", "sohl.leg-creatures"],
                 macros: {},
             },
@@ -165,40 +181,24 @@ export abstract class SohlSystem {
                 documentSheets: [
                     {
                         cls: SohlItem.Sheet,
-                        types: Object.keys(ItemDataModels).filter(
-                            (t) => t !== ContainerGear.DataModel.kind,
+                        types: ItemKinds.filter(
+                            (t) => t !== ITEM_KIND.CONTAINERGEAR,
                         ),
                     },
                     {
                         cls: ContainerGear.Sheet,
-                        types: [ContainerGear.DataModel.kind],
+                        types: [ITEM_KIND.CONTAINERGEAR],
                     },
                 ],
-                DataModels: Object.keys(ItemDataModels).reduce(
-                    (acc: PlainObject, i) => {
-                        if (ItemDataModels[i].ctor)
-                            acc[i] = ItemDataModels[i].ctor as Constructor<
-                                SohlDataModel<any>
-                            >;
-                        return acc;
-                    },
-                    {},
-                ),
-                typeLabels: Object.fromEntries(
-                    Object.keys(ItemDataModels).map((i) => [
-                        i,
-                        `TYPES.Item.${i}`,
+                dataModels: ITEM_DATA_MODEL,
+                typeLabels: ItemDataModelLabels,
+                typeIcons: Object.fromEntries(
+                    Object.values(ITEM_KIND).map((kind) => [
+                        kind,
+                        ITEM_METADATA[kind].IconCssClass,
                     ]),
                 ),
-                typeIcons: Object.keys(ItemDataModels).reduce(
-                    (acc: PlainObject, i) => {
-                        if (ItemDataModels[i].iconCssClass)
-                            acc[i] = ItemDataModels[i].iconCssClass as FilePath;
-                        return acc;
-                    },
-                    {},
-                ),
-                types: Object.keys(ItemDataModels),
+                types: ItemKinds,
                 compendiums: [
                     "sohl.leg-characteristics",
                     "sohl.leg-possessions",
@@ -209,28 +209,42 @@ export abstract class SohlSystem {
             ActiveEffect: {
                 documentClass: SohlActiveEffect,
                 documentSheets: [],
-                DataModels: {
-                    [SohlActiveEffect.DataModel.kind]:
-                        SohlActiveEffect.DataModel,
-                },
-                typeLabels: {
-                    [SohlActiveEffect.DataModel.kind]:
-                        `TYPES.ActiveEffect.${SohlActiveEffect.DataModel.kind}`,
-                },
-                typeIcons: {
-                    [SohlActiveEffect.DataModel.kind]:
-                        SohlActiveEffect.DataModel.iconCssClass,
-                },
-                types: [SohlActiveEffect.Kind],
+                dataModels: EFFECT_DATA_MODEL,
+                typeLabels: EffectDataModelLabels,
+                typeIcons: Object.fromEntries(
+                    Object.values(EFFECT_METADATA).map((meta) => [
+                        meta.Kind,
+                        meta.IconCssClass,
+                    ]),
+                ),
+                types: EffectMetadatas.map((m) => m.Kind),
                 legacyTransferral: false,
             },
             Combatant: {
                 documentClass: SohlCombatant,
                 documentSheets: [],
-                DataModels: {},
+                dataModels: {},
                 typeLabels: {},
                 typeIcons: {},
                 types: [],
+            },
+            Modifier: {
+                classes: {
+                    ValueModifier: ValueModifier,
+                    CombatModifier: CombatModifier,
+                    ImpactModifier: ImpactModifier,
+                    MasteryLevelModifier: MasteryLevelModifier,
+                },
+            },
+            Result: {
+                classes: {
+                    SuccessTestResult: SuccessTestResult,
+                    OpposedTestResult: OpposedTestResult,
+                    ImpactResult: ImpactResult,
+                    CombatResult: CombatResult,
+                    AttackResult: AttackResult,
+                    DefendResult: DefendResult,
+                },
             },
             // Macro: {
             //     documentClass: SohlMacro,
@@ -269,38 +283,33 @@ export abstract class SohlSystem {
     static readonly INIT_MESSAGE: string;
 
     static readonly utils: typeof utils = utils;
-
     static simpleCalendar?: any;
-
     static ready: boolean = false;
-
-    /**
-     * A registry of data models for this system variant.
-     * Maps document types to their respective data models.
-     */
-    protected DataModelRegistry: SohlMap<
+    readonly classRegistry: SohlMap<string, Constructor<SohlBase>>;
+    readonly dataModelRegistry: SohlMap<
         string,
-        SohlMap<string, SohlDataModel.Metadata>
+        Constructor<SohlDataModel<any>>
     >;
+    readonly i18n: SohlLocalize;
+    readonly log: SohlLogger;
 
-    /**
-     * Registry of all SohlBase classes.  This is a singleton across all variants.
-     * It is used to register and retrieve classes that are part of the Sohl system.
-     */
-    readonly classRegistry: utils.SohlClassRegistry;
-
-    readonly i18n: utils.SohlLocalize;
-
-    readonly log: utils.SohlLogger;
-
-    static selectVariant(variant?: string): SohlSystem {
-        if (!variant) {
-            variant = (game as any).settings.get("sohl", "variant") as string;
+    static registerVariant(variantId: string, variant: SohlSystem): void {
+        if (this._variants.has(variantId)) {
+            throw new Error(
+                `Variant with ID "${variantId}" is already registered.`,
+            );
         }
-        this._curVariant = SohlSystem._variants.get(variant);
+        this._variants.set(variantId, variant);
+    }
+
+    static selectVariant(variantId?: string): SohlSystem {
+        if (!variantId) {
+            variantId = (game as any).settings.get("sohl", "variant") as string;
+        }
+        this._curVariant = SohlSystem._variants.get(variantId);
         if (!this._curVariant) {
             throw new Error(
-                `SohlSystem: No variant found for "${variant}". Available variants: ${Array.from(
+                `SohlSystem: No variant found for "${variantId}". Available variants: ${Array.from(
                     this._variants.keys(),
                 ).join(", ")}`,
             );
@@ -308,7 +317,7 @@ export abstract class SohlSystem {
         return this._curVariant;
     }
 
-    static get variants(): utils.Itr<[string, SohlSystem]> {
+    static get variants(): Itr<[string, SohlSystem]> {
         return this._variants.entries();
     }
 
@@ -340,52 +349,28 @@ export abstract class SohlSystem {
     }
 
     protected constructor() {
-        this.classRegistry = utils.SohlClassRegistry.getInstance();
-        this.i18n = utils.SohlLocalize.getInstance();
-        this.log = utils.SohlLogger.getInstance();
-        this.DataModelRegistry = new SohlMap<
+        this.dataModelRegistry = new SohlMap<
             string,
-            SohlMap<string, SohlDataModel.Metadata>
-        >();
-        registerDataModel("Actor", Entity.DataModel._metadata);
-        registerDataModel("Actor", Assembly.DataModel._metadata);
-        registerDataModel("Item", Affiliation.DataModel._metadata);
-        registerDataModel("Item", Affliction.DataModel._metadata);
-        registerDataModel("Item", ArmorGear.DataModel._metadata);
-        registerDataModel("Item", BodyLocation.DataModel._metadata);
-        registerDataModel("Item", BodyPart.DataModel._metadata);
-        registerDataModel("Item", BodyZone.DataModel._metadata);
-        registerDataModel(
-            "Item",
-            CombatTechniqueStrikeMode.DataModel._metadata,
-        );
-        registerDataModel("Item", ConcoctionGear.DataModel._metadata);
-        registerDataModel("Item", ContainerGear.DataModel._metadata);
-        registerDataModel("Item", Domain.DataModel._metadata);
-        registerDataModel("Item", Injury.DataModel._metadata);
-        registerDataModel("Item", MeleeWeaponStrikeMode.DataModel._metadata);
-        registerDataModel("Item", MiscGear.DataModel._metadata);
-        registerDataModel("Item", MissileWeaponStrikeMode.DataModel._metadata);
-        registerDataModel("Item", Mystery.DataModel._metadata);
-        registerDataModel("Item", MysticalAbility.DataModel._metadata);
-        registerDataModel("Item", MysticalDevice.DataModel._metadata);
-        registerDataModel("Item", Philosophy.DataModel._metadata);
-        registerDataModel("Item", ProjectileGear.DataModel._metadata);
-        registerDataModel("Item", Protection.DataModel._metadata);
-        registerDataModel("Item", Skill.DataModel._metadata);
-        registerDataModel("Item", Trait.DataModel._metadata);
-        registerDataModel("Item", WeaponGear.DataModel._metadata);
-    }
-
-    registerDataModel(docType: string, data: SohlDataModel.Metadata): void {
-        const { kind } = data;
-        if (!this.DataModelRegistry.has(docType)) {
-            this.DataModelRegistry.set(
-                docType,
-                new SohlMap<string, SohlDataModel.Metadata>(),
-            );
-        }
-        this.DataModelRegistry.get(docType)?.set(kind, data);
+            Constructor<SohlDataModel<any>>
+        >([
+            ...Object.entries(ACTOR_DATA_MODEL),
+            ...Object.entries(ITEM_DATA_MODEL),
+            ...Object.entries(EFFECT_DATA_MODEL),
+        ]);
+        this.classRegistry = new SohlMap<string, Constructor<SohlBase>>([
+            ["ValueModifier", ValueModifier],
+            ["CombatModifier", CombatModifier],
+            ["ImpactModifier", ImpactModifier],
+            ["MasteryLevelModifier", MasteryLevelModifier],
+            ["SuccessTestResult", SuccessTestResult],
+            ["OpposedTestResult", OpposedTestResult],
+            ["ImpactResult", ImpactResult],
+            ["CombatResult", CombatResult],
+            ["AttackResult", AttackResult],
+            ["DefendResult", DefendResult],
+        ]);
+        this.i18n = SohlLocalize.getInstance();
+        this.log = SohlLogger.getInstance();
     }
 
     get game(): SohlSystem {
@@ -399,20 +384,12 @@ export abstract class SohlSystem {
         return (this.constructor as any).curVariant;
     }
 
-    get variants(): utils.Itr<[string, SohlSystem]> {
+    get variants(): Itr<[string, SohlSystem]> {
         return (this.constructor as any).variants;
     }
 }
 
 export namespace SohlSystem {
-    export const {
-        kind: VARIANT,
-        values: Variants,
-        isValue: isVariant,
-        labels: VariantLabels,
-    } = defineType("SOHL.SohlSystem.Variant", {});
-    export type Variant = (typeof VARIANT)[keyof typeof VARIANT];
-
     export interface ConfigStatusEffect {
         id: string;
         name: string;
@@ -425,7 +402,7 @@ export namespace SohlSystem {
             cls: any;
             types: string[];
         }>;
-        DataModels: StrictObject<Constructor<SohlDataModel<any>>>;
+        dataModels: StrictObject<Constructor<SohlDataModel<any>>>;
         typeLabels: StrictObject<string>;
         typeIcons: StrictObject<string>;
         types: string[];
@@ -433,6 +410,10 @@ export namespace SohlSystem {
         compendiums?: string[];
         macros?: StrictObject<FilePath>;
         legacyTransferral?: boolean;
+    }
+
+    export interface ClassConfig {
+        classes: StrictObject<Constructor<SohlBase>>;
     }
 
     export interface Config {
@@ -443,6 +424,8 @@ export namespace SohlSystem {
         Item: DocumentConfig;
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
+        Result: ClassConfig;
+        Modifier: ClassConfig;
         ValueModifier: Constructor<ValueModifier>;
         CombatModifier: Constructor<CombatModifier>;
         ImpactModifier: Constructor<ImpactModifier>;
@@ -453,18 +436,5 @@ export namespace SohlSystem {
         CombatResult: Constructor<CombatResult>;
         AttackResult: Constructor<AttackResult>;
         DefendResult: Constructor<DefendResult>;
-    }
-}
-
-export type docType = "Item" | "Actor";
-const metadata: StrictObject<SohlDataModel.Metadata> = {};
-
-export function registerDataModel(
-    docType: docType,
-    data: SohlDataModel.Metadata,
-): void {
-    const { kind } = data;
-    if (metadata) {
-        metadata[kind] = data;
     }
 }

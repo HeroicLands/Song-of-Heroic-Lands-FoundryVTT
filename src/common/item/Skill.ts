@@ -10,25 +10,41 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
-import { defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { SohlDataModel } from "@common/SohlDataModel";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import {
+    kMasteryLevelMixin,
+    MasteryLevelMixin,
+} from "@common/item/MasteryLevelMixin";
+import {
+    SKILL_COMBAT_CATEGORY,
+    SkillCombatCategories,
+    SkillSubType,
+    SkillSubTypes,
+} from "@utils/constants";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 const kSkill = Symbol("Skill");
 const kData = Symbol("Skill.Data");
-const { StringField } = (foundry.data as any).fields;
+const { StringField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Skill",
-    }),
-)
 export class Skill
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
     implements Skill.Logic
 {
+    declare readonly [kMasteryLevelMixin]: true;
+    declare masteryLevel: MasteryLevelModifier;
+    declare magicMod: number;
+    declare boosts: number;
+    declare _availableFate: SohlItem<SohlLogic, any>[];
+    declare availableFate: SohlItem<SohlLogic, any>[];
+    declare valid: boolean;
+    declare skillBase: MasteryLevelMixin.SkillBase;
+    declare sdrIncr: number;
     declare readonly parent: Skill.Data;
+    declare improveWithSDR: (context: SohlAction.Context) => Promise<void>;
     readonly [kSkill] = true;
 
     static isA(obj: unknown): obj is Skill {
@@ -52,62 +68,16 @@ export class Skill
 }
 
 export namespace Skill {
-    /**
-     * The type moniker for the Skill item.
-     */
-    export const Kind = "skill";
-
-    /**
-     * The FontAwesome icon class for the Skill item.
-     */
-    export const IconCssClass = "fas fa-head-side-gear";
-
-    /**
-     * The image path for the Skill item.
-     */
-    export const Image = "systems/sohl/assets/icons/head-gear.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.Skill.SubType", {
-        SOCIAL: "social",
-        NATURE: "nature",
-        CRAFT: "craft",
-        LORE: "lore",
-        LANGUAGE: "language",
-        SCRIPT: "script",
-        RITUAL: "ritual",
-        PHYSICAL: "physical",
-        COMBAT: "combat",
-        ESOTERIC: "esoteric",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
-    export const {
-        kind: COMBAT,
-        values: CombatTypes,
-        isValue: isCombatType,
-    } = defineType("SOHL.Skill.Combat", {
-        NONE: "none",
-        ALL: "all",
-        MELEE: "melee",
-        MISSILE: "missile",
-        MELEEMISSILE: "meleemissile",
-        MANEUVER: "maneuver",
-        MELEEMANEUVER: "meleemaneuver",
-    });
-    export type CombatType = (typeof COMBAT)[keyof typeof COMBAT];
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic
+        extends MasteryLevelMixin.Logic,
+            SubTypeMixin.Logic<SkillSubType> {
         readonly parent: Skill.Data;
         readonly [kSkill]: true;
     }
 
     export interface Data
         extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<SubType> {
+            SubTypeMixin.Data<SkillSubType> {
         get logic(): Skill.Logic;
         readonly [kData]: true;
         weaponGroup: string;
@@ -116,30 +86,25 @@ export namespace Skill {
     }
 
     export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        export function isA(obj: unknown, subType?: SkillSubType): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
         }
     }
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        SubType,
-        typeof SubTypes
+        SkillSubType,
+        typeof SkillSubTypes
     >(
         MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        SubTypes,
+        SkillSubTypes,
     ) as unknown as Constructor<Skill.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Skill,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel extends DataModelShape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Skill"];
         declare abbrev: string;
@@ -149,20 +114,22 @@ export namespace Skill {
         declare weaponGroup: string;
         declare baseSkill: string;
         declare domain: string;
-        declare subType: SubType;
+        declare subType: SkillSubType;
         readonly [kData] = true;
+        declare _logic: Logic;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new Skill(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 weaponGroup: new StringField({
-                    initial: COMBAT.NONE,
+                    initial: SKILL_COMBAT_CATEGORY.NONE,
                     blank: false,
-                    choices: Object.values(COMBAT),
+                    choices: SkillCombatCategories,
                 }),
                 baseSkill: new StringField(),
                 domain: new StringField(),
@@ -172,7 +139,7 @@ export namespace Skill {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/skill.hbs",
                 },

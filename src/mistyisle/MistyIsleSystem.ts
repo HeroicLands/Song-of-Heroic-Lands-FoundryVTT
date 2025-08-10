@@ -11,16 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common";
-import {
-    IsleCombatModifier,
-    IsleImpactModifier,
-} from "@mistyisle/core/modifier";
-import {
-    IsleSuccessTestResult,
-    IsleOpposedTestResult,
-    IsleCombatResult,
-} from "@mistyisle/core/result";
+import { SohlSystem } from "@common/SohlSystem";
+import { IsleCombatModifier } from "@mistyisle/core/modifier/IsleCombatModifier";
+import { IsleImpactModifier } from "@mistyisle/core/modifier/IsleImpactModifier";
+import { IsleSuccessTestResult } from "@mistyisle/core/result/IsleSuccessTestResult";
+import { IsleOpposedTestResult } from "@mistyisle/core/result/IsleOpposedTestResult";
+import { IsleCombatResult } from "@mistyisle/core/result/IsleCombatResult";
 
 const IsleActorDataModels = {};
 
@@ -59,7 +55,12 @@ export class MistyIsleSystem extends SohlSystem {
                   |___/                   
 ===========================================================`;
 
-    static {
-        this._variants.set(this.ID, new MistyIsleSystem());
+    private static _instance: MistyIsleSystem | null = null;
+
+    static getInstance(): MistyIsleSystem {
+        if (!this._instance) {
+            this._instance = new MistyIsleSystem();
+        }
+        return this._instance;
     }
 }

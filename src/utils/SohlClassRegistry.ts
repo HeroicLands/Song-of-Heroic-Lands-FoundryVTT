@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common";
+import { SohlBase } from "@common/SohlBase";
 
 /**
  * @summary Class metadata for a registered class.

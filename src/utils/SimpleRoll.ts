@@ -11,15 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlLogic } from "@common";
-import { RegisterClass } from "./decorators";
-
-export interface SimpleRollData {
-    numDice: number;
-    dieFaces: number;
-    modifier: number;
-    rolls: number[];
-}
+import { SohlBase } from "@common/SohlBase";
+import { RegisterClass } from "@utils/decorators/RegisterClass";
 
 @RegisterClass({
     kind: "SimpleRoll",
@@ -156,5 +149,14 @@ export class SimpleRoll extends SohlBase {
             }
         }
         return roll;
+    }
+}
+
+export namespace SimpleRoll {
+    export interface Data {
+        numDice: number;
+        dieFaces: number;
+        modifier: number;
+        rolls: number[];
     }
 }

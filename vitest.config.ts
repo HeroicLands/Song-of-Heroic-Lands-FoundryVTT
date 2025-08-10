@@ -22,7 +22,7 @@ export default defineConfig({
         },
         alias: {
             "@types/*": path.resolve(__dirname, "types"),
-            "@utils": path.resolve(__dirname, "src/utils"),
+            "@utils/helpers": path.resolve(__dirname, "src/utils"),
             "@utils/*": path.resolve(__dirname, "src/utils"),
             "@foundry": path.resolve(__dirname, "src/foundry"),
             "@foundry/*": path.resolve(__dirname, "src/foundry"),

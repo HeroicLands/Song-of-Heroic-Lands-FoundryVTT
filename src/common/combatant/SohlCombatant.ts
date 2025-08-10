@@ -1,4 +1,4 @@
-import { ClientDocumentExtendedMixin } from "@utils";
+import { ClientDocumentExtendedMixin } from "@utils/helpers";
 
 export class SohlCombatant extends ClientDocumentExtendedMixin(
     Combatant,

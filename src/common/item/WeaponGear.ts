@@ -10,26 +10,25 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlActor } from "@common/actor";
-import { SohlAction } from "@common/event";
-import { ArmorGear, GearMixin, SohlItem } from "@common/item";
-import { HTMLString, DocumentId } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { NumberField } = foundry.data.fields;
 const kWeaponGear = Symbol("WeaponGear");
 const kData = Symbol("WeaponGear.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "WeaponGear",
-    }),
-)
 export class WeaponGear
     extends GearMixin(SohlLogic)
     implements WeaponGear.Logic
 {
+    declare weight: ValueModifier;
+    declare value: ValueModifier;
+    declare quality: ValueModifier;
+    declare durability: ValueModifier;
+    declare [kGearMixin]: true;
     declare readonly parent: WeaponGear.Data;
     readonly [kWeaponGear] = true;
 
@@ -54,29 +53,14 @@ export class WeaponGear
 }
 
 export namespace WeaponGear {
-    /**
-     * The type moniker for the WeaponGear item.
-     */
-    export const Kind = "weapongear";
-
-    /**
-     * The FontAwesome icon class for the WeaponGear item.
-     */
-    export const IconCssClass = "fas fa-sword";
-
-    /**
-     * The image path for the WeaponGear item.
-     */
-    export const Image = "systems/sohl/assets/icons/sword.svg";
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends GearMixin.Logic {
         readonly parent: WeaponGear.Data;
         readonly [kWeaponGear]: true;
     }
 
-    export interface Data extends SohlItem.Data {
+    export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        get logic(): WeaponGear.Logic;
+        readonly logic: Logic;
         lengthBase: number;
     }
 
@@ -90,15 +74,6 @@ export namespace WeaponGear {
         SohlItem.DataModel,
     ) as unknown as Constructor<WeaponGear.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: WeaponGear,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends DataModelShape {
         static readonly LOCALIZATION_PREFIXES = ["WEAPONGEAR"];
         declare lengthBase: number;
@@ -110,10 +85,12 @@ export namespace WeaponGear {
         declare isEquipped: boolean;
         declare qualityBase: number;
         declare durabilityBase: number;
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new WeaponGear(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

@@ -1,2 +1,2 @@
-import { CombatResult } from "@common/result";
+import { CombatResult } from "@common/result/CombatResult";
 export class LgndCombatResult extends CombatResult {}

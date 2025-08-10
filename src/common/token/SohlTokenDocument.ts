@@ -1,5 +1,5 @@
 import { InternalClientDocument } from "@common/FoundryProxy";
-import { ClientDocumentExtendedMixin } from "@utils";
+import { ClientDocumentExtendedMixin } from "@utils/helpers";
 
 export class SohlTokenDocument
     extends ClientDocumentExtendedMixin(
@@ -189,4 +189,111 @@ export class SohlTokenDocument
     declare movementAction: string;
     declare readonly parent: Token | null;
     declare flags: any;
+
+    /**
+     * Gets the user-targeted tokens.
+     *
+     * @remarks
+     * Note that this is the **targeted** tokens, not the selected tokens.
+     *
+     * @param single - Only return a single token if true, otherwise return an array of tokens.
+     * @returns The targeted token document(s), or null if failed.
+     */
+    static getTargetedTokens(
+        single: boolean = false,
+    ): SohlTokenDocument[] | null {
+        const targetTokens: Set<Token> = ((game as any).user as User)
+            ?.targets as unknown as Set<Token>;
+
+        if (!targetTokens || targetTokens.size === 0) {
+            sohl.log.uiWarn(`No tokens targeted.`);
+            return null;
+        }
+
+        if (single) {
+            if (targetTokens.size > 1) {
+                sohl.log.uiWarn(
+                    `Multiple tokens targeted, please target only one token.`,
+                );
+                return null;
+            }
+            return [targetTokens.values().next().value?.document];
+        }
+
+        return Array.from(
+            targetTokens.map((t) => t.document),
+        ) as SohlTokenDocument[];
+    }
+
+    /**
+     * Gets the user-selected tokens.
+     *
+     * @remarks
+     * Note that this is the **selected** tokens, not the targeted tokens.
+     *
+     * @param single - Only return a single token if true, otherwise return an array of tokens.
+     * @returns The selected token document(s), or null if failed.
+     */
+    static getSelectedTokens(
+        single: boolean = false,
+    ): SohlTokenDocument[] | null {
+        const selectedTokens: Token[] = canvas.tokens?.controlled;
+        if (selectedTokens.length === 0) {
+            sohl.log.uiWarn(`No selected tokens on the canvas.`);
+            return null;
+        }
+
+        if (single) {
+            if (selectedTokens.length > 1) {
+                sohl.log.uiWarn(
+                    `Multiple tokens selected, please select only one token.`,
+                );
+                return null;
+            }
+
+            return [selectedTokens[0].document];
+        }
+
+        return selectedTokens.map((t) => t.document) as SohlTokenDocument[];
+    }
+
+    /**
+     * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
+     *
+     * @param sourceToken - The source token.
+     * @param targetToken - The target token.
+     * @param gridUnits=false - Whether to return in grid units.
+     * @returns {number|null} The distance, or null if not calculable.
+     */
+    static rangeToTarget(
+        sourceToken: SohlTokenDocument,
+        targetToken: SohlTokenDocument,
+        gridUnits = false,
+    ): number | null {
+        if (!canvas.scene?.grid) {
+            sohl.log.uiWarn(`No scene active`);
+            return null;
+        }
+        if (!gridUnits && !["feet", "ft"].includes(canvas.scene.grid.units)) {
+            sohl.log.uiWarn(
+                `Scene uses units of ${canvas.scene.grid.units} but only feet are supported, distance calculation not possible`,
+            );
+            return 0;
+        }
+
+        if (
+            foundry.utils.getProperty(
+                (canvas.scene as any).flags,
+                "sohl.isTotm",
+            )
+        )
+            return 0;
+
+        const result = canvas.grid.measurePath([
+            (sourceToken as any).object.center,
+            (targetToken as any).object.center,
+        ]);
+
+        return gridUnits ? result.spaces : result.distance;
+    }
 }

@@ -11,9 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item";
-import { defineType, FilePath, HTMLString, toHTMLString } from "@utils";
-export class SohlContextMenu extends ContextMenu {
+import { SohlItem } from "@common/item/SohlItem";
+import { HTMLString, toHTMLString } from "@utils/helpers";
+import {
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    SohlContextMenuSortGroup,
+} from "./constants";
+
+export class SohlContextMenu extends (foundry.applications as any).ux
+    .ContextMenu {
     declare readonly implementation: typeof SohlContextMenu;
 
     constructor(
@@ -26,7 +32,7 @@ export class SohlContextMenu extends ContextMenu {
             const newItem: SohlContextMenu.Entry = new SohlContextMenu.Entry({
                 id: it.id,
                 name: it.name,
-                group: it.group as SohlContextMenu.SortGroup,
+                group: it.group as SohlContextMenuSortGroup,
                 callback: it.callback,
                 functionName: it.functionName,
                 condition:
@@ -73,7 +79,6 @@ export class SohlContextMenu extends ContextMenu {
     //         :   null;
     // }
 
-    // @ts-expect-error: `_setPosition` declaration is wrong, ignore until fixed.
     _setPosition(
         element: HTMLElement,
         target: HTMLElement,
@@ -179,23 +184,15 @@ export namespace SohlContextMenu {
         animate?: boolean;
     }
 
-    /**
-     * Constants for context menu groups.
-     */
-    export const {
-        kind: SORT_GROUP,
-        values: SortGroups,
-        isValue: isSortGroup,
-    } = defineType("SOHL.ContextMenu.SORT_GROUP", {
-        DEFAULT: "default",
-        ESSENTIAL: "essential",
-        GENERAL: "general",
-        HIDDEN: "hidden",
-    });
-    export type SortGroup = (typeof SORT_GROUP)[keyof typeof SORT_GROUP];
-    export function toSortGroup(group: string): SortGroup {
-        if (isSortGroup(group)) return group;
-        return SORT_GROUP.DEFAULT;
+    export interface EntryContext {
+        id: string;
+        name: string;
+        icon?: HTMLString;
+        iconFAClass?: string;
+        functionName?: string;
+        condition: Condition;
+        callback?: Callback;
+        group: SohlContextMenuSortGroup;
     }
 
     /**
@@ -249,16 +246,7 @@ export namespace SohlContextMenu {
          * @param data.callback The callback function to call when the entry is clicked.
          * @param data.group The group to which the entry belongs.
          */
-        constructor(data: {
-            id: string;
-            name: string;
-            icon?: HTMLString;
-            iconFAClass?: string;
-            functionName?: string;
-            condition: Condition;
-            callback?: Callback;
-            group: SortGroup;
-        }) {
+        constructor(data: SohlContextMenu.EntryContext) {
             if (!(data.icon || data.iconFAClass)) {
                 throw new Error("Either icon or iconFAClass must be provided.");
             }
@@ -272,7 +260,7 @@ export namespace SohlContextMenu {
             this.icon =
                 data.icon ||
                 toHTMLString(
-                    `<i class="${data.iconFAClass}${data.group === SohlContextMenu.SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
+                    `<i class="${data.iconFAClass}${data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
                 );
             this.condition = data.condition;
             this.callback =

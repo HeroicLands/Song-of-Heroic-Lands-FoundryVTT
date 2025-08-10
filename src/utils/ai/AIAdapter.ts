@@ -1,5 +1,5 @@
-import { SohlSpeaker } from "@common";
-import { AIExecutionResult } from "./AIAgentCommandDefinition";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import { AIExecutionResult } from "@utils/ai/AIExecutionResult";
 import { SohlUser } from "@common/user/SohlUser";
 import { toHTMLString } from "@utils/helpers";
 
@@ -45,7 +45,7 @@ export abstract class AIAdapter {
         chatData: {
             speaker?: SohlSpeaker.Data;
             user: SohlUser | null;
-        } = { user: fvtt.game.user as SohlUser | null },
+        } = { user: (game as any).user as SohlUser | null },
     ): boolean | void {
         let match: RegExpMatchArray | null = message.match(
             /^(?:\/whisper (?:sage|ai)\s+)([^]*)/i,

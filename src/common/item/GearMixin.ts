@@ -11,16 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defineType } from "@utils";
-import { SohlLogic } from "@common";
-import { SohlItem } from "@common/item";
-import { SohlAction, SohlEvent } from "@common/event";
-import { SohlActor } from "@common/actor";
-import { ValueModifier } from "@common/modifier";
+import type { SohlLogic } from "@common/SohlLogic";
+import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlEvent } from "@common/event/SohlEvent";
+import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
-const kGearMixin = Symbol("GearMixin");
-const kData = Symbol("GearMixin.Data");
+export const kGearMixin = Symbol("GearMixin");
+export const kGearMixinData = Symbol("GearMixin.Data");
 
 /**
  * A mixin for item data models that represent gear.
@@ -49,16 +49,17 @@ export function GearMixin<TBase extends AnyConstructor<SohlLogic>>(
         quality!: ValueModifier;
         durability!: ValueModifier;
 
+        static isA(obj: unknown): obj is TBase & GearMixin.Logic {
+            return typeof obj === "object" && obj !== null && kGearMixin in obj;
+        }
+
         /** @inheritdoc */
         initialize(context: SohlAction.Context): void {
             super.initialize(context);
-            this.weight = sohl.game.CONFIG.ValueModifier({}, { parent: this });
-            this.value = sohl.game.CONFIG.ValueModifier({}, { parent: this });
-            this.quality = sohl.game.CONFIG.ValueModifier({}, { parent: this });
-            this.durability = sohl.game.CONFIG.ValueModifier(
-                {},
-                { parent: this },
-            );
+            this.weight = sohl.CONFIG.ValueModifier({}, { parent: this });
+            this.value = sohl.CONFIG.ValueModifier({}, { parent: this });
+            this.quality = sohl.CONFIG.ValueModifier({}, { parent: this });
+            this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
         }
 
         /** @inheritdoc */
@@ -74,13 +75,9 @@ export function GearMixin<TBase extends AnyConstructor<SohlLogic>>(
 }
 
 export namespace GearMixin {
-    export const Kind = "gear";
-
-    export function isA(obj: unknown): obj is Logic {
-        return typeof obj === "object" && obj !== null && kGearMixin in obj;
-    }
-
     export interface Logic extends SohlItem.Logic {
+        readonly [kGearMixin]: true;
+        readonly parent: GearMixin.Data;
         weight: ValueModifier;
         value: ValueModifier;
         quality: ValueModifier;
@@ -88,7 +85,8 @@ export namespace GearMixin {
     }
 
     export interface Data extends SohlItem.Data {
-        get logic(): Logic;
+        readonly [kGearMixinData]: true;
+        readonly logic: Logic;
         abbrev: string;
         quantity: number;
         weightBase: number;
@@ -101,24 +99,11 @@ export namespace GearMixin {
 
     export namespace Data {
         export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+            return (
+                typeof obj === "object" && obj !== null && kGearMixinData in obj
+            );
         }
     }
-
-    export const {
-        kind: GEAR_KIND,
-        values: GearKinds,
-        isValue: isGearKind,
-        labels: gearKindLabels,
-    } = defineType(`Gear.GEAR_KIND`, {
-        ARMOR: "armorgear",
-        WEAPON: "weapongear",
-        PROJECTILE: "projectilegear",
-        CONCOCTION: "concoctiongear",
-        CONTAINER: "containergear",
-        MISC: "miscgear",
-    });
-    export type GearKind = (typeof GEAR_KIND)[keyof typeof GEAR_KIND];
 
     export function DataModel<TBase extends AnyConstructor>(
         Base: TBase,
@@ -132,7 +117,7 @@ export namespace GearMixin {
             declare isEquipped: boolean;
             declare qualityBase: number;
             declare durabilityBase: number;
-            readonly [kData] = true;
+            readonly [kGearMixinData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {

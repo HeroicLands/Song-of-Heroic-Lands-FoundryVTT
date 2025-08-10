@@ -11,14 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item";
-import { SohlLogic } from "@common";
-import { SohlAction, SohlEvent } from "@common/event";
-import { DocumentId, HTMLString } from "@utils";
-import { SohlActor } from "@common/actor";
+import { SohlItem } from "@common/item/SohlItem";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlEvent } from "@common/event/SohlEvent";
+import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlActor } from "@common/actor/SohlActor";
 
-const kSubTypeMixin = Symbol("SubTypeMixin");
-const kData = Symbol("SubType.Data");
+export const kSubTypeMixin = Symbol("SubTypeMixin");
+export const kSubTypeMixinData = Symbol("SubType.Data");
 
 export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
@@ -52,8 +52,6 @@ export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
 }
 
 export namespace SubTypeMixin {
-    export const Kind = "subtype";
-
     export function isA(obj: unknown): obj is Logic {
         return typeof obj === "object" && obj !== null && kSubTypeMixin in obj;
     }
@@ -65,13 +63,18 @@ export namespace SubTypeMixin {
 
     export interface Data<TSubType extends string = string>
         extends SohlItem.Data {
-        get logic(): Logic<TSubType>;
+        readonly [kSubTypeMixinData]: true;
+        readonly logic: Logic<TSubType>;
         subType: TSubType;
     }
 
     export namespace Data {
         export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kSubTypeMixinData in obj
+            );
         }
     }
 
@@ -96,7 +99,7 @@ export namespace SubTypeMixin {
     >(Base: TBase, choices: TChoices): TBase & Data<TSubType> {
         return class extends Base {
             declare subType: TSubType;
-            readonly [kData] = true;
+            readonly [kSubTypeMixinData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {

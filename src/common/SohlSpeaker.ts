@@ -11,22 +11,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActor } from "@common/actor";
-import { SohlTokenDocument } from "@common/token";
 import {
-    defineType,
+    isSohlSpeakerRollMode,
+    isSohlSpeakerSound,
+    isSohlSpeakerStyle,
+    SOHL_SPEAKER_ROLL_MODE,
+    SOHL_SPEAKER_STYLE,
+    SohlSpeakerRollMode,
+} from "@utils/constants";
+import { SohlActor } from "@common/actor/SohlActor";
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import {
     FilePath,
     isFilePath,
-    SimpleRoll,
     toHTMLWithContent,
     DocumentId,
     HTMLString,
     toHTMLWithTemplate,
-} from "@utils";
+} from "@utils/helpers";
+import { SimpleRoll } from "@utils/SimpleRoll";
 import Handlebars from "handlebars";
-import { getSystemSetting } from "./FoundryProxy";
-import { SohlUser } from "./user/SohlUser";
+import { SohlUser } from "@common/user/SohlUser";
 import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents/_types.mjs";
+import { SohlSpeakerStyle } from "@utils/constants";
 
 export class SohlSpeaker {
     _speaker!: SohlSpeaker.Data;
@@ -50,20 +57,20 @@ export class SohlSpeaker {
         this.scene = null;
         this.rollMode =
             rollMode ||
-            getSystemSetting<SohlSpeaker.RollMode>("rollMode", "core") ||
-            SohlSpeaker.ROLL_MODE.SYSTEM;
+            (game as any).settings.get("core", "rollMode") ||
+            SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         if (token) {
             this.token = canvas.tokens?.get(token);
             this.actor = this.token?.actor;
         }
         if (!this.actor && actor) {
-            this.actor = fvtt.game.actors?.get(actor);
+            this.actor = (game as any).actors?.get(actor);
         }
         if (scene) {
-            this.scene = fvtt.game.scenes?.get(scene);
+            this.scene = (game as any).scenes?.get(scene);
         }
 
-        this.user = user ? fvtt.game.users?.get(user) : fvtt.game.user;
+        this.user = user ? (game as any).users?.get(user) : (game as any).user;
         if (alias) {
             this.name = alias;
         } else if (this.token?.name) {
@@ -141,7 +148,7 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return (fvtt.documents.ChatMessage as any).create(messageData);
+        return (foundry.documents as any).ChatMessage.create(messageData);
     }
 
     /**
@@ -167,7 +174,7 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return (fvtt.documents.ChatMessage as any).create(messageData);
+        return (foundry.documents as any).ChatMessage.create(messageData);
     }
 
     /**
@@ -179,7 +186,7 @@ export class SohlSpeaker {
      */
     async _prepareChat(
         data: PlainObject = {},
-        options: SohlSpeaker.ChatOptions = { style: SohlSpeaker.STYLE.OTHER },
+        options: SohlSpeaker.ChatOptions = { style: SOHL_SPEAKER_STYLE.OTHER },
     ): Promise<PlainObject> {
         const msgOptions = Object.fromEntries(
             Object.entries(options).filter(([key]) => key !== "rollMode"),
@@ -207,48 +214,11 @@ export class SohlSpeaker {
 }
 
 export namespace SohlSpeaker {
-    export const {
-        kind: ROLL_MODE,
-        values: RollModes,
-        isValue: isRollMode,
-    } = defineType("SOHL.SohlSpeaker.ROLL_MODE", {
-        SYSTEM: "roll",
-        PUBLIC: "publicroll",
-        SELF: "selfroll",
-        BLIND: "blindroll",
-        PRIVATE: "gmroll",
-    });
-    export type RollMode = (typeof ROLL_MODE)[keyof typeof ROLL_MODE];
-
-    export const {
-        kind: STYLE,
-        values: styles,
-        isValue: isStyle,
-    } = defineType("SOHL.SohlSpeaker.STYLE", {
-        OTHER: 0,
-        OUT_OF_CHARACTER: 1,
-        IN_CHARACTER: 2,
-        EMOTE: 3,
-    });
-    export type ChatMessageStyle = (typeof STYLE)[keyof typeof STYLE];
-
-    export const {
-        kind: SOUND,
-        values: sounds,
-        isValue: isSound,
-    } = defineType("SOHL.SohlSpeaker.SOUND", {
-        DICE: "sounds/dice.wav",
-        LOCK: "sounds/lock.wav",
-        NOTIFICATION: "sounds/notify.wav",
-        COMBAT: "sounds/drums.wav",
-    });
-    export type ChatMessageSound = (typeof SOUND)[keyof typeof SOUND];
-
     export interface ChatOptions {
         flavor?: string;
         sound?: string;
         rolls?: SimpleRoll[];
-        style?: ChatMessageStyle;
+        style?: SohlSpeakerStyle;
         user?: string;
     }
 
@@ -258,9 +228,9 @@ export namespace SohlSpeaker {
                 typeof data === "object" &&
                 (data.flavor === undefined ||
                     typeof data.flavor === "string") &&
-                (data.sound === undefined || isSound(data.sound)) &&
+                (data.sound === undefined || isSohlSpeakerSound(data.sound)) &&
                 (data.rolls === undefined || Array.isArray(data.rolls)) &&
-                (data.style === undefined || isStyle(data.style)) &&
+                (data.style === undefined || isSohlSpeakerStyle(data.style)) &&
                 (data.user === undefined || typeof data.user === "string")
             );
         }
@@ -271,7 +241,7 @@ export namespace SohlSpeaker {
         actor: DocumentId | null;
         scene: DocumentId | null;
         alias: string | null;
-        rollMode?: RollMode;
+        rollMode?: SohlSpeakerRollMode;
         user: DocumentId;
     }
 
@@ -284,7 +254,8 @@ export namespace SohlSpeaker {
                 )
             )
                 return false;
-            if (data.rollMode && !isRollMode(data.rollMode)) return false;
+            if (data.rollMode && !isSohlSpeakerRollMode(data.rollMode))
+                return false;
             return true;
         }
     }

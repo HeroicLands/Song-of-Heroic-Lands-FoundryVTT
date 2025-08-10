@@ -10,21 +10,15 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { RegisterClass } from "@utils/decorators";
-import { SubTypeMixin } from "./SubTypeMixin";
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { defineType } from "@utils";
-import { SohlItem } from "@common/item";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { PhilosophySubType, PhilosophySubTypes } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 const kPhilosophy = Symbol("Philosophy");
 const kData = Symbol("Philosophy.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Philosophy",
-    }),
-)
 export class Philosophy extends SohlLogic implements Philosophy.Logic {
     declare readonly parent: Philosophy.Data;
     readonly [kPhilosophy] = true;
@@ -44,48 +38,20 @@ export class Philosophy extends SohlLogic implements Philosophy.Logic {
 }
 
 export namespace Philosophy {
-    /**
-     * The type moniker for the Philosophy item.
-     */
-    export const Kind = "philosophy";
-
-    /**
-     * The FontAwesome icon class for the Philosophy item.
-     */
-    export const IconCssClass = "fas fa-sparkle";
-
-    /**
-     * The image path for the Philosophy item.
-     */
-    export const Image = "systems/sohl/assets/icons/sparkle.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.Philosophy.SUBTYPE", {
-        ARCANE: "arcane",
-        DIVINE: "divine",
-        SPIRIT: "spirit",
-        ASTRAL: "astral",
-        NATURAL: "natural",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
     export interface Logic extends SohlLogic.Logic {
         readonly [kPhilosophy]: true;
         readonly parent: Philosophy.Data;
     }
 
-    export interface Data extends SubTypeMixin.Data<SubType> {
+    export interface Data extends SubTypeMixin.Data<PhilosophySubType> {
         readonly [kData]: true;
-        get logic(): SubTypeMixin.Logic<SubType>;
+        readonly logic: SubTypeMixin.Logic<PhilosophySubType>;
     }
 
     export namespace Data {
         export function isA(
             obj: unknown,
-            subType?: Philosophy.SubType,
+            subType?: PhilosophySubType,
         ): obj is Data {
             return (
                 typeof obj === "object" &&
@@ -98,37 +64,28 @@ export namespace Philosophy {
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        Philosophy.SubType,
-        typeof Philosophy.SubTypes
+        PhilosophySubType,
+        typeof PhilosophySubTypes
     >(
         SohlItem.DataModel,
-        Philosophy.SubTypes,
+        PhilosophySubTypes,
     ) as unknown as Constructor<Philosophy.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            ctor: DataModel,
-            logicClass: Philosophy,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel extends DataModelShape {
-        declare subType: SubType;
+        declare subType: PhilosophySubType;
         static override readonly LOCALIZATION_PREFIXES = ["Philosophy"];
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new Philosophy(this);
+            return this._logic;
         }
     }
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/philosophy.hbs",
                 },

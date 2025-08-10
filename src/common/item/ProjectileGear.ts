@@ -10,31 +10,33 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic, SohlDataModel } from "@common";
-import { SohlAction } from "@common/event";
-import { RegisterClass } from "@utils/decorators";
-import { GearMixin, SohlItem, SubTypeMixin } from ".";
-import { ImpactModifier, ValueModifier } from "@common/modifier";
-import { defineType } from "@utils";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import {
+    IMPACT_ASPECT,
+    ImpactAspect,
+    ProjectileGearSubType,
+    ProjectileGearSubTypes,
+} from "@utils/constants";
 
 const { NumberField, StringField, SchemaField } = foundry.data.fields;
 const kProjectileGear = Symbol("ProjectileGear");
 const kData = Symbol("ProjectileGear.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "ProjectileGearLogic",
-    }),
-)
 export class ProjectileGear
     extends SubTypeMixin(GearMixin(SohlLogic))
     implements ProjectileGear.Logic
 {
+    declare readonly [kGearMixin]: true;
+    declare readonly parent: ProjectileGear.Data;
     declare weight: ValueModifier;
     declare value: ValueModifier;
     declare quality: ValueModifier;
     declare durability: ValueModifier;
-    declare readonly parent: ProjectileGear.Data;
     readonly [kProjectileGear] = true;
 
     static isA(obj: unknown): obj is ProjectileGear {
@@ -54,56 +56,29 @@ export class ProjectileGear
 }
 
 export namespace ProjectileGear {
-    /**
-     * The type moniker for the ProjectileGear item.
-     */
-    export const Kind = "Projectilegear";
-
-    /**
-     * The FontAwesome icon class for the ProjectileGear item.
-     */
-    export const IconCssClass = "fas fa-sack";
-
-    /**
-     * The image path for the ProjectileGear item.
-     */
-    export const Image = "systems/sohl/assets/icons/sack.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.ProjectileGear.SubType", {
-        NONE: "none",
-        ARROW: "arrow",
-        BOLT: "bolt",
-        BULLET: "bullet",
-        DART: "dart",
-        OTHER: "other",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
     export interface Logic
-        extends SubTypeMixin.Logic<SubType>,
+        extends SubTypeMixin.Logic<ProjectileGearSubType>,
             GearMixin.Logic {
-        readonly parent: ProjectileGear.Data;
+        readonly parent: Data;
     }
 
-    export interface Data extends SubTypeMixin.Data<SubType>, GearMixin.Data {
-        get logic(): ProjectileGear.Logic;
+    export interface Data
+        extends SubTypeMixin.Data<ProjectileGearSubType>,
+            GearMixin.Data {
+        readonly logic: Logic;
         shortName: string;
         impactBase: {
             numDice: number;
             die: number;
             modifier: number;
-            aspect: ImpactModifier.AspectType;
+            aspect: ImpactAspect;
         };
     }
 
     export namespace Data {
         export function isA(
             obj: unknown,
-            subType?: ProjectileGear.SubType,
+            subType?: ProjectileGearSubType,
         ): obj is Data {
             return (
                 typeof obj === "object" &&
@@ -116,35 +91,26 @@ export namespace ProjectileGear {
 
     export const DataModelShape = SubTypeMixin.DataModel(
         GearMixin.DataModel(SohlItem.DataModel),
-        SubTypes,
+        ProjectileGearSubTypes,
     ) as unknown as Constructor<ProjectileGear.Data> &
         SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: ProjectileGear,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends DataModelShape {
         static readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
-        readonly [kData] = true;
-        declare subType: SubType;
-        declare shortName: string;
-        declare impactBase: {
+        shortName!: string;
+        impactBase!: {
             numDice: number;
             die: number;
             modifier: number;
-            aspect: ImpactModifier.AspectType;
+            aspect: ImpactAspect;
         };
+        declare _logic: ProjectileGear.Logic;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): ProjectileGear.Logic {
+            this._logic ??= new ProjectileGear(this);
+            return this._logic;
         }
-
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
@@ -166,9 +132,9 @@ export namespace ProjectileGear {
                         min: -1,
                     }),
                     aspect: new StringField({
-                        initial: ImpactModifier.ASPECT.BLUNT,
+                        initial: IMPACT_ASPECT.BLUNT,
                         required: true,
-                        choices: ImpactModifier.Aspects,
+                        choices: IMPACT_ASPECT,
                     }),
                 }),
             };
@@ -177,7 +143,7 @@ export namespace ProjectileGear {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/projectilegear.hbs",
                 },

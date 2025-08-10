@@ -11,14 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getSystemSetting, SohlSystem } from "@common";
-import { SohlActor } from "@common/actor";
-import { SohlActiveEffectConfig } from "@common/effect";
-import { SohlItem } from "@common/item";
-import { LOGLEVEL, LogLevel } from "@utils";
-import { AIAdapter } from "@utils/ai";
+import { SohlSystem } from "@common/SohlSystem";
+import { LegendarySystem } from "@legendary/LegendarySystem";
+import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
+import { SohlActor } from "@common/actor/SohlActor";
+import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
+import { SohlItem } from "@common/item/SohlItem";
+import { LOGLEVEL, LogLevel } from "@utils/constants";
+import { AIAdapter } from "@utils/ai/AIAdapter";
 
-DocumentSheetConfig.registerSheet(
+// Register all system variants
+SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
+SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
+
+// @ts-expect-error - DocumentSheetConfig is a known class in Foundry
+const DocumentSheetConfigClass = foundry.applications.apps.DocumentSheetConfig;
+DocumentSheetConfigClass.registerSheet(
     CONFIG.Actor.documentClass,
     "sohl",
     SohlActor.Sheet,
@@ -27,7 +35,7 @@ DocumentSheetConfig.registerSheet(
         makeDefault: true,
     },
 );
-DocumentSheetConfig.registerSheet(
+DocumentSheetConfigClass.registerSheet(
     CONFIG.Item.documentClass,
     "sohl",
     SohlItem.Sheet,
@@ -36,7 +44,7 @@ DocumentSheetConfig.registerSheet(
         makeDefault: true,
     },
 );
-DocumentSheetConfig.registerSheet(
+DocumentSheetConfigClass.registerSheet(
     CONFIG.ActiveEffect.documentClass,
     "sohl",
     SohlActiveEffectConfig,
@@ -46,16 +54,24 @@ DocumentSheetConfig.registerSheet(
     },
 );
 
+function setupVariant(): SohlSystem {
+    const variantId = (game as any).settings?.get("sohl", "variant");
+    const sohl = SohlSystem.selectVariant(variantId);
+    foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    console.log(sohl.initMessage);
+    return sohl;
+}
+
 function registerSystemSettings() {
-    const registerSetting = (game as any).registerSetting;
-    registerSetting("systemMigrationVersion", {
+    const settings = (game as any).settings;
+    settings.register("sohl", "systemMigrationVersion", {
         name: "System Migration Version",
         scope: "world",
         config: false,
         type: String,
         initial: "",
     });
-    registerSetting("sohlVariant", {
+    settings.register("sohl", "variant", {
         name: "Rules Variant",
         hint: "Which variant of rules to use",
         scope: "world",
@@ -68,7 +84,21 @@ function registerSystemSettings() {
             mistyisle: "MistyIsle",
         },
     });
-    registerSetting("showWelcomeDialog", {
+    settings.register("sohl", "logLevel", {
+        name: "Log Level",
+        hint: "The level of detail to include in logs",
+        scope: "client",
+        config: true,
+        initial: "info",
+        type: String,
+        choices: {
+            debug: "Debug",
+            info: "Informational",
+            warn: "Warning",
+            error: "Error",
+        },
+    });
+    settings.register("sohl", "showWelcomeDialog", {
         name: "Show welcome dialog on start",
         hint: "Display the welcome dialog box when the user logs in.",
         scope: "client",
@@ -76,7 +106,7 @@ function registerSystemSettings() {
         type: Boolean,
         initial: true,
     });
-    registerSetting("showAssemblies", {
+    settings.register("sohl", "showAssemblies", {
         name: "Show Assemblies in Actors Tab",
         hint: "If enabled, shows all Assembly actors you own.",
         scope: "client",
@@ -84,7 +114,7 @@ function registerSystemSettings() {
         type: Boolean,
         initial: false,
     });
-    registerSetting("combatAudio", {
+    settings.register("sohl", "combatAudio", {
         name: "Combat sounds",
         hint: "Enable combat flavor sounds",
         scope: "world",
@@ -92,7 +122,7 @@ function registerSystemSettings() {
         type: Boolean,
         initial: true,
     });
-    registerSetting("recordTrauma", {
+    settings.register("sohl", "recordTrauma", {
         name: "Record trauma automatically",
         hint: "Automatically add physical and mental afflictions and injuries",
         scope: "world",
@@ -105,7 +135,7 @@ function registerSystemSettings() {
             ask: "Prompt user on each injury or affliction",
         },
     });
-    registerSetting("healingSeconds", {
+    settings.register("sohl", "healingSeconds", {
         name: "Seconds between healing checks",
         hint: "Number of seconds between healing checks. Set to 0 to disable.",
         scope: "world",
@@ -113,7 +143,7 @@ function registerSystemSettings() {
         type: Number,
         initial: 432000, // 5 days
     });
-    registerSetting("optionProjectileTracking", {
+    settings.register("sohl", "optionProjectileTracking", {
         name: "Track Projectile/Missile Quantity",
         hint: "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero",
         scope: "world",
@@ -121,7 +151,7 @@ function registerSystemSettings() {
         type: Boolean,
         initial: false,
     });
-    registerSetting("optionFate", {
+    settings.register("sohl", "optionFate", {
         name: "Fate: Use fate rules",
         scope: "world",
         config: true,
@@ -133,7 +163,7 @@ function registerSystemSettings() {
             everyone: "Fate rules apply to all animate actors",
         },
     });
-    registerSetting("optionGearDamage", {
+    settings.register("sohl", "optionGearDamage", {
         name: "Gear Damage",
         hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
         scope: "world",
@@ -141,7 +171,7 @@ function registerSystemSettings() {
         type: Boolean,
         initial: false,
     });
-    registerSetting("logThreshold", {
+    settings.register("sohl", "logThreshold", {
         name: "Log Level Threshold",
         scope: "world",
         config: true,
@@ -177,7 +207,8 @@ function registerSystemHooks() {
                 if (btn?.closest(".card-buttons")) {
                     const docUuid = btn.dataset.docUuid;
                     if (docUuid) {
-                        const doc = fvtt.utils.fromUuidSync(docUuid);
+                        // @ts-expect-error
+                        const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
                             doc &&
                             "onChatCardButton" in doc &&
@@ -192,7 +223,8 @@ function registerSystemHooks() {
                     )?.closest("a.edit-action");
                     const docUuid = edit?.dataset.docUuid;
                     if (docUuid) {
-                        const doc = fvtt.utils.fromUuidSync(docUuid);
+                        // @ts-expect-error
+                        const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
                             doc &&
                             "onChatCardEditAction" in doc &&
@@ -209,7 +241,7 @@ function registerSystemHooks() {
     Hooks.on("renderSceneConfig", (app: any, element: HTMLElement) => {
         const scene: Scene = app.object;
         const isTotm =
-            fvtt.utils.getProperty((scene as any).flags, "sohl.isTotm") ??
+            foundry.utils.getProperty((scene as any).flags, "sohl.isTotm") ??
             false;
         const totmHTML = `<div class="form-group">
         <label>Theatre of the Mind</label>
@@ -258,9 +290,11 @@ Hooks.once("init", () => {
 
     console.log(`SoHL | ${initMessage}`);
 
-    globalThis.fvtt = globalThis.foundry as unknown as FoundryGlobal;
     registerSystemSettings();
-    sohl.log.setLogThreshold(getSystemSetting("logLevel") || LOGLEVEL.INFO);
+    globalThis.sohl = setupVariant();
+    sohl.log.setLogThreshold(
+        (game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO,
+    );
     registerSystemHooks();
 
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
@@ -395,7 +429,7 @@ function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("getProperty", function (object, key) {
-        return fvtt.utils.getProperty(object, key);
+        return foundry.utils.getProperty(object, key);
     });
 
     Handlebars.registerHelper("arrayToString", function (ary) {

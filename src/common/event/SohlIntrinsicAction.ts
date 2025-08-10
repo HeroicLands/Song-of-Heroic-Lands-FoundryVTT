@@ -11,15 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction } from "@common/event";
-import { SohlLogic } from "@common";
+import { SohlAction } from "@common/event/SohlAction";
+import type { SohlLogic } from "@common/SohlLogic";
+import { SohlContextMenu } from "@utils/SohlContextMenu";
 
-export class SohlIntrinsicAction extends SohlAction {
+export class SohlIntrinsicAction<
+    TParent extends SohlLogic = SohlLogic,
+> extends SohlAction<TParent> {
     private intrinsicFunction: Function;
 
     constructor(
-        parent: SohlLogic,
-        data: Partial<SohlAction.Data> = {},
+        parent: TParent,
+        data: Partial<SohlIntrinsicAction.Data> = {},
         options: PlainObject = {},
     ) {
         super(parent, data, options);
@@ -41,7 +44,7 @@ export class SohlIntrinsicAction extends SohlAction {
         } = {},
     ): Optional<unknown> {
         scope.async = false;
-        scope.actionName = this.name;
+        scope.actionName = this.label;
         scope.self = this;
         const result = this.intrinsicFunction.call(this.parent, scope);
         if (result instanceof Promise) return undefined;
@@ -55,9 +58,25 @@ export class SohlIntrinsicAction extends SohlAction {
         } = {},
     ): Promise<Optional<unknown>> {
         scope.async = true;
-        scope.actionName = this.name;
+        scope.actionName = this.label;
         scope.self = this;
 
         return Promise.resolve(this.intrinsicFunction.call(this.parent, scope));
+    }
+
+    static createFromContextMenuData(
+        parent: SohlLogic,
+        data: SohlContextMenu.EntryContext,
+    ): SohlIntrinsicAction {
+        const functionName = data.id;
+        return new SohlIntrinsicAction(parent, {
+            functionName,
+        });
+    }
+}
+
+export namespace SohlIntrinsicAction {
+    export interface Data extends SohlAction.Data {
+        functionName: string;
     }
 }

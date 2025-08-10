@@ -10,11 +10,22 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
-import { defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import {
+    kMasteryLevelMixin,
+    MasteryLevelMixin,
+} from "@common/item/MasteryLevelMixin";
+import {
+    TRAIT_INTENSITY,
+    TraitIntensities,
+    TraitIntensity,
+    TraitSubType,
+    TraitSubTypes,
+} from "@utils/constants";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 const kTrait = Symbol("Trait");
 const kData = Symbol("Trait.Data");
 const {
@@ -26,15 +37,20 @@ const {
     BooleanField,
 } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Trait",
-    }),
-)
 export class Trait
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
     implements Trait.Logic
 {
+    declare masteryLevel: MasteryLevelModifier;
+    declare magicMod: number;
+    declare boosts: number;
+    declare _availableFate: SohlItem<SohlLogic, any>[];
+    declare availableFate: SohlItem<SohlLogic, any>[];
+    declare valid: boolean;
+    declare skillBase: MasteryLevelMixin.SkillBase;
+    declare sdrIncr: number;
+    declare improveWithSDR: (context: SohlAction.Context) => Promise<void>;
+    declare readonly [kMasteryLevelMixin]: true;
     declare readonly parent: Trait.Data;
     readonly [kTrait] = true;
 
@@ -59,52 +75,16 @@ export class Trait
 }
 
 export namespace Trait {
-    /**
-     * The type moniker for the Trait item.
-     */
-    export const Kind = "mysticalability";
-
-    /**
-     * The FontAwesome icon class for the Trait item.
-     */
-    export const IconCssClass = "fas fa-user-gear";
-
-    /**
-     * The image path for the Trait item.
-     */
-    export const Image = "systems/sohl/assets/icons/user-gear.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.Trait.SubType", {
-        PHYSIQUE: "physique",
-        PERSONALITY: "personality",
-        TRANSCENDENT: "transcendent",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
-    export const {
-        kind: INTENSITY,
-        values: TraitIntensities,
-        isValue: isTraitIntensity,
-    } = defineType("SOHL.Trait.Intensity", {
-        TRAIT: "trait",
-        IMPULSE: "impulse",
-        DISORDER: "disorder",
-        ATTRIBUTE: "attribute",
-    });
-    export type TraitIntensity = (typeof INTENSITY)[keyof typeof INTENSITY];
-
-    export interface Logic extends SohlLogic.Logic {
-        readonly parent: Trait.Data;
+    export interface Logic
+        extends MasteryLevelMixin.Logic,
+            SubTypeMixin.Logic<TraitSubType> {
+        readonly parent: Data;
         readonly [kTrait]: true;
     }
     export interface Data
         extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<SubType> {
-        get logic(): Trait.Logic;
+            SubTypeMixin.Data<TraitSubType> {
+        readonly logic: Logic;
         readonly [kData]: true;
         textValue: string;
         max: number | null;
@@ -118,37 +98,32 @@ export namespace Trait {
     }
 
     export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        export function isA(obj: unknown, subType?: TraitSubType): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
         }
     }
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        SubType,
-        typeof SubTypes
+        TraitSubType,
+        typeof TraitSubTypes
     >(
         MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        SubTypes,
+        TraitSubTypes,
     ) as unknown as Constructor<Trait.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Trait,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["TRAIT"];
         declare abbrev: string;
         declare skillBaseFormula: string;
         declare masteryLevelBase: number;
         declare improveFlag: boolean;
-        declare subType: SubType;
+        declare subType: TraitSubType;
         declare textValue: string;
         declare max: number | null;
         declare isNumeric: boolean;
@@ -170,9 +145,9 @@ export namespace Trait {
                 }),
                 isNumeric: new BooleanField({ initial: false }),
                 intensity: new StringField({
-                    initial: INTENSITY.TRAIT,
+                    initial: TRAIT_INTENSITY.TRAIT,
                     required: true,
-                    choices: Object.values(INTENSITY),
+                    choices: TraitIntensities,
                 }),
                 valueDesc: new ArrayField(
                     new SchemaField({
@@ -194,7 +169,7 @@ export namespace Trait {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/trait.hbs",
                 },

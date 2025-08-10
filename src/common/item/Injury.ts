@@ -10,36 +10,102 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlAction } from "@common/event";
-import { ImpactModifier } from "@common/modifier";
+import {
+    defineType,
+    IMPACT_ASPECT,
+    ImpactAspect,
+    ImpactAspects,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@utils/constants";
+import type { SohlAction } from "@common/event/SohlAction";
 import { SohlLogic } from "@common/SohlLogic";
-import { SohlContextMenu, defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
-import { SohlItem } from "./SohlItem";
-import { SohlDataModel } from "@common";
-const { NumberField, BooleanField, StringField, DocumentIdField } = (
-    foundry.data as any
-).fields;
+import { SohlItem } from "@common/item/SohlItem";
+import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
+import { toDocumentId } from "@utils/helpers";
+const { NumberField, BooleanField, StringField, DocumentIdField } =
+    foundry.data.fields;
 const kInjury = Symbol("Injury");
-const kDataModel = Symbol("Injury.DataModel");
+const kData = Symbol("Injury.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "InjuryLogic",
-        defaultAction: Injury.INTRINSIC_ACTION.HEALINGTEST.id,
-        intrinsicActions: Injury.IntrinsicActions,
-    }),
-)
-export class Injury<TData extends Injury.Data = Injury.Data>
-    extends SohlLogic
-    implements Injury.Logic
-{
-    declare readonly parent: TData;
+export const {
+    kind: INTRINSIC_ACTION,
+    values: IntrinsicActions,
+    isValue: isIntrinsicAction,
+    labels: IntrinsicActionLabels,
+} = defineType("SOHL.Injury.INTRINSIC_ACTION", {
+    TREATMENTTEST: {
+        id: toDocumentId("xdaddG1n1zCv2csz"),
+        label: "SOHL.Injury.INTRINSIC_ACTION.TREATMENTTEST",
+        functionName: "treatmentTest",
+        iconFAClass: "fas fa-staff-snake",
+        condition: (header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const physician = item?.actor?.getSkillByAbbrev("pysn");
+            // return physician && !physician.system.$masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    HEALINGTEST: {
+        id: toDocumentId("IRgKV04alJdTzFVp"),
+        label: "SOHL.Injury.INTRINSIC_ACTION.HEALINGTEST",
+        functionName: "healingTest",
+        iconFAClass: "fas fa-heart-pulse",
+        condition: (header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const endurance = item?.actor?.getTraitByAbbrev("end");
+            // return endurance && !endurance.system.$masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        foo: "",
+    },
+} as StrictObject<Partial<SohlIntrinsicAction.Data>>);
+export type IntrinsicAction =
+    (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
+
+export class Injury extends SohlLogic implements Injury.Logic {
+    declare readonly parent: Injury.Data;
     readonly [kInjury] = true;
 
     static isA(obj: unknown): obj is Injury {
         return typeof obj === "object" && obj !== null && kInjury in obj;
     }
+
+    get intrinsicActions(): SohlAction[] {
+        const actionKeys = new Set<string>();
+        const actions: SohlAction[] = Object.keys(INTRINSIC_ACTION).map(
+            (key) => {
+                const data = INTRINSIC_ACTION[key];
+                data.label ??= IntrinsicActionLabels[key];
+                actionKeys.add(data.label);
+                return new SohlIntrinsicAction(this, data);
+            },
+        );
+
+        return super.intrinsicActions.reduce((acc, action) => {
+            if (!actionKeys.has(action.label)) {
+                actionKeys.add(action.label);
+                acc.push(action);
+            }
+            return acc;
+        }, actions);
+    }
+
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {}
 
@@ -51,75 +117,11 @@ export class Injury<TData extends Injury.Data = Injury.Data>
 }
 
 export namespace Injury {
-    /**
-     * The type moniker for the Injury item.
-     */
-    export const Kind = "injury";
-
-    /**
-     * The FontAwesome icon class for the Injury item.
-     */
-    export const IconCssClass = "fas fa-user-injured";
-
-    /**
-     * The image path for the Injury item.
-     */
-    export const Image = "systems/sohl/assets/icons/injury.svg";
-
-    export const {
-        kind: INTRINSIC_ACTION,
-        values: IntrinsicActions,
-        isValue: isIntrinsicAction,
-    } = defineType("SOHL.Injury.IntrinsicActions", {
-        TREATMENTTEST: new SohlContextMenu.Entry({
-            id: "treatment",
-            functionName: "treatmentTest",
-            name: "Treatment Test",
-            iconFAClass: "fas fa-staff-snake",
-            condition: (header: HTMLElement) => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const physician = item?.actor?.getSkillByAbbrev("pysn");
-                // return physician && !physician.system.$masteryLevel.disabled;
-            },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
-        }),
-        HEALINGTEST: new SohlContextMenu.Entry({
-            id: "healing",
-            functionName: "healingTest",
-            name: "Healing Test",
-            iconFAClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement) => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const endurance = item?.actor?.getTraitByAbbrev("end");
-                // return endurance && !endurance.system.$masteryLevel.disabled;
-            },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
-        }),
-    } as StrictObject<SohlContextMenu.Entry>);
-    export type IntrinsicAction =
-        (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
-
     export const {
         kind: SHOCK,
         values: Shock,
         isValue: isShock,
-    } = defineType("SOHL.Injury.Shock", {
+    } = defineType("SOHL.Injury.SHOCK", {
         NONE: 0,
         STUNNED: 1,
         INCAPACITATED: 2,
@@ -138,38 +140,42 @@ export namespace Injury {
 
     export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
 
-    export interface Logic extends SohlLogic.Logic {}
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Injury.Data;
+        readonly [kInjury]: true;
+    }
 
     export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
         injuryLevelBase: number;
         healingRateBase: number;
-        aspect: ImpactModifier.AspectType;
+        aspect: ImpactAspect;
         isTreated: boolean;
         isBleeding: boolean;
         bodyLocationId: string;
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Injury,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     export class DataModel extends SohlItem.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["INJURY"];
         injuryLevelBase!: number;
         healingRateBase!: number;
-        aspect!: ImpactModifier.AspectType;
+        aspect!: ImpactAspect;
         isTreated!: boolean;
         isBleeding!: boolean;
         bodyLocationId!: string;
-        readonly [kDataModel] = true;
+        declare _logic: Logic;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        get logic(): Logic {
+            this._logic ??= new Injury(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -186,8 +192,8 @@ export namespace Injury {
                     min: 0,
                 }),
                 aspect: new StringField({
-                    initial: ImpactModifier.ASPECT.BLUNT,
-                    choices: ImpactModifier.Aspects,
+                    initial: IMPACT_ASPECT.BLUNT,
+                    choices: ImpactAspects,
                 }),
                 isTreated: new BooleanField({ initial: false }),
                 isBleeding: new BooleanField({ initial: false }),
@@ -198,7 +204,7 @@ export namespace Injury {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/injury.hbs",
                 },

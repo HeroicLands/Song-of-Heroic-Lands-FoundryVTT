@@ -11,10 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase, SohlLogic } from "@common";
-import { SohlSpeaker } from "@common";
-import { SohlClassRegistry } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { SohlBase } from "@common/SohlBase";
+import type { SohlLogic } from "@common/SohlLogic";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import { SohlClassRegistry } from "@utils/SohlClassRegistry";
+import { RegisterClass } from "@utils/decorators/RegisterClass";
 const kTestResult = Symbol("TestResult");
 const kData = Symbol("TestResult.Data");
 const kContext = Symbol("TestResult.Context");

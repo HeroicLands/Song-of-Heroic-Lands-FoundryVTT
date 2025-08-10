@@ -11,8 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@common/result";
-import { defineType, SohlContextMenu } from "@utils";
+import { ImpactResult } from "@common/result/ImpactResult";
+import {
+    defineType,
+    DEFEND_MISHAP,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@utils/constants";
 const kDefendResult = Symbol("DefendResult");
 const kData = Symbol("DefendResult.Data");
 const kContext = Symbol("DefendResult.Context");
@@ -42,15 +46,15 @@ export class DefendResult extends ImpactResult {
             this.testType === DefendResult.DEFEND_TESTTYPE.COUNTERSTRIKE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(DefendResult.DEFEND_MISHAP.FUMBLE_TEST);
+                this.mishaps.add(DEFEND_MISHAP.FUMBLE_TEST);
             }
             if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(DefendResult.DEFEND_MISHAP.STUMBLE_TEST);
+                this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
             }
             this.deliversImpact = false;
         } else if (this.testType === DefendResult.DEFEND_TESTTYPE.DODGE.id) {
             if (this.isCritical && !this.isSuccess) {
-                this.mishaps.add(DefendResult.DEFEND_MISHAP.STUMBLE_TEST);
+                this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
             }
             this.deliversImpact = false;
         }
@@ -60,20 +64,6 @@ export class DefendResult extends ImpactResult {
 
 export namespace DefendResult {
     export const {
-        kind: DEFEND_MISHAP,
-        values: DefendResultMishaps,
-        isValue: isDefendResultMishap,
-    } = defineType("SOHL.DefendResult.DefendMishap", {
-        STUMBLE_TEST: "stumbletest",
-        STUMBLE: "stumble",
-        FUMBLE_TEST: "fumbletest",
-        FUMBLE: "fumble",
-        WEAPON_BREAK: "weaponBreak",
-    });
-    export type DefendResultMishap =
-        (typeof DEFEND_MISHAP)[keyof typeof DEFEND_MISHAP];
-
-    export const {
         kind: DEFEND_TESTTYPE,
         values: DefendTestTypes,
         isValue: isDefendTestType,
@@ -82,13 +72,13 @@ export namespace DefendResult {
             id: "blockTest",
             iconClass: "fas fa-shield",
             condition: (header: any) => true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         COUNTERSTRIKE: {
             id: "counterstrikeTest",
             iconClass: "fas fa-circle-half-stroke",
             condition: (header: any) => true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         DODGE: {
             id: "dodgeTest",
@@ -103,13 +93,13 @@ export namespace DefendResult {
             //         );
             //     return dodge && !dodge.system.masteryLevel.disabled;
             // },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         IGNORE: {
             id: "ignore",
             iconClass: "fas fa-ban",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
     });
     export type DefendTestType =

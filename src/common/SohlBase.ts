@@ -10,11 +10,9 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-
-import { defaultFromJSON } from "@utils";
-import { defaultToJSON } from "@utils";
-
-const { ArrayField, ObjectField } = foundry.data.fields;
+import { SohlMap } from "@utils/collection/SohlMap";
+import { KIND_KEY } from "@utils/constants";
+import { SohlClassRegistry } from "@utils/SohlClassRegistry";
 
 /**
  * @summary Base class for all SoHL related logic.
@@ -38,7 +36,7 @@ export abstract class SohlBase {
      */
     toJSON(): PlainObject {
         const result: PlainObject = {};
-        result[SohlBase.KIND_KEY] = (this.constructor as any)._metadata.kind;
+        result[KIND_KEY] = (this.constructor as any).kind;
 
         for (const key of Object.keys(this)) {
             const value = (this as any)[key];
@@ -50,7 +48,7 @@ export abstract class SohlBase {
                     continue;
             }
 
-            result[key] = defaultToJSON(value);
+            result[key] = SohlMap.defaultToJSON(value);
         }
 
         return result;
@@ -60,7 +58,26 @@ export abstract class SohlBase {
         data: any,
         options: PlainObject = {},
     ): InstanceType<T> {
-        const kind = data[SohlBase.KIND_KEY];
+        const kind = data[KIND_KEY];
+
+        if (!kind) {
+            throw new Error(
+                `Data does not contain a "${KIND_KEY}" key: ${JSON.stringify(
+                    data,
+                )}`,
+            );
+        }
+
+        let clazz: Constructor<SohlBase> | undefined;
+        for (const docType of ["Result", "Modifier"]) {
+            clazz = sohl.CONFIG[docType].classes[kind];
+            if (clazz) break;
+        }
+        if (!clazz) {
+            throw new Error(
+                `No data model found for kind "${kind}" in sohl.CONFIG`,
+            );
+        }
 
         if (typeof data === "string") {
             data = JSON.parse(data);
@@ -70,15 +87,11 @@ export abstract class SohlBase {
         // back to the original form, dropping the kind key.
         const newData: PlainObject = {};
         for (const [key, value] of Object.entries(data)) {
-            if (key === SohlBase.KIND_KEY) continue;
-            newData[key] = defaultFromJSON(value);
+            if (key === KIND_KEY) continue;
+            newData[key] = SohlMap.defaultFromJSON(value);
         }
 
-        return sohl.classRegistry.create(
-            kind,
-            newData,
-            options,
-        ) as InstanceType<T>;
+        return new clazz(newData, options) as InstanceType<T>;
     }
 
     /**
@@ -87,13 +100,13 @@ export abstract class SohlBase {
      *
      * @returns A new instance of the subclass.
      */
-    clone<T extends SohlBase.Any>(
+    clone<T extends abstract new (...args: any) => any>(
         data: PlainObject = {},
         options: PlainObject = {},
     ): InstanceType<T> {
         const original = this.toJSON() as PlainObject;
-        const newObj = fvtt.utils.mergeObject(original, data) as PlainObject;
-        return new (this.constructor as SohlBase.Any)(
+        const newObj = foundry.utils.mergeObject(original, data) as PlainObject;
+        return new (this.constructor as any)(
             newObj,
             options,
         ) as InstanceType<T>;
@@ -101,9 +114,6 @@ export abstract class SohlBase {
 }
 
 export namespace SohlBase {
-    export const KIND_KEY: string = "__kind" as const;
-    export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
-
     /**
      * Represents the constructor type for any subclass of SohlBase.
      */

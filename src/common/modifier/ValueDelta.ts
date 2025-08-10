@@ -11,8 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common";
-import { defineType } from "@utils";
+import { SohlBase } from "@common/SohlBase";
+import {
+    VALUE_DELTA_OPERATOR,
+    ValueDeltaOperator,
+    isValueDeltaOperator,
+    ValueDeltaValue,
+} from "@utils/constants";
 const kValueDelta = Symbol("ValueDelta");
 
 /**
@@ -49,7 +54,7 @@ export class ValueDelta extends SohlBase {
         this.name = name;
         this.abbrev = abbrev;
         this.op = op;
-        if (op === ValueDelta.OPERATOR.CUSTOM) {
+        if (op === VALUE_DELTA_OPERATOR.CUSTOM) {
             if (typeof strValue !== "string") {
                 throw new TypeError(
                     "ValueDelta value must be a string for CUSTOM operator",
@@ -73,32 +78,32 @@ export class ValueDelta extends SohlBase {
      * @returns {number}
      */
     apply(base: number): number {
-        if (ValueDelta.isOperator(this.op)) {
+        if (isValueDeltaOperator(this.op)) {
             if (["true", "false"].includes(this.value as string)) {
                 switch (this.op) {
-                    case ValueDelta.OPERATOR.ADD:
+                    case VALUE_DELTA_OPERATOR.ADD:
                         return !!base || this.value === "true" ? 1 : 0;
-                    case ValueDelta.OPERATOR.MULTIPLY:
+                    case VALUE_DELTA_OPERATOR.MULTIPLY:
                         return !!base && this.value === "true" ? 1 : 0;
-                    case ValueDelta.OPERATOR.CUSTOM:
-                    case ValueDelta.OPERATOR.UPGRADE:
-                    case ValueDelta.OPERATOR.OVERRIDE:
+                    case VALUE_DELTA_OPERATOR.CUSTOM:
+                    case VALUE_DELTA_OPERATOR.UPGRADE:
+                    case VALUE_DELTA_OPERATOR.OVERRIDE:
                         return this.value === "true" ? 1 : 0;
-                    case ValueDelta.OPERATOR.DOWNGRADE:
+                    case VALUE_DELTA_OPERATOR.DOWNGRADE:
                         return this.value === "false" ? 0 : 1;
                 }
             } else {
                 switch (this.op) {
-                    case ValueDelta.OPERATOR.ADD:
+                    case VALUE_DELTA_OPERATOR.ADD:
                         return base + Number(this.value); // ADD
-                    case ValueDelta.OPERATOR.MULTIPLY:
+                    case VALUE_DELTA_OPERATOR.MULTIPLY:
                         return base * Number(this.value); // MULTIPLY
-                    case ValueDelta.OPERATOR.CUSTOM:
-                    case ValueDelta.OPERATOR.OVERRIDE:
+                    case VALUE_DELTA_OPERATOR.CUSTOM:
+                    case VALUE_DELTA_OPERATOR.OVERRIDE:
                         return Number(this.value); // OVERRIDE
-                    case ValueDelta.OPERATOR.UPGRADE:
+                    case VALUE_DELTA_OPERATOR.UPGRADE:
                         return Math.min(base, Number(this.value)); // FLOOR
-                    case ValueDelta.OPERATOR.DOWNGRADE:
+                    case VALUE_DELTA_OPERATOR.DOWNGRADE:
                         return Math.max(base, Number(this.value)); // CEIL
                 }
             }
@@ -111,76 +116,11 @@ export class ValueDelta extends SohlBase {
 }
 
 export namespace ValueDelta {
-    export const {
-        kind: INFO,
-        values: infos,
-        isValue: isInfo,
-    } = defineType("ValueDelta.INFO", {
-        DISABLED: "Dsbl",
-        NOMSLDEF: "NoMslDef",
-        NOMODIFIERNODIE: "NMND",
-        NOBLOCK: "NoBlk",
-        NOCOUNTERSTRIKE: "NoCX",
-        NOCHARGES: "NoChrg",
-        NOUSECHARGES: "NoUseChrg",
-        NOHEALRATE: "NoHeal",
-        NOTNUMNOSCORE: "NoScore",
-        NOTNUMNOML: "NoML",
-        ARMORPROT: "ArmProt",
-        DURABILITY: "Dur",
-        FATEBNS: "FateBns",
-        ITEMWT: "ItmWt",
-        MAGIC: "Magic",
-        MAGICMOD: "MagicMod",
-        MAXVALUE: "MaxVal",
-        MINVALUE: "MinVal",
-        MLATTRBOOST: "MlAtrBst",
-        MLDSBL: "MLDsbl",
-        NOFATE: "NoFateAvail",
-        NOTATTRNOML: "NotAttrNoML",
-        OFFHAND: "OffHnd",
-        OUTNUMBERED: "Outn",
-        PLAYER: "SitMod",
-        SSMOD: "SSMod",
-    });
-    export type Info = (typeof INFO)[keyof typeof INFO];
-    export const ID: StrictObject<{ name: string; abbrev: string }> =
-        infos.reduce(
-            (acc, val: string) => {
-                const name = `SOHL.INFO.${val}`;
-                acc[val] = { name, abbrev: val };
-                return acc;
-            },
-            {} as StrictObject<{ name: string; abbrev: string }>,
-        );
-
-    export const {
-        kind: OPERATOR,
-        values: Operators,
-        isValue: isOperator,
-    } = defineType("ValueDelta.OPERATOR", {
-        CUSTOM: 0,
-        MULTIPLY: 1,
-        ADD: 2,
-        DOWNGRADE: 3,
-        UPGRADE: 4,
-        OVERRIDE: 5,
-    });
-    export type Operator = (typeof OPERATOR)[keyof typeof OPERATOR];
-
-    export type Value = string | number;
-    export function isValue(value: unknown): value is Value {
-        return (
-            typeof value === "number" ||
-            (typeof value === "string" && ["true", "false"].includes(value))
-        );
-    }
-
     export interface Data {
         name: string;
         abbrev: string;
-        op: Operator;
-        value: Value;
+        op: ValueDeltaOperator;
+        value: ValueDeltaValue;
     }
 
     // Constructor type for ValueDelta and its subclasses

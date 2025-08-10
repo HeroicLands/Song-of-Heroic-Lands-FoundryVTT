@@ -11,48 +11,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction, SohlEvent } from "@common/event";
-import { SohlLogic } from "@common/SohlLogic";
-import { AsyncFunction } from "@utils";
+import { SOHL_EVENT_STATE, SohlEventState } from "@utils/constants";
+import { AsyncFunction } from "@utils/helpers";
+import { SohlAction } from "@common/event/SohlAction";
+import type { SohlLogic } from "@common/SohlLogic";
 
-export interface ScriptActionData extends SohlEvent.Data {
-    script: string;
-    isAsync: boolean;
-}
-
-const DISALLOWED_KEYWORDS = [
-    "window",
-    "document",
-    "globalThis",
-    "Function",
-    "eval",
-    "new Function",
-    "XMLHttpRequest",
-    "fetch",
-    "require",
-    "import",
-    "setTimeout",
-    "setInterval",
-] as const;
-
-export class ScriptAction extends SohlAction {
+export class SohlScriptAction extends SohlAction {
     private script: string;
     private isAsync: boolean;
 
     constructor(
         parent: SohlLogic,
-        data: Partial<ScriptActionData> = {},
+        data: Partial<SohlScriptAction.Data> = {},
         options: PlainObject = {},
     ) {
         super(parent, data, options);
         this.script = data.script || "return";
-        ScriptAction.checkScriptSafety(this.script);
+        SohlScriptAction.checkScriptSafety(this.script);
         this.isAsync = data.isAsync ?? true;
     }
 
     private static checkScriptSafety(script: string): void {
         const lowered = script.toLowerCase();
-        for (const keyword of DISALLOWED_KEYWORDS) {
+        for (const keyword of SohlScriptAction.DISALLOWED_KEYWORDS) {
             const pattern = new RegExp(`\\b${keyword.toLowerCase()}\\b`, "g");
             if (pattern.test(lowered)) {
                 throw new Error(
@@ -62,24 +43,26 @@ export class ScriptAction extends SohlAction {
         }
     }
 
-    setState(state: SohlEvent.State, context?: PlainObject): void {
+    setState(
+        state: SohlEventState,
+        context: Partial<SohlAction.Context>,
+    ): void {
         super.setState(state, context);
 
-        if (state === SohlEvent.STATE.ACTIVATED) {
+        if (state === SOHL_EVENT_STATE.ACTIVATED) {
             this.execute(context);
-            this.setState(SohlEvent.STATE.CREATED);
+            this.setState(SOHL_EVENT_STATE.CREATED, context);
         }
     }
 
-    executeSync(options: Partial<SohlAction.Context.Data>): any {
-        const result = this.execute(options);
+    executeSync(actionContext: Partial<SohlAction.Context>): Optional<unknown> {
+        const result = this.execute(actionContext);
         return result instanceof Promise ? undefined : result;
     }
 
     async execute(
-        options: Partial<SohlAction.Context.Data> = {},
-    ): Promise<any> {
-        const actionContext = new SohlAction.Context(options);
+        actionContext: Partial<SohlAction.Context>,
+    ): Promise<Optional<unknown>> {
         const args = ["context", `"use strict";\n${this.script}`];
 
         const fn =
@@ -90,4 +73,26 @@ export class ScriptAction extends SohlAction {
             sohl.log.error("ScriptAction execution failed:", { error });
         }
     }
+}
+
+export namespace SohlScriptAction {
+    export interface Data extends SohlAction.Data {
+        script: string;
+        isAsync: boolean;
+    }
+
+    export const DISALLOWED_KEYWORDS = [
+        "window",
+        "document",
+        "globalThis",
+        "Function",
+        "eval",
+        "new Function",
+        "XMLHttpRequest",
+        "fetch",
+        "require",
+        "import",
+        "setTimeout",
+        "setInterval",
+    ] as const;
 }

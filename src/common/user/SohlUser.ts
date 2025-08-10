@@ -1,5 +1,5 @@
 import { InternalClientDocument } from "@common/FoundryProxy";
-import { ClientDocumentExtendedMixin } from "@utils";
+import { ClientDocumentExtendedMixin } from "@utils/helpers";
 
 export class SohlUser
     extends ClientDocumentExtendedMixin(

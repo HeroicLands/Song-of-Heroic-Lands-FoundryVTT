@@ -1,3 +1,3 @@
-import { ImpactModifier } from "@common/modifier";
+import { ImpactModifier } from "@common/modifier/ImpactModifier";
 
 export class IsleImpactModifier extends ImpactModifier {}

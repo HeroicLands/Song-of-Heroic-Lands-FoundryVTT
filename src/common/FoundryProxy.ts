@@ -11,14 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSpeaker } from "@common";
 import {
     FilePath,
     toHTMLWithContent,
     toHTMLWithTemplate,
     HTMLString,
-} from "@utils";
-import { SohlTokenDocument } from "@common/token";
+} from "@utils/helpers";
+
 /*
  * =====================================================
  * Foundry VTT Wrapper Functions
@@ -42,7 +41,8 @@ import { SohlTokenDocument } from "@common/token";
  * @throws An error if the UUID cannot be resolved synchronously and `strict` is true.
  */
 export function fromUuidSync(uuid: string, options: any = {}): any {
-    return fvtt.utils.fromUuidSync(uuid, options);
+    // @ts-expect-error
+    return foundry.utils.fromUuidSync(uuid, options);
 }
 
 /**
@@ -57,7 +57,8 @@ export function fromUuidSync(uuid: string, options: any = {}): any {
  * cannot be resolved.
  */
 export async function fromUuid(uuid: string, options: any = {}): Promise<any> {
-    return await fvtt.utils.fromUuid(uuid, options);
+    // @ts-expect-error
+    return await foundry.utils.fromUuid(uuid, options);
 }
 
 // Dialog-related types
@@ -208,34 +209,6 @@ export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
 }
 
 /**
- * @summary Get a system setting
- * @param {string} key - The key of the setting.
- * @param namespace The namespace of the setting, defaults to `sohl`.
- * @returns {unknown} The stored value if present, otherwise `undefined`.
- */
-export function getSystemSetting<T = unknown>(
-    key: string,
-    namespace = "sohl",
-): T | undefined {
-    return (game as any).settings?.get(namespace, key);
-}
-
-/**
- * @summary Set a system setting
- * @param key - The setting key.
- * @param value - The value to store. Must be a supported type.
- * @param namespace - The namespace of the setting, defaults to `sohl`.
- * @returns The stored value.
- */
-export async function setSystemSetting<T>(
-    key: string,
-    value: T,
-    namespace = "sohl",
-): Promise<T> {
-    return await (game as any).settings?.set(namespace, key, value);
-}
-
-/**
  * Unregister a custom sheet for a Foundry document class.
  * @param {typeof foundry.abstract.Document} documentClass - The document class.
  * @param {typeof FormApplication} sheetClass - The sheet class.
@@ -269,21 +242,21 @@ export function getTokenInCombat(
     token: any = null,
     forceAllow = false,
 ): { token: any; actor: any } | null {
-    if (token && ((fvtt.game.user as any)?.isGM || forceAllow)) {
+    if (token && ((game as any).user?.isGM || forceAllow)) {
         return { token, actor: token.actor };
     }
 
-    if (!fvtt.game.combat?.started) {
+    if (!(game as any).combat?.started) {
         sohl.log.uiWarn("No active combat.");
         return null;
     }
 
-    if ((fvtt.game.combat as any).combatants.size === 0) {
+    if ((game as any).combat.combatants.size === 0) {
         sohl.log.uiWarn(`No combatants.`);
         return null;
     }
 
-    const combatant = fvtt.game.combat.combatant;
+    const combatant = (game as any).combat.combatant;
 
     if (combatant.isDefeated) {
         sohl.log.uiWarn(`Combatant ${combatant.token.name} has been defeated`);
@@ -311,107 +284,6 @@ export function getTokenInCombat(
 }
 
 /**
- * Gets the user-targeted tokens.
- *
- * @remarks
- * Note that this is the **targeted** tokens, not the selected tokens.
- *
- * @param single - Only return a single token if true, otherwise return an array of tokens.
- * @returns The targeted token document(s), or null if failed.
- */
-export function getTargetedTokens(
-    single: boolean = false,
-): SohlTokenDocument[] | null {
-    const targetTokens: Set<Token> = (fvtt.game.user as User)
-        ?.targets as unknown as Set<Token>;
-
-    if (!targetTokens || targetTokens.size === 0) {
-        sohl.log.uiWarn(`No tokens targeted.`);
-        return null;
-    }
-
-    if (single) {
-        if (targetTokens.size > 1) {
-            sohl.log.uiWarn(
-                `Multiple tokens targeted, please target only one token.`,
-            );
-            return null;
-        }
-        return [targetTokens.values().next().value?.document];
-    }
-
-    return Array.from(
-        targetTokens.map((t) => t.document),
-    ) as SohlTokenDocument[];
-}
-
-/**
- * Gets the user-selected tokens.
- *
- * @remarks
- * Note that this is the **selected** tokens, not the targeted tokens.
- *
- * @param single - Only return a single token if true, otherwise return an array of tokens.
- * @returns The selected token document(s), or null if failed.
- */
-export function getSelectedTokens(
-    single: boolean = false,
-): SohlTokenDocument[] | null {
-    const selectedTokens: Token[] = canvas.tokens?.controlled;
-    if (selectedTokens.length === 0) {
-        sohl.log.uiWarn(`No selected tokens on the canvas.`);
-        return null;
-    }
-
-    if (single) {
-        if (selectedTokens.length > 1) {
-            sohl.log.uiWarn(
-                `Multiple tokens selected, please select only one token.`,
-            );
-            return null;
-        }
-
-        return [selectedTokens[0].document];
-    }
-
-    return selectedTokens.map((t) => t.document) as SohlTokenDocument[];
-}
-
-/**
- * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
- *
- * @param sourceToken - The source token.
- * @param targetToken - The target token.
- * @param gridUnits=false - Whether to return in grid units.
- * @returns {number|null} The distance, or null if not calculable.
- */
-export function rangeToTarget(
-    sourceToken: SohlTokenDocument,
-    targetToken: SohlTokenDocument,
-    gridUnits = false,
-): number | null {
-    if (!canvas.scene?.grid) {
-        sohl.log.uiWarn(`No scene active`);
-        return null;
-    }
-    if (!gridUnits && !["feet", "ft"].includes(canvas.scene.grid.units)) {
-        sohl.log.uiWarn(
-            `Scene uses units of ${canvas.scene.grid.units} but only feet are supported, distance calculation not possible`,
-        );
-        return 0;
-    }
-
-    if (fvtt.utils.getProperty((canvas.scene as any).flags, "sohl.isTotm"))
-        return 0;
-
-    const result = canvas.grid.measurePath([
-        (sourceToken as any).object.center,
-        (targetToken as any).object.center,
-    ]);
-
-    return gridUnits ? result.spaces : result.distance;
-}
-/**
  * Retrieves documents from specified packs based on document name and type.
  *
  * @param {string[]} packNames - The names of the packs to search.
@@ -429,7 +301,7 @@ export async function getDocsFromPacks(
 
     let allDocs: any[] = [];
     for (let packName of packNames) {
-        const pack = (fvtt.game.packs as any)?.get(packName);
+        const pack = ((game as any).packs as any)?.get(packName);
         if (!pack) continue;
         if (pack.documentName !== documentName) continue;
         const query: any = {};
@@ -470,15 +342,19 @@ export async function getDocumentFromPacks(
     const doc = allDocs?.find((it: any) => it.name === docName);
     if (doc) {
         data = doc.toObject();
-        if (!keepId) data._id = fvtt.utils.randomID();
+        if (!keepId) data._id = foundry.utils.randomID();
         delete data.folder;
         delete data.sort;
         if (doc.pack)
-            fvtt.utils.setProperty(data, "_stats.compendiumSource", doc.uuid);
+            foundry.utils.setProperty(
+                data,
+                "_stats.compendiumSource",
+                doc.uuid,
+            );
         if ("ownership" in data) {
             data.ownership = {
                 default: foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
-                [(fvtt.game.user as any)?.id]:
+                [((game as any).user as any)?.id]:
                     foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
             };
         }
@@ -488,131 +364,6 @@ export async function getDocumentFromPacks(
     }
 
     return data;
-}
-
-/**
- * @summary Checks if the speaker is the owner of the actor or token.
- * @param {SohlSpeaker.Data} speaker - The speaker data to check.
- * @returns {boolean} True if the speaker is the owner, false otherwise.
- */
-export function getSpeakerIsOwner(speaker: SohlSpeaker.Data): boolean {
-    if (!speaker || typeof speaker !== "object") return false;
-    if ((speaker as any)?.alias) {
-        return true; // Alias is always considered owner
-    }
-
-    if ((speaker as any)?.token) {
-        const token = canvas.tokens.get((speaker as any).token);
-        if (token) {
-            return token.isOwner;
-        }
-    } else if ((speaker as any)?.actor) {
-        const actor = (fvtt.game.actors as any)?.get((speaker as any).actor);
-        if (actor) {
-            return actor.isOwner;
-        }
-    }
-
-    // If no token or actor is found, return false
-    return false;
-}
-
-/**
- * @summary Retrieves the name of the speaker.
- * @param {SohlSpeaker.Data} speaker - The speaker data to check.
- * @returns {string} The name of the speaker.
- */
-export function getSpeakerName(speaker: SohlSpeaker.Data): string {
-    if (!speaker || typeof speaker !== "object") {
-        throw new Error("Invalid speaker data.");
-    }
-
-    // Use alias if provided
-    if ((speaker as any).alias) {
-        return (speaker as any).alias;
-    }
-
-    // Fallback to token name if alias is not available
-    if ((speaker as any).token) {
-        const token = fvtt.game.scenes?.active?.tokens?.get(
-            (speaker as any).token,
-        );
-        if (token) {
-            return token.name;
-        }
-    }
-
-    // Fallback to actor name if token is not available
-    if ((speaker as any).actor) {
-        const actor = fvtt.game.actors?.get((speaker as any).actor);
-        if (actor) {
-            return actor.name;
-        }
-    }
-
-    // Default to "Unknown Speaker" if no name can be determined
-    return "Unknown Speaker";
-}
-
-/**
- * @summary Retrieves the specified user or the current user if none specified.
- * @param {string|null} userId - The ID of the user to retrieve.
- * @returns {User|null} The current user.
- */
-export function getUser(userId: string | null = null): any {
-    if (userId) {
-        return fvtt.game.users?.get(userId) ?? null;
-    } else {
-        return fvtt.game.user ?? null;
-    }
-}
-
-/**
- * @summary Retrieves the world actors.
- * @returns {Actor[]} The world actors.
- */
-export function getWorldActors(): any[] {
-    return fvtt.game.actors?.contents ?? [];
-}
-
-/**
- * @summary Retrieves the world items.
- * @returns {Item[]} The world items.
- */
-export function getWorldItems(): any[] {
-    return fvtt.game.items?.contents ?? [];
-}
-
-/**
- * @summary Retrieves the world canvas.
- * @returns {Canvas|null} The world canvas, or null if not found.
- */
-export function getWorldCanvas(): any {
-    return canvas ?? null;
-}
-
-/**
- * @summary Retrieves the active scene.
- * @returns {Scene|null} The active scene, or null if not found.
- */
-export function getActiveScene(): any {
-    return fvtt.game.scenes?.active ?? null;
-}
-
-/**
- * @summary Retrieves the active combat.
- * @returns {Combat|null} The active combat, or null if not found.
- */
-export function getActiveCombat(): any {
-    return fvtt.game.combat ?? null;
-}
-
-/**
- * @summary Retrieves the active combatant.
- * @returns {Combatant|null} The active combatant, or null if not found.
- */
-export function getActiveCombatant(): any {
-    return fvtt.game.combat?.combatant ?? null;
 }
 
 export interface InternalClientDocument {
@@ -663,7 +414,7 @@ export interface InternalClientDocument {
      *
      * @example
      * ```typescript
-     * game.user.id; // "dkasjkkj23kjf"
+     * (game as any).user.id; // "dkasjkkj23kjf"
      * actor.data.permission; // {default: 1, "dkasjkkj23kjf": 2};
      * actor.permission; // 2
      * ```

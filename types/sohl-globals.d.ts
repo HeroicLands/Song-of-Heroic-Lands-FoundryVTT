@@ -5,7 +5,7 @@ import type {
     SohlLogger,
     SohlLocalize,
     SohlMersenneTwister,
-} from "@utils";
+} from "@utils/helpers";
 
 // ✅ Custom utility types
 declare global {

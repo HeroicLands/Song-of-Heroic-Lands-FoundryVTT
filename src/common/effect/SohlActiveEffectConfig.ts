@@ -11,4 +11,83 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export class SohlActiveEffectConfig extends ActiveEffectConfig {}
+import { SohlActor } from "@common/actor/SohlActor";
+import { SohlTemporal } from "@common/event/SohlTemporal";
+import { SohlItem } from "@common/item/SohlItem";
+import { ITEM_METADATA, ItemMetadatas } from "@utils/constants";
+import { getWorldDateLabel } from "@utils/helpers";
+
+// @ts-expect-error - ActiveEffectConfig is a known class in Foundry
+const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
+export class SohlActiveEffectConfig extends BaseAEConfig {
+    static PARTS = {
+        header: { template: "templates/sheets/active-effect/header.hbs" },
+        tabs: { template: "templates/generic/tab-navigation.hbs" },
+        details: {
+            template: "system/sohl/templates/effects/details.hbs",
+            scrollable: [""],
+        },
+        duration: { template: "templates/sheets/active-effect/duration.hbs" },
+        changes: {
+            template: "system/sohl/templates/effects/changes.hbs",
+            scrollable: ["ol[data-changes]"],
+        },
+        footer: { template: "templates/generic/form-footer.hbs" },
+    };
+
+    /** @inheritDoc */
+    async _preparePartContext(
+        partId: string,
+        context: PlainObject,
+    ): Promise<PlainObject> {
+        const partContext = await super._preparePartContext(partId, context);
+        if (partId in partContext.tabs)
+            partContext.tab = partContext.tabs[partId];
+        const document: SohlItem | SohlActor = (this as any).object;
+        switch (partId) {
+            case "details":
+                partContext.targetTypes = {};
+                if (partContext.isActorEffect) {
+                    partContext.targetTypes["this"] =
+                        sohl.i18n.localize("EFFECT.ThisActor");
+                } else {
+                    partContext.targetTypes["this"] = sohl.i18n.format(
+                        "EFFECT.ThisItem",
+                        { itemType: document.parent.typeLabel },
+                    );
+                    partContext.targetTypes["actor"] =
+                        sohl.i18n.localize("EFFECT.Actor");
+                }
+                // Add all of the item types
+                Object.entries(sohl.CONFIG.Item.dataModels).reduce(
+                    (obj: PlainObject, [key, clazz]: [string, any]) => {
+                        obj[key] = clazz.typeLabel;
+                        return obj;
+                    },
+                    context.targetTypes,
+                );
+                break;
+
+            case "duration":
+                partContext.startTimeTemporal = new SohlTemporal(
+                    partContext.startTime,
+                );
+                partContext.endTimeTemporal = new SohlTemporal(
+                    partContext.endTime,
+                );
+                break;
+
+            case "changes":
+                partContext.modes = Object.entries(
+                    CONST.ACTIVE_EFFECT_MODES,
+                ).reduce((modes: StrictObject<string>, [key, value]) => {
+                    modes[value] = sohl.i18n.localize(`EFFECT.MODE_${key}`);
+                    return modes;
+                }, {});
+                // @ts-expect-error - All Actor and Item types have a type property
+                const itemData = ITEM_METADATA[document.type];
+                partContext.keyChoices = itemData?.KeyChoices || [];
+        }
+        return partContext;
+    }
+}

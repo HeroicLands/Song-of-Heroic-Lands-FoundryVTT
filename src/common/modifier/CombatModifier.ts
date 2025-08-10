@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelModifier } from "@common/modifier";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 
 export class CombatModifier extends MasteryLevelModifier {
     constructor(

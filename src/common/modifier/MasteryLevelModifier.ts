@@ -11,19 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    DialogButtonCallback,
-    getSystemSetting,
-    getTargetedTokens,
-    inputDialog,
-} from "@common/FoundryProxy";
-import { SohlSpeaker } from "@common";
-import { ValueDelta, ValueModifier } from "@common/modifier";
-import { OpposedTestResult, SuccessTestResult } from "@common/result";
-import { FilePath, toFilePath } from "@utils";
-import { SohlArray } from "@utils/collection";
-import { SohlAction } from "@common/event";
-import { SohlTokenDocument } from "@common/token";
+import { DialogButtonCallback, inputDialog } from "@common/FoundryProxy";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import type { OpposedTestResult } from "@common/result/OpposedTestResult";
+import { FilePath, toFilePath } from "@utils/helpers";
+import { SohlArray } from "@utils/collection/SohlArray";
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
 
 export class MasteryLevelModifier extends ValueModifier {
     minTarget!: number;
@@ -77,18 +73,17 @@ export class MasteryLevelModifier extends ValueModifier {
     async successTest(
         context: Partial<SuccessTestResult.Context>,
     ): Promise<SuccessTestResult | null | false> {
-        const testResult: SuccessTestResult =
-            sohl.game.CONFIG.SuccessTestResult(
-                context.priorTestResult ?? {
-                    chat: context.speaker,
-                    type: context.type,
-                    title: context.title,
-                    mlMod: this.clone(),
-                },
-                {
-                    parent: this.parent,
-                },
-            );
+        const testResult: SuccessTestResult = sohl.CONFIG.SuccessTestResult(
+            context.priorTestResult ?? {
+                chat: context.speaker,
+                type: context.type,
+                title: context.title,
+                mlMod: this.clone(),
+            },
+            {
+                parent: this.parent,
+            },
+        );
         if (!testResult) {
             throw new Error("Failed to create SuccessTestResult.");
         }
@@ -100,7 +95,7 @@ export class MasteryLevelModifier extends ValueModifier {
             );
 
             let dialogData: PlainObject = {
-                variant: sohl.game.id,
+                variant: sohl.id,
                 type: testResult.testType,
                 title: sohl.i18n.format(
                     "SOHL.MasteryLevelModifier.successTest.dialogTitle",
@@ -112,7 +107,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 mlMod: testResult.masteryLevelModifier,
                 situationalModifier: 0,
                 rollMode: testResult.rollMode,
-                rollModes: Object.entries(SohlSpeaker.ROLL_MODE).map(
+                rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
                     ([k, v]) => ({
                         group: "CHAT.RollDefault",
                         value: k,
@@ -135,17 +130,18 @@ export class MasteryLevelModifier extends ValueModifier {
                 ): Promise<any> => {
                     const form = button.querySelector("form");
                     if (!form || !testResult) return Promise.resolve(null);
-                    const fd = new fvtt.applications.ux.FormDataExtended(form);
+                    //                    const fd = new (foundry.applications as any).ux.FormDataExtended(
+                    const fd = new FormDataExtended(form);
                     const formData = fd.object;
                     if (formData.situationalModifier) {
                         testResult.masteryLevelModifier.add(
-                            ValueDelta.ID.PLAYER,
+                            VALUE_DELTA_ID.PLAYER,
                             formData.situationalModifier,
                         );
                     }
                     testResult.masteryLevelModifier.successLevelMod =
-                        formData.successLevelMod;
-                    testResult.rollMode = formData.rollMode;
+                        parseInt(String(formData.successLevelMod), 10) || 0;
+                    testResult.rollMode = String(formData.rollMode);
                     return Promise.resolve(true);
                 }) as DialogButtonCallback,
                 rejectClose: false,
@@ -179,7 +175,7 @@ export class MasteryLevelModifier extends ValueModifier {
         }: { targetToken?: SohlTokenDocument; situationalModifier?: number } =
             context.scope || {};
         if (!context.scope) context.scope = {};
-        targetToken ||= getTargetedTokens(true)?.[0];
+        targetToken ||= SohlTokenDocument.getTargetedTokens(true)?.[0];
         if (!targetToken) return null;
         context.type ||= `${this.parent.item?.type}-${this.parent.item?.name}-opposedtest`;
         context.title ||= sohl.i18n.format("{label} Opposed Test", {
@@ -203,7 +199,7 @@ export class MasteryLevelModifier extends ValueModifier {
         }
 
         context.priorTestResult ??= (() => {
-            const srcTestResult = new sohl.game.CONFIG.SuccessTestResult(
+            const srcTestResult = new sohl.CONFIG.SuccessTestResult(
                 {
                     speaker: context.speaker,
                     item: this.parent.item,
@@ -218,7 +214,7 @@ export class MasteryLevelModifier extends ValueModifier {
                 },
                 { parent: this },
             );
-            return new sohl.game.CONFIG.OpposedTestResult(
+            return new sohl.CONFIG.OpposedTestResult(
                 {
                     speaker: context.speaker,
                     targetTokenUuid: targetToken.uuid,
@@ -230,7 +226,7 @@ export class MasteryLevelModifier extends ValueModifier {
         }) as unknown as OpposedTestResult;
 
         let sourceTestContext: SuccessTestResult.Context =
-            new sohl.game.CONFIG.SuccessTestResult.Context({
+            new sohl.CONFIG.SuccessTestResult.Context({
                 speaker:
                     context.priorTestResult.speaker.toJSON() as SohlSpeaker.Data,
                 item: this.parent.item,
@@ -240,11 +236,11 @@ export class MasteryLevelModifier extends ValueModifier {
             });
         let sourceTestResult =
             context.priorTestResult?.sourceTestResult ??
-            new sohl.game.CONFIG.SuccessTestResult(
+            new sohl.CONFIG.SuccessTestResult(
                 {
                     speaker: context.speaker,
                     item: this.parent.item,
-                    rollMode: getSystemSetting("rollMode", "core"),
+                    rollMode: (game as any).settings.get("core", "rollMode"),
                     title:
                         context.title ||
                         sohl.i18n.format("{name} {label} Test", {
@@ -289,13 +285,16 @@ export class MasteryLevelModifier extends ValueModifier {
                     {
                         speaker: context.speaker || new SohlSpeaker(),
                         item: this.parent.item,
-                        rollMode: getSystemSetting("rollMode", "core"),
+                        rollMode: (game as any).settings.get(
+                            "core",
+                            "rollMode",
+                        ),
                         type: SuccessTestResult.TEST_TYPE.SKILL,
                         title: sohl.i18n.format("Opposed {label} Test", {
                             label: this.parent.item?.label,
                         }),
                         situationalModifier: 0,
-                        mlMod: fvtt.utils.deepClone(
+                        mlMod: foundry.utils.deepClone(
                             this.parent.item?.system._masteryLevel,
                         ),
                     },
@@ -306,8 +305,8 @@ export class MasteryLevelModifier extends ValueModifier {
                 new SuccessTestResult.Context({
                     noChat: true,
                     rollMode:
-                        getSystemSetting("rollMode", "core") ||
-                        SohlSpeaker.ROLL_MODE.SYSTEM,
+                        (game as any).settings.get("core", "rollMode") ||
+                        SOHL_SPEAKER_ROLL_MODE.SYSTEM,
                     title:
                         context.title ||
                         sohl.i18n.format("{name} {label} Test", {

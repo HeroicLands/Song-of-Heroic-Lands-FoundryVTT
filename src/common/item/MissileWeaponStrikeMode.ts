@@ -10,20 +10,30 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { RegisterClass } from "@utils/decorators";
-import { ProjectileGear, SohlItem, StrikeModeMixin } from ".";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import {
+    kStrikeModeMixin,
+    kStrikeModeMixinData,
+    StrikeModeMixin,
+} from "@common/item/StrikeModeMixin";
+import {
+    ImpactAspect,
+    PROJECTILEGEAR_SUBTYPE,
+    ProjectileGearSubType,
+    ProjectileGearSubTypes,
+    Variant,
+} from "@utils/constants";
+import { kSubTypeMixinData } from "@common/item/SubTypeMixin";
+import { CombatModifier } from "@common/modifier/CombatModifier";
+import { ImpactModifier } from "@common/modifier/ImpactModifier";
+import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const kMissileWeaponStrikeMode = Symbol("MissileWeaponStrikeMode");
-const kDataModel = Symbol("MissileWeaponStrikeMode.DataModel");
-const { StringField } = (foundry.data as any).fields;
+const kData = Symbol("MissileWeaponStrikeMode.Data");
+const { StringField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "MissileWeaponStrikeMode",
-    }),
-)
 export class MissileWeaponStrikeMode<
         TData extends
             MissileWeaponStrikeMode.Data = MissileWeaponStrikeMode.Data,
@@ -31,7 +41,14 @@ export class MissileWeaponStrikeMode<
     extends SohlLogic
     implements MissileWeaponStrikeMode.Logic
 {
+    declare readonly [kStrikeModeMixin]: true;
     declare readonly parent: TData;
+    declare traits: PlainObject;
+    declare assocSkill?: SohlItem<SohlLogic, any> | undefined;
+    declare impact: ImpactModifier;
+    declare attack: CombatModifier;
+    declare defense: { block: CombatModifier };
+    declare durability: ValueModifier;
     readonly [kMissileWeaponStrikeMode] = true;
 
     static isA(obj: unknown): obj is MissileWeaponStrikeMode {
@@ -52,55 +69,60 @@ export class MissileWeaponStrikeMode<
 }
 
 export namespace MissileWeaponStrikeMode {
-    /**
-     * The type moniker for the MissileWeaponStrikeMode item.
-     */
-    export const Kind = "missileweaponstrikemode";
-    /**
-     * The FontAwesome icon class for the MissileWeaponStrikeMode item.
-     */
-    export const IconCssClass = "fas fa-bow-arrow";
-
-    /**
-     * The image path for the MissileWeaponStrikeMode item.
-     */
-    export const Image = "systems/sohl/assets/icons/longbow.svg";
-
-    export interface Logic extends SohlLogic.Logic {}
-
-    export interface Data extends SohlItem.Data {
-        projectileType: ProjectileGear.SubType;
+    export interface Logic extends StrikeModeMixin.Logic {
+        readonly parent: MissileWeaponStrikeMode.Data;
+        readonly [kMissileWeaponStrikeMode]: true;
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: MissileWeaponStrikeMode,
-            iconCssClass: IconCssClass,
-            img: Image,
-            sheet: "systems/sohl/templates/item/missilestrikemode-sheet.hbs",
-            schemaVersion: "0.6.0",
-        }),
-    )
+    export interface Data extends StrikeModeMixin.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
+        projectileType: ProjectileGearSubType;
+    }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     export class DataModel
         extends StrikeModeMixin.DataModel(SohlItem.DataModel)
         implements Data
     {
-        declare projectileType: ProjectileGear.SubType;
+        declare readonly [kStrikeModeMixinData]: true;
+        declare readonly [kSubTypeMixinData]: true;
         static readonly LOCALIZATION_PREFIXES = ["MissileWeaponStrikeMode"];
-        readonly [kDataModel] = true;
+        declare mode: string;
+        declare minParts: number;
+        declare assocSkillName: string;
+        declare impactBase: {
+            numDice: number;
+            die: number;
+            modifier: number;
+            aspect: ImpactAspect;
+        };
+        declare subType: Variant;
+        declare projectileType: ProjectileGearSubType;
+        declare _logic: Logic;
+        readonly [kData] = true;
+
+        get logic(): Logic {
+            this._logic ??= new MissileWeaponStrikeMode(this);
+            return this._logic;
+        }
 
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 projectileType: new StringField({
-                    initial: ProjectileGear.SUBTYPE.NONE,
+                    initial: PROJECTILEGEAR_SUBTYPE.NONE,
                     required: true,
-                    choices: ProjectileGear.SubTypes,
+                    choices: ProjectileGearSubTypes,
                 }),
             };
         }

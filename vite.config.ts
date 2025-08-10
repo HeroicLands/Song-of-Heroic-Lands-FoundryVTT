@@ -30,16 +30,15 @@ export default defineConfig((ctx: ConfigEnv): UserConfig => {
             sourcemap: true,
             minify: false,
             lib: {
-                entry: path.resolve(__dirname, "src/index.ts"),
+                entry: path.resolve(__dirname, "src/sohl.ts"),
                 fileName: () => "sohl.js",
                 formats: ["es"],
             },
             rollupOptions: {
-                input: path.resolve(__dirname, "src/index.ts"),
+                input: path.resolve(__dirname, "src/sohl.ts"),
                 output: {
                     entryFileNames: "sohl.js",
                     banner: licenseBanner,
-                    sourcemap: true,
                 },
             },
         },

@@ -11,117 +11,85 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlTemporal } from "@common/event";
-import { SohlBase, SohlLogic } from "@common";
-import { defineType } from "@utils";
+import {
+    SohlEventState,
+    SohlEventActivation,
+    SohlEventTerm,
+    SohlEventRepeat,
+    SOHL_EVENT_STATE,
+    SOHL_EVENT_ACTIVATION,
+    SOHL_EVENT_TERM,
+    SOHL_EVENT_REPEAT,
+} from "@utils/constants";
+import { SohlBase } from "@common/SohlBase";
+import { SohlTemporal } from "@common/event/SohlTemporal";
+import type { SohlLogic } from "@common/SohlLogic";
+import { DocumentId, toDocumentId } from "@utils/helpers";
 
 export class SohlEvent<P extends SohlLogic = SohlLogic>
     extends SohlBase
     implements SohlEvent.Data
 {
     readonly parent: P;
-    name: string;
-    state: SohlEvent.State;
-    whenActivate: SohlEvent.Activation;
+    id: DocumentId;
+    label: string;
+    state: SohlEventState;
+    whenActivate: SohlEventActivation;
     initiate: SohlTemporal;
     delay: number;
     activate: SohlTemporal;
-    term: SohlEvent.Term;
+    term: SohlEventTerm;
     duration: number;
     expire: SohlTemporal;
-    repeat: SohlEvent.Repeat;
+    repeat: SohlEventRepeat;
 
     constructor(
         parent: P,
         data: Partial<SohlEvent.Data> = {},
         options: PlainObject = {},
     ) {
-        if (!data.name) {
-            throw new Error("Event name is required");
+        if (!data.id) {
+            throw new Error("Event ID is required");
         }
         super(data, options);
+        this.id = data.id;
         this.parent = parent;
-        this.name = data.name;
-        this.state = data.state ?? SohlEvent.STATE.CREATED;
-        this.whenActivate = data.whenActivate ?? SohlEvent.ACTIVATION.IMMEDIATE;
+        this.label = sohl.i18n.localize(data.label || "Unnamed Event");
+        this.state = data.state ?? SOHL_EVENT_STATE.CREATED;
+        this.whenActivate =
+            data.whenActivate ?? SOHL_EVENT_ACTIVATION.IMMEDIATE;
         this.initiate = data.initiate ?? SohlTemporal.now();
         this.delay = data.delay ?? 0;
         this.activate = data.activate ?? SohlTemporal.now();
-        this.term = data.term ?? SohlEvent.TERM.DURATION;
+        this.term = data.term ?? SOHL_EVENT_TERM.DURATION;
         this.duration = data.duration ?? 0;
         this.expire = data.expire ?? SohlTemporal.now();
-        this.repeat = data.repeat ?? SohlEvent.REPEAT.NONE;
+        this.repeat = data.repeat ?? SOHL_EVENT_REPEAT.NONE;
     }
 
-    setState(state: SohlEvent.State, context: PlainObject = {}): void {
+    setState(state: SohlEventState, context: PlainObject = {}): void {
         this.state = state;
     }
 }
 
 export namespace SohlEvent {
-    export const {
-        kind: STATE,
-        values: States,
-        isValue: isState,
-        labels: SStateLabels,
-    } = defineType("Affliction.STATE", {
-        CREATED: "created", // SohlEvent has been created
-        INITIATED: "initiated", // SohlEvent has been initiated
-        ACTIVATED: "activated", // SohlEvent has been activated
-        EXPIRED: "expired", // SohlEvent has expired
-    });
-    export type State = (typeof STATE)[keyof typeof STATE];
-
-    export const {
-        kind: TERM,
-        values: Terms,
-        isValue: isTerm,
-        labels: STermLabels,
-    } = defineType("Affliction.TERM", {
-        DURATION: "duration", // SohlEvent will last for a duration
-        INDEFINITE: "indefinite", // SohlEvent will last indefinitely until removed
-        PERMANENT: "permanent", // SohlEvent will last permanently
-    });
-    export type Term = (typeof TERM)[keyof typeof TERM];
-
-    export const {
-        kind: ACTIVATION,
-        values: Activations,
-        isValue: isActivation,
-        labels: ActivationLabels,
-    } = defineType("Affliction.ACTIVATION", {
-        IMMEDIATE: "immediate", // SohlEvent will be activated immediately
-        DELAYED: "delayed", // SohlEvent will be activated after a delay
-        SCHEDULED: "scheduled", // SohlEvent will be activated at a scheduled time
-    });
-    export type Activation = (typeof ACTIVATION)[keyof typeof ACTIVATION];
-
-    export const {
-        kind: REPEAT,
-        values: Repeats,
-        isValue: isRepeat,
-        labels: RepeatLabels,
-    } = defineType("Affliction.REPEAT", {
-        NONE: "none", // SohlEvent will not repeat
-        ONCE: "once", // SohlEvent will repeat once
-        REPEATED: "repeated", // SohlEvent will repeat multiple times
-    });
-    export type Repeat = (typeof REPEAT)[keyof typeof REPEAT];
-
     // Constructor type for SohlEvent and its subclasses
     export interface EventConstructor extends Function {
         new (data: PlainObject, options: PlainObject): Event;
     }
 
     export interface Data {
-        /** @summary Name of the event */
-        name: string;
+        /** @summary Unique identifier for the event */
+        id: DocumentId;
+
+        /** @summary Visible label of the event (localizable) */
+        label: string;
 
         /** @summary The current state of the event */
-        state: State;
+        state: SohlEventState;
 
         /** @summary When the event will be activated */
-        whenActivate: Activation;
+        whenActivate: SohlEventActivation;
 
         /**
          * @summary Time when the event was initiated.
@@ -143,7 +111,7 @@ export namespace SohlEvent {
 
         activate: SohlTemporal; // Time when the event will be activated
 
-        term: Term; // How long the event will continue
+        term: SohlEventTerm; // How long the event will continue
 
         duration: number; // Duration of the event if term is DURATION
 
@@ -151,6 +119,6 @@ export namespace SohlEvent {
         expire: SohlTemporal;
 
         /** @summary How often the event will repeat */
-        repeat: Repeat;
+        repeat: SohlEventRepeat;
     }
 }

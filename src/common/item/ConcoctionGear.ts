@@ -10,24 +10,29 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { GearMixin } from "./GearMixin";
-import { SohlAction } from "@common/event";
-import { defineType } from "@utils";
-import { SohlItem, SubTypeMixin } from ".";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import {
+    CONCOCTIONGEAR_POTENCY,
+    ConcoctionGearPotency,
+    ConcoctionGearSubType,
+} from "@utils/constants";
 
-const { NumberField, StringField } = (foundry.data as any).fields;
+const { NumberField, StringField } = foundry.data.fields;
 const kConcoctionGear = Symbol("ConcoctionGear");
 const kData = Symbol("ConcoctionGear.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "ConcoctionGear",
-    }),
-)
 export class ConcoctionGear extends SohlLogic implements ConcoctionGear.Logic {
+    declare [kGearMixin]: true;
     declare readonly parent: ConcoctionGear.Data;
+    weight!: ValueModifier;
+    value!: ValueModifier;
+    quality!: ValueModifier;
+    durability!: ValueModifier;
     readonly [kConcoctionGear] = true;
 
     static isA(obj: unknown): obj is ConcoctionGear {
@@ -47,60 +52,26 @@ export class ConcoctionGear extends SohlLogic implements ConcoctionGear.Logic {
 }
 
 export namespace ConcoctionGear {
-    /**
-     * The type moniker for the ConcoctionGear item.
-     */
-    export const Kind = "concoctiongear";
-
-    /**
-     * The FontAwesome icon class for the ConcoctionGear item.
-     */
-    export const IconCssClass = "fa-flask-round-potion";
-
-    /**
-     * The image path for the ConcoctionGear item.
-     */
-    export const Image = "systems/sohl/assets/icons/potion.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.ConcoctionGear.SubType", {
-        MUNDANE: "mundane",
-        EXOTIC: "exotic",
-        ELIXIR: "elixir",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
-    export const {
-        kind: POTENCY,
-        values: Potencies,
-        isValue: isPotency,
-    } = defineType("SOHL.ConcoctionGear.Potency", {
-        NOT_APPLICABLE: "na",
-        MILD: "mild",
-        STRONG: "strong",
-        GREAT: "great",
-    });
-    export type Potency = (typeof POTENCY)[keyof typeof POTENCY];
-
-    export interface Logic extends SohlLogic.Logic {
-        readonly [kConcoctionGear]: true;
+    export interface Logic
+        extends SubTypeMixin.Logic<ConcoctionGearSubType>,
+            GearMixin.Logic {
         readonly parent: ConcoctionGear.Data;
+        readonly [kConcoctionGear]: true;
     }
 
-    export interface Data extends SubTypeMixin.Data<SubType> {
+    export interface Data
+        extends SubTypeMixin.Data<ConcoctionGearSubType>,
+            GearMixin.Data {
         readonly [kData]: true;
-        get logic(): ConcoctionGear.Logic;
-        potency: Potency;
+        readonly logic: Logic;
+        potency: ConcoctionGearPotency;
         strength: number;
     }
 
     export namespace Data {
         export function isA(
             obj: unknown,
-            subType?: ConcoctionGear.SubType,
+            subType?: ConcoctionGearSubType,
         ): obj is Data {
             return (
                 typeof obj === "object" &&
@@ -116,16 +87,6 @@ export namespace ConcoctionGear {
     ) as unknown as Constructor<ConcoctionGear.Data> &
         SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: ConcoctionGear,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel
         extends DataModelShape
         implements ConcoctionGear.Data
@@ -139,26 +100,24 @@ export namespace ConcoctionGear {
         declare isEquipped: boolean;
         declare qualityBase: number;
         declare durabilityBase: number;
-        declare subType: SubType;
-        declare potency: Potency;
+        declare subType: ConcoctionGearSubType;
+        declare potency: ConcoctionGearPotency;
         declare strength: number;
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-
-        get subTypeChoices(): string[] {
-            return (this.constructor as any)._metadata.subTypes;
+        get logic(): Logic {
+            this._logic ??= new ConcoctionGear(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 potency: new StringField({
-                    initial: POTENCY.NOT_APPLICABLE,
+                    initial: CONCOCTIONGEAR_POTENCY.NOT_APPLICABLE,
                     required: true,
-                    choices: Object.values(POTENCY),
+                    choices: Object.values(CONCOCTIONGEAR_POTENCY),
                 }),
                 strength: new NumberField({
                     integer: true,
@@ -171,7 +130,7 @@ export namespace ConcoctionGear {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/concoctiongear.hbs",
                 },

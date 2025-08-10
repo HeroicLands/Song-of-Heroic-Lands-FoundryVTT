@@ -11,9 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common";
 import { InternalClientDocument } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document.mjs";
-import { SohlMap } from "@utils/collection";
 
 export type SohlSettingValue =
     | string
@@ -60,188 +58,6 @@ export function getStatic<T extends object>(instance: T, key: string): any {
     }
 
     throw new Error(`Static property "${key}" not found in prototype chain.`);
-}
-
-export function defaultToJSON(value: any): JsonValue | undefined {
-    if (
-        value === null ||
-        typeof value === "string" ||
-        typeof value === "number" ||
-        typeof value === "boolean"
-    ) {
-        return value;
-    }
-
-    if (typeof value === "bigint") {
-        return `__bigint__:${value.toString()}`;
-    }
-
-    if (value instanceof Date) {
-        return `__date__:${value.toISOString()}`;
-    }
-
-    if (value instanceof URL) {
-        return { __type: "URL", href: value.href };
-    }
-
-    if (value instanceof SohlMap) {
-        return {
-            __type: "SohlMap",
-            entries: Array.from(value.entries()).map(([k, v]) => [
-                k,
-                defaultToJSON(v),
-            ]),
-        };
-    }
-
-    if (value instanceof Map) {
-        return {
-            __type: "Map",
-            entries: Array.from(value.entries()).map(([k, v]) => [
-                k,
-                defaultToJSON(v),
-            ]),
-        };
-    }
-
-    if (value instanceof Set) {
-        return {
-            __type: "Set",
-            values: Array.from(value.values()).map(defaultToJSON),
-        } as JsonValue;
-    }
-
-    if (value instanceof RegExp) {
-        return {
-            __type: "RegExp",
-            pattern: value.source,
-            flags: value.flags,
-        } as JsonValue;
-    }
-
-    if (value instanceof Error) {
-        return {
-            __type: "Error",
-            name: value.name,
-            message: value.message,
-            stack: value.stack,
-        } as JsonValue;
-    }
-
-    if (
-        typeof value === "function" ||
-        typeof value === "symbol" ||
-        value === undefined
-    ) {
-        return undefined;
-    }
-
-    if (Array.isArray(value)) {
-        return value.map(defaultToJSON) as JsonValue[];
-    }
-
-    if (typeof value === "object" && value !== null) {
-        if (typeof (value as any).toJSON === "function") {
-            return (value as any).toJSON();
-        }
-
-        const result: Record<string, JsonValue> = {};
-        for (const [key, val] of Object.entries(value)) {
-            const jsonVal = defaultToJSON(val);
-            if (jsonVal !== undefined) result[key] = jsonVal;
-        }
-        return result;
-    }
-
-    return value;
-}
-
-export function defaultFromJSON(value: unknown): unknown {
-    if (typeof value === "string") {
-        if (value.startsWith("__bigint__:")) {
-            return BigInt(value.slice("__bigint__:".length));
-        }
-        if (value.startsWith("__date__:")) {
-            return new Date(value.slice("__date__:".length));
-        }
-        if (value.startsWith("__func__:")) {
-            return new URL(value.slice("__url__:".length));
-        }
-        return value;
-    }
-
-    if (Array.isArray(value)) {
-        return value.map(defaultFromJSON);
-    }
-
-    if (typeof value === "object" && value !== null) {
-        const maybe = value as any;
-
-        switch (maybe.__type) {
-            case "SohlMap":
-                return new SohlMap(
-                    maybe.entries.map(([k, v]: [any, any]) => [
-                        k,
-                        defaultFromJSON(v),
-                    ]),
-                );
-            case "Map":
-                return new Map(
-                    maybe.entries.map(([k, v]: [any, any]) => [
-                        k,
-                        defaultFromJSON(v),
-                    ]),
-                );
-            case "Set":
-                return new Set(maybe.values.map(defaultFromJSON));
-            case "RegExp":
-                return new RegExp(maybe.pattern, maybe.flags);
-            case "Error":
-                const err = new Error(maybe.message);
-                err.name = maybe.name;
-                err.stack = maybe.stack;
-                return err;
-            case "URL":
-                return new URL(maybe.href);
-        }
-
-        const result: Record<string, unknown> = {};
-        for (const [key, val] of Object.entries(maybe)) {
-            result[key] = defaultFromJSON(val);
-        }
-        return result;
-    }
-
-    return value;
-}
-
-/**
- * Serializes all enumerable properties (own and inherited) of an object
- * using `defaultToJSON`, returning a plain JSON-compatible object.
- *
- * @param target The object to serialize.
- * @returns A plain object with serialized properties.
- */
-export function serializePlainObject(target: PlainObject): PlainObject {
-    const result: PlainObject = {};
-    const visited = new Set<string>();
-
-    let current = target;
-    while (current && current !== Object.prototype) {
-        for (const key of Object.keys(current)) {
-            if (visited.has(key)) continue;
-            visited.add(key);
-
-            const value = target[key];
-            const serialized = defaultToJSON(value);
-            if (serialized !== undefined) {
-                result[key] = serialized;
-            }
-        }
-        current = Object.getPrototypeOf(current);
-    }
-
-    return result;
 }
 
 /**
@@ -429,18 +245,36 @@ export function registerValue(
  * @returns True if the path was successfully removed.
  */
 export function unregisterValue(path: string): boolean {
-    return fvtt.utils.deleteProperty(globalThis.sohl, path);
+    // @ts-expect-error
+    return foundry.utils.deleteProperty(globalThis.sohl, path);
 }
 
 export async function toHTMLWithTemplate(
     template: FilePath,
     data: PlainObject = {},
 ): Promise<HTMLString> {
-    const html = await fvtt.applications.handlebars.renderTemplate(
+    // @ts-expect-error
+    const html = await foundry.applications.handlebars.renderTemplate(
         template,
         data,
     );
     return toSanitizedHTML(html);
+}
+
+/**
+ * Encode the time using the in-world calendar.
+ *
+ * @param time in-world seconds since the start of the game
+ * @returns if SimpleCalendar module is enabled, the current calendar time
+ *          formatted like "13 Nolus TR720 13:42:10", otherwise "No Calendar".
+ */
+export function getWorldDateLabel(time: number): string {
+    let worldDateLabel = "No Calendar";
+    if (sohl.simpleCalendar) {
+        const ct = sohl.simpleCalendar.api.timestampToDate(time);
+        worldDateLabel = `${ct.display.day} ${ct.display.monthName} ${ct.display.yearPrefix}${ct.display.year}${ct.display.yearPostfix} ${ct.display.time}`;
+    }
+    return worldDateLabel;
 }
 
 export async function toHTMLWithContent(
@@ -468,64 +302,6 @@ export function createUniqueName<T extends { name: string }>(
     let index = 1;
     while (takenNames.has(name)) name = `${baseName} (${++index})`;
     return name;
-}
-
-/**
- * @summary Replacement for `instanceof` for use with dynamic subclass registration.
- *
- * @description
- * This method checks if the current instance or any of its ancestors
- * in its inheritance chain has the specified kind. It is a more flexible
- * alternative to `instanceof`, even working across mixins and other mechanisms
- * where the prototype chain may not be straightforward.
- *
- * @remarks
- * This function only works for classes that have been registered with the
- * `@RegisterClass` decorator.
- *
- * @param value - The object to check.
- * @param cls - The class to match against.
- * @returns `true` if the `value` or any constructor in its prototype chain has a
- *     static `_metadata.kind` matching that of `cls`.
- * @example
- * ```ts
- * class UnregisteredClass {}
- *
- * @RegisterClass({ name: "ParentClass" })
- * class ParentClass extends UnregisteredClass {}
- *
- * @RegisterClass({ name: "MyClass" })
- * class MyClass extends MyClass {}
- *
- * const obj = new MyClass();
- * console.log(isOfKind(obj, ParentClass)); // true
- * console.log(isOfKind(obj, MyClass)); // true
- * console.log(isOfKind(obj, UnregisterdClass)); // false
- * ```
- */
-export function isOfKind<T extends AnyConstructor>(
-    value: unknown,
-    cls: T,
-): value is InstanceType<T> {
-    if ((cls as any)._metadata?.name) {
-        const clsKind = (cls as any)._metadata?.kind;
-        if (typeof clsKind === "string") {
-            let proto = Object.getPrototypeOf(value);
-
-            while (proto && typeof proto.constructor === "function") {
-                const ctor = proto.constructor as {
-                    _metadata?: { kind: string };
-                };
-
-                if (ctor._metadata?.kind === clsKind) {
-                    return true;
-                }
-
-                proto = Object.getPrototypeOf(proto);
-            }
-        }
-    }
-    return value instanceof cls;
 }
 
 export class InvalidHtmlError extends Error {
@@ -569,27 +345,6 @@ export function isSymbol(value: unknown): value is symbol {
 
 export function isBigInt(value: unknown): value is bigint {
     return typeof value === "bigint";
-}
-
-export function defineType<const T extends Record<string, unknown>>(
-    prefix: string,
-    def: T,
-) {
-    type KindValue = T[keyof T];
-
-    const values = Object.values(def) as KindValue[];
-    const isValue = (value: unknown): value is KindValue =>
-        values.includes(value as KindValue);
-    const labels = Object.fromEntries(
-        Object.entries(def).map(([k, v]) => [k, `SOHL.${prefix}.${v}`]),
-    );
-    return {
-        kind: def,
-        values,
-        isValue,
-        labels,
-        Type: null as unknown as KindValue, // utility only for inference
-    };
 }
 
 type AsyncFunctionType = (...args: any[]) => Promise<any>;

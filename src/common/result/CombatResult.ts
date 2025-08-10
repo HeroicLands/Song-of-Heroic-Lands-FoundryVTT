@@ -11,8 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AttackResult, DefendResult, OpposedTestResult } from "@common/result";
-import { RegisterClass } from "@utils/decorators";
+import { AttackResult } from "@common/result/AttackResult";
+import { DefendResult } from "@common/result/DefendResult";
+import { OpposedTestResult } from "@common/result/OpposedTestResult";
+import { RegisterClass } from "@utils/decorators/RegisterClass";
 const kCombatResult = Symbol("CombatResult");
 const kData = Symbol("CombatResult.Data");
 const kContext = Symbol("CombatResult.Context");
@@ -171,7 +173,7 @@ export class CombatResult extends OpposedTestResult {
         //         Number.parseInt(formData.impactSituationalModifier, 10) || 0;
         //     if (thisArg.impactMod && formImpactSituationalModifier) {
         //         thisArg.impactMod.add(
-        //             sohl.game.MOD.PLAYER,
+        //             sohl.MOD.PLAYER,
         //             formImpactSituationalModifier,
         //         );
         //         thisArg.impactSituationalModifier =

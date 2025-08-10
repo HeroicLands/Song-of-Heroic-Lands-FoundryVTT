@@ -11,10 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueDelta } from "@common/modifier";
-import { ImpactResult, SuccessTestResult } from "@common/result";
-import { defineType, SohlClassRegistry, SohlContextMenu } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { ImpactResult } from "@common/result/ImpactResult";
+import { SohlClassRegistry } from "@utils/SohlClassRegistry";
+import { RegisterClass } from "@utils/decorators/RegisterClass";
+import {
+    ATTACK_MISHAP,
+    defineType,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    VALUE_DELTA_ID,
+} from "@utils/constants";
 const kAttackResult = Symbol("AttackResult");
 const kData = Symbol("AttackResult.Data");
 const kContext = Symbol("AttackResult.Context");
@@ -56,10 +61,10 @@ export class AttackResult extends ImpactResult {
             this.testType === AttackResult.TESTTYPE.AUTOCOMBATMELEE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(AttackResult.ATTACK_MISHAP.FUMBLE_TEST);
+                this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
             }
             if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(AttackResult.ATTACK_MISHAP.STUMBLE_TEST);
+                this.mishaps.add(ATTACK_MISHAP.STUMBLE_TEST);
             }
             this.deliversImpact = false;
         }
@@ -68,10 +73,10 @@ export class AttackResult extends ImpactResult {
             this.testType === AttackResult.TESTTYPE.AUTOCOMBATMISSILE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(AttackResult.ATTACK_MISHAP.FUMBLE_TEST);
+                this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
             }
             if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(AttackResult.ATTACK_MISHAP.MISSILE_MISFIRE);
+                this.mishaps.add(ATTACK_MISHAP.MISSILE_MISFIRE);
             }
             this.deliversImpact = false;
         }
@@ -102,7 +107,7 @@ export class AttackResult extends ImpactResult {
 
                 if (this.impactModifier && formImpactSituationalModifier) {
                     this.impactModifier.add(
-                        ValueDelta.ID.PLAYER,
+                        VALUE_DELTA_ID.PLAYER,
                         formImpactSituationalModifier,
                     );
                     this.situationalModifier = formImpactSituationalModifier;
@@ -126,34 +131,6 @@ export class AttackResult extends ImpactResult {
 
 export namespace AttackResult {
     export const {
-        kind: TACTICAL_ADVANTAGES,
-        values: tacticalAdvantages,
-        isValue: isTacticalAdvantage,
-    } = defineType("SOHL.AttackResult.TacticalAdvantage", {
-        IMPACT: "impact",
-        PRECISION: "precision",
-        ACTION: "action",
-        SETUP: "setup",
-    });
-    export type AfflictionSubType =
-        (typeof TACTICAL_ADVANTAGES)[keyof typeof TACTICAL_ADVANTAGES];
-
-    export const {
-        kind: ATTACK_MISHAP,
-        values: AttackMishaps,
-        isValue: isAttackMishap,
-    } = defineType("SOHL.AttackResult.Mishap", {
-        STUMBLE_TEST: "stumbletest",
-        STUMBLE: "stumble",
-        FUMBLE_TEST: "fumbletest",
-        FUMBLE: "fumble",
-        WEAPON_BREAK: "weaponBreak",
-        MISSILE_MISFIRE: "missileMisfire",
-    });
-    export type AttackMishap =
-        (typeof ATTACK_MISHAP)[keyof typeof ATTACK_MISHAP];
-
-    export const {
         kind: TESTTYPE,
         values: TestTypes,
         isValue: isTestType,
@@ -163,28 +140,28 @@ export namespace AttackResult {
             name: "Auto Combat Melee",
             iconClass: "fas fa-swords",
             condition: true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         AUTOCOMBATMISSILE: {
             id: "autoCombatMissile",
             name: "Auto Combat Missile",
             iconClass: "fas fa-bow-arrow",
             condition: true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         MISSILEATTACK: {
             id: "missileAttackTest",
             name: "Missile Attack Test",
             iconClass: "fas fa-bow-arrow",
             condition: true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         MELEEATTACK: {
             id: "meleeAttackTest",
             name: "Melee Attack Test",
             iconClass: "fas fa-sword",
             condition: true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
     });
 

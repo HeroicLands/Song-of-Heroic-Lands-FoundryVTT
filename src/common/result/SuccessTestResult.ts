@@ -11,20 +11,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { TestResult } from "@common/result";
-import { SohlSpeaker, SohlSystem } from "@common";
-import {
-    SimpleRoll,
-    SimpleRollData,
-    SohlContextMenu,
-    defineType,
-    toFilePath,
-    toHTMLWithTemplate,
-} from "@utils";
-import { MasteryLevelModifier, ValueDelta } from "@common/modifier";
+import { TestResult } from "@common/result/TestResult";
+import type { SohlSpeaker } from "@common/SohlSpeaker";
+import { toFilePath, toHTMLWithTemplate } from "@utils/helpers";
+import type { SimpleRoll } from "@utils/SimpleRoll";
+import { SohlContextMenu } from "@utils/SohlContextMenu";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
-import { SohlAction } from "@common/event";
-import { SohlTokenDocument } from "@common/token";
+import { SohlAction } from "@common/event/SohlAction";
+import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import {
+    defineType,
+    MARGINAL_FAILURE,
+    CRITICAL_FAILURE,
+    MARGINAL_SUCCESS,
+    CRITICAL_SUCCESS,
+    SuccessTestResultMovement,
+    SuccessTestResultMovements,
+    SuccessTestResultMishaps,
+    SohlSpeakerRollModes,
+    VALUE_DELTA_ID,
+    isSohlSpeakerRollMode,
+    SOHL_SPEAKER_SOUND,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    SohlSpeakerRollMode,
+    SOHL_SPEAKER_ROLL_MODE,
+} from "@utils/constants";
 const kSuccessTestResult = Symbol("SuccessTestResult");
 const kData = Symbol("SuccessTestResult.Data");
 const kContext = Symbol("SuccessTestResult.Context");
@@ -40,7 +52,7 @@ export class SuccessTestResult extends TestResult {
     rollMode!: string;
     testType!: SuccessTestResult.TestType;
     roll!: SimpleRoll;
-    movement!: SuccessTestResult.Movement;
+    movement!: SuccessTestResultMovement;
     mishaps!: Set<string>;
     readonly [kSuccessTestResult] = true;
 
@@ -55,16 +67,20 @@ export class SuccessTestResult extends TestResult {
         options: Partial<SuccessTestResult.Options> = {},
     ) {
         if (options.testResult) {
-            data = fvtt.utils.mergeObject(options.testResult.toJSON(), data, {
-                inplace: false,
-            }) as PlainObject;
+            data = foundry.utils.mergeObject(
+                options.testResult.toJSON(),
+                data,
+                {
+                    inplace: false,
+                },
+            ) as PlainObject;
         }
         super(data, options);
         if (options.chatSpeaker) this.speaker = options.chatSpeaker;
         if (options.mlMod) this.masteryLevelModifier = options.mlMod;
         this._resultText = "";
         this._resultDesc = "";
-        this._successLevel = SuccessTestResult.MARGINAL_FAILURE;
+        this._successLevel = MARGINAL_FAILURE;
         this._description = "";
     }
 
@@ -78,14 +94,14 @@ export class SuccessTestResult extends TestResult {
 
     get successLevel(): number {
         const level = this._successLevel;
-        if (level <= SuccessTestResult.CRITICAL_FAILURE) {
-            return SuccessTestResult.CRITICAL_FAILURE;
-        } else if (level >= SuccessTestResult.CRITICAL_SUCCESS) {
-            return SuccessTestResult.CRITICAL_SUCCESS;
-        } else if (level === SuccessTestResult.MARGINAL_SUCCESS) {
-            return SuccessTestResult.MARGINAL_SUCCESS;
+        if (level <= CRITICAL_FAILURE) {
+            return CRITICAL_FAILURE;
+        } else if (level >= CRITICAL_SUCCESS) {
+            return CRITICAL_SUCCESS;
+        } else if (level === MARGINAL_SUCCESS) {
+            return MARGINAL_SUCCESS;
         } else {
-            return SuccessTestResult.MARGINAL_FAILURE;
+            return MARGINAL_FAILURE;
         }
     }
 
@@ -102,15 +118,15 @@ export class SuccessTestResult extends TestResult {
         let result;
         if (this.isSuccess) {
             if (this.isCritical) {
-                result = SuccessTestResult.CRITICAL_SUCCESS;
+                result = CRITICAL_SUCCESS;
             } else {
-                result = SuccessTestResult.MARGINAL_SUCCESS;
+                result = MARGINAL_SUCCESS;
             }
         } else {
             if (this.isCritical) {
-                result = SuccessTestResult.CRITICAL_FAILURE;
+                result = CRITICAL_FAILURE;
             } else {
-                result = SuccessTestResult.MARGINAL_FAILURE;
+                result = MARGINAL_FAILURE;
             }
         }
         return result;
@@ -137,13 +153,13 @@ export class SuccessTestResult extends TestResult {
     get isCritical() {
         return (
             this.critAllowed &&
-            (this.successLevel <= SuccessTestResult.CRITICAL_FAILURE ||
-                this.successLevel >= SuccessTestResult.CRITICAL_SUCCESS)
+            (this.successLevel <= CRITICAL_FAILURE ||
+                this.successLevel >= CRITICAL_SUCCESS)
         );
     }
 
     get isSuccess() {
-        return this.successLevel >= SuccessTestResult.MARGINAL_SUCCESS;
+        return this.successLevel >= MARGINAL_SUCCESS;
     }
 
     async testDialog(
@@ -153,7 +169,7 @@ export class SuccessTestResult extends TestResult {
         const ctor = this.constructor as typeof SuccessTestResult;
         let testData: PlainObject = {
             ...this.toJSON(),
-            variant: sohl.game.id,
+            variant: sohl.id,
             template: toFilePath(
                 "systems/sohl/templates/dialog/standard-test-dialog.html",
             ),
@@ -161,21 +177,21 @@ export class SuccessTestResult extends TestResult {
                 name: this.speaker.name,
                 title: this.title,
             }),
-            movementOptions: SuccessTestResult.Movements.map((val) => [
+            movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
                 `SOHL.${ctor.name}.Movement.${val}`,
             ]),
-            mishapOptions: SuccessTestResult.Mishaps.map((val) => [
+            mishapOptions: SuccessTestResultMishaps.map((val) => [
                 val,
                 `SOHL.${ctor.name}.Mishap.${val}`,
             ]),
-            rollModes: SohlSpeaker.RollModes.map(([k, v]) => ({
+            rollModes: SohlSpeakerRollModes.map(([k, v]) => ({
                 group: "CHAT.RollDefault",
                 value: k,
                 label: v,
             })),
         };
-        fvtt.utils.mergeObject(testData, data);
+        foundry.utils.mergeObject(testData, data);
         const dlgHtml = await toHTMLWithTemplate(testData.template, data);
 
         // Create the dialog window
@@ -188,7 +204,7 @@ export class SuccessTestResult extends TestResult {
                 const formSituationalModifier = formData.situationalModifier;
                 if (formSituationalModifier) {
                     this.masteryLevelModifier.add(
-                        ValueDelta.ID.PLAYER,
+                        VALUE_DELTA_ID.PLAYER,
                         formSituationalModifier,
                     );
                     //this.situationalModifier = formSituationalModifier;
@@ -197,7 +213,7 @@ export class SuccessTestResult extends TestResult {
                 this.masteryLevelModifier.successLevelMod =
                     Number.parseInt(String(formData.successLevelMod), 10) || 0;
 
-                if (SohlSpeaker.isRollMode(String(formData.rollMode))) {
+                if (isSohlSpeakerRollMode(String(formData.rollMode))) {
                     this.rollMode = String(formData.rollMode);
                 } else {
                     throw new Error(`Invalid roll mode "${formData.rollMode}"`);
@@ -240,9 +256,9 @@ export class SuccessTestResult extends TestResult {
                         this.lastDigit,
                     )
                 ) {
-                    this._successLevel = SuccessTestResult.CRITICAL_SUCCESS;
+                    this._successLevel = CRITICAL_SUCCESS;
                 } else {
-                    this._successLevel = SuccessTestResult.MARGINAL_SUCCESS;
+                    this._successLevel = MARGINAL_SUCCESS;
                 }
             } else {
                 if (
@@ -250,9 +266,9 @@ export class SuccessTestResult extends TestResult {
                         this.lastDigit,
                     )
                 ) {
-                    this._successLevel = SuccessTestResult.CRITICAL_FAILURE;
+                    this._successLevel = CRITICAL_FAILURE;
                 } else {
-                    this._successLevel = SuccessTestResult.MARGINAL_FAILURE;
+                    this._successLevel = MARGINAL_FAILURE;
                 }
             }
         } else {
@@ -260,20 +276,17 @@ export class SuccessTestResult extends TestResult {
                 this.roll.total <=
                 this.masteryLevelModifier.constrainedEffective
             ) {
-                this._successLevel = SuccessTestResult.MARGINAL_SUCCESS;
+                this._successLevel = MARGINAL_SUCCESS;
             } else {
-                this._successLevel = SuccessTestResult.MARGINAL_FAILURE;
+                this._successLevel = MARGINAL_FAILURE;
             }
         }
 
         this._successLevel += this.masteryLevelModifier.successLevelMod;
         if (!this.critAllowed) {
             this._successLevel = Math.min(
-                Math.max(
-                    this._successLevel,
-                    SuccessTestResult.MARGINAL_FAILURE,
-                ),
-                SuccessTestResult.MARGINAL_SUCCESS,
+                Math.max(this._successLevel, MARGINAL_FAILURE),
+                MARGINAL_SUCCESS,
             );
         }
 
@@ -300,15 +313,15 @@ export class SuccessTestResult extends TestResult {
     }
 
     async toChat(data: PlainObject = {}): Promise<void> {
-        let chatData = fvtt.utils.mergeObject(this.toJSON() as PlainObject, {
+        let chatData = foundry.utils.mergeObject(this.toJSON() as PlainObject, {
             ...data,
-            variant: sohl.game.id,
+            variant: sohl.id,
             template: "systems/sohl/templates/chat/standard-test-card.html",
-            movementOptions: SuccessTestResult.Movements.map((val) => [
+            movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
                 `SOHL.SuccessTestResult.Movement.${val}`,
             ]),
-            rollModes: SohlSpeaker.RollModes.map(([k, v]) => ({
+            rollModes: SohlSpeakerRollModes.map(([k, v]) => ({
                 group: "CHAT.RollDefault",
                 value: k,
                 label: v,
@@ -317,7 +330,7 @@ export class SuccessTestResult extends TestResult {
 
         const options: PlainObject = {};
         options.roll = await this.roll.createRoll();
-        options.sound = SohlSpeaker.SOUND.DICE;
+        options.sound = SOHL_SPEAKER_SOUND.DICE;
         this.speaker.toChat(chatData.template, chatData, options);
     }
 }
@@ -330,23 +343,7 @@ export namespace SuccessTestResult {
         skipDialog: boolean;
     }
 
-    export const {
-        kind: MISHAP,
-        values: Mishaps,
-        isValue: isMishap,
-    } = defineType("SOHL.SuccessTestResult.Mishap", {
-        MISFIRE: "misfire",
-    });
-    export type Mishap = (typeof MISHAP)[keyof typeof MISHAP];
-
-    export const CRITICAL_FAILURE = -1;
-    export const MARGINAL_FAILURE = 0;
-    export const MARGINAL_SUCCESS = 1;
-    export const CRITICAL_SUCCESS = 2;
-
-    export type SuccessLevel = number;
-
-    export const StandardRollData: StrictObject<SimpleRollData> = {
+    export const StandardRollData: StrictObject<SimpleRoll.Data> = {
         CRITICAL_FAILURE: {
             numDice: 1,
             dieFaces: 100,
@@ -374,16 +371,6 @@ export namespace SuccessTestResult {
     } as const;
 
     export const {
-        kind: MOVEMENT,
-        values: Movements,
-        isValue: isMovement,
-    } = defineType("SOHL.SuccessTestResult.Movement", {
-        STILL: "still",
-        MOVING: "moving",
-    });
-    export type Movement = (typeof MOVEMENT)[keyof typeof MOVEMENT];
-
-    export const {
         kind: TEST_TYPE,
         values: TestTypes,
         isValue: isTestType,
@@ -396,7 +383,7 @@ export namespace SuccessTestResult {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canImprove && !item?.system.improveFlag;
             },
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         UNSETIMPROVEFLAG: {
             id: "unsetImproveFlag",
@@ -408,7 +395,7 @@ export namespace SuccessTestResult {
                     item && item.system.canImprove && item.system.improveFlag
                 );
             },
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         IMPROVEWITHSDR: {
             id: "improveWithSDR",
@@ -418,14 +405,14 @@ export namespace SuccessTestResult {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canImprove && item.system.improveFlag;
             },
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         SUCCESSTEST: {
             id: "successTest",
             name: "Success Test",
             iconClass: "fas fa-person",
             condition: (): boolean => true,
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         OPPOSEDTESTSTART: {
             id: "opposedTestStart",
@@ -445,42 +432,42 @@ export namespace SuccessTestResult {
                 // )?.getToken();
                 // return token && !item.system.$masteryLevel.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         SHOCKTEST: {
             id: "shockTest",
             name: "Shock Test",
             iconClass: "far fa-face-eyes-xmarks",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         STUMBLETEST: {
             id: "stumbleTest",
             name: "Stumble Test",
             iconClass: "far fa-person-falling",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         FUMBLETEST: {
             id: "fumbleTest",
             name: "Fumble Test",
             iconClass: "far fa-ball-pile",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         MORALETEST: {
             id: "moraleTest",
             name: "Morale Test",
             iconClass: "far fa-people-group",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         FEARTEST: {
             id: "fearTest",
             name: "Fear Test",
             iconClass: "far fa-face-scream",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         TRANSMITAFFLICTION: {
             id: "transmitAffliction",
@@ -490,14 +477,14 @@ export namespace SuccessTestResult {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canTransmit;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         CONTRACTAFFLICTIONTEST: {
             id: "contractAfflictionTest",
             name: "Contract Affliction Test",
             iconClass: "fas fa-virus",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         COURSETTEST: {
             id: "courseTest",
@@ -516,14 +503,14 @@ export namespace SuccessTestResult {
                 // const endurance = item?.actor?.getTraitByAbbrev("end");
                 // return endurance && !endurance.system.$masteryLevel.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         FATIGUETEST: {
             id: "fatigueTest",
             name: "Fatigue Test",
             iconClass: "fas fa-face-downcast-sweat",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         TREATMENTTEST: {
             id: "treatmentTest",
@@ -542,7 +529,7 @@ export namespace SuccessTestResult {
                 // const physician = item?.actor?.getSkillByAbbrev("pysn");
                 // return physician && !physician.system.$masteryLevel.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         DIAGNOSISTEST: {
             id: "diagnosisTest",
@@ -552,7 +539,7 @@ export namespace SuccessTestResult {
                 const item = SohlContextMenu._getContextItem(header);
                 return !!item && !item.system.isTreated;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         HEALINGTEST: {
             id: "healingTest",
@@ -571,7 +558,7 @@ export namespace SuccessTestResult {
                 // const endurance = item?.actor?.getTraitByAbbrev("end");
                 // return endurance && !endurance.system.$masteryLevel.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         BLEEDINGSTOPPAGETEST: {
             id: "bleedingStoppageTest",
@@ -590,7 +577,7 @@ export namespace SuccessTestResult {
                 // const physician = item?.actor?.getSkillByAbbrev("pysn");
                 // return physician && !physician.system.$masteryLevel.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         BLOODLOSSADVANCETEST: {
             id: "bloodlossAdvanceTest",
@@ -609,21 +596,21 @@ export namespace SuccessTestResult {
                 // const strength = item?.actor?.getTraitByAbbrev("str");
                 // return strength && !strength.system.$masteryLevel?.disabled;
             },
-            group: SohlContextMenu.SORT_GROUP.ESSENTIAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         OPPOSEDTESTRESUME: {
             id: "opposedTestResume",
             name: "Opposed Test Resume",
             iconClass: "fas fa-people-arrows",
             condition: () => false,
-            group: SohlContextMenu.SORT_GROUP.HIDDEN,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
         },
         RESOLVEIMPACT: {
             id: "resolveImpact",
             name: "Resolve Impact",
             iconClass: "fas fa-person-burst",
             condition: () => true,
-            group: SohlContextMenu.SORT_GROUP.GENERAL,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
     } as StrictObject<SohlContextMenu.Entry>);
     export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
@@ -635,9 +622,9 @@ export namespace SuccessTestResult {
         successLevel: number;
         description: string;
         masteryLevelModifier: MasteryLevelModifier;
-        rollMode: SohlSpeaker.RollMode;
+        rollMode: SohlSpeakerRollMode;
         testType: SuccessTestResult.TestType;
-        movement: Movement;
+        movement: SuccessTestResultMovement;
         mishaps: string[];
     }
 
@@ -652,7 +639,7 @@ export namespace SuccessTestResult {
     export class Context extends SohlAction.Context {
         priorTestResult?: SuccessTestResult;
         targetToken?: SohlTokenDocument;
-        rollMode: SohlSpeaker.RollMode;
+        rollMode: SohlSpeakerRollMode;
         situationalModifier: number;
         readonly [kContext] = true;
 
@@ -671,7 +658,7 @@ export namespace SuccessTestResult {
                 const targetToken = fromUuidSync(data.targetTokenUuid);
                 if (targetToken) this.targetToken = targetToken;
             }
-            this.rollMode = data.rollMode ?? SohlSpeaker.ROLL_MODE.SYSTEM;
+            this.rollMode = data.rollMode ?? SOHL_SPEAKER_ROLL_MODE.SYSTEM;
             this.situationalModifier = data.situationalModifier ?? 0;
         }
 
@@ -693,7 +680,7 @@ export namespace SuccessTestResult {
                 SuccessTestResult.Data | SuccessTestResult
             >;
             targetTokenUuid: Nullable<string>;
-            rollMode: SohlSpeaker.RollMode;
+            rollMode: SohlSpeakerRollMode;
             situationalModifier: number;
         }
     }

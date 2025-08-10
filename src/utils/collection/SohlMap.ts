@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defaultFromJSON, defaultToJSON, Itr } from "@utils";
+import { Itr } from "@utils/Itr";
 
 /**
  * SohlMap - An extension of Map that returns Itr instances for iterator methods
@@ -327,7 +327,7 @@ export class SohlMap<K extends string, V> {
             if (typeof (value as any).toJSON === "function") {
                 result[key] = (value as any).toJSON();
             } else {
-                const newValue = defaultToJSON(value);
+                const newValue = SohlMap.defaultToJSON(value);
                 if (newValue === undefined) continue;
                 result[key] = newValue;
             }
@@ -341,9 +341,164 @@ export class SohlMap<K extends string, V> {
             if (typeof (value as any).fromData === "function") {
                 map.set(key, (value as any).fromData(data) as T);
             } else {
-                map.set(key, defaultFromJSON(value) as T);
+                map.set(key, SohlMap.defaultFromJSON(value) as T);
             }
         }
         return map;
+    }
+}
+
+export namespace SohlMap {
+    export function defaultFromJSON(value: unknown): unknown {
+        if (typeof value === "string") {
+            if (value.startsWith("__bigint__:")) {
+                return BigInt(value.slice("__bigint__:".length));
+            }
+            if (value.startsWith("__date__:")) {
+                return new Date(value.slice("__date__:".length));
+            }
+            if (value.startsWith("__func__:")) {
+                return new URL(value.slice("__url__:".length));
+            }
+            return value;
+        }
+
+        if (Array.isArray(value)) {
+            return value.map(defaultFromJSON);
+        }
+
+        if (typeof value === "object" && value !== null) {
+            const maybe = value as any;
+
+            switch (maybe.__type) {
+                case "SohlMap":
+                    return new SohlMap(
+                        maybe.entries.map(([k, v]: [any, any]) => [
+                            k,
+                            defaultFromJSON(v),
+                        ]),
+                    );
+                case "Map":
+                    return new Map(
+                        maybe.entries.map(([k, v]: [any, any]) => [
+                            k,
+                            defaultFromJSON(v),
+                        ]),
+                    );
+                case "Set":
+                    return new Set(maybe.values.map(defaultFromJSON));
+                case "RegExp":
+                    return new RegExp(maybe.pattern, maybe.flags);
+                case "Error":
+                    const err = new Error(maybe.message);
+                    err.name = maybe.name;
+                    err.stack = maybe.stack;
+                    return err;
+                case "URL":
+                    return new URL(maybe.href);
+            }
+
+            const result: Record<string, unknown> = {};
+            for (const [key, val] of Object.entries(maybe)) {
+                result[key] = defaultFromJSON(val);
+            }
+            return result;
+        }
+
+        return value;
+    }
+
+    export function defaultToJSON(value: any): JsonValue | undefined {
+        if (
+            value === null ||
+            typeof value === "string" ||
+            typeof value === "number" ||
+            typeof value === "boolean"
+        ) {
+            return value;
+        }
+
+        if (typeof value === "bigint") {
+            return `__bigint__:${value.toString()}`;
+        }
+
+        if (value instanceof Date) {
+            return `__date__:${value.toISOString()}`;
+        }
+
+        if (value instanceof URL) {
+            return { __type: "URL", href: value.href };
+        }
+
+        if (value instanceof SohlMap) {
+            return {
+                __type: "SohlMap",
+                entries: Array.from(value.entries()).map(([k, v]) => [
+                    k,
+                    defaultToJSON(v),
+                ]),
+            };
+        }
+
+        if (value instanceof Map) {
+            return {
+                __type: "Map",
+                entries: Array.from(value.entries()).map(([k, v]) => [
+                    k,
+                    defaultToJSON(v),
+                ]),
+            };
+        }
+
+        if (value instanceof Set) {
+            return {
+                __type: "Set",
+                values: Array.from(value.values()).map(defaultToJSON),
+            } as JsonValue;
+        }
+
+        if (value instanceof RegExp) {
+            return {
+                __type: "RegExp",
+                pattern: value.source,
+                flags: value.flags,
+            } as JsonValue;
+        }
+
+        if (value instanceof Error) {
+            return {
+                __type: "Error",
+                name: value.name,
+                message: value.message,
+                stack: value.stack,
+            } as JsonValue;
+        }
+
+        if (
+            typeof value === "function" ||
+            typeof value === "symbol" ||
+            value === undefined
+        ) {
+            return undefined;
+        }
+
+        if (Array.isArray(value)) {
+            return value.map(defaultToJSON) as JsonValue[];
+        }
+
+        if (typeof value === "object" && value !== null) {
+            if (typeof (value as any).toJSON === "function") {
+                return (value as any).toJSON();
+            }
+
+            const result: Record<string, JsonValue> = {};
+            for (const [key, val] of Object.entries(value)) {
+                const jsonVal = defaultToJSON(val);
+                if (jsonVal !== undefined) result[key] = jsonVal;
+            }
+            return result;
+        }
+
+        return value;
     }
 }

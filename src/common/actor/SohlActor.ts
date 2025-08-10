@@ -11,19 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlMap } from "@utils/collection";
-import { SohlItem } from "@common/item";
+import { SohlMap } from "@utils/collection/SohlMap";
 import {
     ClientDocumentExtendedMixin,
     FilePath,
     HTMLString,
-    SohlContextMenu,
-} from "@utils";
-import { SohlLogic, SohlDataModel, InternalClientDocument } from "@common";
+} from "@utils/helpers";
+import type { SohlContextMenu } from "@utils/SohlContextMenu";
+import type { InternalClientDocument } from "@common/FoundryProxy";
+import { SohlDataModel } from "@common/SohlDataModel";
+import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlLogic } from "@common/SohlLogic";
+import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 const kSohlActor = Symbol("SohlActor");
-const kDataModel = Symbol("SohlActor.DataModel");
+const kData = Symbol("SohlActor.Data");
 
 export class SohlActor<
         TLogic extends SohlLogic = SohlLogic,
@@ -39,6 +42,7 @@ export class SohlActor<
     declare readonly flags: PlainObject;
     declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
     declare readonly collection: Collection<this, Collection.Methods<this>>;
+    declare readonly items: Collection<SohlItem, Collection.Methods<SohlItem>>;
     declare readonly compendium: CompendiumCollection<any> | undefined;
     declare readonly isOwner: boolean;
     declare readonly hasPlayerOwner: boolean;
@@ -178,13 +182,6 @@ export class SohlActor<
         return this.system.logic._getContextOptions();
     }
 
-    get items(): SohlMap<string, SohlItem> {
-        return new SohlMap(
-            // @ts-expect-error TypeScript does not recognize the parent `items` collection
-            super.items.map((item: SohlItem) => [item.id, item]),
-        );
-    }
-
     get itemTypes(): StrictObject<SohlItem[]> {
         // @ts-expect-error TypeScript does not recognize the parent `items` collection
         return super.items.reduce(
@@ -197,11 +194,19 @@ export class SohlActor<
             {},
         );
     }
+
+    createEffect(
+        data: PlainObject,
+        options?: PlainObject,
+    ): Promise<SohlActiveEffect | undefined> {
+        return SohlActiveEffect.create(data, options);
+    }
 }
 
 export namespace SohlActor {
     export interface Data extends SohlLogic.Data {
-        get logic(): Logic;
+        readonly [kData]: true;
+        readonly logic: Logic;
         biography: HTMLString;
         description: HTMLString;
         bioImage: FilePath;
@@ -210,27 +215,21 @@ export namespace SohlActor {
 
     export interface Logic extends SohlLogic.Logic {
         readonly parent: Data;
+        readonly [kSohlActor]: true;
     }
 
     export type DataModelConstructor = SohlDataModel.Constructor<SohlActor>;
 
     export class DataModel extends SohlDataModel<SohlActor> implements Data {
+        declare _logic: Logic;
         declare parent: SohlActor;
         declare biography: HTMLString;
         declare description: HTMLString;
         declare bioImage: FilePath;
         declare textReference: string;
+        declare readonly logic: Logic;
         static override LOCALIZATION_PREFIXES = ["SOHLACTORDATA"];
-        readonly [kDataModel] = true;
-
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
-        }
-
-        get logic(): Logic {
-            this._logic ??= new this.logicClass(this);
-            return this._logic as Logic;
-        }
+        readonly [kData] = true;
 
         get actor(): SohlActor {
             return this.parent;

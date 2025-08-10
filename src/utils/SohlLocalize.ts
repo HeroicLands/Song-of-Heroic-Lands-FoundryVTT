@@ -56,7 +56,7 @@ export class SohlLocalize {
      * @returns {string} The current language code.
      */
     get lang(): string {
-        return fvtt.game.i18n?.lang || "en";
+        return (game as any).i18n?.lang || "en";
     }
 
     /**
@@ -90,8 +90,8 @@ export class SohlLocalize {
     ): Record<string, any>[] {
         objects.sort((a, b) => {
             return this.compare(
-                fvtt.utils.getProperty(a, key),
-                fvtt.utils.getProperty(b, key),
+                foundry.utils.getProperty(a, key),
+                foundry.utils.getProperty(b, key),
             );
         });
         return objects;
@@ -359,10 +359,10 @@ export class SohlLocalize {
      */
     localize(stringId: string, useFallback: boolean = false): string {
         if (!useFallback) {
-            return fvtt.game.i18n?.localize(stringId) || "<missing>";
+            return (game as any).i18n?.localize(stringId) || "<missing>";
         } else {
-            const v = fvtt.utils.getProperty(
-                (fvtt.game.i18n as any)?._fallback,
+            const v = foundry.utils.getProperty(
+                ((game as any).i18n as any)?._fallback,
                 stringId,
             );
             return typeof v === "string" ? v : stringId;

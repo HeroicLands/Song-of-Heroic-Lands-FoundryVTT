@@ -10,21 +10,21 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel } from "@common";
-import { SohlAction } from "@common/event";
-import { GearMixin, SohlItem } from "@common/item";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 import { SohlLogic } from "@common/SohlLogic";
-import { RegisterClass } from "@utils/decorators";
+import { ValueModifier } from "@common/modifier/ValueModifier";
 const kMiscGear = Symbol("MiscGear");
 const kData = Symbol("MiscGear.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "MiscGear",
-    }),
-)
 export class MiscGear extends GearMixin(SohlLogic) implements MiscGear.Logic {
+    declare readonly [kGearMixin]: true;
     declare readonly parent: MiscGear.Data;
+    weight!: ValueModifier;
+    value!: ValueModifier;
+    quality!: ValueModifier;
+    durability!: ValueModifier;
     readonly [kMiscGear] = true;
 
     static isA(obj: unknown): obj is MiscGear {
@@ -42,50 +42,34 @@ export class MiscGear extends GearMixin(SohlLogic) implements MiscGear.Logic {
 }
 
 export namespace MiscGear {
-    /**
-     * The type moniker for the MiscGear item.
-     */
-    export const Kind = "miscgear";
-
-    /**
-     * The FontAwesome icon class for the MiscGear item.
-     */
-    export const IconCssClass = "fas fa-ball-pile";
-
-    /**
-     * The image path for the MiscGear item.
-     */
-    export const Image = "systems/sohl/assets/icons/miscgear.svg";
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends GearMixin.Logic {
         readonly parent: MiscGear.Data;
         readonly [kMiscGear]: true;
     }
 
-    export interface Data extends SohlItem.Data {
+    export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        get logic(): MiscGear.Logic;
+        readonly logic: Logic;
+    }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
     }
 
     export const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<MiscGear.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: MiscGear,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["MISCGEAR"];
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new MiscGear(this);
+            return this._logic;
         }
     }
 }

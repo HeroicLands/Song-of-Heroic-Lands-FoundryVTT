@@ -10,23 +10,20 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { SubTypeMixin } from "./SubTypeMixin";
-import { SohlAction } from "@common/event";
-import { defineType } from "@utils";
-import { SohlItem } from ".";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import type { SohlAction } from "@common/event/SohlAction";
+import {
+    MysticalDeviceSubType,
+    MysticalDeviceSubTypes,
+} from "@utils/constants";
 
 const { NumberField, StringField, BooleanField, SchemaField } =
     foundry.data.fields;
 const kMysticalDevice = Symbol("MysticalDevice");
 const kData = Symbol("MysticalDevice.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "MysticalDevice",
-    }),
-)
 export class MysticalDevice
     extends SubTypeMixin(SohlLogic)
     implements MysticalDevice.Logic
@@ -51,42 +48,14 @@ export class MysticalDevice
 }
 
 export namespace MysticalDevice {
-    /**
-     * The type moniker for the Affliction item.
-     */
-    export const Kind = "mysticaldevice";
-
-    /**
-     * The FontAwesome icon class for the Affliction item.
-     */
-    export const IconCssClass = "fas fa-wand-sparkles";
-
-    /**
-     * The image path for the Affliction item.
-     */
-    export const Image = "systems/sohl/assets/icons/magic-wand.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.MysticalDevice.SubType", {
-        ARTIFACT: "artifact",
-        ANCESTOR_TALISMAN: "ancestortalisman",
-        TOTEM_TALISMAN: "totemtalisman",
-        REMNANT: "remnant",
-        RELIC: "relic",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
     export interface Logic extends SohlLogic.Logic {
         readonly parent: MysticalDevice.Data;
         readonly [kMysticalDevice]: true;
     }
 
-    export interface Data extends SubTypeMixin.Data<SubType> {
+    export interface Data extends SubTypeMixin.Data<MysticalDeviceSubType> {
         readonly [kData]: true;
-        get logic(): SubTypeMixin.Logic<SubType>;
+        readonly logic: SubTypeMixin.Logic<MysticalDeviceSubType>;
         config: {
             requiresAttunement: boolean;
             usesVolition: boolean;
@@ -104,7 +73,7 @@ export namespace MysticalDevice {
     export namespace Data {
         export function isA(
             obj: unknown,
-            subType?: MysticalDevice.SubType,
+            subType?: MysticalDeviceSubType,
         ): obj is Data {
             return (
                 typeof obj === "object" &&
@@ -117,28 +86,17 @@ export namespace MysticalDevice {
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        MysticalDevice.SubType,
-        typeof MysticalDevice.SubTypes
+        MysticalDeviceSubType,
+        typeof MysticalDeviceSubTypes
     >(
         SohlItem.DataModel,
-        MysticalDevice.SubTypes,
+        MysticalDeviceSubTypes,
     ) as unknown as Constructor<MysticalDevice.Data> &
         SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: MysticalDevice,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel extends DataModelShape {
-        readonly [kData] = true;
         static override readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
-        declare subType: SubType;
+        declare subType: MysticalDeviceSubType;
         declare config: {
             requiresAttunement: boolean;
             usesVolition: boolean;
@@ -151,13 +109,12 @@ export namespace MysticalDevice {
             morality: number;
             purpose: string;
         };
+        declare _logic: Logic;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-
-        get logic(): SubTypeMixin.Logic<SubType> {
-            return super.logic as SubTypeMixin.Logic<SubType>;
+        get logic(): Logic {
+            this._logic ??= new MysticalDevice(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -188,7 +145,7 @@ export namespace MysticalDevice {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/mysticaldevice.hbs",
                 },

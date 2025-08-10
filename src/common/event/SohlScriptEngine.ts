@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@common/modifier";
-import { SohlAction } from "@common/event";
-import { SohlLogic } from "@common";
-import { LOGLEVEL } from "@utils";
+import { LOGLEVEL } from "@utils/constants";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlLogic } from "@common/SohlLogic";
 
 /** Function signature for Accessor functions */
 export type AccessorFunction = (thisArg: ValueModifier) => any;

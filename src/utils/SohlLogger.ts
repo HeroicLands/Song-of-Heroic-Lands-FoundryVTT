@@ -11,20 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defineType } from "@utils";
+import { LOGLEVEL, isLogLevel, LogLevel } from "@utils/constants";
 import { SourceMapConsumer } from "source-map";
-
-export const {
-    kind: LOGLEVEL,
-    values: LogLevels,
-    isValue: isLogLevel,
-} = defineType("SOHL.Logger.LogLevel", {
-    DEBUG: "debug",
-    INFO: "info",
-    WARN: "warn",
-    ERROR: "error",
-});
-export type LogLevel = (typeof LOGLEVEL)[keyof typeof LOGLEVEL];
 
 interface LogCallerInfo {
     className: string;
@@ -52,7 +40,7 @@ export class SohlLogger {
     private static _threshold: LogLevel; // configurable?
 
     private constructor(threshold: LogLevel = LOGLEVEL.INFO) {
-        const sourceMapUrl = "systems/sohl/index.map";
+        const sourceMapUrl = "systems/sohl/sohl.js.map";
 
         SohlLogger._threshold = threshold;
         SohlLogger._sourceMapConsumer = null;
@@ -65,7 +53,8 @@ export class SohlLogger {
     private static async loadSourceMap(sourceMapUrl: string): Promise<void> {
         try {
             const response = await fetch(sourceMapUrl);
-            if (!response.ok) throw new Error("Failed to load source map");
+            if (!response.ok)
+                throw new Error(`Failed to load source map ${sourceMapUrl}`);
 
             const rawMap = await response.json();
             SohlLogger._sourceMapConsumer = await new SourceMapConsumer(rawMap);

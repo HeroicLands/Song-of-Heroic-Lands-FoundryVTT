@@ -10,26 +10,37 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { RegisterClass } from "@utils/decorators";
-import { SohlItem, StrikeModeMixin } from ".";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import {
+    kStrikeModeMixin,
+    kStrikeModeMixinData,
+    StrikeModeMixin,
+} from "@common/item/StrikeModeMixin";
+import { CombatModifier } from "@common/modifier/CombatModifier";
+import { ImpactModifier } from "@common/modifier/ImpactModifier";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import { ImpactAspect, Variant } from "@utils/constants";
+import { kSubTypeMixinData } from "./SubTypeMixin";
 
 const kMeleeWeaponStrikeMode = Symbol("MeleeWeaponStrikeMode");
-const kDataModel = Symbol("MeleeWeaponStrikeMode.DataModel");
-const { NumberField } = (foundry.data as any).fields;
+const kData = Symbol("MeleeWeaponStrikeMode.Data");
+const { NumberField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "MeleeWeaponStrikeMode",
-    }),
-)
 export class MeleeWeaponStrikeMode<
         TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
     >
     extends SohlLogic
     implements MeleeWeaponStrikeMode.Logic
 {
+    declare [kStrikeModeMixin]: true;
+    declare traits: PlainObject;
+    declare assocSkill?: SohlItem<SohlLogic, any> | undefined;
+    declare impact: ImpactModifier;
+    declare attack: CombatModifier;
+    declare defense: { block: CombatModifier };
+    declare durability: ValueModifier;
     declare readonly parent: MeleeWeaponStrikeMode.Data;
     readonly [kMeleeWeaponStrikeMode] = true;
 
@@ -40,7 +51,7 @@ export class MeleeWeaponStrikeMode<
             kMeleeWeaponStrikeMode in obj
         );
     }
-    /** @inheritdoc */
+
     override initialize(context: SohlAction.Context): void {}
 
     /** @inheritdoc */
@@ -51,45 +62,47 @@ export class MeleeWeaponStrikeMode<
 }
 
 export namespace MeleeWeaponStrikeMode {
-    /**
-     * The type moniker for the MeleeWeaponStrikeMode item.
-     */
-    export const Kind = "meleeweaponstrikemode";
+    export interface Logic extends StrikeModeMixin.Logic {
+        readonly parent: MeleeWeaponStrikeMode.Data;
+        readonly [kMeleeWeaponStrikeMode]: true;
+    }
 
-    /**
-     * The FontAwesome icon class for the MeleeWeaponStrikeMode item.
-     */
-    export const IconCssClass = "fas fa-sword";
+    export interface Data extends StrikeModeMixin.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
+        lengthBase: number;
+    }
 
-    /**
-     * The image path for the MeleeWeaponStrikeMode item.
-     */
-    export const Image = "systems/sohl/assets/icons/sword.svg";
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
 
-    export interface Logic extends SohlLogic.Logic {}
-
-    export interface Data extends SohlItem.Data {}
-
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: MeleeWeaponStrikeMode,
-            iconCssClass: IconCssClass,
-            img: Image,
-            sheet: "systems/sohl/templates/item/meleestrikemode-sheet.hbs",
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel
         extends StrikeModeMixin.DataModel(SohlItem.DataModel)
         implements Data
     {
         static readonly LOCALIZATION_PREFIXES = ["MeleeWeaponStrikeMode"];
-        declare lengthBase: number;
-        readonly [kDataModel] = true;
+        declare readonly [kStrikeModeMixinData]: true;
+        declare readonly [kSubTypeMixinData]: true;
+        declare subType: Variant;
+        declare mode: string;
+        declare minParts: number;
+        declare assocSkillName: string;
+        declare impactBase: {
+            numDice: number;
+            die: number;
+            modifier: number;
+            aspect: ImpactAspect;
+        };
+        declare _logic: Logic;
+        lengthBase!: number;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        get logic(): Logic {
+            this._logic ??= new MeleeWeaponStrikeMode(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

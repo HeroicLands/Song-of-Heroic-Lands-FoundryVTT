@@ -11,17 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActor } from "@common/actor";
 import {
     ClientDocumentExtendedMixin,
-    DocumentId,
     FilePath,
     HTMLString,
-    SohlContextMenu,
-} from "@utils";
-import { InternalClientDocument, SohlDataModel, SohlLogic } from "@common";
-import { GearMixin } from "./GearMixin";
-import { SubTypeMixin } from "./SubTypeMixin";
+} from "@utils/helpers";
+import { SohlDataModel } from "@common/SohlDataModel";
+import { GearMixin } from "@common/item/GearMixin";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlContextMenu } from "@utils/SohlContextMenu";
+import type { InternalClientDocument } from "@common/FoundryProxy";
+import type { SohlLogic } from "@common/SohlLogic";
+import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 const { StringField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
@@ -237,7 +239,7 @@ export class SohlItem<
     }
 
     get actor(): SohlActor | null {
-        if (SohlActor.isA(this.parent)) {
+        if (["assembly", "entity"].includes(this.type)) {
             return this.parent;
         } else {
             throw new Error("item parent must be an Actor or null");
@@ -279,13 +281,20 @@ export class SohlItem<
         // TODO: Handle chat card edit actions here
         console.log("Edit action clicked:", btn);
     }
+
+    createEffect(
+        data: PlainObject,
+        options?: PlainObject,
+    ): Promise<SohlActiveEffect | undefined> {
+        return SohlActiveEffect.create(data, options);
+    }
 }
 
 export namespace SohlItem {
     export interface Data extends SohlLogic.Data {
         get item(): SohlItem;
         get actor(): SohlActor | null;
-        get logic(): Logic;
+        readonly logic: Logic;
         get i18nPrefix(): string;
         get kind(): string;
         label(withName?: boolean): string;
@@ -308,7 +317,10 @@ export namespace SohlItem {
      * encapsulates logic and behavior associated with items, offering a schema
      * definition and initialization logic.
      */
-    export class DataModel extends SohlDataModel<SohlItem> implements Data {
+    export abstract class DataModel
+        extends SohlDataModel<SohlItem>
+        implements Data
+    {
         declare notes: HTMLString;
         declare description: HTMLString;
         declare textReference: HTMLString;
@@ -321,10 +333,7 @@ export namespace SohlItem {
             return typeof obj === "object" && obj !== null && kDataModel in obj;
         }
 
-        get logic(): Logic {
-            this._logic ??= new this.logicClass(this);
-            return this._logic as Logic;
-        }
+        abstract readonly logic: Logic;
 
         get item(): SohlItem {
             return this.parent;
@@ -383,7 +392,6 @@ export namespace SohlItem {
     export namespace DataModel {
         export interface Statics extends SohlDataModel.TypeDataModelStatics {
             readonly kind: string;
-            readonly _metadata: SohlDataModel.Element;
             isA(obj: unknown): obj is unknown;
         }
     }
@@ -710,7 +718,8 @@ export namespace SohlItem {
 
             // Sort the item using Foundry's utility
             const sorted: { target: SohlItem; update: Partial<SohlItem> }[] =
-                fvtt.utils.performIntegerSort(source, {
+                // @ts-expect-error
+                foundry.utils.performIntegerSort(source, {
                     target,
                     siblings,
                 });

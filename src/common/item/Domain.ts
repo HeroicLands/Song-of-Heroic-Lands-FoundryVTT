@@ -11,26 +11,31 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction } from "@common/event";
+import {
+    DOMAIN_ELEMENT_CATEGORY,
+    DOMAIN_EMBODIMENT_CATEGORY,
+    DomainElementCategories,
+    DomainElementCategory,
+    DomainEmbodimentCategories,
+    DomainEmbodimentCategory,
+} from "@utils/constants";
+import type { SohlAction } from "@common/event/SohlAction";
 import { SohlLogic } from "@common/SohlLogic";
-import { defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
-import { SohlItem, Philosophy } from "@common/item";
-import { SohlDataModel } from "@common";
+import { SohlItem } from "@common/item/SohlItem";
+import { Philosophy } from "@common/item/Philosophy";
+const kDomain = Symbol("Domain");
+const kData = Symbol("Domain.Data");
 
-const { ArrayField, StringField } = (foundry.data as any).fields;
+const { ArrayField, StringField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Domain",
-    }),
-)
 export class Domain extends SohlLogic implements Domain.Logic {
     declare readonly parent: Domain.Data;
     category?: string;
+    readonly [kDomain] = true;
 
-    initialize(options?: PlainObject): void {
-        if (Philosophy.isA(this.item?.nestedIn)) {
+    /** @inheritdoc */
+    override initialize(context: SohlAction.Context): void {
+        if (Philosophy.Data.isA(this.item?.nestedIn?.system)) {
             this.category = this.item?.nestedIn?.system.subType;
         }
     }
@@ -43,82 +48,39 @@ export class Domain extends SohlLogic implements Domain.Logic {
 }
 
 export namespace Domain {
-    /**
-     * The type moniker for the Domain item.
-     */
-    export const Kind = "domain";
-
-    /**
-     * The FontAwesome icon class for the Domain item.
-     */
-    export const IconCssClass = "fas fa-sparkle";
-
-    /**
-     * The image path for the Domain item.
-     */
-    export const Image = "systems/sohl/assets/icons/sparkle.svg";
-
-    export const {
-        kind: EMBODIMENT_CATEGORY,
-        values: EmbodimentCategories,
-        isValue: isEmbodimentCategory,
-    } = defineType("SOHL.Domain.EMBODIMENT_CATEGORY", {
-        DREAMS: "dreams",
-        DEATH: "death",
-        VIOLENCE: "violence",
-        PEACE: "peace",
-        FERTILITY: "fertility",
-        ORDER: "order",
-        KNOWLEDGE: "knowledge",
-        PROSPERITY: "prosperity",
-        FIRE: "fire",
-        CREATION: "creation",
-        VOYAGER: "voyager",
-        DECAY: "decay",
-    });
-    export type EmbodimentCategory =
-        (typeof EMBODIMENT_CATEGORY)[keyof typeof EMBODIMENT_CATEGORY];
-
-    export const {
-        kind: ELEMENT_CATEGORY,
-        values: ElementCategories,
-        isValue: isElementCategory,
-    } = defineType("SOHL.Domain.ELEMENT_CATEGORY", {
-        FIRE: "fire",
-        WATER: "water",
-        EARTH: "earth",
-        SPIRIT: "spirit",
-        WIND: "wind",
-        METAL: "metal",
-        ARCANA: "arcana",
-    });
-    export type ElementCategory =
-        (typeof ELEMENT_CATEGORY)[keyof typeof ELEMENT_CATEGORY];
-
-    export interface Logic extends SohlLogic.Logic {}
-
-    export interface Data extends SohlItem.Data {
-        abbrev: string;
-        cusp: string;
-        magicMod: ElementCategory[];
-        embodiments: EmbodimentCategory[];
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: Domain.Data;
+        readonly [kDomain]: true;
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Domain,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
+    export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
+        abbrev: string;
+        cusp: string;
+        magicMod: DomainElementCategory[];
+        embodiments: DomainEmbodimentCategory[];
+    }
+
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     export class DataModel extends SohlItem.DataModel implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Domain"];
         declare abbrev: string;
         declare cusp: string;
-        declare magicMod: ElementCategory[];
-        declare embodiments: EmbodimentCategory[];
+        declare magicMod: DomainElementCategory[];
+        declare embodiments: DomainEmbodimentCategory[];
+        declare _logic: Logic;
+        readonly [kData] = true;
+
+        get logic(): Logic {
+            this._logic ??= new Domain(this);
+            return this._logic;
+        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
@@ -127,16 +89,16 @@ export namespace Domain {
                 cusp: new StringField(),
                 magicMod: new ArrayField(
                     new StringField({
-                        initial: ELEMENT_CATEGORY.ARCANA,
+                        initial: DOMAIN_ELEMENT_CATEGORY.ARCANA,
                         required: true,
-                        choices: ElementCategories,
+                        choices: DomainElementCategories,
                     }),
                 ),
                 embodiments: new ArrayField(
                     new StringField({
-                        initial: EMBODIMENT_CATEGORY.DREAMS,
+                        initial: DOMAIN_EMBODIMENT_CATEGORY.DREAMS,
                         required: true,
-                        choices: EmbodimentCategories,
+                        choices: DomainEmbodimentCategories,
                     }),
                 ),
             };
@@ -145,7 +107,7 @@ export namespace Domain {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/domain.hbs",
                 },

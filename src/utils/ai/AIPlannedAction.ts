@@ -1,4 +1,4 @@
-import { defineType } from "@utils/helpers";
+import { defineType } from "@utils/constants";
 
 const {
     kind: PLANNED_ACTION,

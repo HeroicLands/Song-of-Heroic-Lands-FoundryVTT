@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common";
-import { DurationValue } from "@utils";
+import { SohlBase } from "@common/SohlBase";
+import type { DurationValue } from "@utils/SohlLocalize";
 
 /**
  * SohlTemporal
@@ -26,7 +26,7 @@ export class SohlTemporal extends SohlBase {
 
     constructor(data: PlainObject, options: PlainObject = {}) {
         super(data, options);
-        this.gameTime = data.gameTime ?? fvtt.game.time.worldTime;
+        this.gameTime = data.gameTime ?? (game as any).time.worldTime;
     }
 
     formatWorldDate(time?: number): string {
@@ -79,7 +79,7 @@ export class SohlTemporal extends SohlBase {
      * @returns True if the time is in the past, false otherwise
      */
     past(): boolean {
-        return this.gameTime < fvtt.game.time.worldTime;
+        return this.gameTime < (game as any).time.worldTime;
     }
 
     /**
@@ -87,7 +87,7 @@ export class SohlTemporal extends SohlBase {
      * @returns True if the time is in the future, false otherwise
      */
     future(): boolean {
-        return this.gameTime > fvtt.game.time.worldTime;
+        return this.gameTime > (game as any).time.worldTime;
     }
 
     /**
@@ -96,7 +96,7 @@ export class SohlTemporal extends SohlBase {
      */
     currentDuration(): DurationValue {
         const diffInSeconds = Math.abs(
-            fvtt.game.time.worldTime - this.gameTime,
+            (game as any).time.worldTime - this.gameTime,
         );
         return sohl.i18n.secondsToDuration(diffInSeconds);
     }
@@ -114,6 +114,6 @@ export class SohlTemporal extends SohlBase {
      * @returns A new SohlTemporal instance representing the current world time
      */
     static now(): SohlTemporal {
-        return new SohlTemporal({ gameTime: fvtt.game.time.worldTime });
+        return new SohlTemporal({ gameTime: (game as any).time.worldTime });
     }
 }

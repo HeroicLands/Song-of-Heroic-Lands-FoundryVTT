@@ -10,20 +10,36 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic, SohlSystem } from "@common";
-import { SohlAction, SohlEvent } from "@common/event";
-import { GearMixin, SohlItem, SubTypeMixin } from "@common/item";
-import { defineType } from "@utils";
 import {
-    CombatModifier,
-    ImpactModifier,
-    ValueModifier,
-} from "@common/modifier";
-import { SohlActor } from "@common/actor";
+    defineType,
+    Variant,
+    ImpactAspect,
+    IMPACT_ASPECT,
+    ImpactAspects,
+} from "@utils/constants";
+import type { SohlLogic } from "@common/SohlLogic";
+import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlEvent } from "@common/event/SohlEvent";
+import type { SohlAction } from "@common/event/SohlAction";
+import type { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { GearMixin } from "@common/item/GearMixin";
+import type { CombatModifier } from "@common/modifier/CombatModifier";
+import type { ImpactModifier } from "@common/modifier/ImpactModifier";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { SohlActor } from "@common/actor/SohlActor";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
-const kStrikeModeMixin = Symbol("StrikeModeMixin");
-const kData = Symbol("StrikeModeMixin.Data");
 
+export const kStrikeModeMixin = Symbol("StrikeModeMixin");
+export const kStrikeModeMixinData = Symbol("StrikeModeMixin.Data");
+
+/**
+ * A mixin for item data models that represent strike modes.
+ *
+ * @template TBase
+ *
+ * @param Base Base class to extend (should be a `TypeDataModel` subclass).
+ * @returns The extended class with the basic strike mode properties.
+ */
 export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
     Base: TBase,
 ): TBase {
@@ -37,6 +53,7 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
         declare readonly label: string;
         declare readonly defaultIntrinsicActionName: string;
         declare setDefaultAction: () => void;
+        readonly [kStrikeModeMixin] = true;
         traits!: PlainObject;
         assocSkill?: SohlItem;
         impact!: ImpactModifier;
@@ -45,7 +62,14 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
             block: CombatModifier;
         };
         durability!: ValueModifier;
-        readonly [kStrikeModeMixin] = true;
+
+        static isA(obj: unknown): obj is TBase & GearMixin.Logic {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kStrikeModeMixin in obj
+            );
+        }
 
         /** @inheritdoc */
         initialize(context: SohlAction.Context): void {
@@ -54,15 +78,12 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
                 noAttack: false,
                 noBlock: false,
             };
-            this.impact = sohl.game.CONFIG.ImpactModifier({}, { parent: this });
-            this.attack = sohl.game.CONFIG.CombatModifier({}, { parent: this });
+            this.impact = sohl.CONFIG.ImpactModifier({}, { parent: this });
+            this.attack = sohl.CONFIG.CombatModifier({}, { parent: this });
             this.defense = {
-                block: sohl.game.CONFIG.CombatModifier({}, { parent: this }),
+                block: sohl.CONFIG.CombatModifier({}, { parent: this }),
             };
-            this.durability = sohl.game.CONFIG.ValueModifier(
-                {},
-                { parent: this },
-            );
+            this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
             this.impact.base = this.parent.impactBase;
             this.assocSkill = this.actor?.itemTypes.skill.find(
                 (it) => it.name === this.parent.assocSkillName,
@@ -88,18 +109,10 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
         finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    } as unknown as TBase;
+    } as unknown as TBase & StrikeModeMixin.Logic;
 }
 
 export namespace StrikeModeMixin {
-    export const Kind = "strikemode";
-
-    export function isA(obj: unknown): obj is Logic {
-        return (
-            typeof obj === "object" && obj !== null && kStrikeModeMixin in obj
-        );
-    }
-
     export const {
         kind: EFFECT_KEY,
         values: EffectKey,
@@ -133,7 +146,7 @@ export namespace StrikeModeMixin {
     } as StrictObject<SohlLogic.EffectKeyData>);
     export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
 
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SubTypeMixin.Logic<Variant> {
         readonly [kStrikeModeMixin]: true;
         parent: StrikeModeMixin.Data;
         traits: PlainObject;
@@ -146,8 +159,9 @@ export namespace StrikeModeMixin {
         durability: ValueModifier;
     }
 
-    export interface Data extends SubTypeMixin.Data<SohlSystem.Variant> {
-        readonly [kData]: true;
+    export interface Data extends SubTypeMixin.Data<Variant> {
+        readonly [kStrikeModeMixinData]: true;
+        readonly logic: Logic;
         mode: string;
         minParts: number;
         assocSkillName: string;
@@ -155,27 +169,26 @@ export namespace StrikeModeMixin {
             numDice: number;
             die: number;
             modifier: number;
-            aspect: ImpactModifier.AspectType;
+            aspect: ImpactAspect;
         };
     }
 
     export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        export function isA(obj: unknown, subType?: Variant): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kStrikeModeMixinData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
         }
     }
-
-    export type DataModelConstructor = SohlItem.DataModelConstructor;
 
     export function DataModel<TBase extends AnyConstructor>(
         Base: TBase,
     ): TBase {
         return class extends Base {
-            readonly [kData] = true;
-
-            static isA(obj: unknown): obj is TBase {
-                return typeof obj === "object" && obj !== null && kData in obj;
-            }
+            readonly [kStrikeModeMixinData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -203,9 +216,9 @@ export namespace StrikeModeMixin {
                             initial: 0,
                         }),
                         aspect: new StringField({
-                            initial: ImpactModifier.ASPECT.BLUNT,
+                            initial: IMPACT_ASPECT.BLUNT,
                             required: true,
-                            choices: ImpactModifier.Aspects,
+                            choices: ImpactAspects,
                         }),
                     }),
                 };

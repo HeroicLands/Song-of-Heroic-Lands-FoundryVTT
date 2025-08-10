@@ -11,21 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction } from "@common/event";
-import { RegisterClass } from "@utils/decorators";
-import { GearMixin, SohlItem } from "@common/item";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { ValueModifier } from "@common/modifier/ValueModifier";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 const kArmorGear = Symbol("ArmorGear");
 const kData = Symbol("ArmorGear.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "ArmorGear",
-    }),
-)
 export class ArmorGear extends GearMixin(SohlLogic) implements ArmorGear.Logic {
+    declare [kGearMixin]: true;
     declare readonly parent: ArmorGear.Data;
+    weight!: ValueModifier;
+    value!: ValueModifier;
+    quality!: ValueModifier;
+    durability!: ValueModifier;
     protection!: PlainObject;
     traits!: StrictObject<string>;
     readonly [kArmorGear] = true;
@@ -48,29 +49,14 @@ export class ArmorGear extends GearMixin(SohlLogic) implements ArmorGear.Logic {
 }
 
 export namespace ArmorGear {
-    /**
-     * The type moniker for the ArmorGear item.
-     */
-    export const Kind = "armorgear";
-
-    /**
-     * The FontAwesome icon class for the ArmorGear item.
-     */
-    export const IconCssClass = "fas fa-shield-halved";
-
-    /**
-     * The image path for the ArmorGear item.
-     */
-    export const Image = "systems/sohl/assets/icons/armor.svg";
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends GearMixin.Logic {
         readonly parent: ArmorGear.Data;
         readonly [kArmorGear]: true;
     }
 
-    export interface Data extends SohlItem.Data {
+    export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        get logic(): ArmorGear.Logic;
+        readonly logic: Logic;
         material: string;
         locations: {
             flexible: string[];
@@ -78,27 +64,26 @@ export namespace ArmorGear {
         };
     }
 
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<ArmorGear.Data> & SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: ArmorGear,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends DataModelShape implements ArmorGear.Data {
         static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
         declare material: string;
         declare locations: { flexible: string[]; rigid: string[] };
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new ArmorGear(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -115,7 +100,7 @@ export namespace ArmorGear {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/armorgear.hbs",
                 },

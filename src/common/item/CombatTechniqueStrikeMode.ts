@@ -11,20 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 import { SohlLogic } from "@common/SohlLogic";
-import { RegisterClass } from "@utils/decorators";
-import { StrikeModeMixin } from "./StrikeModeMixin";
-import { SohlAction, SohlEvent } from "@common/event";
-import { SohlDataModel } from "@common/SohlDataModel";
-import { SohlItem } from ".";
+import { SohlItem } from "@common/item/SohlItem";
+import { StrikeModeMixin } from "@common/item/StrikeModeMixin";
+import type { SohlAction } from "@common/event/SohlAction";
 const kCombatTechniqueStrikeMode = Symbol("CombatTechniqueStrikeMode");
-const kDataModel = Symbol("CombatTechniqueStrikeMode.DataModel");
-const { NumberField } = (foundry.data as any).fields;
+const kData = Symbol("CombatTechniqueStrikeMode.Data");
+const { NumberField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "CombatTechniqueStrikeModeLogic",
-    }),
-)
 export class CombatTechniqueStrikeMode
     extends SohlLogic
     implements CombatTechniqueStrikeMode.Logic
@@ -51,39 +44,23 @@ export class CombatTechniqueStrikeMode
 }
 
 export namespace CombatTechniqueStrikeMode {
-    /**
-     * The type moniker for the CombatTechniqueStrikeMode item.
-     */
-    export const Kind = "combattechniquestrikemode";
-
-    /**
-     * The FontAwesome icon class for the CombatTechniqueStrikeMode item.
-     */
-    export const IconCssClass = "fas fa-hand-fist";
-
-    /**
-     * The image path for the CombatTechniqueStrikeMode item.
-     */
-    export const Image = "systems/sohl/assets/icons/punch.svg";
-
     export interface Logic extends SohlLogic.Logic {
-        parent: Data;
+        readonly parent: CombatTechniqueStrikeMode.Data;
+        readonly [kCombatTechniqueStrikeMode]: true;
     }
 
     export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
         lengthBase: number;
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: CombatTechniqueStrikeMode,
-            iconCssClass: IconCssClass,
-            img: Image,
-            sheet: "systems/sohl/templates/item/combattechniquestrikemode-sheet.hbs",
-            schemaVersion: "0.6.0",
-        }),
-    )
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     export class DataModel
         extends StrikeModeMixin.DataModel(SohlItem.DataModel)
         implements Data
@@ -92,10 +69,12 @@ export namespace CombatTechniqueStrikeMode {
             "CombatTechniqueStrikeMode",
         ];
         declare lengthBase: number;
-        readonly [kDataModel] = true;
+        declare _logic: Logic;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        get logic(): Logic {
+            this._logic ??= new CombatTechniqueStrikeMode(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -112,7 +91,7 @@ export namespace CombatTechniqueStrikeMode {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template:
                         "systems/sohl/templates/item/combattechniquestrikemode.hbs",

@@ -11,17 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { sohl, fvtt } from "@common";
-
-import { SohlLogic } from "@common";
-import { SohlActor } from "@common/actor";
-import { SohlAction, SohlEvent } from "@common/event";
-import { Mystery, SohlItem, Trait } from "@common/item";
-import { MasteryLevelModifier } from "@common/modifier";
-import { defineType, FilePath, toFilePath, toHTMLWithTemplate } from "@utils";
-const { StringField, NumberField, BooleanField } = fvtt.data.fields;
-const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
-const kDataModel = Symbol("MasteryLevelMixin.DataModel");
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlActor } from "@common/actor/SohlActor";
+import type { SohlEvent } from "@common/event/SohlEvent";
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlItem } from "@common/item/SohlItem";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import { FilePath, toFilePath } from "@utils/helpers";
+import { defineType, ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
+const { StringField, NumberField, BooleanField } = foundry.data.fields;
+export const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
+export const kMasteryLevelMixinData = Symbol("MasteryLevelMixin.Data");
 
 /**
  * A mixin for item data models that represent gear.
@@ -74,7 +74,7 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
                 "systems/sohl/templates/chat/standard-test-card.html",
             );
             const chatTemplateData = {
-                variant: sohl.game.id,
+                variant: sohl.id,
                 type: `${this.parent.kind}-${this.parent.item.name}-improve-sdr`,
                 title: `${this.parent.label(false)} Development Roll`,
                 effTarget: this._masteryLevel.base,
@@ -112,21 +112,16 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
             context.speaker.toChat(chatTemplate, chatTemplateData);
         }
 
-        get fateSkills(): string[] {
-            return (
-                (fvtt.utils.getProperty(
-                    this.parent.item,
-                    "sohl.fateSkills",
-                ) as string[]) || []
-            );
-        }
-
         get magicMod(): number {
             return 0;
         }
 
         get boosts(): number {
             return this._boosts;
+        }
+
+        get _availableFate(): SohlItem[] {
+            return [];
         }
 
         /**
@@ -139,20 +134,9 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
         get availableFate() {
             let result: SohlItem[] = [];
             if (!this._masteryLevel.disabled && this.parent.actor) {
-                this.parent.actor.items.values().forEach((it: SohlItem) => {
-                    if (Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATE)) {
-                        const logic = it.system.logic;
-                        const fateSkills = this.fateSkills;
-                        // If a fate item has a list of fate skills, then that fate
-                        // item is only applicable to those skills.  If the fate item
-                        // has no list of skills, then the fate item is applicable
-                        // to all skills.
-                        if (
-                            !fateSkills.length ||
-                            fateSkills.includes(this.parent.item?.name || "")
-                        ) {
-                            if (logic.level.effective > 0) result.push(it);
-                        }
+                this.parent.actor.items.forEach((it: SohlItem) => {
+                    if (MasteryLevelMixin.Data.isA(it.system)) {
+                        result.push(...it.system.logic._availableFate);
                     }
                 });
             }
@@ -182,7 +166,7 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
 
         // get canImprove() {
         //     return (
-        //         ((fvtt.game.user as any)?.isGM || this.parent.item?.isOwner) &&
+        //         (((game as any).user as any)?.isGM || this.parent.item?.isOwner) &&
         //         !this._masteryLevel.disabled
         //     );
         // }
@@ -214,7 +198,7 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
             // );
             // this._masteryLevel.setBase(this.masteryLevelBase);
             // if (this.actor) {
-            //     const fateSetting = game.settings.get("sohl", "optionFate");
+            //     const fateSetting = (game as any).settings.get("sohl", "optionFate");
 
             //     if (fateSetting === "everyone") {
             //         this._masteryLevel.fate.setBase(50);
@@ -300,15 +284,12 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
 }
 
 export namespace MasteryLevelMixin {
-    export const kIsMasteryLevel = Symbol("MasteryLevel");
-    export const Kind = "masterylevel";
-
     export const {
         kind: EFFECT_KEYS,
         values: EffectKeys,
         isValue: isEffectKey,
         labels: effectKeysLabels,
-    } = defineType(`Gear.GEAR_KIND`, {
+    } = defineType(`SOHL.Gear.GEAR_KIND`, {
         "system._boosts": "MBoost",
         "mod:system.masteryLevel": "ML",
         "mod:system.masteryLevel.fate": "Fate",
@@ -316,30 +297,48 @@ export namespace MasteryLevelMixin {
     });
     export type EffectKey = (typeof EFFECT_KEYS)[keyof typeof EFFECT_KEYS];
 
-    export interface Logic extends SohlLogic.Logic {}
+    export interface Logic extends SohlLogic.Logic {
+        readonly [kMasteryLevelMixin]: true;
+        readonly parent: MasteryLevelMixin.Data;
+        readonly masteryLevel: MasteryLevelModifier;
+        readonly magicMod: number;
+        readonly boosts: number;
+        readonly _availableFate: SohlItem[];
+        readonly availableFate: SohlItem[];
+        readonly valid: boolean;
+        readonly skillBase: MasteryLevelMixin.SkillBase;
+        readonly sdrIncr: number;
+        improveWithSDR(context: SohlAction.Context): Promise<void>;
+    }
 
     export interface Data extends SohlItem.Data {
+        readonly [kMasteryLevelMixinData]: true;
+        readonly logic: Logic;
         abbrev: string;
         skillBaseFormula: string;
         masteryLevelBase: number;
         improveFlag: boolean;
     }
 
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kMasteryLevelMixinData in obj
+            );
+        }
+    }
+
     export function DataModel<TBase extends AnyConstructor>(
         Base: TBase,
     ): TBase & Data {
-        class InternalDataModel extends Base {
+        return class extends Base {
             declare abbrev: string;
             declare skillBaseFormula: string;
             declare masteryLevelBase: number;
             declare improveFlag: boolean;
-            readonly [kDataModel] = true;
-
-            static isA(obj: unknown): obj is TBase & Data {
-                return (
-                    typeof obj === "object" && obj !== null && kDataModel in obj
-                );
-            }
+            readonly [kMasteryLevelMixinData] = true;
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -353,13 +352,7 @@ export namespace MasteryLevelMixin {
                     improveFlag: new BooleanField({ initial: false }),
                 };
             }
-        }
-
-        (InternalDataModel.prototype as any)[
-            MasteryLevelMixin.kIsMasteryLevel
-        ] = true;
-
-        return InternalDataModel as unknown as TBase & Data;
+        } as unknown as TBase & Data;
     }
 
     export class SkillBase {
@@ -397,10 +390,9 @@ export namespace MasteryLevelMixin {
         setAttributes(items: SohlItem[] = []): void {
             const attributes: SohlItem[] = [];
             for (const it of items) {
-                const itData: Trait.DataModel | null =
-                    Trait.DataModel.isA(it) ? it.system : null;
+                const itData = it.type === ITEM_KIND.TRAIT ? it.system : null;
                 if (
-                    itData?.intensity === Trait.INTENSITY.ATTRIBUTE &&
+                    itData?.intensity === TRAIT_INTENSITY.ATTRIBUTE &&
                     itData.isNumeric
                 )
                     attributes.push(it);

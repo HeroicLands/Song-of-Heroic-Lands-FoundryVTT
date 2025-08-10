@@ -11,21 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDataModel, SohlLogic } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { SohlItem } from "@common/item";
-import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlItem } from "@common/item/SohlItem";
+import type { SohlAction } from "@common/event/SohlAction";
+const kBodyPart = Symbol("BodyPart");
+const kData = Symbol("BodyPart.Data");
 
-const { BooleanField, StringField, DocumentIdField } = (foundry.data as any)
-    .fields;
+const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "BodyPartLogic",
-    }),
-)
 export class BodyPart extends SohlLogic implements BodyPart.Logic {
     declare readonly parent: BodyPart.Data;
+    readonly [kBodyPart] = true;
+
+    static isA(obj: unknown): obj is BodyPart {
+        return typeof obj === "object" && obj !== null && kBodyPart in obj;
+    }
 
     get bodyLocations(): SohlItem[] {
         return this.actor?.itemTypes.bodylocation || [];
@@ -50,45 +50,38 @@ export class BodyPart extends SohlLogic implements BodyPart.Logic {
 }
 
 export namespace BodyPart {
-    /**
-     * The type moniker for the BodyPart item.
-     */
-    export const Kind = "bodypart";
-
-    /**
-     * The FontAwesome icon class for the BodyPart item.
-     */
-    export const IconCssClass = "fa-duotone fa-skeleton-ribs";
-
-    /**
-     * The image path for the BodyPart item.
-     */
-    export const Image = "systems/sohl/assets/icons/ribcage.svg";
-
-    export interface Logic extends SohlLogic.Logic {}
+    export interface Logic extends SohlLogic.Logic {
+        readonly parent: BodyPart.Data;
+        readonly [kBodyPart]: true;
+    }
 
     export interface Data extends SohlItem.Data {
+        readonly [kData]: true;
+        readonly logic: Logic;
         abbrev: string;
         canHoldItem: boolean;
         heldItemId: string | null;
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: BodyPart,
-            iconCssClass: IconCssClass,
-            img: Image,
-            sheet: "systems/sohl/templates/item/bodypart-sheet.hbs",
-            schemaVersion: "0.6.0",
-        }),
-    )
+    export namespace Data {
+        export function isA(obj: unknown): obj is Data {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
+    }
+
     export class DataModel extends SohlItem.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
         declare readonly parent: SohlItem<BodyPart>;
+        declare _logic: Logic;
         abbrev!: string;
         canHoldItem!: boolean;
         heldItemId!: string | null;
+        readonly [kData] = true;
+
+        get logic(): Logic {
+            this._logic ??= new BodyPart(this);
+            return this._logic;
+        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

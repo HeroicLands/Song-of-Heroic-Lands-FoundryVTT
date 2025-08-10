@@ -10,20 +10,16 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic, SohlSystem } from "@common";
-import { RegisterClass } from "@utils/decorators";
-import { SohlItem, SubTypeMixin } from ".";
-import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import type { SohlAction } from "@common/event/SohlAction";
+import { Variant, Variants } from "@utils/constants";
 
 const { SchemaField, NumberField } = foundry.data.fields;
 const kProtection = Symbol("Protection");
 const kData = Symbol("Protection.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Protection",
-    }),
-)
 export class Protection
     extends SubTypeMixin(SohlLogic)
     implements Protection.Logic
@@ -51,29 +47,14 @@ export class Protection
 }
 
 export namespace Protection {
-    /**
-     * The type moniker for the Protection item.
-     */
-    export const Kind = "protection";
-
-    /**
-     * The FontAwesome icon class for the Protection item.
-     */
-    export const IconCssClass = "fas fa-shield";
-
-    /**
-     * The image path for the Protection item.
-     */
-    export const Image = "systems/sohl/assets/icons/shield.svg";
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SubTypeMixin.Logic {
         readonly [kProtection]: true;
         readonly parent: Protection.Data;
     }
 
-    export interface Data extends SubTypeMixin.Data<SohlSystem.Variant> {
+    export interface Data extends SubTypeMixin.Data<Variant> {
         readonly [kData]: true;
-        get logic(): SubTypeMixin.Logic<SohlSystem.Variant>;
+        readonly logic: SubTypeMixin.Logic<Variant>;
         protectionBase: {
             blunt: number;
             edged: number;
@@ -83,10 +64,7 @@ export namespace Protection {
     }
 
     export namespace Data {
-        export function isA(
-            obj: unknown,
-            subType?: SohlSystem.Variant,
-        ): obj is Data {
+        export function isA(obj: unknown, subType?: Variant): obj is Data {
             return (
                 typeof obj === "object" &&
                 obj !== null &&
@@ -98,37 +76,21 @@ export namespace Protection {
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        SohlSystem.Variant,
-        typeof SohlSystem.Variants
-    >(
-        SohlItem.DataModel,
-        SohlSystem.Variants,
-    ) as unknown as Constructor<Protection.Data> & SohlItem.DataModel.Statics;
+        Variant,
+        typeof Variants
+    >(SohlItem.DataModel, Variants) as unknown as Constructor<Protection.Data> &
+        SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Protection,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-            subTypes: SohlSystem.Variants,
-        }),
-    )
     export class DataModel extends DataModelShape {
         readonly [kData] = true;
         static override readonly LOCALIZATION_PREFIXES = ["Protection"];
-        declare subType: SohlSystem.Variant;
+        declare subType: Variant;
         declare protectionBase: {
             blunt: number;
             edged: number;
             piercing: number;
             fire: number;
         };
-
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
@@ -161,7 +123,7 @@ export namespace Protection {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/protection.hbs",
                 },

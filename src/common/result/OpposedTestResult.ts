@@ -11,10 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction } from "@common/event";
-import { SuccessTestResult, TestResult } from "@common/result";
-import { SohlTokenDocument } from "@common/token";
-import { defineType } from "@utils";
+import { SohlAction } from "@common/event/SohlAction";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { TestResult } from "@common/result/TestResult";
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import {
+    isOpposedTestResultTieBreak,
+    OPPOSED_TEST_RESULT_TIEBREAK,
+} from "@utils/constants";
 
 export class OpposedTestResult extends TestResult {
     sourceTestResult!: SuccessTestResult;
@@ -50,9 +54,9 @@ export class OpposedTestResult extends TestResult {
         );
         this.rollMode = data.rollMode || "roll";
         this.tieBreak =
-            OpposedTestResult.isTieBreak(data.tieBreak) ?
+            isOpposedTestResultTieBreak(data.tieBreak) ?
                 data.tieBreak
-            :   OpposedTestResult.TIEBREAK.NONE;
+            :   OPPOSED_TEST_RESULT_TIEBREAK.NONE;
         this.breakTies = !!data.breakTies;
     }
 
@@ -117,7 +121,7 @@ export class OpposedTestResult extends TestResult {
 
     async toChat(data: PlainObject = {}): Promise<void> {
         const msgData: PlainObject = {
-            variant: sohl.game.id,
+            variant: sohl.id,
             template: "systems/sohl/templates/chat/opposed-request-card.html",
             title: "SOHL.OpposedTestResult.toChat.title",
             opposedTestResult: this,
@@ -139,17 +143,6 @@ export class OpposedTestResult extends TestResult {
 }
 
 export namespace OpposedTestResult {
-    export const {
-        kind: TIEBREAK,
-        values: TieBreaks,
-        isValue: isTieBreak,
-    } = defineType("SOHL.OpposedTestResult.TieBreak", {
-        SOURCE: 1,
-        NONE: 0,
-        TARGET: -1,
-    });
-    export type TieBreak = (typeof TIEBREAK)[keyof typeof TIEBREAK];
-
     export interface Data extends TestResult.Data {
         sourceTestResult: SuccessTestResult;
         targetTestResult: SuccessTestResult;

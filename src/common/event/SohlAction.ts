@@ -11,19 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlEvent } from "@common/event";
-import { SohlLogic, SohlSpeaker } from "@common";
 import {
-    SohlContextMenu,
-    defaultToJSON,
-    defineType,
-    DocumentId,
-    DocumentUuid,
-} from "@utils";
-import { SohlActor } from "@common/actor";
-import { SohlItem } from "@common/item";
-import { SohlUser } from "@common/user/SohlUser";
-import { SohlTokenDocument } from "@common/token";
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    SohlActionScope,
+} from "@utils/constants";
+import { SohlEvent } from "@common/event/SohlEvent";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import { DocumentId, DocumentUuid } from "@utils/helpers";
+import { SohlMap } from "@utils/collection/SohlMap";
+import type { SohlLogic } from "@common/SohlLogic";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 
 /**
  * @summary Base class for all Action instances
@@ -31,7 +30,7 @@ import { SohlTokenDocument } from "@common/token";
 export abstract class SohlAction<
     P extends SohlLogic = SohlLogic,
 > extends SohlEvent<P> {
-    scope!: SohlAction.Scope;
+    scope!: SohlActionScope;
     notes!: string;
     description!: string;
     contextIconClass!: string;
@@ -44,13 +43,13 @@ export abstract class SohlAction<
         options?: PlainObject,
     ) {
         super(parent, data, options);
-        this.scope = data?.scope || SohlAction.SCOPE.SELF;
+        this.scope = data?.scope || SOHL_ACTION_SCOPE.SELF;
         this.notes = data?.notes || "";
         this.description = data?.description || "";
         this.contextIconClass = data?.contextIconClass || "fa-solid fa-gear";
         this.contextCondition = data?.contextCondition || true;
         this.contextGroup =
-            data?.contextGroup || SohlContextMenu.SORT_GROUP.DEFAULT;
+            data?.contextGroup || SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
     }
 
     /**
@@ -59,7 +58,7 @@ export abstract class SohlAction<
      * @param scope.element - The HTML element that triggered the action, if applicable.
      * @returns The result of the function call or undefined if the result is a Promise.
      */
-    abstract executeSync(scope: SohlAction.ExecuteOptions): Optional<unknown>;
+    abstract executeSync(actionContext: SohlAction.Context): Optional<unknown>;
 
     /**
      * Executes the intrinsic action, calling the function defined on the parent performer.
@@ -68,36 +67,22 @@ export abstract class SohlAction<
      * @returns The result of the function call coerced as a Promise.
      */
     abstract execute(
-        scope?: SohlAction.ExecuteOptions,
+        actionContext: SohlAction.Context,
     ): Promise<Optional<unknown>>;
 }
 
 export namespace SohlAction {
-    export const {
-        kind: SCOPE,
-        values: Scopes,
-        isValue: isScope,
-    } = defineType("SOHL.SohlAction.Scope", {
-        SELF: "self",
-        ITEM: "item",
-        ACTOR: "actor",
-        OTHER: "other",
-    });
-    export type Scope = (typeof SCOPE)[keyof typeof SCOPE];
-
     export interface Data extends SohlEvent.Data {
-        scope?: Scope;
+        scope?: SohlActionScope;
         notes?: string;
         description?: string;
         contextIconClass?: string;
         contextCondition?: boolean | ((element: HTMLElement) => boolean);
         contextGroup?: string;
-        [key: string]: any;
     }
 
     export interface ExecuteOptions {
         element?: HTMLElement;
-        [key: string]: any;
     }
 
     export interface Constructor extends Function {
@@ -139,11 +124,12 @@ export namespace SohlAction {
                 let target = fromUuidSync(targetUuid);
                 if (!target) {
                     throw new Error(`Target with uuid ${targetUuid} not found`);
-                } else if (target instanceof SohlTokenDocument) {
+                } else if (Object.hasOwn(target, "getBarAttribute")) {
+                    // If document has getBarAttribute, it's a TokenDocument
                     this.target = target;
                 } else if (target instanceof Token) {
                     this.target = target.document;
-                } else if (target instanceof SohlActor) {
+                } else if (["assembly", "entity"].includes(target.type)) {
                     // If the target is an actor, there might be any number of tokens
                     // associated with it, so we take the first active token.
                     const tokens: Token.Object[] = target.getActiveTokens();
@@ -185,7 +171,7 @@ export namespace SohlAction {
                 type: this.type,
                 title: this.title,
                 targetUuid: (this.target as any)?.uuid,
-                scope: defaultToJSON(this.scope),
+                scope: SohlMap.defaultToJSON(this.scope),
             };
         }
 
@@ -213,7 +199,6 @@ export namespace SohlAction {
             type: string;
             title: string;
             scope: UnknownObject;
-            [key: string]: any;
         }
     }
 }

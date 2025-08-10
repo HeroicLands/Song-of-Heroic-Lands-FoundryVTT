@@ -11,14 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common";
-import { LgndCombatModifier, LgndImpactModifier } from "@legendary/modifier";
-import {
-    LgndSuccessTestResult,
-    LgndOpposedTestResult,
-    LgndCombatResult,
-} from "@legendary/result";
-
+import { SohlSystem } from "@common/SohlSystem";
+import { LgndCombatModifier } from "@legendary/modifier/LgndCombatModifier";
+import { LgndImpactModifier } from "@legendary/modifier/LgndImpactModifier";
+import { LgndSuccessTestResult } from "@legendary/result/LgndSuccessTestResult";
+import { LgndOpposedTestResult } from "@legendary/result/LgndOpposedTestResult";
+import { LgndCombatResult } from "@legendary/result/LgndCombatResult";
 const LgndActorDataModels = {};
 
 const LgndItemDataModels = {};
@@ -47,16 +45,21 @@ export class LegendarySystem extends SohlSystem {
     static override readonly ID: string = "legendary";
     static override readonly TITLE: string = "Legendary";
     static override readonly INIT_MESSAGE: string = ` _                               _
-    | |                             | |
-    | |     ___  __ _  ___ _ __   __| | __ _ _ __ _   _
-    | |    / _ \\/ _\` |/ _ \\ '_ \\ / _\` |/ _\` | '__| | | |
-    | |___|  __/ (_| |  __/ | | | (_| | (_| | |  | |_| |
-    \\_____/\\___|\\__, |\\___|_| |_|\\__,_|\\__,_|_|   \\__, |
-                 __/ |                             __/ |
-                |___/                             |___/
-    ===========================================================`;
+| |                             | |
+| |     ___  __ _  ___ _ __   __| | __ _ _ __ _   _
+| |    / _ \\/ _\` |/ _ \\ '_ \\ / _\` |/ _\` | '__| | | |
+| |___|  __/ (_| |  __/ | | | (_| | (_| | |  | |_| |
+\\_____/\\___|\\__, |\\___|_| |_|\\__,_|\\__,_|_|   \\__, |
+             __/ |                             __/ |
+            |___/                             |___/
+===========================================================`;
 
-    static {
-        this._variants.set(this.ID, new LegendarySystem());
+    private static _instance: LegendarySystem | null = null;
+
+    static getInstance(): LegendarySystem {
+        if (!this._instance) {
+            this._instance = new LegendarySystem();
+        }
+        return this._instance;
     }
 }

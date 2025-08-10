@@ -10,21 +10,24 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlAction, SohlEvent } from "@common/event";
-import { MasteryLevelMixin, SohlItem, SubTypeMixin } from "@common/item";
-import { defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
+import { SohlLogic } from "@common/SohlLogic";
+import type { SohlAction } from "@common/event/SohlAction";
+import {
+    kMasteryLevelMixin,
+    MasteryLevelMixin,
+} from "@common/item/MasteryLevelMixin";
+import { SohlItem } from "@common/item/SohlItem";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import {
+    MysticalAbilitySubType,
+    MysticalAbilitySubTypes,
+} from "@utils/constants";
 const kMysticalAbility = Symbol("MysticalAbility");
 const kData = Symbol("MysticalAbility.Data");
 const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "MysticalAbility",
-    }),
-)
 export class MysticalAbility
     extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
     implements
@@ -32,6 +35,18 @@ export class MysticalAbility
         SubTypeMixin.Logic,
         MasteryLevelMixin.Logic
 {
+    declare [kMasteryLevelMixin]: true;
+    declare masteryLevel: MasteryLevelModifier;
+    declare magicMod: number;
+    declare boosts: number;
+    declare _availableFate: SohlItem<SohlLogic, any>[];
+    declare availableFate: SohlItem<SohlLogic, any>[];
+    declare valid: boolean;
+    declare skillBase: MasteryLevelMixin.SkillBase;
+    declare sdrIncr: number;
+    improveWithSDR(context: SohlAction.Context): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
     declare readonly parent: MysticalAbility.Data;
     readonly [kMysticalAbility] = true;
 
@@ -58,62 +73,17 @@ export class MysticalAbility
 }
 
 export namespace MysticalAbility {
-    /**
-     * The type moniker for the MysticalAbility item.
-     */
-    export const Kind = "mysticalability";
-
-    /**
-     * The FontAwesome icon class for the MysticalAbility item.
-     */
-    export const IconCssClass = "fas fa-hand-sparkles";
-
-    /**
-     * The image path for the MysticalAbility item.
-     */
-    export const Image = "systems/sohl/assets/icons/hand-sparkles.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.MysticalAbility.SubType", {
-        SHAMANICRITE: "shamanicrite",
-        SPIRITACTION: "spiritaction",
-        SPIRITPOWER: "spiritpower",
-        BENEDICTION: "benediction",
-        DIVINEDEVOTION: "divinedevotion",
-        DIVINEINCANTATION: "divineincantation",
-        ARCANEINCANTATION: "arcaneincantation",
-        ARCANEINVOCATION: "arcaneinvocation",
-        ARCANETALENT: "arcanetalent",
-        ALCHEMY: "alchemy",
-        DIVINATION: "divination",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
-    export const {
-        kind: DEGREE,
-        values: Degrees,
-        isValue: isDegree,
-    } = defineType("SOHL.MysticalAbility.Degree", {
-        PRIMARY: { name: "primary", value: 0 },
-        SECONDARY: { name: "secondary", value: 1 },
-        NEUTRAL: { name: "neutral", value: 2 },
-        TERTIARY: { name: "tertiary", value: 3 },
-        DIAMETRIC: { name: "diametric", value: 4 },
-    });
-    export type Degree = (typeof DEGREE)[keyof typeof DEGREE];
-
-    export interface Logic extends SohlLogic.Logic {
-        readonly parent: MysticalAbility.Data;
+    export interface Logic
+        extends MasteryLevelMixin.Logic,
+            SubTypeMixin.Logic<MysticalAbilitySubType> {
+        readonly parent: Data;
         readonly [kMysticalAbility]: true;
     }
 
     export interface Data
         extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<SubType> {
-        get logic(): MysticalAbility.Logic;
+            SubTypeMixin.Data<MysticalAbilitySubType> {
+        readonly logic: Logic;
         readonly [kData]: true;
         config: {
             usesCharges: boolean;
@@ -132,30 +102,29 @@ export namespace MysticalAbility {
     }
 
     export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        export function isA(
+            obj: unknown,
+            subType?: MysticalAbilitySubType,
+        ): obj is Data {
+            return (
+                typeof obj === "object" &&
+                obj !== null &&
+                kData in obj &&
+                (subType ? (obj as Data).subType === subType : true)
+            );
         }
     }
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        SubType,
-        typeof SubTypes
+        MysticalAbilitySubType,
+        typeof MysticalAbilitySubTypes
     >(
         MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        SubTypes,
+        MysticalAbilitySubTypes,
     ) as unknown as Constructor<MysticalAbility.Data> &
         SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: MysticalAbility,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends DataModelShape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
         declare abbrev: string;
@@ -176,7 +145,7 @@ export namespace MysticalAbility {
             value: number;
             max: number;
         };
-        declare subType: SubType;
+        declare subType: MysticalAbilitySubType;
         readonly [kData] = true;
 
         static isA(obj: unknown): obj is DataModel {
@@ -218,7 +187,7 @@ export namespace MysticalAbility {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/mysticalability.hbs",
                 },

@@ -1,4 +1,4 @@
-import { AIAdapter, CompletionOptions } from "../AIAdapter";
+import { AIAdapter, CompletionOptions } from "@utils/ai/AIAdapter";
 
 export class OpenAIProvider extends AIAdapter {
     private apiKey: string;

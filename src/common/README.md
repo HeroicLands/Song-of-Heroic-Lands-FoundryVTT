@@ -19,7 +19,7 @@ It includes:
   when the event is active.
 - {@link SohlEvent} Base class for all SohlEvents, which are entities that have a time when they
   begin and end, and an activation state (`active` and `inactive`) based on the current time.
-- {@link SohlTemporal} Utility class that represents a point in time in the game.
+- {@link SohlTemporal} Utility class that represents a point in time in the (game as any).
 - {@link SohlEffect} Base class for all Effects, which are events that modify data, such as
   increasing the mastery level of a skill by a certain amount.
 - {@link ValueModifier} Base class for all modifiers, which represent a numeric value and all

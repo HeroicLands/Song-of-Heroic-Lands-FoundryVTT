@@ -11,20 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { RegisterClass } from "@utils/decorators";
-import { SohlAction } from "@common/event";
-import { SohlDataModel, SohlLogic } from "@common";
-import { SohlItem } from "@common/item";
-const { StringField, NumberField } = fvtt.data.fields;
+import type { SohlAction } from "@common/event/SohlAction";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlItem } from "@common/item/SohlItem";
+const { StringField, NumberField } = foundry.data.fields;
 
 const kAffiliation = Symbol("Affiliation");
 const kData = Symbol("Affiliation.Data");
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: Affiliation.Kind,
-    }),
-)
 export class Affiliation extends SohlLogic implements Affiliation.Logic {
     declare readonly parent: Affiliation.Data;
     readonly [kAffiliation] = true;
@@ -44,27 +38,13 @@ export class Affiliation extends SohlLogic implements Affiliation.Logic {
 }
 
 export namespace Affiliation {
-    /**
-     * The type moniker for the Affiliation item.
-     */
-    export const Kind = "affiliation";
-
-    /**
-     * The FontAwesome icon class for the Affiliation item.
-     */
-    export const IconCssClass = "fa-duotone fa-people-group";
-
-    /**
-     * The image path for the Affiliation item.
-     */
-    export const Image = "systems/sohl/assets/icons/people-group.svg";
-
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly [kAffiliation]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
+        readonly logic: Logic;
         society: string;
         office: string;
         title: string;
@@ -77,16 +57,6 @@ export namespace Affiliation {
         }
     }
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            ctor: DataModel,
-            logicClass: Affiliation,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel
         extends SohlItem.DataModel
         implements Affiliation.Data
@@ -96,10 +66,12 @@ export namespace Affiliation {
         declare office: string;
         declare title: string;
         declare level: number;
+        declare _logic: Logic;
         readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
+        get logic(): Logic {
+            this._logic ??= new Affiliation(this);
+            return this._logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
@@ -119,7 +91,7 @@ export namespace Affiliation {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/affiliation.hbs",
                 },

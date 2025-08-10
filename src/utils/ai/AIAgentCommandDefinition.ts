@@ -1,4 +1,4 @@
-import { SohlAction } from "@common/event";
+import { SohlAction } from "@common/event/SohlAction";
 import type { JSONSchema7 } from "json-schema";
 
 export interface AIExecutionResult {

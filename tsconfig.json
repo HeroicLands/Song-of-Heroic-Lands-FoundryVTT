@@ -28,13 +28,9 @@
         "baseUrl": ".",
         "paths": {
             "@types/*": ["types/*"],
-            "@utils": ["src/utils/index.ts"],
             "@utils/*": ["src/utils/*"],
-            "@common": ["src/common/index.ts"],
             "@common/*": ["src/common/*"],
-            "@legendary": ["src/legendary/index.ts"],
             "@legendary/*": ["src/legendary/*"],
-            "@mistyisle": ["src/mistyisle/index.ts"],
             "@mistyisle/*": ["src/mistyisle/*"],
             "@templates/*": ["templates/*"],
             "@assets/*": ["assets/*"],

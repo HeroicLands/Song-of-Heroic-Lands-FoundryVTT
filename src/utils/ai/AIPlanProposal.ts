@@ -1,5 +1,5 @@
-import { AIPlannedAction } from "@utils/ai";
-import { defineType } from "@utils";
+import { AIPlannedAction } from "@utils/ai/AIPlannedAction";
+import { defineType } from "@utils/constants";
 
 const {
     kind: AI_PLAN_STATUS,

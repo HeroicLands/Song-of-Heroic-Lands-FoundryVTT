@@ -3,20 +3,20 @@ import {
     inputDialog,
     InternalClientDocument,
     okDialog,
-    SohlLogic,
-} from "@common";
-import { Entity, Assembly, SohlActor } from "@common/actor";
-import { SohlItem } from "@common/item";
+} from "@common/FoundryProxy";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlItem } from "@common/item/SohlItem";
 import {
-    FilePath,
-    HTMLString,
-    SohlClassRegistry,
-    SohlContextMenu,
-    toFilePath,
-    toHTMLString,
-} from "@utils";
-import { SohlActiveEffect } from "./effect";
-const { ArrayField, ObjectField } = fvtt.data.fields;
+    EFFECT_METADATA,
+    KIND_KEY,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@utils/constants";
+import { FilePath, HTMLString, toFilePath, toHTMLString } from "@utils/helpers";
+import { SohlClassRegistry } from "@utils/SohlClassRegistry";
+import { SohlContextMenu } from "@utils/SohlContextMenu";
+import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
+import { SohlMap } from "@utils/collection/SohlMap";
+const { ArrayField, ObjectField } = foundry.data.fields;
 type HandlebarsTemplatePart =
     foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
 const { DocumentSheetV2, HandlebarsApplicationMixin } =
@@ -27,8 +27,6 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
     implements SohlDataModel.Data<TParent>
 {
     declare parent: TParent;
-
-    protected _logic!: SohlLogic.Logic;
 
     /**
      * The localization prefixes used to look up the translation keys for this
@@ -41,33 +39,8 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
      * @see {@link foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES}
      */
     static readonly LOCALIZATION_PREFIXES: string[];
-    static readonly _metadata: SohlDataModel.Metadata;
     actionList!: PlainObject[];
     eventList!: PlainObject[];
-
-    get logicClass(): SohlLogic.Constructor {
-        return (this as any)._metadata.logicClass as SohlLogic.Constructor;
-    }
-
-    static get kind(): string {
-        return this._metadata.kind;
-    }
-
-    static get iconCssClass(): string {
-        return this._metadata.iconCssClass;
-    }
-
-    static get img(): string {
-        return this._metadata.img;
-    }
-
-    static get schemaVersion(): string {
-        return this._metadata.schemaVersion;
-    }
-
-    static get sheet(): string {
-        return this._metadata.sheetPath;
-    }
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return {
@@ -77,14 +50,50 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
     }
 
     get kind(): string {
-        return (this.constructor as any).kind;
+        const kind = (this.constructor as any).Kind;
+        if (!kind) {
+            throw new Error("Kind must be defined");
+        }
+        return kind;
     }
 
-    get logic(): SohlLogic.Logic {
-        if (!this._logic) {
-            this._logic = new this.logicClass(this);
+    static fromData<T extends abstract new (...args: any) => any>(
+        data: any,
+        options: PlainObject = {},
+    ): InstanceType<T> {
+        const kind = data[KIND_KEY];
+
+        if (!kind) {
+            throw new Error(
+                `Data does not contain a "${KIND_KEY}" key: ${JSON.stringify(
+                    data,
+                )}`,
+            );
         }
-        return this._logic;
+        let dataModel: Constructor<SohlDataModel<any>> | undefined;
+        for (const docType of ["Item", "Actor", "ActiveEffect"]) {
+            dataModel = sohl.CONFIG[docType].dataModels[kind];
+            if (dataModel) break;
+        }
+        if (!dataModel) {
+            throw new Error(
+                `No data model found for kind "${kind}" in sohl.CONFIG`,
+            );
+        }
+
+        if (typeof data === "string") {
+            data = JSON.parse(data);
+        }
+
+        // Convert the data (which may be in JSON normalized form)
+        // back to the original form, dropping the kind key.
+        const newData: PlainObject = {};
+        for (const [key, value] of Object.entries(data)) {
+            if (key === KIND_KEY) continue;
+            newData[key] = SohlMap.defaultFromJSON(value);
+        }
+
+        return new dataModel(newData, options) as InstanceType<T>;
     }
 }
 
@@ -103,43 +112,6 @@ export namespace SohlDataModel {
         readonly parent: TParent | null;
         actionList: PlainObject[];
         eventList: PlainObject[];
-    }
-
-    export interface Metadata extends SohlClassRegistry.Metadata {
-        iconCssClass: string;
-        img: string;
-        sheet: string;
-        schemaVersion: string;
-        subTypes: string[];
-        logicClass: AnyConstructor;
-        sheetPath: string;
-    }
-
-    export class Element extends SohlClassRegistry.Element implements Metadata {
-        iconCssClass: string;
-        img: string;
-        sheet: string;
-        schemaVersion: string;
-        subTypes: string[];
-        logicClass: AnyConstructor;
-        sheetPath: string;
-
-        constructor(data: Partial<Metadata> = {}) {
-            if (!data.kind) {
-                throw new Error("SohlDataModel.Element must have a kind");
-            }
-            if (!data.logicClass) {
-                throw new Error("SohlDataModel.Element must have a logicClass");
-            }
-            super(data.kind, data.ctor);
-            this.iconCssClass = data.iconCssClass ?? "";
-            this.img = data.img ?? "";
-            this.sheet = data.sheet ?? "";
-            this.schemaVersion = data.schemaVersion ?? "0.0.0";
-            this.subTypes = data.subTypes ?? [];
-            this.logicClass = data.logicClass;
-            this.sheetPath = data.sheet ?? "";
-        }
     }
 
     export abstract class Sheet<
@@ -196,7 +168,9 @@ export namespace SohlDataModel {
                     dragover: this._onDragOver.bind(this),
                     drop: this._onDrop.bind(this),
                 };
-                return new fvtt.applications.ux.DragDrop(d) as DragDrop;
+                return new (foundry.applications as any).ux.DragDrop(
+                    d,
+                ) as DragDrop;
             });
         }
 
@@ -219,16 +193,16 @@ export namespace SohlDataModel {
         }
 
         get actor(): SohlActor | null {
-            return this.document instanceof SohlActor ?
-                    this.document
-                :   this.document.actor || null;
+            return ["entity", "assembly"].includes(this.document.type) ?
+                    (this.document as SohlActor)
+                :   (this.document as SohlItem).actor || null;
         }
 
         async _prepareContext(
             options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
         ): Promise<PlainObject> {
             const data = await super._prepareContext(options);
-            data.variant = sohl.game.id;
+            data.variant = sohl.id;
             data.const = sohl.CONST;
             data.config = sohl.CONFIG;
             data.owner = (this.document as InternalClientDocument).isOwner;
@@ -236,15 +210,15 @@ export namespace SohlDataModel {
             data.options = this.options;
             data.editable = this.isEditable;
             data.cssClass = data.owner ? "editable" : "locked";
-            data.isEntity = Entity.isA(this.document.system);
-            data.isAssembly = Assembly.isA(this.document.system);
+            data.isEntity = this.document.type === "entity";
+            data.isAssembly = this.document.type === "assembly";
             data.actor =
-                this.document instanceof SohlActor ?
-                    this.document
-                :   this.document.actor;
+                ["entity", "assembly"].includes(this.document.type) ?
+                    (this.document as SohlActor)
+                :   (this.document as SohlItem).actor || null;
             data.flags = this.document.flags;
             data.system = this.document.system;
-            data.isGM = (fvtt.game.user as any).isGM;
+            data.isGM = ((game as any).user as any).isGM;
             data.fields = this.document.system.schema.fields;
 
             data.effects = (this.document as any).effects;
@@ -338,17 +312,15 @@ export namespace SohlDataModel {
             if (actionName) {
                 doc = this.document.system.actions.get(docId);
             } else {
-                let actor: SohlActor | null;
-                if (this.document instanceof SohlActor) {
-                    actor = this.document;
-                } else {
-                    actor = this.document.actor;
-                }
+                let actor: SohlActor | null =
+                    ["entity", "assembly"].includes(this.document.type) ?
+                        (this.document as SohlActor)
+                    :   (this.document as SohlItem).actor;
                 if (!actor) return [];
                 doc = actor.items.get(docId);
             }
             if (doc) {
-                const uiContext = (fvtt.ui as any).context;
+                const uiContext = (foundry as any).ui.context;
                 if (uiContext) {
                     uiContext.menuItems = doc._getContextOptions();
                 }
@@ -361,7 +333,7 @@ export namespace SohlDataModel {
             if (!ele) return;
             const effectId = ele.dataset.effectId;
             const effect = (this.document as any).effects.get(effectId);
-            const uiContext = (fvtt.ui as any).context;
+            const uiContext = (foundry as any).ui.context;
             if (uiContext) {
                 uiContext.menuItems =
                     effect ? effect._getContextOptions(effect) : [];
@@ -382,7 +354,7 @@ export namespace SohlDataModel {
             if (!result || !result.length) return [];
 
             result = result.filter(
-                (co) => co.group !== SohlContextMenu.SORT_GROUP.HIDDEN,
+                (co) => co.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             );
 
             // Sort the menu items according to group.  Expect items with no group
@@ -405,6 +377,13 @@ export namespace SohlDataModel {
         }
 
         async _onEffectCreate(): Promise<void> {
+            const createEffect = (this.document as any)
+                .createEffect as Function;
+            if (!createEffect) {
+                throw new Error(
+                    "SohlDataModel.Sheet._onEffectCreate: createEffect not found",
+                );
+            }
             let name = "New Effect";
             let i = 0;
             while (
@@ -416,12 +395,12 @@ export namespace SohlDataModel {
             }
             const aeData = {
                 name,
-                type: SohlActiveEffect.Kind,
-                icon: SohlActiveEffect.Image,
+                type: EFFECT_METADATA.ACTIVEEFFECTDATA.Kind,
+                icon: EFFECT_METADATA.ACTIVEEFFECTDATA.Image,
                 origin: this.document.uuid,
             };
 
-            SohlActiveEffect.create(aeData, {
+            createEffect(aeData, {
                 parent: this.document,
             });
         }
@@ -479,7 +458,8 @@ export namespace SohlDataModel {
             const data = JSON.parse(
                 event.dataTransfer?.getData("text/plain") || "{}",
             );
-            const documentClass = fvtt.utils.getDocumentClass(data.type);
+            // @ts-expect-error
+            const documentClass = foundry.utils.getDocumentClass(data.type);
             if (documentClass) {
                 const document = await documentClass.fromDropData(data);
                 switch (document.documentName) {
@@ -527,8 +507,11 @@ export namespace SohlDataModel {
         ): Promise<void> {
             const dataset = (event.currentTarget as HTMLElement)?.dataset;
             if (!dataset?.array) return;
-            let oldArray = fvtt.utils.getProperty(this.document, dataset.array);
-            let newArray = fvtt.utils.deepClone(oldArray);
+            let oldArray = foundry.utils.getProperty(
+                this.document,
+                dataset.array,
+            );
+            let newArray = foundry.utils.deepClone(oldArray);
             const datatype = dataset.dtype;
             const choices = dataset.choices;
             const defaultValue =
@@ -566,10 +549,12 @@ export namespace SohlDataModel {
                     label: `Add ${dataset.title}`,
                     callback: (_event: any, button: HTMLButtonElement) => {
                         const form = button.querySelector("form");
-                        const fd = new fvtt.applications.ux.FormDataExtended(
-                            form,
-                        );
-                        const formData = fvtt.utils.expandObject(fd.object);
+                        const fd = new (
+                            foundry.applications as any
+                        ).ux.FormDataExtended(form);
+                        const formData = foundry.utils.expandObject(
+                            fd.object,
+                        ) as PlainObject;
                         let formValue = formData.newValue;
                         if (datatype === "Number") {
                             formValue = Number.parseFloat(formValue);
@@ -597,7 +582,7 @@ export namespace SohlDataModel {
             const dataset = (event.currentTarget as HTMLElement).dataset;
             if (!dataset.choices || !dataset.array) return;
             let array: string[] = (
-                fvtt.utils.getProperty(this.document, dataset.array) || []
+                foundry.utils.getProperty(this.document, dataset.array) || []
             ).concat();
             const choices: string[] = dataset.choices.split(";");
             let formTemplate =
@@ -622,8 +607,12 @@ export namespace SohlDataModel {
                 label: `Add ${dataset.title}`,
                 callback: (element) => {
                     const form = element.querySelector("form");
-                    const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = fvtt.utils.expandObject(fd.object);
+                    const fd = new (
+                        foundry.applications as any
+                    ).ux.FormDataExtended(form);
+                    const formData = foundry.utils.expandObject(
+                        fd.object,
+                    ) as PlainObject;
                     return formData.choice;
                 },
                 rejectClose: false,
@@ -649,7 +638,7 @@ export namespace SohlDataModel {
             const dataset = (event.currentTarget as HTMLElement).dataset;
             if (!dataset.aim || !dataset.array) return;
             let array: { name: string; probWeightBase: number }[] = (
-                fvtt.utils.getProperty(this.document, dataset.array) || []
+                foundry.utils.getProperty(this.document, dataset.array) || []
             ).concat();
             const compiled = Handlebars.compile(`<form id="aim">
         <div class="form-group flexrow">
@@ -674,8 +663,12 @@ export namespace SohlDataModel {
                 label: `Add ${dataset.title}`,
                 callback: (element) => {
                     const form = element.querySelector("form");
-                    const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = fvtt.utils.expandObject(fd.object);
+                    const fd = new (
+                        foundry.applications as any
+                    ).ux.FormDataExtended(form);
+                    const formData = foundry.utils.expandObject(
+                        fd.object,
+                    ) as PlainObject;
                     const result = {
                         name: formData.name,
                         probWeightBase:
@@ -711,7 +704,7 @@ export namespace SohlDataModel {
             const dataset = (event.currentTarget as HTMLElement).dataset;
             if (!dataset.valueDesc || !dataset.array) return;
             let array: { label: string; maxValue: number }[] = (
-                fvtt.utils.getProperty(this.document, dataset.array) || []
+                foundry.utils.getProperty(this.document, dataset.array) || []
             ).concat();
             const compiled = Handlebars.compile(`<form id="aim">
                 <div class="form-group flexrow">
@@ -736,8 +729,12 @@ export namespace SohlDataModel {
                 label: `Add ${dataset.title}`,
                 callback: (element) => {
                     const form = element.querySelector("form");
-                    const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = fvtt.utils.expandObject(fd.object);
+                    const fd = new (
+                        foundry.applications as any
+                    ).ux.FormDataExtended(form);
+                    const formData = foundry.utils.expandObject(
+                        fd.object,
+                    ) as PlainObject;
                     const result = {
                         label: formData.label,
                         maxValue: Number.parseInt(formData.maxValue, 10) || 0,
@@ -799,7 +796,7 @@ export namespace SohlDataModel {
             const dataset = (event.currentTarget as HTMLElement).dataset;
             if (!dataset.array) return;
             await (this as any)._onSubmit(event); // Submit any unsaved changes
-            let array: any[] = fvtt.utils.getProperty(
+            let array: any[] = foundry.utils.getProperty(
                 this.document,
                 dataset.array,
             );
@@ -817,10 +814,13 @@ export namespace SohlDataModel {
 
             await (this as any)._onSubmit(event); // Submit any unsaved changes
 
-            let object = fvtt.utils.getProperty(this.document, dataset.object);
+            let object = foundry.utils.getProperty(
+                this.document,
+                dataset.object,
+            );
 
             const dialogData = {
-                variant: sohl.game.id,
+                variant: sohl.id,
                 newKey: "",
                 newValue: "",
             };
@@ -841,8 +841,12 @@ export namespace SohlDataModel {
                     const form = dialog.querySelector(
                         "form",
                     ) as HTMLFormElement;
-                    const fd = new fvtt.applications.ux.FormDataExtended(form);
-                    const formData = fvtt.utils.expandObject(fd.object);
+                    const fd = new (
+                        foundry.applications as any
+                    ).ux.FormDataExtended(form);
+                    const formData = foundry.utils.expandObject(
+                        fd.object,
+                    ) as PlainObject;
                     let formKey = formData.newKey;
                     let formValue = formData.newValue;
                     let value: number = Number.parseFloat(formValue);

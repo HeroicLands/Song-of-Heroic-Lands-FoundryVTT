@@ -11,15 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@common/modifier";
-import { defineType, SimpleRoll } from "@utils";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import {
+    IMPACT_ASPECT,
+    IMPACT_ASPECT_CHAR,
+    ImpactAspect,
+    isImpactAspect,
+} from "@utils/constants";
+import { SimpleRoll } from "@utils/SimpleRoll";
 
 /**
  * Specialized ValueModifier for Impacts
  */
 export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;
-    private aspect: ImpactModifier.AspectType;
+    private aspect: ImpactAspect;
 
     constructor(
         data: Partial<ImpactModifier.Data> = {},
@@ -28,9 +34,7 @@ export class ImpactModifier extends ValueModifier {
         super(data, options);
         this.roll = data.roll ? new SimpleRoll(data.roll, options) : null;
         this.aspect =
-            ImpactModifier.isAspect(data.aspect) ?
-                data.aspect
-            :   ImpactModifier.ASPECT.BLUNT;
+            isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
     }
     // Getter for disabled
     get disabled(): string {
@@ -64,7 +68,7 @@ export class ImpactModifier extends ValueModifier {
 
     // Getter for label
     get label(): string {
-        return `${this.diceFormula}${ImpactModifier.AspectChar[this.aspect]}`;
+        return `${this.diceFormula}${IMPACT_ASPECT_CHAR[this.aspect]}`;
     }
 
     // Evaluate method
@@ -76,30 +80,9 @@ export class ImpactModifier extends ValueModifier {
 }
 
 export namespace ImpactModifier {
-    export const {
-        kind: ASPECT,
-        values: Aspects,
-        isValue: isAspect,
-    } = defineType("SOHL.ImpactModifier.Aspect", {
-        BLUNT: "blunt",
-        EDGED: "edged",
-        PIERCING: "piercing",
-        FIRE: "fire",
-    });
-    export type AspectType = (typeof ASPECT)[keyof typeof ASPECT];
-
-    export const AspectChar: Record<AspectType, string> = {
-        [ASPECT.BLUNT]: "b",
-        [ASPECT.EDGED]: "e",
-        [ASPECT.PIERCING]: "p",
-        [ASPECT.FIRE]: "f",
-    };
-}
-
-export namespace ImpactModifier {
     export interface Data extends ValueModifier.Data {
         roll: SimpleRoll;
-        aspect: ImpactModifier.AspectType;
+        aspect: ImpactAspect;
     }
 
     export interface Options extends ValueModifier.Options {}

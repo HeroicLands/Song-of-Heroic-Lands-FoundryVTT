@@ -11,15 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlDataModel, SohlLogic } from "@common";
-import { defineType, SohlClassRegistry } from "@utils";
-import { RegisterClass } from "@utils/decorators";
-import { MasteryLevelModifier, ValueModifier } from "@common/modifier";
-import { SohlMap } from "@utils/collection";
-import { Domain, Injury, SohlItem } from "@common/item";
-import { SohlActor } from "@common/actor";
-import { ImpactResult, SuccessTestResult } from "@common/result";
-import { SohlAction } from "@common/event";
+import { SohlLogic } from "@common/SohlLogic";
+import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { Injury } from "@common/item/Injury";
+import type { SohlItem } from "@common/item/SohlItem";
+import { SohlActor } from "@common/actor/SohlActor";
+import type { ImpactResult } from "@common/result/ImpactResult";
+import type { SuccessTestResult } from "@common/result/SuccessTestResult";
+import type { SohlAction } from "@common/event/SohlAction";
 
 const kEntity = Symbol("Entity");
 const kDataModel = Symbol("Entity.DataModel");
@@ -27,7 +27,6 @@ const kDataModel = Symbol("Entity.DataModel");
 /**
  * The business logic class for the Entity actor.
  */
-@RegisterClass(new SohlClassRegistry.Element(Entity.Kind))
 export class Entity<TData extends Entity.Data = Entity.Data>
     extends SohlLogic
     implements Entity.Logic<TData>
@@ -309,7 +308,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
     async _createTestItem(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
-        // let createItem = game.settings.get("sohl", "recordTrauma");
+        // let createItem = (game as any).settings.get("sohl", "recordTrauma");
         // if (!options.testResult.isSuccess && createItem !== "disable") {
         //     if (createItem === "ask") {
         //         createItem = await Dialog.confirm({
@@ -499,39 +498,11 @@ export class Entity<TData extends Entity.Data = Entity.Data>
 
 export namespace Entity {
     /**
-     * The type moniker for the Entity actor.
-     */
-    export const Kind = "object";
-
-    /**
      * The paths to the document sheet handlebars partials for the Entity actor.
      */
     export const SheetPartials = [
         "systems/sohl/templates/actor/animateentity-sheet.hbs",
     ];
-
-    /**
-     * The FontAwesome icon class for the Entity actor.
-     */
-    export const IconCssClass = "fas fa-person";
-
-    /**
-     * The image path for the Entity actor.
-     */
-    export const Image = "icons/svg/item-bag.svg";
-
-    export const {
-        kind: EFFECT_KEY,
-        values: EffectKey,
-        isValue: isEffectKey,
-        labels: EffectKeyLabels,
-    } = defineType("SOHL.Entity.EffectKey", {
-        ENGOPP: {
-            name: "mod:system.engagedOpponents",
-            abbrev: "EngOpp",
-        },
-    } as StrictObject<SohlLogic.EffectKeyData>);
-    export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
 
     export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {
         health: ValueModifier;
@@ -596,15 +567,6 @@ export namespace Entity {
     /**
      * The Foundry VTT data model for the Entity actor.
      */
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Entity,
-            iconCssClass: IconCssClass,
-            img: Image,
-            schemaVersion: "0.6.0",
-        }),
-    )
     export class DataModel extends SohlActor.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["ENTITY"];
         readonly [kDataModel] = true;

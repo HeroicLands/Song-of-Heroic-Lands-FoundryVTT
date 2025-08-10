@@ -10,23 +10,44 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic, SohlDataModel } from "@common";
-import { defineType } from "@utils";
-import { RegisterClass } from "@utils/decorators";
-import { Philosophy, Skill, SohlItem, SubTypeMixin } from "@common/item";
-import { SohlAction } from "@common/event";
-import { ValueModifier } from "@common/modifier";
+import { SohlLogic } from "@common/SohlLogic";
+import { SohlItem } from "@common/item/SohlItem";
+import { Philosophy } from "@common/item/Philosophy";
+import { Skill } from "@common/item/Skill";
+import {
+    kMasteryLevelMixin,
+    MasteryLevelMixin,
+} from "@common/item/MasteryLevelMixin";
+import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import type { SohlAction } from "@common/event/SohlAction";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import {
+    MYSTERY_CATEGORY,
+    MYSTERY_SUBTYPE,
+    MysteryCategories,
+    MysteryCategory,
+    MysterySubType,
+    MysterySubTypes,
+} from "@utils/constants";
+import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 const kMystery = Symbol("Mystery");
 const kData = Symbol("Mystery.Data");
 const { SchemaField, ArrayField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
-@RegisterClass(
-    new SohlLogic.Element({
-        kind: "Mystery",
-    }),
-)
-export class Mystery extends SohlLogic implements Mystery.Logic {
+export class Mystery
+    extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
+    implements Mystery.Logic
+{
+    declare masteryLevel: MasteryLevelModifier;
+    declare magicMod: number;
+    declare boosts: number;
+    declare availableFate: SohlItem<SohlLogic, any>[];
+    declare valid: boolean;
+    declare skillBase: MasteryLevelMixin.SkillBase;
+    declare sdrIncr: number;
+    declare improveWithSDR: (context: SohlAction.Context) => Promise<void>;
+    declare [kMasteryLevelMixin]: true;
     declare readonly parent: Mystery.Data;
     readonly [kMystery] = true;
     assocPhilosophy!: SohlItem | null;
@@ -41,31 +62,49 @@ export class Mystery extends SohlLogic implements Mystery.Logic {
         return typeof obj === "object" && obj !== null && kMystery in obj;
     }
 
+    get _availableFate(): SohlItem[] {
+        const result: SohlItem[] = [];
+        if (Mystery.Data.isA(this, MYSTERY_SUBTYPE.FATE)) {
+            const logic = this.logic;
+            const fateSkills = this.parent.fateSkills;
+            // If a fate item has a list of fate skills, then that fate
+            // item is only applicable to those skills.  If the fate item
+            // has no list of skills, then the fate item is applicable
+            // to all skills.
+            if (
+                !fateSkills.length ||
+                fateSkills.includes(this.parent.item?.name || "")
+            ) {
+                if (logic.level.effective > 0) result.push(this.parent.item);
+            }
+        }
+        return result;
+    }
+
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {
         super.initialize(context);
         this.assocPhilosophy =
             this.actor?.items.find(
                 (it) =>
-                    Philosophy.isA(it.system) &&
+                    Philosophy.DataModel.isA(it.system) &&
                     it.name === this.parent.config.assocPhilosophy,
             ) || null;
         this.skills =
             this.actor?.items.filter(
                 (it) =>
-                    Skill.Data.isA(it.system) &&
+                    Skill.DataModel.isA(it.system) &&
                     !!it.name &&
                     this.parent.skills.includes(it.name),
             ) || [];
-        this.level = sohl.game.CONFIG.ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.parent.levelBase);
+        this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            this.parent.levelBase,
+        );
         this.charges = {
-            value: sohl.game.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
                 this.parent.charges.value,
             ),
-            max: sohl.game.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
                 this.parent.charges.max,
             ),
         };
@@ -79,66 +118,9 @@ export class Mystery extends SohlLogic implements Mystery.Logic {
 }
 
 export namespace Mystery {
-    /**
-     * The type moniker for the Domain item.
-     */
-    export const Kind = "mystery";
-
-    /**
-     * The FontAwesome icon class for the Domain item.
-     */
-    export const IconCssClass = "fas fa-sparkles";
-
-    /**
-     * The image path for the Domain item.
-     */
-    export const Image = "systems/sohl/assets/icons/sparkles.svg";
-
-    export const {
-        kind: SUBTYPE,
-        values: SubTypes,
-        isValue: isSubType,
-    } = defineType("SOHL.Mystery.SubType", {
-        GRACE: "grace",
-        PIETY: "piety",
-        FATE: "fate",
-        FATEBONUS: "fateBonus",
-        FATEPOINTBONUS: "fatePointBonus",
-        BLESSING: "blessing",
-        ANCESTOR: "ancestor",
-        TOTEM: "totem",
-    });
-    export type SubType = (typeof SUBTYPE)[keyof typeof SUBTYPE];
-
-    export const {
-        kind: CATEGORY,
-        values: Categories,
-        isValue: isCategory,
-    } = defineType("SOHL.Mystery.Category", {
-        DIVINE: "divinedomain",
-        SKILL: "skill",
-        CREATURE: "creature",
-        NONE: "none",
-    });
-    export type Category = (typeof CATEGORY)[keyof typeof CATEGORY];
-
-    export const {
-        kind: CATEGORYMAP,
-        values: CategoryMaps,
-        isValue: isCategoryMap,
-    } = defineType("SOHL.MysticalAbility.Degree", {
-        [SUBTYPE.GRACE]: CATEGORY.DIVINE,
-        [SUBTYPE.PIETY]: CATEGORY.DIVINE,
-        [SUBTYPE.FATE]: CATEGORY.SKILL,
-        [SUBTYPE.FATEBONUS]: CATEGORY.SKILL,
-        [SUBTYPE.FATEPOINTBONUS]: CATEGORY.NONE,
-        [SUBTYPE.BLESSING]: CATEGORY.DIVINE,
-        [SUBTYPE.ANCESTOR]: CATEGORY.SKILL,
-        [SUBTYPE.TOTEM]: CATEGORY.CREATURE,
-    });
-    export type CategoryMap = (typeof CATEGORYMAP)[keyof typeof CATEGORYMAP];
-
-    export interface Logic extends SubTypeMixin.Logic<SubType> {
+    export interface Logic
+        extends MasteryLevelMixin.Logic,
+            SubTypeMixin.Logic<MysterySubType> {
         readonly parent: Mystery.Data;
         readonly [kMystery]: true;
         assocPhilosophy: SohlItem | null;
@@ -150,16 +132,19 @@ export namespace Mystery {
         };
     }
 
-    export interface Data extends SubTypeMixin.Data<SubType> {
+    export interface Data
+        extends MasteryLevelMixin.Data,
+            SubTypeMixin.Data<MysterySubType> {
         readonly [kData]: true;
-        get logic(): Mystery.Logic;
+        readonly logic: Logic;
         config: {
             usesCharges: boolean;
             usesSkills: boolean;
             assocPhilosophy: string;
-            category: Category;
+            category: MysteryCategory;
         };
         skills: string[];
+        fateSkills: string[];
         levelBase: number;
         charges: {
             value: number;
@@ -170,7 +155,7 @@ export namespace Mystery {
     export namespace Data {
         export function isA(
             obj: unknown,
-            subType?: Mystery.SubType,
+            subType?: MysterySubType,
         ): obj is Data {
             return (
                 typeof obj === "object" &&
@@ -183,37 +168,25 @@ export namespace Mystery {
 
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
-        Mystery.SubType,
-        typeof Mystery.SubTypes
-    >(
-        SohlItem.DataModel,
-        Mystery.SubTypes,
-    ) as unknown as Constructor<Mystery.Data> & SohlItem.DataModel.Statics;
+        MysterySubType,
+        typeof MysterySubTypes
+    >(SohlItem.DataModel, MysterySubTypes) as unknown as Constructor<Data> &
+        SohlItem.DataModel.Statics;
 
-    @RegisterClass(
-        new SohlDataModel.Element({
-            kind: Kind,
-            logicClass: Mystery,
-            iconCssClass: "fas fa-sparkles",
-            img: "systems/sohl/assets/icons/sparkles.svg",
-            sheet: "systems/sohl/templates/item/mystery-sheet.hbs",
-            schemaVersion: "0.6.0",
-            subTypes: SubTypes,
-        }),
-    )
     export class DataModel extends DataModelShape implements Mystery.Data {
         readonly [kData] = true;
-        static override readonly LOCALIZATION_PREFIXES = [Kind];
-        declare subType: SubType;
-        declare config: {
+        static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
+        declare subType: MysterySubType;
+        config!: {
             usesCharges: boolean;
             usesSkills: boolean;
             assocPhilosophy: string;
-            category: Category;
+            category: MysteryCategory;
         };
-        declare skills: string[];
-        declare levelBase: number;
-        declare charges: {
+        skills!: string[];
+        fateSkills!: string[];
+        levelBase!: number;
+        charges!: {
             value: number;
             max: number;
         };
@@ -234,13 +207,19 @@ export namespace Mystery {
                     usesSkills: new BooleanField({ initial: false }),
                     assocPhilosophy: new StringField(),
                     category: new StringField({
-                        initial: CATEGORY.NONE,
+                        initial: MYSTERY_CATEGORY.NONE,
                         required: true,
-                        choices: Categories,
+                        choices: MysteryCategories,
                     }),
                 }),
                 domain: new StringField(),
                 skills: new ArrayField(
+                    new StringField({
+                        required: true,
+                        blank: false,
+                    }),
+                ),
+                fateSkills: new ArrayField(
                     new StringField({
                         required: true,
                         blank: false,
@@ -270,7 +249,7 @@ export namespace Mystery {
 
     export class Sheet extends SohlItem.Sheet {
         static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            fvtt.utils.mergeObject(super.PARTS, {
+            foundry.utils.mergeObject(super.PARTS, {
                 properties: {
                     template: "systems/sohl/templates/item/mystery.hbs",
                 },
