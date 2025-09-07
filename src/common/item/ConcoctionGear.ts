@@ -10,12 +10,11 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 import {
     CONCOCTIONGEAR_POTENCY,
     ConcoctionGearPotency,
@@ -26,13 +25,12 @@ const { NumberField, StringField } = foundry.data.fields;
 const kConcoctionGear = Symbol("ConcoctionGear");
 const kData = Symbol("ConcoctionGear.Data");
 
-export class ConcoctionGear extends SohlLogic implements ConcoctionGear.Logic {
+export class ConcoctionGear
+    extends GearMixin(SohlItem.BaseLogic)
+    implements ConcoctionGear.Logic
+{
     declare [kGearMixin]: true;
     declare readonly parent: ConcoctionGear.Data;
-    weight!: ValueModifier;
-    value!: ValueModifier;
-    quality!: ValueModifier;
-    durability!: ValueModifier;
     readonly [kConcoctionGear] = true;
 
     static isA(obj: unknown): obj is ConcoctionGear {
@@ -42,13 +40,19 @@ export class ConcoctionGear extends SohlLogic implements ConcoctionGear.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace ConcoctionGear {
@@ -63,7 +67,6 @@ export namespace ConcoctionGear {
         extends SubTypeMixin.Data<ConcoctionGearSubType>,
             GearMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         potency: ConcoctionGearPotency;
         strength: number;
     }
@@ -103,13 +106,7 @@ export namespace ConcoctionGear {
         declare subType: ConcoctionGearSubType;
         declare potency: ConcoctionGearPotency;
         declare strength: number;
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new ConcoctionGear(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

@@ -11,14 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 const { BooleanField, StringField } = foundry.data.fields;
 const kBodyLocation = Symbol("BodyLocation");
 const kData = Symbol("BodyLocation.Data");
 
-export class BodyLocation extends SohlLogic implements BodyLocation.Logic {
+export class BodyLocation
+    extends SohlItem.BaseLogic
+    implements BodyLocation.Logic
+{
     declare readonly parent: BodyLocation.Data;
     protection!: PlainObject;
     layers!: string;
@@ -30,7 +32,8 @@ export class BodyLocation extends SohlLogic implements BodyLocation.Logic {
     }
 
     /** @inheritdoc */
-    initialize(options?: PlainObject): void {
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
         this.protection = {};
         this.layers = "";
         this.traits = {
@@ -39,21 +42,24 @@ export class BodyLocation extends SohlLogic implements BodyLocation.Logic {
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace BodyLocation {
-    export interface Logic extends SohlLogic.Logic {
-        readonly parent: BodyLocation.Data;
+    export interface Logic extends SohlItem.Logic {
+        readonly parent: Data;
         readonly [kBodyLocation]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         abbrev: string;
         isFumble: boolean;
         isStumble: boolean;
@@ -65,17 +71,21 @@ export namespace BodyLocation {
         }
     }
 
-    export class DataModel extends SohlItem.DataModel implements Data {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
-        declare abbrev: string;
-        declare isFumble: boolean;
-        declare isStumble: boolean;
-        declare _logic: Logic;
         readonly [kData] = true;
+        abbrev!: string;
+        isFumble!: boolean;
+        isStumble!: boolean;
 
-        get logic(): Logic {
-            this._logic ??= new BodyLocation(this);
-            return this._logic;
+        static override create<Logic>(
+            data: PlainObject,
+            options: PlainObject,
+        ): Logic {
+            if (!(options.parent instanceof SohlItem)) {
+                throw new Error("Parent must be a SohlItem");
+            }
+            return new BodyLocation(data, { parent: options.parent }) as Logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

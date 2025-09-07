@@ -10,9 +10,10 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import { SohlMap } from "@utils/collection/SohlMap";
 import { KIND_KEY } from "@utils/constants";
-import { SohlClassRegistry } from "@utils/SohlClassRegistry";
+// SohlClassRegistry is not needed in this file
 
 /**
  * @summary Base class for all SoHL related logic.
@@ -26,7 +27,10 @@ import { SohlClassRegistry } from "@utils/SohlClassRegistry";
  * @template P - The type of the parent.
  */
 export abstract class SohlBase {
-    constructor(data: PlainObject = {}, options: PlainObject = {}) {}
+    constructor(data: PlainObject = {}, options: PlainObject = {}) {
+        void data;
+        void options;
+    }
 
     /**
      * Converts the current instance to a plain object suitable for JSON serialization.

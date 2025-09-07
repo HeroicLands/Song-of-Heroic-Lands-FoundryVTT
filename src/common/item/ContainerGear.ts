@@ -10,23 +10,21 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { NumberField } = foundry.data.fields;
 const kContainerGear = Symbol("ContainerGear");
 const kData = Symbol("ContainerGear.Data");
 
-export class ContainerGear extends SohlLogic implements ContainerGear.Logic {
+export class ContainerGear
+    extends GearMixin(SohlItem.BaseLogic)
+    implements ContainerGear.Logic
+{
     declare readonly [kGearMixin]: true;
     declare readonly parent: ContainerGear.Data;
-    weight!: ValueModifier;
-    value!: ValueModifier;
-    quality!: ValueModifier;
-    durability!: ValueModifier;
     readonly [kContainerGear] = true;
 
     static isA(obj: unknown): obj is ContainerGear {
@@ -34,13 +32,19 @@ export class ContainerGear extends SohlLogic implements ContainerGear.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace ContainerGear {
@@ -68,14 +72,8 @@ export namespace ContainerGear {
 
     export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
-        declare _logic: Logic;
         maxCapacityBase!: number;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new ContainerGear(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

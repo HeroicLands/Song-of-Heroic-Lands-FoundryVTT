@@ -13,7 +13,6 @@
 
 import { ImpactResult } from "@common/result/ImpactResult";
 import { SohlClassRegistry } from "@utils/SohlClassRegistry";
-import { RegisterClass } from "@utils/decorators/RegisterClass";
 import {
     ATTACK_MISHAP,
     defineType,
@@ -24,7 +23,6 @@ const kAttackResult = Symbol("AttackResult");
 const kData = Symbol("AttackResult.Data");
 const kContext = Symbol("AttackResult.Context");
 
-@RegisterClass(new SohlClassRegistry.Element("AttackResult", AttackResult))
 export class AttackResult extends ImpactResult {
     situationalModifier: number;
     allowedDefenses: Set<string>;

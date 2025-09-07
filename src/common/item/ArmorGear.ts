@@ -11,22 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 const kArmorGear = Symbol("ArmorGear");
 const kData = Symbol("ArmorGear.Data");
 
-export class ArmorGear extends GearMixin(SohlLogic) implements ArmorGear.Logic {
+export class ArmorGear
+    extends GearMixin(SohlItem.BaseLogic)
+    implements ArmorGear.Logic
+{
     declare [kGearMixin]: true;
     declare readonly parent: ArmorGear.Data;
-    weight!: ValueModifier;
-    value!: ValueModifier;
-    quality!: ValueModifier;
-    durability!: ValueModifier;
     protection!: PlainObject;
     traits!: StrictObject<string>;
     readonly [kArmorGear] = true;
@@ -37,26 +34,30 @@ export class ArmorGear extends GearMixin(SohlLogic) implements ArmorGear.Logic {
 
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
         this.protection = {};
         this.traits = {};
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace ArmorGear {
-    export interface Logic extends GearMixin.Logic {
+    export interface Logic extends SohlItem.Logic, GearMixin.Logic {
         readonly parent: ArmorGear.Data;
         readonly [kArmorGear]: true;
     }
 
     export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         material: string;
         locations: {
             flexible: string[];
@@ -76,14 +77,18 @@ export namespace ArmorGear {
 
     export class DataModel extends DataModelShape implements ArmorGear.Data {
         static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
-        declare material: string;
-        declare locations: { flexible: string[]; rigid: string[] };
-        declare _logic: Logic;
         readonly [kData] = true;
+        material!: string;
+        locations!: { flexible: string[]; rigid: string[] };
 
-        get logic(): Logic {
-            this._logic ??= new ArmorGear(this);
-            return this._logic;
+        static override create<Logic>(
+            data: PlainObject,
+            options: PlainObject,
+        ): Logic {
+            if (!(options.parent instanceof SohlItem)) {
+                throw new Error("Parent must be a SohlItem");
+            }
+            return new ArmorGear(data, { parent: options.parent }) as Logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

@@ -1,3 +1,16 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import {
     DialogButtonCallback,
     inputDialog,
@@ -12,17 +25,23 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
 import { FilePath, HTMLString, toFilePath, toHTMLString } from "@utils/helpers";
-import { SohlClassRegistry } from "@utils/SohlClassRegistry";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlMap } from "@utils/collection/SohlMap";
+import type { SohlLogic } from "@common/SohlLogic";
+import {
+    COMMON_ACTOR_LOGIC,
+    COMMON_ITEM_LOGIC,
+    EFFECT_LOGIC,
+} from "./SohlSystem";
 const { ArrayField, ObjectField } = foundry.data.fields;
-type HandlebarsTemplatePart =
-    foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
 const { DocumentSheetV2, HandlebarsApplicationMixin } =
     foundry.applications.api;
 
-export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
+export abstract class SohlDataModel<
+        TParent extends SohlDocument,
+        TLogic extends SohlLogic = SohlLogic,
+    >
     extends foundry.abstract.TypeDataModel<foundry.data.fields.DataSchema, any>
     implements SohlDataModel.Data<TParent>
 {
@@ -35,32 +54,65 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
      *
      * This is actually defined in the superclass (TypeDataModel), but TypeScript
      * doesn't recognize that, so we have to define it here as well.
-     * @override
      * @see {@link foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES}
      */
-    static readonly LOCALIZATION_PREFIXES: string[];
+    static override readonly LOCALIZATION_PREFIXES: string[];
+    static readonly kind: string = "" as const;
+
     actionList!: PlainObject[];
     eventList!: PlainObject[];
+    _logic!: TLogic;
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    constructor(data: PlainObject = {}, options: PlainObject = {}) {
+        super(data, options as any);
+    }
+
+    /** @inheritdoc */
+    // @ts-expect-error defineSchema is defined in DataModel class, but TS just doesn't realize it
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return {
             actionList: new ArrayField(new ObjectField()),
             eventList: new ArrayField(new ObjectField()),
         };
     }
 
+    static create<L extends SohlLogic>(
+        data: PlainObject,
+        options: PlainObject,
+    ): L {
+        const kind: string = this.kind;
+        let logicCtor: Constructor<SohlLogic> | undefined =
+            COMMON_ACTOR_LOGIC[kind];
+        logicCtor ??= COMMON_ITEM_LOGIC[kind];
+        logicCtor ??= EFFECT_LOGIC[kind];
+        if (!logicCtor) {
+            throw new Error(`No logic constructor found for kind "${kind}"`);
+        }
+        return new logicCtor(data, options) as L;
+    }
+
+    get logic(): TLogic {
+        if (!this._logic) {
+            this._logic = (this.constructor as any).create(
+                {},
+                { parent: this.parent },
+            );
+        }
+        return this._logic;
+    }
+
     get kind(): string {
-        const kind = (this.constructor as any).Kind;
+        const kind: string = this.kind;
         if (!kind) {
-            throw new Error("Kind must be defined");
+            throw new Error("kind must be defined");
         }
         return kind;
     }
 
-    static fromData<T extends abstract new (...args: any) => any>(
+    static fromData<TDataModel extends Constructor<SohlDataModel<any>>>(
         data: any,
         options: PlainObject = {},
-    ): InstanceType<T> {
+    ): InstanceType<TDataModel> {
         const kind = data[KIND_KEY];
 
         if (!kind) {
@@ -93,36 +145,48 @@ export abstract class SohlDataModel<TParent extends SohlActor | SohlItem>
             newData[key] = SohlMap.defaultFromJSON(value);
         }
 
-        return new dataModel(newData, options) as InstanceType<T>;
+        return new dataModel(newData, options) as InstanceType<TDataModel>;
     }
 }
 
 export namespace SohlDataModel {
-    export type Any = SohlDataModel<SohlActor | SohlItem>;
+    export type Any = SohlDataModel<SohlDocument, any>;
 
-    export type Constructor<TParent extends SohlActor | SohlItem> =
-        AnyConstructor<Data<TParent>> & TypeDataModelStatics;
-
-    export interface TypeDataModelStatics {
-        readonly LOCALIZATION_PREFIXES: string[];
-        defineSchema(): foundry.data.fields.DataSchema;
-    }
-
-    export interface Data<TParent extends SohlActor | SohlItem> {
+    export interface Data<TParent extends SohlDocument> {
         readonly parent: TParent | null;
         actionList: PlainObject[];
         eventList: PlainObject[];
     }
 
-    export abstract class Sheet<
-        TParent extends SohlActor | SohlItem,
-    > extends HandlebarsApplicationMixin(DocumentSheetV2) {
-        declare document: TParent & InternalClientDocument;
-        declare options: PlainObject;
-        declare isEditable: boolean;
-        declare element: HTMLElement;
-        declare render: (force?: boolean, options?: any) => void;
+    export namespace DataModel {
+        export interface Statics {
+            readonly LOCALIZATION_PREFIXES: string[];
+            readonly kind: string;
+            defineSchema(): foundry.data.fields.DataSchema;
+            create(data: PlainObject, options: PlainObject): SohlLogic;
+        }
 
+        export const Shape: WithStatics<
+            AnyConstructor<SohlDataModel<any>>,
+            Statics
+        > = SohlDataModel;
+    }
+
+    export const HbsMixedBase = HandlebarsApplicationMixin(
+        DocumentSheetV2,
+    ) as unknown as AbstractConstructor<
+        new (
+            document: SohlDocument,
+            options?: PlainObject,
+        ) => foundry.applications.api.DocumentSheetV2<SohlDocument>
+    >;
+    export class HbsDocumentSheetV2 extends HbsMixedBase {}
+    export interface HbsDocumentSheetV2
+        extends foundry.applications.api.DocumentSheetV2<SohlDocument> {}
+
+    export abstract class Sheet<
+        TParent extends SohlDocument,
+    > extends HbsDocumentSheetV2 {
         _dragDrop: DragDrop[];
 
         constructor(document: TParent, options: PlainObject = {}) {
@@ -158,20 +222,22 @@ export namespace SohlDataModel {
         };
 
         _createDragDropHandlers(): DragDrop[] {
-            return this.options.dragDrop.map((d: PlainObject) => {
-                d.permissions = {
-                    dragStart: this._canDragStart.bind(this),
-                    drop: this._canDragDrop.bind(this),
-                };
-                d.callbacks = {
-                    dragstart: this._onDragStart.bind(this),
-                    dragover: this._onDragOver.bind(this),
-                    drop: this._onDrop.bind(this),
-                };
-                return new (foundry.applications as any).ux.DragDrop(
-                    d,
-                ) as DragDrop;
-            });
+            return (
+                (this.options as any).dragDrop?.map((d: PlainObject) => {
+                    d.permissions = {
+                        dragStart: this._canDragStart.bind(this),
+                        drop: this._canDragDrop.bind(this),
+                    };
+                    d.callbacks = {
+                        dragstart: this._onDragStart.bind(this),
+                        dragover: this._onDragOver.bind(this),
+                        drop: this._onDrop.bind(this),
+                    };
+                    return new (foundry.applications as any).ux.DragDrop(
+                        d,
+                    ) as DragDrop;
+                }) ?? []
+            );
         }
 
         /**
@@ -180,6 +246,7 @@ export namespace SohlDataModel {
          * @returns Can the current user drag this selector?
          */
         _canDragStart(selector: string): boolean {
+            void selector;
             return this.isEditable;
         }
 
@@ -189,6 +256,7 @@ export namespace SohlDataModel {
          * @returns  Can the current user drop on this selector?
          */
         _canDragDrop(selector: string): boolean {
+            void selector;
             return this.isEditable;
         }
 
@@ -243,17 +311,22 @@ export namespace SohlDataModel {
          * @param {RenderOptions} options                 Provided render options
          */
         _onRender(context: PlainObject, options: PlainObject): void {
+            void context;
+            void options;
             super._onRender(context, options);
             this._dragDrop.forEach((d: DragDrop) => d.bind(this.element));
         }
 
-        /** @override */
         _onSearchFilter(
             event: KeyboardEvent,
             query: string,
             rgx: RegExp,
             element: HTMLElement,
         ): void {
+            void event;
+            void query;
+            void rgx;
+            void element;
             if (!element) return;
             const visibleCategories = new Set<string>();
 
@@ -303,6 +376,7 @@ export namespace SohlDataModel {
         }
 
         _onItemContextMenuOpen(element: HTMLElement): SohlContextMenu.Entry[] {
+            void element;
             let ele = element.closest("[data-item-id]") as HTMLElement;
             if (!ele) return [];
             const actionName = ele?.dataset.actionName;
@@ -317,7 +391,7 @@ export namespace SohlDataModel {
                         (this.document as SohlActor)
                     :   (this.document as SohlItem).actor;
                 if (!actor) return [];
-                doc = actor.items.get(docId);
+                doc = actor.allItems.get(docId);
             }
             if (doc) {
                 const uiContext = (foundry as any).ui.context;
@@ -329,6 +403,7 @@ export namespace SohlDataModel {
         }
 
         _onEffectContextMenuOpen(element: HTMLElement): void {
+            void element;
             let ele = element.closest("[data-effect-id]") as HTMLElement;
             if (!ele) return;
             const effectId = ele.dataset.effectId;
@@ -347,10 +422,8 @@ export namespace SohlDataModel {
          * @param {*} doc
          * @returns {*}
          */
-        static _getContextOptions(
-            doc: SohlActor | SohlItem | SohlActiveEffect,
-        ): SohlContextMenu.Entry[] {
-            let result = doc._getContextOptions();
+        static _getContextOptions(doc: SohlDocument): SohlContextMenu.Entry[] {
+            let result = doc._getContextOptions() as SohlContextMenu.Entry[];
             if (!result || !result.length) return [];
 
             result = result.filter(
@@ -368,6 +441,7 @@ export namespace SohlDataModel {
         }
 
         static _onEffectToggle(event: PointerEvent, target: HTMLElement): void {
+            void event;
             const li = target.closest(".effect") as HTMLElement;
             if (!li?.dataset.effectId) return;
             const effect = (this as any).document.effects.get(
@@ -448,7 +522,9 @@ export namespace SohlDataModel {
          * Callback actions which occur when a dragged element is over a drop target.
          * @param event       The originating DragEvent
          */
-        _onDragOver(event: DragEvent): void {}
+        _onDragOver(event: DragEvent): void {
+            void event;
+        }
 
         /**
          * Callback actions which occur when a dragged element is dropped on a target.
@@ -484,22 +560,34 @@ export namespace SohlDataModel {
         async _onDropActiveEffect(
             event: DragEvent,
             droppedEffect: SohlActiveEffect,
-        ): Promise<void> {}
+        ): Promise<void> {
+            void event;
+            void droppedEffect;
+        }
 
         async _onDropActor(
             event: DragEvent,
             droppedActor: SohlActor,
-        ): Promise<void> {}
+        ): Promise<void> {
+            void event;
+            void droppedActor;
+        }
 
         async _onDropFolder(
             event: DragEvent,
             droppedFolder: Folder,
-        ): Promise<void> {}
+        ): Promise<void> {
+            void event;
+            void droppedFolder;
+        }
 
         async _onDropItem(
             event: DragEvent,
             droppedItem: SohlItem,
-        ): Promise<void> {}
+        ): Promise<void> {
+            void event;
+            void droppedItem;
+        }
 
         async _addPrimitiveArrayItem(
             event: PointerEvent,
@@ -870,31 +958,6 @@ export namespace SohlDataModel {
             if (result) this.render();
         }
 
-        /**
-         * Asynchronously deletes a key from an object. Retrieves the dataset from the current event, submits any unsaved changes, gets the object using the dataset, deletes the specified key from the object, and updates the list on the server with the modified object.
-         *
-         * @async
-         * @param {*} event
-         * @returns {unknown}
-         */
-        async _deleteObjectKey(event: PointerEvent): Promise<void> {
-            const dataset = (event.currentTarget as HTMLElement)?.dataset;
-            if (!dataset.object) return;
-            if (!dataset.key) return;
-            await (this as any)._onSubmit(event); // Submit any unsaved changes
-            // Update the list on the server
-            const result = await this.document.update({
-                [dataset.object]: {
-                    [`-=${dataset.key}`]: null,
-                },
-            });
-
-            if (result) {
-                this.render();
-            }
-        }
-
-        //     /** @override */
         //     activateListeners(element: HTMLElement): void {
         //         super.activateListeners(element);
 
@@ -1004,7 +1067,7 @@ export namespace SohlDataModel {
         //                 if (this.document instanceof SohlActor) {
         //                     item = this.actor.getItem(itemId);
         //                 } else {
-        //                     item = this.item.system.items.get(itemId);
+        //                     item = this.item.system.allItems.get(itemId);
         //                 }
         //                 if (item) {
         //                     const defaultAction = item.system.getDefaultAction(li);

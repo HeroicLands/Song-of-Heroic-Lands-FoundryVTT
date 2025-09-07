@@ -12,25 +12,15 @@
  */
 
 import { SohlItem } from "@common/item/SohlItem";
-import { SohlLogic } from "@common/SohlLogic";
-import type { SohlEvent } from "@common/event/SohlEvent";
 import type { SohlAction } from "@common/event/SohlAction";
-import type { SohlActor } from "@common/actor/SohlActor";
 
 export const kSubTypeMixin = Symbol("SubTypeMixin");
 export const kSubTypeMixinData = Symbol("SubType.Data");
 
-export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
+export function SubTypeMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
     Base: TBase,
-): TBase & SubTypeMixin.Logic {
+): TBase & Constructor<InstanceType<TBase> & SubTypeMixin.Logic> {
     return class extends Base {
-        declare readonly actions: SohlAction[];
-        declare readonly events: SohlEvent[];
-        declare readonly item: SohlItem;
-        declare readonly actor: SohlActor | null;
-        declare readonly typeLabel: string;
-        declare readonly label: string;
-        declare readonly defaultIntrinsicActionName: string;
         declare setDefaultAction: () => void;
         readonly [kSubTypeMixin] = true;
 
@@ -48,7 +38,8 @@ export function SubTypeMixin<TBase extends AnyConstructor<SohlLogic>>(
         finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    } as unknown as TBase & SubTypeMixin.Logic;
+    } as unknown as TBase &
+        Constructor<InstanceType<TBase> & SubTypeMixin.Logic>;
 }
 
 export namespace SubTypeMixin {
@@ -64,7 +55,6 @@ export namespace SubTypeMixin {
     export interface Data<TSubType extends string = string>
         extends SohlItem.Data {
         readonly [kSubTypeMixinData]: true;
-        readonly logic: Logic<TSubType>;
         subType: TSubType;
     }
 
@@ -93,13 +83,23 @@ export namespace SubTypeMixin {
      * @returns The extended class with the `subType` property and choices.
      */
     export function DataModel<
-        TBase extends AnyConstructor,
+        TBase extends AbstractConstructor<SohlItem.DataModel> &
+            SohlItem.DataModel.Statics,
         TSubType extends string,
         TChoices extends readonly TSubType[],
-    >(Base: TBase, choices: TChoices): TBase & Data<TSubType> {
-        return class extends Base {
+    >(
+        Base: TBase,
+        choices: TChoices,
+    ): TBase &
+        AbstractConstructor<InstanceType<TBase> & Data<TSubType>> &
+        SohlItem.DataModel.Statics & { readonly choices: TChoices } {
+        abstract class DM extends Base {
             declare subType: TSubType;
             readonly [kSubTypeMixinData] = true;
+
+            constructor(...args: any[]) {
+                super(...args);
+            }
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -114,6 +114,10 @@ export namespace SubTypeMixin {
             get choices(): TChoices {
                 return choices;
             }
-        } as unknown as TBase & Data<TSubType>;
+        }
+
+        return DM as unknown as TBase &
+            AbstractConstructor<InstanceType<TBase> & Data<TSubType>> &
+            SohlItem.DataModel.Statics & { readonly choices: TChoices };
     }
 }

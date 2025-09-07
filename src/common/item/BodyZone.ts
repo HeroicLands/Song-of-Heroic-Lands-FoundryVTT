@@ -10,14 +10,14 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import { SohlItem } from "@common/item/SohlItem";
 import type { SohlAction } from "@common/event/SohlAction";
 const { StringField } = foundry.data.fields;
 const kBodyZone = Symbol("BodyZone");
 const kData = Symbol("BodyZone.Data");
 
-export class BodyZone extends SohlLogic implements BodyZone.Logic {
+export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
     declare readonly parent: BodyZone.Data;
     readonly [kBodyZone] = true;
 
@@ -29,24 +29,29 @@ export class BodyZone extends SohlLogic implements BodyZone.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace BodyZone {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly parent: BodyZone.Data;
         readonly [kBodyZone]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         abbrev: string;
     }
 
@@ -56,16 +61,19 @@ export namespace BodyZone {
         }
     }
 
-    export class DataModel extends SohlItem.DataModel implements Data {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
-        declare readonly parent: SohlItem<BodyZone>;
-        declare _logic: Logic;
         abbrev!: string;
         readonly [kData] = true;
 
-        get logic(): Logic {
-            this._logic ??= new BodyZone(this);
-            return this._logic;
+        static override create<Logic>(
+            data: PlainObject,
+            options: PlainObject,
+        ): Logic {
+            if (!(options.parent instanceof SohlItem)) {
+                throw new Error("Parent must be a SohlItem");
+            }
+            return new BodyZone(data, { parent: options.parent }) as Logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

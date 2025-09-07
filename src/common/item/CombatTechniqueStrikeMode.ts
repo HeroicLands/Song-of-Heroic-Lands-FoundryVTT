@@ -10,20 +10,33 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import { SohlItem } from "@common/item/SohlItem";
-import { StrikeModeMixin } from "@common/item/StrikeModeMixin";
+import {
+    kStrikeModeMixin,
+    kStrikeModeMixinData,
+    StrikeModeMixin,
+} from "@common/item/StrikeModeMixin";
 import type { SohlAction } from "@common/event/SohlAction";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { CombatModifier } from "@common/modifier/CombatModifier";
+import { kSubTypeMixinData } from "./SubTypeMixin";
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 const kCombatTechniqueStrikeMode = Symbol("CombatTechniqueStrikeMode");
 const kData = Symbol("CombatTechniqueStrikeMode.Data");
 const { NumberField } = foundry.data.fields;
 
 export class CombatTechniqueStrikeMode
-    extends SohlLogic
+    extends StrikeModeMixin(SohlItem.BaseLogic)
     implements CombatTechniqueStrikeMode.Logic
 {
+    declare [kStrikeModeMixin]: true;
     declare readonly parent: CombatTechniqueStrikeMode.Data;
     readonly [kCombatTechniqueStrikeMode] = true;
+    defense!: {
+        block: CombatModifier;
+        counterstrike: CombatModifier;
+    };
 
     static isA(obj: unknown): obj is CombatTechniqueStrikeMode {
         return (
@@ -33,25 +46,73 @@ export class CombatTechniqueStrikeMode
         );
     }
 
-    /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    async blockTest(
+        context: SohlAction.Context,
+    ): Promise<SuccessTestResult | null> {
+        return (await this.defense.block.successTest(context)) || null;
+    }
+
+    async counterstrikeTest(
+        context: SohlAction.Context,
+    ): Promise<SuccessTestResult | null> {
+        return (await this.defense.counterstrike.successTest(context)) || null;
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+        this.defense = {
+            block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
+            counterstrike: new sohl.CONFIG.CombatModifier({}, { parent: this }),
+        };
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+        if (this.assocSkill) {
+            this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
+                includeBase: true,
+            });
+            this.defense.counterstrike.addVM(
+                this.assocSkill.system.masteryLevel,
+                { includeBase: true },
+            );
+        }
+
+        const token = this.actor?.getActiveTokens().shift() as Token;
+        const combatant = (token?.document as SohlTokenDocument).combatant;
+        // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
+        if (combatant && !combatant.isDefeated) {
+            const defendPenalty =
+                Math.max(combatant.threatenedBy.length - 1, 0) * -10;
+            if (defendPenalty) {
+                this.defense.block.add(
+                    sohl.CONFIG.MOD.OUTNUMBERED,
+                    defendPenalty,
+                );
+                this.defense.counterstrike.add(
+                    sohl.CONFIG.MOD.OUTNUMBERED,
+                    defendPenalty,
+                );
+            }
+        }
+    }
+
+    /** @inheritdoc */
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace CombatTechniqueStrikeMode {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends StrikeModeMixin.Logic {
         readonly parent: CombatTechniqueStrikeMode.Data;
         readonly [kCombatTechniqueStrikeMode]: true;
     }
 
-    export interface Data extends SohlItem.Data {
+    export interface Data extends StrikeModeMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         lengthBase: number;
     }
 
@@ -68,16 +129,12 @@ export namespace CombatTechniqueStrikeMode {
         static override readonly LOCALIZATION_PREFIXES = [
             "CombatTechniqueStrikeMode",
         ];
-        declare lengthBase: number;
-        declare _logic: Logic;
+        declare readonly [kStrikeModeMixinData]: true;
+        declare readonly [kSubTypeMixinData]: true;
         readonly [kData] = true;
+        lengthBase!: number;
 
-        get logic(): Logic {
-            this._logic ??= new CombatTechniqueStrikeMode(this);
-            return this._logic;
-        }
-
-        static defineSchema(): foundry.data.fields.DataSchema {
+        static override defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 lengthBase: new NumberField({

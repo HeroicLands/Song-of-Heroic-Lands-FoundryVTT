@@ -10,7 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import {
@@ -26,29 +26,17 @@ import {
     Variant,
 } from "@utils/constants";
 import { kSubTypeMixinData } from "@common/item/SubTypeMixin";
-import { CombatModifier } from "@common/modifier/CombatModifier";
-import { ImpactModifier } from "@common/modifier/ImpactModifier";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const kMissileWeaponStrikeMode = Symbol("MissileWeaponStrikeMode");
 const kData = Symbol("MissileWeaponStrikeMode.Data");
 const { StringField } = foundry.data.fields;
 
-export class MissileWeaponStrikeMode<
-        TData extends
-            MissileWeaponStrikeMode.Data = MissileWeaponStrikeMode.Data,
-    >
-    extends SohlLogic
+export class MissileWeaponStrikeMode
+    extends StrikeModeMixin(SohlItem.BaseLogic)
     implements MissileWeaponStrikeMode.Logic
 {
     declare readonly [kStrikeModeMixin]: true;
-    declare readonly parent: TData;
-    declare traits: PlainObject;
-    declare assocSkill?: SohlItem<SohlLogic, any> | undefined;
-    declare impact: ImpactModifier;
-    declare attack: CombatModifier;
-    declare defense: { block: CombatModifier };
-    declare durability: ValueModifier;
+    declare readonly parent: MissileWeaponStrikeMode.Data;
     readonly [kMissileWeaponStrikeMode] = true;
 
     static isA(obj: unknown): obj is MissileWeaponStrikeMode {
@@ -59,13 +47,19 @@ export class MissileWeaponStrikeMode<
         );
     }
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace MissileWeaponStrikeMode {
@@ -76,7 +70,6 @@ export namespace MissileWeaponStrikeMode {
 
     export interface Data extends StrikeModeMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         projectileType: ProjectileGearSubType;
     }
 
@@ -104,13 +97,7 @@ export namespace MissileWeaponStrikeMode {
         };
         declare subType: Variant;
         declare projectileType: ProjectileGearSubType;
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new MissileWeaponStrikeMode(this);
-            return this._logic;
-        }
 
         static isA(obj: unknown): obj is DataModel {
             return typeof obj === "object" && obj !== null && kData in obj;

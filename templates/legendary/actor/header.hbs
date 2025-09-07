@@ -1,0 +1,40 @@
+<header class="sheet-header sheet-header-entity">
+    <div class="flexrow">
+        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        <div class="flexcol header-fields">
+            <div class="flexrow name-attribute">
+                <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name" data-dtype="String" /></h1>
+                <div class="effect-buttons flexcol" data-tooltip-direction="DOWN">
+                    <div class="flexrow">
+                        <button class="effect-button {{#if effectStatus.auralshock}}active{{/if}}" name="auralshock" type="button" data-status-id="auralshock" data-tooltip="Aural Shock">AShk</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.sleep}}active{{/if}}" name="sleep" type="button" data-status-id="sleep" data-tooltip="Sleep">SLP</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.prone}}active{{/if}}" name="prone" type="button" data-status-id="prone" data-tooltip="Prone">PRN</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.stun}}active{{/if}}" name="stun" type="button" data-status-id="stun" data-tooltip="Stun">STN</button>
+                    </div>
+                    <div class="flexrow">
+                        <button class="effect-button {{#if effectStatus.fatigue}}active{{/if}}" name="fatigue" type="button" data-status-id="fatigue" data-tooltip="Fatigue">Fatg</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.incapacitated}}active{{/if}}" name="incapacitated" type="button" data-status-id="incapacitated" data-tooltip="Incapacitated">INC</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.unconscious}}active{{/if}}" name="unconscious" type="button" data-status-id="unconscious" data-tooltip="Unconscious">UNC</button>
+                        <button class="effect-button toggle-status-effect {{#if effectStatus.dead}}active{{/if}}" name="dead" type="button" data-status-id="dead" data-tooltip="Dead">KIA</button>
+                    </div>
+                </div>
+                <div class="flexcol healtharea">
+                    <div class="health flexrow">
+                        <span class="label">Health: {{adata.health.pct}}%</span>
+                    </div>
+                    <div class="healthbar">
+                        <span class="bar" style="width: {{adata.health.pct}}%"></span>
+                    </div>
+                    <div class="empty"></div>
+                </div>
+            </div>
+            <div class="bodypart-statuses grid grid-6col">
+                {{#each itemTypes.bodypart as | item |}}
+                    <li class="bodypart-status {{#if system.$isUnusable}}unusable{{else}}{{#if system.$impairment.effective}}impaired{{else}}none{{/if}}{{/if}}">
+                        <span>{{item.name}}</span>
+                    </li>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</header>

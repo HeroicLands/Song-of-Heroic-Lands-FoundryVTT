@@ -28,6 +28,7 @@ export class MasteryLevelModifier extends ValueModifier {
     critFailureDigits!: number[];
     critSuccessDigits!: number[];
     testDescTable!: MasteryLevelModifier.DetailedDescription[];
+    fate!: ValueModifier;
 
     get constrainedEffective(): number {
         return Math.min(
@@ -47,6 +48,9 @@ export class MasteryLevelModifier extends ValueModifier {
         this.critFailureDigits = data.critFailureDigits ?? [];
         this.critSuccessDigits = data.critSuccessDigits ?? [];
         this.testDescTable = data.testDescTable ?? [];
+        this.fate = new sohl.CONFIG.ValueModifier(data.fate ?? {}, {
+            parent: this,
+        });
     }
 
     /**
@@ -179,7 +183,7 @@ export class MasteryLevelModifier extends ValueModifier {
         if (!targetToken) return null;
         context.type ||= `${this.parent.item?.type}-${this.parent.item?.name}-opposedtest`;
         context.title ||= sohl.i18n.format("{label} Opposed Test", {
-            label: this.parent.item?.label,
+            label: this.parent.item?.system.label,
         });
         if (!context.token) {
             ui.notifications.warn(
@@ -247,7 +251,7 @@ export class MasteryLevelModifier extends ValueModifier {
                             name:
                                 context.token.name ||
                                 context.speaker.actor?.name,
-                            label: this.parent.item?.label,
+                            label: this.parent.item?.system.label,
                         }),
                     situationalModifier: 0,
                     mlMod: this.clone(),
@@ -291,7 +295,7 @@ export class MasteryLevelModifier extends ValueModifier {
                         ),
                         type: SuccessTestResult.TEST_TYPE.SKILL,
                         title: sohl.i18n.format("Opposed {label} Test", {
-                            label: this.parent.item?.label,
+                            label: this.parent.item?.system.label,
                         }),
                         situationalModifier: 0,
                         mlMod: foundry.utils.deepClone(
@@ -313,7 +317,7 @@ export class MasteryLevelModifier extends ValueModifier {
                             name:
                                 context.token?.name ||
                                 context.speaker.actor?.name,
-                            label: this.parent.item?.label,
+                            label: this.parent.item?.system.label,
                         }),
                     situationalModifier: 0,
                 }),
@@ -419,6 +423,7 @@ export namespace MasteryLevelModifier {
         critFailureDigits: number[];
         critSuccessDigits: number[];
         testDescTable: DetailedDescription[];
+        fate: ValueModifier.Data;
     }
 
     export interface Options extends ValueModifier.Options {}

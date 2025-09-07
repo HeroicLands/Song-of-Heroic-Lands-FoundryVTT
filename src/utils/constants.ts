@@ -779,8 +779,8 @@ export const {
     FATEBONUS: "fateBonus",
     FATEPOINTBONUS: "fatePointBonus",
     BLESSING: "blessing",
-    ANCESTOR: "ancestor",
-    TOTEM: "totem",
+    ANCESTORSPIRITPOWER: "ancestorSpiritPower",
+    TOTEMSPIRITPOWER: "totemSpiritPower",
 });
 export type MysterySubType =
     (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
@@ -802,15 +802,15 @@ export const {
     kind: MYSTERY_CATEGORYMAP,
     values: MysteryCategoryMaps,
     isValue: isMysteryCategoryMap,
-} = defineType("SOHL.MysticalAbility.Degree", {
+} = defineType("SOHL.Mystery.CategoryMap", {
     [MYSTERY_SUBTYPE.GRACE]: MYSTERY_CATEGORY.DIVINE,
     [MYSTERY_SUBTYPE.PIETY]: MYSTERY_CATEGORY.DIVINE,
     [MYSTERY_SUBTYPE.FATE]: MYSTERY_CATEGORY.SKILL,
     [MYSTERY_SUBTYPE.FATEBONUS]: MYSTERY_CATEGORY.SKILL,
     [MYSTERY_SUBTYPE.FATEPOINTBONUS]: MYSTERY_CATEGORY.NONE,
     [MYSTERY_SUBTYPE.BLESSING]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.ANCESTOR]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.TOTEM]: MYSTERY_CATEGORY.CREATURE,
+    [MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER]: MYSTERY_CATEGORY.SKILL,
+    [MYSTERY_SUBTYPE.TOTEMSPIRITPOWER]: MYSTERY_CATEGORY.CREATURE,
 });
 export type MysteryCategoryMap =
     (typeof MYSTERY_CATEGORYMAP)[keyof typeof MYSTERY_CATEGORYMAP];
@@ -827,8 +827,8 @@ export const {
     DIVINEDEVOTION: "divinedevotion",
     DIVINEINCANTATION: "divineincantation",
     ARCANEINCANTATION: "arcaneincantation",
-    ARCANEINVOCATION: "arcaneinvocation",
     ARCANETALENT: "arcanetalent",
+    SPIRITTALENT: "spirittalent",
     ALCHEMY: "alchemy",
     DIVINATION: "divination",
 });

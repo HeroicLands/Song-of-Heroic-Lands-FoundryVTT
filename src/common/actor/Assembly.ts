@@ -11,18 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlActor } from "@common/actor/SohlActor";
+import { ACTOR_KIND } from "@utils/constants";
 const { DocumentIdField } = foundry.data.fields;
 const kAssembly = Symbol("Assembly");
 const kDataModel = Symbol("Assembly.DataModel");
 
-export class Assembly<TData extends Assembly.Data = Assembly.Data>
-    extends SohlLogic
-    implements Assembly.Logic<TData>
-{
-    declare readonly parent: TData;
+export class Assembly extends SohlActor.BaseLogic implements Assembly.Logic {
+    declare readonly parent: Assembly.Data;
+
     readonly [kAssembly] = true;
 
     static isA(obj: unknown): obj is Assembly {
@@ -30,13 +28,19 @@ export class Assembly<TData extends Assembly.Data = Assembly.Data>
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Assembly {
@@ -50,7 +54,7 @@ export namespace Assembly {
     /**
      * The data shape for the Assembly actor.
      */
-    export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {}
+    export interface Logic extends SohlActor.Logic {}
 
     export interface Data extends SohlActor.Data {
         canonicalItemUuid: string | null;
@@ -62,6 +66,7 @@ export namespace Assembly {
     export class DataModel extends SohlActor.DataModel implements Data {
         declare canonicalItemUuid: string | null;
         static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];
+        static override readonly kind = ACTOR_KIND.ASSEMBLY;
         readonly [kDataModel] = true;
 
         static isA(obj: unknown): obj is DataModel {

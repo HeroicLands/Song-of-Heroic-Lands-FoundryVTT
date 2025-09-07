@@ -12,12 +12,7 @@
  */
 
 import { SohlBase } from "@common/SohlBase";
-import { RegisterClass } from "@utils/decorators/RegisterClass";
 
-@RegisterClass({
-    kind: "SimpleRoll",
-    schemaVersion: "0.0.1",
-})
 export class SimpleRoll extends SohlBase {
     numDice!: number;
     dieFaces!: number;

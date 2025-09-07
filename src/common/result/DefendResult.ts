@@ -71,13 +71,19 @@ export namespace DefendResult {
         BLOCK: {
             id: "blockTest",
             iconClass: "fas fa-shield",
-            condition: (header: any) => true,
+            condition: (header: any) => {
+                void header;
+                return true;
+            },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         COUNTERSTRIKE: {
             id: "counterstrikeTest",
             iconClass: "fas fa-circle-half-stroke",
-            condition: (header: any) => true,
+            condition: (header: any) => {
+                void header;
+                return true;
+            },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         DODGE: {

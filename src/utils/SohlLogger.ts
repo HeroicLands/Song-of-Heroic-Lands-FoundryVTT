@@ -103,6 +103,7 @@ export class SohlLogger {
         line: number,
         column: number,
     ): { source: string; line: number; column: number } | null {
+        void file;
         if (!SohlLogger._sourceMapConsumer) return null;
         const pos = SohlLogger._sourceMapConsumer.originalPositionFor({
             line,

@@ -14,8 +14,7 @@
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlTemporal } from "@common/event/SohlTemporal";
 import { SohlItem } from "@common/item/SohlItem";
-import { ITEM_METADATA, ItemMetadatas } from "@utils/constants";
-import { getWorldDateLabel } from "@utils/helpers";
+import { ITEM_METADATA } from "@utils/constants";
 
 // @ts-expect-error - ActiveEffectConfig is a known class in Foundry
 const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;

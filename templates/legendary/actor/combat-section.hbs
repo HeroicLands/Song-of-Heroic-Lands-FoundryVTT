@@ -1,0 +1,359 @@
+<section class="content" data-group="sheet" data-tab="combat">
+    {{!-- Combat Maneuvers --}}
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Combat Techniques</h3>
+            <div class="detail ele" data-tooltip="Reach">RCH</div>
+            <div class="detail ele" data-tooltip="Zone Dice">ZD</div>
+            <div class="detail impact" data-tooltip="Impact Formula">Impact</div>
+            <div class="detail ele" data-tooltip="Attack Mastery Level">Atk</div>
+            <div class="detail ele" data-tooltip="Block Mastery Level">Blk</div>
+            <div class="detail ele" data-tooltip="Counterstrike Mastery Level">CX</div>
+            <div class="detail notes">Notes</div>
+            {{#unless printable}}
+            <div class="item-controls">
+                <a class="item-control item-create" data-tooltip="Create Combat Maneuver"
+                    data-type="combatmaneuver"><i class="fas fa-file-plus fa-lg"></i></a>
+            </div>
+            {{/unless}}
+        </header>
+        {{#each combatmaneuvers as | cm |}}
+        <ol class="item-list combatmaneuver" data-item-id="{{cm.item.id}}"
+            data-item-uuid="{{cm.item.uuid}}" data-item-name="{{cm.item.name}}">
+            <header class="items-header flexrow">
+                <h3 class="item-name notes">{{cm.item.name}}</h3>
+            </header>
+            {{#each cm.strikeModes as |item|}}
+                <li class="item flexrow" data-item-id="{{item.id}}"
+                    data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                    <div
+                        class="item-name name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                        <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$reach.abbrev}}">{{system.$reach.effective}}</div>
+                    <div class="detail ele">
+                        {{#unless (or system.$attack.disabled system.$impact.disabled (eq system.zoneDie 0))}}
+                        <span>d{{system.zoneDie}}</span>
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail impact">
+                        {{#unless (or system.$attack.disabled system.$impact.disabled)}}
+                        <span data-tooltip="{{system.$impact.abbrev}}">{{system.$impact.label}}</span>
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele">
+                        {{#unless system.$attack.disabled}}
+                        <span data-tooltip="{{system.$attack.abbrev}}">{{system.$attack.effective}}</span>
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele">
+                        {{#unless system.$defense.block.disabled}}
+                        <span data-tooltip="{{system.$defense.block.abbrev}}">{{system.$defense.block.effective}}</span>
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele">
+                        {{#unless system.$defense.counterstrike.disabled}}
+                        <span data-tooltip="{{system.$defense.counterstrike.abbrev}}">{{system.$defense.counterstrike.effective}}</span>
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail notes">{{system.notes}}</div>
+                    {{#unless printable}}
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+        </ol>
+        {{/each}}
+    </div>
+
+    {{!-- Melee Weapons --}}
+    {{#if meleeweapons.length}}
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Melee Strike Modes</h3>
+            <div class="detail ele" data-tooltip="Heft">HFT</div>
+            <div class="detail ele" data-tooltip="Reach">RCH</div>
+            <div class="detail ele" data-tooltip="Zone Dice">ZD</div>
+            <div class="detail impact" data-tooltip="Impact Formula">Impact</div>
+            <div class="detail ele" data-tooltip="Attack Mastery Level">Atk</div>
+            <div class="detail ele" data-tooltip="Block Mastery Level">Blk</div>
+            <div class="detail ele" data-tooltip="Counterstrike Mastery Level">CX</div>
+            <div class="detail notes">Notes</div>
+        </header>
+        {{#each meleeweapons as | weapon |}}
+        <ol class="item-list weapon" data-item-id="{{weapon.item.id}}"
+            data-item-uuid="{{weapon.item.uuid}}" data-item-name="{{weapon.item.name}}">
+            <header class="items-header flexrow">
+                <h3 class="item-name notes">{{weapon.item.name}}</h3>
+            </header>
+            {{#each weapon.strikeModes as |item|}}
+                <li class="item flexrow"
+                    data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                    <div
+                        class="item-name name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                        <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$heft.abbrev}}">{{system.$heft.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$reach.abbrev}}">{{system.$reach.effective}}</div>
+                    <div class="detail ele">d{{system.zoneDie}}</div>
+                    <div class="detail impact" data-tooltip="{{system.$impact.abbrev}}">
+                        {{#unless system.$impact.disabled}}
+                        {{system.$impact.label}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$attack.abbrev}}">
+                        {{#unless system.$attack.disabled}}
+                        {{system.$attack.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$defense.block.abbrev}}">
+                        {{#unless system.$defense.block.disabled}}
+                        {{system.$defense.block.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$defense.counterstrike.abbrev}}">
+                        {{#unless system.$defense.counterstrike.disabled}}
+                        {{system.$defense.counterstrike.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail notes">{{notes}}</div>
+                    {{#unless printable}}
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+        </ol>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{!-- Missiles --}}
+    {{#if itemTypes.missilestrikemode.length}}
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Ranged Strike Modes</h3>
+            <div class="detail ele">Pull</div>
+            <div class="detail ele">Draw</div>
+            <div class="detail ele">BR</div>
+            <div class="detail ele">MaxVM</div>
+            <div class="detail impact">Impact</div>
+            <div class="detail ele">Atk</div>
+            <div class="detail notes">Notes</div>
+        </header>
+        {{#each missileweapons as | missile |}}
+        <ol class="item-list missile" data-item-id="{{missile.item.id}}"
+            data-item-uuid="{{missile.item.uuid}}" data-item-name="{{missile.item.name}}">
+            <header class="items-header flexrow">
+                <h3 class="item-name notes">{{missile.item.name}}</h3>
+            </header>
+            {{#each missile.strikeModes as |item|}}
+                <li class="item flexrow"
+                    data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}" data-weapon-id="{{missile.weaponId}}"
+                    data-range="{{system.$range}}"{{#if system.$projectileId}} data-projectile-id="{{system.$projectileId}}"{{/if}}>
+                    <div
+                        class="item-name name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                        <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                    </div>
+                    <div class="detail ele" data-tooltip="{{system.$pull.abbrev}}">{{system.$pull.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$draw.abbrev}}">{{system.$draw.effective}}</div>
+                    <div class="detail ele">{{system.$baseRange.effective}}</div>
+                    <div class="detail ele">{{system.maxVolleyMult}}</div>
+                    <div class="detail impact" data-tooltip="{{impact.abbrev}}">
+                        {{system.$impact.label}}
+                    </div>
+                    {{!-- genML system.$attack class="detail ele" tooltip="{{system.$attack.abbrev}}" disabled-icon="fas fa-xmark fa-lg" --}}
+                    <div class="detail ele" data-tooltip="{{system.$attack.abbrev}}">
+                        {{#unless system.$attack.disabled}}
+                        {{system.$attack.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="detail notes">{{system.notes}}</div>
+                    {{#unless printable}}
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+        </ol>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{!-- Locations --}}
+    <div class="items-list bodylocations">
+        {{#unless printable}}
+        <div class="search-items">
+            <input class="search-criteria" type="search" name="search-bodylocations" value="" aria-label="Search Body Locations"
+                placeholder="Search Body Locations" autocomplete="off" />
+            <div class="search-controls">
+                {{#unless anatomy}}
+                <a class="search-control item-create" data-tooltip="Create Anatomy"
+                    data-type="anatomy"><i class="fas fa-file-plus"></i></a>
+                {{/unless}}
+            </div>
+        </div>
+        {{/unless}}
+        {{#if anatomy}}
+        <div class="items-list">
+            <ol class="item-list">
+                <li class="item anatomy flexrow" data-item-id="{{anatomy.id}}" data-uuid="{{anatomy.uuid}}" data-item-name="{{anatomy.name}}">
+                    <div class="detail notes">Anatomy: {{anatomy.name}}</div>
+                    {{#unless printable}}
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                    {{/unless}}
+                </li>
+            </ol>
+        </div>
+        {{/if}}
+        <div class="zone-list items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name full-location-name">Body Locations</h3>
+                <div class="detail bodylocation-layers">Layers</div>
+                <div class="detail ele">Prob</div>
+                <div class="detail ele">B</div>
+                <div class="detail ele">E</div>
+                <div class="detail ele">P</div>
+                <div class="detail ele">F</div>
+                <div class="detail ele">Shock</div>
+                <div class="detail ele">Impair</div>
+                <div class="detail notes">Notes</div>
+                {{#unless printable}}
+                <div class="item-controls">
+                    <a class="item-control toggle-visibility"
+                        data-tooltip="Expand All"><i
+                        class="fas fa-square-plus fa-lg"></i></a>
+                </div>
+                {{/unless}}
+            </header>
+            {{#each itemTypes.bodyzone as | bodyzone |}}
+            <ol class="items-list">
+                <header class="flexrow zone-header" data-item-id="{{bodyzone.id}}" data-uuid="{{bodyzone.uuid}}" data-item-name="{{bodyzone.name}}">
+                    <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
+                    <div class="zone-name default-action">
+                        <h4 data-tooltip="{{bodyzone.name}}">Zone: {{bodyzone.name}}</h4>
+                    </div>
+                    <div class="bodylocation-layers">ZN: {{system.zoneNumbersLabel}}</div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="ele"></div>
+                    <div class="notes"></div>
+                </header>
+                <ol class="item-list">
+                    {{#each bodyzone.system.$bodyParts as | bodypart |}}
+                    <li class="item bodypart-header bodypart flexrow showhide"
+                        data-item-id="{{bodypart.id}}" data-uuid="{{bodypart.uuid}}" data-item-name="{{bodypart.name}}">
+                        <div class="body-drop"></div>
+                        <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
+                        <div class="bodypart-name default-action">
+                            <h4 data-tooltip="{{bodypart.name}}">Part: {{bodypart.name}}</h4>
+                        </div>
+                        <div class="bodylocation-layers">
+                            {{#if system.canHoldItem}}
+                            Held: 
+                                {{#if system.$heldItem.name}}
+                                    {{system.$heldItem.name}}
+                                {{else}}
+                                    Nothing
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                        <div class="ele"></div>
+                        <div class="ele"></div>
+                        <div class="ele"></div>
+                        <div class="ele"></div>
+                        <div class="ele"></div>
+                        <div class="ele"></div>
+                        <div class="ele">
+                            {{#if system.$impairment.isUnusable}}
+                            <i class="fas fa-ban fa-lg danger"></i>
+                            {{else}}
+                            {{system.$impairment.value}}
+                            {{/if}}
+                        </div>
+                        <div class="notes"></div>
+                        {{#unless printable}}
+                        <div class="item-controls">
+                            <a class="item-control item-contextmenu" title="Menu"><i
+                                class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        </div>
+                        {{/unless}}
+                    </li>
+                    <ol class="items-list bodylocations-list">
+                        {{#each bodypart.system.$bodyLocations as | item |}}
+                            <li class="item bodylocation flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                                data-item-name="{{item.name}}">
+                                <div class="body-drop"></div>
+                                <div class="body-drop"></div>
+                                <div class="body-drop"></div>
+                                <div class="item-name bodylocation-name default-action flexrow">
+                                    <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                                </div>
+                                <div class="detail bodylocation-layers">{{system.$layers}}</div>
+                                <div class="detail ele"></div>
+                                <div class="detail ele">{{system.$protection.blunt.effective}}</div>
+                                <div class="detail ele">{{system.$protection.edged.effective}}</div>
+                                <div class="detail ele">{{system.$protection.piercing.effective}}</div>
+                                <div class="detail ele">{{system.$protection.fire.effective}}</div>
+                                <div class="detail ele">{{system.shockValue}}</div>
+                                <div class="detail ele">
+                                    {{#unless system.$impairment.isUnusable}}
+                                        {{system.$impairment.effective}}
+                                    {{else}}
+                                        <i class="fas fa-ban fa-lg danger"></i>
+                                    {{/unless}}
+                                </div>
+                                <div class="detail notes">{{system.notes}}</div>
+                                {{#unless printable}}
+                                <div class="item-controls">
+                                    <a class="item-control item-contextmenu" title="Menu"><i
+                                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                </div>
+                                {{/unless}}
+                            </li>
+                        {{/each}}
+                    </ol>
+                    {{/each}}
+                </ol>
+            </ol>
+            {{/each}}
+        </div>
+    </div>
+</section>

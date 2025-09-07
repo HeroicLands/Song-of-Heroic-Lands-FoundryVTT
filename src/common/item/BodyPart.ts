@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
 import type { SohlAction } from "@common/event/SohlAction";
 const kBodyPart = Symbol("BodyPart");
@@ -19,7 +18,7 @@ const kData = Symbol("BodyPart.Data");
 
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
-export class BodyPart extends SohlLogic implements BodyPart.Logic {
+export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
     declare readonly parent: BodyPart.Data;
     readonly [kBodyPart] = true;
 
@@ -34,30 +33,35 @@ export class BodyPart extends SohlLogic implements BodyPart.Logic {
     get heldItem(): SohlItem | null {
         return (
             (this.parent.heldItemId &&
-                this.item?.actor?.items.get(this.parent.heldItemId)) ||
+                this.item?.actor?.allItems.get(this.parent.heldItemId)) ||
             null
         );
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace BodyPart {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly parent: BodyPart.Data;
         readonly [kBodyPart]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         abbrev: string;
         canHoldItem: boolean;
         heldItemId: string | null;
@@ -69,18 +73,21 @@ export namespace BodyPart {
         }
     }
 
-    export class DataModel extends SohlItem.DataModel implements Data {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
-        declare readonly parent: SohlItem<BodyPart>;
-        declare _logic: Logic;
+        readonly [kData] = true;
         abbrev!: string;
         canHoldItem!: boolean;
         heldItemId!: string | null;
-        readonly [kData] = true;
 
-        get logic(): Logic {
-            this._logic ??= new BodyPart(this);
-            return this._logic;
+        static override create<Logic>(
+            data: PlainObject,
+            options: PlainObject,
+        ): Logic {
+            if (!(options.parent instanceof SohlItem)) {
+                throw new Error("Parent must be a SohlItem");
+            }
+            return new BodyPart(data, { parent: options.parent }) as Logic;
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {

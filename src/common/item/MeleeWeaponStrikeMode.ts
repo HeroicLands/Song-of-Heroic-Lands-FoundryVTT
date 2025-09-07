@@ -10,7 +10,8 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
+import type { SohlLogic } from "@common/SohlLogic";
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import {
@@ -19,30 +20,28 @@ import {
     StrikeModeMixin,
 } from "@common/item/StrikeModeMixin";
 import { CombatModifier } from "@common/modifier/CombatModifier";
-import { ImpactModifier } from "@common/modifier/ImpactModifier";
-import { ValueModifier } from "@common/modifier/ValueModifier";
-import { ImpactAspect, Variant } from "@utils/constants";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
+import { defineType, ImpactAspect, ITEM_KIND, Variant } from "@utils/constants";
 import { kSubTypeMixinData } from "./SubTypeMixin";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 
 const kMeleeWeaponStrikeMode = Symbol("MeleeWeaponStrikeMode");
 const kData = Symbol("MeleeWeaponStrikeMode.Data");
 const { NumberField } = foundry.data.fields;
 
-export class MeleeWeaponStrikeMode<
-        TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
-    >
-    extends SohlLogic
+export class MeleeWeaponStrikeMode
+    extends StrikeModeMixin(SohlItem.BaseLogic)
     implements MeleeWeaponStrikeMode.Logic
 {
     declare [kStrikeModeMixin]: true;
-    declare traits: PlainObject;
-    declare assocSkill?: SohlItem<SohlLogic, any> | undefined;
-    declare impact: ImpactModifier;
-    declare attack: CombatModifier;
-    declare defense: { block: CombatModifier };
-    declare durability: ValueModifier;
     declare readonly parent: MeleeWeaponStrikeMode.Data;
     readonly [kMeleeWeaponStrikeMode] = true;
+    defense!: {
+        block: CombatModifier;
+        counterstrike: CombatModifier;
+    };
+    length!: ValueModifier;
 
     static isA(obj: unknown): obj is MeleeWeaponStrikeMode {
         return (
@@ -52,16 +51,94 @@ export class MeleeWeaponStrikeMode<
         );
     }
 
-    override initialize(context: SohlAction.Context): void {}
+    async blockTest(
+        context: SohlAction.Context,
+    ): Promise<SuccessTestResult | null> {
+        return (await this.defense.block.successTest(context)) || null;
+    }
+
+    async counterstrikeTest(
+        context: SohlAction.Context,
+    ): Promise<SuccessTestResult | null> {
+        return (await this.defense.counterstrike.successTest(context)) || null;
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+        this.defense = {
+            block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
+            counterstrike: new sohl.CONFIG.CombatModifier({}, { parent: this }),
+        };
+        this.length = new sohl.CONFIG.ValueModifier({}, { parent: this });
+
+        // Length is only set if this Strike Mode is nested in a WeaponGear
+        if (this.item.nestedIn?.type === ITEM_KIND.WEAPONGEAR) {
+            this.length.base = this.item.nestedIn.system.lengthBase;
+        }
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+        if (this.assocSkill) {
+            this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
+                includeBase: true,
+            });
+            this.defense.counterstrike.addVM(
+                this.assocSkill.system.masteryLevel,
+                { includeBase: true },
+            );
+        }
+
+        const token = this.actor?.getActiveTokens().shift() as Token;
+        const combatant = (token?.document as SohlTokenDocument).combatant;
+        // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
+        if (combatant && !combatant.isDefeated) {
+            const defendPenalty =
+                Math.max(combatant.threatenedBy.length - 1, 0) * -10;
+            if (defendPenalty) {
+                this.defense.block.add(
+                    sohl.CONFIG.MOD.OUTNUMBERED,
+                    defendPenalty,
+                );
+                this.defense.counterstrike.add(
+                    sohl.CONFIG.MOD.OUTNUMBERED,
+                    defendPenalty,
+                );
+            }
+        }
+    }
+
+    /** @inheritdoc */
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace MeleeWeaponStrikeMode {
+    export const {
+        kind: EFFECT_KEY,
+        values: EffectKey,
+        isValue: isEffectKey,
+        labels: EffectKeyLabels,
+    } = defineType("SOHL.MeleeWeaponStrikeMode.EffectKey", {
+        ...StrikeModeMixin.EFFECT_KEY,
+        LENGTH: {
+            name: "system.logic.length",
+            abbrev: "Len",
+        },
+        BLOCK: {
+            name: "system.logic.defense.block",
+            abbrev: "Blk",
+        },
+        COUNTERSTRIKE: {
+            name: "system.logic.defense.counterstrike",
+            abbrev: "CX",
+        },
+    } as StrictObject<SohlLogic.EffectKeyData>);
+    export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
+
     export interface Logic extends StrikeModeMixin.Logic {
         readonly parent: MeleeWeaponStrikeMode.Data;
         readonly [kMeleeWeaponStrikeMode]: true;
@@ -69,7 +146,6 @@ export namespace MeleeWeaponStrikeMode {
 
     export interface Data extends StrikeModeMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         lengthBase: number;
     }
 
@@ -83,7 +159,9 @@ export namespace MeleeWeaponStrikeMode {
         extends StrikeModeMixin.DataModel(SohlItem.DataModel)
         implements Data
     {
-        static readonly LOCALIZATION_PREFIXES = ["MeleeWeaponStrikeMode"];
+        static override readonly LOCALIZATION_PREFIXES = [
+            "MeleeWeaponStrikeMode",
+        ];
         declare readonly [kStrikeModeMixinData]: true;
         declare readonly [kSubTypeMixinData]: true;
         declare subType: Variant;
@@ -96,16 +174,10 @@ export namespace MeleeWeaponStrikeMode {
             modifier: number;
             aspect: ImpactAspect;
         };
-        declare _logic: Logic;
         lengthBase!: number;
         readonly [kData] = true;
 
-        get logic(): Logic {
-            this._logic ??= new MeleeWeaponStrikeMode(this);
-            return this._logic;
-        }
-
-        static defineSchema(): foundry.data.fields.DataSchema {
+        static override defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 lengthBase: new NumberField({

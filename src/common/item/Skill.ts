@@ -10,8 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlDataModel } from "@common/SohlDataModel";
-import { SohlLogic } from "@common/SohlLogic";
+
 import { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
@@ -25,26 +24,16 @@ import {
     SkillSubType,
     SkillSubTypes,
 } from "@utils/constants";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 const kSkill = Symbol("Skill");
 const kData = Symbol("Skill.Data");
 const { StringField } = foundry.data.fields;
 
 export class Skill
-    extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
+    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
     implements Skill.Logic
 {
     declare readonly [kMasteryLevelMixin]: true;
-    declare masteryLevel: MasteryLevelModifier;
-    declare magicMod: number;
-    declare boosts: number;
-    declare _availableFate: SohlItem<SohlLogic, any>[];
-    declare availableFate: SohlItem<SohlLogic, any>[];
-    declare valid: boolean;
-    declare skillBase: MasteryLevelMixin.SkillBase;
-    declare sdrIncr: number;
     declare readonly parent: Skill.Data;
-    declare improveWithSDR: (context: SohlAction.Context) => Promise<void>;
     readonly [kSkill] = true;
 
     static isA(obj: unknown): obj is Skill {
@@ -78,7 +67,6 @@ export namespace Skill {
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<SkillSubType> {
-        get logic(): Skill.Logic;
         readonly [kData]: true;
         weaponGroup: string;
         baseSkill: string;
@@ -116,12 +104,6 @@ export namespace Skill {
         declare domain: string;
         declare subType: SkillSubType;
         readonly [kData] = true;
-        declare _logic: Logic;
-
-        get logic(): Logic {
-            this._logic ??= new Skill(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

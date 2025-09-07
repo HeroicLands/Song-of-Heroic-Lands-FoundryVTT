@@ -24,7 +24,7 @@ import {
 import { SohlBase } from "@common/SohlBase";
 import { SohlTemporal } from "@common/event/SohlTemporal";
 import type { SohlLogic } from "@common/SohlLogic";
-import { DocumentId, toDocumentId } from "@utils/helpers";
+import type { DocumentId } from "@utils/helpers";
 
 export class SohlEvent<P extends SohlLogic = SohlLogic>
     extends SohlBase
@@ -68,6 +68,7 @@ export class SohlEvent<P extends SohlLogic = SohlLogic>
     }
 
     setState(state: SohlEventState, context: PlainObject = {}): void {
+        void context;
         this.state = state;
     }
 }

@@ -20,6 +20,7 @@ declare global {
         ...args: Args
     ) => Promise<Return>;
     type MaybePromise<T> = T | Promise<T>;
+    type WithStatics<T extends abstract new (...args: any) => any, S> = T & S;
 
     /** May be missing or intentionally cleared */
     type Maybe<T> = T | null | undefined;
@@ -41,9 +42,18 @@ declare global {
     type Func<Return = any, Args extends any[] = any[]> = (
         ...args: Args
     ) => Return;
-    type Constructor<T = unknown> = new (...args: any[]) => T;
-    type AbstractConstructor<T = unknown> = abstract new (...args: any[]) => T;
-    type AnyConstructor<T = unknown> = Constructor<T> | AbstractConstructor<T>;
+    type Constructor<
+        TInstance extends object = object,
+        P extends any[] = any[],
+    > = new (...args: P) => TInstance;
+    type AbstractConstructor<
+        TInstance extends object = object,
+        P extends any[] = any[],
+    > = abstract new (...args: P) => TInstance;
+    type AnyConstructor<
+        TInstance extends object = object,
+        P extends any[] = any[],
+    > = Constructor<TInstance, P> | AbstractConstructor<TInstance, P>;
     type ConstructorOrFunction = Constructor | AnyFunction;
     type Mixin<M, T extends Constructor = AnyConstructor> = (
         Base: T,
@@ -64,6 +74,8 @@ declare global {
             update: (data: any) => unknown;
         };
     };
+
+    type SohlDocument = SohlActor | SohlItem | SohlActiveEffect;
 
     type BaseLogicOptions<TDataModel> = {
         parent?: TDataModel;

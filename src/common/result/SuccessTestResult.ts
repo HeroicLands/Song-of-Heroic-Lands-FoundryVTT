@@ -16,7 +16,7 @@ import type { SohlSpeaker } from "@common/SohlSpeaker";
 import { toFilePath, toHTMLWithTemplate } from "@utils/helpers";
 import type { SimpleRoll } from "@utils/SimpleRoll";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
 import { SohlAction } from "@common/event/SohlAction";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
@@ -82,6 +82,7 @@ export class SuccessTestResult extends TestResult {
         this._resultDesc = "";
         this._successLevel = MARGINAL_FAILURE;
         this._description = "";
+        void this._description;
     }
 
     get resultText(): string {
@@ -193,6 +194,7 @@ export class SuccessTestResult extends TestResult {
         };
         foundry.utils.mergeObject(testData, data);
         const dlgHtml = await toHTMLWithTemplate(testData.template, data);
+        void dlgHtml;
 
         // Create the dialog window
         return await inputDialog({
@@ -380,6 +382,7 @@ export namespace SuccessTestResult {
             name: "Set Improve Flag",
             iconClass: "fas fa-star",
             condition: (header: HTMLElement) => {
+                void header;
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canImprove && !item?.system.improveFlag;
             },
@@ -419,6 +422,7 @@ export namespace SuccessTestResult {
             name: "Opposed Test Start",
             iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
             condition: (header: HTMLElement): boolean => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -474,6 +478,7 @@ export namespace SuccessTestResult {
             name: "Transmit Affliction",
             iconClass: "fas fa-head-side-cough",
             condition: (header: HTMLElement) => {
+                void header;
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canTransmit;
             },
@@ -491,17 +496,12 @@ export namespace SuccessTestResult {
             name: "Course Test",
             iconClass: "fas fa-heart-pulse",
             condition: (header: HTMLElement) => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
                 // from any item in the context menu.
                 return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isDormant) return false;
-                // const endurance = item?.actor?.getTraitByAbbrev("end");
-                // return endurance && !endurance.system.$masteryLevel.disabled;
             },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
@@ -517,17 +517,12 @@ export namespace SuccessTestResult {
             name: "Treatment Test",
             iconClass: "fas fa-staff-snake",
             condition: (header: HTMLElement) => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
                 // from any item in the context menu.
                 return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const physician = item?.actor?.getSkillByAbbrev("pysn");
-                // return physician && !physician.system.$masteryLevel.disabled;
             },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
@@ -536,6 +531,7 @@ export namespace SuccessTestResult {
             name: "Diagnosis Test",
             iconClass: "fas fa-stethoscope",
             condition: (header: HTMLElement) => {
+                void header;
                 const item = SohlContextMenu._getContextItem(header);
                 return !!item && !item.system.isTreated;
             },
@@ -546,6 +542,7 @@ export namespace SuccessTestResult {
             name: "Healing Test",
             iconClass: "fas fa-heart-pulse",
             condition: (header: HTMLElement) => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -565,6 +562,7 @@ export namespace SuccessTestResult {
             name: "Bleeding Stoppage Test",
             iconClass: "fas fa-droplet-slash",
             condition: (header: HTMLElement) => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -584,6 +582,7 @@ export namespace SuccessTestResult {
             name: "Bloodloss Advance Test",
             iconClass: "fas fa-droplet",
             condition: (header: HTMLElement) => {
+                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started

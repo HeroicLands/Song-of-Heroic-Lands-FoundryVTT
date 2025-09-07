@@ -11,14 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
-import { SohlActor } from "@common/actor/SohlActor";
-import type { SohlEvent } from "@common/event/SohlEvent";
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import type { Mystery } from "@common/item/Mystery";
 import { FilePath, toFilePath } from "@utils/helpers";
-import { defineType, ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
+import {
+    defineType,
+    ITEM_KIND,
+    MYSTERY_SUBTYPE,
+    TRAIT_INTENSITY,
+} from "@utils/constants";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 export const kMasteryLevelMixin = Symbol("MasteryLevelMixin");
 export const kMasteryLevelMixinData = Symbol("MasteryLevelMixin.Data");
@@ -31,19 +34,13 @@ export const kMasteryLevelMixinData = Symbol("MasteryLevelMixin.Data");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic gear properties.
  */
-export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
+export function MasteryLevelMixin<
+    TBase extends Constructor<SohlItem.BaseLogic>,
+>(
     Base: TBase,
-): TBase & MasteryLevelMixin.Logic {
+): TBase & Constructor<InstanceType<TBase> & MasteryLevelMixin.Logic> {
     return class extends Base implements MasteryLevelMixin.Logic {
         declare parent: MasteryLevelMixin.Data;
-        declare readonly actions: SohlAction[];
-        declare readonly events: SohlEvent[];
-        declare readonly item: SohlItem;
-        declare readonly actor: SohlActor | null;
-        declare readonly typeLabel: string;
-        declare readonly label: string;
-        declare readonly defaultIntrinsicActionName: string;
-        declare setDefaultAction: () => void;
         _boosts!: number;
         _skillBase!: MasteryLevelMixin.SkillBase;
         _masteryLevel!: MasteryLevelModifier;
@@ -76,7 +73,7 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
             const chatTemplateData = {
                 variant: sohl.id,
                 type: `${this.parent.kind}-${this.parent.item.name}-improve-sdr`,
-                title: `${this.parent.label(false)} Development Roll`,
+                title: `${this.parent.label()} Development Roll`,
                 effTarget: this._masteryLevel.base,
                 isSuccess: isSuccess,
                 rollValue: roll.total,
@@ -85,17 +82,17 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
                 resultText:
                     isSuccess ?
                         sohl.i18n.format("{prefix} Increase", {
-                            prefix: this.parent.item.label,
+                            prefix: this.parent.item.system.label,
                         })
                     :   sohl.i18n.format("No {prefix} Increase", {
-                            prefix: this.parent.item.label,
+                            prefix: this.parent.item.system.label,
                         }),
                 resultDesc:
                     isSuccess ?
                         sohl.i18n.format(
                             "{label} increased by {incr} to {final}",
                             {
-                                label: this.parent.item.label,
+                                label: this.parent.item.system.label,
                                 incr: this.sdrIncr,
                                 final: this._masteryLevel.base + this.sdrIncr,
                             },
@@ -120,10 +117,6 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
             return this._boosts;
         }
 
-        get _availableFate(): SohlItem[] {
-            return [];
-        }
-
         /**
          * Searches through all of the Fate mysteries on the actor, gathering any that
          * are applicable to this skill, and returns them.
@@ -133,43 +126,53 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
          */
         get availableFate() {
             let result: SohlItem[] = [];
-            if (!this._masteryLevel.disabled && this.parent.actor) {
-                this.parent.actor.items.forEach((it: SohlItem) => {
-                    if (MasteryLevelMixin.Data.isA(it.system)) {
-                        result.push(...it.system.logic._availableFate);
+            if (!this._masteryLevel.disabled && this.actor) {
+                this.actor.allItems.forEach((it: SohlItem) => {
+                    if (it.type === ITEM_KIND.MYSTERY) {
+                        if (it.system.subType === MYSTERY_SUBTYPE.FATE) {
+                            result.push(
+                                ...it.system.logic.applicableFate(this),
+                            );
+                        }
                     }
                 });
             }
             return result;
         }
 
-        // get fateBonusItems() {
-        //     let result: SohlItem[] = [];
-        //     if (this.actor) {
-        //         this.actor.items.forEach((it: SohlItem) => {
-        //             if (
-        //                 Mystery.Data.isA(it.system, Mystery.SUBTYPE.FATEBONUS)) {
-        //                 const skills:  = it.fateSkills;
-        //                 if (!skills || skills.includes(this.parent.item?.name || "")) {
-        //                     if (
-        //                         !it.system.$charges.disabled ||
-        //                         it.system.$charges.effective > 0
-        //                     ) {
-        //                         result.push(it);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     return result;
-        // }
+        get fateBonusItems(): SohlItem[] {
+            let result: SohlItem[] = [];
+            if (!this.item?.name) return result;
 
-        // get canImprove() {
-        //     return (
-        //         (((game as any).user as any)?.isGM || this.parent.item?.isOwner) &&
-        //         !this._masteryLevel.disabled
-        //     );
-        // }
+            if (this.actor) {
+                this.actor.allItems.forEach((it: SohlItem) => {
+                    if (
+                        it.system === ITEM_KIND.MYSTERY &&
+                        it.type === MYSTERY_SUBTYPE.FATEBONUS
+                    ) {
+                        const itLogic: Mystery.Logic =
+                            it.logic as unknown as Mystery.Logic;
+                        const skills = itLogic.parent.skills;
+                        if (!skills || skills.includes(this.item.name)) {
+                            if (
+                                !itLogic.charges.value.disabled ||
+                                itLogic.charges.value.effective > 0
+                            ) {
+                                result.push(it);
+                            }
+                        }
+                    }
+                });
+            }
+            return result;
+        }
+
+        get canImprove() {
+            return (
+                (((game as any).user as any)?.isGM || this.item?.isOwner) &&
+                !this._masteryLevel.disabled
+            );
+        }
 
         get valid() {
             return this.skillBase.valid;
@@ -183,104 +186,105 @@ export function MasteryLevelMixin<TBase extends AnyConstructor<SohlLogic>>(
             return 1;
         }
 
-        initialize(context: SohlAction.Context): void {
+        /** @inheritdoc */
+        override initialize(context: SohlAction.Context): void {
+            super.initialize(context);
             this._boosts = 0;
-            // this._masteryLevel = new CONFIG.SOHL.class.MasteryLevelModifier(
-            //     {
-            //         properties: {
-            //             fate: new CONFIG.SOHL.class.MasteryLevelModifier(
-            //                 {},
-            //                 { parent: this },
-            //             ),
-            //         },
-            //     },
-            //     { parent: this },
-            // );
-            // this._masteryLevel.setBase(this.masteryLevelBase);
-            // if (this.actor) {
-            //     const fateSetting = (game as any).settings.get("sohl", "optionFate");
+            this._masteryLevel = new sohl.CONFIG.MasteryLevelModifier(
+                {},
+                { parent: this },
+            );
+            this._masteryLevel.setBase(this.parent.masteryLevelBase);
+            if (this.actor) {
+                const fateSetting = (game as any).settings.get(
+                    "sohl",
+                    "optionFate",
+                );
 
-            //     if (fateSetting === "everyone") {
-            //         this._masteryLevel.fate.setBase(50);
-            //     } else if (fateSetting === "pconly") {
-            //         if (this.actor.hasPlayerOwner) {
-            //             this._masteryLevel.fate.setBase(50);
-            //         } else {
-            //             this._masteryLevel.fate.setDisabled(
-            //                 sohl.i18n.format("Non-Player Character/Creature"),
-            //                 "NPC",
-            //             );
-            //         }
-            //     } else {
-            //         this._masteryLevel.fate.setDisabled(
-            //             sohl.i18n.format("Fate Disabled in Settings"),
-            //             "NoFate",
-            //         );
-            //     }
-            // }
-            // this._skillBase ||= new SkillBase(this.skillBaseFormula, {
-            //     items: this.actor?.items,
-            // });
+                if (fateSetting === "everyone") {
+                    this._masteryLevel.fate.setBase(50);
+                } else if (fateSetting === "pconly") {
+                    if (this.actor.hasPlayerOwner) {
+                        this._masteryLevel.fate.setBase(50);
+                    } else {
+                        this._masteryLevel.fate.disabled =
+                            "SOHL.MasteryLevelModifier.NPCFateDisabled";
+                    }
+                } else {
+                    this._masteryLevel.fate.disabled =
+                        "SOHL.MasteryLevelModifier.FateNotSupported";
+                }
+            }
+            this._skillBase ||= new MasteryLevelMixin.SkillBase(
+                this.parent.skillBaseFormula,
+                {
+                    items: Array.from(this.actor?.allItems.values() || []),
+                },
+            );
         }
 
-        evaluate(context: SohlAction.Context): void {
-            // this._skillBase.setAttributes(this.actor.allItems());
-            // if (this._masteryLevel.base > 0) {
-            //     let newML = this._masteryLevel.base;
-            //     for (let i = 0; i < this.boosts; i++) {
-            //         newML += this.constructor.calcMasteryBoost(newML);
-            //     }
-            //     this._masteryLevel.setBase(newML);
-            // }
-            // // Ensure base ML is not greater than MaxML
-            // if (this._masteryLevel.base > this._masteryLevel.max) {
-            //     this._masteryLevel.setBase(this._masteryLevel.max);
-            // }
-            // if (this.skillBase.attributes.includes("Aura")) {
-            //     // Any skill that has Aura in its SB formula cannot use fate
-            //     this._masteryLevel.fate.setDisabled(
-            //         sohl.i18n.format("Aura-Based, No Fate"),
-            //         "AurBsd",
-            //     );
-            // }
+        /** @inheritdoc */
+        override evaluate(context: SohlAction.Context): void {
+            super.evaluate(context);
+            if (this._masteryLevel.base > 0) {
+                let newML = this._masteryLevel.base;
+                for (let i = 0; i < this.boosts; i++) {
+                    newML += calcMasteryBoost(newML);
+                }
+                this._masteryLevel.setBase(newML);
+            }
+            // Ensure base ML is not greater than MaxML
+            if (this._masteryLevel.base > this._masteryLevel.maxTarget) {
+                this._masteryLevel.setBase(this._masteryLevel.maxTarget);
+            }
+            if (this.skillBase.attributes.includes("Aura")) {
+                // Any skill that has Aura in its SB formula cannot use fate
+                this._masteryLevel.fate.disabled =
+                    "SOHL.MasteryLevelModifier.AuraBasedNoFate";
+            }
         }
 
-        finalize(context: SohlAction.Context): void {
-            // if (this._masteryLevel.disabled) {
-            //     this._masteryLevel.fate.setDisabled(
-            //         CONFIG.SOHL.MOD.MLDSBL.name,
-            //         CONFIG.SOHL.MOD.MLDSBL.abbrev,
-            //     );
-            // }
-            // if (!this._masteryLevel.fate.disabled) {
-            //     const fate = this.actor.getTraitByAbbrev("fate");
-            //     if (fate) {
-            //         this._masteryLevel.fate.addVM(fate.system.$score, {
-            //             includeBase: true,
-            //         });
-            //     } else {
-            //         this._masteryLevel.fate.setBase(50);
-            //     }
-            //     // Apply magic modifiers
-            //     if (this.magicMod) {
-            //         this._masteryLevel.fate.add(
-            //             CONFIG.SOHL.MOD.MAGICMOD,
-            //             this.magicMod,
-            //         );
-            //     }
-            //     this.fateBonusItems.forEach((it) => {
-            //         this._masteryLevel.fate.add(
-            //             CONFIG.SOHL.MOD.FATEBNS,
-            //             it.system.$level.effective,
-            //             { skill: it.label },
-            //         );
-            //     });
-            //     if (!this.availableFate.length) {
-            //         this._masteryLevel.fate.setDisabled(CONFIG.SOHL.MOD.NOFATE);
-            //     }
-            // }
+        /** @inheritdoc */
+        override finalize(context: SohlAction.Context): void {
+            super.finalize(context);
+            if (this._masteryLevel.disabled) {
+                this._masteryLevel.fate.disabled = sohl.CONFIG.MOD.MLDSBL.name;
+            }
+            if (!this._masteryLevel.fate.disabled) {
+                const fate = this.actor?.allItems.find(
+                    (it) =>
+                        it.type === ITEM_KIND.TRAIT &&
+                        it.system.abbrev === "fate",
+                );
+                if (fate) {
+                    this._masteryLevel.fate.addVM(fate.system.$score, {
+                        includeBase: true,
+                    });
+                } else {
+                    this._masteryLevel.fate.setBase(50);
+                }
+                // Apply magic modifiers
+                if (this.magicMod) {
+                    this._masteryLevel.fate.add(
+                        sohl.CONFIG.MOD.MAGICMOD,
+                        this.magicMod,
+                    );
+                }
+                this.fateBonusItems.forEach((it) => {
+                    this._masteryLevel.fate.add(
+                        sohl.CONFIG.MOD.FATEBNS,
+                        it.system.$level.effective,
+                        { skill: it.system.label },
+                    );
+                });
+                if (!this.availableFate.length) {
+                    this._masteryLevel.fate.disabled =
+                        "SOHL.MasteryLevelModifier.NoFateAvailable";
+                }
+            }
         }
-    } as unknown as TBase & MasteryLevelMixin.Logic;
+    } as unknown as TBase &
+        Constructor<InstanceType<TBase> & MasteryLevelMixin.Logic>;
 }
 
 export namespace MasteryLevelMixin {
@@ -297,13 +301,12 @@ export namespace MasteryLevelMixin {
     });
     export type EffectKey = (typeof EFFECT_KEYS)[keyof typeof EFFECT_KEYS];
 
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly [kMasteryLevelMixin]: true;
         readonly parent: MasteryLevelMixin.Data;
         readonly masteryLevel: MasteryLevelModifier;
         readonly magicMod: number;
         readonly boosts: number;
-        readonly _availableFate: SohlItem[];
         readonly availableFate: SohlItem[];
         readonly valid: boolean;
         readonly skillBase: MasteryLevelMixin.SkillBase;
@@ -313,7 +316,6 @@ export namespace MasteryLevelMixin {
 
     export interface Data extends SohlItem.Data {
         readonly [kMasteryLevelMixinData]: true;
-        readonly logic: Logic;
         abbrev: string;
         skillBaseFormula: string;
         masteryLevelBase: number;
@@ -330,15 +332,24 @@ export namespace MasteryLevelMixin {
         }
     }
 
-    export function DataModel<TBase extends AnyConstructor>(
+    export function DataModel<
+        TBase extends AbstractConstructor<SohlItem.DataModel> &
+            SohlItem.DataModel.Statics,
+    >(
         Base: TBase,
-    ): TBase & Data {
-        return class extends Base {
+    ): TBase &
+        AbstractConstructor<InstanceType<TBase> & Data> &
+        SohlItem.DataModel.Statics {
+        abstract class DM extends Base {
             declare abbrev: string;
             declare skillBaseFormula: string;
             declare masteryLevelBase: number;
             declare improveFlag: boolean;
             readonly [kMasteryLevelMixinData] = true;
+
+            constructor(...args: any[]) {
+                super(...args);
+            }
 
             static defineSchema(): foundry.data.fields.DataSchema {
                 return {
@@ -352,7 +363,11 @@ export namespace MasteryLevelMixin {
                     improveFlag: new BooleanField({ initial: false }),
                 };
             }
-        } as unknown as TBase & Data;
+        }
+
+        return DM as unknown as TBase &
+            AbstractConstructor<InstanceType<TBase> & Data> &
+            SohlItem.DataModel.Statics;
     }
 
     export class SkillBase {
@@ -619,4 +634,20 @@ export namespace MasteryLevelMixin {
             return result;
         }
     }
+}
+/**
+ * Calculates the mastery boost based on the given mastery level. Returns different boost values based on different ranges of mastery levels.
+ *
+ * @param ml The current Mastery Level
+ * @returns The calculated Mastery Boost
+ */
+function calcMasteryBoost(ml: number): number {
+    if (ml <= 39) return 10;
+    else if (ml <= 44) return 9;
+    else if (ml <= 49) return 8;
+    else if (ml <= 59) return 7;
+    else if (ml <= 69) return 6;
+    else if (ml <= 79) return 5;
+    else if (ml <= 99) return 4;
+    else return 3;
 }

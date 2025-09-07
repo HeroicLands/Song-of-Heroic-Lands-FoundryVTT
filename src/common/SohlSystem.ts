@@ -58,36 +58,44 @@ import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
 import { SohlBase } from "@common/SohlBase";
-import { SohlActiveEffectData } from "@common/effect/SohlActiveEffectData";
+import { SohlEffect } from "@common/effect/SohlEffect";
 import {
     ACTOR_KIND,
     ACTOR_METADATA,
     ActorKinds,
-    ActorMetadatas,
     defineType,
     EFFECT_METADATA,
     EffectMetadatas,
     ITEM_KIND,
     ITEM_METADATA,
     ItemKinds,
-    ItemMetadatas,
 } from "@utils/constants";
 
-const {
-    kind: ACTOR_DATA_MODEL,
-    values: ActorDataModels,
-    isValue: isActorDataModel,
-    labels: ActorDataModelLabels,
+export const {
+    kind: COMMON_ACTOR_DATA_MODEL,
+    values: CommonActorDataModels,
+    isValue: isCommonActorDataModel,
+    labels: CommonActorDataModelLabels,
 } = defineType("TYPES.Actor", {
     [ACTOR_KIND.ENTITY]: Entity.DataModel,
     [ACTOR_KIND.ASSEMBLY]: Assembly.DataModel,
 } as Record<string, Constructor<SohlDataModel<any>>>);
 
-const {
-    kind: ITEM_DATA_MODEL,
-    values: ItemDataModels,
-    isValue: isItemDataModel,
-    labels: ItemDataModelLabels,
+export const {
+    kind: COMMON_ACTOR_LOGIC,
+    values: CommonActorLogic,
+    isValue: isCommonActorLogic,
+    labels: CommonActorLogicLabels,
+} = defineType("SOHL.Actor.Logic", {
+    [ACTOR_KIND.ENTITY]: Entity,
+    [ACTOR_KIND.ASSEMBLY]: Assembly,
+} as Record<string, Constructor<SohlActor.Logic>>);
+
+export const {
+    kind: COMMON_ITEM_DATA_MODEL,
+    values: CommonItemDataModels,
+    isValue: isCommonItemDataModel,
+    labels: CommonItemDataModelLabels,
 } = defineType("TYPES.Item", {
     [ITEM_KIND.AFFILIATION]: Affiliation.DataModel,
     [ITEM_KIND.AFFLICTION]: Affliction.DataModel,
@@ -112,16 +120,56 @@ const {
     [ITEM_KIND.SKILL]: Skill.DataModel,
     [ITEM_KIND.TRAIT]: Trait.DataModel,
     [ITEM_KIND.WEAPONGEAR]: WeaponGear.DataModel,
-} as Record<string, Constructor<SohlDataModel<any>>>);
+} as unknown as StrictObject<Constructor<SohlDataModel<any, any>>>);
 
-const {
+export const {
+    kind: COMMON_ITEM_LOGIC,
+    values: CommonItemLogic,
+    isValue: isCommonItemLogic,
+    labels: CommonItemLogicLabels,
+} = defineType("TYPES.Item", {
+    [ITEM_KIND.AFFILIATION]: Affiliation,
+    [ITEM_KIND.AFFLICTION]: Affliction,
+    [ITEM_KIND.ARMORGEAR]: ArmorGear,
+    [ITEM_KIND.BODYLOCATION]: BodyLocation,
+    [ITEM_KIND.BODYPART]: BodyPart,
+    [ITEM_KIND.BODYZONE]: BodyZone,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeMode,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGear,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGear,
+    [ITEM_KIND.DOMAIN]: Domain,
+    [ITEM_KIND.INJURY]: Injury,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeMode,
+    [ITEM_KIND.MISCGEAR]: MiscGear,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeMode,
+    [ITEM_KIND.MYSTERY]: Mystery,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbility,
+    [ITEM_KIND.MYSTICALDEVICE]: MysticalDevice,
+    [ITEM_KIND.PHILOSOPHY]: Philosophy,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGear,
+    [ITEM_KIND.PROTECTION]: Protection,
+    [ITEM_KIND.SKILL]: Skill,
+    [ITEM_KIND.TRAIT]: Trait,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGear,
+} as Record<string, Constructor<SohlItem.Logic>>);
+
+export const {
     kind: EFFECT_DATA_MODEL,
     values: EffectDataModels,
     isValue: isEffectDataModel,
     labels: EffectDataModelLabels,
 } = defineType("TYPES.Effect", {
-    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlActiveEffectData.DataModel,
+    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect.DataModel,
 } as Record<string, Constructor<SohlDataModel<any>>>);
+
+export const {
+    kind: EFFECT_LOGIC,
+    values: EffectLogic,
+    isValue: isEffectLogic,
+    labels: EffectLogicLabels,
+} = defineType("TYPES.Effect", {
+    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect,
+} as Record<string, Constructor<SohlEffect.Logic>>);
 
 /**
  * Abstract class representing a system variant for the Song of Heroic Lands (SoHL).
@@ -163,8 +211,8 @@ export abstract class SohlSystem {
                         types: ActorKinds,
                     },
                 ],
-                dataModels: ACTOR_DATA_MODEL,
-                typeLabels: ActorDataModelLabels,
+                dataModels: COMMON_ACTOR_DATA_MODEL,
+                typeLabels: CommonActorDataModelLabels,
                 typeIcons: Object.fromEntries(
                     Object.values(ACTOR_KIND).map((kind) => [
                         kind,
@@ -190,8 +238,8 @@ export abstract class SohlSystem {
                         types: [ITEM_KIND.CONTAINERGEAR],
                     },
                 ],
-                dataModels: ITEM_DATA_MODEL,
-                typeLabels: ItemDataModelLabels,
+                dataModels: COMMON_ITEM_DATA_MODEL,
+                typeLabels: CommonItemDataModelLabels,
                 typeIcons: Object.fromEntries(
                     Object.values(ITEM_KIND).map((kind) => [
                         kind,
@@ -227,24 +275,6 @@ export abstract class SohlSystem {
                 typeLabels: {},
                 typeIcons: {},
                 types: [],
-            },
-            Modifier: {
-                classes: {
-                    ValueModifier: ValueModifier,
-                    CombatModifier: CombatModifier,
-                    ImpactModifier: ImpactModifier,
-                    MasteryLevelModifier: MasteryLevelModifier,
-                },
-            },
-            Result: {
-                classes: {
-                    SuccessTestResult: SuccessTestResult,
-                    OpposedTestResult: OpposedTestResult,
-                    ImpactResult: ImpactResult,
-                    CombatResult: CombatResult,
-                    AttackResult: AttackResult,
-                    DefendResult: DefendResult,
-                },
             },
             // Macro: {
             //     documentClass: SohlMacro,
@@ -304,9 +334,10 @@ export abstract class SohlSystem {
 
     static selectVariant(variantId?: string): SohlSystem {
         if (!variantId) {
-            variantId = (game as any).settings.get("sohl", "variant") as string;
+            this._curVariant = SohlSystem._variants.values().next().value;
+        } else {
+            this._curVariant = SohlSystem._variants.get(variantId);
         }
-        this._curVariant = SohlSystem._variants.get(variantId);
         if (!this._curVariant) {
             throw new Error(
                 `SohlSystem: No variant found for "${variantId}". Available variants: ${Array.from(
@@ -353,8 +384,8 @@ export abstract class SohlSystem {
             string,
             Constructor<SohlDataModel<any>>
         >([
-            ...Object.entries(ACTOR_DATA_MODEL),
-            ...Object.entries(ITEM_DATA_MODEL),
+            ...Object.entries(COMMON_ACTOR_DATA_MODEL),
+            ...Object.entries(COMMON_ITEM_DATA_MODEL),
             ...Object.entries(EFFECT_DATA_MODEL),
         ]);
         this.classRegistry = new SohlMap<string, Constructor<SohlBase>>([
@@ -424,8 +455,6 @@ export namespace SohlSystem {
         Item: DocumentConfig;
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
-        Result: ClassConfig;
-        Modifier: ClassConfig;
         ValueModifier: Constructor<ValueModifier>;
         CombatModifier: Constructor<CombatModifier>;
         ImpactModifier: Constructor<ImpactModifier>;

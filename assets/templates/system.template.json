@@ -31,6 +31,90 @@
             "path": "lang/en.json"
         }
     ],
+    "documentTypes": {
+        "Actor": {
+            "entity": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "assembly": {
+                "htmlFields": ["description", "biography", "textReference"]
+            }
+        },
+        "Item": {
+            "affiliation": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "affliction": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "armorgear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodylocation": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodypart": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodyzone": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "combattechniquestrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "concoctiongear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "containergear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "domain": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "injury": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "meleeweaponstrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "miscgear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "missileweaponstrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mystery": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mysticalability": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mysticaldevice": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "philosophy": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "projectilegear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "protection": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "skill": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "trait": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "weapongear": {
+                "htmlFields": ["description", "textReference"]
+            }
+        },
+        "ActiveEffect": {
+            "activeeffectdata": {}
+        }
+    },
     "packFolders": [
         {
             "name": "Song of Heroic Lands",

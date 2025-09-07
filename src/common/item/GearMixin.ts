@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
 import type { SohlItem } from "@common/item/SohlItem";
-import type { SohlEvent } from "@common/event/SohlEvent";
 import type { SohlAction } from "@common/event/SohlAction";
-import type { SohlActor } from "@common/actor/SohlActor";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
@@ -30,19 +27,11 @@ export const kGearMixinData = Symbol("GearMixin.Data");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic gear properties.
  */
-export function GearMixin<TBase extends AnyConstructor<SohlLogic>>(
+export function GearMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
     Base: TBase,
-): TBase {
+): TBase & Constructor<InstanceType<TBase> & GearMixin.Logic> {
     return class extends Base {
         declare readonly parent: GearMixin.Data;
-        declare readonly actions: SohlAction[];
-        declare readonly events: SohlEvent[];
-        declare readonly item: SohlItem;
-        declare readonly actor: SohlActor | null;
-        declare readonly typeLabel: string;
-        declare readonly label: string;
-        declare readonly defaultIntrinsicActionName: string;
-        declare setDefaultAction: () => void;
         readonly [kGearMixin] = true;
         weight!: ValueModifier;
         value!: ValueModifier;
@@ -71,7 +60,7 @@ export function GearMixin<TBase extends AnyConstructor<SohlLogic>>(
         finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    } as unknown as TBase & GearMixin.Logic;
+    } as unknown as TBase & Constructor<InstanceType<TBase> & GearMixin.Logic>;
 }
 
 export namespace GearMixin {
@@ -86,7 +75,6 @@ export namespace GearMixin {
 
     export interface Data extends SohlItem.Data {
         readonly [kGearMixinData]: true;
-        readonly logic: Logic;
         abbrev: string;
         quantity: number;
         weightBase: number;
@@ -105,10 +93,15 @@ export namespace GearMixin {
         }
     }
 
-    export function DataModel<TBase extends AnyConstructor>(
+    export function DataModel<
+        TBase extends AbstractConstructor<SohlItem.DataModel> &
+            SohlItem.DataModel.Statics,
+    >(
         Base: TBase,
-    ): TBase & Data {
-        return class extends Base {
+    ): TBase &
+        AbstractConstructor<InstanceType<TBase> & Data> &
+        SohlItem.DataModel.Statics {
+        abstract class DM extends Base {
             declare abbrev: string;
             declare quantity: number;
             declare weightBase: number;
@@ -150,6 +143,10 @@ export namespace GearMixin {
                     }),
                 };
             }
-        } as unknown as TBase & Data;
+        }
+
+        return DM as unknown as TBase &
+            AbstractConstructor<InstanceType<TBase> & Data> &
+            SohlItem.DataModel.Statics;
     }
 }

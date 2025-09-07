@@ -10,21 +10,19 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { SohlLogic } from "@common/SohlLogic";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 const kMiscGear = Symbol("MiscGear");
 const kData = Symbol("MiscGear.Data");
 
-export class MiscGear extends GearMixin(SohlLogic) implements MiscGear.Logic {
+export class MiscGear
+    extends GearMixin(SohlItem.BaseLogic)
+    implements MiscGear.Logic
+{
     declare readonly [kGearMixin]: true;
     declare readonly parent: MiscGear.Data;
-    weight!: ValueModifier;
-    value!: ValueModifier;
-    quality!: ValueModifier;
-    durability!: ValueModifier;
     readonly [kMiscGear] = true;
 
     static isA(obj: unknown): obj is MiscGear {
@@ -32,13 +30,19 @@ export class MiscGear extends GearMixin(SohlLogic) implements MiscGear.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace MiscGear {
@@ -49,7 +53,6 @@ export namespace MiscGear {
 
     export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
     }
 
     export namespace Data {
@@ -64,12 +67,6 @@ export namespace MiscGear {
 
     export class DataModel extends DataModelShape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["MISCGEAR"];
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new MiscGear(this);
-            return this._logic;
-        }
     }
 }

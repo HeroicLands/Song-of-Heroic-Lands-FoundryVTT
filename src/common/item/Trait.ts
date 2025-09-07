@@ -10,7 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
@@ -25,7 +25,6 @@ import {
     TraitSubType,
     TraitSubTypes,
 } from "@utils/constants";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 const kTrait = Symbol("Trait");
 const kData = Symbol("Trait.Data");
 const {
@@ -38,18 +37,9 @@ const {
 } = foundry.data.fields;
 
 export class Trait
-    extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
+    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
     implements Trait.Logic
 {
-    declare masteryLevel: MasteryLevelModifier;
-    declare magicMod: number;
-    declare boosts: number;
-    declare _availableFate: SohlItem<SohlLogic, any>[];
-    declare availableFate: SohlItem<SohlLogic, any>[];
-    declare valid: boolean;
-    declare skillBase: MasteryLevelMixin.SkillBase;
-    declare sdrIncr: number;
-    declare improveWithSDR: (context: SohlAction.Context) => Promise<void>;
     declare readonly [kMasteryLevelMixin]: true;
     declare readonly parent: Trait.Data;
     readonly [kTrait] = true;
@@ -84,7 +74,6 @@ export namespace Trait {
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<TraitSubType> {
-        readonly logic: Logic;
         readonly [kData]: true;
         textValue: string;
         max: number | null;

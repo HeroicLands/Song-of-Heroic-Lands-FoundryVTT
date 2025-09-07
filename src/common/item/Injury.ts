@@ -10,6 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import {
     defineType,
     IMPACT_ASPECT,
@@ -43,6 +44,7 @@ export const {
             // started from the item header. It should be replaced with a
             // proper implementation that allows opposed tests to be started
             // from any item in the context menu.
+            void header;
             return true;
             // const item = cast<BaseItem>(
             //     SohlContextMenu._getContextItem(header),
@@ -63,6 +65,7 @@ export const {
             // started from the item header. It should be replaced with a
             // proper implementation that allows opposed tests to be started
             // from any item in the context menu.
+            void header;
             return true;
             // const item = cast<BaseItem>(
             //     SohlContextMenu._getContextItem(header),
@@ -78,7 +81,7 @@ export const {
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
-export class Injury extends SohlLogic implements Injury.Logic {
+export class Injury extends SohlItem.BaseLogic implements Injury.Logic {
     declare readonly parent: Injury.Data;
     readonly [kInjury] = true;
 
@@ -107,13 +110,19 @@ export class Injury extends SohlLogic implements Injury.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Injury {
@@ -133,21 +142,19 @@ export namespace Injury {
     export const UNTREATED = {
         hr: 4,
         infect: true,
-        impair: false,
         bleed: false,
         newInj: -1,
     } as const;
 
     export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
 
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlLogic {
         readonly parent: Injury.Data;
         readonly [kInjury]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         injuryLevelBase: number;
         healingRateBase: number;
         aspect: ImpactAspect;
@@ -162,7 +169,7 @@ export namespace Injury {
         }
     }
 
-    export class DataModel extends SohlItem.DataModel implements Data {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["INJURY"];
         injuryLevelBase!: number;
         healingRateBase!: number;
@@ -170,13 +177,7 @@ export namespace Injury {
         isTreated!: boolean;
         isBleeding!: boolean;
         bodyLocationId!: string;
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new Injury(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

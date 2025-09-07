@@ -17,6 +17,9 @@ import {
     toHTMLWithTemplate,
     HTMLString,
 } from "@utils/helpers";
+// imports of SohlActor and SohlItem are intentionally omitted here because
+// this module provides thin wrappers around Foundry APIs and must avoid
+// creating circular runtime dependencies. Use type-only imports where needed.
 
 /*
  * =====================================================
@@ -286,27 +289,26 @@ export function getTokenInCombat(
 /**
  * Retrieves documents from specified packs based on document name and type.
  *
- * @param {string[]} packNames - The names of the packs to search.
- * @param {Object} [options]
- * @param {string} [options.documentName="Item"] - The document name to search for.
- * @param {string} [options.docType] - The document type to filter by.
- * @returns {Promise<any[]>} A promise resolving to an array of documents.
+ * @param packNames - The names of the packs to search.
+ * @param options
+ * @param options.documentName The document name to search for.
+ * @param options.docType The document type to filter by.
+ * @returns A promise resolving to an array of documents.
  */
 export async function getDocsFromPacks(
     packNames: string[],
-    options: { documentName?: string; docType?: string } = {},
+    options: { documentName?: string; docType?: string } = {
+        documentName: "Item",
+    },
 ): Promise<any[]> {
-    let documentName = options.documentName ?? "Item";
-    let docType = options.docType;
-
     let allDocs: any[] = [];
     for (let packName of packNames) {
         const pack = ((game as any).packs as any)?.get(packName);
         if (!pack) continue;
-        if (pack.documentName !== documentName) continue;
-        const query: any = {};
-        if (docType) {
-            query.type = docType;
+        if (pack.documentName !== options.documentName) continue;
+        const query: PlainObject = {};
+        if (options.docType) {
+            query.type = options.docType;
         }
         const items = await pack.getDocuments(query);
         allDocs.push(...items.map((it: any) => it.toObject()));
@@ -317,32 +319,31 @@ export async function getDocsFromPacks(
 /**
  * Retrieves a document from specified packs based on name and optional type.
  *
- * @param {string} docName - The name of the document to retrieve.
- * @param {string[]} packNames - The names of the packs to search.
- * @param {Object} [options]
- * @param {string} [options.documentName="Item"] - The document name to search for.
- * @param {string} [options.docType] - The document type to filter by.
- * @param {boolean} [options.keepId=false] - Whether to keep the original ID.
- * @returns {Promise<Object|null>} A promise resolving to the document data, or null if not found.
+ * @param  docName The name of the document to retrieve.
+ * @param  packNames The names of the packs to search.
+ * @param options
+ * @param options.documentName The document name to search for.
+ * @param options.docType The document type to filter by.
+ * @param options.keepId Whether to keep the original ID.
+ * @returns A promise resolving to the document data, or undefined if not found.
  */
 export async function getDocumentFromPacks(
     docName: string,
     packNames: string[],
-    options: { documentName?: string; docType?: string; keepId?: boolean } = {},
-): Promise<any | null> {
-    let documentName = options.documentName ?? "Item";
-    let docType = options.docType;
-    let keepId = options.keepId ?? false;
-
-    let data = null;
+    options: { documentName?: string; docType?: string; keepId?: boolean } = {
+        docType: "Item",
+        keepId: false,
+    },
+): Promise<Optional<any>> {
+    let data;
     const allDocs = await getDocsFromPacks(packNames, {
-        documentName,
-        docType,
+        documentName: options.documentName,
+        docType: options.docType,
     });
     const doc = allDocs?.find((it: any) => it.name === docName);
     if (doc) {
         data = doc.toObject();
-        if (!keepId) data._id = foundry.utils.randomID();
+        if (!options.keepId) data._id = foundry.utils.randomID();
         delete data.folder;
         delete data.sort;
         if (doc.pack)

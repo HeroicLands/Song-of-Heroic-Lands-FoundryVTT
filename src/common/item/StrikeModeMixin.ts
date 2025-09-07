@@ -10,6 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 import {
     defineType,
     Variant,
@@ -18,15 +19,14 @@ import {
     ImpactAspects,
 } from "@utils/constants";
 import type { SohlLogic } from "@common/SohlLogic";
-import type { SohlItem } from "@common/item/SohlItem";
-import type { SohlEvent } from "@common/event/SohlEvent";
+import { SohlItem } from "@common/item/SohlItem";
 import type { SohlAction } from "@common/event/SohlAction";
 import type { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { GearMixin } from "@common/item/GearMixin";
 import type { CombatModifier } from "@common/modifier/CombatModifier";
 import type { ImpactModifier } from "@common/modifier/ImpactModifier";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SohlActor } from "@common/actor/SohlActor";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
 
 export const kStrikeModeMixin = Symbol("StrikeModeMixin");
@@ -40,27 +40,16 @@ export const kStrikeModeMixinData = Symbol("StrikeModeMixin.Data");
  * @param Base Base class to extend (should be a `TypeDataModel` subclass).
  * @returns The extended class with the basic strike mode properties.
  */
-export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
+export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
     Base: TBase,
-): TBase {
+): TBase & Constructor<InstanceType<TBase> & StrikeModeMixin.Logic> {
     return class extends Base {
         declare readonly parent: StrikeModeMixin.Data;
-        declare readonly actions: SohlAction[];
-        declare readonly events: SohlEvent[];
-        declare readonly item: SohlItem;
-        declare readonly actor: SohlActor | null;
-        declare readonly typeLabel: string;
-        declare readonly label: string;
-        declare readonly defaultIntrinsicActionName: string;
-        declare setDefaultAction: () => void;
         readonly [kStrikeModeMixin] = true;
         traits!: PlainObject;
         assocSkill?: SohlItem;
         impact!: ImpactModifier;
         attack!: CombatModifier;
-        defense!: {
-            block: CombatModifier;
-        };
         durability!: ValueModifier;
 
         static isA(obj: unknown): obj is TBase & GearMixin.Logic {
@@ -71,8 +60,14 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
             );
         }
 
+        async attackTest(
+            context: SohlAction.Context,
+        ): Promise<SuccessTestResult | null> {
+            return (await this.attack.successTest(context)) || null;
+        }
+
         /** @inheritdoc */
-        initialize(context: SohlAction.Context): void {
+        override initialize(context: SohlAction.Context): void {
             super.initialize(context);
             this.traits = {
                 noAttack: false,
@@ -80,36 +75,40 @@ export function StrikeModeMixin<TBase extends AnyConstructor<SohlLogic>>(
             };
             this.impact = sohl.CONFIG.ImpactModifier({}, { parent: this });
             this.attack = sohl.CONFIG.CombatModifier({}, { parent: this });
-            this.defense = {
-                block: sohl.CONFIG.CombatModifier({}, { parent: this }),
-            };
             this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
             this.impact.base = this.parent.impactBase;
             this.assocSkill = this.actor?.itemTypes.skill.find(
                 (it) => it.name === this.parent.assocSkillName,
             );
-            if (!this.assocSkill) {
+            if (this.assocSkill) {
+                this.attack.addVM(this.assocSkill.system.masteryLevel, {
+                    includeBase: true,
+                });
+            } else {
                 sohl.log.warn("SOHL.StrikeMode.NoAssocSkillWarning", {
-                    label: sohl.i18n.localize(this.item.label),
+                    label: sohl.i18n.localize(this.item.system.label),
                     skillName: this.parent.assocSkillName,
                 });
             }
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context): void {
+        override evaluate(context: SohlAction.Context): void {
             super.evaluate(context);
             const gearData = this.item.nestedIn?.system;
             if (GearMixin.Data.isA(gearData)) {
-                this.durability.addVM(gearData.logic.durability);
+                this.durability.addVM(
+                    (gearData.logic as GearMixin.Logic).durability,
+                );
             }
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context): void {
+        override finalize(context: SohlAction.Context): void {
             super.finalize(context);
         }
-    } as unknown as TBase & StrikeModeMixin.Logic;
+    } as unknown as TBase &
+        Constructor<InstanceType<TBase> & StrikeModeMixin.Logic>;
 }
 
 export namespace StrikeModeMixin {
@@ -120,48 +119,43 @@ export namespace StrikeModeMixin {
         labels: EffectKeyLabels,
     } = defineType("SOHL.StrikeMode.EffectKey", {
         IMPACT: {
-            name: "system.impact",
+            name: "system.logic.impact",
             abbrev: "Imp",
         },
         ATTACK: {
-            name: "system.attack",
+            name: "system.logic.attack",
             abbrev: "Atk",
         },
         BLOCK: {
-            name: "system.defense.block",
+            name: "system.logic.defense.block",
             abbrev: "Blk",
         },
         COUNTERSTRIKE: {
-            name: "system.defense.counterstrike",
+            name: "system.logic.defense.counterstrike",
             abbrev: "CXMod",
         },
         NOATTACK: {
-            name: "system.traits.noAttack",
+            name: "system.logic.traits.noAttack",
             abbrev: "NoAtk",
         },
         NOBLOCK: {
-            name: "system.traits.noBlock",
+            name: "system.logic.traits.noBlock",
             abbrev: "NoBlk",
         },
     } as StrictObject<SohlLogic.EffectKeyData>);
     export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
 
-    export interface Logic extends SubTypeMixin.Logic<Variant> {
+    export interface Logic extends SubTypeMixin.Logic {
         readonly [kStrikeModeMixin]: true;
-        parent: StrikeModeMixin.Data;
         traits: PlainObject;
         assocSkill?: SohlItem;
         impact: ImpactModifier;
         attack: CombatModifier;
-        defense: {
-            block: CombatModifier;
-        };
         durability: ValueModifier;
     }
 
     export interface Data extends SubTypeMixin.Data<Variant> {
         readonly [kStrikeModeMixinData]: true;
-        readonly logic: Logic;
         mode: string;
         minParts: number;
         assocSkillName: string;
@@ -184,13 +178,22 @@ export namespace StrikeModeMixin {
         }
     }
 
-    export function DataModel<TBase extends AnyConstructor>(
+    export function DataModel<
+        TBase extends AbstractConstructor<SohlItem.DataModel> &
+            SohlItem.DataModel.Statics,
+    >(
         Base: TBase,
-    ): TBase {
-        return class extends Base {
+    ): TBase &
+        AbstractConstructor<InstanceType<TBase> & Data> &
+        SohlItem.DataModel.Statics {
+        abstract class DM extends Base {
             readonly [kStrikeModeMixinData] = true;
 
-            static defineSchema(): foundry.data.fields.DataSchema {
+            constructor(...args: any[]) {
+                super(...args);
+            }
+
+            static override defineSchema(): foundry.data.fields.DataSchema {
                 return {
                     ...super.defineSchema(),
                     mode: new StringField(),
@@ -223,6 +226,10 @@ export namespace StrikeModeMixin {
                     }),
                 };
             }
-        };
+        }
+
+        return DM as unknown as TBase &
+            AbstractConstructor<InstanceType<TBase> & Data> &
+            SohlItem.DataModel.Statics;
     }
 }

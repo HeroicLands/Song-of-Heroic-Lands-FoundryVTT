@@ -1,0 +1,68 @@
+<section class="content" data-group="sheet" data-tab="gear">
+    {{!-- Gear --}}
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-gear" value="" aria-label="Search Gear"
+            placeholder="Search Gear" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control item-create" data-tooltip="Add Gear"
+                data-type="gear"><i class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+    {{#each containers as |citem|}}
+        <div class="items-list gear-list" data-container-id="{{citem.id}}"
+            data-container-name="{{citem.name}}">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">{{citem.name}}</h3>
+                <div class="detail subtype">Type</div>
+                <div class="detail ele">Qty</div>
+                <div class="detail ele">Weight</div>
+                <div class="detail ele">Qual</div>
+                <div class="detail ele">Dur</div>
+                <div class="detail notes">Notes</div>
+                <div
+                    {{#if (eq system.$capacity.status 2)}}
+                        class="detail capacity overmaxcap"
+                    {{else}}
+                        {{#if (eq system.$capacity.status 1)}}
+                            class="detail capacity overencumberedcap"
+                        {{else}}
+                            class="detail capacity"
+                        {{/if}}
+                    {{/if}}>Capacity: {{numberFormat system.$capacity.value}}/{{numberFormat system.$capacity.max.effective}}</div>
+            </header>
+            <ol class="item-list">
+                {{#each citem.items as | item |}}
+                    {{#if (and (endswith item.type "gear") (eq item.system.source cid))}}
+                        <li class="item {{#unless system.isCarried}}nocarry{{/unless}} flexrow"
+                            data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                            <div class="item-name name default-action flexrow">
+                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                            </div>
+                            <div class="detail subtype" data-tooltip="{{localize (lookup ../../config.Item.typeLabels item.type)}}">
+                                {{localize (lookup ../../config.Item.typeLabels item.type)}}
+                            </div>
+                            <div class="detail ele">{{system.quantity}}</div>
+                            <div class="detail ele">{{system.totalWeight.effective}}</div>
+                            <div class="detail ele" data-tooltip="{{system.$quality.abbrev}}">{{numberFormat system.$quality.effective sign=true}}</div>
+                            <div class="detail ele" data-tooltip="{{system.$durability.abbrev}}">{{system.$durability.effective}}</div>
+                            <div class="detail notes">{{system.notes}}</div>
+                            <div class="item-controls-wide">
+                                {{#unless cid}}
+                                    {{#if (eq item.type "armorgear")}}
+                                    <a class="item-control item-equip" title="Equip"><i
+                                            class="{{#unless system.equipped}}disabled{{/unless}} fas fa-shield-halved"></i></a>
+                                    {{/if}}
+                                    <a class="item-control item-carry" title="Carry"><i
+                                            class="{{#unless system.isCarried}}disabled{{/unless}} fas fa-suitcase"></i></a>
+                                {{/unless}}
+                                <a class="item-control item-contextmenu" title="Menu"><i
+                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                            </div>
+                        </li>
+                    {{/if}}
+                {{/each}}
+            </ol>
+        </div>
+    {{/each}}
+</section>

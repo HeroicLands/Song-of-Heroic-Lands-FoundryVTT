@@ -12,14 +12,17 @@
  */
 
 import type { SohlAction } from "@common/event/SohlAction";
-import { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
 const kAffiliation = Symbol("Affiliation");
 const kData = Symbol("Affiliation.Data");
 
-export class Affiliation extends SohlLogic implements Affiliation.Logic {
+export class Affiliation
+    extends SohlItem.BaseLogic
+    implements Affiliation.Logic
+{
     declare readonly parent: Affiliation.Data;
     readonly [kAffiliation] = true;
 
@@ -28,23 +31,29 @@ export class Affiliation extends SohlLogic implements Affiliation.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Affiliation {
     export interface Logic extends SohlItem.Logic {
+        readonly parent: Data;
         readonly [kAffiliation]: true;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         society: string;
         office: string;
         title: string;
@@ -57,22 +66,14 @@ export namespace Affiliation {
         }
     }
 
-    export class DataModel
-        extends SohlItem.DataModel
-        implements Affiliation.Data
-    {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
-        declare society: string;
-        declare office: string;
-        declare title: string;
-        declare level: number;
-        declare _logic: Logic;
+        static override readonly kind = ITEM_KIND.AFFILIATION;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new Affiliation(this);
-            return this._logic;
-        }
+        society!: string;
+        office!: string;
+        title!: string;
+        level!: number;
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

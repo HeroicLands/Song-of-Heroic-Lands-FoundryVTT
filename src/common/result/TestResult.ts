@@ -15,16 +15,14 @@ import { SohlBase } from "@common/SohlBase";
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import { SohlClassRegistry } from "@utils/SohlClassRegistry";
-import { RegisterClass } from "@utils/decorators/RegisterClass";
 const kTestResult = Symbol("TestResult");
 const kData = Symbol("TestResult.Data");
 const kContext = Symbol("TestResult.Context");
+void kContext;
 
 /**
  * Represents a value and its modifying deltas.
  */
-
-@RegisterClass(new SohlClassRegistry.Element("TestResult", TestResult))
 export abstract class TestResult extends SohlBase {
     speaker: SohlSpeaker;
     name: string;
@@ -61,6 +59,9 @@ export abstract class TestResult extends SohlBase {
 export namespace TestResult {
     const SUCCESS = 1;
     const FAILURE = 0;
+    // Mark constants as intentionally-unused for now
+    void SUCCESS;
+    void FAILURE;
 
     export interface Data {
         readonly [kData]: true;

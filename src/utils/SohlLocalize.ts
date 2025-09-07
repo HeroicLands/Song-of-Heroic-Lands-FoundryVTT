@@ -59,19 +59,47 @@ export class SohlLocalize {
         return (game as any).i18n?.lang || "en";
     }
 
+    normalizeText(
+        str: string,
+        options: { caseInsensitive: boolean; ascii: boolean } = {
+            caseInsensitive: true,
+            ascii: true,
+        },
+    ): string {
+        if (!str) return "";
+        if (options.ascii) {
+            str = str
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[%\x20-\x7E]/g, " ");
+        }
+        if (options.caseInsensitive) {
+            str = str.toLowerCase();
+        }
+        return str;
+    }
     /**
      * Locale-aware string comparison.
      * @param {string} first - The first string to compare.
      * @param {string} second - The second string to compare.
      * @returns {number} A negative number if first < second, 0 if equal, positive if first > second.
      */
-    compare(first: string, second: string): number {
+    compare(
+        first: string,
+        second: string,
+        options: { caseInsensitive: boolean; ascii: boolean } = {
+            caseInsensitive: false,
+            ascii: false,
+        },
+    ): number {
         if (typeof first !== "string") {
             throw new Error("First argument is not a string");
         }
         if (typeof second !== "string") {
             throw new Error("Second argument is not a string");
         }
+        first = this.normalizeText(first, options);
+        second = this.normalizeText(second, options);
         if (first === second) {
             return 0;
         }
@@ -84,10 +112,7 @@ export class SohlLocalize {
      * @param {string} key - The key to sort by (dot-separated path).
      * @returns The sorted array.
      */
-    sortObjects(
-        objects: Record<string, any>[],
-        key: string,
-    ): Record<string, any>[] {
+    sortObjects(objects: PlainObject[], key: string): PlainObject[] {
         objects.sort((a, b) => {
             return this.compare(
                 foundry.utils.getProperty(a, key),
@@ -95,6 +120,16 @@ export class SohlLocalize {
             );
         });
         return objects;
+    }
+
+    /**
+     * Sort an array of strings using locale-aware string comparison.
+     * @param ary - The array of strings to sort.
+     * @returns The sorted array.
+     */
+    sortStrings(...ary: string[]): string[] {
+        ary.sort((a, b) => this.compare(a, b));
+        return ary;
     }
 
     /**

@@ -1,0 +1,295 @@
+<section class="content" data-group="sheet" data-tab="mysteries">
+    {{!-- Mysteries --}}
+    <div class="items-block">
+        <div class="search-items">
+            <input class="search-criteria" type="search" name="search-mysteries" value="" aria-label="Search Mysteries"
+                placeholder="Search Mysteries" autocomplete="off" />
+            <div class="search-controls">
+                <a class="search-control item-create" data-tooltip="Create Mystery"
+                    data-type="mystery"><i class="fas fa-file-plus"></i></a>
+            </div>
+        </div>
+
+        <div class="items-list mysteries-list">
+            {{#each itemSubtypes.mystery as | itemstlist subType |}}
+                {{#if itemstlist.allItems.length}}
+                <header class="items-header flexrow">
+                    <h3 class="item-name name">{{itemstlist.label}} Mysteries</h3>
+                    <div class="detail source">{{lookup ../config.Item.dataModels.mystery.fieldName subType}}</div>
+                    <div class="detail ele">Bonus</div>
+                    <div class="detail ele">Chgs</div>
+                    <div class="detail notes">Notes</div>
+                </header>
+                <ol class="item-list">
+                    {{#each itemstlist.items as | item |}}
+                        <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                            <div class="item-name name default-action flexrow">
+                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                            </div>
+                            <div class="detail source">{{system.fieldData}}</div>
+                            <div class="detail ele">
+                                {{#if (or (eq system.subType "fateBonus") (eq system.subType "blessing"))}}
+                                <span>{{numberFormat system.$level.effective sign=true}}{{#if flags.sohl.pool}}<i class="fas fa-ball-pile"></i>{{/if}}</span>
+                                {{else}}
+                                <i class="fas fa-xmark fa-lg"></i>
+                                {{/if}}
+                            </div>
+                            <div class="detail ele">{{system.$charges.effective}}{{#if (gt system.$charges.max.effective 0)}}/{{numberFormat system.$charges.max.effective}}{{/if}}</div>
+                            <div class="detail notes">{{system.notes}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-contextmenu" title="Menu"><i
+                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ol>
+                {{/if}}
+            {{/each}}
+        </div>
+    </div>
+
+    {{!-- Mystical Abilities --}}
+    <div class="items-block">
+        <div class="search-items">
+            <input class="search-criteria" type="search" name="search-mysticalabilities" value="" aria-label="Search Mystical Abilities"
+                placeholder="Search Mystical Abilities" autocomplete="off" />
+            <div class="search-controls">
+                <a class="search-control item-create" data-tooltip="Create Mystical Ability"
+                    data-type="mysticalability"><i class="fas fa-file-plus"></i></a>
+            </div>
+        </div>
+        <div class="items-list mysticalabilities-list">
+            {{#if itemSubtypes.skill.esoteric.items.length}}
+                <div class="items-list" data-category="esoteric">
+                    <header class="items-header flexrow">
+                        <h3 class="item-name name">Esoteric Skill Mystical Abilities</h3>
+                        <div class="detail ele" data-tooltip="Skill Base">SB</div>
+                        <div class="detail ele" data-tooltip="Mastery Level">ML</div>
+                        <div class="detail ele" data-tooltip="Index">Index</div>
+                        <div class="detail ele" data-tooltip="Secondary Modifier">SM</div>
+                        <div class="detail ele" data-tooltip="Effective Mastery Level">EML</div>
+                        <div class="detail notes">Notes</div>
+                    </header>
+                    <ol class="item-list">
+                        {{#each itemSubtypes.skill.esoteric.items as | item |}}
+                            <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                                data-item-name="{{item.name}}">
+                                <div class="item-name name default-action flexrow">
+                                    <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                    <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                                </div>
+                                <div class="detail ele">{{system.$skillBase.value}}</div>
+                                <div class="detail ele">{{system.$masteryLevel.base}}</div>
+                                <div class="detail ele">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.index}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail ele">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{numberFormat system.$masteryLevel.secMod sign=true}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail ele" data-tooltip="{{system.$masteryLevel.abbrev}}">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.effective}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail notes">{{system.notes}}</div>
+                                <div class="item-controls">
+                                    {{#if system.canImprove}}
+                                    <a class="item-control toggle-improve-flag"
+                                        title="Improve {{item.label}}">{{#if system.improveFlag}}<i
+                                        class="active fas fa-star fa-fw"></i>{{else}}<i
+                                        class="far fa-star fa-fw"></i>{{/if}}</a>
+                                    {{/if}}
+                                    <a class="item-control item-contextmenu" title="Menu"><i
+                                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            {{/if}}
+
+            {{#if itemSubtypes.mysticalability.arcaneincantation.items.length}}
+                <div class="items-list" data-category="arcaneincanting">
+                    <header class="items-header flexrow">
+                        <h3 class="item-name name">Arcane Incantation Mystical Abilities</h3>
+                        <div class="detail source" data-tooltip="Domain">Domain</div>
+                        <div class="detail ele" data-tooltip="Level">Lvl</div>
+                        <div class="detail ele" data-tooltip="Mastery Level">ML</div>
+                        <div class="detail ele" data-tooltip="Index">Index</div>
+                        <div class="detail ele" data-tooltip="Effective Mastery Level">EML</div>
+                        <div class="detail notes">Notes</div>
+                    </header>
+                    <ol class="item-list">
+                        {{#each itemSubtypes.mysticalability.arcaneincantation.items as | item |}}
+                            <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                                data-item-name="{{item.name}}">
+                                <div class="item-name name default-action flexrow">
+                                    <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                    <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                                </div>
+                                <div class="detail source">{{system.domain}}</div>
+                                <div class="detail ele">{{system.$level.roman}}</div>
+                                <div class="detail ele">{{system.$masteryLevel.base}}</div>
+                                <div class="detail ele">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.index}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail ele" data-tooltip="{{system.$masteryLevel.abbrev}}">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.effective}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail notes">{{system.notes}}</div>
+                                <div class="item-controls">
+                                    {{#if system.$masteryLevel.base}}
+                                    <a class="item-control toggle-improve-flag"
+                                        title="Improve {{item.label}}">{{#if system.improveFlag}}<i
+                                        class="active fas fa-star fa-fw"></i>{{else}}<i
+                                        class="far fa-star fa-fw"></i>{{/if}}</a>
+                                    {{/if}}
+                                    <a class="item-control item-contextmenu" title="Menu"><i
+                                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            {{/if}}
+
+            {{#if itemSubtypes.mysticalability.arcanetalent.items.length}}
+                <div class="items-list" data-category="arcanetalent">
+                    <header class="items-header flexrow">
+                        <h3 class="item-name name">Arcane Talent Mystical Abilities</h3>
+                        <div class="detail ele" data-tooltip="Mastery Level">ML</div>
+                        <div class="detail ele" data-tooltip="Index">Index</div>
+                        <div class="detail ele" data-tooltip="Effective Mastery Level">EML</div>
+                        <div class="detail notes">Notes</div>
+                    </header>
+                    <ol class="item-list">
+                        {{#each itemSubtypes.mysticalability.arcanetalent.items as | item |}}
+                            <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                                data-item-name="{{item.name}}">
+                                <div class="item-name name default-action flexrow">
+                                    <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                    <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                                </div>
+                                <div class="detail ele">{{system.$masteryLevel.base}}</div>
+                                <div class="detail ele">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.index}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail ele" data-tooltip="{{system.$masteryLevel.abbrev}}">
+                                    {{#if system.$masteryLevel.disabled}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                    {{else}}
+                                    {{system.$masteryLevel.effective}}
+                                    {{/if}}
+                                </div>
+                                <div class="detail notes">{{system.notes}}</div>
+                                <div class="item-controls">
+                                    {{#if system.canImprove}}
+                                    <a class="item-control toggle-improve-flag"
+                                        title="Improve {{item.label}}">{{#if system.improveFlag}}<i
+                                        class="active fas fa-star fa-fw"></i>{{else}}<i
+                                        class="far fa-star fa-fw"></i>{{/if}}</a>
+                                    {{/if}}
+                                    <a class="item-control item-contextmenu" title="Menu"><i
+                                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ol>
+                </div>
+            {{/if}}
+
+            {{#each itemSubtypes.mysticalability as | itemstlist subType |}}
+            {{#if (and itemstlist.items.length (ne subType "arcaneincantation") (ne subType "arcanetalent"))}}
+            <header class="items-header flexrow">
+                <h3 class="item-name name">{{itemstlist.label}} Mystical Abilities</h3>
+                <div class="detail source">{{lookup ../config.Item.dataModels.mysticalability.domainLabel subType}}</div>
+                <div class="detail ele">Level</div>
+                <div class="detail ele">Chgs</div>
+                <div class="detail notes">Notes</div>
+            </header>
+            <ol class="items-list" data-category="{{subType}}">
+                {{#each itemstlist.items as | item |}}
+                    <li class="item-list">
+                        <div class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                            <div class="item-name name default-action flexrow">
+                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                            </div>
+                            <div class="detail source">{{system.domain}}</div>
+                            <div class="detail ele">{{system.$level.roman}}</div>
+                            <div class="detail ele">
+                                {{#if (or (not system.charges.usesCharges) system.$charges.disabled)}}
+                                <i class="fas fa-xmark fa-lg"></i>
+                                {{else}}
+                                {{numberFormat system.$charges.effective}}{{#if (gt system.$charges.max.effective 0)}}/{{numberFormat system.$charges.max.effective}}{{/if}}
+                                {{/if}}
+                            </div>
+                            <div class="detail notes">{{system.notes}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-contextmenu" title="Menu"><i
+                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+            </ol>
+            {{/if}}
+            {{/each}}
+        </div>
+    </div>
+
+    {{!-- Philosophies --}}
+    <div class="flexcol items philosophies">
+        <ol class="items-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name name">Philosophies</h3>
+                <div class="detail source">Category</div>
+                <div class="detail notes">Notes</div>
+                <div class="item-controls">
+                    <a class="item-control item-create" data-tooltip="Create Philosophy"
+                        data-type="philosophy"><i class="fas fa-file-plus fa-lg"></i></a>
+                </div>
+            </li>
+            <ol class="item-list">
+                {{#each itemTypes.philosophy as |item|}}
+                    <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                        data-item-name="{{item.name}}">
+                        <div class="item-name name default-action flexrow">
+                            <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                            <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                        </div>
+                        <div class="detail source">{{lookup ../config.Item.dataModels.philosophy.categories system.category}}</div>
+                        <div class="detail notes">{{system.notes}}</div>
+                        <div class="item-controls">
+                            <a class="item-control item-contextmenu" title="Menu"><i
+                                class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        </div>
+                    </li>
+                {{/each}}
+            </ol>        
+        </ol>
+    </div>
+</section>

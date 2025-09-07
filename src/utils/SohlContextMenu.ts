@@ -58,15 +58,18 @@ export class SohlContextMenu extends (foundry.applications as any).ux
                 }
             }
         });
+        void mItems;
         options.jQuery = options.jQuery || false;
         super(container as any, selector, menuItems as any, options);
     }
 
-    static _getContextItem(header: HTMLElement): SohlItem | null {
+    static _getContextItem(header: HTMLElement): SohlItem<any, any> | null {
         const element = header.closest(".item") as HTMLElement;
         const item =
             element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-        return item && typeof item === "object" ? (item as SohlItem) : null;
+        return item && typeof item === "object" ?
+                (item as SohlItem<any, any>)
+            :   null;
     }
 
     // _getContextEffect(header: HTMLElement): SohlActiveEffectProxy | null {

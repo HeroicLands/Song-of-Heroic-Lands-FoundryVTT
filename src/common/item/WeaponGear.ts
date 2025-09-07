@@ -10,24 +10,19 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { NumberField } = foundry.data.fields;
 const kWeaponGear = Symbol("WeaponGear");
 const kData = Symbol("WeaponGear.Data");
 
 export class WeaponGear
-    extends GearMixin(SohlLogic)
+    extends GearMixin(SohlItem.BaseLogic)
     implements WeaponGear.Logic
 {
-    declare weight: ValueModifier;
-    declare value: ValueModifier;
-    declare quality: ValueModifier;
-    declare durability: ValueModifier;
     declare [kGearMixin]: true;
     declare readonly parent: WeaponGear.Data;
     readonly [kWeaponGear] = true;
@@ -60,7 +55,6 @@ export namespace WeaponGear {
 
     export interface Data extends GearMixin.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
         lengthBase: number;
     }
 
@@ -85,13 +79,7 @@ export namespace WeaponGear {
         declare isEquipped: boolean;
         declare qualityBase: number;
         declare durabilityBase: number;
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new WeaponGear(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {

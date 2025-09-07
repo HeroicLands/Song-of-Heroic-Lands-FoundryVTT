@@ -10,7 +10,7 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import {
     kMasteryLevelMixin,
@@ -18,8 +18,10 @@ import {
 } from "@common/item/MasteryLevelMixin";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import type { ValueModifier } from "@common/modifier/ValueModifier";
 import {
+    ITEM_KIND,
+    MYSTICALABILITY_SUBTYPE,
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
 } from "@utils/constants";
@@ -28,27 +30,42 @@ const kData = Symbol("MysticalAbility.Data");
 const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
+/**
+ * The MysticalAbility class represents a mystical ability associated with an
+ * entity, either a character or an object. These powers generally must
+ * be activated, and often the results or success of the powers are
+ * determined at least partially randomly.
+ *
+ * The following ability subtypes are supported:
+ *   Shamanic Rite: Perform a shamanic rite on target(s)
+ *   Spirit Action: Perform a spirit action (Roaming, Sensing, Communing, Immersion, Conflict, etc.)
+ *   Spirit Power: Perform a spirit power (Ancestor, Totem, or Energy)
+ *   Benediction: Bestow blessing
+ *   Divine Devotion: Request blessing or miracle
+ *   Divine Incantation: Divine spells
+ *   Arcane Incantation: Arcane spells
+ *   Arcane Talent: Intrinsic spell-like arcane powers
+ *   Spirit Talent: Intrinsic spell-like spirit powers
+ *   Alchemy: Create alchemical elixirs or perform actions
+ *   Divination: Foretelling the future
+ */
 export class MysticalAbility
-    extends SubTypeMixin(MasteryLevelMixin(SohlLogic))
+    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
     implements
         MysticalAbility.Logic,
         SubTypeMixin.Logic,
         MasteryLevelMixin.Logic
 {
     declare [kMasteryLevelMixin]: true;
-    declare masteryLevel: MasteryLevelModifier;
-    declare magicMod: number;
-    declare boosts: number;
-    declare _availableFate: SohlItem<SohlLogic, any>[];
-    declare availableFate: SohlItem<SohlLogic, any>[];
-    declare valid: boolean;
-    declare skillBase: MasteryLevelMixin.SkillBase;
-    declare sdrIncr: number;
-    improveWithSDR(context: SohlAction.Context): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
     declare readonly parent: MysticalAbility.Data;
     readonly [kMysticalAbility] = true;
+    assocSkill?: SohlItem;
+    domain?: SohlItem;
+    level!: ValueModifier;
+    charges!: {
+        value: ValueModifier;
+        max: ValueModifier;
+    };
 
     static isA(obj: unknown): obj is MysticalAbility {
         return (
@@ -59,6 +76,25 @@ export class MysticalAbility
     /** @inheritdoc */
     initialize(context: SohlAction.Context): void {
         super.initialize(context);
+        if (this.parent.assocSkill) {
+            this.assocSkill = this.actor?.allItems.find(
+                (it) =>
+                    it.type === ITEM_KIND.SKILL &&
+                    it.name === this.parent.assocSkill,
+            );
+        }
+        this.charges = {
+            value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+                this.parent.charges.value,
+            ),
+            max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+                this.parent.charges.max,
+            ),
+        };
+
+        this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            this.parent.levelBase,
+        );
     }
 
     /** @inheritdoc */
@@ -78,22 +114,25 @@ export namespace MysticalAbility {
             SubTypeMixin.Logic<MysticalAbilitySubType> {
         readonly parent: Data;
         readonly [kMysticalAbility]: true;
+        assocSkill?: SohlItem;
+        domain?: SohlItem;
+        level: ValueModifier;
+        charges: {
+            value: ValueModifier;
+            max: ValueModifier;
+        };
     }
 
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<MysticalAbilitySubType> {
-        readonly logic: Logic;
         readonly [kData]: true;
-        config: {
-            usesCharges: boolean;
-            usesSkills: boolean;
-            assocPhilosophy: string;
-            assocSkill: string;
-            isImprovable: boolean;
+        assocSkill: string;
+        isImprovable: boolean;
+        domain: {
+            philosophy: string;
+            name: string;
         };
-        domain: string;
-        skills: string[];
         levelBase: number;
         charges: {
             value: number;
@@ -131,17 +170,14 @@ export namespace MysticalAbility {
         declare skillBaseFormula: string;
         declare masteryLevelBase: number;
         declare improveFlag: boolean;
-        declare config: {
-            usesCharges: boolean;
-            usesSkills: boolean;
-            assocPhilosophy: string;
-            assocSkill: string;
-            isImprovable: boolean;
+        assocSkill!: string;
+        isImprovable!: boolean;
+        domain!: {
+            philosophy: string;
+            name: string;
         };
-        declare domain: string;
-        declare skills: string[];
-        declare levelBase: number;
-        declare charges: {
+        levelBase!: number;
+        charges!: {
             value: number;
             max: number;
         };
@@ -155,30 +191,29 @@ export namespace MysticalAbility {
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
-                config: new SchemaField({
-                    usesCharges: new BooleanField({ initial: false }),
-                    usesSkills: new BooleanField({ initial: false }),
-                    assocPhilosophy: new StringField(),
-                    assocSkill: new StringField(),
-                    isImprovable: new BooleanField({ initial: false }),
+                assocSkill: new StringField(),
+                isImprovable: new BooleanField({ initial: false }),
+                domain: new SchemaField({
+                    philosophy: new StringField(),
+                    name: new StringField(),
                 }),
-                domain: new StringField(),
                 levelBase: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
                 }),
                 charges: new SchemaField({
+                    // Note: if value is -1, then there are infinite charges remaining
                     value: new NumberField({
                         integer: true,
-                        initial: 0,
-                        min: 0,
+                        initial: -1,
+                        min: -1,
                     }),
-                    // Note: if max charges is 0, then there is no maximum
+                    // Note: if max is 0, then there is no maximum
                     max: new NumberField({
                         integer: true,
-                        initial: 0,
-                        min: 0,
+                        initial: -1,
+                        min: -1,
                     }),
                 }),
             };

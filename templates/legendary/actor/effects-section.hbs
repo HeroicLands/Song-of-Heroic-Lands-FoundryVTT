@@ -1,0 +1,60 @@
+<section class="content" data-group="sheet" data-tab="effects">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-effects" value="" aria-label="Search Effects"
+            placeholder="Search Effects" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control effect-create" data-tooltip="Create Effect"><i
+                class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+    <ol class="effects-list">
+        <li class="effects-header flexrow">
+            <h3 class="name flexrow">Effect</h3>
+            <div class="target">Target</div>
+            <div class="duration">Remaining</div>
+            <div class="changes">Changes</div>
+        </li>
+        <ol class="effect-list">
+            {{#each effects as |effect id|}}
+                <li class="effect {{#if effect.disabled}}disabled{{/if}} flexrow" data-effect-name="{{effect.name}}"
+                    data-effect-id="{{effect.id}}" data-effect-parent-uuid="{{effect.parent.uuid}}">
+                    <div class="name">
+                        <div class="image" style="background-image: url('{{ effect.img }}')"></div>
+                        <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
+                    </div>
+                    <div class="ele target" data-tooltip="{{effect.system.targetLabel}}">{{effect.system.targetLabel}}</div>
+                    <div class="ele duration">{{#if (eq effect._aeDuration.label "None")}}Indefinite{{else}}{{effect._aeDuration.label}}{{/if}}</div>
+                    <div class="ele changes" data-tooltip="{{effect._aeChanges}}">{{effect._aeChanges}}</div>
+                    <div class="effect-controls">
+                        <a class="effect-control effect-toggle"><i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i></a>
+                        <a class="effect-control effect-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </li>
+            {{/each}}
+        </ol>
+    </ol>
+
+    <ol class="effects-list">
+        <li class="effects-header flexrow">
+            <h3 class="name flexrow">Transferred Effect</h3>
+            <div class="source">Source</div>
+            <div class="duration">Remaining</div>
+            <div class="changes">Changes</div>
+        </li>
+        <ol class="effect-list">
+            {{#each trxEffects as |effect id|}}
+                <li class="effect {{#if effect.disabled}}disabled{{/if}} flexrow" data-effect-name="{{effect.label}}"
+                    data-effect-id="{{effect.id}}">
+                    <div class="name">
+                        <div class="effect-image" style="background-image: url('{{ effect.img }}')"></div>
+                        <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
+                    </div>
+                    <div class="ele source" data-tooltip="{{effect.sourceName}}">{{effect.sourceName}}</div>
+                    <div class="ele duration">{{#if (eq effect._aeDuration.label "None")}}Indefinite{{else}}{{effect._aeDuration.label}}{{/if}}</div>
+                    <div class="ele changes" data-tooltip="{{effect._aeChanges}}">{{effect._aeChanges}}</div>
+                </li>
+            {{/each}}
+        </ol>
+    </ol>
+</section>

@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlLogic } from "@common/SohlLogic";
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 import type { Injury } from "@common/item/Injury";
@@ -20,18 +19,17 @@ import { SohlActor } from "@common/actor/SohlActor";
 import type { ImpactResult } from "@common/result/ImpactResult";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
 import type { SohlAction } from "@common/event/SohlAction";
+import { SohlMap } from "@utils/collection/SohlMap";
+import { ACTOR_KIND } from "@utils/constants";
 
 const kEntity = Symbol("Entity");
-const kDataModel = Symbol("Entity.DataModel");
+const kData = Symbol("Entity.Data");
 
 /**
  * The business logic class for the Entity actor.
  */
-export class Entity<TData extends Entity.Data = Entity.Data>
-    extends SohlLogic
-    implements Entity.Logic<TData>
-{
-    declare readonly parent: TData;
+export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
+    declare readonly parent: Entity.Data;
     readonly [kEntity] = true;
 
     /**
@@ -107,54 +105,63 @@ export class Entity<TData extends Entity.Data = Entity.Data>
     }
 
     async improveWithSDR(context: SohlAction.Context): Promise<void> {
+        void context;
         return;
     }
 
     async successTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async fatigueTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async courseTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async treatmentTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async diagnosisTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async healingTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async bleedingStoppageTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
     async bloodlossAdvanceTest(
         context: SohlAction.Context,
     ): Promise<Nullable<SuccessTestResult>> {
+        void context;
         return null;
     }
 
@@ -180,6 +187,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // return impactResult.item?.system.execute("calcImpact", {
         //     impactResult,
         // });
+        void context;
         return null;
     }
 
@@ -204,6 +212,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // testResult = testResult.item.system.successTest(optionws);
         // testResult.shockMod = 1 - testResult.successLevel;
         // return testResult;
+        void context;
         return null;
     }
 
@@ -231,6 +240,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
+        void context;
         return null;
     }
 
@@ -260,6 +270,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
+        void context;
         return null;
     }
 
@@ -281,6 +292,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        void context;
         return null;
     }
 
@@ -302,6 +314,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        void context;
         return null;
     }
 
@@ -338,6 +351,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         //     }
         // }
         // return options.testResult;
+        void context;
         return null;
     }
 
@@ -361,6 +375,7 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
+        void context;
         return null;
     }
 
@@ -444,11 +459,13 @@ export class Entity<TData extends Entity.Data = Entity.Data>
         // } else {
         //     skill.system.execute("opposedTestResume", options);
         // }
+        void context;
         return;
     }
 
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
         //             return foundry.utils.mergeObject(super.defineSchema(), {
@@ -490,10 +507,14 @@ export class Entity<TData extends Entity.Data = Entity.Data>
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Entity {
@@ -501,10 +522,10 @@ export namespace Entity {
      * The paths to the document sheet handlebars partials for the Entity actor.
      */
     export const SheetPartials = [
-        "systems/sohl/templates/actor/animateentity-sheet.hbs",
+        "systems/sohl/templates/legendary/actor/animateentity-sheet.hbs",
     ];
 
-    export interface Logic<TData extends Data = Data> extends SohlLogic.Logic {
+    export interface Logic extends SohlActor.Logic {
         health: ValueModifier;
         healingBase: ValueModifier;
         zoneSum: number;
@@ -513,6 +534,7 @@ export namespace Entity {
         fate: ValueModifier;
         engagedOpponents: ValueModifier;
         domains: StrictObject<SohlItem[]>;
+        virtualItems: SohlMap<string, SohlItem>;
         improveWithSDR(context: SohlAction.Context): Promise<void>;
         successTest(
             context: SohlAction.Context,
@@ -569,9 +591,11 @@ export namespace Entity {
      */
     export class DataModel extends SohlActor.DataModel implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["ENTITY"];
-        readonly [kDataModel] = true;
+        static override readonly kind = ACTOR_KIND.ENTITY;
+
+        readonly [kData] = true;
         static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+            return typeof obj === "object" && obj !== null && kData in obj;
         }
     }
 }

@@ -10,16 +10,15 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { PhilosophySubType, PhilosophySubTypes } from "@utils/constants";
-const { StringField } = foundry.data.fields;
 const kPhilosophy = Symbol("Philosophy");
 const kData = Symbol("Philosophy.Data");
 
-export class Philosophy extends SohlLogic implements Philosophy.Logic {
+export class Philosophy extends SohlItem.BaseLogic implements Philosophy.Logic {
     declare readonly parent: Philosophy.Data;
     readonly [kPhilosophy] = true;
 
@@ -28,24 +27,29 @@ export class Philosophy extends SohlLogic implements Philosophy.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Philosophy {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly [kPhilosophy]: true;
         readonly parent: Philosophy.Data;
     }
 
     export interface Data extends SubTypeMixin.Data<PhilosophySubType> {
         readonly [kData]: true;
-        readonly logic: SubTypeMixin.Logic<PhilosophySubType>;
     }
 
     export namespace Data {
@@ -74,13 +78,7 @@ export namespace Philosophy {
     export class DataModel extends DataModelShape {
         declare subType: PhilosophySubType;
         static override readonly LOCALIZATION_PREFIXES = ["Philosophy"];
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new Philosophy(this);
-            return this._logic;
-        }
     }
 
     export class Sheet extends SohlItem.Sheet {

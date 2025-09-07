@@ -11,15 +11,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common/SohlSystem";
+import {
+    COMMON_ACTOR_DATA_MODEL,
+    COMMON_ITEM_DATA_MODEL,
+    SohlSystem,
+} from "@common/SohlSystem";
 import { LgndCombatModifier } from "@legendary/modifier/LgndCombatModifier";
 import { LgndImpactModifier } from "@legendary/modifier/LgndImpactModifier";
 import { LgndSuccessTestResult } from "@legendary/result/LgndSuccessTestResult";
 import { LgndOpposedTestResult } from "@legendary/result/LgndOpposedTestResult";
 import { LgndCombatResult } from "@legendary/result/LgndCombatResult";
-const LgndActorDataModels = {};
+import { SohlDataModel } from "@common/SohlDataModel";
+import { ActorKinds, defineType, ITEM_KIND, ItemKinds } from "@utils/constants";
+import { SohlActor } from "@common/actor/SohlActor";
+import { SohlItem } from "@common/item/SohlItem";
+import { ContainerGear } from "@common/item/ContainerGear";
 
-const LgndItemDataModels = {};
+export const {
+    kind: LGND_ACTOR_DATA_MODEL,
+    values: LgndActorDataModels,
+    isValue: isLgndActorDataModel,
+    labels: LgndActorDataModelLabels,
+} = defineType("TYPES.Actor", {
+    ...COMMON_ACTOR_DATA_MODEL,
+} as Record<string, Constructor<SohlDataModel<any>>>);
+
+export const {
+    kind: LGND_ITEM_DATA_MODEL,
+    values: LgndItemDataModels,
+    isValue: isLgndItemDataModel,
+    labels: LgndItemDataModelLabels,
+} = defineType("TYPES.Item", {
+    ...COMMON_ITEM_DATA_MODEL,
+} as Record<string, Constructor<SohlDataModel<any>>>);
 
 export class LegendarySystem extends SohlSystem {
     static override get CONFIG(): SohlSystem.Config {
@@ -27,10 +51,28 @@ export class LegendarySystem extends SohlSystem {
             SohlSystem.CONFIG,
             {
                 Actor: {
-                    dataModels: LgndActorDataModels,
+                    documentSheets: [
+                        {
+                            cls: SohlActor.Sheet, // This should probably be a specific Legendary Actor sheet
+                            types: ActorKinds,
+                        },
+                    ],
+                    dataModels: LGND_ACTOR_DATA_MODEL,
                 },
                 Item: {
-                    dataModels: LgndItemDataModels,
+                    documentSheets: [
+                        {
+                            cls: SohlItem.Sheet, // This should probably be a specific Legendary Item sheet
+                            types: ItemKinds.filter(
+                                (t) => t !== ITEM_KIND.CONTAINERGEAR,
+                            ),
+                        },
+                        {
+                            cls: ContainerGear.Sheet, // This should probably be a specific Legendary Item sheet
+                            types: [ITEM_KIND.CONTAINERGEAR],
+                        },
+                    ],
+                    dataModels: LGND_ITEM_DATA_MODEL,
                 },
                 CombatModifier: LgndCombatModifier,
                 ImpactModifier: LgndImpactModifier,

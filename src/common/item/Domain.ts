@@ -20,42 +20,47 @@ import {
     DomainEmbodimentCategory,
 } from "@utils/constants";
 import type { SohlAction } from "@common/event/SohlAction";
-import { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
 import { Philosophy } from "@common/item/Philosophy";
 const kDomain = Symbol("Domain");
 const kData = Symbol("Domain.Data");
-
 const { ArrayField, StringField } = foundry.data.fields;
 
-export class Domain extends SohlLogic implements Domain.Logic {
+export class Domain extends SohlItem.BaseLogic implements Domain.Logic {
     declare readonly parent: Domain.Data;
+    philosophy?: SohlItem;
     category?: string;
     readonly [kDomain] = true;
 
     /** @inheritdoc */
     override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
         if (Philosophy.Data.isA(this.item?.nestedIn?.system)) {
             this.category = this.item?.nestedIn?.system.subType;
         }
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace Domain {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlItem.Logic {
         readonly parent: Domain.Data;
         readonly [kDomain]: true;
+        philosophy?: SohlItem;
     }
 
     export interface Data extends SohlItem.Data {
         readonly [kData]: true;
-        readonly logic: Logic;
+        philosophy: string;
         abbrev: string;
         cusp: string;
         magicMod: DomainElementCategory[];
@@ -68,25 +73,21 @@ export namespace Domain {
         }
     }
 
-    export class DataModel extends SohlItem.DataModel implements Data {
+    export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Domain"];
-        declare abbrev: string;
-        declare cusp: string;
-        declare magicMod: DomainElementCategory[];
-        declare embodiments: DomainEmbodimentCategory[];
-        declare _logic: Logic;
+        abbrev!: string;
+        cusp!: string;
+        philosophy!: string;
+        magicMod!: DomainElementCategory[];
+        embodiments!: DomainEmbodimentCategory[];
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new Domain(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 abbrev: new StringField(),
                 cusp: new StringField(),
+                philosophy: new StringField(),
                 magicMod: new ArrayField(
                     new StringField({
                         initial: DOMAIN_ELEMENT_CATEGORY.ARCANA,

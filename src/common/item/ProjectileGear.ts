@@ -10,12 +10,11 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
 import type { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { ValueModifier } from "@common/modifier/ValueModifier";
 import {
     IMPACT_ASPECT,
     ImpactAspect,
@@ -28,15 +27,11 @@ const kProjectileGear = Symbol("ProjectileGear");
 const kData = Symbol("ProjectileGear.Data");
 
 export class ProjectileGear
-    extends SubTypeMixin(GearMixin(SohlLogic))
+    extends SubTypeMixin(GearMixin(SohlItem.BaseLogic))
     implements ProjectileGear.Logic
 {
     declare readonly [kGearMixin]: true;
     declare readonly parent: ProjectileGear.Data;
-    declare weight: ValueModifier;
-    declare value: ValueModifier;
-    declare quality: ValueModifier;
-    declare durability: ValueModifier;
     readonly [kProjectileGear] = true;
 
     static isA(obj: unknown): obj is ProjectileGear {
@@ -46,13 +41,19 @@ export class ProjectileGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {}
+    override initialize(context: SohlAction.Context): void {
+        super.initialize(context);
+    }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {}
+    override evaluate(context: SohlAction.Context): void {
+        super.evaluate(context);
+    }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {}
+    override finalize(context: SohlAction.Context): void {
+        super.finalize(context);
+    }
 }
 
 export namespace ProjectileGear {
@@ -65,7 +66,6 @@ export namespace ProjectileGear {
     export interface Data
         extends SubTypeMixin.Data<ProjectileGearSubType>,
             GearMixin.Data {
-        readonly logic: Logic;
         shortName: string;
         impactBase: {
             numDice: number;
@@ -104,13 +104,8 @@ export namespace ProjectileGear {
             modifier: number;
             aspect: ImpactAspect;
         };
-        declare _logic: ProjectileGear.Logic;
         readonly [kData] = true;
 
-        get logic(): ProjectileGear.Logic {
-            this._logic ??= new ProjectileGear(this);
-            return this._logic;
-        }
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),

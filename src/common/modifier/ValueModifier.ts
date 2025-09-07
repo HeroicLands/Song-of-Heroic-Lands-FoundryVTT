@@ -53,6 +53,7 @@ export class ValueModifier extends SohlBase {
 
     protected _apply(): void {
         this._dirty = false;
+        void this._dirty;
         if (this.disabled) {
             this._effective = 0;
         } else {
@@ -194,13 +195,18 @@ export class ValueModifier extends SohlBase {
         return this.baseValue || 0;
     }
 
-    set base(value: unknown) {
+    setBase(value: unknown): ValueModifier {
         if (typeof value === "number" || typeof value === "undefined") {
             this.baseValue = value;
         } else {
             throw new TypeError("value must be numeric or undefined");
         }
         this._apply();
+        return this;
+    }
+
+    set base(value: unknown) {
+        this.setBase(value);
     }
 
     get hasBase(): boolean {
@@ -254,26 +260,27 @@ export class ValueModifier extends SohlBase {
         return this;
     }
 
-    get(abbrev: string) {
+    get(abbrev: string): ValueDelta | undefined {
         if (typeof abbrev !== "string")
             throw new TypeError("abbrev is not a string");
         return this.deltas.find((m) => m.abbrev === abbrev);
     }
 
-    has(abbrev: string) {
+    has(abbrev: string): boolean {
         if (typeof abbrev !== "string")
             throw new TypeError("abbrev is not a string");
         return this.deltas.some((m) => m.abbrev === abbrev) || false;
     }
 
-    delete(abbrev: string) {
+    delete(abbrev: string): void {
         if (typeof abbrev !== "string")
             throw new TypeError("abbrev is not a string");
         const newMods = this.deltas.filter((m) => m.abbrev !== abbrev) || [];
+        void newMods;
         this._apply();
     }
 
-    add(...args: any[]) {
+    add(...args: any[]): ValueModifier {
         let name, abbrev, value, data;
         if (typeof args[0] === "object") {
             [{ name, abbrev }, value, data = {}] = args;
@@ -286,11 +293,12 @@ export class ValueModifier extends SohlBase {
     addVM(
         other: ValueModifier,
         { includeBase }: { includeBase?: boolean } = {},
-    ) {
+    ): ValueModifier {
         if (includeBase) this.base = other.base;
+        return this;
     }
 
-    multiply(...args: any[]) {
+    multiply(...args: any[]): ValueModifier {
         let name, abbrev, value, data;
         if (typeof args[0] === "object") {
             [{ name, abbrev }, value, data = {}] = args;
@@ -305,8 +313,11 @@ export class ValueModifier extends SohlBase {
             data,
         );
     }
-
-    set(...args: any[]) {
+    /**
+     * Sets the value to a specific number, overriding all other modifiers.
+     * @param args - The arguments can be an object with name and abbrev, followed by value and optional data.
+     */
+    set(...args: any[]): ValueModifier {
         let name, abbrev, value, data;
         if (typeof args[0] === "object") {
             [{ name, abbrev }, value, data = {}] = args;
@@ -322,7 +333,7 @@ export class ValueModifier extends SohlBase {
         );
     }
 
-    floor(...args: any[]) {
+    floor(...args: any[]): ValueModifier {
         let name, abbrev, value, data;
         if (typeof args[0] === "object") {
             [{ name, abbrev }, value, data = {}] = args;
@@ -338,7 +349,7 @@ export class ValueModifier extends SohlBase {
         );
     }
 
-    ceiling(...args: any[]) {
+    ceiling(...args: any[]): ValueModifier {
         let name, abbrev, value, data;
         if (typeof args[0] === "object") {
             name = args[0].name;
@@ -404,7 +415,7 @@ export class ValueModifier extends SohlBase {
         return fragHtml;
     }
 
-    _calcAbbrev() {
+    _calcAbbrev(): void {
         this._abbrev = "";
         if (this.disabled) {
             this._abbrev = VALUE_DELTA_INFO.DISABLED;

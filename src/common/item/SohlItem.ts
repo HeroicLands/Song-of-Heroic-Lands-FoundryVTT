@@ -22,15 +22,16 @@ import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { InternalClientDocument } from "@common/FoundryProxy";
-import type { SohlLogic } from "@common/SohlLogic";
+import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
+import { SohlAction } from "@common/event/SohlAction";
 const { StringField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
-const kDataModel = Symbol("SohlItem.DataModel");
+const kData = Symbol("SohlItem.Data");
 
 export class SohlItem<
-        TLogic extends SohlLogic = SohlLogic,
+        TLogic extends SohlItem.Logic = SohlItem.Logic,
         TDataModel extends SohlItem.DataModel = any,
     >
     extends ClientDocumentExtendedMixin(
@@ -43,6 +44,10 @@ export class SohlItem<
     declare readonly flags: PlainObject;
     declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
     declare readonly collection: Collection<this, Collection.Methods<this>>;
+    declare readonly effects: Collection<
+        SohlActiveEffect,
+        Collection.Methods<SohlActiveEffect>
+    >;
     declare readonly compendium: CompendiumCollection<any> | undefined;
     declare readonly isOwner: boolean;
     declare readonly hasPlayerOwner: boolean;
@@ -149,45 +154,12 @@ export class SohlItem<
         options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
         userId: string,
     ) => void;
-    declare _preCreateDescendantDocuments: (
-        embeddedName: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
-    declare public _onCreateDescendantDocuments: (
-        embeddedName: any,
-        documents: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
-    declare public _preUpdateDescendantDocuments: (
-        embeddedName: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
-    declare public _onUpdateDescendantDocuments: (
-        embeddedName: any,
-        documents: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
-    declare public _preDeleteDescendantDocuments: (
-        embeddedName: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
-    declare public _onDeleteDescendantDocuments: (
-        embeddedName: any,
-        documents: any,
-        result: any,
-        options: any,
-        userId: any,
-    ) => void;
+    declare _preCreateDescendantDocuments: (...args: any[]) => void;
+    declare public _onCreateDescendantDocuments: (...args: any[]) => void;
+    declare public _preUpdateDescendantDocuments: (...args: any[]) => void;
+    declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
+    declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
+    declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
     declare type: string;
     declare img: FilePath;
     declare static create: (
@@ -205,57 +177,8 @@ export class SohlItem<
         return typeof obj === "object" && obj !== null && kSohlItem in obj;
     }
 
-    get typeLabel(): string {
-        const typeText = sohl.i18n.format("TYPE.Item." + this.type);
-        if (this.system.subType) {
-            const subTypeText = sohl.i18n.format(
-                `SOHL.${this.system.langId}.Item.` + this.system.subType,
-            );
-            return sohl.i18n.format("{subType} {type}", {
-                subType: (this.constructor as any).subTypes[
-                    this.system.subType
-                ],
-                type: typeText,
-            });
-        } else {
-            return sohl.i18n.format("{type}", {
-                type: typeText,
-            });
-        }
-    }
-
-    get label() {
-        return this.system.label;
-    }
-
-    get defaultIntrinsicActionName(): string {
-        throw new Error("Method not implemented.");
-    }
-
-    get nestedIn(): SohlItem | null {
-        return this.system?.nestedIn ?
-                (this.actor?.items.get(this.system.nestedIn) as SohlItem)
-            :   null;
-    }
-
-    get actor(): SohlActor | null {
-        if (["assembly", "entity"].includes(this.type)) {
-            return this.parent;
-        } else {
-            throw new Error("item parent must be an Actor or null");
-        }
-    }
-
-    get isNested(): boolean {
-        return !!this.system?.nestedIn;
-    }
-
-    nestedItems(types: string[] = []): SohlItem[] {
-        return (this.actor as any)?.items.filter(
-            (i: SohlItem) =>
-                i.system?.nestedIn === this.id &&
-                (!types?.length || types.includes(i.type)),
-        );
+    get logic(): TLogic {
+        return this.system.logic as TLogic;
     }
 
     static _getContextOptions(doc: SohlItem): SohlContextMenu.Entry[] {
@@ -282,22 +205,30 @@ export class SohlItem<
         console.log("Edit action clicked:", btn);
     }
 
-    createEffect(
-        data: PlainObject,
-        options?: PlainObject,
-    ): Promise<SohlActiveEffect | undefined> {
-        return SohlActiveEffect.create(data, options);
+    get nestedIn(): SohlItem | null {
+        return this.system?.nestedIn ?
+                (this.actor?.allItems.get(this.system.nestedIn) as SohlItem)
+            :   null;
+    }
+
+    get isNested(): boolean {
+        return !!this.system?.nestedIn;
+    }
+
+    nestedItems(types: string[] = []): SohlItem[] {
+        return (this.actor as any)?.allItems.filter(
+            (i: SohlItem) =>
+                i.system?.nestedIn === this.id &&
+                (!types?.length || types.includes(i.type)),
+        );
     }
 }
 
 export namespace SohlItem {
     export interface Data extends SohlLogic.Data {
+        readonly [kData]: true;
         get item(): SohlItem;
-        get actor(): SohlActor | null;
-        readonly logic: Logic;
-        get i18nPrefix(): string;
-        get kind(): string;
-        label(withName?: boolean): string;
+        label(options?: { withName: boolean; withSubType: boolean }): string;
         notes: HTMLString;
         description: HTMLString;
         textReference: HTMLString;
@@ -305,11 +236,23 @@ export namespace SohlItem {
         nestedInUuid: string | null;
     }
 
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlLogic {
         readonly parent: Data;
     }
 
-    export type DataModelConstructor = SohlDataModel.Constructor<SohlItem>;
+    export class BaseLogic extends SohlLogic implements Logic {
+        declare readonly parent: Data;
+        declare _getContextOptions: () => SohlContextMenu.Entry[];
+        override initialize(context?: SohlAction.Context): void {
+            void context;
+        }
+        override evaluate(context?: SohlAction.Context): void {
+            void context;
+        }
+        override finalize(context?: SohlAction.Context): void {
+            void context;
+        }
+    }
 
     /**
      * The `SohlItemDataModel` class extends the Foundry VTT `TypeDataModel` to provide
@@ -326,14 +269,18 @@ export namespace SohlItem {
         declare textReference: HTMLString;
         declare transfer: boolean;
         declare nestedInUuid: string | null;
-        static override LOCALIZATION_PREFIXES = ["SohlItem.DataModel"];
-        readonly [kDataModel] = true;
+        readonly [kData] = true;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
+        constructor(data: PlainObject = {}, options: PlainObject = {}) {
+            if (!(options.parent instanceof SohlItem)) {
+                throw new Error("Parent must be of type SohlItem");
+            }
+            super(data, options);
         }
 
-        abstract readonly logic: Logic;
+        static isA(obj: unknown): obj is DataModel {
+            return typeof obj === "object" && obj !== null && kData in obj;
+        }
 
         get item(): SohlItem {
             return this.parent;
@@ -347,38 +294,47 @@ export namespace SohlItem {
             return `SOHL.Item.${this.kind}`;
         }
 
-        label(withName: boolean = true): string {
-            const typeText = sohl.i18n.localize(`TYPE.Item.${this.kind}`);
-            let profile: string;
-            if (withName) {
-                if (SubTypeMixin.Data.isA(this)) {
-                    profile = "SOHL.BASEDATA.nameLabelWithSubType";
-                } else {
-                    profile = "SOHL.BASEDATA.nameLabelWithoutSubType";
-                }
+        /**
+         * @description Get the full label for this item, optionally including name and subtype.
+         * @remarks
+         * The item name and item subtype are both optional, although shown by default.
+         * In English, the format will be:
+         *    `[<item name>] [<item subtype>] <item type>`
+         *
+         * @example
+         * EN: `Melee Combat Skill`
+         * ES: `Habilidad de Combate Cuerpo a Cuerpo`
+         * RU: `Навык боя Ближний бой`
+         * DE: `Nahkampf Kampffertigkeit`
+         *
+         * @param options
+         * @returns The fully localized string in the appropriate language based on the
+         * user's settings.
+         */
+        label(
+            options: { withName: boolean; withSubType: boolean } = {
+                withName: true,
+                withSubType: true,
+            },
+        ): string {
+            let typeText: string;
+            if (options.withSubType && SubTypeMixin.Data.isA(this)) {
+                typeText = `SOHL.${this.kind}.typelabel.${this.subType}`;
             } else {
-                if (SubTypeMixin.Data.isA(this)) {
-                    profile = "SOHL.BASEDATA.TypeLabelWithSubType";
-                } else {
-                    profile = "SOHL.BASEDATA.TypeLabelWithoutSubType";
-                }
+                typeText = `SOHL.${this.kind}.typelabel`;
             }
-            const data = {
-                type: typeText,
-                subtype: "",
-                name: this.parent.name,
-            };
-            if (SubTypeMixin.Data.isA(this)) data.subtype = this.subType;
 
-            return sohl.i18n.format(profile, {
-                type: typeText,
-                subtype: data.subtype,
-                name: this.parent.name,
-            });
+            let result = sohl.i18n.localize(typeText);
+            if (options.withName) {
+                result = sohl.i18n.localize("SOHL.SohlItem.labelWithName", {
+                    name: this.parent.name,
+                    type: result,
+                });
+            }
+            return result;
         }
 
-        /** @override */
-        static defineSchema(): foundry.data.fields.DataSchema {
+        static override defineSchema(): foundry.data.fields.DataSchema {
             return {
                 ...super.defineSchema(),
                 nestedInUuid: new StringField({
@@ -390,16 +346,23 @@ export namespace SohlItem {
     }
 
     export namespace DataModel {
-        export interface Statics extends SohlDataModel.TypeDataModelStatics {
+        export interface Statics extends SohlDataModel.DataModel.Statics {
             readonly kind: string;
             isA(obj: unknown): obj is unknown;
         }
+
+        export const Shape: WithStatics<typeof SohlItem.DataModel, Statics> =
+            SohlItem.DataModel;
     }
 
     type HandlebarsTemplatePart =
         foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
 
     export class Sheet extends SohlDataModel.Sheet<SohlItem> {
+        override get document(): SohlItem {
+            return super.document as unknown as SohlItem;
+        }
+
         static PARTS: StrictObject<HandlebarsTemplatePart> = {
             header: {
                 template: "system/sohl/templates/item/parts/header.hbs",
@@ -463,8 +426,7 @@ export namespace SohlItem {
             return await super._prepareContext(options);
         }
 
-        /** @override */
-        async _onDropItem(
+        override async _onDropItem(
             event: DragEvent,
             droppedItem: SohlItem,
         ): Promise<void> {
@@ -481,12 +443,13 @@ export namespace SohlItem {
             data: PlainObject,
             event: DragEvent,
         ): Promise<SohlItem[] | undefined | boolean> {
+            void event;
             if (!this.actor || !this.item.isOwner) return false;
             const itemList = data instanceof Array ? data : [data];
             const toCreate = [];
             for (let itemData of itemList) {
                 // Determine if a similar item exists
-                let similarItem = this.actor.items.find(
+                let similarItem = this.actor.allItems.find(
                     (it: SohlItem) =>
                         it.name === itemData.name &&
                         it.type === itemData.type &&
@@ -495,7 +458,7 @@ export namespace SohlItem {
 
                 if (similarItem) {
                     const confirm = await Dialog.confirm({
-                        title: `Confirm Overwrite: ${similarItem.label}`,
+                        title: `Confirm Overwrite: ${similarItem.system.label}`,
                         content: `<p>Are You Sure?</p><p>This item will be overwritten and cannot be recovered.</p>`,
                         options: { jQuery: false },
                     });
@@ -542,7 +505,7 @@ export namespace SohlItem {
             };
 
             if (item.nestedIn) {
-                dlgData.sourceName = `${item.nestedIn.label}`;
+                dlgData.sourceName = `${item.nestedIn.system.label}`;
             } else {
                 dlgData.sourceName = item.actor.name || "Unknown";
             }
@@ -596,9 +559,10 @@ export namespace SohlItem {
             const destContainerId = target?.dataset.containerId;
 
             // If no other container is specified, use this item
-            let destContainer;
+            let destContainer: SohlDocument | null = null;
             if (destContainerId) {
-                destContainer = this.document.actor?.items.get(destContainerId);
+                destContainer =
+                    this.document.actor?.allItems.get(destContainerId);
             }
             destContainer ||= this.document.nestedIn;
 
@@ -618,10 +582,10 @@ export namespace SohlItem {
                 return true;
             }
 
-            const similarItem = destContainer
+            const similarItem: SohlItem | undefined = destContainer
                 .nestedItems()
                 .find(
-                    (it) =>
+                    (it: SohlItem) =>
                         droppedItem.id === it.id ||
                         (droppedItem.name === it.name &&
                             droppedItem.type === it.type),
@@ -688,7 +652,7 @@ export namespace SohlItem {
         ): Promise<SohlItem[] | undefined> {
             if (!this.actor || !this.actor.isOwner)
                 return Promise.resolve(undefined);
-            const items = this.actor.items;
+            const items = this.actor.allItems;
             const sourceId = item.id;
             if (!sourceId) return Promise.resolve(undefined);
             const source = items.get(sourceId);

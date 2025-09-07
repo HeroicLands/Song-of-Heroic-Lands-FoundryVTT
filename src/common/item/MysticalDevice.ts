@@ -10,7 +10,8 @@
  *
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
-import { SohlLogic } from "@common/SohlLogic";
+
+import type { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlAction } from "@common/event/SohlAction";
@@ -25,7 +26,7 @@ const kMysticalDevice = Symbol("MysticalDevice");
 const kData = Symbol("MysticalDevice.Data");
 
 export class MysticalDevice
-    extends SubTypeMixin(SohlLogic)
+    extends SubTypeMixin(SohlItem.BaseLogic)
     implements MysticalDevice.Logic
 {
     declare readonly parent: MysticalDevice.Data;
@@ -48,20 +49,19 @@ export class MysticalDevice
 }
 
 export namespace MysticalDevice {
-    export interface Logic extends SohlLogic.Logic {
+    export interface Logic extends SohlLogic {
         readonly parent: MysticalDevice.Data;
         readonly [kMysticalDevice]: true;
     }
 
     export interface Data extends SubTypeMixin.Data<MysticalDeviceSubType> {
         readonly [kData]: true;
-        readonly logic: SubTypeMixin.Logic<MysticalDeviceSubType>;
-        config: {
-            requiresAttunement: boolean;
-            usesVolition: boolean;
-            assocPhilosophy: string;
+        requiresAttunement: boolean;
+        usesVolition: boolean;
+        domain: {
+            philosophy: string;
+            name: string;
         };
-        domain: string;
         isAttuned: boolean;
         volition: {
             ego: number;
@@ -97,34 +97,28 @@ export namespace MysticalDevice {
     export class DataModel extends DataModelShape {
         static override readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
         declare subType: MysticalDeviceSubType;
-        declare config: {
-            requiresAttunement: boolean;
-            usesVolition: boolean;
-            assocPhilosophy: string;
+        declare requiresAttunement: boolean;
+        declare usesVolition: boolean;
+        declare domain: {
+            philosophy: string;
+            name: string;
         };
-        declare domain: string;
         declare isAttuned: boolean;
         declare volition: {
             ego: number;
             morality: number;
             purpose: string;
         };
-        declare _logic: Logic;
         readonly [kData] = true;
-
-        get logic(): Logic {
-            this._logic ??= new MysticalDevice(this);
-            return this._logic;
-        }
 
         static defineSchema(): foundry.data.fields.DataSchema {
             return {
-                config: new SchemaField({
-                    requiresAttunement: new BooleanField({ initial: false }),
-                    usesVolition: new BooleanField({ initial: false }),
-                    assocPhilosophy: new StringField(),
+                requiresAttunement: new BooleanField({ initial: false }),
+                usesVolition: new BooleanField({ initial: false }),
+                domain: new SchemaField({
+                    philosophy: new StringField(),
+                    name: new StringField(),
                 }),
-                domain: new StringField(),
                 isAttuned: new BooleanField({ initial: false }),
                 volition: new SchemaField({
                     ego: new NumberField({
