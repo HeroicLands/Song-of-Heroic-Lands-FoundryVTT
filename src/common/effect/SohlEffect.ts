@@ -12,7 +12,8 @@
  */
 
 import { SohlLogic } from "@common/SohlLogic";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlActor } from "@common/actor/SohlActor";
@@ -22,23 +23,17 @@ const kSohlEffect = Symbol("SohlEffect");
 const kData = Symbol("SohlEffect.Data");
 
 export class SohlEffect extends SohlLogic implements SohlEffect.Logic {
-    declare readonly parent: SohlEffect.Data;
+    declare readonly _parent: SohlEffect.Data;
     readonly [kSohlEffect] = true;
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
-        void context;
-    }
+    override initialize(context: SohlEventContext): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
-        void context;
-    }
+    override evaluate(context: SohlEventContext): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
-        void context;
-    }
+    override finalize(context: SohlEventContext): void {}
 }
 
 export namespace SohlEffect {

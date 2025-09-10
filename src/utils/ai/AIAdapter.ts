@@ -60,7 +60,6 @@ export abstract class AIAdapter {
             user: SohlUser | null;
         } = { user: (game as any).user as SohlUser | null },
     ): boolean | void {
-        void chatLog;
         let match: RegExpMatchArray | null = message.match(
             /^(?:\/whisper (?:sage|ai)\s+)([^]*)/i,
         );
@@ -76,7 +75,6 @@ export abstract class AIAdapter {
         message: string,
         user: SohlUser | null = null,
     ): void {
-        void user;
         let result: AIExecutionResult;
         try {
             result = { message: "Not Yet Implemented" } as AIExecutionResult;

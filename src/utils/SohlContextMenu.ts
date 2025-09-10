@@ -58,7 +58,6 @@ export class SohlContextMenu extends (foundry.applications as any).ux
                 }
             }
         });
-        void mItems;
         options.jQuery = options.jQuery || false;
         super(container as any, selector, menuItems as any, options);
     }

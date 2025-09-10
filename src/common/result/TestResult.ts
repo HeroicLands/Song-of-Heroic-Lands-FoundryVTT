@@ -18,7 +18,6 @@ import { SohlClassRegistry } from "@utils/SohlClassRegistry";
 const kTestResult = Symbol("TestResult");
 const kData = Symbol("TestResult.Data");
 const kContext = Symbol("TestResult.Context");
-void kContext;
 
 /**
  * Represents a value and its modifying deltas.
@@ -59,9 +58,6 @@ export abstract class TestResult extends SohlBase {
 export namespace TestResult {
     const SUCCESS = 1;
     const FAILURE = 0;
-    // Mark constants as intentionally-unused for now
-    void SUCCESS;
-    void FAILURE;
 
     export interface Data {
         readonly [kData]: true;

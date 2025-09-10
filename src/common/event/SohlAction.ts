@@ -12,37 +12,39 @@
  */
 
 import {
+    SOHL_ACTION_ROLE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    SOHL_EVENT_STATE,
+    SohlActionRole,
     SohlActionScope,
 } from "@utils/constants";
 import { SohlEvent } from "@common/event/SohlEvent";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import { DocumentId, DocumentUuid } from "@utils/helpers";
 import { SohlMap } from "@utils/collection/SohlMap";
-import type { SohlLogic } from "@common/SohlLogic";
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import { SohlTemporal } from "./SohlTemporal";
+import { SohlEventContext } from "./SohlEventContext";
 
 /**
  * @summary Base class for all Action instances
  */
-export abstract class SohlAction<
-    P extends SohlLogic = SohlLogic,
-> extends SohlEvent<P> {
+export abstract class SohlAction extends SohlEvent {
     scope!: SohlActionScope;
     notes!: string;
     description!: string;
     contextIconClass!: string;
     contextCondition!: boolean | ((element: HTMLElement) => boolean);
     contextGroup!: string;
+    isAsync!: boolean;
+    permissions!: {
+        execute: SohlActionRole;
+    };
 
-    constructor(
-        parent: P,
-        data?: Partial<SohlAction.Data>,
-        options?: PlainObject,
-    ) {
-        super(parent, data, options);
+    constructor(data?: Partial<SohlAction.Data>, options?: PlainObject) {
+        super(data, options);
         this.scope = data?.scope || SOHL_ACTION_SCOPE.SELF;
         this.notes = data?.notes || "";
         this.description = data?.description || "";
@@ -50,25 +52,74 @@ export abstract class SohlAction<
         this.contextCondition = data?.contextCondition || true;
         this.contextGroup =
             data?.contextGroup || SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        this.permissions.execute =
+            data?.permissions?.execute || SOHL_ACTION_ROLE.OWNER;
     }
 
     /**
      * Executes the intrinsic action synchronously.
-     * @param scope - The scope in which to execute the action, including any additional data.
-     * @param scope.element - The HTML element that triggered the action, if applicable.
-     * @returns The result of the function call or undefined if the result is a Promise.
+     *
+     * @remarks
+     * Subclasses should override this method to provide custom synchronous behavior. The default
+     * implementation throws an error if the result of the execution is a Promise, indicating
+     * that synchronous execution is not supported.
+     *
+     * Either this method or {@link SohlAction.execute} must be implemented by subclasses,
+     * but not both.
+     *
+     * @param actionContext - The context in which to execute the action, including any additional data.
+     * @returns The result of the function call.
+     * @throws If execution returns a Promise, which is unsupported.
+     * @see {@link SohlAction.execute} for the asynchronous version of this method.
      */
-    abstract executeSync(actionContext: SohlAction.Context): Optional<unknown>;
+    executeSync(actionContext: SohlEventContext): unknown {
+        if (this.isAsync) {
+            throw new Error(
+                "Synchronous execution is not supported for this action.",
+            );
+        }
+        const r = this.execute(actionContext);
+        if (r && typeof (r as any).then === "function") {
+            throw new Error(
+                "Thenable returned when synchronous execution expected.",
+            );
+        }
+        return r;
+    }
 
     /**
-     * Executes the intrinsic action, calling the function defined on the parent performer.
-     * @param scope - The scope in which to execute the action, including any additional data.
-     * @param scope.element - The HTML element that triggered the action, if applicable.
+     * Executes the intrinsic action asynchronously.
+     *
+     * @remarks
+     * Subclasses should override this method to provide custom asynchronous behavior. The default
+     * implementation calls the synchronous version of the method and wraps the result in a Promise.
+     *
+     * Either this method or {@link SohlAction.executeSync} must be implemented by subclasses,
+     * but not both.
+     *
+     * @param actionContext - The context in which to execute the action, including any additional data.
      * @returns The result of the function call coerced as a Promise.
      */
-    abstract execute(
-        actionContext: SohlAction.Context,
-    ): Promise<Optional<unknown>>;
+    async execute(actionContext: SohlEventContext): Promise<unknown> {
+        return Promise.resolve(this.executeSync(actionContext));
+    }
+
+    // Wire into lifecycle: actions are instantaneous by default (IMMEDIATE termination).
+    private _running?: Promise<unknown>;
+
+    protected override async _onActivate(ctx: SohlEventContext): Promise<void> {
+        if (this._running) return; // guard against re-entry
+        this._running = Promise.resolve(this.execute(ctx));
+        let result;
+        try {
+            result = await this._running;
+        } finally {
+            this._running = undefined;
+            this.setState(SOHL_EVENT_STATE.EXPIRED, {
+                at: SohlTemporal.now(),
+            });
+        }
+    }
 }
 
 export namespace SohlAction {
@@ -79,6 +130,10 @@ export namespace SohlAction {
         contextIconClass?: string;
         contextCondition?: boolean | ((element: HTMLElement) => boolean);
         contextGroup?: string;
+        isAsync?: boolean;
+        permissions?: {
+            execute?: SohlActionRole;
+        };
     }
 
     export interface ExecuteOptions {
@@ -87,118 +142,5 @@ export namespace SohlAction {
 
     export interface Constructor extends Function {
         new (data: PlainObject, options: PlainObject): SohlAction;
-    }
-
-    export class Context {
-        speaker: SohlSpeaker;
-        target: SohlTokenDocument | null;
-        skipDialog: boolean;
-        noChat: boolean;
-        type: string;
-        title: string;
-        scope: UnknownObject;
-
-        /**
-         * @param {Object} data - The options to initialize the context.
-         * @param {SohlSpeaker|PlainObject} [data.speaker] - The speaker object or plain object.
-         * @param {string} [data.rollMode] - The roll mode to use.
-         * @param {string} [data.logicUuid] - The UUID of the logic.
-         * @param {string} [data.userId] - The user ID.
-         */
-        constructor({
-            speaker,
-            targetUuid = null,
-            skipDialog = false,
-            noChat = false,
-            type = "",
-            title = "",
-            scope = {},
-        }: Partial<Context.Data> = {}) {
-            if (!speaker) {
-                throw new Error("SohlAction.Context requires a speaker.");
-            }
-            this.speaker = new SohlSpeaker(speaker);
-
-            this.target = null;
-            if (targetUuid) {
-                let target = fromUuidSync(targetUuid);
-                if (!target) {
-                    throw new Error(`Target with uuid ${targetUuid} not found`);
-                } else if (Object.hasOwn(target, "getBarAttribute")) {
-                    // If document has getBarAttribute, it's a TokenDocument
-                    this.target = target;
-                } else if (target instanceof Token) {
-                    this.target = target.document;
-                } else if (["assembly", "entity"].includes(target.type)) {
-                    // If the target is an actor, there might be any number of tokens
-                    // associated with it, so we take the first active token.
-                    const tokens: Token.Object[] = target.getActiveTokens();
-                    if (tokens.length) {
-                        this.target = (tokens[0] as Token).document;
-                    }
-                } else {
-                    throw new Error(
-                        `Target with uuid ${targetUuid} is not a valid token or actor.`,
-                    );
-                }
-            }
-
-            this.skipDialog = skipDialog;
-            this.noChat = noChat;
-            this.type = type;
-            this.title = title;
-            this.scope = scope;
-        }
-
-        get character(): SohlActor | null {
-            return (this.speaker.user as any).character ?? null;
-        }
-
-        get token(): SohlTokenDocument | null {
-            return this.speaker.token ?? null;
-        }
-
-        /**
-         * @summary Converts the SohlAction.Context to JSON.
-         * @returns {Object} The JSON representation of the SohlAction.Context.
-         */
-        toJSON(): Record<string, unknown> {
-            return {
-                speaker: this.speaker.toJSON(),
-                target: this.target?.uuid || null,
-                skipDialog: this.skipDialog,
-                noChat: this.noChat,
-                type: this.type,
-                title: this.title,
-                targetUuid: (this.target as any)?.uuid,
-                scope: SohlMap.defaultToJSON(this.scope),
-            };
-        }
-
-        /**
-         * @summary Creates an SohlAction.Context from data.
-         * @description Converts plain object data into an SohlAction.Context instance.
-         * @param {Object} data - The data to convert.
-         * @returns {SohlAction.Context} A new SohlAction.Context instance.
-         */
-        static fromData<T extends typeof Context>(
-            this: T,
-            data: Partial<Context.Data>,
-        ): InstanceType<T> {
-            return new this(data) as InstanceType<T>;
-        }
-    }
-
-    export namespace Context {
-        export interface Data {
-            speaker: SohlSpeaker.Data;
-            targetUuid: DocumentUuid | null;
-            userId: DocumentId;
-            skipDialog: boolean;
-            noChat: boolean;
-            type: string;
-            title: string;
-            scope: UnknownObject;
-        }
     }
 }

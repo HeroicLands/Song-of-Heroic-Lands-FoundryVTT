@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import {
     kStrikeModeMixin,
@@ -36,7 +37,7 @@ export class MissileWeaponStrikeMode
     implements MissileWeaponStrikeMode.Logic
 {
     declare readonly [kStrikeModeMixin]: true;
-    declare readonly parent: MissileWeaponStrikeMode.Data;
+    declare readonly _parent: MissileWeaponStrikeMode.Data;
     readonly [kMissileWeaponStrikeMode] = true;
 
     static isA(obj: unknown): obj is MissileWeaponStrikeMode {
@@ -47,24 +48,24 @@ export class MissileWeaponStrikeMode
         );
     }
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace MissileWeaponStrikeMode {
     export interface Logic extends StrikeModeMixin.Logic {
-        readonly parent: MissileWeaponStrikeMode.Data;
+        readonly _parent: MissileWeaponStrikeMode.Data;
         readonly [kMissileWeaponStrikeMode]: true;
     }
 

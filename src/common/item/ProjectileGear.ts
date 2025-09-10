@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
@@ -31,7 +32,7 @@ export class ProjectileGear
     implements ProjectileGear.Logic
 {
     declare readonly [kGearMixin]: true;
-    declare readonly parent: ProjectileGear.Data;
+    declare readonly _parent: ProjectileGear.Data;
     readonly [kProjectileGear] = true;
 
     static isA(obj: unknown): obj is ProjectileGear {
@@ -41,17 +42,17 @@ export class ProjectileGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -60,7 +61,7 @@ export namespace ProjectileGear {
     export interface Logic
         extends SubTypeMixin.Logic<ProjectileGearSubType>,
             GearMixin.Logic {
-        readonly parent: Data;
+        readonly _parent: Data;
     }
 
     export interface Data

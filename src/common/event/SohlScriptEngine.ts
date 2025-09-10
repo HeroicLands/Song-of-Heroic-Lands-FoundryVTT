@@ -13,7 +13,8 @@
 
 import { LOGLEVEL } from "@utils/constants";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import type { SohlLogic } from "@common/SohlLogic";
 
 /** Function signature for Accessor functions */
@@ -22,13 +23,13 @@ export type AccessorFunction = (thisArg: ValueModifier) => any;
 /** Function signature for synchronous Action functions */
 export type SyncActionFunction = (
     this: SohlLogic,
-    context: SohlAction.Context,
+    context: SohlEventContext,
 ) => any;
 
 /** Function signature for asynchronous Action functions */
 export type AsyncActionFunction = (
     this: SohlLogic,
-    context: SohlAction.Context,
+    context: SohlEventContext,
 ) => Promise<any>;
 
 /** Union of possible Action function types */
@@ -102,7 +103,7 @@ export function createActionFunction(
 
     return function (
         this: SohlLogic,
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): any | Promise<any> {
         try {
             return isAsync ?

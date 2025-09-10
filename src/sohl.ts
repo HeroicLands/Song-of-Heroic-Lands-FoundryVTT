@@ -437,7 +437,6 @@ function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("injurySeverity", function (val) {
-        void val;
         return "NA"; // TODO: Remove this line when CONFIG.Item.dataModels.injury is available
         // if (val <= 0) return "NA";
         // return val <= 5 ?
@@ -454,7 +453,6 @@ function registerHandlebarsHelpers() {
     });
 
     Handlebars.registerHelper("textInput", function (value, options) {
-        void value;
         const { class: cssClass, ...config } = options.hash;
         config.value = value;
         const element = foundry.applications.fields.createTextInput(config);
@@ -464,8 +462,6 @@ function registerHandlebarsHelpers() {
 
     // biome-ignore lint/correctness/noUnusedVariables: <explanation>
     Handlebars.registerHelper("displayWorldTime", function (value, options) {
-        void value;
-        void options;
         //return new Handlebars.SafeString(sohl.utils.htmlWorldTime(value));
     });
 }

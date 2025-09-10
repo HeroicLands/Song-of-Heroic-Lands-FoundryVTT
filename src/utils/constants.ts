@@ -520,19 +520,6 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
-    kind: SOHL_ACTION_SCOPE,
-    values: SohlActionScopes,
-    isValue: isSohlActionScope,
-} = defineType("SOHL.SohlAction.Scope", {
-    SELF: "self",
-    ITEM: "item",
-    ACTOR: "actor",
-    OTHER: "other",
-});
-export type SohlActionScope =
-    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
-
-export const {
     kind: ENTITY_EFFECT_KEY,
     values: EntityEffectKey,
     isValue: isEntityEffectKey,
@@ -567,24 +554,11 @@ export const {
     labels: SohlEventTermLabels,
 } = defineType("SOHL.Event.Term", {
     DURATION: "duration", // SohlEvent will last for a duration
-    INDEFINITE: "indefinite", // SohlEvent will last indefinitely until removed
+    INDEFINITE: "indefinite", // SohlEvent will last indefinitely until manually expired
     PERMANENT: "permanent", // SohlEvent will last permanently
 });
 export type SohlEventTerm =
     (typeof SOHL_EVENT_TERM)[keyof typeof SOHL_EVENT_TERM];
-
-export const {
-    kind: SOHL_EVENT_ACTIVATION,
-    values: SohlEventActivations,
-    isValue: isSohlEventActivation,
-    labels: SohlEventActivationLabels,
-} = defineType("SOHL.Event.Activation", {
-    IMMEDIATE: "immediate", // SohlEvent will be activated immediately
-    DELAYED: "delayed", // SohlEvent will be activated after a delay
-    SCHEDULED: "scheduled", // SohlEvent will be activated at a scheduled time
-});
-export type SohlEventActivation =
-    (typeof SOHL_EVENT_ACTIVATION)[keyof typeof SOHL_EVENT_ACTIVATION];
 
 export const {
     kind: SOHL_EVENT_REPEAT,
@@ -598,6 +572,35 @@ export const {
 });
 export type SohlEventRepeat =
     (typeof SOHL_EVENT_REPEAT)[keyof typeof SOHL_EVENT_REPEAT];
+
+export const {
+    kind: SOHL_ACTION_SCOPE,
+    values: SohlActionScopes,
+    isValue: isSohlActionScope,
+} = defineType("SOHL.SohlAction.Scope", {
+    SELF: "self",
+    ITEM: "item",
+    ACTOR: "actor",
+    OTHER: "other",
+});
+export type SohlActionScope =
+    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
+
+export const {
+    kind: SOHL_ACTION_ROLE,
+    values: SohlActionRoles,
+    isValue: isSohlActionRole,
+    labels: SohlActionRoleLabels,
+} = defineType("SOHL.Action.Role", {
+    NONE: 0,
+    PLAYER: 1,
+    TRUSTED: 2,
+    OWNER: 3,
+    ASSISTANT: 4,
+    GAMEMASTER: 5,
+});
+export type SohlActionRole =
+    (typeof SOHL_ACTION_ROLE)[keyof typeof SOHL_ACTION_ROLE];
 
 /**
  * Constants for the Heal Rate of an Affliction.

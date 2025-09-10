@@ -13,7 +13,8 @@
 
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { ITEM_KIND, Variant, Variants } from "@utils/constants";
 import { ArmorGear } from "./ArmorGear";
 import { ValueModifier } from "@common/modifier/ValueModifier";
@@ -26,7 +27,7 @@ export class Protection
     extends SubTypeMixin(SohlItem.BaseLogic)
     implements Protection.Logic
 {
-    declare readonly parent: Protection.Data;
+    declare readonly _parent: Protection.Data;
     bodyLocations!: SohlItem[];
     protection!: StrictObject<ValueModifier>;
     readonly [kProtection] = true;
@@ -35,28 +36,28 @@ export class Protection
         return typeof obj === "object" && obj !== null && kProtection in obj;
     }
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.bodyLocations = [];
         this.protection = {
             blunt: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this.parent.protectionBase.blunt,
+                this._parent.protectionBase.blunt,
             ),
             edged: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this.parent.protectionBase.edged,
+                this._parent.protectionBase.edged,
             ),
             piercing: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this.parent.protectionBase.piercing,
+                this._parent.protectionBase.piercing,
             ),
             fire: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this.parent.protectionBase.fire,
+                this._parent.protectionBase.fire,
             ),
         };
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
-        if (!this.item.nestedIn || this.parent.subType !== sohl.id) return;
+    override evaluate(context: SohlEventContext): void {
+        if (!this.item.nestedIn || this._parent.subType !== sohl.id) return;
         super.evaluate(context);
 
         let armorGearData: ArmorGear.Data | undefined;
@@ -101,7 +102,7 @@ export class Protection
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -109,7 +110,7 @@ export class Protection
 export namespace Protection {
     export interface Logic extends SubTypeMixin.Logic {
         readonly [kProtection]: true;
-        readonly parent: Protection.Data;
+        readonly _parent: Protection.Data;
     }
 
     export interface Data extends SubTypeMixin.Data<Variant> {

@@ -14,7 +14,8 @@
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import {
     MysticalDeviceSubType,
     MysticalDeviceSubTypes,
@@ -29,28 +30,28 @@ export class MysticalDevice
     extends SubTypeMixin(SohlItem.BaseLogic)
     implements MysticalDevice.Logic
 {
-    declare readonly parent: MysticalDevice.Data;
+    declare readonly _parent: MysticalDevice.Data;
     readonly [kMysticalDevice] = true;
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace MysticalDevice {
     export interface Logic extends SohlLogic {
-        readonly parent: MysticalDevice.Data;
+        readonly _parent: MysticalDevice.Data;
         readonly [kMysticalDevice]: true;
     }
 

@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 const kMiscGear = Symbol("MiscGear");
@@ -22,7 +23,7 @@ export class MiscGear
     implements MiscGear.Logic
 {
     declare readonly [kGearMixin]: true;
-    declare readonly parent: MiscGear.Data;
+    declare readonly _parent: MiscGear.Data;
     readonly [kMiscGear] = true;
 
     static isA(obj: unknown): obj is MiscGear {
@@ -30,24 +31,24 @@ export class MiscGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace MiscGear {
     export interface Logic extends GearMixin.Logic {
-        readonly parent: MiscGear.Data;
+        readonly _parent: MiscGear.Data;
         readonly [kMiscGear]: true;
     }
 

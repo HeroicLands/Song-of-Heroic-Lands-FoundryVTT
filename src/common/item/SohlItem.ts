@@ -24,7 +24,7 @@ import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { InternalClientDocument } from "@common/FoundryProxy";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
 const { StringField } = foundry.data.fields;
 
 const kSohlItem = Symbol("SohlItem");
@@ -237,19 +237,19 @@ export namespace SohlItem {
     }
 
     export interface Logic extends SohlLogic {
-        readonly parent: Data;
+        readonly _parent: Data;
     }
 
     export class BaseLogic extends SohlLogic implements Logic {
-        declare readonly parent: Data;
+        declare readonly _parent: Data;
         declare _getContextOptions: () => SohlContextMenu.Entry[];
-        override initialize(context?: SohlAction.Context): void {
+        override initialize(context?: SohlEventContext): void {
             void context;
         }
-        override evaluate(context?: SohlAction.Context): void {
+        override evaluate(context?: SohlEventContext): void {
             void context;
         }
-        override finalize(context?: SohlAction.Context): void {
+        override finalize(context?: SohlEventContext): void {
             void context;
         }
     }

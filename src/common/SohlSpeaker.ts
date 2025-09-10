@@ -165,8 +165,6 @@ export class SohlSpeaker {
     ): Promise<ChatMessage> {
         const messageData = await this._prepareChat(data, options);
 
-        const compiled = Handlebars.compile(content);
-        void compiled;
         messageData.content = toHTMLWithContent(content, data);
         if (messageData.rollMode) {
             ChatMessage.applyRollMode(messageData, messageData.rollMode);

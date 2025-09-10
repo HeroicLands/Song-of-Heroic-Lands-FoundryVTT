@@ -18,7 +18,8 @@ import {
     MasteryLevelMixin,
 } from "@common/item/MasteryLevelMixin";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 import {
     ITEM_KIND,
@@ -61,7 +62,7 @@ export class Mystery
     implements Mystery.Logic
 {
     declare [kMasteryLevelMixin]: true;
-    declare readonly parent: Mystery.Data;
+    declare readonly _parent: Mystery.Data;
     readonly [kMystery] = true;
     domain?: SohlItem;
     skills!: SohlItem[];
@@ -72,19 +73,19 @@ export class Mystery
     };
 
     get fieldData(): string {
-        const category = MYSTERY_CATEGORYMAP[this.parent.subType];
+        const category = MYSTERY_CATEGORYMAP[this._parent.subType];
 
         let field: string = "";
         switch (category) {
             case MYSTERY_CATEGORY.DIVINE:
-                if (!this.actor) return this.parent.domain.philosophy;
+                if (!this.actor) return this._parent.domain.philosophy;
                 field =
                     this.actor.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.parent.domain.name &&
+                            d.name === this._parent.domain.name &&
                             d.system.philosophy ===
-                                this.parent.domain.philosophy,
+                                this._parent.domain.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -99,14 +100,14 @@ export class Mystery
                 break;
 
             case MYSTERY_CATEGORY.CREATURE:
-                if (!this.actor) return this.parent.domain.philosophy;
+                if (!this.actor) return this._parent.domain.philosophy;
                 field =
                     this.actor.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.parent.domain.name &&
+                            d.name === this._parent.domain.name &&
                             d.system.philosophy ===
-                                this.parent.domain.philosophy,
+                                this._parent.domain.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -122,7 +123,7 @@ export class Mystery
         const result: SohlItem[] = [];
         if (
             Mystery.Data.isA(this) &&
-            this.parent.subType === MYSTERY_SUBTYPE.FATE
+            this._parent.subType === MYSTERY_SUBTYPE.FATE
         ) {
             // If a fate item has a list of skills, then that fate
             // item is only applicable to those skills.  If the fate item
@@ -144,7 +145,7 @@ export class Mystery
                 MYSTERY_SUBTYPE.GRACE,
                 MYSTERY_SUBTYPE.PIETY,
             ] as MysterySubType[]
-        ).includes(this.parent.subType);
+        ).includes(this._parent.subType);
     }
 
     _usesLevels(): boolean {
@@ -153,22 +154,22 @@ export class Mystery
                 MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER,
                 MYSTERY_SUBTYPE.TOTEMSPIRITPOWER,
             ] as MysterySubType[]
-        ).includes(this.parent.subType);
+        ).includes(this._parent.subType);
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         if (this.actor) {
             this.skills = [];
-            const skillSet = new Set<string>(this.parent.skills);
+            const skillSet = new Set<string>(this._parent.skills);
             for (const it of this.actor.dynamicAllItems()) {
                 // Find the designated domain item and store it in `this.domain`
                 if (
                     !this.domain &&
                     it.type === ITEM_KIND.DOMAIN &&
-                    it.name === this.parent.domain.name &&
-                    it.system.philosophy === this.parent.domain.philosophy
+                    it.name === this._parent.domain.name &&
+                    it.system.philosophy === this._parent.domain.philosophy
                 ) {
                     this.domain = it;
                 }
@@ -184,7 +185,7 @@ export class Mystery
                 }
             }
 
-            if (!this.domain && this.parent.domain.name) {
+            if (!this.domain && this._parent.domain.name) {
                 // First, try to find the domain in the compendiums
                 getDocsFromPacks(["sohl.mysteries"], {
                     docType: "domain",
@@ -192,17 +193,17 @@ export class Mystery
                     // We have an array of domain documents from the compendium; search for the one we want
                     this.domain = docs.find(
                         (d) =>
-                            d.name === this.parent.domain.name &&
+                            d.name === this._parent.domain.name &&
                             d.system.philosophy ===
-                                this.parent.domain.philosophy,
+                                this._parent.domain.philosophy,
                     );
 
                     // If we can't find the domain by name, create a dummy one
                     if (!this.domain)
                         this.domain = new SohlItem({
-                            name: this.parent.domain.name,
+                            name: this._parent.domain.name,
                             type: "domain",
-                            "system.philosophy": this.parent.domain.philosophy,
+                            "system.philosophy": this._parent.domain.philosophy,
                         });
                     this.actor?.addVirtualItem(this.domain);
                 });
@@ -230,26 +231,26 @@ export class Mystery
         }
 
         this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-            this.parent.levelBase,
+            this._parent.levelBase,
         );
 
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this.parent.charges.value,
+                this._parent.charges.value,
             ),
             max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this.parent.charges.max,
+                this._parent.charges.max,
             ),
         };
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -258,7 +259,7 @@ export namespace Mystery {
     export interface Logic
         extends MasteryLevelMixin.Logic,
             SubTypeMixin.Logic<MysterySubType> {
-        readonly parent: Mystery.Data;
+        readonly _parent: Mystery.Data;
         readonly [kMystery]: true;
         getApplicableFate(target: SohlItem): SohlItem[];
         domain?: SohlItem;

@@ -18,7 +18,8 @@ import type { SohlItem } from "@common/item/SohlItem";
 import { SohlActor } from "@common/actor/SohlActor";
 import type { ImpactResult } from "@common/result/ImpactResult";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlMap } from "@utils/collection/SohlMap";
 import { ACTOR_KIND } from "@utils/constants";
 
@@ -29,7 +30,7 @@ const kData = Symbol("Entity.Data");
  * The business logic class for the Entity actor.
  */
 export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
-    declare readonly parent: Entity.Data;
+    declare readonly _parent: Entity.Data;
     readonly [kEntity] = true;
 
     /**
@@ -104,69 +105,60 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         return typeof obj === "object" && obj !== null && kEntity in obj;
     }
 
-    async improveWithSDR(context: SohlAction.Context): Promise<void> {
-        void context;
+    async improveWithSDR(context: SohlEventContext): Promise<void> {
         return;
     }
 
     async successTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async fatigueTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async courseTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async treatmentTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async diagnosisTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async healingTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async bleedingStoppageTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async bloodlossAdvanceTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
-        void context;
         return null;
     }
 
     async calcImpact(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<ImpactResult>> {
         // let { impactResult, itemId } = options;
         // if (!(impactResult instanceof ImpactResult)) {
@@ -187,12 +179,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // return impactResult.item?.system.execute("calcImpact", {
         //     impactResult,
         // });
-        void context;
         return null;
     }
 
     async shockTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // let { testResult } = options;
         // if (!testResult) {
@@ -212,12 +203,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // testResult = testResult.item.system.successTest(optionws);
         // testResult.shockMod = 1 - testResult.successLevel;
         // return testResult;
-        void context;
         return null;
     }
 
     async stumbleTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const agility = this.actor.getItem("agl", { types: ["trait"] });
@@ -240,12 +230,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
-        void context;
         return null;
     }
 
     async fumbleTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const dexterity = this.actor.getItem("dex", { types: ["trait"] });
@@ -270,12 +259,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         //     );
         // }
         // return options.testResult.item.system.successTest(options);
-        void context;
         return null;
     }
 
     async moraleTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
@@ -292,12 +280,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
-        void context;
         return null;
     }
 
     async fearTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
@@ -314,12 +301,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
-        void context;
         return null;
     }
 
     async _createTestItem(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // let createItem = (game as any).settings.get("sohl", "recordTrauma");
         // if (!options.testResult.isSuccess && createItem !== "disable") {
@@ -351,12 +337,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         //     }
         // }
         // return options.testResult;
-        void context;
         return null;
     }
 
     async contractAfflictionTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<Nullable<SuccessTestResult>> {
         // let { afflictionObj } = options;
         // if (!options.testResult) {
@@ -375,7 +360,6 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // options.testResult =
         //     options.testResult.item.system.successTest(options);
         // return this._createTestItem(options);
-        void context;
         return null;
     }
 
@@ -388,7 +372,7 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
      * @param {number} [options.testType]
      * @returns {OpposedTestResult} result of the test
      */
-    async opposedTestResume(context: SohlAction.Context): Promise<void> {
+    async opposedTestResume(context: SohlEventContext): Promise<void> {
         // let { opposedTestResult } = options;
         // if (!opposedTestResult) {
         //     throw new Error("Must supply opposedTestResult");
@@ -459,12 +443,11 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
         // } else {
         //     skill.system.execute("opposedTestResume", options);
         // }
-        void context;
         return;
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
@@ -507,12 +490,12 @@ export class Entity extends SohlActor.BaseLogic implements Entity.Logic {
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -535,53 +518,51 @@ export namespace Entity {
         engagedOpponents: ValueModifier;
         domains: StrictObject<SohlItem[]>;
         virtualItems: SohlMap<string, SohlItem>;
-        improveWithSDR(context: SohlAction.Context): Promise<void>;
+        improveWithSDR(context: SohlEventContext): Promise<void>;
         successTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         fatigueTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         courseTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         treatmentTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         diagnosisTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         healingTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         bleedingStoppageTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         bloodlossAdvanceTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
-        calcImpact(
-            context: SohlAction.Context,
-        ): Promise<Nullable<ImpactResult>>;
+        calcImpact(context: SohlEventContext): Promise<Nullable<ImpactResult>>;
         shockTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         stumbleTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         fumbleTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         moraleTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         fearTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
         contractAfflictionTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<Nullable<SuccessTestResult>>;
-        opposedTestResume(context: SohlAction.Context): Promise<void>;
+        opposedTestResume(context: SohlEventContext): Promise<void>;
     }
 
     export interface Data extends SohlActor.Data {}

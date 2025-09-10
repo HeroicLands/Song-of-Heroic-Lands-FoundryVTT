@@ -228,7 +228,6 @@ export function registerValue(
         enumerable: false,
     },
 ): void {
-    void descriptor;
     if (typeof pathOrObject === "string") {
         foundry.utils.setProperty(sohl, pathOrObject, value);
     } else if (typeof pathOrObject === "object") {

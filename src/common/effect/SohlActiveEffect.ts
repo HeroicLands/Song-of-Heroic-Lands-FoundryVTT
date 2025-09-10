@@ -21,8 +21,8 @@ const kSohlActiveEffect = Symbol("SohlActiveEffect");
 
 export class SohlActiveEffect
     extends ClientDocumentExtendedMixin(
-        Actor,
-        {} as InstanceType<typeof foundry.documents.BaseActor>,
+        ActiveEffect,
+        {} as InstanceType<typeof foundry.documents.BaseActiveEffect>,
     )
     implements InternalClientDocument
 {

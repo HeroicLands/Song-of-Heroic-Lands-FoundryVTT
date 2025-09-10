@@ -22,9 +22,11 @@ import { SohlEvent } from "@common/event/SohlEvent";
 import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
 import { SohlScriptAction } from "@common/event/SohlScriptAction";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import type { SohlItem } from "@common/item/SohlItem";
 import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlAction } from "@common/event/SohlAction";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -61,9 +63,13 @@ export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
 export abstract class SohlLogic extends SohlBase {
-    readonly parent: SohlLogic.Data;
+    readonly _parent: SohlLogic.Data;
     readonly actions: SohlAction[];
     readonly events: SohlEvent[];
+
+    get parent(): SohlLogic.Data {
+        return this._parent;
+    }
 
     get item(): SohlItem {
         if ("item" in this.parent) {
@@ -82,7 +88,6 @@ export abstract class SohlLogic extends SohlBase {
     }
 
     get typeLabel(): string {
-        // baseLabel not required; compute typeLabel directly
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
         const typeLabel = sohl.i18n.localize(
@@ -124,15 +129,15 @@ export abstract class SohlLogic extends SohlBase {
     }
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        if (!data.parent) {
+        if (!options.parent) {
             throw new Error(
                 "SohlLogic must be constructed with a parent item or actor.",
             );
         }
         super(data, options);
-        this.parent = data.parent;
+        this._parent = options.parent;
         const actionKeys = new Set<string>();
-        this.actions = this.parent.actionList.reduce(
+        this.actions = this._parent.actionList.reduce(
             (ary: SohlAction[], action) => {
                 ary.push(new SohlScriptAction(this, action));
                 actionKeys.add(action.label);
@@ -148,7 +153,7 @@ export abstract class SohlLogic extends SohlBase {
             return ary;
         }, this.actions);
         this.setDefaultAction();
-        this.events = this.parent.eventList.map(
+        this.events = this._parent.eventList.map(
             (e: PlainObject) => new SohlEvent(this, e),
         );
     }
@@ -208,7 +213,6 @@ export abstract class SohlLogic extends SohlBase {
                                 SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN
                         );
                 }
-                // callback variable intentionally omitted; actions use 'condition' and entry callbacks
 
                 const newAction: SohlContextMenu.Entry =
                     new SohlContextMenu.Entry({
@@ -230,17 +234,17 @@ export abstract class SohlLogic extends SohlBase {
      * Initializes base state for this participant.
      * Should not rely on sibling or external logic state.
      */
-    abstract initialize(context?: SohlAction.Context): void;
+    abstract initialize(context?: SohlEventContext): void;
 
     /**
      * Evaluates business logic using current and sibling state.
      */
-    abstract evaluate(context?: SohlAction.Context): void;
+    abstract evaluate(context?: SohlEventContext): void;
 
     /**
      * Final stage of lifecycle — compute derived values, cleanup, etc.
      */
-    abstract finalize(context?: SohlAction.Context): void;
+    abstract finalize(context?: SohlEventContext): void;
 }
 
 export namespace SohlLogic {

@@ -12,7 +12,7 @@
  */
 
 import { SohlItem } from "@common/item/SohlItem";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
 
 export const kSubTypeMixin = Symbol("SubTypeMixin");
 export const kSubTypeMixinData = Symbol("SubType.Data");
@@ -25,17 +25,17 @@ export function SubTypeMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
         readonly [kSubTypeMixin] = true;
 
         /** @inheritdoc */
-        initialize(context: SohlAction.Context): void {
+        initialize(context: SohlEventContext): void {
             super.initialize(context);
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context): void {
+        evaluate(context: SohlEventContext): void {
             super.evaluate(context);
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context): void {
+        finalize(context: SohlEventContext): void {
             super.finalize(context);
         }
     } as unknown as TBase &
@@ -49,7 +49,7 @@ export namespace SubTypeMixin {
 
     export interface Logic<TSubType extends string = string>
         extends SohlItem.Logic {
-        readonly parent: Data<TSubType>;
+        readonly _parent: Data<TSubType>;
     }
 
     export interface Data<TSubType extends string = string>

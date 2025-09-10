@@ -95,7 +95,7 @@ export abstract class SohlDataModel<
         if (!this._logic) {
             this._logic = (this.constructor as any).create(
                 {},
-                { parent: this.parent },
+                { parent: this },
             );
         }
         return this._logic;
@@ -246,7 +246,6 @@ export namespace SohlDataModel {
          * @returns Can the current user drag this selector?
          */
         _canDragStart(selector: string): boolean {
-            void selector;
             return this.isEditable;
         }
 
@@ -256,7 +255,6 @@ export namespace SohlDataModel {
          * @returns  Can the current user drop on this selector?
          */
         _canDragDrop(selector: string): boolean {
-            void selector;
             return this.isEditable;
         }
 
@@ -311,8 +309,6 @@ export namespace SohlDataModel {
          * @param {RenderOptions} options                 Provided render options
          */
         _onRender(context: PlainObject, options: PlainObject): void {
-            void context;
-            void options;
             super._onRender(context, options);
             this._dragDrop.forEach((d: DragDrop) => d.bind(this.element));
         }
@@ -323,10 +319,6 @@ export namespace SohlDataModel {
             rgx: RegExp,
             element: HTMLElement,
         ): void {
-            void event;
-            void query;
-            void rgx;
-            void element;
             if (!element) return;
             const visibleCategories = new Set<string>();
 
@@ -376,7 +368,6 @@ export namespace SohlDataModel {
         }
 
         _onItemContextMenuOpen(element: HTMLElement): SohlContextMenu.Entry[] {
-            void element;
             let ele = element.closest("[data-item-id]") as HTMLElement;
             if (!ele) return [];
             const actionName = ele?.dataset.actionName;
@@ -403,7 +394,6 @@ export namespace SohlDataModel {
         }
 
         _onEffectContextMenuOpen(element: HTMLElement): void {
-            void element;
             let ele = element.closest("[data-effect-id]") as HTMLElement;
             if (!ele) return;
             const effectId = ele.dataset.effectId;
@@ -441,7 +431,6 @@ export namespace SohlDataModel {
         }
 
         static _onEffectToggle(event: PointerEvent, target: HTMLElement): void {
-            void event;
             const li = target.closest(".effect") as HTMLElement;
             if (!li?.dataset.effectId) return;
             const effect = (this as any).document.effects.get(
@@ -522,9 +511,7 @@ export namespace SohlDataModel {
          * Callback actions which occur when a dragged element is over a drop target.
          * @param event       The originating DragEvent
          */
-        _onDragOver(event: DragEvent): void {
-            void event;
-        }
+        _onDragOver(event: DragEvent): void {}
 
         /**
          * Callback actions which occur when a dragged element is dropped on a target.
@@ -560,34 +547,22 @@ export namespace SohlDataModel {
         async _onDropActiveEffect(
             event: DragEvent,
             droppedEffect: SohlActiveEffect,
-        ): Promise<void> {
-            void event;
-            void droppedEffect;
-        }
+        ): Promise<void> {}
 
         async _onDropActor(
             event: DragEvent,
             droppedActor: SohlActor,
-        ): Promise<void> {
-            void event;
-            void droppedActor;
-        }
+        ): Promise<void> {}
 
         async _onDropFolder(
             event: DragEvent,
             droppedFolder: Folder,
-        ): Promise<void> {
-            void event;
-            void droppedFolder;
-        }
+        ): Promise<void> {}
 
         async _onDropItem(
             event: DragEvent,
             droppedItem: SohlItem,
-        ): Promise<void> {
-            void event;
-            void droppedItem;
-        }
+        ): Promise<void> {}
 
         async _addPrimitiveArrayItem(
             event: PointerEvent,

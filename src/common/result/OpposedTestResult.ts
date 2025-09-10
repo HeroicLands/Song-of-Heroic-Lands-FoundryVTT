@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction } from "@common/event/SohlAction";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { TestResult } from "@common/result/TestResult";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
@@ -120,7 +120,6 @@ export class OpposedTestResult extends TestResult {
     }
 
     async toChat(data: PlainObject = {}): Promise<void> {
-        void data;
         const msgData: PlainObject = {
             variant: sohl.id,
             template: "systems/sohl/templates/chat/opposed-request-card.html",
@@ -155,7 +154,7 @@ export namespace OpposedTestResult {
 
     export interface Options extends TestResult.Options {}
 
-    export class Context extends SohlAction.Context {
+    export class Context extends SohlEventContext {
         priorTestResult?: OpposedTestResult;
 
         constructor(data: Partial<OpposedTestResult.Context.Data> = {}) {
@@ -180,7 +179,7 @@ export namespace OpposedTestResult {
     }
 
     export namespace Context {
-        export interface Data extends SohlAction.Context.Data {
+        export interface Data extends SohlEventContext.Data {
             priorTestResult: Nullable<OpposedTestResult>;
         }
     }

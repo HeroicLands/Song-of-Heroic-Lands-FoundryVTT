@@ -18,11 +18,13 @@ import {
     ImpactAspects,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
 import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
 import { toDocumentId } from "@utils/helpers";
+import type { SohlAction } from "@common/event/SohlAction";
 const { NumberField, BooleanField, StringField, DocumentIdField } =
     foundry.data.fields;
 const kInjury = Symbol("Injury");
@@ -44,7 +46,6 @@ export const {
             // started from the item header. It should be replaced with a
             // proper implementation that allows opposed tests to be started
             // from any item in the context menu.
-            void header;
             return true;
             // const item = cast<BaseItem>(
             //     SohlContextMenu._getContextItem(header),
@@ -65,7 +66,6 @@ export const {
             // started from the item header. It should be replaced with a
             // proper implementation that allows opposed tests to be started
             // from any item in the context menu.
-            void header;
             return true;
             // const item = cast<BaseItem>(
             //     SohlContextMenu._getContextItem(header),
@@ -82,7 +82,7 @@ export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
 export class Injury extends SohlItem.BaseLogic implements Injury.Logic {
-    declare readonly parent: Injury.Data;
+    declare readonly _parent: Injury.Data;
     readonly [kInjury] = true;
 
     static isA(obj: unknown): obj is Injury {
@@ -110,17 +110,17 @@ export class Injury extends SohlItem.BaseLogic implements Injury.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -143,13 +143,14 @@ export namespace Injury {
         hr: 4,
         infect: true,
         bleed: false,
+        impair: false,
         newInj: -1,
     } as const;
 
     export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
 
     export interface Logic extends SohlLogic {
-        readonly parent: Injury.Data;
+        readonly _parent: Injury.Data;
         readonly [kInjury]: true;
     }
 

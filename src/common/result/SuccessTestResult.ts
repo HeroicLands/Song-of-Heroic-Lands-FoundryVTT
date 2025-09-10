@@ -37,6 +37,7 @@ import {
     SohlSpeakerRollMode,
     SOHL_SPEAKER_ROLL_MODE,
 } from "@utils/constants";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 const kSuccessTestResult = Symbol("SuccessTestResult");
 const kData = Symbol("SuccessTestResult.Data");
 const kContext = Symbol("SuccessTestResult.Context");
@@ -82,7 +83,6 @@ export class SuccessTestResult extends TestResult {
         this._resultDesc = "";
         this._successLevel = MARGINAL_FAILURE;
         this._description = "";
-        void this._description;
     }
 
     get resultText(): string {
@@ -193,8 +193,6 @@ export class SuccessTestResult extends TestResult {
             })),
         };
         foundry.utils.mergeObject(testData, data);
-        const dlgHtml = await toHTMLWithTemplate(testData.template, data);
-        void dlgHtml;
 
         // Create the dialog window
         return await inputDialog({
@@ -209,7 +207,6 @@ export class SuccessTestResult extends TestResult {
                         VALUE_DELTA_ID.PLAYER,
                         formSituationalModifier,
                     );
-                    //this.situationalModifier = formSituationalModifier;
                 }
 
                 this.masteryLevelModifier.successLevelMod =
@@ -381,8 +378,7 @@ export namespace SuccessTestResult {
             id: "setImproveFlag",
             name: "Set Improve Flag",
             iconClass: "fas fa-star",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canImprove && !item?.system.improveFlag;
             },
@@ -392,7 +388,7 @@ export namespace SuccessTestResult {
             id: "unsetImproveFlag",
             name: "Unset Improve Flag",
             iconClass: "far fa-star",
-            condition: (header: HTMLElement) => {
+            condition: (header: HTMLElement): boolean => {
                 const item = SohlContextMenu._getContextItem(header);
                 return (
                     item && item.system.canImprove && item.system.improveFlag
@@ -404,7 +400,7 @@ export namespace SuccessTestResult {
             id: "improveWithSDR",
             name: "Improve with SDR",
             iconClass: "fas fa-star",
-            condition: (header: HTMLElement) => {
+            condition: (header: HTMLElement): boolean => {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canImprove && item.system.improveFlag;
             },
@@ -414,7 +410,7 @@ export namespace SuccessTestResult {
             id: "successTest",
             name: "Success Test",
             iconClass: "fas fa-person",
-            condition: (): boolean => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         OPPOSEDTESTSTART: {
@@ -422,7 +418,6 @@ export namespace SuccessTestResult {
             name: "Opposed Test Start",
             iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
             condition: (header: HTMLElement): boolean => {
-                void header;
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -442,43 +437,42 @@ export namespace SuccessTestResult {
             id: "shockTest",
             name: "Shock Test",
             iconClass: "far fa-face-eyes-xmarks",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         STUMBLETEST: {
             id: "stumbleTest",
             name: "Stumble Test",
             iconClass: "far fa-person-falling",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         FUMBLETEST: {
             id: "fumbleTest",
             name: "Fumble Test",
             iconClass: "far fa-ball-pile",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         MORALETEST: {
             id: "moraleTest",
             name: "Morale Test",
             iconClass: "far fa-people-group",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         FEARTEST: {
             id: "fearTest",
             name: "Fear Test",
             iconClass: "far fa-face-scream",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         TRANSMITAFFLICTION: {
             id: "transmitAffliction",
             name: "Transmit Affliction",
             iconClass: "fas fa-head-side-cough",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 const item = SohlContextMenu._getContextItem(header);
                 return item?.system.canTransmit;
             },
@@ -488,15 +482,14 @@ export namespace SuccessTestResult {
             id: "contractAfflictionTest",
             name: "Contract Affliction Test",
             iconClass: "fas fa-virus",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         COURSETTEST: {
             id: "courseTest",
             name: "Course Test",
             iconClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -509,15 +502,14 @@ export namespace SuccessTestResult {
             id: "fatigueTest",
             name: "Fatigue Test",
             iconClass: "fas fa-face-downcast-sweat",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
         TREATMENTTEST: {
             id: "treatmentTest",
             name: "Treatment Test",
             iconClass: "fas fa-staff-snake",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -530,8 +522,7 @@ export namespace SuccessTestResult {
             id: "diagnosisTest",
             name: "Diagnosis Test",
             iconClass: "fas fa-stethoscope",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 const item = SohlContextMenu._getContextItem(header);
                 return !!item && !item.system.isTreated;
             },
@@ -541,8 +532,7 @@ export namespace SuccessTestResult {
             id: "healingTest",
             name: "Healing Test",
             iconClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -561,8 +551,7 @@ export namespace SuccessTestResult {
             id: "bleedingStoppageTest",
             name: "Bleeding Stoppage Test",
             iconClass: "fas fa-droplet-slash",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -581,8 +570,7 @@ export namespace SuccessTestResult {
             id: "bloodlossAdvanceTest",
             name: "Bloodloss Advance Test",
             iconClass: "fas fa-droplet",
-            condition: (header: HTMLElement) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 // FIXME: This is a temporary fix to allow opposed tests to be
                 // started from the item header. It should be replaced with a
                 // proper implementation that allows opposed tests to be started
@@ -601,14 +589,14 @@ export namespace SuccessTestResult {
             id: "opposedTestResume",
             name: "Opposed Test Resume",
             iconClass: "fas fa-people-arrows",
-            condition: () => false,
+            condition: (header: HTMLElement): boolean => false,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
         },
         RESOLVEIMPACT: {
             id: "resolveImpact",
             name: "Resolve Impact",
             iconClass: "fas fa-person-burst",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
         },
     } as StrictObject<SohlContextMenu.Entry>);
@@ -635,7 +623,7 @@ export namespace SuccessTestResult {
 
     export interface Options extends TestResult.Options {}
 
-    export class Context extends SohlAction.Context {
+    export class Context extends SohlEventContext {
         priorTestResult?: SuccessTestResult;
         targetToken?: SohlTokenDocument;
         rollMode: SohlSpeakerRollMode;
@@ -674,7 +662,7 @@ export namespace SuccessTestResult {
     }
 
     export namespace Context {
-        export interface Data extends SohlAction.Context.Data {
+        export interface Data extends SohlEventContext.Data {
             priorTestResult: Nullable<
                 SuccessTestResult.Data | SuccessTestResult
             >;

@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
@@ -23,7 +24,7 @@ export class ArmorGear
     implements ArmorGear.Logic
 {
     declare [kGearMixin]: true;
-    declare readonly parent: ArmorGear.Data;
+    declare readonly _parent: ArmorGear.Data;
     protection!: PlainObject;
     traits!: StrictObject<string>;
     readonly [kArmorGear] = true;
@@ -33,26 +34,26 @@ export class ArmorGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.protection = {};
         this.traits = {};
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace ArmorGear {
     export interface Logic extends SohlItem.Logic, GearMixin.Logic {
-        readonly parent: ArmorGear.Data;
+        readonly _parent: ArmorGear.Data;
         readonly [kArmorGear]: true;
     }
 

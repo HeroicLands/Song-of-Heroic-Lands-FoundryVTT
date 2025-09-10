@@ -12,7 +12,8 @@
  */
 
 import type { SohlItem } from "@common/item/SohlItem";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
@@ -43,7 +44,7 @@ export function GearMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
         }
 
         /** @inheritdoc */
-        initialize(context: SohlAction.Context): void {
+        initialize(context: SohlEventContext): void {
             super.initialize(context);
             this.weight = sohl.CONFIG.ValueModifier({}, { parent: this });
             this.value = sohl.CONFIG.ValueModifier({}, { parent: this });
@@ -52,12 +53,12 @@ export function GearMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
         }
 
         /** @inheritdoc */
-        evaluate(context: SohlAction.Context): void {
+        evaluate(context: SohlEventContext): void {
             super.evaluate(context);
         }
 
         /** @inheritdoc */
-        finalize(context: SohlAction.Context): void {
+        finalize(context: SohlEventContext): void {
             super.finalize(context);
         }
     } as unknown as TBase & Constructor<InstanceType<TBase> & GearMixin.Logic>;
@@ -66,7 +67,7 @@ export function GearMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
 export namespace GearMixin {
     export interface Logic extends SohlItem.Logic {
         readonly [kGearMixin]: true;
-        readonly parent: GearMixin.Data;
+        readonly _parent: GearMixin.Data;
         weight: ValueModifier;
         value: ValueModifier;
         quality: ValueModifier;

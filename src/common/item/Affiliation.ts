@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
@@ -23,7 +24,7 @@ export class Affiliation
     extends SohlItem.BaseLogic
     implements Affiliation.Logic
 {
-    declare readonly parent: Affiliation.Data;
+    declare readonly _parent: Affiliation.Data;
     readonly [kAffiliation] = true;
 
     static isA(obj: unknown): obj is Affiliation {
@@ -31,24 +32,24 @@ export class Affiliation
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace Affiliation {
     export interface Logic extends SohlItem.Logic {
-        readonly parent: Data;
+        readonly _parent: Data;
         readonly [kAffiliation]: true;
     }
 

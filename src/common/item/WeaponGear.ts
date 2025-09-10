@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 
@@ -24,7 +25,7 @@ export class WeaponGear
     implements WeaponGear.Logic
 {
     declare [kGearMixin]: true;
-    declare readonly parent: WeaponGear.Data;
+    declare readonly _parent: WeaponGear.Data;
     readonly [kWeaponGear] = true;
 
     static isA(obj: unknown): obj is WeaponGear {
@@ -32,24 +33,24 @@ export class WeaponGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace WeaponGear {
     export interface Logic extends GearMixin.Logic {
-        readonly parent: WeaponGear.Data;
+        readonly _parent: WeaponGear.Data;
         readonly [kWeaponGear]: true;
     }
 

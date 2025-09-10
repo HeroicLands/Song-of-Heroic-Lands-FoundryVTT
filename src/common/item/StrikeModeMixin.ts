@@ -20,7 +20,8 @@ import {
 } from "@utils/constants";
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlItem } from "@common/item/SohlItem";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import type { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { GearMixin } from "@common/item/GearMixin";
 import type { CombatModifier } from "@common/modifier/CombatModifier";
@@ -44,7 +45,7 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
     Base: TBase,
 ): TBase & Constructor<InstanceType<TBase> & StrikeModeMixin.Logic> {
     return class extends Base {
-        declare readonly parent: StrikeModeMixin.Data;
+        declare readonly _parent: StrikeModeMixin.Data;
         readonly [kStrikeModeMixin] = true;
         traits!: PlainObject;
         assocSkill?: SohlItem;
@@ -61,13 +62,13 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
         }
 
         async attackTest(
-            context: SohlAction.Context,
+            context: SohlEventContext,
         ): Promise<SuccessTestResult | null> {
             return (await this.attack.successTest(context)) || null;
         }
 
         /** @inheritdoc */
-        override initialize(context: SohlAction.Context): void {
+        override initialize(context: SohlEventContext): void {
             super.initialize(context);
             this.traits = {
                 noAttack: false,
@@ -76,9 +77,9 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
             this.impact = sohl.CONFIG.ImpactModifier({}, { parent: this });
             this.attack = sohl.CONFIG.CombatModifier({}, { parent: this });
             this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
-            this.impact.base = this.parent.impactBase;
+            this.impact.base = this._parent.impactBase;
             this.assocSkill = this.actor?.itemTypes.skill.find(
-                (it) => it.name === this.parent.assocSkillName,
+                (it) => it.name === this._parent.assocSkillName,
             );
             if (this.assocSkill) {
                 this.attack.addVM(this.assocSkill.system.masteryLevel, {
@@ -87,13 +88,13 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
             } else {
                 sohl.log.warn("SOHL.StrikeMode.NoAssocSkillWarning", {
                     label: sohl.i18n.localize(this.item.system.label),
-                    skillName: this.parent.assocSkillName,
+                    skillName: this._parent.assocSkillName,
                 });
             }
         }
 
         /** @inheritdoc */
-        override evaluate(context: SohlAction.Context): void {
+        override evaluate(context: SohlEventContext): void {
             super.evaluate(context);
             const gearData = this.item.nestedIn?.system;
             if (GearMixin.Data.isA(gearData)) {
@@ -104,7 +105,7 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
         }
 
         /** @inheritdoc */
-        override finalize(context: SohlAction.Context): void {
+        override finalize(context: SohlEventContext): void {
             super.finalize(context);
         }
     } as unknown as TBase &

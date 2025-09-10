@@ -19,7 +19,8 @@ import {
     DomainEmbodimentCategories,
     DomainEmbodimentCategory,
 } from "@utils/constants";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { Philosophy } from "@common/item/Philosophy";
 const kDomain = Symbol("Domain");
@@ -27,13 +28,13 @@ const kData = Symbol("Domain.Data");
 const { ArrayField, StringField } = foundry.data.fields;
 
 export class Domain extends SohlItem.BaseLogic implements Domain.Logic {
-    declare readonly parent: Domain.Data;
+    declare readonly _parent: Domain.Data;
     philosophy?: SohlItem;
     category?: string;
     readonly [kDomain] = true;
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         if (Philosophy.Data.isA(this.item?.nestedIn?.system)) {
             this.category = this.item?.nestedIn?.system.subType;
@@ -41,19 +42,19 @@ export class Domain extends SohlItem.BaseLogic implements Domain.Logic {
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace Domain {
     export interface Logic extends SohlItem.Logic {
-        readonly parent: Domain.Data;
+        readonly _parent: Domain.Data;
         readonly [kDomain]: true;
         philosophy?: SohlItem;
     }

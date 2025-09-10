@@ -48,7 +48,6 @@ export class CombatResult extends OpposedTestResult {
     }
 
     calcMeleeCombatResult(opposedTestResult: OpposedTestResult) {
-        void opposedTestResult;
         // if (!opposedTestResult.targetTestResult) {
         //     throw new Error(
         //         "opposedTestResult.targetTestResult is not defined",
@@ -109,7 +108,6 @@ export class CombatResult extends OpposedTestResult {
     }
 
     calcDodgeCombatResult(opposedTestResult: OpposedTestResult) {
-        void opposedTestResult;
         // const attacker = opposedTestResult.sourceTestResult;
         // const defender = opposedTestResult.targetTestResult;
         // attacker.deliversImpact = false;
@@ -130,7 +128,6 @@ export class CombatResult extends OpposedTestResult {
     }
 
     opposedTestEvaluate(opposedTestResult: OpposedTestResult) {
-        void opposedTestResult;
         // super.opposedTestEvaluate(opposedTestResult);
         // if (opposedTestResult.targetTestResult === this) {
         //     if (
@@ -154,8 +151,6 @@ export class CombatResult extends OpposedTestResult {
         data = {},
         callback: (thisArg: any, formData: any) => void,
     ) {
-        void data;
-        void callback;
         // foundry.utils.mergeObject(
         //     data,
         //     {
@@ -184,7 +179,6 @@ export class CombatResult extends OpposedTestResult {
     }
 
     async toChat(data = {}) {
-        void data;
         // return super.toChat(
         //     foundry.utils.mergeObject(
         //         data,

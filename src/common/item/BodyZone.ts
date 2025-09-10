@@ -12,13 +12,14 @@
  */
 
 import { SohlItem } from "@common/item/SohlItem";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 const { StringField } = foundry.data.fields;
 const kBodyZone = Symbol("BodyZone");
 const kData = Symbol("BodyZone.Data");
 
 export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
-    declare readonly parent: BodyZone.Data;
+    declare readonly _parent: BodyZone.Data;
     readonly [kBodyZone] = true;
 
     static isA(obj: unknown): obj is BodyZone {
@@ -29,24 +30,24 @@ export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace BodyZone {
     export interface Logic extends SohlItem.Logic {
-        readonly parent: BodyZone.Data;
+        readonly _parent: BodyZone.Data;
         readonly [kBodyZone]: true;
     }
 

@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 
@@ -24,7 +25,7 @@ export class ContainerGear
     implements ContainerGear.Logic
 {
     declare readonly [kGearMixin]: true;
-    declare readonly parent: ContainerGear.Data;
+    declare readonly _parent: ContainerGear.Data;
     readonly [kContainerGear] = true;
 
     static isA(obj: unknown): obj is ContainerGear {
@@ -32,24 +33,24 @@ export class ContainerGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace ContainerGear {
     export interface Logic extends GearMixin.Logic {
-        readonly parent: ContainerGear.Data;
+        readonly _parent: ContainerGear.Data;
         readonly [kContainerGear]: true;
     }
 

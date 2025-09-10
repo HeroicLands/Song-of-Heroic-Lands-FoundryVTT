@@ -22,9 +22,9 @@ import { SohlDataModel } from "@common/SohlDataModel";
 import type { SohlItem } from "@common/item/SohlItem";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { SohlAction } from "@common/event/SohlAction";
 import { SohlMap } from "@utils/collection/SohlMap";
 import { MasteryLevelMixin } from "@common/item/MasteryLevelMixin";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 const kSohlActor = Symbol("SohlActor");
@@ -288,13 +288,13 @@ export class SohlActor<
     prepareBaseData(): void {
         // @ts-expect-error TS doesn't recognize prepareBaseData is declared in base class
         super.prepareBaseData();
-        this.logic.initialize(new SohlAction.Context(ChatMessage.getSpeaker()));
+        this.logic.initialize(new SohlEventContext(ChatMessage.getSpeaker()));
     }
 
     prepareEmbeddedData(): void {
         // @ts-expect-error TS doesn't recognize prepareEmbeddedData is declared in base class
         super.prepareEmbeddedData();
-        const ctx = new SohlAction.Context(ChatMessage.getSpeaker());
+        const ctx = new SohlEventContext(ChatMessage.getSpeaker());
 
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
@@ -312,8 +312,8 @@ export class SohlActor<
     prepareDerivedData(): void {
         // @ts-expect-error TS doesn't recognize prepareDerivedData is declared in base class
         super.prepareDerivedData();
-        this.logic.evaluate(new SohlAction.Context(ChatMessage.getSpeaker()));
-        this.logic.finalize(new SohlAction.Context(ChatMessage.getSpeaker()));
+        this.logic.evaluate(new SohlEventContext(ChatMessage.getSpeaker()));
+        this.logic.finalize(new SohlEventContext(ChatMessage.getSpeaker()));
     }
 
     static createUniqueName(baseName: string): string {
@@ -510,24 +510,19 @@ export namespace SohlActor {
     }
 
     export interface Logic extends SohlLogic {
-        readonly parent: Data;
+        readonly _parent: Data;
         virtualItems: SohlMap<string, SohlItem>;
     }
 
     export class BaseLogic extends SohlLogic implements Logic {
-        declare readonly parent: Data;
+        declare readonly _parent: Data;
         declare _getContextOptions: () => SohlContextMenu.Entry[];
         virtualItems!: SohlMap<string, SohlItem>;
-        override initialize(context?: SohlAction.Context): void {
-            void context;
+        override initialize(context?: SohlEventContext): void {
             this.virtualItems = new SohlMap<string, SohlItem>();
         }
-        override evaluate(context?: SohlAction.Context): void {
-            void context;
-        }
-        override finalize(context?: SohlAction.Context): void {
-            void context;
-        }
+        override evaluate(context?: SohlEventContext): void {}
+        override finalize(context?: SohlEventContext): void {}
     }
 
     export abstract class DataModel
@@ -689,7 +684,6 @@ export namespace SohlActor {
             const context = {
                 ...(await super._prepareContext(options)),
             };
-            void options;
             return context;
         }
 
@@ -737,7 +731,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -745,7 +738,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -753,7 +745,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -761,7 +752,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -769,7 +759,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -777,7 +766,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -785,7 +773,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -793,7 +780,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -801,7 +787,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -809,7 +794,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -817,7 +801,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -825,7 +808,6 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            void options;
             return context;
         }
 
@@ -835,7 +817,6 @@ export namespace SohlActor {
             rgx: RegExp,
             content: HTMLElement | null,
         ): void {
-            void event;
             if (!content) return;
 
             const rows = content.querySelectorAll<HTMLElement>(".item");

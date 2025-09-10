@@ -71,8 +71,7 @@ export namespace DefendResult {
         BLOCK: {
             id: "blockTest",
             iconClass: "fas fa-shield",
-            condition: (header: any) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 return true;
             },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -80,8 +79,7 @@ export namespace DefendResult {
         COUNTERSTRIKE: {
             id: "counterstrikeTest",
             iconClass: "fas fa-circle-half-stroke",
-            condition: (header: any) => {
-                void header;
+            condition: (header: HTMLElement): boolean => {
                 return true;
             },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -89,7 +87,7 @@ export namespace DefendResult {
         DODGE: {
             id: "dodgeTest",
             iconClass: "fas fa-person-walking-arrow-loop-left",
-            // condition: (header: HTMLElement) => {
+            // condition: (header: HTMLElement): boolean => {
             //     const item = SohlContextMenu._getContextItem(header);
             //     const dodge = item?.actor?.items
             //         ?.values()
@@ -104,7 +102,9 @@ export namespace DefendResult {
         IGNORE: {
             id: "ignore",
             iconClass: "fas fa-ban",
-            condition: () => true,
+            condition: (header: HTMLElement): boolean => {
+                return true;
+            },
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
     });

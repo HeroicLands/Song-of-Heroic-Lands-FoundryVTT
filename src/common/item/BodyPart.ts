@@ -12,14 +12,15 @@
  */
 
 import { SohlItem } from "@common/item/SohlItem";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 const kBodyPart = Symbol("BodyPart");
 const kData = Symbol("BodyPart.Data");
 
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
 export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
-    declare readonly parent: BodyPart.Data;
+    declare readonly _parent: BodyPart.Data;
     readonly [kBodyPart] = true;
 
     static isA(obj: unknown): obj is BodyPart {
@@ -32,31 +33,31 @@ export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
 
     get heldItem(): SohlItem | null {
         return (
-            (this.parent.heldItemId &&
-                this.item?.actor?.allItems.get(this.parent.heldItemId)) ||
+            (this._parent.heldItemId &&
+                this.item?.actor?.allItems.get(this._parent.heldItemId)) ||
             null
         );
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace BodyPart {
     export interface Logic extends SohlItem.Logic {
-        readonly parent: BodyPart.Data;
+        readonly _parent: BodyPart.Data;
         readonly [kBodyPart]: true;
     }
 

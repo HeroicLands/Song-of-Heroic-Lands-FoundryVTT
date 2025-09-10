@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import {
     kMasteryLevelMixin,
     MasteryLevelMixin,
@@ -57,7 +58,7 @@ export class MysticalAbility
         MasteryLevelMixin.Logic
 {
     declare [kMasteryLevelMixin]: true;
-    declare readonly parent: MysticalAbility.Data;
+    declare readonly _parent: MysticalAbility.Data;
     readonly [kMysticalAbility] = true;
     assocSkill?: SohlItem;
     domain?: SohlItem;
@@ -74,36 +75,36 @@ export class MysticalAbility
     }
 
     /** @inheritdoc */
-    initialize(context: SohlAction.Context): void {
+    initialize(context: SohlEventContext): void {
         super.initialize(context);
-        if (this.parent.assocSkill) {
+        if (this._parent.assocSkill) {
             this.assocSkill = this.actor?.allItems.find(
                 (it) =>
                     it.type === ITEM_KIND.SKILL &&
-                    it.name === this.parent.assocSkill,
+                    it.name === this._parent.assocSkill,
             );
         }
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this.parent.charges.value,
+                this._parent.charges.value,
             ),
             max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this.parent.charges.max,
+                this._parent.charges.max,
             ),
         };
 
         this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-            this.parent.levelBase,
+            this._parent.levelBase,
         );
     }
 
     /** @inheritdoc */
-    evaluate(context: SohlAction.Context): void {
+    evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    finalize(context: SohlAction.Context): void {
+    finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -112,7 +113,7 @@ export namespace MysticalAbility {
     export interface Logic
         extends MasteryLevelMixin.Logic,
             SubTypeMixin.Logic<MysticalAbilitySubType> {
-        readonly parent: Data;
+        readonly _parent: Data;
         readonly [kMysticalAbility]: true;
         assocSkill?: SohlItem;
         domain?: SohlItem;

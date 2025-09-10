@@ -13,24 +13,9 @@
 
 import { SohlMap } from "@utils/collection/SohlMap";
 import { KIND_KEY } from "@utils/constants";
-// SohlClassRegistry is not needed in this file
 
-/**
- * @summary Base class for all SoHL related logic.
- * @remarks
- * The SohlBase class serves as the foundational class for all
- * Sohl-related logic in the system. It provides a common
- * methods for serialization, deserialization, and dynamic subclass
- * registration. It provides a foundation for all Sohl-related
- * logic and ensures extensibility through a centralized registry.
- *
- * @template P - The type of the parent.
- */
 export abstract class SohlBase {
-    constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        void data;
-        void options;
-    }
+    constructor(data: PlainObject = {}, options: PlainObject = {}) {}
 
     /**
      * Converts the current instance to a plain object suitable for JSON serialization.

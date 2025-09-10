@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { GearMixin, kGearMixin } from "@common/item/GearMixin";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
@@ -30,7 +31,7 @@ export class ConcoctionGear
     implements ConcoctionGear.Logic
 {
     declare [kGearMixin]: true;
-    declare readonly parent: ConcoctionGear.Data;
+    declare readonly _parent: ConcoctionGear.Data;
     readonly [kConcoctionGear] = true;
 
     static isA(obj: unknown): obj is ConcoctionGear {
@@ -40,17 +41,17 @@ export class ConcoctionGear
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -59,7 +60,7 @@ export namespace ConcoctionGear {
     export interface Logic
         extends SubTypeMixin.Logic<ConcoctionGearSubType>,
             GearMixin.Logic {
-        readonly parent: ConcoctionGear.Data;
+        readonly _parent: ConcoctionGear.Data;
         readonly [kConcoctionGear]: true;
     }
 

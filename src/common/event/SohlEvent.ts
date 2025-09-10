@@ -13,11 +13,7 @@
 
 import {
     SohlEventState,
-    SohlEventActivation,
-    SohlEventTerm,
-    SohlEventRepeat,
     SOHL_EVENT_STATE,
-    SOHL_EVENT_ACTIVATION,
     SOHL_EVENT_TERM,
     SOHL_EVENT_REPEAT,
 } from "@utils/constants";
@@ -25,51 +21,315 @@ import { SohlBase } from "@common/SohlBase";
 import { SohlTemporal } from "@common/event/SohlTemporal";
 import type { SohlLogic } from "@common/SohlLogic";
 import type { DocumentId } from "@utils/helpers";
+import { SohlEventContext } from "./SohlEventContext";
 
-export class SohlEvent<P extends SohlLogic = SohlLogic>
-    extends SohlBase
-    implements SohlEvent.Data
-{
-    readonly parent: P;
+/**
+ * Represents an event in the SoHL system, with a defined lifecycle and timing rules.
+ *
+ * A SohlEvent may occur immediately, after a delay, or at a scheduled time. Once
+ * activated, it may run for a fixed duration, remain active indefinitely until
+ * explicitly expired, or be permanent and never expire. Events may also define
+ * recurrence rules to repeat after expiration.
+ *
+ * ## Lifecycle States
+ * - CREATED: Event object exists but has not been initiated.
+ * - INITIATED: Event is scheduled and eligible for activation; countdowns/delays run from this point.
+ * - ACTIVATED: Event is in effect; termination rules (duration, indefinite, permanent) apply.
+ * - EXPIRED: Event has completed or been cancelled and is no longer active.
+ *
+ * ## Key Temporal Fields
+ * - `scheduledAt`: The reference time from which activation is computed (typically creation/initiation).
+ * - `activationDelay`: Optional delay (seconds) after `scheduledAt` before activation.
+ * - `activatedAt`: The actual timestamp when the event entered ACTIVATED.
+ * - `expiresAt`: The scheduled/expected time when the event will expire. Often in the future,
+ *   but may be past if the event has already ended. Used for checks like
+ *   `now > expiresAt ⇒ expired`.
+ *
+ * ## Termination Rules
+ * - DURATION: Event expires automatically after `lifetimeDuration` seconds.
+ * - INDEFINITE: Event remains active until explicitly expired.
+ * - PERMANENT: Event never expires.
+ *
+ * ## Invariants
+ * - Temporal order: `scheduledAt ≤ activatedAt ≤ expiresAt` (when values are set).
+ * - `expiresAt` is predictive; the event formally becomes EXPIRED once
+ *   the current time passes this point (and optionally records `expiredAt`).
+ *
+ * ## Usage
+ * Typical APIs include:
+ * - `initiate()` to move CREATED → INITIATED.
+ * - `activate()` to enter ACTIVATED and compute expiration.
+ * - `expire()` to force end an active or scheduled event.
+ * - `tick(now)` to evaluate transitions automatically.
+ *
+ * This class distinguishes clearly between rules (`activationRule`, `terminationRule`)
+ * and timestamps (`scheduledAt`, `activatedAt`, `expiresAt`), making event lifecycles
+ * easy to reason about and simulate.
+ *
+ * SohlEvent lifecycle state model:
+ *
+ *   ┌─────────┐    initiate()     ┌────────────┐
+ *   │ CREATED │ ────────────────► │ INITIATED  │
+ *   └─────────┘                   └─────┬──────┘
+ *       ▲                               │
+ *       │ startNow()                    │ (activation condition met)
+ *       │                               ▼
+ *       │                         ┌────────────┐
+ *       └──────────────────────── │ ACTIVATED  │
+ *                                 └─────┬──────┘
+ *                                       │
+ *          (duration ends / expire())   │
+ *                                       ▼
+ *                                 ┌────────────┐
+ *                                 │  EXPIRED   │
+ *                                 └────────────┘
+ *
+ * - CREATED: Event object exists but not yet scheduled.
+ * - INITIATED: Eligible for activation; delays/countdowns apply.
+ * - ACTIVATED: Event is in effect; may expire after a duration, indefinitely, or never.
+ * - EXPIRED: Event has completed or been cancelled. */
+export class SohlEvent extends SohlBase implements SohlEvent.Data {
+    private _settleRunning;
+    private _settleAgain;
+    readonly _parent: SohlLogic;
     id: DocumentId;
     label: string;
     state: SohlEventState;
-    whenActivate: SohlEventActivation;
-    initiate: SohlTemporal;
-    delay: number;
-    activate: SohlTemporal;
-    term: SohlEventTerm;
-    duration: number;
-    expire: SohlTemporal;
-    repeat: SohlEventRepeat;
+    activation: {
+        delay: number;
+        at: SohlTemporal | null;
+    };
+    initiation: {
+        delay: number;
+        at: SohlTemporal | null;
+    };
+    expiration: {
+        duration: number | null;
+        at: SohlTemporal | null;
+        repeatCount: number | null;
+        repeatUntil: SohlTemporal | null;
+    };
 
-    constructor(
-        parent: P,
-        data: Partial<SohlEvent.Data> = {},
-        options: PlainObject = {},
-    ) {
+    constructor(data: Partial<SohlEvent.Data> = {}, options: PlainObject = {}) {
+        if (!options.parent) {
+            throw new Error(
+                "SohlEvent must be constructed with a parent logic instance.",
+            );
+        }
         if (!data.id) {
             throw new Error("Event ID is required");
         }
         super(data, options);
+        this._settleRunning = false;
+        this._settleAgain = false;
         this.id = data.id;
-        this.parent = parent;
+        this._parent = options.parent;
         this.label = sohl.i18n.localize(data.label || "Unnamed Event");
         this.state = data.state ?? SOHL_EVENT_STATE.CREATED;
-        this.whenActivate =
-            data.whenActivate ?? SOHL_EVENT_ACTIVATION.IMMEDIATE;
-        this.initiate = data.initiate ?? SohlTemporal.now();
-        this.delay = data.delay ?? 0;
-        this.activate = data.activate ?? SohlTemporal.now();
-        this.term = data.term ?? SOHL_EVENT_TERM.DURATION;
-        this.duration = data.duration ?? 0;
-        this.expire = data.expire ?? SohlTemporal.now();
-        this.repeat = data.repeat ?? SOHL_EVENT_REPEAT.NONE;
+        this.initiation = {
+            delay: data?.initiation?.delay ?? 0,
+            at:
+                data?.initiation?.at ??
+                SohlTemporal.now().add(data?.initiation?.delay || 0),
+        };
+        this.activation = {
+            delay: data?.activation?.delay ?? 0,
+            at: data?.activation?.at ?? null,
+        };
+        this.expiration = {
+            duration: data?.expiration?.duration ?? Number.POSITIVE_INFINITY,
+            at: data?.expiration?.at ?? null,
+            repeatCount:
+                data?.expiration?.repeatCount ?? Number.POSITIVE_INFINITY,
+            repeatUntil:
+                data?.expiration?.repeatUntil ??
+                SohlTemporal.from(Number.POSITIVE_INFINITY),
+        };
     }
 
-    setState(state: SohlEventState, context: PlainObject = {}): void {
-        void context;
+    get parent(): SohlLogic {
+        return this._parent;
+    }
+
+    async setState(
+        state: SohlEventState,
+        context: PlainObject = {},
+    ): Promise<unknown> {
         this.state = state;
+        return this.state;
+    }
+
+    /**
+     * Settles the event's state based on the status, current time, and its defined rules,
+     * transitioning between statuses and mutating the event as necessary.
+     *
+     * @remarks
+     * This method is idempotent: multiple invocations with at the same world time with no
+     * changes in event state produce no subsequent state changes or effects. It specifically
+     * handles the situation where the time has jumped forward significantly, allowing the
+     * event to transition through multiple states (e.g., from INITIATED to ACTIVATED to
+     * EXPIRED, or even through multiple repeated activations) in a single call.
+     *
+     * This method can also handle the case where time reverses. The event status is strictly
+     * monotonic, meaning that it will not revert to a previous status even if the current
+     * time goes backwards.
+     *
+     * CREATED => INITIATED => ACTIVATED => EXPIRED
+     *
+     * The only case under which the event status can transition backwards is if the event
+     * recurrence is set to a value that allows it to re-enter a prior state after being
+     * EXPIRED.
+     *
+     * The event may transition through multiple states in a single call if the time has
+     * advanced sufficiently.
+     *
+     * This method is re-entrant: if it is called while already running, it will
+     * schedule itself to run again after the current invocation completes. This ensures
+     * that any state changes made during the current invocation are fully processed
+     * before another pass is made.
+     *
+     * @param ctx - The context in which to settle the event, including any additional data.
+     * @returns A promise that resolves once the event has been fully settled.
+     */
+    async settle(ctx: SohlEventContext): Promise<void> {
+        if (this._settleRunning) {
+            this._settleAgain = true;
+            return;
+        }
+        this._settleRunning = true;
+        try {
+            do {
+                this._settleAgain = false;
+                await this._settleOnce(ctx);
+            } while (this._settleAgain);
+        } finally {
+            this._settleRunning = false;
+        }
+    }
+
+    private async _settleOnce(ctx: SohlEventContext): Promise<void> {
+        const now = SohlTemporal.now(); // however your clock is accessed
+
+        // Loop forward through activations/expirations if time has jumped
+        while (true) {
+            // If not initiated yet and condition met → initiate
+            if (this.state === SOHL_EVENT_STATE.CREATED) {
+                if (!this.initiation.at) {
+                    this.initiation.at = (this.initiation.at ?? now).add(
+                        this.initiation.delay,
+                    );
+                }
+                if (this.initiation.at.pastOrPresent()) {
+                    if ((await this._preInitiate(ctx)) !== false) {
+                        this.state = SOHL_EVENT_STATE.ACTIVATED;
+                        await this._onInitiate(ctx);
+                    }
+                    continue;
+                }
+            }
+
+            // If not activated yet and condition met → activate
+            if (this.state === SOHL_EVENT_STATE.INITIATED) {
+                if (!this.activation.at) {
+                    this.activation.at = (this.initiation.at ?? now).add(
+                        this.activation.delay,
+                    );
+                }
+                if (this.activation.at.pastOrPresent()) {
+                    if ((await this._preActivate(ctx)) !== false) {
+                        this.state = SOHL_EVENT_STATE.ACTIVATED;
+                        await this._onActivate(ctx);
+                    }
+                    continue;
+                }
+            }
+
+            // If not expired yet and condition met → expire
+            if (this.state === SOHL_EVENT_STATE.ACTIVATED) {
+                if (!this.expiration.at) {
+                    this.expiration.at = (this.activation.at ?? now).add(
+                        this.expiration.duration ?? Number.POSITIVE_INFINITY,
+                    );
+                }
+
+                if (this.activation.at?.pastOrPresent()) {
+                    if ((await this._preExpire(ctx)) !== false) {
+                        this.state = SOHL_EVENT_STATE.EXPIRED;
+                        await this._onExpire(ctx);
+                    }
+                    continue;
+                }
+            }
+
+            // If expired and recurring, then schedule next occurrence
+            if (this.state === SOHL_EVENT_STATE.EXPIRED) {
+                // Check if expiration date has passed; if so then stop
+                if (this.expiration.repeatUntil?.pastOrPresent()) {
+                    break;
+                }
+
+                this.expiration.repeatCount ??= Number.POSITIVE_INFINITY;
+
+                // Check if we have remaining repetitions; if not then stop
+                if (--this.expiration.repeatCount > 0) {
+                    // We have more repetitions; schedule the next one
+                    this.initiation.at = (this.expiration.at ?? now).add(
+                        this.initiation.delay,
+                    );
+                    this.activation.at = null;
+                    this.expiration.at = null;
+                    this.state = SOHL_EVENT_STATE.CREATED;
+                    continue;
+                }
+            }
+
+            // Nothing more to do at this time
+            break;
+        }
+    }
+
+    /**
+     * Hook called immediately before the event initiates.
+     * @returns `false` to prevent initiation, or any other value (or no value) to allow
+     *                  initiation to proceed.
+     */
+    protected async _preInitiate(ctx: SohlEventContext): Promise<false | void> {
+        if (this.state !== SOHL_EVENT_STATE.CREATED) {
+            return false;
+        }
+    }
+
+    /**
+     * Hook called immediately after the event initiates.
+     */
+    protected async _onInitiate(ctx: SohlEventContext): Promise<void> {}
+
+    /**
+     * Hook called immediately before the event activates.
+     * @returns `false` to prevent activation, or any other value (or no value) to
+     *                  allow activation to proceed.
+     */
+    protected async _preActivate(
+        ctx: SohlEventContext,
+    ): Promise<false | void> {}
+
+    /**
+     * Hook called immediately after the event activates.
+     */
+    protected async _onActivate(ctx: SohlEventContext): Promise<void> {}
+
+    /**
+     * Hook called immediately before the event expires.
+     * @returns `false` to prevent expiration, or any other value (or no value) to
+     *                  allow expiration to proceed.
+     */
+    protected async _preExpire(ctx: SohlEventContext): Promise<false | void> {}
+
+    /**
+     * Hook called immediately after the event expires.
+     */
+    protected async _onExpire(ctx: SohlEventContext): Promise<void> {
+        this.setState(SOHL_EVENT_STATE.EXPIRED);
     }
 }
 
@@ -80,46 +340,30 @@ export namespace SohlEvent {
     }
 
     export interface Data {
-        /** @summary Unique identifier for the event */
+        /** Unique identifier for the event */
         id: DocumentId;
 
-        /** @summary Visible label of the event (localizable) */
+        /** Human-readable title (localizable) */
         label: string;
 
-        /** @summary The current state of the event */
+        /** The current status of the event */
         state: SohlEventState;
 
-        /** @summary When the event will be activated */
-        whenActivate: SohlEventActivation;
+        activation: {
+            delay: number;
+            at?: SohlTemporal | null;
+        };
 
-        /**
-         * @summary Time when the event was initiated.
-         *
-         * @description
-         * This is the time when the event becomes a candidate for activation, often
-         * simply the creation time of the event.
-         *
-         * @remarks
-         * This is used to calculate the activation time of the event. The activation
-         * time is calculated based on the `whenActivate` and `delay` properties, using
-         * the `initiate` time as a reference. This value will always be less than or
-         * equal to the `activate` and `expire` times.
-         */
-        initiate: SohlTemporal;
+        initiation: {
+            delay: number;
+            at?: SohlTemporal | null;
+        };
 
-        /** @summary Number of seconds after initiation to delay until event is activated */
-        delay: number;
-
-        activate: SohlTemporal; // Time when the event will be activated
-
-        term: SohlEventTerm; // How long the event will continue
-
-        duration: number; // Duration of the event if term is DURATION
-
-        /** @summary Time when the event will expire */
-        expire: SohlTemporal;
-
-        /** @summary How often the event will repeat */
-        repeat: SohlEventRepeat;
+        expiration: {
+            duration: number | null;
+            at?: SohlTemporal | null;
+            repeatCount: number | null;
+            repeatUntil: SohlTemporal | null;
+        };
     }
 }

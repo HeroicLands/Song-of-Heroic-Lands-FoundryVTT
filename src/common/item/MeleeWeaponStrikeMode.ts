@@ -12,7 +12,8 @@
  */
 
 import type { SohlLogic } from "@common/SohlLogic";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import {
     kStrikeModeMixin,
@@ -35,7 +36,7 @@ export class MeleeWeaponStrikeMode
     implements MeleeWeaponStrikeMode.Logic
 {
     declare [kStrikeModeMixin]: true;
-    declare readonly parent: MeleeWeaponStrikeMode.Data;
+    declare readonly _parent: MeleeWeaponStrikeMode.Data;
     readonly [kMeleeWeaponStrikeMode] = true;
     defense!: {
         block: CombatModifier;
@@ -52,19 +53,19 @@ export class MeleeWeaponStrikeMode
     }
 
     async blockTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.block.successTest(context)) || null;
     }
 
     async counterstrikeTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.counterstrike.successTest(context)) || null;
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.defense = {
             block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
@@ -79,7 +80,7 @@ export class MeleeWeaponStrikeMode
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
         if (this.assocSkill) {
             this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
@@ -111,7 +112,7 @@ export class MeleeWeaponStrikeMode
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -140,7 +141,7 @@ export namespace MeleeWeaponStrikeMode {
     export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
 
     export interface Logic extends StrikeModeMixin.Logic {
-        readonly parent: MeleeWeaponStrikeMode.Data;
+        readonly _parent: MeleeWeaponStrikeMode.Data;
         readonly [kMeleeWeaponStrikeMode]: true;
     }
 

@@ -22,17 +22,25 @@ import type { DurationValue } from "@utils/SohlLocalize";
  */
 export class SohlTemporal extends SohlBase {
     /** The world time, stored as a numeric timestamp */
-    public gameTime!: number;
+    private _time!: number;
 
     constructor(data: PlainObject, options: PlainObject = {}) {
         super(data, options);
-        this.gameTime = data.gameTime ?? (game as any).time.worldTime;
+        this._time = data.time ?? (game as any).time.worldTime;
+    }
+
+    get time(): number {
+        return this._time;
+    }
+
+    set time(value: number) {
+        this._time = value;
     }
 
     formatWorldDate(time?: number): string {
         let worldDateLabel = "No Calendar";
         if (sohl.simpleCalendar) {
-            time ??= this.gameTime;
+            time ??= this.time;
             const ct = sohl.simpleCalendar.api.secondsToDate(time);
             worldDateLabel = `${ct.display.day} ${ct.display.monthName} ${ct.display.yearPrefix}${ct.display.year}${ct.display.yearPostfix} ${ct.display.time}`;
         }
@@ -50,11 +58,21 @@ export class SohlTemporal extends SohlBase {
     }
 
     /**
-     * Advance time by a given amount
-     * @param amount - The amount of time to advance
+     * Advance time by a given number of seconds
+     * @param seconds - The number of seconds to add
      */
-    advanceTime(amount: number): void {
-        this.gameTime += amount;
+    add(seconds: number): this {
+        this._time += seconds;
+        return this;
+    }
+
+    /**
+     * Retrograde time by a given number of seconds
+     * @param seconds - The number of seconds to subtract
+     */
+    subtract(seconds: number): this {
+        this._time -= seconds;
+        return this;
     }
 
     /**
@@ -63,15 +81,7 @@ export class SohlTemporal extends SohlBase {
      * @returns Positive if this is later, negative if earlier, 0 if equal
      */
     compare(other: SohlTemporal): number {
-        return this.gameTime - other.gameTime;
-    }
-
-    /**
-     * @summary Return the numeric representation of this SohlTemporal
-     * @returns The stored time as a number
-     */
-    valueOf(): number {
-        return this.gameTime;
+        return this.time - other.time;
     }
 
     /**
@@ -79,7 +89,17 @@ export class SohlTemporal extends SohlBase {
      * @returns True if the time is in the past, false otherwise
      */
     past(): boolean {
-        return this.gameTime < (game as any).time.worldTime;
+        const nowTime = (game as any).time.worldTime;
+        return this._time < nowTime;
+    }
+
+    /**
+     * Check if the current time is in the past or present
+     * @returns True if the time is in the past or present, false otherwise
+     */
+    pastOrPresent(): boolean {
+        const nowTime = (game as any).time.worldTime;
+        return this._time <= nowTime;
     }
 
     /**
@@ -87,7 +107,17 @@ export class SohlTemporal extends SohlBase {
      * @returns True if the time is in the future, false otherwise
      */
     future(): boolean {
-        return this.gameTime > (game as any).time.worldTime;
+        const nowTime = (game as any).time.worldTime;
+        return this._time > nowTime;
+    }
+
+    /**
+     * Check if the current time is in the future or present
+     * @returns True if the time is in the future or present, false otherwise
+     */
+    futureOrPresent(): boolean {
+        const nowTime = (game as any).time.worldTime;
+        return this._time >= nowTime;
     }
 
     /**
@@ -96,7 +126,7 @@ export class SohlTemporal extends SohlBase {
      */
     currentDuration(): DurationValue {
         const diffInSeconds = Math.abs(
-            (game as any).time.worldTime - this.gameTime,
+            (game as any).time.worldTime - this._time,
         );
         return sohl.i18n.secondsToDuration(diffInSeconds);
     }
@@ -106,7 +136,7 @@ export class SohlTemporal extends SohlBase {
      * @param time - The world time value to create from
      */
     static from(time: number): SohlTemporal {
-        return new SohlTemporal({ gameTime: time });
+        return new SohlTemporal({ time });
     }
 
     /**
@@ -114,6 +144,6 @@ export class SohlTemporal extends SohlBase {
      * @returns A new SohlTemporal instance representing the current world time
      */
     static now(): SohlTemporal {
-        return new SohlTemporal({ gameTime: (game as any).time.worldTime });
+        return new SohlTemporal({ time: (game as any).time.worldTime });
     }
 }

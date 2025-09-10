@@ -120,7 +120,7 @@ declare global {
     interface ClientDocument {
         apps: StrictObject<foundry.applications.api.ApplicationV2>;
         _sheet: foundry.applications.api.ApplicationV2 | null;
-        _initialize(context: SohlAction.Context): void;
+        _initialize(context: SohlEventContext): void;
         collection: Collection | null;
         compendium: Collection | null;
         inCompendium: boolean;

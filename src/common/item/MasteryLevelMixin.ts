@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import type { Mystery } from "@common/item/Mystery";
@@ -40,7 +41,7 @@ export function MasteryLevelMixin<
     Base: TBase,
 ): TBase & Constructor<InstanceType<TBase> & MasteryLevelMixin.Logic> {
     return class extends Base implements MasteryLevelMixin.Logic {
-        declare parent: MasteryLevelMixin.Data;
+        declare _parent: MasteryLevelMixin.Data;
         _boosts!: number;
         _skillBase!: MasteryLevelMixin.SkillBase;
         _masteryLevel!: MasteryLevelModifier;
@@ -58,22 +59,22 @@ export function MasteryLevelMixin<
             return this._masteryLevel;
         }
 
-        async improveWithSDR(context: SohlAction.Context): Promise<void> {
+        async improveWithSDR(context: SohlEventContext): Promise<void> {
             const updateData: PlainObject = { "system.improveFlag": false };
             let roll = await Roll.create(`1d100 + ${this.skillBase.value}`);
             const isSuccess = (roll.total ?? 0) > this._masteryLevel.base;
 
             if (isSuccess) {
                 updateData["system.masteryLevelBase"] =
-                    this.parent.masteryLevelBase + this.sdrIncr;
+                    this._parent.masteryLevelBase + this.sdrIncr;
             }
             const chatTemplate: FilePath = toFilePath(
                 "systems/sohl/templates/chat/standard-test-card.html",
             );
             const chatTemplateData = {
                 variant: sohl.id,
-                type: `${this.parent.kind}-${this.parent.item.name}-improve-sdr`,
-                title: `${this.parent.label()} Development Roll`,
+                type: `${this._parent.kind}-${this._parent.item.name}-improve-sdr`,
+                title: `${this._parent.label()} Development Roll`,
                 effTarget: this._masteryLevel.base,
                 isSuccess: isSuccess,
                 rollValue: roll.total,
@@ -82,17 +83,17 @@ export function MasteryLevelMixin<
                 resultText:
                     isSuccess ?
                         sohl.i18n.format("{prefix} Increase", {
-                            prefix: this.parent.item.system.label,
+                            prefix: this._parent.item.system.label,
                         })
                     :   sohl.i18n.format("No {prefix} Increase", {
-                            prefix: this.parent.item.system.label,
+                            prefix: this._parent.item.system.label,
                         }),
                 resultDesc:
                     isSuccess ?
                         sohl.i18n.format(
                             "{label} increased by {incr} to {final}",
                             {
-                                label: this.parent.item.system.label,
+                                label: this._parent.item.system.label,
                                 incr: this.sdrIncr,
                                 final: this._masteryLevel.base + this.sdrIncr,
                             },
@@ -152,7 +153,7 @@ export function MasteryLevelMixin<
                     ) {
                         const itLogic: Mystery.Logic =
                             it.logic as unknown as Mystery.Logic;
-                        const skills = itLogic.parent.skills;
+                        const skills = itLogic._parent.skills;
                         if (!skills || skills.includes(this.item.name)) {
                             if (
                                 !itLogic.charges.value.disabled ||
@@ -187,14 +188,14 @@ export function MasteryLevelMixin<
         }
 
         /** @inheritdoc */
-        override initialize(context: SohlAction.Context): void {
+        override initialize(context: SohlEventContext): void {
             super.initialize(context);
             this._boosts = 0;
             this._masteryLevel = new sohl.CONFIG.MasteryLevelModifier(
                 {},
                 { parent: this },
             );
-            this._masteryLevel.setBase(this.parent.masteryLevelBase);
+            this._masteryLevel.setBase(this._parent.masteryLevelBase);
             if (this.actor) {
                 const fateSetting = (game as any).settings.get(
                     "sohl",
@@ -216,7 +217,7 @@ export function MasteryLevelMixin<
                 }
             }
             this._skillBase ||= new MasteryLevelMixin.SkillBase(
-                this.parent.skillBaseFormula,
+                this._parent.skillBaseFormula,
                 {
                     items: Array.from(this.actor?.allItems.values() || []),
                 },
@@ -224,7 +225,7 @@ export function MasteryLevelMixin<
         }
 
         /** @inheritdoc */
-        override evaluate(context: SohlAction.Context): void {
+        override evaluate(context: SohlEventContext): void {
             super.evaluate(context);
             if (this._masteryLevel.base > 0) {
                 let newML = this._masteryLevel.base;
@@ -245,7 +246,7 @@ export function MasteryLevelMixin<
         }
 
         /** @inheritdoc */
-        override finalize(context: SohlAction.Context): void {
+        override finalize(context: SohlEventContext): void {
             super.finalize(context);
             if (this._masteryLevel.disabled) {
                 this._masteryLevel.fate.disabled = sohl.CONFIG.MOD.MLDSBL.name;
@@ -303,7 +304,7 @@ export namespace MasteryLevelMixin {
 
     export interface Logic extends SohlItem.Logic {
         readonly [kMasteryLevelMixin]: true;
-        readonly parent: MasteryLevelMixin.Data;
+        readonly _parent: MasteryLevelMixin.Data;
         readonly masteryLevel: MasteryLevelModifier;
         readonly magicMod: number;
         readonly boosts: number;
@@ -311,7 +312,7 @@ export namespace MasteryLevelMixin {
         readonly valid: boolean;
         readonly skillBase: MasteryLevelMixin.SkillBase;
         readonly sdrIncr: number;
-        improveWithSDR(context: SohlAction.Context): Promise<void>;
+        improveWithSDR(context: SohlEventContext): Promise<void>;
     }
 
     export interface Data extends SohlItem.Data {

@@ -17,7 +17,8 @@ import {
     kStrikeModeMixinData,
     StrikeModeMixin,
 } from "@common/item/StrikeModeMixin";
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { CombatModifier } from "@common/modifier/CombatModifier";
 import { kSubTypeMixinData } from "./SubTypeMixin";
@@ -31,7 +32,7 @@ export class CombatTechniqueStrikeMode
     implements CombatTechniqueStrikeMode.Logic
 {
     declare [kStrikeModeMixin]: true;
-    declare readonly parent: CombatTechniqueStrikeMode.Data;
+    declare readonly _parent: CombatTechniqueStrikeMode.Data;
     readonly [kCombatTechniqueStrikeMode] = true;
     defense!: {
         block: CombatModifier;
@@ -47,19 +48,19 @@ export class CombatTechniqueStrikeMode
     }
 
     async blockTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.block.successTest(context)) || null;
     }
 
     async counterstrikeTest(
-        context: SohlAction.Context,
+        context: SohlEventContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.counterstrike.successTest(context)) || null;
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.defense = {
             block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
@@ -68,7 +69,7 @@ export class CombatTechniqueStrikeMode
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
         if (this.assocSkill) {
             this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
@@ -100,14 +101,14 @@ export class CombatTechniqueStrikeMode
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace CombatTechniqueStrikeMode {
     export interface Logic extends StrikeModeMixin.Logic {
-        readonly parent: CombatTechniqueStrikeMode.Data;
+        readonly _parent: CombatTechniqueStrikeMode.Data;
         readonly [kCombatTechniqueStrikeMode]: true;
     }
 

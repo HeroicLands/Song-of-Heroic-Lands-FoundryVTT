@@ -12,7 +12,6 @@
  */
 
 import { ImpactResult } from "@common/result/ImpactResult";
-import { SohlClassRegistry } from "@utils/SohlClassRegistry";
 import {
     ATTACK_MISHAP,
     defineType,
@@ -137,28 +136,28 @@ export namespace AttackResult {
             id: "autoCombatMelee",
             name: "Auto Combat Melee",
             iconClass: "fas fa-swords",
-            condition: true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         AUTOCOMBATMISSILE: {
             id: "autoCombatMissile",
             name: "Auto Combat Missile",
             iconClass: "fas fa-bow-arrow",
-            condition: true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         MISSILEATTACK: {
             id: "missileAttackTest",
             name: "Missile Attack Test",
             iconClass: "fas fa-bow-arrow",
-            condition: true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
         MELEEATTACK: {
             id: "meleeAttackTest",
             name: "Melee Attack Test",
             iconClass: "fas fa-sword",
-            condition: true,
+            condition: (header: HTMLElement): boolean => true,
             group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
         },
     });

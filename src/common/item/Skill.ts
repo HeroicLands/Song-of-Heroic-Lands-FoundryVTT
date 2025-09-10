@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlAction } from "@common/event/SohlAction";
 import { SohlItem } from "@common/item/SohlItem";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import {
@@ -24,6 +23,7 @@ import {
     SkillSubType,
     SkillSubTypes,
 } from "@utils/constants";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
 const kSkill = Symbol("Skill");
 const kData = Symbol("Skill.Data");
 const { StringField } = foundry.data.fields;
@@ -33,7 +33,7 @@ export class Skill
     implements Skill.Logic
 {
     declare readonly [kMasteryLevelMixin]: true;
-    declare readonly parent: Skill.Data;
+    declare readonly _parent: Skill.Data;
     readonly [kSkill] = true;
 
     static isA(obj: unknown): obj is Skill {
@@ -41,17 +41,17 @@ export class Skill
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
@@ -60,7 +60,7 @@ export namespace Skill {
     export interface Logic
         extends MasteryLevelMixin.Logic,
             SubTypeMixin.Logic<SkillSubType> {
-        readonly parent: Skill.Data;
+        readonly _parent: Skill.Data;
         readonly [kSkill]: true;
     }
 

@@ -14,18 +14,17 @@
 import { SOHL_EVENT_STATE, SohlEventState } from "@utils/constants";
 import { AsyncFunction } from "@utils/helpers";
 import { SohlAction } from "@common/event/SohlAction";
-import type { SohlLogic } from "@common/SohlLogic";
+import type { SohlEventContext } from "./SohlEventContext";
 
 export class SohlScriptAction extends SohlAction {
     private script: string;
-    private isAsync: boolean;
+    isAsync: boolean;
 
     constructor(
-        parent: SohlLogic,
         data: Partial<SohlScriptAction.Data> = {},
         options: PlainObject = {},
     ) {
-        super(parent, data, options);
+        super(data, options);
         this.script = data.script || "return";
         SohlScriptAction.checkScriptSafety(this.script);
         this.isAsync = data.isAsync ?? true;
@@ -43,25 +42,22 @@ export class SohlScriptAction extends SohlAction {
         }
     }
 
-    setState(
-        state: SohlEventState,
-        context: Partial<SohlAction.Context>,
-    ): void {
+    setStatus(state: SohlEventState, context: Partial<SohlEventContext>): void {
         super.setState(state, context);
 
         if (state === SOHL_EVENT_STATE.ACTIVATED) {
             this.execute(context);
-            this.setState(SOHL_EVENT_STATE.CREATED, context);
+            this.setStatus(SOHL_EVENT_STATE.CREATED, context);
         }
     }
 
-    executeSync(actionContext: Partial<SohlAction.Context>): Optional<unknown> {
+    executeSync(actionContext: Partial<SohlEventContext>): Optional<unknown> {
         const result = this.execute(actionContext);
         return result instanceof Promise ? undefined : result;
     }
 
     async execute(
-        actionContext: Partial<SohlAction.Context>,
+        actionContext: Partial<SohlEventContext>,
     ): Promise<Optional<unknown>> {
         const args = ["context", `"use strict";\n${this.script}`];
 

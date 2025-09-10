@@ -15,23 +15,20 @@ import { SohlAction } from "@common/event/SohlAction";
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 
-export class SohlIntrinsicAction<
-    TParent extends SohlLogic = SohlLogic,
-> extends SohlAction<TParent> {
+export class SohlIntrinsicAction extends SohlAction {
     private intrinsicFunction: Function;
 
     constructor(
-        parent: TParent,
         data: Partial<SohlIntrinsicAction.Data> = {},
         options: PlainObject = {},
     ) {
-        super(parent, data, options);
+        super(data, options);
         let functionName: string = data?.functionName || "";
-        const fnTable: StrictObject<Function> =
-            parent as unknown as StrictObject<Function>;
+        const fnTable: StrictObject<Function> = this
+            .parent as unknown as StrictObject<Function>;
         if (!Object.hasOwn(fnTable, functionName)) {
             throw new Error(
-                `The function name "${functionName}" is not defined on the parent performer.`,
+                `The function name "${functionName}" is not defined on the parent logic.`,
             );
         }
         this.intrinsicFunction = fnTable[functionName];

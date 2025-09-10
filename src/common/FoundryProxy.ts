@@ -17,9 +17,6 @@ import {
     toHTMLWithTemplate,
     HTMLString,
 } from "@utils/helpers";
-// imports of SohlActor and SohlItem are intentionally omitted here because
-// this module provides thin wrappers around Foundry APIs and must avoid
-// creating circular runtime dependencies. Use type-only imports where needed.
 
 /*
  * =====================================================

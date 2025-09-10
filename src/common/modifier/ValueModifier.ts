@@ -26,14 +26,14 @@ import {
  * Represents a value and its modifying deltas.
  */
 export class ValueModifier extends SohlBase {
+    private _abbrev!: string;
+    private _dirty: boolean;
+    private _effective!: number;
+    private _parent: SohlLogic;
     disabledReason!: string;
     baseValue?: number;
     customFunction?: Function;
     deltas!: ValueDelta[];
-    private _abbrev!: string;
-    private _dirty!: boolean;
-    private _effective!: number;
-    private _parent: SohlLogic;
 
     constructor(
         data: Partial<ValueModifier.Data> = {},
@@ -48,12 +48,13 @@ export class ValueModifier extends SohlBase {
         this.baseValue = data.baseValue ?? undefined;
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
+        this._dirty = true;
         this._apply();
     }
 
     protected _apply(): void {
+        if (!this._dirty) return;
         this._dirty = false;
-        void this._dirty;
         if (this.disabled) {
             this._effective = 0;
         } else {
@@ -162,6 +163,7 @@ export class ValueModifier extends SohlBase {
     }
 
     get effective(): number {
+        this._apply();
         return this._effective;
     }
 
@@ -170,7 +172,8 @@ export class ValueModifier extends SohlBase {
     }
 
     get abbrev(): string {
-        return this.abbrev;
+        this._apply();
+        return this._abbrev;
     }
 
     get index(): number {
@@ -188,11 +191,11 @@ export class ValueModifier extends SohlBase {
             if (!reason) this.disabledReason = "";
             else this.disabledReason = "SOHL.DELTAINFO.DISABLED";
         }
-        this._apply();
+        this._dirty = true;
     }
 
     get base(): number {
-        return this.baseValue || 0;
+        return this.baseValue ?? 0;
     }
 
     setBase(value: unknown): ValueModifier {
@@ -201,7 +204,7 @@ export class ValueModifier extends SohlBase {
         } else {
             throw new TypeError("value must be numeric or undefined");
         }
-        this._apply();
+        this._dirty = true;
         return this;
     }
 
@@ -248,15 +251,14 @@ export class ValueModifier extends SohlBase {
                     this.deltas = [
                         new ValueDelta(this, { name, abbrev, op, value }),
                     ];
-                    this._apply();
                 }
             }
         } else {
             const deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
             deltas.push(new ValueDelta(this, { name, abbrev, op, value }));
-            this._apply();
         }
 
+        this._dirty = true;
         return this;
     }
 
@@ -276,8 +278,6 @@ export class ValueModifier extends SohlBase {
         if (typeof abbrev !== "string")
             throw new TypeError("abbrev is not a string");
         const newMods = this.deltas.filter((m) => m.abbrev !== abbrev) || [];
-        void newMods;
-        this._apply();
     }
 
     add(...args: any[]): ValueModifier {

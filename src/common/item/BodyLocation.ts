@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+
 import { SohlItem } from "@common/item/SohlItem";
 const { BooleanField, StringField } = foundry.data.fields;
 const kBodyLocation = Symbol("BodyLocation");
@@ -21,7 +22,7 @@ export class BodyLocation
     extends SohlItem.BaseLogic
     implements BodyLocation.Logic
 {
-    declare readonly parent: BodyLocation.Data;
+    declare readonly _parent: BodyLocation.Data;
     protection!: PlainObject;
     layers!: string;
     traits!: PlainObject;
@@ -32,7 +33,7 @@ export class BodyLocation
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlAction.Context): void {
+    override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.protection = {};
         this.layers = "";
@@ -42,19 +43,19 @@ export class BodyLocation
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlAction.Context): void {
+    override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlAction.Context): void {
+    override finalize(context: SohlEventContext): void {
         super.finalize(context);
     }
 }
 
 export namespace BodyLocation {
     export interface Logic extends SohlItem.Logic {
-        readonly parent: Data;
+        readonly _parent: Data;
         readonly [kBodyLocation]: true;
     }
 
