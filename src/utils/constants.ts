@@ -772,6 +772,17 @@ export type DomainElementCategory =
     (typeof DOMAIN_ELEMENT_CATEGORY)[keyof typeof DOMAIN_ELEMENT_CATEGORY];
 
 export const {
+    kind: EVENT_SUBTYPE,
+    values: EventSubTypes,
+    isValue: isEventSubType,
+    labels: EventSubTypeLabels,
+} = defineType("SOHL.Event.SUBTYPE", {
+    BASIC: "basic",
+    SCRIPT_ACTION: "scriptaction",
+});
+export type EventSubType = (typeof EventSubTypes)[number];
+
+export const {
     kind: MYSTERY_SUBTYPE,
     values: MysterySubTypes,
     isValue: isMysterySubType,

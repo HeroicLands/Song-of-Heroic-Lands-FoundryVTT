@@ -11,12 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlEventState,
-    SOHL_EVENT_STATE,
-    SOHL_EVENT_TERM,
-    SOHL_EVENT_REPEAT,
-} from "@utils/constants";
+import { SohlEventState, SOHL_EVENT_STATE } from "@utils/constants";
 import { SohlBase } from "@common/SohlBase";
 import { SohlTemporal } from "@common/event/SohlTemporal";
 import type { SohlLogic } from "@common/SohlLogic";
@@ -93,13 +88,14 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
     private _settleAgain;
     readonly _parent: SohlLogic;
     id: DocumentId;
-    label: string;
+    title: string;
     state: SohlEventState;
-    activation: {
+    initiation: {
         delay: number;
         at: SohlTemporal | null;
     };
-    initiation: {
+    activation: {
+        manualTrigger: boolean;
         delay: number;
         at: SohlTemporal | null;
     };
@@ -124,7 +120,7 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
         this._settleAgain = false;
         this.id = data.id;
         this._parent = options.parent;
-        this.label = sohl.i18n.localize(data.label || "Unnamed Event");
+        this.title = sohl.i18n.localize(data.title || "Unnamed Event");
         this.state = data.state ?? SOHL_EVENT_STATE.CREATED;
         this.initiation = {
             delay: data?.initiation?.delay ?? 0,
@@ -135,15 +131,14 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
         this.activation = {
             delay: data?.activation?.delay ?? 0,
             at: data?.activation?.at ?? null,
+            manualTrigger: data?.activation?.manualTrigger ?? false,
         };
         this.expiration = {
-            duration: data?.expiration?.duration ?? Number.POSITIVE_INFINITY,
+            duration: data?.expiration?.duration ?? null,
             at: data?.expiration?.at ?? null,
             repeatCount:
                 data?.expiration?.repeatCount ?? Number.POSITIVE_INFINITY,
-            repeatUntil:
-                data?.expiration?.repeatUntil ??
-                SohlTemporal.from(Number.POSITIVE_INFINITY),
+            repeatUntil: data?.expiration?.repeatUntil ?? null,
         };
     }
 
@@ -231,11 +226,14 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
             // If not activated yet and condition met → activate
             if (this.state === SOHL_EVENT_STATE.INITIATED) {
                 if (!this.activation.at) {
-                    this.activation.at = (this.initiation.at ?? now).add(
-                        this.activation.delay,
-                    );
+                    this.activation.at =
+                        this.activation.manualTrigger ?
+                            SohlTemporal.from(Number.POSITIVE_INFINITY)
+                        :   (this.initiation.at ?? now).add(
+                                this.activation.delay,
+                            );
                 }
-                if (this.activation.at.pastOrPresent()) {
+                if (this.activation.at?.pastOrPresent()) {
                     if ((await this._preActivate(ctx)) !== false) {
                         this.state = SOHL_EVENT_STATE.ACTIVATED;
                         await this._onActivate(ctx);
@@ -252,7 +250,7 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
                     );
                 }
 
-                if (this.activation.at?.pastOrPresent()) {
+                if (this.expiration.at?.pastOrPresent()) {
                     if ((await this._preExpire(ctx)) !== false) {
                         this.state = SOHL_EVENT_STATE.EXPIRED;
                         await this._onExpire(ctx);
@@ -286,6 +284,20 @@ export class SohlEvent extends SohlBase implements SohlEvent.Data {
             // Nothing more to do at this time
             break;
         }
+    }
+
+    /**
+     * Manually activates the event if it is in the INITIATED state.
+     * @param ctx - The context in which to settle the event, including any additional data.
+     */
+    async activate(ctx: SohlEventContext): Promise<void> {
+        if (this.state !== SOHL_EVENT_STATE.INITIATED) {
+            throw new Error(
+                "Event must be in INITIATED state to be activated.",
+            );
+        }
+        this.activation.at = SohlTemporal.now();
+        await this.settle(ctx);
     }
 
     /**
@@ -344,26 +356,27 @@ export namespace SohlEvent {
         id: DocumentId;
 
         /** Human-readable title (localizable) */
-        label: string;
+        title: string;
 
         /** The current status of the event */
         state: SohlEventState;
-
-        activation: {
-            delay: number;
-            at?: SohlTemporal | null;
-        };
 
         initiation: {
             delay: number;
             at?: SohlTemporal | null;
         };
 
-        expiration: {
-            duration: number | null;
+        activation: {
+            manualTrigger: boolean;
+            delay: number;
             at?: SohlTemporal | null;
-            repeatCount: number | null;
-            repeatUntil: SohlTemporal | null;
+        };
+
+        expiration: {
+            duration?: number | null;
+            at?: SohlTemporal | null;
+            repeatCount?: number | null;
+            repeatUntil?: SohlTemporal | null;
         };
     }
 }

@@ -13,62 +13,89 @@
 
 import { SohlAction } from "@common/event/SohlAction";
 import type { SohlLogic } from "@common/SohlLogic";
-import { SohlContextMenu } from "@utils/SohlContextMenu";
+import {
+    SOHL_ACTION_ROLE,
+    SOHL_ACTION_SCOPE,
+    SOHL_EVENT_STATE,
+} from "@utils/constants";
+import type { SohlContextMenu } from "@utils/SohlContextMenu";
 
 export class SohlIntrinsicAction extends SohlAction {
-    private intrinsicFunction: Function;
+    private functionName: string;
 
     constructor(
         data: Partial<SohlIntrinsicAction.Data> = {},
         options: PlainObject = {},
     ) {
         super(data, options);
-        let functionName: string = data?.functionName || "";
-        const fnTable: StrictObject<Function> = this
-            .parent as unknown as StrictObject<Function>;
-        if (!Object.hasOwn(fnTable, functionName)) {
+        this.functionName = data?.functionName || "";
+    }
+
+    protected override getFunction(): Function {
+        let target: SohlLogic | undefined;
+        switch (this.scope) {
+            case SOHL_ACTION_SCOPE.SELF:
+                target = this.parent;
+                break;
+
+            case SOHL_ACTION_SCOPE.ITEM:
+                target = this.parent?.item?.logic as SohlLogic;
+                break;
+
+            case SOHL_ACTION_SCOPE.ACTOR:
+                target = this.parent?.item?.actor?.logic as SohlLogic;
+                break;
+            default:
+                throw new Error(`Unknown action scope: ${this.scope}`);
+        }
+        if (!target) {
             throw new Error(
-                `The function name "${functionName}" is not defined on the parent logic.`,
+                `This action is scoped to ${this.scope}, but the target does not exist.`,
             );
         }
-        this.intrinsicFunction = fnTable[functionName];
+
+        const func: Function = (target as any)?.[this.functionName];
+        if (!func || typeof func !== "function") {
+            throw new Error(
+                `The target of this action does not have a function named "${this.functionName}".`,
+            );
+        }
+
+        return func.bind(target);
     }
 
-    override executeSync(
-        scope: {
-            element?: HTMLElement;
-            [key: string]: any;
-        } = {},
-    ): Optional<unknown> {
-        scope.async = false;
-        scope.actionName = this.label;
-        scope.self = this;
-        const result = this.intrinsicFunction.call(this.parent, scope);
-        if (result instanceof Promise) return undefined;
-        return result;
-    }
-
-    override async execute(
-        scope: {
-            element?: HTMLElement;
-            [key: string]: any;
-        } = {},
-    ): Promise<Optional<unknown>> {
-        scope.async = true;
-        scope.actionName = this.label;
-        scope.self = this;
-
-        return Promise.resolve(this.intrinsicFunction.call(this.parent, scope));
-    }
-
-    static createFromContextMenuData(
+    static createFromContextMenuEntryContext(
         parent: SohlLogic,
         data: SohlContextMenu.EntryContext,
     ): SohlIntrinsicAction {
-        const functionName = data.id;
-        return new SohlIntrinsicAction(parent, {
-            functionName,
-        });
+        return new SohlIntrinsicAction(
+            {
+                title: data.name,
+                scope: SOHL_ACTION_SCOPE.SELF,
+                state: SOHL_EVENT_STATE.CREATED,
+                initiation: {
+                    delay: 0,
+                },
+                activation: {
+                    delay: 0,
+                    manualTrigger: true,
+                },
+                expiration: {
+                    duration: 0,
+                },
+                notes: "",
+                description: "",
+                contextIconClass: data.iconFAClass,
+                contextCondition: data.condition,
+                contextGroup: data.group as string,
+                isAsync: false,
+                permissions: {
+                    execute: SOHL_ACTION_ROLE.OWNER,
+                },
+                functionName: data.functionName,
+            },
+            { parent },
+        );
     }
 }
 

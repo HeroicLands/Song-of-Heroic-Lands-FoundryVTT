@@ -3,7 +3,7 @@
         "target": "ES2020",
         "lib": ["ES2022", "ES2022.Intl", "DOM"],
         "module": "ESNext",
-        "moduleResolution": "node",
+        "moduleResolution": "Bundler",
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "allowJs": true,
@@ -19,6 +19,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
+        "types": ["fvtt-types"],
         "typeRoots": [
             "node_modules/@types",
             "types",
@@ -38,12 +39,6 @@
             "@tests/*": ["tests/*"]
         }
     },
-    "include": [
-        "src/**/*.ts",
-        "tests/**/*.ts",
-        "types/index.d.ts",
-        "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/types/index.d.mts",
-        "node_modules/@league-of-foundry-developers/foundry-vtt-types/src/foundry/index.d.mts"
-    ],
+    "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],
     "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

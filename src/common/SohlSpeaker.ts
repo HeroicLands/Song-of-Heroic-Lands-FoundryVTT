@@ -44,35 +44,42 @@ export class SohlSpeaker {
     readonly name: string;
     readonly user: SohlUser;
 
-    constructor({
-        rollMode,
-        user,
-        alias,
-        token,
-        actor,
-        scene,
-    }: Partial<SohlSpeaker.Data> = {}) {
+    /**
+     * Construct a SohlSpeaker instance.
+     *
+     * @param options
+     * @param options.rollMode The roll mode to use.
+     * @param options.user The user ID.
+     * @param options.token The token ID.
+     * @param options.actor The actor ID.
+     * @param options.scene The scene ID.
+     * @param options.alias The alias to use.
+     */
+    constructor(data: Partial<SohlSpeaker.Data> = {}) {
         this.token = null;
         this.actor = null;
         this.scene = null;
         this.rollMode =
-            rollMode ||
+            data.rollMode ||
             (game as any).settings.get("core", "rollMode") ||
             SOHL_SPEAKER_ROLL_MODE.SYSTEM;
-        if (token) {
-            this.token = canvas.tokens?.get(token);
+        if (data.token) {
+            this.token = canvas.tokens?.get(data.token);
             this.actor = this.token?.actor;
         }
-        if (!this.actor && actor) {
-            this.actor = (game as any).actors?.get(actor);
+        if (!this.actor && data.actor) {
+            this.actor = (game as any).actors?.get(data.actor);
         }
-        if (scene) {
-            this.scene = (game as any).scenes?.get(scene);
+        if (data.scene) {
+            this.scene = (game as any).scenes?.get(data.scene);
         }
 
-        this.user = user ? (game as any).users?.get(user) : (game as any).user;
-        if (alias) {
-            this.name = alias;
+        this.user =
+            data.user ?
+                (game as any).users?.get(data.user)
+            :   (game as any).user;
+        if (data.alias) {
+            this.name = data.alias;
         } else if (this.token?.name) {
             this.name = this.token.name;
         } else if (this.actor?.name) {
@@ -239,7 +246,7 @@ export namespace SohlSpeaker {
         token: DocumentId | null;
         actor: DocumentId | null;
         scene: DocumentId | null;
-        alias: string | null;
+        alias?: string | null;
         rollMode?: SohlSpeakerRollMode;
         user: DocumentId;
     }

@@ -13,13 +13,6 @@ export class SohlEventContext {
     title: string;
     scope: UnknownObject;
 
-    /**
-     * @param {Object} data - The options to initialize the context.
-     * @param {SohlSpeaker|PlainObject} [data.speaker] - The speaker object or plain object.
-     * @param {string} [data.rollMode] - The roll mode to use.
-     * @param {string} [data.logicUuid] - The UUID of the logic.
-     * @param {string} [data.userId] - The user ID.
-     */
     constructor({
         speaker,
         targetUuid = null,

@@ -15,6 +15,7 @@ import {
     ClientDocumentExtendedMixin,
     FilePath,
     HTMLString,
+    toDocumentId,
 } from "@utils/helpers";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { InternalClientDocument } from "@common/FoundryProxy";
@@ -25,8 +26,8 @@ import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlMap } from "@utils/collection/SohlMap";
 import { MasteryLevelMixin } from "@common/item/MasteryLevelMixin";
 import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlSpeaker } from "@common/SohlSpeaker";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
-
 const kSohlActor = Symbol("SohlActor");
 const kData = Symbol("SohlActor.Data");
 
@@ -176,6 +177,12 @@ export class SohlActor<
     private _allItemsMap?: SohlMap<string, SohlItem>;
     private _allItemTypesCache?: StrictObject<SohlItem[]>;
     private _allItemsBuilt = false;
+    private _ctx = new SohlEventContext({
+        speaker: new SohlSpeaker({
+            actor: toDocumentId(this.id || ""),
+            alias: null,
+        }),
+    });
 
     static isA(obj: unknown): obj is SohlActor {
         return typeof obj === "object" && obj !== null && kSohlActor in obj;
@@ -288,32 +295,31 @@ export class SohlActor<
     prepareBaseData(): void {
         // @ts-expect-error TS doesn't recognize prepareBaseData is declared in base class
         super.prepareBaseData();
-        this.logic.initialize(new SohlEventContext(ChatMessage.getSpeaker()));
+        this.logic.initialize(this._ctx);
     }
 
     prepareEmbeddedData(): void {
         // @ts-expect-error TS doesn't recognize prepareEmbeddedData is declared in base class
         super.prepareEmbeddedData();
-        const ctx = new SohlEventContext(ChatMessage.getSpeaker());
 
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
-            item.logic.initialize(ctx);
+            item.logic.initialize(this._ctx);
         }
         this.finalizeItemsCache();
 
         // Evaluate and finalize all objects, recognizing that the virtualItems map is now immutable
         this.allItems.forEach((it) => {
-            it.logic.evaluate(ctx);
-            it.logic.finalize(ctx);
+            it.logic.evaluate(this._ctx);
+            it.logic.finalize(this._ctx);
         });
     }
 
     prepareDerivedData(): void {
         // @ts-expect-error TS doesn't recognize prepareDerivedData is declared in base class
         super.prepareDerivedData();
-        this.logic.evaluate(new SohlEventContext(ChatMessage.getSpeaker()));
-        this.logic.finalize(new SohlEventContext(ChatMessage.getSpeaker()));
+        this.logic.evaluate(this._ctx);
+        this.logic.finalize(this._ctx);
     }
 
     static createUniqueName(baseName: string): string {

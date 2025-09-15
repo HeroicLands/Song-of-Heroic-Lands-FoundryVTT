@@ -161,7 +161,6 @@ const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<Partial<SohlIntrinsicAction.Data>>);
-// IntrinsicAction type alias intentionally removed (was unused)
 
 export class Affliction
     extends SubTypeMixin(SohlItem.BaseLogic)
@@ -179,26 +178,6 @@ export class Affliction
 
     static isA(obj: unknown): obj is Affliction {
         return typeof obj === "object" && obj !== null && kAffliction in obj;
-    }
-
-    get intrinsicActions(): SohlAction[] {
-        const actionKeys = new Set<string>();
-        const actions: SohlAction[] = Object.keys(INTRINSIC_ACTION).map(
-            (key) => {
-                const data = INTRINSIC_ACTION[key];
-                data.label ??= IntrinsicActionLabels[key];
-                actionKeys.add(data.label);
-                return new SohlIntrinsicAction(this, data);
-            },
-        );
-
-        return super.intrinsicActions.reduce((acc, action) => {
-            if (!actionKeys.has(action.label)) {
-                actionKeys.add(action.label);
-                acc.push(action);
-            }
-            return acc;
-        }, actions);
     }
 
     get canTransmit(): boolean {

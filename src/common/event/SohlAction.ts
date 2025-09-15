@@ -20,13 +20,8 @@ import {
     SohlActionScope,
 } from "@utils/constants";
 import { SohlEvent } from "@common/event/SohlEvent";
-import { SohlSpeaker } from "@common/SohlSpeaker";
-import { DocumentId, DocumentUuid } from "@utils/helpers";
-import { SohlMap } from "@utils/collection/SohlMap";
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlTemporal } from "./SohlTemporal";
-import { SohlEventContext } from "./SohlEventContext";
+import type { SohlEventContext } from "./SohlEventContext";
 
 /**
  * @summary Base class for all Action instances
@@ -42,6 +37,7 @@ export abstract class SohlAction extends SohlEvent {
     permissions!: {
         execute: SohlActionRole;
     };
+    private _function?: Function;
 
     constructor(data?: Partial<SohlAction.Data>, options?: PlainObject) {
         super(data, options);
@@ -52,9 +48,20 @@ export abstract class SohlAction extends SohlEvent {
         this.contextCondition = data?.contextCondition || true;
         this.contextGroup =
             data?.contextGroup || SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-        this.permissions.execute =
-            data?.permissions?.execute || SOHL_ACTION_ROLE.OWNER;
+        this.isAsync = data?.isAsync || false;
+        this.permissions = {
+            execute: data?.permissions?.execute || SOHL_ACTION_ROLE.OWNER,
+        };
     }
+
+    get function(): Function {
+        if (!this._function) {
+            this._function = this.getFunction();
+        }
+        return this._function;
+    }
+
+    protected abstract getFunction(): Function;
 
     /**
      * Executes the intrinsic action synchronously.
@@ -100,8 +107,8 @@ export abstract class SohlAction extends SohlEvent {
      * @param actionContext - The context in which to execute the action, including any additional data.
      * @returns The result of the function call coerced as a Promise.
      */
-    async execute(actionContext: SohlEventContext): Promise<unknown> {
-        return Promise.resolve(this.executeSync(actionContext));
+    execute(actionContext: SohlEventContext): Promise<unknown> | unknown {
+        return Promise.resolve(this.function(actionContext));
     }
 
     // Wire into lifecycle: actions are instantaneous by default (IMMEDIATE termination).
@@ -124,15 +131,15 @@ export abstract class SohlAction extends SohlEvent {
 
 export namespace SohlAction {
     export interface Data extends SohlEvent.Data {
-        scope?: SohlActionScope;
-        notes?: string;
-        description?: string;
-        contextIconClass?: string;
-        contextCondition?: boolean | ((element: HTMLElement) => boolean);
-        contextGroup?: string;
-        isAsync?: boolean;
-        permissions?: {
-            execute?: SohlActionRole;
+        scope: SohlActionScope;
+        notes: string;
+        description: string;
+        contextIconClass: string;
+        contextCondition: boolean | ((element: HTMLElement) => boolean);
+        contextGroup: string;
+        isAsync: boolean;
+        permissions: {
+            execute: SohlActionRole;
         };
     }
 

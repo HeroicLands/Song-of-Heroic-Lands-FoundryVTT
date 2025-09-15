@@ -20,13 +20,13 @@ import { isBoolean, toDocumentId } from "@utils/helpers";
 import { SohlBase } from "@common/SohlBase";
 import { SohlEvent } from "@common/event/SohlEvent";
 import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
-import { SohlScriptAction } from "@common/event/SohlScriptAction";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
 import type { SohlItem } from "@common/item/SohlItem";
 import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlAction } from "@common/event/SohlAction";
+import { SohlAction } from "@common/event/SohlAction";
+import { SohlMap } from "@utils/collection/SohlMap";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -36,7 +36,7 @@ export const {
 } = defineType("SOHL.SohlLogic.INTRINSIC_ACTION", {
     INITIALIZE: {
         id: toDocumentId("8QWJPT998Hqxwxkw"),
-        label: "SOHL.SohlLogic.INTRINSIC_ACTION.INITIALIZE",
+        title: "initialize",
         iconFAClass: "fas fa-gears",
         functionName: "initialize",
         condition: true,
@@ -44,7 +44,7 @@ export const {
     },
     EVALUATE: {
         id: toDocumentId("Ew4AvrixUNP6rQZy"),
-        label: "SOHL.SohlLogic.INTRINSIC_ACTION.EVALUATE",
+        title: "evaluate",
         iconFAClass: "fas fa-gears",
         functionName: "evaluate",
         condition: true,
@@ -52,7 +52,7 @@ export const {
     },
     FINALIZE: {
         id: toDocumentId("8o5D6qVtFF43vTL9"),
-        label: "SOHL.SohlLogic.INTRINSIC_ACTION.FINALIZE",
+        title: "finalize",
         iconFAClass: "fas fa-gears",
         functionName: "finalize",
         condition: true,
@@ -64,8 +64,7 @@ export type IntrinsicAction =
 
 export abstract class SohlLogic extends SohlBase {
     readonly _parent: SohlLogic.Data;
-    readonly actions: SohlAction[];
-    readonly events: SohlEvent[];
+    readonly events: SohlMap<string, SohlEvent>;
 
     get parent(): SohlLogic.Data {
         return this._parent;
@@ -116,15 +115,21 @@ export abstract class SohlLogic extends SohlBase {
         return "";
     }
 
+    get actions(): SohlAction[] {
+        return this.events.filter(
+            (e) => e instanceof SohlAction,
+        ) as SohlAction[];
+    }
+
     get intrinsicActions(): SohlAction[] {
         const actions = Object.keys(INTRINSIC_ACTION).map((key) => {
             const data = INTRINSIC_ACTION[key];
-            data.label ??= intrinsicActionLabels[key];
+            data.title ??= intrinsicActionLabels[key];
             return data;
         });
 
         return actions.map((data) => {
-            return new SohlIntrinsicAction(this, data);
+            return new SohlIntrinsicAction(data, { parent: this });
         });
     }
 
@@ -136,49 +141,43 @@ export abstract class SohlLogic extends SohlBase {
         }
         super(data, options);
         this._parent = options.parent;
-        const actionKeys = new Set<string>();
-        this.actions = this._parent.actionList.reduce(
-            (ary: SohlAction[], action) => {
-                ary.push(new SohlScriptAction(this, action));
-                actionKeys.add(action.label);
-                return ary;
-            },
-            [],
-        );
-        this.intrinsicActions.reduce((ary: SohlAction[], a: SohlAction) => {
-            if (!actionKeys.has(a.label)) {
-                actionKeys.add(a.label);
-                ary.push(a);
-            }
-            return ary;
-        }, this.actions);
-        this.setDefaultAction();
-        this.events = this._parent.eventList.map(
-            (e: PlainObject) => new SohlEvent(this, e),
+        const events: SohlEvent[] = this.intrinsicActions
+            .filter((a) => !!a.title)
+            .map((action: SohlAction) => {
+                return new SohlIntrinsicAction(action, { parent: this });
+            });
+        this.setDefaultAction(events);
+        this.events = new SohlMap<string, SohlEvent>(
+            events.map((e) => [e.title, e]),
         );
     }
 
-    setDefaultAction(): void {
+    setDefaultAction(events: SohlEvent[]): void {
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
-        this.actions.forEach((a) => {
-            const isDefault =
-                a.contextGroup === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-            if (hasDefault) {
-                if (isDefault) {
-                    a.contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
+        events.forEach((evt) => {
+            if (evt instanceof SohlIntrinsicAction) {
+                const action = evt as SohlIntrinsicAction;
+                const isDefault =
+                    action.contextGroup ===
+                    SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+                if (hasDefault) {
+                    if (isDefault) {
+                        action.contextGroup =
+                            SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
+                    }
+                } else {
+                    hasDefault ||= isDefault;
                 }
-            } else {
-                hasDefault ||= isDefault;
             }
         });
 
         // If no default was specified, then make the requested default action the default
         if (!hasDefault) {
-            const defaultAction = this.actions.find(
-                (a) => a.label === this.defaultIntrinsicActionName,
+            const defaultAction = events.find(
+                (evt) => evt.title === this.defaultIntrinsicActionName,
             );
-            if (defaultAction) {
+            if (defaultAction && defaultAction instanceof SohlIntrinsicAction) {
                 defaultAction.contextGroup =
                     SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
                 hasDefault = true;
@@ -186,18 +185,25 @@ export abstract class SohlLogic extends SohlBase {
         }
 
         const collator = new Intl.Collator(sohl.i18n.lang);
-        this.actions.sort((a: SohlAction, b: SohlAction) => {
+        events.sort((evtA: SohlEvent, evtB: SohlEvent) => {
             const contextGroupA =
-                a.contextGroup || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
+                (evtA as any).contextGroup ||
+                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
             const contextGroupB =
-                b.contextGroup || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
+                (evtB as any).contextGroup ||
+                SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
             return collator.compare(contextGroupA, contextGroupB);
         });
 
         // If after all that, we still don't have a default action, then
         // set the first action as the default
-        if (!hasDefault && this.actions.length) {
-            this.actions[0].contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        const firstAction = events.find(
+            (evt) => evt instanceof SohlAction,
+        ) as SohlAction;
+        if (!hasDefault && firstAction) {
+            firstAction.contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+            events = events.filter((evt) => evt.id !== firstAction.id);
+            events.unshift(firstAction);
         }
     }
 
@@ -216,8 +222,8 @@ export abstract class SohlLogic extends SohlBase {
 
                 const newAction: SohlContextMenu.Entry =
                     new SohlContextMenu.Entry({
-                        id: a.label,
-                        name: a.label,
+                        id: a.title,
+                        name: a.title,
                         iconFAClass: a.contextIconClass,
                         condition: cond,
                         group: toSohlContextMenuSortGroup(a.contextGroup),

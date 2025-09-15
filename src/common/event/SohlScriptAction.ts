@@ -11,14 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SOHL_EVENT_STATE, SohlEventState } from "@utils/constants";
+import { SOHL_ACTION_SCOPE } from "@utils/constants";
 import { AsyncFunction } from "@utils/helpers";
 import { SohlAction } from "@common/event/SohlAction";
-import type { SohlEventContext } from "./SohlEventContext";
+import type { SohlLogic } from "@common/SohlLogic";
 
 export class SohlScriptAction extends SohlAction {
     private script: string;
-    isAsync: boolean;
 
     constructor(
         data: Partial<SohlScriptAction.Data> = {},
@@ -26,8 +25,36 @@ export class SohlScriptAction extends SohlAction {
     ) {
         super(data, options);
         this.script = data.script || "return";
+    }
+
+    protected override getFunction(): Function {
         SohlScriptAction.checkScriptSafety(this.script);
-        this.isAsync = data.isAsync ?? true;
+        const args = ["context", `"use strict";\n${this.script}`];
+        const func =
+            this.isAsync ? new AsyncFunction(...args) : new Function(...args);
+        let target: SohlLogic | undefined;
+        switch (this.scope) {
+            case SOHL_ACTION_SCOPE.SELF:
+                target = this.parent;
+                break;
+
+            case SOHL_ACTION_SCOPE.ITEM:
+                target = this.parent?.item?.logic as SohlLogic;
+                break;
+
+            case SOHL_ACTION_SCOPE.ACTOR:
+                target = this.parent?.item?.actor?.logic as SohlLogic;
+                break;
+            default:
+                throw new Error(`Unknown action scope: ${this.scope}`);
+        }
+        if (!target) {
+            throw new Error(
+                `This action is scoped to ${this.scope}, but the target does not exist.`,
+            );
+        }
+
+        return func.bind(target);
     }
 
     private static checkScriptSafety(script: string): void {
@@ -39,34 +66,6 @@ export class SohlScriptAction extends SohlAction {
                     `Disallowed keyword detected in script: ${keyword}`,
                 );
             }
-        }
-    }
-
-    setStatus(state: SohlEventState, context: Partial<SohlEventContext>): void {
-        super.setState(state, context);
-
-        if (state === SOHL_EVENT_STATE.ACTIVATED) {
-            this.execute(context);
-            this.setStatus(SOHL_EVENT_STATE.CREATED, context);
-        }
-    }
-
-    executeSync(actionContext: Partial<SohlEventContext>): Optional<unknown> {
-        const result = this.execute(actionContext);
-        return result instanceof Promise ? undefined : result;
-    }
-
-    async execute(
-        actionContext: Partial<SohlEventContext>,
-    ): Promise<Optional<unknown>> {
-        const args = ["context", `"use strict";\n${this.script}`];
-
-        const fn =
-            this.isAsync ? new AsyncFunction(...args) : new Function(...args);
-        try {
-            return fn.call(this, actionContext);
-        } catch (error: any) {
-            sohl.log.error("ScriptAction execution failed:", { error });
         }
     }
 }

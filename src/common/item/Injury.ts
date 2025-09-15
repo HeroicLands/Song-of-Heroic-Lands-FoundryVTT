@@ -89,26 +89,6 @@ export class Injury extends SohlItem.BaseLogic implements Injury.Logic {
         return typeof obj === "object" && obj !== null && kInjury in obj;
     }
 
-    get intrinsicActions(): SohlAction[] {
-        const actionKeys = new Set<string>();
-        const actions: SohlAction[] = Object.keys(INTRINSIC_ACTION).map(
-            (key) => {
-                const data = INTRINSIC_ACTION[key];
-                data.label ??= IntrinsicActionLabels[key];
-                actionKeys.add(data.label);
-                return new SohlIntrinsicAction(this, data);
-            },
-        );
-
-        return super.intrinsicActions.reduce((acc, action) => {
-            if (!actionKeys.has(action.label)) {
-                actionKeys.add(action.label);
-                acc.push(action);
-            }
-            return acc;
-        }, actions);
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
