@@ -64,7 +64,12 @@ export class SohlSpeaker {
             (game as any).settings.get("core", "rollMode") ||
             SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         if (data.token) {
-            this.token = canvas.tokens?.get(data.token);
+            if (!(canvas instanceof foundry.canvas.Canvas)) {
+                throw new Error("Canvas is not initialized");
+            } else {
+                this.token = (canvas.tokens?.get(data.token) ||
+                    null) as SohlTokenDocument | null;
+            }
             this.actor = this.token?.actor;
         }
         if (!this.actor && data.actor) {

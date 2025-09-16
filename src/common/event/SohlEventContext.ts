@@ -2,6 +2,7 @@ import type { SohlActor } from "@common/actor/SohlActor";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlMap } from "@utils/collection/SohlMap";
+import { ActorKinds } from "@utils/constants";
 import type { DocumentId, DocumentUuid } from "@utils/helpers";
 
 export class SohlEventContext {
@@ -29,20 +30,20 @@ export class SohlEventContext {
 
         this.target = null;
         if (targetUuid) {
-            let target = fromUuidSync(targetUuid);
+            let target = fromUuidSync(targetUuid as string);
             if (!target) {
                 throw new Error(`Target with uuid ${targetUuid} not found`);
             } else if (Object.hasOwn(target, "getBarAttribute")) {
                 // If document has getBarAttribute, it's a TokenDocument
-                this.target = target;
+                this.target = target as SohlTokenDocument;
             } else if (target instanceof Token) {
                 this.target = target.document;
-            } else if (["assembly", "entity"].includes(target.type)) {
+            } else if (ActorKinds.includes((target as any).type)) {
                 // If the target is an actor, there might be any number of tokens
                 // associated with it, so we take the first active token.
-                const tokens: Token.Object[] = target.getActiveTokens();
+                const tokens: Token[] = (target as SohlActor).getActiveTokens();
                 if (tokens.length) {
-                    this.target = (tokens[0] as Token).document;
+                    this.target = tokens[0].document;
                 }
             } else {
                 throw new Error(

@@ -11,198 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { InternalClientDocument } from "@common/FoundryProxy";
-import { ClientDocumentExtendedMixin } from "@utils/helpers";
+import { getCanvas } from "@common/FoundryProxy";
 
-export class SohlTokenDocument
-    extends ClientDocumentExtendedMixin(
-        TokenDocument,
-        {} as InstanceType<typeof foundry.documents.BaseToken>,
-    )
-    implements InternalClientDocument
-{
-    declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
-    declare readonly collection: Collection<this, Collection.Methods<this>>;
-    declare readonly compendium: CompendiumCollection<any> | undefined;
-    declare readonly hasPlayerOwner: boolean;
-    declare readonly limited: boolean;
-    declare readonly link: string;
-    declare readonly permission: any;
-    declare readonly sheet: foundry.applications.api.ApplicationV2.Any | null;
-    declare readonly visible: boolean;
-    declare prepareData: () => void;
-    declare prepareBaseData: () => void;
-    declare prepareEmbeddedDocuments: () => void;
-    declare prepareDerivedData: () => void;
-    declare render: (
-        force?: boolean,
-        context?:
-            | Application.RenderOptions
-            | foundry.applications.api.ApplicationV2.RenderOptions,
-    ) => void;
-    declare sortRelative: (
-        options?: ClientDocument.SortOptions<this, "sort"> | undefined,
-    ) => Promise<this>;
-    declare getRelativeUUID: (relative: ClientDocument) => string;
-    declare _dispatchDescendantDocumentEvents: (
-        event: ClientDocument.LifeCycleEventName,
-        collection: string,
-        args: never,
-        _parent: never,
-    ) => void;
-    declare _onSheetChange: (
-        options?: ClientDocument.OnSheetChangeOptions,
-    ) => Promise<void>;
-    declare deleteDialog: (
-        options?: PlainObject,
-    ) => Promise<false | this | null | undefined>;
-    declare exportToJSON: (
-        options?: ClientDocument.ToCompendiumOptions,
-    ) => void;
-    declare toDragData: () => foundry.abstract.Document.DropData<
-        foundry.abstract.Document.Internal.Instance.Complete<any>
-    >;
-    declare importFromJSON: (json: string) => Promise<this>;
-    declare importFromJSONDialog: () => Promise<void>;
-    declare toCompendium: (
-        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
-        options?: PlainObject,
-    ) => ClientDocument.ToCompendiumReturnType<any, any>;
-    declare toAnchor: (
-        options?: TextEditor.EnrichmentAnchorOptions,
-    ) => HTMLAnchorElement;
-    declare toEmbed: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _buildEmbedHTML: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | HTMLCollection | null>;
-    declare _createInlineEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _createFigureEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _preCreateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onCreateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _preUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _onDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _onCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _preUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
-    declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
-
-    declare name: string;
-    declare displayName: string;
-    declare actorId: string;
-    declare actorLink: boolean;
-    declare delta: any;
-    declare width: number;
-    declare height: number;
-    declare texture: string;
-    declare shape: number;
-    declare x: number;
-    declare y: number;
-    declare elevation: number;
-    declare sort: number;
-    declare locked: boolean;
-    declare lockRotation: boolean;
-    declare rotation: number;
-    declare alpha: number;
-    declare hidden: boolean;
-    declare disposition: number;
-    declare displayBars: boolean;
-    declare bar1: {
-        attribute: string;
-    };
-    declare bar2: {
-        attribute: string;
-    };
-    declare light: any;
-    declare sight: {
-        enabled: boolean;
-        range: number;
-        angle: number;
-        visionMode: string;
-        color: string;
-        attenuation: number;
-        brightness: number;
-        saturation: number;
-        contrast: number;
-    };
-    declare detectionModes: {
-        id: string;
-        enabled: boolean;
-        range: number;
-    }[];
-    declare occludable: {
-        radius: number;
-    };
-    declare ring: {
-        enabled: boolean;
-        colors: {
-            ring: string;
-            background: string;
-        };
-        effects: number;
-        subject: {
-            scale: number;
-            texture: string;
-        };
-    };
-    declare turnMarker: {
-        mode: number;
-        animation: string;
-        src: string;
-        disposition: boolean;
-    };
-    declare movementAction: string;
-    declare readonly parent: Token | null;
-    declare flags: any;
-
+export class SohlTokenDocument extends TokenDocument {
     /**
      * Gets the user-targeted tokens.
      *
@@ -215,27 +26,27 @@ export class SohlTokenDocument
     static getTargetedTokens(
         single: boolean = false,
     ): SohlTokenDocument[] | null {
+        let result: SohlTokenDocument[] | null = null;
         const targetTokens: Set<Token> = ((game as any).user as User)
             ?.targets as unknown as Set<Token>;
 
         if (!targetTokens || targetTokens.size === 0) {
             sohl.log.uiWarn(`No tokens targeted.`);
-            return null;
-        }
-
-        if (single) {
-            if (targetTokens.size > 1) {
-                sohl.log.uiWarn(
-                    `Multiple tokens targeted, please target only one token.`,
-                );
-                return null;
+        } else {
+            if (single) {
+                if (targetTokens.size > 1) {
+                    sohl.log.uiWarn(
+                        `Multiple tokens targeted, please target only one token.`,
+                    );
+                }
+                result = [targetTokens.values().next().value!.document];
+            } else {
+                result = Array.from(
+                    targetTokens.map((t) => t.document),
+                ) as SohlTokenDocument[];
             }
-            return [targetTokens.values().next().value?.document];
         }
-
-        return Array.from(
-            targetTokens.map((t) => t.document),
-        ) as SohlTokenDocument[];
+        return result;
     }
 
     /**
@@ -250,24 +61,27 @@ export class SohlTokenDocument
     static getSelectedTokens(
         single: boolean = false,
     ): SohlTokenDocument[] | null {
-        const selectedTokens: Token[] = canvas.tokens?.controlled;
-        if (selectedTokens.length === 0) {
+        let result: SohlTokenDocument[] | null = null;
+        const selectedTokens: Token[] | undefined =
+            getCanvas().tokens?.controlled;
+        if (!selectedTokens || selectedTokens.length === 0) {
             sohl.log.uiWarn(`No selected tokens on the canvas.`);
-            return null;
-        }
+        } else {
+            if (single) {
+                if (selectedTokens.length > 1) {
+                    sohl.log.uiWarn(
+                        `Multiple tokens selected, please select only one token.`,
+                    );
+                }
 
-        if (single) {
-            if (selectedTokens.length > 1) {
-                sohl.log.uiWarn(
-                    `Multiple tokens selected, please select only one token.`,
-                );
-                return null;
+                result = [selectedTokens[0].document];
+            } else {
+                result = selectedTokens.map(
+                    (t) => t.document,
+                ) as SohlTokenDocument[];
             }
-
-            return [selectedTokens[0].document];
         }
-
-        return selectedTokens.map((t) => t.document) as SohlTokenDocument[];
+        return result;
     }
 
     /**
@@ -281,7 +95,7 @@ export class SohlTokenDocument
     static rangeToTarget(
         sourceToken: SohlTokenDocument,
         targetToken: SohlTokenDocument,
-        gridUnits = false,
+        gridUnits: boolean = false,
     ): number | null {
         if (!canvas.scene?.grid) {
             sohl.log.uiWarn(`No scene active`);
@@ -302,10 +116,20 @@ export class SohlTokenDocument
         )
             return 0;
 
-        const result = canvas.grid.measurePath([
-            (sourceToken as any).object.center,
-            (targetToken as any).object.center,
-        ]);
+        const result = getCanvas().grid?.measurePath(
+            [
+                (sourceToken as any).object.center,
+                (targetToken as any).object.center,
+            ],
+            {},
+        );
+
+        if (!result) {
+            sohl.log.uiWarn(
+                `Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`,
+            );
+            return null;
+        }
 
         return gridUnits ? result.spaces : result.distance;
     }

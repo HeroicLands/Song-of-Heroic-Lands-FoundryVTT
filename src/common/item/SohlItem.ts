@@ -11,19 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ClientDocumentExtendedMixin,
-    FilePath,
-    HTMLString,
-} from "@utils/helpers";
+import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { GearMixin } from "@common/item/GearMixin";
 import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { InternalClientDocument } from "@common/FoundryProxy";
 import { SohlLogic } from "@common/SohlLogic";
-import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 const { StringField } = foundry.data.fields;
 
@@ -31,146 +25,10 @@ const kSohlItem = Symbol("SohlItem");
 const kData = Symbol("SohlItem.Data");
 
 export class SohlItem<
-        TLogic extends SohlItem.Logic = SohlItem.Logic,
-        TDataModel extends SohlItem.DataModel = any,
-    >
-    extends ClientDocumentExtendedMixin(
-        Item,
-        {} as InstanceType<typeof foundry.documents.BaseItem>,
-    )
-    implements InternalClientDocument
-{
-    declare readonly name: string;
-    declare readonly flags: PlainObject;
-    declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
-    declare readonly collection: Collection<this, Collection.Methods<this>>;
-    declare readonly effects: Collection<
-        SohlActiveEffect,
-        Collection.Methods<SohlActiveEffect>
-    >;
-    declare readonly compendium: CompendiumCollection<any> | undefined;
-    declare readonly isOwner: boolean;
-    declare readonly hasPlayerOwner: boolean;
-    declare readonly limited: boolean;
-    declare readonly link: string;
-    declare readonly permission: any;
-    declare readonly sheet: foundry.applications.api.ApplicationV2.Any | null;
-    declare readonly visible: boolean;
-    declare prepareData: () => void;
-    declare prepareBaseData: () => void;
-    declare prepareEmbeddedDocuments: () => void;
-    declare prepareDerivedData: () => void;
-    declare render: (
-        force?: boolean,
-        context?:
-            | Application.RenderOptions
-            | foundry.applications.api.ApplicationV2.RenderOptions,
-    ) => void;
-    declare sortRelative: (
-        options?: ClientDocument.SortOptions<this, "sort"> | undefined,
-    ) => Promise<this>;
-    declare getRelativeUUID: (relative: ClientDocument) => string;
-    declare _dispatchDescendantDocumentEvents: (
-        event: ClientDocument.LifeCycleEventName,
-        collection: string,
-        args: never,
-        _parent: never,
-    ) => void;
-    declare _onSheetChange: (
-        options?: ClientDocument.OnSheetChangeOptions,
-    ) => Promise<void>;
-    declare deleteDialog: (
-        options?: PlainObject,
-    ) => Promise<false | this | null | undefined>;
-    declare exportToJSON: (
-        options?: ClientDocument.ToCompendiumOptions,
-    ) => void;
-    declare toDragData: () => foundry.abstract.Document.DropData<
-        foundry.abstract.Document.Internal.Instance.Complete<any>
-    >;
-    declare importFromJSON: (json: string) => Promise<this>;
-    declare importFromJSONDialog: () => Promise<void>;
-    declare toCompendium: (
-        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
-        options?: PlainObject,
-    ) => ClientDocument.ToCompendiumReturnType<any, any>;
-    declare toAnchor: (
-        options?: TextEditor.EnrichmentAnchorOptions,
-    ) => HTMLAnchorElement;
-    declare toEmbed: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _buildEmbedHTML: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | HTMLCollection | null>;
-    declare _createInlineEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _createFigureEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _preCreateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onCreateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _preUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _onDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _onCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _preUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
-    declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
-    declare type: string;
-    declare img: FilePath;
-    declare static create: (
-        data: PlainObject,
-        options?: PlainObject,
-    ) => Promise<SohlItem | undefined>;
-    declare update: (
-        data: PlainObject,
-        options?: PlainObject,
-    ) => Promise<this | undefined>;
-    declare delete: (options?: PlainObject) => Promise<this | undefined>;
+    TLogic extends SohlItem.Logic = SohlItem.Logic,
+    TDataModel extends SohlItem.DataModel = any,
+    SubType extends Item.SubType = Item.SubType,
+> extends Item<SubType> {
     readonly [kSohlItem] = true;
 
     static isA(obj: unknown): obj is SohlItem {
@@ -178,7 +36,7 @@ export class SohlItem<
     }
 
     get logic(): TLogic {
-        return this.system.logic as TLogic;
+        return (this.system as any).logic as TLogic;
     }
 
     static _getContextOptions(doc: SohlItem): SohlContextMenu.Entry[] {
@@ -186,7 +44,7 @@ export class SohlItem<
     }
 
     _getContextOptions(): SohlContextMenu.Entry[] {
-        return this.system.logic._getContextOptions();
+        return this.logic._getContextOptions();
     }
 
     /**
@@ -205,20 +63,25 @@ export class SohlItem<
         console.log("Edit action clicked:", btn);
     }
 
+    get actor(): SohlActor | null {
+        return this.parent;
+    }
+
     get nestedIn(): SohlItem | null {
-        return this.system?.nestedIn ?
-                (this.actor?.allItems.get(this.system.nestedIn) as SohlItem)
+        const system = this.system as any;
+        return system?.nestedIn ?
+                ((this.actor as any)?.allItems.get(system.nestedIn) as SohlItem)
             :   null;
     }
 
     get isNested(): boolean {
-        return !!this.system?.nestedIn;
+        return !!this.nestedIn;
     }
 
     nestedItems(types: string[] = []): SohlItem[] {
         return (this.actor as any)?.allItems.filter(
             (i: SohlItem) =>
-                i.system?.nestedIn === this.id &&
+                i.nestedIn === this.id &&
                 (!types?.length || types.includes(i.type)),
         );
     }
@@ -236,12 +99,9 @@ export namespace SohlItem {
         nestedInUuid: string | null;
     }
 
-    export interface Logic extends SohlLogic {
-        readonly _parent: Data;
-    }
+    export interface Logic extends SohlLogic<Data> {}
 
-    export class BaseLogic extends SohlLogic implements Logic {
-        declare readonly _parent: Data;
+    export class BaseLogic extends SohlLogic<Data> implements Logic {
         declare _getContextOptions: () => SohlContextMenu.Entry[];
         override initialize(context?: SohlEventContext): void {
             void context;
@@ -287,7 +147,7 @@ export namespace SohlItem {
         }
 
         get actor(): SohlActor | null {
-            return this.item.actor;
+            return (this.item as any).actor;
         }
 
         get i18nPrefix(): string {
@@ -397,7 +257,7 @@ export namespace SohlItem {
         }
 
         get actor(): SohlActor | null {
-            return this.item.actor;
+            return (this.item as any).actor;
         }
 
         override _configureRenderOptions(
@@ -453,23 +313,24 @@ export namespace SohlItem {
                     (it: SohlItem) =>
                         it.name === itemData.name &&
                         it.type === itemData.type &&
-                        it.system.subType === itemData.system.subType,
+                        (it.system as any).subType === itemData.system.subType,
                 );
 
                 if (similarItem) {
                     const confirm = await Dialog.confirm({
-                        title: `Confirm Overwrite: ${similarItem.system.label}`,
+                        title: `Confirm Overwrite: ${(similarItem.system as any).label}`,
                         content: `<p>Are You Sure?</p><p>This item will be overwritten and cannot be recovered.</p>`,
                         options: { jQuery: false },
                     });
                     if (confirm) {
                         delete itemData._id;
                         delete itemData.pack;
-                        let result = await similarItem.delete();
+                        let result: SohlItem | undefined =
+                            await similarItem.delete();
                         if (result) {
-                            result = await SohlItem.create(itemData, {
-                                parent: this.actor,
-                            });
+                            result = (await SohlItem.create(itemData, {
+                                parent: this.actor as any,
+                            })) as SohlItem;
                         } else {
                             sohl.log.uiWarn("Overwrite failed");
                             continue;
@@ -500,12 +361,12 @@ export namespace SohlItem {
             let dlgData = {
                 itemName: item.name,
                 targetName: destContainer.name || item.actor.name,
-                maxItems: item.system.quantity,
+                maxItems: (item.system as any).quantity,
                 sourceName: "",
             };
 
             if (item.nestedIn) {
-                dlgData.sourceName = `${item.nestedIn.system.label}`;
+                dlgData.sourceName = `${(item.nestedIn.system as any).label}`;
             } else {
                 dlgData.sourceName = item.actor.name || "Unknown";
             }
@@ -561,8 +422,9 @@ export namespace SohlItem {
             // If no other container is specified, use this item
             let destContainer: SohlDocument | null = null;
             if (destContainerId) {
-                destContainer =
-                    this.document.actor?.allItems.get(destContainerId);
+                destContainer = (this.document.actor as any)?.allItems.get(
+                    destContainerId,
+                );
             }
             destContainer ||= this.document.nestedIn;
 
@@ -598,7 +460,7 @@ export namespace SohlItem {
                 return false;
             }
 
-            let quantity = droppedItem.system.quantity;
+            let quantity = (droppedItem.system as any).quantity;
             if (quantity > 1 && !droppedItem.parent) {
                 // Ask how many to move
                 quantity = await this._moveQtyDialog(
@@ -608,12 +470,12 @@ export namespace SohlItem {
             }
 
             const itemData = droppedItem.toObject();
-            delete itemData._id; // Remove ID to create a new item
-            itemData.system.quantity = quantity;
+            delete (itemData as any)._id; // Remove ID to create a new item
+            (itemData.system as any).quantity = quantity;
             return (
-                (await SohlItem.create(itemData, {
+                ((await SohlItem.create(itemData, {
                     parent: destContainer,
-                })) || false
+                })) as SohlItem) || false
             );
         }
 
@@ -626,16 +488,10 @@ export namespace SohlItem {
                 droppedItem.parent?.id === this.document.id
             ) {
                 // Sort items
-                const result = await this._onSortItem(
-                    event,
-                    droppedItem.toObject(),
-                );
+                const result = await this._onSortItem(event, droppedItem);
                 return !!result?.length;
             } else {
-                const result = await this._onDropItemCreate(
-                    droppedItem.toObject(),
-                    event,
-                );
+                const result = await this._onDropItemCreate(droppedItem, event);
                 return !!result;
             }
         }
@@ -682,7 +538,6 @@ export namespace SohlItem {
 
             // Sort the item using Foundry's utility
             const sorted: { target: SohlItem; update: Partial<SohlItem> }[] =
-                // @ts-expect-error
                 foundry.utils.performIntegerSort(source, {
                     target,
                     siblings,
@@ -722,5 +577,11 @@ export namespace SohlItem {
         //         ],
         //     });
         // }
+    }
+}
+
+declare global {
+    interface DocumentClassConfig {
+        Item: typeof SohlItem;
     }
 }

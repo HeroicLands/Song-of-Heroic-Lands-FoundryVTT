@@ -26,41 +26,6 @@ import {
  * to enable easier mocking and access from Typescript.
  */
 
-/**
- * Resolves a UUID to its corresponding Document or compendium index entry, using a synchronous lookup.
- *
- * @param {string} uuid - A string UUID identifying the Document to resolve. May be absolute or relative.
- * @param {object} options - Optional settings to control resolution behavior.
- * @param {Document} [options.relative] - A Document to use as the base for resolving relative UUIDs.
- * @param {boolean} [options.invalid=false] - If true, allows retrieval of documents marked as invalid.
- * @param {boolean} [options.strict=true] - If true, throws an error if the UUID cannot be resolved synchronously.
- *
- * @returns {Document} The resolved Document object, or a compendium index entry if the target resides in a compendium.
- * Returns `null` if the UUID is null/undefined or cannot be resolved and `strict` is false.
- *
- * @throws An error if the UUID cannot be resolved synchronously and `strict` is true.
- */
-export function fromUuidSync(uuid: string, options: any = {}): any {
-    // @ts-expect-error
-    return foundry.utils.fromUuidSync(uuid, options);
-}
-
-/**
- * Asynchronously resolves a UUID to its corresponding Document.
- *
- * @param {string} uuid - A string UUID identifying the Document to retrieve. May be absolute or relative.
- * @param {object} options - Optional settings to control resolution behavior.
- * @param {Document} [options.relative] - A Document to use as the base for resolving relative UUIDs.
- * @param {boolean} [options.invalid=false] - If true, allows retrieval of documents marked as invalid.
- *
- * @returns {Promise<any>} A Promise that resolves to the retrieved Document. Resolves to `null` if the UUID
- * cannot be resolved.
- */
-export async function fromUuid(uuid: string, options: any = {}): Promise<any> {
-    // @ts-expect-error
-    return await foundry.utils.fromUuid(uuid, options);
-}
-
 // Dialog-related types
 export type DialogButtonCallback = (
     event: PointerEvent | SubmitEvent,
@@ -220,9 +185,14 @@ export function unregisterSheet(
     sheetClass: any,
     { types }: { types?: string[] },
 ): void {
-    DocumentSheetConfig.unregisterSheet(documentClass, "sohl", sheetClass, {
-        types,
-    });
+    foundry.applications.apps.DocumentSheetConfig.unregisterSheet(
+        documentClass,
+        "sohl",
+        sheetClass,
+        {
+            types,
+        },
+    );
 }
 
 /**
@@ -275,12 +245,40 @@ export function getTokenInCombat(
         return null;
     }
 
-    token = canvas.tokens.get(combatant.token.id);
+    token = getCanvas().tokens?.get(combatant.token.id);
     if (!token) {
         throw new Error(`Token ${combatant.token.id} not found on canvas`);
     }
 
     return { token, actor: combatant.actor };
+}
+
+export function getCanvas(): foundry.canvas.Canvas {
+    if (!(canvas instanceof foundry.canvas.Canvas)) {
+        throw new Error("Canvas is not available");
+    }
+    return canvas;
+}
+
+export function getGame(): foundry.Game {
+    if (!(game instanceof foundry.Game)) {
+        throw new Error("Game is not available");
+    }
+    return game;
+}
+
+export function getUser(): User {
+    if (!(game.user instanceof User)) {
+        throw new Error("User is not available");
+    }
+    return game.user;
+}
+
+export function getScene(): Scene {
+    if (!(canvas.scene instanceof Scene)) {
+        throw new Error("Scene is not available");
+    }
+    return canvas.scene;
 }
 
 /**
@@ -362,457 +360,4 @@ export async function getDocumentFromPacks(
     }
 
     return data;
-}
-
-export interface InternalClientDocument {
-    /**
-     * A collection of Application instances which should be re-rendered whenever this document is updated.
-     * The keys of this object are the application ids and the values are Application instances. Each
-     * Application in this object will have its render method called by {@link Document.render | `Document#render`}.
-     * @see {@link Document.render | `Document#render`}
-     * @defaultValue `{}`
-     * @remarks Created during construction via `defineProperty`, with options `{value: {}, writable: false, enumerable: false}`
-     */
-    readonly apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
-
-    /**
-     * Return a reference to the parent Collection instance which contains this Document.
-     */
-    get collection(): Collection<this>;
-
-    /**
-     * A reference to the Compendium Collection which contains this Document, if any, otherwise undefined.
-     */
-    get compendium(): CompendiumCollection<any> | undefined;
-
-    /**
-     * A boolean indicator for whether the current game User has ownership rights for this Document.
-     * Different Document types may have more specialized rules for what constitutes ownership.
-     */
-    get isOwner(): boolean;
-
-    /**
-     * Test whether this Document is owned by any non-Gamemaster User.
-     */
-    get hasPlayerOwner(): boolean;
-
-    /**
-     * A boolean indicator for whether the current game User has exactly LIMITED visibility (and no greater).
-     */
-    get limited(): boolean;
-
-    /**
-     * Return a string which creates a dynamic link to this Document instance.
-     */
-    get link(): string;
-
-    /**
-     * Return the permission level that the current game User has over this Document.
-     * See the CONST.DOCUMENT_OWNERSHIP_LEVELS object for an enumeration of these levels.
-     *
-     * @example
-     * ```typescript
-     * (game as any).user.id; // "dkasjkkj23kjf"
-     * actor.data.permission; // {default: 1, "dkasjkkj23kjf": 2};
-     * actor.permission; // 2
-     * ```
-     */
-    get permission(): CONST.DOCUMENT_OWNERSHIP_LEVELS | null;
-
-    /**
-     * Lazily obtain a FormApplication instance used to configure this Document, or null if no sheet is available.
-     */
-    get sheet():
-        | FormApplication.Any
-        | foundry.applications.api.ApplicationV2.Any
-        | null;
-
-    /**
-     * A boolean indicator for whether or not the current game User has at least limited visibility for this Document.
-     * Different Document types may have more specialized rules for what determines visibility.
-     */
-    get visible(): boolean;
-
-    /**
-     * Prepare data for the Document. This method is called automatically by the DataModel#_initialize workflow.
-     * This method provides an opportunity for Document classes to define special data preparation logic.
-     * The work done by this method should be idempotent. There are situations in which prepareData may be called more
-     * than once.
-     */
-    prepareData(): void;
-
-    /**
-     * Prepare data related to this Document itself, before any embedded Documents or derived data is computed.
-     */
-    prepareBaseData(): void;
-
-    /**
-     * Prepare all embedded Document instances which exist within this primary Document.
-     */
-    prepareEmbeddedDocuments(): void;
-
-    /**
-     * Apply transformations or derivations to the values of the source data object.
-     * Compute data fields whose values are not stored to the database.
-     */
-    prepareDerivedData(): void;
-
-    /**
-     * Render all Application instances which are connected to this document by calling their respective
-     * @see {@link Application.render | `Application#render`}
-     * @param force   - Force rendering
-     *                  (default: `false`)
-     * @param context - Optional context
-     *                  (default: `{}`)
-     */
-    render(
-        force?: boolean,
-        context?:
-            | Application.RenderOptions
-            | foundry.applications.api.ApplicationV2.RenderOptions,
-    ): void;
-
-    /**
-     * Determine the sort order for this Document by positioning it relative a target sibling.
-     * See SortingHelper.performIntegerSort for more details
-     * @param options - Sorting options provided to SortingHelper.performIntegerSort
-     * @returns The Document after it has been re-sorted
-     */
-    sortRelative(options?: ClientDocument.SortOptions<this>): Promise<this>;
-
-    /**
-     * Construct a UUID relative to another document.
-     * @param doc - The document to compare against.
-     */
-    getRelativeUUID(relative: ClientDocument): string;
-
-    /**
-     * Orchestrate dispatching descendant document events to parent documents when embedded children are modified.
-     * @param event      - The event name, preCreate, onCreate, etc...
-     * @param collection - The collection name being modified within this parent document
-     * @param args       - Arguments passed to each dispatched function
-     * @param _parent    - The document with directly modified embedded documents.
-     *                     Either this document or a descendant of this one.
-     * @internal
-     * @remarks This has not been typed per-document as there does not appear to be a reason for users to ever extend or call this method.
-     * If you have a use case for this, please file an issue.
-     */
-    _dispatchDescendantDocumentEvents(
-        event: ClientDocument.LifeCycleEventName,
-        collection: string,
-        args: never,
-        _parent: never,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been created, but before changes are applied to the client data.
-     * @param parent     - The direct parent of the created Documents, may be this Document or a child
-     * @param collection - The collection within which documents are being created
-     * @param data       - The source data for new documents that are being created
-     * @param options    - Options which modified the creation operation
-     * @param userId     - The ID of the User who triggered the operation
-     */
-    _preCreateDescendantDocuments(
-        parent: never,
-        collection: never,
-        data: never,
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been created and changes have been applied to client data.
-     * @param parent     - The direct parent of the created Documents, may be this Document or a child
-     * @param collection - The collection within which documents were created
-     * @param documents  - The array of created Documents
-     * @param data       - The source data for new documents that were created
-     * @param options    - Options which modified the creation operation
-     * @param userId     - The ID of the User who triggered the operation
-     */
-    _onCreateDescendantDocuments(
-        parent: never,
-        collection: never,
-        documents: never,
-        data: never,
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been updated, but before changes are applied to the client data.
-     * @param parent - The direct parent of the updated Documents, may be this Document or a child
-     * @param collection - The collection within which documents are being updated
-     * @param changes - The array of differential Document updates to be applied
-     * @param options - Options which modified the update operation
-     * @param userId - The ID of the User who triggered the operation
-     */
-    _preUpdateDescendantDocuments(
-        parent: never,
-        collection: never,
-        changes: never,
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been updated and changes have been applied to client data.
-     * @param parent - The direct parent of the updated Documents, may be this Document or a child
-     * @param collection - The collection within which documents were updated
-     * @param documents - The array of updated Documents
-     * @param changes - The array of differential Document updates which were applied
-     * @param options - Options which modified the update operation
-     * @param userId - The ID of the User who triggered the operation
-     */
-    _onUpdateDescendantDocuments(
-        parent: never,
-        collection: never,
-        documents: never,
-        changes: never,
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been deleted, but before deletions are applied to the client data.
-     * @param parent - The direct parent of the deleted Documents, may be this Document or a child
-     * @param collection - The collection within which documents were deleted
-     * @param ids - The array of document IDs which were deleted
-     * @param options - Options which modified the deletion operation
-     * @param userId - The ID of the User who triggered the operation
-     */
-    _preDeleteDescendantDocuments(
-        parent: never,
-        collection: never,
-        ids: never,
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Actions taken after descendant documents have been deleted and those deletions have been applied to client data.
-     * @param parent - The direct parent of the deleted Documents, may be this Document or a child
-     * @param collection - The collection within which documents were deleted
-     * @param documents - The array of Documents which were deleted
-     * @param ids - The array of document IDs which were deleted
-     * @param options - Options which modified the deletion operation
-     * @param userId - The ID of the User who triggered the operation
-     */
-    _onDeleteDescendantDocuments(
-        parent: never,
-        collection: never,
-        documents: never,
-        ids: string[],
-        options: never,
-        userId: string,
-    ): void;
-
-    /**
-     * Whenever the Document's sheet changes, close any existing applications for this Document, and re-render the new
-     * sheet if one was already open.
-     */
-    // options: not null (destructured)
-    _onSheetChange(
-        options?: ClientDocument.OnSheetChangeOptions,
-    ): Promise<void>;
-
-    /**
-     * Present a Dialog form to confirm deletion of this Document.
-     * @param options - Positioning and sizing options for the resulting dialog
-     *                  (default: `{}`)
-     * @returns A Promise which resolves to the deleted Document
-     */
-    // options: not null (parameter default only)
-    deleteDialog(
-        options?: PlainObject,
-    ): Promise<this | false | null | undefined>;
-
-    /**
-     * Export document data to a JSON file which can be saved by the client and later imported into a different session.
-     * @param options - Additional options passed to the {@link ClientDocument.toCompendium | `ClientDocument#toCompendium`} method
-     */
-    // options: not null (destructured where forwarded)
-    exportToJSON(options?: ClientDocument.ToCompendiumOptions): void;
-
-    /**
-     * Serialize salient information about this Document when dragging it.
-     */
-    toDragData(): foundry.abstract.Document.DropData<
-        foundry.abstract.Document.Internal.Instance.Complete<any>
-    >;
-
-    /**
-     * Update this Document using a provided JSON string.
-     * @param json - JSON data string
-     * @returns The updated Document instance
-     */
-    importFromJSON(json: string): Promise<this>;
-
-    /**
-     * Render an import dialog for updating the data related to this Document through an exported JSON file
-     */
-    importFromJSONDialog(): Promise<void>;
-
-    /**
-     * Transform the Document data to be stored in a Compendium pack.
-     * Remove any features of the data which are world-specific.
-     * @param pack    - A specific pack being exported to
-     * @param options - Additional options which modify how the document is converted
-     *                  (default: `{}`)
-     * @returns A data object of cleaned data suitable for compendium import
-     */
-    // options: not null (destructured)
-    toCompendium(
-        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
-        options?: PlainObject,
-    ): ClientDocument.ToCompendiumReturnType<any, any>;
-
-    /**
-     * Create a content link for this Document.
-     * @param options - Additional options to configure how the link is constructed.
-     */
-    // options: not null (parameter default only)
-    toAnchor(options?: TextEditor.EnrichmentAnchorOptions): HTMLAnchorElement;
-
-    /**
-     * Convert a Document to some HTML display for embedding purposes.
-     * @param config  - Configuration for embedding behavior.
-     * @param options - The original enrichment options for cases where the Document embed content also contains text that must be enriched.
-     * @returns A representation of the Document as HTML content, or null if such a representation could not be generated.
-     */
-    // options: not null (parameter default only)
-    toEmbed(
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null>;
-
-    /**
-     * A method that can be overridden by subclasses to customize embedded HTML generation.
-     * @param config  - Configuration for embedding behavior.
-     * @param options - The original enrichment options for cases where the Document embed content also contains text that must be enriched.
-     * @returns Either a single root element to append, or a collection of elements that comprise the embedded content
-     */
-    _buildEmbedHTML(
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | HTMLCollection | null>;
-
-    /**
-     * A method that can be overridden by subclasses to customize inline embedded HTML generation.
-     * @param content - The embedded content.
-     * @param config  - Configuration for embedding behavior.
-     * @param options - The original enrichment options for cases where the Document embed content also contains text that must be enriched.
-     */
-    _createInlineEmbed(
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null>;
-
-    /**
-     * A method that can be overridden by subclasses to customize the generation of the embed figure.
-     * @param content - The embedded content.
-     * @param config  - Configuration for embedding behavior.
-     * @param options - The original enrichment options for cases where the Document embed content also contains text that must be enriched.
-     */
-    _createFigureEmbed(
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ): Promise<HTMLElement | null>;
-
-    /**
-     * Preliminary actions taken before a set of embedded Documents in this parent Document are created.
-     * @param embeddedName - The name of the embedded Document type
-     * @param result       - An Array of created data objects
-     * @param options      - Options which modified the creation operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _preCreateEmbeddedDocuments(
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ): void;
-
-    /**
-     * Follow-up actions taken after a set of embedded Documents in this parent Document are created.
-     * @param embeddedName - The name of the embedded Document type
-     * @param documents    - An Array of created Documents
-     * @param result       - An Array of created data objects
-     * @param options      - Options which modified the creation operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _onCreateEmbeddedDocuments(
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ): void;
-
-    /**
-     * Preliminary actions taken before a set of embedded Documents in this parent Document are updated.
-     * @param embeddedName - The name of the embedded Document type
-     * @param result       - An Array of incremental data objects
-     * @param options      - Options which modified the update operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _preUpdateEmbeddedDocuments(
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ): void;
-
-    /**
-     * Follow-up actions taken after a set of embedded Documents in this parent Document are updated.
-     * @param embeddedName - The name of the embedded Document type
-     * @param documents    - An Array of updated Documents
-     * @param result       - An Array of incremental data objects
-     * @param options      - Options which modified the update operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _onUpdateEmbeddedDocuments(
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ): void;
-
-    /**
-     * Preliminary actions taken before a set of embedded Documents in this parent Document are deleted.
-     * @param embeddedName - The name of the embedded Document type
-     * @param result       - An Array of document IDs being deleted
-     * @param options      - Options which modified the deletion operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _preDeleteEmbeddedDocuments(
-        embeddedName: string,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ): void;
-
-    /**
-     * Follow-up actions taken after a set of embedded Documents in this parent Document are deleted.
-     * @param embeddedName - The name of the embedded Document type
-     * @param documents    - An Array of deleted Documents
-     * @param result       - An Array of document IDs being deleted
-     * @param options      - Options which modified the deletion operation
-     * @param userId       - The ID of the User who triggered the operation
-     * @deprecated since v11
-     */
-    _onDeleteEmbeddedDocuments(
-        embeddedName: string,
-        documents: never,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ): void;
 }

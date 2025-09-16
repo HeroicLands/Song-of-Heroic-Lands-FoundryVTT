@@ -26,7 +26,7 @@ export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
         return typeof obj === "object" && obj !== null && kBodyZone in obj;
     }
     get bodyParts(): SohlItem[] {
-        return this.actor?.itemTypes.bodypart || [];
+        return this.actor?.allItemTypes.bodypart || [];
     }
 
     /** @inheritdoc */

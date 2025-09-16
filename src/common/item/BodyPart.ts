@@ -28,7 +28,7 @@ export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
     }
 
     get bodyLocations(): SohlItem[] {
-        return this.actor?.itemTypes.bodylocation || [];
+        return this.actor?.allItemTypes.bodylocation || [];
     }
 
     get heldItem(): SohlItem | null {

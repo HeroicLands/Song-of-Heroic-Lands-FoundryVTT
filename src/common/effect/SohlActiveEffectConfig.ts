@@ -16,7 +16,6 @@ import { SohlTemporal } from "@common/event/SohlTemporal";
 import { SohlItem } from "@common/item/SohlItem";
 import { ITEM_METADATA } from "@utils/constants";
 
-// @ts-expect-error - ActiveEffectConfig is a known class in Foundry
 const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
 export class SohlActiveEffectConfig extends BaseAEConfig {
     static PARTS = {
@@ -38,9 +37,13 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
     async _preparePartContext(
         partId: string,
         context: PlainObject,
-    ): Promise<PlainObject> {
-        const partContext = await super._preparePartContext(partId, context);
-        if (partId in partContext.tabs)
+    ): Promise<foundry.applications.api.ApplicationV2.RenderContextOf<this>> {
+        const partContext: PlainObject = await super._preparePartContext(
+            partId,
+            context as any,
+            {},
+        );
+        if (partContext.tabs?.partId)
             partContext.tab = partContext.tabs[partId];
         const document: SohlItem | SohlActor = (this as any).object;
         switch (partId) {
@@ -52,7 +55,10 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
                 } else {
                     partContext.targetTypes["this"] = sohl.i18n.format(
                         "EFFECT.ThisItem",
-                        { itemType: document.parent.typeLabel },
+                        {
+                            itemType: (document.parent?.system as any)
+                                ?.typeLabel,
+                        },
                     );
                     partContext.targetTypes["actor"] =
                         sohl.i18n.localize("EFFECT.Actor");
@@ -87,6 +93,6 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
                 const itemData = ITEM_METADATA[document.type];
                 partContext.keyChoices = itemData?.KeyChoices || [];
         }
-        return partContext;
+        return partContext as foundry.applications.api.ApplicationV2.RenderContextOf<this>;
     }
 }

@@ -62,11 +62,13 @@ export const {
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
-export abstract class SohlLogic extends SohlBase {
-    readonly _parent: SohlLogic.Data;
+export abstract class SohlLogic<
+    TParent extends SohlLogic.Data = SohlLogic.Data,
+> extends SohlBase {
+    readonly _parent: TParent;
     readonly events: SohlMap<string, SohlEvent>;
 
-    get parent(): SohlLogic.Data {
+    get parent(): TParent {
         return this._parent;
     }
 

@@ -19,12 +19,12 @@ import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
 
-const kSohlEffect = Symbol("SohlEffect");
-const kData = Symbol("SohlEffect.Data");
+const kSohlEffectData = Symbol("SohlEffectData");
+const kData = Symbol("SohlEffectData.Data");
 
-export class SohlEffect extends SohlLogic implements SohlEffect.Logic {
-    declare readonly _parent: SohlEffect.Data;
-    readonly [kSohlEffect] = true;
+export class SohlEffectData extends SohlLogic implements SohlEffectData.Logic {
+    declare readonly _parent: SohlEffectData.Data;
+    readonly [kSohlEffectData] = true;
 
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {}
@@ -36,7 +36,7 @@ export class SohlEffect extends SohlLogic implements SohlEffect.Logic {
     override finalize(context: SohlEventContext): void {}
 }
 
-export namespace SohlEffect {
+export namespace SohlEffectData {
     /**
      * The FontAwesome icon class for the Affliction item.
      */
@@ -58,14 +58,14 @@ export namespace SohlEffect {
     }
 
     export interface Logic extends SohlLogic {
-        readonly [kSohlEffect]: true;
+        readonly [kSohlEffectData]: true;
     }
 
     export class DataModel
         extends SohlDataModel<SohlActiveEffect>
         implements Data
     {
-        static override readonly LOCALIZATION_PREFIXES = ["ACTIVEEFFECT"];
+        static override readonly LOCALIZATION_PREFIXES = ["SohlEffectData"];
         readonly [kData] = true;
 
         get actor(): SohlActor {

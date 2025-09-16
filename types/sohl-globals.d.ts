@@ -6,6 +6,37 @@ import type {
     SohlLocalize,
     SohlMersenneTwister,
 } from "@utils/helpers";
+import type { SohlTokenDocument } from "@common/document/SohlTokenDocument";
+import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { Entity } from "@common/actor/Entity";
+import type { Assembly } from "@common/actor/Assembly";
+import type { SohlCombatant } from "@common/combat/SohlCombatant";
+import type { SohlCombatantData } from "@common/combatant/SohlCombatantData";
+import type { SohlItem } from "@common/item/SohlItem";
+import type { Affiliation } from "@common/item/Affiliation";
+import type { Affliction } from "@common/item/Affliction";
+import type { ArmorGear } from "@common/item/ArmorGear";
+import type { BodyLocation } from "@common/item/BodyLocation";
+import type { BodyPart } from "@common/item/BodyPart";
+import type { BodyZone } from "@common/item/BodyZone";
+import type { CombatTechniqueStrikeMode } from "@common/item/CombatTechniqueStrikeMode";
+import type { ConcoctionGear } from "@common/item/ConcoctionGear";
+import type { ContainerGear } from "@common/item/ContainerGear";
+import type { Domain } from "@common/item/Domain";
+import type { Injury } from "@common/item/Injury";
+import type { MeleeWeaponStrikeMode } from "@common/item/MeleeWeaponStrikeMode";
+import type { MiscGear } from "@common/item/MiscGear";
+import type { MissileWeaponStrikeMode } from "@common/item/MissileWeaponStrikeMode";
+import type { Mystery } from "@common/item/Mystery";
+import type { MysticalAbility } from "@common/item/MysticalAbility";
+import type { MysticalDevice } from "@common/item/MysticalDevice";
+import type { Philosophy } from "@common/item/Philosophy";
+import type { ProjectileGear } from "@common/item/ProjectileGear";
+import type { Protection } from "@common/item/Protection";
+import type { Skill } from "@common/item/Skill";
+import type { Trait } from "@common/item/Trait";
+import type { WeaponGear } from "@common/item/WeaponGear";
 
 // ✅ Custom utility types
 declare global {
@@ -75,7 +106,7 @@ declare global {
         };
     };
 
-    type SohlDocument = SohlActor | SohlItem | SohlActiveEffect;
+    type SohlDocument = SohlActor | SohlItem | SohlActiveEffect | SohlCombatant;
 
     type BaseLogicOptions<TDataModel> = {
         parent?: TDataModel;
@@ -83,6 +114,92 @@ declare global {
 
     // ✅ Global system accessor
     var sohl: SohlSystem;
+}
+
+declare module "fvtt-types/configuration" {
+    interface SystemNameConfig {
+        name: "sohl";
+    }
+
+    interface SystemConfig {}
+
+    interface FlagConfig {
+        Item: {
+            sohl: Record<string, unknown>;
+        };
+    }
+
+    interface SettingConfig {
+        "sohl.systemMigrationVersion": string;
+        "sohl.variant": string;
+        "sohl.logLevel": string;
+        "sohl.showWelcomeDialog": boolean;
+        "sohl.showAssemblies": boolean;
+        "sohl.combatAudio": boolean;
+        "sohl.recordTrauma": string;
+        "sohl.healingSeconds": number;
+        "sohl.optionProjectileTracking": boolean;
+        "sohl.optionFate": string;
+        "sohl.optionGearDamage": boolean;
+        "sohl.logThreshold": string;
+    }
+
+    interface DocumentClassConfig {
+        Actor: typeof SohlActor;
+        Item: typeof SohlItem;
+        Combatant: typeof SohlCombatant;
+        ActiveEffect: typeof SohlActiveEffect;
+    }
+
+    interface ConfiguredActor<SubType extends Actor.SubType> {
+        Actor: SohlActor<SohlActor.Logic, any, SubType>;
+    }
+
+    interface ConfiguredItem<SubType extends Item.SubType> {
+        Item: SohlItem<SohlItem.Logic, any, SubType>;
+    }
+
+    interface ConfiguredCombatant<SubType extends Combatant.SubType> {
+        Combatant: SohlCombatant<SubType>;
+    }
+
+    interface DataModelConfig {
+        Actor: {
+            entity: Entity.DataModel;
+            assembly: Assembly.DataModel;
+        };
+        Item: {
+            affiliation: Affiliation.DataModel;
+            affliction: Affliction.DataModel;
+            armorgear: ArmorGear.DataModel;
+            bodylocation: BodyLocation.DataModel;
+            bodypart: BodyPart.DataModel;
+            bodyzone: BodyZone.DataModel;
+            combattechniquestrikemode: CombatTechniqueStrikeMode.DataModel;
+            concoctiongear: ConcoctionGear.DataModel;
+            containergear: ContainerGear.DataModel;
+            domain: Domain.DataModel;
+            injury: Injury.DataModel;
+            meleeweaponstrikemode: MeleeWeaponStrikeMode.DataModel;
+            miscgear: MiscGear.DataModel;
+            missileweaponstrikemode: MissileWeaponStrikeMode.DataModel;
+            mystery: Mystery.DataModel;
+            mysticalability: MysticalAbility.DataModel;
+            mysticaldevice: MysticalDevice.DataModel;
+            philosophy: Philosophy.DataModel;
+            projectilegear: ProjectileGear.DataModel;
+            protection: Protection.DataModel;
+            skill: Skill.DataModel;
+            trait: Trait.DataModel;
+            weapongear: WeaponGear.DataModel;
+        };
+        Combatant: {
+            combatantdata: SohlCombatantData.DataModel;
+        };
+        ActiveEffect: {
+            sohleffectdata: SohlEffectData.DataModel;
+        };
+    }
 }
 
 export {};

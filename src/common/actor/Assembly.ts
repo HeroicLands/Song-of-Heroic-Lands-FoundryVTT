@@ -58,14 +58,14 @@ export namespace Assembly {
     export interface Logic extends SohlActor.Logic {}
 
     export interface Data extends SohlActor.Data {
-        canonicalItemUuid: string | null;
+        canonicalItemId: string | null;
     }
 
     /**
      * The Foundry VTT data model for the Assembly actor.
      */
     export class DataModel extends SohlActor.DataModel implements Data {
-        declare canonicalItemUuid: string | null;
+        declare canonicalItemId: string | null;
         static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];
         static override readonly kind = ACTOR_KIND.ASSEMBLY;
         readonly [kDataModel] = true;

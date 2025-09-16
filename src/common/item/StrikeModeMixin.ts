@@ -79,7 +79,7 @@ export function StrikeModeMixin<TBase extends Constructor<SohlItem.BaseLogic>>(
             this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
             this.impact.base = this._parent.impactBase;
             this.assocSkill = this.actor?.itemTypes.skill.find(
-                (it) => it.name === this._parent.assocSkillName,
+                (it: SohlItem) => it.name === this._parent.assocSkillName,
             );
             if (this.assocSkill) {
                 this.attack.addVM(this.assocSkill.system.masteryLevel, {

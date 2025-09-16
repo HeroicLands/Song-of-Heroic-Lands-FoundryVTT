@@ -11,18 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ClientDocumentExtendedMixin,
-    FilePath,
-    HTMLString,
-    toDocumentId,
-} from "@utils/helpers";
+import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { InternalClientDocument } from "@common/FoundryProxy";
 import { SohlDataModel } from "@common/SohlDataModel";
 import type { SohlItem } from "@common/item/SohlItem";
 import { SohlLogic } from "@common/SohlLogic";
-import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlMap } from "@utils/collection/SohlMap";
 import { MasteryLevelMixin } from "@common/item/MasteryLevelMixin";
 import { SohlEventContext } from "@common/event/SohlEventContext";
@@ -30,148 +23,12 @@ import { SohlSpeaker } from "@common/SohlSpeaker";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 const kSohlActor = Symbol("SohlActor");
 const kData = Symbol("SohlActor.Data");
-
+const { SearchFilter } = foundry.applications.ux;
 export class SohlActor<
-        TLogic extends SohlActor.Logic = SohlActor.Logic,
-        TDataModel extends SohlActor.DataModel = any,
-    >
-    extends ClientDocumentExtendedMixin(
-        Actor,
-        {} as InstanceType<typeof foundry.documents.BaseActor>,
-    )
-    implements InternalClientDocument
-{
-    declare readonly name: string;
-    declare readonly flags: PlainObject;
-    declare apps: Record<string, foundry.applications.api.ApplicationV2.Any>;
-    declare readonly collection: Collection<this, Collection.Methods<this>>;
-    declare readonly items: Collection<SohlItem, Collection.Methods<SohlItem>>;
-    declare readonly effects: Collection<
-        SohlActiveEffect,
-        Collection.Methods<SohlActiveEffect>
-    >;
-    declare readonly compendium: CompendiumCollection<any> | undefined;
-    declare readonly isOwner: boolean;
-    declare readonly hasPlayerOwner: boolean;
-    declare readonly limited: boolean;
-    declare readonly link: string;
-    declare readonly permission: any;
-    declare readonly sheet: foundry.applications.api.ApplicationV2.Any | null;
-    declare readonly visible: boolean;
-    declare prototypeToken: { texture: { src: string } };
-    declare prepareData: () => void;
-    declare prepareEmbeddedDocuments: () => void;
-    declare render: (
-        force?: boolean,
-        context?:
-            | Application.RenderOptions
-            | foundry.applications.api.ApplicationV2.RenderOptions,
-    ) => void;
-    declare sortRelative: (
-        options?: ClientDocument.SortOptions<this, "sort"> | undefined,
-    ) => Promise<this>;
-    declare getRelativeUUID: (relative: ClientDocument) => string;
-    declare _dispatchDescendantDocumentEvents: (
-        event: ClientDocument.LifeCycleEventName,
-        collection: string,
-        args: never,
-        _parent: never,
-    ) => void;
-    declare _onSheetChange: (
-        options?: ClientDocument.OnSheetChangeOptions,
-    ) => Promise<void>;
-    declare deleteDialog: (
-        options?: PlainObject,
-    ) => Promise<false | this | null | undefined>;
-    declare exportToJSON: (
-        options?: ClientDocument.ToCompendiumOptions,
-    ) => void;
-    declare toDragData: () => foundry.abstract.Document.DropData<
-        foundry.abstract.Document.Internal.Instance.Complete<any>
-    >;
-    declare importFromJSON: (json: string) => Promise<this>;
-    declare importFromJSONDialog: () => Promise<void>;
-    declare toCompendium: (
-        pack?: CompendiumCollection<CompendiumCollection.Metadata> | null,
-        options?: PlainObject,
-    ) => ClientDocument.ToCompendiumReturnType<any, any>;
-    declare toAnchor: (
-        options?: TextEditor.EnrichmentAnchorOptions,
-    ) => HTMLAnchorElement;
-    declare toEmbed: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _buildEmbedHTML: (
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | HTMLCollection | null>;
-    declare _createInlineEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _createFigureEmbed: (
-        content: HTMLElement | HTMLCollection,
-        config: TextEditor.DocumentHTMLEmbedConfig,
-        options?: TextEditor.EnrichmentOptions,
-    ) => Promise<HTMLElement | null>;
-    declare _preCreateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onCreateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _preUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationOptions,
-        userId: string,
-    ) => void;
-    declare _onUpdateEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: AnyObject[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _onDeleteEmbeddedDocuments: (
-        embeddedName: string,
-        documents: never,
-        result: string[],
-        options: foundry.abstract.Document.ModificationContext<foundry.abstract.Document.Any | null>,
-        userId: string,
-    ) => void;
-    declare _preCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _onCreateDescendantDocuments: (...args: any[]) => void;
-    declare public _preUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _onUpdateDescendantDocuments: (...args: any[]) => void;
-    declare public _preDeleteDescendantDocuments: (...args: any[]) => void;
-    declare public _onDeleteDescendantDocuments: (...args: any[]) => void;
-    declare type: string;
-    declare img: FilePath;
-    declare static create: (
-        data: PlainObject,
-        options?: PlainObject,
-    ) => Promise<SohlActor | undefined>;
-    declare update: (
-        data: PlainObject,
-        options?: PlainObject,
-    ) => Promise<this | undefined>;
-    declare delete: (options?: PlainObject) => Promise<this | undefined>;
+    TLogic extends SohlActor.Logic = SohlActor.Logic,
+    TDataModel extends SohlActor.DataModel = any,
+    SubType extends Actor.SubType = Actor.SubType,
+> extends Actor<SubType> {
     readonly [kSohlActor] = true;
 
     private _allItemsMap?: SohlMap<string, SohlItem>;
@@ -189,7 +46,7 @@ export class SohlActor<
     }
 
     get logic(): TLogic {
-        return this.system.logic as TLogic;
+        return (this.system as any).logic as TLogic;
     }
 
     static _getContextOptions(doc: SohlActor): SohlContextMenu.Entry[] {
@@ -197,7 +54,7 @@ export class SohlActor<
     }
 
     _getContextOptions(): SohlContextMenu.Entry[] {
-        return this.system.logic._getContextOptions();
+        return this.logic._getContextOptions();
     }
 
     /**
@@ -234,7 +91,7 @@ export class SohlActor<
         return this._allItemsMap ?? new SohlMap<string, SohlItem>();
     }
 
-    get itemTypes(): StrictObject<SohlItem[]> {
+    get allItemTypes(): StrictObject<SohlItem[]> {
         return this._allItemTypesCache ?? {};
     }
 
@@ -248,7 +105,10 @@ export class SohlActor<
         }
 
         // 2) Repeatedly sweep virtuals until a full pass finds nothing new
-        const virtuals = this.system.virtualItems as Map<string, SohlItem>;
+        const virtuals = (this.system as any).virtualItems as Map<
+            string,
+            SohlItem
+        >;
         let emitted: number;
         // optional safety cap if you fear runaway item factories
         const MAX = 10_000;
@@ -276,7 +136,7 @@ export class SohlActor<
         for (const [id, it] of this.items.entries()) {
             this._allItemsMap.set(id, it);
         }
-        for (const [id, it] of this.system.virtualItems.entries()) {
+        for (const [id, it] of (this.system as any).virtualItems.entries()) {
             this._allItemsMap.set(id, it);
         }
 
@@ -293,7 +153,6 @@ export class SohlActor<
     }
 
     prepareBaseData(): void {
-        // @ts-expect-error TS doesn't recognize prepareBaseData is declared in base class
         super.prepareBaseData();
         this.logic.initialize(this._ctx);
     }
@@ -316,7 +175,6 @@ export class SohlActor<
     }
 
     prepareDerivedData(): void {
-        // @ts-expect-error TS doesn't recognize prepareDerivedData is declared in base class
         super.prepareDerivedData();
         this.logic.evaluate(this._ctx);
         this.logic.finalize(this._ctx);
@@ -365,9 +223,13 @@ export class SohlActor<
     async _preCreate(
         createData: PlainObject,
         options: PlainObject,
-        user: string,
-    ) {
-        const allowed = await super._preCreate(createData, options, user);
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preCreate(
+            createData as any,
+            options as any,
+            user,
+        );
         if (allowed === false) return false;
         let updateData: PlainObject = {};
 
@@ -466,7 +328,14 @@ export class SohlActor<
     }
 
     _onCreate(data: PlainObject, options: any, userId: string) {
-        super._onCreate(data, options, userId);
+        // Call base implementation dynamically to avoid TypeScript override signature noise
+        const __sohl_base = Object.getPrototypeOf(SohlActor.prototype) as any;
+        __sohl_base._onCreate.call(
+            this,
+            data as any,
+            options as any,
+            userId as any,
+        );
         //        this.updateEffectsOrigin();
     }
 
@@ -602,7 +471,12 @@ export namespace SohlActor {
     type HandlebarsTemplatePart =
         foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
 
-    export class Sheet extends SohlDataModel.Sheet<SohlActor> {
+    const DocumentSheetV2Base = foundry.applications.api
+        .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor;
+    class ActorSheetImpl extends SohlDataModel.SheetMixin<
+        SohlActor,
+        foundry.applications.api.DocumentSheetV2.AnyConstructor
+    >(DocumentSheetV2Base) {
         static DEFAULT_OPTIONS: PlainObject = {
             id: "sohl-actor-sheet",
             tag: "form",
@@ -657,6 +531,21 @@ export namespace SohlActor {
                 navSelector: ".tabs[data-group='sheet']",
                 contentSelector: ".content[data-group='sheet']",
                 initial: "profile",
+                tabs: [
+                    {
+                        id: "profile",
+                        // icon: "fas fa-user",
+                        label: "SOHL.Actor.tab.profile",
+                    },
+                    { id: "skills", label: "SOHL.Actor.tab.skills" },
+                    { id: "combat", label: "SOHL.Actor.tab.combat" },
+                    { id: "trauma", label: "SOHL.Actor.tab.trauma" },
+                    { id: "mysteries", label: "SOHL.Actor.tab.mysteries" },
+                    { id: "gear", label: "SOHL.Actor.tab.gear" },
+                    { id: "actions", label: "SOHL.Actor.tab.actions" },
+                    { id: "events", label: "SOHL.Actor.tab.events" },
+                    { id: "effects", label: "SOHL.Actor.tab.effects" },
+                ],
             },
         };
 
@@ -684,9 +573,7 @@ export namespace SohlActor {
             }
         }
 
-        override async _prepareContext(
-            options: Partial<foundry.applications.api.ApplicationV2.RenderOptions>,
-        ): Promise<PlainObject> {
+        override async _prepareContext(options: any): Promise<PlainObject> {
             const context = {
                 ...(await super._prepareContext(options)),
             };
@@ -698,8 +585,16 @@ export namespace SohlActor {
             context: PlainObject,
             options: PlainObject,
         ): Promise<PlainObject> {
-            // @ts-expect-error TS doesn't recognize _preparePartContext is declared in base class
-            context = await super._preparePartContext(partId, context, options);
+            // Call the base implementation dynamically to avoid TypeScript 'super' cast issues.
+            const __sohl_base = Object.getPrototypeOf(
+                SohlActor.prototype,
+            ) as any;
+            context = await __sohl_base._preparePartContext.call(
+                this,
+                partId,
+                context as any,
+                options as any,
+            );
             switch (partId) {
                 case "facade":
                     return await this._prepareFacadeContext(context, options);
@@ -818,7 +713,7 @@ export namespace SohlActor {
         }
 
         protected _displayFilteredResults(
-            event: KeyboardEvent,
+            event: KeyboardEvent | null,
             query: string,
             rgx: RegExp,
             content: HTMLElement | null,
@@ -894,11 +789,22 @@ export namespace SohlActor {
             }),
         ];
 
-        _onRender(context: PlainObject, options: PlainObject): void {
+        override async _onRender(
+            context: PlainObject,
+            options: PlainObject,
+        ): Promise<void> {
             super._onRender(context, options);
 
             // Rebind all search filters
             this._filters.forEach((filter) => filter.bind(this.element));
         }
     }
+
+    export const Sheet: Constructor<
+        foundry.applications.api.DocumentSheetV2<SohlActor>
+    > = ActorSheetImpl as unknown as Constructor<
+        foundry.applications.api.DocumentSheetV2<SohlActor>
+    >;
 }
+
+declare module "fvtt-types/configuration" {}

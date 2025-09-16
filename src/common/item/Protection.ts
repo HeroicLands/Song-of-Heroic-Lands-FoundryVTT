@@ -67,7 +67,7 @@ export class Protection
         ) {
             armorGearData = this.item.nestedIn.system;
             this.bodyLocations =
-                this.actor?.itemTypes[ITEM_KIND.BODYLOCATION].filter(
+                this.actor?.allItemTypes[ITEM_KIND.BODYLOCATION].filter(
                     (i) =>
                         armorGearData?.locations.flexible.includes(i.name) ||
                         armorGearData?.locations.rigid.includes(i.name),

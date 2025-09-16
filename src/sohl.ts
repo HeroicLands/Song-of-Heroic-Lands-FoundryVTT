@@ -24,12 +24,11 @@ import { AIAdapter } from "@utils/ai/AIAdapter";
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
 SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
 
-// @ts-expect-error - DocumentSheetConfig is a known class in Foundry
 const DocumentSheetConfigClass = foundry.applications.apps.DocumentSheetConfig;
 DocumentSheetConfigClass.registerSheet(
     CONFIG.Actor.documentClass,
     "sohl",
-    SohlActor.Sheet,
+    SohlActor.Sheet as any,
     {
         types: ["sohl"],
         makeDefault: true,
@@ -38,7 +37,7 @@ DocumentSheetConfigClass.registerSheet(
 DocumentSheetConfigClass.registerSheet(
     CONFIG.Item.documentClass,
     "sohl",
-    SohlItem.Sheet,
+    SohlItem.Sheet as any,
     {
         types: ["sohl"],
         makeDefault: true,
@@ -207,7 +206,6 @@ function registerSystemHooks() {
                 if (btn?.closest(".card-buttons")) {
                     const docUuid = btn.dataset.docUuid;
                     if (docUuid) {
-                        // @ts-expect-error
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
                             doc &&
@@ -223,7 +221,6 @@ function registerSystemHooks() {
                     )?.closest("a.edit-action");
                     const docUuid = edit?.dataset.docUuid;
                     if (docUuid) {
-                        // @ts-expect-error
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
                             doc &&
@@ -241,8 +238,7 @@ function registerSystemHooks() {
     Hooks.on("renderSceneConfig", (app: any, element: HTMLElement) => {
         const scene: Scene = app.object;
         const isTotm =
-            foundry.utils.getProperty((scene as any).flags, "sohl.isTotm") ??
-            false;
+            foundry.utils.getProperty(scene.flags, "sohl.isTotm") ?? false;
         const totmHTML = `<div class="form-group">
         <label>Theatre of the Mind</label>
         <input id="sohl-totm" type="checkbox" name="sohlTotm" data-dtype="Boolean" ${isTotm ? "checked" : ""}>
@@ -256,7 +252,7 @@ function registerSystemHooks() {
             ?.insertAdjacentHTML("afterend", totmHTML);
     });
 
-    Hooks.on("closeSceneConfig", (app: any, element: HTMLElement) => {
+    Hooks.on("closeSceneConfig" as any, (app: any, element: HTMLElement) => {
         const scene = app.object;
         const isTotm =
             (
@@ -308,7 +304,8 @@ Hooks.once("ready", async () => {
     SohlSystem.ready = true;
 });
 
-Hooks.once("simpleCalendarReady", async () => {
+// FIXME: Simple Calendar is no longer supported!
+Hooks.once("simpleCalendarReady" as any, async () => {
     SohlSystem.simpleCalendar = (game as any).modules.get(
         "foundryvtt-simple-calendar",
     );

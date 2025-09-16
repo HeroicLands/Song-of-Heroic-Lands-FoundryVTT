@@ -79,6 +79,27 @@ export const {
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
+    kind: COMBATANT_KIND,
+    values: CombatantKinds,
+    isValue: isCombatantKind,
+    labels: combatantKindLabels,
+} = defineType("TYPES.Combatant", {
+    COMBATANTDATA: "sohlcombatantdata",
+});
+export type CombatantKind =
+    (typeof COMBATANT_KIND)[keyof typeof COMBATANT_KIND];
+
+export const {
+    kind: EFFECT_KIND,
+    values: EffectKinds,
+    isValue: isEffectKind,
+    labels: effectKindLabels,
+} = defineType("TYPES.Effect", {
+    EFFECTDATA: "sohleffectdata",
+});
+export type EffectKind = (typeof EFFECT_KIND)[keyof typeof EFFECT_KIND];
+
+export const {
     kind: ACTOR_KIND,
     values: ActorKinds,
     isValue: isActorKind,
@@ -264,11 +285,10 @@ export const {
     isValue: isEffectMetadata,
     labels: effectMetadataLabels,
 } = defineType(`SOHL.Effect.METADATA`, {
-    ACTIVEEFFECTDATA: {
-        Kind: "activeeffectdata",
+    [EFFECT_KIND.EFFECTDATA]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
-        Sheet: "systems/sohl/templates/item/weapongear-sheet.hbs",
+        Sheet: "systems/sohl/templates/effect/effect-sheet.hbs",
     },
 });
 export type EffectMetadata =
@@ -276,6 +296,20 @@ export type EffectMetadata =
 
 export const EFFECT_IMAGE: string =
     "systems/sohl/assets/icons/people-group.svg";
+
+export const {
+    kind: COMBATANT_METADATA,
+    values: CombatantMetadatas,
+    isValue: isCombatantMetadata,
+    labels: combatantMetadataLabels,
+} = defineType(`SOHL.Combatant.METADATA`, {
+    [COMBATANT_KIND.COMBATANTDATA]: {
+        IconCssClass: "fa-duotone fa-people-group",
+        Image: "systems/sohl/assets/icons/people-group.svg",
+    },
+});
+export type CombatantMetadata =
+    (typeof COMBATANT_METADATA)[keyof typeof COMBATANT_METADATA];
 
 export const {
     kind: GEAR_KIND,

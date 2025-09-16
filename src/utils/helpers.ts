@@ -11,8 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { InternalClientDocument } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/client/data/abstract/client-document.mjs";
-
 export type SohlSettingValue =
     | string
     | number
@@ -245,7 +243,6 @@ export function registerValue(
  * @returns True if the path was successfully removed.
  */
 export function unregisterValue(path: string): boolean {
-    // @ts-expect-error
     return foundry.utils.deleteProperty(globalThis.sohl, path);
 }
 
@@ -253,7 +250,6 @@ export async function toHTMLWithTemplate(
     template: FilePath,
     data: PlainObject = {},
 ): Promise<HTMLString> {
-    // @ts-expect-error
     const html = await foundry.applications.handlebars.renderTemplate(
         template,
         data,
@@ -468,25 +464,4 @@ export function baseClassOf<T extends abstract new (...args: any) => any>(
     ctor: T,
 ): T {
     return ctor;
-}
-
-export function ClientDocumentExtendedMixin<
-    TBase extends Constructor<any>,
-    TOther extends object,
->(
-    Base: TBase,
-    other: TOther,
-): TBase &
-    Constructor<TOther> &
-    foundry.abstract.Document.Any &
-    InternalClientDocument {
-    return class extends Base {
-        constructor(...args: any[]) {
-            super(...args);
-            Object.assign(this, other);
-        }
-    } as TBase &
-        Constructor<TOther> &
-        foundry.abstract.Document.Any &
-        InternalClientDocument;
 }

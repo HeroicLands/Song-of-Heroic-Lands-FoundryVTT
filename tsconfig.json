@@ -19,24 +19,17 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["fvtt-types"],
-        "typeRoots": [
-            "node_modules/@types",
-            "types",
-            "vitest/globals",
-            "vite/client"
-        ],
-        "baseUrl": ".",
+        "types": ["fvtt-types/lenient"],
         "paths": {
-            "@types/*": ["types/*"],
-            "@utils/*": ["src/utils/*"],
-            "@common/*": ["src/common/*"],
-            "@legendary/*": ["src/legendary/*"],
-            "@mistyisle/*": ["src/mistyisle/*"],
-            "@templates/*": ["templates/*"],
-            "@assets/*": ["assets/*"],
-            "@lang/*": ["lang/*"],
-            "@tests/*": ["tests/*"]
+            "@types/*": ["./types/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@common/*": ["./src/common/*"],
+            "@legendary/*": ["./src/legendary/*"],
+            "@mistyisle/*": ["./src/mistyisle/*"],
+            "@templates/*": ["./templates/*"],
+            "@assets/*": ["./assets/*"],
+            "@lang/*": ["./lang/*"],
+            "@tests/*": ["./tests/*"]
         }
     },
     "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],

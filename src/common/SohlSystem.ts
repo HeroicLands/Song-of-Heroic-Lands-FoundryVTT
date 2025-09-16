@@ -58,18 +58,19 @@ import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
 import { SohlBase } from "@common/SohlBase";
-import { SohlEffect } from "@common/effect/SohlEffect";
+import { SohlEffect } from "@common/effect/SohlEffectData";
 import {
     ACTOR_KIND,
     ACTOR_METADATA,
     ActorKinds,
     defineType,
-    EFFECT_METADATA,
-    EffectMetadatas,
+    SOHL_EFFECT_METADATA,
+    SohlEffectMetadatas,
     ITEM_KIND,
     ITEM_METADATA,
     ItemKinds,
 } from "@utils/constants";
+import { getGame } from "./FoundryProxy";
 
 export const {
     kind: COMMON_ACTOR_DATA_MODEL,
@@ -159,7 +160,7 @@ export const {
     isValue: isEffectDataModel,
     labels: EffectDataModelLabels,
 } = defineType("TYPES.Effect", {
-    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect.DataModel,
+    [SOHL_EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect.DataModel,
 } as Record<string, Constructor<SohlDataModel<any>>>);
 
 export const {
@@ -168,7 +169,7 @@ export const {
     isValue: isEffectLogic,
     labels: EffectLogicLabels,
 } = defineType("TYPES.Effect", {
-    [EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect,
+    [SOHL_EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect,
 } as Record<string, Constructor<SohlEffect.Logic>>);
 
 /**
@@ -260,12 +261,12 @@ export abstract class SohlSystem {
                 dataModels: EFFECT_DATA_MODEL,
                 typeLabels: EffectDataModelLabels,
                 typeIcons: Object.fromEntries(
-                    Object.values(EFFECT_METADATA).map((meta) => [
+                    Object.values(SOHL_EFFECT_METADATA).map((meta) => [
                         meta.Kind,
                         meta.IconCssClass,
                     ]),
                 ),
-                types: EffectMetadatas.map((m) => m.Kind),
+                types: SohlEffectMetadatas.map((m) => m.Kind),
                 legacyTransferral: false,
             },
             Combatant: {
@@ -406,7 +407,7 @@ export abstract class SohlSystem {
 
     get game(): SohlSystem {
         if (!(this.constructor as any).curVariant) {
-            const variant = (game as any).settings.get(
+            const variant = (getGame().settings as any).get(
                 "sohl",
                 "variant",
             ) as string;
