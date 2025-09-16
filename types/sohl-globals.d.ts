@@ -165,39 +165,39 @@ declare module "fvtt-types/configuration" {
 
     interface DataModelConfig {
         Actor: {
-            entity: Entity.DataModel;
-            assembly: Assembly.DataModel;
+            entity: typeof Entity.DataModel;
+            assembly: typeof Assembly.DataModel;
         };
         Item: {
-            affiliation: Affiliation.DataModel;
-            affliction: Affliction.DataModel;
-            armorgear: ArmorGear.DataModel;
-            bodylocation: BodyLocation.DataModel;
-            bodypart: BodyPart.DataModel;
-            bodyzone: BodyZone.DataModel;
-            combattechniquestrikemode: CombatTechniqueStrikeMode.DataModel;
-            concoctiongear: ConcoctionGear.DataModel;
-            containergear: ContainerGear.DataModel;
-            domain: Domain.DataModel;
-            injury: Injury.DataModel;
-            meleeweaponstrikemode: MeleeWeaponStrikeMode.DataModel;
-            miscgear: MiscGear.DataModel;
-            missileweaponstrikemode: MissileWeaponStrikeMode.DataModel;
-            mystery: Mystery.DataModel;
-            mysticalability: MysticalAbility.DataModel;
-            mysticaldevice: MysticalDevice.DataModel;
-            philosophy: Philosophy.DataModel;
-            projectilegear: ProjectileGear.DataModel;
-            protection: Protection.DataModel;
-            skill: Skill.DataModel;
-            trait: Trait.DataModel;
-            weapongear: WeaponGear.DataModel;
+            affiliation: typeof Affiliation.DataModel;
+            affliction: typeof Affliction.DataModel;
+            armorgear: typeof ArmorGear.DataModel;
+            bodylocation: typeof BodyLocation.DataModel;
+            bodypart: typeof BodyPart.DataModel;
+            bodyzone: typeof BodyZone.DataModel;
+            combattechniquestrikemode: typeof CombatTechniqueStrikeMode.DataModel;
+            concoctiongear: typeof ConcoctionGear.DataModel;
+            containergear: typeof ContainerGear.DataModel;
+            domain: typeof Domain.DataModel;
+            injury: typeof Injury.DataModel;
+            meleeweaponstrikemode: typeof MeleeWeaponStrikeMode.DataModel;
+            miscgear: typeof MiscGear.DataModel;
+            missileweaponstrikemode: typeof MissileWeaponStrikeMode.DataModel;
+            mystery: typeof Mystery.DataModel;
+            mysticalability: typeof MysticalAbility.DataModel;
+            mysticaldevice: typeof MysticalDevice.DataModel;
+            philosophy: typeof Philosophy.DataModel;
+            projectilegear: typeof ProjectileGear.DataModel;
+            protection: typeof Protection.DataModel;
+            skill: typeof Skill.DataModel;
+            trait: typeof Trait.DataModel;
+            weapongear: typeof WeaponGear.DataModel;
         };
         Combatant: {
-            combatantdata: SohlCombatantData.DataModel;
+            combatantdata: typeof SohlCombatantData.DataModel;
         };
         ActiveEffect: {
-            sohleffectdata: SohlEffectData.DataModel;
+            sohleffectdata: typeof SohlEffectData.DataModel;
         };
     }
 }

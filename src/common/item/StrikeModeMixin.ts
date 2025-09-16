@@ -168,17 +168,6 @@ export namespace StrikeModeMixin {
         };
     }
 
-    export namespace Data {
-        export function isA(obj: unknown, subType?: Variant): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kStrikeModeMixinData in obj &&
-                (subType ? (obj as Data).subType === subType : true)
-            );
-        }
-    }
-
     export function DataModel<
         TBase extends AbstractConstructor<SohlItem.DataModel> &
             SohlItem.DataModel.Statics,

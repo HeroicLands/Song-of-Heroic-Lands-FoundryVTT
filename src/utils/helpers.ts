@@ -11,6 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { SohlDataModel } from "@common/SohlDataModel";
+import {
+    ACTOR_KIND,
+    ActorKinds,
+    EFFECT_KIND,
+    isActorKind,
+    isItemKind,
+    ITEM_KIND,
+} from "./constants";
+import {
+    COMMON_ACTOR_DATA_MODEL,
+    COMMON_ITEM_DATA_MODEL,
+} from "@common/SohlSystem";
 export type SohlSettingValue =
     | string
     | number

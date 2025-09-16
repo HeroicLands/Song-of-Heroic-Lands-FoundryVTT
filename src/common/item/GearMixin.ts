@@ -86,14 +86,6 @@ export namespace GearMixin {
         durabilityBase: number;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return (
-                typeof obj === "object" && obj !== null && kGearMixinData in obj
-            );
-        }
-    }
-
     export function DataModel<
         TBase extends AbstractConstructor<SohlItem.DataModel> &
             SohlItem.DataModel.Statics,

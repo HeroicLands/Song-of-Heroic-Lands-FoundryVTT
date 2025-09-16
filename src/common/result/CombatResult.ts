@@ -203,12 +203,6 @@ export namespace CombatResult {
         defendResult: DefendResult | Partial<DefendResult.Data>;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options extends OpposedTestResult.Options {}
 
     export class Context extends OpposedTestResult.Context {

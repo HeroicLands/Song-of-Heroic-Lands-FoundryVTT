@@ -42,11 +42,6 @@ export function SubTypeMixin<TBase extends AnyConstructor<SohlItem.BaseLogic>>(
         Constructor<InstanceType<TBase> & SubTypeMixin.Logic>;
 }
 
-export namespace SubTypeMixin {
-    export function isA(obj: unknown): obj is Logic {
-        return typeof obj === "object" && obj !== null && kSubTypeMixin in obj;
-    }
-
     export interface Logic<TSubType extends string = string>
         extends SohlItem.Logic {
         readonly _parent: Data<TSubType>;
@@ -56,16 +51,6 @@ export namespace SubTypeMixin {
         extends SohlItem.Data {
         readonly [kSubTypeMixinData]: true;
         subType: TSubType;
-    }
-
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kSubTypeMixinData in obj
-            );
-        }
     }
 
     /**

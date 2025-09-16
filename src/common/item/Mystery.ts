@@ -271,12 +271,6 @@ export namespace Mystery {
         };
     }
 
-    export namespace Logic {
-        export function isA(obj: unknown): obj is Mystery {
-            return typeof obj === "object" && obj !== null && kMystery in obj;
-        }
-    }
-
     export interface Data
         extends MasteryLevelMixin.Data,
             SubTypeMixin.Data<MysterySubType> {
@@ -291,12 +285,6 @@ export namespace Mystery {
             value: number;
             max: number;
         };
-    }
-
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
     }
 
     const DataModelShape = SubTypeMixin.DataModel<

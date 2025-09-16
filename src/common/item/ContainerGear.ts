@@ -60,12 +60,6 @@ export namespace ContainerGear {
         maxCapacityBase: number;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<ContainerGear.Data> &

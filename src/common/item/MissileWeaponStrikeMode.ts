@@ -74,12 +74,6 @@ export namespace MissileWeaponStrikeMode {
         projectileType: ProjectileGearSubType;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export class DataModel
         extends StrikeModeMixin.DataModel(SohlItem.DataModel)
         implements Data

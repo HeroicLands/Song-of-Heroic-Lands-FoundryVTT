@@ -123,17 +123,6 @@ export namespace Protection {
         };
     }
 
-    export namespace Data {
-        export function isA(obj: unknown, subType?: Variant): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kData in obj &&
-                (subType ? (obj as Data).subType === subType : true)
-            );
-        }
-    }
-
     const DataModelShape = SubTypeMixin.DataModel<
         typeof SohlItem.DataModel,
         Variant,

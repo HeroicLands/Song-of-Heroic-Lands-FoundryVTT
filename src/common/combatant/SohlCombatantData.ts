@@ -163,47 +163,33 @@ export class SohlCombatantData
 }
 
 export namespace SohlCombatantData {
-    export interface Logic extends SohlLogic {
-        readonly [kSohlCombatantData]: true;
-    }
-
-    export interface Data extends SohlLogic.Data {
-        readonly [kData]: true;
-
-        readonly parent: SohlCombatant;
-        readonly logic: SohlLogic;
-        readonly kind: string;
-
-        /** An array of combatants which are considered allies of this combatant. */
-        allyIds: string[];
-
-        /** An array of combatants which are the initial allies of this combatant. */
-        initAllyIds: string[];
-
-        /**
-         * An array of combatants that are currently threatened by this combatant. The rules
-         * determining whether an opponent is threatened are specific to each variation. This is
-         * useful for various combat mechanics, such as determining if a combatant is outnumbered or
-         * can be attacked in melee.
-         */
-        threatenedAllyIds: string[];
-    }
-
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         return {
             ...SohlDataModel.defineSchema(),
+
+            /**
+             * An array of combatants which are considered allies of this combatant.
+             */
             allyIds: new ArrayField(
-                new StringField({ blank: false, nullable: false }),
+                new StringField({
+                    blank: false,
+                    nullable: false,
+                }),
             ),
+
+            /**
+             * An array of combatants which are the initial allies of this combatant.
+             */
             initAllyIds: new ArrayField(
                 new StringField({ blank: false, nullable: false }),
             ),
+
+            /**
+             * An array of combatants that are currently threatened by this combatant.
+             * The rules determining whether an opponent is threatened are specific to
+             * each variation. This is useful for various combat mechanics, such as
+             * determining if a combatant is outnumbered or can be attacked in melee.
+             */
             threatenedAllyIds: new ArrayField(
                 new StringField({ blank: false, nullable: false }),
             ),
@@ -213,6 +199,17 @@ export namespace SohlCombatantData {
     type SohlCombatantDataSchema = ReturnType<
         typeof defineSohlCombatantDataSchema
     >;
+
+    export interface Logic extends SohlLogic {
+        readonly [kSohlCombatantData]: true;
+    }
+
+    export interface Data extends SohlLogic.Data {
+        readonly [kData]: true;
+        allyIds: string[];
+        initAllyIds: string[];
+        threatenedAllyIds: string[];
+    }
 
     export class DataModel
         extends SohlDataModel<SohlCombatantDataSchema, SohlCombatant>
@@ -234,18 +231,7 @@ export namespace SohlCombatantData {
         }
 
         static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                allyIds: new ArrayField(
-                    new StringField({ blank: false, nullable: false }),
-                ),
-                initAllyIds: new ArrayField(
-                    new StringField({ blank: false, nullable: false }),
-                ),
-                threatenedAllyIds: new ArrayField(
-                    new StringField({ blank: false, nullable: false }),
-                ),
-            };
+            return defineSohlCombatantDataSchema();
         }
     }
 }

@@ -47,12 +47,6 @@ export namespace ImpactResult {
         roll: SimpleRoll;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is ImpactResult.Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options extends SuccessTestResult.Options {}
 
     export class Context extends SuccessTestResult.Context {

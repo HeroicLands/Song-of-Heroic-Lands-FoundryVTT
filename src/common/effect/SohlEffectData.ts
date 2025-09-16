@@ -51,12 +51,6 @@ export namespace SohlEffectData {
         readonly [kData]: true;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Logic extends SohlLogic {
         readonly [kSohlEffectData]: true;
     }

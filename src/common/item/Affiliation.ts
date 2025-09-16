@@ -61,12 +61,6 @@ export namespace Affiliation {
         level: number;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
         static override readonly kind = ITEM_KIND.AFFILIATION;

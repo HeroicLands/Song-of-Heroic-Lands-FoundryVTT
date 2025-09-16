@@ -56,12 +56,6 @@ export namespace MiscGear {
         readonly [kData]: true;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<MiscGear.Data> & SohlItem.DataModel.Statics;

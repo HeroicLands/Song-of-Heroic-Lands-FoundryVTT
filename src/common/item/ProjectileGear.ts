@@ -76,20 +76,6 @@ export namespace ProjectileGear {
         };
     }
 
-    export namespace Data {
-        export function isA(
-            obj: unknown,
-            subType?: ProjectileGearSubType,
-        ): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kData in obj &&
-                (subType ? (obj as unknown as Data).subType === subType : true)
-            );
-        }
-    }
-
     export const DataModelShape = SubTypeMixin.DataModel(
         GearMixin.DataModel(SohlItem.DataModel),
         ProjectileGearSubTypes,

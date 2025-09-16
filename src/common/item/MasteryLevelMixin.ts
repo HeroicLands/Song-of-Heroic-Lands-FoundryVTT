@@ -323,16 +323,6 @@ export namespace MasteryLevelMixin {
         improveFlag: boolean;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kMasteryLevelMixinData in obj
-            );
-        }
-    }
-
     export function DataModel<
         TBase extends AbstractConstructor<SohlItem.DataModel> &
             SohlItem.DataModel.Statics,

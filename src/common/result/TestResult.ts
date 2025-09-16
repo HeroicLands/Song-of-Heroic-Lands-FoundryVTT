@@ -67,12 +67,6 @@ export namespace TestResult {
         description: string;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is TestResult.Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options {
         parent: SohlLogic;
     }

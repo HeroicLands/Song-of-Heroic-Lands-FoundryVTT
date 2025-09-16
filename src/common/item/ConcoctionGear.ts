@@ -72,20 +72,6 @@ export namespace ConcoctionGear {
         strength: number;
     }
 
-    export namespace Data {
-        export function isA(
-            obj: unknown,
-            subType?: ConcoctionGearSubType,
-        ): obj is Data {
-            return (
-                typeof obj === "object" &&
-                obj !== null &&
-                kData in obj &&
-                (subType ? (obj as Data).subType === subType : true)
-            );
-        }
-    }
-
     const DataModelShape = GearMixin.DataModel(
         SohlItem.DataModel,
     ) as unknown as Constructor<ConcoctionGear.Data> &

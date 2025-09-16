@@ -68,12 +68,6 @@ export namespace Domain {
         embodiments: DomainEmbodimentCategory[];
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export class DataModel extends SohlItem.DataModel.Shape implements Data {
         static readonly LOCALIZATION_PREFIXES = ["Domain"];
         abbrev!: string;

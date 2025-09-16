@@ -117,12 +117,6 @@ export namespace DefendResult {
         situationalModifier: number;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options extends ImpactResult.Options {}
 
     export class Context extends ImpactResult.Context {

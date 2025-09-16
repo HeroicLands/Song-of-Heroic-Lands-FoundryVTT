@@ -233,20 +233,6 @@ export namespace SohlSpeaker {
         user?: string;
     }
 
-    export namespace ChatOptions {
-        export function isA(data: any): data is ChatOptions {
-            return (
-                typeof data === "object" &&
-                (data.flavor === undefined ||
-                    typeof data.flavor === "string") &&
-                (data.sound === undefined || isSohlSpeakerSound(data.sound)) &&
-                (data.rolls === undefined || Array.isArray(data.rolls)) &&
-                (data.style === undefined || isSohlSpeakerStyle(data.style)) &&
-                (data.user === undefined || typeof data.user === "string")
-            );
-        }
-    }
-
     export interface Data {
         token: DocumentId | null;
         actor: DocumentId | null;
@@ -254,20 +240,5 @@ export namespace SohlSpeaker {
         alias?: string | null;
         rollMode?: SohlSpeakerRollMode;
         user: DocumentId;
-    }
-
-    export namespace Data {
-        export function isA(data: any): data is Data {
-            if (typeof data !== "object" || data === null) return false;
-            if (
-                !["token", "actor", "scene", "alias"].every(
-                    (key) => !data[key] || typeof data[key] === "string",
-                )
-            )
-                return false;
-            if (data.rollMode && !isSohlSpeakerRollMode(data.rollMode))
-                return false;
-            return true;
-        }
     }
 }

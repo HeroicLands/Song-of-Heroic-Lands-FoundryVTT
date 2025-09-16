@@ -170,12 +170,6 @@ export namespace AttackResult {
         modifiers: Map<string, string>;
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is AttackResult.Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options extends ImpactResult.Options {}
 
     export class Context extends ImpactResult.Context {

@@ -615,12 +615,6 @@ export namespace SuccessTestResult {
         mishaps: string[];
     }
 
-    export namespace Data {
-        export function isA(obj: unknown): obj is SuccessTestResult.Data {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-    }
-
     export interface Options extends TestResult.Options {}
 
     export class Context extends SohlEventContext {
