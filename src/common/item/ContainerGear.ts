@@ -12,26 +12,17 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
+import { Gear, GearDataModel } from "@common/item/Gear";
+import { ITEM_KIND } from "@utils/constants";
 const { NumberField } = foundry.data.fields;
-const kContainerGear = Symbol("ContainerGear");
-const kData = Symbol("ContainerGear.Data");
 
-export class ContainerGear
-    extends GearMixin(SohlItem.BaseLogic)
-    implements ContainerGear.Logic
+export class ContainerGear<
+        TData extends ContainerGear.Data = ContainerGear.Data,
+    >
+    extends Gear<TData>
+    implements ContainerGear.Logic<TData>
 {
-    declare readonly [kGearMixin]: true;
-    declare readonly _parent: ContainerGear.Data;
-    readonly [kContainerGear] = true;
-
-    static isA(obj: unknown): obj is ContainerGear {
-        return typeof obj === "object" && obj !== null && kContainerGear in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -49,45 +40,60 @@ export class ContainerGear
 }
 
 export namespace ContainerGear {
-    export interface Logic extends GearMixin.Logic {
-        readonly _parent: ContainerGear.Data;
-        readonly [kContainerGear]: true;
-    }
+    export const Kind = ITEM_KIND.CONTAINERGEAR;
 
-    export interface Data extends GearMixin.Data {
-        readonly [kData]: true;
-        get logic(): ContainerGear.Logic;
+    export interface Logic<
+        TData extends ContainerGear.Data = ContainerGear.Data,
+    > extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends ContainerGear.Logic<Data> = ContainerGear.Logic<any>,
+    > extends Gear.Data<TLogic> {
         maxCapacityBase: number;
     }
+}
 
-    const DataModelShape = GearMixin.DataModel(
-        SohlItem.DataModel,
-    ) as unknown as Constructor<ContainerGear.Data> &
-        SohlItem.DataModel.Statics;
+function defineContainerGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+        maxCapacityBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
-        maxCapacityBase!: number;
-        readonly [kData] = true;
+type ContainerGearSchema = ReturnType<typeof defineContainerGearSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                maxCapacityBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+export class ContainerGearDataModel<
+        TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
+        TLogic extends
+            ContainerGear.Logic<ContainerGear.Data> = ContainerGear.Logic<ContainerGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements ContainerGear.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
+    maxCapacityBase!: number;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineContainerGearSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/containergear.hbs",
-                },
-            });
+export class ContainerGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/containergear.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

@@ -11,28 +11,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
 import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import {
+    ITEM_KIND,
     MysticalDeviceSubType,
     MysticalDeviceSubTypes,
 } from "@utils/constants";
 
 const { NumberField, StringField, BooleanField, SchemaField } =
     foundry.data.fields;
-const kMysticalDevice = Symbol("MysticalDevice");
-const kData = Symbol("MysticalDevice.Data");
 
-export class MysticalDevice
-    extends SubTypeMixin(SohlItem.BaseLogic)
-    implements MysticalDevice.Logic
+export class MysticalDevice<
+        TData extends MysticalDevice.Data = MysticalDevice.Data,
+    >
+    extends SohlItem.BaseLogic<TData>
+    implements MysticalDevice.Logic<TData>
 {
-    declare readonly _parent: MysticalDevice.Data;
-    readonly [kMysticalDevice] = true;
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -50,13 +49,15 @@ export class MysticalDevice
 }
 
 export namespace MysticalDevice {
-    export interface Logic extends SohlLogic {
-        readonly _parent: MysticalDevice.Data;
-        readonly [kMysticalDevice]: true;
-    }
+    export const Kind = ITEM_KIND.MYSTICALDEVICE;
 
-    export interface Data extends SubTypeMixin.Data<MysticalDeviceSubType> {
-        readonly [kData]: true;
+    export interface Logic<
+        TData extends MysticalDevice.Data = MysticalDevice.Data,
+    > extends SohlItem.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends MysticalDevice.Logic<Data> = MysticalDevice.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
         requiresAttunement: boolean;
         usesVolition: boolean;
         domain: {
@@ -70,66 +71,82 @@ export namespace MysticalDevice {
             purpose: string;
         };
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        MysticalDeviceSubType,
-        typeof MysticalDeviceSubTypes
-    >(
-        SohlItem.DataModel,
-        MysticalDeviceSubTypes,
-    ) as unknown as Constructor<MysticalDevice.Data> &
-        SohlItem.DataModel.Statics;
+function defineMysticalDeviceSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: MysticalDeviceSubTypes,
+            required: true,
+        }),
+        requiresAttunement: new BooleanField({ initial: false }),
+        usesVolition: new BooleanField({ initial: false }),
+        domain: new SchemaField({
+            philosophy: new StringField(),
+            name: new StringField(),
+        }),
+        isAttuned: new BooleanField({ initial: false }),
+        volition: new SchemaField({
+            ego: new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+            morality: new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+            purpose: new StringField(),
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape {
-        static override readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
-        declare subType: MysticalDeviceSubType;
-        declare requiresAttunement: boolean;
-        declare usesVolition: boolean;
-        declare domain: {
-            philosophy: string;
-            name: string;
-        };
-        declare isAttuned: boolean;
-        declare volition: {
-            ego: number;
-            morality: number;
-            purpose: string;
-        };
-        readonly [kData] = true;
+type MysticalDeviceDataSchema = ReturnType<typeof defineMysticalDeviceSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                requiresAttunement: new BooleanField({ initial: false }),
-                usesVolition: new BooleanField({ initial: false }),
-                domain: new SchemaField({
-                    philosophy: new StringField(),
-                    name: new StringField(),
-                }),
-                isAttuned: new BooleanField({ initial: false }),
-                volition: new SchemaField({
-                    ego: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    morality: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    purpose: new StringField(),
-                }),
-            };
-        }
+export class MysticalDeviceDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = MysticalDeviceDataSchema,
+        TLogic extends
+            MysticalDevice.Logic<MysticalDevice.Data> = MysticalDevice.Logic<MysticalDevice.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements MysticalDevice.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
+    static readonly kind = MysticalDevice.Kind;
+    subType!: MysticalDeviceSubType;
+    requiresAttunement!: boolean;
+    usesVolition!: boolean;
+    domain!: {
+        philosophy: string;
+        name: string;
+    };
+    isAttuned!: boolean;
+    volition!: {
+        ego: number;
+        morality: number;
+        purpose: string;
+    };
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMysticalDeviceSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/mysticaldevice.hbs",
-                },
-            });
+export class MysticalDeviceSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/affliction.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

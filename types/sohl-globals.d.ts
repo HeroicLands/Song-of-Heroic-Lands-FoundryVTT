@@ -56,9 +56,6 @@ declare global {
     /** May be missing or intentionally cleared */
     type Maybe<T> = T | null | undefined;
 
-    /** Nullable but expected */
-    type Nullable<T> = T | null;
-
     /** Optional field */
     type Optional<T> = T | undefined;
     type OptArray<T> = T[] | undefined;
@@ -107,6 +104,8 @@ declare global {
     };
 
     type SohlDocument = SohlActor | SohlItem | SohlActiveEffect | SohlCombatant;
+
+    type DocumentId = string & { __brand: "DocId" };
 
     type BaseLogicOptions<TDataModel> = {
         parent?: TDataModel;
@@ -161,6 +160,10 @@ declare module "fvtt-types/configuration" {
 
     interface ConfiguredCombatant<SubType extends Combatant.SubType> {
         Combatant: SohlCombatant<SubType>;
+    }
+
+    interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
+        Effect: SohlActiveEffect<SubType>;
     }
 
     interface DataModelConfig {

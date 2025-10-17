@@ -11,6 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { SohlLogic } from "@common/SohlLogic";
+import type { MasteryLevel } from "@common/item/MasteryLevel";
+import type { SohlItem } from "@common/item/SohlItem";
+import type { Affliction } from "@common/item/Affliction";
+import type { Injury } from "@common/item/Injury";
+import type { SohlContextMenu } from "@utils/SohlContextMenu";
+import { Itr } from "@utils/Itr";
+
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
 
@@ -62,6 +70,7 @@ export const {
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
     DOMAIN: "domain",
+    EVENT: "event",
     INJURY: "injury",
     MELEEWEAPONSTRIKEMODE: "meleeweaponstrikemode",
     MISCGEAR: "miscgear",
@@ -176,6 +185,12 @@ export const {
         Sheet: "systems/sohl/templates/item/domain-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
+    [ITEM_KIND.EVENT]: {
+        IconCssClass: "fas fa-calendar-alt",
+        Image: "systems/sohl/assets/icons/event.svg",
+        Sheet: "systems/sohl/templates/item/event-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
     [ITEM_KIND.INJURY]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
@@ -256,6 +271,11 @@ export const {
     },
 });
 export type ItemMetadata = (typeof ITEM_METADATA)[keyof typeof ITEM_METADATA];
+
+// Compile-time check: ensure every ItemKind has an ITEM_METADATA entry.
+// If there is an ItemKind without metadata, this line will fail to type-check.
+const _ensureItemMetadataCoversAllKinds: Record<ItemKind, unknown> =
+    ITEM_METADATA;
 
 export const {
     kind: ACTOR_METADATA,
@@ -454,7 +474,7 @@ export const {
     values: SuccessTestResultMovements,
     isValue: isSuccessTestResultMovement,
 } = defineType("SOHL.SuccessTestResult.Movement", {
-    STILL: "still",
+    STATIONARY: "stationary",
     MOVING: "moving",
 });
 export type SuccessTestResultMovement =
@@ -566,6 +586,77 @@ export const {
 } as PlainObject);
 export type SohlEntityEffectKey =
     (typeof ENTITY_EFFECT_KEY)[keyof typeof ENTITY_EFFECT_KEY];
+
+export const {
+    kind: STRIKE_MODE_EFFECT_KEY,
+    values: StrikeModeEffectKey,
+    isValue: isStrikeModeEffectKey,
+    labels: StrikeModeEffectKeyLabels,
+} = defineType("SOHL.StrikeMode.EffectKey", {
+    IMPACT: {
+        name: "system.logic.impact",
+        abbrev: "Imp",
+    },
+    ATTACK: {
+        name: "system.logic.attack",
+        abbrev: "Atk",
+    },
+    BLOCK: {
+        name: "system.logic.defense.block",
+        abbrev: "Blk",
+    },
+    COUNTERSTRIKE: {
+        name: "system.logic.defense.counterstrike",
+        abbrev: "CXMod",
+    },
+    NOATTACK: {
+        name: "system.logic.traits.noAttack",
+        abbrev: "NoAtk",
+    },
+    NOBLOCK: {
+        name: "system.logic.traits.noBlock",
+        abbrev: "NoBlk",
+    },
+} as StrictObject<SohlLogic.EffectKeyData>);
+export type StrikeModeEffectKey =
+    (typeof STRIKE_MODE_EFFECT_KEY)[keyof typeof STRIKE_MODE_EFFECT_KEY];
+
+export const {
+    kind: MASTERY_EFFECT_KEYS,
+    values: MasteryEffectKeys,
+    isValue: isMasteryEffectKey,
+    labels: masteryEffectKeyLabels,
+} = defineType(`SOHL.Gear.GEAR_KIND`, {
+    "system._boosts": "MBoost",
+    "mod:system.masteryLevel": "ML",
+    "mod:system.masteryLevel.fate": "Fate",
+    "system.masteryLevel.successLevelMod": "SL",
+});
+export type EffectKey =
+    (typeof MASTERY_EFFECT_KEYS)[keyof typeof MASTERY_EFFECT_KEYS];
+
+export const {
+    kind: MELEE_WEAPON_STRIKEMODE_EFFECT_KEY,
+    values: MeleeWeaponStrikeModeEffectKey,
+    isValue: isMeleeWeaponStrikeModeEffectKey,
+    labels: MeleeWeaponStrikeModeEffectKeyLabels,
+} = defineType("SOHL.MeleeWeaponStrikeMode.EffectKey", {
+    ...STRIKE_MODE_EFFECT_KEY,
+    LENGTH: {
+        name: "system.logic.length",
+        abbrev: "Len",
+    },
+    BLOCK: {
+        name: "system.logic.defense.block",
+        abbrev: "Blk",
+    },
+    COUNTERSTRIKE: {
+        name: "system.logic.defense.counterstrike",
+        abbrev: "CX",
+    },
+} as StrictObject<SohlLogic.EffectKeyData>);
+export type MeleeWeaponStrikeModeEffectKey =
+    (typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY)[keyof typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY];
 
 export const {
     kind: SOHL_EVENT_STATE,
@@ -813,6 +904,7 @@ export const {
 } = defineType("SOHL.Event.SUBTYPE", {
     BASIC: "basic",
     SCRIPT_ACTION: "scriptaction",
+    INTRINSIC_ACTION: "intrinsicaction",
 });
 export type EventSubType = (typeof EventSubTypes)[number];
 
@@ -998,11 +1090,325 @@ export const {
 export type TraitIntensity =
     (typeof TRAIT_INTENSITY)[keyof typeof TRAIT_INTENSITY];
 
+export const {
+    kind: TEST_TYPE,
+    values: TestTypes,
+    isValue: isTestType,
+} = defineType("SOHL.SuccessTestResult.TestType", {
+    SETIMPROVEFLAG: {
+        id: "setImproveFlag",
+        name: "Set Improve Flag",
+        iconClass: "fas fa-star",
+        condition: (header: HTMLElement): boolean => {
+            const mlLogic = getContextItem(header)
+                ?.system as unknown as MasteryLevel;
+            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    UNSETIMPROVEFLAG: {
+        id: "unsetImproveFlag",
+        name: "Unset Improve Flag",
+        iconClass: "far fa-star",
+        condition: (header: HTMLElement): boolean => {
+            const mlLogic = getContextItem(header)
+                ?.system as unknown as MasteryLevel;
+            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    IMPROVEWITHSDR: {
+        id: "improveWithSDR",
+        name: "Improve with SDR",
+        iconClass: "fas fa-star",
+        condition: (header: HTMLElement): boolean => {
+            const mlLogic = getContextItem(header)
+                ?.system as unknown as MasteryLevel;
+            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    SUCCESSTEST: {
+        id: "successTest",
+        name: "Success Test",
+        iconClass: "fas fa-person",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    OPPOSEDTESTSTART: {
+        id: "opposedTestStart",
+        name: "Opposed Test Start",
+        iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     getContextItem(header),
+            // );
+            // const token = cast<SohlActor>(
+            //     cast<Item>(item)?.actor,
+            // )?.getToken();
+            // return token && !item.system.$masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    SHOCKTEST: {
+        id: "shockTest",
+        name: "Shock Test",
+        iconClass: "far fa-face-eyes-xmarks",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    STUMBLETEST: {
+        id: "stumbleTest",
+        name: "Stumble Test",
+        iconClass: "far fa-person-falling",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    FUMBLETEST: {
+        id: "fumbleTest",
+        name: "Fumble Test",
+        iconClass: "far fa-ball-pile",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    MORALETEST: {
+        id: "moraleTest",
+        name: "Morale Test",
+        iconClass: "far fa-people-group",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    FEARTEST: {
+        id: "fearTest",
+        name: "Fear Test",
+        iconClass: "far fa-face-scream",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    TRANSMITAFFLICTION: {
+        id: "transmitAffliction",
+        name: "Transmit Affliction",
+        iconClass: "fas fa-head-side-cough",
+        condition: (header: HTMLElement): boolean => {
+            const afflLogic = getContextItem(header)
+                ?.system as unknown as Affliction;
+            return afflLogic?.canTransmit;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    CONTRACTAFFLICTIONTEST: {
+        id: "contractAfflictionTest",
+        name: "Contract Affliction Test",
+        iconClass: "fas fa-virus",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    COURSETTEST: {
+        id: "courseTest",
+        name: "Course Test",
+        iconClass: "fas fa-heart-pulse",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    FATIGUETEST: {
+        id: "fatigueTest",
+        name: "Fatigue Test",
+        iconClass: "fas fa-face-downcast-sweat",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    TREATMENTTEST: {
+        id: "treatmentTest",
+        name: "Treatment Test",
+        iconClass: "fas fa-staff-snake",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    DIAGNOSISTEST: {
+        id: "diagnosisTest",
+        name: "Diagnosis Test",
+        iconClass: "fas fa-stethoscope",
+        condition: (header: HTMLElement): boolean => {
+            const injLogic = getContextItem(header)
+                ?.system as unknown as Injury;
+            return injLogic?.data.isTreated;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    HEALINGTEST: {
+        id: "healingTest",
+        name: "Healing Test",
+        iconClass: "fas fa-heart-pulse",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const endurance = item?.actor?.getTraitByAbbrev("end");
+            // return endurance && !endurance.system.$masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    BLEEDINGSTOPPAGETEST: {
+        id: "bleedingStoppageTest",
+        name: "Bleeding Stoppage Test",
+        iconClass: "fas fa-droplet-slash",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     getContextItem(header),
+            // );
+            // if (!item?.system.isBleeding) return false;
+            // const physician = item?.actor?.getSkillByAbbrev("pysn");
+            // return physician && !physician.system.$masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    BLOODLOSSADVANCETEST: {
+        id: "bloodlossAdvanceTest",
+        name: "Bloodloss Advance Test",
+        iconClass: "fas fa-droplet",
+        condition: (header: HTMLElement): boolean => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     getContextItem(header),
+            // );
+            // if (!item || !item.system.isBleeding) return false;
+            // const strength = item?.actor?.getTraitByAbbrev("str");
+            // return strength && !strength.system.$masteryLevel?.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    OPPOSEDTESTRESUME: {
+        id: "opposedTestResume",
+        name: "Opposed Test Resume",
+        iconClass: "fas fa-people-arrows",
+        condition: (header: HTMLElement): boolean => false,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+    RESOLVEIMPACT: {
+        id: "resolveImpact",
+        name: "Resolve Impact",
+        iconClass: "fas fa-person-burst",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    BLOCK: {
+        id: "blockTest",
+        name: "Block Test",
+        iconClass: "fas fa-shield",
+        condition: (header: HTMLElement): boolean => {
+            return true;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    COUNTERSTRIKE: {
+        id: "counterstrikeTest",
+        name: "Counterstrike Test",
+        iconClass: "fas fa-circle-half-stroke",
+        condition: (header: HTMLElement): boolean => {
+            return true;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    DODGE: {
+        id: "dodgeTest",
+        name: "Dodge Test",
+        iconClass: "fas fa-person-walking-arrow-loop-left",
+        condition: (header: HTMLElement): boolean => {
+            const item = getContextItem(header);
+            if (!item?.actor?.items) return false;
+            const dodge = Itr.from(item.actor.items.values()).find(
+                (it: SohlItem) =>
+                    it.type === ITEM_KIND.SKILL && it.name === "Dodge",
+            );
+            return dodge && !dodge.logic.masteryLevel.disabled;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    IGNORE: {
+        id: "ignore",
+        name: "Ignore",
+        iconClass: "fas fa-ban",
+        condition: (header: HTMLElement): boolean => {
+            return true;
+        },
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    AUTOCOMBATMELEE: {
+        id: "autoCombatMelee",
+        name: "Auto Combat Melee",
+        iconClass: "fas fa-swords",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    AUTOCOMBATMISSILE: {
+        id: "autoCombatMissile",
+        name: "Auto Combat Missile",
+        iconClass: "fas fa-bow-arrow",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    MISSILEATTACK: {
+        id: "missileAttackTest",
+        name: "Missile Attack Test",
+        iconClass: "fas fa-bow-arrow",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    MELEEATTACK: {
+        id: "meleeAttackTest",
+        name: "Melee Attack Test",
+        iconClass: "fas fa-sword",
+        condition: (header: HTMLElement): boolean => true,
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+} as StrictObject<SohlContextMenu.Entry>);
+export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
+
 /*
  * ============================================================
  * Constant based functions
  * ============================================================
  */
+
+export interface DefinedType<KMap extends Record<string, unknown>> {
+    kind: KMap;
+    values: Array<KMap[keyof KMap]>;
+    isValue: (v: unknown) => v is KMap[keyof KMap];
+    labels: Record<string, string>;
+    Type: KMap[keyof KMap];
+}
 
 /**
  * Defines a type with a prefix and its associated values.
@@ -1011,19 +1417,37 @@ export function defineType<const T extends Record<string, unknown>>(
     prefix: string,
     def: T,
 ) {
-    type KindValue = T[keyof T];
+    type StringKeys = keyof T & string;
+    type KindValue = T[StringKeys];
 
     const values = Object.values(def) as KindValue[];
     const isValue = (value: unknown): value is KindValue =>
         values.includes(value as KindValue);
+
     const labels = Object.fromEntries(
         Object.entries(def).map(([k, v]) => [k, `${prefix}.${v}`]),
-    );
+    ) as Record<StringKeys, string>;
+
     return {
         kind: def,
         values,
         isValue,
         labels,
-        Type: null as unknown as KindValue, // utility only for inference
+        Type: null as unknown as KindValue,
     };
+}
+
+export function getContextItem(header: HTMLElement): SohlItem<any, any> | null {
+    const element = header.closest(".item") as HTMLElement;
+    const item =
+        element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
+    return item && typeof item === "object" ?
+            (item as SohlItem<any, any>)
+        :   null;
+}
+
+export function getContextLogic(element: HTMLElement): any {
+    const found = element.closest(".logic") as any;
+    if (!found) return null;
+    return fromUuidSync(found.dataset.uuid);
 }

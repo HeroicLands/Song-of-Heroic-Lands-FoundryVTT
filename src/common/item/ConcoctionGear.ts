@@ -13,33 +13,23 @@
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     CONCOCTIONGEAR_POTENCY,
     ConcoctionGearPotency,
     ConcoctionGearSubType,
+    ConcoctionGearSubTypes,
+    ITEM_KIND,
 } from "@utils/constants";
-
+import { Gear, GearDataModel } from "@common/item/Gear";
 const { NumberField, StringField } = foundry.data.fields;
-const kConcoctionGear = Symbol("ConcoctionGear");
-const kData = Symbol("ConcoctionGear.Data");
 
-export class ConcoctionGear
-    extends GearMixin(SohlItem.BaseLogic)
-    implements ConcoctionGear.Logic
+export class ConcoctionGear<
+        TData extends ConcoctionGear.Data = ConcoctionGear.Data,
+    >
+    extends Gear<TData>
+    implements ConcoctionGear.Logic<TData>
 {
-    declare [kGearMixin]: true;
-    declare readonly _parent: ConcoctionGear.Data;
-    readonly [kConcoctionGear] = true;
-
-    static isA(obj: unknown): obj is ConcoctionGear {
-        return (
-            typeof obj === "object" && obj !== null && kConcoctionGear in obj
-        );
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -57,67 +47,73 @@ export class ConcoctionGear
 }
 
 export namespace ConcoctionGear {
-    export interface Logic
-        extends SubTypeMixin.Logic<ConcoctionGearSubType>,
-            GearMixin.Logic {
-        readonly _parent: ConcoctionGear.Data;
-        readonly [kConcoctionGear]: true;
-    }
+    export const Kind = ITEM_KIND.CONCOCTIONGEAR;
 
-    export interface Data
-        extends SubTypeMixin.Data<ConcoctionGearSubType>,
-            GearMixin.Data {
-        readonly [kData]: true;
+    export interface Logic<
+        TData extends ConcoctionGear.Data = ConcoctionGear.Data,
+    > extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends ConcoctionGear.Logic<Data> = ConcoctionGear.Logic<any>,
+    > extends Gear.Data<TLogic> {
+        subType: ConcoctionGearSubType;
         potency: ConcoctionGearPotency;
         strength: number;
     }
+}
 
-    const DataModelShape = GearMixin.DataModel(
-        SohlItem.DataModel,
-    ) as unknown as Constructor<ConcoctionGear.Data> &
-        SohlItem.DataModel.Statics;
+function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+        subType: new StringField({
+            choices: ConcoctionGearSubTypes,
+            required: true,
+        }),
+        potency: new StringField({
+            initial: CONCOCTIONGEAR_POTENCY.NOT_APPLICABLE,
+            required: true,
+            choices: Object.values(CONCOCTIONGEAR_POTENCY),
+        }),
+        strength: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
 
-    export class DataModel
-        extends DataModelShape
-        implements ConcoctionGear.Data
-    {
-        static override readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
-        declare abbrev: string;
-        declare quantity: number;
-        declare weightBase: number;
-        declare valueBase: number;
-        declare isCarried: boolean;
-        declare isEquipped: boolean;
-        declare qualityBase: number;
-        declare durabilityBase: number;
-        declare subType: ConcoctionGearSubType;
-        declare potency: ConcoctionGearPotency;
-        declare strength: number;
-        readonly [kData] = true;
+type ConcoctionGearSchema = ReturnType<typeof defineConcoctionGearSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                potency: new StringField({
-                    initial: CONCOCTIONGEAR_POTENCY.NOT_APPLICABLE,
-                    required: true,
-                    choices: Object.values(CONCOCTIONGEAR_POTENCY),
-                }),
-                strength: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+export class ConcoctionGearDataModel<
+        TSchema extends foundry.data.fields.DataSchema = ConcoctionGearSchema,
+        TLogic extends
+            ConcoctionGear.Logic<ConcoctionGear.Data> = ConcoctionGear.Logic<ConcoctionGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements ConcoctionGear.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
+    subType!: ConcoctionGearSubType;
+    potency!: ConcoctionGearPotency;
+    strength!: number;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineConcoctionGearSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/concoctiongear.hbs",
-                },
-            });
+export class ConcoctionGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/concoctiongear.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

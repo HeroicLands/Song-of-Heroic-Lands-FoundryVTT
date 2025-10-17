@@ -11,30 +11,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-const kBodyPart = Symbol("BodyPart");
-const kData = Symbol("BodyPart.Data");
-
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
-export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
-    declare readonly _parent: BodyPart.Data;
-    readonly [kBodyPart] = true;
-
-    static isA(obj: unknown): obj is BodyPart {
-        return typeof obj === "object" && obj !== null && kBodyPart in obj;
-    }
-
+export class BodyPart<TData extends BodyPart.Data = BodyPart.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements BodyPart.Logic<TData>
+{
     get bodyLocations(): SohlItem[] {
         return this.actor?.allItemTypes.bodylocation || [];
     }
 
     get heldItem(): SohlItem | null {
         return (
-            (this._parent.heldItemId &&
-                this.item?.actor?.allItems.get(this._parent.heldItemId)) ||
+            (this.data.heldItemId &&
+                this.item?.actor?.allItems.get(this.data.heldItemId)) ||
             null
         );
     }
@@ -56,49 +53,63 @@ export class BodyPart extends SohlItem.BaseLogic implements BodyPart.Logic {
 }
 
 export namespace BodyPart {
-    export interface Logic extends SohlItem.Logic {
-        readonly _parent: BodyPart.Data;
-        readonly [kBodyPart]: true;
-    }
+    export const Kind = ITEM_KIND.BODYPART;
 
-    export interface Data extends SohlItem.Data {
-        readonly [kData]: true;
+    export interface Logic<
+        TData extends BodyPart.Data<any> = BodyPart.Data<any>,
+    > extends SohlItem.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends BodyPart.Logic<Data> = BodyPart.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
         abbrev: string;
         canHoldItem: boolean;
         heldItemId: string | null;
     }
+}
 
-    export class DataModel extends SohlItem.DataModel.Shape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
-        readonly [kData] = true;
-        abbrev!: string;
-        canHoldItem!: boolean;
-        heldItemId!: string | null;
+function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        abbrev: new StringField(),
+        canHoldItem: new BooleanField({ initial: false }),
+        heldItemId: new DocumentIdField({ nullable: true }),
+    };
+}
 
-        static override create<Logic>(
-            data: PlainObject,
-            options: PlainObject,
-        ): Logic {
-            if (!(options.parent instanceof SohlItem)) {
-                throw new Error("Parent must be a SohlItem");
-            }
-            return new BodyPart(data, { parent: options.parent }) as Logic;
-        }
+type BodyPartDataSchema = ReturnType<typeof defineBodyPartDataSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                abbrev: new StringField(),
-                canHoldItem: new BooleanField({ initial: false }),
-                heldItemId: new DocumentIdField({ nullable: true }),
-            };
-        }
+export class BodyPartDataModel<
+        TSchema extends foundry.data.fields.DataSchema = BodyPartDataSchema,
+        TLogic extends
+            BodyPart.Logic<BodyPart.Data> = BodyPart.Logic<BodyPart.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements BodyPart.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
+    static override readonly kind = BodyPart.Kind;
+    abbrev!: string;
+    canHoldItem!: boolean;
+    heldItemId!: string | null;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineBodyPartDataSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS = {
-            header: {
-                template: "systems/sohl/templates/item/bodypart.hbs",
-            },
-        };
+export class BodyPartSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/bodypart.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

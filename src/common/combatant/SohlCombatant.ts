@@ -11,17 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActor } from "@common/actor/SohlActor";
+import type { SohlActor } from "@common/actor/SohlActor";
 import type { Skill } from "@common/item/Skill";
 import type { SohlItem } from "@common/item/SohlItem";
-import { SohlDataModel } from "@common/SohlDataModel";
-import { SohlLogic } from "@common/SohlLogic";
-const kSohlCombatant = Symbol("SohlCombatant");
-const kData = Symbol("SohlCombatant.Data");
 
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
+    get actor(): SohlActor | null {
+        return this.actor as SohlActor | null;
+    }
+
     /**
      * The default dice formula which should be used for initiative for this combatant.
      * @remark
@@ -35,8 +35,8 @@ export class SohlCombatant<
     override _getInitiativeFormula(): string {
         if (this.actor) {
             const init = this.actor.allItemTypes.skill.find(
-                (s) => s.system.abbrev === "init",
-            ) as SohlItem<Skill>;
+                (s) => (s.system as any).abbrev === "init",
+            ) as unknown as SohlItem<Skill>;
             if (init) {
                 return String(init.logic.masteryLevel.effective);
             }

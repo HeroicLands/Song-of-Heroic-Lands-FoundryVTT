@@ -80,6 +80,8 @@ export class ImpactModifier extends ValueModifier {
 }
 
 export namespace ImpactModifier {
+    export const Kind = "ImpactModifier";
+
     export interface Data extends ValueModifier.Data {
         roll: SimpleRoll;
         aspect: ImpactAspect;

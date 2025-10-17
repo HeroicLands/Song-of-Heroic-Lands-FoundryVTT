@@ -116,6 +116,8 @@ export class ValueDelta extends SohlBase {
 }
 
 export namespace ValueDelta {
+    export const Kind = "ValueDelta";
+
     export interface Data {
         name: string;
         abbrev: string;

@@ -14,31 +14,17 @@
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
 import { SohlLogic } from "@common/SohlLogic";
-import { ITEM_KIND } from "@utils/constants";
-import { SohlCombatant } from "./SohlCombatant";
+import { COMBATANT_KIND, ITEM_KIND } from "@utils/constants";
+import { SohlCombatant } from "@common/combatant/SohlCombatant";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlDataModel } from "@common/SohlDataModel";
-const { ArrayField, StringField } = foundry.data.fields;
-
-const kSohlCombatantData = Symbol("SohlCombatantData");
-const kData = Symbol("SohlCombatantData.Data");
+import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+const { ArrayField, StringField, DocumentIdField } = foundry.data.fields;
 
 export class SohlCombatantData
     extends SohlLogic<SohlCombatantData.Data>
     implements SohlCombatantData.Logic
 {
-    readonly [kSohlCombatantData] = true;
-
-    static isA(obj: unknown): obj is SohlCombatantData {
-        return (
-            typeof obj === "object" && obj !== null && kSohlCombatantData in obj
-        );
-    }
-
-    get parent(): SohlCombatantData.Data {
-        return this._parent;
-    }
-
     get combatant(): SohlCombatant {
         return this.parent.parent;
     }
@@ -47,9 +33,13 @@ export class SohlCombatantData
         return this.combatant.actor;
     }
 
+    get token(): SohlTokenDocument | null {
+        return this.combatant.token || null;
+    }
+
     get threatened(): SohlCombatant[] {
         if (!this.combatant.token || this.combatant.isDefeated) return [];
-        const threatenedList = this.parent.threatenedAllyIds;
+        const threatenedList = this.data.threatenedAllyIds;
         return threatenedList
             .map((id: string) => {
                 const combatant = game.combat?.combatants.get(id);
@@ -62,8 +52,8 @@ export class SohlCombatantData
     }
 
     async addThreatened(...combatants: SohlCombatant[]) {
-        const threatenedIds = new Set<string>(this.parent.threatenedAllyIds);
-        let allyIds = new Set<string>(this.parent.allyIds);
+        const threatenedIds = new Set<string>(this.data.threatenedAllyIds);
+        let allyIds = new Set<string>(this.data.allyIds);
         for (const combatant of combatants) {
             if (!combatant || combatant.isDefeated) continue;
             if (!threatenedIds.has(combatant.id || "")) {
@@ -86,7 +76,7 @@ export class SohlCombatantData
 
     async removeThreatened(combatant: SohlCombatant) {
         if (!combatant) return;
-        const threatenedIds = new Set<string>(this.parent.threatenedAllyIds);
+        const threatenedIds = new Set<string>(this.data.threatenedAllyIds);
         if (threatenedIds.has(combatant.id || "")) {
             threatenedIds.delete(combatant.id || "");
             this.combatant.update({
@@ -115,7 +105,7 @@ export class SohlCombatantData
 
     get allies(): SohlCombatant[] {
         if (!this.combatant.token || this.combatant.isDefeated) return [];
-        return this.parent.allyIds
+        return this.data.allyIds
             .map((id: string) => {
                 const combatant = game.combat?.combatants.get(id);
                 if (combatant) {
@@ -127,7 +117,7 @@ export class SohlCombatantData
     }
 
     async addAlly(...combatants: SohlCombatant[]) {
-        const allyIds = new Set<string>(this.parent.allyIds);
+        const allyIds = new Set<string>(this.data.allyIds);
         for (const combatant of combatants) {
             if (combatant.isDefeated) continue;
             allyIds.add(combatant.id || "");
@@ -141,7 +131,7 @@ export class SohlCombatantData
 
     async removeAlly(combatant: SohlCombatant) {
         if (!combatant) return;
-        const allyIds = new Set<string>(this.parent.allyIds);
+        const allyIds = new Set<string>(this.data.allyIds);
         if (allyIds.has(combatant.id || "")) {
             allyIds.delete(combatant.id || "");
             this.combatant.update({
@@ -163,6 +153,18 @@ export class SohlCombatantData
 }
 
 export namespace SohlCombatantData {
+    export const Kind = COMBATANT_KIND.COMBATANTDATA;
+
+    /**
+     * The FontAwesome icon class for the SohlCombatantData combatant.
+     */
+    export const IconCssClass = "fa-duotone fa-people-group";
+
+    /**
+     * The image path for the SohlCombatantData combatant.
+     */
+    export const Image = "systems/sohl/assets/icons/people-group.svg";
+
     function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         return {
             ...SohlDataModel.defineSchema(),
@@ -200,30 +202,26 @@ export namespace SohlCombatantData {
         typeof defineSohlCombatantDataSchema
     >;
 
-    export interface Logic extends SohlLogic {
-        readonly [kSohlCombatantData]: true;
-    }
+    export interface Logic extends SohlLogic<Data> {}
 
-    export interface Data extends SohlLogic.Data {
-        readonly [kData]: true;
+    export interface Data extends SohlLogic.Data<SohlCombatant, any> {
         allyIds: string[];
         initAllyIds: string[];
         threatenedAllyIds: string[];
     }
 
     export class DataModel
-        extends SohlDataModel<SohlCombatantDataSchema, SohlCombatant>
+        extends SohlDataModel<SohlCombatantDataSchema, SohlCombatant, Logic>
         implements Data
     {
         static override readonly LOCALIZATION_PREFIXES = ["SohlCombatantData"];
-        static override readonly kind = ITEM_KIND.AFFILIATION;
-        readonly [kData] = true;
+        static override readonly kind = Kind;
         allyIds!: string[];
         initAllyIds!: string[];
         threatenedAllyIds!: string[];
 
-        get actor() {
-            return null;
+        get actor(): SohlActor | null {
+            return this.parent.actor;
         }
 
         get i18nPrefix(): string {

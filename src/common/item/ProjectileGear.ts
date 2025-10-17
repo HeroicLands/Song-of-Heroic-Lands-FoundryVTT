@@ -12,35 +12,23 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { SohlItemDataModel, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     IMPACT_ASPECT,
     ImpactAspect,
+    ITEM_KIND,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@utils/constants";
-
+import { Gear, GearDataModel } from "@common/item/Gear";
 const { NumberField, StringField, SchemaField } = foundry.data.fields;
-const kProjectileGear = Symbol("ProjectileGear");
-const kData = Symbol("ProjectileGear.Data");
 
-export class ProjectileGear
-    extends SubTypeMixin(GearMixin(SohlItem.BaseLogic))
-    implements ProjectileGear.Logic
+export class ProjectileGear<
+        TData extends ProjectileGear.Data = ProjectileGear.Data,
+    >
+    extends Gear<TData>
+    implements ProjectileGear.Logic<TData>
 {
-    declare readonly [kGearMixin]: true;
-    declare readonly _parent: ProjectileGear.Data;
-    readonly [kProjectileGear] = true;
-
-    static isA(obj: unknown): obj is ProjectileGear {
-        return (
-            typeof obj === "object" && obj !== null && kProjectileGear in obj
-        );
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -58,15 +46,16 @@ export class ProjectileGear
 }
 
 export namespace ProjectileGear {
-    export interface Logic
-        extends SubTypeMixin.Logic<ProjectileGearSubType>,
-            GearMixin.Logic {
-        readonly _parent: Data;
-    }
+    export const Kind = ITEM_KIND.PROJECTILEGEAR;
 
-    export interface Data
-        extends SubTypeMixin.Data<ProjectileGearSubType>,
-            GearMixin.Data {
+    export interface Logic<
+        TData extends ProjectileGear.Data = ProjectileGear.Data,
+    > extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends ProjectileGear.Logic<Data> = ProjectileGear.Logic<any>,
+    > extends Gear.Data<TLogic> {
+        subType: ProjectileGearSubType;
         shortName: string;
         impactBase: {
             numDice: number;
@@ -75,60 +64,79 @@ export namespace ProjectileGear {
             aspect: ImpactAspect;
         };
     }
+}
 
-    export const DataModelShape = SubTypeMixin.DataModel(
-        GearMixin.DataModel(SohlItem.DataModel),
-        ProjectileGearSubTypes,
-    ) as unknown as Constructor<ProjectileGear.Data> &
-        SohlItem.DataModel.Statics;
+function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+        subType: new StringField({
+            choices: ProjectileGearSubTypes,
+            required: true,
+        }),
+        shortName: new StringField(),
+        impactBase: new SchemaField({
+            numDice: new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+            die: new NumberField({
+                integer: true,
+                initial: 6,
+                min: 1,
+            }),
+            modifier: new NumberField({
+                integer: true,
+                initial: -1,
+                min: -1,
+            }),
+            aspect: new StringField({
+                initial: IMPACT_ASPECT.BLUNT,
+                required: true,
+                choices: IMPACT_ASPECT,
+            }),
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape {
-        static readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
-        shortName!: string;
-        impactBase!: {
-            numDice: number;
-            die: number;
-            modifier: number;
-            aspect: ImpactAspect;
-        };
-        readonly [kData] = true;
+type ProjectileGearDataSchema = ReturnType<typeof defineProjectileGearSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                shortName: new StringField(),
-                impactBase: new SchemaField({
-                    numDice: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    die: new NumberField({
-                        integer: true,
-                        initial: 6,
-                        min: 1,
-                    }),
-                    modifier: new NumberField({
-                        integer: true,
-                        initial: -1,
-                        min: -1,
-                    }),
-                    aspect: new StringField({
-                        initial: IMPACT_ASPECT.BLUNT,
-                        required: true,
-                        choices: IMPACT_ASPECT,
-                    }),
-                }),
-            };
-        }
+export class ProjectileGearDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = ProjectileGearDataSchema,
+        TLogic extends
+            ProjectileGear.Logic<ProjectileGear.Data> = ProjectileGear.Logic<ProjectileGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements ProjectileGear.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
+    subType!: ProjectileGearSubType;
+    shortName!: string;
+    impactBase!: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
+
+    static defineSchema(): foundry.data.fields.DataSchema {
+        return defineProjectileGearSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/projectilegear.hbs",
-                },
-            });
+export class ProjectileGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/projectilegear.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

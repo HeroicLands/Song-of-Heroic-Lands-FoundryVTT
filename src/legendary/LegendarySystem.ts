@@ -13,7 +13,9 @@
 
 import {
     COMMON_ACTOR_DATA_MODEL,
+    COMMON_ACTOR_SHEETS,
     COMMON_ITEM_DATA_MODEL,
+    COMMON_ITEM_SHEETS,
     SohlSystem,
 } from "@common/SohlSystem";
 import { LgndCombatModifier } from "@legendary/modifier/LgndCombatModifier";
@@ -22,28 +24,59 @@ import { LgndSuccessTestResult } from "@legendary/result/LgndSuccessTestResult";
 import { LgndOpposedTestResult } from "@legendary/result/LgndOpposedTestResult";
 import { LgndCombatResult } from "@legendary/result/LgndCombatResult";
 import { SohlDataModel } from "@common/SohlDataModel";
-import { ActorKinds, defineType, ITEM_KIND, ItemKinds } from "@utils/constants";
+import {
+    ACTOR_KIND,
+    ActorKinds,
+    DefinedType,
+    defineType,
+    ITEM_KIND,
+    ItemKinds,
+} from "@utils/constants";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
 import { ContainerGear } from "@common/item/ContainerGear";
+import { Assembly, AssemblySheet } from "@common/actor/Assembly";
+import { EntitySheet } from "@common/actor/Entity";
 
+type ActorDMMap = Record<string, Constructor<SohlDataModel<any, SohlActor>>>;
+const ACTOR_DM_DEF: ActorDMMap = {
+    ...COMMON_ACTOR_DATA_MODEL,
+} satisfies ActorDMMap;
+const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
+    "TYPES.Actor",
+    ACTOR_DM_DEF,
+);
 export const {
     kind: LGND_ACTOR_DATA_MODEL,
-    values: LgndActorDataModels,
     isValue: isLgndActorDataModel,
     labels: LgndActorDataModelLabels,
-} = defineType("TYPES.Actor", {
-    ...COMMON_ACTOR_DATA_MODEL,
-} as Record<string, Constructor<SohlDataModel<any>>>);
+}: {
+    kind: ActorDMMap;
+    isValue: (value: unknown) => value is ActorDMMap[keyof ActorDMMap];
+    labels: StrictObject<string>;
+} = defActor;
+export const LgndActorDataModels: ActorDMMap[keyof ActorDMMap][] =
+    Object.values(LGND_ACTOR_DATA_MODEL);
 
+type ItemDMMap = Record<string, Constructor<SohlDataModel<any, SohlItem>>>;
+const ITEM_DM_DEF: ItemDMMap = {
+    ...COMMON_ITEM_DATA_MODEL,
+} satisfies ItemDMMap;
+const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
+    "TYPES.Item",
+    ITEM_DM_DEF,
+);
 export const {
     kind: LGND_ITEM_DATA_MODEL,
-    values: LgndItemDataModels,
     isValue: isLgndItemDataModel,
     labels: LgndItemDataModelLabels,
-} = defineType("TYPES.Item", {
-    ...COMMON_ITEM_DATA_MODEL,
-} as Record<string, Constructor<SohlDataModel<any>>>);
+}: {
+    kind: ItemDMMap;
+    isValue: (value: unknown) => value is ItemDMMap[keyof ItemDMMap];
+    labels: StrictObject<string>;
+} = defItem;
+export const LgndItemDataModels: ItemDMMap[keyof ItemDMMap][] =
+    Object.values(LGND_ITEM_DATA_MODEL);
 
 export class LegendarySystem extends SohlSystem {
     static override get CONFIG(): SohlSystem.Config {
@@ -51,27 +84,18 @@ export class LegendarySystem extends SohlSystem {
             SohlSystem.CONFIG,
             {
                 Actor: {
-                    documentSheets: [
-                        {
-                            cls: SohlActor.Sheet, // This should probably be a specific Legendary Actor sheet
-                            types: ActorKinds,
-                        },
-                    ],
+                    documentSheets: ActorKinds.map((kind) => {
+                        return {
+                            cls: COMMON_ACTOR_SHEETS[kind],
+                            types: [kind],
+                        };
+                    }),
                     dataModels: LGND_ACTOR_DATA_MODEL,
                 },
                 Item: {
-                    documentSheets: [
-                        {
-                            cls: SohlItem.Sheet, // This should probably be a specific Legendary Item sheet
-                            types: ItemKinds.filter(
-                                (t) => t !== ITEM_KIND.CONTAINERGEAR,
-                            ),
-                        },
-                        {
-                            cls: ContainerGear.Sheet, // This should probably be a specific Legendary Item sheet
-                            types: [ITEM_KIND.CONTAINERGEAR],
-                        },
-                    ],
+                    documentSheets: ItemKinds.map((kind) => {
+                        return { cls: COMMON_ITEM_SHEETS[kind], types: [kind] };
+                    }),
                     dataModels: LGND_ITEM_DATA_MODEL,
                 },
                 CombatModifier: LgndCombatModifier,

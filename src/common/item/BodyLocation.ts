@@ -12,31 +12,37 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import { ImpactAspects, ITEM_KIND } from "@utils/constants";
 const { BooleanField, StringField } = foundry.data.fields;
-const kBodyLocation = Symbol("BodyLocation");
-const kData = Symbol("BodyLocation.Data");
 
-export class BodyLocation
-    extends SohlItem.BaseLogic
-    implements BodyLocation.Logic
+export class BodyLocation<TData extends BodyLocation.Data = BodyLocation.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements BodyLocation.Logic<TData>
 {
-    declare readonly _parent: BodyLocation.Data;
-    protection!: PlainObject;
-    layers!: string;
+    protection!: StrictObject<ValueModifier>;
+    layersList!: string[];
     traits!: PlainObject;
-    readonly [kBodyLocation] = true;
 
-    static isA(obj: unknown): obj is BodyLocation {
-        return typeof obj === "object" && obj !== null && kBodyLocation in obj;
+    get layers(): string {
+        return this.layersList.join(", ");
     }
 
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
-        this.protection = {};
-        this.layers = "";
+        this.protection = Object.fromEntries(
+            ImpactAspects.map((aspect) => {
+                const modifier = new sohl.ValueModifier({}, { parent: this });
+                return [aspect, modifier];
+            }),
+        ) as StrictObject<ValueModifier>;
+        this.layersList = [];
         this.traits = {
             isRigid: false,
         };
@@ -54,50 +60,68 @@ export class BodyLocation
 }
 
 export namespace BodyLocation {
-    export interface Logic extends SohlItem.Logic {
-        readonly _parent: Data;
-        readonly [kBodyLocation]: true;
+    export const Kind = ITEM_KIND.BODYLOCATION;
+
+    export interface Logic<
+        TData extends BodyLocation.Data<any> = BodyLocation.Data<any>,
+    > extends SohlItem.Logic<TData> {
+        protection: StrictObject<ValueModifier>;
+        layersList: string[];
+        traits: PlainObject;
+        get layers(): string;
     }
 
-    export interface Data extends SohlItem.Data {
-        readonly [kData]: true;
+    export interface Data<
+        TLogic extends BodyLocation.Logic<any> = BodyLocation.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
         abbrev: string;
         isFumble: boolean;
         isStumble: boolean;
     }
+}
 
-    export class DataModel extends SohlItem.DataModel.Shape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
-        readonly [kData] = true;
-        abbrev!: string;
-        isFumble!: boolean;
-        isStumble!: boolean;
+function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        abbrev: new StringField(),
+        isFumble: new BooleanField({ initial: false }),
+        isStumble: new BooleanField({ initial: false }),
+    };
+}
 
-        static override create<Logic>(
-            data: PlainObject,
-            options: PlainObject,
-        ): Logic {
-            if (!(options.parent instanceof SohlItem)) {
-                throw new Error("Parent must be a SohlItem");
-            }
-            return new BodyLocation(data, { parent: options.parent }) as Logic;
-        }
+type BodyLocationDataSchema = ReturnType<typeof defineBodyLocationDataSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                abbrev: new StringField(),
-                isFumble: new BooleanField({ initial: false }),
-                isStumble: new BooleanField({ initial: false }),
-            };
-        }
+export class BodyLocationDataModel<
+        TSchema extends foundry.data.fields.DataSchema = BodyLocationDataSchema,
+        TLogic extends
+            BodyLocation.Logic<BodyLocation.Data> = BodyLocation.Logic<BodyLocation.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements BodyLocation.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
+    static override readonly kind = BodyLocation.Kind;
+    abbrev!: string;
+    isFumble!: boolean;
+    isStumble!: boolean;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineBodyLocationDataSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/bodylocation.hbs",
-                },
-            });
+export class BodyLocationSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/bodylocation.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

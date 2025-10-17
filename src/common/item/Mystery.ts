@@ -11,16 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
-import { Skill } from "@common/item/Skill";
-import {
-    kMasteryLevelMixin,
-    MasteryLevelMixin,
-} from "@common/item/MasteryLevelMixin";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
 import type { ValueModifier } from "@common/modifier/ValueModifier";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import {
     ITEM_KIND,
     MYSTERY_CATEGORY,
@@ -30,8 +27,8 @@ import {
     MysterySubTypes,
 } from "@utils/constants";
 import { getDocsFromPacks, getDocumentFromPacks } from "@common/FoundryProxy";
-const kMystery = Symbol("Mystery");
-const kData = Symbol("Mystery.Data");
+import type { Skill } from "./Skill";
+import type { Domain } from "./Domain";
 const { SchemaField, ArrayField, NumberField, StringField } =
     foundry.data.fields;
 
@@ -57,15 +54,12 @@ const { SchemaField, ArrayField, NumberField, StringField } =
  *     Ancestor Spirit Power (Skill): Ancestor spirit connection increasing mastery level of a skill
  *     Totem Spirit Power (Creature): A spiritual connection to an animal, granting skill bonuses
  */
-export class Mystery
-    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
-    implements Mystery.Logic
+export class Mystery<TData extends Mystery.Data = Mystery.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Mystery.Logic<TData>
 {
-    declare [kMasteryLevelMixin]: true;
-    declare readonly _parent: Mystery.Data;
-    readonly [kMystery] = true;
-    domain?: SohlItem;
-    skills!: SohlItem[];
+    domain?: Domain | null;
+    skills!: Skill[];
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -73,19 +67,19 @@ export class Mystery
     };
 
     get fieldData(): string {
-        const category = MYSTERY_CATEGORYMAP[this._parent.subType];
+        this.data.subType;
+        const category = MYSTERY_CATEGORYMAP[this.data.subType];
 
         let field: string = "";
         switch (category) {
             case MYSTERY_CATEGORY.DIVINE:
-                if (!this.actor) return this._parent.domain.philosophy;
+                if (!this.actor) return this.data.domain.philosophy;
                 field =
                     this.actor.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this._parent.domain.name &&
-                            d.system.philosophy ===
-                                this._parent.domain.philosophy,
+                            d.name === this.data.domain.name &&
+                            d.system.philosophy === this.data.domain.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -100,14 +94,13 @@ export class Mystery
                 break;
 
             case MYSTERY_CATEGORY.CREATURE:
-                if (!this.actor) return this._parent.domain.philosophy;
+                if (!this.actor) return this.data.domain.philosophy;
                 field =
                     this.actor.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this._parent.domain.name &&
-                            d.system.philosophy ===
-                                this._parent.domain.philosophy,
+                            d.name === this.data.domain.name &&
+                            d.system.philosophy === this.data.domain.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -121,15 +114,15 @@ export class Mystery
 
     getApplicableFate(target: SohlItem): SohlItem[] {
         const result: SohlItem[] = [];
-        if (
-            Mystery.Data.isA(this) &&
-            this._parent.subType === MYSTERY_SUBTYPE.FATE
-        ) {
+        if (this.data.subType === MYSTERY_SUBTYPE.FATE) {
             // If a fate item has a list of skills, then that fate
             // item is only applicable to those skills.  If the fate item
             // has no list of skills, then the fate item is applicable
             // to all skills.
-            if (!this.skills.length || this.skills.includes(target.name)) {
+            if (
+                !this.data.skills.length ||
+                this.data.skills.includes(target.name)
+            ) {
                 if (this.level.effective > 0) result.push(this.item);
             }
         }
@@ -145,7 +138,7 @@ export class Mystery
                 MYSTERY_SUBTYPE.GRACE,
                 MYSTERY_SUBTYPE.PIETY,
             ] as MysterySubType[]
-        ).includes(this._parent.subType);
+        ).includes(this.data.subType);
     }
 
     _usesLevels(): boolean {
@@ -154,7 +147,7 @@ export class Mystery
                 MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER,
                 MYSTERY_SUBTYPE.TOTEMSPIRITPOWER,
             ] as MysterySubType[]
-        ).includes(this._parent.subType);
+        ).includes(this.data.subType);
     }
 
     /** @inheritdoc */
@@ -162,50 +155,53 @@ export class Mystery
         super.initialize(context);
         if (this.actor) {
             this.skills = [];
-            const skillSet = new Set<string>(this._parent.skills);
+            const skillSet = new Set<string>(this.data.skills);
             for (const it of this.actor.dynamicAllItems()) {
                 // Find the designated domain item and store it in `this.domain`
                 if (
                     !this.domain &&
                     it.type === ITEM_KIND.DOMAIN &&
-                    it.name === this._parent.domain.name &&
-                    it.system.philosophy === this._parent.domain.philosophy
+                    it.name === this.data.domain.name &&
+                    it.system.philosophy === this.data.domain.philosophy
                 ) {
-                    this.domain = it;
+                    this.domain = it.logic;
                 }
 
                 // Find all skills that match the parent's skill list
                 if (
-                    Skill.DataModel.isA(it.system) &&
+                    it.type === ITEM_KIND.SKILL &&
                     !!it.name &&
                     skillSet.has(it.name)
                 ) {
-                    this.skills.push(it);
+                    this.skills.push(it.logic as Skill);
                     skillSet.delete(it.name);
                 }
             }
 
-            if (!this.domain && this._parent.domain.name) {
+            if (!this.domain && this.data.domain.name) {
                 // First, try to find the domain in the compendiums
                 getDocsFromPacks(["sohl.mysteries"], {
                     docType: "domain",
                 }).then((docs) => {
+                    let domain: Domain | null = null;
+
                     // We have an array of domain documents from the compendium; search for the one we want
                     this.domain = docs.find(
                         (d) =>
-                            d.name === this._parent.domain.name &&
-                            d.system.philosophy ===
-                                this._parent.domain.philosophy,
-                    );
+                            d.name === this.data.domain.name &&
+                            d.system.philosophy === this.data.domain.philosophy,
+                    )?.logic as Domain;
 
                     // If we can't find the domain by name, create a dummy one
-                    if (!this.domain)
-                        this.domain = new SohlItem({
-                            name: this._parent.domain.name,
+                    if (!this.domain) {
+                        const item = new SohlItem({
+                            name: this.data.domain.name,
                             type: "domain",
-                            "system.philosophy": this._parent.domain.philosophy,
-                        });
-                    this.actor?.addVirtualItem(this.domain);
+                            system: { philosophy: this.data.domain.philosophy },
+                        } as any);
+                        this.actor?.addVirtualItem(item);
+                        this.domain = item.logic as Domain;
+                    }
                 });
             }
 
@@ -231,15 +227,15 @@ export class Mystery
         }
 
         this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-            this._parent.levelBase,
+            this.data.levelBase,
         );
 
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this._parent.charges.value,
+                this.data.charges.value,
             ),
             max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this._parent.charges.max,
+                this.data.charges.max,
             ),
         };
     }
@@ -256,14 +252,13 @@ export class Mystery
 }
 
 export namespace Mystery {
-    export interface Logic
-        extends MasteryLevelMixin.Logic,
-            SubTypeMixin.Logic<MysterySubType> {
-        readonly _parent: Mystery.Data;
-        readonly [kMystery]: true;
+    export const Kind = ITEM_KIND.MYSTERY;
+
+    export interface Logic<TData extends Mystery.Data<any> = Mystery.Data<any>>
+        extends SohlItem.Logic<TData> {
         getApplicableFate(target: SohlItem): SohlItem[];
-        domain?: SohlItem;
-        skills: SohlItem[];
+        domain?: Domain | null;
+        skills: Skill[];
         level: ValueModifier;
         charges: {
             value: ValueModifier;
@@ -271,10 +266,10 @@ export namespace Mystery {
         };
     }
 
-    export interface Data
-        extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<MysterySubType> {
-        readonly [kData]: true;
+    export interface Data<
+        TLogic extends Mystery.Logic<Data> = Mystery.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
+        subType: MysterySubType;
         domain: {
             philosophy: string;
             name: string;
@@ -286,75 +281,88 @@ export namespace Mystery {
             max: number;
         };
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        MysterySubType,
-        typeof MysterySubTypes
-    >(SohlItem.DataModel, MysterySubTypes) as unknown as Constructor<Data> &
-        SohlItem.DataModel.Statics;
+function defineMysterySchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: MysterySubTypes,
+            required: true,
+        }),
+        domain: new SchemaField({
+            philosophy: new StringField(),
+            name: new StringField(),
+        }),
+        skills: new ArrayField(
+            new StringField({
+                required: true,
+                blank: false,
+            }),
+        ),
+        levelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        charges: new SchemaField({
+            // Note: if value is -1, then there are infinite charges remaining
+            value: new NumberField({
+                integer: true,
+                initial: -1,
+                min: -1,
+            }),
+            // Note: if max is 0, then there is no maximum
+            max: new NumberField({
+                integer: true,
+                initial: -1,
+                min: -1,
+            }),
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape implements Mystery.Data {
-        readonly [kData] = true;
-        static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
-        declare subType: MysterySubType;
-        domain!: {
-            philosophy: string;
-            name: string;
-        };
-        skills!: string[];
-        levelBase!: number;
-        charges!: {
-            value: number;
-            max: number;
-        };
+type MysteryDataSchema = ReturnType<typeof defineMysterySchema>;
 
-        get logic(): Mystery.Logic {
-            return super.logic as Mystery.Logic;
-        }
+export class MysteryDataModel<
+        TSchema extends foundry.data.fields.DataSchema = MysteryDataSchema,
+        TLogic extends
+            Mystery.Logic<Mystery.Data> = Mystery.Logic<Mystery.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Mystery.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["Mystery"];
+    static readonly kind = Mystery.Kind;
+    subType!: MysterySubType;
+    domain!: {
+        philosophy: string;
+        name: string;
+    };
+    skills!: string[];
+    levelBase!: number;
+    charges!: {
+        value: number;
+        max: number;
+    };
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                domain: new SchemaField({
-                    philosophy: new StringField(),
-                    name: new StringField(),
-                }),
-                skills: new ArrayField(
-                    new StringField({
-                        required: true,
-                        blank: false,
-                    }),
-                ),
-                levelBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                charges: new SchemaField({
-                    // Note: if value is -1, then there are infinite charges remaining
-                    value: new NumberField({
-                        integer: true,
-                        initial: -1,
-                        min: -1,
-                    }),
-                    // Note: if max is 0, then there is no maximum
-                    max: new NumberField({
-                        integer: true,
-                        initial: -1,
-                        min: -1,
-                    }),
-                }),
-            };
-        }
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMysterySchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/mystery.hbs",
-                },
-            });
+export class MysterySheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/mystery.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

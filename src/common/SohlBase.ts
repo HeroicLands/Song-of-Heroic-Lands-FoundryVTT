@@ -13,6 +13,7 @@
 
 import { SohlMap } from "@utils/collection/SohlMap";
 import { KIND_KEY } from "@utils/constants";
+import { defaultFromJSON, defaultToJSON } from "@utils/helpers";
 
 export abstract class SohlBase {
     constructor(data: PlainObject = {}, options: PlainObject = {}) {}
@@ -37,7 +38,7 @@ export abstract class SohlBase {
                     continue;
             }
 
-            result[key] = SohlMap.defaultToJSON(value);
+            result[key] = defaultToJSON(value);
         }
 
         return result;
@@ -77,7 +78,9 @@ export abstract class SohlBase {
         const newData: PlainObject = {};
         for (const [key, value] of Object.entries(data)) {
             if (key === KIND_KEY) continue;
-            newData[key] = SohlMap.defaultFromJSON(value);
+            // Remove leading underscore if present
+            const nkey = key.startsWith("_") ? key.substring(1) : key;
+            newData[nkey] = defaultFromJSON(value);
         }
 
         return new clazz(newData, options) as InstanceType<T>;
@@ -103,6 +106,8 @@ export abstract class SohlBase {
 }
 
 export namespace SohlBase {
+    export const Kind: string = "SohlBase";
+
     /**
      * Represents the constructor type for any subclass of SohlBase.
      */

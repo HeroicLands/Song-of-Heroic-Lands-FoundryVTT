@@ -14,9 +14,10 @@
 import { SohlItem } from "@common/item/SohlItem";
 import { HTMLString, toHTMLString } from "@utils/helpers";
 import {
+    getContextItem,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroup,
-} from "./constants";
+} from "@utils/constants";
 
 export class SohlContextMenu extends (foundry.applications as any).ux
     .ContextMenu {
@@ -43,9 +44,9 @@ export class SohlContextMenu extends (foundry.applications as any).ux
             if (!it.callback) {
                 if (it.functionName) {
                     newItem.callback = (target: HTMLElement) => {
-                        const item = SohlContextMenu._getContextItem(target);
+                        const item = getContextItem(target);
                         if (item) {
-                            item.system.logic.execute({
+                            item.logic.execute({
                                 element: target,
                                 async: true,
                             });
@@ -60,15 +61,6 @@ export class SohlContextMenu extends (foundry.applications as any).ux
         });
         options.jQuery = options.jQuery || false;
         super(container as any, selector, menuItems as any, options);
-    }
-
-    static _getContextItem(header: HTMLElement): SohlItem<any, any> | null {
-        const element = header.closest(".item") as HTMLElement;
-        const item =
-            element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-        return item && typeof item === "object" ?
-                (item as SohlItem<any, any>)
-            :   null;
     }
 
     // _getContextEffect(header: HTMLElement): SohlActiveEffectProxy | null {
@@ -150,12 +142,6 @@ export class SohlContextMenu extends (foundry.applications as any).ux
 
         // Add context class to target
         target.classList.add("context");
-    }
-
-    static _getContextLogic(element: HTMLElement): any {
-        const found = element.closest(".logic") as any;
-        if (!found) return null;
-        return fromUuidSync(found.dataset.uuid);
     }
 }
 

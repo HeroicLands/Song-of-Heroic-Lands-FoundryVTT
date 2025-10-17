@@ -11,6 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SuccessTestResult } from "@common/result/SuccessTestResult";
+import type { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
+import type { Injury } from "@common/item/Injury";
 import {
     AFFLICTION_TRANSMISSION,
     AfflictionHealRate,
@@ -19,154 +24,23 @@ import {
     AfflictionTransmission,
     AfflictionTransmissions,
     defineType,
+    getContextItem,
     ITEM_KIND,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
-import { SohlItem } from "@common/item/SohlItem";
-import { kSubTypeMixinData, SubTypeMixin } from "@common/item/SubTypeMixin";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
 import { toDocumentId } from "@utils/helpers";
-import type { SohlAction } from "@common/event/SohlAction";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
-const kAffliction = Symbol("Affliction");
-const kData = Symbol("Affliction.Data");
-
-const {
-    kind: INTRINSIC_ACTION,
-    values: IntrinsicActions,
-    isValue: isIntrinsicAction,
-    labels: IntrinsicActionLabels,
-} = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
-    TRANSMITAFFLICTION: {
-        id: toDocumentId("ejfkdVfK2UQFaoDt"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.TRANSMITAFFLICTION",
-        functionName: "transmitAffliction",
-        iconFAClass: "fas fa-head-side-cough",
-        condition: (header: HTMLElement) => {
-            const item = SohlContextMenu._getContextItem(
-                header,
-            ) as SohlItem<Affliction>;
-            return item?.logic.canTransmit;
-        },
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    CONTRACTAFFLICTIONTEST: {
-        id: toDocumentId("c0XL3qx2N7voXae2"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.CONTRACTAFFLICTIONTEST",
-        functionName: "contractAfflictionTest",
-        iconFAClass: "fas fa-virus",
-        condition: () => true,
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    COURSETTEST: {
-        id: toDocumentId("QyybbqhI2iygUhNk"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.COURSETTEST",
-        functionName: "courseTest",
-        iconFAClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement) => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isDormant) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        },
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    FATIGUETEST: {
-        id: toDocumentId("5faBqb1EKZKBLQ0h"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.FATIGUETEST",
-        functionName: "fatigueTest",
-        iconFAClass: "fas fa-face-downcast-sweat",
-        condition: () => true,
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    MORALETEST: {
-        id: toDocumentId("QgS4LXXJ1zxnoQCI"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.MORALETEST",
-        functionName: "moraleTest",
-        iconFAClass: "far fa-people-group",
-        condition: () => true,
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    FEARTEST: {
-        id: toDocumentId("cacuV1ttmEs0jDcz"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.FEARTEST",
-        functionName: "fearTest",
-        iconFAClass: "far fa-face-scream",
-        condition: () => true,
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    TREATMENTTEST: {
-        id: toDocumentId("LilY1TVSGXvEoFEb"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.TREATMENTTEST",
-        functionName: "treatmentTest",
-        iconFAClass: "fas fa-staff-snake",
-        condition: (header: HTMLElement) => {
-            void header;
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const physician = item?.actor?.getSkillByAbbrev("pysn");
-            // return physician && !physician.system.$masteryLevel.disabled;
-        },
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    DIAGNOSISTEST: {
-        id: toDocumentId("g3rd7PIjQBtt8yAE"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
-        functionName: "diagnosisTest",
-        iconFAClass: "fas fa-stethoscope",
-        condition: (header: HTMLElement) => {
-            const item = SohlContextMenu._getContextItem(header);
-            return !!item && !item.system.isTreated;
-        },
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    HEALINGTEST: {
-        id: toDocumentId("XnJNxg6COZyevjMe"),
-        label: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
-        functionName: "healingTest",
-        iconFAClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement) => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        },
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-} as StrictObject<Partial<SohlIntrinsicAction.Data>>);
-
-export class Affliction
-    extends SubTypeMixin(SohlItem.BaseLogic)
-    implements Affliction.Logic
+export class Affliction<TData extends Affliction.Data = Affliction.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Affliction.Logic<TData>
 {
-    declare readonly _parent: Affliction.Data;
     isDormant!: boolean;
     isTreated!: boolean;
     diagnosisBonus!: ValueModifier;
@@ -174,11 +48,6 @@ export class Affliction
     healingRate!: ValueModifier;
     contagionIndex!: ValueModifier;
     transmission!: AfflictionTransmission;
-    readonly [kAffliction] = true;
-
-    static isA(obj: unknown): obj is Affliction {
-        return typeof obj === "object" && obj !== null && kAffliction in obj;
-    }
 
     get canTransmit(): boolean {
         // TODO - Implement Affliction canTransmit
@@ -216,7 +85,7 @@ export class Affliction
 
     async contractTest(
         context: SohlEventContext,
-    ): Promise<Nullable<SuccessTestResult>> {
+    ): Promise<SuccessTestResult | null> {
         const {
             type = `${this.label}-contract-test`,
             title = `${this.label} Contract Test`,
@@ -228,7 +97,7 @@ export class Affliction
 
     async courseTest(
         context: SohlEventContext,
-    ): Promise<Nullable<SuccessTestResult>> {
+    ): Promise<SuccessTestResult | null> {
         const {
             type = `${this.label}-course-test`,
             title = `${this.label} Course Test`,
@@ -240,7 +109,7 @@ export class Affliction
 
     async diagnosisTest(
         context: SohlEventContext,
-    ): Promise<Nullable<SuccessTestResult>> {
+    ): Promise<SuccessTestResult | null> {
         const {
             type = `${this.label}-diagnosis-test`,
             title = `${this.label} Diagnosis Test`,
@@ -252,7 +121,7 @@ export class Affliction
 
     async treatmentTest(
         context: SohlEventContext,
-    ): Promise<Nullable<SuccessTestResult>> {
+    ): Promise<SuccessTestResult | null> {
         const {
             type = `${this.label}-treatment-test`,
             title = `${this.label} Treatment Test`,
@@ -264,7 +133,7 @@ export class Affliction
 
     async healingTest(
         context: SohlEventContext,
-    ): Promise<Nullable<SuccessTestResult>> {
+    ): Promise<SuccessTestResult | null> {
         const {
             type = `${this.label}-healing-test`,
             title = `${this.label} Healing Test`,
@@ -286,16 +155,16 @@ export class Affliction
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
         this.healingRate = sohl.CONFIG.ValueModifier(this);
-        if (this._parent.healingRateBase === -1) {
+        if (this.data.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
-            this.healingRate.base = this._parent.healingRateBase;
+            this.healingRate.base = this.data.healingRateBase;
         }
         this.contagionIndex = sohl.CONFIG.ValueModifier(this, {
-            base: this._parent.contagionIndexBase,
+            base: this.data.contagionIndexBase,
         });
         this.level = sohl.CONFIG.ValueModifier(this, {
-            base: this._parent.levelBase,
+            base: this.data.levelBase,
         });
     }
 
@@ -311,21 +180,11 @@ export class Affliction
 }
 
 export namespace Affliction {
-    /**
-     * The FontAwesome icon class for the Affliction item.
-     */
-    export const IconCssClass = "fas fa-face-nauseated";
+    export const Kind = ITEM_KIND.AFFLICTION;
 
-    /**
-     * The image path for the Affliction item.
-     */
-    export const Image = "systems/sohl/assets/icons/sick.svg";
-
-    export interface Logic
-        extends SohlItem.Logic,
-            SubTypeMixin.Logic<AfflictionSubType> {
-        readonly _parent: Affliction.Data;
-        readonly [kAffliction]: true;
+    export interface Logic<
+        TData extends Affliction.Data<any> = Affliction.Data<any>,
+    > extends SohlItem.Logic<TData> {
         get canTransmit(): boolean;
         get canContract(): boolean;
         get hasCourse(): boolean;
@@ -334,25 +193,25 @@ export namespace Affliction {
         transmit(context: SohlEventContext): Promise<void>;
         contractTest(
             context: SohlEventContext,
-        ): Promise<Nullable<SuccessTestResult>>;
+        ): Promise<SuccessTestResult | null>;
         courseTest(
             context: SohlEventContext,
-        ): Promise<Nullable<SuccessTestResult>>;
+        ): Promise<SuccessTestResult | null>;
         diagnosisTest(
             context: SohlEventContext,
-        ): Promise<Nullable<SuccessTestResult>>;
+        ): Promise<SuccessTestResult | null>;
         treatmentTest(
             context: SohlEventContext,
-        ): Promise<Nullable<SuccessTestResult>>;
+        ): Promise<SuccessTestResult | null>;
         healingTest(
             context: SohlEventContext,
-        ): Promise<Nullable<SuccessTestResult>>;
+        ): Promise<SuccessTestResult | null>;
     }
 
-    export interface Data
-        extends SubTypeMixin.Data<AfflictionSubType>,
-            SohlItem.Data {
-        readonly [kData]: true;
+    export interface Data<
+        TLogic extends Affliction.Logic<Data> = Affliction.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
+        subType: AfflictionSubType;
         category: string;
         isDormant: boolean;
         isTreated: boolean;
@@ -363,79 +222,211 @@ export namespace Affliction {
         transmission: AfflictionTransmission;
     }
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        AfflictionSubType,
-        typeof AfflictionSubTypes
-    >(
-        SohlItem.DataModel,
-        AfflictionSubTypes,
-    ) as unknown as Constructor<Affliction.Data> & SohlItem.DataModel.Statics;
+    /**
+     * The intrinsic actions available to Affliction items.
+     * This structure should correspond to the methods on the
+     * Affliction class that can be invoked as intrinsic actions.
+     */
+    const {
+        kind: INTRINSIC_ACTION,
+        values: IntrinsicActions,
+        isValue: isIntrinsicAction,
+        labels: IntrinsicActionLabels,
+    } = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
+        TRANSMITAFFLICTION: {
+            id: toDocumentId("ejfkdVfK2UQFaoDt"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.TRANSMITAFFLICTION",
+            functionName: "transmitAffliction",
+            iconFAClass: "fas fa-head-side-cough",
+            condition: (header: HTMLElement) => {
+                const item = getContextItem(header);
+                return item?.logic.canTransmit;
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        },
+        CONTRACTAFFLICTIONTEST: {
+            id: toDocumentId("c0XL3qx2N7voXae2"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.CONTRACTAFFLICTIONTEST",
+            functionName: "contractAfflictionTest",
+            iconFAClass: "fas fa-virus",
+            condition: () => true,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        },
+        COURSETTEST: {
+            id: toDocumentId("QyybbqhI2iygUhNk"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.COURSETTEST",
+            functionName: "courseTest",
+            iconFAClass: "fas fa-heart-pulse",
+            condition: (header: HTMLElement) => {
+                // FIXME: This is a temporary fix to allow opposed tests to be
+                // started from the item header. It should be replaced with a
+                // proper implementation that allows opposed tests to be started
+                // from any item in the context menu.
+                return true;
+                // const item = cast<BaseItem>(
+                //     SohlContextMenu._getContextItem(header),
+                // );
+                // if (item?.system.isDormant) return false;
+                // const endurance = item?.actor?.getTraitByAbbrev("end");
+                // return endurance && !endurance.system.$masteryLevel.disabled;
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        },
+        FATIGUETEST: {
+            id: toDocumentId("5faBqb1EKZKBLQ0h"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.FATIGUETEST",
+            functionName: "fatigueTest",
+            iconFAClass: "fas fa-face-downcast-sweat",
+            condition: () => true,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        },
+        MORALETEST: {
+            id: toDocumentId("QgS4LXXJ1zxnoQCI"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.MORALETEST",
+            functionName: "moraleTest",
+            iconFAClass: "far fa-people-group",
+            condition: () => true,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        },
+        FEARTEST: {
+            id: toDocumentId("cacuV1ttmEs0jDcz"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.FEARTEST",
+            functionName: "fearTest",
+            iconFAClass: "far fa-face-scream",
+            condition: () => true,
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+        },
+        TREATMENTTEST: {
+            id: toDocumentId("LilY1TVSGXvEoFEb"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.TREATMENTTEST",
+            functionName: "treatmentTest",
+            iconFAClass: "fas fa-staff-snake",
+            condition: (header: HTMLElement) => {
+                void header;
+                // FIXME: This is a temporary fix to allow opposed tests to be
+                // started from the item header. It should be replaced with a
+                // proper implementation that allows opposed tests to be started
+                // from any item in the context menu.
+                return true;
+                // const item = cast<BaseItem>(
+                //     SohlContextMenu._getContextItem(header),
+                // );
+                // if (item?.system.isBleeding) return false;
+                // const physician = item?.actor?.getSkillByAbbrev("pysn");
+                // return physician && !physician.system.$masteryLevel.disabled;
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        },
+        DIAGNOSISTEST: {
+            id: toDocumentId("g3rd7PIjQBtt8yAE"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
+            functionName: "diagnosisTest",
+            iconFAClass: "fas fa-stethoscope",
+            condition: (header: HTMLElement) => {
+                const item = getContextItem(header);
+                return !!item && !(item.system as Injury.Data).isTreated;
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        },
+        HEALINGTEST: {
+            id: toDocumentId("XnJNxg6COZyevjMe"),
+            label: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
+            functionName: "healingTest",
+            iconFAClass: "fas fa-heart-pulse",
+            condition: (header: HTMLElement) => {
+                // FIXME: This is a temporary fix to allow opposed tests to be
+                // started from the item header. It should be replaced with a
+                // proper implementation that allows opposed tests to be started
+                // from any item in the context menu.
+                return true;
+                // const item = cast<BaseItem>(
+                //     SohlContextMenu._getContextItem(header),
+                // );
+                // if (item?.system.isBleeding) return false;
+                // const endurance = item?.actor?.getTraitByAbbrev("end");
+                // return endurance && !endurance.system.$masteryLevel.disabled;
+            },
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+        },
+    } as StrictObject<Partial<SohlIntrinsicAction.Data>>);
+}
 
-    export class DataModel extends DataModelShape {
-        static override readonly LOCALIZATION_PREFIXES = ["Affliction"];
-        static override readonly kind = ITEM_KIND.AFFLICTION;
-        readonly [kData] = true;
-        declare readonly [kSubTypeMixinData] = true;
-        subType!: AfflictionSubType;
-        category!: string;
-        isDormant!: boolean;
-        isTreated!: boolean;
-        diagnosisBonusBase!: number;
-        levelBase!: number;
-        healingRateBase!: number;
-        contagionIndexBase!: number;
-        transmission!: AfflictionTransmission;
+function defineAfflictionSchema(): PlainObject {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: AfflictionSubTypes,
+            required: true,
+        }),
+        category: new StringField({ initial: "" }),
+        isDormant: new BooleanField({ initial: false }),
+        isTreated: new BooleanField({ initial: false }),
+        diagnosisBonusBase: new NumberField({
+            integer: true,
+            initial: 0,
+        }),
+        levelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        healingRateBase: new NumberField({
+            integer: true,
+            initial: AfflictionHealRate.NONE,
+            min: AfflictionHealRate.NONE,
+        }),
+        contagionIndexBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        transmission: new StringField({
+            initial: AFFLICTION_TRANSMISSION.NONE,
+            required: true,
+            choices: AfflictionTransmissions,
+        }),
+    };
+}
 
-        static override create<Logic>(
-            data: PlainObject,
-            options: PlainObject,
-        ): Logic {
-            if (!(options.parent instanceof SohlItem)) {
-                throw new Error("Parent must be a SohlItem");
-            }
-            return new Affliction(data, { parent: options.parent }) as Logic;
-        }
+type AfflictionDataSchema = ReturnType<typeof defineAfflictionSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                isDormant: new BooleanField({ initial: false }),
-                isTreated: new BooleanField({ initial: false }),
-                diagnosisBonusBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                }),
-                levelBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                healingRateBase: new NumberField({
-                    integer: true,
-                    initial: AfflictionHealRate.NONE,
-                    min: AfflictionHealRate.NONE,
-                }),
-                contagionIndexBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                transmission: new StringField({
-                    initial: AFFLICTION_TRANSMISSION.NONE,
-                    required: true,
-                    choices: AfflictionTransmissions,
-                }),
-            };
-        }
+export class AfflictionDataModel<
+        TSchema extends foundry.data.fields.DataSchema = AfflictionDataSchema,
+        TLogic extends
+            Affliction.Logic<Affliction.Data> = Affliction.Logic<Affliction.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Affliction.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["Affliction"];
+    static readonly kind = Affliction.Kind;
+    subType!: AfflictionSubType;
+    category!: string;
+    isDormant!: boolean;
+    isTreated!: boolean;
+    diagnosisBonusBase!: number;
+    levelBase!: number;
+    healingRateBase!: number;
+    contagionIndexBase!: number;
+    transmission!: AfflictionTransmission;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineAfflictionSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/affliction.hbs",
-                },
-            });
+export class AfflictionSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/affliction.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

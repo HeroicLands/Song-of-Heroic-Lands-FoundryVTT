@@ -13,20 +13,22 @@
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import { PhilosophySubType, PhilosophySubTypes } from "@utils/constants";
-const kPhilosophy = Symbol("Philosophy");
-const kData = Symbol("Philosophy.Data");
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import {
+    ITEM_KIND,
+    PhilosophySubType,
+    PhilosophySubTypes,
+} from "@utils/constants";
+const { StringField } = foundry.data.fields;
 
-export class Philosophy extends SohlItem.BaseLogic implements Philosophy.Logic {
-    declare readonly _parent: Philosophy.Data;
-    readonly [kPhilosophy] = true;
-
-    static isA(obj: unknown): obj is Philosophy {
-        return typeof obj === "object" && obj !== null && kPhilosophy in obj;
-    }
-
+export class Philosophy<TData extends Philosophy.Data = Philosophy.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Philosophy.Logic<TData>
+{
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -44,36 +46,60 @@ export class Philosophy extends SohlItem.BaseLogic implements Philosophy.Logic {
 }
 
 export namespace Philosophy {
-    export interface Logic extends SohlItem.Logic {
-        readonly [kPhilosophy]: true;
-        readonly _parent: Philosophy.Data;
+    export const Kind = ITEM_KIND.PHILOSOPHY;
+
+    export interface Logic<
+        TData extends Philosophy.Data<any> = Philosophy.Data<any>,
+    > extends SohlItem.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends Philosophy.Logic<Data> = Philosophy.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
+        subType: PhilosophySubType;
     }
+}
 
-    export interface Data extends SubTypeMixin.Data<PhilosophySubType> {
-        readonly [kData]: true;
+function definePhilosophyDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: PhilosophySubTypes,
+            required: true,
+        }),
+    };
+}
+
+type PhilosophyDataSchema = ReturnType<typeof definePhilosophyDataSchema>;
+
+export class PhilosophyDataModel<
+        TSchema extends foundry.data.fields.DataSchema = PhilosophyDataSchema,
+        TLogic extends
+            Philosophy.Logic<Philosophy.Data> = Philosophy.Logic<Philosophy.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Philosophy.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["Philosophy"];
+    static readonly kind = Philosophy.Kind;
+    subType!: PhilosophySubType;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return definePhilosophyDataSchema();
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        PhilosophySubType,
-        typeof PhilosophySubTypes
-    >(
-        SohlItem.DataModel,
-        PhilosophySubTypes,
-    ) as unknown as Constructor<Philosophy.Data> & SohlItem.DataModel.Statics;
+export class PhilosophySheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/affliction.hbs",
+        },
+    };
 
-    export class DataModel extends DataModelShape {
-        declare subType: PhilosophySubType;
-        static override readonly LOCALIZATION_PREFIXES = ["Philosophy"];
-        readonly [kData] = true;
-    }
-
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/philosophy.hbs",
-                },
-            });
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

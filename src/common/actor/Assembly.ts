@@ -13,21 +13,15 @@
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
-import { SohlActor } from "@common/actor/SohlActor";
+import {
+    SohlActor,
+    SohlActorDataModel,
+    SohlActorSheetBase,
+} from "@common/actor/SohlActor";
 import { ACTOR_KIND } from "@utils/constants";
 const { DocumentIdField } = foundry.data.fields;
-const kAssembly = Symbol("Assembly");
-const kDataModel = Symbol("Assembly.DataModel");
 
 export class Assembly extends SohlActor.BaseLogic implements Assembly.Logic {
-    declare readonly _parent: Assembly.Data;
-
-    readonly [kAssembly] = true;
-
-    static isA(obj: unknown): obj is Assembly {
-        return typeof obj === "object" && obj !== null && kAssembly in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -45,42 +39,69 @@ export class Assembly extends SohlActor.BaseLogic implements Assembly.Logic {
 }
 
 export namespace Assembly {
-    /**
-     * The paths to the document sheet handlebars partials for the Assembly actor.
-     */
-    export const SheetPartials = [
-        "systems/sohl/templates/actor/assembly-sheet.hbs",
-    ];
+    export const Kind = ACTOR_KIND.ASSEMBLY;
 
     /**
      * The data shape for the Assembly actor.
      */
-    export interface Logic extends SohlActor.Logic {}
+    export interface Logic<
+        TData extends SohlActor.Data<any> = SohlActor.Data<any>,
+    > extends SohlActor.Logic<TData> {}
 
-    export interface Data extends SohlActor.Data {
+    export interface Data<
+        TLogic extends SohlActor.Logic<Data> = SohlActor.Logic<any>,
+    > extends SohlActor.Data<TLogic> {
         canonicalItemId: string | null;
     }
+}
 
-    /**
-     * The Foundry VTT data model for the Assembly actor.
-     */
-    export class DataModel extends SohlActor.DataModel implements Data {
-        declare canonicalItemId: string | null;
-        static override readonly LOCALIZATION_PREFIXES = ["ASSEMBLY"];
-        static override readonly kind = ACTOR_KIND.ASSEMBLY;
-        readonly [kDataModel] = true;
+function defineAssemblyDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlActorDataModel.defineSchema(),
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kDataModel in obj;
-        }
+        /**
+         * The ID of the canonical item that this assembly represents, if any.
+         *
+         * @remarks
+         * An assembly often represents a singlular item and all of its nested
+         * items. This field indicates the item that is considered to be the
+         * "root" item of the assembly; that is, the item that the assembly represents.
+         * It is possible for an assembly to not have a canonical item, in which case
+         * this field will be `null`.
+         */
+        canonicalItemId: new DocumentIdField({
+            initial: null,
+        }),
+    };
+}
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                canonicalItemId: new DocumentIdField({
-                    initial: null,
-                }),
-            };
-        }
+type AssemblyDataSchema = ReturnType<typeof defineAssemblyDataSchema>;
+
+/**
+ * The Foundry VTT data model for the Assembly actor.
+ */
+export class AssemblyDataModel<
+        TSchema extends foundry.data.fields.DataSchema = AssemblyDataSchema,
+        TLogic extends
+            Assembly.Logic<Assembly.Data> = Assembly.Logic<Assembly.Data>,
+    >
+    extends SohlActorDataModel<TSchema, TLogic>
+    implements Assembly.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["Assembly"];
+    static override readonly kind = Assembly.Kind;
+    canonicalItemId!: string | null;
+
+    static defineSchema(): foundry.data.fields.DataSchema {
+        return defineAssemblyDataSchema();
     }
+}
+
+export class AssemblySheet extends SohlActorSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/actor/assembly.hbs",
+        },
+    };
 }

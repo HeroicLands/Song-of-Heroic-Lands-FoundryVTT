@@ -11,46 +11,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
-import {
-    kStrikeModeMixin,
-    kStrikeModeMixinData,
-    StrikeModeMixin,
-} from "@common/item/StrikeModeMixin";
-import { CombatModifier } from "@common/modifier/CombatModifier";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import { defineType, ImpactAspect, ITEM_KIND, Variant } from "@utils/constants";
-import { kSubTypeMixinData } from "./SubTypeMixin";
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import type { Skill } from "@common/item/Skill";
+import type { CombatModifier } from "@common/modifier/CombatModifier";
+import type { SuccessTestResult } from "@common/result/SuccessTestResult";
+import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { StrikeMode, StrikeModeDataModel } from "@common/item/StrikeMode";
+import { ImpactAspect, ITEM_KIND, Variant, Variants } from "@utils/constants";
+const { NumberField, StringField } = foundry.data.fields;
 
-const kMeleeWeaponStrikeMode = Symbol("MeleeWeaponStrikeMode");
-const kData = Symbol("MeleeWeaponStrikeMode.Data");
-const { NumberField } = foundry.data.fields;
-
-export class MeleeWeaponStrikeMode
-    extends StrikeModeMixin(SohlItem.BaseLogic)
+export class MeleeWeaponStrikeMode<
+        TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
+    >
+    extends StrikeMode<TData>
     implements MeleeWeaponStrikeMode.Logic
 {
-    declare [kStrikeModeMixin]: true;
-    declare readonly _parent: MeleeWeaponStrikeMode.Data;
-    readonly [kMeleeWeaponStrikeMode] = true;
     defense!: {
         block: CombatModifier;
         counterstrike: CombatModifier;
     };
     length!: ValueModifier;
-
-    static isA(obj: unknown): obj is MeleeWeaponStrikeMode {
-        return (
-            typeof obj === "object" &&
-            obj !== null &&
-            kMeleeWeaponStrikeMode in obj
-        );
-    }
 
     async blockTest(
         context: SohlEventContext,
@@ -83,11 +65,14 @@ export class MeleeWeaponStrikeMode
     override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
         if (this.assocSkill) {
-            this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
-                includeBase: true,
-            });
+            this.defense.block.addVM(
+                (this.assocSkill.logic as Skill).masteryLevel,
+                {
+                    includeBase: true,
+                },
+            );
             this.defense.counterstrike.addVM(
-                this.assocSkill.system.masteryLevel,
+                (this.assocSkill.logic as Skill).masteryLevel,
                 { includeBase: true },
             );
         }
@@ -118,69 +103,94 @@ export class MeleeWeaponStrikeMode
 }
 
 export namespace MeleeWeaponStrikeMode {
-    export const {
-        kind: EFFECT_KEY,
-        values: EffectKey,
-        isValue: isEffectKey,
-        labels: EffectKeyLabels,
-    } = defineType("SOHL.MeleeWeaponStrikeMode.EffectKey", {
-        ...StrikeModeMixin.EFFECT_KEY,
-        LENGTH: {
-            name: "system.logic.length",
-            abbrev: "Len",
-        },
-        BLOCK: {
-            name: "system.logic.defense.block",
-            abbrev: "Blk",
-        },
-        COUNTERSTRIKE: {
-            name: "system.logic.defense.counterstrike",
-            abbrev: "CX",
-        },
-    } as StrictObject<SohlLogic.EffectKeyData>);
-    export type EffectKey = (typeof EFFECT_KEY)[keyof typeof EFFECT_KEY];
+    export const Kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
 
-    export interface Logic extends StrikeModeMixin.Logic {
-        readonly _parent: MeleeWeaponStrikeMode.Data;
-        readonly [kMeleeWeaponStrikeMode]: true;
+    export interface Logic<
+        TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
+    > extends StrikeMode.Logic<TData> {
+        length: ValueModifier;
+        defense: {
+            block: CombatModifier;
+            counterstrike: CombatModifier;
+        };
+        blockTest(context: SohlEventContext): Promise<SuccessTestResult | null>;
+        counterstrikeTest(
+            context: SohlEventContext,
+        ): Promise<SuccessTestResult | null>;
     }
 
-    export interface Data extends StrikeModeMixin.Data {
-        readonly [kData]: true;
-        lengthBase: number;
-    }
-
-    export class DataModel
-        extends StrikeModeMixin.DataModel(SohlItem.DataModel)
-        implements Data
-    {
-        static override readonly LOCALIZATION_PREFIXES = [
-            "MeleeWeaponStrikeMode",
-        ];
-        declare readonly [kStrikeModeMixinData]: true;
-        declare readonly [kSubTypeMixinData]: true;
-        declare subType: Variant;
-        declare mode: string;
-        declare minParts: number;
-        declare assocSkillName: string;
-        declare impactBase: {
+    export interface Data<
+        TLogic extends
+            MeleeWeaponStrikeMode.Logic<Data> = MeleeWeaponStrikeMode.Logic<any>,
+    > extends StrikeMode.Data<TLogic> {
+        subType: Variant;
+        mode: string;
+        minParts: number;
+        assocSkillName: string;
+        impactBase: {
             numDice: number;
             die: number;
             modifier: number;
             aspect: ImpactAspect;
         };
-        lengthBase!: number;
-        readonly [kData] = true;
+        lengthBase: number;
+    }
+}
 
-        static override defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                lengthBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+function defineMeleeWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...StrikeModeDataModel.defineSchema(),
+        subType: new StringField({
+            choices: Variants,
+            required: true,
+        }),
+
+        lengthBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
+
+type MeleeWeaponStrikeModeSchema = ReturnType<
+    typeof defineMeleeWeaponStrikeModeSchema
+>;
+
+export class MeleeWeaponStrikeModeDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = MeleeWeaponStrikeModeSchema,
+        TLogic extends
+            MeleeWeaponStrikeMode.Logic<MeleeWeaponStrikeMode.Data> = MeleeWeaponStrikeMode.Logic<
+            MeleeWeaponStrikeMode.Data<MeleeWeaponStrikeMode.Logic<any>>
+        >,
+    >
+    extends StrikeModeDataModel<TSchema, TLogic>
+    implements MeleeWeaponStrikeMode.Data
+{
+    static readonly LOCALIZATION_PREFIXES = ["MELEEWEAPONSTRIKEMODE"];
+    static override readonly kind = MeleeWeaponStrikeMode.Kind;
+    subType!: Variant;
+    lengthBase!: number;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMeleeWeaponStrikeModeSchema();
+    }
+}
+
+export class MeleeWeaponStrikeModeSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template:
+                "systems/sohl/templates/item/combattechniquestrikemode.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

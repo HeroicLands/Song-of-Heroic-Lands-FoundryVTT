@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { SohlLogic } from "@common/SohlLogic";
 import { maxPrecision } from "@utils/helpers";
 import { ValueDelta } from "@common/modifier/ValueDelta";
 import { SohlBase } from "@common/SohlBase";
-import { SohlLogic } from "@common/SohlLogic";
 import {
     SYMBOL,
     VALUE_DELTA_INFO,
@@ -457,10 +457,12 @@ export class ValueModifier extends SohlBase {
 }
 
 export namespace ValueModifier {
+    export const Kind: string = "ValueModifier";
+
     export interface Data {
-        disabledReason: Nullable<string>;
-        baseValue: Nullable<number>;
-        customFunction: Nullable<Function>;
+        disabledReason: string;
+        baseValue: number | null;
+        customFunction: Function | null;
         deltas: ValueDelta[];
     }
 

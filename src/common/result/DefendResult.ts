@@ -12,22 +12,10 @@
  */
 
 import { ImpactResult } from "@common/result/ImpactResult";
-import {
-    defineType,
-    DEFEND_MISHAP,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@utils/constants";
-const kDefendResult = Symbol("DefendResult");
-const kData = Symbol("DefendResult.Data");
-const kContext = Symbol("DefendResult.Context");
+import { DEFEND_MISHAP, TEST_TYPE } from "@utils/constants";
 
 export class DefendResult extends ImpactResult {
     situationalModifier: number;
-    readonly [kDefendResult] = true;
-
-    static isA(obj: unknown): obj is DefendResult {
-        return typeof obj === "object" && obj !== null && kDefendResult in obj;
-    }
 
     constructor(
         data: Partial<DefendResult.Data> = {},
@@ -42,8 +30,8 @@ export class DefendResult extends ImpactResult {
         if (!allowed) return false;
 
         if (
-            this.testType === DefendResult.DEFEND_TESTTYPE.BLOCK.id ||
-            this.testType === DefendResult.DEFEND_TESTTYPE.COUNTERSTRIKE.id
+            this.testType === TEST_TYPE.BLOCK.id ||
+            this.testType === TEST_TYPE.COUNTERSTRIKE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
                 this.mishaps.add(DEFEND_MISHAP.FUMBLE_TEST);
@@ -52,7 +40,7 @@ export class DefendResult extends ImpactResult {
                 this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
             }
             this.deliversImpact = false;
-        } else if (this.testType === DefendResult.DEFEND_TESTTYPE.DODGE.id) {
+        } else if (this.testType === TEST_TYPE.DODGE.id) {
             if (this.isCritical && !this.isSuccess) {
                 this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
             }
@@ -63,75 +51,15 @@ export class DefendResult extends ImpactResult {
 }
 
 export namespace DefendResult {
-    export const {
-        kind: DEFEND_TESTTYPE,
-        values: DefendTestTypes,
-        isValue: isDefendTestType,
-    } = defineType("SOHL.DefendResult.TestType", {
-        BLOCK: {
-            id: "blockTest",
-            iconClass: "fas fa-shield",
-            condition: (header: HTMLElement): boolean => {
-                return true;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        COUNTERSTRIKE: {
-            id: "counterstrikeTest",
-            iconClass: "fas fa-circle-half-stroke",
-            condition: (header: HTMLElement): boolean => {
-                return true;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        DODGE: {
-            id: "dodgeTest",
-            iconClass: "fas fa-person-walking-arrow-loop-left",
-            // condition: (header: HTMLElement): boolean => {
-            //     const item = SohlContextMenu._getContextItem(header);
-            //     const dodge = item?.actor?.items
-            //         ?.values()
-            //         .find(
-            //             (it: SohlItem) =>
-            //                 Skill.Data.isA(it.system) && it.name === "Dodge",
-            //         );
-            //     return dodge && !dodge.system.masteryLevel.disabled;
-            // },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        IGNORE: {
-            id: "ignore",
-            iconClass: "fas fa-ban",
-            condition: (header: HTMLElement): boolean => {
-                return true;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-    });
-    export type DefendTestType =
-        (typeof DEFEND_TESTTYPE)[keyof typeof DEFEND_TESTTYPE];
+    export const Kind: string = "DefendResult";
 
     export interface Data extends ImpactResult.Data {
-        readonly [kData]: true;
-
         situationalModifier: number;
     }
 
     export interface Options extends ImpactResult.Options {}
 
-    export class Context extends ImpactResult.Context {
-        readonly [kContext] = true;
-
-        isA(obj: unknown): obj is Context {
-            return typeof obj === "object" && obj !== null && kContext in obj;
-        }
-
-        constructor(data: Partial<DefendResult.Context.Data> = {}) {
-            super(data);
-        }
-    }
-
-    export namespace Context {
-        export interface Data extends ImpactResult.Context.Data {}
+    export interface ContextScope {
+        priorTestResult: DefendResult | null;
     }
 }

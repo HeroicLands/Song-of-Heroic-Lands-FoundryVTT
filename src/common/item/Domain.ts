@@ -18,25 +18,28 @@ import {
     DomainElementCategory,
     DomainEmbodimentCategories,
     DomainEmbodimentCategory,
+    ITEM_KIND,
 } from "@utils/constants";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import { Philosophy } from "@common/item/Philosophy";
-const kDomain = Symbol("Domain");
-const kData = Symbol("Domain.Data");
 const { ArrayField, StringField } = foundry.data.fields;
 
-export class Domain extends SohlItem.BaseLogic implements Domain.Logic {
-    declare readonly _parent: Domain.Data;
+export class Domain<TData extends Domain.Data = Domain.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Domain.Logic<TData>
+{
     philosophy?: SohlItem;
     category?: string;
-    readonly [kDomain] = true;
 
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
-        if (Philosophy.Data.isA(this.item?.nestedIn?.system)) {
+        if (this.item?.nestedIn?.type === ITEM_KIND.PHILOSOPHY) {
             this.category = this.item?.nestedIn?.system.subType;
         }
     }
@@ -53,60 +56,77 @@ export class Domain extends SohlItem.BaseLogic implements Domain.Logic {
 }
 
 export namespace Domain {
-    export interface Logic extends SohlItem.Logic {
-        readonly _parent: Domain.Data;
-        readonly [kDomain]: true;
+    export interface Logic<TData extends Domain.Data<any> = Domain.Data<any>>
+        extends SohlItem.Logic<TData> {
         philosophy?: SohlItem;
     }
 
-    export interface Data extends SohlItem.Data {
-        readonly [kData]: true;
+    export interface Data<TLogic extends Domain.Logic<any> = Domain.Logic<any>>
+        extends SohlItem.Data<TLogic> {
         philosophy: string;
         abbrev: string;
         cusp: string;
         magicMod: DomainElementCategory[];
         embodiments: DomainEmbodimentCategory[];
     }
+}
 
-    export class DataModel extends SohlItem.DataModel.Shape implements Data {
-        static readonly LOCALIZATION_PREFIXES = ["Domain"];
-        abbrev!: string;
-        cusp!: string;
-        philosophy!: string;
-        magicMod!: DomainElementCategory[];
-        embodiments!: DomainEmbodimentCategory[];
-        readonly [kData] = true;
+function defineDomainSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        abbrev: new StringField(),
+        cusp: new StringField(),
+        philosophy: new StringField(),
+        magicMod: new ArrayField(
+            new StringField({
+                initial: DOMAIN_ELEMENT_CATEGORY.ARCANA,
+                required: true,
+                choices: DomainElementCategories,
+            }),
+        ),
+        embodiments: new ArrayField(
+            new StringField({
+                initial: DOMAIN_EMBODIMENT_CATEGORY.DREAMS,
+                required: true,
+                choices: DomainEmbodimentCategories,
+            }),
+        ),
+    };
+}
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                abbrev: new StringField(),
-                cusp: new StringField(),
-                philosophy: new StringField(),
-                magicMod: new ArrayField(
-                    new StringField({
-                        initial: DOMAIN_ELEMENT_CATEGORY.ARCANA,
-                        required: true,
-                        choices: DomainElementCategories,
-                    }),
-                ),
-                embodiments: new ArrayField(
-                    new StringField({
-                        initial: DOMAIN_EMBODIMENT_CATEGORY.DREAMS,
-                        required: true,
-                        choices: DomainEmbodimentCategories,
-                    }),
-                ),
-            };
-        }
+type DomainSchema = ReturnType<typeof defineDomainSchema>;
+
+export class DomainDataModel<
+        TSchema extends foundry.data.fields.DataSchema = DomainSchema,
+        TLogic extends Domain.Logic<Domain.Data> = Domain.Logic<Domain.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Domain.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["Domain"];
+    abbrev!: string;
+    cusp!: string;
+    philosophy!: string;
+    magicMod!: DomainElementCategory[];
+    embodiments!: DomainEmbodimentCategory[];
+
+    static defineSchema(): foundry.data.fields.DataSchema {
+        return defineDomainSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/domain.hbs",
-                },
-            });
+export class DomainSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/domain.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

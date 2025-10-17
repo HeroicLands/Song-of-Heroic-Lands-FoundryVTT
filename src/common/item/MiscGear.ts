@@ -12,24 +12,14 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
+import { Gear, GearDataModel } from "@common/item/Gear";
 
-import { SohlItem } from "@common/item/SohlItem";
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-const kMiscGear = Symbol("MiscGear");
-const kData = Symbol("MiscGear.Data");
-
-export class MiscGear
-    extends GearMixin(SohlItem.BaseLogic)
+export class MiscGear<TData extends MiscGear.Data = MiscGear.Data>
+    extends Gear<TData>
     implements MiscGear.Logic
 {
-    declare readonly [kGearMixin]: true;
-    declare readonly _parent: MiscGear.Data;
-    readonly [kMiscGear] = true;
-
-    static isA(obj: unknown): obj is MiscGear {
-        return typeof obj === "object" && obj !== null && kMiscGear in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -47,21 +37,51 @@ export class MiscGear
 }
 
 export namespace MiscGear {
-    export interface Logic extends GearMixin.Logic {
-        readonly _parent: MiscGear.Data;
-        readonly [kMiscGear]: true;
+    export const Kind = ITEM_KIND.MISCGEAR;
+
+    export interface Logic<TData extends MiscGear.Data = MiscGear.Data>
+        extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends MiscGear.Logic<Data> = MiscGear.Logic<any>,
+    > extends Gear.Data<TLogic> {}
+}
+
+function defineMiscGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+    };
+}
+
+type MiscGearSchema = ReturnType<typeof defineMiscGearSchema>;
+
+export class MiscGearDataModel<
+        TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
+        TLogic extends
+            MiscGear.Logic<MiscGear.Data> = MiscGear.Logic<MiscGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements MiscGear.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["MiscGear"];
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMiscGearSchema();
     }
+}
 
-    export interface Data extends GearMixin.Data {
-        readonly [kData]: true;
-    }
+export class MiscGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/miscgear.hbs",
+        },
+    };
 
-    export const DataModelShape = GearMixin.DataModel(
-        SohlItem.DataModel,
-    ) as unknown as Constructor<MiscGear.Data> & SohlItem.DataModel.Statics;
-
-    export class DataModel extends DataModelShape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["MISCGEAR"];
-        readonly [kData] = true;
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

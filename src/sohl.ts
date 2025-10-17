@@ -11,39 +11,46 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common/SohlSystem";
+import {
+    COMMON_ACTOR_SHEETS,
+    COMMON_ITEM_SHEETS,
+    SohlSystem,
+} from "@common/SohlSystem";
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
 import { SohlItem } from "@common/item/SohlItem";
-import { LOGLEVEL, LogLevel } from "@utils/constants";
+import { ActorKinds, ItemKinds, LOGLEVEL, LogLevel } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
+import { Entity } from "@common/actor/Entity";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
 SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
 
 const DocumentSheetConfigClass = foundry.applications.apps.DocumentSheetConfig;
-DocumentSheetConfigClass.registerSheet(
-    CONFIG.Actor.documentClass,
-    "sohl",
-    SohlActor.Sheet as any,
-    {
-        types: ["sohl"],
-        makeDefault: true,
-    },
-);
-DocumentSheetConfigClass.registerSheet(
-    CONFIG.Item.documentClass,
-    "sohl",
-    SohlItem.Sheet as any,
-    {
-        types: ["sohl"],
-        makeDefault: true,
-    },
-);
-DocumentSheetConfigClass.registerSheet(
+ActorKinds.forEach((kind) => {
+    foundry.documents.collections.Actors.registerSheet(
+        "sohl",
+        COMMON_ACTOR_SHEETS[kind] as any,
+        {
+            types: [kind],
+            makeDefault: true,
+        },
+    );
+});
+ItemKinds.forEach((kind) => {
+    foundry.documents.collections.Items.registerSheet(
+        "sohl",
+        COMMON_ITEM_SHEETS[kind] as any,
+        {
+            types: [kind],
+            makeDefault: true,
+        },
+    );
+});
+foundry.applications.apps.DocumentSheetConfig.registerSheet(
     CONFIG.ActiveEffect.documentClass,
     "sohl",
     SohlActiveEffectConfig,

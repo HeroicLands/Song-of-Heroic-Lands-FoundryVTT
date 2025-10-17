@@ -12,26 +12,15 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
-
+import { Gear, GearDataModel } from "@common/item/Gear";
+import { ITEM_KIND } from "@utils/constants";
+import { SohlItemSheetBase } from "./SohlItem";
 const { NumberField } = foundry.data.fields;
-const kWeaponGear = Symbol("WeaponGear");
-const kData = Symbol("WeaponGear.Data");
 
-export class WeaponGear
-    extends GearMixin(SohlItem.BaseLogic)
+export class WeaponGear<TData extends WeaponGear.Data = WeaponGear.Data>
+    extends Gear<TData>
     implements WeaponGear.Logic
 {
-    declare [kGearMixin]: true;
-    declare readonly _parent: WeaponGear.Data;
-    readonly [kWeaponGear] = true;
-
-    static isA(obj: unknown): obj is WeaponGear {
-        return typeof obj === "object" && obj !== null && kWeaponGear in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -49,42 +38,59 @@ export class WeaponGear
 }
 
 export namespace WeaponGear {
-    export interface Logic extends GearMixin.Logic {
-        readonly _parent: WeaponGear.Data;
-        readonly [kWeaponGear]: true;
-    }
+    export const Kind = ITEM_KIND.WEAPONGEAR;
 
-    export interface Data extends GearMixin.Data {
-        readonly [kData]: true;
+    export interface Logic<TData extends WeaponGear.Data = WeaponGear.Data>
+        extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends WeaponGear.Logic<Data> = WeaponGear.Logic<any>,
+    > extends Gear.Data<TLogic> {
         lengthBase: number;
     }
+}
 
-    const DataModelShape = GearMixin.DataModel(
-        SohlItem.DataModel,
-    ) as unknown as Constructor<WeaponGear.Data> & SohlItem.DataModel.Statics;
+function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+        lengthBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape {
-        static readonly LOCALIZATION_PREFIXES = ["WEAPONGEAR"];
-        declare lengthBase: number;
-        declare abbrev: string;
-        declare quantity: number;
-        declare weightBase: number;
-        declare valueBase: number;
-        declare isCarried: boolean;
-        declare isEquipped: boolean;
-        declare qualityBase: number;
-        declare durabilityBase: number;
-        readonly [kData] = true;
+type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                lengthBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+export class WeaponGearDataModel<
+        TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
+        TLogic extends
+            WeaponGear.Logic<WeaponGear.Data> = WeaponGear.Logic<WeaponGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements WeaponGear.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["WeaponGear"];
+    lengthBase!: number;
+
+    static defineSchema(): foundry.data.fields.DataSchema {
+        return defineWeaponGearSchema();
+    }
+}
+
+export class WeaponGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/weapongear.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

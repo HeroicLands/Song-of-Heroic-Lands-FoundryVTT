@@ -11,19 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlDataModel } from "@common/SohlDataModel";
-import {
-    ACTOR_KIND,
-    ActorKinds,
-    EFFECT_KIND,
-    isActorKind,
-    isItemKind,
-    ITEM_KIND,
-} from "./constants";
-import {
-    COMMON_ACTOR_DATA_MODEL,
-    COMMON_ITEM_DATA_MODEL,
-} from "@common/SohlSystem";
+import type { SohlItem } from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
+import { SohlMap } from "./collection/SohlMap";
+import { Gear } from "@common/item/Gear";
+import { MasteryLevel } from "@common/item/MasteryLevel";
+
 export type SohlSettingValue =
     | string
     | number
@@ -445,7 +438,167 @@ export function toSanitizedHTML(
     return template.innerHTML as HTMLString;
 }
 
-export type DocumentId = string & { __brand: "DocId" };
+export function defaultFromJSON(value: unknown): unknown {
+    if (typeof value === "string") {
+        if (value.startsWith("__bigint__:")) {
+            return BigInt(value.slice("__bigint__:".length));
+        }
+        if (value.startsWith("__date__:")) {
+            return new Date(value.slice("__date__:".length));
+        }
+        if (value.startsWith("__func__:")) {
+            return new URL(value.slice("__url__:".length));
+        }
+        return value;
+    }
+
+    if (Array.isArray(value)) {
+        return value.map(defaultFromJSON);
+    }
+
+    if (typeof value === "object" && value !== null) {
+        const maybe = value as any;
+
+        switch (maybe.__type) {
+            case "SohlMap":
+                return new SohlMap(
+                    maybe.entries.map(([k, v]: [any, any]) => [
+                        k,
+                        defaultFromJSON(v),
+                    ]),
+                );
+            case "Map":
+                return new Map(
+                    maybe.entries.map(([k, v]: [any, any]) => [
+                        k,
+                        defaultFromJSON(v),
+                    ]),
+                );
+            case "Set":
+                return new Set(maybe.values.map(defaultFromJSON));
+            case "RegExp":
+                return new RegExp(maybe.pattern, maybe.flags);
+            case "Error":
+                const err = new Error(maybe.message);
+                err.name = maybe.name;
+                err.stack = maybe.stack;
+                return err;
+            case "URL":
+                return new URL(maybe.href);
+            case "ClientDocument":
+                return fromUuidSync(maybe.uuid);
+        }
+
+        const result: Record<string, unknown> = {};
+        for (const [key, val] of Object.entries(maybe)) {
+            result[key] = defaultFromJSON(val);
+        }
+        return result;
+    }
+
+    return value;
+}
+
+export function defaultToJSON(value: any): JsonValue | undefined {
+    if (
+        value === null ||
+        typeof value === "string" ||
+        typeof value === "number" ||
+        typeof value === "boolean"
+    ) {
+        return value;
+    }
+
+    if (typeof value === "bigint") {
+        return `__bigint__:${value.toString()}`;
+    }
+
+    if (value instanceof Date) {
+        return `__date__:${value.toISOString()}`;
+    }
+
+    if (value instanceof URL) {
+        return { __type: "URL", href: value.href };
+    }
+
+    if (value instanceof SohlMap) {
+        return {
+            __type: "SohlMap",
+            entries: Array.from(value.entries()).map(([k, v]) => [
+                k,
+                defaultToJSON(v),
+            ]),
+        };
+    }
+
+    if (value instanceof Map) {
+        return {
+            __type: "Map",
+            entries: Array.from(value.entries()).map(([k, v]) => [
+                k,
+                defaultToJSON(v),
+            ]),
+        };
+    }
+
+    if (value instanceof Set) {
+        return {
+            __type: "Set",
+            values: Array.from(value.values()).map(defaultToJSON),
+        } as JsonValue;
+    }
+
+    if (value instanceof RegExp) {
+        return {
+            __type: "RegExp",
+            pattern: value.source,
+            flags: value.flags,
+        } as JsonValue;
+    }
+
+    if (value instanceof Error) {
+        return {
+            __type: "Error",
+            name: value.name,
+            message: value.message,
+            stack: value.stack,
+        } as JsonValue;
+    }
+
+    if (Object.hasOwn(value, "documentName")) {
+        return {
+            __type: "ClientDocument",
+            uuid: value.uuid,
+        } as JsonValue;
+    }
+
+    if (
+        typeof value === "function" ||
+        typeof value === "symbol" ||
+        value === undefined
+    ) {
+        return undefined;
+    }
+
+    if (Array.isArray(value)) {
+        return value.map(defaultToJSON) as JsonValue[];
+    }
+
+    if (typeof value === "object" && value !== null) {
+        if (typeof (value as any).toJSON === "function") {
+            return (value as any).toJSON();
+        }
+
+        const result: Record<string, JsonValue> = {};
+        for (const [key, val] of Object.entries(value)) {
+            const jsonVal = defaultToJSON(val);
+            if (jsonVal !== undefined) result[key] = jsonVal;
+        }
+        return result;
+    }
+
+    return value;
+}
 
 export function isDocumentId(value: unknown): value is DocumentId {
     return typeof value === "string" && /^[a-zA-Z0-9]{16}$/.test(value);
@@ -477,4 +630,57 @@ export function baseClassOf<T extends abstract new (...args: any) => any>(
     ctor: T,
 ): T {
     return ctor;
+}
+
+const GearKinds = [
+    ITEM_KIND.ARMORGEAR,
+    ITEM_KIND.CONCOCTIONGEAR,
+    ITEM_KIND.CONTAINERGEAR,
+    ITEM_KIND.MISCGEAR,
+    ITEM_KIND.PROJECTILEGEAR,
+    ITEM_KIND.WEAPONGEAR,
+] as string[];
+
+export function isGearItem(
+    item: SohlItem,
+): item is SohlItem & { system: Gear.Data } {
+    return GearKinds.includes(item.type);
+}
+
+const MasteryLevelKinds = [
+    ITEM_KIND.MYSTICALABILITY,
+    ITEM_KIND.SKILL,
+    ITEM_KIND.TRAIT,
+] as string[];
+
+export function isMasteryItem(
+    item: SohlItem,
+): item is SohlItem & { system: MasteryLevel.Data } {
+    return MasteryLevelKinds.includes(item.type);
+}
+
+const ItemSubTypeKinds = [
+    ITEM_KIND.AFFLICTION,
+    ITEM_KIND.COMBATTECHNIQUESTRIKEMODE,
+    ITEM_KIND.CONCOCTIONGEAR,
+    ITEM_KIND.MELEEWEAPONSTRIKEMODE,
+    ITEM_KIND.MISSILEWEAPONSTRIKEMODE,
+    ITEM_KIND.MYSTERY,
+    ITEM_KIND.MYSTICALABILITY,
+    ITEM_KIND.MYSTICALDEVICE,
+    ITEM_KIND.PHILOSOPHY,
+    ITEM_KIND.PROJECTILEGEAR,
+    ITEM_KIND.PROTECTION,
+    ITEM_KIND.SKILL,
+    ITEM_KIND.TRAIT,
+] as string[];
+
+export function isItemWithSubType(
+    item: SohlItem,
+    subType?: string,
+): item is SohlItem & { system: { subType: string } } {
+    return (
+        ItemSubTypeKinds.includes(item.type) &&
+        (!subType || (item.system as any).subType === subType)
+    );
 }

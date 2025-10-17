@@ -206,7 +206,7 @@
                 "ignore": "Ignore"
             },
             "MOVEMENT": {
-                "still": "Still",
+                "stationary": "Stationary",
                 "moving": "Moving",
                 "evading": "Evading"
             },

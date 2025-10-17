@@ -11,39 +11,34 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import { SohlEvent } from "@common/event/SohlEvent";
 import {
     EVENT_SUBTYPE,
     EventSubType,
     EventSubTypes,
+    ITEM_KIND,
     SOHL_EVENT_STATE,
     SohlEventState,
     SohlEventStates,
 } from "@utils/constants";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import { SohlScriptAction } from "@common/event/SohlScriptAction";
-import { DocumentId } from "@utils/helpers";
-import { SohlTemporal } from "@common/event/SohlTemporal";
-
+import type { SohlTemporal } from "@common/event/SohlTemporal";
 const { StringField, BooleanField, SchemaField, NumberField, DocumentIdField } =
     foundry.data.fields;
-const kEvent = Symbol("Event");
-const kData = Symbol("Event.Data");
 
-export class Event
-    extends SubTypeMixin(SohlItem.BaseLogic)
-    implements Event.Logic
+export class Event<TData extends Event.Data = Event.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Event.Logic<TData>
 {
-    declare readonly _parent: Event.Data;
-    readonly [kEvent] = true;
     isAsync!: boolean;
     script!: string;
 
-    static isA(obj: unknown): obj is Event {
-        return typeof obj === "object" && obj !== null && kEvent in obj;
-    }
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -53,24 +48,32 @@ export class Event
     override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
         if (this.item?.nestedIn) {
-            const parent = this.parent as Event.Data;
             const data: PlainObject = {
-                id: parent.parent.id,
-                title: parent.title,
-                state: parent.state,
-                activation: parent.activation,
-                initiation: parent.initiation,
-                expiration: parent.expiration,
+                id: this.id,
+                state: this.data.state,
+                activation: this.data.activation,
+                initiation: this.data.initiation,
+                expiration: this.data.expiration,
             };
             let event;
             switch (this.item.nestedIn.system.subType) {
                 case EVENT_SUBTYPE.SCRIPT_ACTION:
+                    data.subType = EVENT_SUBTYPE.SCRIPT_ACTION;
                     data.script = this.script;
                     data.isAsync = this.isAsync;
                     event = new SohlScriptAction(data);
                     break;
 
+                case EVENT_SUBTYPE.INTRINSIC_ACTION:
+                    // This is an error. Intrinsic actions should not be
+                    // created as nested items or persisted.
+                    sohl.log.warn(
+                        `Illegal persisted Intrinsic Action Event ${this.name} (${this.id}) encountered and ignored.`,
+                    );
+                    break;
+
                 case EVENT_SUBTYPE.BASIC:
+                    data.subType = EVENT_SUBTYPE.BASIC;
                     event = new SohlEvent(data);
                     break;
 
@@ -79,7 +82,7 @@ export class Event
                         `Unsupported Event subType ${this.item.nestedIn.system.subType} for nested Event`,
                     );
             }
-            this.item.nestedIn.logic.events.set(event.title, event);
+            //this.item.nestedIn.logic.events.set(event.title, event);
         }
     }
 
@@ -90,18 +93,13 @@ export class Event
 }
 
 export namespace Event {
-    export interface Logic
-        extends SohlItem.Logic,
-            SubTypeMixin.Logic<EventSubType> {
-        readonly [kEvent]: true;
-        readonly _parent: Event.Data;
-    }
+    export const Kind = ITEM_KIND.EVENT;
+    export interface Logic<TData extends Event.Data<any> = Event.Data<any>>
+        extends SohlItem.Logic<TData> {}
 
-    export interface Data
-        extends SubTypeMixin.Data<EventSubType>,
-            SohlItem.Data {
-        readonly [kData]: true;
-        title: string;
+    export interface Data<TLogic extends Event.Logic<any> = Event.Logic<any>>
+        extends SohlItem.Data<TLogic> {
+        subType: EventSubType;
         state: SohlEventState;
         activation: {
             delay: number;
@@ -117,80 +115,97 @@ export namespace Event {
             repeatCount: number | null;
             repeatUntil: SohlTemporal | null;
         };
+        script: string | null;
+        isAsync: boolean;
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        EventSubType,
-        typeof EventSubTypes
-    >(SohlItem.DataModel, EventSubTypes) as unknown as Constructor<Event.Data> &
-        SohlItem.DataModel.Statics;
+function defineEventSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: EventSubTypes,
+            required: true,
+        }),
+        state: new StringField({
+            choices: SohlEventStates,
+            initial: SOHL_EVENT_STATE.CREATED,
+        }),
+        activation: new SchemaField({
+            delay: new NumberField({ nullable: true, initial: null }),
+            at: new NumberField({ nullable: true, initial: null }),
+        }),
+        initiation: new SchemaField({
+            delay: new NumberField({ nullable: true, initial: null }),
+            at: new NumberField({ nullable: true, initial: null }),
+        }),
+        expiration: new SchemaField({
+            duration: new NumberField({
+                nullable: true,
+                initial: null,
+            }),
+            at: new NumberField({ nullable: true, initial: null }),
+            repeatCount: new NumberField({
+                nullable: true,
+                initial: null,
+            }),
+            repeatUntil: new NumberField({
+                nullable: true,
+                initial: null,
+            }),
+        }),
+        script: new StringField({ nullable: true, initial: null }),
+        isAsync: new BooleanField({ initial: false }),
+    };
+}
 
-    export class DataModel extends DataModelShape {
-        readonly [kData] = true;
-        static override readonly LOCALIZATION_PREFIXES = ["Event"];
-        id!: DocumentId;
-        title!: string;
-        state!: SohlEventState;
-        activation!: {
-            delay: number;
-            at: SohlTemporal | null;
-        };
-        initiation!: {
-            delay: number;
-            at: SohlTemporal | null;
-        };
-        expiration!: {
-            duration: number | null;
-            at: SohlTemporal | null;
-            repeatCount: number | null;
-            repeatUntil: SohlTemporal | null;
-        };
+type EventDataSchema = ReturnType<typeof defineEventSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                id: new DocumentIdField({ required: true }),
-                title: new StringField({ initial: "" }),
-                state: new StringField({
-                    choices: SohlEventStates,
-                    initial: SOHL_EVENT_STATE.CREATED,
-                }),
-                activation: new SchemaField({
-                    delay: new NumberField({ nullable: true, initial: null }),
-                    at: new NumberField({ nullable: true, initial: null }),
-                }),
-                initiation: new SchemaField({
-                    delay: new NumberField({ nullable: true, initial: null }),
-                    at: new NumberField({ nullable: true, initial: null }),
-                }),
-                expiration: new SchemaField({
-                    duration: new NumberField({
-                        nullable: true,
-                        initial: null,
-                    }),
-                    at: new NumberField({ nullable: true, initial: null }),
-                    repeatCount: new NumberField({
-                        nullable: true,
-                        initial: null,
-                    }),
-                    repeatUntil: new NumberField({
-                        nullable: true,
-                        initial: null,
-                    }),
-                }),
-                script: new StringField({ nullable: true, initial: null }),
-                isAsync: new BooleanField({ initial: false }),
-            };
-        }
+export class EventDataModel<
+        TSchema extends foundry.data.fields.DataSchema = EventDataSchema,
+        TLogic extends Event.Logic<Event.Data> = Event.Logic<Event.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Event.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["Event"];
+    static readonly kind = Event.Kind;
+    subType!: EventSubType;
+    state!: SohlEventState;
+    activation!: {
+        delay: number;
+        at: SohlTemporal | null;
+    };
+    initiation!: {
+        delay: number;
+        at: SohlTemporal | null;
+    };
+    expiration!: {
+        duration: number | null;
+        at: SohlTemporal | null;
+        repeatCount: number | null;
+        repeatUntil: SohlTemporal | null;
+    };
+    script!: string;
+    isAsync!: boolean;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineEventSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/scriptaction.hbs",
-                },
-            });
+export class EventSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/event.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

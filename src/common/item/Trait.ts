@@ -12,21 +12,17 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
 import {
-    kMasteryLevelMixin,
-    MasteryLevelMixin,
-} from "@common/item/MasteryLevelMixin";
-import {
+    ITEM_KIND,
     TRAIT_INTENSITY,
+    TRAIT_SUBTYPE,
     TraitIntensities,
     TraitIntensity,
     TraitSubType,
     TraitSubTypes,
 } from "@utils/constants";
-const kTrait = Symbol("Trait");
-const kData = Symbol("Trait.Data");
 const {
     ArrayField,
     ObjectField,
@@ -36,18 +32,10 @@ const {
     BooleanField,
 } = foundry.data.fields;
 
-export class Trait
-    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
+export class Trait<TData extends Trait.Data = Trait.Data>
+    extends MasteryLevel<TData>
     implements Trait.Logic
 {
-    declare readonly [kMasteryLevelMixin]: true;
-    declare readonly _parent: Trait.Data;
-    readonly [kTrait] = true;
-
-    static isA(obj: unknown): obj is Trait {
-        return typeof obj === "object" && obj !== null && kTrait in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -65,16 +53,14 @@ export class Trait
 }
 
 export namespace Trait {
-    export interface Logic
-        extends MasteryLevelMixin.Logic,
-            SubTypeMixin.Logic<TraitSubType> {
-        readonly _parent: Data;
-        readonly [kTrait]: true;
-    }
-    export interface Data
-        extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<TraitSubType> {
-        readonly [kData]: true;
+    export const Kind = ITEM_KIND.TRAIT;
+
+    export interface Logic<TData extends Trait.Data = Trait.Data>
+        extends MasteryLevel.Logic<TData> {}
+
+    export interface Data<TLogic extends Trait.Logic<Data> = Trait.Logic<any>>
+        extends MasteryLevel.Data<TLogic> {
+        subType: TraitSubType;
         textValue: string;
         max: number | null;
         isNumeric: boolean;
@@ -85,72 +71,84 @@ export namespace Trait {
         }[];
         choices: StrictObject<string>;
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        TraitSubType,
-        typeof TraitSubTypes
-    >(
-        MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        TraitSubTypes,
-    ) as unknown as Constructor<Trait.Data> & SohlItem.DataModel.Statics;
-
-    export class DataModel extends DataModelShape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["TRAIT"];
-        declare abbrev: string;
-        declare skillBaseFormula: string;
-        declare masteryLevelBase: number;
-        declare improveFlag: boolean;
-        declare subType: TraitSubType;
-        declare textValue: string;
-        declare max: number | null;
-        declare isNumeric: boolean;
-        declare intensity: TraitIntensity;
-        declare valueDesc: {
-            label: string;
-            maxValue: number;
-        }[];
-        declare choices: StrictObject<string>;
-
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                textValue: new StringField(),
-                max: new NumberField({
-                    integer: true,
-                    nullable: true,
-                    initial: null,
-                }),
-                isNumeric: new BooleanField({ initial: false }),
-                intensity: new StringField({
-                    initial: TRAIT_INTENSITY.TRAIT,
+function defineTraitSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...MasteryLevelDataModel.defineSchema(),
+        subType: new StringField({
+            initial: TRAIT_SUBTYPE.PHYSIQUE,
+            required: true,
+            choices: TraitSubTypes,
+        }),
+        textValue: new StringField(),
+        max: new NumberField({
+            integer: true,
+            nullable: true,
+            initial: null,
+        }),
+        isNumeric: new BooleanField({ initial: false }),
+        intensity: new StringField({
+            initial: TRAIT_INTENSITY.TRAIT,
+            required: true,
+            choices: TraitIntensities,
+        }),
+        valueDesc: new ArrayField(
+            new SchemaField({
+                label: new StringField({
+                    blank: false,
                     required: true,
-                    choices: TraitIntensities,
                 }),
-                valueDesc: new ArrayField(
-                    new SchemaField({
-                        label: new StringField({
-                            blank: false,
-                            required: true,
-                        }),
-                        maxValue: new NumberField({
-                            integer: true,
-                            required: true,
-                            initial: 0,
-                        }),
-                    }),
-                ),
-                choices: new ObjectField(),
-            };
-        }
-    }
+                maxValue: new NumberField({
+                    integer: true,
+                    required: true,
+                    initial: 0,
+                }),
+            }),
+        ),
+        choices: new ObjectField(),
+    };
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/trait.hbs",
-                },
-            });
+type TraitSchema = ReturnType<typeof defineTraitSchema>;
+
+export class TraitDataModel<
+        TSchema extends foundry.data.fields.DataSchema = TraitSchema,
+        TLogic extends Trait.Logic<Trait.Data> = Trait.Logic<Trait.Data>,
+    >
+    extends MasteryLevelDataModel<TSchema, TLogic>
+    implements Trait.Data<TLogic>
+{
+    static override readonly kind = Trait.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["TRAIT"];
+    subType!: TraitSubType;
+    textValue!: string;
+    max!: number | null;
+    isNumeric!: boolean;
+    intensity!: TraitIntensity;
+    valueDesc!: {
+        label: string;
+        maxValue: number;
+    }[];
+    choices!: StrictObject<string>;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineTraitSchema();
+    }
+}
+
+export class TraitSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/trait.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

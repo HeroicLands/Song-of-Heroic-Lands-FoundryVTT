@@ -11,41 +11,30 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
-import {
-    kStrikeModeMixin,
-    kStrikeModeMixinData,
-    StrikeModeMixin,
-} from "@common/item/StrikeModeMixin";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
+import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import type { Skill } from "./Skill";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
+import { StrikeMode, StrikeModeDataModel } from "@common/item/StrikeMode";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { CombatModifier } from "@common/modifier/CombatModifier";
-import { kSubTypeMixinData } from "./SubTypeMixin";
-import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-const kCombatTechniqueStrikeMode = Symbol("CombatTechniqueStrikeMode");
-const kData = Symbol("CombatTechniqueStrikeMode.Data");
+import { ITEM_KIND } from "@utils/constants";
+import { ValueModifier } from "@common/modifier/ValueModifier";
+import { MeleeWeaponStrikeMode } from "./MeleeWeaponStrikeMode";
 const { NumberField } = foundry.data.fields;
 
-export class CombatTechniqueStrikeMode
-    extends StrikeModeMixin(SohlItem.BaseLogic)
-    implements CombatTechniqueStrikeMode.Logic
+export class CombatTechniqueStrikeMode<
+        TData extends
+            CombatTechniqueStrikeMode.Data = CombatTechniqueStrikeMode.Data,
+    >
+    extends StrikeMode<TData>
+    implements CombatTechniqueStrikeMode.Logic<TData>
 {
-    declare [kStrikeModeMixin]: true;
-    declare readonly _parent: CombatTechniqueStrikeMode.Data;
-    readonly [kCombatTechniqueStrikeMode] = true;
+    length!: ValueModifier;
     defense!: {
         block: CombatModifier;
         counterstrike: CombatModifier;
     };
-
-    static isA(obj: unknown): obj is CombatTechniqueStrikeMode {
-        return (
-            typeof obj === "object" &&
-            obj !== null &&
-            kCombatTechniqueStrikeMode in obj
-        );
-    }
 
     async blockTest(
         context: SohlEventContext,
@@ -72,11 +61,14 @@ export class CombatTechniqueStrikeMode
     override evaluate(context: SohlEventContext): void {
         super.evaluate(context);
         if (this.assocSkill) {
-            this.defense.block.addVM(this.assocSkill.system.masteryLevel, {
-                includeBase: true,
-            });
+            this.defense.block.addVM(
+                (this.assocSkill.logic as Skill).masteryLevel,
+                {
+                    includeBase: true,
+                },
+            );
             this.defense.counterstrike.addVM(
-                this.assocSkill.system.masteryLevel,
+                (this.assocSkill.logic as Skill).masteryLevel,
                 { includeBase: true },
             );
         }
@@ -107,47 +99,74 @@ export class CombatTechniqueStrikeMode
 }
 
 export namespace CombatTechniqueStrikeMode {
-    export interface Logic extends StrikeModeMixin.Logic {
-        readonly _parent: CombatTechniqueStrikeMode.Data;
-        readonly [kCombatTechniqueStrikeMode]: true;
+    export const Kind = ITEM_KIND.COMBATTECHNIQUESTRIKEMODE;
+
+    export interface Logic<
+        TData extends
+            CombatTechniqueStrikeMode.Data = CombatTechniqueStrikeMode.Data,
+    > extends StrikeMode.Logic<TData> {
+        length: ValueModifier;
+        defense: {
+            block: CombatModifier;
+            counterstrike: CombatModifier;
+        };
     }
 
-    export interface Data extends StrikeModeMixin.Data {
-        readonly [kData]: true;
+    export interface Data<
+        TLogic extends
+            CombatTechniqueStrikeMode.Logic<Data> = CombatTechniqueStrikeMode.Logic<any>,
+    > extends StrikeMode.Data<TLogic> {
         lengthBase: number;
     }
+}
 
-    export class DataModel
-        extends StrikeModeMixin.DataModel(SohlItem.DataModel)
-        implements Data
-    {
-        static override readonly LOCALIZATION_PREFIXES = [
-            "CombatTechniqueStrikeMode",
-        ];
-        declare readonly [kStrikeModeMixinData]: true;
-        declare readonly [kSubTypeMixinData]: true;
-        readonly [kData] = true;
-        lengthBase!: number;
+function defineCombatTechniqueStrikeModeSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...StrikeModeDataModel.defineSchema(),
+        lengthBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
 
-        static override defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                lengthBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+type CombatTechniqueStrikeModeSchema = ReturnType<
+    typeof defineCombatTechniqueStrikeModeSchema
+>;
+
+export class CombatTechniqueStrikeModeDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = CombatTechniqueStrikeModeSchema,
+        TLogic extends
+            CombatTechniqueStrikeMode.Logic<CombatTechniqueStrikeMode.Data> = CombatTechniqueStrikeMode.Logic<
+            CombatTechniqueStrikeMode.Data<CombatTechniqueStrikeMode.Logic<any>>
+        >,
+    >
+    extends StrikeModeDataModel<TSchema, TLogic>
+    implements CombatTechniqueStrikeMode.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["COMBATTECHNIQUESTRIKEMODE"];
+    static override readonly kind = CombatTechniqueStrikeMode.Kind;
+    lengthBase!: number;
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineCombatTechniqueStrikeModeSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template:
-                        "systems/sohl/templates/item/combattechniquestrikemode.hbs",
-                },
-            });
+export class CombatTechniqueStrikeModeSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template:
+                "systems/sohl/templates/item/combattechniquestrikemode.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

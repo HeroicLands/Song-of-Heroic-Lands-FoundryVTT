@@ -12,37 +12,42 @@
  */
 
 import type { SohlActor } from "@common/actor/SohlActor";
-import { SohlItem } from "@common/item/SohlItem";
-import { SohlLogic } from "@common/SohlLogic";
+import type { SohlItem } from "@common/item/SohlItem";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-
-const kSohlActiveEffect = Symbol("SohlActiveEffect");
+import type { SohlEffectData } from "@common/effect/SohlEffectData";
+import { ItemKinds } from "@utils/constants";
 
 export class SohlActiveEffect extends ActiveEffect {
-    readonly [kSohlActiveEffect] = true;
-
-    static isA(obj: unknown): obj is SohlActor {
-        return (
-            typeof obj === "object" && obj !== null && kSohlActiveEffect in obj
-        );
-    }
-
-    get logic(): SohlLogic {
-        return (this.system as any).logic;
+    /**
+     * Get the logic object for this item.
+     * @remarks
+     * This is a convenience accessor to avoid having to access `this.system.logic`
+     */
+    get logic(): SohlEffectData {
+        return (this.system as any).logic as SohlEffectData;
     }
 
     get item(): SohlItem | null {
-        return this.parent instanceof SohlItem ? this.parent : null;
+        return ItemKinds.includes(this.parent.type) ? this.parent : null;
     }
 
     get actor(): SohlActor {
         return (this.item?.actor || this.parent) as unknown as SohlActor;
     }
 
+    /**
+     * Get the context menu options for a specific SohlItem document.
+     * @param doc The SohlItem document to get context options for.
+     * @returns The context menu options for the specified SohlItem document.
+     */
     static _getContextOptions(doc: SohlActiveEffect): SohlContextMenu.Entry[] {
         return doc._getContextOptions();
     }
 
+    /**
+     * Get the context menu options for this item.
+     * @returns The context menu options for this item.
+     */
     _getContextOptions(): SohlContextMenu.Entry[] {
         return this.logic._getContextOptions();
     }

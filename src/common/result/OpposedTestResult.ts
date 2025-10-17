@@ -18,6 +18,7 @@ import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
+    TestType,
 } from "@utils/constants";
 
 export class OpposedTestResult extends TestResult {
@@ -27,31 +28,29 @@ export class OpposedTestResult extends TestResult {
     tieBreak!: number;
     breakTies!: boolean;
 
-    constructor(data: PlainObject = {}, options: PlainObject = {}) {
+    constructor(
+        data: Partial<OpposedTestResult.Data> = {},
+        options: Partial<OpposedTestResult.Options> = {},
+    ) {
         if (!data.sourceTestResult) {
             throw new Error("sourceTestResult must be provided");
         }
-        if (!data.targetTestResult && !data.targetTokenUuid) {
+        if (!data.targetTestResult && !data.targetToken) {
             throw new Error(
-                "Target token UUID must be provided unless targetTestResult is given",
+                "Target token or targetTestResult must be provided",
             );
         }
         super(data, options);
-        this.sourceTestResult = new SuccessTestResult(
-            data.sourceTestResult,
-            options,
-        );
+        this.sourceTestResult = data.sourceTestResult;
 
-        const tokenDoc = fromUuidSync(data.targetTokenUuid);
-        if (!(tokenDoc instanceof SohlTokenDocument)) {
-            throw new Error("Invalid target token UUID provided");
-        }
-        this.targetTestResult = new SuccessTestResult(
-            data.targetTestResult ?? {
-                token: tokenDoc,
-            },
-            options,
-        );
+        this.targetTestResult =
+            data.targetTestResult ??
+            new SuccessTestResult(
+                {
+                    token: data.targetToken ?? undefined,
+                },
+                options,
+            );
         this.rollMode = data.rollMode || "roll";
         this.tieBreak =
             isOpposedTestResultTieBreak(data.tieBreak) ?
@@ -129,7 +128,7 @@ export class OpposedTestResult extends TestResult {
             description: sohl.i18n.format(
                 "SOHL.OpposedTestResult.toChat.description",
                 {
-                    targetActorName: this.targetTestResult.token.name,
+                    targetActorName: this.targetTestResult.token?.name,
                 },
             ),
         };
@@ -143,44 +142,27 @@ export class OpposedTestResult extends TestResult {
 }
 
 export namespace OpposedTestResult {
+    export const Kind: string = "OpposedTestResult";
+
     export interface Data extends TestResult.Data {
         sourceTestResult: SuccessTestResult;
         targetTestResult: SuccessTestResult;
         rollMode: string;
         tieBreak: number;
         breakTies: boolean;
-        targetTokenUuid: string | null;
+        targetToken: SohlTokenDocument | null;
     }
 
     export interface Options extends TestResult.Options {}
 
-    export class Context extends SohlEventContext {
-        priorTestResult?: OpposedTestResult;
-
-        constructor(data: Partial<OpposedTestResult.Context.Data> = {}) {
-            if (!data.priorTestResult) {
-                throw new Error("priorTestResult must be provided");
-            }
-
-            super(data);
-            this.priorTestResult =
-                OpposedTestResult.isA(data.priorTestResult) ?
-                    data.priorTestResult
-                :   new OpposedTestResult(data.priorTestResult);
-        }
-
-        /** @inheritdoc */
-        toJSON(): Record<string, unknown> {
-            return {
-                ...super.toJSON(),
-                priorTestResult: this.priorTestResult?.toJSON() || null,
-            };
-        }
-    }
-
-    export namespace Context {
-        export interface Data extends SohlEventContext.Data {
-            priorTestResult: Nullable<OpposedTestResult>;
-        }
+    export interface ContextScope {
+        priorTestResult?: OpposedTestResult | null;
+        noChat?: boolean;
+        type?: TestType;
+        skipDialog?: boolean;
+        title?: string;
+        targetToken?: SohlTokenDocument;
+        situationalModifier?: number;
+        sourceSuccessTestResult?: SuccessTestResult;
     }
 }

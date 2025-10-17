@@ -11,22 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    defineType,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    toSohlContextMenuSortGroup,
-} from "@utils/constants";
-import { isBoolean, toDocumentId } from "@utils/helpers";
+import { defineType, SOHL_CONTEXT_MENU_SORT_GROUP } from "@utils/constants";
+import { toDocumentId } from "@utils/helpers";
 import { SohlBase } from "@common/SohlBase";
 import { SohlEvent } from "@common/event/SohlEvent";
 import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
 import type { SohlItem } from "@common/item/SohlItem";
 import type { SohlActor } from "@common/actor/SohlActor";
-import { SohlAction } from "@common/event/SohlAction";
-import { SohlMap } from "@utils/collection/SohlMap";
+import type { SohlAction } from "@common/event/SohlAction";
+import type { SohlDataModel } from "@common/SohlDataModel";
+import { SohlSpeaker } from "./SohlSpeaker";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -63,13 +59,35 @@ export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
 export abstract class SohlLogic<
-    TParent extends SohlLogic.Data = SohlLogic.Data,
+    TData extends SohlDataModel.Data<any> = SohlDataModel.Data<any>,
 > extends SohlBase {
-    readonly _parent: TParent;
-    readonly events: SohlMap<string, SohlEvent>;
+    private readonly _parent: TData;
 
-    get parent(): TParent {
+    /**
+     * The parent data model this logic is embedded in.
+     */
+    get parent(): TData {
         return this._parent;
+    }
+
+    /**
+     * The data model this logic is associated with.
+     * @remarks This is a convenience accessor for `this.parent`.
+     */
+    get data(): TData {
+        return this.parent;
+    }
+
+    get id(): DocumentId {
+        return this.parent.parent.id;
+    }
+
+    get name(): string {
+        return this.parent.parent.name;
+    }
+
+    get type(): string {
+        return this.parent.parent.type;
     }
 
     get item(): SohlItem {
@@ -84,8 +102,20 @@ export abstract class SohlLogic<
         if ("actor" in this.parent) {
             return this.parent.actor as SohlActor;
         } else {
-            return this.item?.actor || null;
+            return this.item?.actor ?? null;
         }
+    }
+
+    get speaker(): SohlSpeaker {
+        return (
+            this.actor?.getSpeaker() ??
+            this.item?.actor?.getSpeaker() ??
+            new SohlSpeaker()
+        );
+    }
+
+    get nestedIn(): SohlItem | null {
+        return this.item?.nestedIn ?? null;
     }
 
     get typeLabel(): string {
@@ -117,12 +147,6 @@ export abstract class SohlLogic<
         return "";
     }
 
-    get actions(): SohlAction[] {
-        return this.events.filter(
-            (e) => e instanceof SohlAction,
-        ) as SohlAction[];
-    }
-
     get intrinsicActions(): SohlAction[] {
         const actions = Object.keys(INTRINSIC_ACTION).map((key) => {
             const data = INTRINSIC_ACTION[key];
@@ -143,15 +167,6 @@ export abstract class SohlLogic<
         }
         super(data, options);
         this._parent = options.parent;
-        const events: SohlEvent[] = this.intrinsicActions
-            .filter((a) => !!a.title)
-            .map((action: SohlAction) => {
-                return new SohlIntrinsicAction(action, { parent: this });
-            });
-        this.setDefaultAction(events);
-        this.events = new SohlMap<string, SohlEvent>(
-            events.map((e) => [e.title, e]),
-        );
     }
 
     setDefaultAction(events: SohlEvent[]): void {
@@ -199,43 +214,44 @@ export abstract class SohlLogic<
 
         // If after all that, we still don't have a default action, then
         // set the first action as the default
-        const firstAction = events.find(
-            (evt) => evt instanceof SohlAction,
-        ) as SohlAction;
-        if (!hasDefault && firstAction) {
-            firstAction.contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-            events = events.filter((evt) => evt.id !== firstAction.id);
-            events.unshift(firstAction);
-        }
+        // const firstAction = events.find(
+        //     (evt) => evt instanceof SohlAction,
+        // ) as SohlAction;
+        // if (!hasDefault && firstAction) {
+        //     firstAction.contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        //     events = events.filter((evt) => evt.id !== firstAction.id);
+        //     events.unshift(firstAction);
+        // }
     }
 
     _getContextOptions(): SohlContextMenu.Entry[] {
-        let result: SohlContextMenu.Entry[] = this.actions.reduce(
-            (ary: SohlContextMenu.Entry[], a: SohlAction) => {
-                let cond: SohlContextMenu.Condition = a.contextCondition;
-                if (isBoolean(cond)) {
-                    cond = () =>
-                        !!(
-                            cond ||
-                            a.contextGroup !==
-                                SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN
-                        );
-                }
+        // let result: SohlContextMenu.Entry[] = this.actions.reduce(
+        //     (ary: SohlContextMenu.Entry[], a: SohlAction) => {
+        //         let cond: SohlContextMenu.Condition = a.contextCondition;
+        //         if (isBoolean(cond)) {
+        //             cond = () =>
+        //                 !!(
+        //                     cond ||
+        //                     a.contextGroup !==
+        //                         SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN
+        //                 );
+        //         }
 
-                const newAction: SohlContextMenu.Entry =
-                    new SohlContextMenu.Entry({
-                        id: a.title,
-                        name: a.title,
-                        iconFAClass: a.contextIconClass,
-                        condition: cond,
-                        group: toSohlContextMenuSortGroup(a.contextGroup),
-                    });
-                ary.push(newAction);
-                return ary;
-            },
-            [],
-        );
-        return result;
+        //         const newAction: SohlContextMenu.Entry =
+        //             new SohlContextMenu.Entry({
+        //                 id: a.title,
+        //                 name: a.title,
+        //                 iconFAClass: a.contextIconClass,
+        //                 condition: cond,
+        //                 group: toSohlContextMenuSortGroup(a.contextGroup),
+        //             });
+        //         ary.push(newAction);
+        //         return ary;
+        //     },
+        //     [],
+        // );
+        // return result;
+        return [];
     }
 
     /**
@@ -261,17 +277,12 @@ export namespace SohlLogic {
         abbrev: string;
     }
 
-    export interface Constructor<D extends Data = Data> {
-        new (parent: D, data?: PlainObject, options?: PlainObject): SohlLogic;
-    }
-
-    export interface Data extends foundry.abstract.TypeDataModel<any, any> {
-        readonly parent: SohlDocument;
-        readonly logic: SohlLogic;
+    export interface Data<
+        TParent extends SohlDocument,
+        TLogic extends SohlLogic<any>,
+    > extends SohlDataModel.Data<TParent> {
+        readonly parent: TParent;
+        readonly logic: TLogic;
         readonly kind: string;
-        actionList: PlainObject[];
-        eventList: PlainObject[];
-        get actor(): SohlActor | null;
-        get i18nPrefix(): string;
     }
 }

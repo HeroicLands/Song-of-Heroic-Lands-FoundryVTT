@@ -219,7 +219,7 @@ export class SohlLogger {
                 Hooks.onError(callerInfo.label, newError, {
                     message,
                     log: logLevel,
-                    notify: notifyLevel,
+                    notify: notifyLevel as any,
                 });
             } else {
                 console.error(newError);

@@ -23,6 +23,8 @@ export class CombatModifier extends MasteryLevelModifier {
 }
 
 export namespace CombatModifier {
+    export const Kind: string = "CombatModifier";
+
     export interface Data extends MasteryLevelModifier.Data {}
 
     export interface Options extends MasteryLevelModifier.Options {}

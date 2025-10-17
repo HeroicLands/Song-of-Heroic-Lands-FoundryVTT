@@ -25,24 +25,29 @@ import {
     KIND_KEY,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
-import { FilePath, HTMLString, toFilePath, toHTMLString } from "@utils/helpers";
+import {
+    defaultFromJSON,
+    FilePath,
+    HTMLString,
+    toFilePath,
+    toHTMLString,
+} from "@utils/helpers";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlMap } from "@utils/collection/SohlMap";
 import type { SohlLogic } from "@common/SohlLogic";
 import {
+    COMBATANT_LOGIC,
     COMMON_ACTOR_LOGIC,
     COMMON_ITEM_LOGIC,
     EFFECT_LOGIC,
-} from "./SohlSystem";
-const { ArrayField, ObjectField } = foundry.data.fields;
-const { DocumentSheetV2, HandlebarsApplicationMixin } =
-    foundry.applications.api;
+} from "@common/SohlSystem";
+const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export abstract class SohlDataModel<
         TSchema extends foundry.data.fields.DataSchema,
         TDocument extends SohlDocument,
-        TLogic extends SohlLogic = SohlLogic,
+        TLogic extends SohlLogic<any> = SohlLogic<any>,
     >
     extends foundry.abstract.TypeDataModel<TSchema, TDocument>
     implements SohlDataModel.Data<TDocument>
@@ -61,31 +66,22 @@ export abstract class SohlDataModel<
     static override readonly LOCALIZATION_PREFIXES: string[];
     static readonly kind: string = "" as const;
 
-    actionList!: PlainObject[];
-    eventList!: PlainObject[];
     _logic!: TLogic;
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         super(data as any, options as any);
     }
 
-    /** @inheritdoc */
-    static override defineSchema(): foundry.data.fields.DataSchema {
-        return {
-            actionList: new ArrayField(new ObjectField()),
-            eventList: new ArrayField(new ObjectField()),
-        };
-    }
-
-    static create<L extends SohlLogic>(
+    static create<L extends SohlLogic<any>>(
         data: PlainObject,
         options: PlainObject,
     ): L {
         const kind: string = this.kind;
-        let logicCtor: Constructor<SohlLogic> | undefined =
+        let logicCtor: Constructor<SohlLogic<any>> | undefined =
             COMMON_ACTOR_LOGIC[kind];
         logicCtor ??= COMMON_ITEM_LOGIC[kind];
-        logicCtor ??= EFFECT_LOGIC[kind];
+        //logicCtor ??= EFFECT_LOGIC[kind];
+        //logicCtor ??= COMBATANT_LOGIC[kind];
         if (!logicCtor) {
             throw new Error(`No logic constructor found for kind "${kind}"`);
         }
@@ -143,7 +139,7 @@ export abstract class SohlDataModel<
         const newData: PlainObject = {};
         for (const [key, value] of Object.entries(data)) {
             if (key === KIND_KEY) continue;
-            newData[key] = SohlMap.defaultFromJSON(value);
+            newData[key] = defaultFromJSON(value);
         }
 
         return new dataModel(newData, options) as InstanceType<TDataModel>;
@@ -153,18 +149,23 @@ export abstract class SohlDataModel<
 export namespace SohlDataModel {
     export type Any = SohlDataModel<SohlDocument, any>;
 
-    export interface Data<TParent extends SohlDocument> {
+    export interface Data<
+        TParent extends SohlDocument,
+        TLogic extends SohlLogic<any> = SohlLogic<any>,
+    > {
         readonly parent: TParent | null;
-        actionList: PlainObject[];
-        eventList: PlainObject[];
+        readonly logic: TLogic;
+        readonly kind: string;
     }
 
     export namespace DataModel {
         export interface Statics {
             readonly LOCALIZATION_PREFIXES: string[];
             readonly kind: string;
-            defineSchema(): foundry.data.fields.DataSchema;
-            create(data: PlainObject, options: PlainObject): SohlLogic;
+            create<L extends SohlLogic<any>>(
+                data: PlainObject,
+                options: PlainObject,
+            ): L;
         }
 
         export const Shape: WithStatics<
@@ -499,14 +500,6 @@ export namespace SohlDataModel {
                         li.dataset.effectId,
                     );
                     dragData = effect?.toDragData() || null;
-                }
-
-                // Action
-                else if (li.dataset.actionName && this.actor) {
-                    const action = (this.actor.system.actions as any).getName(
-                        li.dataset.actionName,
-                    );
-                    dragData = action.toDragData();
                 }
 
                 if (!dragData) return;

@@ -19,7 +19,12 @@ import type { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlArray } from "@utils/collection/SohlArray";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
+import {
+    SOHL_SPEAKER_ROLL_MODE,
+    TEST_TYPE,
+    VALUE_DELTA_ID,
+} from "@utils/constants";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 
 export class MasteryLevelModifier extends ValueModifier {
     minTarget!: number;
@@ -75,19 +80,23 @@ export class MasteryLevelModifier extends ValueModifier {
      * if there was an error during the test, or the result of the success test.
      */
     async successTest(
-        context: Partial<SuccessTestResult.Context>,
+        context: SohlEventContext,
     ): Promise<SuccessTestResult | null | false> {
-        const testResult: SuccessTestResult = sohl.CONFIG.SuccessTestResult(
-            context.priorTestResult ?? {
-                chat: context.speaker,
-                type: context.type,
-                title: context.title,
-                mlMod: this.clone(),
-            },
-            {
-                parent: this.parent,
-            },
-        );
+        const scope: Partial<SuccessTestResult.ContextScope> =
+            context.scope || {};
+        const testResult: SuccessTestResult =
+            scope.priorTestResult ??
+            sohl.CONFIG.SuccessTestResult(
+                {
+                    chat: this.parent.speaker,
+                    type: context.type,
+                    title: context.title,
+                    mlMod: this.clone(),
+                },
+                {
+                    parent: this.parent,
+                },
+            );
         if (!testResult) {
             throw new Error("Failed to create SuccessTestResult.");
         }
@@ -109,7 +118,7 @@ export class MasteryLevelModifier extends ValueModifier {
                     },
                 ),
                 mlMod: testResult.masteryLevelModifier,
-                situationalModifier: 0,
+                situationalModifier: scope.situationalModifier ?? 0,
                 rollMode: testResult.rollMode,
                 rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
                     ([k, v]) => ({
@@ -156,194 +165,122 @@ export class MasteryLevelModifier extends ValueModifier {
 
         let allowed: boolean = await testResult.evaluate();
 
-        if (allowed && context.speaker) {
-            await testResult.toChat(context.speaker);
+        if (allowed) {
+            await testResult.toChat(this.parent.speaker);
         }
         return allowed ? testResult : false;
     }
 
     /**
      * Perform an opposed test
+     *
+     * @remarks
+     * This method handles both starting a new opposed test and resuming
+     * an existing one. If `context.priorTestResult` is not provided, a new
+     * opposed test is started by creating a new `OpposedTestResult` with
+     * the current `SuccessTestResult` as the source test. If
+     * `context.priorTestResult` is provided, it is assumed to be an existing
+     * `OpposedTestResult` that needs to be completed by performing the target
+     * test.
      * @param {object} options
      * @returns {SuccessTestChatData}
      */
     async opposedTestStart(
-        context: OpposedTestResult.Context,
-    ): Promise<SuccessTestResult | null> {
-        if (!context.speaker) {
-            context.speaker = new SohlSpeaker();
-        }
-        let {
-            targetToken,
-            situationalModifier,
-        }: { targetToken?: SohlTokenDocument; situationalModifier?: number } =
+        context: SohlEventContext,
+    ): Promise<OpposedTestResult | null> {
+        const scope: Partial<OpposedTestResult.ContextScope> =
             context.scope || {};
-        if (!context.scope) context.scope = {};
-        targetToken ||= SohlTokenDocument.getTargetedTokens(true)?.[0];
-        if (!targetToken) return null;
-        context.type ||= `${this.parent.item?.type}-${this.parent.item?.name}-opposedtest`;
-        context.title ||= sohl.i18n.format("{label} Opposed Test", {
-            label: this.parent.item?.system.label,
-        });
-        if (!context.token) {
-            ui.notifications.warn(
-                sohl.i18n.format("No attacker token identified."),
-            );
-            return null;
-        }
 
-        if (!context.token.isOwner) {
-            ui.notifications.warn(
-                sohl.i18n.format(
-                    "You do not have permissions to perform this operation on {name}",
-                    { name: context.token.name },
-                ),
-            );
-            return null;
-        }
+        let sourceTestResult: SuccessTestResult | false | null | undefined =
+            scope.priorTestResult?.sourceTestResult;
 
-        context.priorTestResult ??= (() => {
-            const srcTestResult = new sohl.CONFIG.SuccessTestResult(
-                {
-                    speaker: context.speaker,
-                    item: this.parent.item,
-                    type: SuccessTestResult.TEST_TYPE.SKILL,
-                    title:
-                        context.title ||
-                        sohl.i18n.format("{label} Test", {
-                            label: this.parent.label,
-                        }),
-                    situationalModifier: 0,
-                    mlMod: this.clone(),
-                },
-                { parent: this },
-            );
-            return new sohl.CONFIG.OpposedTestResult(
-                {
-                    speaker: context.speaker,
-                    targetTokenUuid: targetToken.uuid,
-                    sourceTestResult: srcTestResult,
-                    targetTestResult: null,
-                },
-                { parent: this },
-            );
-        }) as unknown as OpposedTestResult;
-
-        let sourceTestContext: SuccessTestResult.Context =
-            new sohl.CONFIG.SuccessTestResult.Context({
-                speaker:
-                    context.priorTestResult.speaker.toJSON() as SohlSpeaker.Data,
-                item: this.parent.item,
-                title: context.title,
-                situationalModifier: situationalModifier || 0,
-                mlMod: this.clone(),
+        if (!sourceTestResult) {
+            // No prior test result, so we are starting a new opposed test.
+            // Setup the context for the source test.
+            scope.targetToken ??=
+                SohlTokenDocument.getTargetedTokens(true)?.[0];
+            if (!scope.targetToken) return null;
+            scope.situationalModifier ??= 0;
+            scope.type ??= `${this.parent.type}-${this.parent.name}-opposedtest`;
+            scope.title ??= sohl.i18n.format("{label} Opposed Test", {
+                label: this.parent.label,
             });
-        let sourceTestResult =
-            context.priorTestResult?.sourceTestResult ??
-            new sohl.CONFIG.SuccessTestResult(
-                {
-                    speaker: context.speaker,
-                    item: this.parent.item,
-                    rollMode: (game as any).settings.get("core", "rollMode"),
-                    title:
-                        context.title ||
-                        sohl.i18n.format("{name} {label} Test", {
-                            name:
-                                context.token.name ||
-                                context.speaker.actor?.name,
-                            label: this.parent.item?.system.label,
-                        }),
-                    situationalModifier: 0,
-                    mlMod: this.clone(),
-                },
-                { parent: this },
-            );
-        const targetTestResult = await this.successTest(sourceTestContext);
 
-        const opposedTest = new sohl.CONFIG.OpposedTestResult(
+            if (!scope.targetToken.isOwner) {
+                ui.notifications.warn(
+                    sohl.i18n.format(
+                        "You do not have permissions to perform this operation on {name}",
+                        { name: scope.targetToken.name },
+                    ),
+                );
+                return null;
+            }
+        }
+
+        foundry.utils.mergeObject(
+            context,
             {
-                speaker: context.speaker,
-                targetToken: context.scope.targetToken,
-                sourceTestResult,
-                targetTestResult,
+                scope: {
+                    priorTestResult: {
+                        sourceTestResult,
+                    },
+                },
             },
-            { parent: this },
+            { inplace: true },
         );
 
-        return opposedTest.toRequestChat();
+        // Perform the success test for the source actor.
+        sourceTestResult = await this.successTest(context);
+
+        if (!sourceTestResult) return null;
+
+        const result: OpposedTestResult = new sohl.CONFIG.OpposedTestResult(
+            {
+                sourceTestResult,
+                targetTestResult: null,
+                targetToken: scope.targetToken,
+            },
+            {
+                ...context,
+                parent: this.parent,
+            },
+        );
+
+        await result.toChat();
+        return result;
     }
 
     async opposedTestResume(
-        context: OpposedTestResult.Context,
+        context: SohlEventContext,
     ): Promise<OpposedTestResult | false | null> {
-        let { noChat = false, priorTestResult } = context;
+        const scope: Partial<OpposedTestResult.ContextScope> =
+            context.scope || {};
 
-        if (!priorTestResult) {
+        if (!scope.priorTestResult) {
             throw new Error("Must supply priorTestResult");
         }
 
-        let opposedTestResult: OpposedTestResult = priorTestResult;
-        if (!priorTestResult.targetTestResult) {
-            priorTestResult.targetTestResult =
-                new sohl.CONFIG.SuccessTestResult(
-                    {
-                        speaker: context.speaker || new SohlSpeaker(),
-                        item: this.parent.item,
-                        rollMode: (game as any).settings.get(
-                            "core",
-                            "rollMode",
-                        ),
-                        type: SuccessTestResult.TEST_TYPE.SKILL,
-                        title: sohl.i18n.format("Opposed {label} Test", {
-                            label: this.parent.item?.system.label,
-                        }),
-                        situationalModifier: 0,
-                        mlMod: foundry.utils.deepClone(
-                            this.parent.item?.system._masteryLevel,
-                        ),
-                    },
-                    { parent: this },
-                );
+        let opposedTestResult: OpposedTestResult = scope.priorTestResult;
+        const successTestContext = context.clone();
 
-            const targetTestResult = await this.successTest(
-                new SuccessTestResult.Context({
-                    noChat: true,
-                    rollMode:
-                        (game as any).settings.get("core", "rollMode") ||
-                        SOHL_SPEAKER_ROLL_MODE.SYSTEM,
-                    title:
-                        context.title ||
-                        sohl.i18n.format("{name} {label} Test", {
-                            name:
-                                context.token?.name ||
-                                context.speaker.actor?.name,
-                            label: this.parent.item?.system.label,
-                        }),
-                    situationalModifier: 0,
-                }),
-            );
+        if (!opposedTestResult.targetTestResult) {
+            successTestContext.scope = {
+                situationalModifier: 0,
+            };
+            const targetTestResult = await this.successTest(successTestContext);
             if (!targetTestResult) return targetTestResult;
-            priorTestResult.targetTestResult = targetTestResult;
+            opposedTestResult.targetTestResult = targetTestResult;
         } else {
             // In this situation, where the targetTestResult is provided,
             // the GM is modifying the result of a prior opposedTest.
             // Therefore, we re-display the dialog for each of the prior
             // successTests.
+            successTestContext.scope = {
+                priorTestResult: opposedTestResult.targetTestResult,
+            };
             let maybeTestResult =
                 await opposedTestResult.sourceTestResult.masteryLevelModifier.successTest(
-                    {
-                        noChat: true,
-                        priorTestResult: opposedTestResult.sourceTestResult,
-                    },
-                );
-            if (!maybeTestResult) return maybeTestResult;
-            opposedTestResult.sourceTestResult = maybeTestResult;
-            maybeTestResult =
-                await opposedTestResult.targetTestResult.masteryLevelModifier.successTest(
-                    {
-                        noChat: true,
-                        priorTestResult: opposedTestResult.targetTestResult,
-                    },
+                    successTestContext,
                 );
             if (!maybeTestResult) return maybeTestResult;
             opposedTestResult.targetTestResult = maybeTestResult;
@@ -351,7 +288,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         let allowed = await opposedTestResult.evaluate();
 
-        if (allowed && !noChat) {
+        if (allowed && !context.noChat) {
             opposedTestResult.toChat({
                 template:
                     "systems/sohl/templates/chat/opposed-result-card.html",
@@ -416,6 +353,8 @@ export class MasteryLevelModifier extends ValueModifier {
 }
 
 export namespace MasteryLevelModifier {
+    export const Kind: string = "MasteryLevelModifier";
+
     export interface Data extends ValueModifier.Data {
         minTarget: number;
         maxTarget: number;

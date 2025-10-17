@@ -12,22 +12,14 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import {
-    kMasteryLevelMixin,
-    MasteryLevelMixin,
-} from "@common/item/MasteryLevelMixin";
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
+import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
-    MYSTICALABILITY_SUBTYPE,
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
 } from "@utils/constants";
-const kMysticalAbility = Symbol("MysticalAbility");
-const kData = Symbol("MysticalAbility.Data");
 const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
@@ -50,16 +42,12 @@ const { SchemaField, NumberField, StringField, BooleanField } =
  *   Alchemy: Create alchemical elixirs or perform actions
  *   Divination: Foretelling the future
  */
-export class MysticalAbility
-    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
-    implements
-        MysticalAbility.Logic,
-        SubTypeMixin.Logic,
-        MasteryLevelMixin.Logic
+export class MysticalAbility<
+        TData extends MysticalAbility.Data = MysticalAbility.Data,
+    >
+    extends MasteryLevel<TData>
+    implements MysticalAbility.Logic<TData>
 {
-    declare [kMasteryLevelMixin]: true;
-    declare readonly _parent: MysticalAbility.Data;
-    readonly [kMysticalAbility] = true;
     assocSkill?: SohlItem;
     domain?: SohlItem;
     level!: ValueModifier;
@@ -68,33 +56,27 @@ export class MysticalAbility
         max: ValueModifier;
     };
 
-    static isA(obj: unknown): obj is MysticalAbility {
-        return (
-            typeof obj === "object" && obj !== null && kMysticalAbility in obj
-        );
-    }
-
     /** @inheritdoc */
     initialize(context: SohlEventContext): void {
         super.initialize(context);
-        if (this._parent.assocSkill) {
+        if (this.data.assocSkill) {
             this.assocSkill = this.actor?.allItems.find(
                 (it) =>
                     it.type === ITEM_KIND.SKILL &&
-                    it.name === this._parent.assocSkill,
+                    it.name === this.data.assocSkill,
             );
         }
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this._parent.charges.value,
+                this.data.charges.value,
             ),
             max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-                this._parent.charges.max,
+                this.data.charges.max,
             ),
         };
 
         this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
-            this._parent.levelBase,
+            this.data.levelBase,
         );
     }
 
@@ -110,11 +92,11 @@ export class MysticalAbility
 }
 
 export namespace MysticalAbility {
-    export interface Logic
-        extends MasteryLevelMixin.Logic,
-            SubTypeMixin.Logic<MysticalAbilitySubType> {
-        readonly _parent: Data;
-        readonly [kMysticalAbility]: true;
+    export const Kind = ITEM_KIND.MYSTICALABILITY;
+
+    export interface Logic<
+        TData extends MysticalAbility.Data = MysticalAbility.Data,
+    > extends MasteryLevel.Logic<TData> {
         assocSkill?: SohlItem;
         domain?: SohlItem;
         level: ValueModifier;
@@ -124,10 +106,10 @@ export namespace MysticalAbility {
         };
     }
 
-    export interface Data
-        extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<MysticalAbilitySubType> {
-        readonly [kData]: true;
+    export interface Data<
+        TLogic extends MysticalAbility.Logic<Data> = MysticalAbility.Logic<any>,
+    > extends MasteryLevel.Data<TLogic> {
+        subType: MysticalAbilitySubType;
         assocSkill: string;
         isImprovable: boolean;
         domain: {
@@ -140,79 +122,88 @@ export namespace MysticalAbility {
             max: number;
         };
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        MysticalAbilitySubType,
-        typeof MysticalAbilitySubTypes
-    >(
-        MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        MysticalAbilitySubTypes,
-    ) as unknown as Constructor<MysticalAbility.Data> &
-        SohlItem.DataModel.Statics;
+function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...MasteryLevelDataModel.defineSchema(),
+        subType: new StringField({
+            choices: MysticalAbilitySubTypes,
+            required: true,
+        }),
+        assocSkill: new StringField(),
+        isImprovable: new BooleanField({ initial: false }),
+        domain: new SchemaField({
+            philosophy: new StringField(),
+            name: new StringField(),
+        }),
+        levelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        charges: new SchemaField({
+            // Note: if value is -1, then there are infinite charges remaining
+            value: new NumberField({
+                integer: true,
+                initial: -1,
+                min: -1,
+            }),
+            // Note: if max is 0, then there is no maximum
+            max: new NumberField({
+                integer: true,
+                initial: -1,
+                min: -1,
+            }),
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape implements Data {
-        static readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
-        declare abbrev: string;
-        declare skillBaseFormula: string;
-        declare masteryLevelBase: number;
-        declare improveFlag: boolean;
-        assocSkill!: string;
-        isImprovable!: boolean;
-        domain!: {
-            philosophy: string;
-            name: string;
-        };
-        levelBase!: number;
-        charges!: {
-            value: number;
-            max: number;
-        };
-        declare subType: MysticalAbilitySubType;
-        readonly [kData] = true;
+type MysticalAbilityDataSchema = ReturnType<
+    typeof defineMysticalAbilityDataSchema
+>;
 
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
+export class MysticalAbilityDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
+        TLogic extends
+            MysticalAbility.Logic<MysticalAbility.Data> = MysticalAbility.Logic<MysticalAbility.Data>,
+    >
+    extends MasteryLevelDataModel<TSchema, TLogic>
+    implements MysticalAbility.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
+    static override readonly kind = MysticalAbility.Kind;
+    subType!: MysticalAbilitySubType;
+    assocSkill!: string;
+    isImprovable!: boolean;
+    domain!: {
+        philosophy: string;
+        name: string;
+    };
+    levelBase!: number;
+    charges!: {
+        value: number;
+        max: number;
+    };
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                assocSkill: new StringField(),
-                isImprovable: new BooleanField({ initial: false }),
-                domain: new SchemaField({
-                    philosophy: new StringField(),
-                    name: new StringField(),
-                }),
-                levelBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                charges: new SchemaField({
-                    // Note: if value is -1, then there are infinite charges remaining
-                    value: new NumberField({
-                        integer: true,
-                        initial: -1,
-                        min: -1,
-                    }),
-                    // Note: if max is 0, then there is no maximum
-                    max: new NumberField({
-                        integer: true,
-                        initial: -1,
-                        min: -1,
-                    }),
-                }),
-            };
-        }
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMysticalAbilityDataSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/mysticalability.hbs",
-                },
-            });
+export class MysticalAbilitySheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/mysticalability.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

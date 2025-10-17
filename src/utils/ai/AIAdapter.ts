@@ -13,7 +13,6 @@
 
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import { AIExecutionResult } from "@utils/ai/AIExecutionResult";
-import { SohlUser } from "@common/user/SohlUser";
 import { toHTMLString } from "@utils/helpers";
 
 export interface CompletionOptions {
@@ -57,8 +56,8 @@ export abstract class AIAdapter {
         message: string,
         chatData: {
             speaker?: SohlSpeaker.Data;
-            user: SohlUser | null;
-        } = { user: (game as any).user as SohlUser | null },
+            user: User | null;
+        } = { user: game.user },
     ): boolean | void {
         let match: RegExpMatchArray | null = message.match(
             /^(?:\/whisper (?:sage|ai)\s+)([^]*)/i,
@@ -73,7 +72,7 @@ export abstract class AIAdapter {
     static handleAIChatCommand(
         speaker: SohlSpeaker,
         message: string,
-        user: SohlUser | null = null,
+        user: User | null = null,
     ): void {
         let result: AIExecutionResult;
         try {

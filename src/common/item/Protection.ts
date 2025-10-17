@@ -11,78 +11,76 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { ITEM_KIND, Variant, Variants } from "@utils/constants";
-import { ArmorGear } from "./ArmorGear";
+import type { ArmorGear } from "@common/item/ArmorGear";
+import type { BodyLocation } from "./BodyLocation";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import {
+    IMPACT_ASPECT,
+    ImpactAspects,
+    ITEM_KIND,
+    Variant,
+    Variants,
+} from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 
-const { SchemaField, NumberField } = foundry.data.fields;
-const kProtection = Symbol("Protection");
-const kData = Symbol("Protection.Data");
+const { StringField, SchemaField, NumberField } = foundry.data.fields;
 
-export class Protection
-    extends SubTypeMixin(SohlItem.BaseLogic)
-    implements Protection.Logic
+export class Protection<TData extends Protection.Data = Protection.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Protection.Logic<TData>
 {
-    declare readonly _parent: Protection.Data;
     bodyLocations!: SohlItem[];
     protection!: StrictObject<ValueModifier>;
-    readonly [kProtection] = true;
 
-    static isA(obj: unknown): obj is Protection {
-        return typeof obj === "object" && obj !== null && kProtection in obj;
-    }
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
         this.bodyLocations = [];
-        this.protection = {
-            blunt: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this._parent.protectionBase.blunt,
-            ),
-            edged: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this._parent.protectionBase.edged,
-            ),
-            piercing: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this._parent.protectionBase.piercing,
-            ),
-            fire: new sohl.ValueModifier({}, { parent: this }).setBase(
-                this._parent.protectionBase.fire,
-            ),
-        };
+        this.protection = Object.fromEntries(
+            ImpactAspects.map((aspect) => {
+                const modifier = new sohl.ValueModifier({}, { parent: this });
+                modifier.setBase(this.data.protectionBase[aspect] || 0);
+                return [aspect, modifier];
+            }),
+        ) as StrictObject<ValueModifier>;
     }
 
     /** @inheritdoc */
     override evaluate(context: SohlEventContext): void {
-        if (!this.item.nestedIn || this._parent.subType !== sohl.id) return;
+        if (!this.item.nestedIn || this.data.subType !== sohl.id) return;
         super.evaluate(context);
+        const armorGear = this.nestedIn as unknown as SohlItem;
+        const armorGearData = armorGear!.system as ArmorGear.Data;
 
-        let armorGearData: ArmorGear.Data | undefined;
         if (
-            this.item.nestedIn.type === ITEM_KIND.ARMORGEAR &&
-            this.item.nestedIn.system.isEquipped
+            armorGear.type === ITEM_KIND.ARMORGEAR &&
+            armorGearData.isEquipped
         ) {
-            armorGearData = this.item.nestedIn.system;
             this.bodyLocations =
-                this.actor?.allItemTypes[ITEM_KIND.BODYLOCATION].filter(
+                this.actor?.allItems.filter(
                     (i) =>
-                        armorGearData?.locations.flexible.includes(i.name) ||
-                        armorGearData?.locations.rigid.includes(i.name),
+                        (armorGear.type === ITEM_KIND.BODYLOCATION &&
+                            armorGearData.locations.flexible.includes(
+                                i.name,
+                            )) ||
+                        armorGearData.locations.rigid.includes(i.name),
                 ) || [];
         } else if (this.item.nestedIn.type === ITEM_KIND.BODYLOCATION) {
             this.bodyLocations.push(this.item.nestedIn);
         }
 
         this.bodyLocations.forEach((bl) => {
-            const blData = bl.system;
-            Object.keys(this.protection).forEach((aspect) => {
+            const blLogic = bl.logic as BodyLocation.Logic;
+            ImpactAspects.forEach((aspect) => {
                 if (this.protection[aspect].effective)
-                    blData.$protection[aspect]?.add(
-                        this.item.name,
-                        this.item.name,
+                    blLogic.protection[aspect]?.add(
+                        this.name,
+                        this.name,
                         this.protection[aspect].effective,
                     );
             });
@@ -90,12 +88,11 @@ export class Protection
             if (armorGearData) {
                 // if a material has been specified, add it to the layers
                 if (armorGearData.material) {
-                    if (blData.$layers) blData.$layers += ",";
-                    blData.$layers += armorGearData.material;
+                    blLogic.layersList.push(armorGearData.material);
                 }
 
                 // If any of the armor is rigid, then flag the whole bodylocation as rigid.
-                blData.$traits.isRigid ||=
+                blLogic.traits.isRigid ||=
                     armorGearData.locations.rigid.includes(bl.name);
             }
         });
@@ -108,74 +105,79 @@ export class Protection
 }
 
 export namespace Protection {
-    export interface Logic extends SubTypeMixin.Logic {
-        readonly [kProtection]: true;
-        readonly _parent: Protection.Data;
+    export const Kind = ITEM_KIND.PROTECTION;
+
+    export interface Logic<
+        TData extends Protection.Data<any> = Protection.Data<any>,
+    > extends SohlItem.Logic<TData> {
+        bodyLocations: SohlItem[];
+        protection: StrictObject<ValueModifier>;
     }
 
-    export interface Data extends SubTypeMixin.Data<Variant> {
-        readonly [kData]: true;
-        protectionBase: {
-            blunt: number;
-            edged: number;
-            piercing: number;
-            fire: number;
-        };
+    export interface Data<
+        TLogic extends Protection.Logic<Data> = Protection.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
+        subType: Variant;
+        protectionBase: StrictObject<number>;
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        Variant,
-        typeof Variants
-    >(SohlItem.DataModel, Variants) as unknown as Constructor<Protection.Data> &
-        SohlItem.DataModel.Statics;
-
-    export class DataModel extends DataModelShape {
-        readonly [kData] = true;
-        static override readonly LOCALIZATION_PREFIXES = ["Protection"];
-        declare subType: Variant;
-        declare protectionBase: {
-            blunt: number;
-            edged: number;
-            piercing: number;
-            fire: number;
-        };
-
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                protectionBase: new SchemaField({
-                    blunt: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    edged: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    piercing: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    fire: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                }),
-            };
-        }
-    }
-
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/protection.hbs",
-                },
+function defineProtectionDataSchema(): foundry.data.fields.DataSchema {
+    const protectionObj = Object.fromEntries(
+        ImpactAspects.map((aspect) => {
+            const prot = new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
             });
+            return [aspect, prot];
+        }),
+    ) as foundry.data.fields.DataSchema;
+
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: Variants,
+            required: true,
+        }),
+        protectionBase: new SchemaField({
+            ...protectionObj,
+        }),
+    };
+}
+
+type ProtectionDataSchema = ReturnType<typeof defineProtectionDataSchema>;
+
+export class ProtectionDataModel<
+        TSchema extends foundry.data.fields.DataSchema = ProtectionDataSchema,
+        TLogic extends
+            Protection.Logic<Protection.Data> = Protection.Logic<Protection.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Protection.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["Protection"];
+    static override readonly kind = Protection.Kind;
+    subType!: Variant;
+    protectionBase!: StrictObject<number>;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineProtectionDataSchema();
+    }
+}
+
+export class ProtectionSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/affiliation.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

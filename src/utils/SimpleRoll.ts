@@ -140,7 +140,7 @@ export class SimpleRoll extends SohlBase {
                     result: r,
                     active: true,
                 }));
-                await term.evaluate({ async: false });
+                await term.evaluate();
             }
         }
         return roll;

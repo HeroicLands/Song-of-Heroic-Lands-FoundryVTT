@@ -13,24 +13,18 @@
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 
-import { SohlItem } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
-const kAffiliation = Symbol("Affiliation");
-const kData = Symbol("Affiliation.Data");
-
-export class Affiliation
-    extends SohlItem.BaseLogic
-    implements Affiliation.Logic
+export class Affiliation<TData extends Affiliation.Data = Affiliation.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements Affiliation.Logic<TData>
 {
-    declare readonly _parent: Affiliation.Data;
-    readonly [kAffiliation] = true;
-
-    static isA(obj: unknown): obj is Affiliation {
-        return typeof obj === "object" && obj !== null && kAffiliation in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -48,49 +42,71 @@ export class Affiliation
 }
 
 export namespace Affiliation {
-    export interface Logic extends SohlItem.Logic {
-        readonly _parent: Data;
-        readonly [kAffiliation]: true;
-    }
+    export const Kind = ITEM_KIND.AFFILIATION;
 
-    export interface Data extends SohlItem.Data {
-        readonly [kData]: true;
+    export interface Logic<
+        TData extends SohlItem.Data<any> = SohlItem.Data<any>,
+    > extends SohlItem.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends SohlItem.Logic<Data> = SohlItem.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
         society: string;
         office: string;
         title: string;
         level: number;
     }
+}
 
-    export class DataModel extends SohlItem.DataModel.Shape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
-        static override readonly kind = ITEM_KIND.AFFILIATION;
-        readonly [kData] = true;
-        society!: string;
-        office!: string;
-        title!: string;
-        level!: number;
+function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        society: new StringField(),
+        office: new StringField(),
+        title: new StringField(),
+        level: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+    };
+}
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                society: new StringField(),
-                office: new StringField(),
-                title: new StringField(),
-                level: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-            };
-        }
+type SohlAffiliationDataSchema = ReturnType<typeof defineAffiliationDataSchema>;
+
+export class AffiliationDataModel<
+        TSchema extends
+            foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
+        TLogic extends
+            Affiliation.Logic<Affiliation.Data> = Affiliation.Logic<Affiliation.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements Affiliation.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
+    static override readonly kind = Affiliation.Kind;
+    society!: string;
+    office!: string;
+    title!: string;
+    level!: number;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineAffiliationDataSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/affiliation.hbs",
-                },
-            });
+export class AffiliationSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/affiliation.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

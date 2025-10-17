@@ -1,11 +1,9 @@
 import type { SohlActor } from "@common/actor/SohlActor";
-import { SohlSpeaker } from "@common/SohlSpeaker";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SohlMap } from "@utils/collection/SohlMap";
-import { ActorKinds } from "@utils/constants";
-import type { DocumentId, DocumentUuid } from "@utils/helpers";
+import { SohlBase } from "@common/SohlBase";
+import { SohlSpeaker } from "@common/SohlSpeaker";
 
-export class SohlEventContext {
+export class SohlEventContext extends SohlBase {
     speaker: SohlSpeaker;
     target: SohlTokenDocument | null;
     skipDialog: boolean;
@@ -14,41 +12,46 @@ export class SohlEventContext {
     title: string;
     scope: UnknownObject;
 
-    constructor({
-        speaker,
-        targetUuid = null,
-        skipDialog = false,
-        noChat = false,
-        type = "",
-        title = "",
-        scope = {},
-    }: Partial<SohlEventContext.Data> = {}) {
+    constructor(data: Partial<SohlEventContext.Data> = {}) {
+        super(data);
+        const {
+            speaker,
+            target = null,
+            skipDialog = false,
+            noChat = false,
+            type = "",
+            title = "",
+            ...scope
+        } = data;
+
         if (!speaker) {
             throw new Error("SohlEventContext requires a speaker.");
         }
-        this.speaker = new SohlSpeaker(speaker);
+        if (speaker instanceof SohlSpeaker) this.speaker = speaker;
+        else this.speaker = new SohlSpeaker(speaker);
 
         this.target = null;
-        if (targetUuid) {
-            let target = fromUuidSync(targetUuid as string);
-            if (!target) {
-                throw new Error(`Target with uuid ${targetUuid} not found`);
-            } else if (Object.hasOwn(target, "getBarAttribute")) {
-                // If document has getBarAttribute, it's a TokenDocument
-                this.target = target as SohlTokenDocument;
-            } else if (target instanceof Token) {
-                this.target = target.document;
-            } else if (ActorKinds.includes((target as any).type)) {
-                // If the target is an actor, there might be any number of tokens
-                // associated with it, so we take the first active token.
-                const tokens: Token[] = (target as SohlActor).getActiveTokens();
-                if (tokens.length) {
-                    this.target = tokens[0].document;
-                }
+        if (target) {
+            if (target instanceof foundry.canvas.placeables.Token) {
+                this.target = (
+                    target as foundry.canvas.placeables.Token
+                ).document;
             } else {
-                throw new Error(
-                    `Target with uuid ${targetUuid} is not a valid token or actor.`,
-                );
+                const type = (target as any).documentName;
+                if (type === "Token") {
+                    this.target = target as SohlTokenDocument;
+                } else if (type === "Actor") {
+                    const tokens: Token[] = (
+                        target as SohlActor
+                    ).getActiveTokens();
+                    if (tokens.length) {
+                        this.target = tokens[0].document;
+                    }
+                } else {
+                    throw new Error(
+                        `Target with uuid ${target.uuid} is not a valid token or actor.`,
+                    );
+                }
             }
         }
 
@@ -66,42 +69,16 @@ export class SohlEventContext {
     get token(): SohlTokenDocument | null {
         return this.speaker.token ?? null;
     }
-
-    /**
-     * @summary Converts the SohlEventContext to JSON.
-     * @returns {Object} The JSON representation of the SohlEventContext.
-     */
-    toJSON(): Record<string, unknown> {
-        return {
-            speaker: this.speaker.toJSON(),
-            target: this.target?.uuid || null,
-            skipDialog: this.skipDialog,
-            noChat: this.noChat,
-            type: this.type,
-            title: this.title,
-            targetUuid: (this.target as any)?.uuid,
-            scope: SohlMap.defaultToJSON(this.scope),
-        };
-    }
-
-    /**
-     * @summary Creates an SohlEventContext from data.
-     * @description Converts plain object data into an SohlEventContext instance.
-     * @param {Object} data - The data to convert.
-     * @returns {SohlEventContext} A new SohlEventContext instance.
-     */
-    static fromData<T extends typeof SohlEventContext>(
-        this: T,
-        data: Partial<SohlEventContext.Data>,
-    ): InstanceType<T> {
-        return new this(data) as InstanceType<T>;
-    }
 }
 
 export namespace SohlEventContext {
     export interface Data {
-        speaker: SohlSpeaker.Data;
-        targetUuid: DocumentUuid | null;
+        speaker: SohlSpeaker | Partial<SohlSpeaker.Data>;
+        target:
+            | SohlActor
+            | SohlTokenDocument
+            | foundry.canvas.placeables.Token
+            | null;
         userId: DocumentId;
         skipDialog: boolean;
         noChat: boolean;

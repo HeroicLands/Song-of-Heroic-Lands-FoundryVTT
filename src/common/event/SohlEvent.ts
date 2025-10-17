@@ -15,8 +15,7 @@ import { SohlEventState, SOHL_EVENT_STATE } from "@utils/constants";
 import { SohlBase } from "@common/SohlBase";
 import { SohlTemporal } from "@common/event/SohlTemporal";
 import type { SohlLogic } from "@common/SohlLogic";
-import type { DocumentId } from "@utils/helpers";
-import { SohlEventContext } from "./SohlEventContext";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 
 /**
  * Represents an event in the SoHL system, with a defined lifecycle and timing rules.

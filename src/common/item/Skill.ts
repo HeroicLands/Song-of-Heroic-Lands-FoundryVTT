@@ -11,35 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
-import { SubTypeMixin } from "@common/item/SubTypeMixin";
-import {
-    kMasteryLevelMixin,
-    MasteryLevelMixin,
-} from "@common/item/MasteryLevelMixin";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
 import {
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
-    SkillSubType,
     SkillSubTypes,
+    SkillSubType,
+    SKILL_SUBTYPE,
+    ITEM_KIND,
 } from "@utils/constants";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-const kSkill = Symbol("Skill");
-const kData = Symbol("Skill.Data");
+import { MysticalAbility } from "./MysticalAbility";
 const { StringField } = foundry.data.fields;
 
-export class Skill
-    extends SubTypeMixin(MasteryLevelMixin(SohlItem.BaseLogic))
-    implements Skill.Logic
+export class Skill<TData extends Skill.Data = Skill.Data>
+    extends MasteryLevel<TData>
+    implements Skill.Logic<TData>
 {
-    declare readonly [kMasteryLevelMixin]: true;
-    declare readonly _parent: Skill.Data;
-    readonly [kSkill] = true;
-
-    static isA(obj: unknown): obj is Skill {
-        return typeof obj === "object" && obj !== null && kSkill in obj;
-    }
-
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
         super.initialize(context);
@@ -57,63 +46,71 @@ export class Skill
 }
 
 export namespace Skill {
-    export interface Logic
-        extends MasteryLevelMixin.Logic,
-            SubTypeMixin.Logic<SkillSubType> {
-        readonly _parent: Skill.Data;
-        readonly [kSkill]: true;
-    }
+    export const Kind = ITEM_KIND.SKILL;
 
-    export interface Data
-        extends MasteryLevelMixin.Data,
-            SubTypeMixin.Data<SkillSubType> {
-        readonly [kData]: true;
+    export interface Logic<TData extends Skill.Data = Skill.Data>
+        extends MasteryLevel.Logic<TData> {}
+
+    export interface Data<TLogic extends Skill.Logic<Data> = Skill.Logic<any>>
+        extends MasteryLevel.Data<TLogic> {
+        subType: SkillSubType;
         weaponGroup: string;
         baseSkill: string;
         domain: string;
     }
+}
 
-    const DataModelShape = SubTypeMixin.DataModel<
-        typeof SohlItem.DataModel,
-        SkillSubType,
-        typeof SkillSubTypes
-    >(
-        MasteryLevelMixin.DataModel(SohlItem.DataModel),
-        SkillSubTypes,
-    ) as unknown as Constructor<Skill.Data> & SohlItem.DataModel.Statics;
+function defineSkillSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...MasteryLevelDataModel.defineSchema(),
+        subType: new StringField({
+            initial: SKILL_SUBTYPE.SOCIAL,
+            required: true,
+            choices: SkillSubTypes,
+        }),
+        weaponGroup: new StringField({
+            initial: SKILL_COMBAT_CATEGORY.NONE,
+            blank: false,
+            choices: SkillCombatCategories,
+        }),
+        baseSkill: new StringField(),
+        domain: new StringField(),
+    };
+}
 
-    export class DataModel extends DataModelShape implements Data {
-        static readonly LOCALIZATION_PREFIXES = ["Skill"];
-        declare abbrev: string;
-        declare skillBaseFormula: string;
-        declare masteryLevelBase: number;
-        declare improveFlag: boolean;
-        declare weaponGroup: string;
-        declare baseSkill: string;
-        declare domain: string;
-        declare subType: SkillSubType;
-        readonly [kData] = true;
+type SkillSchema = ReturnType<typeof defineSkillSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                weaponGroup: new StringField({
-                    initial: SKILL_COMBAT_CATEGORY.NONE,
-                    blank: false,
-                    choices: SkillCombatCategories,
-                }),
-                baseSkill: new StringField(),
-                domain: new StringField(),
-            };
-        }
+export class SkillDataModel<
+        TSchema extends foundry.data.fields.DataSchema = SkillSchema,
+        TLogic extends Skill.Logic<Skill.Data> = Skill.Logic<Skill.Data>,
+    >
+    extends MasteryLevelDataModel<TSchema, TLogic>
+    implements Skill.Data<TLogic>
+{
+    static override readonly kind = Skill.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["SKILL"];
+    subType!: SkillSubType;
+    weaponGroup!: string;
+    baseSkill!: string;
+    domain!: string;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineSkillSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/skill.hbs",
-                },
-            });
+export class SkillSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/skill.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

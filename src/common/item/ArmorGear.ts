@@ -12,26 +12,17 @@
  */
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
-import { SohlItem } from "@common/item/SohlItem";
-import { GearMixin, kGearMixin } from "@common/item/GearMixin";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
+import { Gear, GearDataModel } from "@common/item/Gear";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
-const kArmorGear = Symbol("ArmorGear");
-const kData = Symbol("ArmorGear.Data");
 
-export class ArmorGear
-    extends GearMixin(SohlItem.BaseLogic)
-    implements ArmorGear.Logic
+export class ArmorGear<TData extends ArmorGear.Data = ArmorGear.Data>
+    extends Gear<TData>
+    implements ArmorGear.Logic<TData>
 {
-    declare [kGearMixin]: true;
-    declare readonly _parent: ArmorGear.Data;
     protection!: PlainObject;
     traits!: StrictObject<string>;
-    readonly [kArmorGear] = true;
-
-    static isA(obj: unknown): obj is ArmorGear {
-        return typeof obj === "object" && obj !== null && kArmorGear in obj;
-    }
 
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {
@@ -52,58 +43,65 @@ export class ArmorGear
 }
 
 export namespace ArmorGear {
-    export interface Logic extends SohlItem.Logic, GearMixin.Logic {
-        readonly _parent: ArmorGear.Data;
-        readonly [kArmorGear]: true;
-    }
+    export const Kind = ITEM_KIND.ARMORGEAR;
 
-    export interface Data extends GearMixin.Data {
-        readonly [kData]: true;
+    export interface Logic<TData extends ArmorGear.Data = ArmorGear.Data>
+        extends Gear.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends ArmorGear.Logic<Data> = ArmorGear.Logic<any>,
+    > extends Gear.Data<TLogic> {
         material: string;
         locations: {
             flexible: string[];
             rigid: string[];
         };
     }
+}
 
-    const DataModelShape = GearMixin.DataModel(
-        SohlItem.DataModel,
-    ) as unknown as Constructor<ArmorGear.Data> & SohlItem.DataModel.Statics;
+function defineArmorGearSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...GearDataModel.defineSchema(),
+        material: new StringField(),
+        locations: new SchemaField({
+            flexible: new ArrayField(new StringField()),
+            rigid: new ArrayField(new StringField()),
+        }),
+    };
+}
 
-    export class DataModel extends DataModelShape implements ArmorGear.Data {
-        static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
-        readonly [kData] = true;
-        material!: string;
-        locations!: { flexible: string[]; rigid: string[] };
+type ArmorGearDataSchema = ReturnType<typeof defineArmorGearSchema>;
 
-        static override create<Logic>(
-            data: PlainObject,
-            options: PlainObject,
-        ): Logic {
-            if (!(options.parent instanceof SohlItem)) {
-                throw new Error("Parent must be a SohlItem");
-            }
-            return new ArmorGear(data, { parent: options.parent }) as Logic;
-        }
+export class ArmorGearDataModel<
+        TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
+        TLogic extends
+            ArmorGear.Logic<ArmorGear.Data> = ArmorGear.Logic<ArmorGear.Data>,
+    >
+    extends GearDataModel<TSchema, TLogic>
+    implements ArmorGear.Data<TLogic>
+{
+    static readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
+    static override readonly kind = ArmorGear.Kind;
+    material!: string;
+    locations!: { flexible: string[]; rigid: string[] };
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                material: new StringField(),
-                locations: new SchemaField({
-                    flexible: new ArrayField(new StringField()),
-                    rigid: new ArrayField(new StringField()),
-                }),
-            };
-        }
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineArmorGearSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/armorgear.hbs",
-                },
-            });
+export class ArmorGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/armorgear.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

@@ -11,20 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
 import type { SohlEventContext } from "@common/event/SohlEventContext";
-
+import { ITEM_KIND } from "@utils/constants";
 const { StringField } = foundry.data.fields;
-const kBodyZone = Symbol("BodyZone");
-const kData = Symbol("BodyZone.Data");
 
-export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
-    declare readonly _parent: BodyZone.Data;
-    readonly [kBodyZone] = true;
-
-    static isA(obj: unknown): obj is BodyZone {
-        return typeof obj === "object" && obj !== null && kBodyZone in obj;
-    }
+export class BodyZone<TData extends BodyZone.Data = BodyZone.Data>
+    extends SohlItem.BaseLogic<TData>
+    implements BodyZone.Logic<TData>
+{
     get bodyParts(): SohlItem[] {
         return this.actor?.allItemTypes.bodypart || [];
     }
@@ -46,44 +45,57 @@ export class BodyZone extends SohlItem.BaseLogic implements BodyZone.Logic {
 }
 
 export namespace BodyZone {
-    export interface Logic extends SohlItem.Logic {
-        readonly _parent: BodyZone.Data;
-        readonly [kBodyZone]: true;
-    }
+    export const Kind = ITEM_KIND.BODYZONE;
 
-    export interface Data extends SohlItem.Data {
-        readonly [kData]: true;
+    export interface Logic<
+        TData extends BodyZone.Data<any> = BodyZone.Data<any>,
+    > extends SohlItem.Logic<TData> {}
+
+    export interface Data<
+        TLogic extends BodyZone.Logic<Data> = BodyZone.Logic<any>,
+    > extends SohlItem.Data<TLogic> {
         abbrev: string;
     }
+}
 
-    export class DataModel extends SohlItem.DataModel.Shape implements Data {
-        static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
-        abbrev!: string;
-        readonly [kData] = true;
+function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        abbrev: new StringField(),
+    };
+}
 
-        static override create<Logic>(
-            data: PlainObject,
-            options: PlainObject,
-        ): Logic {
-            if (!(options.parent instanceof SohlItem)) {
-                throw new Error("Parent must be a SohlItem");
-            }
-            return new BodyZone(data, { parent: options.parent }) as Logic;
-        }
+type BodyZoneDataSchema = ReturnType<typeof defineBodyZoneDataSchema>;
 
-        static defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                abbrev: new StringField(),
-            };
-        }
+export class BodyZoneDataModel<
+        TSchema extends foundry.data.fields.DataSchema = BodyZoneDataSchema,
+        TLogic extends
+            BodyZone.Logic<BodyZone.Data> = BodyZone.Logic<BodyZone.Data>,
+    >
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements BodyZone.Data<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
+    static override readonly kind = BodyZone.Kind;
+    abbrev!: string;
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineBodyZoneDataSchema();
     }
+}
 
-    export class Sheet extends SohlItem.Sheet {
-        static override readonly PARTS: StrictObject<foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart> =
-            foundry.utils.mergeObject(super.PARTS, {
-                properties: {
-                    template: "systems/sohl/templates/item/bodyzone.hbs",
-                },
-            });
+export class BodyZoneSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            template: "systems/sohl/templates/item/bodyzone.hbs",
+        },
+    };
+
+    override async _preparePropertiesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
     }
 }

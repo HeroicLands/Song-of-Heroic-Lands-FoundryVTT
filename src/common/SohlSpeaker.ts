@@ -12,9 +12,6 @@
  */
 
 import {
-    isSohlSpeakerRollMode,
-    isSohlSpeakerSound,
-    isSohlSpeakerStyle,
     SOHL_SPEAKER_ROLL_MODE,
     SOHL_SPEAKER_STYLE,
     SohlSpeakerRollMode,
@@ -25,14 +22,10 @@ import {
     FilePath,
     isFilePath,
     toHTMLWithContent,
-    DocumentId,
     HTMLString,
     toHTMLWithTemplate,
 } from "@utils/helpers";
 import { SimpleRoll } from "@utils/SimpleRoll";
-import Handlebars from "handlebars";
-import { SohlUser } from "@common/user/SohlUser";
-import { ChatMessageData } from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents/_types.mjs";
 import { SohlSpeakerStyle } from "@utils/constants";
 
 export class SohlSpeaker {
@@ -42,7 +35,7 @@ export class SohlSpeaker {
     readonly actor: SohlActor | null;
     readonly scene: Scene | null;
     readonly name: string;
-    readonly user: SohlUser;
+    readonly user: User | null;
 
     /**
      * Construct a SohlSpeaker instance.
@@ -70,7 +63,7 @@ export class SohlSpeaker {
                 this.token = (canvas.tokens?.get(data.token) ||
                     null) as SohlTokenDocument | null;
             }
-            this.actor = this.token?.actor;
+            this.actor = this.token?.actor || null;
         }
         if (!this.actor && data.actor) {
             this.actor = (game as any).actors?.get(data.actor);
@@ -96,7 +89,7 @@ export class SohlSpeaker {
         }
     }
 
-    getChatMessageSpeaker(): ChatMessageData {
+    getChatMessageSpeaker(): foundry.documents.ChatMessage.SpeakerData {
         return {
             alias: this.name,
             token: this.token?.id ?? null,
@@ -120,9 +113,9 @@ export class SohlSpeaker {
         return {
             token: this.token?.id ?? "",
             actor: this.actor?.id ?? "",
-            scene: (this.scene as any)?.id ?? "",
+            scene: this.scene?.id ?? "",
             alias: this.name,
-            user: this.user.id,
+            user: this.user?.id || null,
             rollMode: this.rollMode,
         };
     }
@@ -131,7 +124,7 @@ export class SohlSpeaker {
         input: HTMLString | FilePath,
         data?: PlainObject,
         options?: PlainObject,
-    ): Promise<ChatMessage> {
+    ): Promise<ChatMessage | undefined> {
         if (isFilePath(input)) {
             return this._toChatWithTemplate(input, data, options);
         } else {
@@ -141,16 +134,15 @@ export class SohlSpeaker {
 
     /**
      * Sends a chat message using a template.
-     * @param {string} template - The template to use.
-     * @param {PlainObject} [data={}] - The data for the message.
-     * @param {ChatOptions} [options={}] - The options for the message.
-     * @returns {Promise<void>}
+     * @param template The template to use.
+     * @param data The data for the message.
+     * @param options The options for the message.
      */
     protected async _toChatWithTemplate(
         template: FilePath,
         data: PlainObject = {},
-        options: PlainObject = {},
-    ): Promise<ChatMessage> {
+        options: Partial<SohlSpeaker.ChatOptions> = {},
+    ): Promise<ChatMessage | undefined> {
         const messageData = await this._prepareChat(data, options);
         messageData.content = await toHTMLWithTemplate(template, data);
         if (messageData.rollMode) {
@@ -160,21 +152,22 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return (foundry.documents as any).ChatMessage.create(messageData);
+        return foundry.documents.ChatMessage.create(messageData) as Promise<
+            ChatMessage | undefined
+        >;
     }
 
     /**
      * Sends a chat message with content.
-     * @param {string} content - The content of the message.
-     * @param {PlainObject} [data={}] - The data for the message.
-     * @param {ChatOptions} [options={}] - The options for the message.
-     * @returns {Promise<void>}
+     * @param content The HTML content of the message.
+     * @param data The data for the message.
+     * @param options The options for the message.
      */
     protected async _toChatWithContent(
         content: HTMLString,
         data: PlainObject = {},
-        options: PlainObject = {},
-    ): Promise<ChatMessage> {
+        options: Partial<SohlSpeaker.ChatOptions> = {},
+    ): Promise<ChatMessage | undefined> {
         const messageData = await this._prepareChat(data, options);
 
         messageData.content = toHTMLWithContent(content, data);
@@ -185,7 +178,9 @@ export class SohlSpeaker {
 
         // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
         // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return (foundry.documents as any).ChatMessage.create(messageData);
+        return foundry.documents.ChatMessage.create(messageData) as Promise<
+            ChatMessage | undefined
+        >;
     }
 
     /**
@@ -197,7 +192,9 @@ export class SohlSpeaker {
      */
     async _prepareChat(
         data: PlainObject = {},
-        options: SohlSpeaker.ChatOptions = { style: SOHL_SPEAKER_STYLE.OTHER },
+        options: Partial<SohlSpeaker.ChatOptions> = {
+            style: SOHL_SPEAKER_STYLE.OTHER,
+        },
     ): Promise<PlainObject> {
         const msgOptions = Object.fromEntries(
             Object.entries(options).filter(([key]) => key !== "rollMode"),
@@ -226,19 +223,15 @@ export class SohlSpeaker {
 
 export namespace SohlSpeaker {
     export interface ChatOptions {
-        flavor?: string;
-        sound?: string;
-        rolls?: SimpleRoll[];
-        style?: SohlSpeakerStyle;
-        user?: string;
+        flavor: string;
+        sound: string;
+        rolls: SimpleRoll[];
+        style: SohlSpeakerStyle;
+        user: string;
     }
 
-    export interface Data {
-        token: DocumentId | null;
-        actor: DocumentId | null;
-        scene: DocumentId | null;
-        alias?: string | null;
-        rollMode?: SohlSpeakerRollMode;
-        user: DocumentId;
+    export interface Data extends foundry.documents.ChatMessage.SpeakerData {
+        rollMode: SohlSpeakerRollMode;
+        user: string;
     }
 }

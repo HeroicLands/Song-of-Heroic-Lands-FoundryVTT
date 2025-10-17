@@ -18,14 +18,13 @@ import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
+import { EFFECT_KIND } from "@utils/constants";
+const { DocumentIdField } = foundry.data.fields;
 
-const kSohlEffectData = Symbol("SohlEffectData");
-const kData = Symbol("SohlEffectData.Data");
-
-export class SohlEffectData extends SohlLogic implements SohlEffectData.Logic {
-    declare readonly _parent: SohlEffectData.Data;
-    readonly [kSohlEffectData] = true;
-
+export class SohlEffectData
+    extends SohlLogic<SohlEffectData.Data>
+    implements SohlEffectData.Logic
+{
     /** @inheritdoc */
     override initialize(context: SohlEventContext): void {}
 
@@ -37,30 +36,42 @@ export class SohlEffectData extends SohlLogic implements SohlEffectData.Logic {
 }
 
 export namespace SohlEffectData {
+    export const Kind = EFFECT_KIND.EFFECTDATA;
+
     /**
-     * The FontAwesome icon class for the Affliction item.
+     * The FontAwesome icon class for the SohlEffectData active effect.
      */
     export const IconCssClass = "fa-duotone fa-people-group";
 
     /**
-     * The image path for the Affliction item.
+     * The image path for the SohlEffectData active effect.
      */
     export const Image = "systems/sohl/assets/icons/people-group.svg";
 
-    export interface Data extends SohlLogic.Data {
-        readonly [kData]: true;
+    function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
+        return {
+            ...SohlDataModel.defineSchema(),
+        };
     }
 
-    export interface Logic extends SohlLogic {
-        readonly [kSohlEffectData]: true;
-    }
+    type SohlActiveEffectDataSchema = ReturnType<
+        typeof defineActiveEffectDataSchema
+    >;
+
+    export interface Logic extends SohlLogic<Data> {}
+
+    export interface Data extends SohlLogic.Data<SohlActiveEffect, any> {}
 
     export class DataModel
-        extends SohlDataModel<SohlActiveEffect>
+        extends SohlDataModel<
+            SohlActiveEffectDataSchema,
+            SohlActiveEffect,
+            Logic
+        >
         implements Data
     {
         static override readonly LOCALIZATION_PREFIXES = ["SohlEffectData"];
-        readonly [kData] = true;
+        static override readonly kind = Kind;
 
         get actor(): SohlActor {
             return this.parent.actor;
@@ -79,6 +90,10 @@ export namespace SohlEffectData {
                 throw new Error("Parent must be of type SohlActiveEffect");
             }
             super(data, options);
+        }
+
+        static defineSchema(): foundry.data.fields.DataSchema {
+            return defineActiveEffectDataSchema();
         }
     }
 }

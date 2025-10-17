@@ -14,25 +14,16 @@
 import { SohlBase } from "@common/SohlBase";
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlSpeaker } from "@common/SohlSpeaker";
-import { SohlClassRegistry } from "@utils/SohlClassRegistry";
-const kTestResult = Symbol("TestResult");
-const kData = Symbol("TestResult.Data");
-const kContext = Symbol("TestResult.Context");
 
 /**
  * Represents a value and its modifying deltas.
  */
 export abstract class TestResult extends SohlBase {
-    speaker: SohlSpeaker;
-    name: string;
-    title: string;
-    description: string;
-    readonly parent: SohlLogic;
-    readonly [kTestResult] = true;
-
-    static isA(obj: unknown): obj is TestResult {
-        return typeof obj === "object" && obj !== null && kTestResult in obj;
-    }
+    protected _speaker: SohlSpeaker;
+    protected _name: string;
+    protected _title: string;
+    protected _description: string;
+    protected readonly _parent: SohlLogic;
 
     constructor(
         data: Partial<TestResult.Data>,
@@ -42,26 +33,46 @@ export abstract class TestResult extends SohlBase {
             throw new Error("TestResult requires a parent");
         }
         super(data, options);
-        this.speaker =
-            data.speaker ? new SohlSpeaker(data.speaker) : new SohlSpeaker();
-        this.name = data.name ?? "";
-        this.title = data.title ?? "";
-        this.description = data.description ?? "";
-        this.parent = options.parent;
+        this._parent = options.parent;
+        this._speaker = data.speaker ?? new SohlSpeaker();
+        this._name = data.name ?? "";
+        this._title = data.title ?? "";
+        this._description = data.description ?? "";
+    }
+
+    get description(): string {
+        return this._description;
+    }
+
+    get parent(): SohlLogic {
+        return this.parent;
     }
 
     async evaluate() {
         return true;
     }
+
+    get name(): string {
+        return this._name;
+    }
+
+    get title(): string {
+        return this._title;
+    }
+
+    get speaker(): SohlSpeaker {
+        return this._speaker;
+    }
 }
 
 export namespace TestResult {
-    const SUCCESS = 1;
-    const FAILURE = 0;
+    export const Kind: string = "TestResult";
+
+    export const SUCCESS = 1;
+    export const FAILURE = 0;
 
     export interface Data {
-        readonly [kData]: true;
-        speaker: SohlSpeaker.Data;
+        speaker: SohlSpeaker;
         name: string;
         title: string;
         description: string;

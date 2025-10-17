@@ -23,33 +23,117 @@ import { CombatResult } from "@common/result/CombatResult";
 import { ImpactResult } from "@common/result/ImpactResult";
 import { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { Entity } from "@common/actor/Entity";
-import { Assembly } from "@common/actor/Assembly";
-import { SohlActor } from "@common/actor/SohlActor";
-import { SohlItem } from "@common/item/SohlItem";
-import { Affiliation } from "@common/item/Affiliation";
-import { Affliction } from "@common/item/Affliction";
-import { ArmorGear } from "@common/item/ArmorGear";
-import { BodyLocation } from "@common/item/BodyLocation";
-import { BodyPart } from "@common/item/BodyPart";
-import { BodyZone } from "@common/item/BodyZone";
-import { CombatTechniqueStrikeMode } from "@common/item/CombatTechniqueStrikeMode";
-import { ConcoctionGear } from "@common/item/ConcoctionGear";
-import { ContainerGear } from "@common/item/ContainerGear";
-import { Domain } from "@common/item/Domain";
-import { Injury } from "@common/item/Injury";
-import { MeleeWeaponStrikeMode } from "@common/item/MeleeWeaponStrikeMode";
-import { MiscGear } from "@common/item/MiscGear";
-import { MissileWeaponStrikeMode } from "@common/item/MissileWeaponStrikeMode";
-import { Mystery } from "@common/item/Mystery";
-import { MysticalAbility } from "@common/item/MysticalAbility";
-import { MysticalDevice } from "@common/item/MysticalDevice";
-import { Philosophy } from "@common/item/Philosophy";
-import { ProjectileGear } from "@common/item/ProjectileGear";
-import { Protection } from "@common/item/Protection";
-import { Skill } from "@common/item/Skill";
-import { Trait } from "@common/item/Trait";
-import { WeaponGear } from "@common/item/WeaponGear";
+import { Entity, EntityDataModel, EntitySheet } from "@common/actor/Entity";
+import {
+    Assembly,
+    AssemblyDataModel,
+    AssemblySheet,
+} from "@common/actor/Assembly";
+import {
+    SohlActor,
+    SohlActorDataModel,
+    SohlActorSheetBase,
+} from "@common/actor/SohlActor";
+import {
+    SohlItem,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import {
+    Affiliation,
+    AffiliationDataModel,
+    AffiliationSheet,
+} from "@common/item/Affiliation";
+import {
+    Affliction,
+    AfflictionDataModel,
+    AfflictionSheet,
+} from "@common/item/Affliction";
+import {
+    ArmorGear,
+    ArmorGearDataModel,
+    ArmorGearSheet,
+} from "@common/item/ArmorGear";
+import {
+    BodyLocation,
+    BodyLocationDataModel,
+    BodyLocationSheet,
+} from "@common/item/BodyLocation";
+import {
+    BodyPart,
+    BodyPartDataModel,
+    BodyPartSheet,
+} from "@common/item/BodyPart";
+import {
+    BodyZone,
+    BodyZoneDataModel,
+    BodyZoneSheet,
+} from "@common/item/BodyZone";
+import {
+    CombatTechniqueStrikeMode,
+    CombatTechniqueStrikeModeDataModel,
+    CombatTechniqueStrikeModeSheet,
+} from "@common/item/CombatTechniqueStrikeMode";
+import {
+    ConcoctionGear,
+    ConcoctionGearDataModel,
+    ConcoctionGearSheet,
+} from "@common/item/ConcoctionGear";
+import {
+    ContainerGear,
+    ContainerGearDataModel,
+    ContainerGearSheet,
+} from "@common/item/ContainerGear";
+import { Domain, DomainDataModel, DomainSheet } from "@common/item/Domain";
+import { Injury, InjuryDataModel, InjurySheet } from "@common/item/Injury";
+import {
+    MeleeWeaponStrikeMode,
+    MeleeWeaponStrikeModeDataModel,
+    MeleeWeaponStrikeModeSheet,
+} from "@common/item/MeleeWeaponStrikeMode";
+import {
+    MiscGear,
+    MiscGearDataModel,
+    MiscGearSheet,
+} from "@common/item/MiscGear";
+import {
+    MissileWeaponStrikeMode,
+    MissileWeaponStrikeModeDataModel,
+    MissileWeaponStrikeModeSheet,
+} from "@common/item/MissileWeaponStrikeMode";
+import { Mystery, MysteryDataModel, MysterySheet } from "@common/item/Mystery";
+import {
+    MysticalAbility,
+    MysticalAbilityDataModel,
+    MysticalAbilitySheet,
+} from "@common/item/MysticalAbility";
+import {
+    MysticalDevice,
+    MysticalDeviceDataModel,
+    MysticalDeviceSheet,
+} from "@common/item/MysticalDevice";
+import {
+    Philosophy,
+    PhilosophyDataModel,
+    PhilosophySheet,
+} from "@common/item/Philosophy";
+import {
+    ProjectileGear,
+    ProjectileGearDataModel,
+    ProjectileGearSheet,
+} from "@common/item/ProjectileGear";
+import {
+    Protection,
+    ProtectionDataModel,
+    ProtectionSheet,
+} from "@common/item/Protection";
+import { Skill, SkillDataModel, SkillSheet } from "@common/item/Skill";
+import { Trait, TraitDataModel, TraitSheet } from "@common/item/Trait";
+import {
+    WeaponGear,
+    WeaponGearDataModel,
+    WeaponGearSheet,
+} from "@common/item/WeaponGear";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlCombatant } from "@common/combatant/SohlCombatant";
 import * as utils from "@utils/helpers";
@@ -58,29 +142,49 @@ import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
 import { SohlBase } from "@common/SohlBase";
-import { SohlEffect } from "@common/effect/SohlEffectData";
+import { SohlEffectData } from "@common/effect/SohlEffectData";
+import { SohlCombatantData } from "@common/combatant/SohlCombatantData";
 import {
     ACTOR_KIND,
-    ACTOR_METADATA,
     ActorKinds,
-    defineType,
-    SOHL_EFFECT_METADATA,
-    SohlEffectMetadatas,
+    ACTOR_METADATA,
     ITEM_KIND,
-    ITEM_METADATA,
     ItemKinds,
+    ITEM_METADATA,
+    EFFECT_KIND,
+    EffectKinds,
+    EFFECT_METADATA,
+    COMBATANT_KIND,
+    CombatantKinds,
+    COMBATANT_METADATA,
+    defineType,
+    DefinedType,
 } from "@utils/constants";
-import { getGame } from "./FoundryProxy";
+import { getGame } from "@common/FoundryProxy";
 
+export type ActorDMMap = Record<
+    string,
+    Constructor<SohlDataModel<any, SohlActor, any>>
+>;
+export const ACTOR_DM_DEF: ActorDMMap = {
+    [ACTOR_KIND.ENTITY]: EntityDataModel,
+    [ACTOR_KIND.ASSEMBLY]: AssemblyDataModel,
+} satisfies ActorDMMap;
+const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
+    "TYPES.Actor",
+    ACTOR_DM_DEF,
+);
 export const {
     kind: COMMON_ACTOR_DATA_MODEL,
-    values: CommonActorDataModels,
     isValue: isCommonActorDataModel,
     labels: CommonActorDataModelLabels,
-} = defineType("TYPES.Actor", {
-    [ACTOR_KIND.ENTITY]: Entity.DataModel,
-    [ACTOR_KIND.ASSEMBLY]: Assembly.DataModel,
-} as Record<string, Constructor<SohlDataModel<any>>>);
+}: {
+    kind: ActorDMMap;
+    isValue: (value: unknown) => value is ActorDMMap[keyof ActorDMMap];
+    labels: StrictObject<string>;
+} = defActor;
+export const CommonActorDataModels: ActorDMMap[keyof ActorDMMap][] =
+    Object.values(COMMON_ACTOR_DATA_MODEL);
 
 export const {
     kind: COMMON_ACTOR_LOGIC,
@@ -90,38 +194,63 @@ export const {
 } = defineType("SOHL.Actor.Logic", {
     [ACTOR_KIND.ENTITY]: Entity,
     [ACTOR_KIND.ASSEMBLY]: Assembly,
-} as Record<string, Constructor<SohlActor.Logic>>);
+} as StrictObject<Constructor<SohlActor.Logic<any>>>);
 
 export const {
+    kind: COMMON_ACTOR_SHEETS,
+    values: CommonActorSheets,
+    isValue: isCommonActorSheet,
+    labels: CommonActorSheetLabels,
+} = defineType("SOHL.Actor.Sheet", {
+    [ACTOR_KIND.ENTITY]: EntitySheet,
+    [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
+} as StrictObject<Constructor<SohlActorSheetBase>>);
+
+export type ItemDMMap = Record<
+    string,
+    Constructor<SohlDataModel<any, SohlItem, any>>
+>;
+export const ITEM_DM_DEF: ItemDMMap = {
+    [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
+    [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
+    [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
+    [ITEM_KIND.BODYLOCATION]: BodyLocationDataModel,
+    [ITEM_KIND.BODYPART]: BodyPartDataModel,
+    [ITEM_KIND.BODYZONE]: BodyZoneDataModel,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeDataModel,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
+    [ITEM_KIND.DOMAIN]: DomainDataModel,
+    [ITEM_KIND.INJURY]: InjuryDataModel,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeDataModel,
+    [ITEM_KIND.MISCGEAR]: MiscGearDataModel,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeDataModel,
+    [ITEM_KIND.MYSTERY]: MysteryDataModel,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
+    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceDataModel,
+    [ITEM_KIND.PHILOSOPHY]: PhilosophyDataModel,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearDataModel,
+    [ITEM_KIND.PROTECTION]: ProtectionDataModel,
+    [ITEM_KIND.SKILL]: SkillDataModel,
+    [ITEM_KIND.TRAIT]: TraitDataModel,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGearDataModel,
+} satisfies ItemDMMap;
+const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
+    "TYPES.Item",
+    ITEM_DM_DEF,
+);
+export const {
     kind: COMMON_ITEM_DATA_MODEL,
-    values: CommonItemDataModels,
     isValue: isCommonItemDataModel,
     labels: CommonItemDataModelLabels,
-} = defineType("TYPES.Item", {
-    [ITEM_KIND.AFFILIATION]: Affiliation.DataModel,
-    [ITEM_KIND.AFFLICTION]: Affliction.DataModel,
-    [ITEM_KIND.ARMORGEAR]: ArmorGear.DataModel,
-    [ITEM_KIND.BODYLOCATION]: BodyLocation.DataModel,
-    [ITEM_KIND.BODYPART]: BodyPart.DataModel,
-    [ITEM_KIND.BODYZONE]: BodyZone.DataModel,
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeMode.DataModel,
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGear.DataModel,
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGear.DataModel,
-    [ITEM_KIND.DOMAIN]: Domain.DataModel,
-    [ITEM_KIND.INJURY]: Injury.DataModel,
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeMode.DataModel,
-    [ITEM_KIND.MISCGEAR]: MiscGear.DataModel,
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeMode.DataModel,
-    [ITEM_KIND.MYSTERY]: Mystery.DataModel,
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbility.DataModel,
-    [ITEM_KIND.MYSTICALDEVICE]: MysticalDevice.DataModel,
-    [ITEM_KIND.PHILOSOPHY]: Philosophy.DataModel,
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGear.DataModel,
-    [ITEM_KIND.PROTECTION]: Protection.DataModel,
-    [ITEM_KIND.SKILL]: Skill.DataModel,
-    [ITEM_KIND.TRAIT]: Trait.DataModel,
-    [ITEM_KIND.WEAPONGEAR]: WeaponGear.DataModel,
-} as unknown as StrictObject<Constructor<SohlDataModel<any, any>>>);
+}: {
+    kind: ItemDMMap;
+    isValue: (value: unknown) => value is ItemDMMap[keyof ItemDMMap];
+    labels: StrictObject<string>;
+} = defItem;
+export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
+    COMMON_ITEM_DATA_MODEL,
+);
 
 export const {
     kind: COMMON_ITEM_LOGIC,
@@ -152,7 +281,38 @@ export const {
     [ITEM_KIND.SKILL]: Skill,
     [ITEM_KIND.TRAIT]: Trait,
     [ITEM_KIND.WEAPONGEAR]: WeaponGear,
-} as Record<string, Constructor<SohlItem.Logic>>);
+} as StrictObject<Constructor<SohlItem.Logic<any>>>);
+
+export const {
+    kind: COMMON_ITEM_SHEETS,
+    values: CommonItemSheets,
+    isValue: isCommonItemSheet,
+    labels: CommonItemSheetLabels,
+} = defineType("SOHL.Item.Sheet", {
+    [ITEM_KIND.AFFILIATION]: AffiliationSheet,
+    [ITEM_KIND.AFFLICTION]: AfflictionSheet,
+    [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
+    [ITEM_KIND.BODYLOCATION]: BodyLocationSheet,
+    [ITEM_KIND.BODYPART]: BodyPartSheet,
+    [ITEM_KIND.BODYZONE]: BodyZoneSheet,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeSheet,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
+    [ITEM_KIND.DOMAIN]: DomainSheet,
+    [ITEM_KIND.INJURY]: InjurySheet,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeSheet,
+    [ITEM_KIND.MISCGEAR]: MiscGearSheet,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeSheet,
+    [ITEM_KIND.MYSTERY]: MysterySheet,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,
+    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceSheet,
+    [ITEM_KIND.PHILOSOPHY]: PhilosophySheet,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearSheet,
+    [ITEM_KIND.PROTECTION]: ProtectionSheet,
+    [ITEM_KIND.SKILL]: SkillSheet,
+    [ITEM_KIND.TRAIT]: TraitSheet,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
+} as StrictObject<Constructor<SohlItemSheetBase>>);
 
 export const {
     kind: EFFECT_DATA_MODEL,
@@ -160,8 +320,8 @@ export const {
     isValue: isEffectDataModel,
     labels: EffectDataModelLabels,
 } = defineType("TYPES.Effect", {
-    [SOHL_EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect.DataModel,
-} as Record<string, Constructor<SohlDataModel<any>>>);
+    [EFFECT_KIND.EFFECTDATA]: SohlEffectData.DataModel,
+} as StrictObject<Constructor<SohlEffectData.DataModel>>);
 
 export const {
     kind: EFFECT_LOGIC,
@@ -169,8 +329,26 @@ export const {
     isValue: isEffectLogic,
     labels: EffectLogicLabels,
 } = defineType("TYPES.Effect", {
-    [SOHL_EFFECT_METADATA.ACTIVEEFFECTDATA.Kind]: SohlEffect,
-} as Record<string, Constructor<SohlEffect.Logic>>);
+    [EFFECT_KIND.EFFECTDATA]: SohlEffectData,
+} as StrictObject<Constructor<SohlEffectData.Logic>>);
+
+export const {
+    kind: COMBATANT_DATA_MODEL,
+    values: CombatantDataModels,
+    isValue: isCombatantDataModel,
+    labels: CombatantDataModelLabels,
+} = defineType("TYPES.Combatant", {
+    [COMBATANT_KIND.COMBATANTDATA]: SohlCombatantData.DataModel,
+} as unknown as StrictObject<Constructor<SohlCombatantData.DataModel>>);
+
+export const {
+    kind: COMBATANT_LOGIC,
+    values: CombatantLogic,
+    isValue: isCombatantLogic,
+    labels: CombatantLogicLabels,
+} = defineType("TYPES.Combatant", {
+    [COMBATANT_KIND.COMBATANTDATA]: SohlCombatantData,
+} as StrictObject<Constructor<SohlCombatantData.Logic>>);
 
 /**
  * Abstract class representing a system variant for the Song of Heroic Lands (SoHL).
@@ -206,16 +384,16 @@ export abstract class SohlSystem {
             },
             Actor: {
                 documentClass: SohlActor,
-                documentSheets: [
-                    {
-                        cls: SohlActor.Sheet,
-                        types: ActorKinds,
-                    },
-                ],
+                documentSheets: ActorKinds.map((kind) => {
+                    return {
+                        cls: COMMON_ACTOR_SHEETS[kind],
+                        types: [kind],
+                    };
+                }),
                 dataModels: COMMON_ACTOR_DATA_MODEL,
                 typeLabels: CommonActorDataModelLabels,
                 typeIcons: Object.fromEntries(
-                    Object.values(ACTOR_KIND).map((kind) => [
+                    ActorKinds.map((kind) => [
                         kind,
                         ACTOR_METADATA[kind].IconCssClass,
                     ]),
@@ -227,22 +405,16 @@ export abstract class SohlSystem {
             },
             Item: {
                 documentClass: SohlItem,
-                documentSheets: [
-                    {
-                        cls: SohlItem.Sheet,
-                        types: ItemKinds.filter(
-                            (t) => t !== ITEM_KIND.CONTAINERGEAR,
-                        ),
-                    },
-                    {
-                        cls: ContainerGear.Sheet,
-                        types: [ITEM_KIND.CONTAINERGEAR],
-                    },
-                ],
+                documentSheets: ItemKinds.map((kind) => {
+                    return {
+                        cls: COMMON_ITEM_SHEETS[kind],
+                        types: [kind],
+                    };
+                }),
                 dataModels: COMMON_ITEM_DATA_MODEL,
                 typeLabels: CommonItemDataModelLabels,
                 typeIcons: Object.fromEntries(
-                    Object.values(ITEM_KIND).map((kind) => [
+                    ItemKinds.map((kind) => [
                         kind,
                         ITEM_METADATA[kind].IconCssClass,
                     ]),
@@ -261,21 +433,26 @@ export abstract class SohlSystem {
                 dataModels: EFFECT_DATA_MODEL,
                 typeLabels: EffectDataModelLabels,
                 typeIcons: Object.fromEntries(
-                    Object.values(SOHL_EFFECT_METADATA).map((meta) => [
-                        meta.Kind,
-                        meta.IconCssClass,
+                    EffectKinds.map((kind) => [
+                        kind,
+                        EFFECT_METADATA[kind].IconCssClass,
                     ]),
                 ),
-                types: SohlEffectMetadatas.map((m) => m.Kind),
+                types: EffectKinds,
                 legacyTransferral: false,
             },
             Combatant: {
                 documentClass: SohlCombatant,
                 documentSheets: [],
-                dataModels: {},
-                typeLabels: {},
-                typeIcons: {},
-                types: [],
+                dataModels: COMBATANT_DATA_MODEL,
+                typeLabels: CombatantDataModelLabels,
+                typeIcons: Object.fromEntries(
+                    CombatantKinds.map((kind) => [
+                        kind,
+                        COMBATANT_METADATA[kind].IconCssClass,
+                    ]),
+                ),
+                types: CombatantKinds,
             },
             // Macro: {
             //     documentClass: SohlMacro,
@@ -319,7 +496,7 @@ export abstract class SohlSystem {
     readonly classRegistry: SohlMap<string, Constructor<SohlBase>>;
     readonly dataModelRegistry: SohlMap<
         string,
-        Constructor<SohlDataModel<any>>
+        Constructor<SohlDataModel<any, any, any>>
     >;
     readonly i18n: SohlLocalize;
     readonly log: SohlLogger;
@@ -383,7 +560,7 @@ export abstract class SohlSystem {
     protected constructor() {
         this.dataModelRegistry = new SohlMap<
             string,
-            Constructor<SohlDataModel<any>>
+            Constructor<SohlDataModel<any, any, any>>
         >([
             ...Object.entries(COMMON_ACTOR_DATA_MODEL),
             ...Object.entries(COMMON_ITEM_DATA_MODEL),
@@ -434,7 +611,7 @@ export namespace SohlSystem {
             cls: any;
             types: string[];
         }>;
-        dataModels: StrictObject<Constructor<SohlDataModel<any>>>;
+        dataModels: StrictObject<Constructor<SohlDataModel<any, any, any>>>;
         typeLabels: StrictObject<string>;
         typeIcons: StrictObject<string>;
         types: string[];

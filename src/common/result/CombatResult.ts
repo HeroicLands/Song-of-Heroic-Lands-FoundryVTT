@@ -14,18 +14,10 @@
 import { AttackResult } from "@common/result/AttackResult";
 import { DefendResult } from "@common/result/DefendResult";
 import { OpposedTestResult } from "@common/result/OpposedTestResult";
-const kCombatResult = Symbol("CombatResult");
-const kData = Symbol("CombatResult.Data");
-const kContext = Symbol("CombatResult.Context");
 
 export class CombatResult extends OpposedTestResult {
     attackResult: AttackResult;
     defendResult: DefendResult;
-    readonly [kCombatResult] = true;
-
-    static isA(obj: unknown): obj is CombatResult {
-        return typeof obj === "object" && obj !== null && kCombatResult in obj;
-    }
 
     constructor(
         data: Partial<CombatResult.Data>,
@@ -37,14 +29,8 @@ export class CombatResult extends OpposedTestResult {
             );
         }
         super(data, options);
-        this.attackResult =
-            AttackResult.isA(data.attackResult) ?
-                data.attackResult
-            :   new AttackResult(data.attackResult, options);
-        this.defendResult =
-            DefendResult.isA(data.defendResult) ?
-                data.defendResult
-            :   new DefendResult(data.defendResult, options);
+        this.attackResult = data.attackResult;
+        this.defendResult = data.defendResult;
     }
 
     calcMeleeCombatResult(opposedTestResult: OpposedTestResult) {
@@ -198,26 +184,13 @@ export class CombatResult extends OpposedTestResult {
 
 export namespace CombatResult {
     export interface Data extends OpposedTestResult.Data {
-        readonly [kData]: true;
-        attackResult: AttackResult | Partial<AttackResult.Data>;
-        defendResult: DefendResult | Partial<DefendResult.Data>;
+        attackResult: AttackResult;
+        defendResult: DefendResult;
     }
 
     export interface Options extends OpposedTestResult.Options {}
 
-    export class Context extends OpposedTestResult.Context {
-        readonly [kContext] = true;
-
-        isA(obj: unknown): obj is Context {
-            return typeof obj === "object" && obj !== null && kContext in obj;
-        }
-
-        constructor(data: Partial<CombatResult.Context.Data> = {}) {
-            super(data);
-        }
-    }
-
-    export namespace Context {
-        export interface Data extends OpposedTestResult.Context.Data {}
+    export interface ContextScope {
+        priorTestResult: CombatResult | null;
     }
 }

@@ -115,8 +115,8 @@ export class SohlLocalize {
     sortObjects(objects: PlainObject[], key: string): PlainObject[] {
         objects.sort((a, b) => {
             return this.compare(
-                foundry.utils.getProperty(a, key),
-                foundry.utils.getProperty(b, key),
+                String(foundry.utils.getProperty(a, key)),
+                String(foundry.utils.getProperty(b, key)),
             );
         });
         return objects;

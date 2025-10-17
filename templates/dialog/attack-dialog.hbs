@@ -8,7 +8,7 @@
     <div class="form-group">
         <label>Target Movement:</label>
         <select name="targetMovement">
-            <option value="still">Not Moving</option>
+            <option value="stationary">Not Moving</option>
             <option value="moving">Moving</option>
             <option value="evading" selected>Evading/Melee</option>
         </select>
@@ -24,7 +24,7 @@
         <label>Attacker Moving</label>
     </div>
     {{else}}
-    <input type="hidden" name="targetState" value="still" />
+    <input type="hidden" name="targetState" value="stationary" />
     {{/if}}
 
     <div class="form-group">

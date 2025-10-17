@@ -20,8 +20,8 @@ import {
     SohlActionScope,
 } from "@utils/constants";
 import { SohlEvent } from "@common/event/SohlEvent";
-import { SohlTemporal } from "./SohlTemporal";
-import type { SohlEventContext } from "./SohlEventContext";
+import { SohlTemporal } from "@common/event/SohlTemporal";
+import type { SohlEventContext } from "@common/event/SohlEventContext";
 
 /**
  * @summary Base class for all Action instances

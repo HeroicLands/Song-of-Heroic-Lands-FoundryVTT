@@ -12,26 +12,13 @@
  */
 
 import { ImpactResult } from "@common/result/ImpactResult";
-import {
-    ATTACK_MISHAP,
-    defineType,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    VALUE_DELTA_ID,
-} from "@utils/constants";
-const kAttackResult = Symbol("AttackResult");
-const kData = Symbol("AttackResult.Data");
-const kContext = Symbol("AttackResult.Context");
+import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@utils/constants";
 
 export class AttackResult extends ImpactResult {
     situationalModifier: number;
     allowedDefenses: Set<string>;
     damage: number;
     modifiers: Map<string, string>;
-    readonly [kAttackResult] = true;
-
-    static isA(obj: unknown): obj is AttackResult {
-        return typeof obj === "object" && obj !== null && kAttackResult in obj;
-    }
 
     constructor(
         data: Partial<AttackResult.Data> = {},
@@ -42,11 +29,6 @@ export class AttackResult extends ImpactResult {
         this.allowedDefenses = new Set(data.allowedDefenses ?? []);
         this.damage = data.damage ?? 0;
         this.modifiers = new Map(data.modifiers ?? []);
-
-        // Set default test type if not provided
-        if (!this.testType) {
-            this.testType = AttackResult.TESTTYPE.MELEEATTACK.id;
-        }
     }
 
     async evaluate(): Promise<boolean> {
@@ -54,8 +36,8 @@ export class AttackResult extends ImpactResult {
         if (!allowed) return false;
 
         if (
-            this.testType === AttackResult.TESTTYPE.MELEEATTACK.id ||
-            this.testType === AttackResult.TESTTYPE.AUTOCOMBATMELEE.id
+            this.testType === TEST_TYPE.MELEEATTACK.id ||
+            this.testType === TEST_TYPE.AUTOCOMBATMELEE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
                 this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
@@ -66,8 +48,8 @@ export class AttackResult extends ImpactResult {
             this.deliversImpact = false;
         }
         if (
-            this.testType === AttackResult.TESTTYPE.MISSILEATTACK.id ||
-            this.testType === AttackResult.TESTTYPE.AUTOCOMBATMISSILE.id
+            this.testType === TEST_TYPE.MISSILEATTACK.id ||
+            this.testType === TEST_TYPE.AUTOCOMBATMISSILE.id
         ) {
             if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
                 this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
@@ -127,43 +109,9 @@ export class AttackResult extends ImpactResult {
 }
 
 export namespace AttackResult {
-    export const {
-        kind: TESTTYPE,
-        values: TestTypes,
-        isValue: isTestType,
-    } = defineType("SOHL.AttackResult.TestType", {
-        AUTOCOMBATMELEE: {
-            id: "autoCombatMelee",
-            name: "Auto Combat Melee",
-            iconClass: "fas fa-swords",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        AUTOCOMBATMISSILE: {
-            id: "autoCombatMissile",
-            name: "Auto Combat Missile",
-            iconClass: "fas fa-bow-arrow",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        MISSILEATTACK: {
-            id: "missileAttackTest",
-            name: "Missile Attack Test",
-            iconClass: "fas fa-bow-arrow",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        MELEEATTACK: {
-            id: "meleeAttackTest",
-            name: "Melee Attack Test",
-            iconClass: "fas fa-sword",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-    });
+    export const Kind: string = "AttackResult";
 
     export interface Data extends ImpactResult.Data {
-        readonly [kData]: true;
         situationalModifier: number;
         allowedDefenses: Set<string>;
         damage: number;
@@ -172,21 +120,7 @@ export namespace AttackResult {
 
     export interface Options extends ImpactResult.Options {}
 
-    export class Context extends ImpactResult.Context {
-        readonly [kContext] = true;
-
-        isA(obj: unknown): obj is Context {
-            return typeof obj === "object" && obj !== null && kContext in obj;
-        }
-
-        constructor(data: Partial<AttackResult.Context.Data> = {}) {
-            super(data);
-        }
-    }
-
-    export namespace Context {
-        export interface Data extends ImpactResult.Context.Data {
-            testResult: Nullable<AttackResult.Data>;
-        }
+    export interface ContextScope {
+        priorTestResult: AttackResult | null;
     }
 }

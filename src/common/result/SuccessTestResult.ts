@@ -11,57 +11,45 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { TestResult } from "@common/result/TestResult";
-import type { SohlSpeaker } from "@common/SohlSpeaker";
-import { toFilePath, toHTMLWithTemplate } from "@utils/helpers";
-import type { SimpleRoll } from "@utils/SimpleRoll";
-import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
-import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
-import { SohlAction } from "@common/event/SohlAction";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import type { SohlContextMenu } from "@utils/SohlContextMenu";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import { SimpleRoll } from "@utils/SimpleRoll";
+import { TestResult } from "@common/result/TestResult";
+import { toFilePath } from "@utils/helpers";
+import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
 import {
-    defineType,
     MARGINAL_FAILURE,
     CRITICAL_FAILURE,
     MARGINAL_SUCCESS,
     CRITICAL_SUCCESS,
+    VALUE_DELTA_ID,
+    SOHL_SPEAKER_SOUND,
+    SOHL_SPEAKER_ROLL_MODE,
+    SUCCESS_TEST_RESULT_MOVEMENT,
+    TEST_TYPE,
     SuccessTestResultMovement,
     SuccessTestResultMovements,
     SuccessTestResultMishaps,
     SohlSpeakerRollModes,
-    VALUE_DELTA_ID,
     isSohlSpeakerRollMode,
-    SOHL_SPEAKER_SOUND,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlSpeakerRollMode,
-    SOHL_SPEAKER_ROLL_MODE,
+    TestType,
 } from "@utils/constants";
-import { SohlEventContext } from "@common/event/SohlEventContext";
-const kSuccessTestResult = Symbol("SuccessTestResult");
-const kData = Symbol("SuccessTestResult.Data");
-const kContext = Symbol("SuccessTestResult.Context");
 
 export class SuccessTestResult extends TestResult {
     private _resultText: string;
     private _resultDesc: string;
     private _successLevel: number;
-    private _description: string;
-    token!: SohlSpeaker;
-    masteryLevelModifier!: MasteryLevelModifier;
-    successes!: number;
-    rollMode!: string;
-    testType!: SuccessTestResult.TestType;
-    roll!: SimpleRoll;
-    movement!: SuccessTestResultMovement;
-    mishaps!: Set<string>;
-    readonly [kSuccessTestResult] = true;
-
-    static isA(obj: unknown): obj is SuccessTestResult {
-        return (
-            typeof obj === "object" && obj !== null && kSuccessTestResult in obj
-        );
-    }
+    protected _token: SohlTokenDocument | null;
+    protected _masteryLevelModifier: MasteryLevelModifier;
+    protected _successes: number;
+    protected _testType: TestType;
+    protected _roll: SimpleRoll;
+    protected _movement: SuccessTestResultMovement;
+    protected _mishaps: Set<string>;
+    rollMode: string;
 
     constructor(
         data: Partial<SuccessTestResult.Data> = {},
@@ -74,15 +62,39 @@ export class SuccessTestResult extends TestResult {
                 {
                     inplace: false,
                 },
-            ) as PlainObject;
+            );
         }
         super(data, options);
-        if (options.chatSpeaker) this.speaker = options.chatSpeaker;
-        if (options.mlMod) this.masteryLevelModifier = options.mlMod;
-        this._resultText = "";
-        this._resultDesc = "";
+        if (options.mlMod)
+            this._masteryLevelModifier =
+                data.masteryLevelModifier ??
+                new sohl.ValueModifier({}, { parent: this.parent });
+        this._resultText = data.resultText ?? "";
+        this._resultDesc = data.resultDesc ?? "";
         this._successLevel = MARGINAL_FAILURE;
-        this._description = "";
+        this._token = data.token ?? null;
+        this._masteryLevelModifier =
+            data.masteryLevelModifier ??
+            new sohl.MasteryLevelModifier(
+                {},
+                {
+                    parent: this.parent,
+                },
+            );
+        this._successes = data.successes ?? 0;
+        this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
+        this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
+        this._roll =
+            data.roll ??
+            new SimpleRoll(SuccessTestResult.StandardRollData.MARGINAL_FAILURE);
+        this._movement =
+            data.movement || SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY;
+        this._mishaps = new Set<string>(data.mishaps || []);
+        if (options.chatSpeaker) {
+            this._speaker = options.chatSpeaker;
+        } else {
+            this._speaker = new SohlSpeaker({ token: this._token?.id });
+        }
     }
 
     get resultText(): string {
@@ -106,10 +118,39 @@ export class SuccessTestResult extends TestResult {
         }
     }
 
+    get token(): SohlTokenDocument | null {
+        return this._token;
+    }
+
+    get masteryLevelModifier(): MasteryLevelModifier {
+        return this._masteryLevelModifier;
+    }
+
+    get successes(): number {
+        return this._successes;
+    }
+
+    get testType(): TestType {
+        return this._testType;
+    }
+
+    get roll(): SimpleRoll {
+        return this._roll;
+    }
+
+    get movement(): SuccessTestResultMovement {
+        return this._movement;
+    }
+
+    get mishaps(): Set<string> {
+        if (!this._mishaps) this._mishaps = new Set<string>();
+        return this._mishaps;
+    }
+
     get availResponses() {
         const result: SohlContextMenu.Entry[] = [];
-        if (this.testType === SuccessTestResult.TEST_TYPE.OPPOSEDTESTSTART.id) {
-            result.push(SuccessTestResult.TEST_TYPE.OPPOSEDTESTRESUME);
+        if (this.testType === TEST_TYPE.OPPOSEDTESTSTART.id) {
+            result.push(TEST_TYPE.OPPOSEDTESTRESUME);
         }
 
         return result;
@@ -175,8 +216,8 @@ export class SuccessTestResult extends TestResult {
                 "systems/sohl/templates/dialog/standard-test-dialog.html",
             ),
             title: sohl.i18n.format("SOHL.SuccessTestResult.testDialog.title", {
-                name: this.speaker.name,
-                title: this.title,
+                name: this._speaker.name,
+                title: this._title,
             }),
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
@@ -236,10 +277,10 @@ export class SuccessTestResult extends TestResult {
     async evaluate() {
         let allowed = await super.evaluate();
         if (allowed === false) return false;
-        if (!this.speaker.isOwner) {
+        if (!this._speaker.isOwner) {
             sohl.log.uiWarn(
                 sohl.i18n.format("SOHL.SUCCESSTESTRESULT.evaluate.NoPerm", {
-                    name: this.speaker.name,
+                    name: this._speaker.name,
                 }),
             );
             return false;
@@ -330,11 +371,13 @@ export class SuccessTestResult extends TestResult {
         const options: PlainObject = {};
         options.roll = await this.roll.createRoll();
         options.sound = SOHL_SPEAKER_SOUND.DICE;
-        this.speaker.toChat(chatData.template, chatData, options);
+        this._speaker.toChat(chatData.template, chatData, options);
     }
 }
 
 export namespace SuccessTestResult {
+    export const Kind: string = "SuccessTestResult";
+
     export interface Options {
         testResult: SuccessTestResult;
         chatSpeaker: SohlSpeaker;
@@ -369,300 +412,24 @@ export namespace SuccessTestResult {
         },
     } as const;
 
-    export const {
-        kind: TEST_TYPE,
-        values: TestTypes,
-        isValue: isTestType,
-    } = defineType("SOHL.SuccessTestResult.TestType", {
-        SETIMPROVEFLAG: {
-            id: "setImproveFlag",
-            name: "Set Improve Flag",
-            iconClass: "fas fa-star",
-            condition: (header: HTMLElement): boolean => {
-                const item = SohlContextMenu._getContextItem(header);
-                return item?.system.canImprove && !item?.system.improveFlag;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        UNSETIMPROVEFLAG: {
-            id: "unsetImproveFlag",
-            name: "Unset Improve Flag",
-            iconClass: "far fa-star",
-            condition: (header: HTMLElement): boolean => {
-                const item = SohlContextMenu._getContextItem(header);
-                return (
-                    item && item.system.canImprove && item.system.improveFlag
-                );
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        IMPROVEWITHSDR: {
-            id: "improveWithSDR",
-            name: "Improve with SDR",
-            iconClass: "fas fa-star",
-            condition: (header: HTMLElement): boolean => {
-                const item = SohlContextMenu._getContextItem(header);
-                return item?.system.canImprove && item.system.improveFlag;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        SUCCESSTEST: {
-            id: "successTest",
-            name: "Success Test",
-            iconClass: "fas fa-person",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        OPPOSEDTESTSTART: {
-            id: "opposedTestStart",
-            name: "Opposed Test Start",
-            iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // const token = cast<SohlActor>(
-                //     cast<Item>(item)?.actor,
-                // )?.getToken();
-                // return token && !item.system.$masteryLevel.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        SHOCKTEST: {
-            id: "shockTest",
-            name: "Shock Test",
-            iconClass: "far fa-face-eyes-xmarks",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        STUMBLETEST: {
-            id: "stumbleTest",
-            name: "Stumble Test",
-            iconClass: "far fa-person-falling",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        FUMBLETEST: {
-            id: "fumbleTest",
-            name: "Fumble Test",
-            iconClass: "far fa-ball-pile",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        MORALETEST: {
-            id: "moraleTest",
-            name: "Morale Test",
-            iconClass: "far fa-people-group",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        FEARTEST: {
-            id: "fearTest",
-            name: "Fear Test",
-            iconClass: "far fa-face-scream",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        TRANSMITAFFLICTION: {
-            id: "transmitAffliction",
-            name: "Transmit Affliction",
-            iconClass: "fas fa-head-side-cough",
-            condition: (header: HTMLElement): boolean => {
-                const item = SohlContextMenu._getContextItem(header);
-                return item?.system.canTransmit;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        CONTRACTAFFLICTIONTEST: {
-            id: "contractAfflictionTest",
-            name: "Contract Affliction Test",
-            iconClass: "fas fa-virus",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        COURSETTEST: {
-            id: "courseTest",
-            name: "Course Test",
-            iconClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        FATIGUETEST: {
-            id: "fatigueTest",
-            name: "Fatigue Test",
-            iconClass: "fas fa-face-downcast-sweat",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-        TREATMENTTEST: {
-            id: "treatmentTest",
-            name: "Treatment Test",
-            iconClass: "fas fa-staff-snake",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        DIAGNOSISTEST: {
-            id: "diagnosisTest",
-            name: "Diagnosis Test",
-            iconClass: "fas fa-stethoscope",
-            condition: (header: HTMLElement): boolean => {
-                const item = SohlContextMenu._getContextItem(header);
-                return !!item && !item.system.isTreated;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        HEALINGTEST: {
-            id: "healingTest",
-            name: "Healing Test",
-            iconClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const endurance = item?.actor?.getTraitByAbbrev("end");
-                // return endurance && !endurance.system.$masteryLevel.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        BLEEDINGSTOPPAGETEST: {
-            id: "bleedingStoppageTest",
-            name: "Bleeding Stoppage Test",
-            iconClass: "fas fa-droplet-slash",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (!item?.system.isBleeding) return false;
-                // const physician = item?.actor?.getSkillByAbbrev("pysn");
-                // return physician && !physician.system.$masteryLevel.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        BLOODLOSSADVANCETEST: {
-            id: "bloodlossAdvanceTest",
-            name: "Bloodloss Advance Test",
-            iconClass: "fas fa-droplet",
-            condition: (header: HTMLElement): boolean => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (!item || !item.system.isBleeding) return false;
-                // const strength = item?.actor?.getTraitByAbbrev("str");
-                // return strength && !strength.system.$masteryLevel?.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        OPPOSEDTESTRESUME: {
-            id: "opposedTestResume",
-            name: "Opposed Test Resume",
-            iconClass: "fas fa-people-arrows",
-            condition: (header: HTMLElement): boolean => false,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-        },
-        RESOLVEIMPACT: {
-            id: "resolveImpact",
-            name: "Resolve Impact",
-            iconClass: "fas fa-person-burst",
-            condition: (header: HTMLElement): boolean => true,
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-        },
-    } as StrictObject<SohlContextMenu.Entry>);
-    export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
-
     export interface Data extends TestResult.Data {
-        readonly [kData]: true;
         resultText: string;
         resultDesc: string;
         successLevel: number;
-        description: string;
+        token: SohlTokenDocument;
         masteryLevelModifier: MasteryLevelModifier;
+        successes: number;
         rollMode: SohlSpeakerRollMode;
-        testType: SuccessTestResult.TestType;
+        testType: TestType;
+        roll: SimpleRoll;
         movement: SuccessTestResultMovement;
         mishaps: string[];
     }
 
     export interface Options extends TestResult.Options {}
 
-    export class Context extends SohlEventContext {
-        priorTestResult?: SuccessTestResult;
-        targetToken?: SohlTokenDocument;
-        rollMode: SohlSpeakerRollMode;
+    export interface ContextScope {
+        priorTestResult: SuccessTestResult;
         situationalModifier: number;
-        readonly [kContext] = true;
-
-        isA(obj: unknown): obj is Context {
-            return typeof obj === "object" && obj !== null && kContext in obj;
-        }
-
-        constructor(data: Partial<SuccessTestResult.Context.Data> = {}) {
-            super(data);
-            if (data.priorTestResult)
-                this.priorTestResult =
-                    SuccessTestResult.isA(data.priorTestResult) ?
-                        data.priorTestResult
-                    :   new SuccessTestResult(data.priorTestResult);
-            if (data.targetTokenUuid) {
-                const targetToken = fromUuidSync(data.targetTokenUuid);
-                if (targetToken) this.targetToken = targetToken;
-            }
-            this.rollMode = data.rollMode ?? SOHL_SPEAKER_ROLL_MODE.SYSTEM;
-            this.situationalModifier = data.situationalModifier ?? 0;
-        }
-
-        /** @inheritdoc */
-        toJSON(): Record<string, unknown> {
-            return {
-                ...super.toJSON(),
-                priorTestResult: this.priorTestResult?.toJSON() || null,
-                targetTokenUuid: this.target?.uuid || null,
-                rollMode: this.rollMode,
-                situationalModifier: this.situationalModifier,
-            };
-        }
-    }
-
-    export namespace Context {
-        export interface Data extends SohlEventContext.Data {
-            priorTestResult: Nullable<
-                SuccessTestResult.Data | SuccessTestResult
-            >;
-            targetTokenUuid: Nullable<string>;
-            rollMode: SohlSpeakerRollMode;
-            situationalModifier: number;
-        }
     }
 }

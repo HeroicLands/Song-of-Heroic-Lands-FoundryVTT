@@ -11,54 +11,63 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import { SohlDataModel } from "@common/SohlDataModel";
 import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import { SohlEventContext } from "@common/event/SohlEventContext";
+import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
+import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlMap } from "@utils/collection/SohlMap";
-import { MasteryLevelMixin } from "@common/item/MasteryLevelMixin";
-import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
+import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
-const kSohlActor = Symbol("SohlActor");
-const kData = Symbol("SohlActor.Data");
 const { SearchFilter } = foundry.applications.ux;
+
 export class SohlActor<
-    TLogic extends SohlActor.Logic = SohlActor.Logic,
-    TDataModel extends SohlActor.DataModel = any,
+    TLogic extends SohlActor.Logic<any> = SohlActor.Logic<any>,
     SubType extends Actor.SubType = Actor.SubType,
 > extends Actor<SubType> {
-    readonly [kSohlActor] = true;
-
     private _allItemsMap?: SohlMap<string, SohlItem>;
     private _allItemTypesCache?: StrictObject<SohlItem[]>;
-    private _allItemsBuilt = false;
-    private _ctx = new SohlEventContext({
-        speaker: new SohlSpeaker({
-            actor: toDocumentId(this.id || ""),
-            alias: null,
-        }),
-    });
+    private _allItemsBuilt: boolean;
+    protected _speaker?: SohlSpeaker;
 
-    static isA(obj: unknown): obj is SohlActor {
-        return typeof obj === "object" && obj !== null && kSohlActor in obj;
+    constructor(data: any, options?: any) {
+        super(data, options);
+        this._allItemsBuilt = false;
     }
 
+    /**
+     * Get the logic object for this item.
+     * @remarks
+     * This is a convenience accessor to avoid having to access `this.system.logic`
+     */
     get logic(): TLogic {
         return (this.system as any).logic as TLogic;
     }
 
+    /**
+     * Get the context menu options for a specific SohlItem document.
+     * @param doc The SohlItem document to get context options for.
+     * @returns The context menu options for the specified SohlItem document.
+     */
     static _getContextOptions(doc: SohlActor): SohlContextMenu.Entry[] {
         return doc._getContextOptions();
     }
 
+    /**
+     * Get the context menu options for this item.
+     * @returns The context menu options for this item.
+     */
     _getContextOptions(): SohlContextMenu.Entry[] {
         return this.logic._getContextOptions();
     }
 
     /**
-     * @param {HTMLElement} btn The button element that was clicked.
+     * Helper method to handle chat card button clicks.
+     * @param btn The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
         // TODO: Handle chat card button clicks here
@@ -66,7 +75,8 @@ export class SohlActor<
     }
 
     /**
-     * @param {HTMLElement} btn The button element that was clicked.
+     * Helper method to handle chat card edit actions.
+     * @param btn The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
         // TODO: Handle chat card edit actions here
@@ -152,32 +162,71 @@ export class SohlActor<
         this._allItemsBuilt = true;
     }
 
+    getToken(): SohlTokenDocument | null {
+        // Case 1: synthetic (unlinked) actor -> has a backing TokenDocument
+        if (this.isToken && this.token) {
+            return this.token; // TokenDocument
+        }
+
+        // Case 2: linked actor -> find an active-scene token linked to this actor
+        const scene = canvas?.scene;
+        if (!scene) return null;
+
+        const linkedTokens = scene.tokens.filter(
+            (td) => td.actorLink && td.actorId === this.id,
+        );
+
+        return linkedTokens[0] ?? null;
+    }
+
+    protected _getContext(token?: TokenDocument): SohlEventContext {
+        return new SohlEventContext({
+            speaker: this.getSpeaker(token),
+        });
+    }
+
+    getSpeaker(token?: TokenDocument): SohlSpeaker {
+        if (token) {
+            return new SohlSpeaker({ token: token.id });
+        }
+        if (!this._speaker) {
+            this._speaker = new SohlSpeaker({
+                actor: this.id,
+                token: this.getToken()?.id,
+            });
+        }
+        return this._speaker;
+    }
+
     prepareBaseData(): void {
         super.prepareBaseData();
-        this.logic.initialize(this._ctx);
+        this._speaker = undefined;
+        this.logic.initialize(this._getContext());
     }
 
     prepareEmbeddedData(): void {
         // @ts-expect-error TS doesn't recognize prepareEmbeddedData is declared in base class
         super.prepareEmbeddedData();
 
+        const ctx = this._getContext();
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
-            item.logic.initialize(this._ctx);
+            item.logic.initialize(ctx);
         }
         this.finalizeItemsCache();
 
         // Evaluate and finalize all objects, recognizing that the virtualItems map is now immutable
         this.allItems.forEach((it) => {
-            it.logic.evaluate(this._ctx);
-            it.logic.finalize(this._ctx);
+            it.logic.evaluate(ctx);
+            it.logic.finalize(ctx);
         });
     }
 
     prepareDerivedData(): void {
         super.prepareDerivedData();
-        this.logic.evaluate(this._ctx);
-        this.logic.finalize(this._ctx);
+        const ctx = this._getContext();
+        this.logic.evaluate(ctx);
+        this.logic.finalize(ctx);
     }
 
     static createUniqueName(baseName: string): string {
@@ -307,7 +356,7 @@ export class SohlActor<
                 for (const obj of updateData.items) {
                     if (obj.type === "skill") {
                         if (obj.flags?.sohl?.legendary?.initSkillMult) {
-                            const sb = new MasteryLevelMixin.SkillBase(
+                            const sb = new SkillBase(
                                 obj.system.skillBaseFormula,
                                 {
                                     items: updateData.items,
@@ -372,11 +421,34 @@ export class SohlActor<
     //         }
     //     });
     // }
+
+    /**
+     * Create a new item embedded in this actor.
+     * @param data The data for the new item.
+     * @returns The created SohlItem.
+     */
+    async createItem(
+        data: foundry.abstract.Document.CreateDataForName<"Item">,
+    ): Promise<SohlItem> {
+        const [created] = (await this.createEmbeddedDocuments("Item", [
+            data,
+        ])) as SohlItem[];
+        return created;
+    }
+
+    async createActiveEffect(
+        data: foundry.abstract.Document.CreateDataForName<"ActiveEffect">,
+    ): Promise<SohlActiveEffect> {
+        const [created] = (await this.createEmbeddedDocuments("ActiveEffect", [
+            data,
+        ])) as SohlActiveEffect[];
+        return created;
+    }
 }
 
 export namespace SohlActor {
-    export interface Data extends SohlLogic.Data {
-        readonly [kData]: true;
+    export interface Data<TLogic extends SohlLogic<any> = SohlLogic<any>>
+        extends SohlDataModel.Data<SohlActor, TLogic> {
         label(options?: { withName: boolean }): string;
         biography: HTMLString;
         description: HTMLString;
@@ -384,14 +456,12 @@ export namespace SohlActor {
         textReference: string;
     }
 
-    export interface Logic extends SohlLogic {
-        readonly _parent: Data;
+    export interface Logic<TData extends SohlDataModel.Data<SohlActor>>
+        extends SohlLogic<TData> {
         virtualItems: SohlMap<string, SohlItem>;
     }
 
-    export class BaseLogic extends SohlLogic implements Logic {
-        declare readonly _parent: Data;
-        declare _getContextOptions: () => SohlContextMenu.Entry[];
+    export class BaseLogic extends SohlLogic<Data> implements Logic<Data> {
         virtualItems!: SohlMap<string, SohlItem>;
         override initialize(context?: SohlEventContext): void {
             this.virtualItems = new SohlMap<string, SohlItem>();
@@ -399,412 +469,398 @@ export namespace SohlActor {
         override evaluate(context?: SohlEventContext): void {}
         override finalize(context?: SohlEventContext): void {}
     }
-
-    export abstract class DataModel
-        extends SohlDataModel<SohlActor, any>
-        implements Data
-    {
-        declare biography: HTMLString;
-        declare description: HTMLString;
-        declare bioImage: FilePath;
-        declare textReference: string;
-        readonly [kData] = true;
-
-        constructor(data: PlainObject = {}, options: PlainObject = {}) {
-            if (!(options.parent instanceof SohlActor)) {
-                throw new Error("Parent must be of type SohlActor");
-            }
-            super(data, options);
-        }
-
-        static isA(obj: unknown): obj is DataModel {
-            return typeof obj === "object" && obj !== null && kData in obj;
-        }
-
-        get actor(): SohlActor {
-            return this.parent;
-        }
-
-        get i18nPrefix(): string {
-            return `SOHL.Actor.${this.kind}`;
-        }
-
-        label(
-            options: { withName: boolean } = {
-                withName: true,
-            },
-        ): string {
-            let result = sohl.i18n.localize(`SOHL.${this.kind}.typelabel`);
-            if (options.withName) {
-                result = sohl.i18n.localize("SOHL.SohlItem.labelWithName", {
-                    name: this.parent.name,
-                    type: result,
-                });
-            }
-            return result;
-        }
-
-        static override defineSchema(): foundry.data.fields.DataSchema {
-            return {
-                ...super.defineSchema(),
-                bioImage: new FilePathField({
-                    categories: ["IMAGE"],
-                    initial: foundry.CONST.DEFAULT_TOKEN,
-                }),
-                description: new HTMLField(),
-                biography: new HTMLField(),
-                textReference: new StringField(),
-            };
-        }
-    }
-
-    export namespace DataModel {
-        export interface Statics extends SohlDataModel.DataModel.Statics {
-            readonly kind: string;
-            isA(obj: unknown): obj is unknown;
-        }
-
-        export const Shape: WithStatics<typeof SohlActor.DataModel, Statics> =
-            SohlActor.DataModel;
-    }
-
-    type HandlebarsTemplatePart =
-        foundry.applications.api.HandlebarsApplicationMixin.HandlebarsTemplatePart;
-
-    const DocumentSheetV2Base = foundry.applications.api
-        .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor;
-    class ActorSheetImpl extends SohlDataModel.SheetMixin<
-        SohlActor,
-        foundry.applications.api.DocumentSheetV2.AnyConstructor
-    >(DocumentSheetV2Base) {
-        static DEFAULT_OPTIONS: PlainObject = {
-            id: "sohl-actor-sheet",
-            tag: "form",
-            position: { width: 900, height: 640 },
-        };
-
-        static PARTS: StrictObject<HandlebarsTemplatePart> = {
-            header: {
-                template: "system/sohl/templates/actor/parts/actor-header.hbs",
-            },
-            tabs: {
-                template: "system/sohl/templates/actor/parts/actor-tabs.hbs",
-            },
-            facade: {
-                template: "system/sohl/templates/actor/parts/actor-facade.hbs",
-            },
-            profile: {
-                template: "system/sohl/templates/actor/parts/actor-profile.hbs",
-            },
-            skills: {
-                template: "system/sohl/templates/actor/parts/actor-skills.hbs",
-            },
-            combat: {
-                template: "system/sohl/templates/actor/parts/actor-combat.hbs",
-            },
-            trauma: {
-                template:
-                    "system/sohl/templates/actor/parts/actor-nested-trauma.hbs",
-            },
-            mysteries: {
-                template:
-                    "system/sohl/templates/actor/parts/actor-nested-mysteries.hbs",
-            },
-            gear: {
-                template:
-                    "system/sohl/templates/actor/parts/actor-nested-gear.hbs",
-            },
-            actions: {
-                template:
-                    "system/sohl/templates/actor/parts/actor-nested-actions.hbs",
-            },
-            events: {
-                template: "system/sohl/templates/actor/parts/actor-events.hbs",
-            },
-            effects: {
-                template: "system/sohl/templates/actor/parts/actor-effects.hbs",
-            },
-        } as const;
-
-        static TABS = {
-            sheet: {
-                navSelector: ".tabs[data-group='sheet']",
-                contentSelector: ".content[data-group='sheet']",
-                initial: "profile",
-                tabs: [
-                    {
-                        id: "profile",
-                        // icon: "fas fa-user",
-                        label: "SOHL.Actor.tab.profile",
-                    },
-                    { id: "skills", label: "SOHL.Actor.tab.skills" },
-                    { id: "combat", label: "SOHL.Actor.tab.combat" },
-                    { id: "trauma", label: "SOHL.Actor.tab.trauma" },
-                    { id: "mysteries", label: "SOHL.Actor.tab.mysteries" },
-                    { id: "gear", label: "SOHL.Actor.tab.gear" },
-                    { id: "actions", label: "SOHL.Actor.tab.actions" },
-                    { id: "events", label: "SOHL.Actor.tab.events" },
-                    { id: "effects", label: "SOHL.Actor.tab.effects" },
-                ],
-            },
-        };
-
-        override _configureRenderOptions(
-            options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
-        ): void {
-            super._configureRenderOptions(options);
-            if ((this.document as any).limited) {
-                options.parts = ["header", "facade"];
-            } else {
-                options.parts = [
-                    "header",
-                    "tabs",
-                    "facade",
-                    "profile",
-                    "skills",
-                    "combat",
-                    "trauma",
-                    "mysteries",
-                    "gear",
-                    "actions",
-                    "events",
-                    "effects",
-                ];
-            }
-        }
-
-        override async _prepareContext(options: any): Promise<PlainObject> {
-            const context = {
-                ...(await super._prepareContext(options)),
-            };
-            return context;
-        }
-
-        async _preparePartContext(
-            partId: string,
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            // Call the base implementation dynamically to avoid TypeScript 'super' cast issues.
-            const __sohl_base = Object.getPrototypeOf(
-                SohlActor.prototype,
-            ) as any;
-            context = await __sohl_base._preparePartContext.call(
-                this,
-                partId,
-                context as any,
-                options as any,
-            );
-            switch (partId) {
-                case "facade":
-                    return await this._prepareFacadeContext(context, options);
-                case "profile":
-                    return this._prepareProfileContext(context, options);
-                case "skills":
-                    return await this._prepareSkillsContext(context, options);
-                case "combat":
-                    return await this._prepareCombatContext(context, options);
-                case "trauma":
-                    return await this._prepareTraumaContext(context, options);
-                case "mysteries":
-                    return await this._prepareMysteriesContext(
-                        context,
-                        options,
-                    );
-                case "gear":
-                    return await this._prepareGearContext(context, options);
-                case "actions":
-                    return await this._prepareActionsContext(context, options);
-                case "events":
-                    return await this._prepareEventsContext(context, options);
-                case "effects":
-                    return await this._prepareEffectsContext(context, options);
-                case "header":
-                    return await this._prepareHeaderContext(context, options);
-                case "tabs":
-                    return await this._prepareTabsContext(context, options);
-                default:
-                    return context;
-            }
-        }
-
-        async _prepareTabsContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareHeaderContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareFacadeContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareProfileContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareSkillsContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareCombatContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareTraumaContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareMysteriesContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareGearContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareActionsContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareEventsContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        async _prepareEffectsContext(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<PlainObject> {
-            return context;
-        }
-
-        protected _displayFilteredResults(
-            event: KeyboardEvent | null,
-            query: string,
-            rgx: RegExp,
-            content: HTMLElement | null,
-        ): void {
-            if (!content) return;
-
-            const rows = content.querySelectorAll<HTMLElement>(".item");
-
-            if (!query.trim()) {
-                rows.forEach((el) => el.classList.remove("hidden"));
-            } else {
-                if (rgx && (rgx as any).global) rgx.lastIndex = 0;
-
-                const q = sohl.i18n.normalizeText(query.trim(), {
-                    caseInsensitive: true,
-                    ascii: true,
-                });
-                rows.forEach((el) => {
-                    const name = sohl.i18n.normalizeText(
-                        (el.dataset.itemName ?? "").trim(),
-                        {
-                            caseInsensitive: true,
-                            ascii: true,
-                        },
-                    );
-                    const match = rgx ? rgx.test(name) : name.includes(q);
-                    el.classList.toggle("hidden", !match);
-                    if (rgx && (rgx as any).global) rgx.lastIndex = 0;
-                });
-            }
-        }
-
-        protected _filters: SearchFilter[] = [
-            new SearchFilter({
-                inputSelector: 'input[name="search-traits"]',
-                contentSelector: ".traits",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-skills"]',
-                contentSelector: ".skills",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-bodylocations"]',
-                contentSelector: ".bodylocations-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-afflictions"]',
-                contentSelector: ".afflictions-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-mysteries"]',
-                contentSelector: ".mysteries-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-mysticalabilities"]',
-                contentSelector: ".mysticalabilities-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-gear"]',
-                contentSelector: ".gear-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-            new SearchFilter({
-                inputSelector: 'input[name="search-effects"]',
-                contentSelector: ".effects-list",
-                callback: this._displayFilteredResults.bind(this),
-            }),
-        ];
-
-        override async _onRender(
-            context: PlainObject,
-            options: PlainObject,
-        ): Promise<void> {
-            super._onRender(context, options);
-
-            // Rebind all search filters
-            this._filters.forEach((filter) => filter.bind(this.element));
-        }
-    }
-
-    export const Sheet: Constructor<
-        foundry.applications.api.DocumentSheetV2<SohlActor>
-    > = ActorSheetImpl as unknown as Constructor<
-        foundry.applications.api.DocumentSheetV2<SohlActor>
-    >;
 }
 
-declare module "fvtt-types/configuration" {}
+function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlDataModel.defineSchema(),
+        bioImage: new FilePathField({
+            categories: ["IMAGE"],
+            initial: foundry.CONST.DEFAULT_TOKEN,
+        }),
+        description: new HTMLField(),
+        biography: new HTMLField(),
+        textReference: new StringField(),
+    };
+}
+
+type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
+
+export abstract class SohlActorDataModel<
+        TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
+        TLogic extends
+            SohlActor.Logic<SohlActor.Data> = SohlActor.Logic<SohlActor.Data>,
+    >
+    extends SohlDataModel<TSchema, SohlActor, TLogic>
+    implements SohlActor.Data<TLogic>
+{
+    biography!: HTMLString;
+    description!: HTMLString;
+    bioImage!: FilePath;
+    textReference!: string;
+
+    constructor(data: PlainObject = {}, options: PlainObject = {}) {
+        if (!(options.parent instanceof SohlActor)) {
+            throw new Error("Parent must be of type SohlActor");
+        }
+        super(data, options);
+    }
+
+    get actor(): SohlActor {
+        return this.parent;
+    }
+
+    get i18nPrefix(): string {
+        return `SOHL.Actor.${this.kind}`;
+    }
+
+    label(
+        options: { withName: boolean } = {
+            withName: true,
+        },
+    ): string {
+        let result = sohl.i18n.localize(`SOHL.${this.kind}.typelabel`);
+        if (options.withName) {
+            result = sohl.i18n.localize("SOHL.SohlItem.labelWithName", {
+                name: this.parent.name,
+                type: result,
+            });
+        }
+        return result;
+    }
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineSohlActorDataSchema();
+    }
+}
+
+export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
+    SohlActor,
+    foundry.applications.api.DocumentSheetV2.AnyConstructor
+>(
+    foundry.applications.api
+        .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor,
+) as unknown as AbstractConstructor) {
+    static DEFAULT_OPTIONS: PlainObject = {
+        id: "sohl-actor-sheet",
+        tag: "form",
+        position: { width: 900, height: 640 },
+    };
+
+    static PARTS = {
+        header: {
+            template: "system/sohl/templates/actor/parts/actor-header.hbs",
+        },
+        tabs: {
+            template: "system/sohl/templates/actor/parts/actor-tabs.hbs",
+        },
+        facade: {
+            template: "system/sohl/templates/actor/parts/actor-facade.hbs",
+        },
+        profile: {
+            template: "system/sohl/templates/actor/parts/actor-profile.hbs",
+        },
+        skills: {
+            template: "system/sohl/templates/actor/parts/actor-skills.hbs",
+        },
+        combat: {
+            template: "system/sohl/templates/actor/parts/actor-combat.hbs",
+        },
+        trauma: {
+            template:
+                "system/sohl/templates/actor/parts/actor-nested-trauma.hbs",
+        },
+        mysteries: {
+            template:
+                "system/sohl/templates/actor/parts/actor-nested-mysteries.hbs",
+        },
+        gear: {
+            template: "system/sohl/templates/actor/parts/actor-nested-gear.hbs",
+        },
+        actions: {
+            template:
+                "system/sohl/templates/actor/parts/actor-nested-actions.hbs",
+        },
+        events: {
+            template: "system/sohl/templates/actor/parts/actor-events.hbs",
+        },
+        effects: {
+            template: "system/sohl/templates/actor/parts/actor-effects.hbs",
+        },
+    } as const;
+
+    static TABS = {
+        sheet: {
+            navSelector: ".tabs[data-group='sheet']",
+            contentSelector: ".content[data-group='sheet']",
+            initial: "profile",
+            tabs: [
+                {
+                    id: "profile",
+                    // icon: "fas fa-user",
+                    label: "SOHL.Actor.tab.profile",
+                },
+                { id: "skills", label: "SOHL.Actor.tab.skills" },
+                { id: "combat", label: "SOHL.Actor.tab.combat" },
+                { id: "trauma", label: "SOHL.Actor.tab.trauma" },
+                { id: "mysteries", label: "SOHL.Actor.tab.mysteries" },
+                { id: "gear", label: "SOHL.Actor.tab.gear" },
+                { id: "actions", label: "SOHL.Actor.tab.actions" },
+                { id: "events", label: "SOHL.Actor.tab.events" },
+                { id: "effects", label: "SOHL.Actor.tab.effects" },
+            ],
+        },
+    };
+
+    get document(): SohlItem {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        return super.document as SohlItem;
+    }
+
+    get actor(): SohlActor | null {
+        return (this.document as any).actor;
+    }
+
+    _configureRenderOptions(
+        options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
+    ): void {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        super._configureRenderOptions(options);
+        // By default, we only show the header and tabs
+        // This is the default behavior for all data model sheets
+        options.parts = ["header", "tabs"];
+        // Don't show the other tabs if only limited view
+        if ((this.document as any).limited) return;
+        // If the document is not limited, we show all parts
+        options.parts.push(
+            "header",
+            "tabs",
+            "facade",
+            "profile",
+            "skills",
+            "combat",
+            "trauma",
+            "mysteries",
+            "gear",
+            "actions",
+            "events",
+            "effects",
+        );
+    }
+
+    async _prepareContext(options: any): Promise<PlainObject> {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        return await super._prepareContext(options);
+    }
+
+    async _preparePartContext(
+        partId: string,
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        context = await super._preparePartContext.call(
+            this,
+            partId,
+            context as any,
+            options as any,
+        );
+        switch (partId) {
+            case "facade":
+                return await this._prepareFacadeContext(context, options);
+            case "profile":
+                return this._prepareProfileContext(context, options);
+            case "skills":
+                return await this._prepareSkillsContext(context, options);
+            case "combat":
+                return await this._prepareCombatContext(context, options);
+            case "trauma":
+                return await this._prepareTraumaContext(context, options);
+            case "mysteries":
+                return await this._prepareMysteriesContext(context, options);
+            case "gear":
+                return await this._prepareGearContext(context, options);
+            case "actions":
+                return await this._prepareActionsContext(context, options);
+            case "events":
+                return await this._prepareEventsContext(context, options);
+            case "effects":
+                return await this._prepareEffectsContext(context, options);
+            case "header":
+                return await this._prepareHeaderContext(context, options);
+            case "tabs":
+                return await this._prepareTabsContext(context, options);
+            default:
+                return context;
+        }
+    }
+
+    async _prepareTabsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareHeaderContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareFacadeContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareProfileContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareSkillsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareCombatContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareTraumaContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareMysteriesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareGearContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareActionsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareEventsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareEffectsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    protected _displayFilteredResults(
+        event: KeyboardEvent | null,
+        query: string,
+        rgx: RegExp,
+        content: HTMLElement | null,
+    ): void {
+        if (!content) return;
+
+        const rows = content.querySelectorAll<HTMLElement>(".item");
+
+        if (!query.trim()) {
+            rows.forEach((el) => el.classList.remove("hidden"));
+        } else {
+            if (rgx && (rgx as any).global) rgx.lastIndex = 0;
+
+            const q = sohl.i18n.normalizeText(query.trim(), {
+                caseInsensitive: true,
+                ascii: true,
+            });
+            rows.forEach((el) => {
+                const name = sohl.i18n.normalizeText(
+                    (el.dataset.itemName ?? "").trim(),
+                    {
+                        caseInsensitive: true,
+                        ascii: true,
+                    },
+                );
+                const match = rgx ? rgx.test(name) : name.includes(q);
+                el.classList.toggle("hidden", !match);
+                if (rgx && (rgx as any).global) rgx.lastIndex = 0;
+            });
+        }
+    }
+
+    protected _filters: SearchFilter[] = [
+        new SearchFilter({
+            inputSelector: 'input[name="search-traits"]',
+            contentSelector: ".traits",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-skills"]',
+            contentSelector: ".skills",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-bodylocations"]',
+            contentSelector: ".bodylocations-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-afflictions"]',
+            contentSelector: ".afflictions-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-mysteries"]',
+            contentSelector: ".mysteries-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-mysticalabilities"]',
+            contentSelector: ".mysticalabilities-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-gear"]',
+            contentSelector: ".gear-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new SearchFilter({
+            inputSelector: 'input[name="search-effects"]',
+            contentSelector: ".effects-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+    ];
+
+    async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        super._onRender(context, options);
+
+        // Rebind all search filters
+        this._filters.forEach((filter) => filter.bind((this as any).element));
+    }
+}
