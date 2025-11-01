@@ -13,6 +13,9 @@
 
 import type { SohlEventContext } from "@common/event/SohlEventContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { Skill } from "@common/item/Skill";
+import type { Domain } from "@common/item/Domain";
+import type { Trait } from "@common/item/Trait";
 import {
     SohlItem,
     SohlItemDataModel,
@@ -27,8 +30,7 @@ import {
     MysterySubTypes,
 } from "@utils/constants";
 import { getDocsFromPacks, getDocumentFromPacks } from "@common/FoundryProxy";
-import type { Skill } from "./Skill";
-import type { Domain } from "./Domain";
+import { FilePath, toFilePath, isItemWithSubType } from "@utils/helpers";
 const { SchemaField, ArrayField, NumberField, StringField } =
     foundry.data.fields;
 
@@ -148,6 +150,32 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
                 MYSTERY_SUBTYPE.TOTEMSPIRITPOWER,
             ] as MysterySubType[]
         ).includes(this.data.subType);
+    }
+
+    get fateBonusItems(): SohlItem[] {
+        let result: SohlItem[] = [];
+        if (!this.item?.name) return result;
+
+        if (this.actor) {
+            this.actor.allItems.forEach((it: SohlItem) => {
+                if (
+                    it.type === ITEM_KIND.MYSTERY &&
+                    isItemWithSubType(it, MYSTERY_SUBTYPE.FATEBONUS)
+                ) {
+                    const itLogic = it.logic as any;
+                    const skills = (it.system as any).skills;
+                    if (!skills || skills.includes(this.item.name)) {
+                        if (
+                            !itLogic.charges.value.disabled ||
+                            itLogic.charges.value.effective > 0
+                        ) {
+                            result.push(it);
+                        }
+                    }
+                }
+            });
+        }
+        return result;
     }
 
     /** @inheritdoc */

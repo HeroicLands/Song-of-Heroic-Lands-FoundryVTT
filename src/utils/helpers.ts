@@ -684,3 +684,14 @@ export function isItemWithSubType(
         (!subType || (item.system as any).subType === subType)
     );
 }
+
+export function secondaryModifier(index: number): number {
+    if (index <= 0) return -25;
+    index = Math.trunc(index);
+    return (index - 5) * 5;
+}
+
+export function index(value: number): number {
+    if (value <= 0) return 0;
+    return Math.trunc(value / 10);
+}

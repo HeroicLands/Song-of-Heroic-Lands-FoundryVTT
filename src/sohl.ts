@@ -18,20 +18,18 @@ import {
 } from "@common/SohlSystem";
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
-import { SohlActor } from "@common/actor/SohlActor";
 import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
-import { SohlItem } from "@common/item/SohlItem";
 import { ActorKinds, ItemKinds, LOGLEVEL, LogLevel } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
-import { Entity } from "@common/actor/Entity";
+import type { SohlSpeaker } from "@common/SohlSpeaker";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
 SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
 
-const DocumentSheetConfigClass = foundry.applications.apps.DocumentSheetConfig;
 ActorKinds.forEach((kind) => {
-    foundry.documents.collections.Actors.registerSheet(
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(
+        CONFIG.Actor.documentClass,
         "sohl",
         COMMON_ACTOR_SHEETS[kind] as any,
         {
@@ -41,7 +39,8 @@ ActorKinds.forEach((kind) => {
     );
 });
 ItemKinds.forEach((kind) => {
-    foundry.documents.collections.Items.registerSheet(
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(
+        CONFIG.Item.documentClass,
         "sohl",
         COMMON_ITEM_SHEETS[kind] as any,
         {
@@ -55,13 +54,12 @@ foundry.applications.apps.DocumentSheetConfig.registerSheet(
     "sohl",
     SohlActiveEffectConfig,
     {
-        types: ["sohl"],
         makeDefault: true,
     },
 );
 
 function setupVariant(): SohlSystem {
-    const variantId = (game as any).settings?.get("sohl", "variant");
+    const variantId = game.settings.get("sohl", "variant");
     const sohl = SohlSystem.selectVariant(variantId);
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
     console.log(sohl.initMessage);
@@ -69,33 +67,32 @@ function setupVariant(): SohlSystem {
 }
 
 function registerSystemSettings() {
-    const settings = (game as any).settings;
-    settings.register("sohl", "systemMigrationVersion", {
+    game.settings.register("sohl", "systemMigrationVersion", {
         name: "System Migration Version",
         scope: "world",
         config: false,
         type: String,
-        initial: "",
+        default: "",
     });
-    settings.register("sohl", "variant", {
+    game.settings.register("sohl", "variant", {
         name: "Rules Variant",
         hint: "Which variant of rules to use",
         scope: "world",
         config: true,
         requiresReload: true,
-        initial: "legendary",
+        default: "legendary",
         type: String,
         choices: {
             legendary: "Legendary",
             mistyisle: "MistyIsle",
         },
     });
-    settings.register("sohl", "logLevel", {
+    game.settings.register("sohl", "logLevel", {
         name: "Log Level",
         hint: "The level of detail to include in logs",
         scope: "client",
         config: true,
-        initial: "info",
+        default: "info",
         type: String,
         choices: {
             debug: "Debug",
@@ -104,36 +101,36 @@ function registerSystemSettings() {
             error: "Error",
         },
     });
-    settings.register("sohl", "showWelcomeDialog", {
+    game.settings.register("sohl", "showWelcomeDialog", {
         name: "Show welcome dialog on start",
         hint: "Display the welcome dialog box when the user logs in.",
         scope: "client",
         config: true,
         type: Boolean,
-        initial: true,
+        default: true,
     });
-    settings.register("sohl", "showAssemblies", {
+    game.settings.register("sohl", "showAssemblies", {
         name: "Show Assemblies in Actors Tab",
         hint: "If enabled, shows all Assembly actors you own.",
         scope: "client",
         config: true,
         type: Boolean,
-        initial: false,
+        default: false,
     });
-    settings.register("sohl", "combatAudio", {
+    game.settings.register("sohl", "combatAudio", {
         name: "Combat sounds",
         hint: "Enable combat flavor sounds",
         scope: "world",
         config: true,
         type: Boolean,
-        initial: true,
+        default: true,
     });
-    settings.register("sohl", "recordTrauma", {
+    game.settings.register("sohl", "recordTrauma", {
         name: "Record trauma automatically",
         hint: "Automatically add physical and mental afflictions and injuries",
         scope: "world",
         config: true,
-        initial: "enable",
+        default: "enable",
         type: String,
         choices: {
             enable: "Record trauma automatically",
@@ -141,27 +138,27 @@ function registerSystemSettings() {
             ask: "Prompt user on each injury or affliction",
         },
     });
-    settings.register("sohl", "healingSeconds", {
+    game.settings.register("sohl", "healingSeconds", {
         name: "Seconds between healing checks",
         hint: "Number of seconds between healing checks. Set to 0 to disable.",
         scope: "world",
         config: true,
         type: Number,
-        initial: 432000, // 5 days
+        default: 432000, // 5 days
     });
-    settings.register("sohl", "optionProjectileTracking", {
+    game.settings.register("sohl", "optionProjectileTracking", {
         name: "Track Projectile/Missile Quantity",
         hint: "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero",
         scope: "world",
         config: true,
         type: Boolean,
-        initial: false,
+        default: false,
     });
-    settings.register("sohl", "optionFate", {
+    game.settings.register("sohl", "optionFate", {
         name: "Fate: Use fate rules",
         scope: "world",
         config: true,
-        initial: "enable",
+        default: "enable",
         type: String,
         choices: {
             none: "Fate rules disabled",
@@ -169,19 +166,19 @@ function registerSystemSettings() {
             everyone: "Fate rules apply to all animate actors",
         },
     });
-    settings.register("sohl", "optionGearDamage", {
+    game.settings.register("sohl", "optionGearDamage", {
         name: "Gear Damage",
         hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
         scope: "world",
         config: true,
         type: Boolean,
-        initial: false,
+        default: false,
     });
-    settings.register("sohl", "logThreshold", {
+    game.settings.register("sohl", "logThreshold", {
         name: "Log Level Threshold",
         scope: "world",
         config: true,
-        initial: "info",
+        default: "info",
         type: String,
         choices: {
             debug: "Debug",
@@ -189,7 +186,7 @@ function registerSystemSettings() {
             warn: "Warning",
             error: "Error",
         },
-        onChange: (value: LogLevel) => {
+        onChange: (value: string): void => {
             sohl.log.setLogThreshold(value);
         },
     });
@@ -199,13 +196,21 @@ function registerSystemSettings() {
  * Register startup hooks
  */
 function registerSystemHooks() {
-    Hooks.on("chatMessage", (_app, message, data) =>
-        AIAdapter.chatMessage(ui.chat, message, data as any),
+    Hooks.on(
+        "chatMessage",
+        (
+            _app: ChatLog,
+            message: string,
+            data: {
+                speaker?: Partial<SohlSpeaker.Data>;
+                user: string | null;
+            },
+        ) => AIAdapter.chatMessage(ui.chat, message, data),
     );
 
     Hooks.on(
         "renderChatMessageHTML",
-        (_app: any, element: HTMLElement, _data: any) => {
+        (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
             element.addEventListener("click", (ev) => {
                 const btn: HTMLButtonElement | null = (
                     ev.target as HTMLElement
@@ -242,32 +247,33 @@ function registerSystemHooks() {
         },
     );
 
-    Hooks.on("renderSceneConfig", (app: any, element: HTMLElement) => {
-        const scene: Scene = app.object;
-        const isTotm =
-            foundry.utils.getProperty(scene.flags, "sohl.isTotm") ?? false;
-        const totmHTML = `<div class="form-group">
+    Hooks.on(
+        "renderSceneConfig",
+        (app: SceneConfig, element: HTMLElement, data: PlainObject) => {
+            const scene: Scene = app.document;
+            const isTotm =
+                foundry.utils.getProperty(scene.flags, "sohl.isTotm") ?? false;
+            const totmHTML = `<div class="form-group">
         <label>Theatre of the Mind</label>
         <input id="sohl-totm" type="checkbox" name="sohlTotm" data-dtype="Boolean" ${isTotm ? "checked" : ""}>
         <p class="notes">Configure scene for Theatre of the Mind.</p>
       </div>`;
-        const target: HTMLElement = element.querySelector(
-            "input[name='gridAlpha']",
-        ) as HTMLElement;
-        target
-            ?.closest(".form-group")
-            ?.insertAdjacentHTML("afterend", totmHTML);
-    });
+            const target: HTMLElement = element.querySelector(
+                "input[name='gridAlpha']",
+            ) as HTMLElement;
+            target
+                ?.closest(".form-group")
+                ?.insertAdjacentHTML("afterend", totmHTML);
+        },
+    );
 
-    Hooks.on("closeSceneConfig" as any, (app: any, element: HTMLElement) => {
-        const scene = app.object;
-        const isTotm =
-            (
-                element.querySelector(
-                    "input[name='sohlTotm']",
-                ) as HTMLInputElement
-            )?.checked ?? false;
-        scene.setFlag("sohl", "isTotm", isTotm);
+    Hooks.on("closeSceneConfig", (app: SceneConfig) => {
+        const scene = app.document;
+        const input = app.form?.querySelector<HTMLInputElement>(
+            "input[name='sohlTotm']",
+        );
+        const isTotm = input?.checked ?? false;
+        scene.setFlag("sohl" as any, "isTotm", isTotm);
     });
 }
 

@@ -5,8 +5,8 @@
                 data-action="successTest"
                 data-action-handler-uuid="{{item.uuid}}"
                 data-test-result-json="{{testResultJson}}"
-                ><i class="fas fa-edit"></i></a
-            ></h3>
+                ><i class="fas fa-edit"></i></a>
+            </h3>
     </header>
 
     {{#if (not mlMod.empty)}}
@@ -63,7 +63,13 @@
         </div>
     {{/if}}
     {{/if}}
-    
+
+    {{#if canFate}}
+    <div class="card-buttons">
+        <button data-action="fateTest" data-handler-uuid="{{item.uuid}}">Perform Fate Test</button>
+    </div>
+    {{/if}}
+
     {{#if isSuccess}}
         {{#if isCritical}}
             <footer class="card-footer critical-success-block">

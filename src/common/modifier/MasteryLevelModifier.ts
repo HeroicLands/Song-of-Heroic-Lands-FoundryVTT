@@ -12,28 +12,130 @@
  */
 
 import { DialogButtonCallback, inputDialog } from "@common/FoundryProxy";
-import { SohlSpeaker } from "@common/SohlSpeaker";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import type { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@utils/helpers";
-import { SohlArray } from "@utils/collection/SohlArray";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import {
-    SOHL_SPEAKER_ROLL_MODE,
-    TEST_TYPE,
-    VALUE_DELTA_ID,
-} from "@utils/constants";
+import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
 import { SohlEventContext } from "@common/event/SohlEventContext";
 
+// TODO: This needs to be internationalized
+const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
+    {
+        maxValue: 0,
+        label: "No Value",
+        description: "Test fails to produce a usable result.",
+        lastDigits: [],
+        success: false,
+        result: 0,
+    },
+    {
+        maxValue: 2,
+        label: "Little Value",
+        description: "Test produces a limited or flawed result.",
+        lastDigits: [],
+        success: true,
+        result: 0,
+    },
+    {
+        maxValue: 4,
+        label: "Base Value",
+        description: "Test produces an average result.",
+        lastDigits: [],
+        success: true,
+        result: 0,
+    },
+    {
+        maxValue: 5,
+        label: "Bonus Value",
+        description: "Test produces a one-star superior result.",
+        lastDigits: [],
+        success: true,
+        result: 1,
+    },
+    {
+        maxValue: 6,
+        label: "Bonus Value",
+        description: "Test produces a two-star superior result.",
+        lastDigits: [],
+        success: true,
+        result: 2,
+    },
+    {
+        maxValue: 7,
+        label: "Bonus Value",
+        description: "Test produces a three-star superior result.",
+        lastDigits: [],
+        success: true,
+        result: 3,
+    },
+    {
+        maxValue: 8,
+        label: "Bonus Value",
+        description: "Test produces a four-star superior result.",
+        lastDigits: [],
+        success: true,
+        result: 4,
+    },
+    {
+        maxValue: Number.MAX_SAFE_INTEGER,
+        label: "Bonus Value",
+        description: "Test produces a five-star superior result.",
+        lastDigits: [],
+        success: true,
+        result: 5,
+    },
+] as const;
+
+const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[] =
+    [
+        {
+            maxValue: -1,
+            label: "",
+            description: "",
+            lastDigits: [],
+            success: false,
+            result: (chatData: PlainObject): number =>
+                chatData.successLevel + 1,
+        },
+        {
+            maxValue: 0,
+            label: "",
+            description: "",
+            lastDigits: [],
+            success: false,
+            result: 0,
+        },
+        {
+            maxValue: 1,
+            label: "",
+            description: "",
+            lastDigits: [],
+            success: true,
+            result: 0,
+        },
+        {
+            maxValue: Number.MAX_SAFE_INTEGER,
+            label: "",
+            description: "",
+            lastDigits: [],
+            success: true,
+            result: (chatData: PlainObject): number =>
+                chatData.successLevel - 1,
+        },
+    ] as const;
+
 export class MasteryLevelModifier extends ValueModifier {
-    minTarget!: number;
-    maxTarget!: number;
-    successLevelMod!: number;
-    critFailureDigits!: number[];
-    critSuccessDigits!: number[];
-    testDescTable!: MasteryLevelModifier.DetailedDescription[];
-    fate!: ValueModifier;
+    minTarget: number;
+    maxTarget: number;
+    successLevelMod: number;
+    critFailureDigits: number[];
+    critSuccessDigits: number[];
+    testDescTable: SuccessTestResult.LimitedDescription[];
+    svTable: SuccessTestResult.LimitedDescription[];
+    type: string;
+    title: string;
 
     get constrainedEffective(): number {
         return Math.min(
@@ -52,10 +154,16 @@ export class MasteryLevelModifier extends ValueModifier {
         this.successLevelMod = data.successLevelMod ?? 0;
         this.critFailureDigits = data.critFailureDigits ?? [];
         this.critSuccessDigits = data.critSuccessDigits ?? [];
-        this.testDescTable = data.testDescTable ?? [];
-        this.fate = new sohl.CONFIG.ValueModifier(data.fate ?? {}, {
-            parent: this,
-        });
+        this.testDescTable =
+            data.testDescTable ?? STANDARD_SUCCESS_DESCRIPTION_TABLE;
+        this.svTable = data.svTable ?? STANDARD_SUCCESS_VALUE_TABLE;
+        this.type =
+            data.type ?? `${this.parent.data.kind}-${this.parent.name}-test`;
+        this.title =
+            data.title ??
+            sohl.i18n.format("SOHL.MasteryLevelModifier.successTest", {
+                label: this.parent.label,
+            });
     }
 
     /**
@@ -82,16 +190,21 @@ export class MasteryLevelModifier extends ValueModifier {
     async successTest(
         context: SohlEventContext,
     ): Promise<SuccessTestResult | null | false> {
-        const scope: Partial<SuccessTestResult.ContextScope> =
-            context.scope || {};
+        const scope: Partial<SuccessTestResult.ContextScope> = {
+            ...(context.scope ?? {}),
+            targetValueFunc: (sl: number) => sl,
+            successStarTable: this.testDescTable,
+        };
         const testResult: SuccessTestResult =
             scope.priorTestResult ??
             sohl.CONFIG.SuccessTestResult(
                 {
                     chat: this.parent.speaker,
-                    type: context.type,
-                    title: context.title,
+                    type: context.type ?? this.type,
+                    title: context.title ?? this.title,
                     mlMod: this.clone(),
+                    targetValueFunc: scope.targetValueFunc,
+                    successStarTable: scope.successStarTable,
                 },
                 {
                     parent: this.parent,
@@ -169,6 +282,40 @@ export class MasteryLevelModifier extends ValueModifier {
             await testResult.toChat(this.parent.speaker);
         }
         return allowed ? testResult : false;
+    }
+
+    async successValueTest(
+        context: SohlEventContext,
+    ): Promise<SuccessTestResult | null | false> {
+        const scope: Partial<SuccessTestResult.ContextScope> = {
+            ...(context.scope ?? {}),
+            targetValueFunc: (sl: number) => sl,
+            successStarTable: this.testDescTable,
+        };
+
+        const svTestContext = new SohlEventContext({
+            speaker: context.speaker,
+            type: `${this.parent.data.kind}-${this.parent.name}-success-value-test`,
+            title: sohl.i18n.format(
+                "SOHL.MasteryLevelModifier.successValueTest",
+                {
+                    name: this.parent.label,
+                },
+            ),
+            noChat: true,
+            scope: {
+                situationalModifier: 0,
+                targetValueFunc: (successLevel: number) =>
+                    this.index + successLevel - 1,
+                successStarTable: this.svTable,
+            },
+        });
+
+        const svTestResult: SuccessTestResult | null | false =
+            await this.successTest(context);
+        if (!svTestResult) return svTestResult;
+
+        return svTestResult;
     }
 
     /**
@@ -298,58 +445,6 @@ export class MasteryLevelModifier extends ValueModifier {
 
         return allowed ? opposedTestResult : false;
     }
-
-    static _handleDetailedDescription(
-        chatData: PlainObject,
-        target: number,
-        testDescTable: MasteryLevelModifier.DetailedDescription[],
-    ): number | undefined {
-        let result: Optional<number | ((chatData: PlainObject) => number)>;
-        testDescTable.sort((a, b) => a.maxValue - b.maxValue);
-        const testDesc: Optional<MasteryLevelModifier.DetailedDescription> =
-            testDescTable.find((entry) => entry.maxValue >= target);
-        if (testDesc) {
-            // If the test description has a limitation based on
-            // the last digit, find the one that applies.
-            if (testDesc.limited?.length) {
-                const limitedDesc: Optional<MasteryLevelModifier.LimitedDescription> =
-                    testDesc.limited
-                        .values()
-                        .find((d) => d.lastDigits.includes(chatData.lastDigit));
-                if (limitedDesc) {
-                    const label: string =
-                        limitedDesc.label instanceof Function ?
-                            limitedDesc.label(chatData)
-                        :   limitedDesc.label;
-                    const desc: string =
-                        limitedDesc.description instanceof Function ?
-                            limitedDesc.description(chatData)
-                        :   limitedDesc.description;
-                    chatData.resultText = label || "";
-                    chatData.resultDesc = desc || "";
-                    chatData.svSuccess = limitedDesc.success;
-                    result = limitedDesc.result;
-                }
-            } else {
-                const label =
-                    testDesc.label instanceof Function ?
-                        testDesc.label(chatData)
-                    :   testDesc.label;
-                const desc =
-                    testDesc.description instanceof Function ?
-                        testDesc.description(chatData)
-                    :   testDesc.description;
-                chatData.resultText = label || "";
-                chatData.resultDesc = desc || "";
-                chatData.svSuccess = testDesc.success;
-                result = testDesc.result;
-            }
-        }
-
-        if (typeof result === "function") result = result(chatData);
-
-        return result;
-    }
 }
 
 export namespace MasteryLevelModifier {
@@ -361,22 +456,11 @@ export namespace MasteryLevelModifier {
         successLevelMod: number;
         critFailureDigits: number[];
         critSuccessDigits: number[];
-        testDescTable: DetailedDescription[];
-        fate: ValueModifier.Data;
+        testDescTable: SuccessTestResult.LimitedDescription[];
+        svTable: SuccessTestResult.LimitedDescription[];
+        type: string;
+        title: string;
     }
 
     export interface Options extends ValueModifier.Options {}
-
-    export interface LimitedDescription {
-        lastDigits: number[];
-        label: string | ((chatData: PlainObject) => string);
-        description: string | ((chatData: PlainObject) => string);
-        success: boolean;
-        result: number | ((chatData: PlainObject) => number);
-    }
-
-    export interface DetailedDescription extends LimitedDescription {
-        maxValue: number;
-        limited: SohlArray<LimitedDescription>;
-    }
 }

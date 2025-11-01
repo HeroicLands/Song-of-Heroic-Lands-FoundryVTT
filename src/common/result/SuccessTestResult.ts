@@ -14,6 +14,7 @@
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
+import type { SohlItem } from "@common/item/SohlItem";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import { SimpleRoll } from "@utils/SimpleRoll";
 import { TestResult } from "@common/result/TestResult";
@@ -39,17 +40,21 @@ import {
 } from "@utils/constants";
 
 export class SuccessTestResult extends TestResult {
-    private _resultText: string;
-    private _resultDesc: string;
+    resultText: string;
+    resultDesc: string;
     private _successLevel: number;
     protected _token: SohlTokenDocument | null;
     protected _masteryLevelModifier: MasteryLevelModifier;
-    protected _successes: number;
+    protected _successStars: number;
     protected _testType: TestType;
     protected _roll: SimpleRoll;
     protected _movement: SuccessTestResultMovement;
     protected _mishaps: Set<string>;
+    protected _canFate: boolean;
+    protected _item: SohlItem;
     rollMode: string;
+    protected _targetValueFunc: (successLevel: number) => number;
+    protected _successStarTable: SuccessTestResult.LimitedDescription[];
 
     constructor(
         data: Partial<SuccessTestResult.Data> = {},
@@ -69,8 +74,8 @@ export class SuccessTestResult extends TestResult {
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
                 new sohl.ValueModifier({}, { parent: this.parent });
-        this._resultText = data.resultText ?? "";
-        this._resultDesc = data.resultDesc ?? "";
+        this.resultText = data.resultText ?? "";
+        this.resultDesc = data.resultDesc ?? "";
         this._successLevel = MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
@@ -81,7 +86,8 @@ export class SuccessTestResult extends TestResult {
                     parent: this.parent,
                 },
             );
-        this._successes = data.successes ?? 0;
+        this._successStars = data.successStars ?? 0;
+        this._successStarTable = data.successStarTable || [];
         this.rollMode = data.rollMode || SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         this._testType = data.testType || TEST_TYPE.SUCCESSTEST.id;
         this._roll =
@@ -90,19 +96,20 @@ export class SuccessTestResult extends TestResult {
         this._movement =
             data.movement || SUCCESS_TEST_RESULT_MOVEMENT.STATIONARY;
         this._mishaps = new Set<string>(data.mishaps || []);
+        this._item = this.parent.item;
+        this._canFate =
+            (this._item.logic as any).availableFate?.length > 0 &&
+            !!data.canFate;
         if (options.chatSpeaker) {
             this._speaker = options.chatSpeaker;
         } else {
             this._speaker = new SohlSpeaker({ token: this._token?.id });
         }
+        this._targetValueFunc = data.targetValueFunc || ((sl: number) => sl);
     }
 
-    get resultText(): string {
-        return this._resultText;
-    }
-
-    get resultDesc(): string {
-        return this._resultDesc;
+    get targetValue(): number {
+        return this._targetValueFunc(this.successLevel);
     }
 
     get successLevel(): number {
@@ -126,8 +133,8 @@ export class SuccessTestResult extends TestResult {
         return this._masteryLevelModifier;
     }
 
-    get successes(): number {
-        return this._successes;
+    get successStars(): number {
+        return this._successStars;
     }
 
     get testType(): TestType {
@@ -202,6 +209,10 @@ export class SuccessTestResult extends TestResult {
 
     get isSuccess() {
         return this.successLevel >= MARGINAL_SUCCESS;
+    }
+
+    get canFate() {
+        return this._canFate;
     }
 
     async testDialog(
@@ -349,6 +360,10 @@ export class SuccessTestResult extends TestResult {
                 :   "SOHL.SuccessTestResult.Failure";
         }
 
+        this._successStars = handleLimitedDescription(
+            this,
+            this._successStarTable,
+        );
         return allowed;
     }
 
@@ -418,12 +433,15 @@ export namespace SuccessTestResult {
         successLevel: number;
         token: SohlTokenDocument;
         masteryLevelModifier: MasteryLevelModifier;
-        successes: number;
+        successStars: number;
+        successStarTable: LimitedDescription[];
         rollMode: SohlSpeakerRollMode;
         testType: TestType;
         roll: SimpleRoll;
         movement: SuccessTestResultMovement;
         mishaps: string[];
+        canFate: boolean;
+        targetValueFunc: (sl: number) => number;
     }
 
     export interface Options extends TestResult.Options {}
@@ -431,5 +449,52 @@ export namespace SuccessTestResult {
     export interface ContextScope {
         priorTestResult: SuccessTestResult;
         situationalModifier: number;
+        targetValueFunc: (sl: number) => number;
+        successStarTable: LimitedDescription[];
     }
+
+    export interface LimitedDescription {
+        maxValue: number;
+        lastDigits: number[];
+        label: string | ((chatData: PlainObject) => string);
+        description: string | ((chatData: PlainObject) => string);
+        success: boolean;
+        result: number | ((chatData: PlainObject) => number);
+    }
+}
+
+function handleLimitedDescription(
+    chatData: SuccessTestResult,
+    testDescTable: SuccessTestResult.LimitedDescription[],
+): number {
+    if (testDescTable.length === 0) return 0;
+
+    let result: number = 0;
+    const targetValue = chatData.targetValue;
+    testDescTable.sort((a, b) => a.maxValue - b.maxValue);
+    const testDesc: SuccessTestResult.LimitedDescription | undefined =
+        testDescTable.find(
+            (entry) =>
+                entry.maxValue >= targetValue &&
+                (entry.lastDigits.length === 0 ||
+                    entry.lastDigits.includes(chatData.lastDigit)),
+        );
+    if (testDesc) {
+        const label =
+            testDesc.label instanceof Function ?
+                testDesc.label(chatData)
+            :   testDesc.label;
+        const desc =
+            testDesc.description instanceof Function ?
+                testDesc.description(chatData)
+            :   testDesc.description;
+        chatData.resultText = label || "";
+        chatData.resultDesc = desc || "";
+        result =
+            typeof testDesc.result === "function" ?
+                testDesc.result(chatData)
+            :   testDesc.result;
+    }
+
+    return result;
 }

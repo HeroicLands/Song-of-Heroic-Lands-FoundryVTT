@@ -31,6 +31,9 @@ export abstract class SohlBase {
         for (const key of Object.keys(this)) {
             const value = (this as any)[key];
 
+            // Remove leading underscore if present
+            const nkey = key.startsWith("_") ? key.substring(1) : key;
+
             // Skip prototype methods (but allow arrow functions as properties)
             if (typeof value === "function") {
                 const descriptor = Object.getOwnPropertyDescriptor(this, key);
@@ -38,7 +41,7 @@ export abstract class SohlBase {
                     continue;
             }
 
-            result[key] = defaultToJSON(value);
+            result[nkey] = defaultToJSON(value);
         }
 
         return result;
@@ -78,9 +81,7 @@ export abstract class SohlBase {
         const newData: PlainObject = {};
         for (const [key, value] of Object.entries(data)) {
             if (key === KIND_KEY) continue;
-            // Remove leading underscore if present
-            const nkey = key.startsWith("_") ? key.substring(1) : key;
-            newData[nkey] = defaultFromJSON(value);
+            newData[key] = defaultFromJSON(value);
         }
 
         return new clazz(newData, options) as InstanceType<T>;

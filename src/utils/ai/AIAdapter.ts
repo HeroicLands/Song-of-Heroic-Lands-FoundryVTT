@@ -55,16 +55,20 @@ export abstract class AIAdapter {
         chatLog: ChatLog,
         message: string,
         chatData: {
-            speaker?: SohlSpeaker.Data;
-            user: User | null;
-        } = { user: game.user },
+            speaker?: Partial<SohlSpeaker.Data>;
+            user: string | null;
+        } = { user: game.user.id },
     ): boolean | void {
         let match: RegExpMatchArray | null = message.match(
             /^(?:\/whisper (?:sage|ai)\s+)([^]*)/i,
         );
         if (match) {
             const speaker = new SohlSpeaker(chatData.speaker);
-            this.handleAIChatCommand(speaker, match[1], chatData.user);
+            this.handleAIChatCommand(
+                speaker,
+                match[1],
+                chatData.user ? game.users.get(chatData.user) : null,
+            );
             return false;
         }
     }

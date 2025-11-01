@@ -11,15 +11,54 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlEventContext } from "@common/event/SohlEventContext";
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import type { Mystery } from "@common/item/Mystery";
-import type { Trait } from "@common/item/Trait";
 import { SohlItem, SohlItemDataModel } from "@common/item/SohlItem";
 import { FilePath, isItemWithSubType, toFilePath } from "@utils/helpers";
-import { ITEM_KIND, MYSTERY_SUBTYPE, TRAIT_INTENSITY } from "@utils/constants";
+import { ITEM_KIND, MYSTERY_SUBTYPE } from "@utils/constants";
 import { SkillBase } from "@common/SkillBase";
+import { Trait } from "./Trait";
+import { SuccessTestResult } from "@common/result/SuccessTestResult";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
+
+// TODO: This needs to be internationalized
+const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
+    {
+        maxValue: -1,
+        label: "No Fate Effect",
+        description: "No effect and character loses one Fate point.",
+        lastDigits: [],
+        success: false,
+        result: 0,
+    },
+    {
+        maxValue: 0,
+        label: "No Fate Effect",
+        description: "No effect, no Fate point loss.",
+        lastDigits: [],
+        success: false,
+        result: 0,
+    },
+    {
+        maxValue: 1,
+        label: "Fate Test Success",
+        description:
+            "+1 success level to test and character loses 1 fate point.",
+        lastDigits: [],
+        success: true,
+        result: 0,
+    },
+    {
+        maxValue: 999,
+        label: "Fate Test Critical Success",
+        description:
+            "Player's choice: +1 success level to test and no Fate point loss, or +2 success level to test and loss of 1 fate point.",
+        lastDigits: [],
+        success: true,
+        result: 0,
+    },
+] as const;
 
 export abstract class MasteryLevel<
     TData extends MasteryLevel.Data = MasteryLevel.Data,
@@ -27,10 +66,48 @@ export abstract class MasteryLevel<
     _boosts!: number;
     _skillBase!: SkillBase;
     masteryLevel!: MasteryLevelModifier;
+    fateMasteryLevel!: MasteryLevelModifier;
+
+    async fateTest(context: SohlEventContext): Promise<void> {
+        if (this.fateMasteryLevel.disabled) return;
+
+        //TODO: Need to figure out which fate items to consume here
+        // @ts-ignore - Ignore incorrect circular reference message
+        const fateItem = this.availableFate.find(
+            (it) => (it.logic as Mystery).charges.value.effective > 0,
+        );
+        if (!fateItem) return;
+
+        const fateContext = new SohlEventContext({
+            speaker: context.speaker,
+            type: `${this.data.kind}-${this.name}-fate-test`,
+            title: sohl.i18n.format("SOHL.MasteryLevel.fateTest.title", {
+                label: this.label,
+            }),
+            scope: {
+                situationalModifier: 0,
+                targetValueFunc: (successLevel: number) => successLevel,
+                successStarTable: FATE_DESC_TABLE,
+            },
+        });
+
+        const result = await this.fateMasteryLevel.successTest(fateContext);
+
+        if (result && result.isSuccess) {
+            const updateData: PlainObject = {};
+            updateData["system.charges.value"] = Math.max(
+                fateItem.system.charges.value - 1,
+                0,
+            );
+            fateItem.update(updateData);
+        }
+    }
 
     async improveWithSDR(context: SohlEventContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
-        let roll = await Roll.create(`1d100 + ${this.skillBase.value}`);
+        let roll = await Roll.create(
+            `1d100 + ${this.skillBase.value}`,
+        ).evaluate();
         const isSuccess = (roll.total ?? 0) > this.masteryLevel.base;
 
         if (isSuccess) {
@@ -43,7 +120,9 @@ export abstract class MasteryLevel<
         const chatTemplateData = {
             variant: sohl.id,
             type: `${this.data.kind}-${this.name}-improve-sdr`,
-            title: `${this.label} Development Roll`,
+            title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
+                label: this.label,
+            }),
             effTarget: this.masteryLevel.base,
             isSuccess: isSuccess,
             rollValue: roll.total,
@@ -51,20 +130,37 @@ export abstract class MasteryLevel<
             showResult: true,
             resultText:
                 isSuccess ?
-                    sohl.i18n.format("{prefix} Increase", {
-                        prefix: this.label,
-                    })
-                :   sohl.i18n.format("No {prefix} Increase", {
-                        prefix: this.label,
-                    }),
+                    sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.increase.title",
+                        {
+                            label: this.label,
+                        },
+                    )
+                :   sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.noIncrease.title",
+                        {
+                            label: this.label,
+                        },
+                    ),
             resultDesc:
                 isSuccess ?
-                    sohl.i18n.format("{label} increased by {incr} to {final}", {
-                        label: this.label,
-                        incr: this.sdrIncr,
-                        final: this.masteryLevel.base + this.sdrIncr,
-                    })
-                :   "",
+                    //TODO: "{label} increased by {incr} to {final}"
+                    sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.increase.desc",
+                        {
+                            label: this.label,
+                            incr: this.sdrIncr,
+                            final: this.masteryLevel.base + this.sdrIncr,
+                        },
+                    )
+                :   sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
+                        {
+                            label: this.label,
+                            incr: this.sdrIncr,
+                            final: this.masteryLevel.base + this.sdrIncr,
+                        },
+                    ),
             description:
                 isSuccess ?
                     sohl.i18n.format("SOHL.TestResult.SUCCESS")
@@ -161,27 +257,49 @@ export abstract class MasteryLevel<
             {},
             { parent: this },
         );
+        this.fateMasteryLevel = new sohl.CONFIG.MasteryLevelModifier(
+            {
+                testDescTable: FATE_DESC_TABLE,
+                type: `${this.data.kind}-${this.name}-fate-test`,
+                title: `${this.label} Fate Test`,
+            },
+            { parent: this },
+        );
         this.masteryLevel.setBase(this.data.masteryLevelBase);
+
+        // Calculate Fate Mastery Level
         if (this.actor) {
             const fateSetting = (game as any).settings.get(
                 "sohl",
                 "optionFate",
             );
 
-            if (fateSetting === "everyone") {
-                this.masteryLevel.fate.setBase(50);
-            } else if (fateSetting === "pconly") {
-                if (this.actor.hasPlayerOwner) {
-                    this.masteryLevel.fate.setBase(50);
+            const auraLogic = this.actor?.allItems.find(
+                (it) =>
+                    it.type === ITEM_KIND.TRAIT &&
+                    (it.system as any).abbrev === "aur",
+            )?.logic as Trait;
+            if (!auraLogic.masteryLevel.disabled) {
+                if (
+                    fateSetting === "everyone" ||
+                    (fateSetting === "pconly" && this.actor.hasPlayerOwner)
+                ) {
+                    this.fateMasteryLevel.setBase(50);
+                    this.fateMasteryLevel.add(
+                        "AuraSecondaryModifier",
+                        Math.trunc(auraLogic.masteryLevel.effective / 2),
+                    );
                 } else {
-                    this.masteryLevel.fate.disabled =
-                        "SOHL.MasteryLevelModifier.NPCFateDisabled";
+                    this.fateMasteryLevel.disabled =
+                        "SOHL.MasteryLevel.FateDisabled";
                 }
             } else {
-                this.masteryLevel.fate.disabled =
-                    "SOHL.MasteryLevelModifier.FateNotSupported";
+                this.fateMasteryLevel.disabled =
+                    "SOHL.MasteryLevel.FateNotSupported";
             }
         }
+
+        // Calculate Skill Base
         this._skillBase ||= new SkillBase(this.data.skillBaseFormula, {
             items: Array.from(this.actor?.allItems.values() || []),
         });
@@ -203,8 +321,8 @@ export abstract class MasteryLevel<
         }
         if (this.skillBase.attributes.includes("Aura")) {
             // Any skill that has Aura in its SB formula cannot use fate
-            this.masteryLevel.fate.disabled =
-                "SOHL.MasteryLevelModifier.AuraBasedNoFate";
+            this.fateMasteryLevel.disabled =
+                "SOHL.MasteryLevel.AuraBasedNoFate";
         }
     }
 
@@ -212,38 +330,26 @@ export abstract class MasteryLevel<
     override finalize(context: SohlEventContext): void {
         super.finalize(context);
         if (this.masteryLevel.disabled) {
-            this.masteryLevel.fate.disabled = sohl.CONFIG.MOD.MLDSBL.name;
+            this.fateMasteryLevel.disabled = sohl.CONFIG.MOD.MLDSBL.name;
         }
-        if (!this.masteryLevel.fate.disabled) {
-            const fate = this.actor?.allItems.find(
-                (it) =>
-                    it.type === ITEM_KIND.TRAIT &&
-                    (it.system as any).abbrev === "fate",
-            );
-            if (fate) {
-                this.masteryLevel.fate.addVM((fate.logic as any).score, {
-                    includeBase: true,
-                });
-            } else {
-                this.masteryLevel.fate.setBase(50);
-            }
+        if (!this.fateMasteryLevel.disabled) {
             // Apply magic modifiers
             if (this.magicMod) {
-                this.masteryLevel.fate.add(
+                this.fateMasteryLevel.add(
                     sohl.CONFIG.MOD.MAGICMOD,
                     this.magicMod,
                 );
             }
             this.fateBonusItems.forEach((it) => {
-                this.masteryLevel.fate.add(
+                this.fateMasteryLevel.add(
                     sohl.CONFIG.MOD.FATEBNS,
                     (it.logic as any).level.effective,
                     { skill: it.system.label },
                 );
             });
             if (!this.availableFate.length) {
-                this.masteryLevel.fate.disabled =
-                    "SOHL.MasteryLevelModifier.NoFateAvailable";
+                this.fateMasteryLevel.disabled =
+                    "SOHL.MasteryLevel.NoFateAvailable";
             }
         }
     }
