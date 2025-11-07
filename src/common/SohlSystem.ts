@@ -23,9 +23,13 @@ import { CombatResult } from "@common/result/CombatResult";
 import { ImpactResult } from "@common/result/ImpactResult";
 import { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { Entity, EntityDataModel, EntitySheet } from "@common/actor/Entity";
 import {
-    Assembly,
+    EntityLogic,
+    EntityDataModel,
+    EntitySheet,
+} from "@common/actor/Entity";
+import {
+    AssemblyLogic,
     AssemblyDataModel,
     AssemblySheet,
 } from "@common/actor/Assembly";
@@ -37,11 +41,13 @@ import {
 import {
     SohlActor,
     SohlActorDataModel,
+    SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
 import {
     SohlItem,
     SohlItemDataModel,
+    SohlItemLogic,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import {
@@ -218,8 +224,8 @@ export const {
     isValue: isCommonActorLogic,
     labels: CommonActorLogicLabels,
 } = defineType("SOHL.Actor.Logic", {
-    [ACTOR_KIND.ENTITY]: Entity,
-    [ACTOR_KIND.ASSEMBLY]: Assembly,
+    [ACTOR_KIND.ENTITY]: EntityLogic,
+    [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
     [ACTOR_KIND.COHORT]: CohortLogic,
     [ACTOR_KIND.STRUCTURE]: StructureLogic,
     [ACTOR_KIND.VEHICLE]: VehicleLogic,

@@ -25,18 +25,13 @@ import { LgndOpposedTestResult } from "@legendary/result/LgndOpposedTestResult";
 import { LgndCombatResult } from "@legendary/result/LgndCombatResult";
 import { SohlDataModel } from "@common/SohlDataModel";
 import {
-    ACTOR_KIND,
     ActorKinds,
     DefinedType,
     defineType,
-    ITEM_KIND,
     ItemKinds,
 } from "@utils/constants";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
-import { ContainerGearLogic } from "@common/item/ContainerGear";
-import { Assembly, AssemblySheet } from "@common/actor/Assembly";
-import { EntitySheet } from "@common/actor/Entity";
 
 type ActorDMMap = Record<string, Constructor<SohlDataModel<any, SohlActor>>>;
 const ACTOR_DM_DEF: ActorDMMap = {
