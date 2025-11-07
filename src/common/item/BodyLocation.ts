@@ -11,9 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
-    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
@@ -21,10 +22,9 @@ import { ValueModifier } from "@common/modifier/ValueModifier";
 import { ImpactAspects, ITEM_KIND } from "@utils/constants";
 const { BooleanField, StringField } = foundry.data.fields;
 
-export class BodyLocation<TData extends BodyLocation.Data = BodyLocation.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements BodyLocation.Logic<TData>
-{
+export class BodyLocationLogic<
+    TData extends BodyLocationData = BodyLocationData,
+> extends SohlItemBaseLogic<TData> {
     protection!: StrictObject<ValueModifier>;
     layersList!: string[];
     traits!: PlainObject;
@@ -33,8 +33,12 @@ export class BodyLocation<TData extends BodyLocation.Data = BodyLocation.Data>
         return this.layersList.join(", ");
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
@@ -49,35 +53,22 @@ export class BodyLocation<TData extends BodyLocation.Data = BodyLocation.Data>
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace BodyLocation {
-    export const Kind = ITEM_KIND.BODYLOCATION;
-
-    export interface Logic<
-        TData extends BodyLocation.Data<any> = BodyLocation.Data<any>,
-    > extends SohlItem.Logic<TData> {
-        protection: StrictObject<ValueModifier>;
-        layersList: string[];
-        traits: PlainObject;
-        get layers(): string;
-    }
-
-    export interface Data<
-        TLogic extends BodyLocation.Logic<any> = BodyLocation.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        abbrev: string;
-        isFumble: boolean;
-        isStumble: boolean;
-    }
+export interface BodyLocationData<
+    TLogic extends BodyLocationLogic<any> = BodyLocationLogic<any>,
+> extends SohlItemData<TLogic> {
+    abbrev: string;
+    isFumble: boolean;
+    isStumble: boolean;
 }
 
 function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
@@ -92,15 +83,12 @@ function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
 type BodyLocationDataSchema = ReturnType<typeof defineBodyLocationDataSchema>;
 
 export class BodyLocationDataModel<
-        TSchema extends foundry.data.fields.DataSchema = BodyLocationDataSchema,
-        TLogic extends
-            BodyLocation.Logic<BodyLocation.Data> = BodyLocation.Logic<BodyLocation.Data>,
-    >
-    extends SohlItemDataModel<TSchema, TLogic>
-    implements BodyLocation.Data<TLogic>
-{
+    TSchema extends foundry.data.fields.DataSchema = BodyLocationDataSchema,
+    TLogic extends
+        BodyLocationLogic<BodyLocationData> = BodyLocationLogic<BodyLocationData>,
+> extends SohlItemDataModel<TSchema, TLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
-    static override readonly kind = BodyLocation.Kind;
+    static override readonly kind = ITEM_KIND.BODYLOCATION;
     abbrev!: string;
     isFumble!: boolean;
     isStumble!: boolean;

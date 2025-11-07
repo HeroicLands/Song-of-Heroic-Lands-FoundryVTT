@@ -34,7 +34,7 @@ import {
 } from "@utils/constants";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
-import { ContainerGear } from "@common/item/ContainerGear";
+import { ContainerGearLogic } from "@common/item/ContainerGear";
 import { Assembly, AssemblySheet } from "@common/actor/Assembly";
 import { EntitySheet } from "@common/actor/Entity";
 

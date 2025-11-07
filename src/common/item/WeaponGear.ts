@@ -11,43 +11,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import type { SohlActionContext } from "@common/SohlActionContext";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 import { ITEM_KIND } from "@utils/constants";
 import { SohlItemSheetBase } from "./SohlItem";
 const { NumberField } = foundry.data.fields;
 
-export class WeaponGear<TData extends WeaponGear.Data = WeaponGear.Data>
-    extends Gear<TData>
-    implements WeaponGear.Logic
-{
+export class WeaponGearLogic<
+    TData extends WeaponGearData = WeaponGearData,
+> extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace WeaponGear {
-    export const Kind = ITEM_KIND.WEAPONGEAR;
-
-    export interface Logic<TData extends WeaponGear.Data = WeaponGear.Data>
-        extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends WeaponGear.Logic<Data> = WeaponGear.Logic<any>,
-    > extends Gear.Data<TLogic> {
-        lengthBase: number;
-    }
+export interface WeaponGearData<
+    TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
+> extends GearData<TLogic> {
+    lengthBase: number;
 }
 
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
@@ -66,12 +62,13 @@ type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 export class WeaponGearDataModel<
         TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
         TLogic extends
-            WeaponGear.Logic<WeaponGear.Data> = WeaponGear.Logic<WeaponGear.Data>,
+            WeaponGearLogic<WeaponGearData> = WeaponGearLogic<WeaponGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements WeaponGear.Data<TLogic>
+    implements WeaponGearData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["WeaponGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["WeaponGear"];
+    static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
 
     static defineSchema(): foundry.data.fields.DataSchema {

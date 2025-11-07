@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
@@ -21,45 +21,39 @@ import {
     ConcoctionGearSubTypes,
     ITEM_KIND,
 } from "@utils/constants";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { NumberField, StringField } = foundry.data.fields;
 
-export class ConcoctionGear<
-        TData extends ConcoctionGear.Data = ConcoctionGear.Data,
-    >
-    extends Gear<TData>
-    implements ConcoctionGear.Logic<TData>
-{
+export class ConcoctionGearLogic<
+    TData extends ConcoctionGearData = ConcoctionGearData,
+> extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace ConcoctionGear {
-    export const Kind = ITEM_KIND.CONCOCTIONGEAR;
-
-    export interface Logic<
-        TData extends ConcoctionGear.Data = ConcoctionGear.Data,
-    > extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends ConcoctionGear.Logic<Data> = ConcoctionGear.Logic<any>,
-    > extends Gear.Data<TLogic> {
-        subType: ConcoctionGearSubType;
-        potency: ConcoctionGearPotency;
-        strength: number;
-    }
+export interface ConcoctionGearData<
+    TLogic extends
+        ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<any>,
+> extends GearData<TLogic> {
+    subType: ConcoctionGearSubType;
+    potency: ConcoctionGearPotency;
+    strength: number;
 }
 
 function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
@@ -87,12 +81,13 @@ type ConcoctionGearSchema = ReturnType<typeof defineConcoctionGearSchema>;
 export class ConcoctionGearDataModel<
         TSchema extends foundry.data.fields.DataSchema = ConcoctionGearSchema,
         TLogic extends
-            ConcoctionGear.Logic<ConcoctionGear.Data> = ConcoctionGear.Logic<ConcoctionGear.Data>,
+            ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<ConcoctionGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements ConcoctionGear.Data<TLogic>
+    implements ConcoctionGearData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
+    static override readonly kind: string = ITEM_KIND.CONCOCTIONGEAR;
     subType!: ConcoctionGearSubType;
     potency!: ConcoctionGearPotency;
     strength!: number;

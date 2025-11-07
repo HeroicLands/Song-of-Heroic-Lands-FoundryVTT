@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlActionContext } from "@common/SohlActionContext";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { TestResult } from "@common/result/TestResult";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";

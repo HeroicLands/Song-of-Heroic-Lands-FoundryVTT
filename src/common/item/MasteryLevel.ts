@@ -11,14 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlActionContext } from "@common/SohlActionContext";
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
-import type { Mystery } from "@common/item/Mystery";
-import { SohlItem, SohlItemDataModel } from "@common/item/SohlItem";
+import type { MysteryLogic } from "@common/item/Mystery";
+import {
+    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
+    SohlItemDataModel,
+} from "@common/item/SohlItem";
 import { FilePath, isItemWithSubType, toFilePath } from "@utils/helpers";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@utils/constants";
 import { SkillBase } from "@common/SkillBase";
-import { Trait } from "./Trait";
+import { TraitLogic } from "./Trait";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
@@ -60,25 +65,27 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
     },
 ] as const;
 
-export abstract class MasteryLevel<
-    TData extends MasteryLevel.Data = MasteryLevel.Data,
-> extends SohlItem.BaseLogic<TData> {
+export abstract class MasteryLevelLogic<
+    TData extends MasteryLevelData = MasteryLevelData,
+> extends SohlItemBaseLogic<TData> {
     _boosts!: number;
     _skillBase!: SkillBase;
     masteryLevel!: MasteryLevelModifier;
     fateMasteryLevel!: MasteryLevelModifier;
 
-    async fateTest(context: SohlEventContext): Promise<void> {
+    async fateTest(context: SohlActionContext): Promise<void> {
         if (this.fateMasteryLevel.disabled) return;
 
         //TODO: Need to figure out which fate items to consume here
         // @ts-ignore - Ignore incorrect circular reference message
         const fateItem = this.availableFate.find(
-            (it) => (it.logic as Mystery).charges.value.effective > 0,
+            (it) =>
+                (it.logic as unknown as MysteryLogic).charges.value.effective >
+                0,
         );
         if (!fateItem) return;
 
-        const fateContext = new SohlEventContext({
+        const fateContext = new SohlActionContext({
             speaker: context.speaker,
             type: `${this.data.kind}-${this.name}-fate-test`,
             title: sohl.i18n.format("SOHL.MasteryLevel.fateTest.title", {
@@ -103,7 +110,7 @@ export abstract class MasteryLevel<
         }
     }
 
-    async improveWithSDR(context: SohlEventContext): Promise<void> {
+    async improveWithSDR(context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
         let roll = await Roll.create(
             `1d100 + ${this.skillBase.value}`,
@@ -213,8 +220,8 @@ export abstract class MasteryLevel<
                     it.type === ITEM_KIND.MYSTERY &&
                     isItemWithSubType(it, MYSTERY_SUBTYPE.FATEBONUS)
                 ) {
-                    const itLogic: Mystery.Logic =
-                        it.logic as unknown as Mystery.Logic;
+                    const itLogic: MysteryLogic =
+                        it.logic as unknown as MysteryLogic;
                     const skills = (it.system as any).skills;
                     if (!skills || skills.includes(this.item.name)) {
                         if (
@@ -249,8 +256,12 @@ export abstract class MasteryLevel<
         return 1;
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this._boosts = 0;
         this.masteryLevel = new sohl.CONFIG.MasteryLevelModifier(
@@ -278,7 +289,7 @@ export abstract class MasteryLevel<
                 (it) =>
                     it.type === ITEM_KIND.TRAIT &&
                     (it.system as any).abbrev === "aur",
-            )?.logic as Trait;
+            )?.logic as TraitLogic;
             if (!auraLogic.masteryLevel.disabled) {
                 if (
                     fateSetting === "everyone" ||
@@ -306,7 +317,7 @@ export abstract class MasteryLevel<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
         if (this.masteryLevel.base > 0) {
             let newML = this.masteryLevel.base;
@@ -327,7 +338,7 @@ export abstract class MasteryLevel<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
         if (this.masteryLevel.disabled) {
             this.fateMasteryLevel.disabled = sohl.CONFIG.MOD.MLDSBL.name;
@@ -355,27 +366,13 @@ export abstract class MasteryLevel<
     }
 }
 
-export namespace MasteryLevel {
-    export interface Logic<TData extends MasteryLevel.Data = MasteryLevel.Data>
-        extends SohlItem.Logic<TData> {
-        masteryLevel: MasteryLevelModifier;
-        magicMod: number;
-        boosts: number;
-        availableFate: SohlItem[];
-        valid: boolean;
-        skillBase: SkillBase;
-        sdrIncr: number;
-        improveWithSDR(context: SohlEventContext): Promise<void>;
-    }
-
-    export interface Data<
-        TLogic extends MasteryLevel.Logic<Data> = MasteryLevel.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        abbrev: string;
-        skillBaseFormula: string;
-        masteryLevelBase: number;
-        improveFlag: boolean;
-    }
+export interface MasteryLevelData<
+    TLogic extends MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<any>,
+> extends SohlItemData<TLogic> {
+    abbrev: string;
+    skillBaseFormula: string;
+    masteryLevelBase: number;
+    improveFlag: boolean;
 }
 
 /**
@@ -412,7 +409,8 @@ type MasteryLevelSchema = ReturnType<typeof defineMasteryLevelSchema>;
 
 export abstract class MasteryLevelDataModel<
     TSchema extends foundry.data.fields.DataSchema = MasteryLevelSchema,
-    TLogic extends MasteryLevel.Logic<any> = MasteryLevel.Logic<any>,
+    TLogic extends
+        MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<MasteryLevelData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
     abbrev!: string;
     skillBaseFormula!: string;

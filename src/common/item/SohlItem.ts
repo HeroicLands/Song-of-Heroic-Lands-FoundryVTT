@@ -13,7 +13,7 @@
 
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
@@ -21,7 +21,7 @@ import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 const { HTMLField, ForeignDocumentField, BooleanField } = foundry.data.fields;
 
 export class SohlItem<
-    TLogic extends SohlItem.Logic<any> = SohlItem.Logic<any>,
+    TLogic extends SohlItemLogic<any> = SohlItemLogic<any>,
     SubType extends Item.SubType = Item.SubType,
 > extends Item<SubType> {
     /**
@@ -130,38 +130,35 @@ export class SohlItem<
     }
 }
 
-export namespace SohlItem {
-    export interface Data<TLogic extends SohlLogic<any> = SohlLogic<any>>
-        extends SohlDataModel.Data<SohlItem, TLogic> {
-        get item(): SohlItem;
-        label(options?: { withName: boolean; withSubType: boolean }): string;
-        notes: HTMLString;
-        description: HTMLString;
-        textReference: HTMLString;
-        transfer: boolean;
-        nestedIn: SohlItem | null;
-    }
+export interface SohlItemLogic<TData extends SohlDataModel.Data<SohlItem>>
+    extends SohlLogic<TData> {}
 
-    export interface Logic<TData extends SohlDataModel.Data<SohlItem>>
-        extends SohlLogic<TData> {}
+export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
+    extends SohlDataModel.Data<SohlItem, TLogic> {
+    get item(): SohlItem;
+    label(options?: { withName: boolean; withSubType: boolean }): string;
+    notes: HTMLString;
+    description: HTMLString;
+    textReference: HTMLString;
+    transfer: boolean;
+    nestedIn: SohlItem | null;
+}
 
-    export class BaseLogic<TData extends Data = Data>
-        extends SohlLogic<TData>
-        implements Logic<TData>
-    {
-        override initialize(context?: SohlEventContext): void {}
-        override evaluate(context?: SohlEventContext): void {}
-        override finalize(context?: SohlEventContext): void {}
-    }
+export class SohlItemBaseLogic<
+    TData extends SohlItemData = SohlItemData,
+> extends SohlLogic<TData> {
+    override initialize(context?: SohlActionContext): void {}
+    override evaluate(context?: SohlActionContext): void {}
+    override finalize(context?: SohlActionContext): void {}
 }
 
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
-        ...SohlDataModel.defineSchema(),
         notes: new HTMLField(),
         description: new HTMLField(),
         textReference: new HTMLField(),
         transfer: new BooleanField({ initial: true }),
+        // @ts-ignore
         nestedIn: new ForeignDocumentField(SohlItem, {
             nullable: true,
             initial: null,
@@ -180,10 +177,10 @@ type SohlItemDataSchema = ReturnType<typeof defineSohlItemDataSchema>;
 export abstract class SohlItemDataModel<
         TSchema extends foundry.data.fields.DataSchema = SohlItemDataSchema,
         TLogic extends
-            SohlItem.Logic<SohlItem.Data> = SohlItem.Logic<SohlItem.Data>,
+            SohlItemLogic<SohlItemData> = SohlItemLogic<SohlItemData>,
     >
     extends SohlDataModel<TSchema, SohlItem, TLogic>
-    implements SohlItem.Data<TLogic>
+    implements SohlItemData<TLogic>
 {
     notes!: HTMLString;
     description!: HTMLString;

@@ -11,21 +11,30 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import { SohlItem, SohlItemDataModel } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
+    SohlItemDataModel,
+} from "@common/item/SohlItem";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
-export abstract class Gear<
-    TData extends Gear.Data = Gear.Data,
-> extends SohlItem.BaseLogic<TData> {
+export abstract class GearLogic<
+    TData extends GearData = GearData,
+> extends SohlItemBaseLogic<TData> {
     weight!: ValueModifier;
     value!: ValueModifier;
     quality!: ValueModifier;
     durability!: ValueModifier;
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.weight = sohl.CONFIG.ValueModifier({}, { parent: this });
         this.value = sohl.CONFIG.ValueModifier({}, { parent: this });
@@ -34,36 +43,27 @@ export abstract class Gear<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Gear {
-    export interface Logic<TData extends Gear.Data = Gear.Data>
-        extends SohlItem.Logic<TData> {
-        weight: ValueModifier;
-        value: ValueModifier;
-        quality: ValueModifier;
-        durability: ValueModifier;
-    }
-
-    export interface Data<TLogic extends Gear.Logic<Data> = Gear.Logic<any>>
-        extends SohlItem.Data<TLogic> {
-        abbrev: string;
-        quantity: number;
-        weightBase: number;
-        valueBase: number;
-        isCarried: boolean;
-        isEquipped: boolean;
-        qualityBase: number;
-        durabilityBase: number;
-    }
+export interface GearData<TLogic extends GearLogic<GearData> = GearLogic<any>>
+    extends SohlItemData<TLogic> {
+    abbrev: string;
+    quantity: number;
+    weightBase: number;
+    valueBase: number;
+    isCarried: boolean;
+    isEquipped: boolean;
+    qualityBase: number;
+    durabilityBase: number;
+    visibleToCohort: boolean;
 }
 
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
@@ -95,6 +95,9 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        visibleToCohort: new BooleanField({
+            initial: false,
+        }),
     };
 }
 
@@ -102,7 +105,7 @@ type GearDataSchema = ReturnType<typeof defineGearDataSchema>;
 
 export abstract class GearDataModel<
     TSchema extends foundry.data.fields.DataSchema = GearDataSchema,
-    TLogic extends Gear.Logic<Gear.Data> = Gear.Logic<Gear.Data>,
+    TLogic extends GearLogic<GearData> = GearLogic<GearData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
     abbrev!: string;
     quantity!: number;
@@ -112,6 +115,7 @@ export abstract class GearDataModel<
     isEquipped!: boolean;
     qualityBase!: number;
     durabilityBase!: number;
+    visibleToCohort!: boolean;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineGearDataSchema();

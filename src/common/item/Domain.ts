@@ -20,24 +20,30 @@ import {
     DomainEmbodimentCategory,
     ITEM_KIND,
 } from "@utils/constants";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { Philosophy } from "@common/item/Philosophy";
+import { PhilosophyLogic } from "@common/item/Philosophy";
 const { ArrayField, StringField } = foundry.data.fields;
 
-export class Domain<TData extends Domain.Data = Domain.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements Domain.Logic<TData>
+export class DomainLogic<TData extends DomainData = DomainData>
+    extends SohlItemBaseLogic<TData>
+    implements DomainLogic<TData>
 {
     philosophy?: SohlItem;
     category?: string;
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         if (this.item?.nestedIn?.type === ITEM_KIND.PHILOSOPHY) {
             this.category = this.item?.nestedIn?.system.subType;
@@ -45,30 +51,23 @@ export class Domain<TData extends Domain.Data = Domain.Data>
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Domain {
-    export interface Logic<TData extends Domain.Data<any> = Domain.Data<any>>
-        extends SohlItem.Logic<TData> {
-        philosophy?: SohlItem;
-    }
-
-    export interface Data<TLogic extends Domain.Logic<any> = Domain.Logic<any>>
-        extends SohlItem.Data<TLogic> {
-        philosophy: string;
-        abbrev: string;
-        cusp: string;
-        magicMod: DomainElementCategory[];
-        embodiments: DomainEmbodimentCategory[];
-    }
+export interface DomainData<TLogic extends DomainLogic<any> = DomainLogic<any>>
+    extends SohlItemData<TLogic> {
+    philosophy: string;
+    abbrev: string;
+    cusp: string;
+    magicMod: DomainElementCategory[];
+    embodiments: DomainEmbodimentCategory[];
 }
 
 function defineDomainSchema(): foundry.data.fields.DataSchema {
@@ -98,12 +97,13 @@ type DomainSchema = ReturnType<typeof defineDomainSchema>;
 
 export class DomainDataModel<
         TSchema extends foundry.data.fields.DataSchema = DomainSchema,
-        TLogic extends Domain.Logic<Domain.Data> = Domain.Logic<Domain.Data>,
+        TLogic extends DomainLogic<DomainData> = DomainLogic<DomainData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements Domain.Data<TLogic>
+    implements DomainData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["Domain"];
+    static override readonly LOCALIZATION_PREFIXES = ["Domain"];
+    static override readonly kind = ITEM_KIND.DOMAIN;
     abbrev!: string;
     cusp!: string;
     philosophy!: string;

@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-import { SohlItemDataModel, SohlItemSheetBase } from "@common/item/SohlItem";
+import type { SohlActionContext } from "@common/SohlActionContext";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     IMPACT_ASPECT,
     ImpactAspect,
@@ -20,50 +20,44 @@ import {
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@utils/constants";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { NumberField, StringField, SchemaField } = foundry.data.fields;
 
-export class ProjectileGear<
-        TData extends ProjectileGear.Data = ProjectileGear.Data,
-    >
-    extends Gear<TData>
-    implements ProjectileGear.Logic<TData>
-{
+export class ProjectileGearLogic<
+    TData extends ProjectileGearData = ProjectileGearData,
+> extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace ProjectileGear {
-    export const Kind = ITEM_KIND.PROJECTILEGEAR;
-
-    export interface Logic<
-        TData extends ProjectileGear.Data = ProjectileGear.Data,
-    > extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends ProjectileGear.Logic<Data> = ProjectileGear.Logic<any>,
-    > extends Gear.Data<TLogic> {
-        subType: ProjectileGearSubType;
-        shortName: string;
-        impactBase: {
-            numDice: number;
-            die: number;
-            modifier: number;
-            aspect: ImpactAspect;
-        };
-    }
+export interface ProjectileGearData<
+    TLogic extends
+        ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<any>,
+> extends GearData<TLogic> {
+    subType: ProjectileGearSubType;
+    shortName: string;
+    impactBase: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
 }
 
 function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
@@ -105,12 +99,13 @@ export class ProjectileGearDataModel<
         TSchema extends
             foundry.data.fields.DataSchema = ProjectileGearDataSchema,
         TLogic extends
-            ProjectileGear.Logic<ProjectileGear.Data> = ProjectileGear.Logic<ProjectileGear.Data>,
+            ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<ProjectileGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements ProjectileGear.Data<TLogic>
+    implements ProjectileGearData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
+    static override readonly kind = ITEM_KIND.PROJECTILEGEAR;
     subType!: ProjectileGearSubType;
     shortName!: string;
     impactBase!: {

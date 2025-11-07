@@ -14,8 +14,8 @@
 import type { SohlItem } from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
 import { SohlMap } from "./collection/SohlMap";
-import { Gear } from "@common/item/Gear";
-import { MasteryLevel } from "@common/item/MasteryLevel";
+import { GearData, GearLogic } from "@common/item/Gear";
+import { MasteryLevelData, MasteryLevelLogic } from "@common/item/MasteryLevel";
 
 export type SohlSettingValue =
     | string
@@ -263,22 +263,6 @@ export async function toHTMLWithTemplate(
     return toSanitizedHTML(html);
 }
 
-/**
- * Encode the time using the in-world calendar.
- *
- * @param time in-world seconds since the start of the game
- * @returns if SimpleCalendar module is enabled, the current calendar time
- *          formatted like "13 Nolus TR720 13:42:10", otherwise "No Calendar".
- */
-export function getWorldDateLabel(time: number): string {
-    let worldDateLabel = "No Calendar";
-    if (sohl.simpleCalendar) {
-        const ct = sohl.simpleCalendar.api.timestampToDate(time);
-        worldDateLabel = `${ct.display.day} ${ct.display.monthName} ${ct.display.yearPrefix}${ct.display.year}${ct.display.yearPostfix} ${ct.display.time}`;
-    }
-    return worldDateLabel;
-}
-
 export async function toHTMLWithContent(
     content: HTMLString,
     data: PlainObject = {},
@@ -438,6 +422,80 @@ export function toSanitizedHTML(
     return template.innerHTML as HTMLString;
 }
 
+const DISALLOWED_KEYWORDS = [
+    "window",
+    "document",
+    "globalThis",
+    "Function",
+    "eval",
+    "new Function",
+    "XMLHttpRequest",
+    "fetch",
+    "require",
+    "import",
+    "setTimeout",
+    "setInterval",
+] as const;
+
+function checkScriptSafety(script: string): void {
+    const lowered = script.toLowerCase();
+    for (const keyword of DISALLOWED_KEYWORDS) {
+        const pattern = new RegExp(`\\b${keyword.toLowerCase()}\\b`, "g");
+        if (pattern.test(lowered)) {
+            throw new Error(
+                `Disallowed keyword detected in script: ${keyword}`,
+            );
+        }
+    }
+}
+
+export function textToFunction(
+    script: string,
+    args: string[],
+    { isAsync = false }: { isAsync?: boolean } = {},
+): AsyncFunction | Function {
+    checkScriptSafety(script);
+    let body = script.trim();
+    if (!/^\s*(return|{|if|for|while|switch|try)\b/.test(body)) {
+        // Looks like a bare expression, not a block — wrap it in return
+        body = `return (${body});`;
+    }
+    args.push(`"use strict";\n${body}`);
+    return isAsync ? new AsyncFunction(...args) : new Function(...args);
+}
+
+const HASH_ALPHABET =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+/**
+ * Generates 16-character Id from an input string.
+ *
+ * @remarks
+ * Guarantees same input string always produces same output Id.
+ *
+ * Result has enough entropy to avoid collisions in typical use cases.
+ *
+ * @param input - The input string to hash.
+ * @returns A 16-character Id string.
+ */
+export function hashToId(input: string): string {
+    let hash = 0xcbf29ce484222325n; // 14695981039346656037
+    const FNV_PRIME = 0x100000001b3n; // 1099511628211
+    for (let i = 0; i < input.length; i++) {
+        hash ^= BigInt(input.charCodeAt(i));
+        hash *= FNV_PRIME;
+        hash &= 0xffffffffffffffffn; // keep 64 bits
+    }
+    let out = "";
+    for (let i = 0; i < 16; i++) {
+        const idx = Number(hash % 62n); // 0..61
+        out += HASH_ALPHABET[idx];
+        hash /= 62n;
+    }
+
+    return out;
+}
+
 export function defaultFromJSON(value: unknown): unknown {
     if (typeof value === "string") {
         if (value.startsWith("__bigint__:")) {
@@ -446,8 +504,11 @@ export function defaultFromJSON(value: unknown): unknown {
         if (value.startsWith("__date__:")) {
             return new Date(value.slice("__date__:".length));
         }
-        if (value.startsWith("__func__:")) {
+        if (value.startsWith("__url__:")) {
             return new URL(value.slice("__url__:".length));
+        }
+        if (value.startsWith("__func__:")) {
+            return deserializeFn(value);
         }
         return value;
     }
@@ -600,6 +661,83 @@ export function defaultToJSON(value: any): JsonValue | undefined {
     return value;
 }
 
+export function serializeFn(fn: (...args: any[]) => any): string {
+    function normalizeArrowParams(paramSrc: string): string {
+        const s = paramSrc.trim();
+        if (s.startsWith("(") && s.endsWith(")")) {
+            return s.slice(1, -1).trim();
+        }
+        return s;
+    }
+    const src = fn.toString().trim();
+
+    let argList = "";
+    let body = "";
+
+    // 1. Try standard function form: function name(a, b) { body }
+    let match = src.match(/^function\s*[^(]*\(([^)]*)\)\s*{([\s\S]*)}$/);
+    if (match) {
+        argList = match[1].trim();
+        body = match[2].trim();
+    } else {
+        // 2. Try arrow with block body: (a, b) => { body }  OR  a => { body }
+        match = src.match(
+            /^(\([^)]*\)|[a-zA-Z_$][0-9a-zA-Z_$]*)\s*=>\s*{([\s\S]*)}$/,
+        );
+        if (match) {
+            argList = normalizeArrowParams(match[1]);
+            body = match[2].trim();
+        } else {
+            // 3. Arrow with expression body: (a, b) => expr  OR  a => expr
+            match = src.match(
+                /^(\([^)]*\)|[a-zA-Z_$][0-9a-zA-Z_$]*)\s*=>\s*([\s\S]*)$/,
+            );
+            if (!match) {
+                throw new Error(
+                    "Unsupported function format for serialization.",
+                );
+            }
+            argList = normalizeArrowParams(match[1]);
+            body = match[2].trim();
+        }
+    }
+
+    // Normalize args into "a,b,c"
+    const args = argList
+        .split(",")
+        .map((a) => a.trim())
+        .filter((a) => a.length > 0)
+        .join(",");
+
+    return `__func__:[${args}]${body}`;
+}
+
+/**
+ * Deserialize a serialized function string in the format:
+ *   "__func__:[arg1,arg2,...]body"
+ * back into a live Function object.
+ */
+export function deserializeFn(serialized: string): (...args: any[]) => any {
+    if (!serialized.startsWith("__func__:"))
+        throw new Error("Invalid serialized function format.");
+
+    // Extract argument list and body
+    const match = serialized.match(/^__func__:\[([^\]]*)\](.*)$/s);
+    if (!match) throw new Error("Malformed serialized function string.");
+
+    const args = match[1].trim();
+    const body = match[2].trim();
+
+    // Construct the function
+    try {
+        return new Function(args, body) as (...args: any[]) => any;
+    } catch (err) {
+        throw new Error(
+            `Failed to deserialize function: ${(err as Error).message}`,
+        );
+    }
+}
+
 export function isDocumentId(value: unknown): value is DocumentId {
     return typeof value === "string" && /^[a-zA-Z0-9]{16}$/.test(value);
 }
@@ -643,7 +781,7 @@ const GearKinds = [
 
 export function isGearItem(
     item: SohlItem,
-): item is SohlItem & { system: Gear.Data } {
+): item is SohlItem & { system: GearData } {
     return GearKinds.includes(item.type);
 }
 
@@ -655,7 +793,7 @@ const MasteryLevelKinds = [
 
 export function isMasteryItem(
     item: SohlItem,
-): item is SohlItem & { system: MasteryLevel.Data } {
+): item is SohlItem & { system: MasteryLevelData } {
     return MasteryLevelKinds.includes(item.type);
 }
 

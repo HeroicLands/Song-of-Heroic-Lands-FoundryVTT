@@ -13,49 +13,46 @@
 
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { ITEM_KIND } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
-export class BodyZone<TData extends BodyZone.Data = BodyZone.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements BodyZone.Logic<TData>
-{
+export class BodyZoneLogic<
+    TData extends BodyZoneData = BodyZoneData,
+> extends SohlItemBaseLogic<TData> {
     get bodyParts(): SohlItem[] {
         return this.actor?.allItemTypes.bodypart || [];
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace BodyZone {
-    export const Kind = ITEM_KIND.BODYZONE;
-
-    export interface Logic<
-        TData extends BodyZone.Data<any> = BodyZone.Data<any>,
-    > extends SohlItem.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends BodyZone.Logic<Data> = BodyZone.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        abbrev: string;
-    }
+export interface BodyZoneData<
+    TLogic extends BodyZoneLogic<BodyZoneData> = BodyZoneLogic<any>,
+> extends SohlItemData<TLogic> {
+    abbrev: string;
 }
 
 function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
@@ -70,13 +67,13 @@ type BodyZoneDataSchema = ReturnType<typeof defineBodyZoneDataSchema>;
 export class BodyZoneDataModel<
         TSchema extends foundry.data.fields.DataSchema = BodyZoneDataSchema,
         TLogic extends
-            BodyZone.Logic<BodyZone.Data> = BodyZone.Logic<BodyZone.Data>,
+            BodyZoneLogic<BodyZoneData> = BodyZoneLogic<BodyZoneData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements BodyZone.Data<TLogic>
+    implements BodyZoneData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
-    static override readonly kind = BodyZone.Kind;
+    static override readonly kind = ITEM_KIND.BODYZONE;
     abbrev!: string;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

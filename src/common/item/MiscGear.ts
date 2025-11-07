@@ -11,41 +11,37 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 
-export class MiscGear<TData extends MiscGear.Data = MiscGear.Data>
-    extends Gear<TData>
-    implements MiscGear.Logic
-{
+export class MiscGearLogic<
+    TData extends MiscGearData = MiscGearData,
+> extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace MiscGear {
-    export const Kind = ITEM_KIND.MISCGEAR;
-
-    export interface Logic<TData extends MiscGear.Data = MiscGear.Data>
-        extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends MiscGear.Logic<Data> = MiscGear.Logic<any>,
-    > extends Gear.Data<TLogic> {}
-}
+export interface MiscGearData<
+    TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<any>,
+> extends GearData<TLogic> {}
 
 function defineMiscGearSchema(): foundry.data.fields.DataSchema {
     return {
@@ -58,12 +54,13 @@ type MiscGearSchema = ReturnType<typeof defineMiscGearSchema>;
 export class MiscGearDataModel<
         TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
         TLogic extends
-            MiscGear.Logic<MiscGear.Data> = MiscGear.Logic<MiscGear.Data>,
+            MiscGearLogic<MiscGearData> = MiscGearLogic<MiscGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements MiscGear.Data<TLogic>
+    implements MiscGearData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["MiscGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["MiscGear"];
+    static override readonly kind = ITEM_KIND.MISCGEAR;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMiscGearSchema();

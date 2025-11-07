@@ -11,13 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { Skill } from "@common/item/Skill";
-import type { Domain } from "@common/item/Domain";
-import type { Trait } from "@common/item/Trait";
+import type { SkillLogic } from "@common/item/Skill";
+import type { DomainLogic } from "@common/item/Domain";
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
@@ -30,7 +31,7 @@ import {
     MysterySubTypes,
 } from "@utils/constants";
 import { getDocsFromPacks, getDocumentFromPacks } from "@common/FoundryProxy";
-import { FilePath, toFilePath, isItemWithSubType } from "@utils/helpers";
+import { isItemWithSubType } from "@utils/helpers";
 const { SchemaField, ArrayField, NumberField, StringField } =
     foundry.data.fields;
 
@@ -56,12 +57,11 @@ const { SchemaField, ArrayField, NumberField, StringField } =
  *     Ancestor Spirit Power (Skill): Ancestor spirit connection increasing mastery level of a skill
  *     Totem Spirit Power (Creature): A spiritual connection to an animal, granting skill bonuses
  */
-export class Mystery<TData extends Mystery.Data = Mystery.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements Mystery.Logic<TData>
-{
-    domain?: Domain | null;
-    skills!: Skill[];
+export class MysteryLogic<
+    TData extends MysteryData = MysteryData,
+> extends SohlItemBaseLogic<TData> {
+    domain?: DomainLogic | null;
+    skills!: SkillLogic[];
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -178,8 +178,12 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
         return result;
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         if (this.actor) {
             this.skills = [];
@@ -201,7 +205,7 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
                     !!it.name &&
                     skillSet.has(it.name)
                 ) {
-                    this.skills.push(it.logic as Skill);
+                    this.skills.push(it.logic as SkillLogic);
                     skillSet.delete(it.name);
                 }
             }
@@ -211,14 +215,14 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
                 getDocsFromPacks(["sohl.mysteries"], {
                     docType: "domain",
                 }).then((docs) => {
-                    let domain: Domain | null = null;
+                    let domain: DomainLogic | null = null;
 
                     // We have an array of domain documents from the compendium; search for the one we want
                     this.domain = docs.find(
                         (d) =>
                             d.name === this.data.domain.name &&
                             d.system.philosophy === this.data.domain.philosophy,
-                    )?.logic as Domain;
+                    )?.logic as DomainLogic;
 
                     // If we can't find the domain by name, create a dummy one
                     if (!this.domain) {
@@ -228,7 +232,7 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
                             system: { philosophy: this.data.domain.philosophy },
                         } as any);
                         this.actor?.addVirtualItem(item);
-                        this.domain = item.logic as Domain;
+                        this.domain = item.logic as DomainLogic;
                     }
                 });
             }
@@ -269,46 +273,30 @@ export class Mystery<TData extends Mystery.Data = Mystery.Data>
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Mystery {
-    export const Kind = ITEM_KIND.MYSTERY;
-
-    export interface Logic<TData extends Mystery.Data<any> = Mystery.Data<any>>
-        extends SohlItem.Logic<TData> {
-        getApplicableFate(target: SohlItem): SohlItem[];
-        domain?: Domain | null;
-        skills: Skill[];
-        level: ValueModifier;
-        charges: {
-            value: ValueModifier;
-            max: ValueModifier;
-        };
-    }
-
-    export interface Data<
-        TLogic extends Mystery.Logic<Data> = Mystery.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        subType: MysterySubType;
-        domain: {
-            philosophy: string;
-            name: string;
-        };
-        skills: string[];
-        levelBase: number;
-        charges: {
-            value: number;
-            max: number;
-        };
-    }
+export interface MysteryData<
+    TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
+> extends SohlItemData<TLogic> {
+    subType: MysterySubType;
+    domain: {
+        philosophy: string;
+        name: string;
+    };
+    skills: string[];
+    levelBase: number;
+    charges: {
+        value: number;
+        max: number;
+    };
 }
 
 function defineMysterySchema(): foundry.data.fields.DataSchema {
@@ -354,14 +342,13 @@ type MysteryDataSchema = ReturnType<typeof defineMysterySchema>;
 
 export class MysteryDataModel<
         TSchema extends foundry.data.fields.DataSchema = MysteryDataSchema,
-        TLogic extends
-            Mystery.Logic<Mystery.Data> = Mystery.Logic<Mystery.Data>,
+        TLogic extends MysteryLogic<MysteryData> = MysteryLogic<MysteryData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements Mystery.Data<TLogic>
+    implements MysteryData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["Mystery"];
-    static readonly kind = Mystery.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
+    static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     domain!: {
         philosophy: string;

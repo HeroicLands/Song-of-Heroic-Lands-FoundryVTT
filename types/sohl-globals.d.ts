@@ -14,29 +14,29 @@ import type { Assembly } from "@common/actor/Assembly";
 import type { SohlCombatant } from "@common/combat/SohlCombatant";
 import type { SohlCombatantData } from "@common/combatant/SohlCombatantData";
 import type { SohlItem } from "@common/item/SohlItem";
-import type { Affiliation } from "@common/item/Affiliation";
-import type { Affliction } from "@common/item/Affliction";
+import type { AffiliationLogic } from "@common/item/Affiliation";
+import type { AfflictionLogic } from "@common/item/Affliction";
 import type { ArmorGear } from "@common/item/ArmorGear";
-import type { BodyLocation } from "@common/item/BodyLocation";
-import type { BodyPart } from "@common/item/BodyPart";
+import type { BodyLocationLogic } from "@common/item/BodyLocation";
+import type { BodyPartLogic } from "@common/item/BodyPart";
 import type { BodyZone } from "@common/item/BodyZone";
 import type { CombatTechniqueStrikeMode } from "@common/item/CombatTechniqueStrikeMode";
-import type { ConcoctionGear } from "@common/item/ConcoctionGear";
-import type { ContainerGear } from "@common/item/ContainerGear";
-import type { Domain } from "@common/item/Domain";
-import type { Injury } from "@common/item/Injury";
-import type { MeleeWeaponStrikeMode } from "@common/item/MeleeWeaponStrikeMode";
-import type { MiscGear } from "@common/item/MiscGear";
-import type { MissileWeaponStrikeMode } from "@common/item/MissileWeaponStrikeMode";
-import type { Mystery } from "@common/item/Mystery";
-import type { MysticalAbility } from "@common/item/MysticalAbility";
-import type { MysticalDevice } from "@common/item/MysticalDevice";
-import type { Philosophy } from "@common/item/Philosophy";
-import type { ProjectileGear } from "@common/item/ProjectileGear";
-import type { Protection } from "@common/item/Protection";
-import type { Skill } from "@common/item/Skill";
-import type { Trait } from "@common/item/Trait";
-import type { WeaponGear } from "@common/item/WeaponGear";
+import type { ConcoctionGearLogic } from "@common/item/ConcoctionGear";
+import type { ContainerGearLogic } from "@common/item/ContainerGear";
+import type { DomainLogic } from "@common/item/Domain";
+import type { InjuryLogic } from "@common/item/Injury";
+import type { MeleeWeaponStrikeModeLogic } from "@common/item/MeleeWeaponStrikeMode";
+import type { MiscGearLogic } from "@common/item/MiscGear";
+import type { MissileWeaponStrikeModeLogic } from "@common/item/MissileWeaponStrikeMode";
+import type { MysteryLogic } from "@common/item/Mystery";
+import type { MysticalAbilityLogic } from "@common/item/MysticalAbility";
+import type { MysticalDeviceLogic } from "@common/item/MysticalDevice";
+import type { PhilosophyLogic } from "@common/item/Philosophy";
+import type { ProjectileGearLogic } from "@common/item/ProjectileGear";
+import type { ProtectionLogic } from "@common/item/Protection";
+import type { SkillLogic } from "@common/item/Skill";
+import type { TraitLogic } from "@common/item/Trait";
+import type { WeaponGearLogic } from "@common/item/WeaponGear";
 
 // ✅ Custom utility types
 declare global {
@@ -111,6 +111,27 @@ declare global {
         parent?: TDataModel;
     };
 
+    // SoHL Calendar structure
+    interface WorldDate {
+        era: "TR" | "BT";
+        year: number; // always positive (1, 2, 3, ...)
+        month: number; // 1–12
+        day: number; // 1–30
+        dayOfYear: number; // 1–360
+        weekday: number; // 1–10 (or 0–9 if you prefer; I’ll use 0-based in code and convert)
+        moonPhase: {
+            dayInCycle: number; // 0–29, where 0 = full moon
+            isFull: boolean;
+        };
+        // Optional: time of day in world units
+        timeOfDay?: {
+            seconds: number;
+            hours: number;
+            minutes: number;
+            secondsRemainder: number;
+        };
+    }
+
     // ✅ Global system accessor
     var sohl: SohlSystem;
 }
@@ -140,6 +161,7 @@ declare module "fvtt-types/configuration" {
         "sohl.optionProjectileTracking": boolean;
         "sohl.optionFate": string;
         "sohl.optionGearDamage": boolean;
+        "sohl.biomeSpeedFactors": number[];
         "sohl.logThreshold": string;
     }
 
@@ -151,11 +173,11 @@ declare module "fvtt-types/configuration" {
     }
 
     interface ConfiguredActor<SubType extends Actor.SubType> {
-        Actor: SohlActor<SohlActor.Logic, any, SubType>;
+        Actor: SohlActor<SohlActorLogic, any, SubType>;
     }
 
     interface ConfiguredItem<SubType extends Item.SubType> {
-        Item: SohlItem<SohlItem.Logic, any, SubType>;
+        Item: SohlItem<SohlItemLogic, any, SubType>;
     }
 
     interface ConfiguredCombatant<SubType extends Combatant.SubType> {
@@ -172,29 +194,29 @@ declare module "fvtt-types/configuration" {
             assembly: typeof Assembly.DataModel;
         };
         Item: {
-            affiliation: typeof Affiliation.DataModel;
-            affliction: typeof Affliction.DataModel;
+            affiliation: typeof AffiliationLogic.DataModel;
+            affliction: typeof AfflictionLogic.DataModel;
             armorgear: typeof ArmorGear.DataModel;
-            bodylocation: typeof BodyLocation.DataModel;
-            bodypart: typeof BodyPart.DataModel;
+            bodylocation: typeof BodyLocationLogic.DataModel;
+            bodypart: typeof BodyPartLogic.DataModel;
             bodyzone: typeof BodyZone.DataModel;
             combattechniquestrikemode: typeof CombatTechniqueStrikeMode.DataModel;
-            concoctiongear: typeof ConcoctionGear.DataModel;
-            containergear: typeof ContainerGear.DataModel;
-            domain: typeof Domain.DataModel;
-            injury: typeof Injury.DataModel;
-            meleeweaponstrikemode: typeof MeleeWeaponStrikeMode.DataModel;
-            miscgear: typeof MiscGear.DataModel;
-            missileweaponstrikemode: typeof MissileWeaponStrikeMode.DataModel;
-            mystery: typeof Mystery.DataModel;
-            mysticalability: typeof MysticalAbility.DataModel;
-            mysticaldevice: typeof MysticalDevice.DataModel;
-            philosophy: typeof Philosophy.DataModel;
-            projectilegear: typeof ProjectileGear.DataModel;
-            protection: typeof Protection.DataModel;
-            skill: typeof Skill.DataModel;
-            trait: typeof Trait.DataModel;
-            weapongear: typeof WeaponGear.DataModel;
+            concoctiongear: typeof ConcoctionGearLogic.DataModel;
+            containergear: typeof ContainerGearLogic.DataModel;
+            domain: typeof DomainLogic.DataModel;
+            injury: typeof InjuryLogic.DataModel;
+            meleeweaponstrikemode: typeof MeleeWeaponStrikeModeLogic.DataModel;
+            miscgear: typeof MiscGearLogic.DataModel;
+            missileweaponstrikemode: typeof MissileWeaponStrikeModeLogic.DataModel;
+            mystery: typeof MysteryLogic.DataModel;
+            mysticalability: typeof MysticalAbilityLogic.DataModel;
+            mysticaldevice: typeof MysticalDeviceLogic.DataModel;
+            philosophy: typeof PhilosophyLogic.DataModel;
+            projectilegear: typeof ProjectileGearLogic.DataModel;
+            protection: typeof ProtectionLogic.DataModel;
+            skill: typeof SkillLogic.DataModel;
+            trait: typeof TraitLogic.DataModel;
+            weapongear: typeof WeaponGearLogic.DataModel;
         };
         Combatant: {
             combatantdata: typeof SohlCombatantData.DataModel;

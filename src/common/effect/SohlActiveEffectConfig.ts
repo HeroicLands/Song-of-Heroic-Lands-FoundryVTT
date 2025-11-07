@@ -12,7 +12,6 @@
  */
 
 import { SohlActor } from "@common/actor/SohlActor";
-import { SohlTemporal } from "@common/event/SohlTemporal";
 import { SohlItem } from "@common/item/SohlItem";
 import { ITEM_METADATA } from "@utils/constants";
 
@@ -74,12 +73,12 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
                 break;
 
             case "duration":
-                partContext.startTimeTemporal = new SohlTemporal(
-                    partContext.startTime,
-                );
-                partContext.endTimeTemporal = new SohlTemporal(
-                    partContext.endTime,
-                );
+                // partContext.startTimeTemporal = new SohlTemporal(
+                //     partContext.startTime,
+                // );
+                // partContext.endTimeTemporal = new SohlTemporal(
+                //     partContext.endTime,
+                // );
                 break;
 
             case "changes":

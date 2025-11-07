@@ -11,46 +11,40 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import type { SohlActionContext } from "@common/SohlActionContext";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 import { ITEM_KIND } from "@utils/constants";
 const { NumberField } = foundry.data.fields;
 
-export class ContainerGear<
-        TData extends ContainerGear.Data = ContainerGear.Data,
-    >
-    extends Gear<TData>
-    implements ContainerGear.Logic<TData>
-{
+export class ContainerGearLogic<
+    TData extends ContainerGearData = ContainerGearData,
+> extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace ContainerGear {
-    export const Kind = ITEM_KIND.CONTAINERGEAR;
-
-    export interface Logic<
-        TData extends ContainerGear.Data = ContainerGear.Data,
-    > extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends ContainerGear.Logic<Data> = ContainerGear.Logic<any>,
-    > extends Gear.Data<TLogic> {
-        maxCapacityBase: number;
-    }
+export interface ContainerGearData<
+    TLogic extends
+        ContainerGearLogic<ContainerGearData> = ContainerGearLogic<any>,
+> extends GearData<TLogic> {
+    maxCapacityBase: number;
 }
 
 function defineContainerGearSchema(): foundry.data.fields.DataSchema {
@@ -69,12 +63,13 @@ type ContainerGearSchema = ReturnType<typeof defineContainerGearSchema>;
 export class ContainerGearDataModel<
         TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
         TLogic extends
-            ContainerGear.Logic<ContainerGear.Data> = ContainerGear.Logic<ContainerGear.Data>,
+            ContainerGearLogic<ContainerGearData> = ContainerGearLogic<ContainerGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements ContainerGear.Data<TLogic>
+    implements ContainerGearData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["ContainerGear"];
+    static override readonly kind = ITEM_KIND.CONTAINERGEAR;
     maxCapacityBase!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

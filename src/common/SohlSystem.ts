@@ -30,6 +30,11 @@ import {
     AssemblySheet,
 } from "@common/actor/Assembly";
 import {
+    CohortDataModel,
+    CohortLogic,
+    CohortSheet,
+} from "@common/actor/Cohort";
+import {
     SohlActor,
     SohlActorDataModel,
     SohlActorSheetBase,
@@ -40,100 +45,105 @@ import {
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import {
-    Affiliation,
+    AffiliationLogic,
     AffiliationDataModel,
     AffiliationSheet,
 } from "@common/item/Affiliation";
 import {
-    Affliction,
+    AfflictionLogic,
     AfflictionDataModel,
     AfflictionSheet,
 } from "@common/item/Affliction";
 import {
-    ArmorGear,
+    ArmorGearLogic,
     ArmorGearDataModel,
     ArmorGearSheet,
 } from "@common/item/ArmorGear";
 import {
-    BodyLocation,
+    BodyLocationLogic,
     BodyLocationDataModel,
     BodyLocationSheet,
 } from "@common/item/BodyLocation";
 import {
-    BodyPart,
+    BodyPartLogic,
     BodyPartDataModel,
     BodyPartSheet,
 } from "@common/item/BodyPart";
 import {
-    BodyZone,
+    BodyZoneLogic,
     BodyZoneDataModel,
     BodyZoneSheet,
 } from "@common/item/BodyZone";
 import {
-    CombatTechniqueStrikeMode,
+    CombatTechniqueStrikeModeLogic,
     CombatTechniqueStrikeModeDataModel,
     CombatTechniqueStrikeModeSheet,
 } from "@common/item/CombatTechniqueStrikeMode";
 import {
-    ConcoctionGear,
+    ConcoctionGearLogic,
     ConcoctionGearDataModel,
     ConcoctionGearSheet,
 } from "@common/item/ConcoctionGear";
 import {
-    ContainerGear,
+    ContainerGearLogic,
     ContainerGearDataModel,
     ContainerGearSheet,
 } from "@common/item/ContainerGear";
-import { Domain, DomainDataModel, DomainSheet } from "@common/item/Domain";
-import { Injury, InjuryDataModel, InjurySheet } from "@common/item/Injury";
+import { DomainLogic, DomainDataModel, DomainSheet } from "@common/item/Domain";
+import { InjuryLogic, InjuryDataModel, InjurySheet } from "@common/item/Injury";
 import {
-    MeleeWeaponStrikeMode,
+    MeleeWeaponStrikeModeLogic,
     MeleeWeaponStrikeModeDataModel,
     MeleeWeaponStrikeModeSheet,
 } from "@common/item/MeleeWeaponStrikeMode";
 import {
-    MiscGear,
+    MiscGearLogic,
     MiscGearDataModel,
     MiscGearSheet,
 } from "@common/item/MiscGear";
 import {
-    MissileWeaponStrikeMode,
+    MissileWeaponStrikeModeLogic,
     MissileWeaponStrikeModeDataModel,
     MissileWeaponStrikeModeSheet,
 } from "@common/item/MissileWeaponStrikeMode";
-import { Mystery, MysteryDataModel, MysterySheet } from "@common/item/Mystery";
 import {
-    MysticalAbility,
+    MysteryLogic,
+    MysteryDataModel,
+    MysterySheet,
+} from "@common/item/Mystery";
+import {
+    MysticalAbilityLogic,
     MysticalAbilityDataModel,
     MysticalAbilitySheet,
 } from "@common/item/MysticalAbility";
 import {
-    MysticalDevice,
+    MysticalDeviceLogic,
     MysticalDeviceDataModel,
     MysticalDeviceSheet,
 } from "@common/item/MysticalDevice";
 import {
-    Philosophy,
+    PhilosophyLogic,
     PhilosophyDataModel,
     PhilosophySheet,
 } from "@common/item/Philosophy";
 import {
-    ProjectileGear,
+    ProjectileGearLogic,
     ProjectileGearDataModel,
     ProjectileGearSheet,
 } from "@common/item/ProjectileGear";
 import {
-    Protection,
+    ProtectionLogic,
     ProtectionDataModel,
     ProtectionSheet,
 } from "@common/item/Protection";
-import { Skill, SkillDataModel, SkillSheet } from "@common/item/Skill";
-import { Trait, TraitDataModel, TraitSheet } from "@common/item/Trait";
+import { SkillLogic, SkillDataModel, SkillSheet } from "@common/item/Skill";
+import { TraitLogic, TraitDataModel, TraitSheet } from "@common/item/Trait";
 import {
-    WeaponGear,
+    WeaponGearLogic,
     WeaponGearDataModel,
     WeaponGearSheet,
 } from "@common/item/WeaponGear";
+import { ActionLogic, ActionDataModel, ActionSheet } from "@common/item/Action";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlCombatant } from "@common/combatant/SohlCombatant";
 import * as utils from "@utils/helpers";
@@ -159,8 +169,21 @@ import {
     COMBATANT_METADATA,
     defineType,
     DefinedType,
+    SOHL_DEFAULT_CALENDAR_CONFIG,
 } from "@utils/constants";
 import { getGame } from "@common/FoundryProxy";
+import { SohlCalendarData } from "@common/SohlCalendar";
+import {
+    MovementProfileDataModel,
+    MovementProfileLogic,
+    MovementProfileSheet,
+} from "./item/MovementProfile";
+import {
+    StructureDataModel,
+    StructureLogic,
+    StructureSheet,
+} from "./actor/Structure";
+import { VehicleDataModel, VehicleLogic, VehicleSheet } from "./actor/Vehicle";
 
 export type ActorDMMap = Record<
     string,
@@ -169,6 +192,9 @@ export type ActorDMMap = Record<
 export const ACTOR_DM_DEF: ActorDMMap = {
     [ACTOR_KIND.ENTITY]: EntityDataModel,
     [ACTOR_KIND.ASSEMBLY]: AssemblyDataModel,
+    [ACTOR_KIND.COHORT]: CohortDataModel,
+    [ACTOR_KIND.STRUCTURE]: StructureDataModel,
+    [ACTOR_KIND.VEHICLE]: VehicleDataModel,
 } satisfies ActorDMMap;
 const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
     "TYPES.Actor",
@@ -194,7 +220,10 @@ export const {
 } = defineType("SOHL.Actor.Logic", {
     [ACTOR_KIND.ENTITY]: Entity,
     [ACTOR_KIND.ASSEMBLY]: Assembly,
-} as StrictObject<Constructor<SohlActor.Logic<any>>>);
+    [ACTOR_KIND.COHORT]: CohortLogic,
+    [ACTOR_KIND.STRUCTURE]: StructureLogic,
+    [ACTOR_KIND.VEHICLE]: VehicleLogic,
+} as StrictObject<Constructor<SohlActorLogic<any>>>);
 
 export const {
     kind: COMMON_ACTOR_SHEETS,
@@ -204,6 +233,9 @@ export const {
 } = defineType("SOHL.Actor.Sheet", {
     [ACTOR_KIND.ENTITY]: EntitySheet,
     [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
+    [ACTOR_KIND.COHORT]: CohortSheet,
+    [ACTOR_KIND.STRUCTURE]: StructureSheet,
+    [ACTOR_KIND.VEHICLE]: VehicleSheet,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
 export type ItemDMMap = Record<
@@ -211,6 +243,7 @@ export type ItemDMMap = Record<
     Constructor<SohlDataModel<any, SohlItem, any>>
 >;
 export const ITEM_DM_DEF: ItemDMMap = {
+    [ITEM_KIND.ACTION]: ActionDataModel,
     [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
@@ -225,6 +258,7 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeDataModel,
     [ITEM_KIND.MISCGEAR]: MiscGearDataModel,
     [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeDataModel,
+    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileDataModel,
     [ITEM_KIND.MYSTERY]: MysteryDataModel,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
     [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceDataModel,
@@ -258,30 +292,32 @@ export const {
     isValue: isCommonItemLogic,
     labels: CommonItemLogicLabels,
 } = defineType("TYPES.Item", {
-    [ITEM_KIND.AFFILIATION]: Affiliation,
-    [ITEM_KIND.AFFLICTION]: Affliction,
-    [ITEM_KIND.ARMORGEAR]: ArmorGear,
-    [ITEM_KIND.BODYLOCATION]: BodyLocation,
-    [ITEM_KIND.BODYPART]: BodyPart,
-    [ITEM_KIND.BODYZONE]: BodyZone,
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeMode,
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGear,
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGear,
-    [ITEM_KIND.DOMAIN]: Domain,
-    [ITEM_KIND.INJURY]: Injury,
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeMode,
-    [ITEM_KIND.MISCGEAR]: MiscGear,
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeMode,
-    [ITEM_KIND.MYSTERY]: Mystery,
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbility,
-    [ITEM_KIND.MYSTICALDEVICE]: MysticalDevice,
-    [ITEM_KIND.PHILOSOPHY]: Philosophy,
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGear,
-    [ITEM_KIND.PROTECTION]: Protection,
-    [ITEM_KIND.SKILL]: Skill,
-    [ITEM_KIND.TRAIT]: Trait,
-    [ITEM_KIND.WEAPONGEAR]: WeaponGear,
-} as StrictObject<Constructor<SohlItem.Logic<any>>>);
+    [ITEM_KIND.ACTION]: ActionLogic,
+    [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    [ITEM_KIND.AFFLICTION]: AfflictionLogic,
+    [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
+    [ITEM_KIND.BODYLOCATION]: BodyLocationLogic,
+    [ITEM_KIND.BODYPART]: BodyPartLogic,
+    [ITEM_KIND.BODYZONE]: BodyZoneLogic,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeLogic,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
+    [ITEM_KIND.DOMAIN]: DomainLogic,
+    [ITEM_KIND.INJURY]: InjuryLogic,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeLogic,
+    [ITEM_KIND.MISCGEAR]: MiscGearLogic,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeLogic,
+    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileLogic,
+    [ITEM_KIND.MYSTERY]: MysteryLogic,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
+    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceLogic,
+    [ITEM_KIND.PHILOSOPHY]: PhilosophyLogic,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
+    [ITEM_KIND.PROTECTION]: ProtectionLogic,
+    [ITEM_KIND.SKILL]: SkillLogic,
+    [ITEM_KIND.TRAIT]: TraitLogic,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
+} as StrictObject<Constructor<SohlItemLogic<any>>>);
 
 export const {
     kind: COMMON_ITEM_SHEETS,
@@ -289,6 +325,7 @@ export const {
     isValue: isCommonItemSheet,
     labels: CommonItemSheetLabels,
 } = defineType("SOHL.Item.Sheet", {
+    [ITEM_KIND.ACTION]: ActionSheet,
     [ITEM_KIND.AFFILIATION]: AffiliationSheet,
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
@@ -303,6 +340,7 @@ export const {
     [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeSheet,
     [ITEM_KIND.MISCGEAR]: MiscGearSheet,
     [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeSheet,
+    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileSheet,
     [ITEM_KIND.MYSTERY]: MysterySheet,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,
     [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceSheet,
@@ -381,6 +419,15 @@ export abstract class SohlSystem {
 
             controlIcons: {
                 defeated: toFilePath("systems/sohl/assets/icons/surrender.svg"),
+            },
+            time: {
+                worldCalendarConfig: SOHL_DEFAULT_CALENDAR_CONFIG,
+                worldCalendarClass: SohlCalendarData,
+                formatters: {
+                    timestamp: SohlCalendarData.formatTimestamp,
+                    relative: SohlCalendarData.formatRelativeTime,
+                    default: SohlCalendarData.formatDefault,
+                },
             },
             Actor: {
                 documentClass: SohlActor,
@@ -491,7 +538,6 @@ export abstract class SohlSystem {
     static readonly INIT_MESSAGE: string;
 
     static readonly utils: typeof utils = utils;
-    static simpleCalendar?: any;
     static ready: boolean = false;
     readonly classRegistry: SohlMap<string, Constructor<SohlBase>>;
     readonly dataModelRegistry: SohlMap<
@@ -547,10 +593,6 @@ export abstract class SohlSystem {
 
     get initMessage(): string {
         return (this.constructor as any).INIT_MESSAGE;
-    }
-
-    get simpleCalendar(): any {
-        return (this.constructor as any).simpleCalendar;
     }
 
     get utils(): typeof utils {
@@ -629,6 +671,7 @@ export namespace SohlSystem {
         statusEffects: ConfigStatusEffect[];
         specialStatusEffects: StrictObject<string>;
         controlIcons: StrictObject<FilePath>;
+        time: PlainObject;
         Actor: DocumentConfig;
         Item: DocumentConfig;
         ActiveEffect: DocumentConfig;

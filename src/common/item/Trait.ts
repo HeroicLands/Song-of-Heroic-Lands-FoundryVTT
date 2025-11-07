@@ -11,9 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
-import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
+import {
+    MasteryLevelLogic,
+    MasteryLevelDataModel,
+    MasteryLevelData,
+} from "@common/item/MasteryLevel";
 import {
     ITEM_KIND,
     TRAIT_INTENSITY,
@@ -32,45 +36,42 @@ const {
     BooleanField,
 } = foundry.data.fields;
 
-export class Trait<TData extends Trait.Data = Trait.Data>
-    extends MasteryLevel<TData>
-    implements Trait.Logic
-{
+export class TraitLogic<
+    TData extends TraitData = TraitData,
+> extends MasteryLevelLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Trait {
-    export const Kind = ITEM_KIND.TRAIT;
-
-    export interface Logic<TData extends Trait.Data = Trait.Data>
-        extends MasteryLevel.Logic<TData> {}
-
-    export interface Data<TLogic extends Trait.Logic<Data> = Trait.Logic<any>>
-        extends MasteryLevel.Data<TLogic> {
-        subType: TraitSubType;
-        textValue: string;
-        max: number | null;
-        isNumeric: boolean;
-        intensity: TraitIntensity;
-        valueDesc: {
-            label: string;
-            maxValue: number;
-        }[];
-        choices: StrictObject<string>;
-    }
+export interface TraitData<
+    TLogic extends TraitLogic<TraitData> = TraitLogic<any>,
+> extends MasteryLevelData<TLogic> {
+    subType: TraitSubType;
+    textValue: string;
+    max: number | null;
+    isNumeric: boolean;
+    intensity: TraitIntensity;
+    valueDesc: {
+        label: string;
+        maxValue: number;
+    }[];
+    choices: StrictObject<string>;
 }
 
 function defineTraitSchema(): foundry.data.fields.DataSchema {
@@ -114,13 +115,13 @@ type TraitSchema = ReturnType<typeof defineTraitSchema>;
 
 export class TraitDataModel<
         TSchema extends foundry.data.fields.DataSchema = TraitSchema,
-        TLogic extends Trait.Logic<Trait.Data> = Trait.Logic<Trait.Data>,
+        TLogic extends TraitLogic<TraitData> = TraitLogic<TraitData>,
     >
     extends MasteryLevelDataModel<TSchema, TLogic>
-    implements Trait.Data<TLogic>
+    implements TraitData<TLogic>
 {
-    static override readonly kind = Trait.Kind;
-    static override readonly LOCALIZATION_PREFIXES = ["TRAIT"];
+    static override readonly LOCALIZATION_PREFIXES = ["Trait"];
+    static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
     textValue!: string;
     max!: number | null;

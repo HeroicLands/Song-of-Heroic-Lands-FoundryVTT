@@ -12,10 +12,10 @@
  */
 
 import type { SohlLogic } from "@common/SohlLogic";
-import type { MasteryLevel } from "@common/item/MasteryLevel";
+import type { MasteryLevelLogic } from "@common/item/MasteryLevel";
 import type { SohlItem } from "@common/item/SohlItem";
-import type { Affliction } from "@common/item/Affliction";
-import type { Injury } from "@common/item/Injury";
+import type { AfflictionLogic } from "@common/item/Affliction";
+import type { InjuryLogic } from "@common/item/Injury";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import { Itr } from "@utils/Itr";
 
@@ -60,6 +60,7 @@ export const {
     isValue: isItemKind,
     labels: itemKindLabels,
 } = defineType("TYPES.Item", {
+    ACTION: "action",
     AFFILIATION: "affiliation",
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
@@ -70,11 +71,11 @@ export const {
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
     DOMAIN: "domain",
-    EVENT: "event",
     INJURY: "injury",
     MELEEWEAPONSTRIKEMODE: "meleeweaponstrikemode",
     MISCGEAR: "miscgear",
     MISSILEWEAPONSTRIKEMODE: "missileweaponstrikemode",
+    MOVEMENTPROFILE: "movementprofile",
     MYSTERY: "mystery",
     MYSTICALABILITY: "mysticalability",
     MYSTICALDEVICE: "mysticaldevice",
@@ -116,6 +117,9 @@ export const {
 } = defineType("TYPES.Actor", {
     ENTITY: "entity",
     ASSEMBLY: "assembly",
+    COHORT: "cohort",
+    STRUCTURE: "structure",
+    VEHICLE: "vehicle",
 });
 export type ActorKind = (typeof ACTOR_KIND)[keyof typeof ACTOR_KIND];
 
@@ -125,6 +129,12 @@ export const {
     isValue: isItemMetadata,
     labels: itemMetadataLabels,
 } = defineType(`SOHL.Item.METADATA`, {
+    [ITEM_KIND.ACTION]: {
+        IconCssClass: "fas fa-gears",
+        Image: "systems/sohl/assets/icons/gears.svg",
+        Sheet: "systems/sohl/templates/item/action-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
     [ITEM_KIND.AFFILIATION]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
@@ -185,12 +195,6 @@ export const {
         Sheet: "systems/sohl/templates/item/domain-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.EVENT]: {
-        IconCssClass: "fas fa-calendar-alt",
-        Image: "systems/sohl/assets/icons/event.svg",
-        Sheet: "systems/sohl/templates/item/event-sheet.hbs",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.INJURY]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
@@ -213,6 +217,12 @@ export const {
         IconCssClass: "fas fa-bow-arrow",
         Image: "systems/sohl/assets/icons/longbow.svg",
         Sheet: "systems/sohl/templates/item/missileweaponstrikemode-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ITEM_KIND.MOVEMENTPROFILE]: {
+        IconCssClass: "fas fa-walking",
+        Image: "systems/sohl/assets/icons/walk.svg",
+        Sheet: "systems/sohl/templates/item/movementprofile-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTERY]: {
@@ -286,13 +296,31 @@ export const {
     [ACTOR_KIND.ENTITY]: {
         IconCssClass: "fas fa-person",
         Image: "icons/svg/item-bag.svg",
-        Sheet: "systems/sohl/templates/item/entity-sheet.hbs",
+        Sheet: "systems/sohl/templates/actor/entity-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ACTOR_KIND.ASSEMBLY]: {
         IconCssClass: "fas fa-layer-group",
         Image: "systems/sohl/assets/icons/stack.svg",
-        Sheet: "systems/sohl/templates/item/assembly-sheet.hbs",
+        Sheet: "systems/sohl/templates/actor/assembly-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ACTOR_KIND.COHORT]: {
+        IconCssClass: "fas fa-layer-group",
+        Image: "systems/sohl/assets/icons/stack.svg",
+        Sheet: "systems/sohl/templates/actor/cohort-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ACTOR_KIND.STRUCTURE]: {
+        IconCssClass: "fas fa-home",
+        Image: "systems/sohl/assets/icons/home.svg",
+        Sheet: "systems/sohl/templates/actor/structure-sheet.hbs",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ACTOR_KIND.VEHICLE]: {
+        IconCssClass: "fas fa-wagon-covered",
+        Image: "systems/sohl/assets/icons/wagon.svg",
+        Sheet: "systems/sohl/templates/actor/vehicle-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
 });
@@ -316,6 +344,504 @@ export type EffectMetadata =
 
 export const EFFECT_IMAGE: string =
     "systems/sohl/assets/icons/people-group.svg";
+
+export const {
+    kind: REACTION,
+    values: Reactions,
+    isValue: isReaction,
+    labels: reactionLabels,
+} = defineType("SOHL.SohlActor.REACTION", {
+    HOSTILE: "hostile",
+    FRIENDLY: "friendly",
+    NEUTRAL: "neutral",
+});
+
+export const {
+    kind: TERRAIN,
+    values: Terrains,
+    isValue: isTerrain,
+    labels: terrainLabels,
+} = defineType("SOHL.Terrain", {
+    FLAT_PAVED_ROAD: 1,
+    FLAT_UNPAVED_ROAD: 2,
+    FLAT_RURAL_TRACK: 3,
+    FLAT_WILDERNESS_TRAIL: 4,
+    FLAT_CROPLAND_GRASSLAND: 5,
+    FLAT_MIXED_WOODLAND: 6,
+    FLAT_HEATH_MOOR: 7,
+    FLAT_NEEDLELEAF_FOREST: 8,
+    FLAT_MIXED_FOREST: 9,
+    WETLANDS: 10,
+    MARSH_SWAMP: 11,
+    BOG_FEN: 12,
+    TUNDRA: 13,
+    PERMAFROST_SCRUB: 14,
+    DESERT_DUNES: 15,
+    DESERT_SCRUB: 16,
+    DESERT_ROCK: 17,
+    DESERT_SALT_FLAT: 18,
+    SAVANNA: 19,
+    STEPPE: 20,
+    FOREST_TROPICAL_RAINFOREST: 21,
+    FOREST_TROPICAL_SEASONAL: 22,
+    FOREST_MANGROVE: 23,
+    COAST_SANDY_BEACH: 24,
+    COAST_ROCKY_SHORE: 25,
+    ICE_FLAT: 26,
+    ICE_BROKEN: 27,
+    ICE_CREVASSE_FIELD: 28,
+    ICE_SNOW_ROCK_FIELD: 29,
+    HILLY_PAVED_ROAD: 30,
+    HILLY_UNPAVED_ROAD: 31,
+    HILLY_RURAL_TRACK: 32,
+    HILLY_WILDERNESS_TRAIL: 33,
+    HILLY_CROPLAND_GRASSLAND: 34,
+    HILLY_MIXED_WOODLAND: 35,
+    HILLY_HEATH_MOOR: 36,
+    HILLY_NEEDLELEAF_FOREST: 37,
+    HILLY_MIXED_FOREST: 38,
+    HILLY_SAVANNA: 39,
+    HILLY_DESERT_SCRUB: 40,
+    HILLY_TUNDRA: 41,
+    MOUNTAIN_PAVED_ROAD: 42,
+    MOUNTAIN_UNPAVED_ROAD: 43,
+    MOUNTAIN_RURAL_TRACK: 44,
+    MOUNTAIN_WILDERNESS_TRAIL: 45,
+    MOUNTAIN_COLD_WOODLAND: 46,
+    MOUNTAIN_ALPINE_VEGETATION: 47,
+    MOUNTAIN_NEEDLELEAF_FOREST: 48,
+    MOUNTAIN_MIXED_FOREST: 49,
+    MOUNTAIN_ICE_SNOW_ROCK_FIELD: 50,
+    MOUNTAIN_DESERT_SCRUB: 51,
+    MOUNTAIN_TROPICAL_FOREST: 52,
+    MOUNTAIN_TUNDRA: 53,
+    WATER: 54,
+});
+export type Terrain = (typeof TERRAIN)[keyof typeof TERRAIN];
+
+export const {
+    kind: MOVEMENT_MODE,
+    values: MovementModes,
+    isValue: isMovementMode,
+    labels: movementModeLabels,
+} = defineType("SOHL.MovementMode", {
+    LAND: "land",
+    SWIMMING: "swimming",
+    FLYING: "flying",
+});
+export type MovementMode = (typeof MOVEMENT_MODE)[keyof typeof MOVEMENT_MODE];
+
+export const {
+    kind: BIOME,
+    values: Biomes,
+    isValue: isBiome,
+    labels: biomeLabels,
+} = defineType("SOHL.Biome", {
+    ARCTIC_ICEFIELD: 1,
+    ARCTIC_TUNDRA: 2,
+    SUBARCTIC_TAIGA: 3,
+    MOUNTAIN_ALPINE: 4,
+    PERMAFROST_SCRUB: 5,
+    TEMPERATE_GRASSLAND: 6,
+    TEMPERATE_FOREST: 7,
+    TEMPERATE_MIXED_WOODLAND: 8,
+    TEMPERATE_HEATH_MOOR: 9,
+    TEMPERATE_WETLANDS: 10,
+    TEMPERATE_MARSH: 11,
+    TEMPERATE_HILLS: 12,
+    TEMPERATE_MOUNTAINS: 13,
+    DESERT_DUNES: 14,
+    DESERT_ROCK: 15,
+    DESERT_SALT_FLAT: 16,
+    DESERT_SCRUB: 17,
+    STEPPE: 18,
+    SAVANNA: 19,
+    TROPICAL_RAINFOREST: 20,
+    TROPICAL_SEASONAL_FOREST: 21,
+    TROPICAL_SAVANNA: 22,
+    TROPICAL_MANGROVE: 23,
+    COASTAL_BEACH: 24,
+    COASTAL_ROCKY_SHORE: 25,
+    COASTAL_WETLAND: 26,
+    CORAL_ISLAND: 27,
+    OPEN_SEA: 28,
+});
+export type Biome = (typeof BIOME)[keyof typeof BIOME];
+export const DEFAULT_BIOME_SPEED_FACTORS = [
+    0.5, // ARCTIC_ICEFIELD
+    0.7, // ARCTIC_TUNDRA
+    0.8, // SUBARCTIC_TAIGA
+    0.6, // MOUNTAIN_ALPINE
+    0.75, // PERMAFROST_SCRUB
+    1.0, // TEMPERATE_GRASSLAND
+    0.9, // TEMPERATE_FOREST
+    0.9, // TEMPERATE_MIXED_WOODLAND
+    0.85, // TEMPERATE_HEATH_MOOR
+    0.7, // TEMPERATE_WETLANDS
+    0.6, // TEMPERATE_MARSH
+    0.9, // TEMPERATE_HILLS
+    0.8, // TEMPERATE_MOUNTAINS
+    0.7, // DESERT_DUNES
+    0.8, // DESERT_ROCK
+    0.9, // DESERT_SALT_FLAT
+    0.85, // DESERT_SCRUB
+    1.0, // STEPPE
+    0.95, // SAVANNA
+    0.7, // TROPICAL_RAINFOREST
+    0.8, // TROPICAL_SEASONAL_FOREST
+    0.9, // TROPICAL_SAVANNA
+    0.6, // TROPICAL_MANGROVE
+    0.8, // COASTAL_BEACH
+    0.7, // COASTAL_ROCKY_SHORE
+    0.6, // COASTAL_WETLAND
+    0.8, // CORAL_ISLAND
+    1.0, // OPEN_SEA
+];
+
+export const {
+    kind: SEASON,
+    values: Seasons,
+    isValue: isSeason,
+    labels: seasonLabels,
+} = defineType("SOHL.Season", {
+    SPRING: "spring",
+    SUMMER: "summer",
+    AUTUMN: "autumn",
+    WINTER: "winter",
+});
+export type Season = (typeof SEASON)[keyof typeof SEASON];
+
+export interface WeatherState {
+    sky: number; // WEATHER_SKY
+    temp: number; // WEATHER_TEMP
+    windDir: number; // WEATHER_WIND_DIR
+    windForce: number; // WEATHER_WIND_FORCE
+    precip: number; // WEATHER_PRECIP
+}
+
+export interface WeatherContext {
+    latDeg: number;
+    season: Season;
+}
+
+export interface BiomeWeatherProfile {
+    tempOffset?: number; // shifts WEATHER_TEMP up/down
+    precipOffset?: number; // shifts WEATHER_PRECIP up/down
+    cloudinessOffset?: number; // shifts WEATHER_SKY up/down
+    storminessOffset?: number; // shifts typical windForce up/down
+
+    /**
+     * Peak-to-mean diurnal temperature amplitude in TEMP bands.
+     * Example: 2–3 for a sandy desert, 0.5–1 for a humid jungle.
+     */
+    diurnalTempAmplitude?: number;
+
+    /**
+     * Extra cooling applied at night (in TEMP bands).
+     * Use this to exaggerate cold nights in e.g. deserts.
+     */
+    diurnalNightBias?: number;
+}
+
+export const DEFAULT_BIOME_WEATHER_PROFILE: Record<
+    number,
+    BiomeWeatherProfile
+> = {
+    // arctic / polar
+    [BIOME.ARCTIC_ICEFIELD]: {
+        tempOffset: -2,
+        cloudinessOffset: 0,
+        precipOffset: -1,
+        // Cold, high albedo, often long nights → small but real diurnal swing,
+        // with some pre-dawn cooling when there is an actual night.
+        diurnalTempAmplitude: 0.8,
+        diurnalNightBias: 0.5,
+    },
+    [BIOME.ARCTIC_TUNDRA]: {
+        tempOffset: -2,
+        cloudinessOffset: 0,
+        // Less ice cover than icefields, a bit more exposed ground → slightly
+        // larger diurnal swing than pure ice.
+        diurnalTempAmplitude: 1.5,
+        diurnalNightBias: 0.7,
+    },
+
+    // subarctic / taiga
+    [BIOME.SUBARCTIC_TAIGA]: {
+        tempOffset: -1,
+        cloudinessOffset: +1,
+        precipOffset: +1,
+        // Forest canopy damps extremes; still noticeable night-time cooling.
+        diurnalTempAmplitude: 1.0,
+        diurnalNightBias: 0.5,
+    },
+
+    // mountains & alpine
+    [BIOME.MOUNTAIN_ALPINE]: {
+        tempOffset: -1,
+        storminessOffset: +1,
+        // High, thin air → decent swings; rocks and sparse vegetation lose heat at night.
+        diurnalTempAmplitude: 1.5,
+        diurnalNightBias: 0.8,
+    },
+
+    // deserts (hot & dry)
+    [BIOME.DESERT_DUNES]: {
+        tempOffset: +1,
+        precipOffset: -3,
+        cloudinessOffset: -2,
+        // Classic sandy desert: huge day/night spread, brutal pre-dawn cold.
+        diurnalTempAmplitude: 3.0,
+        diurnalNightBias: 1.5,
+    },
+    [BIOME.DESERT_ROCK]: {
+        tempOffset: +1,
+        precipOffset: -2,
+        cloudinessOffset: -1,
+        // Rock and broken terrain: big swings, slightly less than dunes.
+        diurnalTempAmplitude: 2.5,
+        diurnalNightBias: 1.0,
+    },
+    [BIOME.DESERT_SALT_FLAT]: {
+        tempOffset: +1,
+        precipOffset: -2,
+        cloudinessOffset: -1,
+        // Very exposed, very dry; strong radiative cooling at night.
+        diurnalTempAmplitude: 3.0,
+        diurnalNightBias: 1.5,
+    },
+    [BIOME.DESERT_SCRUB]: {
+        tempOffset: +1,
+        precipOffset: -1,
+        // Semi-arid; still big swings, but moderated by vegetation.
+        diurnalTempAmplitude: 2.0,
+        diurnalNightBias: 1.0,
+    },
+
+    // grasslands / steppe / savanna
+    [BIOME.STEPPE]: {
+        tempOffset: 0,
+        precipOffset: -1,
+        // Open, often dry grassland → good swings, cool pre-dawn.
+        diurnalTempAmplitude: 2.0,
+        diurnalNightBias: 0.7,
+    },
+    [BIOME.SAVANNA]: {
+        tempOffset: +1,
+        precipOffset: 0,
+        // Warm, somewhat humid, open terrain; strong but not desert-level swings.
+        diurnalTempAmplitude: 2.5,
+        diurnalNightBias: 0.8,
+    },
+
+    // wet / tropical
+    [BIOME.TROPICAL_RAINFOREST]: {
+        tempOffset: 0,
+        precipOffset: +2,
+        cloudinessOffset: +2,
+        storminessOffset: +1,
+        // Hot, humid, very cloudy: small diurnal swings, nights still warm.
+        diurnalTempAmplitude: 1.0,
+        diurnalNightBias: 0.2,
+    },
+    [BIOME.TROPICAL_SEASONAL_FOREST]: {
+        tempOffset: 0,
+        precipOffset: +1,
+        cloudinessOffset: +1,
+        // Transitional between rainforest and savanna; moderate swings.
+        diurnalTempAmplitude: 1.5,
+        diurnalNightBias: 0.4,
+    },
+
+    // coastal
+    [BIOME.COASTAL_BEACH]: {
+        storminessOffset: +1,
+        // Water moderates temps → modest swing, mild pre-dawn cooling.
+        diurnalTempAmplitude: 1.0,
+        diurnalNightBias: 0.3,
+    },
+    [BIOME.COASTAL_ROCKY_SHORE]: {
+        storminessOffset: +1,
+        cloudinessOffset: +1,
+        // Similar to beach, maybe slightly more exposed, but ocean still damps swings.
+        diurnalTempAmplitude: 1.0,
+        diurnalNightBias: 0.3,
+    },
+    [BIOME.COASTAL_WETLAND]: {
+        precipOffset: +1,
+        cloudinessOffset: +1,
+        // Humid, often cloudy → diurnal swings modest, closer to swamp.
+        diurnalTempAmplitude: 1.0,
+        diurnalNightBias: 0.3,
+    },
+
+    // open sea / islands
+    [BIOME.CORAL_ISLAND]: {
+        precipOffset: +1,
+        storminessOffset: +1,
+        // Small landmass in warm sea: a bit more swing than open ocean, still muted.
+        diurnalTempAmplitude: 1.2,
+        diurnalNightBias: 0.4,
+    },
+    [BIOME.OPEN_SEA]: {
+        precipOffset: +1,
+        storminessOffset: +2,
+        // Huge thermal inertia: tiny diurnal temp changes, slight pre-dawn bias.
+        diurnalTempAmplitude: 0.5,
+        diurnalNightBias: 0.2,
+    },
+};
+
+export const {
+    kind: WEATHER,
+    values: Weathers,
+    isValue: isWeather,
+    labels: weatherLabels,
+} = defineType("SOHL.Weather", {
+    CLEAR: "clear",
+    PARTLY_CLOUDY: "partly_cloudy",
+    OVERCAST: "overcast",
+
+    LIGHT_RAIN: "light_rain",
+    MODERATE_RAIN: "moderate_rain",
+    HEAVY_RAIN: "heavy_rain",
+    THUNDERSTORM: "thunderstorm",
+
+    LIGHT_SNOW: "light_snow",
+    MODERATE_SNOW: "moderate_snow",
+    HEAVY_SNOW: "heavy_snow",
+    BLIZZARD: "blizzard",
+
+    FOG_LIGHT: "fog_light",
+    FOG_DENSE: "fog_dense",
+    MIST: "mist",
+
+    WIND_BREEZE: "wind_breeze",
+    WIND_STRONG: "wind_strong",
+    WIND_GALE: "wind_gale",
+    WIND_STORM: "wind_storm",
+
+    HAIL: "hail",
+    SLEET: "sleet",
+    DUST_STORM: "dust_storm",
+    SAND_STORM: "sand_storm",
+
+    EXTREME_HEAT: "extreme_heat",
+    EXTREME_COLD: "extreme_cold",
+});
+export type Weather = (typeof WEATHER)[keyof typeof WEATHER];
+
+export const {
+    kind: WEATHER_SKY,
+    values: WeatherSkies,
+    isValue: isWeatherSky,
+    labels: weatherSkyLabels,
+} = defineType("SOHL.WeatherSky", {
+    CLEAR: 0,
+    MOSTLY_CLEAR: 1,
+    PARTLY_CLOUDY: 2,
+    MOSTLY_CLOUDY: 3,
+    OVERCAST: 4,
+    FOGGY: 5,
+    HAZY: 6,
+    OBSCURED: 7,
+});
+
+export const {
+    kind: WEATHER_TEMP,
+    values: WeatherTemps,
+    isValue: isWeatherTemp,
+    labels: weatherTempLabels,
+} = defineType("SOHL.WeatherTemp", {
+    FRIGID: 0, // <= -15 degrees
+    FREEZING: 1, // <= 0 degrees
+    COLD: 2, // <= 10 degrees
+    COOL: 3, // <= 20 degrees
+    WARM: 4, // <= 30 degrees
+    HOT: 5, // <= 45 degrees
+    FURNACE: 6, // > 45 degrees
+});
+
+export const {
+    kind: WEATHER_WIND_DIR,
+    values: WeatherWindDirs,
+    isValue: isWeatherWindDir,
+    labels: weatherWindDirLabels,
+} = defineType("SOHL.WeatherWindDir", {
+    NORTH: 0,
+    NORTHEAST: 1,
+    EAST: 2,
+    SOUTHEAST: 3,
+    SOUTH: 4,
+    SOUTHWEST: 5,
+    WEST: 6,
+    NORTHWEST: 7,
+});
+
+// for this, use Beaufort scale
+export const {
+    kind: WEATHER_WIND_FORCE,
+    values: WeatherWindForces,
+    isValue: isWeatherWindForce,
+    labels: weatherWindForceLabels,
+} = defineType("SOHL.WeatherWindForce", {
+    CALM: 0,
+    LIGHT_AIR: 1,
+    LIGHT_BREEZE: 2,
+    GENTLE_BREEZE: 3,
+    MODERATE_BREEZE: 4,
+    FRESH_BREEZE: 5,
+    STRONG_BREEZE: 6,
+    NEAR_GALE: 7,
+    GALE: 8,
+    SEVERE_GALE: 9,
+    STORM: 10,
+    VIOLENT_STORM: 11,
+    HURRICANE: 12,
+});
+
+export const {
+    kind: WEATHER_PRECIP,
+    values: WeatherPrecips,
+    isValue: isWeatherPrecip,
+    labels: weatherPrecipLabels,
+} = defineType("SOHL.WeatherPrecip", {
+    NONE: 0, // 0mm per hour; dry
+    MIST: 1, // <= 0.25mm per hour
+    LIGHT: 2, // <= 2.5mm per hour
+    MODERATE: 3, // <= 7.5mm per hour
+    HEAVY: 4, // <= 15mm per hour
+    TORRENTIAL: 5, // <= 30mm per hour
+    EXTREME: 6, // > 30mm per hour
+});
+
+export const {
+    kind: WEATHER_REGIME,
+    values: WeatherRegimes,
+    isValue: isWeatherRegime,
+    labels: weatherRegimeLabels,
+} = defineType("SOHL.WeatherRegime", {
+    FAIR: 0,
+    UNSETTLED: 1,
+    STORMY: 2,
+    HEATWAVE: 3,
+    COLD_SNAP: 4,
+});
+export type WeatherRegime =
+    (typeof WEATHER_REGIME)[keyof typeof WEATHER_REGIME];
+
+export const {
+    kind: COHORT_MEMBER_ROLE,
+    values: CohortMemberRoles,
+    isValue: isCohortMemberRole,
+    labels: cohortMemberRoleLabels,
+} = defineType("SOHL.Cohort.MEMBER_ROLE", {
+    DIRECTOR: "director",
+    MEMBER: "member",
+    SUBORDINATE: "subordinate",
+});
+export type CohortMemberRole =
+    (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
 
 export const {
     kind: COMBATANT_METADATA,
@@ -897,16 +1423,16 @@ export type DomainElementCategory =
     (typeof DOMAIN_ELEMENT_CATEGORY)[keyof typeof DOMAIN_ELEMENT_CATEGORY];
 
 export const {
-    kind: EVENT_SUBTYPE,
-    values: EventSubTypes,
-    isValue: isEventSubType,
-    labels: EventSubTypeLabels,
-} = defineType("SOHL.Event.SUBTYPE", {
+    kind: ACTION_SUBTYPE,
+    values: ActionSubTypes,
+    isValue: isActionSubType,
+    labels: ActionSubTypeLabels,
+} = defineType("SOHL.Action.SUBTYPE", {
     BASIC: "basic",
     SCRIPT_ACTION: "scriptaction",
     INTRINSIC_ACTION: "intrinsicaction",
 });
-export type EventSubType = (typeof EventSubTypes)[number];
+export type ActionSubType = (typeof ActionSubTypes)[number];
 
 export const {
     kind: MYSTERY_SUBTYPE,
@@ -1101,7 +1627,7 @@ export const {
         iconClass: "fas fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevel;
+                ?.system as unknown as MasteryLevelLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1112,7 +1638,7 @@ export const {
         iconClass: "far fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevel;
+                ?.system as unknown as MasteryLevelLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1123,7 +1649,7 @@ export const {
         iconClass: "fas fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevel;
+                ?.system as unknown as MasteryLevelLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1196,7 +1722,7 @@ export const {
         iconClass: "fas fa-head-side-cough",
         condition: (header: HTMLElement): boolean => {
             const afflLogic = getContextItem(header)
-                ?.system as unknown as Affliction;
+                ?.system as unknown as AfflictionLogic;
             return afflLogic?.canTransmit;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -1247,7 +1773,7 @@ export const {
         iconClass: "fas fa-stethoscope",
         condition: (header: HTMLElement): boolean => {
             const injLogic = getContextItem(header)
-                ?.system as unknown as Injury;
+                ?.system as unknown as InjuryLogic;
             return injLogic?.data.isTreated;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -1349,10 +1875,14 @@ export const {
             const item = getContextItem(header);
             if (!item?.actor?.items) return false;
             const dodge = Itr.from(item.actor.items.values()).find(
+                // @ts-ignore
                 (it: SohlItem) =>
                     it.type === ITEM_KIND.SKILL && it.name === "Dodge",
+            ) as SohlItem | null;
+            return !!(
+                dodge &&
+                !(dodge.logic as MasteryLevelLogic).masteryLevel.disabled
             );
-            return dodge && !dodge.logic.masteryLevel.disabled;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
@@ -1395,6 +1925,189 @@ export const {
     },
 } as StrictObject<SohlContextMenu.Entry>);
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
+
+export const SOHL_DEFAULT_CALENDAR_CONFIG = {
+    name: "Default Calendar",
+    description: "The default calendar for Song of Heroic Lands.",
+    years: {
+        yearZero: 720,
+        firstWeekday: 0,
+    },
+    era: {
+        name: "SOHL.CALENDAR.DEFAULT.EraName",
+        abbrev: "SOHL.CALENDAR.DEFAULT.EraAbbr",
+        beforeName: "SOHL.CALENDAR.DEFAULT.BeforeEraName",
+        beforeAbbrev: "SOHL.CALENDAR.DEFAULT.BeforeEraAbbr",
+        description: "",
+        hasYearZero: false,
+    },
+    months: {
+        values: [
+            // Springtide, Spr, Vernal equinox; planting season begins
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Springtide",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.SpringtideAbbr",
+                ordinal: 1,
+                days: 30,
+            },
+            // Blossomreach, Blo, Flowers and bees return
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Blossomreach",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.BlossomreachAbbr",
+                ordinal: 2,
+                days: 30,
+            },
+            // Greengold, Grn, Young crops rise
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Greengold",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.GreengoldAbbr",
+                ordinal: 3,
+                days: 30,
+            },
+            // Highsun, Sun, The sun’s zenith; labor in full swing
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Highsun",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.HighsunAbbr",
+                ordinal: 4,
+                days: 30,
+            },
+            // Midsummer, Mid, Festivals, First fruits
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Midsummer",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.MidsummerAbbr",
+                ordinal: 5,
+                days: 30,
+            },
+            // Hayfall, Hay, Preparation for harvest
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Hayfall",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.HayfallAbbr",
+                ordinal: 6,
+                days: 30,
+            },
+            // Reapmoon, Rep, The main harvest
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Reapmoon",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.ReapmoonAbbr",
+                ordinal: 7,
+                days: 30,
+            },
+            // Emberwane, Emb, Smoke in the fields, turning leaves
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Emberwane",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.EmberwaneAbbr",
+                ordinal: 8,
+                days: 30,
+            },
+            // Fallmere, Fal, Final gathering before cold
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Fallmere",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.FallmereAbbr",
+                ordinal: 9,
+                days: 30,
+            },
+            // Frostwane, Frs, First frosts, fading light, herds brought in
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Frostwane",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.FrostwaneAbbr",
+                ordinal: 10,
+                days: 30,
+            },
+            // Snorest, Sno, Deep winter, Quiet, hearth, mending tools
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Snowrest",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.SnowrestAbbr",
+                ordinal: 11,
+                days: 30,
+            },
+            // Thawrise, Tha, Snows melt, life stirs, hope returns
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Thawrise",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.ThawriseAbbr",
+                ordinal: 12,
+                days: 30,
+            },
+        ],
+    },
+    days: {
+        values: [
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Oneday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.OnedayAbbr",
+                ordinal: 1,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Twoday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.TwodayAbbr",
+                ordinal: 2,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Threeday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.ThreedayAbbr",
+                ordinal: 3,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Fourday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.FourdayAbbr",
+                ordinal: 4,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Fiveday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.FivedayAbbr",
+                ordinal: 5,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Sixday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.SixdayAbbr",
+                ordinal: 6,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Sevenday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.SevendayAbbr",
+                ordinal: 7,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Eightday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.EightdayAbbr",
+                ordinal: 8,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Nineday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.NinedayAbbr",
+                ordinal: 9,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Tenday",
+                abbreviation: "SOHL.CALENDAR.DEFAULT.TendayAbbr",
+                ordinal: 10,
+            },
+        ],
+        daysPerYear: 360,
+        hoursPerDay: 24,
+        minutesPerHour: 60,
+        secondsPerMinute: 60,
+    },
+    seasons: {
+        values: [
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Spring",
+                monthStart: 1,
+                monthEnd: 3,
+            },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Summer",
+                monthStart: 4,
+                monthEnd: 6,
+            },
+            { name: "SOHL.CALENDAR.DEFAULT.Fall", monthStart: 7, monthEnd: 9 },
+            {
+                name: "SOHL.CALENDAR.DEFAULT.Winter",
+                monthStart: 10,
+                monthEnd: 12,
+            },
+        ],
+    },
+};
 
 /*
  * ============================================================
@@ -1449,5 +2162,6 @@ export function getContextItem(header: HTMLElement): SohlItem<any, any> | null {
 export function getContextLogic(element: HTMLElement): any {
     const found = element.closest(".logic") as any;
     if (!found) return null;
+    // @ts-ignore
     return fromUuidSync(found.dataset.uuid);
 }

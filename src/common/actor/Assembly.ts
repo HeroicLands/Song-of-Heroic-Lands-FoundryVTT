@@ -11,48 +11,45 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 import {
-    SohlActor,
+    SohlActorBaseLogic,
+    SohlActorData,
     SohlActorDataModel,
+    SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
 import { ACTOR_KIND } from "@utils/constants";
 const { DocumentIdField } = foundry.data.fields;
 
-export class Assembly extends SohlActor.BaseLogic implements Assembly.Logic {
+export class AssemblyLogic<
+    TData extends AssemblyData = AssemblyData,
+> extends SohlActorBaseLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Assembly {
-    export const Kind = ACTOR_KIND.ASSEMBLY;
-
-    /**
-     * The data shape for the Assembly actor.
-     */
-    export interface Logic<
-        TData extends SohlActor.Data<any> = SohlActor.Data<any>,
-    > extends SohlActor.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends SohlActor.Logic<Data> = SohlActor.Logic<any>,
-    > extends SohlActor.Data<TLogic> {
-        canonicalItemId: string | null;
-    }
+export interface AssemblyData<
+    TLogic extends SohlActorLogic<AssemblyData> = SohlActorLogic<any>,
+> extends SohlActorData<TLogic> {
+    canonicalItemId: string | null;
 }
 
 function defineAssemblyDataSchema(): foundry.data.fields.DataSchema {
@@ -83,13 +80,13 @@ type AssemblyDataSchema = ReturnType<typeof defineAssemblyDataSchema>;
 export class AssemblyDataModel<
         TSchema extends foundry.data.fields.DataSchema = AssemblyDataSchema,
         TLogic extends
-            Assembly.Logic<Assembly.Data> = Assembly.Logic<Assembly.Data>,
+            AssemblyLogic<AssemblyData> = AssemblyLogic<AssemblyData>,
     >
     extends SohlActorDataModel<TSchema, TLogic>
-    implements Assembly.Data<TLogic>
+    implements AssemblyData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["Assembly"];
-    static override readonly kind = Assembly.Kind;
+    static override readonly kind = ACTOR_KIND.ASSEMBLY;
     canonicalItemId!: string | null;
 
     static defineSchema(): foundry.data.fields.DataSchema {

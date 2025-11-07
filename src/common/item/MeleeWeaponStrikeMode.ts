@@ -11,23 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { Skill } from "@common/item/Skill";
+import type { SkillLogic } from "@common/item/Skill";
 import type { CombatModifier } from "@common/modifier/CombatModifier";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
-import { StrikeMode, StrikeModeDataModel } from "@common/item/StrikeMode";
+import {
+    StrikeModeLogic,
+    StrikeModeDataModel,
+    StrikeModeData,
+} from "@common/item/StrikeMode";
 import { ImpactAspect, ITEM_KIND, Variant, Variants } from "@utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
-export class MeleeWeaponStrikeMode<
-        TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
-    >
-    extends StrikeMode<TData>
-    implements MeleeWeaponStrikeMode.Logic
-{
+export class MeleeWeaponStrikeModeLogic<
+    TData extends MeleeWeaponStrikeModeData = MeleeWeaponStrikeModeData,
+> extends StrikeModeLogic<TData> {
     defense!: {
         block: CombatModifier;
         counterstrike: CombatModifier;
@@ -35,19 +36,23 @@ export class MeleeWeaponStrikeMode<
     length!: ValueModifier;
 
     async blockTest(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.block.successTest(context)) || null;
     }
 
     async counterstrikeTest(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.defense.counterstrike.successTest(context)) || null;
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.defense = {
             block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
@@ -62,17 +67,17 @@ export class MeleeWeaponStrikeMode<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
         if (this.assocSkill) {
             this.defense.block.addVM(
-                (this.assocSkill.logic as Skill).masteryLevel,
+                (this.assocSkill.logic as SkillLogic).masteryLevel,
                 {
                     includeBase: true,
                 },
             );
             this.defense.counterstrike.addVM(
-                (this.assocSkill.logic as Skill).masteryLevel,
+                (this.assocSkill.logic as SkillLogic).masteryLevel,
                 { includeBase: true },
             );
         }
@@ -97,44 +102,26 @@ export class MeleeWeaponStrikeMode<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace MeleeWeaponStrikeMode {
-    export const Kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
-
-    export interface Logic<
-        TData extends MeleeWeaponStrikeMode.Data = MeleeWeaponStrikeMode.Data,
-    > extends StrikeMode.Logic<TData> {
-        length: ValueModifier;
-        defense: {
-            block: CombatModifier;
-            counterstrike: CombatModifier;
-        };
-        blockTest(context: SohlEventContext): Promise<SuccessTestResult | null>;
-        counterstrikeTest(
-            context: SohlEventContext,
-        ): Promise<SuccessTestResult | null>;
-    }
-
-    export interface Data<
-        TLogic extends
-            MeleeWeaponStrikeMode.Logic<Data> = MeleeWeaponStrikeMode.Logic<any>,
-    > extends StrikeMode.Data<TLogic> {
-        subType: Variant;
-        mode: string;
-        minParts: number;
-        assocSkillName: string;
-        impactBase: {
-            numDice: number;
-            die: number;
-            modifier: number;
-            aspect: ImpactAspect;
-        };
-        lengthBase: number;
-    }
+export interface MeleeWeaponStrikeModeData<
+    TLogic extends
+        MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> = MeleeWeaponStrikeModeLogic<any>,
+> extends StrikeModeData<TLogic> {
+    subType: Variant;
+    mode: string;
+    minParts: number;
+    assocSkillName: string;
+    impactBase: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
+    lengthBase: number;
 }
 
 function defineMeleeWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -161,15 +148,13 @@ export class MeleeWeaponStrikeModeDataModel<
         TSchema extends
             foundry.data.fields.DataSchema = MeleeWeaponStrikeModeSchema,
         TLogic extends
-            MeleeWeaponStrikeMode.Logic<MeleeWeaponStrikeMode.Data> = MeleeWeaponStrikeMode.Logic<
-            MeleeWeaponStrikeMode.Data<MeleeWeaponStrikeMode.Logic<any>>
-        >,
+            MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> = MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData>,
     >
     extends StrikeModeDataModel<TSchema, TLogic>
-    implements MeleeWeaponStrikeMode.Data
+    implements MeleeWeaponStrikeModeData
 {
-    static readonly LOCALIZATION_PREFIXES = ["MELEEWEAPONSTRIKEMODE"];
-    static override readonly kind = MeleeWeaponStrikeMode.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["MeleeWeaponStrikeMode"];
+    static override readonly kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
     subType!: Variant;
     lengthBase!: number;
 

@@ -11,135 +11,60 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { ActionData } from "@common/item/Action";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
+    ACTION_SUBTYPE,
     defineType,
     IMPACT_ASPECT,
     ImpactAspect,
     ImpactAspects,
     ITEM_KIND,
+    SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-
 import {
-    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { SohlIntrinsicAction } from "@common/event/SohlIntrinsicAction";
-import { toDocumentId } from "@utils/helpers";
+import { serializeFn } from "@utils/helpers";
 const { NumberField, BooleanField, StringField, DocumentIdField } =
     foundry.data.fields;
 
-export class Injury<TData extends Injury.Data = Injury.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements Injury.Logic<TData>
-{
+export class InjuryLogic<
+    TData extends InjuryData = InjuryData,
+> extends SohlItemBaseLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Injury {
-    export const Kind = ITEM_KIND.INJURY;
-
-    export const {
-        kind: SHOCK,
-        values: Shock,
-        isValue: isShock,
-    } = defineType("SOHL.Injury.SHOCK", {
-        NONE: 0,
-        STUNNED: 1,
-        INCAPACITATED: 2,
-        UNCONCIOUS: 3,
-        KILLED: 4,
-    });
-    export type Shock = (typeof SHOCK)[keyof typeof SHOCK];
-
-    export const UNTREATED = {
-        hr: 4,
-        infect: true,
-        bleed: false,
-        impair: false,
-        newInj: -1,
-    } as const;
-
-    export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
-
-    export interface Logic<TData extends Data<any> = Data<any>>
-        extends SohlItem.Logic<TData> {}
-
-    export interface Data<TLogic extends Injury.Logic<any> = Injury.Logic<any>>
-        extends SohlItem.Data<TLogic> {
-        injuryLevelBase: number;
-        healingRateBase: number;
-        aspect: ImpactAspect;
-        isTreated: boolean;
-        isBleeding: boolean;
-        bodyLocationId: string;
-    }
-
-    export const {
-        kind: INTRINSIC_ACTION,
-        values: IntrinsicActions,
-        isValue: isIntrinsicAction,
-        labels: IntrinsicActionLabels,
-    } = defineType("SOHL.Injury.INTRINSIC_ACTION", {
-        TREATMENTTEST: {
-            id: toDocumentId("xdaddG1n1zCv2csz"),
-            label: "SOHL.Injury.INTRINSIC_ACTION.TREATMENTTEST",
-            functionName: "treatmentTest",
-            iconFAClass: "fas fa-staff-snake",
-            condition: (header: HTMLElement) => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const physician = item?.actor?.getSkillByAbbrev("pysn");
-                // return physician && !physician.system.$masteryLevel.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-        },
-        HEALINGTEST: {
-            id: toDocumentId("IRgKV04alJdTzFVp"),
-            label: "SOHL.Injury.INTRINSIC_ACTION.HEALINGTEST",
-            functionName: "healingTest",
-            iconFAClass: "fas fa-heart-pulse",
-            condition: (header: HTMLElement) => {
-                // FIXME: This is a temporary fix to allow opposed tests to be
-                // started from the item header. It should be replaced with a
-                // proper implementation that allows opposed tests to be started
-                // from any item in the context menu.
-                return true;
-                // const item = cast<BaseItem>(
-                //     SohlContextMenu._getContextItem(header),
-                // );
-                // if (item?.system.isBleeding) return false;
-                // const endurance = item?.actor?.getTraitByAbbrev("end");
-                // return endurance && !endurance.system.$masteryLevel.disabled;
-            },
-            group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            foo: "",
-        },
-    } as StrictObject<Partial<SohlIntrinsicAction.Data>>);
-    export type IntrinsicAction =
-        (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
+export interface InjuryData<
+    TLogic extends InjuryLogic<InjuryData> = InjuryLogic<any>,
+> extends SohlItemData<TLogic> {
+    injuryLevelBase: number;
+    healingRateBase: number;
+    aspect: ImpactAspect;
+    isTreated: boolean;
+    isBleeding: boolean;
+    bodyLocationId: string;
 }
 
 function defineInjuryDataSchema(): foundry.data.fields.DataSchema {
@@ -169,13 +94,13 @@ type InjuryDataSchema = ReturnType<typeof defineInjuryDataSchema>;
 
 export class InjuryDataModel<
         TSchema extends foundry.data.fields.DataSchema = InjuryDataSchema,
-        TLogic extends Injury.Logic<Injury.Data> = Injury.Logic<Injury.Data>,
+        TLogic extends InjuryLogic<InjuryData> = InjuryLogic<InjuryData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements Injury.Data<TLogic>
+    implements InjuryData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["Injury"];
-    static override readonly kind = Injury.Kind;
+    static override readonly kind = ITEM_KIND.INJURY;
     injuryLevelBase!: number;
     healingRateBase!: number;
     aspect!: ImpactAspect;
@@ -203,3 +128,78 @@ export class InjurySheet extends SohlItemSheetBase {
         return context;
     }
 }
+
+export const {
+    kind: SHOCK,
+    values: Shock,
+    isValue: isShock,
+} = defineType("SOHL.Injury.SHOCK", {
+    NONE: 0,
+    STUNNED: 1,
+    INCAPACITATED: 2,
+    UNCONCIOUS: 3,
+    KILLED: 4,
+});
+export type Shock = (typeof SHOCK)[keyof typeof SHOCK];
+
+export const UNTREATED = {
+    hr: 4,
+    infect: true,
+    bleed: false,
+    impair: false,
+    newInj: -1,
+} as const;
+
+export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
+
+export const {
+    kind: INTRINSIC_ACTION,
+    values: IntrinsicActions,
+    isValue: isIntrinsicAction,
+    labels: IntrinsicActionLabels,
+} = defineType("SOHL.Injury.INTRINSIC_ACTION", {
+    TREATMENTTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        title: "SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-staff-snake",
+        executor: "treatmentTest",
+        visible: serializeFn((header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const physician = item?.actor?.getSkillByAbbrev("pysn");
+            // return physician && !physician.system.$masteryLevel.disabled;
+        }),
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    HEALINGTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        title: "SOHL.Injury.INTRINSIC_ACTION.healingtest.title",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-heart-pulse",
+        executor: "healingTest",
+        visible: serializeFn((header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const endurance = item?.actor?.getTraitByAbbrev("end");
+            // return endurance && !endurance.system.$masteryLevel.disabled;
+        }),
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+} as StrictObject<Partial<ActionData>>);
+export type IntrinsicAction =
+    (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];

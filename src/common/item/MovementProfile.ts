@@ -14,17 +14,24 @@
 import type { SohlActionContext } from "@common/SohlActionContext";
 
 import {
+    SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemDataModel,
     SohlItemLogic,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { ITEM_KIND } from "@utils/constants";
-const { StringField, NumberField } = foundry.data.fields;
+import {
+    ITEM_KIND,
+    MOVEMENT_MODE,
+    MovementMode,
+    MovementModes,
+} from "@utils/constants";
+const { StringField, NumberField, BooleanField, ArrayField } =
+    foundry.data.fields;
 
-export class AffiliationLogic<
-    TData extends AffiliationData = AffiliationData,
+export class MovementProfileLogic<
+    TData extends MovementProfileData = MovementProfileData,
 > extends SohlItemBaseLogic<TData> {
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -46,53 +53,70 @@ export class AffiliationLogic<
     }
 }
 
-export interface AffiliationData<
-    TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
+export interface MovementProfileData<
+    TLogic extends SohlItemLogic<MovementProfileData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
-    society: string;
-    office: string;
-    title: string;
-    level: number;
+    mode: MovementMode;
+
+    /** Tactical movement: meters per round (not terrain-specific) */
+    metersPerRound: number;
+
+    /** Overland movement: meters per watch per terrain type */
+    metersPerWatch: number[];
+
+    disabled: boolean;
 }
 
-function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
+function defineMovementProfileDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        society: new StringField(),
-        office: new StringField(),
-        title: new StringField(),
-        level: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
+        mode: new StringField({
+            required: true,
+            choices: MovementModes,
+            initial: MOVEMENT_MODE.LAND,
         }),
+        metersPerRound: new NumberField({
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        metersPerWatch: new ArrayField(
+            new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        ),
+        disabled: new BooleanField({ initial: false }),
     };
 }
 
-type SohlAffiliationDataSchema = ReturnType<typeof defineAffiliationDataSchema>;
+type SohlMovementProfileDataSchema = ReturnType<
+    typeof defineMovementProfileDataSchema
+>;
 
-export class AffiliationDataModel<
+export class MovementProfileDataModel<
         TSchema extends
-            foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
+            foundry.data.fields.DataSchema = SohlMovementProfileDataSchema,
         TLogic extends
-            AffiliationLogic<AffiliationData> = AffiliationLogic<AffiliationData>,
+            MovementProfileLogic<MovementProfileData> = MovementProfileLogic<MovementProfileData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements AffiliationData<TLogic>
+    implements MovementProfileData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
-    static override readonly kind = ITEM_KIND.AFFILIATION;
-    society!: string;
-    office!: string;
-    title!: string;
-    level!: number;
+    static override readonly LOCALIZATION_PREFIXES = ["MovementProfile"];
+    static override readonly kind = ITEM_KIND.MOVEMENTPROFILE;
+    mode!: MovementMode;
+    metersPerRound!: number;
+    metersPerWatch!: number[];
+    disabled!: boolean;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
-        return defineAffiliationDataSchema();
+        return defineMovementProfileDataSchema();
     }
 }
 
-export class AffiliationSheet extends SohlItemSheetBase {
+export class MovementProfileSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
         properties: {

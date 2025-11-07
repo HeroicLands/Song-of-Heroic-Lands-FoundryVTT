@@ -12,7 +12,7 @@
  */
 
 import type { SohlItem } from "@common/item/SohlItem";
-import type { Trait } from "@common/item/Trait";
+import type { TraitLogic } from "@common/item/Trait";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
 
 export class SkillBase {
@@ -48,11 +48,11 @@ export class SkillBase {
     }
 
     setAttributes(items: SohlItem[] = []): void {
-        const attributes: Trait.Data[] = [];
+        const attributes: TraitLogic.Data[] = [];
         for (const it of items) {
-            const itData: Trait.Data | null =
+            const itData: TraitLogic.Data | null =
                 it.type === ITEM_KIND.TRAIT ?
-                    (it.system as unknown as Trait.Data)
+                    (it.system as unknown as TraitLogic.Data)
                 :   null;
             if (
                 itData?.intensity === TRAIT_INTENSITY.ATTRIBUTE &&

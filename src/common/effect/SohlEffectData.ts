@@ -12,7 +12,7 @@
  */
 
 import { SohlLogic } from "@common/SohlLogic";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SohlDataModel } from "@common/SohlDataModel";
@@ -26,13 +26,13 @@ export class SohlEffectData
     implements SohlEffectData.Logic
 {
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {}
+    override initialize(context: SohlActionContext): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {}
+    override evaluate(context: SohlActionContext): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {}
+    override finalize(context: SohlActionContext): void {}
 }
 
 export namespace SohlEffectData {
@@ -49,9 +49,7 @@ export namespace SohlEffectData {
     export const Image = "systems/sohl/assets/icons/people-group.svg";
 
     function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
-        return {
-            ...SohlDataModel.defineSchema(),
-        };
+        return {};
     }
 
     type SohlActiveEffectDataSchema = ReturnType<

@@ -18,7 +18,7 @@ import type { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
-import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlActionContext } from "@common/SohlActionContext";
 
 // TODO: This needs to be internationalized
 const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -188,7 +188,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * if there was an error during the test, or the result of the success test.
      */
     async successTest(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null | false> {
         const scope: Partial<SuccessTestResult.ContextScope> = {
             ...(context.scope ?? {}),
@@ -285,7 +285,7 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     async successValueTest(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null | false> {
         const scope: Partial<SuccessTestResult.ContextScope> = {
             ...(context.scope ?? {}),
@@ -293,7 +293,7 @@ export class MasteryLevelModifier extends ValueModifier {
             successStarTable: this.testDescTable,
         };
 
-        const svTestContext = new SohlEventContext({
+        const svTestContext = new SohlActionContext({
             speaker: context.speaker,
             type: `${this.parent.data.kind}-${this.parent.name}-success-value-test`,
             title: sohl.i18n.format(
@@ -333,7 +333,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * @returns {SuccessTestChatData}
      */
     async opposedTestStart(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<OpposedTestResult | null> {
         const scope: Partial<OpposedTestResult.ContextScope> =
             context.scope || {};
@@ -398,7 +398,7 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     async opposedTestResume(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<OpposedTestResult | false | null> {
         const scope: Partial<OpposedTestResult.ContextScope> =
             context.scope || {};

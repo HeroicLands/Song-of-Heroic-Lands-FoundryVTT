@@ -18,20 +18,25 @@ import {
     Variants,
     Variant,
 } from "@utils/constants";
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { CombatModifier } from "@common/modifier/CombatModifier";
 import type { ImpactModifier } from "@common/modifier/ImpactModifier";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { Gear } from "@common/item/Gear";
-import type { Skill } from "@common/item/Skill";
+import type { GearLogic } from "@common/item/Gear";
+import type { SkillLogic } from "@common/item/Skill";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { SohlItem, SohlItemDataModel } from "@common/item/SohlItem";
+import {
+    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
+    SohlItemDataModel,
+} from "@common/item/SohlItem";
 import { isGearItem } from "@utils/helpers";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
 
-export abstract class StrikeMode<
-    TData extends StrikeMode.Data = StrikeMode.Data,
-> extends SohlItem.BaseLogic<TData> {
+export abstract class StrikeModeLogic<
+    TData extends StrikeModeData = StrikeModeData,
+> extends SohlItemBaseLogic<TData> {
     traits!: PlainObject;
     assocSkill?: SohlItem;
     impact!: ImpactModifier;
@@ -39,13 +44,17 @@ export abstract class StrikeMode<
     durability!: ValueModifier;
 
     async attackTest(
-        context: SohlEventContext,
+        context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
         return (await this.attack.successTest(context)) || null;
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.traits = {
             noAttack: false,
@@ -55,12 +64,12 @@ export abstract class StrikeMode<
         this.attack = sohl.CONFIG.CombatModifier({}, { parent: this });
         this.durability = sohl.CONFIG.ValueModifier({}, { parent: this });
         this.impact.base = this.data.impactBase;
-        const skills: Skill[] =
+        const skills: SkillLogic[] =
             this.actor?.itemTypes.skill.map(
-                (it) => (it as any).logic as Skill,
+                (it) => (it as any).logic as SkillLogic,
             ) || [];
         const skill = skills.find(
-            (s: Skill) => s.name === this.data.assocSkillName,
+            (s: SkillLogic) => s.name === this.data.assocSkillName,
         );
         if (skill) {
             this.assocSkill = skill.item;
@@ -76,45 +85,34 @@ export abstract class StrikeMode<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
         if (this.item && isGearItem(this.item)) {
             this.durability.addVM(
-                (this.nestedIn?.logic as Gear.Logic).durability,
+                (this.nestedIn?.logic as GearLogic).durability,
             );
         }
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace StrikeMode {
-    export interface Logic<TData extends StrikeMode.Data = StrikeMode.Data>
-        extends SohlItem.Logic<TData> {
-        traits: PlainObject;
-        assocSkill?: SohlItem;
-        impact: ImpactModifier;
-        attack: CombatModifier;
-        durability: ValueModifier;
-    }
-
-    export interface Data<
-        TLogic extends StrikeMode.Logic<Data> = StrikeMode.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        subType: Variant;
-        mode: string;
-        minParts: number;
-        assocSkillName: string;
-        impactBase: {
-            numDice: number;
-            die: number;
-            modifier: number;
-            aspect: ImpactAspect;
-        };
-    }
+export interface StrikeModeData<
+    TLogic extends StrikeModeLogic<StrikeModeData> = StrikeModeLogic<any>,
+> extends SohlItemData<TLogic> {
+    subType: Variant;
+    mode: string;
+    minParts: number;
+    assocSkillName: string;
+    impactBase: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
 }
 
 function defineStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -160,10 +158,10 @@ type StrikeModeSchema = ReturnType<typeof defineStrikeModeSchema>;
 export abstract class StrikeModeDataModel<
         TSchema extends foundry.data.fields.DataSchema = StrikeModeSchema,
         TLogic extends
-            StrikeMode.Logic<StrikeMode.Data> = StrikeMode.Logic<StrikeMode.Data>,
+            StrikeModeLogic<StrikeModeData> = StrikeModeLogic<StrikeModeData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements StrikeMode.Data<TLogic>
+    implements StrikeModeData<TLogic>
 {
     subType!: Variant;
     mode!: string;

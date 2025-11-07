@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
@@ -19,46 +19,41 @@ import {
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@utils/constants";
-import { StrikeMode, StrikeModeDataModel } from "./StrikeMode";
+import {
+    StrikeModeLogic,
+    StrikeModeDataModel,
+    StrikeModeData,
+} from "./StrikeMode";
 const { StringField } = foundry.data.fields;
 
-export class MissileWeaponStrikeMode<
-        TData extends
-            MissileWeaponStrikeMode.Data = MissileWeaponStrikeMode.Data,
-    >
-    extends StrikeMode<TData>
-    implements MissileWeaponStrikeMode.Logic
-{
+export class MissileWeaponStrikeModeLogic<
+    TData extends MissileWeaponStrikeModeData = MissileWeaponStrikeModeData,
+> extends StrikeModeLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace MissileWeaponStrikeMode {
-    export const Kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
-
-    export interface Logic<
-        TData extends
-            MissileWeaponStrikeMode.Data = MissileWeaponStrikeMode.Data,
-    > extends StrikeMode.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends
-            MissileWeaponStrikeMode.Logic<Data> = MissileWeaponStrikeMode.Logic<any>,
-    > extends StrikeMode.Data<TLogic> {
-        projectileType: ProjectileGearSubType;
-    }
+export interface MissileWeaponStrikeModeData<
+    TLogic extends
+        MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> = MissileWeaponStrikeModeLogic<any>,
+> extends StrikeModeData<TLogic> {
+    projectileType: ProjectileGearSubType;
 }
 
 function defineMissileWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -80,15 +75,17 @@ export class MissileWeaponStrikeModeDataModel<
         TSchema extends
             foundry.data.fields.DataSchema = MissileWeaponStrikeModeSchema,
         TLogic extends
-            MissileWeaponStrikeMode.Logic<MissileWeaponStrikeMode.Data> = MissileWeaponStrikeMode.Logic<
-            MissileWeaponStrikeMode.Data<MissileWeaponStrikeMode.Logic<any>>
+            MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> = MissileWeaponStrikeModeLogic<
+            MissileWeaponStrikeModeData<MissileWeaponStrikeModeLogic<any>>
         >,
     >
     extends StrikeModeDataModel<TSchema, TLogic>
-    implements MissileWeaponStrikeMode.Data
+    implements MissileWeaponStrikeModeData
 {
-    static readonly LOCALIZATION_PREFIXES = ["MELEEWEAPONSTRIKEMODE"];
-    static override readonly kind = MissileWeaponStrikeMode.Kind;
+    static override readonly LOCALIZATION_PREFIXES = [
+        "MissileWeaponStrikeMode",
+    ];
+    static override readonly kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
     projectileType!: ProjectileGearSubType;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

@@ -12,7 +12,7 @@
  */
 
 import type { SohlActor } from "@common/actor/SohlActor";
-import type { Skill } from "@common/item/Skill";
+import type { SkillLogic } from "@common/item/Skill";
 import type { SohlItem } from "@common/item/SohlItem";
 
 export class SohlCombatant<
@@ -36,7 +36,7 @@ export class SohlCombatant<
         if (this.actor) {
             const init = this.actor.allItemTypes.skill.find(
                 (s) => (s.system as any).abbrev === "init",
-            ) as unknown as SohlItem<Skill>;
+            ) as unknown as SohlItem<SkillLogic>;
             if (init) {
                 return String(init.logic.masteryLevel.effective);
             }

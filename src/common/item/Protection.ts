@@ -11,34 +11,33 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
-import type { ArmorGear } from "@common/item/ArmorGear";
-import type { BodyLocation } from "./BodyLocation";
+import type { SohlActionContext } from "@common/SohlActionContext";
+import type { ArmorGearData } from "@common/item/ArmorGear";
+import type { BodyLocationLogic } from "@common/item/BodyLocation";
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import {
-    IMPACT_ASPECT,
-    ImpactAspects,
-    ITEM_KIND,
-    Variant,
-    Variants,
-} from "@utils/constants";
+import { ImpactAspects, ITEM_KIND, Variant, Variants } from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { StringField, SchemaField, NumberField } = foundry.data.fields;
 
-export class Protection<TData extends Protection.Data = Protection.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements Protection.Logic<TData>
-{
+export class ProtectionLogic<
+    TData extends ProtectionData = ProtectionData,
+> extends SohlItemBaseLogic<TData> {
     bodyLocations!: SohlItem[];
     protection!: StrictObject<ValueModifier>;
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.bodyLocations = [];
         this.protection = Object.fromEntries(
@@ -51,11 +50,11 @@ export class Protection<TData extends Protection.Data = Protection.Data>
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         if (!this.item.nestedIn || this.data.subType !== sohl.id) return;
         super.evaluate(context);
         const armorGear = this.nestedIn as unknown as SohlItem;
-        const armorGearData = armorGear!.system as ArmorGear.Data;
+        const armorGearData = armorGear!.system as ArmorGearData;
 
         if (
             armorGear.type === ITEM_KIND.ARMORGEAR &&
@@ -75,7 +74,7 @@ export class Protection<TData extends Protection.Data = Protection.Data>
         }
 
         this.bodyLocations.forEach((bl) => {
-            const blLogic = bl.logic as BodyLocation.Logic;
+            const blLogic = bl.logic as BodyLocationLogic;
             ImpactAspects.forEach((aspect) => {
                 if (this.protection[aspect].effective)
                     blLogic.protection[aspect]?.add(
@@ -99,27 +98,16 @@ export class Protection<TData extends Protection.Data = Protection.Data>
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Protection {
-    export const Kind = ITEM_KIND.PROTECTION;
-
-    export interface Logic<
-        TData extends Protection.Data<any> = Protection.Data<any>,
-    > extends SohlItem.Logic<TData> {
-        bodyLocations: SohlItem[];
-        protection: StrictObject<ValueModifier>;
-    }
-
-    export interface Data<
-        TLogic extends Protection.Logic<Data> = Protection.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        subType: Variant;
-        protectionBase: StrictObject<number>;
-    }
+export interface ProtectionData<
+    TLogic extends ProtectionLogic<ProtectionData> = ProtectionLogic<any>,
+> extends SohlItemData<TLogic> {
+    subType: Variant;
+    protectionBase: StrictObject<number>;
 }
 
 function defineProtectionDataSchema(): foundry.data.fields.DataSchema {
@@ -151,13 +139,13 @@ type ProtectionDataSchema = ReturnType<typeof defineProtectionDataSchema>;
 export class ProtectionDataModel<
         TSchema extends foundry.data.fields.DataSchema = ProtectionDataSchema,
         TLogic extends
-            Protection.Logic<Protection.Data> = Protection.Logic<Protection.Data>,
+            ProtectionLogic<ProtectionData> = ProtectionLogic<ProtectionData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements Protection.Data<TLogic>
+    implements ProtectionData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["Protection"];
-    static override readonly kind = Protection.Kind;
+    static override readonly kind = ITEM_KIND.PROTECTION;
     subType!: Variant;
     protectionBase!: StrictObject<number>;
 

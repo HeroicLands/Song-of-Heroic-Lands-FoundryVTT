@@ -19,7 +19,13 @@ import {
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
 import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
-import { ActorKinds, ItemKinds, LOGLEVEL, LogLevel } from "@utils/constants";
+import {
+    ActorKinds,
+    DEFAULT_BIOME_SPEED_FACTORS,
+    ItemKinds,
+    LOGLEVEL,
+    LogLevel,
+} from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
 import type { SohlSpeaker } from "@common/SohlSpeaker";
 
@@ -174,6 +180,14 @@ function registerSystemSettings() {
         type: Boolean,
         default: false,
     });
+    game.settings.register("sohl", "biomeSpeedFactors", {
+        name: "Biome Speed Factors",
+        hint: "Multipliers for base movement speed by biome. 1.0 = normal speed.",
+        scope: "world",
+        config: true,
+        type: Array,
+        default: DEFAULT_BIOME_SPEED_FACTORS,
+    });
     game.settings.register("sohl", "logThreshold", {
         name: "Log Level Threshold",
         scope: "world",
@@ -315,14 +329,6 @@ Hooks.once("init", () => {
 Hooks.once("ready", async () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
-});
-
-// FIXME: Simple Calendar is no longer supported!
-Hooks.once("simpleCalendarReady" as any, async () => {
-    SohlSystem.simpleCalendar = (game as any).modules.get(
-        "foundryvtt-simple-calendar",
-    );
-    console.log("📅 Simple Calendar is ready!");
 });
 
 /*-------------------------------------------------------*/

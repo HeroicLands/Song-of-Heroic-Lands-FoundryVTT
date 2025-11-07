@@ -14,7 +14,7 @@
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlItem } from "@common/item/SohlItem";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SohlEventContext } from "@common/event/SohlEventContext";
+import { SohlActionContext } from "@common/SohlActionContext";
 import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
@@ -23,10 +23,9 @@ import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
-const { SearchFilter } = foundry.applications.ux;
 
 export class SohlActor<
-    TLogic extends SohlActor.Logic<any> = SohlActor.Logic<any>,
+    TLogic extends SohlActorLogic<any> = SohlActorLogic<any>,
     SubType extends Actor.SubType = Actor.SubType,
 > extends Actor<SubType> {
     private _allItemsMap?: SohlMap<string, SohlItem>;
@@ -179,8 +178,8 @@ export class SohlActor<
         return linkedTokens[0] ?? null;
     }
 
-    protected _getContext(token?: TokenDocument): SohlEventContext {
-        return new SohlEventContext({
+    protected _getContext(token?: TokenDocument): SohlActionContext {
+        return new SohlActionContext({
             speaker: this.getSpeaker(token),
         });
     }
@@ -446,34 +445,33 @@ export class SohlActor<
     }
 }
 
-export namespace SohlActor {
-    export interface Data<TLogic extends SohlLogic<any> = SohlLogic<any>>
-        extends SohlDataModel.Data<SohlActor, TLogic> {
-        label(options?: { withName: boolean }): string;
-        biography: HTMLString;
-        description: HTMLString;
-        bioImage: FilePath;
-        textReference: string;
-    }
+export interface SohlActorLogic<TData extends SohlDataModel.Data<SohlActor>>
+    extends SohlLogic<TData> {
+    virtualItems: SohlMap<string, SohlItem>;
+}
 
-    export interface Logic<TData extends SohlDataModel.Data<SohlActor>>
-        extends SohlLogic<TData> {
-        virtualItems: SohlMap<string, SohlItem>;
-    }
+export interface SohlActorData<TLogic extends SohlLogic<any> = SohlLogic<any>>
+    extends SohlDataModel.Data<SohlActor, TLogic> {
+    label(options?: { withName: boolean }): string;
+    biography: HTMLString;
+    description: HTMLString;
+    bioImage: FilePath;
+    textReference: string;
+}
 
-    export class BaseLogic extends SohlLogic<Data> implements Logic<Data> {
-        virtualItems!: SohlMap<string, SohlItem>;
-        override initialize(context?: SohlEventContext): void {
-            this.virtualItems = new SohlMap<string, SohlItem>();
-        }
-        override evaluate(context?: SohlEventContext): void {}
-        override finalize(context?: SohlEventContext): void {}
+export class SohlActorBaseLogic<
+    TData extends SohlActorData = SohlActorData,
+> extends SohlLogic<TData> {
+    virtualItems!: SohlMap<string, SohlItem>;
+    override initialize(context?: SohlActionContext): void {
+        this.virtualItems = new SohlMap<string, SohlItem>();
     }
+    override evaluate(context?: SohlActionContext): void {}
+    override finalize(context?: SohlActionContext): void {}
 }
 
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
-        ...SohlDataModel.defineSchema(),
         bioImage: new FilePathField({
             categories: ["IMAGE"],
             initial: foundry.CONST.DEFAULT_TOKEN,
@@ -489,10 +487,10 @@ type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
 export abstract class SohlActorDataModel<
         TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
         TLogic extends
-            SohlActor.Logic<SohlActor.Data> = SohlActor.Logic<SohlActor.Data>,
+            SohlActorLogic<SohlActorData> = SohlActorLogic<SohlActorData>,
     >
     extends SohlDataModel<TSchema, SohlActor, TLogic>
-    implements SohlActor.Data<TLogic>
+    implements SohlActorData<TLogic>
 {
     biography!: HTMLString;
     description!: HTMLString;
@@ -813,43 +811,43 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
         }
     }
 
-    protected _filters: SearchFilter[] = [
-        new SearchFilter({
+    protected _filters: foundry.applications.ux.SearchFilter[] = [
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-traits"]',
             contentSelector: ".traits",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-skills"]',
             contentSelector: ".skills",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-bodylocations"]',
             contentSelector: ".bodylocations-list",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-afflictions"]',
             contentSelector: ".afflictions-list",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-mysteries"]',
             contentSelector: ".mysteries-list",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-mysticalabilities"]',
             contentSelector: ".mysticalabilities-list",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-gear"]',
             contentSelector: ".gear-list",
             callback: this._displayFilteredResults.bind(this),
         }),
-        new SearchFilter({
+        new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-effects"]',
             contentSelector: ".effects-list",
             callback: this._displayFilteredResults.bind(this),

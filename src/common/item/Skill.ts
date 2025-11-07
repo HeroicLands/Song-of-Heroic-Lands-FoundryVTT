@@ -11,9 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
-import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
+import {
+    MasteryLevelLogic,
+    MasteryLevelDataModel,
+    MasteryLevelData,
+} from "@common/item/MasteryLevel";
 import {
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
@@ -22,42 +26,39 @@ import {
     SKILL_SUBTYPE,
     ITEM_KIND,
 } from "@utils/constants";
-import { MysticalAbility } from "./MysticalAbility";
 const { StringField } = foundry.data.fields;
 
-export class Skill<TData extends Skill.Data = Skill.Data>
-    extends MasteryLevel<TData>
-    implements Skill.Logic<TData>
+export class SkillLogic<TData extends SkillData = SkillData>
+    extends MasteryLevelLogic<TData>
+    implements SkillLogic<TData>
 {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Skill {
-    export const Kind = ITEM_KIND.SKILL;
-
-    export interface Logic<TData extends Skill.Data = Skill.Data>
-        extends MasteryLevel.Logic<TData> {}
-
-    export interface Data<TLogic extends Skill.Logic<Data> = Skill.Logic<any>>
-        extends MasteryLevel.Data<TLogic> {
-        subType: SkillSubType;
-        weaponGroup: string;
-        baseSkill: string;
-        domain: string;
-    }
+export interface SkillData<
+    TLogic extends SkillLogic<SkillData> = SkillLogic<any>,
+> extends MasteryLevelData<TLogic> {
+    subType: SkillSubType;
+    weaponGroup: string;
+    baseSkill: string;
+    domain: string;
 }
 
 function defineSkillSchema(): foundry.data.fields.DataSchema {
@@ -82,12 +83,12 @@ type SkillSchema = ReturnType<typeof defineSkillSchema>;
 
 export class SkillDataModel<
         TSchema extends foundry.data.fields.DataSchema = SkillSchema,
-        TLogic extends Skill.Logic<Skill.Data> = Skill.Logic<Skill.Data>,
+        TLogic extends SkillLogic<SkillData> = SkillLogic<SkillData>,
     >
     extends MasteryLevelDataModel<TSchema, TLogic>
-    implements Skill.Data<TLogic>
+    implements SkillData<TLogic>
 {
-    static override readonly kind = Skill.Kind;
+    static override readonly kind = SkillLogic.Kind;
     static override readonly LOCALIZATION_PREFIXES = ["SKILL"];
     subType!: SkillSubType;
     weaponGroup!: string;

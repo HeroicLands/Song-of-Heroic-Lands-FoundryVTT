@@ -11,9 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import { MasteryLevel, MasteryLevelDataModel } from "@common/item/MasteryLevel";
+import {
+    MasteryLevelLogic,
+    MasteryLevelDataModel,
+    MasteryLevelData,
+} from "@common/item/MasteryLevel";
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
@@ -42,11 +46,11 @@ const { SchemaField, NumberField, StringField, BooleanField } =
  *   Alchemy: Create alchemical elixirs or perform actions
  *   Divination: Foretelling the future
  */
-export class MysticalAbility<
-        TData extends MysticalAbility.Data = MysticalAbility.Data,
+export class MysticalAbilityLogic<
+        TData extends MysticalAbilityData = MysticalAbilityData,
     >
-    extends MasteryLevel<TData>
-    implements MysticalAbility.Logic<TData>
+    extends MasteryLevelLogic<TData>
+    implements MysticalAbilityLogic<TData>
 {
     assocSkill?: SohlItem;
     domain?: SohlItem;
@@ -56,8 +60,12 @@ export class MysticalAbility<
         max: ValueModifier;
     };
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    initialize(context: SohlEventContext): void {
+    initialize(context: SohlActionContext): void {
         super.initialize(context);
         if (this.data.assocSkill) {
             this.assocSkill = this.actor?.allItems.find(
@@ -81,47 +89,32 @@ export class MysticalAbility<
     }
 
     /** @inheritdoc */
-    evaluate(context: SohlEventContext): void {
+    evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    finalize(context: SohlEventContext): void {
+    finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace MysticalAbility {
-    export const Kind = ITEM_KIND.MYSTICALABILITY;
-
-    export interface Logic<
-        TData extends MysticalAbility.Data = MysticalAbility.Data,
-    > extends MasteryLevel.Logic<TData> {
-        assocSkill?: SohlItem;
-        domain?: SohlItem;
-        level: ValueModifier;
-        charges: {
-            value: ValueModifier;
-            max: ValueModifier;
-        };
-    }
-
-    export interface Data<
-        TLogic extends MysticalAbility.Logic<Data> = MysticalAbility.Logic<any>,
-    > extends MasteryLevel.Data<TLogic> {
-        subType: MysticalAbilitySubType;
-        assocSkill: string;
-        isImprovable: boolean;
-        domain: {
-            philosophy: string;
-            name: string;
-        };
-        levelBase: number;
-        charges: {
-            value: number;
-            max: number;
-        };
-    }
+export interface MysticalAbilityData<
+    TLogic extends
+        MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<any>,
+> extends MasteryLevelData<TLogic> {
+    subType: MysticalAbilitySubType;
+    assocSkill: string;
+    isImprovable: boolean;
+    domain: {
+        philosophy: string;
+        name: string;
+    };
+    levelBase: number;
+    charges: {
+        value: number;
+        max: number;
+    };
 }
 
 function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
@@ -167,13 +160,13 @@ export class MysticalAbilityDataModel<
         TSchema extends
             foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
         TLogic extends
-            MysticalAbility.Logic<MysticalAbility.Data> = MysticalAbility.Logic<MysticalAbility.Data>,
+            MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<MysticalAbilityData>,
     >
     extends MasteryLevelDataModel<TSchema, TLogic>
-    implements MysticalAbility.Data<TLogic>
+    implements MysticalAbilityData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
-    static override readonly kind = MysticalAbility.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
+    static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkill!: string;
     isImprovable!: boolean;

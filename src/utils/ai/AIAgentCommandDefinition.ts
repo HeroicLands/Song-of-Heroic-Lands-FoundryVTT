@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import type { JSONSchema7 } from "json-schema";
 
 export interface AIExecutionResult {
@@ -35,6 +35,6 @@ export interface AIAgentCommandDefinition {
     examplePayload?: Record<string, unknown>;
     execute: (
         payload: any,
-        context: SohlEventContext,
+        context: SohlActionContext,
     ) => Promise<AIExecutionResult>;
 }

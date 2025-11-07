@@ -11,11 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
+    SohlItemLogic,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import {
@@ -25,38 +28,34 @@ import {
 } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
-export class Philosophy<TData extends Philosophy.Data = Philosophy.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements Philosophy.Logic<TData>
+export class PhilosophyLogic<TData extends PhilosophyData = PhilosophyData>
+    extends SohlItemBaseLogic<TData>
+    implements PhilosophyLogic<TData>
 {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace Philosophy {
-    export const Kind = ITEM_KIND.PHILOSOPHY;
-
-    export interface Logic<
-        TData extends Philosophy.Data<any> = Philosophy.Data<any>,
-    > extends SohlItem.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends Philosophy.Logic<Data> = Philosophy.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        subType: PhilosophySubType;
-    }
+export interface PhilosophyData<
+    TLogic extends PhilosophyLogic<PhilosophyData> = PhilosophyLogic<any>,
+> extends SohlItemData<TLogic> {
+    subType: PhilosophySubType;
 }
 
 function definePhilosophyDataSchema(): foundry.data.fields.DataSchema {
@@ -74,13 +73,13 @@ type PhilosophyDataSchema = ReturnType<typeof definePhilosophyDataSchema>;
 export class PhilosophyDataModel<
         TSchema extends foundry.data.fields.DataSchema = PhilosophyDataSchema,
         TLogic extends
-            Philosophy.Logic<Philosophy.Data> = Philosophy.Logic<Philosophy.Data>,
+            PhilosophyLogic<PhilosophyData> = PhilosophyLogic<PhilosophyData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements Philosophy.Data<TLogic>
+    implements PhilosophyData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["Philosophy"];
-    static readonly kind = Philosophy.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["Philosophy"];
+    static override readonly kind = ITEM_KIND.PHILOSOPHY;
     subType!: PhilosophySubType;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

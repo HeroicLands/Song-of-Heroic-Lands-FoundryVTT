@@ -11,19 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
-export class BodyPart<TData extends BodyPart.Data = BodyPart.Data>
-    extends SohlItem.BaseLogic<TData>
-    implements BodyPart.Logic<TData>
-{
+export class BodyPartLogic<
+    TData extends BodyPartData = BodyPartData,
+> extends SohlItemBaseLogic<TData> {
     get bodyLocations(): SohlItem[] {
         return this.actor?.allItemTypes.bodylocation || [];
     }
@@ -36,36 +37,32 @@ export class BodyPart<TData extends BodyPart.Data = BodyPart.Data>
         );
     }
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace BodyPart {
-    export const Kind = ITEM_KIND.BODYPART;
-
-    export interface Logic<
-        TData extends BodyPart.Data<any> = BodyPart.Data<any>,
-    > extends SohlItem.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends BodyPart.Logic<Data> = BodyPart.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        abbrev: string;
-        canHoldItem: boolean;
-        heldItemId: string | null;
-    }
+export interface BodyPartData<
+    TLogic extends BodyPartLogic<BodyPartData> = BodyPartLogic<any>,
+> extends SohlItemData<TLogic> {
+    abbrev: string;
+    canHoldItem: boolean;
+    heldItemId: string | null;
 }
 
 function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
@@ -82,13 +79,13 @@ type BodyPartDataSchema = ReturnType<typeof defineBodyPartDataSchema>;
 export class BodyPartDataModel<
         TSchema extends foundry.data.fields.DataSchema = BodyPartDataSchema,
         TLogic extends
-            BodyPart.Logic<BodyPart.Data> = BodyPart.Logic<BodyPart.Data>,
+            BodyPartLogic<BodyPartData> = BodyPartLogic<BodyPartData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements BodyPart.Data<TLogic>
+    implements BodyPartData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
-    static override readonly kind = BodyPart.Kind;
+    static override readonly kind = ITEM_KIND.BODYPART;
     abbrev!: string;
     canHoldItem!: boolean;
     heldItemId!: string | null;

@@ -3,7 +3,7 @@ import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlBase } from "@common/SohlBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 
-export class SohlEventContext extends SohlBase {
+export class SohlActionContext extends SohlBase {
     speaker: SohlSpeaker;
     target: SohlTokenDocument | null;
     skipDialog: boolean;
@@ -12,7 +12,7 @@ export class SohlEventContext extends SohlBase {
     title: string;
     scope: UnknownObject;
 
-    constructor(data: Partial<SohlEventContext.Data> = {}) {
+    constructor(data: Partial<SohlActionContext.Data> = {}) {
         super(data);
         const {
             speaker,
@@ -25,7 +25,7 @@ export class SohlEventContext extends SohlBase {
         } = data;
 
         if (!speaker) {
-            throw new Error("SohlEventContext requires a speaker.");
+            throw new Error("SohlActionContext requires a speaker.");
         }
         if (speaker instanceof SohlSpeaker) this.speaker = speaker;
         else this.speaker = new SohlSpeaker(speaker);
@@ -71,7 +71,7 @@ export class SohlEventContext extends SohlBase {
     }
 }
 
-export namespace SohlEventContext {
+export namespace SohlActionContext {
     export interface Data {
         speaker: SohlSpeaker | Partial<SohlSpeaker.Data>;
         target:

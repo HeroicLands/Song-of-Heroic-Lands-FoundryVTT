@@ -11,52 +11,48 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
 import { ITEM_KIND } from "@utils/constants";
-import { Gear, GearDataModel } from "@common/item/Gear";
+import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 
-export class ArmorGear<TData extends ArmorGear.Data = ArmorGear.Data>
-    extends Gear<TData>
-    implements ArmorGear.Logic<TData>
-{
+export class ArmorGearLogic<
+    TData extends ArmorGearData = ArmorGearData,
+> extends GearLogic<TData> {
     protection!: PlainObject;
     traits!: StrictObject<string>;
 
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
         this.protection = {};
         this.traits = {};
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace ArmorGear {
-    export const Kind = ITEM_KIND.ARMORGEAR;
-
-    export interface Logic<TData extends ArmorGear.Data = ArmorGear.Data>
-        extends Gear.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends ArmorGear.Logic<Data> = ArmorGear.Logic<any>,
-    > extends Gear.Data<TLogic> {
-        material: string;
-        locations: {
-            flexible: string[];
-            rigid: string[];
-        };
-    }
+export interface ArmorGearData<
+    TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<any>,
+> extends GearData<TLogic> {
+    material: string;
+    locations: {
+        flexible: string[];
+        rigid: string[];
+    };
 }
 
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
@@ -75,13 +71,13 @@ type ArmorGearDataSchema = ReturnType<typeof defineArmorGearSchema>;
 export class ArmorGearDataModel<
         TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
         TLogic extends
-            ArmorGear.Logic<ArmorGear.Data> = ArmorGear.Logic<ArmorGear.Data>,
+            ArmorGearLogic<ArmorGearData> = ArmorGearLogic<ArmorGearData>,
     >
     extends GearDataModel<TSchema, TLogic>
-    implements ArmorGear.Data<TLogic>
+    implements ArmorGearData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
-    static override readonly kind = ArmorGear.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
+    static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };
 

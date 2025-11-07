@@ -21,7 +21,7 @@
     },
     "bugs": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues",
     "engines": {
-        "node": ">=20.18.0 < 25.0.0"
+        "node": ">=20.18.0 < 26.0.0"
     },
     "type": "module",
     "browser": "./sohl.js",

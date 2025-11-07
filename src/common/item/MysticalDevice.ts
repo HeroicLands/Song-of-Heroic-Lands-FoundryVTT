@@ -11,9 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
     SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
@@ -26,51 +28,45 @@ import {
 const { NumberField, StringField, BooleanField, SchemaField } =
     foundry.data.fields;
 
-export class MysticalDevice<
-        TData extends MysticalDevice.Data = MysticalDevice.Data,
-    >
-    extends SohlItem.BaseLogic<TData>
-    implements MysticalDevice.Logic<TData>
-{
+export class MysticalDeviceLogic<
+    TData extends MysticalDeviceData = MysticalDeviceData,
+> extends SohlItemBaseLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {
+    override initialize(context: SohlActionContext): void {
         super.initialize(context);
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {
+    override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {
+    override finalize(context: SohlActionContext): void {
         super.finalize(context);
     }
 }
 
-export namespace MysticalDevice {
-    export const Kind = ITEM_KIND.MYSTICALDEVICE;
-
-    export interface Logic<
-        TData extends MysticalDevice.Data = MysticalDevice.Data,
-    > extends SohlItem.Logic<TData> {}
-
-    export interface Data<
-        TLogic extends MysticalDevice.Logic<Data> = MysticalDevice.Logic<any>,
-    > extends SohlItem.Data<TLogic> {
-        requiresAttunement: boolean;
-        usesVolition: boolean;
-        domain: {
-            philosophy: string;
-            name: string;
-        };
-        isAttuned: boolean;
-        volition: {
-            ego: number;
-            morality: number;
-            purpose: string;
-        };
-    }
+export interface MysticalDeviceData<
+    TLogic extends
+        MysticalDeviceLogic<MysticalDeviceData> = MysticalDeviceLogic<any>,
+> extends SohlItemData<TLogic> {
+    requiresAttunement: boolean;
+    usesVolition: boolean;
+    domain: {
+        philosophy: string;
+        name: string;
+    };
+    isAttuned: boolean;
+    volition: {
+        ego: number;
+        morality: number;
+        purpose: string;
+    };
 }
 
 function defineMysticalDeviceSchema(): foundry.data.fields.DataSchema {
@@ -109,13 +105,13 @@ export class MysticalDeviceDataModel<
         TSchema extends
             foundry.data.fields.DataSchema = MysticalDeviceDataSchema,
         TLogic extends
-            MysticalDevice.Logic<MysticalDevice.Data> = MysticalDevice.Logic<MysticalDevice.Data>,
+            MysticalDeviceLogic<MysticalDeviceData> = MysticalDeviceLogic<MysticalDeviceData>,
     >
     extends SohlItemDataModel<TSchema, TLogic>
-    implements MysticalDevice.Data<TLogic>
+    implements MysticalDeviceData<TLogic>
 {
-    static readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
-    static readonly kind = MysticalDevice.Kind;
+    static override readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
+    static override readonly kind = ITEM_KIND.MYSTICALDEVICE;
     subType!: MysticalDeviceSubType;
     requiresAttunement!: boolean;
     usesVolition!: boolean;

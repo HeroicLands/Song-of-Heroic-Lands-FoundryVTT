@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlEventContext } from "@common/event/SohlEventContext";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 import { SohlLogic } from "@common/SohlLogic";
 import { COMBATANT_KIND, ITEM_KIND } from "@utils/constants";
@@ -143,13 +143,13 @@ export class SohlCombatantData
     }
 
     /** @inheritdoc */
-    override initialize(context: SohlEventContext): void {}
+    override initialize(context: SohlActionContext): void {}
 
     /** @inheritdoc */
-    override evaluate(context: SohlEventContext): void {}
+    override evaluate(context: SohlActionContext): void {}
 
     /** @inheritdoc */
-    override finalize(context: SohlEventContext): void {}
+    override finalize(context: SohlActionContext): void {}
 }
 
 export namespace SohlCombatantData {
@@ -167,8 +167,6 @@ export namespace SohlCombatantData {
 
     function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         return {
-            ...SohlDataModel.defineSchema(),
-
             /**
              * An array of combatants which are considered allies of this combatant.
              */
