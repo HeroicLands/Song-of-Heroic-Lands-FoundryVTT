@@ -23,7 +23,7 @@ import {
 import { FilePath, isItemWithSubType, toFilePath } from "@utils/helpers";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@utils/constants";
 import { SkillBase } from "@common/SkillBase";
-import { TraitLogic } from "./Trait";
+import { TraitLogic } from "@common/item/Trait";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 

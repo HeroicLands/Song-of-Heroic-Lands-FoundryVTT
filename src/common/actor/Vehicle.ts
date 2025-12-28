@@ -20,7 +20,7 @@ import {
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
+import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
 const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;
 
@@ -74,7 +74,7 @@ export class VehicleDataModel<
     TSchema extends foundry.data.fields.DataSchema = VehicleDataSchema,
     TLogic extends VehicleLogic<VehicleData> = VehicleLogic<VehicleData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["Vehicle"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Vehicle.DATA"];
     static override readonly kind = ACTOR_KIND.VEHICLE;
 
     static defineSchema(): foundry.data.fields.DataSchema {
@@ -82,11 +82,4 @@ export class VehicleDataModel<
     }
 }
 
-export class VehicleSheet extends SohlActorSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/actor/vehicle.hbs",
-        },
-    };
-}
+export class VehicleSheet extends SohlActorSheetBase {}

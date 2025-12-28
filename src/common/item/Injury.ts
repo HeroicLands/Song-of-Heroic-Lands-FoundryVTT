@@ -20,6 +20,7 @@ import {
     ImpactAspect,
     ImpactAspects,
     ITEM_KIND,
+    ITEM_METADATA,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
@@ -99,7 +100,7 @@ export class InjuryDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements InjuryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Injury"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Injury.DATA"];
     static override readonly kind = ITEM_KIND.INJURY;
     injuryLevelBase!: number;
     healingRateBase!: number;
@@ -114,13 +115,6 @@ export class InjuryDataModel<
 }
 
 export class InjurySheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/bodylocation.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

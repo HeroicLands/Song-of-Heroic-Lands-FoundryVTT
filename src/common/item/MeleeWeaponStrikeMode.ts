@@ -23,7 +23,13 @@ import {
     StrikeModeDataModel,
     StrikeModeData,
 } from "@common/item/StrikeMode";
-import { ImpactAspect, ITEM_KIND, Variant, Variants } from "@utils/constants";
+import {
+    ImpactAspect,
+    ITEM_KIND,
+    ITEM_METADATA,
+    Variant,
+    Variants,
+} from "@utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
 export class MeleeWeaponStrikeModeLogic<
@@ -153,7 +159,9 @@ export class MeleeWeaponStrikeModeDataModel<
     extends StrikeModeDataModel<TSchema, TLogic>
     implements MeleeWeaponStrikeModeData
 {
-    static override readonly LOCALIZATION_PREFIXES = ["MeleeWeaponStrikeMode"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MeleeWeaponStrikeMode.DATA",
+    ];
     static override readonly kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
     subType!: Variant;
     lengthBase!: number;
@@ -164,14 +172,6 @@ export class MeleeWeaponStrikeModeDataModel<
 }
 
 export class MeleeWeaponStrikeModeSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template:
-                "systems/sohl/templates/item/combattechniquestrikemode.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

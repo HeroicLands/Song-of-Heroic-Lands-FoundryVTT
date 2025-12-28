@@ -13,8 +13,8 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
-import { ITEM_KIND } from "@utils/constants";
-import { SohlItemSheetBase } from "./SohlItem";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
+import { SohlItemSheetBase } from "@common/item/SohlItem";
 const { NumberField } = foundry.data.fields;
 
 export class WeaponGearLogic<
@@ -67,7 +67,7 @@ export class WeaponGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements WeaponGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["WeaponGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.WeaponGear.DATA"];
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
 
@@ -77,13 +77,6 @@ export class WeaponGearDataModel<
 }
 
 export class WeaponGearSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/weapongear.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

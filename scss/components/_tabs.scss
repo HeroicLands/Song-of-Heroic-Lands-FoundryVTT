@@ -23,12 +23,17 @@
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 20px;
     font-weight: 700;
+    color: #3d3b30;
 
     .item {
-        height: 30px;
         line-height: 32px;
         margin: 0 24px;
         border-bottom: 3px solid #b5b3a4;
+
+        &:hover,
+        &:focus {
+            background: rgba(0, 0, 0, 0.125);
+        }
     }
 
     .item.active {

@@ -199,27 +199,6 @@ export namespace SohlDataModel {
                 super._configureRenderOptions(options);
             }
 
-            static DEFAULT_OPTIONS: PlainObject = {
-                window: {
-                    tabs: [
-                        {
-                            navSelector: ".sheet-tabs",
-                            contentSelector: ".sheet-body",
-                            initial: "properties",
-                        },
-                    ],
-                },
-                dragDrop: [
-                    {
-                        dragSelector: ".item-list .item",
-                        dropSelector: null,
-                    },
-                ],
-                actions: {
-                    effectToggle: SMix._onEffectToggle,
-                },
-            };
-
             _createDragDropHandlers(): DragDrop[] {
                 return (
                     (this.options as any).dragDrop?.map((d: PlainObject) => {
@@ -273,7 +252,7 @@ export namespace SohlDataModel {
                 data.options = this.document.options;
                 data.editable = !!this.document.editable;
                 data.cssClass = data.owner ? "editable" : "locked";
-                data.isEntity = this.document.type === "entity";
+                data.isBeing = this.document.type === "being";
                 data.isAssembly = this.document.type === "assembly";
                 data.actor =
                     ActorKinds.includes(this.document.type) ?

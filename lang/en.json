@@ -1,14 +1,22 @@
 {
     "TYPES": {
         "Actor": {
-            "entity": "Animate Entity",
-            "assembly": "Item Assembly"
+            "being": "Being",
+            "cohort": "Cohort",
+            "assembly": "Assembly",
+            "vehicle": "Vehicle",
+            "structure": "Structure"
         },
         "Actors": {
-            "entity": "Animate Entities",
-            "assembly": "Item Assembly"
+            "being": "Beings",
+            "assembly": "Assemblies",
+            "cohort": "Cohorts",
+            "vehicle": "Vehicles",
+            "structure": "Structures"
         },
         "Item": {
+            "action": "Action",
+            "actionPl": "Actions",
             "affiliation": "Affiliation",
             "affiliationPl": "Affiliations",
             "affliction": "Affliction",
@@ -31,20 +39,20 @@
             "domainPl": "Domains",
             "injury": "Injury",
             "injuryPl": "Injuries",
-            "meleestrikemode": "Melee Strike Mode",
-            "meleestrikemodePl": "Melee Strike Modes",
+            "meleeweaponstrikemode": "Melee Weapon Strike Mode",
+            "meleeweaponstrikemodePl": "Melee Weapon Strike Modes",
             "miscgear": "Misc Gear",
             "miscgearPl": "Misc Gear",
-            "missilestrikemode": "Missile Strike Mode",
-            "missilestrikemodePl": "Missile Strike Modes",
+            "missileweaponstrikemode": "Missile Weapon Strike Mode",
+            "missileweaponstrikemodePl": "Missile Weapon Strike Modes",
+            "movementprofile": "Movement Profile",
+            "movementprofilePl": "Movement Profiles",
             "mystery": "Mystery",
             "mysteryPl": "Mysteries",
             "mysticalability": "Mystical Ability",
             "mysticalabilityPl": "Mystical Abilities",
             "mysticaldevice": "Mystical Device",
             "mysticaldevicePl": "Mystical Devices",
-            "occurrence": "Occurrence",
-            "occurrencePl": "Occurrences",
             "philosophy": "Philosophy",
             "philosophyPl": "Philosophies",
             "projectilegear": "Projectile",
@@ -213,7 +221,7 @@
                 "setup": "Setup"
             }
         },
-        "ENTITY": {
+        "BEING": {
             "FIELDS": {
 
             },
@@ -976,7 +984,19 @@
         },
         "UI": {
             "DefaultMacroSheet": "Default {label} Macro Sheet",
-            "DefaultEffectSheet": "Default HarnMaster Active Effect Sheet"
+            "DefaultEffectSheet": "Default HarnMaster Active Effect Sheet",
+            "TAB": {
+                "Facade": "Façade",
+                "Profile": "Profile",
+                "Skills": "Skills",
+                "Combat": "Combat",
+                "Trauma": "Trauma",
+                "Mysteries": "Mysteries",
+                "Gear": "Gear",
+                "Actions": "Actions",
+                "Events": "Events",
+                "Effects": "Effects"
+            }
         },
         "Length": "Length",
         "Block": "Block",

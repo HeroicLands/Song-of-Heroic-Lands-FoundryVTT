@@ -12,7 +12,7 @@
  */
 
 import type { SohlItem } from "@common/item/SohlItem";
-import type { TraitData } from "./item/Trait";
+import type { TraitData } from "@common/item/Trait";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
 
 export class SkillBase {

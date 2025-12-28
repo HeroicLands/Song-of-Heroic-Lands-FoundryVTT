@@ -19,7 +19,7 @@ import {
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
 export class BodyPartLogic<
@@ -84,7 +84,7 @@ export class BodyPartDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyPartData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["BodyPart"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyPart.DATA"];
     static override readonly kind = ITEM_KIND.BODYPART;
     abbrev!: string;
     canHoldItem!: boolean;
@@ -96,13 +96,6 @@ export class BodyPartDataModel<
 }
 
 export class BodyPartSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/bodypart.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

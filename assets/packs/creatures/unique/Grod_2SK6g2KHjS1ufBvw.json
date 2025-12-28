@@ -1,6 +1,6 @@
 {
   "name": "Grod",
-  "type": "entity",
+  "type": "being",
   "img": "systems/sohl/assets/silhouette/legendary/folk-basic-headshot.webp",
   "system": {
     "macros": [

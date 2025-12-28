@@ -25,6 +25,7 @@ import {
     SkillSubType,
     SKILL_SUBTYPE,
     ITEM_KIND,
+    ITEM_METADATA,
 } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
@@ -88,8 +89,8 @@ export class SkillDataModel<
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements SkillData<TLogic>
 {
-    static override readonly kind = SkillLogic.Kind;
-    static override readonly LOCALIZATION_PREFIXES = ["SKILL"];
+    static override readonly kind = ITEM_KIND.SKILL;
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Skill.DATA"];
     subType!: SkillSubType;
     weaponGroup!: string;
     baseSkill!: string;
@@ -101,13 +102,6 @@ export class SkillDataModel<
 }
 
 export class SkillSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/skill.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

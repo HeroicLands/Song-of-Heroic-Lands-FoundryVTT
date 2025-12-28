@@ -13,7 +13,7 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 
 export class MiscGearLogic<
@@ -59,7 +59,7 @@ export class MiscGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements MiscGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["MiscGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MiscGear.DATA"];
     static override readonly kind = ITEM_KIND.MISCGEAR;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
@@ -68,13 +68,6 @@ export class MiscGearDataModel<
 }
 
 export class MiscGearSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/miscgear.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

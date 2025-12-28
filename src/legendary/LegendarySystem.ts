@@ -11,67 +11,213 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    COMMON_ACTOR_DATA_MODEL,
-    COMMON_ACTOR_SHEETS,
-    COMMON_ITEM_DATA_MODEL,
-    COMMON_ITEM_SHEETS,
-    SohlSystem,
-} from "@common/SohlSystem";
+import { SohlSystem } from "@common/SohlSystem";
 import { LgndCombatModifier } from "@legendary/modifier/LgndCombatModifier";
 import { LgndImpactModifier } from "@legendary/modifier/LgndImpactModifier";
 import { LgndSuccessTestResult } from "@legendary/result/LgndSuccessTestResult";
 import { LgndOpposedTestResult } from "@legendary/result/LgndOpposedTestResult";
 import { LgndCombatResult } from "@legendary/result/LgndCombatResult";
-import { SohlDataModel } from "@common/SohlDataModel";
 import {
+    ACTOR_KIND,
     ActorKinds,
-    DefinedType,
     defineType,
+    ITEM_KIND,
     ItemKinds,
 } from "@utils/constants";
-import { SohlActor } from "@common/actor/SohlActor";
-import { SohlItem } from "@common/item/SohlItem";
+import { SohlActorLogic, SohlActorSheetBase } from "@common/actor/SohlActor";
+import { SohlItemLogic, SohlItemSheetBase } from "@common/item/SohlItem";
+import { LgndBeingLogic, LgndBeingSheet } from "@legendary/actor/LgndBeing";
+import {
+    LgndAssemblyLogic,
+    LgndAssemblySheet,
+} from "@legendary/actor/LgndAssembly";
+import { LgndCohortLogic, LgndCohortSheet } from "@legendary/actor/LgndCohort";
+import {
+    LgndStructureLogic,
+    LgndStructureSheet,
+} from "@legendary/actor/LgndStructure";
+import {
+    LgndVehicleLogic,
+    LgndVehicleSheet,
+} from "@legendary/actor/LgndVehicle";
+import {
+    LgndWeaponGearLogic,
+    LgndWeaponGearSheet,
+} from "@legendary/item/LgndWeaponGear";
+import { LgndTraitLogic, LgndTraitSheet } from "@legendary/item/LgndTrait";
+import { LgndActionLogic, LgndActionSheet } from "@legendary/item/LgndAssembly";
+import { LgndSkillLogic, LgndSkillSheet } from "@legendary/item/LgndSkill";
+import {
+    LgndAffiliationLogic,
+    LgndAffiliationSheet,
+} from "@legendary/item/LgndAffiliation";
+import {
+    LgndProtectionLogic,
+    LgndProtectionSheet,
+} from "@legendary/item/LgndProtection";
+import {
+    LgndAfflictionLogic,
+    LgndAfflictionSheet,
+} from "@legendary/item/LgndAffliction";
+import {
+    LgndArmorGearLogic,
+    LgndArmorGearSheet,
+} from "@legendary/item/LgndArmorGear";
+import {
+    LgndBodyLocationLogic,
+    LgndBodyLocationSheet,
+} from "@legendary/item/LgndBodyLocation";
+import {
+    LgndBodyPartLogic,
+    LgndBodyPartSheet,
+} from "@legendary/item/LgndBodyPart";
+import {
+    LgndBodyZoneLogic,
+    LgndBodyZoneSheet,
+} from "@legendary/item/LgndBodyZone";
+import {
+    LgndCombatTechniqueStrikeModeLogic,
+    LgndCombatTechniqueStrikeModeSheet,
+} from "@legendary/item/LgndCombatTechniqueStrikeMode";
+import {
+    LgndContainerGearLogic,
+    LgndContainerGearSheet,
+} from "@legendary/item/LgndContainerGear";
+import {
+    LgndConcoctionGearLogic,
+    LgndConcoctionGearSheet,
+} from "@legendary/item/LgndConcoctionGear";
+import { LgndDomainLogic, LgndDomainSheet } from "@legendary/item/LgndDomain";
+import { LgndInjuryLogic, LgndInjurySheet } from "@legendary/item/LgndInjury";
+import {
+    LgndMeleeWeaponStrikeModeLogic,
+    LgndMeleeWeaponStrikeModeSheet,
+} from "@legendary/item/LgndMeleeWeaponStrikeMode";
+import {
+    LgndMiscGearLogic,
+    LgndMiscGearSheet,
+} from "@legendary/item/LgndMiscGear";
+import {
+    LgndMissileWeaponStrikeModeLogic,
+    LgndMissileWeaponStrikeModeSheet,
+} from "@legendary/item/LgndMissileWeaponStrikeMode";
+import {
+    LgndMovementProfileLogic,
+    LgndMovementProfileSheet,
+} from "@legendary/item/LgndMovementProfile";
+import {
+    LgndMysteryLogic,
+    LgndMysterySheet,
+} from "@legendary/item/LgndMystery";
+import {
+    LgndMysticalAbilityLogic,
+    LgndMysticalAbilitySheet,
+} from "@legendary/item/LgndMysticalAbility";
+import {
+    LgndMysticalDeviceLogic,
+    LgndMysticalDeviceSheet,
+} from "@legendary/item/LgndMysticalDevice";
+import {
+    LgndPhilosophyLogic,
+    LgndPhilosophySheet,
+} from "@legendary/item/LgndPhilosophy";
+import {
+    LgndProjectileGearLogic,
+    LgndProjectileGearSheet,
+} from "@legendary/item/LgndProjectileGear";
+import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
 
-type ActorDMMap = Record<string, Constructor<SohlDataModel<any, SohlActor>>>;
-const ACTOR_DM_DEF: ActorDMMap = {
-    ...COMMON_ACTOR_DATA_MODEL,
-} satisfies ActorDMMap;
-const defActor: DefinedType<ActorDMMap> = defineType<ActorDMMap>(
-    "TYPES.Actor",
-    ACTOR_DM_DEF,
-);
 export const {
-    kind: LGND_ACTOR_DATA_MODEL,
-    isValue: isLgndActorDataModel,
-    labels: LgndActorDataModelLabels,
-}: {
-    kind: ActorDMMap;
-    isValue: (value: unknown) => value is ActorDMMap[keyof ActorDMMap];
-    labels: StrictObject<string>;
-} = defActor;
-export const LgndActorDataModels: ActorDMMap[keyof ActorDMMap][] =
-    Object.values(LGND_ACTOR_DATA_MODEL);
+    kind: LGND_ACTOR_LOGIC,
+    values: CommonActorLogic,
+    isValue: isCommonActorLogic,
+    labels: CommonActorLogicLabels,
+} = defineType("SOHL.Actor.Logic", {
+    [ACTOR_KIND.BEING]: LgndBeingLogic,
+    [ACTOR_KIND.ASSEMBLY]: LgndAssemblyLogic,
+    [ACTOR_KIND.COHORT]: LgndCohortLogic,
+    [ACTOR_KIND.STRUCTURE]: LgndStructureLogic,
+    [ACTOR_KIND.VEHICLE]: LgndVehicleLogic,
+} as StrictObject<Constructor<SohlActorLogic<any>>>);
 
-type ItemDMMap = Record<string, Constructor<SohlDataModel<any, SohlItem>>>;
-const ITEM_DM_DEF: ItemDMMap = {
-    ...COMMON_ITEM_DATA_MODEL,
-} satisfies ItemDMMap;
-const defItem: DefinedType<ItemDMMap> = defineType<ItemDMMap>(
-    "TYPES.Item",
-    ITEM_DM_DEF,
-);
 export const {
-    kind: LGND_ITEM_DATA_MODEL,
-    isValue: isLgndItemDataModel,
-    labels: LgndItemDataModelLabels,
-}: {
-    kind: ItemDMMap;
-    isValue: (value: unknown) => value is ItemDMMap[keyof ItemDMMap];
-    labels: StrictObject<string>;
-} = defItem;
-export const LgndItemDataModels: ItemDMMap[keyof ItemDMMap][] =
-    Object.values(LGND_ITEM_DATA_MODEL);
+    kind: LGND_ACTOR_SHEETS,
+    values: CommonActorSheets,
+    isValue: isCommonActorSheet,
+    labels: CommonActorSheetLabels,
+} = defineType("SOHL.Actor.Sheet", {
+    [ACTOR_KIND.BEING]: LgndBeingSheet,
+    [ACTOR_KIND.ASSEMBLY]: LgndAssemblySheet,
+    [ACTOR_KIND.COHORT]: LgndCohortSheet,
+    [ACTOR_KIND.STRUCTURE]: LgndStructureSheet,
+    [ACTOR_KIND.VEHICLE]: LgndVehicleSheet,
+} as StrictObject<Constructor<SohlActorSheetBase>>);
+
+export const {
+    kind: LGND_ITEM_LOGIC,
+    values: CommonItemLogic,
+    isValue: isCommonItemLogic,
+    labels: CommonItemLogicLabels,
+} = defineType("TYPES.Item", {
+    [ITEM_KIND.ACTION]: LgndActionLogic,
+    [ITEM_KIND.AFFILIATION]: LgndAffiliationLogic,
+    [ITEM_KIND.AFFLICTION]: LgndAfflictionLogic,
+    [ITEM_KIND.ARMORGEAR]: LgndArmorGearLogic,
+    [ITEM_KIND.BODYLOCATION]: LgndBodyLocationLogic,
+    [ITEM_KIND.BODYPART]: LgndBodyPartLogic,
+    [ITEM_KIND.BODYZONE]: LgndBodyZoneLogic,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: LgndCombatTechniqueStrikeModeLogic,
+    [ITEM_KIND.CONCOCTIONGEAR]: LgndConcoctionGearLogic,
+    [ITEM_KIND.CONTAINERGEAR]: LgndContainerGearLogic,
+    [ITEM_KIND.DOMAIN]: LgndDomainLogic,
+    [ITEM_KIND.INJURY]: LgndInjuryLogic,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: LgndMeleeWeaponStrikeModeLogic,
+    [ITEM_KIND.MISCGEAR]: LgndMiscGearLogic,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: LgndMissileWeaponStrikeModeLogic,
+    [ITEM_KIND.MOVEMENTPROFILE]: LgndMovementProfileLogic,
+    [ITEM_KIND.MYSTERY]: LgndMysteryLogic,
+    [ITEM_KIND.MYSTICALABILITY]: LgndMysticalAbilityLogic,
+    [ITEM_KIND.MYSTICALDEVICE]: LgndMysticalDeviceLogic,
+    [ITEM_KIND.PHILOSOPHY]: LgndPhilosophyLogic,
+    [ITEM_KIND.PROJECTILEGEAR]: LgndProjectileGearLogic,
+    [ITEM_KIND.PROTECTION]: LgndProtectionLogic,
+    [ITEM_KIND.SKILL]: LgndSkillLogic,
+    [ITEM_KIND.TRAIT]: LgndTraitLogic,
+    [ITEM_KIND.WEAPONGEAR]: LgndWeaponGearLogic,
+} as StrictObject<Constructor<SohlItemLogic<any>>>);
+
+export const {
+    kind: LGND_ITEM_SHEETS,
+    values: CommonItemSheets,
+    isValue: isCommonItemSheet,
+    labels: CommonItemSheetLabels,
+} = defineType("SOHL.Item.Sheet", {
+    [ITEM_KIND.ACTION]: LgndActionSheet,
+    [ITEM_KIND.AFFILIATION]: LgndAffiliationSheet,
+    [ITEM_KIND.AFFLICTION]: LgndAfflictionSheet,
+    [ITEM_KIND.ARMORGEAR]: LgndArmorGearSheet,
+    [ITEM_KIND.BODYLOCATION]: LgndBodyLocationSheet,
+    [ITEM_KIND.BODYPART]: LgndBodyPartSheet,
+    [ITEM_KIND.BODYZONE]: LgndBodyZoneSheet,
+    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: LgndCombatTechniqueStrikeModeSheet,
+    [ITEM_KIND.CONCOCTIONGEAR]: LgndConcoctionGearSheet,
+    [ITEM_KIND.CONTAINERGEAR]: LgndContainerGearSheet,
+    [ITEM_KIND.DOMAIN]: LgndDomainSheet,
+    [ITEM_KIND.INJURY]: LgndInjurySheet,
+    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: LgndMeleeWeaponStrikeModeSheet,
+    [ITEM_KIND.MISCGEAR]: LgndMiscGearSheet,
+    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: LgndMissileWeaponStrikeModeSheet,
+    [ITEM_KIND.MOVEMENTPROFILE]: LgndMovementProfileSheet,
+    [ITEM_KIND.MYSTERY]: LgndMysterySheet,
+    [ITEM_KIND.MYSTICALABILITY]: LgndMysticalAbilitySheet,
+    [ITEM_KIND.MYSTICALDEVICE]: LgndMysticalDeviceSheet,
+    [ITEM_KIND.PHILOSOPHY]: LgndPhilosophySheet,
+    [ITEM_KIND.PROJECTILEGEAR]: LgndProjectileGearSheet,
+    [ITEM_KIND.PROTECTION]: LgndProtectionSheet,
+    [ITEM_KIND.SKILL]: LgndSkillSheet,
+    [ITEM_KIND.TRAIT]: LgndTraitSheet,
+    [ITEM_KIND.WEAPONGEAR]: LgndWeaponGearSheet,
+} as StrictObject<Constructor<SohlItemSheetBase>>);
 
 export class LegendarySystem extends SohlSystem {
     static override get CONFIG(): SohlSystem.Config {
@@ -81,17 +227,15 @@ export class LegendarySystem extends SohlSystem {
                 Actor: {
                     documentSheets: ActorKinds.map((kind) => {
                         return {
-                            cls: COMMON_ACTOR_SHEETS[kind],
+                            cls: LGND_ACTOR_SHEETS[kind],
                             types: [kind],
                         };
                     }),
-                    dataModels: LGND_ACTOR_DATA_MODEL,
                 },
                 Item: {
                     documentSheets: ItemKinds.map((kind) => {
-                        return { cls: COMMON_ITEM_SHEETS[kind], types: [kind] };
+                        return { cls: LGND_ITEM_SHEETS[kind], types: [kind] };
                     }),
-                    dataModels: LGND_ITEM_DATA_MODEL,
                 },
                 CombatModifier: LgndCombatModifier,
                 ImpactModifier: LgndImpactModifier,
@@ -122,5 +266,38 @@ export class LegendarySystem extends SohlSystem {
             this._instance = new LegendarySystem();
         }
         return this._instance;
+    }
+
+    override setupSheets(): void {
+        ActorKinds.forEach((kind) => {
+            foundry.applications.apps.DocumentSheetConfig.registerSheet(
+                CONFIG.Actor.documentClass,
+                "sohl",
+                LGND_ACTOR_SHEETS[kind] as any,
+                {
+                    types: [kind],
+                    makeDefault: true,
+                },
+            );
+        });
+        ItemKinds.forEach((kind) => {
+            foundry.applications.apps.DocumentSheetConfig.registerSheet(
+                CONFIG.Item.documentClass,
+                "sohl",
+                LGND_ITEM_SHEETS[kind] as any,
+                {
+                    types: [kind],
+                    makeDefault: true,
+                },
+            );
+        });
+        foundry.applications.apps.DocumentSheetConfig.registerSheet(
+            CONFIG.ActiveEffect.documentClass,
+            "sohl",
+            SohlActiveEffectConfig,
+            {
+                makeDefault: true,
+            },
+        );
     }
 }

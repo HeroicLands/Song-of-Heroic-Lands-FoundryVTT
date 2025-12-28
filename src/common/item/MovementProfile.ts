@@ -23,6 +23,7 @@ import {
 } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     MOVEMENT_MODE,
     MovementMode,
     MovementModes,
@@ -104,7 +105,9 @@ export class MovementProfileDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MovementProfileData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["MovementProfile"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MovementProfile.DATA",
+    ];
     static override readonly kind = ITEM_KIND.MOVEMENTPROFILE;
     mode!: MovementMode;
     metersPerRound!: number;
@@ -117,13 +120,6 @@ export class MovementProfileDataModel<
 }
 
 export class MovementProfileSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affiliation.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

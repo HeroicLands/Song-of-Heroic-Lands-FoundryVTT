@@ -20,6 +20,7 @@ import {
     ConcoctionGearSubType,
     ConcoctionGearSubTypes,
     ITEM_KIND,
+    ITEM_METADATA,
 } from "@utils/constants";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { NumberField, StringField } = foundry.data.fields;
@@ -86,7 +87,9 @@ export class ConcoctionGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ConcoctionGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["ConcoctionGear"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ConcoctionGear.DATA",
+    ];
     static override readonly kind: string = ITEM_KIND.CONCOCTIONGEAR;
     subType!: ConcoctionGearSubType;
     potency!: ConcoctionGearPotency;
@@ -98,13 +101,6 @@ export class ConcoctionGearDataModel<
 }
 
 export class ConcoctionGearSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/concoctiongear.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

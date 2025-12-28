@@ -23,6 +23,7 @@ import {
     ActionSubType,
     ActionSubTypes,
     ITEM_KIND,
+    ITEM_METADATA,
     SOHL_ACTION_ROLE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -204,7 +205,7 @@ export class ActionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements ActionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Action"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Action.DATA"];
     static override readonly kind = ITEM_KIND.ACTION;
     subType!: ActionSubType;
     title!: string;
@@ -231,13 +232,6 @@ export class ActionDataModel<
 }
 
 export class ActionSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/occurrence.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

@@ -33,7 +33,16 @@
     ],
     "documentTypes": {
         "Actor": {
-            "entity": {
+            "being": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "cohort": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "structure": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "vehicle": {
                 "htmlFields": ["description", "biography", "textReference"]
             },
             "assembly": {
@@ -41,6 +50,9 @@
             }
         },
         "Item": {
+            "action": {
+                "htmlFields": ["description", "textReference"]
+            },
             "affiliation": {
                 "htmlFields": ["description", "textReference"]
             },
@@ -81,6 +93,9 @@
                 "htmlFields": ["description", "textReference"]
             },
             "missileweaponstrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "movementprofile": {
                 "htmlFields": ["description", "textReference"]
             },
             "mystery": {

@@ -21,6 +21,7 @@ import {
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
 } from "@utils/constants";
@@ -165,7 +166,9 @@ export class MysticalAbilityDataModel<
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements MysticalAbilityData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["MysticalAbility"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MysticalAbility.DATA",
+    ];
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkill!: string;
@@ -186,13 +189,6 @@ export class MysticalAbilityDataModel<
 }
 
 export class MysticalAbilitySheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/mysticalability.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

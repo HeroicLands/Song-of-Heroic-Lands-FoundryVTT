@@ -115,7 +115,7 @@ export const {
     isValue: isActorKind,
     labels: actorKindLabels,
 } = defineType("TYPES.Actor", {
-    ENTITY: "entity",
+    BEING: "being",
     ASSEMBLY: "assembly",
     COHORT: "cohort",
     STRUCTURE: "structure",
@@ -132,151 +132,126 @@ export const {
     [ITEM_KIND.ACTION]: {
         IconCssClass: "fas fa-gears",
         Image: "systems/sohl/assets/icons/gears.svg",
-        Sheet: "systems/sohl/templates/item/action-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.AFFILIATION]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
-        Sheet: "systems/sohl/templates/item/affiliation-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.AFFLICTION]: {
         IconCssClass: "fas fa-face-nauseated",
         Image: "systems/sohl/assets/icons/sick.svg",
-        Sheet: "systems/sohl/templates/item/affliction-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.ARMORGEAR]: {
         IconCssClass: "fas fa-shield-halved",
         Image: "systems/sohl/assets/icons/armor.svg",
-        Sheet: "systems/sohl/templates/item/armorgear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.BODYLOCATION]: {
         IconCssClass: "fas fa-hand",
         Image: "systems/sohl/assets/icons/hand.svg",
-        Sheet: "systems/sohl/templates/item/bodylocation-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.BODYPART]: {
         IconCssClass: "fa-duotone fa-skeleton-ribs",
         Image: "systems/sohl/assets/icons/ribcage.svg",
-        Sheet: "systems/sohl/templates/item/bodypart-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.BODYZONE]: {
         IconCssClass: "fa-duotone fa-person",
         Image: "systems/sohl/assets/icons/person.svg",
-        Sheet: "systems/sohl/templates/item/bodyzone-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: {
         IconCssClass: "fas fa-hand-fist",
         Image: "systems/sohl/assets/icons/punch.svg",
-        Sheet: "systems/sohl/templates/item/combattechniquestrikemode-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.CONCOCTIONGEAR]: {
         IconCssClass: "fas fa-flask-round-potion",
         Image: "systems/sohl/assets/icons/potion.svg",
-        Sheet: "systems/sohl/templates/item/concoctiongear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.CONTAINERGEAR]: {
         IconCssClass: "fas fa-sack",
         Image: "systems/sohl/assets/icons/sack.svg",
-        Sheet: "systems/sohl/templates/item/containergear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.DOMAIN]: {
         IconCssClass: "fas fa-sparkle",
         Image: "systems/sohl/assets/icons/sparkle.svg",
-        Sheet: "systems/sohl/templates/item/domain-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.INJURY]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
-        Sheet: "systems/sohl/templates/item/injury-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: {
         IconCssClass: "fas fa-sword",
         Image: "systems/sohl/assets/icons/sword.svg",
-        Sheet: "systems/sohl/templates/item/meleeweaponstrikemode-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MISCGEAR]: {
         IconCssClass: "fas fa-ball-pile",
         Image: "systems/sohl/assets/icons/miscgear.svg",
-        Sheet: "systems/sohl/templates/item/miscgear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: {
         IconCssClass: "fas fa-bow-arrow",
         Image: "systems/sohl/assets/icons/longbow.svg",
-        Sheet: "systems/sohl/templates/item/missileweaponstrikemode-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MOVEMENTPROFILE]: {
         IconCssClass: "fas fa-walking",
         Image: "systems/sohl/assets/icons/walk.svg",
-        Sheet: "systems/sohl/templates/item/movementprofile-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTERY]: {
         IconCssClass: "fas fa-sparkles",
         Image: "systems/sohl/assets/icons/sparkles.svg",
-        Sheet: "systems/sohl/templates/item/mystery-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTICALABILITY]: {
         IconCssClass: "fas fa-hand-sparkles",
         Image: "systems/sohl/assets/icons/hand-sparkles.svg",
-        Sheet: "systems/sohl/templates/item/mysticalability-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTICALDEVICE]: {
         IconCssClass: "fas fa-wand-sparkles",
         Image: "systems/sohl/assets/icons/magic-wand.svg",
-        Sheet: "systems/sohl/templates/item/mysticaldevice-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.PHILOSOPHY]: {
         IconCssClass: "fas fa-arrow",
         Image: "systems/sohl/assets/icons/sparkle.svg",
-        Sheet: "systems/sohl/templates/item/philosophy-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.PROJECTILEGEAR]: {
         IconCssClass: "fas fa-bow-arrow",
         Image: "systems/sohl/assets/icons/arrow.svg",
-        Sheet: "systems/sohl/templates/item/projectilegear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.PROTECTION]: {
         IconCssClass: "fas fa-shield",
         Image: "systems/sohl/assets/icons/shield.svg",
-        Sheet: "systems/sohl/templates/item/protection-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.SKILL]: {
         IconCssClass: "fas fa-head-side-gear",
         Image: "systems/sohl/assets/icons/head-gear.svg",
-        Sheet: "systems/sohl/templates/item/skill-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.TRAIT]: {
         IconCssClass: "fas fa-user-gear",
         Image: "systems/sohl/assets/icons/user-gear.svg",
-        Sheet: "systems/sohl/templates/item/trait-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.WEAPONGEAR]: {
         IconCssClass: "fas fa-sword",
         Image: "systems/sohl/assets/icons/sword.svg",
-        Sheet: "systems/sohl/templates/item/weapongear-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
 });
@@ -293,34 +268,29 @@ export const {
     isValue: isActorMetadata,
     labels: actorMetadataLabels,
 } = defineType(`SOHL.Actor.METADATA`, {
-    [ACTOR_KIND.ENTITY]: {
+    [ACTOR_KIND.BEING]: {
         IconCssClass: "fas fa-person",
         Image: "icons/svg/item-bag.svg",
-        Sheet: "systems/sohl/templates/actor/entity-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ACTOR_KIND.ASSEMBLY]: {
         IconCssClass: "fas fa-layer-group",
         Image: "systems/sohl/assets/icons/stack.svg",
-        Sheet: "systems/sohl/templates/actor/assembly-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ACTOR_KIND.COHORT]: {
         IconCssClass: "fas fa-layer-group",
         Image: "systems/sohl/assets/icons/stack.svg",
-        Sheet: "systems/sohl/templates/actor/cohort-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ACTOR_KIND.STRUCTURE]: {
         IconCssClass: "fas fa-home",
         Image: "systems/sohl/assets/icons/home.svg",
-        Sheet: "systems/sohl/templates/actor/structure-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ACTOR_KIND.VEHICLE]: {
         IconCssClass: "fas fa-wagon-covered",
         Image: "systems/sohl/assets/icons/wagon.svg",
-        Sheet: "systems/sohl/templates/actor/vehicle-sheet.hbs",
         KeyChoices: [] as StrictObject<string>[],
     },
 });
@@ -1100,18 +1070,18 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
-    kind: ENTITY_EFFECT_KEY,
-    values: EntityEffectKey,
-    isValue: isEntityEffectKey,
-    labels: EntityEffectKeyLabels,
-} = defineType("SOHL.Entity.EffectKey", {
+    kind: BEING_EFFECT_KEY,
+    values: BeingEffectKey,
+    isValue: isBeingEffectKey,
+    labels: BeingEffectKeyLabels,
+} = defineType("SOHL.Being.EffectKey", {
     ENGOPP: {
         name: "mod:system.engagedOpponents",
         abbrev: "EngOpp",
     },
 } as PlainObject);
-export type SohlEntityEffectKey =
-    (typeof ENTITY_EFFECT_KEY)[keyof typeof ENTITY_EFFECT_KEY];
+export type SohlBeingEffectKey =
+    (typeof BEING_EFFECT_KEY)[keyof typeof BEING_EFFECT_KEY];
 
 export const {
     kind: STRIKE_MODE_EFFECT_KEY,

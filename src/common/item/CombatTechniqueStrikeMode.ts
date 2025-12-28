@@ -13,7 +13,7 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import type { SkillLogic } from "./Skill";
+import type { SkillLogic } from "@common/item/Skill";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     StrikeModeLogic,
@@ -22,7 +22,7 @@ import {
 } from "@common/item/StrikeMode";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { CombatModifier } from "@common/modifier/CombatModifier";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 const { NumberField } = foundry.data.fields;
 
@@ -135,7 +135,7 @@ export class CombatTechniqueStrikeModeDataModel<
     implements CombatTechniqueStrikeModeData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = [
-        "CombatTechniqueStrikeMode",
+        "SOHL.CombatTechniqueStrikeMode.DATA",
     ];
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUESTRIKEMODE;
     lengthBase!: number;
@@ -145,14 +145,6 @@ export class CombatTechniqueStrikeModeDataModel<
 }
 
 export class CombatTechniqueStrikeModeSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template:
-                "systems/sohl/templates/item/combattechniquestrikemode.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

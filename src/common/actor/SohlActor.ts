@@ -539,77 +539,6 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
     foundry.applications.api
         .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor,
 ) as unknown as AbstractConstructor) {
-    static DEFAULT_OPTIONS: PlainObject = {
-        id: "sohl-actor-sheet",
-        tag: "form",
-        position: { width: 900, height: 640 },
-    };
-
-    static PARTS = {
-        header: {
-            template: "system/sohl/templates/actor/parts/actor-header.hbs",
-        },
-        tabs: {
-            template: "system/sohl/templates/actor/parts/actor-tabs.hbs",
-        },
-        facade: {
-            template: "system/sohl/templates/actor/parts/actor-facade.hbs",
-        },
-        profile: {
-            template: "system/sohl/templates/actor/parts/actor-profile.hbs",
-        },
-        skills: {
-            template: "system/sohl/templates/actor/parts/actor-skills.hbs",
-        },
-        combat: {
-            template: "system/sohl/templates/actor/parts/actor-combat.hbs",
-        },
-        trauma: {
-            template:
-                "system/sohl/templates/actor/parts/actor-nested-trauma.hbs",
-        },
-        mysteries: {
-            template:
-                "system/sohl/templates/actor/parts/actor-nested-mysteries.hbs",
-        },
-        gear: {
-            template: "system/sohl/templates/actor/parts/actor-nested-gear.hbs",
-        },
-        actions: {
-            template:
-                "system/sohl/templates/actor/parts/actor-nested-actions.hbs",
-        },
-        events: {
-            template: "system/sohl/templates/actor/parts/actor-events.hbs",
-        },
-        effects: {
-            template: "system/sohl/templates/actor/parts/actor-effects.hbs",
-        },
-    } as const;
-
-    static TABS = {
-        sheet: {
-            navSelector: ".tabs[data-group='sheet']",
-            contentSelector: ".content[data-group='sheet']",
-            initial: "profile",
-            tabs: [
-                {
-                    id: "profile",
-                    // icon: "fas fa-user",
-                    label: "SOHL.Actor.tab.profile",
-                },
-                { id: "skills", label: "SOHL.Actor.tab.skills" },
-                { id: "combat", label: "SOHL.Actor.tab.combat" },
-                { id: "trauma", label: "SOHL.Actor.tab.trauma" },
-                { id: "mysteries", label: "SOHL.Actor.tab.mysteries" },
-                { id: "gear", label: "SOHL.Actor.tab.gear" },
-                { id: "actions", label: "SOHL.Actor.tab.actions" },
-                { id: "events", label: "SOHL.Actor.tab.events" },
-                { id: "effects", label: "SOHL.Actor.tab.effects" },
-            ],
-        },
-    };
-
     get document(): SohlItem {
         // @ts-expect-error TypeScript has lost track of the super class due to erasure
         return super.document as SohlItem;
@@ -624,26 +553,9 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
     ): void {
         // @ts-expect-error TypeScript has lost track of the super class due to erasure
         super._configureRenderOptions(options);
-        // By default, we only show the header and tabs
-        // This is the default behavior for all data model sheets
-        options.parts = ["header", "tabs"];
-        // Don't show the other tabs if only limited view
-        if ((this.document as any).limited) return;
-        // If the document is not limited, we show all parts
-        options.parts.push(
-            "header",
-            "tabs",
-            "facade",
-            "profile",
-            "skills",
-            "combat",
-            "trauma",
-            "mysteries",
-            "gear",
-            "actions",
-            "events",
-            "effects",
-        );
+
+        // All actor sheets have these parts
+        options.parts = ["header", "tabs", "facade"];
     }
 
     async _prepareContext(options: any): Promise<PlainObject> {
@@ -664,40 +576,15 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
             options as any,
         );
         switch (partId) {
-            case "facade":
-                return await this._prepareFacadeContext(context, options);
-            case "profile":
-                return this._prepareProfileContext(context, options);
-            case "skills":
-                return await this._prepareSkillsContext(context, options);
-            case "combat":
-                return await this._prepareCombatContext(context, options);
-            case "trauma":
-                return await this._prepareTraumaContext(context, options);
-            case "mysteries":
-                return await this._prepareMysteriesContext(context, options);
-            case "gear":
-                return await this._prepareGearContext(context, options);
-            case "actions":
-                return await this._prepareActionsContext(context, options);
-            case "events":
-                return await this._prepareEventsContext(context, options);
-            case "effects":
-                return await this._prepareEffectsContext(context, options);
             case "header":
                 return await this._prepareHeaderContext(context, options);
             case "tabs":
                 return await this._prepareTabsContext(context, options);
+            case "facade":
+                return await this._prepareFacadeContext(context, options);
             default:
                 return context;
         }
-    }
-
-    async _prepareTabsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
     }
 
     async _prepareHeaderContext(
@@ -707,70 +594,14 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
         return context;
     }
 
+    async _prepareTabsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
     async _prepareFacadeContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareProfileContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareSkillsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareCombatContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareTraumaContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareMysteriesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareGearContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareActionsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareEventsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        return context;
-    }
-
-    async _prepareEffectsContext(
         context: PlainObject,
         options: PlainObject,
     ): Promise<PlainObject> {
@@ -809,56 +640,5 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
                 if (rgx && (rgx as any).global) rgx.lastIndex = 0;
             });
         }
-    }
-
-    protected _filters: foundry.applications.ux.SearchFilter[] = [
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-traits"]',
-            contentSelector: ".traits",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-skills"]',
-            contentSelector: ".skills",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-bodylocations"]',
-            contentSelector: ".bodylocations-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-afflictions"]',
-            contentSelector: ".afflictions-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-mysteries"]',
-            contentSelector: ".mysteries-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-mysticalabilities"]',
-            contentSelector: ".mysticalabilities-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-gear"]',
-            contentSelector: ".gear-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-        new foundry.applications.ux.SearchFilter({
-            inputSelector: 'input[name="search-effects"]',
-            contentSelector: ".effects-list",
-            callback: this._displayFilteredResults.bind(this),
-        }),
-    ];
-
-    async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        super._onRender(context, options);
-
-        // Rebind all search filters
-        this._filters.forEach((filter) => filter.bind((this as any).element));
     }
 }

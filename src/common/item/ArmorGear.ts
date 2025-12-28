@@ -13,7 +13,7 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 
@@ -76,7 +76,7 @@ export class ArmorGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ArmorGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["ArmorGear"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ArmorGear.DATA"];
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };
@@ -87,13 +87,6 @@ export class ArmorGearDataModel<
 }
 
 export class ArmorGearSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/armorgear.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

@@ -21,7 +21,13 @@ import {
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { ImpactAspects, ITEM_KIND, Variant, Variants } from "@utils/constants";
+import {
+    ImpactAspects,
+    ITEM_KIND,
+    ITEM_METADATA,
+    Variant,
+    Variants,
+} from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { StringField, SchemaField, NumberField } = foundry.data.fields;
@@ -144,7 +150,7 @@ export class ProtectionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements ProtectionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Protection"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Protection.DATA"];
     static override readonly kind = ITEM_KIND.PROTECTION;
     subType!: Variant;
     protectionBase!: StrictObject<number>;
@@ -155,13 +161,6 @@ export class ProtectionDataModel<
 }
 
 export class ProtectionSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affiliation.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

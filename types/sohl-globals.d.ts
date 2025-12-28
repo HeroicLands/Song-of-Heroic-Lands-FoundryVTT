@@ -9,7 +9,7 @@ import type {
 import type { SohlTokenDocument } from "@common/document/SohlTokenDocument";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import type { SohlActor } from "@common/actor/SohlActor";
-import type { Entity } from "@common/actor/Entity";
+import type { Being } from "@common/actor/Being";
 import type { Assembly } from "@common/actor/Assembly";
 import type { SohlCombatant } from "@common/combat/SohlCombatant";
 import type { SohlCombatantData } from "@common/combatant/SohlCombatantData";
@@ -162,6 +162,8 @@ declare module "fvtt-types/configuration" {
         "sohl.optionFate": string;
         "sohl.optionGearDamage": boolean;
         "sohl.biomeSpeedFactors": number[];
+        "sohl.trekDistanceUnit": string;
+        "sohl.tacticalDistanceUnit": string;
         "sohl.logThreshold": string;
     }
 
@@ -190,10 +192,14 @@ declare module "fvtt-types/configuration" {
 
     interface DataModelConfig {
         Actor: {
-            entity: typeof Entity.DataModel;
+            being: typeof Being.DataModel;
             assembly: typeof Assembly.DataModel;
+            cohort: typeof Cohort.DataModel;
+            structure: typeof Structure.DataModel;
+            vehicle: typeof Vehicle.DataModel;
         };
         Item: {
+            action: typeof ActionLogic.DataModel;
             affiliation: typeof AffiliationLogic.DataModel;
             affliction: typeof AfflictionLogic.DataModel;
             armorgear: typeof ArmorGear.DataModel;

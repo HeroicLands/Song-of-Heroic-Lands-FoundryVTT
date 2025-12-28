@@ -20,7 +20,7 @@ import {
     SohlItemLogic,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
 export class AffiliationLogic<
@@ -80,7 +80,7 @@ export class AffiliationDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AffiliationData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Affiliation"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affiliation.DATA"];
     static override readonly kind = ITEM_KIND.AFFILIATION;
     society!: string;
     office!: string;
@@ -93,13 +93,6 @@ export class AffiliationDataModel<
 }
 
 export class AffiliationSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affiliation.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

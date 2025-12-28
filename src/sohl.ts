@@ -11,63 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    COMMON_ACTOR_SHEETS,
-    COMMON_ITEM_SHEETS,
-    SohlSystem,
-} from "@common/SohlSystem";
+import type { SohlSpeaker } from "@common/SohlSpeaker";
+import { SohlSystem } from "@common/SohlSystem";
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
-import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
-import {
-    ActorKinds,
-    DEFAULT_BIOME_SPEED_FACTORS,
-    ItemKinds,
-    LOGLEVEL,
-    LogLevel,
-} from "@utils/constants";
+import { DEFAULT_BIOME_SPEED_FACTORS, LOGLEVEL } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
-import type { SohlSpeaker } from "@common/SohlSpeaker";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
 SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
 
-ActorKinds.forEach((kind) => {
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(
-        CONFIG.Actor.documentClass,
-        "sohl",
-        COMMON_ACTOR_SHEETS[kind] as any,
-        {
-            types: [kind],
-            makeDefault: true,
-        },
-    );
-});
-ItemKinds.forEach((kind) => {
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(
-        CONFIG.Item.documentClass,
-        "sohl",
-        COMMON_ITEM_SHEETS[kind] as any,
-        {
-            types: [kind],
-            makeDefault: true,
-        },
-    );
-});
-foundry.applications.apps.DocumentSheetConfig.registerSheet(
-    CONFIG.ActiveEffect.documentClass,
-    "sohl",
-    SohlActiveEffectConfig,
-    {
-        makeDefault: true,
-    },
-);
-
 function setupVariant(): SohlSystem {
     const variantId = game.settings.get("sohl", "variant");
     const sohl = SohlSystem.selectVariant(variantId);
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    sohl.setupSheets();
     console.log(sohl.initMessage);
     return sohl;
 }
@@ -179,6 +138,36 @@ function registerSystemSettings() {
         config: true,
         type: Boolean,
         default: false,
+    });
+    game.settings.register("sohl", "tacticalDistanceUnit", {
+        name: "Tactical Distance Unit",
+        hint: "The unit used for measuring distance in tactical situations.",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            meter: "Meter",
+            foot: "Foot", // 0.3048 meters
+            yard: "Yard", // 0.9144 meters
+            cubit: "Cubit", // 0.4572 meters
+        },
+        default: "meter",
+    });
+    game.settings.register("sohl", "trekDistanceUnit", {
+        name: "Trek Distance Unit",
+        hint: "The unit used for measuring distance outside tactical situations (such as trekking).",
+        scope: "world",
+        config: true,
+        type: String,
+        choices: {
+            kilometer: "Kilometer", // 1000 meters
+            mile: "Mile", // 1609.344 meters
+            nauticalMile: "Nautical Mile", // 1852 meters
+            league: "League", // 4828.032 meters
+            li: "LI", // Chinese miles; 500 meters
+            parsang: "Parsang", // 5500 meters
+        },
+        default: "kilometer",
     });
     game.settings.register("sohl", "biomeSpeedFactors", {
         name: "Biome Speed Factors",

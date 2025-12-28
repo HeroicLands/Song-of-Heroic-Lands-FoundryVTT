@@ -21,12 +21,12 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
         header: { template: "templates/sheets/active-effect/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         details: {
-            template: "system/sohl/templates/effects/details.hbs",
+            template: "systems/sohl/templates/effects/details.hbs",
             scrollable: [""],
         },
         duration: { template: "templates/sheets/active-effect/duration.hbs" },
         changes: {
-            template: "system/sohl/templates/effects/changes.hbs",
+            template: "systems/sohl/templates/effects/changes.hbs",
             scrollable: ["ol[data-changes]"],
         },
         footer: { template: "templates/generic/form-footer.hbs" },

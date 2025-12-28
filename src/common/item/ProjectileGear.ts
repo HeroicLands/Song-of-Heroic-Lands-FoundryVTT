@@ -17,6 +17,7 @@ import {
     IMPACT_ASPECT,
     ImpactAspect,
     ITEM_KIND,
+    ITEM_METADATA,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@utils/constants";
@@ -104,7 +105,9 @@ export class ProjectileGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ProjectileGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["ProjectileGear"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ProjectileGear.DATA",
+    ];
     static override readonly kind = ITEM_KIND.PROJECTILEGEAR;
     subType!: ProjectileGearSubType;
     shortName!: string;
@@ -121,13 +124,6 @@ export class ProjectileGearDataModel<
 }
 
 export class ProjectileGearSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/projectilegear.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

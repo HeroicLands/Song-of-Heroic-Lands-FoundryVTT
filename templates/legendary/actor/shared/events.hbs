@@ -1,0 +1,40 @@
+<section class="content" data-group="sheet" data-tab="events">
+  {{!-- events content --}}
+  <div class="items events">
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name short-name">Active Events</h3>
+            <div class="detail duration">When</div>
+            <div class="detail ele">Oper</div>
+            <div class="detail type">Source</div>
+            <div class="detail type">Target</div>
+            <div class="detail notes">Action</div>
+        </header>
+        <ol class="item-list">
+            {{#each system.events as |event|}}
+            <li class="item event flexrow">
+                <div class="item-name short-name flexrow">
+                    <h4>{{ name }}</h4>
+                </div>
+                <div class="detail duration" data-tooltip="{{ when.worldDate }}">
+                    {{ remaining }}
+                </div>
+                <div class="detail ele">
+                    {{oper}}
+                </div>
+                <div class="detail type" title="{{sourceName}}">
+                    {{ sourceName }}
+                </div>
+                <div class="detail type" title="{{targetName}}">
+                    {{ targetName }}
+                </div>
+                <div class="detail notes" title="{{actionName}}">
+                    {{ actionName }}
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
+
+</section>

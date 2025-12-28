@@ -23,8 +23,8 @@ import {
 } from "@utils/constants";
 import { SohlBase } from "@common/SohlBase";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
-import { SohlSpeaker } from "./SohlSpeaker";
-import { ActionData, ActionLogic } from "./item/Action";
+import { SohlSpeaker } from "@common/SohlSpeaker";
+import type { ActionData, ActionLogic } from "@common/item/Action";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -127,7 +127,7 @@ export abstract class SohlLogic<
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
         const typeLabel = sohl.i18n.localize(
-            `TYPE.${["assembly", "entity"].includes(type) ? "ITEM" : "ACTOR"}.${dataModel.parent.type}`,
+            `TYPE.${["assembly", "being"].includes(type) ? "ITEM" : "ACTOR"}.${dataModel.parent.type}`,
         );
         if (typeof (this.parent as any).subType === "string") {
             return sohl.i18n.format("SOHL.BASEDATA.labelWithSubtype", {
@@ -152,17 +152,17 @@ export abstract class SohlLogic<
         return "";
     }
 
-    get intrinsicActions(): ActionLogic[] {
-        const actions = Object.keys(INTRINSIC_ACTION).map((key) => {
-            const data = INTRINSIC_ACTION[key];
-            data.title ??= intrinsicActionLabels[key];
-            return data;
-        });
+    // get intrinsicActions(): ActionLogic[] {
+    //     const actions = Object.keys(INTRINSIC_ACTION).map((key) => {
+    //         const data = INTRINSIC_ACTION[key];
+    //         data.title ??= intrinsicActionLabels[key];
+    //         return data;
+    //     });
 
-        return actions.map((data) => {
-            return new ActionLogic(data, { parent: this });
-        });
-    }
+    //     // return actions.map((data) => {
+    //     //     return new ActionLogic(data, { parent: this });
+    //     // });
+    // }
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!options.parent) {
@@ -178,18 +178,15 @@ export abstract class SohlLogic<
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
         action.forEach((act) => {
-            if (act instanceof ActionLogic) {
-                const action = act as ActionLogic;
-                const isDefault =
-                    action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-                if (hasDefault) {
-                    if (isDefault) {
-                        action.data.group =
-                            SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
-                    }
-                } else {
-                    hasDefault ||= isDefault;
+            const action = act as ActionLogic;
+            const isDefault =
+                action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+            if (hasDefault) {
+                if (isDefault) {
+                    action.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
                 }
+            } else {
+                hasDefault ||= isDefault;
             }
         });
 

@@ -20,7 +20,7 @@ import {
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
+import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
 const { DocumentIdField } = foundry.data.fields;
 
 export class AssemblyLogic<
@@ -85,7 +85,7 @@ export class AssemblyDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements AssemblyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Assembly"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Assembly.DATA"];
     static override readonly kind = ACTOR_KIND.ASSEMBLY;
     canonicalItemId!: string | null;
 
@@ -94,11 +94,4 @@ export class AssemblyDataModel<
     }
 }
 
-export class AssemblySheet extends SohlActorSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/actor/assembly.hbs",
-        },
-    };
-}
+export class AssemblySheet extends SohlActorSheetBase {}

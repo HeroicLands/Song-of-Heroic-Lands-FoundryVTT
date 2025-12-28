@@ -261,30 +261,33 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
 ) as unknown as AbstractConstructor) {
     static PARTS = {
         header: {
-            template: "system/sohl/templates/item/parts/header.hbs",
+            template: "systems/sohl/templates/item/parts/header.hbs",
             id: "header",
         },
         tabs: {
-            template: "system/sohl/templates/item/parts/tabs.hbs",
-        },
-        // Each subclass should override this entry to provide its own template
-        properties: {
-            template: "",
+            id: "tabs",
+            classes: ["tabs"],
+            template: "systems/sohl/templates/item/parts/tabs.hbs",
         },
         description: {
-            template: "system/sohl/templates/item/parts/description.hbs",
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/parts/description.hbs",
+            scrollable: [""],
         },
         nestedItems: {
-            template: "system/sohl/templates/item/parts/nested-items.hbs",
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/parts/nested-items.hbs",
+            scrollable: [""],
         },
         actions: {
-            template: "system/sohl/templates/item/parts/actions.hbs",
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/parts/actions.hbs",
+            scrollable: [""],
         },
-        events: {
-            template: "system/sohl/templates/item/parts/events.hbs",
-        },
-        effectsTab: {
-            template: "system/sohl/templates/item/parts/effects.hbs",
+        effects: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/parts/effects.hbs",
+            scrollable: [""],
         },
     };
 
@@ -302,7 +305,6 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
                 { id: "description", label: "SOHL.Item.tab.description" },
                 { id: "nestedItems", label: "SOHL.Item.tab.nestedItems" },
                 { id: "actions", label: "SOHL.Item.tab.actions" },
-                { id: "events", label: "SOHL.Item.tab.events" },
                 { id: "effectsTab", label: "SOHL.Item.tab.effects" },
             ],
         },
@@ -336,7 +338,6 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
             "properties",
             "description",
             "actions",
-            "events",
             "nestedItems",
             "effectsTab",
         );
@@ -368,8 +369,6 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
                 return await this._prepareNestedItemsContext(context, options);
             case "actions":
                 return await this._prepareActionsContext(context, options);
-            case "events":
-                return await this._prepareEventsContext(context, options);
             case "effectsTab":
                 return await this._prepareEffectsTabContext(context, options);
             case "header":

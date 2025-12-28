@@ -13,7 +13,6 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import {
-    SohlActor,
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorDataModel,
@@ -22,6 +21,7 @@ import {
 } from "@common/actor/SohlActor";
 import {
     ACTOR_KIND,
+    ACTOR_METADATA,
     COHORT_MEMBER_ROLE,
     CohortMemberRoles,
     REACTION,
@@ -123,7 +123,7 @@ export class CohortDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements CohortData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Cohort"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Cohort.DATA"];
     static override readonly kind = ACTOR_KIND.COHORT;
 
     static defineSchema(): foundry.data.fields.DataSchema {
@@ -131,11 +131,4 @@ export class CohortDataModel<
     }
 }
 
-export class CohortSheet extends SohlActorSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/actor/cohort.hbs",
-        },
-    };
-}
+export class CohortSheet extends SohlActorSheetBase {}

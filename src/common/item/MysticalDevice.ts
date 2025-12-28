@@ -21,6 +21,7 @@ import {
 } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     MysticalDeviceSubType,
     MysticalDeviceSubTypes,
 } from "@utils/constants";
@@ -110,7 +111,9 @@ export class MysticalDeviceDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysticalDeviceData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["MysticalDevice"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MysticalDevice.DATA",
+    ];
     static override readonly kind = ITEM_KIND.MYSTICALDEVICE;
     subType!: MysticalDeviceSubType;
     requiresAttunement!: boolean;
@@ -132,13 +135,6 @@ export class MysticalDeviceDataModel<
 }
 
 export class MysticalDeviceSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affliction.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

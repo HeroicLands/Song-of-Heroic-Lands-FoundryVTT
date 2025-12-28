@@ -11,7 +11,7 @@
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
 - name: Basic Folk
-  type: entity
+  type: being
   folder: B7TbLzcpM0uOivzx
   _id: 4cRtW25ayGwkNFtB
   img: systems/sohl/assets/silhouette/character-headshot.webp

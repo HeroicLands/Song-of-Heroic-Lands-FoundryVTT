@@ -12,10 +12,10 @@
  */
 
 import type { SohlItem } from "@common/item/SohlItem";
+import type { GearData } from "@common/item/Gear";
+import type { MasteryLevelData } from "@common/item/MasteryLevel";
 import { ITEM_KIND } from "@utils/constants";
-import { SohlMap } from "./collection/SohlMap";
-import { GearData, GearLogic } from "@common/item/Gear";
-import { MasteryLevelData, MasteryLevelLogic } from "@common/item/MasteryLevel";
+import { SohlMap } from "@utils/collection/SohlMap";
 
 export type SohlSettingValue =
     | string

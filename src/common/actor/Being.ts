@@ -23,18 +23,18 @@ import {
 import type { ImpactResult } from "@common/result/ImpactResult";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { ACTOR_KIND } from "@utils/constants";
+import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
 
 const { ArrayField, NumberField } = foundry.data.fields;
 
 /**
- * The business logic class for the Entity actor.
+ * The business logic class for the Being actor.
  */
-export class EntityLogic<
-    TData extends EntityData = EntityData,
+export class BeingLogic<
+    TData extends BeingData = BeingData,
 > extends SohlActorBaseLogic<TData> {
     /**
-     * Represents the health of a entity.
+     * Represents the health of a being.
      *
      * @type {ValueModifier}
      */
@@ -53,7 +53,7 @@ export class EntityLogic<
     zoneSum!: number;
 
     /**
-     * Represents the base body weight of a entity without any gear
+     * Represents the base body weight of a being without any gear
      *
      * @type {ValueModifier}
      */
@@ -73,7 +73,7 @@ export class EntityLogic<
     magicMod!: ValueModifier;
 
     /* --------------------------------------------- */
-    /* Common Entity Actions                        */
+    /* Common Being Actions                        */
     /* --------------------------------------------- */
 
     async improveWithSDR(context: SohlActionContext): Promise<void> {
@@ -314,10 +314,10 @@ export class EntityLogic<
         // const skill = await Utility.getOpposedItem({
         //     actor: this.parent,
         //     label: _l(
-        //         "SOHL.Actor.entity.opposedTestResume.getOpposedItem.label",
+        //         "SOHL.Actor.being.opposedTestResume.getOpposedItem.label",
         //     ),
         //     title: _l(
-        //         "SOHL.Actor.entity.opposedTestResume.getOpposedItem.title",
+        //         "SOHL.Actor.being.opposedTestResume.getOpposedItem.title",
         //         {
         //             name: token.name,
         //         },
@@ -331,7 +331,7 @@ export class EntityLogic<
         //             it.system instanceof SkillItemData
         //         ) {
         //             const name = _l(
-        //                 "SOHL.Actor.entity.opposedTestResume.getOpposedItem.attributeLabel",
+        //                 "SOHL.Actor.being.opposedTestResume.getOpposedItem.attributeLabel",
         //                 {
         //                     name: it.name,
         //                     ml: it.system.$masteryLevel.effective,
@@ -368,7 +368,7 @@ export class EntityLogic<
         // } else if (skill === false) {
         //     ui.notifications.warn(
         //         _l(
-        //             "SOHL.Actor.entity.opposedTestResume.getOpposedItem.noUsableSkills",
+        //             "SOHL.Actor.being.opposedTestResume.getOpposedItem.noUsableSkills",
         //             { name: token.name },
         //         ),
         //     );
@@ -437,11 +437,11 @@ export class EntityLogic<
     }
 }
 
-export interface EntityData<
-    TLogic extends SohlActorLogic<EntityData> = SohlActorLogic<any>,
+export interface BeingData<
+    TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
 
-function defineEntityDataSchema(): foundry.data.fields.DataSchema {
+function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
         baseMovement: new ArrayField(new NumberField({ initial: 0, min: 0 }), {
@@ -450,31 +450,188 @@ function defineEntityDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
-type EntityDataSchema = ReturnType<typeof defineEntityDataSchema>;
+type BeingDataSchema = ReturnType<typeof defineBeingDataSchema>;
 
 /**
- * The Foundry VTT data model for the Entity actor.
+ * The Foundry VTT data model for the Being actor.
  */
-export class EntityDataModel<
-        TSchema extends foundry.data.fields.DataSchema = EntityDataSchema,
-        TLogic extends EntityLogic<EntityData> = EntityLogic<EntityData>,
+export class BeingDataModel<
+        TSchema extends foundry.data.fields.DataSchema = BeingDataSchema,
+        TLogic extends BeingLogic<BeingData> = BeingLogic<BeingData>,
     >
     extends SohlActorDataModel<TSchema, TLogic>
-    implements EntityData<TLogic>
+    implements BeingData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Entity"];
-    static override readonly kind = ACTOR_KIND.ENTITY;
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Being.DATA"];
+    static override readonly kind = ACTOR_KIND.BEING;
 
     static defineSchema(): foundry.data.fields.DataSchema {
-        return defineEntityDataSchema();
+        return defineBeingDataSchema();
     }
 }
 
-export class EntitySheet extends SohlActorSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/actor/entity.hbs",
-        },
-    };
+export class BeingSheet extends SohlActorSheetBase {
+    override _configureRenderOptions(
+        options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
+    ): void {
+        super._configureRenderOptions(options);
+
+        // Don't show the other tabs if only limited view
+        if ((this.document as any).limited) return;
+
+        options.parts = [
+            ...(options.parts ?? []),
+            "profile",
+            "skills",
+            "combat",
+            "trauma",
+            "mysteries",
+            "gear",
+            "actions",
+            "effects",
+        ];
+    }
+
+    override async _preparePartContext(
+        partId: string,
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        context = await super._preparePartContext(partId, context, options);
+
+        switch (partId) {
+            case "profile":
+                return this._prepareProfileContext(context, options);
+            case "skills":
+                return await this._prepareSkillsContext(context, options);
+            case "combat":
+                return await this._prepareCombatContext(context, options);
+            case "trauma":
+                return await this._prepareTraumaContext(context, options);
+            case "mysteries":
+                return await this._prepareMysteriesContext(context, options);
+            case "gear":
+                return await this._prepareGearContext(context, options);
+            case "actions":
+                return await this._prepareActionsContext(context, options);
+            case "effects":
+                return await this._prepareEffectsContext(context, options);
+            default:
+                return context;
+        }
+    }
+
+    async _prepareProfileContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareSkillsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareCombatContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareTraumaContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareMysteriesContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareGearContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareActionsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareEventsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    async _prepareEffectsContext(
+        context: PlainObject,
+        options: PlainObject,
+    ): Promise<PlainObject> {
+        return context;
+    }
+
+    protected _filters: foundry.applications.ux.SearchFilter[] = [
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-traits"]',
+            contentSelector: ".traits",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-skills"]',
+            contentSelector: ".skills",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-bodylocations"]',
+            contentSelector: ".bodylocations-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-afflictions"]',
+            contentSelector: ".afflictions-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-mysteries"]',
+            contentSelector: ".mysteries-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-mysticalabilities"]',
+            contentSelector: ".mysticalabilities-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-gear"]',
+            contentSelector: ".gear-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+        new foundry.applications.ux.SearchFilter({
+            inputSelector: 'input[name="search-effects"]',
+            contentSelector: ".effects-list",
+            callback: this._displayFilteredResults.bind(this),
+        }),
+    ];
+
+    async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
+        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+        super._onRender(context, options);
+
+        // Rebind all search filters
+        this._filters.forEach((filter) => filter.bind((this as any).element));
+    }
 }

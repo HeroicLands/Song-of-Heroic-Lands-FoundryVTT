@@ -20,6 +20,7 @@ import {
 } from "@common/item/MasteryLevel";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     TRAIT_INTENSITY,
     TRAIT_SUBTYPE,
     TraitIntensities,
@@ -120,7 +121,7 @@ export class TraitDataModel<
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements TraitData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Trait"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Trait.DATA"];
     static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
     textValue!: string;
@@ -139,13 +140,6 @@ export class TraitDataModel<
 }
 
 export class TraitSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/trait.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

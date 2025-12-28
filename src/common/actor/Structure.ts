@@ -19,7 +19,7 @@ import {
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
+import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
 const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;
 
@@ -76,7 +76,7 @@ export class StructureDataModel<
     TLogic extends
         StructureLogic<StructureData> = StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["Structure"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure.DATA"];
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 
     static defineSchema(): foundry.data.fields.DataSchema {
@@ -84,11 +84,4 @@ export class StructureDataModel<
     }
 }
 
-export class StructureSheet extends SohlActorSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/actor/structure.hbs",
-        },
-    };
-}
+export class StructureSheet extends SohlActorSheetBase {}

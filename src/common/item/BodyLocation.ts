@@ -19,7 +19,7 @@ import {
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import { ValueModifier } from "@common/modifier/ValueModifier";
-import { ImpactAspects, ITEM_KIND } from "@utils/constants";
+import { ImpactAspects, ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { BooleanField, StringField } = foundry.data.fields;
 
 export class BodyLocationLogic<
@@ -87,7 +87,7 @@ export class BodyLocationDataModel<
     TLogic extends
         BodyLocationLogic<BodyLocationData> = BodyLocationLogic<BodyLocationData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["BodyLocation"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyLocation.DATA"];
     static override readonly kind = ITEM_KIND.BODYLOCATION;
     abbrev!: string;
     isFumble!: boolean;
@@ -99,13 +99,6 @@ export class BodyLocationDataModel<
 }
 
 export class BodyLocationSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/bodylocation.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

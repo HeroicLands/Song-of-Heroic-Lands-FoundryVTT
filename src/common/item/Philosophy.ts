@@ -23,6 +23,7 @@ import {
 } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     PhilosophySubType,
     PhilosophySubTypes,
 } from "@utils/constants";
@@ -78,7 +79,7 @@ export class PhilosophyDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements PhilosophyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Philosophy"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Philosophy.DATA"];
     static override readonly kind = ITEM_KIND.PHILOSOPHY;
     subType!: PhilosophySubType;
 
@@ -88,13 +89,6 @@ export class PhilosophyDataModel<
 }
 
 export class PhilosophySheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affliction.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

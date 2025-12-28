@@ -26,6 +26,7 @@ import {
     defineType,
     getContextItem,
     ITEM_KIND,
+    ITEM_METADATA,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
@@ -245,7 +246,7 @@ export class AfflictionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AfflictionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Affliction"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affliction.DATA"];
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
     category!: string;
@@ -263,13 +264,6 @@ export class AfflictionDataModel<
 }
 
 export class AfflictionSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/affliction.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

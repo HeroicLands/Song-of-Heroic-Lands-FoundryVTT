@@ -63,4 +63,8 @@ export class MistyIsleSystem extends SohlSystem {
         }
         return this._instance;
     }
+
+    override setupSheets(): void {
+        throw new Error("Method not implemented.");
+    }
 }

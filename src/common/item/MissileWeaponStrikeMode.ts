@@ -15,6 +15,7 @@ import type { SohlActionContext } from "@common/SohlActionContext";
 import { SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
@@ -23,7 +24,7 @@ import {
     StrikeModeLogic,
     StrikeModeDataModel,
     StrikeModeData,
-} from "./StrikeMode";
+} from "@common/item/StrikeMode";
 const { StringField } = foundry.data.fields;
 
 export class MissileWeaponStrikeModeLogic<
@@ -83,7 +84,7 @@ export class MissileWeaponStrikeModeDataModel<
     implements MissileWeaponStrikeModeData
 {
     static override readonly LOCALIZATION_PREFIXES = [
-        "MissileWeaponStrikeMode",
+        "SOHL.MissileWeaponStrikeMode.DATA",
     ];
     static override readonly kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
     projectileType!: ProjectileGearSubType;
@@ -94,14 +95,6 @@ export class MissileWeaponStrikeModeDataModel<
 }
 
 export class MissileWeaponStrikeModeSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template:
-                "systems/sohl/templates/item/combattechniquestrikemode.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

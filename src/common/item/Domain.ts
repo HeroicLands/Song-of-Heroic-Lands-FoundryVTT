@@ -19,6 +19,7 @@ import {
     DomainEmbodimentCategories,
     DomainEmbodimentCategory,
     ITEM_KIND,
+    ITEM_METADATA,
 } from "@utils/constants";
 import type { SohlActionContext } from "@common/SohlActionContext";
 import {
@@ -102,7 +103,7 @@ export class DomainDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements DomainData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Domain"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Domain.DATA"];
     static override readonly kind = ITEM_KIND.DOMAIN;
     abbrev!: string;
     cusp!: string;
@@ -116,13 +117,6 @@ export class DomainDataModel<
 }
 
 export class DomainSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/domain.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

@@ -23,11 +23,7 @@ import { CombatResult } from "@common/result/CombatResult";
 import { ImpactResult } from "@common/result/ImpactResult";
 import { OpposedTestResult } from "@common/result/OpposedTestResult";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import {
-    EntityLogic,
-    EntityDataModel,
-    EntitySheet,
-} from "@common/actor/Entity";
+import { BeingLogic, BeingDataModel, BeingSheet } from "@common/actor/Being";
 import {
     AssemblyLogic,
     AssemblyDataModel,
@@ -40,13 +36,11 @@ import {
 } from "@common/actor/Cohort";
 import {
     SohlActor,
-    SohlActorDataModel,
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
 import {
     SohlItem,
-    SohlItemDataModel,
     SohlItemLogic,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
@@ -183,20 +177,24 @@ import {
     MovementProfileDataModel,
     MovementProfileLogic,
     MovementProfileSheet,
-} from "./item/MovementProfile";
+} from "@common/item/MovementProfile";
 import {
     StructureDataModel,
     StructureLogic,
     StructureSheet,
-} from "./actor/Structure";
-import { VehicleDataModel, VehicleLogic, VehicleSheet } from "./actor/Vehicle";
+} from "@common/actor/Structure";
+import {
+    VehicleDataModel,
+    VehicleLogic,
+    VehicleSheet,
+} from "@common/actor/Vehicle";
 
 export type ActorDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlActor, any>>
 >;
 export const ACTOR_DM_DEF: ActorDMMap = {
-    [ACTOR_KIND.ENTITY]: EntityDataModel,
+    [ACTOR_KIND.BEING]: BeingDataModel,
     [ACTOR_KIND.ASSEMBLY]: AssemblyDataModel,
     [ACTOR_KIND.COHORT]: CohortDataModel,
     [ACTOR_KIND.STRUCTURE]: StructureDataModel,
@@ -224,7 +222,7 @@ export const {
     isValue: isCommonActorLogic,
     labels: CommonActorLogicLabels,
 } = defineType("SOHL.Actor.Logic", {
-    [ACTOR_KIND.ENTITY]: EntityLogic,
+    [ACTOR_KIND.BEING]: BeingLogic,
     [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
     [ACTOR_KIND.COHORT]: CohortLogic,
     [ACTOR_KIND.STRUCTURE]: StructureLogic,
@@ -237,7 +235,7 @@ export const {
     isValue: isCommonActorSheet,
     labels: CommonActorSheetLabels,
 } = defineType("SOHL.Actor.Sheet", {
-    [ACTOR_KIND.ENTITY]: EntitySheet,
+    [ACTOR_KIND.BEING]: BeingSheet,
     [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
     [ACTOR_KIND.COHORT]: CohortSheet,
     [ACTOR_KIND.STRUCTURE]: StructureSheet,
@@ -452,7 +450,7 @@ export abstract class SohlSystem {
                     ]),
                 ),
                 types: ActorKinds,
-                defaultType: ACTOR_KIND.ENTITY,
+                defaultType: ACTOR_KIND.BEING,
                 compendiums: ["sohl.leg-characters", "sohl.leg-creatures"],
                 macros: {},
             },
@@ -644,6 +642,8 @@ export abstract class SohlSystem {
     get variants(): Itr<[string, SohlSystem]> {
         return (this.constructor as any).variants;
     }
+
+    abstract setupSheets(): void;
 }
 
 export namespace SohlSystem {

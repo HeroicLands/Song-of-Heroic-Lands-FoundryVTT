@@ -19,7 +19,7 @@ import {
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
 export class BodyZoneLogic<
@@ -72,7 +72,7 @@ export class BodyZoneDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyZoneData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["BodyZone"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyZone.DATA"];
     static override readonly kind = ITEM_KIND.BODYZONE;
     abbrev!: string;
 
@@ -82,13 +82,6 @@ export class BodyZoneDataModel<
 }
 
 export class BodyZoneSheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/bodyzone.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,

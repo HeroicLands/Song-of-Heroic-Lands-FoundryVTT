@@ -24,6 +24,7 @@ import {
 } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
+    ITEM_METADATA,
     MYSTERY_CATEGORY,
     MYSTERY_CATEGORYMAP,
     MYSTERY_SUBTYPE,
@@ -347,7 +348,7 @@ export class MysteryDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysteryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["Mystery"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery.DATA"];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     domain!: {
@@ -367,13 +368,6 @@ export class MysteryDataModel<
 }
 
 export class MysterySheet extends SohlItemSheetBase {
-    static override PARTS = {
-        ...super.PARTS,
-        properties: {
-            template: "systems/sohl/templates/item/mystery.hbs",
-        },
-    };
-
     override async _preparePropertiesContext(
         context: PlainObject,
         options: PlainObject,
