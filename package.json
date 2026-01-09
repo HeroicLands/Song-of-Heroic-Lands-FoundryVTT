@@ -32,6 +32,7 @@
         "clean": "rm -rf build .vite .vitepress .rollup.cache",
         "distclean": "npm run clean && rm -rf node_modules",
         "build": "npm ci && npm run build:noci",
+	"deploy-dev": "npm run build && rsync -avh --delete build/stage/ atlas:/srv/docker/data/foundryvtt-dev/Data/systems/sohl/",
         "build:local": "npm install && npm run build:noci",
         "build:noci": "run-s build:types build:prepare test:coverage build:code",
         "build:prepare": "run-p build:css build:db build:system",
