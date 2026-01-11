@@ -157,9 +157,11 @@ import { SohlCombatantData } from "@common/combatant/SohlCombatantData";
 import {
     ACTOR_KIND,
     ActorKinds,
+    actorKindLabels,
     ACTOR_METADATA,
     ITEM_KIND,
     ItemKinds,
+    itemKindLabels,
     ITEM_METADATA,
     EFFECT_KIND,
     EffectKinds,
@@ -442,7 +444,7 @@ export abstract class SohlSystem {
                     };
                 }),
                 dataModels: COMMON_ACTOR_DATA_MODEL,
-                typeLabels: CommonActorDataModelLabels,
+                typeLabels: actorKindLabels,
                 typeIcons: Object.fromEntries(
                     ActorKinds.map((kind) => [
                         kind,
@@ -463,7 +465,7 @@ export abstract class SohlSystem {
                     };
                 }),
                 dataModels: COMMON_ITEM_DATA_MODEL,
-                typeLabels: CommonItemDataModelLabels,
+                typeLabels: itemKindLabels,
                 typeIcons: Object.fromEntries(
                     ItemKinds.map((kind) => [
                         kind,

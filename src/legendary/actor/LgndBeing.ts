@@ -114,4 +114,25 @@ export class LgndBeingSheet extends SohlActorSheetBase {
             ],
         },
     };
+
+    // override _configureRenderOptions(
+    //     options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
+    // ): void {
+    //     super._configureRenderOptions(options);
+
+    //     // Don't show the other tabs if only limited view
+    //     if ((this.document as any).limited) return;
+
+    //     options.parts = [
+    //         ...(options.parts ?? []),
+    //         "profile",
+    //         "skills",
+    //         "combat",
+    //         "trauma",
+    //         "mysteries",
+    //         "gear",
+    //         "actions",
+    //         "effects",
+    //     ];
+    // }
 }

@@ -34,14 +34,8 @@ import {
 } from "@utils/helpers";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { SohlMap } from "@utils/collection/SohlMap";
 import type { SohlLogic } from "@common/SohlLogic";
-import {
-    COMBATANT_LOGIC,
-    COMMON_ACTOR_LOGIC,
-    COMMON_ITEM_LOGIC,
-    EFFECT_LOGIC,
-} from "@common/SohlSystem";
+import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@common/SohlSystem";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export abstract class SohlDataModel<
