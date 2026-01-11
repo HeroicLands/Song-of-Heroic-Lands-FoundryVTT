@@ -1,22 +1,244 @@
-@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
-/* Global styles */
-body.system-sohl {
-  outline: 4px solid magenta !important;
+@charset "UTF-8";
+/* cinzel-regular - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cinzel-500 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cinzel-600 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cinzel-700 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* signika-regular - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* signika-500 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* signika-600 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* signika-700 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-regular - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-500 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-500italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-600 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-600italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-700 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* cormorant-garamond-700italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-300 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-300italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-regular - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-500 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-500italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-600 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-600italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-700 - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* ibm-plex-mono-700italic - latin_latin-ext */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* Core text */
+  --color-text-primary: #191813;
+  --color-text-secondary: #343225;
+  /* Foundry uses these for “light on dark” cases */
+  --color-text-light-primary: #f6f4ea;
+  --color-text-light-secondary: #f6f4ea;
+  /* Borders used by core UI elements */
+  --color-border-light-primary: #c9c7b8;
+  --color-border-light-secondary: #eeede0;
+  --color-border-dark: #8a887c;
+  --color-border-highlight: #8a887c;
 }
 
-/*.window-app {
-  font-family: $font-primary;
-}*/
+/* Global styles */
 .rollable:hover, .rollable:focus {
-  color: #000;
+  color: #c9c7b8;
   text-shadow: 0 0 10px red;
   cursor: pointer;
 }
 
 section.highlight {
   padding: 0 5px;
-  background: rgba(247, 230, 2, 0.05);
-  border: 1px solid #666;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid #8a887c;
+}
+
+.editor,
+.editor-content {
+  font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
+  font-size: 13px;
+  font-weight: 400;
 }
 
 .grid,
@@ -113,37 +335,39 @@ section.highlight {
 }
 
 .chat-card {
-  font-style: normal;
+  font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
   font-size: 15px;
+  font-weight: 400;
+  font-style: normal;
 }
 .chat-card .card-header {
   text-align: center;
   padding: 3px 0;
-  border-top: 2px groove #fff;
-  border-bottom: 2px groove #fff;
-  background-color: #bbb;
-  color: #111;
+  border-top: 2px groove #eeede0;
+  border-bottom: 2px groove #eeede0;
+  background-color: #c9c7b8;
+  color: #191813;
 }
 .chat-card .card-header h3 {
   flex: 1;
   margin: 0;
   line-height: 25px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 20px;
   font-weight: 700;
-  color: #4b4a44;
+  color: #191813;
 }
 .chat-card .card-header h4 {
   flex: 1;
   margin: 0;
   line-height: 20px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 16px;
   font-weight: 700;
-  color: #4b4a44;
+  color: #191813;
 }
 .chat-card .card-header h3:hover {
-  color: #111;
+  color: #191813;
   text-shadow: 0 0 10px red;
 }
 .chat-card .mingap {
@@ -157,12 +381,12 @@ section.highlight {
   text-align: center;
 }
 .chat-card .result-desc {
-  color: blue;
+  color: #4f6b73;
   font-weight: bold;
 }
 .chat-card .weapon-broke {
   text-align: center;
-  color: red;
+  color: #c84a3a;
   font-weight: bold;
 }
 .chat-card .card-content {
@@ -182,8 +406,8 @@ section.highlight {
   text-align: left;
 }
 .chat-card .card-content .adjustment {
-  border-top: 2px groove #fff;
-  border-bottom: 2px groove #fff;
+  border-top: 2px groove #eeede0;
+  border-bottom: 2px groove #eeede0;
 }
 .chat-card .card-content .adj-name {
   text-align: left;
@@ -196,24 +420,24 @@ section.highlight {
 }
 .chat-card .card-footer {
   padding: 3px 0 0;
-  border-top: 2px groove #fff;
+  border-top: 2px groove #f6f4ea;
   text-align: center;
   font-size: 16px;
 }
 .chat-card .critical-success-block {
-  background-color: green;
-  color: white;
+  background-color: #5f6f3a;
+  color: #f6f4ea;
 }
 .chat-card .critical-failure-block {
-  background-color: red;
-  color: white;
+  background-color: #c84a3a;
+  color: #f6f4ea;
 }
 .chat-card .critical-success-text {
-  color: green;
+  color: #5f6f3a;
   font-weight: bold;
 }
 .chat-card .critical-failure-text {
-  color: red;
+  color: #c84a3a;
   font-weight: bold;
 }
 .chat-card .note {
@@ -221,19 +445,19 @@ section.highlight {
 }
 .chat-card .notice-header {
   border-top: 2px groove;
-  color: red;
+  color: #c84a3a;
   text-align: center;
   font-weight: bold;
 }
 .chat-card .notice-body {
-  color: red;
+  color: #c84a3a;
   text-align: center;
 }
 .chat-card .success-text {
-  color: green;
+  color: #5f6f3a;
 }
 .chat-card .failure-text {
-  color: red;
+  color: #c84a3a;
 }
 .chat-card .emphasize-text {
   font-style: italic;
@@ -246,11 +470,13 @@ section.highlight {
 
 .tooltiptext {
   text-transform: none;
+  font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
   font-size: 12px;
+  font-weight: 600;
   visibility: hidden;
   width: 240px;
-  background-color: rgb(216, 189, 36);
-  color: #111;
+  background-color: #c7b35a;
+  color: #191813;
   text-align: left;
   border-radius: 6px;
   padding: 5px 5px;
@@ -269,22 +495,11 @@ section.highlight {
   margin-left: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: rgb(216, 189, 36) transparent transparent transparent;
+  border-color: #c7b35a transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
-}
-
-.sheet nav.sheet-tabs {
-  height: 32px;
-  flex: 0 0 32px;
-  margin: 4px 0;
-  line-height: 32px;
-  border: none;
-}
-.sheet nav.sheet-tabs .item {
-  padding: 0;
 }
 
 #hotbar li.macro {
@@ -300,27 +515,27 @@ section.highlight {
 .sohl .print-window-content {
   font-size: 13px;
   color: #191813;
-  background: white;
+  background: #f6f4ea;
 }
 .sohl input[type=text],
 .sohl input[type=number],
 .sohl select {
   height: calc(100% - 2px);
   border: 1px solid #7a7971;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   color: #191813;
 }
 .sohl input[type=text]:hover,
 .sohl input[type=number]:hover,
 .sohl input[type=text]:focus,
 .sohl input[type=number]:focus {
-  border: 1px solid #111;
+  border: 1px solid #8a887c;
   box-shadow: 0 0 8px red;
 }
 .sohl input:disabled,
 .sohl select:disabled,
 .sohl textarea:disabled {
-  color: #4b4a44;
+  color: #8e8c7f;
 }
 .sohl input:disabled:hover,
 .sohl select:disabled:hover,
@@ -333,7 +548,7 @@ section.highlight {
   outline: none !important;
 }
 .sohl button {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.08);
   border: 2px groove #eeede0;
 }
 .sohl label.checkbox {
@@ -386,7 +601,7 @@ section.highlight {
 .sohl .sheet input[type=number]:hover,
 .sohl .sheet input[type=text]:focus,
 .sohl .sheet input[type=number]:focus {
-  border: 1px solid #111;
+  border: 1px solid #8a887c;
 }
 .sohl .sheet select {
   flex: 1;
@@ -395,7 +610,7 @@ section.highlight {
   background: transparent;
 }
 .sohl .sheet .editable .rollable:hover {
-  color: #000;
+  color: #191813;
   text-shadow: 0 0 10px red;
   cursor: pointer;
 }
@@ -455,7 +670,7 @@ section.highlight {
   padding: 0;
   border-right: 2px groove #eeede0;
   line-height: 34px;
-  color: #4b4a44;
+  color: #8e8c7f;
 }
 .sohl .sheet .sheet-header .summary li :last-child {
   border-right: none;
@@ -474,10 +689,10 @@ section.highlight {
   height: 30px;
   line-height: 32px;
   margin: 0 24px;
-  border-bottom: 3px solid #b5b3a4;
+  border-bottom: 3px solid #8a887c;
 }
 .sohl .sheet .sheet-navigation .item .active {
-  border-bottom: 3px solid #44191a;
+  border-bottom: 3px solid #c84a3a;
 }
 .sohl .search-bar {
   align-items: center;
@@ -492,13 +707,13 @@ section.highlight {
   height: 120px;
   margin-right: 10px;
   object-fit: contain;
-  background: white;
+  background: #f6f4ea;
 }
 .sohl img.bio-image {
   flex: 0 0 200px;
   margin-right: 10px;
   object-fit: contain;
-  background: white;
+  background: #f6f4ea;
 }
 .sohl label.header {
   font-weight: bold;
@@ -525,25 +740,284 @@ section.highlight {
   font-size: 16px;
   vertical-align: -0.125em;
   text-align: right;
-  color: #4b4a44;
+  color: #8e8c7f;
   padding-right: 5px;
 }
 .sohl .search-items .search-controls .disabled {
-  color: #9a998f;
+  color: #8e8c7f;
 }
 .sohl .facade img.facade-image {
   flex: 0 0 200px;
   object-fit: contain;
-  background: white;
+  background: #f6f4ea;
 }
 .sohl .facade .facade-description {
   margin-left: 5px;
 }
 .sohl {
-  @import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+  /* cinzel-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 .sohl .item-form {
-  font-family: "Signika", sans-serif;
+  font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
+  font-size: 13px;
+  font-weight: 400;
 }
 .sohl form .form-group .form-fields {
   justify-content: flex-start;
@@ -595,15 +1069,15 @@ section.highlight {
   width: 100%;
   margin-bottom: 5px;
   background: #7a7971;
-  border: 1px solid #000;
+  border: 1px solid #c9c7b8;
   border-radius: 3px;
 }
 .sohl .sheet-header-being .header-fields .name-attribute .healthbar .bar {
   height: 4px;
   margin: 1px;
   display: block;
-  background: #afebff;
-  border: 1px solid #000;
+  background: #6f979a;
+  border: 1px solid #8a887c;
   border-radius: 2px;
 }
 .sohl .sheet-header-being .header-fields .name-attribute .empty {
@@ -631,8 +1105,9 @@ section.highlight {
 }
 .sohl .sheet-header-being .header-fields .header-attributes textarea.description {
   resize: none;
-  font-family: "Signika", sans-serif;
+  font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
   font-size: 13px;
+  font-weight: 400;
   border: none;
   background: transparent;
 }
@@ -654,7 +1129,7 @@ section.highlight {
 }
 .sohl .sheet-header-being .header-fields .effect-buttons .effect-button {
   border: 1px;
-  color: black;
+  color: #191813;
   padding: 0px;
   text-align: center;
   text-decoration: none;
@@ -666,8 +1141,8 @@ section.highlight {
   width: 40px;
 }
 .sohl .sheet-header-being .header-fields .effect-buttons .active {
-  color: white;
-  background-color: blue;
+  color: #f6f4ea;
+  background-color: #4f6b73;
 }
 .sohl .sheet-header-being .header-fields .bodypart-statuses {
   margin: 0;
@@ -675,7 +1150,7 @@ section.highlight {
 }
 .sohl .sheet-header-being .header-fields .bodypart-statuses .bodypart-status {
   border: 1px;
-  color: black;
+  color: #191813;
   padding-top: 3px;
   text-align: center;
   text-decoration: none;
@@ -686,13 +1161,13 @@ section.highlight {
   height: 25px;
 }
 .sohl .sheet-header-being .header-fields .bodypart-statuses .none {
-  background-color: #ddd;
+  background-color: #eeede0;
 }
 .sohl .sheet-header-being .header-fields .bodypart-statuses .impaired {
-  background-color: rgb(212, 208, 12);
+  background-color: #a8a200;
 }
 .sohl .sheet-header-being .header-fields .bodypart-statuses .unusable {
-  background-color: rgb(245, 75, 75);
+  background-color: #c84a3a;
 }
 .sohl .sheet-header-object {
   flex: 0 0 120px;
@@ -756,15 +1231,15 @@ section.highlight {
   width: 100%;
   margin-bottom: 5px;
   background: #7a7971;
-  border: 1px solid #000;
+  border: 1px solid #8a887c;
   border-radius: 3px;
 }
 .sohl .sheet-header-object .header-fields .header-stat-block .endbar .bar {
   height: 4px;
   margin: 1px;
   display: block;
-  background: #afebff;
-  border: 1px solid #000;
+  background: #6f979a;
+  border: 1px solid #8a887c;
   border-radius: 2px;
 }
 .sohl .sheet-header-object .header-fields .header-attributes {
@@ -772,8 +1247,9 @@ section.highlight {
 }
 .sohl .sheet-header-object .header-fields .header-attributes textarea.description {
   resize: none;
-  font-family: "Signika", sans-serif;
+  font-family: "IBM Plex Mono", "Courier", monospace;
   font-size: 13px;
+  font-weight: 400;
   border: none;
   background: transparent;
 }
@@ -795,7 +1271,7 @@ section.highlight {
 }
 .sohl .sheet-header-object .header-fields .effect-buttons .effect-button {
   border: 1px;
-  color: black;
+  color: #191813;
   padding: 0px;
   text-align: center;
   text-decoration: none;
@@ -807,8 +1283,8 @@ section.highlight {
   width: 40px;
 }
 .sohl .sheet-header-object .header-fields .effect-buttons .active {
-  color: white;
-  background-color: blue;
+  color: #f6f4ea;
+  background-color: #4f6b73;
 }
 .sohl .sheet-header-object .header-fields .zone-statuses {
   margin: 0;
@@ -816,7 +1292,7 @@ section.highlight {
 }
 .sohl .sheet-header-object .header-fields .zone-statuses .bodyzone-status {
   border: 1px;
-  color: black;
+  color: #191813;
   padding-top: 3px;
   text-align: center;
   text-decoration: none;
@@ -827,13 +1303,13 @@ section.highlight {
   height: 25px;
 }
 .sohl .sheet-header-object .header-fields .zone-statuses .none {
-  background-color: #ddd;
+  background-color: #eeede0;
 }
 .sohl .sheet-header-object .header-fields .zone-statuses .impaired {
-  background-color: rgb(212, 208, 12);
+  background-color: #a8a200;
 }
 .sohl .sheet-header-object .header-fields .zone-statuses .unusable {
-  background-color: rgb(245, 75, 75);
+  background-color: #c84a3a;
 }
 .sohl .macro-sheet .form-group .condition .condition {
   height: 20%;
@@ -875,48 +1351,570 @@ section.highlight {
   font-weight: bold;
   text-transform: uppercase;
 }
-.sohl .tabs {
-  flex: 0 0 30px;
+.sohl {
+  /* cinzel-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl .tabs [data-tab] {
+  flex: 0 0 auto;
   margin-bottom: 5px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 20px;
   font-weight: 700;
 }
-.sohl .tabs .item {
-  height: 30px;
+.sohl .tabs [data-tab] .item {
   line-height: 32px;
   margin: 0 24px;
-  border-bottom: 3px solid #b5b3a4;
+  border-bottom: 3px solid #8a887c;
 }
-.sohl .tabs .item.active {
+.sohl .tabs [data-tab] .item:hover, .sohl .tabs [data-tab] .item:focus {
+  background: rgba(0, 0, 0, 0.12);
+}
+.sohl .tabs [data-tab] .item.active {
   text-shadow: none;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid #191813;
   font-size: 25px;
 }
 .sohl .sheet-body .tab {
   margin-right: 5px;
 }
+.sohl {
+  /* cinzel-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 .sohl .items h2 {
   flex: 1;
   margin: 0;
   line-height: 36px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 20px;
   font-weight: 700;
-  color: #4b4a44;
-  background-color: #bbb;
-  border-top: 2px groove #fff;
-  border-bottom: 2px groove #fff;
+  color: #191813;
+  background-color: #c9c7b8;
+  border-top: 2px groove #eeede0;
+  border-bottom: 2px groove #eeede0;
   padding: 5px;
 }
 .sohl .items .danger {
-  color: red;
+  color: #c84a3a;
 }
 .sohl .items .disabled {
-  color: #9a998f;
+  color: #8e8c7f;
 }
 .sohl .items .nocarry {
-  color: #9a998f;
+  color: #8e8c7f;
 }
 .sohl .items .items-list {
   list-style: none;
@@ -928,7 +1926,7 @@ section.highlight {
   margin: 2px 0;
   padding: 0;
   align-items: center;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.12);
   border: 2px groove #eeede0;
   font-weight: bold;
   line-height: 24px;
@@ -936,10 +1934,9 @@ section.highlight {
 .sohl .items .items-list .items-header h3 {
   margin: 0;
   padding-left: 5px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
-  font-size: 20px;
-  font-weight: 700;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 16px;
+  font-weight: 700;
 }
 .sohl .items .items-list .items-header h3 .fas {
   padding-right: 5px;
@@ -961,11 +1958,11 @@ section.highlight {
   overflow: hidden;
 }
 .sohl .items .items-list .items-header .overmaxcap {
-  color: red;
+  color: #c84a3a;
   font-weight: bold;
 }
 .sohl .items .items-list .items-header .overencumberedcap {
-  color: #c18c00;
+  color: #a87c00;
   font-weight: bold;
 }
 .sohl .items .items-list .item-list {
@@ -1096,6 +2093,266 @@ section.highlight {
 .sohl .items-block + .items-block {
   margin-top: 10px;
 }
+.sohl {
+  /* cinzel-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 .sohl .attribute-scores {
   flex: 0 0 80px;
   gap: 0;
@@ -1123,10 +2380,10 @@ section.highlight {
 .sohl .attribute-scores .attribute .label {
   margin: 0 0 2px;
   font-size: 13px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #8a887c;
 }
 .sohl .attribute-scores .attribute .attribute-box {
-  border-top: 1px solid black;
+  border-top: 1px solid #8a887c;
 }
 .sohl .attribute-scores .attribute .secmod {
   font-size: 13px;
@@ -1141,19 +2398,19 @@ section.highlight {
   background-size: 27px;
   background-repeat: no-repeat;
   background-position: center;
-  color: black;
+  color: #191813;
 }
 .sohl .traits h2 {
   flex: 1;
   margin: 0;
   line-height: 36px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 20px;
   font-weight: 700;
-  color: #4b4a44;
-  background-color: #bbb;
-  border-top: 2px groove #fff;
-  border-bottom: 2px groove #fff;
+  color: #191813;
+  background-color: #c9c7b8;
+  border-top: 2px groove #eeede0;
+  border-bottom: 2px groove #eeede0;
   padding: 5px;
 }
 .sohl .traits .traits-list {
@@ -1205,7 +2462,7 @@ section.highlight {
   overflow-y: hidden;
 }
 .sohl .affiliations .affiliation-list .affiliation {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #c9c7b8;
 }
 .sohl .affiliations .affiliation-list .affiliation .image {
   flex: 0 0 24px;
@@ -1270,11 +2527,12 @@ section.highlight {
 }
 .sohl .profile-desc .label {
   padding-left: 5px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 16px;
+  font-weight: 700;
   margin: 2px 0;
   align-items: center;
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.04);
   border: 2px groove #eeede0;
   font-weight: bold;
   line-height: 24px;
@@ -1289,7 +2547,7 @@ section.highlight {
 .sohl .profile img.bio-image {
   flex: 0 0 200px;
   object-fit: contain;
-  background: white;
+  background: #f6f4ea;
 }
 .sohl .bodylocations .zone-list {
   list-style: none;
@@ -1312,7 +2570,7 @@ section.highlight {
   font-weight: bold;
 }
 .sohl .bodylocations .zone-list .bodylocation {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #c9c7b8;
   align-items: center;
   line-height: normal;
 }
@@ -1354,8 +2612,8 @@ section.highlight {
 }
 .sohl .bodylocations .zone-list .zone-header {
   font-weight: bold;
-  background: rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #bbb;
+  background: rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #c9c7b8;
 }
 .sohl .bodylocations .zone-list .zone-header .zone-image {
   flex: 0 0 24px;
@@ -1391,8 +2649,8 @@ section.highlight {
 }
 .sohl .bodylocations .zone-list .bodypart-header {
   font-weight: bold;
-  background: rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid #bbb;
+  background: rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid #c9c7b8;
 }
 .sohl .bodylocations .zone-list .bodypart-header .bodypart-image {
   flex: 0 0 24px;
@@ -1419,24 +2677,284 @@ section.highlight {
   white-space: nowrap;
   overflow: hidden;
 }
+.sohl {
+  /* cinzel-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cinzel-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* signika-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Signika";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* cormorant-garamond-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-300italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 300;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-regular - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 400;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-500italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-600italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 600;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700 - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+.sohl {
+  /* ibm-plex-mono-700italic - latin_latin-ext */
+}
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 700;
+  src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 .sohl .effects h2 {
   flex: 1;
   margin: 0;
   line-height: 36px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 20px;
   font-weight: 700;
-  color: #4b4a44;
-  background-color: #bbb;
-  border-top: 2px groove #fff;
-  border-bottom: 2px groove #fff;
+  color: #8e8c7f;
+  background-color: #c9c7b8;
+  border-top: 2px groove #f6f4ea;
+  border-bottom: 2px groove #f6f4ea;
   padding: 5px;
 }
 .sohl .effects .danger {
-  color: red;
+  color: #c84a3a;
 }
 .sohl .effects .disabled {
-  color: #9a998f;
+  color: #8e8c7f;
 }
 .sohl .effects .effects-list {
   list-style: none;
@@ -1448,7 +2966,7 @@ section.highlight {
   margin: 2px 0;
   padding: 0;
   align-items: center;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.12);
   border: 2px groove #eeede0;
   font-weight: bold;
   line-height: 24px;
@@ -1456,10 +2974,9 @@ section.highlight {
 .sohl .effects .effects-list .effects-header h3 {
   margin: 0;
   padding-left: 5px;
-  font-family: "Modesto Condensed", "Palatino Linotype", serif;
-  font-size: 20px;
-  font-weight: 700;
+  font-family: "Cinzel", "Trajan Pro", serif;
   font-size: 16px;
+  font-weight: 700;
 }
 .sohl .effects .effects-list .effects-header .name {
   color: #191813;
