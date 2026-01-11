@@ -1,7 +1,340 @@
-@import url("https://fonts.googleapis.com/css2?family=Martel:wght@400;800&family=Roboto:wght@300;400;500&display=swap");
+@use "sass:map";
 
-//$font-primary: 'Roboto', sans-serif;
-//$font-secondary: 'Roboto', sans-serif;
+/* cinzel-regular - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/cinzel-v26-latin_latin-ext-regular.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
 
-$font-primary: "Signika", sans-serif;
-$font-secondary: "Signika", sans-serif;
+/* cinzel-500 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 500;
+    src: url("assets/fonts/cinzel-v26-latin_latin-ext-500.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cinzel-600 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 600;
+    src: url("assets/fonts/cinzel-v26-latin_latin-ext-600.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cinzel-700 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cinzel";
+    font-style: normal;
+    font-weight: 700;
+    src: url("assets/fonts/cinzel-v26-latin_latin-ext-700.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* signika-regular - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Signika";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/signika-v29-latin_latin-ext-regular.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* signika-500 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Signika";
+    font-style: normal;
+    font-weight: 500;
+    src: url("assets/fonts/signika-v29-latin_latin-ext-500.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* signika-600 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Signika";
+    font-style: normal;
+    font-weight: 600;
+    src: url("assets/fonts/signika-v29-latin_latin-ext-600.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* signika-700 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Signika";
+    font-style: normal;
+    font-weight: 700;
+    src: url("assets/fonts/signika-v29-latin_latin-ext-700.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-regular - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-regular.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 400;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-500 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 500;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-500italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 500;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-500italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-600 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 600;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-600italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 600;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-600italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-700 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: normal;
+    font-weight: 700;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* cormorant-garamond-700italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Cormorant Garamond";
+    font-style: italic;
+    font-weight: 700;
+    src: url("assets/fonts/cormorant-garamond-v21-latin_latin-ext-700italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-300 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 300;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-300italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: italic;
+    font-weight: 300;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-300italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-regular - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-regular.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: italic;
+    font-weight: 400;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-500 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 500;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-500italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: italic;
+    font-weight: 500;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-500italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-600 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 600;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-600italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: italic;
+    font-weight: 600;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-600italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-700 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: normal;
+    font-weight: 700;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* ibm-plex-mono-700italic - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "IBM Plex Mono";
+    font-style: italic;
+    font-weight: 700;
+    src: url("assets/fonts/ibm-plex-mono-v20-latin_latin-ext-700italic.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+$font-mono: "IBM Plex Mono", "Courier", monospace;
+$font-sans: "Signika", sans-serif;
+$font-body: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
+$font-title: "Cinzel", "Trajan Pro", serif;
+
+$typography-scale: (
+    "label": (
+        family: $font-title,
+        size: 20px,
+        weight: 700,
+    ),
+    "label-large": (
+        family: $font-title,
+        size: 25px,
+        weight: 700,
+    ),
+    "label-small": (
+        family: $font-title,
+        size: 16px,
+        weight: 700,
+    ),
+    "tab": (
+        family: $font-title,
+        size: 20px,
+        weight: 700,
+    ),
+    "input-label": (
+        family: $font-title,
+        size: 12px,
+        weight: 700,
+    ),
+    "body-text": (
+        family: $font-body,
+        size: 13px,
+        weight: 400,
+    ),
+    "tooltip": (
+        family: $font-body,
+        size: 12px,
+        weight: 600,
+    ),
+    "chat-title": (
+        family: $font-title,
+        size: 20px,
+        weight: 700,
+    ),
+    "chat-subtitle": (
+        family: $font-title,
+        size: 16px,
+        weight: 700,
+    ),
+    "chat-body": (
+        family: $font-body,
+        size: 15px,
+        weight: 400,
+    ),
+    "editor": (
+        family: $font-body,
+        size: 13px,
+        weight: 400,
+    ),
+    "textarea": (
+        family: $font-mono,
+        size: 13px,
+        weight: 400,
+    ),
+);
+
+@mixin type-style($token) {
+    $style: map.get($typography-scale, $token);
+    @if $style == null {
+        @error "Unknown typography token: #{$token}";
+    }
+
+    font-family: map.get($style, family);
+    font-size: map.get($style, size);
+    font-weight: map.get($style, weight);
+}
