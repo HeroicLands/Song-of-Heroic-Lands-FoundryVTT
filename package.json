@@ -40,7 +40,7 @@
         "build:release": "run-s build build:pack-release",
         "build:types": "tsc -p tsconfig.json",
         "build:system": "node ./utils/build-system-json.mjs",
-        "build:css": "sass scss/sohl.scss build/stage/css/sohl.css",
+        "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
         "build:code": "vite build --mode release",
         "build:assets": "node utils/copy-assets.mjs",
         "build:compiledb": "node ./utils/packs/build-compendiums.mjs package compile",
