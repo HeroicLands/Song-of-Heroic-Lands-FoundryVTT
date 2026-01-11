@@ -1,3 +1,6 @@
+@use "../utils/colors";
+@use "../utils/typography";
+
 .attribute-scores {
     flex: 0 0 80px;
     gap: 0;
@@ -10,7 +13,7 @@
         text-align: center;
         padding: 3px 0 0 0;
         flex: 0 0 80px;
-        border: 2px groove #eeede0;
+        border: 2px groove colors.$c-border-subtle;
 
         .name {
             margin: 0 0 2px;
@@ -27,11 +30,11 @@
         .label {
             margin: 0 0 2px;
             font-size: 13px;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid colors.$c-border-strong;
         }
 
         .attribute-box {
-            border-top: 1px solid black;
+            border-top: 1px solid colors.$c-border-strong;
         }
 
         .secmod {
@@ -48,7 +51,7 @@
                 background-size: 27px;
                 background-repeat: no-repeat;
                 background-position: center;
-                color: black;
+                color: colors.$c-text-primary;
             }
         }
     }
@@ -59,13 +62,11 @@
         flex: 1;
         margin: 0;
         line-height: 36px;
-        font-family: "Modesto Condensed", "Palatino Linotype", serif;
-        font-size: 20px;
-        font-weight: 700;
-        color: #4b4a44;
-        background-color: #bbb;
-        border-top: 2px groove #fff;
-        border-bottom: 2px groove #fff;
+        @include typography.type-style("label");
+        color: colors.$c-text-primary;
+        background-color: colors.$c-bg-header;
+        border-top: 2px groove colors.$c-border-subtle;
+        border-bottom: 2px groove colors.$c-border-subtle;
         padding: 5px;
     }
 
@@ -84,7 +85,7 @@
                 flex: 1 0 50px;
                 text-align: left;
                 padding-left: 5px;
-                border-right: 1px solid #c9c7b8;
+                border-right: 1px solid colors.$c-border-default;
             }
 
             .trait-type {
@@ -93,7 +94,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                border-right: 1px solid #c9c7b8;
+                border-right: 1px solid colors.$c-border-default;
             }
 
             .trait-intensity {
@@ -102,7 +103,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                border-right: 1px solid #c9c7b8;
+                border-right: 1px solid colors.$c-border-default;
             }
 
             .trait-value {
@@ -111,7 +112,7 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                border-right: 1px solid #c9c7b8;
+                border-right: 1px solid colors.$c-border-default;
             }
         }
     }
@@ -129,13 +130,13 @@
         overflow-y: hidden;
 
         .affiliation {
-            border-bottom: 1px solid #bbb;
+            border-bottom: 1px solid colors.$c-border-default;
 
             .image {
                 flex: 0 0 24px;
                 margin-right: 5px;
             }
-    
+
             img {
                 display: block;
             }
@@ -146,20 +147,20 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-            border-right: 1px solid #c9c7b8;
+            border-right: 1px solid colors.$c-border-default;
         }
 
         .ele {
             flex: 0 0 40px;
             text-align: center;
-            border-right: 1px solid #c9c7b8;
+            border-right: 1px solid colors.$c-border-default;
         }
-            
+
         .notes {
             flex: 1 0 50px;
             text-align: left;
             padding-left: 5px;
-            border-right: 1px solid #c9c7b8;
+            border-right: 1px solid colors.$c-border-default;
         }
 
         .wideele {
@@ -168,7 +169,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-            border-right: 1px solid #c9c7b8;
+            border-right: 1px solid colors.$c-border-default;
         }
     }
 }
@@ -180,8 +181,8 @@
 
     .profile-item {
         align-items: center;
-        border-top: 2px groove #eeede0;
-        border-bottom: 2px groove #eeede0;
+        border-top: 2px groove colors.$c-border-subtle;
+        border-bottom: 2px groove colors.$c-border-subtle;
         margin-top: 12px;
         padding: 5px 0;
 
@@ -208,12 +209,11 @@
 
     .label {
         padding-left: 5px;
-        font-family: "Modesto Condensed", "Palatino Linotype", serif;
-        font-size: 16px;
+        @include typography.type-style("label-small");
         margin: 2px 0;
         align-items: center;
-        background: rgba(0, 0, 0, 0.05);
-        border: 2px groove #eeede0;
+        background: colors.$c-bg-overlay-light;
+        border: 2px groove colors.$c-border-subtle;
         font-weight: bold;
         line-height: 24px;
 
@@ -232,6 +232,6 @@
     img.bio-image {
         flex: 0 0 200px;
         object-fit: contain;
-        background: white;
+        background: colors.$c-text-inverse;
     }
 }

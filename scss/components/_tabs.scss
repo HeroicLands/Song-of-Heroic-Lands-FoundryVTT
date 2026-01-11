@@ -1,44 +1,25 @@
-// .tabs {
-//   .item {
-//     background: rgba(0, 0, 0, 0.125);
-//     border: 1px solid;
-//     border-radius: 4px;
-//     margin: 0 10px 0;
-//     padding: 8px 4px;
+@use "../utils/colors";
+@use "../utils/typography";
 
-//     &:hover,
-//     &:focus {
-//       background: rgba(0, 0, 0, 0.125);
-//     }
-
-//     &.active {
-//       background: transparent;
-//     }
-//   }
-// }
-
-.tabs {
-    flex: 0 0 30px;
+.tabs [data-tab] {
+    flex: 0 0 auto;
     margin-bottom: 5px;
-    font-family: "Modesto Condensed", "Palatino Linotype", serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #3d3b30;
+    @include typography.type-style("tab");
 
     .item {
         line-height: 32px;
         margin: 0 24px;
-        border-bottom: 3px solid #b5b3a4;
+        border-bottom: 3px solid colors.$c-border-strong;
 
         &:hover,
         &:focus {
-            background: rgba(0, 0, 0, 0.125);
+            background: colors.$c-bg-overlay-dark;
         }
     }
 
     .item.active {
         text-shadow: none;
-        border-bottom: 3px solid black;
+        border-bottom: 3px solid colors.$c-text-primary;
         font-size: 25px;
     }
 }

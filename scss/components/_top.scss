@@ -1,36 +1,38 @@
+@use "../utils/colors";
+
 .window-content {
     background: url("../assets/ui/parchment.jpg") repeat;
     font-size: 13px;
-    color: #191813;
+    color: colors.$c-text-primary;
 }
 
 .print-window-content {
     font-size: 13px;
-    color: #191813;
-    background: white;
+    color: colors.$c-text-primary;
+    background: colors.$c-text-inverse;
 }
 
 input[type="text"],
 input[type="number"],
 select {
     height: calc(100% - 2px);
-    border: 1px solid #7a7971;
-    background: rgba(0, 0, 0, 0.05);
-    color: #191813;
+    border: 1px solid colors.$c-bg-input;
+    background: colors.$c-bg-overlay-light;
+    color: colors.$c-text-primary;
 }
 
 input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="text"]:focus,
 input[type="number"]:focus {
-    border: 1px solid #111;
+    border: 1px solid colors.$c-border-strong;
     box-shadow: 0 0 8px red;
 }
 
 input:disabled,
 select:disabled,
 textarea:disabled {
-    color: #4b4a44;
+    color: colors.$c-text-muted;
 }
 
 input:disabled:hover,
@@ -45,8 +47,8 @@ textarea:disabled:focus {
 }
 
 button {
-    background: rgba(0, 0, 0, 0.1);
-    border: 2px groove #eeede0;
+    background: colors.$c-bg-overlay-medium;
+    border: 2px groove colors.$c-border-subtle;
 }
 
 label.checkbox {
@@ -83,7 +85,7 @@ label.init-checkbox {
         padding: 5px;
         background: url("../assets/ui/parchment.jpg") repeat;
         font-size: 13px;
-        color: #191813;
+        color: colors.$c-text-primary;
     }
 
     .window-content form {
@@ -107,7 +109,7 @@ label.init-checkbox {
     input[type="number"]:hover,
     input[type="text"]:focus,
     input[type="number"]:focus {
-        border: 1px solid #111;
+        border: 1px solid colors.$c-border-strong;
     }
 
     select {
@@ -118,7 +120,7 @@ label.init-checkbox {
     }
 
     .editable .rollable:hover {
-        color: #000;
+        color: colors.$c-text-primary;
         text-shadow: 0 0 10px red;
         cursor: pointer;
     }
@@ -128,7 +130,7 @@ label.init-checkbox {
         margin: 0 1px;
         display: inline;
         position: relative;
-        color: #7a7971;
+        color: colors.$c-bg-input;
         font-weight: normal;
     }
 
@@ -146,7 +148,7 @@ label.init-checkbox {
             font-size: 20px;
             font-weight: 700;
         }
-    
+
         h1 {
             flex: 1;
             border-bottom: none;
@@ -159,25 +161,25 @@ label.init-checkbox {
                 height: 50px;
                 font-size: 32px;
                 margin: 0;
-            }    
+            }
         }
-    
+
         img.profile {
             flex: 0 0 100px;
             max-width: 100px;
             height: 100px;
             object-fit: contain;
             border: none;
-            border-right: 2px groove #eeede0;
+            border-right: 2px groove colors.$c-border-subtle;
         }
-    
+
         .summary {
             flex: 0 0 100%;
             height: 40px;
             margin: 0;
             padding: 0;
             list-style: none;
-            border-top: 2px groove #eeede0;
+            border-top: 2px groove colors.$c-border-subtle;
             border-bottom: none;
 
             li {
@@ -185,9 +187,9 @@ label.init-checkbox {
                 float: left;
                 margin: 2px 0;
                 padding: 0;
-                border-right: 2px groove #eeede0;
+                border-right: 2px groove colors.$c-border-subtle;
                 line-height: 34px;
-                color: #4b4a44;
+                color: colors.$c-text-muted;
 
                 :last-child {
                     border-right: none;
@@ -211,10 +213,10 @@ label.init-checkbox {
             height: 30px;
             line-height: 32px;
             margin: 0 24px;
-            border-bottom: 3px solid #b5b3a4;
+            border-bottom: 3px solid colors.$c-border-strong;
 
             .active {
-                border-bottom: 3px solid #44191a;
+                border-bottom: 3px solid colors.$c-danger;
             }
         }
     }
@@ -244,14 +246,14 @@ img.token-image {
     height: 120px;
     margin-right: 10px;
     object-fit: contain;
-    background: white;
+    background: colors.$c-text-inverse;
 }
 
 img.bio-image {
     flex: 0 0 200px;
     margin-right: 10px;
     object-fit: contain;
-    background: white;
+    background: colors.$c-text-inverse;
 }
 
 label.header {
@@ -279,15 +281,14 @@ label.header {
         .search-control {
             flex: 0 0 22px;
             font-size: 16px;
-            vertical-align: -.125em;
+            vertical-align: -0.125em;
             text-align: right;
-            color: #4b4a44;
+            color: colors.$c-text-muted;
             padding-right: 5px;
         }
 
         .disabled {
-            color: #9a998f;
+            color: colors.$c-text-muted;
         }
     }
-
 }
