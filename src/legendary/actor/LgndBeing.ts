@@ -1,5 +1,5 @@
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { BeingData, BeingLogic } from "@common/actor/Being";
+import { BeingData, BeingLogic, BeingSheet } from "@common/actor/Being";
 import { SohlActorSheetBase } from "@common/actor/SohlActor";
 
 export class LgndBeingLogic extends BeingLogic<BeingData> {
@@ -23,7 +23,7 @@ export class LgndBeingLogic extends BeingLogic<BeingData> {
     }
 }
 
-export class LgndBeingSheet extends SohlActorSheetBase {
+export class LgndBeingSheet extends BeingSheet {
     static PARTS = {
         header: {
             id: "header",

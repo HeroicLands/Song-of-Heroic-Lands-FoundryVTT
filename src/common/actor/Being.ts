@@ -474,8 +474,11 @@ export class BeingSheet extends SohlActorSheetBase {
     static DEFAULT_OPTIONS: PlainObject = {
         id: "being-sheet",
         tag: "form",
-        position: { width: 900, height: 640 },
         classes: ["being"],
+        window: {
+            resizable: true,
+        },
+        position: { width: 900, height: 640 },
         dragDrop: [
             {
                 dragSelector: ".item-list .item",
