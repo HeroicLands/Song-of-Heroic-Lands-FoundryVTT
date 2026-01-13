@@ -40,6 +40,16 @@
         format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+/* signika-300 - latin_latin-ext */
+@font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: "Signika";
+    font-style: normal;
+    font-weight: 300;
+    src: url("assets/fonts/signika-v29-latin_latin-ext-300.woff2")
+        format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 /* signika-regular - latin_latin-ext */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -282,6 +292,11 @@ $typography-scale: (
         weight: 700,
     ),
     "tab": (
+        family: $font-title,
+        size: 16px,
+        weight: 600,
+    ),
+    "active-tab": (
         family: $font-title,
         size: 20px,
         weight: 700,
