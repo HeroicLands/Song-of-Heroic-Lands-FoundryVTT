@@ -9,6 +9,9 @@
 /.vscode/
 /*.code-workspace
 
+# GitHub
+.github/copilot-instructions.md
+
 # macOS specific files
 # general
 .DS_Store

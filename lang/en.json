@@ -1,1028 +1,644 @@
 {
-    "TYPES": {
-        "Actor": {
-            "being": "Being",
-            "cohort": "Cohort",
-            "assembly": "Assembly",
-            "vehicle": "Vehicle",
-            "structure": "Structure"
-        },
-        "Actors": {
-            "being": "Beings",
-            "assembly": "Assemblies",
-            "cohort": "Cohorts",
-            "vehicle": "Vehicles",
-            "structure": "Structures"
-        },
-        "Item": {
-            "action": "Action",
-            "actionPl": "Actions",
-            "affiliation": "Affiliation",
-            "affiliationPl": "Affiliations",
-            "affliction": "Affliction",
-            "afflictionPl": "Afflictions",
-            "armorgear": "Armor",
-            "armorgearPl": "Armor",
-            "bodylocation": "Body Location",
-            "bodylocationPl": "Body Locations",
-            "bodypart": "Body Part",
-            "bodypartPl": "Body Parts",
-            "bodyzone": "Body Zone",
-            "bodyzonePl": "Body Zones",
-            "combattechniquestrikemode": "Combat Technique Strike Mode",
-            "combattechniquestrikemodePl": "Combat Technique Strike Modes",
-            "concoctiongear": "Concoction",
-            "concoctiongearPl": "Concoctions",
-            "containergear": "Container",
-            "containergearPl": "Containers",
-            "domain": "Domain",
-            "domainPl": "Domains",
-            "injury": "Injury",
-            "injuryPl": "Injuries",
-            "meleeweaponstrikemode": "Melee Weapon Strike Mode",
-            "meleeweaponstrikemodePl": "Melee Weapon Strike Modes",
-            "miscgear": "Misc Gear",
-            "miscgearPl": "Misc Gear",
-            "missileweaponstrikemode": "Missile Weapon Strike Mode",
-            "missileweaponstrikemodePl": "Missile Weapon Strike Modes",
-            "movementprofile": "Movement Profile",
-            "movementprofilePl": "Movement Profiles",
-            "mystery": "Mystery",
-            "mysteryPl": "Mysteries",
-            "mysticalability": "Mystical Ability",
-            "mysticalabilityPl": "Mystical Abilities",
-            "mysticaldevice": "Mystical Device",
-            "mysticaldevicePl": "Mystical Devices",
-            "philosophy": "Philosophy",
-            "philosophyPl": "Philosophies",
-            "projectilegear": "Projectile",
-            "projectilegearPl": "Projectiles",
-            "protection": "Protection",
-            "protectionPl": "Protection",
-            "skill": "Skill",
-            "skillPl": "Skills",
-            "trait": "Trait",
-            "traitPl": "Traits",
-            "weapongear": "Weapon",
-            "weapongearPl": "Weapons"
-        }
-    },
-    "SOHL": {
-        "MOD": {
-            "NotDisabled": "",
-            "PLAYER": "Situational Modifier",
-            "MINVALUE": "Minimum Value",
-            "MAXVALUE": "Maximum Value",
-            "OUTNUMBERED": "Outnumbered",
-            "OFFHAND": "Off-Hand Weapon Use",
-            "MasteryLevelDisabled": "Mastery Level Disabled",
-            "MAGICMOD": "Magic Modifier",
-            "FATEBNS": "{skill} Fate Bonus",
-            "NOFATE": "No Fate Available",
-            "MasteryLevelAttrBoost": "Mastery Level Increase from {attr}",
-            "SSMOD": "Sunsign Modifier",
-            "DURABILITY": "",
-            "ITEMWT": "{item} Weight",
-            "NoMissileDefense": "No Defense for Missile Attacks",
-            "NoModifierNoDie": "No modifier or no die",
-            "GearNotNestedInGear": "Not Nested In Gear",
-            "NoAssocSkill": "No Associated Skill",
-            "NoBlock": "No Blocking Allowed",
-            "NoCounterstrike": "No Counterstrike Allowed",
-            "NoFateNPC": "No Fate Allowed for Non-Player Character or Creature",
-            "NoFateSettings": "Fate Disabled in Settings",
-            "NoFateAura": "No Fate for Aura-based Skills",
-            "NoUseCharges": "Does not use Charges",
-            "NoHealRate": "No Healing Rate",
-            "TraitNotNumNoScore": "Non-numeric traits don't have a score",
-            "TraitNotNumNoML": "Non-numeric traits don't have a mastery level",
-            "TraitNotNumNoFate": "Non-numeric traits don't have fate",
-            "TraitNotAttrNoML": "Non-attribute traits don't have Mastery Level",
-            "Unspecified": "Disabled Reason Unspecified",
-            "ArmorProtection": "{source} Armor Protection",
-            "RangeMult": {
-                "pointblank": "Point Blank Range Multiplier",
-                "direct": "Direct Range Multiplier",
-                "volley_2": "Volley 2 Range Multiplier",
-                "volley_3": "Volley 3 Range Multiplier",
-                "volley_4": "Volley 4 Range Multiplier"
-            },
-            "InvalidRange": "Invalid Range, setting max distance to 0",
-            "BowStrengthML": "Add Strength ML to Bow Draw",
-            "BowAssocSkillML": "Add {assocSkillName} Skill ML to Bow Draw",
-            "NoDrawTooWeak": "Cannot draw bow, too weak",
-            "StrengthImpactAdjustment": "Strength Impact Adjustment"
-        },
-        "DURATION": {
-            "FUTURE": "in {duration}",
-            "PAST": "{duration} ago",
-            "NOW": "Now"
-        },
-        "VALUEMODIFIER": {
-            "entity": "Value Modifier",
-            "entityPl": "Value Modifiers",
-            "Adjustment": "Adjustment",
-            "Value": "Value",
-            "DisabledAbbrev": "DISABLED: {abbrev}"
-        },
-        "IMPACTMODIFIER": {
-            "entity": "Impact Modifier",
-            "entityPl": "Impact Modifiers",
-            "ASPECT": {
-                "blunt": "Blunt",
-                "edged": "Edged",
-                "piercing": "Piercing",
-                "fire": "Fire"
-            }
-        },
-        "MASTERYLEVELMODIFIER": {
-            "entity": "Mastery Level Modifier",
-            "entityPl": "Mastery Level Modifiers",
-            "successTest": {
-                "title": "{label} Test",
-                "dialogTitle": "{name} {title}",
-                "dialogLabel": "Roll"
-            }
-        },
-        "SUCCESSTESTRESULT": {
-            "entity": "Success Test Result",
-            "entityPl": "Success Test Results",
-            "tests": {
-                "setImproveFlag": "Set Skill Dev Flag",
-                "unsetImproveFlag": "Unset Skill Dev Flag",
-                "improveWithSDR": "Improve Mastery using SDR",
-                "successTest": "Skill Test",
-                "opposedTestStart": "Opposed Skill Test",
-                "shockTest": "Shock Test",
-                "stumbleTest": "Stumble Check",
-                "fumbleTest": "Fumble Check",
-                "moraleTest": "Morale Check",
-                "fearTest": "Fear Check",
-                "transmitAffliction": "Transmit Affliction Check",
-                "contractAfflictionTest": "Contract Affliction Check",
-                "courseTest": "Affliction Course Roll",
-                "fatigueTest": "Fatigue Check",
-                "treatmentTest": "Treatment Test",
-                "diagnosisTest": "Diagnosis Check",
-                "healingTest": "Healing Test",
-                "bleedingStoppageTest": "Bleeding Stoppage Check",
-                "bloodlossAdvanceTest": "Check Blood Loss Advance",
-                "opposedTestResume": "Resolve Opposed Skill",
-                "resolveImpact": "Resolve Impact",
-                "successValueTest": "Success Value Test",
-                "improveWithXP": "Improve Mastery using XP",
-                "fateTest": "Fate Test"
-            },
-            "testDialog": {
-                "title": "{name} {title}",
-                "label": "Roll"
-            },
-            "evaluate": {
-                "NoPerm": "You do not have permissions to perform this operation on {name}",
-                "RollFail": "Roll evaluation failed"
-            }
-        },
-        "OPPOSEDTESTRESULT": {
-            "entity": "Opposed Test Result",
-            "entityPl": "Opposed Test Results",
-            "toChat": {
-                "title": "Opposed Action Request",
-                "description": "{targetActorName} must now choose what skill to respond with"
-            }
-        },
-        "COMBATTESTRESULT": {
-            "entity": "Combat Test Result",
-            "entityPl": "Combat Test Results",
-            "tests": {
-                "automatedMeleeStart": "Automated Melee Attack",
-                "automatedMissileStart": "Automated Missile Attack",
-                "meleeAttackTest": "Melee Attack Test",
-                "missileAttackTest": "Missile Attack Test",
-                "blockTest": "Block Test",
-                "counterstrikeTest": "Counterstrike Test",
-                "autoCombatResume": "Automated Combat Resume",
-                "calcImpact": "Calc Impact"
-            },
-            "DEFENSE": {
-                "block": "Block",
-                "counterstrike": "Counterstrike",
-                "dodge": "Dodge",
-                "ignore": "Ignore"
-            },
-            "MOVEMENT": {
-                "stationary": "Stationary",
-                "moving": "Moving",
-                "evading": "Evading"
-            },
-            "TACTICAL_ADVANTAGE": {
-                "impact": "Impact",
-                "precision": "Precision",
-                "action": "Action",
-                "setup": "Setup"
-            }
-        },
-        "BEING": {
-            "FIELDS": {
-
-            },
-            "ACTION": {
-                "calcImpact": "Calc Impact"
-            },
-            "EFFECT_KEYS": {
-                "engagedOpponents": "Engaged Opponents"
-            },
-            "_createTestItem.dialog": {
-                "title": "Create {label}",
-                "content": "<p>Do you wish to create a {label} on {name}?</p>"
-            },
-            "opposedTestResume.getOpposedItem": {
-                "label": "Select which Skill to use:",
-                "title": "Choose Opposing Skill for {name}",
-                "attributeLabel": "Attribute: {name} (ML:{ml})",
-                "noUsableSkills": "{name} has no usable skills, cannot respond to opposed test"
-            }
-        },
-        "OBJECT": {
-            "FIELDS": {}
-
-        },
-        "BASEDATA": {
-            "FIELDS": {
-                "macros.label": "Macros"
-            },
-            "ACTIONS": {
-                "AUTOCOMBATRESUME": "Resume Automated Combat"
-            },
-            "events.self": "Self",
-            "_getContextOptions.ContextConditionError": "Error executing context condition for {name} on {parentName}",
-            "label": "{name} {typeLabel}",
-            "labelWithSubtype": "{name} {subType} {typeLabel}"
-        },
-        "ITEM": {
-            "defaultName": {
-                "NoSubType": "{docLabel}",
-                "WithSubType": "{subType} {docLabel}"
-            },
-            "_handleTypeChange.subTypeSelected": "{subType} selected",
-            "nestIn": {
-                "IdenticalItemWarning": "An Item named {name} exists in {targetName}, cannot create new item with same name",
-                "IdenticalItemMoveDenied": ""            
-            }
-        },
-        "ACTORDATA": {
-            "FIELDS": {
-                "bioImage": {
-                    "label": "Biographical Image",
-                    "hint": ""
-                },
-                "description": {
-                    "label": "Description",
-                    "hint": "Physical description and traits"
-                },
-                "biography": {
-                    "label": "Biography",
-                    "hint": "Backstory and biographical information"
-                }
-            }
-        },
-        "ITEMDATA": {
-            "FIELDS": {
-                "notes.label": "Notes",
-                "description.label": "Description",
-                "textReference.label": "Reference",
-                "nestedItems.label": "Nested Items",
-                "transfer.label": "Transfer to Actor"
-            },
-            "actionTypes": {
-                "editItem": "Edit",
-                "deleteItem": "Delete",
-                "showDescription": "Show Description",
-                "setupVirtualItems": "Setup Virtual Items",
-                "processSiblings": "Process Siblings",
-                "postProcess": "Post Process"
-            },
-            "deleteItem": {
-                "NonContainer": {
-                    "title": "Delete Item: {name}",
-                    "queryHtml": "<p>Are You Sure?</p><p>This item will be deleted and cannot be recovered.</p>"
-                },
-                "Container": {
-                    "title": "Delete Container: {name}",
-                    "queryHtml": "<p>Are You Sure?</p><p>This container and all items and containers within it will be deleted and cannot be recovered.</p>"
-                }
-            }
-        },
-        "SUBTYPE": {
-            "FIELDS": {
-                "subType.label": "SubType"
-            }
-        },
-        "PROTECTION": {
-            "FIELDS": {
-                "protectionBase": {
-                    "blunt.label": "Blunt",
-                    "edged.label": "Edged",
-                    "peircing.label":"Piercing",
-                    "fire.label":  "Fire",
-                    "label": "Protection"
-                }
-            }
-        },
-        "STRIKEMODE": {
-            "FIELDS": {
-                "mode": {
-                    "label": "Mode",
-                    "hint": "Name of the attack mode"
-                },
-                "minParts": {
-                    "label": "Min Parts",
-                    "hint": "Minimum number of body parts needed for this strike mode"
-                },
-                "assocSkillName": {
-                    "label": "Mode",
-                    "hint": "Skill that is used to perform this strike mode"
-                },
-                "impactBase": {
-                    "label": "",
-                    "hint": "",
-                    "numDice.label": "Number of Dice",
-                    "die.label": "Die",
-                    "modifier.label": "Modifier",
-                    "aspect.label": "Aspect"
-                }
-            },
-            "EFFECT_KEYS": {
-                "impact": "Impact",
-                "attack": "Attack",
-                "block": "Block",
-                "counterstrike": "Counterstrike",
-                "noAttack": "No Attack",
-                "noBlock": "No Block",
-                "armorReduction": "Armor Reduction",
-                "blockSuccessLevel": "Block Success Level",
-                "counterstrikeSuccessLevel": "Counterstrike Success Level",
-                "opponentDef": "Opponent Defense",
-                "impactTA": "Impact Tactical Advantage",
-                "entangle": "Entangle",
-                "envelop": "Envelop",
-                "highStrike": "High Strike",
-                "lowStrike": "Low Strike",
-                "notInClose": "Not In Close Combat",
-                "onlyInClose": "Only In Close Combat",
-                "deflectTN": "Deflect Target Number",
-                "shieldMod": "Shield Modifier",
-                "extraBleedRisk": "Extra Bleed Risk",
-                "noStrMod": "No Strength Modifier",
-                "halfImpact": "Half Impact"
-            },
-            "NoAssocSkillWarning": "{label} requires skill {skillName} but it does not exist, creating a dummy skill with ML 0"
-        },
-        "MELEEWEAPONSTRIKEMODE": {
-            "FIELDS": {}
-        },
-        "MISSILEWEAPONSTRIKEMODE": {
-            "FIELDS": {
-                "projectileType": {
-                    "label": "Projectile Type",
-                    "hint": "Projectile type used by this strike mode"
-                }
-            }
-        },
-        "COMBATTECHNIQUE": {
-            "FIELDS": {
-                "lengthBase.label": "Length"
-            }
-        },
-        "COMBATMANEUVER": {
-            "FIELDS": {}
-        },
-        "MASTERYLEVEL": {
-            "FIELDS": {
-                "abbrev.label": "Abbreviation",
-                "skillBaseFormula.label": "Skill Base Formula",
-                "masteryLevelBase.label": "Mastery Level",
-                "improveFlag.label": "Flag for Mastery Improvement"
-            }
-        },
-        "MYSTERY": {
-            "FIELDS": {
-                "config": {
-                    "usesCharges.label": "Uses Charges",
-                    "usesSkills.label": "Uses Skills",
-                    "assocPhilosophy.label": "Associated Philosophy",
-                    "category.label": "Category"
-                },
-                "domain.label": "Domain",
-                "skills.label": "Skills",
-                "levelBase.label": "Level",
-                "charges": {
-                    "value": {
-                        "label": "Charges",
-                        "hint": "Current number of charges available"
-                    },
-                    "max": {
-                        "label": "Max Charges",
-                        "hint": "Maximum number of charges possible"
-                    }
-                }
-            },
-            "CATEGORY": {
-                "grace": "Grace",
-                "piety": "Piety",
-                "fate": "Fate Points",
-                "fatebonus": "Fate Test Bonus",
-                "fatepointbonus": "Fate Point Bonus",
-                "blessing": "Blessing",
-                "ancestor": "Ancestor Insight",
-                "totem": "Totem Attunement"
-            },
-            "CATEGORY_LABEL": {
-                "grace": "Domain",
-                "piety": "Domain",
-                "fate": "Skill",
-                "fatebonus": "Skill",
-                "fatepointbonus": "None",
-                "blessing": "Domain",
-                "ancestor": "Skill",
-                "totem": "Creature"
-            },
-            "UnknownDomain": "Unknown ({domainName})",
-            "DoesNotUseCharges": "Doesn't Use Charges"
-        },
-        "MYSTICALABILITY": {
-            "FIELDS": {
-                "config": {
-                    "isImprovable.label": "Is Improvable",
-                    "assocSkill.label": "Associated Skill",
-                    "category": "Category",
-                    "assocPhilosophy": "Associated Philosophy",
-                    "usesCharges": "Uses Charges"
-                },
-                "domain.label": "Domain",
-                "levelBase.label": "Level",
-                "charges": {
-                    "value": {
-                        "label": "Charges",
-                        "hint": "Current number of charges available"
-                    },
-                    "max": {
-                        "label": "Max Charges",
-                        "hint": "Maximum number of charges possible"
-                    }
-                }
-            },
-            "CATEGORY": {
-                "shamanicrite": "Shamanic Rite",
-                "spiritaction": "Spirit Action",
-                "spiritpower": "Spirit Power",
-                "benediction": "Benediction",
-                "divinedevotion": "Ritual Devotion",
-                "divineincantation": "Divine Incantation",
-                "arcaneincantation": "Arcane Incantation",
-                "arcaneinvocation": "Arcane Invocation",
-                "arcanetalent": "Arcane Talent",
-                "alchemy": "Alchemy",
-                "divination": "Divination"
-            },
-            "DOMAIN_DEGREE": {
-                "primary": "Primary",
-                "secondary": "Secondary",
-                "neutral": "Neutral",
-                "tertiary": "Tertiary",
-                "diametric": "Diametric"
-            },
-            "DoesNotUseCharges": "Doesn't Use Charges"
-        },
-        "PHILOSOPHY": {
-            "FIELDS": {},
-            "CATEGORY": {
-                "arcane": "Arcane",
-                "divine": "Divine",
-                "spirit": "Spirit",
-                "astral": "Astral",
-                "natural": "Natural",
-                "scientific": "Scientific"
-            },
-            "DIVINE_EMBODIMENT": {
-                "dreams": "Dreams",
-                "death": "Death",
-                "violence": "Violence",
-                "peace": "Peace",
-                "fertility": "Fertility",
-                "order": "Order",
-                "knowledge": "Knowledge",
-                "prosperity": "Prosperity",
-                "fire": "Fire",
-                "creation": "Creation",
-                "voyager": "Voyager",
-                "decay": "Decay"
-            },
-            "ELEMENT": {
-                "fire": "Fire",
-                "water": "Water",
-                "earth": "Earth",
-                "spirit": "Spirit",
-                "wind": "Wind",
-                "wood": "Wood",
-                "metal": "Metal",
-                "arcana": "Arcana"
-            }
-        },
-        "DOMAIN": {
-            "FIELDS": {},
-            "SUBTYPES": {
-                "philosophy": "Philisophical Domain",
-                "divine": "Divine Domain",
-                "arcane": "Arcane Domain",
-                "astral": "Astral Domain",
-                "scientific": "Scientific Domain"
-            }
-        },
-        "INJURY": {
-            "FIELDS": {
-                "injuryLevelBase.label": "Injury Level",
-                "healingRateBase.label": "Healing Rate",
-                "aspect": "Aspect",
-                "isTreated.label":  "Treated",
-                "isBleeding.label": "Bleeding",
-                "bodyLocationUuid": "Body Location"
-            },
-            "EVENT": {
-                "nexthealingtest": "Next Healing Test"
-            }
-        },
-        "AFFLICTION": {
-            "FIELDS": {
-                "isDormant": {
-                    "label": "Is Dormant",
-                    "hint": "Doesn't affect carrier, but may be contagious or reactivate"
-                },
-                "isTreated": {
-                    "label": "Is Treated"
-                },
-                "diagnosisBonusBase": {
-                    "label": "Diagnosis Bonus",
-                    "hint": "Modifier to treatment test from diagnosis"
-                },
-                "levelBase": {
-                    "label": "Level",
-                    "hint": "Magnitude of Affliction"
-                },
-                "healingRateBase": {
-                    "label": "Healing Rate",
-                    "hint": "Virulence of Affliction"
-                },
-                "contagionIndexBase.label": "Contagion Index",
-                "transmission.label": "Transmission"
-            },
-            "SUBTYPE": {
-                "privation": "Privation",
-                "fatigue": "Fatigue",
-                "disease": "Disease",
-                "infextion": "Infection",
-                "poisontoxin": "Poison/Toxin",
-                "fear": "Fear",
-                "morale": "Morale",
-                "shadow": "Shadow",
-                "psyche": "Psyche Stress",
-                "auralshock": "Aural Shock"
-            },
-            "SUBTYPE_ABBREV": {
-                "privation": "Prv",
-                "fatigue": "Fatg",
-                "disease": "Disz",
-                "infection": "Inft",
-                "poisontoxin": "PsnTxn",
-                "fear": "Fear",
-                "morale": "Morl",
-                "shadow": "Shdw",
-                "psyche": "Psy",
-                "auralshock": "AShk"
-            },
-            "TRANSMISSION": {
-                "none": "Noncommunicable",
-                "airborne": "Airborne",
-                "contact": "Contact",
-                "bodyfluid": "Body Fluid",
-                "injested": "Injested",
-                "proximity": "Proximity",
-                "vector": "Vector",
-                "perception": "Perception",
-                "arcane": "Arcane",
-                "divine": "Divine",
-                "spirit": "Spirit"
-            },
-            "FATIGUE": {
-                "windedness": "Windedness",
-                "weakness": "Weakness",
-                "weariness": "Weariness"
-            },
-            "PRIVATION": {
-                "asphixia": "Asphixia",
-                "cold": "Cold Exposure",
-                "heat": "Heat Exposure",
-                "starvation": "Starvation",
-                "dehydration": "Dehydration",
-                "nosleep": "Sleep Deprivation"
-            },
-            "FEAR": {
-                "none": "No effect",
-                "brave": "Brave",
-                "steady": "Steady",
-                "afraid": "Afraid",
-                "terrified": "Terrified",
-                "catatonic": "Catatonic"
-            },
-            "MORALE": {
-                "none": "No effect",
-                "brave": "Brave",
-                "steady": "Steady",
-                "withdrawing": "Withdrawing",
-                "routed": "Routed",
-                "catatonic": "Catatonic"
-            },
-            "EVENT": {
-                "nextcoursetest": "Next Course Test",
-                "nextrecoverytest": "Next Recovery Test"
-            }
-        },
-        "TRAIT": {
-            "FIELDS": {
-                "textValue.label": "Value",
-                "max.label": "Maximum value",
-                "isNumeric": {
-                    "label": "Is Numeric",
-                    "hint": "Is value numeric?"
-                },
-                "intensity.label": "Intensity",
-                "valueDesc": {
-                    "label": {
-                        "label": "Value Label"
-                    },
-                    "maxValue": {
-                        "label": "Maximum Value",
-                        "hint": "The highest attribute value where this label applies"
-                    }
-                },
-                "choices.label": "Choices"
-            },
-            "SUBTYPE": {
-                "physique": "Physique",
-                "personality": "Personality",
-                "transcendant": "Transcendant"
-            },
-            "INTENSITY": {
-                "trait": "Trait",
-                "impulse": "Impulse",
-                "disorder": "Disorder",
-                "attribute": "Attribute"
-            }
-        },
-        "SKILL": {
-            "FIELDS": {
-                "weaponGroup.label": "Weapon Group",
-                "baseSkill": {
-                    "label": "Base Skill",
-                    "hint": "If this is a specialization, then the name of the base skill, otherwise blank"
-                },
-                "domain": {
-                    "label": "Domain",
-                    "hint": "Domain associated with this skill, if any"
-                }
-            },
-            "SUBTYPE": {
-                "social": "Social",
-                "nature": "Nature",
-                "craft": "Craft",
-                "lore": "Lore",
-                "language": "Language",
-                "script": "Script",
-                "ritual": "Ritual",
-                "physical": "Physical",
-                "combat": "Combat",
-                "esoteric": "Esoteric"    
-            },
-            "COMBAT": {
-                "none": "None",
-                "all": "All Weapon Types",
-                "melee": "Melee",
-                "missile": "Missile",
-                "meleemissile": "Melee & Missile",
-                "combatmaneuver": "Combat Maneuver",
-                "meleemaneuver": "Melee & Combat Maneuver"
-            }
-        },
-        "AFFILIATIONITEMDATA": {
-            "FIELDS": {
-                "society.label": "Society",
-                "office.label": "Office",
-                "title.label": "Title",
-                "level.label": "Level"
-            }
-        },
-        "ANATOMY": {
-            "FIELDS": {}
-        },
-        "BODYZONE": {
-            "FIELDS": {
-                "abbrev.label": "Abbreviation"
-            }
-        },
-        "BODYPART": {
-            "FIELDS": {
-                "abbrev.label": "Abbreviation",
-                "canHoldItem": {
-                    "label": "Can Hold Item",
-                    "hint": "Whether this body part can hold an item"
-                },
-                "heldItemId.label": "Held Item Id"
-            },
-            "NotNested": "Item {uuid} is a BodyPart that is not nested in a BodyZone, please correct this"
-        },
-        "BODYLOCATION": {
-            "FIELDS": {
-                "abbrev.label": "Abbreviation"
-            }
-        },
-        "MYSTICALDEVICE": {
-            "FIELDS": {
-                "config": {
-                    "requiresAttunement.label": "Requires Attunement",
-                    "usesVolition.label": "Uses Volition",
-                    "category.label": "Category",
-                    "assocPhilosophy.label": "Associated Philosophy"
-                },
-                "domain.label": "Domain",
-                "isAttuned.label": "Attuned",
-                "volition": {
-                    "label": "Volition",
-                    "ego.label": "Ego",
-                    "morality.label": "Morality",
-                    "purpose.label": "Purpose"
-                }
-            },
-            "CATEGORY": {
-                "artifact": "Arcane Artifact",
-                "ancestortalisman": "Ancestor Spirit Talisman",
-                "totemtalisman": "Totem Spirit Talisman",
-                "remnant": "Earthmaster Remnant",
-                "relic": "Divine Relic"
-            }
-        },
-        "GEAR": {
-            "FIELDS": {
-                "abbrev.label": "Abbreviation",
-                "quantity.label": "Quantity",
-                "weightBase.label": "Weight",
-                "valueBase": {
-                    "label": "Value",
-                    "hint": "Value in silver pennies"
-                },
-                "isCarried.label": "Is Carried",
-                "isEquipped.label": "Is Equipped",
-                "qualityBase": {
-                    "label": "Quality",
-                    "hint": "Relative quality of the item, generally ranging from 8-12"
-                },
-                "durabilityBase": {
-                    "label": "Durability",
-                    "hint": "Rating of the ability to withstand damage"
-                }
-            }
-        },
-        "CONCOCTIONGEAR": {
-            "FIELDS": {
-                "potency.label": "Potency",
-                "strength.label": "Strength"
-            },
-            "SUBTYPE": {
-                "mundane": "Mundane",
-                "exotic": "Exotic",
-                "elixir": "Elixir"
-            },
-            "POTENCY": {
-                "na": "Not Applicable",
-                "mild": "Mild",
-                "strong": "Strong",
-                "great": "Great"
-            }
-        },
-        "MISCGEAR": {
-            "FIELDS": {}
-        },
-        "CONTAINERGEAR": {
-            "FIELDS": {
-                "maxCapacityBase.label": "Max Capacity"
-            },
-            "STATUS": ["OK", "Over Encumbered", "Over Maximum"]
-        },
-        "ARMORGEAR": {
-            "FIELDS": {
-                "material.label": "Material",
-                "locations": {
-                    "label": "Locations",
-                    "flexible": {
-                        "label": "Flexible"
-                    },
-                    "rigid": {
-                        "label": "Rigid"
-                    }
-                }
-            }
-        },
-        "WEAPONGEAR": {
-            "FIELDS": {
-                "lengthBase.label": "Length"
-            }
-        },
-        "PROJECTILEGEAR": {
-            "FIELDS": {
-                "shortName.label": "Short Name",
-                "impactBase": {
-                    "label": "Impact",
-                    "numDice.label": "Number of Dice",
-                    "die.label": "Die",
-                    "modifier.label": "Modifier",
-                    "aspect.label": "Aspect"
-                }
-            },
-            "SUBTYPE": {
-                "none": "None",
-                "arrow": "Arrow",
-                "bolt": "Bolt",
-                "bullet": "Bullet",
-                "dart": "Dart",
-                "other": "Other"
-            }
-        },
-        "EVENT": {
-            "FIELDS": {
-                "tag": {
-                    "label": "Purpose Tag",
-                    "hint": "Identifies the purpose of this event"
-                },
-                "actionName": {
-                    "label": "Action",
-                    "hint": "Action to perform when time expires"
-                },
-                "isEnabled.label": "Is Enabled",
-                "activation": {
-                    "label": "Activation",
-                    "scope": {
-                        "label": "Action Scope",
-                        "hint": "Where the action will run"
-                    },
-                    "targetUuid": {
-                        "label": "Target UUID",
-                        "hint": "If action scope is other, this is the UUID of the document where the action will run"
-                    },
-                    "duration": {
-                        "label": "Duration",
-                        "hint": "Number of seconds after start time until the action is triggered"
-                    },
-                    "startTime": {
-                        "label": "Start Time",
-                        "hint": "Game time when the event timer started"
-                    },
-                    "operator": {
-                        "label": "Operator"
-                    },
-                    "autoRestart": {
-                        "label": "Auto Restart",
-                        "hint": "Whether the event should automatically restart when triggered"
-                    }
-                }
-            },
-            "TERM": {
-                "duration": "Duration",
-                "indefinite": "Indefinite",
-                "permanent": "Permanent",
-                "immediate": "Immediate"
-            },
-            "TAG": {
-                "none": "",
-                "created": "Created",
-                "modified": "Last Modified"
-            },
-            "ACTION_SCOPE": {
-                "self": "Event",
-                "item": "Parent Item",
-                "actor": "Parent Actor",
-                "other": "Other"
-            },
-            "AUTO_RESTART": {
-                "never": "Never",
-                "once": "Once",
-                "always": "Always"
-            }
-        },
-        "SOHLCONTEXTMENU": {
-            "SORT_GROUPS": {
-                "DEFAULT": "Default",
-                "ESSENTIAL": "Essential",
-                "GENERAL": "General",
-                "HIDDEN": "Hidden"
-            }
-        },
-        "ACTIVE_EFFECT": {
-            "FIELDS": {
-                "targetName.label": "Target Name",
-                "targetType.label": "Target Type"
-            },
-            "TARGET_TYPE": {
-                "this": "This",
-                "actor": "Actor"
-            },
-            "targetLabel": {
-                "ThisActor": "This Actor: {actorName}",
-                "ThisItem": "This {itemName}",
-                "HasAttr": "SB Formula Has: {attributes}",
-                "AllOfSpecificItem": "All {targetItemPlural}",
-                "ItemsMatching": "{targetItemSingular} with name matching {targetName}"
-            }
-        },
-        "Settings": {
-            "SystemMigrationVersion": "System Migration Version",
-            "Variant": {
-                "Name": "Rules Variant",
-                "Hint": "Which set of rules to use"
-            },
-            "ShowWelcomeDialog": {
-                "Name": "Show welcome dialog on start",
-                "Hint": "Display the welcome dialog box when the user logs in."
-            },
-            "InitMacros": {
-                "Name": "Ask to initialize macros",
-                "Hint": "The next time the user logs in, ask whether to install the default macros."
-            },
-            "CombatAudio": {
-                "Name": "Combat sounds",
-                "Hint": "Enable combat flavor sounds"
-            },
-            "RecordTrauma": {
-                "Name": "Record trauma automatically",
-                "Hint": "Automatically add physical and mental afflictions and injuries",
-                "Choices": {
-                    "Enable": "Record trauma automatically",
-                    "Disable": "Don't record trauma automatically",
-                    "Ask": "Prompt user on each injury or affliction"
-                }
-            },
-            "FateRules": {
-                "None": "Fate rules disabled",
-                "PCOnly": "Fate rules only apply to PCs",
-                "Everyone": "Fate rules apply to all animate actors"
-            },
-            "TrackProjectile": {
-                "Quantity": "Track Projectile/Missile Quantity",
-                "Hint": "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero"
-            }    
-        },
-        "Effects": {
-            "Incapacitated": "Incapacitated",
-            "Vanquished": "Vanquished"
-        },
-        "UI": {
-            "DefaultMacroSheet": "Default {label} Macro Sheet",
-            "DefaultEffectSheet": "Default HarnMaster Active Effect Sheet",
-            "TAB": {
-                "Facade": "Façade",
-                "Profile": "Profile",
-                "Skills": "Skills",
-                "Combat": "Combat",
-                "Trauma": "Trauma",
-                "Mysteries": "Mysteries",
-                "Gear": "Gear",
-                "Actions": "Actions",
-                "Events": "Events",
-                "Effects": "Effects"
-            }
-        },
-        "Length": "Length",
-        "Block": "Block",
-        "Counterstrike": "Counterstrike",
-        "Dodge": "Dodge",
-        "Missile": "Missile",
-        "Melee": "Melee",
-        "Attack": "Attack",
-        "MasteryBoost": "Mastery Boost",
-        "MasteryLevel": "Mastery Level",
-        "Fate": "Fate",
-        "SuccessLevel": "Success Level",
-        "MaximumCharges": "Max Charges",
-        "Charges": "Charges",
-        "Skills": "Skills",
-        "Creature": "Creature",
-        "None": "None",
-        "AllSkills": "All Skills",
-        "CriticalSuccess": "Critical Success",
-        "CriticalFailure": "Critical Failure",
-        "MarginalSuccess": "Marginal Success",
-        "MarginalFailure": "Marginal Failure",
-        "Success": "Success",
-        "Failure": "Failure",
-        "CanImproveMastery": "Can Improve",
-        "SubType": "Sub-type",
-        "NoChanges": "No changes"
-    }
+    "TYPES.Actor.being": "Being",
+    "TYPES.Actor.beingPl": "Beings",
+    "TYPES.Actor.cohort": "Cohort",
+    "TYPES.Actor.cohortPl": "Cohorts",
+    "TYPES.Actor.assembly": "Assembly",
+    "TYPES.Actor.assemblyPl": "Assemblies",
+    "TYPES.Actor.vehicle": "Vehicle",
+    "TYPES.Actor.vehiclePl": "Vehicles",
+    "TYPES.Actor.structure": "Structure",
+    "TYPES.Actor.structurePl": "Structures",
+    "TYPES.Item.action": "Action",
+    "TYPES.Item.actionPl": "Actions",
+    "TYPES.Item.affiliation": "Affiliation",
+    "TYPES.Item.affiliationPl": "Affiliations",
+    "TYPES.Item.affliction": "Affliction",
+    "TYPES.Item.afflictionPl": "Afflictions",
+    "TYPES.Item.armorgear": "Armor",
+    "TYPES.Item.armorgearPl": "Armor",
+    "TYPES.Item.bodylocation": "Body Location",
+    "TYPES.Item.bodylocationPl": "Body Locations",
+    "TYPES.Item.bodypart": "Body Part",
+    "TYPES.Item.bodypartPl": "Body Parts",
+    "TYPES.Item.bodyzone": "Body Zone",
+    "TYPES.Item.bodyzonePl": "Body Zones",
+    "TYPES.Item.combattechniquestrikemode": "Combat Technique Strike Mode",
+    "TYPES.Item.combattechniquestrikemodePl": "Combat Technique Strike Modes",
+    "TYPES.Item.concoctiongear": "Concoction",
+    "TYPES.Item.concoctiongearPl": "Concoctions",
+    "TYPES.Item.containergear": "Container",
+    "TYPES.Item.containergearPl": "Containers",
+    "TYPES.Item.domain": "Domain",
+    "TYPES.Item.domainPl": "Domains",
+    "TYPES.Item.injury": "Injury",
+    "TYPES.Item.injuryPl": "Injuries",
+    "TYPES.Item.meleeweaponstrikemode": "Melee Weapon Strike Mode",
+    "TYPES.Item.meleeweaponstrikemodePl": "Melee Weapon Strike Modes",
+    "TYPES.Item.miscgear": "Misc Gear",
+    "TYPES.Item.miscgearPl": "Misc Gear",
+    "TYPES.Item.missileweaponstrikemode": "Missile Weapon Strike Mode",
+    "TYPES.Item.missileweaponstrikemodePl": "Missile Weapon Strike Modes",
+    "TYPES.Item.movementprofile": "Movement Profile",
+    "TYPES.Item.movementprofilePl": "Movement Profiles",
+    "TYPES.Item.mystery": "Mystery",
+    "TYPES.Item.mysteryPl": "Mysteries",
+    "TYPES.Item.mysticalability": "Mystical Ability",
+    "TYPES.Item.mysticalabilityPl": "Mystical Abilities",
+    "TYPES.Item.mysticaldevice": "Mystical Device",
+    "TYPES.Item.mysticaldevicePl": "Mystical Devices",
+    "TYPES.Item.philosophy": "Philosophy",
+    "TYPES.Item.philosophyPl": "Philosophies",
+    "TYPES.Item.projectilegear": "Projectile",
+    "TYPES.Item.projectilegearPl": "Projectiles",
+    "TYPES.Item.protection": "Protection",
+    "TYPES.Item.protectionPl": "Protection",
+    "TYPES.Item.skill": "Skill",
+    "TYPES.Item.skillPl": "Skills",
+    "TYPES.Item.trait": "Trait",
+    "TYPES.Item.traitPl": "Traits",
+    "TYPES.Item.weapongear": "Weapon",
+    "TYPES.Item.weapongearPl": "Weapons",
+    "SOHL.title": "Song of Heroic Lands",
+    "SOHL.Actor.SHEET.tab.facade.label": "Façade",
+    "SOHL.Actor.SHEET.tab.facade.tooltip": "Outward appearance and observable behavior (may be misleading)",
+    "SOHL.Actor.SHEET.tab.profile.label": "Profile",
+    "SOHL.Actor.SHEET.tab.profile.tooltip": "True attributes, traits, affiliations, and biography",
+    "SOHL.Actor.SHEET.tab.actions.label": "Actions",
+    "SOHL.Actor.SHEET.tab.actions.tooltip": "Available actions and special moves",
+    "SOHL.Actor.SHEET.tab.combat.label": "Combat",
+    "SOHL.Actor.SHEET.tab.combat.tooltip": "Combat maneuvers and tactical options",
+    "SOHL.Actor.SHEET.tab.effects.label": "Effects",
+    "SOHL.Actor.SHEET.tab.effects.tooltip": "Active effects and mechanical modifiers",
+    "SOHL.Actor.SHEET.tab.gear.label": "Gear",
+    "SOHL.Actor.SHEET.tab.gear.tooltip": "Carried items and equipped gear",
+    "SOHL.Actor.SHEET.tab.mysteries.label": "Mysteries",
+    "SOHL.Actor.SHEET.tab.mysteries.tooltip": "Supernatural powers and mystical abilities",
+    "SOHL.Actor.SHEET.tab.skills.label": "Skills",
+    "SOHL.Actor.SHEET.tab.skills.tooltip": "Skills and proficiency ratings",
+    "SOHL.Actor.SHEET.tab.trauma.label": "Trauma",
+    "SOHL.Actor.SHEET.tab.trauma.tooltip": "Injuries, fatigue, and ongoing conditions",
+    "SOHL.MOD.NotDisabled": "",
+    "SOHL.MOD.PLAYER": "Situational Modifier",
+    "SOHL.MOD.MINVALUE": "Minimum Value",
+    "SOHL.MOD.MAXVALUE": "Maximum Value",
+    "SOHL.MOD.OUTNUMBERED": "Outnumbered",
+    "SOHL.MOD.OFFHAND": "Off-Hand Weapon Use",
+    "SOHL.MOD.MasteryLevelDisabled": "Mastery Level Disabled",
+    "SOHL.MOD.MAGICMOD": "Magic Modifier",
+    "SOHL.MOD.FATEBNS": "{skill} Fate Bonus",
+    "SOHL.MOD.NOFATE": "No Fate Available",
+    "SOHL.MOD.MasteryLevelAttrBoost": "Mastery Level Increase from {attr}",
+    "SOHL.MOD.SSMOD": "Sunsign Modifier",
+    "SOHL.MOD.DURABILITY": "",
+    "SOHL.MOD.ITEMWT": "{item} Weight",
+    "SOHL.MOD.NoMissileDefense": "No Defense for Missile Attacks",
+    "SOHL.MOD.NoModifierNoDie": "No modifier or no die",
+    "SOHL.MOD.GearNotNestedInGear": "Not Nested In Gear",
+    "SOHL.MOD.NoAssocSkill": "No Associated Skill",
+    "SOHL.MOD.NoBlock": "No Blocking Allowed",
+    "SOHL.MOD.NoCounterstrike": "No Counterstrike Allowed",
+    "SOHL.MOD.NoFateNPC": "No Fate Allowed for Non-Player Character or Creature",
+    "SOHL.MOD.NoFateSettings": "Fate Disabled in Settings",
+    "SOHL.MOD.NoFateAura": "No Fate for Aura-based Skills",
+    "SOHL.MOD.NoUseCharges": "Does not use Charges",
+    "SOHL.MOD.NoHealRate": "No Healing Rate",
+    "SOHL.MOD.TraitNotNumNoScore": "Non-numeric traits don't have a score",
+    "SOHL.MOD.TraitNotNumNoML": "Non-numeric traits don't have a mastery level",
+    "SOHL.MOD.TraitNotNumNoFate": "Non-numeric traits don't have fate",
+    "SOHL.MOD.TraitNotAttrNoML": "Non-attribute traits don't have Mastery Level",
+    "SOHL.MOD.Unspecified": "Disabled Reason Unspecified",
+    "SOHL.MOD.ArmorProtection": "{source} Armor Protection",
+    "SOHL.MOD.RangeMult.pointblank": "Point Blank Range Multiplier",
+    "SOHL.MOD.RangeMult.direct": "Direct Range Multiplier",
+    "SOHL.MOD.RangeMult.volley_2": "Volley 2 Range Multiplier",
+    "SOHL.MOD.RangeMult.volley_3": "Volley 3 Range Multiplier",
+    "SOHL.MOD.RangeMult.volley_4": "Volley 4 Range Multiplier",
+    "SOHL.MOD.InvalidRange": "Invalid Range, setting max distance to 0",
+    "SOHL.MOD.BowStrengthML": "Add Strength ML to Bow Draw",
+    "SOHL.MOD.BowAssocSkillML": "Add {assocSkillName} Skill ML to Bow Draw",
+    "SOHL.MOD.NoDrawTooWeak": "Cannot draw bow, too weak",
+    "SOHL.MOD.StrengthImpactAdjustment": "Strength Impact Adjustment",
+    "SOHL.DURATION.FUTURE": "in {duration}",
+    "SOHL.DURATION.PAST": "{duration} ago",
+    "SOHL.DURATION.NOW": "Now",
+    "SOHL.VALUEMODIFIER.entity": "Value Modifier",
+    "SOHL.VALUEMODIFIER.entityPl": "Value Modifiers",
+    "SOHL.VALUEMODIFIER.Adjustment": "Adjustment",
+    "SOHL.VALUEMODIFIER.Value": "Value",
+    "SOHL.VALUEMODIFIER.DisabledAbbrev": "DISABLED: {abbrev}",
+    "SOHL.IMPACTMODIFIER.entity": "Impact Modifier",
+    "SOHL.IMPACTMODIFIER.entityPl": "Impact Modifiers",
+    "SOHL.IMPACTMODIFIER.ASPECT.blunt": "Blunt",
+    "SOHL.IMPACTMODIFIER.ASPECT.edged": "Edged",
+    "SOHL.IMPACTMODIFIER.ASPECT.piercing": "Piercing",
+    "SOHL.IMPACTMODIFIER.ASPECT.fire": "Fire",
+    "SOHL.MASTERYLEVELMODIFIER.entity": "Mastery Level Modifier",
+    "SOHL.MASTERYLEVELMODIFIER.entityPl": "Mastery Level Modifiers",
+    "SOHL.MASTERYLEVELMODIFIER.successTest.title": "{label} Test",
+    "SOHL.MASTERYLEVELMODIFIER.successTest.dialogTitle": "{name} {title}",
+    "SOHL.MASTERYLEVELMODIFIER.successTest.dialogLabel": "Roll",
+    "SOHL.SUCCESSTESTRESULT.entity": "Success Test Result",
+    "SOHL.SUCCESSTESTRESULT.entityPl": "Success Test Results",
+    "SOHL.SUCCESSTESTRESULT.tests.setImproveFlag": "Set Skill Dev Flag",
+    "SOHL.SUCCESSTESTRESULT.tests.unsetImproveFlag": "Unset Skill Dev Flag",
+    "SOHL.SUCCESSTESTRESULT.tests.improveWithSDR": "Improve Mastery using SDR",
+    "SOHL.SUCCESSTESTRESULT.tests.successTest": "Skill Test",
+    "SOHL.SUCCESSTESTRESULT.tests.opposedTestStart": "Opposed Skill Test",
+    "SOHL.SUCCESSTESTRESULT.tests.shockTest": "Shock Test",
+    "SOHL.SUCCESSTESTRESULT.tests.stumbleTest": "Stumble Check",
+    "SOHL.SUCCESSTESTRESULT.tests.fumbleTest": "Fumble Check",
+    "SOHL.SUCCESSTESTRESULT.tests.moraleTest": "Morale Check",
+    "SOHL.SUCCESSTESTRESULT.tests.fearTest": "Fear Check",
+    "SOHL.SUCCESSTESTRESULT.tests.transmitAffliction": "Transmit Affliction Check",
+    "SOHL.SUCCESSTESTRESULT.tests.contractAfflictionTest": "Contract Affliction Check",
+    "SOHL.SUCCESSTESTRESULT.tests.courseTest": "Affliction Course Roll",
+    "SOHL.SUCCESSTESTRESULT.tests.fatigueTest": "Fatigue Check",
+    "SOHL.SUCCESSTESTRESULT.tests.treatmentTest": "Treatment Test",
+    "SOHL.SUCCESSTESTRESULT.tests.diagnosisTest": "Diagnosis Check",
+    "SOHL.SUCCESSTESTRESULT.tests.healingTest": "Healing Test",
+    "SOHL.SUCCESSTESTRESULT.tests.bleedingStoppageTest": "Bleeding Stoppage Check",
+    "SOHL.SUCCESSTESTRESULT.tests.bloodlossAdvanceTest": "Check Blood Loss Advance",
+    "SOHL.SUCCESSTESTRESULT.tests.opposedTestResume": "Resolve Opposed Skill",
+    "SOHL.SUCCESSTESTRESULT.tests.resolveImpact": "Resolve Impact",
+    "SOHL.SUCCESSTESTRESULT.tests.successValueTest": "Success Value Test",
+    "SOHL.SUCCESSTESTRESULT.tests.improveWithXP": "Improve Mastery using XP",
+    "SOHL.SUCCESSTESTRESULT.tests.fateTest": "Fate Test",
+    "SOHL.SUCCESSTESTRESULT.testDialog.title": "{name} {title}",
+    "SOHL.SUCCESSTESTRESULT.testDialog.label": "Roll",
+    "SOHL.SUCCESSTESTRESULT.evaluate.NoPerm": "You do not have permissions to perform this operation on {name}",
+    "SOHL.SUCCESSTESTRESULT.evaluate.RollFail": "Roll evaluation failed",
+    "SOHL.OPPOSEDTESTRESULT.entity": "Opposed Test Result",
+    "SOHL.OPPOSEDTESTRESULT.entityPl": "Opposed Test Results",
+    "SOHL.OPPOSEDTESTRESULT.toChat.title": "Opposed Action Request",
+    "SOHL.OPPOSEDTESTRESULT.toChat.description": "{targetActorName} must now choose what skill to respond with",
+    "SOHL.COMBATTESTRESULT.entity": "Combat Test Result",
+    "SOHL.COMBATTESTRESULT.entityPl": "Combat Test Results",
+    "SOHL.COMBATTESTRESULT.tests.automatedMeleeStart": "Automated Melee Attack",
+    "SOHL.COMBATTESTRESULT.tests.automatedMissileStart": "Automated Missile Attack",
+    "SOHL.COMBATTESTRESULT.tests.meleeAttackTest": "Melee Attack Test",
+    "SOHL.COMBATTESTRESULT.tests.missileAttackTest": "Missile Attack Test",
+    "SOHL.COMBATTESTRESULT.tests.blockTest": "Block Test",
+    "SOHL.COMBATTESTRESULT.tests.counterstrikeTest": "Counterstrike Test",
+    "SOHL.COMBATTESTRESULT.tests.autoCombatResume": "Automated Combat Resume",
+    "SOHL.COMBATTESTRESULT.tests.calcImpact": "Calc Impact",
+    "SOHL.COMBATTESTRESULT.DEFENSE.block": "Block",
+    "SOHL.COMBATTESTRESULT.DEFENSE.counterstrike": "Counterstrike",
+    "SOHL.COMBATTESTRESULT.DEFENSE.dodge": "Dodge",
+    "SOHL.COMBATTESTRESULT.DEFENSE.ignore": "Ignore",
+    "SOHL.COMBATTESTRESULT.MOVEMENT.stationary": "Stationary",
+    "SOHL.COMBATTESTRESULT.MOVEMENT.moving": "Moving",
+    "SOHL.COMBATTESTRESULT.MOVEMENT.evading": "Evading",
+    "SOHL.COMBATTESTRESULT.TACTICAL_ADVANTAGE.impact": "Impact",
+    "SOHL.COMBATTESTRESULT.TACTICAL_ADVANTAGE.precision": "Precision",
+    "SOHL.COMBATTESTRESULT.TACTICAL_ADVANTAGE.action": "Action",
+    "SOHL.COMBATTESTRESULT.TACTICAL_ADVANTAGE.setup": "Setup",
+    "SOHL.BEING.ACTION.calcImpact": "Calc Impact",
+    "SOHL.BEING.EFFECT_KEYS.engagedOpponents": "Engaged Opponents",
+    "SOHL.BEING._createTestItem.dialog.title": "Create {label}",
+    "SOHL.BEING._createTestItem.dialog.content": "<p>Do you wish to create a {label} on {name}?</p>",
+    "SOHL.BEING.opposedTestResume.getOpposedItem.label": "Select which Skill to use:",
+    "SOHL.BEING.opposedTestResume.getOpposedItem.title": "Choose Opposing Skill for {name}",
+    "SOHL.BEING.opposedTestResume.getOpposedItem.attributeLabel": "Attribute: {name} (ML:{ml})",
+    "SOHL.BEING.opposedTestResume.getOpposedItem.noUsableSkills": "{name} has no usable skills, cannot respond to opposed test",
+    "SOHL.BASEDATA.FIELDS.macros.label": "Macros",
+    "SOHL.BASEDATA.ACTIONS.AUTOCOMBATRESUME": "Resume Automated Combat",
+    "SOHL.BASEDATA.events.self": "Self",
+    "SOHL.BASEDATA._getContextOptions.ContextConditionError": "Error executing context condition for {name} on {parentName}",
+    "SOHL.BASEDATA.label": "{name} {typeLabel}",
+    "SOHL.BASEDATA.labelWithSubtype": "{name} {subType} {typeLabel}",
+    "SOHL.ITEM.defaultName.NoSubType": "{docLabel}",
+    "SOHL.ITEM.defaultName.WithSubType": "{subType} {docLabel}",
+    "SOHL.ITEM._handleTypeChange.subTypeSelected": "{subType} selected",
+    "SOHL.ITEM.nestIn.IdenticalItemWarning": "An Item named {name} exists in {targetName}, cannot create new item with same name",
+    "SOHL.ITEM.nestIn.IdenticalItemMoveDenied": "",
+    "SOHL.ACTORDATA.FIELDS.bioImage.label": "Biographical Image",
+    "SOHL.ACTORDATA.FIELDS.bioImage.hint": "",
+    "SOHL.ACTORDATA.FIELDS.description.label": "Description",
+    "SOHL.ACTORDATA.FIELDS.description.hint": "Physical description and traits",
+    "SOHL.ACTORDATA.FIELDS.biography.label": "Biography",
+    "SOHL.ACTORDATA.FIELDS.biography.hint": "Backstory and biographical information",
+    "SOHL.ITEMDATA.FIELDS.notes.label": "Notes",
+    "SOHL.ITEMDATA.FIELDS.description.label": "Description",
+    "SOHL.ITEMDATA.FIELDS.textReference.label": "Reference",
+    "SOHL.ITEMDATA.FIELDS.nestedItems.label": "Nested Items",
+    "SOHL.ITEMDATA.FIELDS.transfer.label": "Transfer to Actor",
+    "SOHL.ITEMDATA.actionTypes.editItem": "Edit",
+    "SOHL.ITEMDATA.actionTypes.deleteItem": "Delete",
+    "SOHL.ITEMDATA.actionTypes.showDescription": "Show Description",
+    "SOHL.ITEMDATA.actionTypes.setupVirtualItems": "Setup Virtual Items",
+    "SOHL.ITEMDATA.actionTypes.processSiblings": "Process Siblings",
+    "SOHL.ITEMDATA.actionTypes.postProcess": "Post Process",
+    "SOHL.ITEMDATA.deleteItem.NonContainer.title": "Delete Item: {name}",
+    "SOHL.ITEMDATA.deleteItem.NonContainer.queryHtml": "<p>Are You Sure?</p><p>This item will be deleted and cannot be recovered.</p>",
+    "SOHL.ITEMDATA.deleteItem.Container.title": "Delete Container: {name}",
+    "SOHL.ITEMDATA.deleteItem.Container.queryHtml": "<p>Are You Sure?</p><p>This container and all items and containers within it will be deleted and cannot be recovered.</p>",
+    "SOHL.SUBTYPE.FIELDS.subType.label": "SubType",
+    "SOHL.PROTECTION.FIELDS.protectionBase.blunt.label": "Blunt",
+    "SOHL.PROTECTION.FIELDS.protectionBase.edged.label": "Edged",
+    "SOHL.PROTECTION.FIELDS.protectionBase.peircing.label": "Piercing",
+    "SOHL.PROTECTION.FIELDS.protectionBase.fire.label": "Fire",
+    "SOHL.PROTECTION.FIELDS.protectionBase.label": "Protection",
+    "SOHL.STRIKEMODE.FIELDS.mode.label": "Mode",
+    "SOHL.STRIKEMODE.FIELDS.mode.hint": "Name of the attack mode",
+    "SOHL.STRIKEMODE.FIELDS.minParts.label": "Min Parts",
+    "SOHL.STRIKEMODE.FIELDS.minParts.hint": "Minimum number of body parts needed for this strike mode",
+    "SOHL.STRIKEMODE.FIELDS.assocSkillName.label": "Mode",
+    "SOHL.STRIKEMODE.FIELDS.assocSkillName.hint": "Skill that is used to perform this strike mode",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.label": "",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.hint": "",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.numDice.label": "Number of Dice",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.die.label": "Die",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.modifier.label": "Modifier",
+    "SOHL.STRIKEMODE.FIELDS.impactBase.aspect.label": "Aspect",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.impact": "Impact",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.attack": "Attack",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.block": "Block",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.counterstrike": "Counterstrike",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.noAttack": "No Attack",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.noBlock": "No Block",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.armorReduction": "Armor Reduction",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.blockSuccessLevel": "Block Success Level",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.counterstrikeSuccessLevel": "Counterstrike Success Level",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.opponentDef": "Opponent Defense",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.impactTA": "Impact Tactical Advantage",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.entangle": "Entangle",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.envelop": "Envelop",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.highStrike": "High Strike",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.lowStrike": "Low Strike",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.notInClose": "Not In Close Combat",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.onlyInClose": "Only In Close Combat",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.deflectTN": "Deflect Target Number",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.shieldMod": "Shield Modifier",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.extraBleedRisk": "Extra Bleed Risk",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.noStrMod": "No Strength Modifier",
+    "SOHL.STRIKEMODE.EFFECT_KEYS.halfImpact": "Half Impact",
+    "SOHL.STRIKEMODE.NoAssocSkillWarning": "{label} requires skill {skillName} but it does not exist, creating a dummy skill with ML 0",
+    "SOHL.MISSILEWEAPONSTRIKEMODE.FIELDS.projectileType.label": "Projectile Type",
+    "SOHL.MISSILEWEAPONSTRIKEMODE.FIELDS.projectileType.hint": "Projectile type used by this strike mode",
+    "SOHL.COMBATTECHNIQUE.FIELDS.lengthBase.label": "Length",
+    "SOHL.MASTERYLEVEL.FIELDS.abbrev.label": "Abbreviation",
+    "SOHL.MASTERYLEVEL.FIELDS.skillBaseFormula.label": "Skill Base Formula",
+    "SOHL.MASTERYLEVEL.FIELDS.masteryLevelBase.label": "Mastery Level",
+    "SOHL.MASTERYLEVEL.FIELDS.improveFlag.label": "Flag for Mastery Improvement",
+    "SOHL.MYSTERY.FIELDS.config.usesCharges.label": "Uses Charges",
+    "SOHL.MYSTERY.FIELDS.config.usesSkills.label": "Uses Skills",
+    "SOHL.MYSTERY.FIELDS.config.assocPhilosophy.label": "Associated Philosophy",
+    "SOHL.MYSTERY.FIELDS.config.category.label": "Category",
+    "SOHL.MYSTERY.FIELDS.domain.label": "Domain",
+    "SOHL.MYSTERY.FIELDS.skills.label": "Skills",
+    "SOHL.MYSTERY.FIELDS.levelBase.label": "Level",
+    "SOHL.MYSTERY.FIELDS.charges.value.label": "Charges",
+    "SOHL.MYSTERY.FIELDS.charges.value.hint": "Current number of charges available",
+    "SOHL.MYSTERY.FIELDS.charges.max.label": "Max Charges",
+    "SOHL.MYSTERY.FIELDS.charges.max.hint": "Maximum number of charges possible",
+    "SOHL.MYSTERY.CATEGORY.grace": "Grace",
+    "SOHL.MYSTERY.CATEGORY.piety": "Piety",
+    "SOHL.MYSTERY.CATEGORY.fate": "Fate Points",
+    "SOHL.MYSTERY.CATEGORY.fatebonus": "Fate Test Bonus",
+    "SOHL.MYSTERY.CATEGORY.fatepointbonus": "Fate Point Bonus",
+    "SOHL.MYSTERY.CATEGORY.blessing": "Blessing",
+    "SOHL.MYSTERY.CATEGORY.ancestor": "Ancestor Insight",
+    "SOHL.MYSTERY.CATEGORY.totem": "Totem Attunement",
+    "SOHL.MYSTERY.CATEGORY_LABEL.grace": "Domain",
+    "SOHL.MYSTERY.CATEGORY_LABEL.piety": "Domain",
+    "SOHL.MYSTERY.CATEGORY_LABEL.fate": "Skill",
+    "SOHL.MYSTERY.CATEGORY_LABEL.fatebonus": "Skill",
+    "SOHL.MYSTERY.CATEGORY_LABEL.fatepointbonus": "None",
+    "SOHL.MYSTERY.CATEGORY_LABEL.blessing": "Domain",
+    "SOHL.MYSTERY.CATEGORY_LABEL.ancestor": "Skill",
+    "SOHL.MYSTERY.CATEGORY_LABEL.totem": "Creature",
+    "SOHL.MYSTERY.UnknownDomain": "Unknown ({domainName})",
+    "SOHL.MYSTERY.DoesNotUseCharges": "Doesn't Use Charges",
+    "SOHL.MYSTICALABILITY.FIELDS.config.isImprovable.label": "Is Improvable",
+    "SOHL.MYSTICALABILITY.FIELDS.config.assocSkill.label": "Associated Skill",
+    "SOHL.MYSTICALABILITY.FIELDS.config.category": "Category",
+    "SOHL.MYSTICALABILITY.FIELDS.config.assocPhilosophy": "Associated Philosophy",
+    "SOHL.MYSTICALABILITY.FIELDS.config.usesCharges": "Uses Charges",
+    "SOHL.MYSTICALABILITY.FIELDS.domain.label": "Domain",
+    "SOHL.MYSTICALABILITY.FIELDS.levelBase.label": "Level",
+    "SOHL.MYSTICALABILITY.FIELDS.charges.value.label": "Charges",
+    "SOHL.MYSTICALABILITY.FIELDS.charges.value.hint": "Current number of charges available",
+    "SOHL.MYSTICALABILITY.FIELDS.charges.max.label": "Max Charges",
+    "SOHL.MYSTICALABILITY.FIELDS.charges.max.hint": "Maximum number of charges possible",
+    "SOHL.MYSTICALABILITY.CATEGORY.shamanicrite": "Shamanic Rite",
+    "SOHL.MYSTICALABILITY.CATEGORY.spiritaction": "Spirit Action",
+    "SOHL.MYSTICALABILITY.CATEGORY.spiritpower": "Spirit Power",
+    "SOHL.MYSTICALABILITY.CATEGORY.benediction": "Benediction",
+    "SOHL.MYSTICALABILITY.CATEGORY.divinedevotion": "Ritual Devotion",
+    "SOHL.MYSTICALABILITY.CATEGORY.divineincantation": "Divine Incantation",
+    "SOHL.MYSTICALABILITY.CATEGORY.arcaneincantation": "Arcane Incantation",
+    "SOHL.MYSTICALABILITY.CATEGORY.arcaneinvocation": "Arcane Invocation",
+    "SOHL.MYSTICALABILITY.CATEGORY.arcanetalent": "Arcane Talent",
+    "SOHL.MYSTICALABILITY.CATEGORY.alchemy": "Alchemy",
+    "SOHL.MYSTICALABILITY.CATEGORY.divination": "Divination",
+    "SOHL.MYSTICALABILITY.DOMAIN_DEGREE.primary": "Primary",
+    "SOHL.MYSTICALABILITY.DOMAIN_DEGREE.secondary": "Secondary",
+    "SOHL.MYSTICALABILITY.DOMAIN_DEGREE.neutral": "Neutral",
+    "SOHL.MYSTICALABILITY.DOMAIN_DEGREE.tertiary": "Tertiary",
+    "SOHL.MYSTICALABILITY.DOMAIN_DEGREE.diametric": "Diametric",
+    "SOHL.MYSTICALABILITY.DoesNotUseCharges": "Doesn't Use Charges",
+    "SOHL.PHILOSOPHY.CATEGORY.arcane": "Arcane",
+    "SOHL.PHILOSOPHY.CATEGORY.divine": "Divine",
+    "SOHL.PHILOSOPHY.CATEGORY.spirit": "Spirit",
+    "SOHL.PHILOSOPHY.CATEGORY.astral": "Astral",
+    "SOHL.PHILOSOPHY.CATEGORY.natural": "Natural",
+    "SOHL.PHILOSOPHY.CATEGORY.scientific": "Scientific",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.dreams": "Dreams",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.death": "Death",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.violence": "Violence",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.peace": "Peace",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.fertility": "Fertility",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.order": "Order",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.knowledge": "Knowledge",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.prosperity": "Prosperity",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.fire": "Fire",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.creation": "Creation",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.voyager": "Voyager",
+    "SOHL.PHILOSOPHY.DIVINE_EMBODIMENT.decay": "Decay",
+    "SOHL.PHILOSOPHY.ELEMENT.fire": "Fire",
+    "SOHL.PHILOSOPHY.ELEMENT.water": "Water",
+    "SOHL.PHILOSOPHY.ELEMENT.earth": "Earth",
+    "SOHL.PHILOSOPHY.ELEMENT.spirit": "Spirit",
+    "SOHL.PHILOSOPHY.ELEMENT.wind": "Wind",
+    "SOHL.PHILOSOPHY.ELEMENT.wood": "Wood",
+    "SOHL.PHILOSOPHY.ELEMENT.metal": "Metal",
+    "SOHL.PHILOSOPHY.ELEMENT.arcana": "Arcana",
+    "SOHL.DOMAIN.SUBTYPES.philosophy": "Philisophical Domain",
+    "SOHL.DOMAIN.SUBTYPES.divine": "Divine Domain",
+    "SOHL.DOMAIN.SUBTYPES.arcane": "Arcane Domain",
+    "SOHL.DOMAIN.SUBTYPES.astral": "Astral Domain",
+    "SOHL.DOMAIN.SUBTYPES.scientific": "Scientific Domain",
+    "SOHL.INJURY.FIELDS.injuryLevelBase.label": "Injury Level",
+    "SOHL.INJURY.FIELDS.healingRateBase.label": "Healing Rate",
+    "SOHL.INJURY.FIELDS.aspect": "Aspect",
+    "SOHL.INJURY.FIELDS.isTreated.label": "Treated",
+    "SOHL.INJURY.FIELDS.isBleeding.label": "Bleeding",
+    "SOHL.INJURY.FIELDS.bodyLocationUuid": "Body Location",
+    "SOHL.INJURY.EVENT.nexthealingtest": "Next Healing Test",
+    "SOHL.AFFLICTION.FIELDS.isDormant.label": "Is Dormant",
+    "SOHL.AFFLICTION.FIELDS.isDormant.hint": "Doesn't affect carrier, but may be contagious or reactivate",
+    "SOHL.AFFLICTION.FIELDS.isTreated.label": "Is Treated",
+    "SOHL.AFFLICTION.FIELDS.diagnosisBonusBase.label": "Diagnosis Bonus",
+    "SOHL.AFFLICTION.FIELDS.diagnosisBonusBase.hint": "Modifier to treatment test from diagnosis",
+    "SOHL.AFFLICTION.FIELDS.levelBase.label": "Level",
+    "SOHL.AFFLICTION.FIELDS.levelBase.hint": "Magnitude of Affliction",
+    "SOHL.AFFLICTION.FIELDS.healingRateBase.label": "Healing Rate",
+    "SOHL.AFFLICTION.FIELDS.healingRateBase.hint": "Virulence of Affliction",
+    "SOHL.AFFLICTION.FIELDS.contagionIndexBase.label": "Contagion Index",
+    "SOHL.AFFLICTION.FIELDS.transmission.label": "Transmission",
+    "SOHL.AFFLICTION.SUBTYPE.privation": "Privation",
+    "SOHL.AFFLICTION.SUBTYPE.fatigue": "Fatigue",
+    "SOHL.AFFLICTION.SUBTYPE.disease": "Disease",
+    "SOHL.AFFLICTION.SUBTYPE.infextion": "Infection",
+    "SOHL.AFFLICTION.SUBTYPE.poisontoxin": "Poison/Toxin",
+    "SOHL.AFFLICTION.SUBTYPE.fear": "Fear",
+    "SOHL.AFFLICTION.SUBTYPE.morale": "Morale",
+    "SOHL.AFFLICTION.SUBTYPE.shadow": "Shadow",
+    "SOHL.AFFLICTION.SUBTYPE.psyche": "Psyche Stress",
+    "SOHL.AFFLICTION.SUBTYPE.auralshock": "Aural Shock",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.privation": "Prv",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.fatigue": "Fatg",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.disease": "Disz",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.infection": "Inft",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.poisontoxin": "PsnTxn",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.fear": "Fear",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.morale": "Morl",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.shadow": "Shdw",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.psyche": "Psy",
+    "SOHL.AFFLICTION.SUBTYPE_ABBREV.auralshock": "AShk",
+    "SOHL.AFFLICTION.TRANSMISSION.none": "Noncommunicable",
+    "SOHL.AFFLICTION.TRANSMISSION.airborne": "Airborne",
+    "SOHL.AFFLICTION.TRANSMISSION.contact": "Contact",
+    "SOHL.AFFLICTION.TRANSMISSION.bodyfluid": "Body Fluid",
+    "SOHL.AFFLICTION.TRANSMISSION.injested": "Injested",
+    "SOHL.AFFLICTION.TRANSMISSION.proximity": "Proximity",
+    "SOHL.AFFLICTION.TRANSMISSION.vector": "Vector",
+    "SOHL.AFFLICTION.TRANSMISSION.perception": "Perception",
+    "SOHL.AFFLICTION.TRANSMISSION.arcane": "Arcane",
+    "SOHL.AFFLICTION.TRANSMISSION.divine": "Divine",
+    "SOHL.AFFLICTION.TRANSMISSION.spirit": "Spirit",
+    "SOHL.AFFLICTION.FATIGUE.windedness": "Windedness",
+    "SOHL.AFFLICTION.FATIGUE.weakness": "Weakness",
+    "SOHL.AFFLICTION.FATIGUE.weariness": "Weariness",
+    "SOHL.AFFLICTION.PRIVATION.asphixia": "Asphixia",
+    "SOHL.AFFLICTION.PRIVATION.cold": "Cold Exposure",
+    "SOHL.AFFLICTION.PRIVATION.heat": "Heat Exposure",
+    "SOHL.AFFLICTION.PRIVATION.starvation": "Starvation",
+    "SOHL.AFFLICTION.PRIVATION.dehydration": "Dehydration",
+    "SOHL.AFFLICTION.PRIVATION.nosleep": "Sleep Deprivation",
+    "SOHL.AFFLICTION.FEAR.none": "No effect",
+    "SOHL.AFFLICTION.FEAR.brave": "Brave",
+    "SOHL.AFFLICTION.FEAR.steady": "Steady",
+    "SOHL.AFFLICTION.FEAR.afraid": "Afraid",
+    "SOHL.AFFLICTION.FEAR.terrified": "Terrified",
+    "SOHL.AFFLICTION.FEAR.catatonic": "Catatonic",
+    "SOHL.AFFLICTION.MORALE.none": "No effect",
+    "SOHL.AFFLICTION.MORALE.brave": "Brave",
+    "SOHL.AFFLICTION.MORALE.steady": "Steady",
+    "SOHL.AFFLICTION.MORALE.withdrawing": "Withdrawing",
+    "SOHL.AFFLICTION.MORALE.routed": "Routed",
+    "SOHL.AFFLICTION.MORALE.catatonic": "Catatonic",
+    "SOHL.AFFLICTION.EVENT.nextcoursetest": "Next Course Test",
+    "SOHL.AFFLICTION.EVENT.nextrecoverytest": "Next Recovery Test",
+    "SOHL.TRAIT.FIELDS.textValue.label": "Value",
+    "SOHL.TRAIT.FIELDS.max.label": "Maximum value",
+    "SOHL.TRAIT.FIELDS.isNumeric.label": "Is Numeric",
+    "SOHL.TRAIT.FIELDS.isNumeric.hint": "Is value numeric?",
+    "SOHL.TRAIT.FIELDS.intensity.label": "Intensity",
+    "SOHL.TRAIT.FIELDS.valueDesc.label.label": "Value Label",
+    "SOHL.TRAIT.FIELDS.valueDesc.maxValue.label": "Maximum Value",
+    "SOHL.TRAIT.FIELDS.valueDesc.maxValue.hint": "The highest attribute value where this label applies",
+    "SOHL.TRAIT.FIELDS.choices.label": "Choices",
+    "SOHL.TRAIT.SUBTYPE.physique": "Physique",
+    "SOHL.TRAIT.SUBTYPE.personality": "Personality",
+    "SOHL.TRAIT.SUBTYPE.transcendant": "Transcendant",
+    "SOHL.TRAIT.INTENSITY.trait": "Trait",
+    "SOHL.TRAIT.INTENSITY.impulse": "Impulse",
+    "SOHL.TRAIT.INTENSITY.disorder": "Disorder",
+    "SOHL.TRAIT.INTENSITY.attribute": "Attribute",
+    "SOHL.SKILL.FIELDS.weaponGroup.label": "Weapon Group",
+    "SOHL.SKILL.FIELDS.baseSkill.label": "Base Skill",
+    "SOHL.SKILL.FIELDS.baseSkill.hint": "If this is a specialization, then the name of the base skill, otherwise blank",
+    "SOHL.SKILL.FIELDS.domain.label": "Domain",
+    "SOHL.SKILL.FIELDS.domain.hint": "Domain associated with this skill, if any",
+    "SOHL.SKILL.SUBTYPE.social": "Social",
+    "SOHL.SKILL.SUBTYPE.nature": "Nature",
+    "SOHL.SKILL.SUBTYPE.craft": "Craft",
+    "SOHL.SKILL.SUBTYPE.lore": "Lore",
+    "SOHL.SKILL.SUBTYPE.language": "Language",
+    "SOHL.SKILL.SUBTYPE.script": "Script",
+    "SOHL.SKILL.SUBTYPE.ritual": "Ritual",
+    "SOHL.SKILL.SUBTYPE.physical": "Physical",
+    "SOHL.SKILL.SUBTYPE.combat": "Combat",
+    "SOHL.SKILL.SUBTYPE.esoteric": "Esoteric",
+    "SOHL.SKILL.COMBAT.none": "None",
+    "SOHL.SKILL.COMBAT.all": "All Weapon Types",
+    "SOHL.SKILL.COMBAT.melee": "Melee",
+    "SOHL.SKILL.COMBAT.missile": "Missile",
+    "SOHL.SKILL.COMBAT.meleemissile": "Melee & Missile",
+    "SOHL.SKILL.COMBAT.combatmaneuver": "Combat Maneuver",
+    "SOHL.SKILL.COMBAT.meleemaneuver": "Melee & Combat Maneuver",
+    "SOHL.AFFILIATIONITEMDATA.FIELDS.society.label": "Society",
+    "SOHL.AFFILIATIONITEMDATA.FIELDS.office.label": "Office",
+    "SOHL.AFFILIATIONITEMDATA.FIELDS.title.label": "Title",
+    "SOHL.AFFILIATIONITEMDATA.FIELDS.level.label": "Level",
+    "SOHL.BODYZONE.FIELDS.abbrev.label": "Abbreviation",
+    "SOHL.BODYPART.FIELDS.abbrev.label": "Abbreviation",
+    "SOHL.BODYPART.FIELDS.canHoldItem.label": "Can Hold Item",
+    "SOHL.BODYPART.FIELDS.canHoldItem.hint": "Whether this body part can hold an item",
+    "SOHL.BODYPART.FIELDS.heldItemId.label": "Held Item Id",
+    "SOHL.BODYPART.NotNested": "Item {uuid} is a BodyPart that is not nested in a BodyZone, please correct this",
+    "SOHL.BODYLOCATION.FIELDS.abbrev.label": "Abbreviation",
+    "SOHL.MYSTICALDEVICE.FIELDS.config.requiresAttunement.label": "Requires Attunement",
+    "SOHL.MYSTICALDEVICE.FIELDS.config.usesVolition.label": "Uses Volition",
+    "SOHL.MYSTICALDEVICE.FIELDS.config.category.label": "Category",
+    "SOHL.MYSTICALDEVICE.FIELDS.config.assocPhilosophy.label": "Associated Philosophy",
+    "SOHL.MYSTICALDEVICE.FIELDS.domain.label": "Domain",
+    "SOHL.MYSTICALDEVICE.FIELDS.isAttuned.label": "Attuned",
+    "SOHL.MYSTICALDEVICE.FIELDS.volition.label": "Volition",
+    "SOHL.MYSTICALDEVICE.FIELDS.volition.ego.label": "Ego",
+    "SOHL.MYSTICALDEVICE.FIELDS.volition.morality.label": "Morality",
+    "SOHL.MYSTICALDEVICE.FIELDS.volition.purpose.label": "Purpose",
+    "SOHL.MYSTICALDEVICE.CATEGORY.artifact": "Arcane Artifact",
+    "SOHL.MYSTICALDEVICE.CATEGORY.ancestortalisman": "Ancestor Spirit Talisman",
+    "SOHL.MYSTICALDEVICE.CATEGORY.totemtalisman": "Totem Spirit Talisman",
+    "SOHL.MYSTICALDEVICE.CATEGORY.remnant": "Earthmaster Remnant",
+    "SOHL.MYSTICALDEVICE.CATEGORY.relic": "Divine Relic",
+    "SOHL.GEAR.FIELDS.abbrev.label": "Abbreviation",
+    "SOHL.GEAR.FIELDS.quantity.label": "Quantity",
+    "SOHL.GEAR.FIELDS.weightBase.label": "Weight",
+    "SOHL.GEAR.FIELDS.valueBase.label": "Value",
+    "SOHL.GEAR.FIELDS.valueBase.hint": "Value in silver pennies",
+    "SOHL.GEAR.FIELDS.isCarried.label": "Is Carried",
+    "SOHL.GEAR.FIELDS.isEquipped.label": "Is Equipped",
+    "SOHL.GEAR.FIELDS.qualityBase.label": "Quality",
+    "SOHL.GEAR.FIELDS.qualityBase.hint": "Relative quality of the item, generally ranging from 8-12",
+    "SOHL.GEAR.FIELDS.durabilityBase.label": "Durability",
+    "SOHL.GEAR.FIELDS.durabilityBase.hint": "Rating of the ability to withstand damage",
+    "SOHL.CONCOCTIONGEAR.FIELDS.potency.label": "Potency",
+    "SOHL.CONCOCTIONGEAR.FIELDS.strength.label": "Strength",
+    "SOHL.CONCOCTIONGEAR.SUBTYPE.mundane": "Mundane",
+    "SOHL.CONCOCTIONGEAR.SUBTYPE.exotic": "Exotic",
+    "SOHL.CONCOCTIONGEAR.SUBTYPE.elixir": "Elixir",
+    "SOHL.CONCOCTIONGEAR.POTENCY.na": "Not Applicable",
+    "SOHL.CONCOCTIONGEAR.POTENCY.mild": "Mild",
+    "SOHL.CONCOCTIONGEAR.POTENCY.strong": "Strong",
+    "SOHL.CONCOCTIONGEAR.POTENCY.great": "Great",
+    "SOHL.CONTAINERGEAR.FIELDS.maxCapacityBase.label": "Max Capacity",
+    "SOHL.CONTAINERGEAR.STATUS": [
+        "OK",
+        "Over Encumbered",
+        "Over Maximum"
+    ],
+    "SOHL.ARMORGEAR.FIELDS.material.label": "Material",
+    "SOHL.ARMORGEAR.FIELDS.locations.label": "Locations",
+    "SOHL.ARMORGEAR.FIELDS.locations.flexible.label": "Flexible",
+    "SOHL.ARMORGEAR.FIELDS.locations.rigid.label": "Rigid",
+    "SOHL.WEAPONGEAR.FIELDS.lengthBase.label": "Length",
+    "SOHL.PROJECTILEGEAR.FIELDS.shortName.label": "Short Name",
+    "SOHL.PROJECTILEGEAR.FIELDS.impactBase.label": "Impact",
+    "SOHL.PROJECTILEGEAR.FIELDS.impactBase.numDice.label": "Number of Dice",
+    "SOHL.PROJECTILEGEAR.FIELDS.impactBase.die.label": "Die",
+    "SOHL.PROJECTILEGEAR.FIELDS.impactBase.modifier.label": "Modifier",
+    "SOHL.PROJECTILEGEAR.FIELDS.impactBase.aspect.label": "Aspect",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.none": "None",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.arrow": "Arrow",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.bolt": "Bolt",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.bullet": "Bullet",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.dart": "Dart",
+    "SOHL.PROJECTILEGEAR.SUBTYPE.other": "Other",
+    "SOHL.EVENT.FIELDS.tag.label": "Purpose Tag",
+    "SOHL.EVENT.FIELDS.tag.hint": "Identifies the purpose of this event",
+    "SOHL.EVENT.FIELDS.actionName.label": "Action",
+    "SOHL.EVENT.FIELDS.actionName.hint": "Action to perform when time expires",
+    "SOHL.EVENT.FIELDS.isEnabled.label": "Is Enabled",
+    "SOHL.EVENT.FIELDS.activation.label": "Activation",
+    "SOHL.EVENT.FIELDS.activation.scope.label": "Action Scope",
+    "SOHL.EVENT.FIELDS.activation.scope.hint": "Where the action will run",
+    "SOHL.EVENT.FIELDS.activation.targetUuid.label": "Target UUID",
+    "SOHL.EVENT.FIELDS.activation.targetUuid.hint": "If action scope is other, this is the UUID of the document where the action will run",
+    "SOHL.EVENT.FIELDS.activation.duration.label": "Duration",
+    "SOHL.EVENT.FIELDS.activation.duration.hint": "Number of seconds after start time until the action is triggered",
+    "SOHL.EVENT.FIELDS.activation.startTime.label": "Start Time",
+    "SOHL.EVENT.FIELDS.activation.startTime.hint": "Game time when the event timer started",
+    "SOHL.EVENT.FIELDS.activation.operator.label": "Operator",
+    "SOHL.EVENT.FIELDS.activation.autoRestart.label": "Auto Restart",
+    "SOHL.EVENT.FIELDS.activation.autoRestart.hint": "Whether the event should automatically restart when triggered",
+    "SOHL.EVENT.TERM.duration": "Duration",
+    "SOHL.EVENT.TERM.indefinite": "Indefinite",
+    "SOHL.EVENT.TERM.permanent": "Permanent",
+    "SOHL.EVENT.TERM.immediate": "Immediate",
+    "SOHL.EVENT.TAG.none": "",
+    "SOHL.EVENT.TAG.created": "Created",
+    "SOHL.EVENT.TAG.modified": "Last Modified",
+    "SOHL.EVENT.ACTION_SCOPE.self": "Event",
+    "SOHL.EVENT.ACTION_SCOPE.item": "Parent Item",
+    "SOHL.EVENT.ACTION_SCOPE.actor": "Parent Actor",
+    "SOHL.EVENT.ACTION_SCOPE.other": "Other",
+    "SOHL.EVENT.AUTO_RESTART.never": "Never",
+    "SOHL.EVENT.AUTO_RESTART.once": "Once",
+    "SOHL.EVENT.AUTO_RESTART.always": "Always",
+    "SOHL.SOHLCONTEXTMENU.SORT_GROUPS.DEFAULT": "Default",
+    "SOHL.SOHLCONTEXTMENU.SORT_GROUPS.ESSENTIAL": "Essential",
+    "SOHL.SOHLCONTEXTMENU.SORT_GROUPS.GENERAL": "General",
+    "SOHL.SOHLCONTEXTMENU.SORT_GROUPS.HIDDEN": "Hidden",
+    "SOHL.ACTIVE_EFFECT.FIELDS.targetName.label": "Target Name",
+    "SOHL.ACTIVE_EFFECT.FIELDS.targetType.label": "Target Type",
+    "SOHL.ACTIVE_EFFECT.TARGET_TYPE.this": "This",
+    "SOHL.ACTIVE_EFFECT.TARGET_TYPE.actor": "Actor",
+    "SOHL.ACTIVE_EFFECT.targetLabel.ThisActor": "This Actor: {actorName}",
+    "SOHL.ACTIVE_EFFECT.targetLabel.ThisItem": "This {itemName}",
+    "SOHL.ACTIVE_EFFECT.targetLabel.HasAttr": "SB Formula Has: {attributes}",
+    "SOHL.ACTIVE_EFFECT.targetLabel.AllOfSpecificItem": "All {targetItemPlural}",
+    "SOHL.ACTIVE_EFFECT.targetLabel.ItemsMatching": "{targetItemSingular} with name matching {targetName}",
+    "SOHL.Settings.SystemMigrationVersion": "System Migration Version",
+    "SOHL.Settings.Variant.Name": "Rules Variant",
+    "SOHL.Settings.Variant.Hint": "Which set of rules to use",
+    "SOHL.Settings.ShowWelcomeDialog.Name": "Show welcome dialog on start",
+    "SOHL.Settings.ShowWelcomeDialog.Hint": "Display the welcome dialog box when the user logs in.",
+    "SOHL.Settings.InitMacros.Name": "Ask to initialize macros",
+    "SOHL.Settings.InitMacros.Hint": "The next time the user logs in, ask whether to install the default macros.",
+    "SOHL.Settings.CombatAudio.Name": "Combat sounds",
+    "SOHL.Settings.CombatAudio.Hint": "Enable combat flavor sounds",
+    "SOHL.Settings.RecordTrauma.Name": "Record trauma automatically",
+    "SOHL.Settings.RecordTrauma.Hint": "Automatically add physical and mental afflictions and injuries",
+    "SOHL.Settings.RecordTrauma.Choices.Enable": "Record trauma automatically",
+    "SOHL.Settings.RecordTrauma.Choices.Disable": "Don't record trauma automatically",
+    "SOHL.Settings.RecordTrauma.Choices.Ask": "Prompt user on each injury or affliction",
+    "SOHL.Settings.FateRules.None": "Fate rules disabled",
+    "SOHL.Settings.FateRules.PCOnly": "Fate rules only apply to PCs",
+    "SOHL.Settings.FateRules.Everyone": "Fate rules apply to all animate actors",
+    "SOHL.Settings.TrackProjectile.Quantity": "Track Projectile/Missile Quantity",
+    "SOHL.Settings.TrackProjectile.Hint": "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero",
+    "SOHL.Effects.Incapacitated": "Incapacitated",
+    "SOHL.Effects.Vanquished": "Vanquished",
+    "SOHL.UI.DefaultMacroSheet": "Default {label} Macro Sheet",
+    "SOHL.UI.DefaultEffectSheet": "Default HarnMaster Active Effect Sheet",
+    "SOHL.Length": "Length",
+    "SOHL.Block": "Block",
+    "SOHL.Counterstrike": "Counterstrike",
+    "SOHL.Dodge": "Dodge",
+    "SOHL.Missile": "Missile",
+    "SOHL.Melee": "Melee",
+    "SOHL.Attack": "Attack",
+    "SOHL.MasteryBoost": "Mastery Boost",
+    "SOHL.MasteryLevel": "Mastery Level",
+    "SOHL.Fate": "Fate",
+    "SOHL.SuccessLevel": "Success Level",
+    "SOHL.MaximumCharges": "Max Charges",
+    "SOHL.Charges": "Charges",
+    "SOHL.Skills": "Skills",
+    "SOHL.Creature": "Creature",
+    "SOHL.None": "None",
+    "SOHL.AllSkills": "All Skills",
+    "SOHL.CriticalSuccess": "Critical Success",
+    "SOHL.CriticalFailure": "Critical Failure",
+    "SOHL.MarginalSuccess": "Marginal Success",
+    "SOHL.MarginalFailure": "Marginal Failure",
+    "SOHL.Success": "Success",
+    "SOHL.Failure": "Failure",
+    "SOHL.CanImproveMastery": "Can Improve",
+    "SOHL.SubType": "Sub-type",
+    "SOHL.NoChanges": "No changes"
 }

@@ -33,7 +33,7 @@ export class LgndCohortSheet extends SohlActorSheetBase {
             tabs: [
                 {
                     navSelector: ".sheet-tabs",
-                    contentSelector: ".sheet-body",
+                    contentSelector: ".tab-body",
                     initial: "facade",
                 },
             ],

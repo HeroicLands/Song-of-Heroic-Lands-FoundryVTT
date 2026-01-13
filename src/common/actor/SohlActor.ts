@@ -536,6 +536,7 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
     SohlActor,
     foundry.applications.api.DocumentSheetV2.AnyConstructor
 >(
+    // @ts-ignore TypeScript has lost track of the super class due to erasure
     foundry.applications.api
         .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor,
 ) as unknown as AbstractConstructor) {
