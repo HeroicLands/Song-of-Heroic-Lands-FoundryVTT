@@ -7,7 +7,7 @@ import {
 import { fileURLToPath } from "url";
 import path from "path";
 
-const startYear = 2025;
+const startYear = 2024;
 const currentYear = new Date().getFullYear();
 const licenseYears =
     currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`;

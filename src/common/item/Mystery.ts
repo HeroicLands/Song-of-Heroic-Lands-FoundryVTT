@@ -1,6 +1,6 @@
 /*
  * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
- * Copyright (c) 2024-2025 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
  *
  * This work is licensed under the GNU General Public License v3.0 (GPLv3).
  * You may copy, modify, and distribute it under the terms of that license.

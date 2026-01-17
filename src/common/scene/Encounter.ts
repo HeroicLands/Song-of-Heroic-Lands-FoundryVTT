@@ -1,14 +1,16 @@
-/**
- * Semantics:
- * - Per hex, chanceGrid[idx] says “% chance this Encounter fires on a check”.
- * - Scene-wide: fill the grid with same %.
- * - Localized: paint different values per hex.
- * - Once triggered, you spawn the Cohort into the scene and update encounter state.
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
  *
- * So: Encounter = when/where you might run into a Cohort, with probability and state.
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
  *
- * scene.flags.sohl.encounters: Encounter[];
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
+
 interface Encounter {
     id: string;
     name: string;

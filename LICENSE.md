@@ -32,5 +32,5 @@ All creative content is located in the assets folder and subfolders.
 See the file `LICENSE` in the `assets` folder for the full license text. The full license can
 also be found at: [https://creativecommons.org/licenses/by-sa/4.0/](https://creativecommons.org/licenses/by-sa/4.0/)
 
-(c) 2025 Tom Rodriguez ("Toasty")  
+(c) 2026 Tom Rodriguez ("Toasty")  
 Contact: [toasty@heroiclands.com](mailto:toasty@heroiclands.com)
