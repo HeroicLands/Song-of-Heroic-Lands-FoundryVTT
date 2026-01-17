@@ -1,29 +1,29 @@
 @use "../utils/colors";
 @use "../utils/typography";
 
-.tabs [data-tab] {
+nav.tabs {
     flex: 0 0 auto;
     margin-bottom: 5px;
     @include typography.type-style("tab");
+    line-height: 32px;
+    //    margin: 0 24px;
+    border-top: none;
+    border-bottom: none;
+    color: colors.$c-text-secondary;
 
-    .item {
-        line-height: 32px;
-        margin: 0 24px;
-        border-bottom: 3px solid colors.$c-border-strong;
-
-        &:hover,
-        &:focus {
-            background: colors.$c-bg-overlay-dark;
-        }
+    &:hover,
+    &:focus {
+        background: colors.$c-bg-overlay-dark;
     }
 
-    .item.active {
+    .active {
         text-shadow: none;
+        @include typography.type-style("active-tab");
         border-bottom: 3px solid colors.$c-text-primary;
-        font-size: 25px;
+        color: colors.$c-text-primary;
     }
 }
 
-.tab-body .tab {
-    margin-right: 5px;
-}
+//.tab-body .tab {
+//    margin-right: 5px;
+//}
