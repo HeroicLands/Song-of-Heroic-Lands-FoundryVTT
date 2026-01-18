@@ -24,7 +24,7 @@ import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { CombatModifier } from "@common/modifier/CombatModifier";
 import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
-const { NumberField } = foundry.data.fields;
+const { NumberField, StringField } = foundry.data.fields;
 
 export class CombatTechniqueStrikeModeLogic<
     TData extends CombatTechniqueStrikeModeData = CombatTechniqueStrikeModeData,
@@ -111,6 +111,7 @@ export interface CombatTechniqueStrikeModeData<
 function defineCombatTechniqueStrikeModeSchema(): foundry.data.fields.DataSchema {
     return {
         ...StrikeModeDataModel.defineSchema(),
+        group: new StringField({}),
         lengthBase: new NumberField({
             integer: true,
             initial: 0,
