@@ -33,6 +33,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Leprosy
   id: JLwnXqD0Ih30vIQY
   img: systems/sohl/assets/icons/disease.svg
@@ -57,6 +58,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Smallpox
   id: ft652e2oEuiW1EOq
   img: systems/sohl/assets/icons/disease.svg
@@ -81,6 +83,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Typhoid Fever
   id: G7W1ahZqC5iXEINh
   img: systems/sohl/assets/icons/disease.svg
@@ -106,6 +109,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Chicken Pox
   id: JRZbKLzCE4lM3PeX
   img: systems/sohl/assets/icons/disease.svg
@@ -131,6 +135,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Malaria
   id: RuyvpAU3VHXfCCgQ
   img: systems/sohl/assets/icons/disease.svg
@@ -155,6 +160,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Tuburculosis
   id: cENpCaIDYMMmBt9v
   img: systems/sohl/assets/icons/disease.svg
@@ -179,6 +185,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Cholera
   id: G77cuNmZpBjx6pNU
   img: systems/sohl/assets/icons/disease.svg
@@ -204,6 +211,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Pneumonia
   id: MWnYy93iS3DO1cqD
   img: systems/sohl/assets/icons/disease.svg
@@ -229,6 +237,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Bronchitis
   id: 8yXf2j4lDpH7otHO
   img: systems/sohl/assets/icons/disease.svg
@@ -253,6 +262,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Measles
   id: Dlzv1oqgflmAtInB
   img: systems/sohl/assets/icons/disease.svg
@@ -278,6 +288,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Dengue Fever
   id: wB9ANiSb5sC9YX5P
   img: systems/sohl/assets/icons/disease.svg
@@ -303,6 +314,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Leishmaniasis
   id: nnRrIAu42BuORIP6
   img: systems/sohl/assets/icons/disease.svg
@@ -332,6 +344,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Elephantiasis
   id: 6xeeY5YQQiPIe326
   img: systems/sohl/assets/icons/disease.svg
@@ -357,6 +370,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: River Blindness
   id: 3XsslO0k18M7rRWx
   img: systems/sohl/assets/icons/disease.svg
@@ -382,6 +396,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Trachoma
   id: 3BGrdy9PCIzWr20Y
   img: systems/sohl/assets/icons/disease.svg
@@ -407,6 +422,7 @@
   effects: []
   flags: {}
   folderId: AcBtDYVewyDiK9zA
+  category: ""
 - name: Hemotoxin
   id: qgDF3vVDt9BX1B93
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -435,6 +451,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Neurotoxin
   id: ieVNDIy56rNOgjzq
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -462,6 +479,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Cytotoxin
   id: uXdY3E1OzXepSS9S
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -490,6 +508,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Hemorrhagic Venom
   id: GF1c8zMqVPVGGAhW
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -516,6 +535,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Bee Venom
   id: EMqdYaJ7X8tGEhRi
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -547,6 +567,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Wasp Venom
   id: SZ2fZ54CUPIhJz8I
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -578,6 +599,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Cnidarian Toxin
   id: dK0hw4BkUWAi5KiK
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -610,6 +632,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Protein Toxin
   id: 1hB1Y3KMI1an8IOn
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -637,6 +660,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Tetrodotoxin
   id: zZjDfgjLxkRw2uHz
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -668,6 +692,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Poneratoxin
   id: qzCiP0GibDhQ9mcg
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -694,6 +719,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Arsenic
   id: cKYHVFfg3w78eeEO
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -711,6 +737,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Belladonna
   id: bzbN2G3r1SWRZMYt
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -728,6 +755,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Hemlock
   id: XiXrJMPZpSmdZrpv
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -745,6 +773,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Aconite
   id: avyDvHvhyDC2zxVd
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -762,6 +791,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Digitalis
   id: ymlS24R2v3lM5fjO
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -779,6 +809,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Curare
   id: QSI1Des4pKMMbCRO
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -796,6 +827,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Mandrake
   id: jbQU6N7jQuWpoU7c
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -813,6 +845,7 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
 - name: Ricin
   id: V7zgaQ5ATKC1BXm0
   img: systems/sohl/assets/icons/poison-bottle.svg
@@ -830,3 +863,4 @@
   effects: []
   flags: {}
   folderId: ZSPorSdfrawLi3WB
+  category: ""
