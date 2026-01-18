@@ -19,7 +19,7 @@ import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlItem } from "@common/item/SohlItem";
 import { EFFECT_KIND } from "@utils/constants";
-const { DocumentIdField } = foundry.data.fields;
+const { StringField } = foundry.data.fields;
 
 export class SohlEffectData
     extends SohlLogic<SohlEffectData.Data>
@@ -49,7 +49,10 @@ export namespace SohlEffectData {
     export const Image = "systems/sohl/assets/icons/people-group.svg";
 
     function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
-        return {};
+        return {
+            targetType: new StringField({}),
+            targetName: new StringField({}),
+        };
     }
 
     type SohlActiveEffectDataSchema = ReturnType<
