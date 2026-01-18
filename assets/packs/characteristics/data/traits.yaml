@@ -38,6 +38,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Eloquence
   abbrev: elo
   id: uX7asqHDkPWxVi1a
@@ -66,6 +67,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Empathy
   abbrev: emp
   id: Pjlvi5DOwr2QLTg3
@@ -94,6 +96,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Morality
   abbrev: mor
   id: qcuatkrxBTDfhOu9
@@ -128,6 +131,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Reasoning
   abbrev: rea
   id: 6p1Mx0b9iatxBhfm
@@ -156,6 +160,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Will
   abbrev: wil
   id: 5Ujb7yXQ6ULMNIqY
@@ -184,6 +189,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Aggressive
   abbrev: aggressive
   id: 5ev18rXcqae4iKJw
@@ -225,6 +231,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Partial Amnesia
   abbrev: amnesiapartial
   id: FDNixdF49dmtpqSJ
@@ -266,6 +273,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Total Amnesia
   abbrev: amnesiatotal
   id: Q9OsFkhEwtkfPAD1
@@ -293,6 +301,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Chronic Anger
   abbrev: angerchronic
   id: fVhhZVGxCrrnhY0z
@@ -325,6 +334,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Antisocial
   abbrev: antisocial
   id: 9rDT4cqXppp1Lf63
@@ -366,6 +376,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Anxiety
   abbrev: anxiety
   id: 9II9RxYb1uxibIBa
@@ -398,6 +409,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Apathetic
   abbrev: apathetic
   id: hhnaXcsmMEWVWqOR
@@ -430,6 +442,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Arrogant
   abbrev: arrogant
   id: y2VSd3A8Rw4khWod
@@ -462,6 +475,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Avoidant
   abbrev: avoidant
   id: EeFQthuKKKc5MySL
@@ -494,6 +508,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Bipolar Disorder
   abbrev: bipolar
   id: LLC5SMqrIxhA3fTf
@@ -526,6 +541,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Optimism
   abbrev: optimism
   id: jQK5f82M6QSM82Ym
@@ -563,6 +579,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Codependent
   abbrev: codependent
   id: PzLFhcerUpEUbSjq
@@ -595,6 +612,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Compulsive Disclosure
   abbrev: compulsivedisclosure
   id: 2rz6kU9a4omj4b0o
@@ -627,6 +645,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Conformist
   abbrev: conformist
   id: lsxzpN6U1C1T1wA9
@@ -659,6 +678,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Megalomania
   abbrev: megalomania
   id: CQOwHamezwqdvfuO
@@ -691,6 +711,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Narcissism
   abbrev: narcissism
   id: z9TrbdlM0GgxyYBX
@@ -727,6 +748,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Dementia
   abbrev: dementia
   id: LJDH9DS7XwWIoFcO
@@ -763,6 +785,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Depression
   abbrev: depression
   id: xjoGDuYVh5ZzkTaC
@@ -799,6 +822,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Dramatic
   abbrev: dramatic
   id: rmyHccbOt3gJngwx
@@ -840,6 +864,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Energetic
   abbrev: energetic
   id: LnA2TAcjTPtZSDCd
@@ -881,6 +906,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Sensitive
   abbrev: sensitive
   id: zuMb9t573bB96FXJ
@@ -922,6 +948,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Impulsive
   abbrev: impulsive
   id: Y8sKCJ0YInWJzQdI
@@ -963,6 +990,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Irresponsible
   abbrev: irresponsible
   id: 0JAM2U7UjFMjwBtA
@@ -1004,6 +1032,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Machiavellian
   abbrev: machiavellian
   id: TZGyU6sVPMjbR0rM
@@ -1040,6 +1069,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Misanthropy
   abbrev: misanthropy
   id: PHEiEzs7QW8kDvTG
@@ -1081,6 +1111,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Narcissistic
   abbrev: narcissistic
   id: 0AVHGqwHCtzZ8YFm
@@ -1122,6 +1153,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Obsessive
   abbrev: obsessive
   id: 85BcUCz2NtcJyduh
@@ -1163,6 +1195,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Overconfident
   abbrev: overconfident
   id: KGyI4nHeKyUQVWUT
@@ -1204,6 +1237,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Passive
   abbrev: passive
   id: VXdpk5KrqPwUJFMG
@@ -1245,6 +1279,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Perfectionist
   abbrev: perfectionist
   id: GsfY3HGCxLkhJNQB
@@ -1286,6 +1321,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Schitzophrenia
   abbrev: schitzophrenia
   id: rd6nkUNkcIou5SBM
@@ -1322,6 +1358,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Stoic
   abbrev: stoic
   id: vYZQa3HWedJDzOOh
@@ -1363,6 +1400,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Stubborn
   abbrev: stubborn
   id: Z43MxDNEi54IX4MD
@@ -1404,6 +1442,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Indecisive
   abbrev: indecisive
   id: 70qXvkFG3nCbqwgT
@@ -1445,6 +1484,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Overachiever
   abbrev: overachiever
   id: iToEu4A6tvigomYB
@@ -1486,6 +1526,7 @@
   flags: {}
   macros: []
   folderId: jPLSjYkEI5NGTK0X
+  textReference: ""
 - name: Absent-Minded
   abbrev: absentminded
   id: FOoc8aLvj9BRMExf
@@ -1527,6 +1568,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Acrophobia
   abbrev: acrophobia
   id: nSZ1V5R7JrSMFyI3
@@ -1579,6 +1621,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Adaptable
   abbrev: adaptable
   id: r5D9fkUcenN7evHl
@@ -1620,6 +1663,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Adventurous
   abbrev: adventurous
   id: h8norCLUDyf4t35X
@@ -1661,6 +1705,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Agoraphobia
   abbrev: agoraphobia
   id: qWYVjdWgVZPDamlU
@@ -1709,6 +1754,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Passive-Aggressive
   abbrev: passiveaggressive
   id: PvYRpy8auZ4N3y3F
@@ -1750,6 +1796,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Agreeable
   abbrev: agreeable
   id: 2qqLIsnBTmgADSsw
@@ -1791,6 +1838,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Amaxophobia
   abbrev: amaxophobia
   id: QMq2hsIc0HOLzUEf
@@ -1837,6 +1885,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ambitious
   abbrev: ambitious
   id: qvAXZ6gk0rEndTqr
@@ -1878,6 +1927,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Androphobia
   abbrev: androphobia
   id: Eq7Ph9EOlzU9BlcJ
@@ -1925,6 +1975,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Anthophobia
   abbrev: anthophobia
   id: ChVKJ7tby0OahQcO
@@ -1972,6 +2023,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Anthropophobia
   abbrev: anthropophobia
   id: v48yL6ItKyzwuE70
@@ -2020,6 +2072,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Apiphobia
   abbrev: apiphobia
   id: Gswbp8mnhBE9dnyV
@@ -2067,6 +2120,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Aquaphobia
   abbrev: aquaphobia
   id: GYz3LKrUIu56GLP6
@@ -2117,6 +2171,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Arachnophobia
   abbrev: arachnophobia
   id: 84WmkRRSb6K0t9wh
@@ -2164,6 +2219,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Assertive
   abbrev: assertive
   id: pPonvD4K9NejLVpN
@@ -2205,6 +2261,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Astraphobia
   abbrev: astraphobia
   id: OwMQOHEyDIE35tyF
@@ -2252,6 +2309,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Autorityophobia
   abbrev: autorityophobia
   id: Wafp3wfqz9Gb2KUZ
@@ -2301,6 +2359,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ballistophobia
   abbrev: ballistophobia
   id: cY62hGkxpAcPZodS
@@ -2348,6 +2407,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Barophobia
   abbrev: barophobia
   id: eKsw5wXtpgvJWgvW
@@ -2397,6 +2457,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Bibliophobia
   abbrev: bibliophobia
   id: KuIJSWPkqePsQ8uG
@@ -2444,6 +2505,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Botanophobia
   abbrev: botanophobia
   id: 9CsrdimIL48fqdpl
@@ -2491,6 +2553,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Cacophobia
   abbrev: cacophobia
   id: OoI63FJOkaLYGaBw
@@ -2541,6 +2604,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Calm
   abbrev: calm
   id: z60IBUGFmjVJdZC3
@@ -2582,6 +2646,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Cardiophobia
   abbrev: cardiophobia
   id: n8dBsntYMUsOH7nh
@@ -2631,6 +2696,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Catagelophobia
   abbrev: catagelophobia
   id: 578oVmqxkirXu5qY
@@ -2681,6 +2747,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Catoptrophobia
   abbrev: catoptrophobia
   id: Yn2fYu5hNZh7cqc1
@@ -2728,6 +2795,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Cautious
   abbrev: cautious
   id: 3IQfYbbYAls4AQjj
@@ -2769,6 +2837,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Chemophobia
   abbrev: chemophobia
   id: XG5YCsGBH7sD3v3P
@@ -2818,6 +2887,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Chiroptophobia
   abbrev: chiroptophobia
   id: scPZkDZqWsQczOl7
@@ -2865,6 +2935,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Chromophobia
   abbrev: chromophobia
   id: RQue9pTmH7y03jlA
@@ -2913,6 +2984,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Claustrophobia
   abbrev: claustrophobia
   id: HCi8NvmUp61z3fnw
@@ -2959,6 +3031,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Cleptophobia
   abbrev: cleptophobia
   id: Ks87L5MA5MzeSyu3
@@ -3007,6 +3080,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Seducer
   abbrev: seducer
   id: zJ7K2sJUKG52vRpX
@@ -3048,6 +3122,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Compassionate
   abbrev: compassionate
   id: l50VINyxSkIVOgPu
@@ -3089,6 +3164,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Confident
   abbrev: confident
   id: YwlqH8R9uGJMty8Q
@@ -3130,6 +3206,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Coulrophobia
   abbrev: coulrophobia
   id: xO3RIBN9HuiOscp8
@@ -3177,6 +3254,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Cunning
   abbrev: cunning
   id: 0CzxPUMt3bYB0yt5
@@ -3218,6 +3296,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Cynophobia
   abbrev: cynophobia
   id: NTiQn1BqiEQYifMD
@@ -3265,6 +3344,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Decisive
   abbrev: decisive
   id: 0FPqLNVbOKnTKY7V
@@ -3306,6 +3386,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Dentophobia
   abbrev: dentophobia
   id: 4VBHeBargLnQtHbG
@@ -3343,6 +3424,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Diligent
   abbrev: diligent
   id: RmT8JPDpSb8sAcpb
@@ -3384,6 +3466,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Dysphoria
   abbrev: dysphoria
   id: 1R0jXZP5iyBQiNd0
@@ -3420,6 +3503,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Dystychiphobia
   abbrev: dystychiphobia
   id: 45Uk2WaDKbQHmF3u
@@ -3468,6 +3552,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Emetophobia
   abbrev: emetophobia
   id: BvRoC2CR0VS5YaoE
@@ -3516,6 +3601,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Enigmatic
   abbrev: enigmatic
   id: dWo2fuKoyexq2SaI
@@ -3557,6 +3643,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Enthusiastic
   abbrev: enthusiastic
   id: AmlUQjFyd39p9oSs
@@ -3598,6 +3685,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Entomophobia
   abbrev: entomophobia
   id: wzg05gE58HcxHfsh
@@ -3645,6 +3733,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Eosophobia
   abbrev: eosophobia
   id: gpxh3PJ4cXweWeQd
@@ -3693,6 +3782,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ephebiphobia
   abbrev: ephebiphobia
   id: 6hZqLd67K88X0d9W
@@ -3740,6 +3830,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Equinophobia
   abbrev: equinophobia
   id: NmYfjDjevHGTqj0A
@@ -3787,6 +3878,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ergophobia
   abbrev: ergophobia
   id: p5IvSyKW9xLHc5gm
@@ -3835,6 +3927,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Focused
   abbrev: focused
   id: icrPuli3Hp72gH42
@@ -3876,6 +3969,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Frigophobia
   abbrev: frigophobia
   id: 7yZSeugz0kIqAHTJ
@@ -3923,6 +4017,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Frivolous
   abbrev: frivolous
   id: GvNn5KBOIfkqIu06
@@ -3964,6 +4059,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Galeophobia
   abbrev: galeophobia
   id: lhIbM9v7CRc7pN9O
@@ -4012,6 +4108,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Gamophobia
   abbrev: gamophobia
   id: zAa9GXWYGXv5kiqy
@@ -4061,6 +4158,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Generous
   abbrev: generous
   id: Ezfl220jcCGtIk9P
@@ -4102,6 +4200,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Gephyrophobia
   abbrev: gephyrophobia
   id: l8Yjs1bNPduZcsm2
@@ -4150,6 +4249,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Glossophobia
   abbrev: glossophobia
   id: DJNA9hAGS9WpIKGu
@@ -4199,6 +4299,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Goal-oriented
   abbrev: goaloriented
   id: KmwK0eO8pq0ZXOAH
@@ -4240,6 +4341,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Gynophobia
   abbrev: gynophobia
   id: xTOqTJtdibWnsxZz
@@ -4287,6 +4389,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Haematophobia
   abbrev: haematophobia
   id: vnyPYt3qdW0KNgGr
@@ -4335,6 +4438,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Heliophobia
   abbrev: heliophobia
   id: Cibi8DwlN9BZfocP
@@ -4382,6 +4486,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Herpetophobia
   abbrev: herpetophobia
   id: qfm5oP7YGtA72I2j
@@ -4429,6 +4534,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Hoplophobia
   abbrev: hoplophobia
   id: CYnX4Hf8TtzXdThU
@@ -4480,6 +4586,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Humility
   abbrev: humility
   id: bhKvGoZnt2z0rv7p
@@ -4521,6 +4628,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Hypochondriasis
   abbrev: hypochondriasis
   id: Q40pCzMMvsJza7XT
@@ -4557,6 +4665,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Iatrophobia
   abbrev: iatrophobia
   id: cTn5v1jyg54HEpK3
@@ -4605,6 +4714,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ichthyophobia
   abbrev: ichthyophobia
   id: IxBD8PWyLjdLbamj
@@ -4653,6 +4763,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Imaginative
   abbrev: imaginative
   id: r8UvDrxqEpKhB9kx
@@ -4694,6 +4805,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Independent
   abbrev: independent
   id: i3YlL1ie9QNFO9dh
@@ -4735,6 +4847,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Indigiphobia
   abbrev: indigiphobia
   id: SDxeTOgzlXxqDaLw
@@ -4789,6 +4902,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Innovative
   abbrev: innovative
   id: DauRvaal3b8COj44
@@ -4830,6 +4944,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Vanity
   abbrev: vanity
   id: FahmSOpTgbWlZn2h
@@ -4871,6 +4986,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Inquisitive
   abbrev: inquisitive
   id: yae4KF1QWQNb3Mxd
@@ -4912,6 +5028,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Introverted
   abbrev: introverted
   id: O5W6NQwSZT7XyJrF
@@ -4953,6 +5070,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Intuitive
   abbrev: intuitive
   id: DvyRAJwzIUt7E09f
@@ -4994,6 +5112,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Monstraphobia
   abbrev: monstraphobia
   id: 8EfYGBIq4ODIGnlF
@@ -5024,6 +5143,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Duergarphobia
   abbrev: duergarphobia
   id: 7D1RgFwiRDifJToF
@@ -5061,6 +5181,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Kind
   abbrev: kind
   id: YONNvSmSlBcMBHQl
@@ -5155,6 +5276,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Koumpounophobia
   abbrev: koumpounophobia
   id: Kj5Morx2Ejtno57C
@@ -5202,6 +5324,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Lepidopterophobia
   abbrev: lepidopterophobia
   id: CMHjqCyh5EL34RTJ
@@ -5250,6 +5373,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ligyrophobia
   abbrev: ligyrophobia
   id: eZT5iYbu6FruQFky
@@ -5297,6 +5421,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Loyal
   abbrev: loyal
   id: rPHGFIgIWHeTA4bz
@@ -5392,6 +5517,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Megalophobia
   abbrev: megalophobia
   id: 7H1GkyD0llrkEAPz
@@ -5440,6 +5566,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Melanophobia
   abbrev: melanophobia
   id: UGCKoMBInNL1A0jj
@@ -5487,6 +5614,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Meticulous
   abbrev: meticulous
   id: vNjUZJ9t3L3Xk5U3
@@ -5586,6 +5714,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Monophobia
   abbrev: monophobia
   id: r6eOJXUWO8mnkQZ9
@@ -5633,6 +5762,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Musophobia
   abbrev: musophobia
   id: 13DJpPf6QmzpNGsH
@@ -5680,6 +5810,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Necrophobia
   abbrev: necrophobia
   id: PpOsvVyBV0lAIc7E
@@ -5728,6 +5859,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Nervous
   abbrev: nervous
   id: 6at32D2gYGRBmozj
@@ -5832,6 +5964,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Nosocomephobia
   abbrev: nosocomephobia
   id: 8SCxFkEwl1pz7hmr
@@ -5885,6 +6018,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Nyctophobia
   abbrev: nyctophobia
   id: nsWS6twIY8gH7L3Z
@@ -5933,6 +6067,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ombrophobia
   abbrev: ombrophobia
   id: 7wHX5OmdEQLoLlqQ
@@ -5980,6 +6115,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ophidiophobia
   abbrev: ophidiophobia
   id: hnXbwGkcvYFda0D9
@@ -6027,6 +6163,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Patient
   abbrev: patient
   id: areuJpaZ6i7JyoEO
@@ -6068,6 +6205,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Pediophobia
   abbrev: pediophobia
   id: H8XV0tS2HrBIgLj4
@@ -6115,6 +6253,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Pessimistic
   abbrev: pessimistic
   id: 5K8NYrp3gHk0a2c6
@@ -6156,6 +6295,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Phagophobia
   abbrev: phagophobia
   id: VG2SYHcdMSNVdK3Z
@@ -6202,6 +6342,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Photophobia
   abbrev: photophobia
   id: Flr72O8VzJf9zmxg
@@ -6251,6 +6392,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Playful
   abbrev: playful
   id: vng7fgrcKD6BfOZW
@@ -6292,6 +6434,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Practical
   abbrev: practical
   id: S9IdZB55skpgnmyr
@@ -6333,6 +6476,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Precise
   abbrev: precise
   id: ws20vSp2G3Zd9H77
@@ -6374,6 +6518,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Pteromerhanophobia
   abbrev: pteromerhanophobia
   id: LQosx7BdIQ35Ytkb
@@ -6426,6 +6571,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Pteronophobia
   abbrev: pteronophobia
   id: 9aHymZBx4r5j4ztB
@@ -6473,6 +6619,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Ptochophobia
   abbrev: ptochophobia
   id: JECtd4Ed1Vp1b0te
@@ -6520,6 +6667,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Pyrophobia
   abbrev: pyrophobia
   id: mwOACm8h2bt9mL6t
@@ -6567,6 +6715,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Alfarphobia
   abbrev: alfarphobia
   id: TUIimlRAZlkucLWd
@@ -6604,6 +6753,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Reliable
   abbrev: reliable
   id: 5Zsxcn7h93tBRuXT
@@ -6645,6 +6795,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Resilient
   abbrev: resilient
   id: dhwWuJM5gqXq1fBU
@@ -6686,6 +6837,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Resourceful
   abbrev: resourceful
   id: CfRVLxf00r94m5QN
@@ -6702,6 +6854,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Responsive
   abbrev: responsive
   id: ZowkOgbTHyB9rIhS
@@ -6718,6 +6871,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Reticent
   abbrev: reticent
   id: Y1vVaOJ86qldrFdP
@@ -6734,6 +6888,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Self-protective
   abbrev: self-protective
   id: cP6ZEVtkgYYtdXZn
@@ -6750,6 +6905,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Self-sufficient
   abbrev: self-sufficient
   id: WvLSKgq7rAeVpZiJ
@@ -6766,6 +6922,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Sensitive
   abbrev: sensitive
   id: MMkjYig9qFISMszW
@@ -6782,6 +6939,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Sicariophobia
   abbrev: sicariophobia
   id: eeMLjBZOU1nUseeM
@@ -6832,6 +6990,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Silliness
   abbrev: silliness
   id: ooiSB2g2OdBsJE9v
@@ -6850,6 +7009,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Sociable
   abbrev: sociable
   id: 2anybJYlXU3x7cYY
@@ -6866,6 +7026,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Sociophobia
   abbrev: sociophobia
   id: 8Yfh7YvLv9Xa1jtt
@@ -6915,6 +7076,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Spontaneous
   abbrev: spontaneous
   id: vhphGbRMOKPY3Tu4
@@ -6931,6 +7093,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Suspicious
   abbrev: suspicious
   id: DL0zhndKCEDUtPPa
@@ -6949,6 +7112,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Team-oriented
   abbrev: teamoriented
   id: e39heaM7Lc3Ltukg
@@ -6965,6 +7129,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Thalassophobia
   abbrev: thalassophobia
   id: hqeLwTZlyOg7D4tJ
@@ -7014,6 +7179,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Thanatophobia
   abbrev: thanatophobia
   id: CfoIL7yBqiLoqruO
@@ -7062,6 +7228,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Thaumatophobia
   abbrev: thaumatophobia
   id: iSyY0kLWhbgehtFa
@@ -7112,6 +7279,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Thoughtful
   abbrev: thoughtful
   id: FJHw3A4gcO8Ft3uD
@@ -7128,6 +7296,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Turophobia
   abbrev: turophobia
   id: JF1yMtDdugpHIzeC
@@ -7175,6 +7344,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Venustraphobia
   abbrev: venustraphobia
   id: YVCvUKX0zA3XDZlQ
@@ -7223,6 +7393,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Vigilant
   abbrev: vigilant
   id: RI9iTNytVPvp3qVJ
@@ -7239,6 +7410,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Watchful
   abbrev: watchful
   id: oRIL5tDePzVE34MB
@@ -7255,6 +7427,7 @@
   flags: {}
   macros: []
   folderId: Cy4Z52IyVq4eZJOG
+  textReference: ""
 - name: Xenophobia
   abbrev: xenophobia
   id: YFFYFDofeUHgZQEK
@@ -7305,6 +7478,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Zoophobia
   abbrev: zoophobia
   id: I15cDy9Rfah6aoo0
@@ -7352,6 +7526,7 @@
   flags: {}
   macros: []
   folderId: hOkudCNKvBOsAOXZ
+  textReference: ""
 - name: Agility
   abbrev: agl
   id: dri4kRojNyOo9oe7
@@ -7380,6 +7555,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Comeliness
   abbrev: cml
   id: fgMl4WCIvTTBDUJ8
@@ -7408,6 +7584,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Dexterity
   abbrev: dex
   id: EXXJU3HJnvd9MatX
@@ -7436,6 +7613,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Endurance
   abbrev: end
   id: WRVbCGB5lFT9LZlY
@@ -7464,6 +7642,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Perception
   abbrev: per
   id: f3RTqhcs0l7npPAY
@@ -7492,6 +7671,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Strength
   abbrev: str
   id: bFJqb8DqPuPr5cwl
@@ -7520,6 +7700,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Voice
   abbrev: voi
   id: sJtinBCJ1DVPGeau
@@ -7548,6 +7729,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Allergy
   abbrev: allergymajor
   id: VSbTDQSeGf228g5P
@@ -7578,6 +7760,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Impaired Smell
   abbrev: impairedsmell
   id: SV76XlXffG8R7WxY
@@ -7608,6 +7791,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Asthma
   abbrev: asthma
   id: yZCpQz2lgtRK9w6u
@@ -7638,6 +7822,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Impaired Vision
   abbrev: impairedvision
   id: MnRZLMrpfl9LcWyY
@@ -7668,6 +7853,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Blindness
   abbrev: blindness
   id: DfcJ3iO8c66JLAGq
@@ -7693,6 +7879,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Chronic Fatigue Syndrome
   abbrev: cfs
   id: 4AvtK7IMvrRtdDlT
@@ -7723,6 +7910,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Impaired Hearing
   abbrev: impairedhearing
   id: cscALulqsdsJVmBL
@@ -7755,6 +7943,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Deafness
   abbrev: deafness
   id: dhEbirI3YbhROtB5
@@ -7780,6 +7969,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Shortness of Breath
   abbrev: shortnessofbreath
   id: ccl1Kpb6OwZIGfcv
@@ -7812,6 +8002,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Hyperacusis
   abbrev: hyperacusis
   id: 9ZxGBDQdNowCgrIE
@@ -7844,6 +8035,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Tremors
   abbrev: tremors
   id: ZTUv0EzyqGa2WO1M
@@ -7876,6 +8068,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Limb Weakness
   abbrev: limbweakness
   id: jhxymB5bu2gZzdMB
@@ -7908,6 +8101,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Morbus Monstruosus
   abbrev: morbusmonstruosus
   id: G5OOEQEYspmSg33B
@@ -7940,6 +8134,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Dysphonia
   abbrev: dysphonia
   id: OWU8K9FtiXQZHEIU
@@ -7972,6 +8167,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Muteness
   abbrev: muteness
   id: Wom0wSGya4jJgDCg
@@ -7998,6 +8194,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Numbness
   abbrev: numbness
   id: uS8Ez3pbC9PGWShF
@@ -8030,6 +8227,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Scoliosis
   abbrev: scoliosis
   id: yzhCnjJtsjCSXq8S
@@ -8062,6 +8260,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Area Armor Value
   abbrev: aav
   id: w3lRgPqayEY7oH9Y
@@ -8078,6 +8277,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Albinism
   abbrev: albinism
   id: J06diTBIzK1ml5lC
@@ -8096,6 +8296,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Arthritis
   abbrev: arthritis
   id: yKKuUXl5wmxFp2d0
@@ -8128,6 +8329,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Area Attack Shock
   abbrev: ashk
   id: H78E1z3phcjqmNfT
@@ -8144,6 +8346,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Neurofibromatosis
   abbrev: neurofibromatosis
   id: rzd8p7q9F7zD8M8F
@@ -8176,6 +8379,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Carrying Capacity
   abbrev: cap
   id: 0FO8plqmytFaDEqx
@@ -8212,6 +8416,7 @@
           contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Cauliflower Ear
   abbrev: cauliflowerear
   id: ZtFNokw8XgpFWSTX
@@ -8230,6 +8435,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Clubfoot
   abbrev: clubfoot
   id: 6DW7bb3RhPVzbCda
@@ -8248,6 +8454,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Cold Intolerance
   abbrev: coldintolerance
   id: EoBGpKNpDH2D5zF5
@@ -8289,6 +8496,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Dwarfism
   abbrev: dwarfism
   id: J0u1FakZedt5mCfo
@@ -8325,6 +8533,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Eczema
   abbrev: eczema
   id: MxoRrAp1mt03VvAM
@@ -8366,6 +8575,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Favored Parts
   abbrev: favparts
   id: nBEseUj5nUJMDyHU
@@ -8382,6 +8592,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Gigantism
   abbrev: gigantism
   id: hhT4PkPRmZLK7cfN
@@ -8418,6 +8629,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Heat Intolerance
   abbrev: heatintolerance
   id: 8vdvX2QhwiwVQ0mq
@@ -8459,6 +8671,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Move
   abbrev: mov
   id: hoTc5AUcRrxQVp4c
@@ -8502,6 +8715,7 @@
           contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Obesity
   abbrev: obesity
   id: 8ZngpBnkbbMqzSPi
@@ -8543,6 +8757,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Photosensitivity
   abbrev: photosensitivity
   id: KDRTA3a2CY4TtHu6
@@ -8584,6 +8799,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Polydactyly
   abbrev: polydactyly
   id: vbRKusDAufJ12BfX
@@ -8602,6 +8818,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Polyphagia
   abbrev: polyphagia
   id: 7QDf1eQjNBeWasrV
@@ -8620,6 +8837,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Size
   abbrev: siz
   id: dsxo2zxUpEL1fpte
@@ -8739,6 +8957,7 @@
           contextGroup: hidden
           useAsync: false
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Syndactyly
   abbrev: syndactyly
   id: Nm4Q0Yxe968r39sv
@@ -8757,6 +8976,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Tinnitus
   abbrev: tinnitus
   id: yqQYjEh31hKODz2z
@@ -8798,6 +9018,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Ulcer
   abbrev: ulcer
   id: z8aijY8GVDsblSbL
@@ -8839,6 +9060,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Vitiligo
   abbrev: vitiligo
   id: wDBb1NDzQ61rm0Bx
@@ -8880,6 +9102,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Body Weight
   abbrev: wt
   id: GPJxHDbVcGAnaXZs
@@ -8896,6 +9119,7 @@
   flags: {}
   macros: []
   folderId: CAUS3HGrmqiL6vfB
+  textReference: ""
 - name: Aura
   abbrev: aur
   id: KmwIUCSi0PJ0Wnay
@@ -8924,6 +9148,7 @@
       diceFormula: 3d6
   macros: []
   folderId: R0pSLJ4ywoJDzlGV
+  textReference: ""
 - name: Basic Fate
   abbrev: fate
   id: fMIbVoGrbAVdfQ1U
@@ -8940,6 +9165,7 @@
   flags: {}
   macros: []
   folderId: z6GcCOGsuwgwN1Ya
+  textReference: ""
 - name: Sunsign
   abbrev: ss
   id: UKZU7cUxdwazKN6l
@@ -8980,6 +9206,7 @@
   flags: {}
   macros: []
   folderId: z6GcCOGsuwgwN1Ya
+  textReference: ""
 - name: Experience Points
   abbrev: xp
   id: uvWL5n1B5J43uNs6
@@ -8996,3 +9223,4 @@
   flags: {}
   macros: []
   folderId: z6GcCOGsuwgwN1Ya
+  textReference: ""
