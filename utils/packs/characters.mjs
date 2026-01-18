@@ -131,7 +131,6 @@ export class Characters {
 
             const outputData = Characters.mergeObject(character, {
                 system: {
-                    nestedItems: [],
                 },
                 items: [],
                 _stats: stats,

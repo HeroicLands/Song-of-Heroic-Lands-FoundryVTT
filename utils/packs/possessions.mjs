@@ -16,7 +16,6 @@ import path from "path";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
 
 const stats = {
     systemId: "sohl",
@@ -95,8 +94,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: miscgear.description,
-                    macros: miscgear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: miscgear.abbrev,
                     quantity: 1,
@@ -145,8 +142,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: containergear.description,
-                    macros: containergear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: containergear.abbrev || "",
                     quantity: 1,
@@ -196,8 +191,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: concoctiongear.description,
-                    macros: concoctiongear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: concoctiongear.abbrev || "",
                     quantity: 1,
@@ -248,8 +241,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: projectilegear.description,
-                    macros: projectilegear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: projectilegear.abbrev || "",
                     quantity: 1,
@@ -363,8 +354,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: armorgear.description,
-                    macros: armorgear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: armorgear.abbrev || "",
                     quantity: 1,
@@ -515,8 +504,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: weapongear.description,
-                    macros: weapongear.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: weapongear.abbrev || "",
                     quantity: 1,
@@ -599,8 +586,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: "",
-                    macros: weaponsm.macros,
-                    nestedItems: [],
                     transfer: true,
                     subType: weaponsm.subType,
                     mode: weaponsm.subDesc,

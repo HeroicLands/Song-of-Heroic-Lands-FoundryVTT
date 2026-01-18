@@ -16,7 +16,6 @@
   _id: 4cRtW25ayGwkNFtB
   img: systems/sohl/assets/silhouette/character-headshot.webp
   system:
-    macros: []
     bioImage: systems/sohl/assets/silhouette/character-bioimage.webp
     description: |-
       <table style="user-select:text;width:95%;color:#191813;font-size:13px" border="1">
@@ -232,6 +231,14 @@
   - name: Area Attack Shock
     type: trait
     _id: RjpZovioQ2ZVrhcg
+  - name: Basic Fate
+    type: trait
+    _id: PfH5IYrcn8S10ME8
+  - name: Sunsign
+    type: trait
+    system:
+      textValue: aries
+    _id: hxR4xiVr0PJuh0Aa
   - name: Charm
     type: skill
     system:
@@ -365,33 +372,7 @@
         usesCharges: true
         value: 5
         max: 0
-    _id: 3WZFKzGneBziWLBT
-  - name: Humanoid
-    type: anatomy
-    _id: 0eXbJbp8Ucb54tNR
-  - name: Basic Fate
-    type: trait
-    _id: PfH5IYrcn8S10ME8
-  - name: Sunsign
-    type: trait
-    system:
-      textValue: aries
-    _id: hxR4xiVr0PJuh0Aa
-  - name: Unarmed
-    type: combatmaneuver
     _id: ybKtkZ9rfMF4zFWQ
-  - name: Asgardian Pantheon
-    type: philosophy
-    _id: LGHnNlcGdOdeca0q
-  - name: Divine Aspects
-    type: philosophy
-    _id: cedgljWBwtxa3CXG
-  - name: Zodiac
-    type: philosophy
-    _id: WTUFd5vrWIkaVRGk
-  - name: Thaumaturgy
-    type: philosophy
-    _id: ZbtPC94fhAEr6qKz
   - name: Spirit
     type: mysticalability
     system:

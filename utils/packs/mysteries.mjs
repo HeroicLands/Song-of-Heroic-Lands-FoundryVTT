@@ -16,7 +16,6 @@ import path from "path";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
 
 const stats = {
     systemId: "sohl",
@@ -95,8 +94,6 @@ export class Mysteries {
                     notes: "",
                     textReference: "",
                     description: phil.description,
-                    macros: phil.macros,
-                    nestedItems: [],
                     transfer: false,
                     category: phil.category,
                 },
@@ -118,8 +115,6 @@ export class Mysteries {
                         notes: "",
                         textReference: "",
                         description: ni.description,
-                        macros: ni.macros,
-                        nestedItems: [],
                         transfer: true,
                         abbrev: ni.abbrev,
                     },
@@ -161,8 +156,6 @@ export class Mysteries {
                     notes: "",
                     textReference: "",
                     description: mysticalability.description,
-                    macros: mysticalability.macros,
-                    nestedItems: [],
                     transfer: false,
                     abbrev: mysticalability.abbrev,
                     skillBaseFormula: mysticalability.skillBaseFormula,
@@ -224,8 +217,6 @@ export class Mysteries {
                     notes: "",
                     textReference: "",
                     description: mystery.description,
-                    macros: mystery.macros,
-                    nestedItems: [],
                     transfer: false,
                     domain: mystery.domain,
                     skills: mystery.skills,
