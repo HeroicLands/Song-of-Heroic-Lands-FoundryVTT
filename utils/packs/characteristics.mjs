@@ -92,23 +92,22 @@ export class Characteristics {
                 img: trait.img,
                 _id: trait.id,
                 system: {
-                    subType: trait.subType,
                     notes: "",
-                    textReference: "",
                     description: trait.description,
-                    macros: trait.macros,
-                    nestedItems: [],
+                    textReference: trait.textReference,
                     transfer: false,
+                    nestedIn: null,
+                    subType: trait.subType,
+                    textValue: trait.textValue,
+                    max: trait.max,
+                    isNumeric: trait.isNumeric,
+                    intensity: trait.intensity,
+                    valueDesc: trait.valueDesc,
+                    choices: trait.choices,
                     abbrev: trait.abbrev,
                     skillBaseFormula: trait.skillBaseFormula,
                     masteryLevelBase: 0,
                     improveFlag: false,
-                    textValue: trait.textValue,
-                    isNumeric: trait.isNumeric,
-                    intensity: trait.intensity,
-                    max: trait.max,
-                    valueDesc: trait.valueDesc,
-                    choices: trait.choices,
                 },
                 effects: [],
                 flags: trait.flags || {},
@@ -153,13 +152,12 @@ export class Characteristics {
                 img: skill.img,
                 _id: skill.id,
                 system: {
-                    subType: skill.subType,
                     notes: "",
-                    textReference: "",
                     description: skill.description,
-                    macros: skill.macros,
-                    nestedItems: [],
+                    textReference: skill.textReference,
                     transfer: false,
+                    nestedIn: null,
+                    subType: skill.subType,
                     abbrev: skill.abbrev,
                     skillBaseFormula: skill.skillBaseFormula,
                     masteryLevelBase: 0,
@@ -184,43 +182,18 @@ export class Characteristics {
         }
     }
 
-    async processCombatManeuvers() {
-        let filePath = path.join(this.dataDir, "combatmaneuvers.yaml");
+    async processCombatTechniques() {
+        let filePath = path.join(this.dataDir, "combattechsm.yaml");
         let data = yaml.parse(fs.readFileSync(filePath, "utf8"));
-
-        const combatManeuvers = {};
-
-        for (const cbtman of data) {
-            log.debug(`Processing Combat Maneuver ${cbtman.name}`);
-
-            combatManeuvers[cbtman.id] = {
-                name: cbtman.name,
-                type: "combatmaneuver",
-                img: cbtman.img,
-                _id: cbtman.id,
-                system: {
-                    notes: "",
-                    textReference: "",
-                    description: cbtman.description,
-                    macros: cbtman.macros,
-                    nestedItems: [],
-                    transfer: true,
-                    abbrev: cbtman.abbrev,
-                },
-                effects: cbtman.effects || [],
-                flags: cbtman.flags || {},
-                _stats: stats,
-                ownership: { default: 3 },
-                folder: cbtman.folderId || null,
-                _key: `!items!${cbtman.id}`,
-            };
-        }
-
-        filePath = path.join(this.dataDir, "combattechsm.yaml");
-        data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const cmbttech of data) {
             log.debug(`Processing Combat Technique ${cmbttech.name}`);
+            let fname =
+                `${unidecode(cmbttech.name)}_${cmbttech.id}`.replace(
+                    /[^0-9a-zA-Z]+/g,
+                    "_",
+                ) + ".json";
+            let outputPath = path.join(this.outputDir, fname);
 
             Characteristics.mergeObject(cmbttech["flags"], {
                 sohl: {
@@ -231,7 +204,7 @@ export class Characteristics {
             });
 
             const sm = {
-                name: cmbttech.subDesc,
+                name: cmbttech.name,
                 type: "combattechniquestrikemode",
                 img: cmbttech.img,
                 _id: cmbttech.id,
@@ -239,9 +212,8 @@ export class Characteristics {
                     notes: "",
                     textReference: "",
                     description: "",
-                    macros: cmbttech.macros,
-                    nestedItems: [],
-                    transfer: true,
+                    transfer: false,
+                    group: cmbttech.group,
                     mode: cmbttech.subDesc,
                     minParts: cmbttech.minParts,
                     assocSkillName: cmbttech.assocSkill,
@@ -302,22 +274,10 @@ export class Characteristics {
                 effect.changes.push(change);
             }
             sm.effects.push(effect);
-            combatManeuvers[cmbttech.combatManeuverId].system.nestedItems.push(
-                sm,
-            );
-        }
 
-        for (const cmid of Object.keys(combatManeuvers)) {
-            if (!cmid) continue;
-            let fname =
-                unidecode(`${combatManeuvers[cmid].name}_${cmid}`).replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
             fs.writeFileSync(
                 outputPath,
-                JSON.stringify(combatManeuvers[cmid], null, 2),
+                JSON.stringify(outputData, null, 2),
                 "utf8",
             );
         }
@@ -342,13 +302,13 @@ export class Characteristics {
                 img: affliction.img,
                 _id: affliction.id,
                 system: {
-                    subType: affliction.subType,
                     notes: "",
                     textReference: "",
                     description: affliction.description,
-                    macros: affliction.macros,
-                    nestedItems: [],
+                    isNested: false,
                     transfer: false,
+                    subType: affliction.subType,
+                    category: affliction.category,
                     isDormant: false,
                     isTreated: false,
                     diagnosisBonusBase: affliction.diagnosisBonus,
@@ -364,31 +324,6 @@ export class Characteristics {
                 folder: affliction.folderId || null,
                 _key: `!items!${affliction.id}`,
             };
-
-            fs.writeFileSync(
-                outputPath,
-                JSON.stringify(outputData, null, 2),
-                "utf8",
-            );
-        }
-    }
-
-    async processAnatomies() {
-        const filePath = path.join(this.dataDir, "anatomies.yaml");
-        const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
-
-        for (const anatomy of data) {
-            log.debug(`Processing Anatomy ${anatomy.name}`);
-            let fname =
-                `${unidecode(anatomy.name)}_${anatomy.id}`.replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
-
-            const outputData = Characteristics.mergeObject(anatomy, {
-                _key: `!items!${anatomy.id}`,
-            });
 
             fs.writeFileSync(
                 outputPath,
@@ -435,9 +370,8 @@ export class Characteristics {
     async compile() {
         await this.processTraits();
         await this.processSkills();
-        await this.processCombatManeuvers();
+        await this.processCombatTechniques();
         await this.processAfflictionss();
-        await this.processAnatomies();
         await this.processFolders();
     }
 }
