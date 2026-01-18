@@ -107,9 +107,6 @@
             "mysticaldevice": {
                 "htmlFields": ["description", "textReference"]
             },
-            "philosophy": {
-                "htmlFields": ["description", "textReference"]
-            },
             "projectilegear": {
                 "htmlFields": ["description", "textReference"]
             },
