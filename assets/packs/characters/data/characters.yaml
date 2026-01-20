@@ -228,17 +228,1013 @@
   - name: Experience Points
     type: trait
     _id: ZUHiFyeeezDM1S1u
-  - name: Area Attack Shock
-    type: trait
-    _id: RjpZovioQ2ZVrhcg
-  - name: Basic Fate
-    type: trait
-    _id: PfH5IYrcn8S10ME8
   - name: Sunsign
     type: trait
     system:
       textValue: aries
     _id: hxR4xiVr0PJuh0Aa
+  - name: Head
+    type: bodyzone
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    system:
+      abbrev: Head
+    flags:
+      sohl:
+        legendary:
+          affectedSkills:
+            - Acrobatics
+            - Climbing
+            - Legerdemain
+            - Melee
+            - Archery
+            - Riding
+            - Stealth
+            - Swimming
+          affectedAttributes:
+            - Agility
+            - Dexterity
+            - Strength
+          affectsMobility: true
+          zones:
+            - 1
+    _id: XQJBDj4Zd2ILR5rH
+  - name: Head
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 100
+    _id: WljCPWk6oAmUZ73d
+    system:
+      nestedIn: XQJBDj4Zd2ILR5rH
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Head
+      canHoldItem: false
+  - name: Skull
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: 0
+          shockValue: 5
+          probWeight: 500
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: 0XmtjaBJDxMk0Ucd
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Skull
+      isFumble: false
+      isStumble: false
+  - name: Left Eye
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 5
+          probWeight: 15
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: 6kX9YIUIVja3Y0MP
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LEye
+      isFumble: false
+      isStumble: false
+  - name: Right Eye
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 5
+          probWeight: 15
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: QEfArWukfNxKta0f
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: REye
+      isFumble: false
+      isStumble: false
+  - name: Nose
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 5
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: QRVralNrMEk93Kwj
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Nose
+      isFumble: false
+      isStumble: false
+  - name: Left Cheek
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 60
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: 8J1XWjV1tsFyugVH
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LChk
+      isFumble: false
+      isStumble: false
+  - name: Right Cheek
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 60
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: ofe4FzVdGkKkZQV2
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RChk
+      isFumble: false
+      isStumble: false
+  - name: Left Ear
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 15
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: UwvPtm6rbB5noi7l
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LEar
+      isFumble: false
+      isStumble: false
+  - name: Right Ear
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 15
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: htpEEuxEAhz7AAsP
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: REar
+      isFumble: false
+      isStumble: false
+  - name: Mouth
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: U30OhbPBl2QhBQoF
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Mouth
+      isFumble: false
+      isStumble: false
+  - name: Jaw
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 60
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: ogK3sN7cu2ajAT5K
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Jaw
+      isFumble: false
+      isStumble: false
+  - name: Neck
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 3
+          amputateModifier: -10
+          shockValue: 5
+          probWeight: 200
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: vZA6OW3EaN0ggS6U
+    system:
+      nestedIn: WljCPWk6oAmUZ73d
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Neck
+      isFumble: false
+      isStumble: false
+  - name: Arms
+    type: bodyzone
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    system:
+      abbrev: Arms
+    flags:
+      sohl:
+        legendary:
+          affectedSkills:
+            - Acrobatics
+            - Climbing
+            - Legerdemain
+            - Melee
+            - Archery
+            - Riding
+            - Swimming
+          affectedAttributes:
+            - Dexterity
+            - Strength
+          affectsMobility: false
+          zones:
+            - 2
+            - 3
+    _id: DzyCHcZwLLZekBgq
+  - name: Right Arm
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 50
+    _id: Tsrx9WQ2L9HyAVvi
+    system:
+      nestedIn: DzyCHcZwLLZekBgq
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RArm
+      canHoldItem: true
+  - name: Right Shoulder
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 3
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: V7F5ilVtTWnzoyu6
+    system:
+      nestedIn: Tsrx9WQ2L9HyAVvi
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RShld
+      isFumble: true
+      isStumble: false
+  - name: Right Upper Arm
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: YfN7RARAAi0UrPld
+    system:
+      nestedIn: Tsrx9WQ2L9HyAVvi
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RUA
+      isFumble: true
+      isStumble: false
+  - name: Right Elbow
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: 1kH02rurCS8ft63Q
+    system:
+      nestedIn: Tsrx9WQ2L9HyAVvi
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RElb
+      isFumble: true
+      isStumble: false
+  - name: Right Forearm
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 20
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: pNB4IdNQHFPOnvwD
+    system:
+      nestedIn: Tsrx9WQ2L9HyAVvi
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RFA
+      isFumble: true
+      isStumble: false
+  - name: Right Hand
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 0
+          amputateModifier: -30
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: Rfi2iUDdK2qQz2pv
+    system:
+      nestedIn: Tsrx9WQ2L9HyAVvi
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RHand
+      isFumble: true
+      isStumble: false
+  - name: Left Arm
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 50
+    _id: rnqBua6Rduc0u0P6
+    system:
+      nestedIn: DzyCHcZwLLZekBgq
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LArm
+      canHoldItem: true
+  - name: Left Shoulder
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 3
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: nuInmwcEVKaPbhiH
+    system:
+      nestedIn: rnqBua6Rduc0u0P6
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LShld
+      isFumble: true
+      isStumble: false
+  - name: Left Upper Arm
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: NGjZLBbjFzHdvv0l
+    system:
+      nestedIn: rnqBua6Rduc0u0P6
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LUA
+      isFumble: true
+      isStumble: false
+  - name: Left Elbow
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: ubWdclQbNEQ70pEe
+    system:
+      nestedIn: rnqBua6Rduc0u0P6
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LElb
+      isFumble: true
+      isStumble: false
+  - name: Left Forearm
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 20
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: 6mLZet21nySm9VVd
+    system:
+      nestedIn: rnqBua6Rduc0u0P6
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LFA
+      isFumble: true
+      isStumble: false
+  - name: Left Hand
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 0
+          amputateModifier: -30
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: SrpubIBD6K42tsO1
+    system:
+      nestedIn: rnqBua6Rduc0u0P6
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LHand
+      isFumble: true
+      isStumble: false
+  - name: Torso
+    type: bodyzone
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    system:
+      abbrev: Torso
+    flags:
+      sohl:
+        legendary:
+          affectedSkills:
+            - Acrobatics
+            - Climbing
+            - Melee
+            - Archery
+            - Riding
+            - Stealth
+            - Swimming
+          affectedAttributes:
+            - Agility
+            - Dexterity
+            - Strength
+          affectsMobility: true
+          zones:
+            - 4
+            - 5
+            - 6
+            - 7
+    _id: qPncC1ZBr2H8lPSy
+  - name: Torso
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 100
+    _id: ltL67w6gOzXDgHYD
+    system:
+      nestedIn: qPncC1ZBr2H8lPSy
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Torso
+      canHoldItem: false
+  - name: Thorax
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 40
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: Sfp6lj3H6N20woHc
+    system:
+      nestedIn: ltL67w6gOzXDgHYD
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Thrx
+      isFumble: false
+      isStumble: false
+  - name: Abdomen
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 3
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 40
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: GYWlGzJ1oE2QlVc0
+    system:
+      nestedIn: ltL67w6gOzXDgHYD
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Abdmn
+      isFumble: false
+      isStumble: false
+  - name: Pelvis
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: 0
+          shockValue: 4
+          probWeight: 20
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: yMsU1PHsaPfGlygr
+    system:
+      nestedIn: ltL67w6gOzXDgHYD
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: Plvis
+      isFumble: false
+      isStumble: false
+  - name: Legs
+    type: bodyzone
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    system:
+      abbrev: Legs
+    flags:
+      sohl:
+        legendary:
+          affectedSkills:
+            - Acrobatics
+            - Climbing
+            - Melee
+            - Archery
+            - Riding
+            - Stealth
+            - Swimming
+          affectedAttributes:
+            - Agility
+            - Strength
+          affectsMobility: true
+          zones:
+            - 8
+            - 9
+            - 10
+    _id: KFrOQEbBNicAxikZ
+  - name: Right Leg
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 50
+    _id: 30kOIuDmY81IosL4
+    system:
+      nestedIn: KFrOQEbBNicAxikZ
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RLeg
+      canHoldItem: false
+  - name: Right Thigh
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: -10
+          shockValue: 3
+          probWeight: 40
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: AJwjP1rJBbmpamNe
+    system:
+      nestedIn: 30kOIuDmY81IosL4
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RThgh
+      isFumble: false
+      isStumble: true
+  - name: Right Knee
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: WUnUX9Vw3f9aJXuR
+    system:
+      nestedIn: 30kOIuDmY81IosL4
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RKnee
+      isFumble: false
+      isStumble: true
+  - name: Right Calf
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: Zb9lV9AXinrSftXd
+    system:
+      nestedIn: 30kOIuDmY81IosL4
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RCalf
+      isFumble: false
+      isStumble: true
+  - name: Right Foot
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 0
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 20
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: aGOXGJxHUfwnfB5M
+    system:
+      nestedIn: 30kOIuDmY81IosL4
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: RFoot
+      isFumble: false
+      isStumble: true
+  - name: Left Leg
+    type: bodypart
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          probWeight: 50
+    _id: KocnXsjJtL3doBVr
+    system:
+      nestedIn: KFrOQEbBNicAxikZ
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LLeg
+      canHoldItem: false
+  - name: Left Thigh
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 4
+          amputateModifier: -10
+          shockValue: 3
+          probWeight: 40
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: pOsgjfKKFAr8I8aE
+    system:
+      nestedIn: KocnXsjJtL3doBVr
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LThgh
+      isFumble: false
+      isStumble: true
+  - name: Left Knee
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 10
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: gi2S9Dt4w46x2wOL
+    system:
+      nestedIn: KocnXsjJtL3doBVr
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LKnee
+      isFumble: false
+      isStumble: true
+  - name: Left Calf
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 5
+          amputateModifier: -20
+          shockValue: 1
+          probWeight: 30
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: IX6Bbg9YSahDwI45
+    system:
+      nestedIn: KocnXsjJtL3doBVr
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LCalf
+      isFumble: false
+      isStumble: true
+  - name: Left Foot
+    type: bodylocation
+    img: systems/sohl/assets/silhouette/character-headshot.webp
+    effects: []
+    flags:
+      sohl:
+        legendary:
+          bleedingSevThreshold: 0
+          amputateModifier: -20
+          shockValue: 2
+          probWeight: 20
+        mistyisle:
+          probWeight:
+            low: 0
+            mid: 0
+            high: 0
+    _id: REmu5X3CBlbfLqvh
+    system:
+      nestedIn: KocnXsjJtL3doBVr
+      notes: ''
+      description: ''
+      textReference: ''
+      abbrev: LFoot
+      isFumble: false
+      isStumble: true
+
   - name: Charm
     type: skill
     system:
@@ -383,6 +1379,27 @@
     system:
       quantity: 1
     _id: aamolKbNrd7tevUQ
+  - name: Fire
+    type: domain
+    _id: frvWwwtxzmF7u9yC
+  - name: Water
+    type: domain
+    _id: YKtK07Wrr64F60rv
+  - name: Earth
+    type: domain
+    _id: 5zeGIeFj8EZsgEHc
+  - name: Neutral
+    type: domain
+    _id: BEDKdxxzbxyAoxnp
+  - name: Spirit
+    type: domain
+    _id: KR0WVGKKoyFZyuIJ
+  - name: Wind
+    type: domain
+    _id: H43qZ2Mgfw0HT943
+  - name: Metal
+    type: domain
+    _id: LyzlYXD6de5L1tqb
   effects: []
   sort: 0
   ownership:
