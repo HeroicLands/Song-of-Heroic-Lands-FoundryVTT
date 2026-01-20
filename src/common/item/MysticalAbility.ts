@@ -114,7 +114,7 @@ export interface MysticalAbilityData<
     levelBase: number;
     charges: {
         value: number;
-        max: number;
+        max: number | null;
     };
 }
 
@@ -137,17 +137,20 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         charges: new SchemaField({
-            // Note: if value is -1, then there are infinite charges remaining
+            // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
-                initial: -1,
-                min: -1,
+                nullable: true,
+                initial: 0,
+                min: 0,
             }),
-            // Note: if max is 0, then there is no maximum
+            // Note: if max is 0, then there is no maximum, if max is null,
+            // then the mystical ability does not use charges
             max: new NumberField({
                 integer: true,
-                initial: -1,
-                min: -1,
+                nullable: true,
+                initial: null,
+                min: 0,
             }),
         }),
     };
@@ -180,7 +183,7 @@ export class MysticalAbilityDataModel<
     levelBase!: number;
     charges!: {
         value: number;
-        max: number;
+        max: number | null;
     };
 
     static override defineSchema(): foundry.data.fields.DataSchema {
