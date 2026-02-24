@@ -12,13 +12,21 @@
  */
 
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
-import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
-import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 
-export class MiscGearLogic<
-    TData extends MiscGearData = MiscGearData,
-> extends GearLogic<TData> {
+import {
+    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
+    SohlItemDataModel,
+    SohlItemSheetBase,
+} from "@common/item/SohlItem";
+import { ITEM_KIND } from "@utils/constants";
+const { StringField } = foundry.data.fields;
+
+export class PhilosophyLogic<TData extends PhilosophyData = PhilosophyData>
+    extends SohlItemBaseLogic<TData>
+    implements PhilosophyLogic<TData>
+{
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -39,35 +47,35 @@ export class MiscGearLogic<
     }
 }
 
-export interface MiscGearData<
-    TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<any>,
-> extends GearData<TLogic> {}
+export interface PhilosophyData<
+    TLogic extends PhilosophyLogic<PhilosophyData> = PhilosophyLogic<any>,
+> extends SohlItemData<TLogic> {}
 
-function defineMiscGearSchema(): foundry.data.fields.DataSchema {
+function definePhilosophyDataSchema(): foundry.data.fields.DataSchema {
     return {
-        ...GearDataModel.defineSchema(),
+        ...SohlItemDataModel.defineSchema(),
     };
 }
 
-type MiscGearSchema = ReturnType<typeof defineMiscGearSchema>;
+type PhilosophyDataSchema = ReturnType<typeof definePhilosophyDataSchema>;
 
-export class MiscGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
+export class PhilosophyDataModel<
+        TSchema extends foundry.data.fields.DataSchema = PhilosophyDataSchema,
         TLogic extends
-            MiscGearLogic<MiscGearData> = MiscGearLogic<MiscGearData>,
+            PhilosophyLogic<PhilosophyData> = PhilosophyLogic<PhilosophyData>,
     >
-    extends GearDataModel<TSchema, TLogic>
-    implements MiscGearData<TLogic>
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements PhilosophyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MiscGear.DATA"];
-    static override readonly kind = ITEM_KIND.MISCGEAR;
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Philosophy.DATA"];
+    static override readonly kind = ITEM_KIND.PHILOSOPHY;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
-        return defineMiscGearSchema();
+        return definePhilosophyDataSchema();
     }
 }
 
-export class MiscGearSheet extends SohlItemSheetBase {
+export class PhilosophySheet extends SohlItemSheetBase {
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

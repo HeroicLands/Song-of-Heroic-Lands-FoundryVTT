@@ -53,8 +53,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="detail ele">{{system.quantity}}</div>
                     <div class="detail ele">{{system.totalWeight.effective}}</div>
-                    <div class="detail ele" data-tooltip="{{system.$quality.abbrev}}">{{numberFormat system.$quality.effective sign=true}}</div>
-                    <div class="detail ele" data-tooltip="{{system.$durability.abbrev}}">{{system.$durability.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$quality.shortcode}}">{{numberFormat system.$quality.effective sign=true}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$durability.shortcode}}">{{system.$durability.effective}}</div>
                     <div class="detail notes">{{system.notes}}</div>
                     {{#unless printable}}
                         <div class="item-controls">

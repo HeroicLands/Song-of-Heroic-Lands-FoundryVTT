@@ -28,7 +28,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{!-- Properties Tab --}}
         <div class="tab properties" data-group="primary" data-tab="properties">
             <div class="grid grid-2col">
-                {{formField fields.abbrev rootId="bodyzone-abbrev" classes="text-field" stacked=true value=system.abbrev}}
+                {{formField fields.shortcode rootId="bodyzone-shortcode" classes="text-field" stacked=true value=system.shortcode}}
                 <div class="form-group stacked">
                     <label for="bodyzone-affmob" class="text-field">Affects Mobility</label>            
                     <input id="bodyzone-affmob" type="checkbox" name="flags.sohl.legendary.affectsMobility" {{checked flags.sohl.affectsMobility}} data-dtype="Boolean" />

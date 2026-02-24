@@ -14,7 +14,7 @@
 import type { SohlActionContext } from "@common/SohlActionContext";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import type { SkillLogic } from "@common/item/Skill";
-import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     StrikeModeLogic,
     StrikeModeDataModel,
@@ -146,10 +146,12 @@ export class CombatTechniqueStrikeModeDataModel<
 }
 
 export class CombatTechniqueStrikeModeSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

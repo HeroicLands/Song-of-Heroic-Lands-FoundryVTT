@@ -18,19 +18,16 @@ import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-const { HTMLField, ForeignDocumentField, BooleanField } = foundry.data.fields;
+const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
 
-export class SohlItem<
-    TLogic extends SohlItemLogic<any> = SohlItemLogic<any>,
-    SubType extends Item.SubType = Item.SubType,
-> extends Item<SubType> {
+export class SohlItem extends Item {
     /**
      * Get the logic object for this item.
      * @remarks
      * This is a convenience accessor to avoid having to access `this.system.logic`
      */
-    get logic(): TLogic {
-        return (this.system as any).logic as TLogic;
+    get logic(): SohlItemLogic<any> {
+        return (this.system as any).logic as SohlItemLogic<any>;
     }
 
     /**
@@ -79,7 +76,10 @@ export class SohlItem<
      * The SohlItem that this item is nested within, or null if it is not nested.
      */
     get nestedIn(): SohlItem | null {
-        return (this.system as any).nestedIn;
+        const item: SohlItem | undefined = this.actor?.allItems.get(
+            (this.system as any).nestedIn,
+        );
+        return item ?? null;
     }
 
     /**
@@ -95,10 +95,12 @@ export class SohlItem<
      * @returns An array of nested SohlItem documents.
      */
     nestedItems(types: string[] = []): SohlItem[] {
-        return (this.actor as any)?.allItems.filter(
-            (i: SohlItem) =>
-                i.nestedIn === this.id &&
-                (!types?.length || types.includes(i.type)),
+        return (
+            this.actor?.allItems.filter(
+                (i: SohlItem) =>
+                    i.nestedIn === this.id &&
+                    (!types?.length || types.includes(i.type)),
+            ) || []
         );
     }
 
@@ -111,7 +113,7 @@ export class SohlItem<
         data: foundry.abstract.Document.CreateDataForName<"Item">,
     ): Promise<SohlItem | null> {
         if (!this.actor) return null;
-        foundry.utils.setProperty(data, "system.nestedIn", this);
+        foundry.utils.setProperty(data, "system.nestedIn", this.id);
         return await this.actor.createItem(data);
     }
 
@@ -140,8 +142,7 @@ export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
     notes: HTMLString;
     description: HTMLString;
     textReference: HTMLString;
-    transfer: boolean;
-    nestedIn: SohlItem | null;
+    nestedIn: string | null;
 }
 
 export class SohlItemBaseLogic<
@@ -152,16 +153,28 @@ export class SohlItemBaseLogic<
     override finalize(context?: SohlActionContext): void {}
 }
 
+const SHORTCODE_RE = /^[A-Za-z0-9]{1,12}$/;
+
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
         notes: new HTMLField(),
         description: new HTMLField(),
         textReference: new HTMLField(),
-        transfer: new BooleanField({ initial: true }),
-        // @ts-ignore
-        nestedIn: new ForeignDocumentField(SohlItem, {
+        shortcode: new StringField({
+            required: true,
+            blank: false,
+            validate: (value: string) => {
+                return (
+                    SHORTCODE_RE.test(value) ||
+                    `shortcode must be 1-12 alphanumeric characters`
+                );
+            },
+            hint: "a short, stable, human-typeable symbolic identifier, unique within an Item type; used for programmatic reference and occasionally displayed to users",
+        }),
+        nestedIn: new DocumentIdField({
             nullable: true,
             initial: null,
+            hint: "The item on the actor that this item is nested within, if any.",
         }),
     };
 }
@@ -170,7 +183,7 @@ type SohlItemDataSchema = ReturnType<typeof defineSohlItemDataSchema>;
 
 /**
  * The `SohlItemDataModel` class extends the Foundry VTT `TypeDataModel` to provide
- * a structured data model for items in the "Song of Heroic Lands" module. It
+ * a structured data model for items in the "Song of Heroic Lands" system. It
  * encapsulates logic and behavior associated with items, offering a schema
  * definition and initialization logic.
  */
@@ -186,7 +199,7 @@ export abstract class SohlItemDataModel<
     description!: HTMLString;
     textReference!: HTMLString;
     transfer!: boolean;
-    nestedIn!: SohlItem | null;
+    nestedIn!: string | null;
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!(options.parent instanceof SohlItem)) {
@@ -197,10 +210,6 @@ export abstract class SohlItemDataModel<
 
     get item(): SohlItem {
         return this.parent;
-    }
-
-    get actor(): SohlActor | null {
-        return (this.item as any).actor;
     }
 
     get i18nPrefix(): string {
@@ -252,13 +261,13 @@ export abstract class SohlItemDataModel<
     }
 }
 
-export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
+// Define the base type for the sheet
+const SohlItemSheetBase_Base = SohlDataModel.SheetMixin<
     SohlItem,
-    foundry.applications.api.DocumentSheetV2.AnyConstructor
->(
-    foundry.applications.api
-        .DocumentSheetV2<SohlItem> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor,
-) as unknown as AbstractConstructor) {
+    typeof foundry.applications.api.DocumentSheetV2<SohlItem>
+>(foundry.applications.api.DocumentSheetV2<SohlItem>);
+
+export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     static PARTS = {
         header: {
             template: "systems/sohl/templates/item/parts/header.hbs",
@@ -311,22 +320,20 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
     };
 
     get document(): SohlItem {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
         return super.document as SohlItem;
     }
 
     get item(): SohlItem {
-        return this.document as SohlItem;
+        return this.document;
     }
 
     get actor(): SohlActor | null {
-        return (this.item as any).actor;
+        return this.item.actor;
     }
 
     _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
         super._configureRenderOptions(options);
         // By default, we only show the header and tabs
         // This is the default behavior for all data model sheets
@@ -343,23 +350,29 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
         );
     }
 
-    async _prepareContext(options: any): Promise<PlainObject> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        return await super._prepareContext(options);
+    async _prepareContext(
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
+        const context = await super._prepareContext(options);
+
+        // Add any shared data needed across all parts here
+        // options.parts contains array of partIds being rendered
+        // e.g., ["header", "tabs", "properties", "description", ...]
+
+        return context;
     }
 
     async _preparePartContext(
         partId: string,
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        context = await super._preparePartContext.call(
-            this,
-            partId,
-            context as any,
-            options as any,
-        );
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
+        // _preparePartContext is called for each part with the specific partId
+        // This is where you prepare part-specific data
         switch (partId) {
             case "properties":
                 return this._preparePropertiesContext(context, options);
@@ -381,58 +394,74 @@ export abstract class SohlItemSheetBase extends (SohlDataModel.SheetMixin<
     }
 
     protected async _prepareTabsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareHeaderContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareDescriptionContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareNestedItemsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareActionsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareEventsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 
     protected async _prepareEffectsTabContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 

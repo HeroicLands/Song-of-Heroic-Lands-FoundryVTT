@@ -19,6 +19,12 @@ import {
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndBodyPartLogic extends BodyPartLogic<BodyPartData> {
+    get probWeight(): number {
+        const raw = this.item.getFlag("sohl", "legendary.probWeight");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

@@ -10,7 +10,7 @@
 #
 # SPDX-License-Identifier: CC-BY-SA-4.0
 
-- name: Basic Folk
+- name: Basic Person
   type: being
   folder: B7TbLzcpM0uOivzx
   _id: 4cRtW25ayGwkNFtB
@@ -138,97 +138,97 @@
     texture:
       src: systems/sohl/assets/silhouette/character-token.svg
   items:
-  - name: Strength
+  - shortcode: str
     type: trait
     system:
       textValue: '0'
     _id: Snsrpzgtk7ladtvw
-  - name: Endurance
+  - shortcode: end
     type: trait
     system:
       textValue: '0'
     _id: UNfApax4U5xY2HBv
-  - name: Dexterity
+  - shortcode: dex
     type: trait
     system:
       textValue: '0'
     _id: ivHNiL8oYHqRuvIr
-  - name: Agility
+  - shortcode: agl
     type: trait
     system:
       textValue: '0'
     _id: 8b0c2auemcBBROS7
-  - name: Perception
+  - shortcode: per
     type: trait
     system:
       textValue: '0'
     _id: Zg7RrAEAbeQT59DG
-  - name: Comeliness
+  - shortcode: cml
     type: trait
     system:
       textValue: '0'
     _id: XSI3tKFuU2JW4hsP
-  - name: Aura
+  - shortcode: aur
     type: trait
     system:
       textValue: '0'
     _id: 7nNR8fxNebg1yTqH
-  - name: Will
+  - shortcode: wil
     type: trait
     system:
       textValue: '0'
     _id: IazyqsfwRy0MHCPE
-  - name: Reasoning
+  - shortcode: rea
     type: trait
     system:
       textValue: '0'
     _id: K9ywMpOUk86XG1jz
-  - name: Creativity
+  - shortcode: cre
     type: trait
     system:
       textValue: '0'
     _id: fPJLkK8kqnIDK6VQ
-  - name: Empathy
+  - shortcode: emp
     type: trait
     system:
       textValue: '0'
     _id: cVk8ioCyt53rWBkI
-  - name: Eloquence
+  - shortcode: elo
     type: trait
     system:
       textValue: '0'
     _id: jnov7lxhkgMWhYqg
-  - name: Voice
+  - shortcode: voi
     type: trait
     system:
       textValue: '0'
     _id: ieUVJFvQktDjVniy
-  - name: Morality
+  - shortcode: mor
     type: trait
     system:
       textValue: '0'
     _id: 2pyZPHSaeQtsOrHj
-  - name: Size
+  - shortcode: siz
     type: trait
     _id: HHZbAOdHlBAU7FGK
-  - name: Carrying Capacity
+  - shortcode: cap
     type: trait
     _id: T7XyKskzjJdt6ijj
-  - name: Move
+  - shortcode: mov
     type: trait
     _id: mQM8jkUWlbOz1HQ7
-  - name: Favored Parts
+  - shortcode: favparts
     type: trait
     _id: oWfNY9asUBcwHrtK
-  - name: Body Weight
+  - shortcode: wt
     type: trait
     system:
       textValue: '150'
     _id: JRmXDXZxpQzk1cLG
-  - name: Experience Points
+  - shortcode: xp
     type: trait
     _id: ZUHiFyeeezDM1S1u
-  - name: Sunsign
+  - shortcode: ss
     type: trait
     system:
       textValue: aries
@@ -238,7 +238,7 @@
     img: systems/sohl/assets/silhouette/character-headshot.webp
     effects: []
     system:
-      abbrev: Head
+      shortcode: headzone
     flags:
       sohl:
         legendary:
@@ -273,7 +273,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Head
+      shortcode: headpart
       canHoldItem: false
   - name: Skull
     type: bodylocation
@@ -297,7 +297,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Skull
+      shortcode: skullloc
       isFumble: false
       isStumble: false
   - name: Left Eye
@@ -322,7 +322,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LEye
+      shortcode: leyeloc
       isFumble: false
       isStumble: false
   - name: Right Eye
@@ -347,7 +347,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: REye
+      shortcode: reyeloc
       isFumble: false
       isStumble: false
   - name: Nose
@@ -372,7 +372,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Nose
+      shortcode: noseloc
       isFumble: false
       isStumble: false
   - name: Left Cheek
@@ -397,7 +397,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LChk
+      shortcode: lcheekloc
       isFumble: false
       isStumble: false
   - name: Right Cheek
@@ -422,7 +422,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RChk
+      shortcode: rcheekloc
       isFumble: false
       isStumble: false
   - name: Left Ear
@@ -447,7 +447,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LEar
+      shortcode: learloc
       isFumble: false
       isStumble: false
   - name: Right Ear
@@ -472,7 +472,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: REar
+      shortcode: rearloc
       isFumble: false
       isStumble: false
   - name: Mouth
@@ -497,7 +497,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Mouth
+      shortcode: mouthloc
       isFumble: false
       isStumble: false
   - name: Jaw
@@ -522,7 +522,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Jaw
+      shortcode: jawloc
       isFumble: false
       isStumble: false
   - name: Neck
@@ -547,7 +547,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Neck
+      shortcode: neckloc
       isFumble: false
       isStumble: false
   - name: Arms
@@ -555,7 +555,7 @@
     img: systems/sohl/assets/silhouette/character-headshot.webp
     effects: []
     system:
-      abbrev: Arms
+      shortcode: armszone
     flags:
       sohl:
         legendary:
@@ -589,7 +589,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RArm
+      shortcode: rarmpart
       canHoldItem: true
   - name: Right Shoulder
     type: bodylocation
@@ -613,7 +613,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RShld
+      shortcode: rshldloc
       isFumble: true
       isStumble: false
   - name: Right Upper Arm
@@ -638,7 +638,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RUA
+      shortcode: rupaloc
       isFumble: true
       isStumble: false
   - name: Right Elbow
@@ -663,7 +663,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RElb
+      shortcode: relbloc
       isFumble: true
       isStumble: false
   - name: Right Forearm
@@ -688,7 +688,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RFA
+      shortcode: rfraloc
       isFumble: true
       isStumble: false
   - name: Right Hand
@@ -713,7 +713,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RHand
+      shortcode: rhandloc
       isFumble: true
       isStumble: false
   - name: Left Arm
@@ -730,7 +730,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LArm
+      shortcode: larmpart
       canHoldItem: true
   - name: Left Shoulder
     type: bodylocation
@@ -754,7 +754,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LShld
+      shortcode: lshldloc
       isFumble: true
       isStumble: false
   - name: Left Upper Arm
@@ -779,7 +779,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LUA
+      shortcode: luarmloc
       isFumble: true
       isStumble: false
   - name: Left Elbow
@@ -804,7 +804,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LElb
+      shortcode: lelboc
       isFumble: true
       isStumble: false
   - name: Left Forearm
@@ -829,7 +829,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LFA
+      shortcode: lfraloc
       isFumble: true
       isStumble: false
   - name: Left Hand
@@ -854,7 +854,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LHand
+      shortcode: lhandloc
       isFumble: true
       isStumble: false
   - name: Torso
@@ -862,7 +862,7 @@
     img: systems/sohl/assets/silhouette/character-headshot.webp
     effects: []
     system:
-      abbrev: Torso
+      shortcode: torsozone
     flags:
       sohl:
         legendary:
@@ -899,7 +899,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Torso
+      shortcode: torsopart
       canHoldItem: false
   - name: Thorax
     type: bodylocation
@@ -923,7 +923,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Thrx
+      shortcode: thrxloc
       isFumble: false
       isStumble: false
   - name: Abdomen
@@ -948,7 +948,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Abdmn
+      shortcode: abdmnloc
       isFumble: false
       isStumble: false
   - name: Pelvis
@@ -973,7 +973,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: Plvis
+      shortcode: plvisloc
       isFumble: false
       isStumble: false
   - name: Legs
@@ -981,7 +981,7 @@
     img: systems/sohl/assets/silhouette/character-headshot.webp
     effects: []
     system:
-      abbrev: Legs
+      shortcode: legszone
     flags:
       sohl:
         legendary:
@@ -1016,7 +1016,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RLeg
+      shortcode: rlegpart
       canHoldItem: false
   - name: Right Thigh
     type: bodylocation
@@ -1040,7 +1040,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RThgh
+      shortcode: rthghloc
       isFumble: false
       isStumble: true
   - name: Right Knee
@@ -1065,7 +1065,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RKnee
+      shortcode: rkneeloc
       isFumble: false
       isStumble: true
   - name: Right Calf
@@ -1090,7 +1090,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RCalf
+      shortcode: rcalfloc
       isFumble: false
       isStumble: true
   - name: Right Foot
@@ -1115,7 +1115,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: RFoot
+      shortcode: rfootloc
       isFumble: false
       isStumble: true
   - name: Left Leg
@@ -1132,7 +1132,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LLeg
+      shortcode: llegpart
       canHoldItem: false
   - name: Left Thigh
     type: bodylocation
@@ -1156,7 +1156,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LThgh
+      shortcode: lthghloc
       isFumble: false
       isStumble: true
   - name: Left Knee
@@ -1181,7 +1181,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LKnee
+      shortcode: lkneeloc
       isFumble: false
       isStumble: true
   - name: Left Calf
@@ -1206,7 +1206,7 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LCalf
+      shortcode: lcalfloc
       isFumble: false
       isStumble: true
   - name: Left Foot
@@ -1231,136 +1231,135 @@
       notes: ''
       description: ''
       textReference: ''
-      abbrev: LFoot
+      shortcode: lfootloc
       isFumble: false
       isStumble: true
-
-  - name: Charm
+  - shortcode: chrm
     type: skill
     system:
       masteryLevelBase: 0
     _id: TQtE5nT3gfiJ9SOR
-  - name: Command
+  - shortcode: cmd
     type: skill
     system:
       masteryLevelBase: 0
     _id: 3SpOguzVXAlH1CHX
-  - name: Discourse
+  - shortcode: dscr
     type: skill
     system:
       masteryLevelBase: 0
     _id: 6cmGux7AOv28gS2o
-  - name: Guile
+  - shortcode: guil
     type: skill
     system:
       masteryLevelBase: 0
     _id: 7GHbkyc4Iypec3Uh
-  - name: Intrigue
+  - shortcode: intr
     type: skill
     system:
       masteryLevelBase: 0
     _id: vRwCEILJdx0F26sB
-  - name: Theatrics
+  - shortcode: thtcs
     type: skill
     system:
       masteryLevelBase: 0
     _id: 9N1lk6h6nuJ7PaKD
-  - name: Survival
+  - shortcode: srvl
     type: skill
     system:
       masteryLevelBase: 0
     _id: D5NjGnOaIJvqIa8s
-  - name: Singing
+  - shortcode: sing
     type: skill
     system:
       masteryLevelBase: 0
     _id: 6gTrVJSW0h4cplFE
-  - name: Drawing
+  - shortcode: draw
     type: skill
     system:
       masteryLevelBase: 0
     _id: i65203HBmO8P8uqT
-  - name: Cookery
+  - shortcode: cook
     type: skill
     system:
       masteryLevelBase: 0
     _id: CnlH5Z3wMRhhNkWe
-  - name: Folklore
+  - shortcode: folklr
     type: skill
     system:
       masteryLevelBase: 0
     _id: yGXn42CmEaGemaqh
-  - name: Physician
+  - shortcode: pysn
     type: skill
     system:
       masteryLevelBase: 0
     _id: OnhkBGFVjvuKP3Qw
-  - name: Awareness
+  - shortcode: awar
     type: skill
     system:
       masteryLevelBase: 0
     _id: ZIlTV5gsFmOoYtnM
-  - name: Climbing
+  - shortcode: clmb
     type: skill
     system:
       masteryLevelBase: 0
     _id: DNyu1huBb3pZGlfC
-  - name: Dancing
+  - shortcode: dnce
     type: skill
     system:
       masteryLevelBase: 0
     _id: dyYeffoGTCVmfK2e
-  - name: Jumping
+  - shortcode: jump
     type: skill
     system:
       masteryLevelBase: 0
     _id: vYCqAcSNQQEfjjVC
-  - name: Riding
+  - shortcode: ridg
     type: skill
     system:
       masteryLevelBase: 0
     _id: sqR4p30rhRWHY1Ci
-  - name: Stealth
+  - shortcode: stlth
     type: skill
     system:
       masteryLevelBase: 0
     _id: vnPMw51bMUHAyHGt
-  - name: Swimming
+  - shortcode: swim
     type: skill
     system:
       masteryLevelBase: 0
     _id: TrXrwVeUazDLVWhM
-  - name: Initiative
+  - shortcode: init
     type: skill
     system:
       masteryLevelBase: 0
     _id: EAffqBToolNRnKi0
-  - name: Shock
+  - shortcode: shok
     type: skill
     system:
       masteryLevelBase: 0
     _id: ZLhjVg3M5uIKF2TK
-  - name: Melee
+  - shortcode: melee
     type: skill
     system:
       masteryLevelBase: 0
     _id: uW6ftwvFrxkauWSH
-  - name: Dodge
+  - shortcode: dge
     type: skill
     system:
       masteryLevelBase: 0
     _id: 9PKIZ9q0bcv6QF9y
-  - name: Archery
+  - shortcode: archery
     type: skill
     system:
       masteryLevelBase: 0
     _id: T3aHAqmLUg8Ivi5a
-  - name: Throwing
+  - shortcode: thro
     type: skill
     system:
       masteryLevelBase: 0
     _id: Ws9eE0hbtHdTU7gQ
-  - name: Premonition
+  - shortcode: sohlpremon
     type: mystery
     system:
       levelBase: 0
@@ -1369,37 +1368,16 @@
         value: 5
         max: 0
     _id: ybKtkZ9rfMF4zFWQ
-  - name: Spirit
+  - shortcode: sprt
     type: mysticalability
     system:
       masteryLevelBase: 0
     _id: crLxKA4JXzozqTok
-  - name: Pence
+  - shortcode: pence
     type: miscgear
     system:
       quantity: 1
     _id: aamolKbNrd7tevUQ
-  - name: Fire
-    type: domain
-    _id: frvWwwtxzmF7u9yC
-  - name: Water
-    type: domain
-    _id: YKtK07Wrr64F60rv
-  - name: Earth
-    type: domain
-    _id: 5zeGIeFj8EZsgEHc
-  - name: Neutral
-    type: domain
-    _id: BEDKdxxzbxyAoxnp
-  - name: Spirit
-    type: domain
-    _id: KR0WVGKKoyFZyuIJ
-  - name: Wind
-    type: domain
-    _id: H43qZ2Mgfw0HT943
-  - name: Metal
-    type: domain
-    _id: LyzlYXD6de5L1tqb
   effects: []
   sort: 0
   ownership:

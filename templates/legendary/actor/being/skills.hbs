@@ -63,14 +63,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         {{/if}}
                     </div>
                     {{/if}}
-                    <div class="detail ele" data-tooltip="{{system.$masteryLevel.abbrev}}">
+                    <div class="detail ele" data-tooltip="{{system.$masteryLevel.shortcode}}">
                         {{#if system.$masteryLevel.disabled}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{else}}
                         {{system.$masteryLevel.effective}}
                         {{/if}}
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$masteryLevel.fate.abbrev}}">
+                    <div class="detail ele" data-tooltip="{{system.$masteryLevel.fate.shortcode}}">
                         {{#if system.$masteryLevel.fate.disabled}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{else}}

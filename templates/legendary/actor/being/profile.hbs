@@ -33,11 +33,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                             class="fas fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
                 </div>
-                <h3 class="value default-action" data-tooltip="{{system.$score.abbrev}}">{{system.$score.effective}}</h3>
+                <h3 class="value default-action" data-tooltip="{{system.$score.shortcode}}">{{system.$score.effective}}</h3>
                 <h4 class="label">{{system.$score.valueDesc}}</h4>
                 <div class="attribute-modifiers flexrow">
                     <div class="secmod">SM: {{numberFormat system.$masteryLevel.secMod sign=true}}</div>
-                    <div class="secmod" data-tooltip="{{system.$masteryLevel.abbrev}}">TL: {{system.$masteryLevel.effective}}</div>
+                    <div class="secmod" data-tooltip="{{system.$masteryLevel.shortcode}}">TL: {{system.$masteryLevel.effective}}</div>
                 </div>
             </li>
             {{/each}}

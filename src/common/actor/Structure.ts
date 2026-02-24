@@ -13,6 +13,7 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import {
+    SohlActor,
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorDataModel,
@@ -84,4 +85,13 @@ export class StructureDataModel<
     }
 }
 
-export class StructureSheet extends SohlActorSheetBase {}
+export class StructureSheet extends SohlActorSheetBase {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        return context;
+    }
+}

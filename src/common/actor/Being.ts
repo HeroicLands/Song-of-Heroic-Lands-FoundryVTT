@@ -14,6 +14,7 @@
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 import type { SohlItem } from "@common/item/SohlItem";
 import {
+    SohlActor,
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorDataModel,
@@ -486,4 +487,13 @@ export class BeingSheet extends SohlActorSheetBase {
             },
         ],
     };
+
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        return context;
+    }
 }

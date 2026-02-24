@@ -19,6 +19,13 @@ import {
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndWeaponGearLogic extends WeaponGearLogic<WeaponGearData> {
+    get encumbrance(): number {
+        const raw = this.item.getFlag("sohl", "legendary.encumbrance");
+        if (typeof raw === "number") return raw;
+        const n = Number(raw);
+        return Number.isFinite(n) ? n : 0;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

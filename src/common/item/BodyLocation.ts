@@ -13,6 +13,7 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import {
+    SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemDataModel,
@@ -66,7 +67,7 @@ export class BodyLocationLogic<
 export interface BodyLocationData<
     TLogic extends BodyLocationLogic<any> = BodyLocationLogic<any>,
 > extends SohlItemData<TLogic> {
-    abbrev: string;
+    shortcode: string;
     isFumble: boolean;
     isStumble: boolean;
 }
@@ -74,7 +75,6 @@ export interface BodyLocationData<
 function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
         isFumble: new BooleanField({ initial: false }),
         isStumble: new BooleanField({ initial: false }),
     };
@@ -89,7 +89,6 @@ export class BodyLocationDataModel<
 > extends SohlItemDataModel<TSchema, TLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyLocation.DATA"];
     static override readonly kind = ITEM_KIND.BODYLOCATION;
-    abbrev!: string;
     isFumble!: boolean;
     isStumble!: boolean;
 
@@ -99,10 +98,12 @@ export class BodyLocationDataModel<
 }
 
 export class BodyLocationSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected override async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

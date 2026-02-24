@@ -44,7 +44,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                         <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$reach.abbrev}}">{{system.$reach.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$reach.shortcode}}">{{system.$reach.effective}}</div>
                     <div class="detail ele">
                         {{#unless (or system.$attack.disabled system.$impact.disabled (eq system.zoneDie 0))}}
                         <span>d{{system.zoneDie}}</span>
@@ -54,28 +54,28 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     <div class="detail impact">
                         {{#unless (or system.$attack.disabled system.$impact.disabled)}}
-                        <span data-tooltip="{{system.$impact.abbrev}}">{{system.$impact.label}}</span>
+                        <span data-tooltip="{{system.$impact.shortcode}}">{{system.$impact.label}}</span>
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
                     <div class="detail ele">
                         {{#unless system.$attack.disabled}}
-                        <span data-tooltip="{{system.$attack.abbrev}}">{{system.$attack.effective}}</span>
+                        <span data-tooltip="{{system.$attack.shortcode}}">{{system.$attack.effective}}</span>
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
                     <div class="detail ele">
                         {{#unless system.$defense.block.disabled}}
-                        <span data-tooltip="{{system.$defense.block.abbrev}}">{{system.$defense.block.effective}}</span>
+                        <span data-tooltip="{{system.$defense.block.shortcode}}">{{system.$defense.block.effective}}</span>
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
                     <div class="detail ele">
                         {{#unless system.$defense.counterstrike.disabled}}
-                        <span data-tooltip="{{system.$defense.counterstrike.abbrev}}">{{system.$defense.counterstrike.effective}}</span>
+                        <span data-tooltip="{{system.$defense.counterstrike.shortcode}}">{{system.$defense.counterstrike.effective}}</span>
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
@@ -121,31 +121,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                         <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$heft.abbrev}}">{{system.$heft.effective}}</div>
-                    <div class="detail ele" data-tooltip="{{system.$reach.abbrev}}">{{system.$reach.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$heft.shortcode}}">{{system.$heft.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$reach.shortcode}}">{{system.$reach.effective}}</div>
                     <div class="detail ele">d{{system.zoneDie}}</div>
-                    <div class="detail impact" data-tooltip="{{system.$impact.abbrev}}">
+                    <div class="detail impact" data-tooltip="{{system.$impact.shortcode}}">
                         {{#unless system.$impact.disabled}}
                         {{system.$impact.label}}
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$attack.abbrev}}">
+                    <div class="detail ele" data-tooltip="{{system.$attack.shortcode}}">
                         {{#unless system.$attack.disabled}}
                         {{system.$attack.effective}}
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$defense.block.abbrev}}">
+                    <div class="detail ele" data-tooltip="{{system.$defense.block.shortcode}}">
                         {{#unless system.$defense.block.disabled}}
                         {{system.$defense.block.effective}}
                         {{else}}
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$defense.counterstrike.abbrev}}">
+                    <div class="detail ele" data-tooltip="{{system.$defense.counterstrike.shortcode}}">
                         {{#unless system.$defense.counterstrike.disabled}}
                         {{system.$defense.counterstrike.effective}}
                         {{else}}
@@ -194,15 +194,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <div class="item-image" style="background-image: url('{{item.img}}')"></div>
                         <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
                     </div>
-                    <div class="detail ele" data-tooltip="{{system.$pull.abbrev}}">{{system.$pull.effective}}</div>
-                    <div class="detail ele" data-tooltip="{{system.$draw.abbrev}}">{{system.$draw.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$pull.shortcode}}">{{system.$pull.effective}}</div>
+                    <div class="detail ele" data-tooltip="{{system.$draw.shortcode}}">{{system.$draw.effective}}</div>
                     <div class="detail ele">{{system.$baseRange.effective}}</div>
                     <div class="detail ele">{{system.maxVolleyMult}}</div>
-                    <div class="detail impact" data-tooltip="{{impact.abbrev}}">
+                    <div class="detail impact" data-tooltip="{{impact.shortcode}}">
                         {{system.$impact.label}}
                     </div>
-                    {{!-- genML system.$attack class="detail ele" tooltip="{{system.$attack.abbrev}}" disabled-icon="fas fa-xmark fa-lg" --}}
-                    <div class="detail ele" data-tooltip="{{system.$attack.abbrev}}">
+                    {{!-- genML system.$attack class="detail ele" tooltip="{{system.$attack.shortcode}}" disabled-icon="fas fa-xmark fa-lg" --}}
+                    <div class="detail ele" data-tooltip="{{system.$attack.shortcode}}">
                         {{#unless system.$attack.disabled}}
                         {{system.$attack.effective}}
                         {{else}}

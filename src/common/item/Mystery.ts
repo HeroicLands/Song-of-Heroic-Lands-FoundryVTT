@@ -76,13 +76,12 @@ export class MysteryLogic<
         let field: string = "";
         switch (category) {
             case MYSTERY_CATEGORY.DIVINE:
-                if (!this.actor) return this.data.domain.philosophy;
                 field =
-                    this.actor.allItems.find(
+                    this.actor?.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.data.domain.name &&
-                            d.system.philosophy === this.data.domain.philosophy,
+                            d.name === this.domain?.item.name &&
+                            d.system.philosophy === this.domain?.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -97,13 +96,12 @@ export class MysteryLogic<
                 break;
 
             case MYSTERY_CATEGORY.CREATURE:
-                if (!this.actor) return this.data.domain.philosophy;
                 field =
-                    this.actor.allItems.find(
+                    this.actor?.allItems.find(
                         (d) =>
                             d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.data.domain.name &&
-                            d.system.philosophy === this.data.domain.philosophy,
+                            d.name === this.domain?.item.name &&
+                            d.system.philosophy === this.domain?.philosophy,
                     )?.name ?? "";
                 break;
 
@@ -186,78 +184,6 @@ export class MysteryLogic<
     /** @inheritdoc */
     override initialize(context: SohlActionContext): void {
         super.initialize(context);
-        if (this.actor) {
-            this.skills = [];
-            const skillSet = new Set<string>(this.data.skills);
-            for (const it of this.actor.dynamicAllItems()) {
-                // Find the designated domain item and store it in `this.domain`
-                if (
-                    !this.domain &&
-                    it.type === ITEM_KIND.DOMAIN &&
-                    it.name === this.data.domain.name &&
-                    it.system.philosophy === this.data.domain.philosophy
-                ) {
-                    this.domain = it.logic;
-                }
-
-                // Find all skills that match the parent's skill list
-                if (
-                    it.type === ITEM_KIND.SKILL &&
-                    !!it.name &&
-                    skillSet.has(it.name)
-                ) {
-                    this.skills.push(it.logic as SkillLogic);
-                    skillSet.delete(it.name);
-                }
-            }
-
-            if (!this.domain && this.data.domain.name) {
-                // First, try to find the domain in the compendiums
-                getDocsFromPacks(["sohl.mysteries"], {
-                    docType: "domain",
-                }).then((docs) => {
-                    let domain: DomainLogic | null = null;
-
-                    // We have an array of domain documents from the compendium; search for the one we want
-                    this.domain = docs.find(
-                        (d) =>
-                            d.name === this.data.domain.name &&
-                            d.system.philosophy === this.data.domain.philosophy,
-                    )?.logic as DomainLogic;
-
-                    // If we can't find the domain by name, create a dummy one
-                    if (!this.domain) {
-                        const item = new SohlItem({
-                            name: this.data.domain.name,
-                            type: "domain",
-                            system: { philosophy: this.data.domain.philosophy },
-                        } as any);
-                        this.actor?.addVirtualItem(item);
-                        this.domain = item.logic as DomainLogic;
-                    }
-                });
-            }
-
-            // `skillSet` now contains all skills that were not found in the actor's items
-            // We need to now create temporary items for each of those skills, so we can use
-            // them in later stages. Some mysteries allow temporary aquisition of skills, even if
-            // the actor does not possess them.
-            //
-            // Note that any such skills will be added as ML 0; only the skill will be added, but no
-            // mastery at all (at least at this point).
-            for (const skillName of skillSet) {
-                // First, try to find the skill in the compendiums
-                getDocumentFromPacks(skillName, ["sohl.characteristics"], {
-                    docType: "skill",
-                }).then((doc) => {
-                    // If we can't find the skill by name, create a dummy one
-                    if (!doc)
-                        doc = new SohlItem({ name: skillName, type: "skill" });
-                    this.skills.push(doc);
-                    this.actor?.addVirtualItem(doc);
-                });
-            }
-        }
 
         this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
             this.data.levelBase,
@@ -276,6 +202,19 @@ export class MysteryLogic<
     /** @inheritdoc */
     override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
+
+        if (!this.actor) return;
+        const allItemTypes = this.actor.allItemTypes;
+
+        this.domain = allItemTypes.domain.find(
+            (it: SohlItem) => it.system.shortcode === this.data.domainCode,
+        )?.logic as DomainLogic;
+
+        this.skills = allItemTypes.skill
+            .filter((it: SohlItem) =>
+                this.data.skills.includes(it.system.shortcode),
+            )
+            .map((it: SohlItem) => it.logic as SkillLogic);
     }
 
     /** @inheritdoc */
@@ -288,10 +227,7 @@ export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
     subType: MysterySubType;
-    domain: {
-        philosophy: string;
-        name: string;
-    };
+    domainCode?: string;
     skills: string[];
     levelBase: number;
     charges: {
@@ -307,9 +243,9 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             choices: MysterySubTypes,
             required: true,
         }),
-        domain: new SchemaField({
-            philosophy: new StringField(),
-            name: new StringField(),
+        domainCode: new StringField({
+            blank: false,
+            nullable: true,
         }),
         skills: new ArrayField(
             new StringField({
@@ -351,10 +287,7 @@ export class MysteryDataModel<
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery.DATA"];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
-    domain!: {
-        philosophy: string;
-        name: string;
-    };
+    domainCode?: string;
     skills!: string[];
     levelBase!: number;
     charges!: {
@@ -368,10 +301,12 @@ export class MysteryDataModel<
 }
 
 export class MysterySheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

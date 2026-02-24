@@ -26,7 +26,7 @@ import {
  * Represents a value and its modifying deltas.
  */
 export class ValueModifier extends SohlBase {
-    private _abbrev!: string;
+    private _shortcode!: string;
     private _dirty: boolean;
     private _effective!: number;
     private _parent: SohlLogic;
@@ -171,9 +171,9 @@ export class ValueModifier extends SohlBase {
         return this.effective - (this.base || 0);
     }
 
-    get abbrev(): string {
+    get shortcode(): string {
         this._apply();
-        return this._abbrev;
+        return this._shortcode;
     }
 
     get index(): number {
@@ -222,7 +222,7 @@ export class ValueModifier extends SohlBase {
 
     _oper(
         name: string,
-        abbrev: string = "",
+        shortcode: string = "",
         value: string | number = 0,
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
@@ -237,7 +237,7 @@ export class ValueModifier extends SohlBase {
             throw new TypeError("custom handler is not defined");
         }
 
-        abbrev ||= data.abbrev;
+        shortcode ||= data.shortcode;
 
         const existingOverride = this.deltas.find(
             (m) => m.op === VALUE_DELTA_OPERATOR.OVERRIDE,
@@ -249,45 +249,52 @@ export class ValueModifier extends SohlBase {
                 if (existingOverride.numValue !== 0) {
                     // If this ValueModifier is being overriden, throw out all other modifications
                     this.deltas = [
-                        new ValueDelta(this, { name, abbrev, op, value }),
+                        new ValueDelta(this, { name, shortcode, op, value }),
                     ];
                 }
             }
         } else {
-            const deltas = this.deltas.filter((m) => m.abbrev !== abbrev);
-            deltas.push(new ValueDelta(this, { name, abbrev, op, value }));
+            const deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
+            deltas.push(new ValueDelta(this, { name, shortcode, op, value }));
         }
 
         this._dirty = true;
         return this;
     }
 
-    get(abbrev: string): ValueDelta | undefined {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
-        return this.deltas.find((m) => m.abbrev === abbrev);
+    get(shortcode: string): ValueDelta | undefined {
+        if (typeof shortcode !== "string")
+            throw new TypeError("shortcode is not a string");
+        return this.deltas.find((m) => m.shortcode === shortcode);
     }
 
-    has(abbrev: string): boolean {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
-        return this.deltas.some((m) => m.abbrev === abbrev) || false;
+    has(shortcode: string): boolean {
+        if (typeof shortcode !== "string")
+            throw new TypeError("shortcode is not a string");
+        return this.deltas.some((m) => m.shortcode === shortcode) || false;
     }
 
-    delete(abbrev: string): void {
-        if (typeof abbrev !== "string")
-            throw new TypeError("abbrev is not a string");
-        const newMods = this.deltas.filter((m) => m.abbrev !== abbrev) || [];
+    delete(shortcode: string): void {
+        if (typeof shortcode !== "string")
+            throw new TypeError("shortcode is not a string");
+        const newMods =
+            this.deltas.filter((m) => m.shortcode !== shortcode) || [];
     }
 
     add(...args: any[]): ValueModifier {
-        let name, abbrev, value, data;
+        let name, shortcode, value, data;
         if (typeof args[0] === "object") {
-            [{ name, abbrev }, value, data = {}] = args;
+            [{ name, shortcode }, value, data = {}] = args;
         } else {
-            [name, abbrev, value, data = {}] = args;
+            [name, shortcode, value, data = {}] = args;
         }
-        return this._oper(name, abbrev, value, VALUE_DELTA_OPERATOR.ADD, data);
+        return this._oper(
+            name,
+            shortcode,
+            value,
+            VALUE_DELTA_OPERATOR.ADD,
+            data,
+        );
     }
 
     addVM(
@@ -299,15 +306,15 @@ export class ValueModifier extends SohlBase {
     }
 
     multiply(...args: any[]): ValueModifier {
-        let name, abbrev, value, data;
+        let name, shortcode, value, data;
         if (typeof args[0] === "object") {
-            [{ name, abbrev }, value, data = {}] = args;
+            [{ name, shortcode }, value, data = {}] = args;
         } else {
-            [name, abbrev, value, data = {}] = args;
+            [name, shortcode, value, data = {}] = args;
         }
         return this._oper(
             name,
-            abbrev,
+            shortcode,
             value,
             VALUE_DELTA_OPERATOR.MULTIPLY,
             data,
@@ -315,18 +322,18 @@ export class ValueModifier extends SohlBase {
     }
     /**
      * Sets the value to a specific number, overriding all other modifiers.
-     * @param args - The arguments can be an object with name and abbrev, followed by value and optional data.
+     * @param args - The arguments can be an object with name and shortcode, followed by value and optional data.
      */
     set(...args: any[]): ValueModifier {
-        let name, abbrev, value, data;
+        let name, shortcode, value, data;
         if (typeof args[0] === "object") {
-            [{ name, abbrev }, value, data = {}] = args;
+            [{ name, shortcode }, value, data = {}] = args;
         } else {
-            [name, abbrev, value, data = {}] = args;
+            [name, shortcode, value, data = {}] = args;
         }
         return this._oper(
             name,
-            abbrev,
+            shortcode,
             value,
             VALUE_DELTA_OPERATOR.OVERRIDE,
             data,
@@ -334,15 +341,15 @@ export class ValueModifier extends SohlBase {
     }
 
     floor(...args: any[]): ValueModifier {
-        let name, abbrev, value, data;
+        let name, shortcode, value, data;
         if (typeof args[0] === "object") {
-            [{ name, abbrev }, value, data = {}] = args;
+            [{ name, shortcode }, value, data = {}] = args;
         } else {
-            [name, abbrev, value, data = {}] = args;
+            [name, shortcode, value, data = {}] = args;
         }
         return this._oper(
             name,
-            abbrev,
+            shortcode,
             value,
             VALUE_DELTA_OPERATOR.UPGRADE,
             data,
@@ -350,21 +357,21 @@ export class ValueModifier extends SohlBase {
     }
 
     ceiling(...args: any[]): ValueModifier {
-        let name, abbrev, value, data;
+        let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             name = args[0].name;
-            abbrev = args[0].abbrev;
+            shortcode = args[0].shortcode;
             value = args[1];
             data = args[2] || {};
         } else {
             name = args[0];
-            abbrev = args[1];
+            shortcode = args[1];
             value = args[2];
             data = args[3] || {};
         }
         return this._oper(
             name,
-            abbrev,
+            shortcode,
             value,
             VALUE_DELTA_OPERATOR.DOWNGRADE,
             data,
@@ -394,7 +401,7 @@ export class ValueModifier extends SohlBase {
 
                 default:
                     throw Error(
-                        `SoHL | Specified mode "${delta.op}" not recognized while processing ${delta.abbrev}`,
+                        `SoHL | Specified mode "${delta.op}" not recognized while processing ${delta.shortcode}`,
                     );
             }
         }
@@ -416,39 +423,39 @@ export class ValueModifier extends SohlBase {
     }
 
     _calcAbbrev(): void {
-        this._abbrev = "";
+        this._shortcode = "";
         if (this.disabled) {
-            this._abbrev = VALUE_DELTA_INFO.DISABLED;
+            this._shortcode = VALUE_DELTA_INFO.DISABLED;
         } else {
             this.deltas.forEach((adj) => {
-                if (this._abbrev) {
-                    this._abbrev += ", ";
+                if (this._shortcode) {
+                    this._shortcode += ", ";
                 }
 
                 switch (adj.op) {
                     case VALUE_DELTA_OPERATOR.ADD:
-                        this._abbrev += `${adj.abbrev} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
+                        this._shortcode += `${adj.shortcode} ${adj.numValue > 0 ? "+" : ""}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.MULTIPLY:
-                        this._abbrev += `${adj.abbrev} ${SYMBOL.TIMES}${adj.value}`;
+                        this._shortcode += `${adj.shortcode} ${SYMBOL.TIMES}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                        this._abbrev += `${adj.abbrev} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
+                        this._shortcode += `${adj.shortcode} ${SYMBOL.LESSTHANOREQUAL}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.UPGRADE:
-                        this._abbrev += `${adj.abbrev} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
+                        this._shortcode += `${adj.shortcode} ${SYMBOL.GREATERTHANOREQUAL}${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.OVERRIDE:
-                        this._abbrev += `${adj.abbrev} =${adj.value}`;
+                        this._shortcode += `${adj.shortcode} =${adj.value}`;
                         break;
 
                     case VALUE_DELTA_OPERATOR.CUSTOM:
                         if (adj.value === "disabled")
-                            this._abbrev += `${adj.abbrev}`;
+                            this._shortcode += `${adj.shortcode}`;
                         break;
                 }
             });

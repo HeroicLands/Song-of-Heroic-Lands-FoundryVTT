@@ -377,7 +377,7 @@ export class SohlLocalize {
             const form = rule.select(values.count);
             messageKey = `${messageKey}.${form}`;
         }
-        let str = this.localize(messageKey, !!values.useFallback);
+        let str = this.localize(messageKey, messageKey, !!values.useFallback);
         const fmt = /{[^}]+}/g;
         str = str.replace(fmt, (k) => values[k.slice(1, -1)] as string);
         return str || "";
@@ -388,19 +388,27 @@ export class SohlLocalize {
      * If the string ID is not found or is invalid, it returns the string ID itself as a fallback.
      *
      * @param stringId - The ID of the string to localize. This should correspond to a key in the localization files.
+     * @param defaultString - The default string to return if the localization is not found.
      * @param useFallback - If true, attempts to use a fallback localization if the string ID is not found.
      *                      Defaults to false.
-     * @returns The localized string if found, or the string ID itself if not found or invalid.
+     * @returns The localized string if found, or the default string if not found or invalid.
      */
-    localize(stringId: string, useFallback: boolean = false): string {
+    localize(
+        stringId: string,
+        defaultString: string = stringId,
+        useFallback: boolean = false,
+    ): string {
+        const foundId = game.i18n?.has(stringId, useFallback);
+        if (!foundId) return defaultString;
+
         if (!useFallback) {
-            return (game as any).i18n?.localize(stringId) || "<missing>";
+            return (game as any).i18n?.localize(stringId) || defaultString;
         } else {
             const v = foundry.utils.getProperty(
                 ((game as any).i18n as any)?._fallback,
-                stringId,
+                defaultString,
             );
-            return typeof v === "string" ? v : stringId;
+            return typeof v === "string" ? v : defaultString;
         }
     }
 

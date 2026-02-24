@@ -60,7 +60,6 @@ export class BodyPartLogic<
 export interface BodyPartData<
     TLogic extends BodyPartLogic<BodyPartData> = BodyPartLogic<any>,
 > extends SohlItemData<TLogic> {
-    abbrev: string;
     canHoldItem: boolean;
     heldItemId: string | null;
 }
@@ -68,7 +67,6 @@ export interface BodyPartData<
 function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
         canHoldItem: new BooleanField({ initial: false }),
         heldItemId: new DocumentIdField({ nullable: true }),
     };
@@ -86,7 +84,6 @@ export class BodyPartDataModel<
 {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyPart.DATA"];
     static override readonly kind = ITEM_KIND.BODYPART;
-    abbrev!: string;
     canHoldItem!: boolean;
     heldItemId!: string | null;
 
@@ -96,10 +93,12 @@ export class BodyPartDataModel<
 }
 
 export class BodyPartSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected override async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

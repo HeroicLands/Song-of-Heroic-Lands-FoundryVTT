@@ -55,7 +55,6 @@ export abstract class GearLogic<
 
 export interface GearData<TLogic extends GearLogic<GearData> = GearLogic<any>>
     extends SohlItemData<TLogic> {
-    abbrev: string;
     quantity: number;
     weightBase: number;
     valueBase: number;
@@ -69,7 +68,6 @@ export interface GearData<TLogic extends GearLogic<GearData> = GearLogic<any>>
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
         quantity: new NumberField({
             integer: true,
             initial: 1,
@@ -107,7 +105,6 @@ export abstract class GearDataModel<
     TSchema extends foundry.data.fields.DataSchema = GearDataSchema,
     TLogic extends GearLogic<GearData> = GearLogic<GearData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
-    abbrev!: string;
     quantity!: number;
     weightBase!: number;
     valueBase!: number;

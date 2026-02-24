@@ -77,7 +77,6 @@ export abstract class MasteryLevelLogic<
         if (this.fateMasteryLevel.disabled) return;
 
         //TODO: Need to figure out which fate items to consume here
-        // @ts-ignore - Ignore incorrect circular reference message
         const fateItem = this.availableFate.find(
             (it) =>
                 (it.logic as unknown as MysteryLogic).charges.value.effective >
@@ -288,7 +287,7 @@ export abstract class MasteryLevelLogic<
             const auraLogic = this.actor?.allItems.find(
                 (it) =>
                     it.type === ITEM_KIND.TRAIT &&
-                    (it.system as any).abbrev === "aur",
+                    (it.system as any).shortcode === "aur",
             )?.logic as TraitLogic;
             if (!auraLogic.masteryLevel.disabled) {
                 if (
@@ -369,7 +368,6 @@ export abstract class MasteryLevelLogic<
 export interface MasteryLevelData<
     TLogic extends MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<any>,
 > extends SohlItemData<TLogic> {
-    abbrev: string;
     skillBaseFormula: string;
     masteryLevelBase: number;
     improveFlag: boolean;
@@ -395,7 +393,6 @@ function calcMasteryBoost(ml: number): number {
 function defineMasteryLevelSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
         skillBaseFormula: new StringField(),
         masteryLevelBase: new NumberField({
             initial: 0,
@@ -412,7 +409,6 @@ export abstract class MasteryLevelDataModel<
     TLogic extends
         MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<MasteryLevelData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
-    abbrev!: string;
     skillBaseFormula!: string;
     masteryLevelBase!: number;
     improveFlag!: boolean;

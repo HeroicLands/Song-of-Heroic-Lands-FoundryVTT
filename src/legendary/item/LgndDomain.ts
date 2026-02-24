@@ -15,6 +15,17 @@ import { DomainData, DomainLogic, DomainSheet } from "@common/item/Domain";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndDomainLogic extends DomainLogic<DomainData> {
+    get probWeight(): number {
+        const raw = this.item.getFlag("sohl", "legendary.probWeight");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
+    get sunsignMod(): PlainObject {
+        const raw = this.item.getFlag("sohl", "legendary.ssMod");
+        return typeof raw === "object" && raw !== null ? raw : {};
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

@@ -181,7 +181,7 @@ export namespace SohlDataModel {
             constructor(document: TDocument, options: PlainObject = {}) {
                 // The HandlebarsApplicationMixin constructor typing is incompatible with
                 // our generic signature; suppress the type-check here and forward args.
-                // @ts-ignore
+                // @ts-expect-error - Base class constructor signature mismatch
                 super(document, options);
                 this._dragDrop = this._createDragDropHandlers();
             }

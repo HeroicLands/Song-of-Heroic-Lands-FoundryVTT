@@ -82,4 +82,13 @@ export class VehicleDataModel<
     }
 }
 
-export class VehicleSheet extends SohlActorSheetBase {}
+export class VehicleSheet extends SohlActorSheetBase {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        return context;
+    }
+}

@@ -327,146 +327,180 @@ export const {
 });
 
 export const {
-    kind: TERRAIN,
-    values: Terrains,
-    isValue: isTerrain,
-    labels: terrainLabels,
-} = defineType("SOHL.Terrain", {
-    FLAT_PAVED_ROAD: 1,
-    FLAT_UNPAVED_ROAD: 2,
-    FLAT_RURAL_TRACK: 3,
-    FLAT_WILDERNESS_TRAIL: 4,
-    FLAT_CROPLAND_GRASSLAND: 5,
-    FLAT_MIXED_WOODLAND: 6,
-    FLAT_HEATH_MOOR: 7,
-    FLAT_NEEDLELEAF_FOREST: 8,
-    FLAT_MIXED_FOREST: 9,
-    WETLANDS: 10,
-    MARSH_SWAMP: 11,
-    BOG_FEN: 12,
-    TUNDRA: 13,
-    PERMAFROST_SCRUB: 14,
-    DESERT_DUNES: 15,
-    DESERT_SCRUB: 16,
-    DESERT_ROCK: 17,
-    DESERT_SALT_FLAT: 18,
-    SAVANNA: 19,
-    STEPPE: 20,
-    FOREST_TROPICAL_RAINFOREST: 21,
-    FOREST_TROPICAL_SEASONAL: 22,
-    FOREST_MANGROVE: 23,
-    COAST_SANDY_BEACH: 24,
-    COAST_ROCKY_SHORE: 25,
-    ICE_FLAT: 26,
-    ICE_BROKEN: 27,
-    ICE_CREVASSE_FIELD: 28,
-    ICE_SNOW_ROCK_FIELD: 29,
-    HILLY_PAVED_ROAD: 30,
-    HILLY_UNPAVED_ROAD: 31,
-    HILLY_RURAL_TRACK: 32,
-    HILLY_WILDERNESS_TRAIL: 33,
-    HILLY_CROPLAND_GRASSLAND: 34,
-    HILLY_MIXED_WOODLAND: 35,
-    HILLY_HEATH_MOOR: 36,
-    HILLY_NEEDLELEAF_FOREST: 37,
-    HILLY_MIXED_FOREST: 38,
-    HILLY_SAVANNA: 39,
-    HILLY_DESERT_SCRUB: 40,
-    HILLY_TUNDRA: 41,
-    MOUNTAIN_PAVED_ROAD: 42,
-    MOUNTAIN_UNPAVED_ROAD: 43,
-    MOUNTAIN_RURAL_TRACK: 44,
-    MOUNTAIN_WILDERNESS_TRAIL: 45,
-    MOUNTAIN_COLD_WOODLAND: 46,
-    MOUNTAIN_ALPINE_VEGETATION: 47,
-    MOUNTAIN_NEEDLELEAF_FOREST: 48,
-    MOUNTAIN_MIXED_FOREST: 49,
-    MOUNTAIN_ICE_SNOW_ROCK_FIELD: 50,
-    MOUNTAIN_DESERT_SCRUB: 51,
-    MOUNTAIN_TROPICAL_FOREST: 52,
-    MOUNTAIN_TUNDRA: 53,
-    WATER: 54,
-});
-export type Terrain = (typeof TERRAIN)[keyof typeof TERRAIN];
-
-export const {
-    kind: MOVEMENT_MODE,
-    values: MovementModes,
-    isValue: isMovementMode,
-    labels: movementModeLabels,
-} = defineType("SOHL.MovementMode", {
-    LAND: "land",
-    SWIMMING: "swimming",
-    FLYING: "flying",
-});
-export type MovementMode = (typeof MOVEMENT_MODE)[keyof typeof MOVEMENT_MODE];
-
-export const {
     kind: BIOME,
     values: Biomes,
     isValue: isBiome,
     labels: biomeLabels,
 } = defineType("SOHL.Biome", {
-    ARCTIC_ICEFIELD: 1,
-    ARCTIC_TUNDRA: 2,
-    SUBARCTIC_TAIGA: 3,
-    MOUNTAIN_ALPINE: 4,
-    PERMAFROST_SCRUB: 5,
-    TEMPERATE_GRASSLAND: 6,
-    TEMPERATE_FOREST: 7,
-    TEMPERATE_MIXED_WOODLAND: 8,
-    TEMPERATE_HEATH_MOOR: 9,
-    TEMPERATE_WETLANDS: 10,
-    TEMPERATE_MARSH: 11,
-    TEMPERATE_HILLS: 12,
-    TEMPERATE_MOUNTAINS: 13,
-    DESERT_DUNES: 14,
-    DESERT_ROCK: 15,
-    DESERT_SALT_FLAT: 16,
-    DESERT_SCRUB: 17,
-    STEPPE: 18,
-    SAVANNA: 19,
-    TROPICAL_RAINFOREST: 20,
-    TROPICAL_SEASONAL_FOREST: 21,
-    TROPICAL_SAVANNA: 22,
-    TROPICAL_MANGROVE: 23,
-    COASTAL_BEACH: 24,
-    COASTAL_ROCKY_SHORE: 25,
-    COASTAL_WETLAND: 26,
-    CORAL_ISLAND: 27,
-    OPEN_SEA: 28,
+    ARCTIC_ICEFIELD: "arctic_icefield",
+    ARCTIC_TUNDRA: "arctic_tundra",
+    SUBARCTIC_TAIGA: "subarctic_taiga",
+    MOUNTAIN_ALPINE: "mountain_alpine",
+    PERMAFROST_SCRUB: "permafrost_scrub",
+    TEMPERATE_GRASSLAND: "temperate_grassland",
+    TEMPERATE_FOREST: "temperate_forest",
+    TEMPERATE_MIXED_WOODLAND: "temperate_mixed_woodland",
+    TEMPERATE_HEATH_MOOR: "temperate_heath_moor",
+    TEMPERATE_WETLANDS: "temperate_wetlands",
+    TEMPERATE_MARSH: "temperate_marsh",
+    TEMPERATE_HILLS: "temperate_hills",
+    TEMPERATE_MOUNTAINS: "temperate_mountains",
+    DESERT_DUNES: "desert_dunes",
+    DESERT_ROCK: "desert_rock",
+    DESERT_SALT_FLAT: "desert_salt_flat",
+    DESERT_SCRUB: "desert_scrub",
+    STEPPE: "steppe",
+    SAVANNA: "savanna",
+    TROPICAL_RAINFOREST: "tropical_rainforest",
+    TROPICAL_SEASONAL_FOREST: "tropical_seasonal_forest",
+    TROPICAL_SAVANNA: "tropical_savanna",
+    TROPICAL_MANGROVE: "tropical_mangrove",
+    COASTAL_BEACH: "coastal_beach",
+    COASTAL_ROCKY_SHORE: "coastal_rocky_shore",
+    COASTAL_WETLAND: "coastal_wetland",
+    CORAL_ISLAND: "coral_island",
+    OPEN_SEA: "open_sea",
 });
 export type Biome = (typeof BIOME)[keyof typeof BIOME];
-export const DEFAULT_BIOME_SPEED_FACTORS = [
-    0.5, // ARCTIC_ICEFIELD
-    0.7, // ARCTIC_TUNDRA
-    0.8, // SUBARCTIC_TAIGA
-    0.6, // MOUNTAIN_ALPINE
-    0.75, // PERMAFROST_SCRUB
-    1.0, // TEMPERATE_GRASSLAND
-    0.9, // TEMPERATE_FOREST
-    0.9, // TEMPERATE_MIXED_WOODLAND
-    0.85, // TEMPERATE_HEATH_MOOR
-    0.7, // TEMPERATE_WETLANDS
-    0.6, // TEMPERATE_MARSH
-    0.9, // TEMPERATE_HILLS
-    0.8, // TEMPERATE_MOUNTAINS
-    0.7, // DESERT_DUNES
-    0.8, // DESERT_ROCK
-    0.9, // DESERT_SALT_FLAT
-    0.85, // DESERT_SCRUB
-    1.0, // STEPPE
-    0.95, // SAVANNA
-    0.7, // TROPICAL_RAINFOREST
-    0.8, // TROPICAL_SEASONAL_FOREST
-    0.9, // TROPICAL_SAVANNA
-    0.6, // TROPICAL_MANGROVE
-    0.8, // COASTAL_BEACH
-    0.7, // COASTAL_ROCKY_SHORE
-    0.6, // COASTAL_WETLAND
-    0.8, // CORAL_ISLAND
-    1.0, // OPEN_SEA
-];
+
+export const {
+    kind: MOVEMENT_MEDIUM,
+    values: MovementMediums,
+    isValue: isMovementMedium,
+    labels: movementMediumLabels,
+} = defineType("SOHL.MovementMedium", {
+    TERRESTRIAL: "terrestrial",
+    AQUATIC: "aquatic",
+    AERIAL: "aerial",
+    SUBTERRANEAN: "subterranean",
+});
+export type MovementMedium =
+    (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
+
+export const {
+    kind: MOVEMENT_FACTOR_MODE,
+    values: MovementFactorModes,
+    isValue: isMovementFactorMode,
+    labels: movementFactorModeLabels,
+} = defineType("SOHL.MovementFactorMode", {
+    MULTIPLY: 0,
+    ADD: 1,
+    FLOOR: 2,
+    CEILING: 3,
+    OVERRIDE: 4,
+});
+export type MovementFactorMode =
+    (typeof MOVEMENT_FACTOR_MODE)[keyof typeof MOVEMENT_FACTOR_MODE];
+
+export const {
+    kind: TERRAIN,
+    values: Terrains,
+    isValue: isTerrain,
+    labels: terrainLabels,
+} = defineType("SOHL.Terrain", {
+    GROUND_FIRM: "ground_firm",
+    GROUND_LOOSE: "ground_loose",
+    ROCK: "rock",
+    SCREE: "scree",
+    SAND_FIRM: "sand_firm",
+    SAND_LOOSE: "sand_loose",
+    SALT_FLAT: "salt_flat",
+    GLACIAL_ICE: "glacial_ice",
+    SNOWPACK: "snowpack",
+});
+export type Terrain = (typeof TERRAIN)[keyof typeof TERRAIN];
+
+export const {
+    kind: VEGETATION,
+    values: Vegetations,
+    isValue: isVegetation,
+    labels: vegetationLabels,
+} = defineType("SOHL.Vegetation", {
+    NONE: "none",
+    OPEN: "open",
+    LIGHT: "light",
+    DENSE: "dense",
+    JUNGLE: "jungle",
+});
+export type Vegetation = (typeof VEGETATION)[keyof typeof VEGETATION];
+
+export const {
+    kind: SLOPE,
+    values: Slopes,
+    isValue: isSlope,
+    labels: slopeLabels,
+} = defineType("SOHL.Slope", {
+    FLAT: "flat", // Plains, plateaus, valley floors
+    GENTLE: "gentle", // Rolling hills, gradual inclines
+    MODERATE: "moderate", // Noticeable hills, foothills
+    STEEP: "steep", // Mountain paths, escarpments
+    EXTREME: "extreme", // Very steep terrain; slow and risky
+    VERTICAL: "vertical", // Cliffs; walking impossible
+});
+export type Slope = (typeof SLOPE)[keyof typeof SLOPE];
+
+export const {
+    kind: WATER_DEPTH,
+    values: WaterDepths,
+    isValue: isWaterDepth,
+    labels: waterDepthLabels,
+} = defineType("SOHL.WaterDepth", {
+    SHALLOW: "shallow", // Streams, rocky riverbeds, tidal flats, marsh, flooded fields
+    DEEP: "deep", // Rivers, lakes, ocean (swimming required)
+});
+export type WaterDepth = (typeof WATER_DEPTH)[keyof typeof WATER_DEPTH];
+
+export interface GridLocation {
+    row: number; // Row index in the grid
+    col: number; // Column index in the grid
+}
+
+export interface GridLocationsProfile {
+    gridLocations: GridLocation[]; // List of grid locations that share this profile
+    environment: Partial<GridEnvironmentProfile>; // Environment profile for these grid locations
+}
+
+export interface GridEnvironmentProfile {
+    biome: Biome; // Macro climate/ecology classification used for weather, seasons, and regional defaults
+    terrestrial?: {
+        terrain: Terrain; // Primary ground substrate determining footing, load-bearing, and base movement friction
+        vegetation: Vegetation; // Vegetation density/type affecting obstruction, visibility, and movement resistance
+        slope: Slope; // Local topographic steepness influencing gravity-related movement penalties and mode changes
+        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
+        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
+    };
+    aerial?: {
+        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
+        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
+    };
+    aquatic?: {
+        depth: WaterDepth; // Water body depth classification affecting swimming difficulty and movement mode
+        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
+        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
+    };
+    subterranean?: {
+        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
+        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
+    };
+}
+
+export interface RouteSegment {
+    gridLocations: GridLocation[]; // List of grid locations that this segment covers
+    class: string; // Classification of the route segment (e.g., trail, road, river)
+    envOverride?: Partial<Omit<GridEnvironmentProfile, "biome">>; // Optional overrides for the environment profile
+}
+
+export interface RouteProfile {
+    id: string; // Unique identifier for the route profile
+    name: string; // Human-readable name for the route profile
+    segments: RouteSegment[]; // Ordered list of route segments composing the full route
+}
+
+export interface SOHLSceneProfile {
+    defaultEnvironment: GridEnvironmentProfile; // Default environment profile for the scene
+    environmentProfiles: GridLocationsProfile[]; // List of environment profiles for the scene
+    routeProfiles: RouteProfile[]; // List of route profiles for the scene
+}
 
 export const {
     kind: SEASON,
@@ -513,154 +547,152 @@ export interface BiomeWeatherProfile {
     diurnalNightBias?: number;
 }
 
-export const DEFAULT_BIOME_WEATHER_PROFILE: Record<
-    number,
-    BiomeWeatherProfile
-> = {
-    // arctic / polar
-    [BIOME.ARCTIC_ICEFIELD]: {
-        tempOffset: -2,
-        cloudinessOffset: 0,
-        precipOffset: -1,
-        // Cold, high albedo, often long nights → small but real diurnal swing,
-        // with some pre-dawn cooling when there is an actual night.
-        diurnalTempAmplitude: 0.8,
-        diurnalNightBias: 0.5,
-    },
-    [BIOME.ARCTIC_TUNDRA]: {
-        tempOffset: -2,
-        cloudinessOffset: 0,
-        // Less ice cover than icefields, a bit more exposed ground → slightly
-        // larger diurnal swing than pure ice.
-        diurnalTempAmplitude: 1.5,
-        diurnalNightBias: 0.7,
-    },
+export const DEFAULT_BIOME_WEATHER_PROFILE: StrictObject<BiomeWeatherProfile> =
+    {
+        // arctic / polar
+        [BIOME.ARCTIC_ICEFIELD]: {
+            tempOffset: -2,
+            cloudinessOffset: 0,
+            precipOffset: -1,
+            // Cold, high albedo, often long nights → small but real diurnal swing,
+            // with some pre-dawn cooling when there is an actual night.
+            diurnalTempAmplitude: 0.8,
+            diurnalNightBias: 0.5,
+        },
+        [BIOME.ARCTIC_TUNDRA]: {
+            tempOffset: -2,
+            cloudinessOffset: 0,
+            // Less ice cover than icefields, a bit more exposed ground → slightly
+            // larger diurnal swing than pure ice.
+            diurnalTempAmplitude: 1.5,
+            diurnalNightBias: 0.7,
+        },
 
-    // subarctic / taiga
-    [BIOME.SUBARCTIC_TAIGA]: {
-        tempOffset: -1,
-        cloudinessOffset: +1,
-        precipOffset: +1,
-        // Forest canopy damps extremes; still noticeable night-time cooling.
-        diurnalTempAmplitude: 1.0,
-        diurnalNightBias: 0.5,
-    },
+        // subarctic / taiga
+        [BIOME.SUBARCTIC_TAIGA]: {
+            tempOffset: -1,
+            cloudinessOffset: +1,
+            precipOffset: +1,
+            // Forest canopy damps extremes; still noticeable night-time cooling.
+            diurnalTempAmplitude: 1.0,
+            diurnalNightBias: 0.5,
+        },
 
-    // mountains & alpine
-    [BIOME.MOUNTAIN_ALPINE]: {
-        tempOffset: -1,
-        storminessOffset: +1,
-        // High, thin air → decent swings; rocks and sparse vegetation lose heat at night.
-        diurnalTempAmplitude: 1.5,
-        diurnalNightBias: 0.8,
-    },
+        // mountains & alpine
+        [BIOME.MOUNTAIN_ALPINE]: {
+            tempOffset: -1,
+            storminessOffset: +1,
+            // High, thin air → decent swings; rocks and sparse vegetation lose heat at night.
+            diurnalTempAmplitude: 1.5,
+            diurnalNightBias: 0.8,
+        },
 
-    // deserts (hot & dry)
-    [BIOME.DESERT_DUNES]: {
-        tempOffset: +1,
-        precipOffset: -3,
-        cloudinessOffset: -2,
-        // Classic sandy desert: huge day/night spread, brutal pre-dawn cold.
-        diurnalTempAmplitude: 3.0,
-        diurnalNightBias: 1.5,
-    },
-    [BIOME.DESERT_ROCK]: {
-        tempOffset: +1,
-        precipOffset: -2,
-        cloudinessOffset: -1,
-        // Rock and broken terrain: big swings, slightly less than dunes.
-        diurnalTempAmplitude: 2.5,
-        diurnalNightBias: 1.0,
-    },
-    [BIOME.DESERT_SALT_FLAT]: {
-        tempOffset: +1,
-        precipOffset: -2,
-        cloudinessOffset: -1,
-        // Very exposed, very dry; strong radiative cooling at night.
-        diurnalTempAmplitude: 3.0,
-        diurnalNightBias: 1.5,
-    },
-    [BIOME.DESERT_SCRUB]: {
-        tempOffset: +1,
-        precipOffset: -1,
-        // Semi-arid; still big swings, but moderated by vegetation.
-        diurnalTempAmplitude: 2.0,
-        diurnalNightBias: 1.0,
-    },
+        // deserts (hot & dry)
+        [BIOME.DESERT_DUNES]: {
+            tempOffset: +1,
+            precipOffset: -3,
+            cloudinessOffset: -2,
+            // Classic sandy desert: huge day/night spread, brutal pre-dawn cold.
+            diurnalTempAmplitude: 3.0,
+            diurnalNightBias: 1.5,
+        },
+        [BIOME.DESERT_ROCK]: {
+            tempOffset: +1,
+            precipOffset: -2,
+            cloudinessOffset: -1,
+            // Rock and broken terrain: big swings, slightly less than dunes.
+            diurnalTempAmplitude: 2.5,
+            diurnalNightBias: 1.0,
+        },
+        [BIOME.DESERT_SALT_FLAT]: {
+            tempOffset: +1,
+            precipOffset: -2,
+            cloudinessOffset: -1,
+            // Very exposed, very dry; strong radiative cooling at night.
+            diurnalTempAmplitude: 3.0,
+            diurnalNightBias: 1.5,
+        },
+        [BIOME.DESERT_SCRUB]: {
+            tempOffset: +1,
+            precipOffset: -1,
+            // Semi-arid; still big swings, but moderated by vegetation.
+            diurnalTempAmplitude: 2.0,
+            diurnalNightBias: 1.0,
+        },
 
-    // grasslands / steppe / savanna
-    [BIOME.STEPPE]: {
-        tempOffset: 0,
-        precipOffset: -1,
-        // Open, often dry grassland → good swings, cool pre-dawn.
-        diurnalTempAmplitude: 2.0,
-        diurnalNightBias: 0.7,
-    },
-    [BIOME.SAVANNA]: {
-        tempOffset: +1,
-        precipOffset: 0,
-        // Warm, somewhat humid, open terrain; strong but not desert-level swings.
-        diurnalTempAmplitude: 2.5,
-        diurnalNightBias: 0.8,
-    },
+        // grasslands / steppe / savanna
+        [BIOME.STEPPE]: {
+            tempOffset: 0,
+            precipOffset: -1,
+            // Open, often dry grassland → good swings, cool pre-dawn.
+            diurnalTempAmplitude: 2.0,
+            diurnalNightBias: 0.7,
+        },
+        [BIOME.SAVANNA]: {
+            tempOffset: +1,
+            precipOffset: 0,
+            // Warm, somewhat humid, open terrain; strong but not desert-level swings.
+            diurnalTempAmplitude: 2.5,
+            diurnalNightBias: 0.8,
+        },
 
-    // wet / tropical
-    [BIOME.TROPICAL_RAINFOREST]: {
-        tempOffset: 0,
-        precipOffset: +2,
-        cloudinessOffset: +2,
-        storminessOffset: +1,
-        // Hot, humid, very cloudy: small diurnal swings, nights still warm.
-        diurnalTempAmplitude: 1.0,
-        diurnalNightBias: 0.2,
-    },
-    [BIOME.TROPICAL_SEASONAL_FOREST]: {
-        tempOffset: 0,
-        precipOffset: +1,
-        cloudinessOffset: +1,
-        // Transitional between rainforest and savanna; moderate swings.
-        diurnalTempAmplitude: 1.5,
-        diurnalNightBias: 0.4,
-    },
+        // wet / tropical
+        [BIOME.TROPICAL_RAINFOREST]: {
+            tempOffset: 0,
+            precipOffset: +2,
+            cloudinessOffset: +2,
+            storminessOffset: +1,
+            // Hot, humid, very cloudy: small diurnal swings, nights still warm.
+            diurnalTempAmplitude: 1.0,
+            diurnalNightBias: 0.2,
+        },
+        [BIOME.TROPICAL_SEASONAL_FOREST]: {
+            tempOffset: 0,
+            precipOffset: +1,
+            cloudinessOffset: +1,
+            // Transitional between rainforest and savanna; moderate swings.
+            diurnalTempAmplitude: 1.5,
+            diurnalNightBias: 0.4,
+        },
 
-    // coastal
-    [BIOME.COASTAL_BEACH]: {
-        storminessOffset: +1,
-        // Water moderates temps → modest swing, mild pre-dawn cooling.
-        diurnalTempAmplitude: 1.0,
-        diurnalNightBias: 0.3,
-    },
-    [BIOME.COASTAL_ROCKY_SHORE]: {
-        storminessOffset: +1,
-        cloudinessOffset: +1,
-        // Similar to beach, maybe slightly more exposed, but ocean still damps swings.
-        diurnalTempAmplitude: 1.0,
-        diurnalNightBias: 0.3,
-    },
-    [BIOME.COASTAL_WETLAND]: {
-        precipOffset: +1,
-        cloudinessOffset: +1,
-        // Humid, often cloudy → diurnal swings modest, closer to swamp.
-        diurnalTempAmplitude: 1.0,
-        diurnalNightBias: 0.3,
-    },
+        // coastal
+        [BIOME.COASTAL_BEACH]: {
+            storminessOffset: +1,
+            // Water moderates temps → modest swing, mild pre-dawn cooling.
+            diurnalTempAmplitude: 1.0,
+            diurnalNightBias: 0.3,
+        },
+        [BIOME.COASTAL_ROCKY_SHORE]: {
+            storminessOffset: +1,
+            cloudinessOffset: +1,
+            // Similar to beach, maybe slightly more exposed, but ocean still damps swings.
+            diurnalTempAmplitude: 1.0,
+            diurnalNightBias: 0.3,
+        },
+        [BIOME.COASTAL_WETLAND]: {
+            precipOffset: +1,
+            cloudinessOffset: +1,
+            // Humid, often cloudy → diurnal swings modest, closer to swamp.
+            diurnalTempAmplitude: 1.0,
+            diurnalNightBias: 0.3,
+        },
 
-    // open sea / islands
-    [BIOME.CORAL_ISLAND]: {
-        precipOffset: +1,
-        storminessOffset: +1,
-        // Small landmass in warm sea: a bit more swing than open ocean, still muted.
-        diurnalTempAmplitude: 1.2,
-        diurnalNightBias: 0.4,
-    },
-    [BIOME.OPEN_SEA]: {
-        precipOffset: +1,
-        storminessOffset: +2,
-        // Huge thermal inertia: tiny diurnal temp changes, slight pre-dawn bias.
-        diurnalTempAmplitude: 0.5,
-        diurnalNightBias: 0.2,
-    },
-};
+        // open sea / islands
+        [BIOME.CORAL_ISLAND]: {
+            precipOffset: +1,
+            storminessOffset: +1,
+            // Small landmass in warm sea: a bit more swing than open ocean, still muted.
+            diurnalTempAmplitude: 1.2,
+            diurnalNightBias: 0.4,
+        },
+        [BIOME.OPEN_SEA]: {
+            precipOffset: +1,
+            storminessOffset: +2,
+            // Huge thermal inertia: tiny diurnal temp changes, slight pre-dawn bias.
+            diurnalTempAmplitude: 0.5,
+            diurnalNightBias: 0.2,
+        },
+    };
 
 export const {
     kind: WEATHER,
@@ -876,14 +908,14 @@ export const {
 });
 export type ValueDeltaInfo =
     (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
-export const VALUE_DELTA_ID: StrictObject<{ name: string; abbrev: string }> =
+export const VALUE_DELTA_ID: StrictObject<{ name: string; shortcode: string }> =
     ValueDeltaInfos.reduce(
         (acc, val: string) => {
             const name = `SOHL.ValueDelta.INFO.${val}`;
-            acc[val] = { name, abbrev: val };
+            acc[val] = { name, shortcode: val };
             return acc;
         },
-        {} as StrictObject<{ name: string; abbrev: string }>,
+        {} as StrictObject<{ name: string; shortcode: string }>,
     );
 
 export const {
@@ -1077,7 +1109,7 @@ export const {
 } = defineType("SOHL.Being.EffectKey", {
     ENGOPP: {
         name: "mod:system.engagedOpponents",
-        abbrev: "EngOpp",
+        shortcode: "EngOpp",
     },
 } as PlainObject);
 export type SohlBeingEffectKey =
@@ -1091,27 +1123,27 @@ export const {
 } = defineType("SOHL.StrikeMode.EffectKey", {
     IMPACT: {
         name: "system.logic.impact",
-        abbrev: "Imp",
+        shortcode: "Imp",
     },
     ATTACK: {
         name: "system.logic.attack",
-        abbrev: "Atk",
+        shortcode: "Atk",
     },
     BLOCK: {
         name: "system.logic.defense.block",
-        abbrev: "Blk",
+        shortcode: "Blk",
     },
     COUNTERSTRIKE: {
         name: "system.logic.defense.counterstrike",
-        abbrev: "CXMod",
+        shortcode: "CXMod",
     },
     NOATTACK: {
         name: "system.logic.traits.noAttack",
-        abbrev: "NoAtk",
+        shortcode: "NoAtk",
     },
     NOBLOCK: {
         name: "system.logic.traits.noBlock",
-        abbrev: "NoBlk",
+        shortcode: "NoBlk",
     },
 } as StrictObject<SohlLogic.EffectKeyData>);
 export type StrikeModeEffectKey =
@@ -1140,15 +1172,15 @@ export const {
     ...STRIKE_MODE_EFFECT_KEY,
     LENGTH: {
         name: "system.logic.length",
-        abbrev: "Len",
+        shortcode: "Len",
     },
     BLOCK: {
         name: "system.logic.defense.block",
-        abbrev: "Blk",
+        shortcode: "Blk",
     },
     COUNTERSTRIKE: {
         name: "system.logic.defense.counterstrike",
-        abbrev: "CX",
+        shortcode: "CX",
     },
 } as StrictObject<SohlLogic.EffectKeyData>);
 export type MeleeWeaponStrikeModeEffectKey =
@@ -1356,43 +1388,6 @@ export type ConcoctionGearPotency =
     (typeof CONCOCTIONGEAR_POTENCY)[keyof typeof CONCOCTIONGEAR_POTENCY];
 
 export const {
-    kind: DOMAIN_EMBODIMENT_CATEGORY,
-    values: DomainEmbodimentCategories,
-    isValue: isDomainEmbodimentCategory,
-} = defineType("SOHL.Domain.EMBODIMENT_CATEGORY", {
-    DREAMS: "dreams",
-    DEATH: "death",
-    VIOLENCE: "violence",
-    PEACE: "peace",
-    FERTILITY: "fertility",
-    ORDER: "order",
-    KNOWLEDGE: "knowledge",
-    PROSPERITY: "prosperity",
-    FIRE: "fire",
-    CREATION: "creation",
-    VOYAGER: "voyager",
-    DECAY: "decay",
-});
-export type DomainEmbodimentCategory =
-    (typeof DOMAIN_EMBODIMENT_CATEGORY)[keyof typeof DOMAIN_EMBODIMENT_CATEGORY];
-
-export const {
-    kind: DOMAIN_ELEMENT_CATEGORY,
-    values: DomainElementCategories,
-    isValue: isDomainElementCategory,
-} = defineType("SOHL.Domain.ELEMENT_CATEGORY", {
-    FIRE: "fire",
-    WATER: "water",
-    EARTH: "earth",
-    SPIRIT: "spirit",
-    WIND: "wind",
-    METAL: "metal",
-    ARCANA: "arcana",
-});
-export type DomainElementCategory =
-    (typeof DOMAIN_ELEMENT_CATEGORY)[keyof typeof DOMAIN_ELEMENT_CATEGORY];
-
-export const {
     kind: ACTION_SUBTYPE,
     values: ActionSubTypes,
     isValue: isActionSubType,
@@ -1500,18 +1495,18 @@ export type MysticalDeviceSubType =
     (typeof MYSTICALDEVICE_SUBTYPE)[keyof typeof MYSTICALDEVICE_SUBTYPE];
 
 export const {
-    kind: PHILOSOPHY_SUBTYPE,
-    values: PhilosophySubTypes,
-    isValue: isPhilosophySubType,
-} = defineType("SOHL.Philosophy.SUBTYPE", {
+    kind: DOMAIN_SUBTYPE,
+    values: DomainSubTypes,
+    isValue: isDomainSubType,
+} = defineType("SOHL.Domain.SubType", {
     ARCANE: "arcane",
     DIVINE: "divine",
     SPIRIT: "spirit",
     ASTRAL: "astral",
     NATURAL: "natural",
 });
-export type PhilosophySubType =
-    (typeof PHILOSOPHY_SUBTYPE)[keyof typeof PHILOSOPHY_SUBTYPE];
+export type DomainSubType =
+    (typeof DOMAIN_SUBTYPE)[keyof typeof DOMAIN_SUBTYPE];
 
 export const {
     kind: PROJECTILEGEAR_SUBTYPE,
@@ -1845,9 +1840,9 @@ export const {
             const item = getContextItem(header);
             if (!item?.actor?.items) return false;
             const dodge = Itr.from(item.actor.items.values()).find(
-                // @ts-ignore
-                (it: SohlItem) =>
-                    it.type === ITEM_KIND.SKILL && it.name === "Dodge",
+                (it) =>
+                    (it as SohlItem).type === ITEM_KIND.SKILL &&
+                    it.name === "Dodge",
             ) as SohlItem | null;
             return !!(
                 dodge &&
@@ -2120,18 +2115,15 @@ export function defineType<const T extends Record<string, unknown>>(
     };
 }
 
-export function getContextItem(header: HTMLElement): SohlItem<any, any> | null {
+export function getContextItem(header: HTMLElement): SohlItem | null {
     const element = header.closest(".item") as HTMLElement;
     const item =
         element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-    return item && typeof item === "object" ?
-            (item as SohlItem<any, any>)
-        :   null;
+    return item && typeof item === "object" ? (item as SohlItem) : null;
 }
 
 export function getContextLogic(element: HTMLElement): any {
     const found = element.closest(".logic") as any;
     if (!found) return null;
-    // @ts-ignore
     return fromUuidSync(found.dataset.uuid);
 }

@@ -12,6 +12,8 @@
  */
 
 import type { SohlActionContext } from "@common/SohlActionContext";
+import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlItem } from "@common/item/SohlItem";
 import { BeingData, BeingLogic, BeingSheet } from "@common/actor/Being";
 import { SohlActorSheetBase } from "@common/actor/SohlActor";
 
@@ -175,11 +177,11 @@ export class LgndBeingSheet extends BeingSheet {
 
     override async _preparePartContext(
         partId: string,
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        context = await super._preparePartContext(partId, context, options);
-
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         switch (partId) {
             case "profile":
                 return this._prepareProfileContext(context, options);
@@ -203,65 +205,83 @@ export class LgndBeingSheet extends BeingSheet {
     }
 
     async _prepareProfileContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareSkillsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareCombatContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareTraumaContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareMysteriesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareGearContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareActionsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareEventsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareEffectsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
@@ -308,8 +328,10 @@ export class LgndBeingSheet extends BeingSheet {
         }),
     ];
 
-    async _onRender(context: PlainObject, options: PlainObject): Promise<void> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
+    async _onRender(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<void> {
         super._onRender(context, options);
 
         // Rebind all search filters

@@ -11,6 +11,29 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * # MovementProfile
+ *
+ * A MovementProfile models one form of movement across a variety of terrains.
+ * For instance, a creature may be able to walk, swim, fly, or burrow. Each of
+ * these would be represented by a separate movement profile.
+ *
+ * ## Movement Types
+ *
+ * Each movement profile tracks movement in two ways:
+ *
+ * ### Tactical Movement
+ * Short-term movement, round to round, as normally determined during combat.
+ * The movement profile tracks the speed of such movement as a single number:
+ * the meters per round. This is the base movement speed, the normal speed of
+ * movement for the indicated mode.
+ *
+ * ### Strategic Movement (Trekking)
+ * Long-distance movement accounted in meters per watch. This is an array of
+ * numbers, one for each terrain type. The terrain types are mode-specific,
+ * as different movement modes encounter fundamentally different environments.
+ */
+
 import type { SohlActionContext } from "@common/SohlActionContext";
 
 import {
@@ -23,13 +46,28 @@ import {
 } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
-    ITEM_METADATA,
-    MOVEMENT_MODE,
-    MovementMode,
-    MovementModes,
+    MOVEMENT_MEDIUM,
+    MovementFactorModes,
+    MovementMedium,
+    MovementMediums,
 } from "@utils/constants";
-const { StringField, NumberField, BooleanField, ArrayField } =
+const { StringField, NumberField, BooleanField, ArrayField, SchemaField } =
     foundry.data.fields;
+
+/* -----------------------------------------------------------------------------
+ * The MovementProfile classes represent various forms of movement for actors.
+ * Each profile indicates a movement medium (land, swimming, flying, etc.) and
+ * tracks both tactical (meters per round) and strategic (meters per watch by
+ * terrain type) movement rates.
+ *
+ * For a given medium, there may be various factors that modify movement rates.
+ * For example, movement on a paved road may be at full movement speed, while
+ * movement through a dense forest may be at half speed. These factors are
+ * represented as an array of modifiers, each tied to a specific scope and key.
+ * Only those modifiers that apply to the current terrain and conditions are
+ * used to adjust the base movement rates.
+ * -----------------------------------------------------------------------------
+ */
 
 export class MovementProfileLogic<
     TData extends MovementProfileData = MovementProfileData,
@@ -57,7 +95,7 @@ export class MovementProfileLogic<
 export interface MovementProfileData<
     TLogic extends SohlItemLogic<MovementProfileData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
-    mode: MovementMode;
+    medium: MovementMedium;
 
     /** Tactical movement: meters per round (not terrain-specific) */
     metersPerRound: number;
@@ -71,21 +109,35 @@ export interface MovementProfileData<
 function defineMovementProfileDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        mode: new StringField({
+        medium: new StringField({
             required: true,
-            choices: MovementModes,
-            initial: MOVEMENT_MODE.LAND,
+            choices: MovementMediums,
+            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
         metersPerRound: new NumberField({
             integer: true,
             min: 0,
             initial: 0,
         }),
-        metersPerWatch: new ArrayField(
-            new NumberField({
-                integer: true,
-                min: 0,
-                initial: 0,
+        metersPerWatch: new NumberField({
+            integer: true,
+            min: 0,
+            initial: 0,
+        }),
+        factors: new ArrayField(
+            new SchemaField({
+                scope: new StringField({
+                    blank: false,
+                }),
+                key: new StringField({
+                    blank: false,
+                }),
+                mode: new NumberField({
+                    choices: MovementFactorModes,
+                }),
+                textValue: new StringField({
+                    blank: false,
+                }),
             }),
         ),
         disabled: new BooleanField({ initial: false }),
@@ -109,7 +161,7 @@ export class MovementProfileDataModel<
         "SOHL.MovementProfile.DATA",
     ];
     static override readonly kind = ITEM_KIND.MOVEMENTPROFILE;
-    mode!: MovementMode;
+    medium!: MovementMedium;
     metersPerRound!: number;
     metersPerWatch!: number[];
     disabled!: boolean;
@@ -120,10 +172,12 @@ export class MovementProfileDataModel<
 }
 
 export class MovementProfileSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

@@ -25,7 +25,7 @@ const kValueDelta = Symbol("ValueDelta");
  */
 export class ValueDelta extends SohlBase {
     name: string;
-    abbrev: string;
+    shortcode: string;
     op: number;
     value: string;
     readonly [kValueDelta] = true;
@@ -41,18 +41,18 @@ export class ValueDelta extends SohlBase {
     }
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
-        const { name, abbrev, op, value } = data as ValueDelta.Data;
+        const { name, shortcode, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
-        if (!abbrev) {
-            throw new Error("ValueDelta requires an abbrev");
+        if (!shortcode) {
+            throw new Error("ValueDelta requires an shortcode");
         }
 
         if (!name?.startsWith("SOHL.INFO."))
             throw new Error("ValueDelta name must start with SOHL.INFO.");
         super(data, options);
         this.name = name;
-        this.abbrev = abbrev;
+        this.shortcode = shortcode;
         this.op = op;
         if (op === VALUE_DELTA_OPERATOR.CUSTOM) {
             if (typeof strValue !== "string") {
@@ -120,7 +120,7 @@ export namespace ValueDelta {
 
     export interface Data {
         name: string;
-        abbrev: string;
+        shortcode: string;
         op: ValueDeltaOperator;
         value: ValueDeltaValue;
     }

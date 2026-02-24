@@ -15,6 +15,11 @@ import { TraitData, TraitLogic, TraitSheet } from "@common/item/Trait";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndTraitLogic extends TraitLogic<TraitData> {
+    get diceFormula(): string {
+        const raw = this.item.getFlag("sohl", "legendary.diceFormula");
+        return String(raw);
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

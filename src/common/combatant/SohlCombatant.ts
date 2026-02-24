@@ -35,10 +35,12 @@ export class SohlCombatant<
     override _getInitiativeFormula(): string {
         if (this.actor) {
             const init = this.actor.allItemTypes.skill.find(
-                (s) => (s.system as any).abbrev === "init",
-            ) as unknown as SohlItem<SkillLogic>;
+                (s) => (s.system as any).shortcode === "init",
+            ) as unknown as SohlItem;
             if (init) {
-                return String(init.logic.masteryLevel.effective);
+                return String(
+                    (init.logic as SkillLogic).masteryLevel.effective,
+                );
             }
         }
         return "0";

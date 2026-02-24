@@ -12,14 +12,10 @@
  */
 
 import {
-    DOMAIN_ELEMENT_CATEGORY,
-    DOMAIN_EMBODIMENT_CATEGORY,
-    DomainElementCategories,
-    DomainElementCategory,
-    DomainEmbodimentCategories,
-    DomainEmbodimentCategory,
     ITEM_KIND,
-    ITEM_METADATA,
+    DomainSubTypes,
+    DOMAIN_SUBTYPE,
+    DomainSubType,
 } from "@utils/constants";
 import type { SohlActionContext } from "@common/SohlActionContext";
 import {
@@ -29,15 +25,15 @@ import {
     SohlItemDataModel,
     SohlItemSheetBase,
 } from "@common/item/SohlItem";
-import { PhilosophyLogic } from "@common/item/Philosophy";
-const { ArrayField, StringField } = foundry.data.fields;
+import { PhilosophyLogic } from "./Philosophy";
+const { ArrayField, StringField, SchemaField, NumberField } =
+    foundry.data.fields;
 
 export class DomainLogic<TData extends DomainData = DomainData>
     extends SohlItemBaseLogic<TData>
     implements DomainLogic<TData>
 {
-    philosophy?: SohlItem;
-    category?: string;
+    philosophy?: PhilosophyLogic;
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -46,14 +42,16 @@ export class DomainLogic<TData extends DomainData = DomainData>
     /** @inheritdoc */
     override initialize(context: SohlActionContext): void {
         super.initialize(context);
-        if (this.item?.nestedIn?.type === ITEM_KIND.PHILOSOPHY) {
-            this.category = this.item?.nestedIn?.system.subType;
-        }
     }
 
     /** @inheritdoc */
     override evaluate(context: SohlActionContext): void {
         super.evaluate(context);
+        let item: SohlItem = this.item.actor?.allItemTypes.philosophy.find(
+            (p: SohlItem) =>
+                (p as any).system.shortcode === this.data.philosophyCode,
+        ) as SohlItem;
+        this.philosophy = item?.logic as PhilosophyLogic;
     }
 
     /** @inheritdoc */
@@ -64,33 +62,22 @@ export class DomainLogic<TData extends DomainData = DomainData>
 
 export interface DomainData<TLogic extends DomainLogic<any> = DomainLogic<any>>
     extends SohlItemData<TLogic> {
-    philosophy: string;
-    abbrev: string;
-    cusp: string;
-    magicMod: DomainElementCategory[];
-    embodiments: DomainEmbodimentCategory[];
+    subType: DomainSubType;
+    philosophyCode: string;
 }
 
 function defineDomainSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
-        cusp: new StringField(),
-        philosophy: new StringField(),
-        magicMod: new ArrayField(
-            new StringField({
-                initial: DOMAIN_ELEMENT_CATEGORY.ARCANA,
-                required: true,
-                choices: DomainElementCategories,
-            }),
-        ),
-        embodiments: new ArrayField(
-            new StringField({
-                initial: DOMAIN_EMBODIMENT_CATEGORY.DREAMS,
-                required: true,
-                choices: DomainEmbodimentCategories,
-            }),
-        ),
+        subType: new StringField({
+            choices: DomainSubTypes,
+            required: true,
+            default: DOMAIN_SUBTYPE.ARCANE,
+        }),
+        philosophyCode: new StringField({
+            blank: false,
+            required: true,
+        }),
     };
 }
 
@@ -105,11 +92,8 @@ export class DomainDataModel<
 {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Domain.DATA"];
     static override readonly kind = ITEM_KIND.DOMAIN;
-    abbrev!: string;
-    cusp!: string;
-    philosophy!: string;
-    magicMod!: DomainElementCategory[];
-    embodiments!: DomainEmbodimentCategory[];
+    subType!: DomainSubType;
+    philosophyCode!: string;
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineDomainSchema();
@@ -117,10 +101,12 @@ export class DomainDataModel<
 }
 
 export class DomainSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

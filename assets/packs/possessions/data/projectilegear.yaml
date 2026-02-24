@@ -24,7 +24,7 @@
   AEID: 7viaJDaTYHQmdIc1
   ARvalue: 4
   bleed: false
-  abbrev: ArwHBod
+  shortcode: ArwHBod
   createdEventId: HTcDKE0hcAoSMqds
   description: ""
   notes: ""
@@ -46,7 +46,7 @@
   AEID: wD0YOXSSVnz163Di
   ARvalue: 4
   bleed: true
-  abbrev: ArwHBrd
+  shortcode: ArwHBrd
   createdEventId: l0xpFFE6iYqf4wV9
   description: ""
   notes: ""
@@ -68,7 +68,7 @@
   AEID: 3ujHKFd13NXz0gZ8
   ARvalue: 4
   bleed: true
-  abbrev: ArwHBlt
+  shortcode: ArwHBlt
   createdEventId: g2mveWjElBfiuqGC
   description: ""
   notes: ""
@@ -90,7 +90,7 @@
   AEID: CBdsbWmQPTCj0UQW
   ARvalue: 4
   bleed: false
-  abbrev: ArwLBod
+  shortcode: ArwLBod
   createdEventId: j8Ltxqs9ZUbX9qJc
   description: ""
   notes: ""
@@ -112,7 +112,7 @@
   AEID: hIIRfHoO4Bg2qpy6
   ARvalue: 4
   bleed: true
-  abbrev: ArwLBrd
+  shortcode: ArwLBrd
   createdEventId: bBMb1YO0XaqhjJO2
   description: ""
   notes: ""
@@ -134,7 +134,7 @@
   AEID: GfAZI7VCjPPZ2EXB
   ARvalue: 4
   bleed: true
-  abbrev: ArwLBlt
+  shortcode: ArwLBlt
   createdEventId: RwiVcEaac7CPeP4Q
   description: ""
   notes: ""
@@ -156,7 +156,7 @@
   AEID: a2JMRbK5BZZrS24V
   ARvalue: 4
   bleed: false
-  abbrev: BltHBod
+  shortcode: BltHBod
   createdEventId: OLDp5eXC65JuiFKB
   description: ""
   notes: ""
@@ -178,7 +178,7 @@
   AEID: UgpUwMpVWMFAAg8z
   ARvalue: 4
   bleed: true
-  abbrev: BltHBrd
+  shortcode: BltHBrd
   createdEventId: hoacrfTVgPwkjV86
   description: ""
   notes: ""
@@ -200,7 +200,7 @@
   AEID: MwfdugqZnIw4tOTv
   ARvalue: 4
   bleed: true
-  abbrev: BltHBlt
+  shortcode: BltHBlt
   createdEventId: 2qF8oh8iIKvRvzOS
   description: ""
   notes: ""
@@ -222,7 +222,7 @@
   AEID: fRsvceBtsvwcY0hZ
   ARvalue: 4
   bleed: false
-  abbrev: BltLBod
+  shortcode: BltLBod
   createdEventId: zB4r2Byae3HKjXbE
   description: ""
   notes: ""
@@ -244,7 +244,7 @@
   AEID: 41G9o7MulS7xPSWc
   ARvalue: 4
   bleed: true
-  abbrev: BltLBrd
+  shortcode: BltLBrd
   createdEventId: soydP40LD5wPQxx0
   description: ""
   notes: ""
@@ -266,7 +266,7 @@
   AEID: ef0XTsMJ59b7CWQ8
   ARvalue: 4
   bleed: true
-  abbrev: BltLBlt
+  shortcode: BltLBlt
   createdEventId: wcdozC8J5nmMLV4O
   description: ""
   notes: ""
@@ -288,7 +288,7 @@
   AEID: ""
   ARvalue: ""
   bleed: false
-  abbrev: LBul
+  shortcode: LBul
   createdEventId: Ieqqkm7bzQadrRBO
   description: ""
   notes: ""
@@ -310,7 +310,7 @@
   AEID: ""
   ARvalue: ""
   bleed: false
-  abbrev: SSton
+  shortcode: SSton
   createdEventId: Aq8pi803048KRubh
   description: ""
   notes: ""
@@ -332,7 +332,7 @@
   AEID: ""
   ARvalue: ""
   bleed: false
-  abbrev: BDrt
+  shortcode: BDrt
   createdEventId: c4PJXfkDcb6QDGg5
   description: ""
   notes: ""

@@ -12,7 +12,7 @@
  */
 
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     MasteryLevelLogic,
     MasteryLevelDataModel,
@@ -140,10 +140,12 @@ export class TraitDataModel<
 }
 
 export class TraitSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

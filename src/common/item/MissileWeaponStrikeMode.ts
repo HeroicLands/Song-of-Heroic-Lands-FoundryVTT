@@ -12,7 +12,7 @@
  */
 
 import type { SohlActionContext } from "@common/SohlActionContext";
-import { SohlItemSheetBase } from "@common/item/SohlItem";
+import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import {
     ITEM_KIND,
     ITEM_METADATA,
@@ -95,10 +95,12 @@ export class MissileWeaponStrikeModeDataModel<
 }
 
 export class MissileWeaponStrikeModeSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

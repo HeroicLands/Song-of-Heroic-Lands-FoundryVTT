@@ -24,6 +24,7 @@ import {
     BiomeWeatherProfile,
     WeatherContext,
     DEFAULT_BIOME_WEATHER_PROFILE,
+    WEATHER,
 } from "@utils/constants";
 import { SohlCalendarData } from "@common/SohlCalendar";
 type RNG = () => number; // 0..1
@@ -527,25 +528,25 @@ export class WeatherGrid {
      * probabilities of transitioning to one of a few neighboring regimes:
      *
      * - From FAIR:
-     *   - roll &lt; 0.90 → FAIR (persist)
-     *   - 0.90 ≤ roll &lt; 0.93 → UNSETTLED
-     *   - 0.93 ≤ roll &lt; 0.96 → HEATWAVE
-     *   - 0.96 ≤ roll &lt; 0.99 → COLD_SNAP
-     *   - 0.99 ≤ roll &lt; 1.00 → STORMY
+     *   - roll < 0.90 → FAIR (persist)
+     *   - 0.90 ≤ roll < 0.93 → UNSETTLED
+     *   - 0.93 ≤ roll < 0.96 → HEATWAVE
+     *   - 0.96 ≤ roll < 0.99 → COLD_SNAP
+     *   - 0.99 ≤ roll < 1.00 → STORMY
      *
      * - From UNSETTLED:
-     *   - roll &lt; 0.90 → UNSETTLED (persist)
-     *   - 0.90 ≤ roll &lt; 0.95 → FAIR
-     *   - 0.95 ≤ roll &lt; 1.00 → STORMY
+     *   - roll < 0.90 → UNSETTLED (persist)
+     *   - 0.90 ≤ roll < 0.95 → FAIR
+     *   - 0.95 ≤ roll < 1.00 → STORMY
      *
      * - From STORMY:
-     *   - roll &lt; 0.90 → STORMY (persist)
-     *   - 0.90 ≤ roll &lt; 0.98 → UNSETTLED
-     *   - 0.98 ≤ roll &lt; 1.00 → FAIR
+     *   - roll < 0.90 → STORMY (persist)
+     *   - 0.90 ≤ roll < 0.98 → UNSETTLED
+     *   - 0.98 ≤ roll < 1.00 → FAIR
      *
      * - From HEATWAVE or COLD_SNAP:
-     *   - roll &lt; 0.98 → remain in the same extreme regime
-     *   - 0.98 ≤ roll &lt; 1.00 → FAIR
+     *   - roll < 0.98 → remain in the same extreme regime
+     *   - 0.98 ≤ roll < 1.00 → FAIR
      *
      * This keeps regimes "sticky" most of the time while allowing occasional
      * shifts between stable, unsettled, and extreme conditions.
@@ -1097,12 +1098,40 @@ export class WeatherGrid {
         return idx;
     }
 
+    private static BEAUFORT_TO_MPS = [
+        0, // 0: Calm (0 kph; 0 mph)
+        1, // 1: Light Air (3.6 kph; 2 mph)
+        2.5, // 2: Light Breeze (9 kph; 6 mph)
+        4, // 3: Gentle Breeze (14.4 kph; 9 mph)
+        6.5, // 4: Moderate Breeze (23.4 kph; 15 mph)
+        9.5, // 5: Fresh Breeze (34.2 kph; 21 mph)
+        12.5, // 6: Strong Breeze (45 kph; 28 mph)
+        16, // 7: High Wind (57.6 kph; 36 mph)
+        20, // 8: Gale (72 kph; 45 mph)
+        24.5, // 9: Severe Gale (88.2 kph; 55 mph)
+        29.5, // 10: Storm (106.2 kph; 66 mph)
+        35, // 11: Violent Storm (126 kph; 78 mph)
+        40.5, // 12: Hurricane (≥145.8 kph; ≥91 mph)
+    ];
+
+    /**
+     * Converts a Beaufort Scale wind-force value to meters per second.
+     *
+     * Looks up the corresponding m/s value in the BEAUFORT_TO_MPS table, clamping
+     * the input force to the valid range [0, 12].
+     *
+     * @param force - The Beaufort Scale wind-force band value (0-12) to convert
+     * @returns The wind magnitude in meters per second
+     */
     private forceToMagnitude(force: number): number {
-        // Convert a discrete wind-force band into a cartesian magnitude for
-        // vector smoothing. Currently this is an identity mapping (band==mag)
-        // but it is extracted so it can be replaced with a real mapping
-        // (e.g., Beaufort scale → m/s) later without touching smoothing code.
-        return force;
+        const clampedForce = Math.floor(clamp(force, 0, 12));
+        const result = WeatherGrid.BEAUFORT_TO_MPS.at(clampedForce);
+        if (result === undefined) {
+            throw new Error(
+                `Invalid wind force value: ${force} (clamped to ${clampedForce})`,
+            );
+        }
+        return result;
     }
 
     /**
@@ -1164,9 +1193,10 @@ export class WeatherGrid {
             const mag = Math.sqrt(u * u + v * v);
             const angle = Math.atan2(v, u);
             this.grid[i].windDir = this.angleToDirIndex(angle);
-            this.grid[i].windForce = Math.max(
+            this.grid[i].windForce = clamp(
+                Math.round(mag),
                 WEATHER_WIND_FORCE.CALM,
-                Math.min(WEATHER_WIND_FORCE.HURRICANE, Math.round(mag)),
+                WEATHER_WIND_FORCE.HURRICANE,
             );
         }
     }
@@ -1245,22 +1275,46 @@ export class WeatherGrid {
 }
 
 /**
- * Compute solar declination (radians) for an Earth-like 360-day year
- * where day 0 is the vernal equinox.
+ * Calculates the solar declination angle for a given day of the year.
+ * Solar declination is the angle between the sun's rays and the plane of the earth's equator.
+ *
+ * @param dayOfYear - The day of the year (0-365), where values are normalized to 0-360 range
+ * @returns The solar declination angle in radians
+ *
+ * @remarks
+ * This calculation uses the solar longitude (lambda) and assumes an earthlike obliquity angle.
+ * The result is used in solar positioning and weather calculations.
  */
 function solarDeclination(dayOfYear: number): number {
     const lambda = (2 * Math.PI * (dayOfYear % 360)) / 360; // solar longitude
     return Math.asin(Math.sin(EARTHLIKE_OBLIQUITY) * Math.sin(lambda));
 }
 
+/**
+ * Clamps a number to be within a specified range.
+ * @param v - The value to clamp.
+ * @param min - The minimum allowed value.
+ * @param max - The maximum allowed value.
+ * @returns The clamped value, constrained between min and max (inclusive).
+ */
 function clamp(v: number, min: number, max: number): number {
     if (v < min) return min;
     if (v > max) return max;
     return v;
 }
 
+/**
+ * Determines the season based on the day of the year.
+ * @param day - The day of the year (0-359, or any number that will be normalized to this range)
+ * @returns The season corresponding to the given day: "spring", "summer", "autumn", or "winter"
+ * @example
+ * seasonFromDayOfYear(45)  // returns "spring"
+ * seasonFromDayOfYear(135) // returns "summer"
+ * seasonFromDayOfYear(225) // returns "autumn"
+ * seasonFromDayOfYear(315) // returns "winter"
+ */
 function seasonFromDayOfYear(day: number): Season {
-    const d = ((day % 360) + 360) % 360;
+    const d = ((day % 360) + 360) % 360; // normalize to [0, 359]
     if (d < 90) return "spring";
     if (d < 180) return "summer";
     if (d < 270) return "autumn";

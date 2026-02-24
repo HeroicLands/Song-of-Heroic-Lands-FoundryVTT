@@ -13,6 +13,8 @@
 
 import type { SohlActionContext } from "@common/SohlActionContext";
 import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { DomainLogic } from "@common/item/Domain";
+import type { SkillLogic } from "@common/item/Skill";
 import {
     MasteryLevelLogic,
     MasteryLevelDataModel,
@@ -53,8 +55,8 @@ export class MysticalAbilityLogic<
     extends MasteryLevelLogic<TData>
     implements MysticalAbilityLogic<TData>
 {
-    assocSkill?: SohlItem;
-    domain?: SohlItem;
+    assocSkill?: SkillLogic;
+    domain?: DomainLogic;
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -68,13 +70,6 @@ export class MysticalAbilityLogic<
     /** @inheritdoc */
     initialize(context: SohlActionContext): void {
         super.initialize(context);
-        if (this.data.assocSkill) {
-            this.assocSkill = this.actor?.allItems.find(
-                (it) =>
-                    it.type === ITEM_KIND.SKILL &&
-                    it.name === this.data.assocSkill,
-            );
-        }
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.value,
@@ -92,6 +87,17 @@ export class MysticalAbilityLogic<
     /** @inheritdoc */
     evaluate(context: SohlActionContext): void {
         super.evaluate(context);
+
+        if (!this.actor) return;
+        const allItemTypes = this.actor.allItemTypes;
+
+        this.domain = allItemTypes.domain.find(
+            (it: SohlItem) => it.system.shortcode === this.data.domainCode,
+        )?.logic as DomainLogic;
+
+        this.assocSkill = allItemTypes.skill.find(
+            (it: SohlItem) => it.system.shortcode === this.data.assocSkillCode,
+        )?.logic as SkillLogic;
     }
 
     /** @inheritdoc */
@@ -105,12 +111,9 @@ export interface MysticalAbilityData<
         MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<any>,
 > extends MasteryLevelData<TLogic> {
     subType: MysticalAbilitySubType;
-    assocSkill: string;
+    assocSkillCode?: string;
     isImprovable: boolean;
-    domain: {
-        philosophy: string;
-        name: string;
-    };
+    domainCode?: string;
     levelBase: number;
     charges: {
         value: number;
@@ -125,11 +128,14 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             choices: MysticalAbilitySubTypes,
             required: true,
         }),
-        assocSkill: new StringField(),
+        assocSkillCode: new StringField({
+            blank: false,
+            nullable: true,
+        }),
         isImprovable: new BooleanField({ initial: false }),
-        domain: new SchemaField({
-            philosophy: new StringField(),
-            name: new StringField(),
+        domainCode: new StringField({
+            blank: false,
+            nullable: true,
         }),
         levelBase: new NumberField({
             integer: true,
@@ -174,12 +180,9 @@ export class MysticalAbilityDataModel<
     ];
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
-    assocSkill!: string;
+    assocSkillCode?: string;
     isImprovable!: boolean;
-    domain!: {
-        philosophy: string;
-        name: string;
-    };
+    domainCode?: string;
     levelBase!: number;
     charges!: {
         value: number;
@@ -192,10 +195,12 @@ export class MysticalAbilityDataModel<
 }
 
 export class MysticalAbilitySheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

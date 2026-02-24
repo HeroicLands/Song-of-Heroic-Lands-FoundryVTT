@@ -14,13 +14,14 @@
 import type { SohlActionContext } from "@common/SohlActionContext";
 
 import {
+    SohlActor,
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorDataModel,
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
-import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
+import { ACTOR_KIND } from "@utils/constants";
 const { DocumentIdField } = foundry.data.fields;
 
 export class AssemblyLogic<
@@ -94,4 +95,13 @@ export class AssemblyDataModel<
     }
 }
 
-export class AssemblySheet extends SohlActorSheetBase {}
+export class AssemblySheet extends SohlActorSheetBase {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        return context;
+    }
+}

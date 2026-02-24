@@ -16,9 +16,61 @@ import {
     BodyZoneLogic,
     BodyZoneSheet,
 } from "@common/item/BodyZone";
+import { SohlItem } from "@common/item/SohlItem";
 import { SohlActionContext } from "@common/SohlActionContext";
+import { TRAIT_INTENSITY } from "@utils/constants";
 
 export class LgndBodyZoneLogic extends BodyZoneLogic<BodyZoneData> {
+    get affectedSkills(): SohlItem[] {
+        const raw = this.item.getFlag("sohl", "legendary.affectedSkills");
+        let result: SohlItem[] = [];
+        if (Array.isArray(raw)) {
+            raw.reduce((ary: SohlItem[], name: string) => {
+                const item = this.actor?.allItemTypes.skills.find(
+                    (i) => i.name === name,
+                ) as SohlItem | undefined;
+                if (item) ary.push(item);
+                return ary;
+            }, result);
+        }
+        return result;
+    }
+
+    get affectedAttributes(): SohlItem[] {
+        const raw = this.item.getFlag("sohl", "legendary.affectedAttributes");
+        let result: SohlItem[] = [];
+        if (Array.isArray(raw)) {
+            raw.reduce((ary: SohlItem[], name: string) => {
+                const item = this.actor?.allItemTypes.traits.find(
+                    (i) =>
+                        i.system.intensity === TRAIT_INTENSITY.ATTRIBUTE &&
+                        i.name === name,
+                ) as SohlItem | undefined;
+                if (item) ary.push(item);
+                return ary;
+            }, result);
+        }
+        return result;
+    }
+
+    get affectsMobility(): boolean {
+        const raw = this.item.getFlag("sohl", "legendary.affectedAttributes");
+        return raw === true || raw === "true" || raw === 1 || raw === "1";
+    }
+
+    get zones(): number[] {
+        const raw = this.item.getFlag("sohl", "legendary.zones");
+        let result: number[] = [];
+        if (Array.isArray(raw)) {
+            raw.reduce((ary: number[], x: any) => {
+                const num = Number(x);
+                if (Number.isInteger(num)) ary.push(num);
+                return ary;
+            }, result);
+        }
+        return result;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

@@ -88,8 +88,7 @@ export class SohlActiveEffectConfig extends BaseAEConfig {
                     modes[value] = sohl.i18n.localize(`EFFECT.MODE_${key}`);
                     return modes;
                 }, {});
-                // @ts-expect-error - All Actor and Item types have a type property
-                const itemData = ITEM_METADATA[document.type];
+                const itemData = document.type in ITEM_METADATA ? ITEM_METADATA[document.type as keyof typeof ITEM_METADATA] : undefined;
                 partContext.keyChoices = itemData?.KeyChoices || [];
         }
         return partContext as foundry.applications.api.ApplicationV2.RenderContextOf<this>;

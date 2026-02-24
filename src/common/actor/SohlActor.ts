@@ -24,10 +24,7 @@ import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
-export class SohlActor<
-    TLogic extends SohlActorLogic<any> = SohlActorLogic<any>,
-    SubType extends Actor.SubType = Actor.SubType,
-> extends Actor<SubType> {
+export class SohlActor extends Actor {
     private _allItemsMap?: SohlMap<string, SohlItem>;
     private _allItemTypesCache?: StrictObject<SohlItem[]>;
     private _allItemsBuilt: boolean;
@@ -43,8 +40,8 @@ export class SohlActor<
      * @remarks
      * This is a convenience accessor to avoid having to access `this.system.logic`
      */
-    get logic(): TLogic {
-        return (this.system as any).logic as TLogic;
+    get logic(): SohlActorLogic<any> {
+        return (this.system as any).logic as SohlActorLogic<any>;
     }
 
     /**
@@ -110,7 +107,7 @@ export class SohlActor<
         // 1) Yield embedded items (fixed set)
         for (const [id, it] of this.items.entries()) {
             seen.add(id);
-            yield it;
+            yield it as SohlItem;
         }
 
         // 2) Repeatedly sweep virtuals until a full pass finds nothing new
@@ -143,7 +140,7 @@ export class SohlActor<
         this._allItemsMap = new SohlMap<string, SohlItem>();
 
         for (const [id, it] of this.items.entries()) {
-            this._allItemsMap.set(id, it);
+            this._allItemsMap.set(id, it as SohlItem);
         }
         for (const [id, it] of (this.system as any).virtualItems.entries()) {
             this._allItemsMap.set(id, it);
@@ -204,7 +201,8 @@ export class SohlActor<
     }
 
     prepareEmbeddedData(): void {
-        // @ts-expect-error TS doesn't recognize prepareEmbeddedData is declared in base class
+        // @ts-expect-error - prepareEmbeddedData exists in FoundryVTT V13 Actor but is missing from foundry-vtt-types
+        // It's called between prepareBaseData() and prepareDerivedData() in the data preparation lifecycle
         super.prepareEmbeddedData();
 
         const ctx = this._getContext();
@@ -532,17 +530,15 @@ export abstract class SohlActorDataModel<
     }
 }
 
-export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
+// Define the base type for the sheet
+const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
     SohlActor,
-    foundry.applications.api.DocumentSheetV2.AnyConstructor
->(
-    // @ts-ignore TypeScript has lost track of the super class due to erasure
-    foundry.applications.api
-        .DocumentSheetV2<SohlActor> as unknown as foundry.applications.api.DocumentSheetV2.AnyConstructor,
-) as unknown as AbstractConstructor) {
-    get document(): SohlItem {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        return super.document as SohlItem;
+    typeof foundry.applications.api.DocumentSheetV2<SohlActor>
+>(foundry.applications.api.DocumentSheetV2<SohlActor>);
+
+export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
+    get document(): SohlActor {
+        return super.document as SohlActor;
     }
 
     get actor(): SohlActor | null {
@@ -552,30 +548,35 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
     _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
         super._configureRenderOptions(options);
 
         // All actor sheets have these parts
         options.parts = ["header", "tabs", "facade"];
     }
 
-    async _prepareContext(options: any): Promise<PlainObject> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        return await super._prepareContext(options);
+    async _prepareContext(
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        const context = await super._prepareContext(options);
+
+        // Add any shared data needed across all parts here
+        // options.parts contains array of partIds being rendered
+        // e.g., ["header", "tabs", "facade"]
+
+        return context;
     }
 
     async _preparePartContext(
         partId: string,
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
-        // @ts-expect-error TypeScript has lost track of the super class due to erasure
-        context = await super._preparePartContext.call(
-            this,
-            partId,
-            context as any,
-            options as any,
-        );
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
+        // _preparePartContext is called for each part with the specific partId
+        // This is where you prepare part-specific data
         switch (partId) {
             case "header":
                 return await this._prepareHeaderContext(context, options);
@@ -589,23 +590,29 @@ export abstract class SohlActorSheetBase extends (SohlDataModel.SheetMixin<
     }
 
     async _prepareHeaderContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareTabsContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 
     async _prepareFacadeContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+    > {
         return context;
     }
 

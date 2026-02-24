@@ -19,6 +19,30 @@ import {
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndBodyLocationLogic extends BodyLocationLogic<BodyLocationData> {
+    get bleedingSevThreshold(): number {
+        const raw = this.item.getFlag("sohl", "legendary.bleedingSevThreshold");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
+    get amputateModifier(): number {
+        const raw = this.item.getFlag("sohl", "legendary.amputateModifier");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
+    get shockValue(): number {
+        const raw = this.item.getFlag("sohl", "legendary.shockValue");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
+    get probWeight(): number {
+        const raw = this.item.getFlag("sohl", "legendary.probWeight");
+        const num = Number(raw);
+        return Number.isInteger(num) ? num : 0;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

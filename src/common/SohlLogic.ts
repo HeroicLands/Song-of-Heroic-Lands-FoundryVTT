@@ -17,6 +17,7 @@ import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlDataModel } from "@common/SohlDataModel";
 import {
     ACTION_SUBTYPE,
+    ActorKinds,
     defineType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -127,24 +128,27 @@ export abstract class SohlLogic<
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
         const typeLabel = sohl.i18n.localize(
-            `TYPE.${["assembly", "being"].includes(type) ? "ITEM" : "ACTOR"}.${dataModel.parent.type}`,
+            `TYPE.${ActorKinds.includes(type) ? "ACTOR" : "ITEM"}.${dataModel.parent.type}`,
         );
         if (typeof (this.parent as any).subType === "string") {
-            return sohl.i18n.format("SOHL.BASEDATA.labelWithSubtype", {
-                type: typeLabel,
-                subtype: sohl.i18n.localize(
-                    `SOHL.PERFORMER.${type}.${(this.parent as any).subType}`,
-                ),
-            });
+            return sohl.i18n.format(
+                `SOHL.${type}.labelWithSubtype.${(this.parent as any).subType}`,
+            );
         } else {
             return typeLabel;
         }
     }
 
     get label(): string {
-        return sohl.i18n.format("SOHL.BASEDATA.docName", {
+        const dataModel = this.parent as any;
+        const type = dataModel.parent.type;
+        const name = sohl.localize(
+            `SOHL.${type}.${dataModel.shortcode}.label`,
+            dataModel.parent.name,
+        );
+        return sohl.i18n.format("SOHL.docLabelFormat", {
             type: this.typeLabel,
-            name: (this.parent as any).parent.name,
+            name,
         });
     }
 
@@ -275,7 +279,7 @@ export abstract class SohlLogic<
 export namespace SohlLogic {
     export interface EffectKeyData {
         name: string;
-        abbrev: string;
+        shortcode: string;
     }
 
     export interface Data<

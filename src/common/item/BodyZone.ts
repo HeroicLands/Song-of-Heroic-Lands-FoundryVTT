@@ -51,14 +51,11 @@ export class BodyZoneLogic<
 
 export interface BodyZoneData<
     TLogic extends BodyZoneLogic<BodyZoneData> = BodyZoneLogic<any>,
-> extends SohlItemData<TLogic> {
-    abbrev: string;
-}
+> extends SohlItemData<TLogic> {}
 
 function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        abbrev: new StringField(),
     };
 }
 
@@ -74,7 +71,6 @@ export class BodyZoneDataModel<
 {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyZone.DATA"];
     static override readonly kind = ITEM_KIND.BODYZONE;
-    abbrev!: string;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineBodyZoneDataSchema();
@@ -82,10 +78,12 @@ export class BodyZoneDataModel<
 }
 
 export class BodyZoneSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected override async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }

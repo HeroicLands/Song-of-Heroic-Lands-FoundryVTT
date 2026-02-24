@@ -31,6 +31,7 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
 import {
+    SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemDataModel,
@@ -199,7 +200,7 @@ export interface AfflictionData<
     transmission: AfflictionTransmission;
 }
 
-function defineAfflictionSchema(): PlainObject {
+function defineAfflictionSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
@@ -264,10 +265,12 @@ export class AfflictionDataModel<
 }
 
 export class AfflictionSheet extends SohlItemSheetBase {
-    override async _preparePropertiesContext(
-        context: PlainObject,
-        options: PlainObject,
-    ): Promise<PlainObject> {
+    protected async _preparePropertiesContext(
+        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
+        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+    ): Promise<
+        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+    > {
         return context;
     }
 }
@@ -291,7 +294,7 @@ export const {
         executor: "transmitAffliction",
         visible: serializeFn((header: HTMLElement) => {
             const item = getContextItem(header);
-            return item?.logic.canTransmit;
+            return (item?.logic as AfflictionLogic).canTransmit;
         }),
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },

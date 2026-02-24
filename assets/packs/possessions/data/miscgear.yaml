@@ -17,7 +17,7 @@
   durability: 7
   value: 10
   weight: 1.75
-  abbrev: "ShBldrc"
+  shortcode: "ShBldrc"
   macros: []
   flags: {}
   effects: []
@@ -30,7 +30,7 @@
   durability: 7
   value: 0.75
   weight: 0.1
-  abbrev: "Bandg"
+  shortcode: "Bandg"
   macros: []
   flags: {}
   effects: []
@@ -43,7 +43,7 @@
   durability: 7
   value: 100
   weight: 10
-  abbrev: "HvyBdrl"
+  shortcode: "HvyBdrl"
   macros: []
   flags: {}
   effects: []
@@ -56,7 +56,7 @@
   durability: 7
   value: 30
   weight: 4
-  abbrev: "LiteBdrl"
+  shortcode: "LiteBdrl"
   macros: []
   flags: {}
   effects: []
@@ -69,7 +69,7 @@
   durability: 7
   value: 8
   weight: 0.75
-  abbrev: "LBelt"
+  shortcode: "LBelt"
   macros: []
   flags: {}
   effects: []
@@ -82,7 +82,7 @@
   durability: 7
   value: 20
   weight: 8
-  abbrev: "HvyBlkt"
+  shortcode: "HvyBlkt"
   macros: []
   flags: {}
   effects: []
@@ -95,7 +95,7 @@
   durability: 7
   value: 10
   weight: 3
-  abbrev: "LiteBlkt"
+  shortcode: "LiteBlkt"
   macros: []
   flags: {}
   effects: []
@@ -108,7 +108,7 @@
   durability: 7
   value: 2
   weight: 0.05
-  abbrev: "BowSt"
+  shortcode: "BowSt"
   macros: []
   flags: {}
   effects: []
@@ -121,7 +121,7 @@
   durability: 7
   value: 10
   weight: 0.5
-  abbrev: "CbCndl"
+  shortcode: "CbCndl"
   macros: []
   flags: {}
   effects: []
@@ -134,7 +134,7 @@
   durability: 7
   value: 24
   weight: 1
-  abbrev: "BzwxCndl"
+  shortcode: "BzwxCndl"
   macros: []
   flags: {}
   effects: []
@@ -147,7 +147,7 @@
   durability: 7
   value: 8
   weight: 1
-  abbrev: "TlwCndl"
+  shortcode: "TlwCndl"
   macros: []
   flags: {}
   effects: []
@@ -160,7 +160,7 @@
   durability: 7
   value: 24
   weight: 5
-  abbrev: "CookKit"
+  shortcode: "CookKit"
   macros: []
   flags: {}
   effects: []
@@ -173,7 +173,7 @@
   durability: 7
   value: 36
   weight: 4
-  abbrev: "HndDrum"
+  shortcode: "HndDrum"
   macros: []
   flags: {}
   effects: []
@@ -186,7 +186,7 @@
   durability: 7
   value: 240
   weight: 15
-  abbrev: "dulcimer"
+  shortcode: "dulcimer"
   macros: []
   flags: {}
   effects: []
@@ -199,7 +199,7 @@
   durability: 7
   value: 0.25
   weight: 0.001
-  abbrev: "farthing"
+  shortcode: "farthing"
   macros: []
   flags: {}
   effects: []
@@ -212,7 +212,7 @@
   durability: 7
   value: 0.125
   weight: 0
-  abbrev: "fishhook"
+  shortcode: "fishhook"
   macros: []
   flags: {}
   effects: []
@@ -225,7 +225,7 @@
   durability: 7
   value: 2
   weight: 0.1
-  abbrev: "fishline"
+  shortcode: "fishline"
   macros: []
   flags: {}
   effects: []
@@ -238,7 +238,7 @@
   durability: 7
   value: 3
   weight: 0.5
-  abbrev: "WFlute"
+  shortcode: "WFlute"
   macros: []
   flags: {}
   effects: []
@@ -251,7 +251,7 @@
   durability: 7
   value: 240
   weight: 0.0625
-  abbrev: "goldcrown"
+  shortcode: "goldcrown"
   macros: []
   flags: {}
   effects: []
@@ -264,7 +264,7 @@
   durability: 7
   value: 35
   weight: 2
-  abbrev: "HvyGplHook"
+  shortcode: "HvyGplHook"
   macros: []
   flags: {}
   effects: []
@@ -277,7 +277,7 @@
   durability: 7
   value: 10
   weight: 2
-  abbrev: "LiteGplHook"
+  shortcode: "LiteGplHook"
   macros: []
   flags: {}
   effects: []
@@ -290,7 +290,7 @@
   durability: 7
   value: 18
   weight: 8
-  abbrev: "horseharness"
+  shortcode: "horseharness"
   macros: []
   flags: {}
   effects: []
@@ -303,7 +303,7 @@
   durability: 7
   value: 42
   weight: 6
-  abbrev: "AeolianHarp"
+  shortcode: "AeolianHarp"
   macros: []
   flags: {}
   effects: []
@@ -316,7 +316,7 @@
   durability: 7
   value: 1
   weight: 1
-  abbrev: "hay"
+  shortcode: "hay"
   macros: []
   flags: {}
   effects: []
@@ -329,7 +329,7 @@
   durability: 7
   value: 20
   weight: 1
-  abbrev: "HuntHorn"
+  shortcode: "HuntHorn"
   macros: []
   flags: {}
   effects: []
@@ -342,7 +342,7 @@
   durability: 7
   value: 12
   weight: 1
-  abbrev: "CuInkwl"
+  shortcode: "CuInkwl"
   macros: []
   flags: {}
   effects: []
@@ -355,7 +355,7 @@
   durability: 3
   value: 30
   weight: 1
-  abbrev: "GlInkwl"
+  shortcode: "GlInkwl"
   macros: []
   flags: {}
   effects: []
@@ -368,7 +368,7 @@
   durability: 7
   value: 12
   weight: 1
-  abbrev: "MtlLntn"
+  shortcode: "MtlLntn"
   macros: []
   flags: {}
   effects: []
@@ -381,7 +381,7 @@
   durability: 3
   value: 15
   weight: 1
-  abbrev: "lockpicks"
+  shortcode: "lockpicks"
   macros: []
   flags: {}
   effects: []
@@ -394,7 +394,7 @@
   durability: 7
   value: 200
   weight: 3
-  abbrev: "lute"
+  shortcode: "lute"
   macros: []
   flags: {}
   effects: []
@@ -407,7 +407,7 @@
   durability: 7
   value: 120
   weight: 3
-  abbrev: "lyre"
+  shortcode: "lyre"
   macros: []
   flags: {}
   effects: []
@@ -420,7 +420,7 @@
   durability: 5
   value: 20
   weight: 2
-  abbrev: "FeMirror"
+  shortcode: "FeMirror"
   macros: []
   flags: {}
   effects: []
@@ -433,7 +433,7 @@
   durability: 7
   value: 2
   weight: 1
-  abbrev: "nails"
+  shortcode: "nails"
   macros: []
   flags: {}
   effects: []
@@ -446,7 +446,7 @@
   durability: 3
   value: 9
   weight: 0.1
-  abbrev: "needles"
+  shortcode: "needles"
   macros: []
   flags: {}
   effects: []
@@ -459,7 +459,7 @@
   durability: 7
   value: 24
   weight: 9
-  abbrev: "PkHnss"
+  shortcode: "PkHnss"
   macros: []
   flags: {}
   effects: []
@@ -472,7 +472,7 @@
   durability: 7
   value: 2
   weight: 0.1
-  abbrev: "parch"
+  shortcode: "parch"
   macros: []
   flags: {}
   effects: []
@@ -485,7 +485,7 @@
   durability: 7
   value: 1
   weight: 0.05
-  abbrev: "QulPen"
+  shortcode: "QulPen"
   macros: []
   flags: {}
   effects: []
@@ -498,7 +498,7 @@
   durability: 7
   value: 1
   weight: 0.1
-  abbrev: "WdnPen"
+  shortcode: "WdnPen"
   macros: []
   flags: {}
   effects: []
@@ -511,7 +511,7 @@
   durability: 10
   value: 1
   weight: 0.004
-  abbrev: "pence"
+  shortcode: "pence"
   macros: []
   flags: {}
   effects: []
@@ -524,7 +524,7 @@
   durability: 7
   value: 60
   weight: 2
-  abbrev: "pipes"
+  shortcode: "pipes"
   macros: []
   flags: {}
   effects: []
@@ -537,7 +537,7 @@
   durability: 7
   value: 1
   weight: 0.333
-  abbrev: "piton"
+  shortcode: "piton"
   macros: []
   flags: {}
   effects: []
@@ -550,7 +550,7 @@
   durability: 7
   value: 8
   weight: 3
-  abbrev: "quiver"
+  shortcode: "quiver"
   macros: []
   flags: {}
   effects: []
@@ -563,7 +563,7 @@
   durability: 7
   value: 3
   weight: 3
-  abbrev: "FeRations"
+  shortcode: "FeRations"
   macros: []
   flags: {}
   effects: []
@@ -576,7 +576,7 @@
   durability: 7
   value: 2
   weight: 3
-  abbrev: "StdRations"
+  shortcode: "StdRations"
   macros: []
   flags: {}
   effects: []
@@ -589,7 +589,7 @@
   durability: 7
   value: 2
   weight: 0.27
-  abbrev: "HempRope1"
+  shortcode: "HempRope1"
   macros: []
   flags: {}
   effects: []
@@ -602,7 +602,7 @@
   durability: 7
   value: 1
   weight: 0.08
-  abbrev: "HempRope.5"
+  shortcode: "HempRope.5"
   macros: []
   flags: {}
   effects: []
@@ -615,7 +615,7 @@
   durability: 7
   value: 32
   weight: 0.08
-  abbrev: "SilkRope.5"
+  shortcode: "SilkRope.5"
   macros: []
   flags: {}
   effects: []
@@ -628,7 +628,7 @@
   durability: 7
   value: 16
   weight: 0.02
-  abbrev: "SilkRope.25"
+  shortcode: "SilkRope.25"
   macros: []
   flags: {}
   effects: []
@@ -641,7 +641,7 @@
   durability: 7
   value: 80
   weight: 10
-  abbrev: "saddle"
+  shortcode: "saddle"
   macros: []
   flags: {}
   effects: []
@@ -654,7 +654,7 @@
   durability: 7
   value: 250
   weight: 20
-  abbrev: "warsaddle"
+  shortcode: "warsaddle"
   macros: []
   flags: {}
   effects: []
@@ -667,7 +667,7 @@
   durability: 7
   value: 48
   weight: 0
-  abbrev: "scabbard"
+  shortcode: "scabbard"
   macros: []
   flags: {}
   effects: []
@@ -680,7 +680,7 @@
   durability: 7
   value: 144
   weight: 7.5
-  abbrev: "scales"
+  shortcode: "scales"
   macros: []
   flags: {}
   effects: []
@@ -693,7 +693,7 @@
   durability: 7
   value: 36
   weight: 0.25
-  abbrev: "signseal"
+  shortcode: "signseal"
   macros: []
   flags: {}
   effects: []
@@ -706,7 +706,7 @@
   durability: 4
   value: 96
   weight: 6
-  abbrev: "surgtools"
+  shortcode: "surgtools"
   macros: []
   flags: {}
   effects: []
@@ -719,7 +719,7 @@
   durability: 7
   value: 45
   weight: 18
-  abbrev: "tarp"
+  shortcode: "tarp"
   macros: []
   flags: {}
   effects: []
@@ -732,7 +732,7 @@
   durability: 7
   value: 216
   weight: 50
-  abbrev: "ConicTent"
+  shortcode: "ConicTent"
   macros: []
   flags: {}
   effects: []
@@ -745,7 +745,7 @@
   durability: 7
   value: 144
   weight: 35
-  abbrev: "LgRidgTent"
+  shortcode: "LgRidgTent"
   macros: []
   flags: {}
   effects: []
@@ -758,7 +758,7 @@
   durability: 7
   value: 96
   weight: 25
-  abbrev: "SmRidgTent"
+  shortcode: "SmRidgTent"
   macros: []
   flags: {}
   effects: []
@@ -771,7 +771,7 @@
   durability: 7
   value: 6
   weight: 2
-  abbrev: "tinderbox"
+  shortcode: "tinderbox"
   macros: []
   flags: {}
   effects: []
@@ -784,7 +784,7 @@
   durability: 7
   value: 1
   weight: 1
-  abbrev: "torch"
+  shortcode: "torch"
   macros: []
   flags: {}
   effects: []
@@ -797,7 +797,7 @@
   durability: 7
   value: 4
   weight: 0.2
-  abbrev: "twine"
+  shortcode: "twine"
   macros: []
   flags: {}
   effects: []
@@ -810,7 +810,7 @@
   durability: 3
   value: 1
   weight: 0.2
-  abbrev: "vellum"
+  shortcode: "vellum"
   macros: []
   flags: {}
   effects: []
@@ -823,7 +823,7 @@
   durability: 7
   value: 225
   weight: 1
-  abbrev: "wedge"
+  shortcode: "wedge"
   macros: []
   flags: {}
   effects: []
@@ -836,7 +836,7 @@
   durability: 7
   value: 36
   weight: 3
-  abbrev: "whetstone"
+  shortcode: "whetstone"
   macros: []
   flags: {}
   effects: []
