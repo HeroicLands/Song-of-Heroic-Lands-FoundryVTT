@@ -180,7 +180,14 @@ export abstract class SohlLogic<
         this.actions = [];
     }
 
-    setupIntrinsicActions(): void {}
+    setupIntrinsicActions(): void {
+        this.actions = Object.keys(INTRINSIC_ACTION).map((key) => {
+            const data = INTRINSIC_ACTION[key];
+            data.title ??= intrinsicActionLabels[key];
+            const action = new (this.constructor as any)(data, { parent: this });
+            return action as ActionLogic;
+        });
+    }
 
     setDefaultAction(action: ActionLogic[]): void {
         // Ensure there is at most one default, all others set to Essential
