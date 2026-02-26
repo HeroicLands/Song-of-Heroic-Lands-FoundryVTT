@@ -5,7 +5,7 @@
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fhm)
 [![GitHub downloads (latest)](<https://img.shields.io/badge/dynamic/json?label=Downloads@latest&query=assets[?(@.name.includes('zip'))].download_count&url=https://api.github.com/repos/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest&color=green>)](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest)
 
-[Two Knights Fighting Horrific Creatures](assets/ui/sohl-background.webp)
+![Two Knights Fighting Horrific Creatures](assets/ui/sohl-background.webp)
 
 Embark on a journey through a richly detailed fantasy world with **Song of Heroic Lands (SoHL)**—a game system built to bring your adventures to life in Foundry Virtual Tabletop. Seamlessly compatible with the _HârnMaster_ system, SoHL allows you to experience the intricacies of one of the most immersive and realistic fantasy role-playing systems ever created.
 
