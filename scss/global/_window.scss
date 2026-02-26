@@ -1,11 +1,9 @@
-/*.window-app {
-  font-family: $font-primary;
-}*/
+@use "../utils/colors";
 
 .rollable {
     &:hover,
     &:focus {
-        color: #000;
+        color: colors.$c-border-default;
         text-shadow: 0 0 10px red;
         cursor: pointer;
     }

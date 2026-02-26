@@ -1,8 +1,10 @@
+@use "../utils/colors";
+
 .facade {
     img.facade-image {
         flex: 0 0 200px;
         object-fit: contain;
-        background: white;
+        background: colors.$c-text-inverse;
     }
 
     .facade-description {

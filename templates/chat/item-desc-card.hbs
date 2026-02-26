@@ -1,0 +1,39 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexcol">
+        <h3 class="title">{{name}}</h3>
+        <h4 class="subtitle">{{subtitle}}</h4>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span class="label">Notes:</span>
+        <span class="value">{{notes}}</span>
+    </div>
+    {{/if}}
+    {{#if textRef}}
+    <div class="card-note">
+        <span class="label">Text Ref:</span>
+        <span class="value">{{textRef}}</span>
+    </div>
+    {{/if}}
+    {{#if charges}}
+    <div class="card-note">
+        <span class="label">Charges:</span>
+        <span class="value">{{charges}}</span>
+    </div>
+    {{/if}}
+    <div class="card-content">{{{desc}}}</div>
+</div>

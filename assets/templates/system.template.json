@@ -19,10 +19,10 @@
         "compatibleMigrationVersion": "0.3.0"
     },
     "compatibility": {
-        "minimum": "12",
-        "verified": "12.323"
+        "minimum": "13",
+        "verified": "13.346"
     },
-    "scripts": ["index.js"],
+    "scripts": ["sohl.js"],
     "styles": ["css/sohl.css"],
     "languages": [
         {
@@ -31,6 +31,105 @@
             "path": "lang/en.json"
         }
     ],
+    "documentTypes": {
+        "Actor": {
+            "being": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "cohort": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "structure": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "vehicle": {
+                "htmlFields": ["description", "biography", "textReference"]
+            },
+            "assembly": {
+                "htmlFields": ["description", "biography", "textReference"]
+            }
+        },
+        "Item": {
+            "action": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "affiliation": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "affliction": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "armorgear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodylocation": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodypart": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "bodyzone": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "combattechniquestrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "concoctiongear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "containergear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "domain": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "injury": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "meleeweaponstrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "miscgear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "missileweaponstrikemode": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "movementprofile": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mystery": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mysticalability": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "mysticaldevice": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "philosophy": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "projectilegear": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "protection": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "skill": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "trait": {
+                "htmlFields": ["description", "textReference"]
+            },
+            "weapongear": {
+                "htmlFields": ["description", "textReference"]
+            }
+        },
+        "ActiveEffect": {
+            "activeeffectdata": {}
+        }
+    },
     "packFolders": [
         {
             "name": "Song of Heroic Lands",

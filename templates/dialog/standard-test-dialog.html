@@ -1,38 +1,73 @@
 <form>
     <div class="form-group">
         <label>Target:</label>
-        <input readonly type="number" name="target" value="{{target}}" />
+        <input readonly type="number" name="target" value="{{mlMod.effective}}" />
     </div>
 
-    {{#if mods}}
+    {{#if mlMod}}
     <div class="form-group">
-        <div class="flex flex-2col">
-            <div class="flexrow">
-                <span class="label adj-name">Adjustment</span>
-                <span class="label adj-value">Value</span>
-            </div>
-            {{#each mods}}
-            <div class="flexrow">
-                <span class="adj-name">{{this.name}}</span>
-                <span class="adj-value"
-                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
-                >
-            </div>
-            {{/each}}
-        </div>
+        {{{mlMod.chatHtml}}}
     </div>
     {{/if}}
 
     <div class="form-group">
         <label>Situational Modifier:</label>
-        <input type="number" name="modifier" value="{{modifier}}" />
+        <input type="number" name="situationalModifier" value="{{situationalModifier}}" />
     </div>
+
+    {{#if impactMod}}
+    <div class="form-group">
+        {{{mlMods.chatHtml}}}
+    </div>
+
+    <div class="form-group">
+        <span class="label">Impact Formula:</span>
+        <span class="value">{{impactMod.label}}</span>
+    </div>
+
+    <div class="form-group">
+        <label>Additional Impact:</label>
+        <input type="number" name="impactSituationalModifier" value="{{impactSituationalModifier}}" />
+    </div>
+    {{/if}}
+
+    {{#if aimChoices}}
+    <div class="form-group">
+        <label>Aim:</label>
+        <select name="aim">
+            {{selectOptions aimChoices selected=defaultAim}}
+        </select>
+    </div>        
+    {{/if}}
+
+    {{#if (or (eq testType "direct") (eq testType "volley"))}}
+    <div class="form-group">
+        <label>Target Movement:</label>
+        <select name="targetMovement">
+            {{selectOptions movementOptions selected=targetMovement}}
+        </select>
+    </div>        
+    {{/if}}
+    
+    {{#if (and askCXBothOption (eq testType "counterstrike"))}}
+    <div class="form-group">
+        <input type="checkbox" name="cxBothOption" {{checked cxBothOption}}>
+        <label for="cxBothOption">Both Hit on Ties (-10 penalty)</label>
+    </div>        
+    {{/if}}
+
     <div class="form-group">
         <label>Success Level Modifier:</label>
         <input
             type="number"
             name="successLevelMod"
-            value="{{successLevelMod}}" />
+            value="{{mlMod.successLevelMod}}" />
+    </div>
+    <div class="form-group">
+        <label>Roll Visibility</label>
+        <select aria-label="Roll Visibility" class="roll-type-select" name="rollMode">
+            {{selectOptions rollModes selected=rollMode localize=true}}
+        </select>
     </div>
     <div class="form-group">
         <label>Roll Visibility</label>

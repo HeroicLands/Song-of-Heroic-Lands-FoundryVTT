@@ -1,0 +1,60 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form id="document-create item-create" autocomplete="off">
+    <div class="form-group">
+        <label>Name</label>
+        <div class="form-fields">
+            <input
+                type="text"
+                name="name"
+                placeholder="{{defaultName}}"
+                autofocus />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Type</label>
+        <div class="form-fields">
+            <select name="type">
+                {{selectOptions types selected=type}}
+            </select>
+        </div>
+    </div>
+
+    {{#if hasFolders}}
+    <div class="form-group">
+        <label>Folder</label>
+        <div class="form-fields">
+            <select name="folder">
+                {{#select folder}}
+                <option value=""></option>
+                {{#each folders}}
+                <option value="{{ this.id }}">{{ this.name }}</option>
+                {{/each}} {{/select}}
+            </select>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="form-group" id="subtypes">
+        <label>Subtypes</label>
+        <select
+            class="resource-value"
+            id="subtype-select"
+            name="subtype"
+            data-dtype="String">
+            {{selectOptions subtypes selected=subtype}}
+        </select>
+    </div>
+</form>

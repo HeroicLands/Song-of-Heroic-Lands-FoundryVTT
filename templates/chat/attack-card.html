@@ -1,32 +1,38 @@
 <div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
         <h3 class="title">{{title}}</h3>
-        <h4 class="subtitle">{{attacker}} vs. {{defender}}</h4>
+        <h4 class="subtitle">{{attackToken.name}} vs. {{defendToken.name}}</h4>
     </header>
 
     {{#if notes}}
     <div class="card-note">
         <span>{{notes}}</span>
     </div>
-    {{/if}} {{#if isMissile}}
+    {{/if}}
+    
+    {{#if isMissile}}
     <div class="card-content">
         <span class="label">Missile:</span>
         <span class="value">{{missile}}</span>
     </div>
 
-    {{#if projectile}}
-    <div class="card-content">
-        <span class="label">Projectile:</span>
-        <span class="value">{{projectile}}</span>
-    </div>
-    {{/if}} {{/if}}
+        {{#if projectile}}
+        <div class="card-content">
+            <span class="label">Projectile:</span>
+            <span class="value">{{projectile}}</span>
+        </div>
+        {{/if}}
+    
+    {{/if}}
 
+    {{#if (eq variant "legendary")}}
     <div class="card-content center">
         <div class="flexrow">
-            <span class="label">Zone Die + Offset:</span>
-            <span class="value">d{{zoneDie}} + {{zoneOffset}}</span>
+            <span class="label">Zone Die + Start:</span>
+            <span class="value">d{{strikeMode.system.zoneDie}} + {{zoneStart}}</span>
         </div>
     </div>
+    {{/if}}
 
     <div class="card-content">
         <label>Impact Modifiers</label>
@@ -48,42 +54,19 @@
 
     <div class="grid grid-2col">
         <div class="card-content">
-            <span class="label">Distance{{#if isMissile}} (range){{/if}}:</span>
-            <span class="value"
-                >{{distance}}ft{{#if isMissile}} ({{range}}){{/if}}</span
-            >
+            <span class="label">Distance:</span>
+            <span class="value">{{distance}}ft</span>
         </div>
 
         <div class="card-content">
             <span class="label">Impact:</span>
-            <span class="value">{{impactLabel}}</span>
+            <span class="value">{{impact.label}}</span>
         </div>
     </div>
 
     <div class="card-content">
         <label>Attack Modifiers</label>
-        <div class="adjustment">
-            <div class="flexrow">
-                <span class="label adj-name">Adjustment</span>
-                <span class="label adj-value">Value</span>
-            </div>
-            {{#each attackMods}}
-            <div class="flexrow">
-                <span class="adj-name">{{this.name}}</span>
-                <span class="adj-value"
-                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
-                >
-            </div>
-            {{/each}}
-        </div>
-    </div>
-
-    <div class="card-content">
-        <span class="label">Effective AML:</span>
-        <span class="value"
-            >{{baseML}} {{amSign}} {{attackModAbs}} =
-            <strong>{{effAML}}</strong></span
-        >
+        {{{aml.toHtml}}}
     </div>
 
     {{#if successLevelMod}}
@@ -91,68 +74,61 @@
         <span class="label">Success Level Modifier:</span>
         <span class="value">{{successLevelMod}}</span>
     </div>
-    {{/if}} {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
+    {{/if}}
+    
+    {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
     <div class="card-buttons">
         <div class="grid grid-2col mingap">
             {{#if hasDodge}}
             <button
                 id="dodge-button"
-                data-action="dodge"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-atk-token-uuid="{{atkTokenUuid}}"
-                data-def-token-uuid="{{defTokenUuid}}"
-                data-weapon-type="{{weaponType}}"
-                data-weapon-id="{{weaponId}}"
-                data-attack-obj-json="{{attackJson}}"
-                data-impact-obj-json="{{impactJson}}"
-                data-zone-die-formula="{{zoneDieFormula}}"
-                data-zone-offset="{{zoneOffset}}"
-                data-body-location="{{bodyLocation}}">
+                data-action="dodgeResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
                 Dodge
             </button>
             {{/if}} {{#if hasCounterstrike}}
             <button
                 id="counterstrike-button"
-                data-action="counterstrike"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-atk-token-uuid="{{atkTokenUuid}}"
-                data-def-token-uuid="{{defTokenUuid}}"
-                data-weapon-type="{{weaponType}}"
-                data-weapon-id="{{weaponId}}"
-                data-attack-obj-json="{{attackJson}}"
-                data-impact-obj-json="{{impactJson}}"
-                data-zone-die-formula="{{zoneDieFormula}}"
-                data-body-location="{{bodyLocation}}">
+                data-action="counterstrikeResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
                 Counterstrike
             </button>
             {{/if}} {{#if hasBlock}}
             <button
                 id="block-button"
-                data-action="block"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-atk-token-uuid="{{atkTokenUuid}}"
-                data-def-token-uuid="{{defTokenUuid}}"
-                data-weapon-type="{{weaponType}}"
-                data-weapon-id="{{weaponId}}"
-                data-attack-obj-json="{{attackJson}}"
-                data-impact-obj-json="{{impactJson}}"
-                data-zone-die-formula="{{zoneDieFormula}}"
-                data-body-location="{{bodyLocation}}">
+                data-action="blockResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
                 Block
             </button>
             {{/if}} {{#if hasIgnore}}
             <button
                 id="ignore-button"
-                data-action="ignore"
-                data-handler-actor-uuid="{{handlerActorUuid}}"
-                data-atk-token-uuid="{{atkTokenUuid}}"
-                data-def-token-uuid="{{defTokenUuid}}"
-                data-weapon-type="{{weaponType}}"
-                data-weapon-id="{{weaponId}}"
-                data-attack-obj-json="{{attackJson}}"
-                data-impact-obj-json="{{impactJson}}"
-                data-zone-die-formula="{{zoneDieFormula}}"
-                data-body-location="{{bodyLocation}}">
+                data-action="ignoreResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
                 Ignore
             </button>
             {{/if}}

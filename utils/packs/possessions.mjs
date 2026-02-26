@@ -1,9 +1,21 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import fs from "fs";
 import path from "path";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
 
 const stats = {
     systemId: "sohl",
@@ -82,10 +94,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: miscgear.description,
-                    macros: miscgear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: miscgear.abbrev,
+                    shortcode: miscgear.shortcode,
                     quantity: 1,
                     weightBase: miscgear.weight,
                     valueBase: miscgear.value,
@@ -132,10 +142,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: containergear.description,
-                    macros: containergear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: containergear.abbrev || "",
+                    shortcode: containergear.shortcode || "",
                     quantity: 1,
                     weightBase: containergear.weight,
                     valueBase: containergear.value,
@@ -183,10 +191,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: concoctiongear.description,
-                    macros: concoctiongear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: concoctiongear.abbrev || "",
+                    shortcode: concoctiongear.shortcode || "",
                     quantity: 1,
                     weightBase: concoctiongear.weight,
                     valueBase: concoctiongear.value,
@@ -235,10 +241,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: projectilegear.description,
-                    macros: projectilegear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: projectilegear.abbrev || "",
+                    shortcode: projectilegear.shortcode || "",
                     quantity: 1,
                     weightBase: projectilegear.weight,
                     valueBase: projectilegear.value,
@@ -350,10 +354,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: armorgear.description,
-                    macros: armorgear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: armorgear.abbrev || "",
+                    shortcode: armorgear.shortcode || "",
                     quantity: 1,
                     weightBase: armorgear.weight,
                     valueBase: armorgear.value,
@@ -502,10 +504,8 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: weapongear.description,
-                    macros: weapongear.macros,
-                    nestedItems: [],
                     transfer: false,
-                    abbrev: weapongear.abbrev || "",
+                    shortcode: weapongear.shortcode || "",
                     quantity: 1,
                     weightBase: weapongear.weight,
                     valueBase: weapongear.value,
@@ -586,8 +586,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: "",
-                    macros: weaponsm.macros,
-                    nestedItems: [],
                     transfer: true,
                     subType: weaponsm.subType,
                     mode: weaponsm.subDesc,

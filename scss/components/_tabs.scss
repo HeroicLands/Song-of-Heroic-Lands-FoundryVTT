@@ -1,43 +1,29 @@
-// .tabs {
-//   .item {
-//     background: rgba(0, 0, 0, 0.125);
-//     border: 1px solid;
-//     border-radius: 4px;
-//     margin: 0 10px 0;
-//     padding: 8px 4px;
+@use "../utils/colors";
+@use "../utils/typography";
 
-//     &:hover,
-//     &:focus {
-//       background: rgba(0, 0, 0, 0.125);
-//     }
-
-//     &.active {
-//       background: transparent;
-//     }
-//   }
-// }
-
-.tabs {
-    flex: 0 0 30px;
+nav.tabs {
+    flex: 0 0 auto;
     margin-bottom: 5px;
-    font-family: "Modesto Condensed", "Palatino Linotype", serif;
-    font-size: 20px;
-    font-weight: 700;
+    @include typography.type-style("tab");
+    line-height: 32px;
+    //    margin: 0 24px;
+    border-top: none;
+    border-bottom: none;
+    color: colors.$c-text-secondary;
 
-    .item {
-        height: 30px;
-        line-height: 32px;
-        margin: 0 24px;
-        border-bottom: 3px solid #b5b3a4;
+    &:hover,
+    &:focus {
+        background: colors.$c-bg-overlay-dark;
     }
 
-    .item.active {
+    .active {
         text-shadow: none;
-        border-bottom: 3px solid black;
-        font-size: 25px;
+        @include typography.type-style("active-tab");
+        border-bottom: 3px solid colors.$c-text-primary;
+        color: colors.$c-text-primary;
     }
 }
 
-.sheet-body .tab {
-    margin-right: 5px;
-}
+//.tab-body .tab {
+//    margin-right: 5px;
+//}

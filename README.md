@@ -21,7 +21,7 @@ Whether you’re delving into political intrigue, navigating treacherous wildern
 
 ## Copyright
 
-[Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024, 2025 by Thomas Rodriguez. All rights reserved.
+[Song of Heroic Lands](https://github.com/toastygm/Song-of-Heroic-Lands) Copyright &copy; 2024-2026 by Thomas Rodriguez. All rights reserved.
 
 ## License
 

@@ -1,61 +1,99 @@
 {
     "name": "sohl",
-    "version": "0.6.0",
+    "productName": "Song of Heroic Lands",
     "description": "A Foundry VTT system for Song of Heroic Lands",
+    "version": "0.6.0",
+    "private": true,
+    "author": {
+        "name": "Tom Rodriguez",
+        "email": "toasty@heroiclands.org",
+        "url": "https://www.heroiclands.org"
+    },
+    "x-contact": {
+        "discord": "toasty#8538",
+        "bluesky": "@toasty.heroiclands.org"
+    },
+    "homepage": "https://www.heroicland.org",
+    "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT"
+    },
+    "bugs": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues",
+    "engines": {
+        "node": ">=20.18.0 < 26.0.0"
+    },
     "type": "module",
-    "changeset": {
-        "changelog": [
-            "@changesets/changelog-github",
-            {
-                "repo": "toastygm/Song-of-Heroic-Lands-FoundryVTT"
-            }
-        ],
-        "commit": true
+    "browser": "./sohl.js",
+    "exports": {
+        "import": "./sohl.js"
     },
     "scripts": {
-        "clean": "rm -rf build/stage build/dist build/docs build/tmp build/generated",
-        "build": "npm run clean && npm run build:types && npm run build:prepare && npm run build:release",
-        "build:local": "npm run test && npm run build",
-        "build:prepare": "npm run build:assets && npm run build:css && npm run build:compiledb && npm run build:packdb && npm run build:system && npm run docs",
-        "build:release": "npm run build:code && npm run build:pack-release",
+        "clean": "rm -rf build .vite .vitepress .rollup.cache",
+        "distclean": "npm run clean && rm -rf node_modules",
+        "build": "npm ci && npm run build:noci",
+        "build:local": "npm i && npm run build:noci",
+        "build:noci": "run-s build:types build:prepare test:coverage build:code",
+        "build:prepare": "run-p build:css build:db build:system",
+        "build:db": "run-s build:assets build:compiledb build:packdb",
         "build:types": "tsc -p tsconfig.json",
         "build:system": "node ./utils/build-system-json.mjs",
-        "build:css": "sass scss/sohl.scss build/stage/css/sohl.css",
+        "build:css": "sass --load-path=scss scss/sohl.scss build/stage/css/sohl.css",
         "build:code": "vite build --mode release",
         "build:assets": "node utils/copy-assets.mjs",
         "build:compiledb": "node ./utils/packs/build-compendiums.mjs package compile",
         "build:packdb": "node ./utils/packs/build-compendiums.mjs package pack",
         "build:unpackdb": "node ./utils/packs/build-compendiums.mjs package unpack",
         "build:pack-release": "node utils/pack-release.mjs",
-        "docs": "npm run docs:html && npm run docs:md",
+	"push:dev": "rsync -avh --delete build/stage/ atlas:/srv/docker/data/foundryvtt-dev/Data/systems/sohl/",
+	"push:prod": "rsync -avh --delete build/stage/ atlas:/srv/docker/data/foundryvtt-prod/Data/systems/sohl/",
+	"push:local-dev": "rsync -avh --delete build/stage/ /Users/tomr/Games/fvtt/data-dev/Data/systems/sohl/",
+	"deploy:local": "run-s build push:local-dev", 
+	"deploy:dev": "run-s build push:dev", 
+	"deploy:prod": "run-s build push:prod", 
+        "deploy:release": "run-s build build:pack-release",
+        "docs": "run-s docs:prepare docs:html docs:md",
+        "docs:prepare": "node utils/build-docs-entry.mjs",
         "docs:html": "typedoc --options typedoc-html.json",
         "docs:md": "typedoc --options typedoc-markdown.json",
-        "postinstall": "node ./utils/postinstall.mjs",
+        "codeanddocs": "run-p build:code docs:html",
         "test": "vitest run",
         "test:watch": "vitest",
         "test:ui": "vitest --ui",
-        "test:coverage": "vitest run --coverage",
-        "version": "changeset version && npm run build:system",
-        "release": "changeset publish"
+        "test:coverage": "vitest run --coverage --passWithNoTests",
+        "changeset": "changeset",
+        "changeset:version": "changeset version",
+        "changeset:check": "changeset check"
     },
     "devDependencies": {
+        "@babel/preset-env": "^7.26.9",
         "@changesets/cli": "^2.28.1",
         "@foundryvtt/foundryvtt-cli": "^1.0.4",
-        "@league-of-foundry-developers/foundry-vtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#documents-v2",
         "@octokit/rest": "^21.1.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@types/file-saver": "^2.0.7",
+        "@types/json-schema": "^7.0.15",
         "@typescript-eslint/eslint-plugin": "^8.28.0",
         "@typescript-eslint/parser": "^8.28.0",
-        "@vitest/ui": "^1.6.1",
+        "@vitejs/plugin-react": "^4.4.1",
+        "@vitest/coverage-v8": "^3.1.2",
+        "@vitest/ui": "^3.1.2",
         "archiver": "^7.0.1",
         "cypress": "^13.0.0",
+        "documentation": "^14.0.3",
         "dotenv": "^16.4.7",
         "eslint": "^9.23.0",
         "eslint-config-prettier": "^10.1.1",
         "eslint-plugin-import": "^2.31.0",
         "eslint-plugin-jsdoc": "^50.6.9",
+        "fvtt-types": "github:League-of-Foundry-Developers/foundry-vtt-types#main",
+        "glob": "^11.0.1",
+        "handlebars": "^4.7.8",
         "ix": "^7.0.0",
         "loglevel": "^1.9.2",
         "loglevel-plugin-prefix": "^0.8.4",
+        "madge": "^8.0.0",
+        "npm-run-all": "^4.1.5",
         "prettier": "^3.1.0",
         "sass": "^1.69.0",
         "typedoc": "0.27.6",
@@ -64,6 +102,7 @@
         "typescript": "^5.3.3",
         "unidecode": "^1.1.0",
         "vite": "^6.2.3",
-        "vitest": "^1.2.0"
+        "vite-plugin-banner": "^0.8.0",
+        "vitest": "^3.1.2"
     }
 }

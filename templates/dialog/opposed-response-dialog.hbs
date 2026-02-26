@@ -1,0 +1,60 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form id="opposed-response-dlg">
+    <p>{{prompt}}<br /></p>
+
+    <div class="form-group" id="nogood">
+        <label>Opposed Item:</label>
+        <select name="opposedItemUuid">
+            {{#select opposedItemUuid}} {{#each opposedItems}}
+            <option value="{{this.value}}">{{this.name}}</option>
+            {{/each}} {{/select}}
+        </select>
+    </div>
+
+    <div class="form-group" id="mydiv">
+        <div class="flex flex-2col" id="mods">
+            <div class="flexrow">
+                <span class="label adj-name">Adjustment</span>
+                <span class="label adj-value">Value</span>
+            </div>
+            {{#each mods}}
+            <div class="flexrow">
+                <span class="adj-name">{{this.name}}</span>
+                <span class="adj-value"
+                    >{{numberFormat this.value sign=true}}</span
+                >
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="form-group" id="modifier">
+        <label>Modifier:</label>
+        <input
+            type="number"
+            name="modifier"
+            value="{{modifier}}"
+            data-dtype="Number" />
+    </div>
+
+    <div class="form-group" id="slMod">
+        <label>Success Level Modifier:</label>
+        <input
+            type="number"
+            name="successLevelMod"
+            value="{{successLevelMod}}"
+            data-dtype="Number" />
+    </div>
+</form>

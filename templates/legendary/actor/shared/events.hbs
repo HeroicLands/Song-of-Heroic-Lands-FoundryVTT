@@ -1,0 +1,53 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab content" data-group="primary" data-tab="events">
+  {{!-- events content --}}
+  <div class="items events">
+    <div class="items-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name short-name">Active Events</h3>
+            <div class="detail duration">When</div>
+            <div class="detail ele">Oper</div>
+            <div class="detail type">Source</div>
+            <div class="detail type">Target</div>
+            <div class="detail notes">Action</div>
+        </header>
+        <ol class="item-list">
+            {{#each system.events as |event|}}
+            <li class="item event flexrow">
+                <div class="item-name short-name flexrow">
+                    <h4>{{ name }}</h4>
+                </div>
+                <div class="detail duration" data-tooltip="{{ when.worldDate }}">
+                    {{ remaining }}
+                </div>
+                <div class="detail ele">
+                    {{oper}}
+                </div>
+                <div class="detail type" title="{{sourceName}}">
+                    {{ sourceName }}
+                </div>
+                <div class="detail type" title="{{targetName}}">
+                    {{ targetName }}
+                </div>
+                <div class="detail notes" title="{{actionName}}">
+                    {{ actionName }}
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
+
+</section>

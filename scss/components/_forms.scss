@@ -1,14 +1,15 @@
 @use "../utils/typography";
+@use "../utils/colors";
 
 .item-form {
-    font-family: typography.$font-primary;
+    @include typography.type-style("body-text");
 }
 
 form .form-group .form-fields {
     justify-content: flex-start;
 }
 
-.sheet .sheet-header-entity {
+.sheet-header-being {
     flex: 0 0 120px;
     overflow: hidden;
     display: flex;
@@ -16,7 +17,7 @@ form .form-group .form-fields {
     flex-wrap: wrap;
     justify-content: flex-start;
     margin-bottom: 10px;
-    border-bottom: 2px groove #eeede0;
+    border-bottom: 2px groove colors.$c-border-subtle;
 
     .profile-img {
         flex: 0 0 120px;
@@ -27,7 +28,7 @@ form .form-group .form-fields {
 
     .header-fields {
         .name-attribute {
-            border-bottom: 2px groove #eeede0;
+            border-bottom: 2px groove colors.$c-border-subtle;
 
             h1.charname {
                 height: 40px;
@@ -35,6 +36,7 @@ form .form-group .form-fields {
                 margin: 5px 0;
                 border-bottom: 0;
                 flex: 1 0 200px;
+
                 input {
                     width: 100%;
                     height: 100%;
@@ -60,16 +62,16 @@ form .form-group .form-fields {
             .healthbar {
                 width: 100%;
                 margin-bottom: 5px;
-                background: #7a7971;
-                border: 1px solid #000;
+                background: colors.$c-bg-input;
+                border: 1px solid colors.$c-border-default;
                 border-radius: 3px;
 
                 .bar {
                     height: 4px;
                     margin: 1px;
                     display: block;
-                    background: #afebff;
-                    border: 1px solid #000;
+                    background: colors.$c-health-bar;
+                    border: 1px solid colors.$c-border-strong;
                     border-radius: 2px;
                 }
             }
@@ -105,8 +107,7 @@ form .form-group .form-fields {
 
             textarea.description {
                 resize: none;
-                font-family: "Signika", sans-serif;
-                font-size: 13px;
+                @include typography.type-style("editor");
                 border: none;
                 background: transparent;
             }
@@ -133,7 +134,7 @@ form .form-group .form-fields {
 
             .effect-button {
                 border: 1px;
-                color: black;
+                color: colors.$c-text-primary;
                 padding: 0px;
                 text-align: center;
                 text-decoration: none;
@@ -146,8 +147,8 @@ form .form-group .form-fields {
             }
 
             .active {
-                color: white;
-                background-color: blue;
+                color: colors.$c-text-inverse;
+                background-color: colors.$c-info;
             }
         }
 
@@ -157,7 +158,7 @@ form .form-group .form-fields {
 
             .bodypart-status {
                 border: 1px;
-                color: black;
+                color: colors.$c-text-primary;
                 padding-top: 3px;
                 text-align: center;
                 text-decoration: none;
@@ -167,16 +168,17 @@ form .form-group .form-fields {
                 border-style: solid;
                 height: 25px;
             }
+
             .none {
-                background-color: #ddd;
+                background-color: colors.$c-border-subtle;
             }
 
             .impaired {
-                background-color: rgb(212, 208, 12);
+                background-color: colors.$c-warning;
             }
 
             .unusable {
-                background-color: rgb(245, 75, 75);
+                background-color: colors.$c-danger;
             }
         }
     }
@@ -190,7 +192,7 @@ form .form-group .form-fields {
     flex-wrap: wrap;
     justify-content: flex-start;
     margin-bottom: 10px;
-    border-bottom: 2px groove #eeede0;
+    border-bottom: 2px groove colors.$c-border-subtle;
 
     .profile-img {
         flex: 0 0 120px;
@@ -201,7 +203,7 @@ form .form-group .form-fields {
 
     .header-fields {
         .name-attribute {
-            border-bottom: 2px groove #eeede0;
+            border-bottom: 2px groove colors.$c-border-subtle;
 
             h1.charname {
                 height: 40px;
@@ -209,6 +211,7 @@ form .form-group .form-fields {
                 margin: 5px 0;
                 border-bottom: 0;
                 flex: 1 0 350px;
+
                 input {
                     width: 100%;
                     height: 100%;
@@ -252,16 +255,16 @@ form .form-group .form-fields {
                 flex: 0 0 8px;
                 width: 100%;
                 margin-bottom: 5px;
-                background: #7a7971;
-                border: 1px solid #000;
+                background: colors.$c-bg-input;
+                border: 1px solid colors.$c-border-strong;
                 border-radius: 3px;
 
                 .bar {
                     height: 4px;
                     margin: 1px;
                     display: block;
-                    background: #afebff;
-                    border: 1px solid #000;
+                    background: colors.$c-health-bar;
+                    border: 1px solid colors.$c-border-strong;
                     border-radius: 2px;
                 }
             }
@@ -272,8 +275,7 @@ form .form-group .form-fields {
 
             textarea.description {
                 resize: none;
-                font-family: "Signika", sans-serif;
-                font-size: 13px;
+                @include typography.type-style("textarea");
                 border: none;
                 background: transparent;
             }
@@ -300,7 +302,7 @@ form .form-group .form-fields {
 
             .effect-button {
                 border: 1px;
-                color: black;
+                color: colors.$c-text-primary;
                 padding: 0px;
                 text-align: center;
                 text-decoration: none;
@@ -313,8 +315,8 @@ form .form-group .form-fields {
             }
 
             .active {
-                color: white;
-                background-color: blue;
+                color: colors.$c-text-inverse;
+                background-color: colors.$c-info;
             }
         }
 
@@ -324,7 +326,7 @@ form .form-group .form-fields {
 
             .bodyzone-status {
                 border: 1px;
-                color: black;
+                color: colors.$c-text-primary;
                 padding-top: 3px;
                 text-align: center;
                 text-decoration: none;
@@ -334,28 +336,32 @@ form .form-group .form-fields {
                 border-style: solid;
                 height: 25px;
             }
+
             .none {
-                background-color: #ddd;
+                background-color: colors.$c-border-subtle;
             }
 
             .impaired {
-                background-color: rgb(212, 208, 12);
+                background-color: colors.$c-warning;
             }
 
             .unusable {
-                background-color: rgb(245, 75, 75);
+                background-color: colors.$c-danger;
             }
         }
     }
 }
 
-.sheet-tabs {
-    flex: 0;
+.macro-sheet .form-group .condition {
+    .condition {
+        height: 20%;
+        resize: none;
+    }
 }
 
-.sheet-body,
-.sheet-body .tab,
-.sheet-body .tab .editor {
+.tab-body,
+.tab-body .tab,
+.tab-body .tab .editor {
     height: 100%;
 }
 

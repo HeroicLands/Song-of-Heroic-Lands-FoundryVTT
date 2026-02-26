@@ -1,0 +1,60 @@
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+- name: Fate
+  id: HQdjhe67Av3z8APh
+  parentFolderId: ""
+  color: '#e59f25'
+- name: Philosophies
+  id: R5yDwwVBNF7yE4fc
+  parentFolderId: ""
+  color: '#008F00'
+- name: Spells
+  id: gVI9JYbauW6iZ3qY
+  parentFolderId: ""
+  color: '#800000'
+- name: Earth
+  id: OVnl7dt16e0W1noV
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#8b4513'
+- name: Metal
+  id: 8iCp9ElYOPcPrE59
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#a9a9a9'
+- name: Wind
+  id: ODuFSQKM8KJTQ7wQ
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#00bfff'
+- name: Arcana
+  id: RpuF61QnMRyujYaM
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#5c5c5c'
+- name: Water
+  id: uPcOyKGtVi0qnGTR
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#0000ff'
+- name: Fire
+  id: o4FdHOz6uN8hxo99
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#ff0000'
+- name: Spirit
+  id: uM9DgrQnQkVQqLPq
+  parentFolderId: gVI9JYbauW6iZ3qY
+  color: '#648264'
+- name: Totems
+  id: eJSuuML2ROg3V1W6
+  parentFolderId: ""
+  color: '#008000'
+- name: Arcane Talents
+  id: BXfH5cKFM0lUbyhg
+  parentFolderId: ""
+  color: '#008000'

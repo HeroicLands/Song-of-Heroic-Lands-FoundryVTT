@@ -1,3 +1,15 @@
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
 - armorType: 3/4-Helm
   detailMaterial: Kûrbúl
   img: systems/sohl/assets/icons/crested-helmet.svg
@@ -5,7 +17,7 @@
   weight: 5.3
   encumbrance: 0
   perception: -5
-  abbrev: K34Hlm
+  shortcode: K34Hlm
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -52,7 +64,7 @@
   weight: 5.3
   encumbrance: 0
   perception: -5
-  abbrev: Pl34Hlm
+  shortcode: Pl34Hlm
   material: Plate
   flexloc: []
   rigidloc:
@@ -99,7 +111,7 @@
   weight: 1.1
   encumbrance: 1.67
   perception: 0
-  abbrev: KAil
+  shortcode: KAil
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -142,7 +154,7 @@
   weight: 1.1
   encumbrance: 1.67
   perception: 0
-  abbrev: PlAil
+  shortcode: PlAil
   material: Plate
   flexloc: []
   rigidloc:
@@ -184,7 +196,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: LApn
+  shortcode: LApn
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -228,7 +240,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: SgApn
+  shortcode: SgApn
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -272,7 +284,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: SlApn
+  shortcode: SlApn
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -316,7 +328,7 @@
   weight: 4.4
   encumbrance: 0
   perception: 0
-  abbrev: VApn
+  shortcode: VApn
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -360,7 +372,7 @@
   weight: 3.5
   encumbrance: 0
   perception: 0
-  abbrev: WApn
+  shortcode: WApn
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -404,7 +416,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: LtApn
+  shortcode: LtApn
   material: Leather
   flexloc:
   - Left Shoulder
@@ -448,7 +460,7 @@
   weight: 5
   encumbrance: 0
   perception: 0
-  abbrev: RhApr
+  shortcode: RhApr
   material: Leather
   flexloc:
   - Left Shoulder
@@ -493,7 +505,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: LtBrcr
+  shortcode: LtBrcr
   material: Leather
   flexloc:
   - Left Forearm
@@ -534,7 +546,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: RhBrcr
+  shortcode: RhBrcr
   material: Leather
   flexloc:
   - Left Forearm
@@ -575,7 +587,7 @@
   weight: 4.5
   encumbrance: 5
   perception: 0
-  abbrev: KBrst
+  shortcode: KBrst
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -617,7 +629,7 @@
   weight: 4.5
   encumbrance: 5
   perception: 0
-  abbrev: PlBreast
+  shortcode: PlBreast
   material: Plate
   flexloc: []
   rigidloc:
@@ -658,7 +670,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: HsBrch
+  shortcode: HsBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -702,7 +714,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: LnBrch
+  shortcode: LnBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -746,7 +758,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: RBrch
+  shortcode: RBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -790,7 +802,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: SgBrch
+  shortcode: SgBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -834,7 +846,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: VBrch
+  shortcode: VBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -878,7 +890,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: WBrch
+  shortcode: WBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -922,7 +934,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: LtBrch
+  shortcode: LtBrch
   material: Leather
   flexloc:
   - Pelvis
@@ -966,7 +978,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: BBrch
+  shortcode: BBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -1010,7 +1022,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: CBrch
+  shortcode: CBrch
   material: Cloth
   flexloc:
   - Pelvis
@@ -1054,7 +1066,7 @@
   weight: 3.6
   encumbrance: 0
   perception: 0
-  abbrev: RhBrch
+  shortcode: RhBrch
   material: Leather
   flexloc:
   - Pelvis
@@ -1098,7 +1110,7 @@
   weight: 14.9
   encumbrance: 5
   perception: 0
-  abbrev: MByr
+  shortcode: MByr
   material: Mail
   flexloc: []
   rigidloc:
@@ -1143,7 +1155,7 @@
   weight: 18.2
   encumbrance: 10
   perception: 0
-  abbrev: SByrn
+  shortcode: SByrn
   material: Scale
   flexloc: []
   rigidloc:
@@ -1188,7 +1200,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: WCBoot
+  shortcode: WCBoot
   material: Cloth
   flexloc:
   - Left Calf
@@ -1231,7 +1243,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: LtCBoot
+  shortcode: LtCBoot
   material: Leather
   flexloc:
   - Left Calf
@@ -1274,7 +1286,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: CCBoot
+  shortcode: CCBoot
   material: Cloth
   flexloc:
   - Left Calf
@@ -1317,7 +1329,7 @@
   weight: 2.9
   encumbrance: 0
   perception: 0
-  abbrev: LtCBoot
+  shortcode: LtCBoot
   material: Leather
   flexloc:
   - Left Calf
@@ -1360,7 +1372,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: HsCap
+  shortcode: HsCap
   material: Cloth
   flexloc:
   - Skull
@@ -1400,7 +1412,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: LCap
+  shortcode: LCap
   material: Cloth
   flexloc:
   - Skull
@@ -1440,7 +1452,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: RCap
+  shortcode: RCap
   material: Cloth
   flexloc:
   - Skull
@@ -1480,7 +1492,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: SgCap
+  shortcode: SgCap
   material: Cloth
   flexloc:
   - Skull
@@ -1520,7 +1532,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: VCap
+  shortcode: VCap
   material: Cloth
   flexloc:
   - Skull
@@ -1560,7 +1572,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: WCap
+  shortcode: WCap
   material: Cloth
   flexloc:
   - Skull
@@ -1600,7 +1612,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: BvCap
+  shortcode: BvCap
   material: Leather
   flexloc:
   - Skull
@@ -1640,7 +1652,7 @@
   weight: 0.4
   encumbrance: 0
   perception: 0
-  abbrev: ECap
+  shortcode: ECap
   material: Leather
   flexloc:
   - Skull
@@ -1680,7 +1692,7 @@
   weight: 0.4
   encumbrance: 0
   perception: 0
-  abbrev: LtCap
+  shortcode: LtCap
   material: Leather
   flexloc:
   - Skull
@@ -1720,7 +1732,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: SlCap
+  shortcode: SlCap
   material: Leather
   flexloc:
   - Skull
@@ -1760,7 +1772,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: BCap
+  shortcode: BCap
   material: Cloth
   flexloc:
   - Skull
@@ -1800,7 +1812,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: CCap
+  shortcode: CCap
   material: Cloth
   flexloc:
   - Skull
@@ -1840,7 +1852,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: RhCap
+  shortcode: RhCap
   material: Leather
   flexloc:
   - Skull
@@ -1879,7 +1891,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: PCap
+  shortcode: PCap
   material: Padded
   flexloc:
   - Skull
@@ -1919,7 +1931,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: QCap
+  shortcode: QCap
   material: Quilted
   flexloc:
   - Skull
@@ -1959,7 +1971,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: HsClk
+  shortcode: HsClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2005,7 +2017,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: LClk
+  shortcode: LClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2050,7 +2062,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: RClk
+  shortcode: RClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2095,7 +2107,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: SgClk
+  shortcode: SgClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2140,7 +2152,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: SlClk
+  shortcode: SlClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2185,7 +2197,7 @@
   weight: 3.3
   encumbrance: 0
   perception: 0
-  abbrev: VClk
+  shortcode: VClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2230,7 +2242,7 @@
   weight: 2.6
   encumbrance: 0
   perception: 0
-  abbrev: WClk
+  shortcode: WClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2276,7 +2288,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: BvCloak
+  shortcode: BvCloak
   material: Leather
   flexloc:
   - Left Shoulder
@@ -2321,7 +2333,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: ECloak
+  shortcode: ECloak
   material: Leather
   flexloc:
   - Left Shoulder
@@ -2366,7 +2378,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: LtCloak
+  shortcode: LtCloak
   material: Leather
   flexloc:
   - Left Shoulder
@@ -2411,7 +2423,7 @@
   weight: 4.6
   encumbrance: 0
   perception: 0
-  abbrev: SlCloak
+  shortcode: SlCloak
   material: Leather
   flexloc:
   - Left Shoulder
@@ -2457,7 +2469,7 @@
   weight: 3.3
   encumbrance: 0
   perception: 0
-  abbrev: BClk
+  shortcode: BClk
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2502,7 +2514,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: HsCoat
+  shortcode: HsCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2554,7 +2566,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: LCoat
+  shortcode: LCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2606,7 +2618,7 @@
   weight: 1.6
   encumbrance: 0
   perception: 0
-  abbrev: SlCoat
+  shortcode: SlCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2658,7 +2670,7 @@
   weight: 2.6
   encumbrance: 0
   perception: 0
-  abbrev: WCoat
+  shortcode: WCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2710,7 +2722,7 @@
   weight: 3.2
   encumbrance: 0
   perception: 0
-  abbrev: BCoat
+  shortcode: BCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2762,7 +2774,7 @@
   weight: 3.2
   encumbrance: 0
   perception: 0
-  abbrev: CCoat
+  shortcode: CCoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -2814,7 +2826,7 @@
   weight: 18.5
   encumbrance: 10
   perception: 0
-  abbrev: GCoat
+  shortcode: GCoat
   material: Gambeson
   flexloc:
   - Left Shoulder
@@ -2871,7 +2883,7 @@
   weight: 5.1
   encumbrance: 0
   perception: 0
-  abbrev: PCoat
+  shortcode: PCoat
   material: Padded
   flexloc:
   - Left Shoulder
@@ -2923,7 +2935,7 @@
   weight: 11.5
   encumbrance: 0
   perception: 0
-  abbrev: QCoat
+  shortcode: QCoat
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -2975,7 +2987,7 @@
   weight: 0.8
   encumbrance: 1.67
   perception: 0
-  abbrev: KCou
+  shortcode: KCou
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -3016,7 +3028,7 @@
   weight: 0.8
   encumbrance: 1.67
   perception: 0
-  abbrev: PlCou
+  shortcode: PlCou
   material: Plate
   flexloc: []
   rigidloc:
@@ -3057,7 +3069,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: HsCowl
+  shortcode: HsCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3098,7 +3110,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: LCowl
+  shortcode: LCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3139,7 +3151,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: RCowl
+  shortcode: RCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3180,7 +3192,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: SgCowl
+  shortcode: SgCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3221,7 +3233,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: VCowl
+  shortcode: VCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3262,7 +3274,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: WCowl
+  shortcode: WCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3303,7 +3315,7 @@
   weight: 1.3
   encumbrance: 0
   perception: 0
-  abbrev: BvCowl
+  shortcode: BvCowl
   material: Leather
   flexloc:
   - Skull
@@ -3344,7 +3356,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: ECowl
+  shortcode: ECowl
   material: Leather
   flexloc:
   - Skull
@@ -3385,7 +3397,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: LtCowl
+  shortcode: LtCowl
   material: Leather
   flexloc:
   - Skull
@@ -3426,7 +3438,7 @@
   weight: 1.9
   encumbrance: 0
   perception: 0
-  abbrev: SlCowl
+  shortcode: SlCowl
   material: Leather
   flexloc:
   - Skull
@@ -3467,7 +3479,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: BCowl
+  shortcode: BCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3508,7 +3520,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: CCowl
+  shortcode: CCowl
   material: Cloth
   flexloc:
   - Skull
@@ -3549,7 +3561,7 @@
   weight: 1.6
   encumbrance: 0
   perception: -5
-  abbrev: RhCowl
+  shortcode: RhCowl
   material: Leather
   flexloc:
   - Skull
@@ -3590,7 +3602,7 @@
   weight: 2.7
   encumbrance: 0
   perception: -5
-  abbrev: MCwl
+  shortcode: MCwl
   material: Mail
   flexloc: []
   rigidloc:
@@ -3631,7 +3643,7 @@
   weight: 0.5
   encumbrance: 0
   perception: -5
-  abbrev: PCwl
+  shortcode: PCwl
   material: Padded
   flexloc:
   - Skull
@@ -3672,7 +3684,7 @@
   weight: 1.1
   encumbrance: 0
   perception: -5
-  abbrev: QCwl
+  shortcode: QCwl
   material: Quilted
   flexloc:
   - Skull
@@ -3712,7 +3724,7 @@
   weight: 3.3
   encumbrance: 0
   perception: -5
-  abbrev: SCwl
+  shortcode: SCwl
   material: Scale
   flexloc: []
   rigidloc:
@@ -3753,7 +3765,7 @@
   weight: 9.1
   encumbrance: 5
   perception: 0
-  abbrev: KCui
+  shortcode: KCui
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -3794,7 +3806,7 @@
   weight: 9.1
   encumbrance: 5
   perception: 0
-  abbrev: PlCui
+  shortcode: PlCui
   material: Plate
   flexloc: []
   rigidloc:
@@ -3836,7 +3848,7 @@
   weight: 7.7
   encumbrance: 5
   perception: 0
-  abbrev: MCui
+  shortcode: MCui
   material: Mail
   flexloc: []
   rigidloc:
@@ -3879,7 +3891,7 @@
   weight: 1.4
   encumbrance: 0
   perception: 0
-  abbrev: PCuis
+  shortcode: PCuis
   material: Padded
   flexloc:
   - Left Thigh
@@ -3922,7 +3934,7 @@
   weight: 3.1
   encumbrance: 0
   perception: 0
-  abbrev: QCui
+  shortcode: QCui
   material: Quilted
   flexloc:
   - Left Thigh
@@ -3965,7 +3977,7 @@
   weight: 9.4
   encumbrance: 5
   perception: 0
-  abbrev: SCui
+  shortcode: SCui
   material: Scale
   flexloc: []
   rigidloc:
@@ -4008,7 +4020,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: HsDress
+  shortcode: HsDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4064,7 +4076,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: LDress
+  shortcode: LDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4120,7 +4132,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: SgDress
+  shortcode: SgDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4176,7 +4188,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: SlDress
+  shortcode: SlDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4232,7 +4244,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: VDress
+  shortcode: VDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4288,7 +4300,7 @@
   weight: 3.2
   encumbrance: 0
   perception: 0
-  abbrev: WDress
+  shortcode: WDress
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -4344,7 +4356,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: CGntl
+  shortcode: CGntl
   material: Cloth
   flexloc:
   - Left Hand
@@ -4385,7 +4397,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: RhGntl
+  shortcode: RhGntl
   material: Leather
   flexloc:
   - Left Hand
@@ -4426,7 +4438,7 @@
   weight: 2.8
   encumbrance: 1.67
   perception: 0
-  abbrev: SGntl
+  shortcode: SGntl
   material: Scale
   flexloc: []
   rigidloc:
@@ -4467,7 +4479,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: RGlv
+  shortcode: RGlv
   material: Cloth
   flexloc:
   - Left Hand
@@ -4507,7 +4519,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: SlGlv
+  shortcode: SlGlv
   material: Cloth
   flexloc:
   - Left Hand
@@ -4548,7 +4560,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: VGlv
+  shortcode: VGlv
   material: Cloth
   flexloc:
   - Left Hand
@@ -4589,7 +4601,7 @@
   weight: 0.4
   encumbrance: 0
   perception: 0
-  abbrev: BvGlv
+  shortcode: BvGlv
   material: Leather
   flexloc:
   - Left Hand
@@ -4630,7 +4642,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: EGlv
+  shortcode: EGlv
   material: Leather
   flexloc:
   - Left Hand
@@ -4671,7 +4683,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: LtGlove
+  shortcode: LtGlove
   material: Leather
   flexloc:
   - Left Hand
@@ -4712,7 +4724,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: BGlv
+  shortcode: BGlv
   material: Cloth
   flexloc:
   - Left Hand
@@ -4753,7 +4765,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: CGlv
+  shortcode: CGlv
   material: Cloth
   flexloc:
   - Left Hand
@@ -4794,7 +4806,7 @@
   weight: 6.8
   encumbrance: 1.67
   perception: -10
-  abbrev: PlGtHlm
+  shortcode: PlGtHlm
   material: Plate
   flexloc: []
   rigidloc:
@@ -4843,7 +4855,7 @@
   weight: 4.6
   encumbrance: 5
   perception: 0
-  abbrev: KGrvs
+  shortcode: KGrvs
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -4884,7 +4896,7 @@
   weight: 4.6
   encumbrance: 5
   perception: 0
-  abbrev: PlGrvs
+  shortcode: PlGrvs
   material: Plate
   flexloc: []
   rigidloc:
@@ -4925,7 +4937,7 @@
   weight: 20.3
   encumbrance: 10
   perception: 0
-  abbrev: MHbgn
+  shortcode: MHbgn
   material: Mail
   flexloc: []
   rigidloc:
@@ -4973,7 +4985,7 @@
   weight: 24.8
   encumbrance: 15
   perception: 0
-  abbrev: SHabg
+  shortcode: SHabg
   material: Scale
   flexloc: []
   rigidloc:
@@ -5021,7 +5033,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: KHlfHelm
+  shortcode: KHlfHelm
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -5063,7 +5075,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: PlHHelm
+  shortcode: PlHHelm
   material: Plate
   flexloc: []
   rigidloc:
@@ -5105,7 +5117,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: LHat
+  shortcode: LHat
   material: Cloth
   flexloc:
   - Skull
@@ -5145,7 +5157,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: RHat
+  shortcode: RHat
   material: Cloth
   flexloc:
   - Skull
@@ -5185,7 +5197,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: StHat
+  shortcode: StHat
   material: Cloth
   flexloc:
   - Skull
@@ -5225,7 +5237,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: VHat
+  shortcode: VHat
   material: Cloth
   flexloc:
   - Skull
@@ -5265,7 +5277,7 @@
   weight: 0.2
   encumbrance: 0
   perception: 0
-  abbrev: WHat
+  shortcode: WHat
   material: Cloth
   flexloc:
   - Skull
@@ -5305,7 +5317,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: BvHat
+  shortcode: BvHat
   material: Leather
   flexloc:
   - Skull
@@ -5345,7 +5357,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: LtHat
+  shortcode: LtHat
   material: Leather
   flexloc:
   - Skull
@@ -5385,7 +5397,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: EHat
+  shortcode: EHat
   material: Leather
   flexloc:
   - Skull
@@ -5425,7 +5437,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: BHat
+  shortcode: BHat
   material: Cloth
   flexloc:
   - Skull
@@ -5465,7 +5477,7 @@
   weight: 28.8
   encumbrance: 15
   perception: 0
-  abbrev: MHbk
+  shortcode: MHbk
   material: Mail
   flexloc: []
   rigidloc:
@@ -5515,7 +5527,7 @@
   weight: 35.2
   encumbrance: 20
   perception: 0
-  abbrev: SHaub
+  shortcode: SHaub
   material: Scale
   flexloc: []
   rigidloc:
@@ -5565,7 +5577,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: LtKBoot
+  shortcode: LtKBoot
   material: Leather
   flexloc:
   - Left Knee
@@ -5610,7 +5622,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: BBoot
+  shortcode: BBoot
   material: Cloth
   flexloc:
   - Left Knee
@@ -5655,7 +5667,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: CKBoot
+  shortcode: CKBoot
   material: Cloth
   flexloc:
   - Left Knee
@@ -5700,7 +5712,7 @@
   weight: 3.8
   encumbrance: 0
   perception: 0
-  abbrev: RhKBoot
+  shortcode: RhKBoot
   material: Leather
   flexloc:
   - Left Knee
@@ -5745,7 +5757,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: KKnee
+  shortcode: KKnee
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -5786,7 +5798,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: PlKncp
+  shortcode: PlKncp
   material: Plate
   flexloc: []
   rigidloc:
@@ -5827,7 +5839,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: HsLeg
+  shortcode: HsLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -5875,7 +5887,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: LLeg
+  shortcode: LLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -5922,7 +5934,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: RLeg
+  shortcode: RLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -5969,7 +5981,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: SgLeg
+  shortcode: SgLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6017,7 +6029,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: SlLeg
+  shortcode: SlLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6065,7 +6077,7 @@
   weight: 1.8
   encumbrance: 0
   perception: 0
-  abbrev: VLeg
+  shortcode: VLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6113,7 +6125,7 @@
   weight: 1.4
   encumbrance: 0
   perception: 0
-  abbrev: WLeg
+  shortcode: WLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6161,7 +6173,7 @@
   weight: 1.8
   encumbrance: 0
   perception: 0
-  abbrev: BLeg
+  shortcode: BLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6209,7 +6221,7 @@
   weight: 1.8
   encumbrance: 0
   perception: 0
-  abbrev: CLeg
+  shortcode: CLeg
   material: Cloth
   flexloc:
   - Pelvis
@@ -6257,7 +6269,7 @@
   weight: 16.2
   encumbrance: 10
   perception: 0
-  abbrev: MLeg
+  shortcode: MLeg
   material: Mail
   flexloc: []
   rigidloc:
@@ -6305,7 +6317,7 @@
   weight: 2.9
   encumbrance: 0
   perception: 0
-  abbrev: PLeg
+  shortcode: PLeg
   material: Padded
   flexloc:
   - Pelvis
@@ -6353,7 +6365,7 @@
   weight: 19.8
   encumbrance: 10
   perception: 0
-  abbrev: SLeg
+  shortcode: SLeg
   material: Scale
   flexloc: []
   rigidloc:
@@ -6401,7 +6413,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: LtLoin
+  shortcode: LtLoin
   material: Leather
   flexloc:
   - Pelvis
@@ -6441,7 +6453,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: CLoin
+  shortcode: CLoin
   material: Cloth
   flexloc:
   - Pelvis
@@ -6481,7 +6493,7 @@
   weight: 2.8
   encumbrance: 0
   perception: 0
-  abbrev: RhLoin
+  shortcode: RhLoin
   material: Leather
   flexloc:
   - Pelvis
@@ -6521,7 +6533,7 @@
   weight: 3.5
   encumbrance: 5
   perception: -5
-  abbrev: MLCowl
+  shortcode: MLCowl
   material: Mail
   flexloc: []
   rigidloc:
@@ -6562,7 +6574,7 @@
   weight: 28.8
   encumbrance: 20
   perception: 0
-  abbrev: MLHbk
+  shortcode: MLHbk
   material: Mail
   flexloc: []
   rigidloc:
@@ -6612,7 +6624,7 @@
   weight: 4.1
   encumbrance: 0
   perception: 0
-  abbrev: LtLngVst
+  shortcode: LtLngVst
   material: Leather
   flexloc:
   - Neck
@@ -6657,7 +6669,7 @@
   weight: 10.9
   encumbrance: 5
   perception: 0
-  abbrev: GLngVest
+  shortcode: GLngVest
   material: Gambeson
   flexloc:
   - Neck
@@ -6702,7 +6714,7 @@
   weight: 6.8
   encumbrance: 5
   perception: 0
-  abbrev: RhLngVst
+  shortcode: RhLngVst
   material: Leather
   flexloc:
   - Neck
@@ -6747,7 +6759,7 @@
   weight: 4.1
   encumbrance: 0
   perception: 0
-  abbrev: LtLgShirt
+  shortcode: LtLgShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -6796,7 +6808,7 @@
   weight: 8.2
   encumbrance: 0
   perception: 0
-  abbrev: SlLgShirt
+  shortcode: SlLgShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -6845,7 +6857,7 @@
   weight: 14.9
   encumbrance: 5
   perception: 0
-  abbrev: MLShirt
+  shortcode: MLShirt
   material: Mail
   flexloc: []
   rigidloc:
@@ -6894,7 +6906,7 @@
   weight: 3.3
   encumbrance: 0
   perception: 0
-  abbrev: PLgSht
+  shortcode: PLgSht
   material: Padded
   flexloc:
   - Left Shoulder
@@ -6943,7 +6955,7 @@
   weight: 6.6
   encumbrance: 0
   perception: 0
-  abbrev: QLgSht
+  shortcode: QLgSht
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -6992,7 +7004,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: HsMntl
+  shortcode: HsMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7036,7 +7048,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: LMntl
+  shortcode: LMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7080,7 +7092,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: RMntl
+  shortcode: RMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7124,7 +7136,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: SgMntl
+  shortcode: SgMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7168,7 +7180,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: WMntl
+  shortcode: WMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7212,7 +7224,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: VMntl
+  shortcode: VMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7256,7 +7268,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: WMntl
+  shortcode: WMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7300,7 +7312,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: BvMntl
+  shortcode: BvMntl
   material: Leather
   flexloc:
   - Left Shoulder
@@ -7344,7 +7356,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: EMntl
+  shortcode: EMntl
   material: Leather
   flexloc:
   - Left Shoulder
@@ -7388,7 +7400,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: LtMntl
+  shortcode: LtMntl
   material: Leather
   flexloc:
   - Left Shoulder
@@ -7432,7 +7444,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: BMntl
+  shortcode: BMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7476,7 +7488,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: CMntl
+  shortcode: CMntl
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7520,7 +7532,7 @@
   weight: 1.1
   encumbrance: 0
   perception: 0
-  abbrev: RhMntl
+  shortcode: RhMntl
   material: Leather
   flexloc:
   - Left Shoulder
@@ -7564,7 +7576,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: PMntl
+  shortcode: PMntl
   material: Padded
   flexloc:
   - Left Shoulder
@@ -7608,7 +7620,7 @@
   weight: 3.8
   encumbrance: 0
   perception: 0
-  abbrev: QMntl
+  shortcode: QMntl
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -7652,7 +7664,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: BvMitt
+  shortcode: BvMitt
   material: Leather
   flexloc:
   - Left Hand
@@ -7693,7 +7705,7 @@
   weight: 2.3
   encumbrance: 1.67
   perception: 0
-  abbrev: MMtn
+  shortcode: MMtn
   material: Mail
   flexloc: []
   rigidloc:
@@ -7734,7 +7746,7 @@
   weight: 0.4
   encumbrance: 0
   perception: 0
-  abbrev: PMitn
+  shortcode: PMitn
   material: Padded
   flexloc:
   - Left Hand
@@ -7775,7 +7787,7 @@
   weight: 3.1
   encumbrance: 0
   perception: 0
-  abbrev: PPant
+  shortcode: PPant
   material: Padded
   flexloc:
   - Pelvis
@@ -7821,7 +7833,7 @@
   weight: 3
   encumbrance: 1.67
   perception: 0
-  abbrev: KRebr
+  shortcode: KRebr
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -7862,7 +7874,7 @@
   weight: 3
   encumbrance: 1.67
   perception: 0
-  abbrev: PlRebr
+  shortcode: PlRebr
   material: Plate
   flexloc: []
   rigidloc:
@@ -7903,7 +7915,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: HsRobe
+  shortcode: HsRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -7959,7 +7971,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: LRobe
+  shortcode: LRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8014,7 +8026,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: RRobe
+  shortcode: RRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8070,7 +8082,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: SgRobe
+  shortcode: SgRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8126,7 +8138,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: SlRobe
+  shortcode: SlRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8182,7 +8194,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: VRobe
+  shortcode: VRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8238,7 +8250,7 @@
   weight: 3.2
   encumbrance: 0
   perception: 0
-  abbrev: WRobe
+  shortcode: WRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8294,7 +8306,7 @@
   weight: 6.1
   encumbrance: 0
   perception: 0
-  abbrev: LtRobe
+  shortcode: LtRobe
   material: Leather
   flexloc:
   - Left Shoulder
@@ -8350,7 +8362,7 @@
   weight: 12.2
   encumbrance: 0
   perception: 0
-  abbrev: SlRobe
+  shortcode: SlRobe
   material: Leather
   flexloc:
   - Left Shoulder
@@ -8406,7 +8418,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: BRobe
+  shortcode: BRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8462,7 +8474,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: CRobe
+  shortcode: CRobe
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8518,7 +8530,7 @@
   weight: 0.1
   encumbrance: 0
   perception: 0
-  abbrev: StShoes
+  shortcode: StShoes
   material: Cloth
   flexloc:
   - Left Foot
@@ -8559,7 +8571,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: LtSandles
+  shortcode: LtSandles
   material: Leather
   flexloc:
   - Left Foot
@@ -8600,7 +8612,7 @@
   weight: 0.4
   encumbrance: 0
   perception: 0
-  abbrev: LShirt
+  shortcode: LShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8645,7 +8657,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: RShirt
+  shortcode: RShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8690,7 +8702,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: SgShirt
+  shortcode: SgShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8735,7 +8747,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: SlShirt
+  shortcode: SlShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8780,7 +8792,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: VShirt
+  shortcode: VShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8825,7 +8837,7 @@
   weight: 1.4
   encumbrance: 0
   perception: 0
-  abbrev: WShirt
+  shortcode: WShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -8870,7 +8882,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: BvShirt
+  shortcode: BvShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -8915,7 +8927,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: EShirt
+  shortcode: EShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -8960,7 +8972,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: LtShirt
+  shortcode: LtShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -9005,7 +9017,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: SlShirt
+  shortcode: SlShirt
   material: Leather
   flexloc:
   - Left Shoulder
@@ -9050,7 +9062,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: BShirt
+  shortcode: BShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -9095,7 +9107,7 @@
   weight: 1.7
   encumbrance: 0
   perception: 0
-  abbrev: CShirt
+  shortcode: CShirt
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -9140,7 +9152,7 @@
   weight: 9.8
   encumbrance: 0
   perception: 0
-  abbrev: GSht
+  shortcode: GSht
   material: Gambeson
   flexloc:
   - Left Shoulder
@@ -9187,7 +9199,7 @@
   weight: 13.2
   encumbrance: 1.67
   perception: 0
-  abbrev: MShirt
+  shortcode: MShirt
   material: Mail
   flexloc: []
   rigidloc:
@@ -9232,7 +9244,7 @@
   weight: 2.6
   encumbrance: 0
   perception: 0
-  abbrev: PSht
+  shortcode: PSht
   material: Padded
   flexloc:
   - Left Shoulder
@@ -9277,7 +9289,7 @@
   weight: 5.9
   encumbrance: 0
   perception: 0
-  abbrev: QSht
+  shortcode: QSht
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -9322,7 +9334,7 @@
   weight: 0.9
   encumbrance: 0
   perception: 0
-  abbrev: LtShoe
+  shortcode: LtShoe
   material: Leather
   flexloc:
   - Left Foot
@@ -9363,7 +9375,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: CShoe
+  shortcode: CShoe
   material: Cloth
   flexloc:
   - Left Foot
@@ -9404,7 +9416,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: RhShoe
+  shortcode: RhShoe
   material: Leather
   flexloc:
   - Left Foot
@@ -9445,7 +9457,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: HsSkirt
+  shortcode: HsSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9491,7 +9503,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: LSkirt
+  shortcode: LSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9537,7 +9549,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: RSkirt
+  shortcode: RSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9583,7 +9595,7 @@
   weight: 1.5
   encumbrance: 0
   perception: 0
-  abbrev: SgSkirt
+  shortcode: SgSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9629,7 +9641,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: StSkirt
+  shortcode: StSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9675,7 +9687,7 @@
   weight: 2.4
   encumbrance: 0
   perception: 0
-  abbrev: WSkirt
+  shortcode: WSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9721,7 +9733,7 @@
   weight: 2.4
   encumbrance: 0
   perception: 0
-  abbrev: LtSkirt
+  shortcode: LtSkirt
   material: Leather
   flexloc:
   - Pelvis
@@ -9767,7 +9779,7 @@
   weight: 3
   encumbrance: 0
   perception: 0
-  abbrev: BSkirt
+  shortcode: BSkirt
   material: Cloth
   flexloc:
   - Pelvis
@@ -9813,7 +9825,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: RhSkirt
+  shortcode: RhSkirt
   material: Leather
   flexloc:
   - Pelvis
@@ -9859,7 +9871,7 @@
   weight: 22
   encumbrance: 10
   perception: 0
-  abbrev: MSByr
+  shortcode: MSByr
   material: Mail
   flexloc: []
   rigidloc:
@@ -9910,7 +9922,7 @@
   weight: 22
   encumbrance: 15
   perception: 0
-  abbrev: SSlByrn
+  shortcode: SSlByrn
   material: Scale
   flexloc: []
   rigidloc:
@@ -9960,7 +9972,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: HsTunic
+  shortcode: HsTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10008,7 +10020,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: LTunic
+  shortcode: LTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10056,7 +10068,7 @@
   weight: 1.3
   encumbrance: 0
   perception: 0
-  abbrev: RTunic
+  shortcode: RTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10104,7 +10116,7 @@
   weight: 1.3
   encumbrance: 0
   perception: 0
-  abbrev: SgTunic
+  shortcode: SgTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10152,7 +10164,7 @@
   weight: 1.3
   encumbrance: 0
   perception: 0
-  abbrev: SlSTunic
+  shortcode: SlSTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10200,7 +10212,7 @@
   weight: 2.5
   encumbrance: 0
   perception: 0
-  abbrev: VTunic
+  shortcode: VTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10248,7 +10260,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: WTunic
+  shortcode: WTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10296,7 +10308,7 @@
   weight: 5.4
   encumbrance: 0
   perception: 0
-  abbrev: BvTunic
+  shortcode: BvTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -10344,7 +10356,7 @@
   weight: 4.1
   encumbrance: 0
   perception: 0
-  abbrev: LtSTunic
+  shortcode: LtSTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -10392,7 +10404,7 @@
   weight: 8.2
   encumbrance: 0
   perception: 0
-  abbrev: SlTunic
+  shortcode: SlTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -10440,7 +10452,7 @@
   weight: 2.5
   encumbrance: 0
   perception: 0
-  abbrev: BTunic
+  shortcode: BTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10488,7 +10500,7 @@
   weight: 2.5
   encumbrance: 0
   perception: 0
-  abbrev: CTunic
+  shortcode: CTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10536,7 +10548,7 @@
   weight: 14.6
   encumbrance: 10
   perception: 0
-  abbrev: GSTnc
+  shortcode: GSTnc
   material: Gambeson
   flexloc:
   - Left Shoulder
@@ -10584,7 +10596,7 @@
   weight: 6.8
   encumbrance: 0
   perception: 0
-  abbrev: RhSTunic
+  shortcode: RhSTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -10632,7 +10644,7 @@
   weight: 4
   encumbrance: 0
   perception: 0
-  abbrev: PTnc
+  shortcode: PTnc
   material: Padded
   flexloc:
   - Left Shoulder
@@ -10680,7 +10692,7 @@
   weight: 9
   encumbrance: 0
   perception: 0
-  abbrev: QTnc
+  shortcode: QTnc
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -10728,7 +10740,7 @@
   weight: 1.1
   encumbrance: 1.67
   perception: 0
-  abbrev: KSpld
+  shortcode: KSpld
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -10769,7 +10781,7 @@
   weight: 1.1
   encumbrance: 1.67
   perception: 0
-  abbrev: PlSpld
+  shortcode: PlSpld
   material: Plate
   flexloc: []
   rigidloc:
@@ -10810,7 +10822,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: HsScoat
+  shortcode: HsScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10860,7 +10872,7 @@
   weight: 0.7
   encumbrance: 0
   perception: 0
-  abbrev: LScoat
+  shortcode: LScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10909,7 +10921,7 @@
   weight: 1.4
   encumbrance: 0
   perception: 0
-  abbrev: SlScoat
+  shortcode: SlScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -10959,7 +10971,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: WScoat
+  shortcode: WScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -11009,7 +11021,7 @@
   weight: 4.1
   encumbrance: 0
   perception: 0
-  abbrev: LtScoat
+  shortcode: LtScoat
   material: Leather
   flexloc:
   - Left Shoulder
@@ -11059,7 +11071,7 @@
   weight: 2.7
   encumbrance: 0
   perception: 0
-  abbrev: BScoat
+  shortcode: BScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -11109,7 +11121,7 @@
   weight: 2.7
   encumbrance: 0
   perception: 0
-  abbrev: CScoat
+  shortcode: CScoat
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -11159,7 +11171,7 @@
   weight: 4.3
   encumbrance: 0
   perception: 0
-  abbrev: PScoat
+  shortcode: PScoat
   material: Padded
   flexloc:
   - Left Shoulder
@@ -11209,7 +11221,7 @@
   weight: 9.7
   encumbrance: 0
   perception: 0
-  abbrev: QScoat
+  shortcode: QScoat
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -11259,7 +11271,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: HsSwd
+  shortcode: HsSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11302,7 +11314,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: LnSwd
+  shortcode: LnSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11344,7 +11356,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: RSwd
+  shortcode: RSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11387,7 +11399,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: SgSwd
+  shortcode: SgSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11430,7 +11442,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: SlSwd
+  shortcode: SlSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11474,7 +11486,7 @@
   weight: 0.8
   encumbrance: 0
   perception: 0
-  abbrev: WSwd
+  shortcode: WSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11517,7 +11529,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: BSwd
+  shortcode: BSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11560,7 +11572,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: CSwd
+  shortcode: CSwd
   material: Cloth
   flexloc:
   - Left Calf
@@ -11603,7 +11615,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: HsTrsr
+  shortcode: HsTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11649,7 +11661,7 @@
   weight: 0.5
   encumbrance: 0
   perception: 0
-  abbrev: LTrsr
+  shortcode: LTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11695,7 +11707,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: RTrsr
+  shortcode: RTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11741,7 +11753,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: SgTrsr
+  shortcode: SgTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11787,7 +11799,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: VTrsr
+  shortcode: VTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11833,7 +11845,7 @@
   weight: 1.6
   encumbrance: 0
   perception: 0
-  abbrev: WTrsr
+  shortcode: WTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11879,7 +11891,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: BTrsr
+  shortcode: BTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11925,7 +11937,7 @@
   weight: 2
   encumbrance: 0
   perception: 0
-  abbrev: CTrsr
+  shortcode: CTrsr
   material: Cloth
   flexloc:
   - Pelvis
@@ -11971,7 +11983,7 @@
   weight: 3.1
   encumbrance: 0
   perception: 0
-  abbrev: PTrsr
+  shortcode: PTrsr
   material: Padded
   flexloc:
   - Pelvis
@@ -12017,7 +12029,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: HsTunic
+  shortcode: HsTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12065,7 +12077,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: LTunic
+  shortcode: LTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12113,7 +12125,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: RTunic
+  shortcode: RTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12161,7 +12173,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: SgTunic
+  shortcode: SgTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12209,7 +12221,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: SlTunic
+  shortcode: SlTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12257,7 +12269,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: VTunic
+  shortcode: VTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12305,7 +12317,7 @@
   weight: 1.8
   encumbrance: 0
   perception: 0
-  abbrev: WTunic
+  shortcode: WTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12353,7 +12365,7 @@
   weight: 5.4
   encumbrance: 0
   perception: 0
-  abbrev: BvTunic
+  shortcode: BvTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -12401,7 +12413,7 @@
   weight: 4.1
   encumbrance: 0
   perception: 0
-  abbrev: LtTunic
+  shortcode: LtTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -12449,7 +12461,7 @@
   weight: 8.2
   encumbrance: 0
   perception: 0
-  abbrev: SlTunic
+  shortcode: SlTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -12497,7 +12509,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: BTunic
+  shortcode: BTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12545,7 +12557,7 @@
   weight: 2.3
   encumbrance: 0
   perception: 0
-  abbrev: CTunic
+  shortcode: CTunic
   material: Cloth
   flexloc:
   - Left Shoulder
@@ -12593,7 +12605,7 @@
   weight: 13.2
   encumbrance: 5
   perception: 0
-  abbrev: GTnc
+  shortcode: GTnc
   material: Gambeson
   flexloc:
   - Left Shoulder
@@ -12641,7 +12653,7 @@
   weight: 6.8
   encumbrance: 0
   perception: 0
-  abbrev: RhTunic
+  shortcode: RhTunic
   material: Leather
   flexloc:
   - Left Shoulder
@@ -12689,7 +12701,7 @@
   weight: 3.6
   encumbrance: 0
   perception: 0
-  abbrev: PTnc
+  shortcode: PTnc
   material: Padded
   flexloc:
   - Left Shoulder
@@ -12737,7 +12749,7 @@
   weight: 8.1
   encumbrance: 0
   perception: 0
-  abbrev: QTnc
+  shortcode: QTnc
   material: Quilted
   flexloc:
   - Left Shoulder
@@ -12785,7 +12797,7 @@
   weight: 1.9
   encumbrance: 1.67
   perception: 0
-  abbrev: KVamb
+  shortcode: KVamb
   material: Kûrbúl
   flexloc: []
   rigidloc:
@@ -12826,7 +12838,7 @@
   weight: 1.9
   encumbrance: 1.67
   perception: 0
-  abbrev: PlVamb
+  shortcode: PlVamb
   material: Plate
   flexloc: []
   rigidloc:
@@ -12867,7 +12879,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: HsVest
+  shortcode: HsVest
   material: Cloth
   flexloc:
   - Thorax
@@ -12908,7 +12920,7 @@
   weight: 0.3
   encumbrance: 0
   perception: 0
-  abbrev: LVest
+  shortcode: LVest
   material: Cloth
   flexloc:
   - Thorax
@@ -12949,7 +12961,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: RVest
+  shortcode: RVest
   material: Cloth
   flexloc:
   - Thorax
@@ -12990,7 +13002,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: SgVest
+  shortcode: SgVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13031,7 +13043,7 @@
   weight: 0.6
   encumbrance: 0
   perception: 0
-  abbrev: SlVest
+  shortcode: SlVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13072,7 +13084,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: VVest
+  shortcode: VVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13113,7 +13125,7 @@
   weight: 1
   encumbrance: 0
   perception: 0
-  abbrev: WVest
+  shortcode: WVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13154,7 +13166,7 @@
   weight: 2.9
   encumbrance: 0
   perception: 0
-  abbrev: BvVest
+  shortcode: BvVest
   material: Leather
   flexloc:
   - Thorax
@@ -13195,7 +13207,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: EVest
+  shortcode: EVest
   material: Leather
   flexloc:
   - Thorax
@@ -13236,7 +13248,7 @@
   weight: 2.2
   encumbrance: 0
   perception: 0
-  abbrev: LtVest
+  shortcode: LtVest
   material: Leather
   flexloc:
   - Thorax
@@ -13277,7 +13289,7 @@
   weight: 4.3
   encumbrance: 0
   perception: 0
-  abbrev: SlVest
+  shortcode: SlVest
   material: Leather
   flexloc:
   - Thorax
@@ -13318,7 +13330,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: BVest
+  shortcode: BVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13359,7 +13371,7 @@
   weight: 1.2
   encumbrance: 0
   perception: 0
-  abbrev: CVest
+  shortcode: CVest
   material: Cloth
   flexloc:
   - Thorax
@@ -13400,7 +13412,7 @@
   weight: 7.3
   encumbrance: 0
   perception: 0
-  abbrev: GVest
+  shortcode: GVest
   material: Gambeson
   flexloc: []
   rigidloc:
@@ -13441,7 +13453,7 @@
   weight: 3.6
   encumbrance: 0
   perception: 0
-  abbrev: RhVest
+  shortcode: RhVest
   material: Leather
   flexloc:
   - Thorax
@@ -13482,7 +13494,7 @@
   weight: 13.2
   encumbrance: 0
   perception: 0
-  abbrev: MVest
+  shortcode: MVest
   material: Mail
   flexloc: []
   rigidloc:
@@ -13523,7 +13535,7 @@
   weight: 1.9
   encumbrance: 0
   perception: 0
-  abbrev: PVest
+  shortcode: PVest
   material: Padded
   flexloc:
   - Thorax
@@ -13564,7 +13576,7 @@
   weight: 4.3
   encumbrance: 0
   perception: 0
-  abbrev: QVest
+  shortcode: QVest
   material: Quilted
   flexloc:
   - Thorax
@@ -13605,7 +13617,7 @@
   weight: 13.2
   encumbrance: 5
   perception: 0
-  abbrev: SVest
+  shortcode: SVest
   material: Scale
   flexloc: []
   rigidloc:
@@ -13646,7 +13658,7 @@
   weight: 17.6
   encumbrance: 0.00
   perception: 0
-  abbrev: RByr
+  shortcode: RByr
   material: Ring
   flexloc:
   - Left Shoulder
@@ -13689,7 +13701,7 @@
   weight: 26.4
   encumbrance: 10.00
   perception: 0
-  abbrev: RHbk
+  shortcode: RHbk
   material: Ring
   flexloc:
   - Left Shoulder
@@ -13737,7 +13749,7 @@
   weight: 17.6
   encumbrance: 5.00
   perception: 0
-  abbrev: RLeg
+  shortcode: RLeg
   material: Ring
   flexloc:
   - Pelvis
@@ -13783,7 +13795,7 @@
   weight: 1.6
   encumbrance: 0.00
   perception: 0
-  abbrev: RMtn
+  shortcode: RMtn
   material: Ring
   flexloc:
   - Left Hand
@@ -13822,7 +13834,7 @@
   weight: 11.2
   encumbrance: 0.00
   perception: 0
-  abbrev: RVest
+  shortcode: RVest
   material: Ring
   flexloc:
   - Thorax

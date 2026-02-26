@@ -1,9 +1,21 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import fs from "fs";
 import path from "path";
 import yaml from "yaml";
 import unidecode from "unidecode";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
 
 const stats = {
     systemId: "sohl",
@@ -60,62 +72,41 @@ export class Mysteries {
         return result;
     }
 
-    async processPhilosophies() {
-        const filePath = path.join(this.dataDir, "philosophies.yaml");
+    async processDomains() {
+        const filePath = path.join(this.dataDir, "domains.yaml");
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
-        for (const phil of data) {
-            log.debug(`Processing Philosophy ${phil.name}`);
+        for (const domain of data) {
+            log.debug(`Processing Domain ${domain.name}`);
             let fname =
-                `${unidecode(phil.name)}_${phil.id}`.replace(
+                `${unidecode(domain.name)}_${domain.id}`.replace(
                     /[^0-9a-zA-Z]+/g,
                     "_",
                 ) + ".json";
             let outputPath = path.join(this.outputDir, fname);
 
             const outputData = {
-                name: phil.name,
-                type: "philosophy",
-                img: phil.img,
-                _id: phil.id,
+                name: domain.name,
+                type: "domain",
+                img: domain.img,
+                _id: domain.id,
                 system: {
                     notes: "",
                     textReference: "",
-                    description: phil.description,
-                    macros: phil.macros,
-                    nestedItems: [],
-                    transfer: false,
-                    category: phil.category,
+                    description: domain.description,
+                    shortcode: domain.shortcode,
+                    cusp: domain.cusp,
+                    philosophy: domain.philosophy,
+                    magicMod: domain.magicMod,
+                    embodiments: domain.embodiments,
                 },
-                effects: phil.effects || [],
-                flags: phil.flags || {},
+                effects: domain.effects || [],
+                flags: domain.flags || {},
                 _stats: stats,
                 ownership: { default: 0 },
-                folder: phil.folderId || null,
-                _key: `!items!${phil.id}`,
+                folder: domain.folderId || null,
+                _key: `!items!${domain.id}`,
             };
-
-            for (const ni of phil.nestedItems) {
-                const nestedItem = {
-                    name: ni.name,
-                    type: "domain",
-                    img: ni.img,
-                    _id: ni.id,
-                    system: {
-                        notes: "",
-                        textReference: "",
-                        description: ni.description,
-                        macros: ni.macros,
-                        nestedItems: [],
-                        transfer: true,
-                        abbrev: ni.abbrev,
-                    },
-                    effects: ni.effects || [],
-                    flags: ni.flags || {},
-                    ownership: { default: 0 },
-                };
-                outputData.system.nestedItems.push(nestedItem);
-            }
 
             fs.writeFileSync(
                 outputPath,
@@ -148,17 +139,18 @@ export class Mysteries {
                     notes: "",
                     textReference: "",
                     description: mysticalability.description,
-                    macros: mysticalability.macros,
-                    nestedItems: [],
-                    transfer: false,
-                    abbrev: mysticalability.abbrev,
+                    shortcode: mysticalability.shortcode,
+                    assocSkill: mysticalability.assocSkill,
+                    isImprovable: mysticalability.isImprovable,
                     skillBaseFormula: mysticalability.skillBaseFormula,
                     masteryLevelBase: 0,
                     improveFlag: false,
-                    domain: mysticalability.domain,
+                    domain: {
+                        philosophy:mysticalability.philosophy,
+                        name: mysticalability.name,
+                    },
                     levelBase: mysticalability.level,
                     charges: {
-                        usesCharges: mysticalability.usesCharges,
                         value: mysticalability.chargesValue,
                         max: mysticalability.chargesMax,
                     },
@@ -174,7 +166,7 @@ export class Mysteries {
             fs.writeFileSync(
                 outputPath,
                 JSON.stringify(outputData, null, 2),
-                "utf8",
+                "utf8"
             );
         }
     }
@@ -211,9 +203,6 @@ export class Mysteries {
                     notes: "",
                     textReference: "",
                     description: mystery.description,
-                    macros: mystery.macros,
-                    nestedItems: [],
-                    transfer: false,
                     domain: mystery.domain,
                     skills: mystery.skills,
                     levelBase: mystery.level,
@@ -274,7 +263,7 @@ export class Mysteries {
     }
 
     async compile() {
-        await this.processPhilosophies();
+        await this.processDomains();
         await this.processMysticalAbilities();
         await this.processMysteries();
         await this.processFolders();

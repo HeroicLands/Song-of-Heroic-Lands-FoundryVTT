@@ -1,0 +1,55 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form>
+    <div class="form-group">
+        <label>Existing Time:</label>
+        <span id="time">{{displayWorldTime setTime}}</span>
+    </div>
+
+    <div class="form-group">
+        <label>Time Base:</label>
+        <select name="timeBase">
+            {{selectOptions timeBases selected=timeBase}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Direction:</label>
+        <select name="direction">
+            {{selectOptions timeDirections selected=direction}}
+        </select>
+    </div>
+
+    <fieldset>
+        <legend>Time Setting</legend>
+        <div class="flexrow">
+            <div>
+                <label>Days</label>
+                {{numberInput days name="days" step=1 min=0}}
+            </div>
+            <div>
+                <label>Hours</label>
+                {{numberInput hours name="hours" step=1 min=0}}
+            </div>
+            <div>
+                <label>Mins</label>
+                {{numberInput mins name="mins" step=1 min=0}}
+            </div>
+            <div>
+                <label>Secs</label>
+                {{numberInput secs name="secs" step=1 min=0}}
+            </div>
+        </div>
+    </fieldset>
+</form>

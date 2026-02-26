@@ -1,5 +1,6 @@
-.bodylocations {
+@use "../utils/colors";
 
+.bodylocations {
     .zone-list {
         list-style: none;
         margin: 7px 0px;
@@ -12,12 +13,12 @@
             font-weight: bold;
             text-align: center;
         }
-    
+
         .full-location-name {
             flex: 0 0 150px;
             text-overflow: ellipsis;
             white-space: nowrap;
-//            overflow: hidden;
+            //            overflow: hidden;
         }
 
         .bodylocation-header {
@@ -25,7 +26,7 @@
         }
 
         .bodylocation {
-            border-bottom: 1px solid #bbb;
+            border-bottom: 1px solid colors.$c-border-default;
             align-items: center;
             line-height: normal;
 
@@ -71,12 +72,12 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
-        }    
+        }
 
         .zone-header {
             font-weight: bold;
-            background: rgba(0, 0, 0, 0.10);
-            border-bottom: 1px solid #bbb;
+            background: colors.$c-bg-overlay-medium;
+            border-bottom: 1px solid colors.$c-border-default;
 
             .zone-image {
                 flex: 0 0 24px;
@@ -119,8 +120,8 @@
 
         .bodypart-header {
             font-weight: bold;
-            background: rgba(0, 0, 0, 0.05);
-            border-bottom: 1px solid #bbb;
+            background: colors.$c-bg-overlay-light;
+            border-bottom: 1px solid colors.$c-border-default;
 
             .bodypart-image {
                 flex: 0 0 24px;
@@ -137,7 +138,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 padding-left: 5px;
-                border-right: 1px solid #c9c7b8;
+                border-right: 1px solid colors.$c-border-default;
 
                 h4 {
                     font-weight: bold;
