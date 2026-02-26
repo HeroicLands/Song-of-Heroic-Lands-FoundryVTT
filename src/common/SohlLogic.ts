@@ -68,6 +68,7 @@ export abstract class SohlLogic<
     TData extends SohlDataModel.Data<any> = SohlDataModel.Data<any>,
 > extends SohlBase {
     private readonly _parent: TData;
+    actions: ActionLogic[];
 
     /**
      * The parent data model this logic is embedded in.
@@ -176,7 +177,10 @@ export abstract class SohlLogic<
         }
         super(data, options);
         this._parent = options.parent;
+        this.actions = [];
     }
+
+    setupIntrinsicActions(): void {}
 
     setDefaultAction(action: ActionLogic[]): void {
         // Ensure there is at most one default, all others set to Essential

@@ -28,7 +28,9 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     get item(): SohlItem | null {
-        return ItemKinds.includes(this.parent.type) ? this.parent : null;
+        return ItemKinds.includes(this.parent?.type as any) ?
+                (this.parent as SohlItem)
+            :   null;
     }
 
     get actor(): SohlActor {

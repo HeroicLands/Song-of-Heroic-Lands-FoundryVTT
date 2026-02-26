@@ -15,7 +15,7 @@ import type { SohlSpeaker } from "@common/SohlSpeaker";
 import { SohlSystem } from "@common/SohlSystem";
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
-import { DEFAULT_BIOME_SPEED_FACTORS, LOGLEVEL } from "@utils/constants";
+import { LOGLEVEL } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
 
 // Register all system variants
@@ -169,14 +169,14 @@ function registerSystemSettings() {
         },
         default: "kilometer",
     });
-    game.settings.register("sohl", "biomeSpeedFactors", {
-        name: "Biome Speed Factors",
-        hint: "Multipliers for base movement speed by biome. 1.0 = normal speed.",
-        scope: "world",
-        config: true,
-        type: Array,
-        default: DEFAULT_BIOME_SPEED_FACTORS,
-    });
+    // game.settings.register("sohl", "biomeSpeedFactors", {
+    //     name: "Biome Speed Factors",
+    //     hint: "Multipliers for base movement speed by biome. 1.0 = normal speed.",
+    //     scope: "world",
+    //     config: true,
+    //     type: Array,
+    //     default: DEFAULT_BIOME_SPEED_FACTORS,
+    // });
     game.settings.register("sohl", "logThreshold", {
         name: "Log Level Threshold",
         scope: "world",

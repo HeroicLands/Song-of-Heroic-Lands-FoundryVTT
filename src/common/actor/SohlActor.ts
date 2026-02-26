@@ -194,9 +194,12 @@ export class SohlActor extends Actor {
         return this._speaker;
     }
 
+    setupIntrinsicActions(context: SohlActionContext): void {}
+
     prepareBaseData(): void {
         super.prepareBaseData();
         this._speaker = undefined;
+        this.logic.setupIntrinsicActions();
         this.logic.initialize(this._getContext());
     }
 
@@ -208,6 +211,7 @@ export class SohlActor extends Actor {
         const ctx = this._getContext();
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
+            item.logic.setupIntrinsicActions();
             item.logic.initialize(ctx);
         }
         this.finalizeItemsCache();

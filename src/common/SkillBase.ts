@@ -66,7 +66,9 @@ export class SkillBase {
             if (type === "string") {
                 const [subType, name, multval] = param.split(":");
                 if (subType === "attr") {
-                    const attr = attributes.find((a) => a.shortcode === name);
+                    const attr = attributes.find(
+                        (a: TraitData) => a.shortcode === name,
+                    );
 
                     if (attr) {
                         const score = Number.parseInt(attr.textValue, 10);
