@@ -142,6 +142,7 @@ export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
     notes: HTMLString;
     description: HTMLString;
     textReference: HTMLString;
+    shortcode: string;
     nestedIn: string | null;
 }
 
@@ -198,6 +199,7 @@ export abstract class SohlItemDataModel<
     notes!: HTMLString;
     description!: HTMLString;
     textReference!: HTMLString;
+    shortcode!: string;
     transfer!: boolean;
     nestedIn!: string | null;
 
