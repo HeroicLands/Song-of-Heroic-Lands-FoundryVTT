@@ -11,29 +11,14 @@
 
     <fieldset>
         <legend>Impact Modifier</legend>
-        <div class="card-content">
-            <div class="adjustment">
-                <div class="flexrow">
-                    <span class="label adj-name">Adjustment</span>
-                    <span class="label adj-value">Value</span>
-                </div>
-                {{#each impact.mods}}
-                <div class="flexrow">
-                    <span class="adj-name">{{this.name}}</span>
-                    <span class="adj-value"
-                        >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
-                    >
-                </div>
-                {{/each}}
-            </div>
-        </div>
+        {{{impactResult.impactMod.chatHtml}}}
     </fieldset>
 
     <div class="grid grid-2col">
         <div class="card-content center">
             <div class="flexrow">
                 <span class="label">Formula:</span>
-                <span class="value">{{impactFormula}}</span>
+                <span class="value">{{impactResult.impactMod.label}}</span>
             </div>
         </div>
 
@@ -41,55 +26,66 @@
             <div class="flexrow">
                 <span class="label">Roll:</span>
                 <span class="value"
-                    >{{rolledResult}} = <strong>{{rolledTotal}}</strong></span
+                    >{{impactResult.roll.result}} = <strong>{{impactResult.roll.total}}</strong></span
                 >
             </div>
         </div>
     </div>
 
-    {{#if isBlunt}}
-    <div class="card-content center">
-        <span class="value"
-            >Missile is blunted, so actual damage will be halved.</span
-        >
-    </div>
-    {{/if}}
-
-    <div class="card-content">
-        <div class="flexrow flex-center">
-            <span class="label">Final Impact:</span>
-            <span class="value"><strong>{{totalImpact}}</strong></span>
-        </div>
-    </div>
-
-    {{#if impact.armorReduction.effective}}
+    {{#if impactResult.impactMod.armorReduction.effective}}
     <fieldset>
         <legend>Armor Reduction</legend>
-        <div class="card-content">{{genModHtml impact.mods}}</div>
+        <div class="card-content">
+            {{{impactResult.impactMod.armorReduction.chatHtml}}}
+        </div>
 
         <div class="card-content">
             <div class="flexrow flex-center">
-                <span class="label">Armor Reduction:</span>
-                <span class="value">{{impact.armorReduction.effective}}</span>
+                <span class="label">Total:</span>
+                <span class="value">{{impactResult.impactMod.armorReduction.effective}}</span>
             </div>
         </div>
     </fieldset>
     {{/if}}
 
-    <div class="card-buttons">
-        {{#if (and targetToken totalImpact)}}
-        <button
-            data-action="injury"
-            data-handler-uuid="{{targetToken.actor.uuid}}"
-            data-aspect="{{impact.aspect}}"
-            data-impact="{{totalImpact}}"
-            data-armor-reduction="{{impact.armorReduction.effective}}"
-            data-extra-bleed-risk="{{extraBleedRisk}}"
-            data-zone-die-formula="{{zoneDieFormula}}"
-            data-is-projectile="{{isProjectile}}"
-            data-body-location="{{bodyLocation}}">
-            Calculate {{targetToken.name}} Injury
-        </button>
-        {{/if}}
+    {{#if impactResult.impactMod.zoneDie}}
+    <div class="card-content">
+        <div class="flexrow flex-center">
+            <span class="label">Start Zone:</span>
+            <span class="value">{{impactResult.impactMod.startZone}}</span>
+        </div>
+        <div class="flexrow flex-center">
+            <span class="label">Zone Die:</span>
+            <span class="value">d{{impactResult.impactMod.zoneDie}}</span>
+        </div>
     </div>
+    {{else}}
+    <div class="card-content center">
+        <span class="value">No Zone Die: Area Impact</span>
+    </div>
+    {{/if}}
+
+    {{#if impactResult.impactMod.isProjectile}}
+    <div class="card-content center">
+        <span class="value">Impact is from a projectile.</span>
+    </div>
+    {{/if}}
+
+    {{#if impactResult.impactMod.extraBleedRisk}}
+    <div class="card-content center">
+        <span class="value">Risk of extra bleeding from impact.</span>
+    </div>
+    {{/if}}
+
+    {{#if (and targetToken impactResult.roll.total)}}
+    <div class="card-buttons">
+        <button
+            data-action="createInjury"
+            data-handler-uuid="{{targetToken.actor.uuid}}"
+            data-source-actor-uuid="{{actor.uuid}}"
+            data-test-result-json="{{testResultJson}}"
+            >Calculate {{targetToken.name}} Injury
+        </button>
+    </div>
+    {{/if}}
 </div>

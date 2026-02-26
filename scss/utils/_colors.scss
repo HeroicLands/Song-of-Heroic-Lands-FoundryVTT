@@ -1,2 +1,36 @@
-$c-white: #fff;
-$c-black: #000;
+// Palette rule:
+// If a new color is needed, first try solving the problem with
+// weight, spacing, border strength, or opacity before adding hue.
+
+// Primary text colors
+$c-text-primary: #191813; // body text
+$c-text-secondary: #343225; // UI, tabs, labels
+$c-text-muted: #8e8c7f; // hints, metadata, disabled
+$c-text-inverse: #f6f4ea; // text on dark backgrounds
+
+// Border colors
+$c-border-subtle: #eeede0; // separators, table lines
+$c-border-default: #c9c7b8; // panels, inputs
+$c-border-strong: #8a887c; // active / focus / emphasis
+
+// Background colors
+$c-bg-header: #c9c7b8;
+$c-bg-overlay-light: rgba(0, 0, 0, 0.04);
+$c-bg-overlay-medium: rgba(0, 0, 0, 0.08);
+$c-bg-overlay-dark: rgba(0, 0, 0, 0.12);
+$c-bg-input: #7a7971;
+$c-bg-input-active: #d6d2b4;
+
+// State colors
+$c-warning: #a8a200;
+$c-alert: #a87c00;
+$c-danger: #c84a3a;
+$c-success: #5f6f3a;
+$c-info: #4f6b73;
+
+// Indicator colors
+$c-health-bar: #6f979a; // health/endurance bar fill
+
+// Accent colors
+$c-tooltip-bg: #c7b35a;
+$c-tooltip-text: #191813;

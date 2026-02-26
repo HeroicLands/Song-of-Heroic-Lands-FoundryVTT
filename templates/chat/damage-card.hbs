@@ -1,0 +1,104 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header flexrow">
+        <h3 class="title">{{title}}</h3>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span>{{notes}}</span>
+    </div>
+    {{/if}}
+
+    <fieldset>
+        <legend>Impact Modifier</legend>
+        {{{impactResult.impactMod.chatHtml}}}
+    </fieldset>
+
+    <div class="grid grid-2col">
+        <div class="card-content center">
+            <div class="flexrow">
+                <span class="label">Formula:</span>
+                <span class="value">{{impactResult.impactMod.label}}</span>
+            </div>
+        </div>
+
+        <div class="card-content center">
+            <div class="flexrow">
+                <span class="label">Roll:</span>
+                <span class="value"
+                    >{{impactResult.roll.result}} = <strong>{{impactResult.roll.total}}</strong></span
+                >
+            </div>
+        </div>
+    </div>
+
+    {{#if impactResult.impactMod.armorReduction.effective}}
+    <fieldset>
+        <legend>Armor Reduction</legend>
+        <div class="card-content">
+            {{{impactResult.impactMod.armorReduction.chatHtml}}}
+        </div>
+
+        <div class="card-content">
+            <div class="flexrow flex-center">
+                <span class="label">Total:</span>
+                <span class="value">{{impactResult.impactMod.armorReduction.effective}}</span>
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
+    {{#if impactResult.impactMod.zoneDie}}
+    <div class="card-content">
+        <div class="flexrow flex-center">
+            <span class="label">Start Zone:</span>
+            <span class="value">{{impactResult.impactMod.startZone}}</span>
+        </div>
+        <div class="flexrow flex-center">
+            <span class="label">Zone Die:</span>
+            <span class="value">d{{impactResult.impactMod.zoneDie}}</span>
+        </div>
+    </div>
+    {{else}}
+    <div class="card-content center">
+        <span class="value">No Zone Die: Area Impact</span>
+    </div>
+    {{/if}}
+
+    {{#if impactResult.impactMod.isProjectile}}
+    <div class="card-content center">
+        <span class="value">Impact is from a projectile.</span>
+    </div>
+    {{/if}}
+
+    {{#if impactResult.impactMod.extraBleedRisk}}
+    <div class="card-content center">
+        <span class="value">Risk of extra bleeding from impact.</span>
+    </div>
+    {{/if}}
+
+    {{#if (and targetToken impactResult.roll.total)}}
+    <div class="card-buttons">
+        <button
+            data-action="createInjury"
+            data-handler-uuid="{{targetToken.actor.uuid}}"
+            data-source-actor-uuid="{{actor.uuid}}"
+            data-test-result-json="{{testResultJson}}"
+            >Calculate {{targetToken.name}} Injury
+        </button>
+    </div>
+    {{/if}}
+</div>

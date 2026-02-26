@@ -1,69 +1,37 @@
 {
     "compilerOptions": {
-        // Modern and safe target for Foundry + Vite + TS
         "target": "ES2020",
-
-        // ES2022 features + DOM APIs (needed for most VTT use cases)
         "lib": ["ES2022", "ES2022.Intl", "DOM"],
-
-        // ESM output, as required by Vite/Vitest
         "module": "ESNext",
-        "moduleResolution": "node",
-
-        // Compatibility and type resolution
+        "moduleResolution": "Bundler",
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "allowJs": false,
+        "allowJs": true,
         "checkJs": false,
         "skipLibCheck": true,
+        "useDefineForClassFields": false,
         "forceConsistentCasingInFileNames": true,
-
-        // Output options
         "declaration": true,
         "emitDeclarationOnly": false,
         "outDir": "./build/generated",
-
-        // Strictness
         "strict": true,
         "noEmitOnError": true,
-
-        // Types available globally
-        "types": [
-            "vite/client",
-            "vitest/globals",
-            "@league-of-foundry-developers/foundry-vtt-types"
-        ],
-        "typeRoots": ["./node_modules/@types", "./types"],
-
-        // Path aliases
-        "baseUrl": ".",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+        "types": ["fvtt-types/lenient"],
         "paths": {
-            "@module/*": ["module/*"],
-            "@common/*": ["module/logic/common/*"],
-            "@legendary/*": ["module/logic/legendary/*"],
-            "@mistyisle/*": ["module/logic/mistyisle/*"],
-            "@templates/*": ["templates/*"],
-            "@assets/*": ["assets/*"],
-            "@lang/*": ["lang/*"],
-            "@packs/*": ["packs/*"],
-            "@tests/*": ["tests/*"],
-            "@generated/*": ["build/generated/*"],
-            "@sohl-global": ["types/sohl-global.d.ts"]
+            "@types/*": ["./types/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@common/*": ["./src/common/*"],
+            "@legendary/*": ["./src/legendary/*"],
+            "@mistyisle/*": ["./src/mistyisle/*"],
+            "@templates/*": ["./templates/*"],
+            "@assets/*": ["./assets/*"],
+            "@lang/*": ["./lang/*"],
+            "@tests/*": ["./tests/*"]
         }
     },
-
-    "include": [
-        "module/**/*.ts",
-        "tests/**/*.ts",
-        "scripts/**/*.ts",
-        "types/**/*.d.ts",
-        "node_modules/@league-of-foundry-developers/foundry-vtt-types/**/*.d.mts"
-    ],
-
-    "exclude": [
-        "build",
-        "node_modules",
-        "module/**/*.mjs",
-        "node_modules/@types/node/test.d.ts"
-    ]
+    "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],
+    "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

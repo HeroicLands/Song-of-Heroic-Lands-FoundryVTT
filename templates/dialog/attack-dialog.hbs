@@ -1,0 +1,97 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form>
+    <div class="form-group">
+        <label>Target Distance:</label>
+        <span>{{distance}} ft.</span>
+    </div>
+
+    {{#if isMissile}}
+    <div class="form-group">
+        <label>Target Movement:</label>
+        <select name="targetMovement">
+            <option value="stationary">Not Moving</option>
+            <option value="moving">Moving</option>
+            <option value="evading" selected>Evading/Melee</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <input
+            type="checkbox"
+            name="attackerMoving"
+            data-dtype="Boolean"
+            {{checked
+            attackerMoving}} />
+        <label>Attacker Moving</label>
+    </div>
+    {{else}}
+    <input type="hidden" name="targetState" value="stationary" />
+    {{/if}}
+
+    <div class="form-group">
+        <label>Start Zone</label>
+        <input type="number" name="startZone" value="{{startZone}}" />
+    </div>
+
+    <fieldset>
+        <legend>Attack Modifiers</legend>
+        <div class="form-group">
+            {{{attackMods.chatHtml}}}
+        </div>
+
+        <div class="form-group">
+            <label>Situational Modifier:</label>
+            <input
+                type="number"
+                name="situationalModifier"
+                value="{{situationalModifier}}" />
+        </div>
+
+        <div class="form-group">
+            <label>Success Level Mod:</label>
+            <input
+                type="number"
+                name="successLevelMod"
+                value="{{successLevelMod}}" />
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Impact Modifiers</legend>
+        <div class="grid grid-2col">
+            <div class="form-group">
+                <span class="label">Die:</span>
+                <span class="value">{{impactMods.die}}</span>
+            </div>
+    
+            <div class="form-group">
+                <span class="label">Aspect:</span>
+                <span class="value">{{impactMods.aspect}}</span>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            {{{impactMods.chatHtml}}}
+        </div>
+
+        <div class="form-group">
+            <label>Addl Impact Modifier:</label>
+            <input
+                type="number"
+                name="impactModifier"
+                value="{{impactModifier}}" />
+        </div>
+    </fieldset>
+</form>

@@ -1,5 +1,13 @@
+@use "../utils/colors";
+@use "../utils/typography";
+
 section.highlight {
     padding: 0 5px;
-    background: rgba(247, 230, 2, 0.05);
-    border: 1px solid #666;
+    background: colors.$c-bg-overlay-light;
+    border: 1px solid colors.$c-border-strong;
+}
+
+.editor,
+.editor-content {
+    @include typography.type-style("editor");
 }

@@ -1,8 +1,20 @@
-- subDesc: Bite
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+- name: Unarmed Bite
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 1
-  name: Unarmed 
   id: vMwD4xyoZAW4qDSy
   img: systems/sohl/assets/icons/fangs.svg
   mode: Bite
@@ -27,11 +39,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Grab Hold
+- name: Unarmed Grab Hold
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 2
-  name: Unarmed 
   id: B1EfmuOl5CtGQihu
   img: systems/sohl/assets/icons/grab-hold.svg
   mode: Grab (Hold)
@@ -56,11 +68,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Grab Take
+- name: Unarmed Grab Take
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 3
-  name: Unarmed 
   id: rvFq5FepPUInqjxf
   img: systems/sohl/assets/icons/grab-take.svg
   mode: Grab (Take)
@@ -85,11 +97,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Headbutt
+- name: Unarmed Headbutt
+  group: Headbutt
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 4
-  name: Unarmed 
   id: pqTDFnehx61A64by
   img: systems/sohl/assets/icons/headbutt.svg
   mode: Headbutt
@@ -110,11 +122,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Kick
+- name: Unarmed Kick
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 5
-  name: Unarmed 
   id: 8fIXUjAkKWfXRweO
   img: systems/sohl/assets/icons/high-kick.svg
   mode: Kick
@@ -139,11 +151,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Limb Block
+- name: Unarmed Limb Block
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 6
-  name: Unarmed 
   id: xFAcnR7IGhEaR66R
   img: systems/sohl/assets/icons/high-punch.svg
   mode: Limb Block
@@ -164,11 +176,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Press
+- name: Unarmed Press
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 7
-  name: Unarmed 
   id: qtcn70JC4Fac5DrZ
   img: systems/sohl/assets/icons/push.svg
   mode: Press
@@ -193,11 +205,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Punch
+- name: Unarmed Punch
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 8
-  name: Unarmed 
   id: m2qf74BvOkEk0cQx
   img: systems/sohl/assets/icons/punch-blast.svg
   mode: Punch
@@ -218,11 +230,11 @@
   macros: []
   flags: {}
   folderId: dv8AthmrwfYNGB1k
-- subDesc: Trip
+- name: Unarmed Trip
+  group: Unarmed
   subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 9
-  name: Unarmed 
   id: MfUTMbvLNcjIdc0q
   img: systems/sohl/assets/icons/trip.svg
   mode: Trip

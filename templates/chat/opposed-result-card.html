@@ -1,101 +1,215 @@
-<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+<div class="hmk chat-card item-card" data-actor-uuid="{{sourceTestResult.actor.uuid}}">
     <header class="card-header flexcol">
-        <h3 class="title">Opposed Action Result</h3>
-        <h4 class="subtitle">{{atkToken.name}} vs. {{defToken.name}}</h4>
+        <h3 class="title edit-action"
+        >{{title}}
+            <a class="edit-action"
+                data-action="{{targetTestResult.testType.action}}"
+                data-action-handler-uuid="{{targetTestResult.item.uuid}}"
+                data-opposed-test-result-json="{{opposedTestResultJson}}"><i class="fas fa-edit"></i></a>
+        </h3>
     </header>
 
-    <div class="card-content">
-        <span class="label center">{{atkToken.name}}</span>
-        <div class="card-content">
-            {{{prevAtkResult.mlMod.chatHtml}}}
-        </div>
-    </div>
-
-    <div class="card-content">
-        <span class="label center">{{defToken.name}}</span>
-        <div class="card-content">
-            {{{prevDefResult.mlMod.chatHtml}}}
-        </div>
-    </div>
-
+    <header class="card-header">
+        <h4 class="subtitle">{{sourceTestResult.token.name}} {{sourceTestResult.title}}</h4>
+    </header>
     <div class="card-content flex-group-center">
-        <span class="label">{{defToken.name}} Success Level Mod:</span>
-        <span class="value"><strong>{{prevDefResult.successLevelMod}}</strong></span>
+        <div class="card-content">
+            {{{sourceTestResult.mlMod.chatHtml}}}
+        </div>
+        <span class="label">Success Level Mod:</span>
+        <span class="value">{{sourceTestResult.mlMod.successLevelMod}}</span>
     </div>
 
-    <div class="grid grid-2col mingap">
-        <span class="header">Attack</span>
-        <span class="header">Defend</span>
-        <span class="center">{{atkToken.name}}</span>
-        <span class="center">{{defToken.name}}</span>
-        <span class="center">{{atkItem.name}}</span>
-        <span class="center">{{defItem.name}}</span>
-        <span class="center">EML: {{prevAtkResult.effTarget}}</span>
-        <span class="center">EML: {{prevDefResult.effTarget}}</span>
-        <span class="center {{#if prevAtkResult.isCritical}}critical-{{/if}}{{#if prevAtkResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
-            >Roll: {{prevAtkResult.rollTotal}}</span>
-        <span class="center {{#if prevDefResult.isCritical}}critical-{{/if}}{{#if prevDefResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
-            >Roll: {{prevDefResult.rollTotal}}</span>
-        <span class="center {{#if prevAtkResult.isCritical}}critical-{{/if}}{{#if prevAtkResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
-            >{{prevAtkResult.description}}</span>
-        <span class="center {{#if prevDefResult.isCritical}}critical-{{/if}}{{#if prevDefResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
-            >{{prevDefResult.description}}</span>
-    </div>
+    <header class="card-header">
+        <h4 class="subtitle">{{targetTestResult.token.name}} {{targetTestResult.title}}</h4>
+    </header>
 
-    <div class="card-content center">
-        {{#if (vsIsTied)}}
-        <span class="result-desc">Opposed Roll is a Tie!</span>
+    {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+    <div class="card-content flex-group-center">
+        <span class="label">Movement:</span>
+        <span class="value">{{targetTestResult.targetMovement}}</span>
+    </div>
+    {{else}}
+    <div class="card-content flex-group-center">
+        <div class="card-content">
+            {{{targetTestResult.mlMod.chatHtml}}}
+        </div>
+        <span class="label">Success Level Mod:</span>
+        <span class="value">{{targetTestResult.mlMod.successLevelMod}}</span>
+    </div>
+    {{/if}}
+
+    <header class="card-header">
+        <h4 class="subtitle">Results</h4>
+    </header>
+    <div class="card-content flex">
+        <div class="flexrow">
+        <span class="header">Source</span>
+        <span class="header">Target</span>
+        </div>
+        <div class="flexrow">
+        <span class="center">{{sourceTestResult.token.name}}</span>
+        <span class="center">{{targetTestResult.token.name}}</span>
+        </div>
+        <div class="flexrow">
+        <span class="center">{{sourceTestResult.item.name}}</span>
+        {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span>&#8212;</span>
         {{else}}
-            {{#if atkVictory}}
-            <span class="result-desc">{{atkToken.name}} Wins!</span>
-            {{else}} {{#if defVictory}}
-            <span class="result-desc">{{defToken.name}} Wins!</span>
-            {{/if}} {{/if}}
+        <span class="center">{{targetTestResult.item.name}}</span>
+        {{/if}}
+        </div>
+        <div class="flexrow">
+        <span class="center">EML: {{sourceTestResult.mlMod.effective}}</span>
+        {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span>&#8212;</span>
+        {{else}}
+        <span class="center">EML: {{targetTestResult.mlMod.effective}}</span>
+        {{/if}}
+        </div>
+        <div class="flexrow">
+        <span class="center {{#if sourceTestResult.isCritical}}critical-{{/if}}{{#if sourceTestResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >Roll: {{sourceTestResult.roll.total}}</span>
+        {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span>&#8212;</span>
+        {{else}}
+        <span class="center {{#if targetTestResult.isCritical}}critical-{{/if}}{{#if targetTestResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >Roll: {{targetTestResult.roll.total}}</span>
+        {{/if}}
+        </div>
+        <div class="flexrow">
+        <span class="center {{#if sourceTestResult.isCritical}}critical-{{/if}}{{#if sourceTestResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{sourceTestResult.description}}</span>
+        {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+        <span>&#8212;</span>
+        {{else}}
+        <span class="center {{#if targetTestResult.isCritical}}critical-{{/if}}{{#if targetTestResult.isSuccess}}success-text{{else}}failure-text{{/if}}"
+            >{{targetTestResult.description}}</span>
+        {{/if}}
+        </div>
+    </div>
+
+    <div class="card-content center">
+        {{#if sourceWins}}
+        <span class="result-desc">{{sourceTestResult.token.name}} Wins!</span>
+        {{/if}}
+        {{#if targetWins}}
+        <span class="result-desc">{{targetTestResult.token.name}} Wins!</span>
         {{/if}}
     </div>
 
     <div class="card-content center">
-        {{#if (not (or atkVictory defVictory vsIsTied))}}
-        <span class="result-desc">Both Fail!</span>
-        {{else}} {{#if (or atkVictory defVictory)}}
-        <span class="result-desc">Victory Stars: {{vsText}}</span>
-        {{/if}} {{/if}}
+        {{#if (not (or sourceWins targetWins))}}
+            {{#if (or (eq targetTestResult.testType "direct") (eq targetTestResult.testType "volley"))}}
+            <span class="result-desc">Missile Attack Fails!</span>
+            {{else}}
+            <span class="result-desc">Both Fail!</span>
+            {{/if}}
+        {{else}}
+        <span class="result-desc">Victory Stars: {{vsText.text}}</span>
+        {{/if}}
     </div>
 
-    {{#if (or prevAtkResult.askFate prevDefResult.askFate)}}
-    <div class="card-buttons">
-        {{#if prevAtkResult.askFate}}
-        <button
-            data-action="fateTest"
-            data-target-uuid="{{atkItemUuid}}"
-            data-next-action="opposedTestSendToChat"
-            data-next-target-uuid="{{defToken.uuid}}"
-            data-next-title="{{title}}"
-            data-next-type="{{type}}"
-            data-test-prop-name="prevAtkResult"
-            data-atk-item-uuid="{{atkItemUuid}}"
-            data-def-item-uuid="{{defItemUuid}}"
-            data-prev-atk-result-json="{{prevAtkResultJson}}"
-            data-prev-def-result-json="{{prevDefResultJson}}">
-            <i class="fas fa-stars"></i> {{atkToken.name}} Fate Test
-        </button>
+    {{#if combatResult}}
+        {{#if combatResult.attacker.weaponBreak}}
+        <div class="card-content center">
+            <span class="weapon-broke">{{sourceTestResult.token.name}}'s {{sourceTestResult.item.name}} broke!</span>
+        </div>
         {{/if}}
-        {{#if prevAtkResult.askFate}}
-        <button
-            data-action="fateTest"
-            data-target-uuid="{{defItemUuid}}"
-            data-next-action="opposedTestSendToChat"
-            data-next-target-uuid="{{defToken.uuid}}"
-            data-next-title="{{title}}"
-            data-next-type="{{type}}"
-            data-test-prop-name="prevDefResult"
-            data-atk-item-uuid="{{atkItemUuid}}"
-            data-def-item-uuid="{{defItemUuid}}"
-            data-prev-atk-result-str="{{prevAtkResultStr}}"
-            data-prev-def-result-str="{{prevDefResultStr}}">
-            <i class="fas fa-stars"></i> {{defToken.name}} Fate Test
-        </button>
+        
+        {{#if combatResult.defender.weaponBreak}}
+        <div class="card-content center">
+            <span class="weapon-broke">{{targetTestResult.token.name}}'s {{targetTestResult.item.name}} broke!</span>
+        </div>
         {{/if}}
-    </div>
+
+        {{#if (or combatResult.attacker.addlTacAdvs combatResult.attacker.tacticalAdvantages.length)}}
+        <header class="card-header">
+            <h4 class="subtitle">{{soureTestResult.token.name}} Tactical Advantages</h4>
+        </header>
+            {{#if combatResult.attacker.addlTacAdvs}}
+            <div class="card-content center">
+                <span class="label">Tactical advantages: {{combatResult.attacker.tacticalAdvantagesText}}</span>
+            </div>
+            {{/if}}
+
+            {{#if combatResult.attacker.addlTacAdvs}}
+            <div class="card-content center">
+                <span class="label">{{combatResult.attacker.addlTacAdvs}} choices from {{combatResult.attacker.tacticalAdvantagesChoicesText}}</span>
+            </div>
+            {{/if}}
+        {{/if}}
+
+        {{#if (or combatResult.defender.addlTacAdvs combatResult.defender.tacticalAdvantages.length)}}
+            <header class="card-header">
+                <h4 class="subtitle">{{targetTestResult.token.name}} Tactical Advantages</h4>
+            </header>
+
+            {{#if combatResult.defender.addlTacAdvs}}
+            <div class="card-content center">
+                <span class="label">Tactical advantages: {{combatResult.defender.tacticalAdvantagesText}}</span>
+            </div>
+            {{/if}}
+
+            {{#if combatResult.defender.addlTacAdvs}}
+            <div class="card-content center">
+                <span class="label">{{combatResult.defender.addlTacAdvs}} choices from {{combatResult.defender.tacticalAdvantagesChoicesText}}</span>
+            </div>
+            {{/if}}
+        {{/if}}
+
+        {{#if (or combatResult.attacker.testStumble combatResult.attacker.testFumble combatResult.attacker.deliversImpact combatResult.defender.testStumble combatResult.defender.testFumble combatResult.defender.deliversImpact)}}
+        <div class="card-buttons">
+            {{#if combatResult.attacker.testStumble}}
+            <button
+                data-action="stumbleTest"
+                data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
+                ><i class="fas fa-person-falling"></i> Stumble Test
+            </button>
+            {{/if}}
+
+            {{#if combatResult.attacker.testFumble}}
+            <button
+                data-action="fumbleTest"
+                data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
+                ><i class="fas fa-arrow-down"></i> Fumble Test
+            </button>
+            {{/if}}
+
+            {{#if combatResult.defender.testStumble}}
+            <button
+                data-action="stumbleTest"
+                data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
+                ><i class="fas fa-person-falling"></i> Stumble Test
+            </button>
+            {{/if}}
+
+            {{#if combatResult.defender.testFumble}}
+            <button
+                data-action="fumbleTest"
+                data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
+                ><i class="fas fa-arrow-down"></i> Fumble Test
+            </button>
+            {{/if}}
+
+            {{#if combatResult.attacker.deliversImpact}}
+            <button
+                data-action="calcImpact"
+                data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
+                data-impact-result-json="{{sourceImpactResultJson}}"
+                ><i class="fas fa-bullseye-arrow"></i> Calculate {{targetTestResult.token.name}} Impact
+            </button>
+            {{/if}}
+
+            {{#if combatResult.defender.deliversImpact}}
+            <button
+                data-action="calcImpact"
+                data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
+                data-impact-result-json="{{targetImpactResultJson}}"
+                ><i class="fas fa-bullseye-arrow"></i> Calculate {{sourceTestResult.token.name}} Impact
+            </button>
+            {{/if}}
+        </div>
+        {{/if}}
     {{/if}}
 </div>

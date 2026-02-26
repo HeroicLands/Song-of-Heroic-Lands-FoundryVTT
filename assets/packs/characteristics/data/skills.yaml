@@ -1,5 +1,17 @@
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
 - name: Common
-  abbrev: common
+  shortcode: common
   id: N21J8mDOazsflqZR
   img: systems/sohl/assets/icons/speaking.svg
   subType: language
@@ -14,7 +26,7 @@
   initSM: 0
   baseSkill: ''
 - name: Runic
-  abbrev: runic
+  shortcode: runic
   id: zhF7K76YOQR30Vfg
   img: systems/sohl/assets/icons/scroll-unfurled.svg
   subType: script
@@ -28,158 +40,8 @@
   folderId: evxGl6bHAVpxkHmN
   initSM: 0
   baseSkill: ''
-- name: Baldr
-  abbrev: baldr
-  id: OGscVILhTEGU7lMH
-  img: systems/sohl/assets/icons/baldr.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: baldr
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Fréyr
-  abbrev: freyr
-  id: mKLVtYgn4i4ccewY
-  img: systems/sohl/assets/icons/freyr.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: freyr
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Fréyja
-  abbrev: freyja
-  id: K97emgToaRPnxN4U
-  img: systems/sohl/assets/icons/freyja.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: freyja
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Hél
-  abbrev: hel
-  id: yHFeO6gQBSBkiBYF
-  img: systems/sohl/assets/icons/hel.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: hel
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Lôki
-  abbrev: loki
-  id: x4EAGBTIXFOhbtpI
-  img: systems/sohl/assets/icons/loki.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: loki
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Óðinn
-  abbrev: odin
-  id: 0z9eUnaUZeqbviPG
-  img: systems/sohl/assets/icons/odin.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: odin
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Súrtr
-  abbrev: surtr
-  id: 8qeYtGLMkIEEi8MW
-  img: systems/sohl/assets/icons/surtr.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: surtr
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Thórr
-  abbrev: thor
-  id: peDG8tkupCt971e9
-  img: systems/sohl/assets/icons/thor.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: thor
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Týr
-  abbrev: tyr
-  id: Lj7p8esiNl2DbVn8
-  img: systems/sohl/assets/icons/tyr.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: tyr
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
-- name: Ymir
-  abbrev: ymir
-  id: BrCukVDUl8wcZKoi
-  img: systems/sohl/assets/icons/ymir.svg
-  subType: ritual
-  skillBaseFormula: '@wil, @rea'
-  weaponGroup: none
-  domain: ymir
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: 7ndtuoO1haJpQbgf
-  initSM: 0
-  baseSkill: ''
 - name: Acrobatics
-  abbrev: acro
+  shortcode: acro
   id: AsaVT4JV85rFSTvY
   img: systems/sohl/assets/icons/acrobatics.svg
   subType: physical
@@ -194,11 +56,11 @@
   initSM: 0
   baseSkill: ''
 - name: Agriculture
-  abbrev: agri
+  shortcode: agri
   id: 31ZqIOMd9sPbgiqe
   img: systems/sohl/assets/icons/agriculture.svg
   subType: nature
-  skillBaseFormula: '@per, @rea'
+  skillBaseFormula: '@per, @wil'
   weaponGroup: none
   domain: ''
   macros: []
@@ -209,7 +71,7 @@
   initSM: 0
   baseSkill: ''
 - name: Alchemy
-  abbrev: alch
+  shortcode: alch
   id: cps4oF5nVBFlLj0y
   img: systems/sohl/assets/icons/alchemy.svg
   subType: esoteric
@@ -224,7 +86,7 @@
   initSM: 0
   baseSkill: ''
 - name: Animalcraft
-  abbrev: anmcft
+  shortcode: anmcft
   id: K1sBrJikLWiQIjjB
   img: systems/sohl/assets/icons/animalcraft.svg
   subType: nature
@@ -239,7 +101,7 @@
   initSM: 0
   baseSkill: ''
 - name: Astrology
-  abbrev: astr
+  shortcode: astr
   id: 5oD9W0X60sEkNsqH
   img: systems/sohl/assets/icons/astrology.svg
   subType: esoteric
@@ -254,7 +116,7 @@
   initSM: 0
   baseSkill: ''
 - name: Awareness
-  abbrev: awar
+  shortcode: awar
   id: 5aSYfkXwlrZm6xzA
   img: systems/sohl/assets/icons/awareness.svg
   subType: physical
@@ -268,23 +130,8 @@
   folderId: PI37Jcl41Y2em4KB
   initSM: 3
   baseSkill: ''
-- name: Blowgun
-  abbrev: blgn
-  id: R7rWjxlXfWyX0i40
-  img: systems/sohl/assets/icons/blowgun.svg
-  subType: combat
-  skillBaseFormula: '@per, @dex'
-  weaponGroup: missile
-  domain: ''
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: iCteCHglnfCfQqra
-  initSM: 0
-  baseSkill: ''
 - name: Brewing
-  abbrev: brew
+  shortcode: brew
   id: dT4YnBxLtCwWErLv
   img: systems/sohl/assets/icons/brewing.svg
   subType: lore
@@ -299,11 +146,11 @@
   initSM: 0
   baseSkill: ''
 - name: Ceramics
-  abbrev: cmcs
+  shortcode: cmcs
   id: kZYgzXpACwVlWCzL
   img: systems/sohl/assets/icons/ceramics.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -314,7 +161,7 @@
   initSM: 0
   baseSkill: ''
 - name: Charm
-  abbrev: chrm
+  shortcode: chrm
   id: ghkiPEyMztj9Xh38
   img: systems/sohl/assets/icons/charm.svg
   subType: social
@@ -329,7 +176,7 @@
   initSM: 3
   baseSkill: ''
 - name: Climbing
-  abbrev: clmb
+  shortcode: clmb
   id: 4FAPvWAKNoRPbdtz
   img: systems/sohl/assets/icons/climbing.svg
   subType: physical
@@ -344,7 +191,7 @@
   initSM: 3
   baseSkill: ''
 - name: Command
-  abbrev: cmd
+  shortcode: cmd
   id: uDJwA2LHQXHhHr6p
   img: systems/sohl/assets/icons/rhetoric.svg
   subType: social
@@ -359,7 +206,7 @@
   initSM: 2
   baseSkill: ''
 - name: Cookery
-  abbrev: cook
+  shortcode: cook
   id: RcPswIec44IFMKew
   img: systems/sohl/assets/icons/cookery.svg
   subType: lore
@@ -374,11 +221,11 @@
   initSM: 2
   baseSkill: ''
 - name: Dancing
-  abbrev: dnce
+  shortcode: dnce
   id: SDwtBltYD0tQAXRG
   img: systems/sohl/assets/icons/dance.svg
   subType: physical
-  skillBaseFormula: '@agl, @end'
+  skillBaseFormula: '@agl, @cre'
   weaponGroup: none
   domain: ''
   macros: []
@@ -389,7 +236,7 @@
   initSM: 2
   baseSkill: ''
 - name: Discourse
-  abbrev: dscr
+  shortcode: dscr
   id: 8Bl2wEGbjtG0BIbh
   img: systems/sohl/assets/icons/face-to-face.svg
   subType: social
@@ -404,7 +251,7 @@
   initSM: 2
   baseSkill: ''
 - name: Dodge
-  abbrev: dge
+  shortcode: dge
   id: NYQ0l87HDML9CIYT
   img: systems/sohl/assets/icons/dodge.svg
   subType: combat
@@ -419,11 +266,11 @@
   initSM: 2
   baseSkill: ''
 - name: Drawing
-  abbrev: draw
+  shortcode: draw
   id: WaeJaU0YihDlJ2pY
   img: systems/sohl/assets/icons/drawing.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @cre'
   weaponGroup: none
   domain: ''
   macros: []
@@ -434,7 +281,7 @@
   initSM: 2
   baseSkill: ''
 - name: Embalming
-  abbrev: embl
+  shortcode: embl
   id: 73yZAkKbC0Azo4dw
   img: systems/sohl/assets/icons/embalming.svg
   subType: lore
@@ -449,7 +296,7 @@
   initSM: 0
   baseSkill: ''
 - name: Engineering
-  abbrev: eng
+  shortcode: eng
   id: Fip584W95bPFEJUp
   img: systems/sohl/assets/icons/engineering.svg
   subType: lore
@@ -464,11 +311,11 @@
   initSM: 0
   baseSkill: ''
 - name: Fishing
-  abbrev: fish
+  shortcode: fish
   id: cyyEUOoomBDdXda9
   img: systems/sohl/assets/icons/fishing.svg
   subType: nature
-  skillBaseFormula: '@per, @rea'
+  skillBaseFormula: '@per, @wil'
   weaponGroup: none
   domain: ''
   macros: []
@@ -479,11 +326,11 @@
   initSM: 0
   baseSkill: ''
 - name: Fletching
-  abbrev: fltch
+  shortcode: fltch
   id: tXcVbkB8qJsiBENc
   img: systems/sohl/assets/icons/arrow.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -494,7 +341,7 @@
   initSM: 0
   baseSkill: ''
 - name: Folklore
-  abbrev: folk
+  shortcode: folklr
   id: ZwmwSFkiYoH6qRty
   img: systems/sohl/assets/icons/unicorn.svg
   subType: lore
@@ -509,7 +356,7 @@
   initSM: 1
   baseSkill: ''
 - name: Glassworking
-  abbrev: glas
+  shortcode: glas
   id: baGHwmTYbwn7bON4
   img: systems/sohl/assets/icons/glassworking.svg
   subType: craft
@@ -524,7 +371,7 @@
   initSM: 0
   baseSkill: ''
 - name: Guile
-  abbrev: guil
+  shortcode: guil
   id: QP88ELEOcT37u5iY
   img: systems/sohl/assets/icons/mischevous.svg
   subType: social
@@ -539,7 +386,7 @@
   initSM: 3
   baseSkill: ''
 - name: Heraldry
-  abbrev: hrld
+  shortcode: hrld
   id: OlbJoKLPzyf04vVN
   img: systems/sohl/assets/icons/heraldry.svg
   subType: lore
@@ -554,7 +401,7 @@
   initSM: 0
   baseSkill: ''
 - name: Herblore
-  abbrev: herb
+  shortcode: herb
   id: d6bv7kUA4uEgtGOw
   img: systems/sohl/assets/icons/herblore.svg
   subType: nature
@@ -569,11 +416,11 @@
   initSM: 0
   baseSkill: ''
 - name: Hideworking
-  abbrev: hide
+  shortcode: hide
   id: 79p8qOAYPvErPBrG
   img: systems/sohl/assets/icons/hidework.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -584,7 +431,7 @@
   initSM: 0
   baseSkill: ''
 - name: Initiative
-  abbrev: init
+  shortcode: init
   id: m8pFDJhw72uj8kJ8
   img: systems/sohl/assets/icons/initiative.svg
   subType: combat
@@ -598,23 +445,8 @@
   folderId: iCteCHglnfCfQqra
   initSM: 3
   baseSkill: ''
-- name: Instinctive Combat
-  abbrev: instcmbt
-  id: dX2DU2Wx8RA1ybVC
-  img: systems/sohl/assets/icons/claw.svg
-  subType: combat
-  skillBaseFormula: '@agl, @wil'
-  weaponGroup: melee
-  domain: ''
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: iCteCHglnfCfQqra
-  initSM: 0
-  baseSkill: ''
 - name: Intrigue
-  abbrev: intr
+  shortcode: intr
   id: 6HmrY8phCuDrflfO
   img: systems/sohl/assets/icons/cloak-dagger.svg
   subType: social
@@ -629,7 +461,7 @@
   initSM: 3
   baseSkill: ''
 - name: Jewelcraft
-  abbrev: jewl
+  shortcode: jewl
   id: pBeZLWzAeAEZAsWt
   img: systems/sohl/assets/icons/jewel.svg
   subType: craft
@@ -644,7 +476,7 @@
   initSM: 0
   baseSkill: ''
 - name: Jumping
-  abbrev: jump
+  shortcode: jump
   id: NYysaIqvwz1Ir5mf
   img: systems/sohl/assets/icons/jump-across.svg
   subType: physical
@@ -659,7 +491,7 @@
   initSM: 3
   baseSkill: ''
 - name: Language
-  abbrev: lang
+  shortcode: lang
   id: 0WMCAQZCegZRDOrJ
   img: systems/sohl/assets/icons/speaking.svg
   subType: language
@@ -674,7 +506,7 @@
   initSM: 0
   baseSkill: ''
 - name: Law
-  abbrev: law
+  shortcode: law
   id: VsNFbPO46bCVDiMO
   img: systems/sohl/assets/icons/law.svg
   subType: lore
@@ -689,7 +521,7 @@
   initSM: 0
   baseSkill: ''
 - name: Legerdemain
-  abbrev: lgdm
+  shortcode: lgdm
   id: YDqesb2eObxgrdAj
   img: systems/sohl/assets/icons/juggler.svg
   subType: physical
@@ -704,11 +536,11 @@
   initSM: 0
   baseSkill: ''
 - name: Lockcraft
-  abbrev: lock
+  shortcode: lock
   id: NPPfr5uMfRCDsch3
   img: systems/sohl/assets/icons/lock.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -719,11 +551,11 @@
   initSM: 0
   baseSkill: ''
 - name: Masonry
-  abbrev: masn
+  shortcode: masn
   id: kL8SqiGClE8YL98r
   img: systems/sohl/assets/icons/masonry.svg
   subType: craft
-  skillBaseFormula: '@per, @str'
+  skillBaseFormula: '@dex, @str'
   weaponGroup: none
   domain: ''
   macros: []
@@ -734,7 +566,7 @@
   initSM: 0
   baseSkill: ''
 - name: Mathematics
-  abbrev: math
+  shortcode: math
   id: SLWaEQlzVIYj4MhH
   img: systems/sohl/assets/icons/mathematics.svg
   subType: lore
@@ -748,23 +580,8 @@
   folderId: Di55poEX3myHuOuH
   initSM: 0
   baseSkill: ''
-- name: Meteor Hammer
-  abbrev: metrhamr
-  id: 35dh7F81G8l3yngw
-  img: systems/sohl/assets/icons/bolas.svg
-  subType: combat
-  skillBaseFormula: '@dex, @agl'
-  weaponGroup: melee
-  domain: ''
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: iCteCHglnfCfQqra
-  initSM: 0
-  baseSkill: ''
 - name: Archery
-  abbrev: archery
+  shortcode: archery
   id: sZWxSJSQoQccGYoi
   img: systems/sohl/assets/icons/longbow.svg
   subType: combat
@@ -779,7 +596,7 @@
   initSM: 1
   baseSkill: ''
 - name: Melee
-  abbrev: melee
+  shortcode: melee
   id: r04Yas6IuL9kUFAK
   img: systems/sohl/assets/icons/crossed-swords.svg
   subType: combat
@@ -794,11 +611,11 @@
   initSM: 2
   baseSkill: ''
 - name: Mercantilism
-  abbrev: mrcn
+  shortcode: mrcn
   id: LafJjnaJfjef6cJI
   img: systems/sohl/assets/icons/coins.svg
   subType: lore
-  skillBaseFormula: '@per, @rea'
+  skillBaseFormula: '@rea, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -809,11 +626,11 @@
   initSM: 0
   baseSkill: ''
 - name: Metalcraft
-  abbrev: mtlc
+  shortcode: mtlc
   id: AuTAhJALpmkM0BJL
   img: systems/sohl/assets/icons/metal-bar.svg
   subType: craft
-  skillBaseFormula: '@per, @str'
+  skillBaseFormula: '@dex, @str'
   weaponGroup: none
   domain: ''
   macros: []
@@ -824,7 +641,7 @@
   initSM: 0
   baseSkill: ''
 - name: Milling
-  abbrev: mill
+  shortcode: mill
   id: n4lzgjjiF2762IcU
   img: systems/sohl/assets/icons/water-mill.svg
   subType: craft
@@ -839,7 +656,7 @@
   initSM: 0
   baseSkill: ''
 - name: Mineralogy
-  abbrev: mnrl
+  shortcode: mnrl
   id: TLlhgMM0i7qW1UmG
   img: systems/sohl/assets/icons/miner.svg
   subType: nature
@@ -854,11 +671,11 @@
   initSM: 0
   baseSkill: ''
 - name: Musician
-  abbrev: musc
+  shortcode: musc
   id: qXqSLyV8VRxs6p8o
   img: systems/sohl/assets/icons/harp.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@per, @cre'
   weaponGroup: none
   domain: ''
   macros: []
@@ -869,7 +686,7 @@
   initSM: 0
   baseSkill: ''
 - name: Perfumery
-  abbrev: pfmy
+  shortcode: pfmy
   id: PvpCkNMovXUzadsr
   img: systems/sohl/assets/icons/perfume.svg
   subType: lore
@@ -884,7 +701,7 @@
   initSM: 0
   baseSkill: ''
 - name: Physician
-  abbrev: pysn
+  shortcode: pysn
   id: k1krF4IVzO6hJgMl
   img: systems/sohl/assets/icons/caduceus.svg
   subType: lore
@@ -899,7 +716,7 @@
   initSM: 1
   baseSkill: ''
 - name: Piloting
-  abbrev: pilt
+  shortcode: pilt
   id: s0gMtqw9zIFaOCv9
   img: systems/sohl/assets/icons/piloting.svg
   subType: nature
@@ -913,23 +730,8 @@
   folderId: RiDyrDDcTmeSzOcJ
   initSM: 0
   baseSkill: ''
-- name: Thaumaturgy
-  abbrev: magic
-  id: K5XmdHDxovuKxcxQ
-  img: systems/sohl/assets/icons/pentacle.svg
-  subType: esoteric
-  skillBaseFormula: '@aur, @rea'
-  weaponGroup: none
-  domain: ''
-  macros: []
-  effects: []
-  flags: {}
-  description: "Thaumaturgy is the philosophical and magical practice of harnessing and harmonizing the elemental forces that shape existence: fire, water, earth, spirit, wind, metal, and arcana. Rooted in the belief that these elements form the foundation of reality, Thaumaturgy seeks to balance their dynamic interplay, allowing practitioners to channel their raw power with wisdom and purpose. More than just a method of wielding magic, it is a path of understanding, where thaumaturges explore the interconnectedness of the cosmos and their role within it. Through discipline, reverence, and insight, Thaumaturgy empowers its adherents to shape the world while honoring the elemental forces that sustain it."
-  folderId: 5ZTScnOxLg4we0Zo
-  initSM: 0
-  baseSkill: ''
 - name: Riding
-  abbrev: ridg
+  shortcode: ridg
   id: DHSI4p4n2OBxf1bD
   img: systems/sohl/assets/icons/horse-riding.svg
   subType: physical
@@ -944,7 +746,7 @@
   initSM: 1
   baseSkill: ''
 - name: Ritual
-  abbrev: ritual
+  shortcode: ritual
   id: xrtIClZfNovPvXI8
   img: systems/sohl/assets/icons/circle.svg
   subType: ritual
@@ -959,7 +761,7 @@
   initSM: 0
   baseSkill: ''
 - name: Runecraft
-  abbrev: Rune
+  shortcode: Rune
   id: BciFc8QyZNpeu03s
   img: systems/sohl/assets/icons/runecraft.svg
   subType: esoteric
@@ -974,7 +776,7 @@
   initSM: 0
   baseSkill: ''
 - name: Script
-  abbrev: script
+  shortcode: script
   id: nCRpDhazp99DAlf7
   img: systems/sohl/assets/icons/scroll-unfurled.svg
   subType: script
@@ -989,11 +791,11 @@
   initSM: 0
   baseSkill: ''
 - name: Seamanship
-  abbrev: smsh
+  shortcode: smsh
   id: jjf3TziTW0L8DMgz
   img: systems/sohl/assets/icons/anchor.svg
   subType: nature
-  skillBaseFormula: '@per, @wil'
+  skillBaseFormula: '@wil, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1004,7 +806,7 @@
   initSM: 0
   baseSkill: ''
 - name: Shipwright
-  abbrev: shpw
+  shortcode: shpw
   id: UalHN03Mhr6glT3r
   img: systems/sohl/assets/icons/ship.svg
   subType: lore
@@ -1019,7 +821,7 @@
   initSM: 0
   baseSkill: ''
 - name: Shock
-  abbrev: shok
+  shortcode: shok
   id: BAHwD5BQSFtfbfGD
   img: systems/sohl/assets/icons/shock.svg
   subType: combat
@@ -1034,7 +836,7 @@
   initSM: 3
   baseSkill: ''
 - name: Singing
-  abbrev: sing
+  shortcode: sing
   id: CCqx4sjkxUIXUyLC
   img: systems/sohl/assets/icons/sing.svg
   subType: social
@@ -1049,7 +851,7 @@
   initSM: 3
   baseSkill: ''
 - name: Sling
-  abbrev: slng
+  shortcode: slng
   id: lR1rlTeStCJvDwTR
   img: systems/sohl/assets/icons/sling.svg
   subType: combat
@@ -1064,11 +866,11 @@
   initSM: 0
   baseSkill: ''
 - name: Stealth
-  abbrev: stlth
+  shortcode: stlth
   id: YU9rN2c3R8eiC6Ih
   img: systems/sohl/assets/icons/stealth.svg
   subType: physical
-  skillBaseFormula: '@agl, @per'
+  skillBaseFormula: '@agl, @wil'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1079,7 +881,7 @@
   initSM: 3
   baseSkill: ''
 - name: Summoning
-  abbrev: summ
+  shortcode: summ
   id: 2SAir9JKa3rd7UbR
   img: systems/sohl/assets/icons/enrage.svg
   subType: esoteric
@@ -1094,11 +896,11 @@
   initSM: 0
   baseSkill: ''
 - name: Survival
-  abbrev: srvl
+  shortcode: srvl
   id: OmfV1VgsGMZ1LJg7
   img: systems/sohl/assets/icons/survival.svg
   subType: nature
-  skillBaseFormula: '@per, @wil'
+  skillBaseFormula: '@wil, @rea'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1109,11 +911,11 @@
   initSM: 1
   baseSkill: ''
 - name: Swimming
-  abbrev: swim
+  shortcode: swim
   id: U1qbcjqVcFyiyaDe
   img: systems/sohl/assets/icons/swimming.svg
   subType: physical
-  skillBaseFormula: '@end, @agl'
+  skillBaseFormula: '@agl, @end'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1124,7 +926,7 @@
   initSM: 1
   baseSkill: ''
 - name: Talent
-  abbrev: tlnt
+  shortcode: tlnt
   id: sb0iWwp6WzA6xrFq
   img: systems/sohl/assets/icons/psychic-waves.svg
   subType: esoteric
@@ -1139,7 +941,7 @@
   initSM: 0
   baseSkill: ''
 - name: Tarotry
-  abbrev: tarot
+  shortcode: tarot
   id: V9Jm2BeuyksJEC4l
   img: systems/sohl/assets/icons/tarotry.svg
   subType: esoteric
@@ -1154,11 +956,11 @@
   initSM: 0
   baseSkill: ''
 - name: Textilecraft
-  abbrev: txtl
+  shortcode: txtl
   id: CpzEUUXa7DSyqoEs
   img: systems/sohl/assets/icons/textilecraft.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1169,7 +971,7 @@
   initSM: 0
   baseSkill: ''
 - name: Theatrics
-  abbrev: thtcs
+  shortcode: thtcs
   id: QiXS62ew4oy7fIEq
   img: systems/sohl/assets/icons/drama-masks.svg
   subType: social
@@ -1184,7 +986,7 @@
   initSM: 1
   baseSkill: ''
 - name: Throwing
-  abbrev: thro
+  shortcode: thro
   id: iOdCwOYdX9N6NeiD
   img: systems/sohl/assets/icons/throw.svg
   subType: combat
@@ -1199,7 +1001,7 @@
   initSM: 2
   baseSkill: ''
 - name: Timbercraft
-  abbrev: timb
+  shortcode: timb
   id: FHSFFv2uOTjTEhpt
   img: systems/sohl/assets/icons/timber.svg
   subType: nature
@@ -1214,11 +1016,11 @@
   initSM: 0
   baseSkill: ''
 - name: Tracking
-  abbrev: trak
+  shortcode: trak
   id: r84g3zzaBmp1zDl4
   img: systems/sohl/assets/icons/tracking.svg
   subType: nature
-  skillBaseFormula: '@per, @rea'
+  skillBaseFormula: '@rea, @per'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1229,7 +1031,7 @@
   initSM: 0
   baseSkill: ''
 - name: Trance
-  abbrev: trnc
+  shortcode: trnc
   id: QUY1z2KG9kreEJTr
   img: systems/sohl/assets/icons/meditation.svg
   subType: esoteric
@@ -1243,27 +1045,12 @@
   folderId: 5ZTScnOxLg4we0Zo
   initSM: 0
   baseSkill: ''
-- name: Unarmed Combat
-  abbrev: ucmb
-  id: S4F1g64XoDLZ4fEl
-  img: systems/sohl/assets/icons/crossed-swords.svg
-  subType: combat
-  skillBaseFormula: '@agl, @wil'
-  weaponGroup: melee
-  domain: ''
-  macros: []
-  effects: []
-  flags: {}
-  description: ''
-  folderId: iCteCHglnfCfQqra
-  initSM: 0
-  baseSkill: ''
 - name: Weaponcraft
-  abbrev: wpnc
+  shortcode: wpnc
   id: Zf8Z9rMwNJC0qFRe
   img: systems/sohl/assets/icons/sword-smithing.svg
   subType: craft
-  skillBaseFormula: '@per, @str'
+  skillBaseFormula: '@dex, @str'
   weaponGroup: none
   domain: ''
   macros: []
@@ -1274,11 +1061,11 @@
   initSM: 0
   baseSkill: ''
 - name: Woodworking
-  abbrev: wood
+  shortcode: wood
   id: sOVLNMohekLbnHs7
   img: systems/sohl/assets/icons/woodcraft.svg
   subType: craft
-  skillBaseFormula: '@per, @dex'
+  skillBaseFormula: '@dex, @str'
   weaponGroup: none
   domain: ''
   macros: []

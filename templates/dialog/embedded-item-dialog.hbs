@@ -1,0 +1,34 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<form id="create-nested-item">
+    <div class="form-group">
+        <label>{{itemLabel}}</label>
+        <input
+            type="text"
+            name="name"
+            value="{{name}}"
+            placeholder="{{placeholder}}"
+            data-dtype="String" />
+    </div>
+    {{#if typeChoices}}
+    <div class="form-group">
+        <label>Type:</label>
+        <select class="resource-value" name="type" data-dtype="String">
+            {{selectOptions typeChoices selected=type}}
+        </select>
+    </div>
+    {{else}}
+    <input type="hidden" name="type" value="{{type}}" data-dtype="String" />
+    {{/if}}
+</form>

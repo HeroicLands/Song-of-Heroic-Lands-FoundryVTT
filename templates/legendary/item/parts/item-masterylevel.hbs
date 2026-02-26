@@ -1,0 +1,33 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="resource" id="ml-skillbaseformula">
+    <label class="resource-label">Skill Base Formula</label>
+    {{formInput fields.skillBaseFormula value=system.skillBaseFormula}}
+</div>
+{{#if hasActor}}
+<div class="resource" id="ml-skillbasevalue">
+    <label class="resource-label">Skill Base (SB)</label>
+    {{#if (not item.system.$skillBase.valid)}}
+    <input type="text" value="Invalid Formula" readonly />
+    {{else}}
+    <input type="text" value="{{ item.system.$skillBase.value }}" readonly />
+    {{/if}}
+</div>
+{{else}}
+<div></div>
+{{/if}}
+<div class="resource" id="ml-masterylevel">
+    <label class="resource-label">Mastery Level (ML)</label>
+    {{formInput fields.masteryLevelBase value=system.masteryLevelBase}}
+</div>

@@ -1,0 +1,126 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab content" data-group="primary" data-tab="profile">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-traits" value="" aria-label="Search Traits"
+            placeholder="Search Traits" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control item-create" data-tooltip="Create Trait"
+                data-type="trait"><i class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+    <div class="flexcol">
+        {{!-- Attributes --}}
+        <ul class="grid grid-6col attribute-scores item-list" data-category="attribute">
+            {{#each attributes as |attribute| }}
+            <li class="attribute item" data-attribute="{{attribute.name}}" data-item-id="{{attribute.id}}" data-uuid="{{attribute.uuid}}">
+                <div class="flexrow">
+                    <div></div>
+                    <h4 class="name box-title">{{attribute.name}}</h4>
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </div>
+                <h3 class="value default-action" data-tooltip="{{system.$score.shortcode}}">{{system.$score.effective}}</h3>
+                <h4 class="label">{{system.$score.valueDesc}}</h4>
+                <div class="attribute-modifiers flexrow">
+                    <div class="secmod">SM: {{numberFormat system.$masteryLevel.secMod sign=true}}</div>
+                    <div class="secmod" data-tooltip="{{system.$masteryLevel.shortcode}}">TL: {{system.$masteryLevel.effective}}</div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+
+        {{!-- Traits --}}
+        <div class="flexcol items traits">
+            {{#each itemSubtypes.trait as | itemstlist |}}
+            <div class="items-list traits-list">
+                <header class="items-header trait flexrow">
+                    <h3 class="item-name name">{{itemstlist.label}} Traits</h3>
+                    <div class="detail subtype">Intensity</div>
+                    <div class="detail source">Value</div>
+                    <div class="detail notes">Notes</div>
+                </header>
+                <ol class="item-list">
+                    {{#each itemstlist.items as |item|}}
+                        <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                            data-item-name="{{item.name}}">
+                            <div class="item-name name default-action flexrow">
+                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                            </div>
+                            <div class="detail subtype">{{lookup ../config.Item.dataModels.trait.intensities item.system.intensity}}</div>
+                            <div class="detail source">{{item.system.displayVal}}</div>
+                            <div class="detail notes">{{item.system.notes}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-contextmenu" title="Menu"><i
+                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ol>        
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- Affiliations --}}
+        <div class="flexcol items affiliations">
+            <ol class="items-list">
+                <li class="items-header flexrow">
+                    <h3 class="item-name name">Affiliations</h3>
+                    <div class="detail ele">Level</div>
+                    <div class="detail source">Society</div>
+                    <div class="detail source">Office</div>
+                    <div class="detail source">Title</div>
+                    <div class="detail notes">Notes</div>
+                    <div class="item-controls">
+                        <a class="item-control item-create" data-tooltip="Create Affiliation"
+                            data-type="affiliation"><i class="fas fa-file-plus fa-lg"></i></a>
+                    </div>
+                </li>
+                <ol class="item-list">
+                    {{#each itemTypes.affiliation as |item|}}
+                        <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                            data-item-name="{{item.name}}">
+                            <div class="item-name name default-action flexrow">
+                                <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                                <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                            </div>
+                            <div class="detail ele">{{system.level}}</div>
+                            <div class="detail source">{{system.society}}</div>
+                            <div class="detail source">{{system.office}}</div>
+                            <div class="detail source">{{system.title}}</div>
+                            <div class="detail notes">{{system.notes}}</div>
+                            <div class="item-controls">
+                                <a class="item-control item-contextmenu" title="Menu"><i
+                                    class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ol>        
+            </ol>
+        </div>
+
+        {{!-- Biography --}}
+        <div class="flexcol">
+            <div class="profile-desc flexcol">
+                <h3 class="label">Biography</h3>
+                <div class="description">
+                    {{editor adata.biography target="system.biography" button=true owner=owner editable=editable}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

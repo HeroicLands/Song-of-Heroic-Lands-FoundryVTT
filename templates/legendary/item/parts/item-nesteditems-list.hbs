@@ -1,0 +1,59 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab {{ tab.cssClass }}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+<div class="items nested-items">
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-nested" value="" aria-label="Search Nested Items"
+            placeholder="Search Nested Items" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control nested-item-create" data-tooltip="Create Nested Item"><i
+                class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+    <div class="items-list nested-item-list">
+        <header class="items-header flexrow">
+            <h3 class="item-name name">Items</h3>
+            <div class="detail type">Type</div>
+            <div class="detail subtype">Sub-Type</div>
+            <div class="detail notes">Notes</div>
+            <div class="item-controls"></div>
+        </header>
+        <ol class="item-list">
+            {{#each system.items as |item|}}
+            <li class="item nested-item flexrow" data-uuid="{{ item.uuid }}" data-item-id="{{ item.id }}">
+                <div class="item-name name flexrow">
+                    <div
+                        class="item-image"
+                        style="background-image: url('{{ item.img }}')"></div>
+                    <h4>{{ item.name }}</h4>
+                </div>
+                <div class="detail type" data-tooltip="{{localize (lookup config.Item.typeLabels item.type)}}">
+                    {{localize (lookup ../config.Item.typeLabels item.type)}}
+                </div>
+                <div class="detail subtype" data-tooltip="{{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}">
+                    {{lookup (lookup (lookup ../config.Item.dataModels item.type) "subTypes") system.subType}}
+                </div>
+                <div class="detail notes">
+                    {{ system.notes }}
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i
+                        class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </div>
+</div>
+</section>

@@ -5,6 +5,10 @@ on:
         branches:
             - master
 
+permissions:
+    contents: write
+    packages: write
+
 jobs:
     version:
         name: Version using Changesets
@@ -36,6 +40,11 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: Tag release using Changesets
+              run: npx changeset tag
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     release:
         name: Build & Publish GitHub Release
         needs: version
@@ -57,22 +66,47 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Build & package system
-              run: |
-                  npm run build
-
             - name: Get version
               id: get_version
               run: |
                   VERSION=$(node -p "require('./package.json').version")
                   echo "version=v$VERSION" >> $GITHUB_OUTPUT
 
+            - name: Build system
+              run: |
+                  npm run build
+
+            - name: Package System
+              run: |
+                  npm run build:pack-release
+
+            - name: Build API Documentation
+              run: |
+                  npm run build:html
+
+            - name: Deploy API docs to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: build/stage/docs
+                  publish_branch: gh-pages
+                  cname: api.heroiclands.org
+
+            - name: Read Changelog
+              id: changelog
+              run: |
+                  {
+                    echo 'body<<EOF'
+                    tail -n +2 CHANGELOG.md
+                    echo 'EOF'
+                  } >> "$GITHUB_OUTPUT"
+
             - name: Upload GitHub Release assets
               uses: softprops/action-gh-release@v1
               with:
                   tag_name: ${{ steps.get_version.outputs.version }}
                   name: Release ${{ steps.get_version.outputs.version }}
-                  generate_release_notes: true
+                  body: ${{ steps.changelog.outputs.body }}
                   files: |
                       build/release/system.zip
                       build/release/system.json

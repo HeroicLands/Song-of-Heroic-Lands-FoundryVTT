@@ -1,0 +1,154 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab content" data-group="primary" data-tab="trauma">
+    {{!-- Injuries --}}
+    <ol class="items-list">
+        <li class="items-header flexrow">
+            <h3 class="item-name name">Injuries</h3>
+            <div class="detail ele">Sev</div>
+            <div class="detail ele">HR</div>
+            <div class="detail aspect">Aspect</div>
+            <div class="detail source">Area</div>
+            <div class="detail ele">Bld</div>
+            <div class="detail duration">Created</div>
+            <div class="detail duration">Next Healing</div>
+            <div class="detail notes">Notes</div>
+            {{#unless printable}}
+            <div class="item-controls">
+                <a class="item-control item-create" data-tooltip="Create Injury"
+                    data-type="injury"><i class="fas fa-file-plus fa-lg"></i></a>
+            </div>
+            {{/unless}}
+        </li>
+        <ol class="item-list">
+            {{#each itemTypes.injury as | item |}}
+                <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}" data-item-name="{{item.name}}">
+                    <div class="item-name name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{ item.img }}')"></div>
+                        <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                    </div>
+                    <div class="detail ele">
+                        {{#if (lte system.$injuryLevel.effective 0)}}
+                        <i class="fas fa-heart-circle-plus fa-lg"></i>
+                        {{else}}
+                        {{system.$injuryLevel.severity}}
+                        {{/if}}
+                    </div>
+                    <div class="detail ele">
+                        {{#if (or system.$healingRate.disabled (lte system.$healingRate.effective 0))}}
+                            <i class="fas fa-xmark fa-lg"></i>
+                        {{else}}
+                            {{#unless system.isTreated}}NT{{/unless}}{{system.$healingRate.effective}}
+                        {{/if}}
+                    </div>
+                    <div class="detail aspect">{{lookup ../config.Item.dataModels.injury.aspectTypes system.aspect}}</div>
+                    <div class="detail source">{{system.$bodyLocation.system.name}}</div>
+                    <div class="detail ele">
+                        {{#if system.isBleeding}}
+                        <a class="bloodloss-test">Yes</a>
+                        {{else}}
+                        <span>No</span>
+                        {{/if}}
+                    </div>
+                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.created.elapsedDuration.label}}"></i><span class="value" data-tooltip="{{system.created.startTime.worldDate}}">{{system.created.startTime.worldDate}}</div>
+                    <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.nextHealingTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextHealingTest.activateTime.worldDate}}">{{system.nextHealingTest.activateTime.worldDate}}</div>
+                    <div class="detail notes">{{system.notes}}</div>
+                    {{#unless printable}}
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i
+                            class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+        </ol>
+    </ol>
+
+    {{!-- Afflictions --}}
+    <div class="search-items">
+        <input class="search-criteria" type="search" name="search-afflictions" value="" aria-label="Search Afflictions"
+            placeholder="Search Afflictions" autocomplete="off" />
+        <div class="search-controls">
+            <a class="search-control item-create" data-tooltip="Create Affliction"
+                data-type="affliction"><i class="fas fa-file-plus"></i></a>
+        </div>
+    </div>
+
+    <div class="items-list ailments afflictions-list">
+        {{#each itemSubtypes.affliction as | itemstlist subType |}}
+        {{#if itemstlist.allItems.length}}
+            <header class="items-header flexrow">
+                <h3 class="item-name name">{{itemstlist.label}} Afflictions</h3>
+                <div class="detail ele">Level</div>
+                <div class="detail ele">HR</div>
+                <div class="detail source">Source</div>
+                <div class="detail duration">Created</div>
+                <div class="detail duration">Course Test</div>
+                <div class="detail duration">Recovery Test</div>
+                <div class="detail notes"></div>
+            </header>
+            <ol class="item-list">
+                {{#each itemstlist.items as | item |}}
+                    <li class="item flexrow" data-item-id="{{item.id}}" data-uuid="{{item.uuid}}"
+                        data-item-name="{{item.name}}" data-category="{{subType}}">
+                        <div class="item-name name default-action flexrow">
+                            <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+                            <h4 data-tooltip="{{item.name}}">{{item.name}}</h4>
+                        </div>
+                        <div class="detail ele">{{system.$level.effective}}</div>
+                        <div class="detail ele">
+                            {{#if system.$healingRate.disabled}}
+                            <i class="fas fa-xmark fa-lg"></i>
+                            {{else}}
+                                {{#if (gt system.$healingRate.effective 5)}}
+                                    <i class="fas fa-heart-circle-check"></i>
+                                {{else}} {{#if (gt system.$healingRate.effective 0)}}
+                                    {{system.$healingRate.effective}}
+                                {{else}} {{#if (eq system.$healingRate.effective 0)}}
+                                    <i class="fas fa-skull"></i>
+                                {{else}}
+                                    <i class="fas fa-xmark fa-lg"></i>
+                                {{/if}} {{/if}} {{/if}}
+                            {{/if}}
+                        </div>
+                        <div class="detail source">{{source.name}}</div>
+                        <div class="detail duration"><i class="fas fa-timer" data-tooltip="{{system.created.elapsedDuration.label}}"></i><span class="value" data-tooltip="{{system.created.startTime.worldDate}}">{{system.created.startTime.worldDate}}</div>
+                        <div class="detail duration">
+                            {{#if system.nextCourseTest}}
+                            <i class="fas fa-timer" data-tooltip="{{system.nextCourseTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextCourseTest.activateTime.worldDate}}">{{system.nextCourseTest.activateTime.worldDate}}
+                            {{else}}
+                            <span class="value">None</span>
+                            {{/if}}
+                        </div>
+                        <div class="detail duration">
+                            {{#if system.nextRecoveryTest}}
+                            <i class="fas fa-timer" data-tooltip="{{system.nextRecoveryTest.remainingDuration.label}}"></i><span class="value" data-tooltip="{{system.nextRecoveryTest.activateTime.worldDate}}">{{system.nextRecoveryTest.activateTime.worldDate}}
+                            {{else}}
+                            <span class="value">None</span>
+                            {{/if}}
+                        </div>
+                        <div class="detail notes"></div>
+                        {{#unless printable}}
+                        <div class="item-controls">
+                            <a class="item-control item-contextmenu" title="Menu"><i
+                                class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        </div>
+                        {{/unless}}
+                    </li>
+                {{/each}}
+            </ol>
+        {{/if}}
+        {{/each}}    
+    </div>
+</section>

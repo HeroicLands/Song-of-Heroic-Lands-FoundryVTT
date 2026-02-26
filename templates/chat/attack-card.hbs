@@ -1,0 +1,151 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
+    <header class="card-header">
+        <h3 class="title">{{title}}</h3>
+        <h4 class="subtitle">{{attackToken.name}} vs. {{defendToken.name}}</h4>
+    </header>
+
+    {{#if notes}}
+    <div class="card-note">
+        <span>{{notes}}</span>
+    </div>
+    {{/if}}
+    
+    {{#if isMissile}}
+    <div class="card-content">
+        <span class="label">Missile:</span>
+        <span class="value">{{missile}}</span>
+    </div>
+
+        {{#if projectile}}
+        <div class="card-content">
+            <span class="label">Projectile:</span>
+            <span class="value">{{projectile}}</span>
+        </div>
+        {{/if}}
+    
+    {{/if}}
+
+    {{#if (eq variant "legendary")}}
+    <div class="card-content center">
+        <div class="flexrow">
+            <span class="label">Zone Die + Start:</span>
+            <span class="value">d{{strikeMode.system.zoneDie}} + {{zoneStart}}</span>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="card-content">
+        <label>Impact Modifiers</label>
+        <div class="adjustment">
+            <div class="flexrow">
+                <span class="label adj-name">Adjustment</span>
+                <span class="label adj-value">Value</span>
+            </div>
+            {{#each impactMods}}
+            <div class="flexrow">
+                <span class="adj-name">{{this.name}}</span>
+                <span class="adj-value"
+                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
+                >
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="grid grid-2col">
+        <div class="card-content">
+            <span class="label">Distance:</span>
+            <span class="value">{{distance}}ft</span>
+        </div>
+
+        <div class="card-content">
+            <span class="label">Impact:</span>
+            <span class="value">{{impact.label}}</span>
+        </div>
+    </div>
+
+    <div class="card-content">
+        <label>Attack Modifiers</label>
+        {{{aml.toHtml}}}
+    </div>
+
+    {{#if successLevelMod}}
+    <div class="card-content flex-group-center">
+        <span class="label">Success Level Modifier:</span>
+        <span class="value">{{successLevelMod}}</span>
+    </div>
+    {{/if}}
+    
+    {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
+    <div class="card-buttons">
+        <div class="grid grid-2col mingap">
+            {{#if hasDodge}}
+            <button
+                id="dodge-button"
+                data-action="dodgeResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
+                Dodge
+            </button>
+            {{/if}} {{#if hasCounterstrike}}
+            <button
+                id="counterstrike-button"
+                data-action="counterstrikeResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
+                Counterstrike
+            </button>
+            {{/if}} {{#if hasBlock}}
+            <button
+                id="block-button"
+                data-action="blockResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
+                Block
+            </button>
+            {{/if}} {{#if hasIgnore}}
+            <button
+                id="ignore-button"
+                data-action="ignoreResume"
+                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
+                data-atk-token-uuid="{{attackToken.uuid}}"
+                data-def-token-uuid="{{defendToken.uuid}}"
+                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
+                data-attack-obj-json="{{jsonStringify attackMods}}"
+                data-impact-obj-json="{{jsonStringify impactMods}}"
+                data-zone-start="{{zoneStart}}"
+                Ignore
+            </button>
+            {{/if}}
+        </div>
+    </div>
+    {{/if}}
+</div>

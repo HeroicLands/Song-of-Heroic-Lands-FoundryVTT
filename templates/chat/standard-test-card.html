@@ -1,30 +1,32 @@
-<div class="hmk chat-card item-card" data-actor-uuid="{{initActorUuid}}">
+<div class="sohl chat-card item-card" data-actor-uuid="{{actor.uuid}}">
     <header class="card-header">
-        <h3 class="title">{{title}}</h3>
-        {{#if isOpposedTest}}
-        <h4 class="subtitle">{{initTokenName}} vs. {{targetTokenName}}</h4>
-        {{/if}}
+        <h3 class="title">{{title}}
+            <a class="edit-action"
+                data-action="successTest"
+                data-action-handler-uuid="{{item.uuid}}"
+                data-test-result-json="{{testResultJson}}"
+                ><i class="fas fa-edit"></i></a
+            ></h3>
     </header>
 
-    {{#if modHtml}}
+    {{#if (not mlMod.empty)}}
     <div class="card-content">
-        {{{modHtml}}}
+        {{{mlMod.chatHtml}}}
     </div>
     {{/if}}
 
     <div class="card-content">
         <span class="label">Target:</span>
-        <span class="value">{{effTarget}}</span>
+        <span class="value">{{mlMod.effective}}</span>
     </div>
 
-    {{#if successLevelMod}}
+    {{#if mlMod.successLevelMod}}
     <div class="card-content">
         <span class="label">Success Level Modifier:</span>
-        <span class="value">{{successLevelMod}}</span>
+        <span class="value">{{mlMod.successLevelMod}}</span>
     </div>
     {{/if}}
 
-    {{#unless isOpposedTest}}
     <div class="card-content">
         <span class="label">Roll:</span>
         <span 
@@ -33,10 +35,8 @@
         {{else}}
         class="value failure-text"
         {{/if}}
-        >{{rollTotal}}</span>
-    </div>
-    {{/unless}}
-    
+        >{{roll.total}}</span>
+    </div>    
         
     {{#if isSuccessValue}}
     <div class="card-content">
@@ -57,26 +57,11 @@
             >{{resultText}}</span>
     </div>
 
-        {{#if resultDesc}}
-            <div class="card-content">
-                <span class="value">{{resultDesc}}</span>
-            </div>
-        {{/if}}
+    {{#if resultDesc}}
+        <div class="card-content">
+            <span class="value">{{resultDesc}}</span>
+        </div>
     {{/if}}
-    {{#if testResult.askFate}}
-    <div class="card-buttons">
-        <button
-            data-action="fateTest",
-            data-target-uuid="{{targetUuid}}"
-            data-next-action="successTestToChat"
-            data-next-target-uuid="{{nextTargetUuid}}"
-            data-next-title="{{title}}"
-            data-next-type="{{type}}"
-            data-test-prop-name="testResult"
-            data-test-result-json="{{testResultJson}}">
-            <i class="fas fa-stars"></i> Use Fate
-        </button>
-    </div>
     {{/if}}
     
     {{#if isSuccess}}

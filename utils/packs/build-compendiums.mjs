@@ -1,3 +1,16 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import fs from "fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import log from "loglevel";
@@ -32,7 +45,7 @@ fs.mkdirSync(PACK_DEST, { recursive: true });
 
 // Load system.json.
 const system = JSON.parse(
-    fs.readFileSync("./assets/system.template.json", { encoding: "utf8" }),
+    fs.readFileSync("./assets/templates/system.template.json", { encoding: "utf8" }),
 );
 
 // Configure loglevel
@@ -139,7 +152,7 @@ function cleanPackEntry(data, { clearSourceId = true, ownership = 0 } = {}) {
     delete data.flags?.importSource;
     delete data.flags?.exportSource;
     if (data._stats?.lastModifiedBy)
-        data._stats.lastModifiedBy = "sohlbuilder0000";
+        data._stats.lastModifiedBy = "sohlbuilder00000";
 
     // Remove empty entries in flags
     if (!data.flags) data.flags = {};

@@ -1,0 +1,39 @@
+{
+  "name": "Automated Attack",
+  "type": "script",
+  "_id": "E49krgnOxfJrFnyF",
+  "author": "WpWZl9iwHHxKTkwG",
+  "img": "systems/sohl/assets/icons/crossed-swords.svg",
+  "scope": "global",
+  "command": "await CONFIG.SOHL.class.Utility.currentCombatantAttack();",
+  "folder": null,
+  "flags": {
+    "sohl": {
+      "notes": "",
+      "description": "",
+      "params": {},
+      "functionName": "",
+      "contextIconClass": "",
+      "contextCondition": false,
+      "contextGroup": "hidden",
+      "isIntrinsicAction": false,
+      "useAsync": true
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "12.331",
+    "systemId": "sohl",
+    "systemVersion": "0.5.6",
+    "createdTime": 1739485851467,
+    "modifiedTime": 1739485851467,
+    "lastModifiedBy": "WpWZl9iwHHxKTkwG"
+  },
+  "sort": 0,
+  "ownership": {
+    "default": 0,
+    "WpWZl9iwHHxKTkwG": 3
+  },
+  "_key": "!macros!E49krgnOxfJrFnyF"
+}

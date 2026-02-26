@@ -1,14 +1,18 @@
 {
-    "entryPoints": ["module/foundry/index.ts"],
+    "entryPoints": ["src/sohl.ts"],
     "entryPointStrategy": "expand",
     "tsconfig": "./tsconfig.json",
     "out": "build/docs",
-    "plugin": ["typedoc-plugin-markdown"],
+    "plugin": [
+        "typedoc-plugin-markdown",
+        "./utils/typedoc-plugin-datafield-schema.mjs"
+    ],
     "theme": "markdown",
     "excludeExternals": true,
     "excludePrivate": true,
     "excludeInternal": true,
     "includeVersion": true,
-    "readme": "assets/docs/index.md",
-    "name": "Song of Heroic Lands API"
+    "readme": "README.md",
+    "name": "Song of Heroic Lands API",
+    "exclude": []
 }
