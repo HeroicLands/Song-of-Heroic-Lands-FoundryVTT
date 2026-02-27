@@ -33,6 +33,7 @@
 # Build files
 /build/
 /coverage/
+/css/
 
 # Hidden files
 /nogit/
