@@ -75,6 +75,10 @@ export class Characteristics {
 
     async processTraits() {
         const filePath = path.join(this.dataDir, "traits.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping traits: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const trait of data) {
@@ -126,6 +130,10 @@ export class Characteristics {
 
     async processSkills() {
         const filePath = path.join(this.dataDir, "skills.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping skills: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const skill of data) {
@@ -182,6 +190,12 @@ export class Characteristics {
 
     async processCombatTechniques() {
         let filePath = path.join(this.dataDir, "combattechsm.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(
+                `File does not exist, skipping combat techniques: ${filePath}`,
+            );
+            return;
+        }
         let data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const cmbttech of data) {
@@ -261,7 +275,7 @@ export class Characteristics {
                 _key: `!items.effects!${sm._id}.${eid}`,
             };
 
-            for (const chg in cmbttech.effectChanges) {
+            for (const chg of (cmbttech.effectChanges || [])) {
                 const change = {
                     key: chg.key,
                     mode: chg.mode,
@@ -274,7 +288,7 @@ export class Characteristics {
 
             fs.writeFileSync(
                 outputPath,
-                JSON.stringify(outputData, null, 2),
+                JSON.stringify(sm, null, 2),
                 "utf8",
             );
         }
@@ -282,6 +296,10 @@ export class Characteristics {
 
     async processAfflictionss() {
         const filePath = path.join(this.dataDir, "afflictions.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping afflictions: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const affliction of data) {
@@ -330,6 +348,10 @@ export class Characteristics {
 
     async processFolders() {
         const filePath = path.join(this.dataDir, "folders.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping folders: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const folder of data) {

@@ -12,11 +12,11 @@
  */
 
 import type { SohlItem } from "@common/item/SohlItem";
-import type { TraitData } from "@common/item/Trait";
+import type { TraitData, TraitLogic } from "@common/item/Trait";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
 
 export class SkillBase {
-    _attrs: StrictObject<{ name: string; value: number }>;
+    _attrs: StrictObject<{ name: string; value: number; logic: TraitLogic }>;
     _formula: string | null;
     _sunsigns: string[];
     _parsedFormula: string[] | null;
@@ -85,6 +85,7 @@ export class SkillBase {
                             this._attrs[attr.shortcode] = {
                                 name: attr.parent?.name || "",
                                 value: score * mult,
+                                logic: attr.logic,
                             };
                         } else {
                             throw new Error(
@@ -114,8 +115,8 @@ export class SkillBase {
         return this._sunsigns;
     }
 
-    get attributes(): string[] {
-        return Object.values(this._attrs).map((a) => a.name);
+    get attributes(): TraitLogic[] {
+        return Object.values(this._attrs).map((a) => a.logic);
     }
 
     get value(): number {

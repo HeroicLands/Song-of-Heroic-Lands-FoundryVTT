@@ -52,6 +52,10 @@ import {
     LgndAffiliationSheet,
 } from "@legendary/item/LgndAffiliation";
 import {
+    LgndDispositionLogic,
+    LgndDispositionSheet,
+} from "@legendary/item/LgndDisposition";
+import {
     LgndProtectionLogic,
     LgndProtectionSheet,
 } from "@legendary/item/LgndProtection";
@@ -125,7 +129,7 @@ import {
     LgndProjectileGearLogic,
     LgndProjectileGearSheet,
 } from "@legendary/item/LgndProjectileGear";
-import { SohlActiveEffectConfig } from "@common/effect/SohlActiveEffectConfig";
+import { SohlActiveEffectSheet } from "@common/effect/SohlActiveEffect";
 
 export const {
     kind: LGND_ACTOR_LOGIC,
@@ -161,6 +165,7 @@ export const {
 } = defineType("TYPES.Item", {
     [ITEM_KIND.ACTION]: LgndActionLogic,
     [ITEM_KIND.AFFILIATION]: LgndAffiliationLogic,
+    [ITEM_KIND.DISPOSITION]: LgndDispositionLogic,
     [ITEM_KIND.AFFLICTION]: LgndAfflictionLogic,
     [ITEM_KIND.ARMORGEAR]: LgndArmorGearLogic,
     [ITEM_KIND.BODYLOCATION]: LgndBodyLocationLogic,
@@ -194,6 +199,7 @@ export const {
 } = defineType("SOHL.Item.Sheet", {
     [ITEM_KIND.ACTION]: LgndActionSheet,
     [ITEM_KIND.AFFILIATION]: LgndAffiliationSheet,
+    [ITEM_KIND.DISPOSITION]: LgndDispositionSheet,
     [ITEM_KIND.AFFLICTION]: LgndAfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: LgndArmorGearSheet,
     [ITEM_KIND.BODYLOCATION]: LgndBodyLocationSheet,
@@ -294,7 +300,7 @@ export class LegendarySystem extends SohlSystem {
         foundry.applications.apps.DocumentSheetConfig.registerSheet(
             CONFIG.ActiveEffect.documentClass,
             "sohl",
-            SohlActiveEffectConfig,
+            SohlActiveEffectSheet,
             {
                 makeDefault: true,
             },

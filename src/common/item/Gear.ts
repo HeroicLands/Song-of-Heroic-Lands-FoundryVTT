@@ -34,8 +34,8 @@ export abstract class GearLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this.weight = sohl.CONFIG.ValueModifier({}, { parent: this });
         this.value = sohl.CONFIG.ValueModifier({}, { parent: this });
         this.quality = sohl.CONFIG.ValueModifier({}, { parent: this });
@@ -43,13 +43,13 @@ export abstract class GearLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

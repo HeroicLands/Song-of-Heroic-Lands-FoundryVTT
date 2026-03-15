@@ -260,8 +260,8 @@ export abstract class MasteryLevelLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this._boosts = 0;
         this.masteryLevel = new sohl.CONFIG.MasteryLevelModifier(
             {},
@@ -316,8 +316,8 @@ export abstract class MasteryLevelLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
         if (this.masteryLevel.base > 0) {
             let newML = this.masteryLevel.base;
             for (let i = 0; i < this.boosts; i++) {
@@ -329,7 +329,11 @@ export abstract class MasteryLevelLogic<
         if (this.masteryLevel.base > this.masteryLevel.maxTarget) {
             this.masteryLevel.setBase(this.masteryLevel.maxTarget);
         }
-        if (this.skillBase.attributes.includes("Aura")) {
+        if (
+            this.skillBase.attributes.some(
+                (attr) => attr.data.shortcode === "aur",
+            )
+        ) {
             // Any skill that has Aura in its SB formula cannot use fate
             this.fateMasteryLevel.disabled =
                 "SOHL.MasteryLevel.AuraBasedNoFate";
@@ -337,8 +341,8 @@ export abstract class MasteryLevelLogic<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
         if (this.masteryLevel.disabled) {
             this.fateMasteryLevel.disabled = sohl.CONFIG.MOD.MLDSBL.name;
         }

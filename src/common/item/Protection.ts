@@ -43,8 +43,8 @@ export class ProtectionLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this.bodyLocations = [];
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
@@ -56,9 +56,9 @@ export class ProtectionLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
+    override evaluate(): void {
         if (!this.item.nestedIn || this.data.subType !== sohl.id) return;
-        super.evaluate(context);
+        super.evaluate();
         const armorGear = this.nestedIn as unknown as SohlItem;
         const armorGearData = armorGear!.system as ArmorGearData;
 
@@ -104,8 +104,8 @@ export class ProtectionLogic<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

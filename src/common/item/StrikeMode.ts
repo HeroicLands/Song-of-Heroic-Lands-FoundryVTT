@@ -54,8 +54,8 @@ export abstract class StrikeModeLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this.traits = {
             noAttack: false,
             noBlock: false,
@@ -85,8 +85,8 @@ export abstract class StrikeModeLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
         if (this.item && isGearItem(this.item)) {
             this.durability.addVM(
                 (this.nestedIn?.logic as GearLogic).durability,
@@ -95,8 +95,8 @@ export abstract class StrikeModeLogic<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

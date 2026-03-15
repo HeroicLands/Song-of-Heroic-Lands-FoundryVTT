@@ -136,31 +136,29 @@
             "sorting": "m",
             "color": "#094fcb",
             "packs": [
-                "characters",
-                "creatures",
+                "people-and-creatures",
+                "vehicles-and-structures",
                 "characteristics",
-                "mysteries",
                 "possessions",
-                "journals",
-                "macros"
+                "journals"
             ]
         }
     ],
     "packs": [
         {
-            "label": "Characters",
+            "label": "People & Creatures",
             "type": "Actor",
-            "name": "characters",
+            "name": "people-and-creatures",
             "system": "sohl",
-            "path": "packs/characters",
+            "path": "packs/people-and-creatures",
             "private": false
         },
         {
-            "label": "Creatures",
+            "label": "Vehicles & Structures",
             "type": "Actor",
-            "name": "creatures",
+            "name": "vehicles-and-structures",
             "system": "sohl",
-            "path": "packs/creatures",
+            "path": "packs/vehicles-and-structures",
             "private": false
         },
         {
@@ -172,16 +170,8 @@
             "private": false
         },
         {
-            "label": "Mysteries",
-            "type": "Item",
-            "name": "mysteries",
-            "system": "sohl",
-            "path": "packs/mysteries",
-            "private": false
-        },
-        {
             "label": "Possessions",
-            "type": "Item",
+            "type": "Actor",
             "name": "possessions",
             "system": "sohl",
             "path": "packs/possessions",
@@ -193,14 +183,6 @@
             "name": "journals",
             "system": "sohl",
             "path": "packs/journals",
-            "private": false
-        },
-        {
-            "label": "Macros",
-            "type": "Macro",
-            "name": "macros",
-            "system": "sohl",
-            "path": "packs/macros",
             "private": false
         }
     ],

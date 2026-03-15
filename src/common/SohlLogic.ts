@@ -33,30 +33,12 @@ export const {
     isValue: isIntrinsicAction,
     labels: intrinsicActionLabels,
 } = defineType("SOHL.SohlLogic.INTRINSIC_ACTION", {
-    INITIALIZE: {
+    POSTFINALIZE: {
         subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
-        title: "SOHL.SohlLogic.INTRINSIC_ACTION.initialize.title",
+        title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-gears",
-        executor: "initialize",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-    EVALUATE: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
-        title: "SOHL.SohlLogic.INTRINSIC_ACTION.evaluate.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-gears",
-        executor: "evaluate",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-    FINALIZE: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
-        title: "SOHL.SohlLogic.INTRINSIC_ACTION.finalize.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-gears",
-        executor: "finalize",
+        executor: "postfinalize",
         visible: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
@@ -180,15 +162,6 @@ export abstract class SohlLogic<
         this.actions = [];
     }
 
-    setupIntrinsicActions(): void {
-        this.actions = Object.keys(INTRINSIC_ACTION).map((key) => {
-            const data = INTRINSIC_ACTION[key];
-            data.title ??= intrinsicActionLabels[key];
-            const action = new (this.constructor as any)(data, { parent: this });
-            return action as ActionLogic;
-        });
-    }
-
     setDefaultAction(action: ActionLogic[]): void {
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
@@ -271,20 +244,34 @@ export abstract class SohlLogic<
     }
 
     /**
+     * Intrinsic action performed after finalize lifecycle stage.
+     * This is intended for modules to hook into (or ActionItems to override)
+     * to perform additional logic after the main lifecycle stages have completed.
+     */
+    postFinalize(context: SohlActionContext): void {
+        // No-op by default
+    }
+
+    /*--------------------------------------
+     * Common Lifecycle Actions
+     * These are called in order by the parent document during its lifecycle.
+     *--------------------------------------*/
+
+    /**
      * Initializes base state for this participant.
      * Should not rely on sibling or external logic state.
      */
-    abstract initialize(context?: SohlActionContext): void;
+    abstract initialize(): void;
 
     /**
      * Evaluates business logic using current and sibling state.
      */
-    abstract evaluate(context?: SohlActionContext): void;
+    abstract evaluate(): void;
 
     /**
      * Final stage of lifecycle — compute derived values, cleanup, etc.
      */
-    abstract finalize(context?: SohlActionContext): void;
+    abstract finalize(): void;
 }
 
 export namespace SohlLogic {

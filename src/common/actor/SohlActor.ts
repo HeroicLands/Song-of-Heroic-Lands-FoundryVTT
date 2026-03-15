@@ -12,7 +12,7 @@
  */
 
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlItem } from "@common/item/SohlItem";
+import { SohlItem } from "@common/item/SohlItem";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlActionContext } from "@common/SohlActionContext";
 import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
@@ -22,6 +22,8 @@ import { SohlMap } from "@utils/collection/SohlMap";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
+import { SOHL_ACTION_SCOPE, ACTION_SUBTYPE, ITEM_KIND } from "@utils/constants";
+import type { ActionLogic } from "@common/item/Action";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 export class SohlActor extends Actor {
@@ -29,10 +31,12 @@ export class SohlActor extends Actor {
     private _allItemTypesCache?: StrictObject<SohlItem[]>;
     private _allItemsBuilt: boolean;
     protected _speaker?: SohlSpeaker;
+    protected _lifecycleActionsCache: Map<string, SohlItem>;
 
     constructor(data: any, options?: any) {
         super(data, options);
         this._allItemsBuilt = false;
+        this._lifecycleActionsCache = new Map<string, SohlItem>();
     }
 
     /**
@@ -199,8 +203,21 @@ export class SohlActor extends Actor {
     prepareBaseData(): void {
         super.prepareBaseData();
         this._speaker = undefined;
-        this.logic.setupIntrinsicActions();
-        this.logic.initialize(this._getContext());
+        this._lifecycleActionsCache = new Map<string, SohlItem>();
+        this.logic.initialize();
+    }
+
+    getLifecycleAction(name: string): SohlItem | undefined {
+        let actionItem = this._lifecycleActionsCache.get(name);
+        if (!actionItem) {
+            actionItem = this.items.find(
+                (it) => it.type === ITEM_KIND.ACTION && it.name === name,
+            ) as SohlItem | undefined;
+            if (actionItem) {
+                this._lifecycleActionsCache.set(name, actionItem);
+            }
+        }
+        return actionItem;
     }
 
     prepareEmbeddedData(): void {
@@ -209,25 +226,62 @@ export class SohlActor extends Actor {
         super.prepareEmbeddedData();
 
         const ctx = this._getContext();
+
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
-            item.logic.setupIntrinsicActions();
-            item.logic.initialize(ctx);
+            item.logic.initialize();
+
+            // Call any hooks listening for this item type's post-initialize event
+            Hooks.callAll(`sohl.${item.type}.postInitialize` as any, item, ctx);
+
+            const postInitialize = this.getLifecycleAction(
+                `${item.type}.${item.system.shortcode}.postInitialize`,
+            );
+            // Execute the post-initialize action if it exists on this item
+            if (postInitialize) {
+                (postInitialize.logic as ActionLogic).execute(ctx);
+            }
         }
+
         this.finalizeItemsCache();
 
         // Evaluate and finalize all objects, recognizing that the virtualItems map is now immutable
         this.allItems.forEach((it) => {
-            it.logic.evaluate(ctx);
-            it.logic.finalize(ctx);
+            it.logic.evaluate();
+
+            // Call any hooks listening for this item's post-evaluate event
+            Hooks.callAll(`sohl.${it.type}.postEvaluate` as any, it, ctx);
+
+            // Execute the post-evaluate action if it exists on this item
+            const postEvaluate = this.getLifecycleAction(
+                `${it.type}.${it.system.shortcode}.postEvaluate`,
+            );
+            if (postEvaluate) {
+                (postEvaluate.logic as ActionLogic).execute(ctx);
+            }
+        });
+
+        this.allItems.forEach((it) => {
+            it.logic.finalize();
+
+            // Call any hooks listening for this item's post-finalize event
+            Hooks.callAll(`sohl.${it.type}.postFinalize` as any, it, ctx);
+
+            // Execute the post-finalize action if it exists on this item
+            const postFinalize = this.getLifecycleAction(
+                `${it.type}.${it.system.shortcode}.postFinalize`,
+            );
+            if (postFinalize) {
+                (postFinalize.logic as ActionLogic).execute(ctx);
+            }
         });
     }
 
     prepareDerivedData(): void {
         super.prepareDerivedData();
         const ctx = this._getContext();
-        this.logic.evaluate(ctx);
-        this.logic.finalize(ctx);
+        this.logic.evaluate();
+        this.logic.finalize();
     }
 
     static createUniqueName(baseName: string): string {
@@ -465,15 +519,20 @@ export class SohlActorBaseLogic<
     TData extends SohlActorData = SohlActorData,
 > extends SohlLogic<TData> {
     virtualItems!: SohlMap<string, SohlItem>;
-    override initialize(context?: SohlActionContext): void {
+    override initialize(): void {
         this.virtualItems = new SohlMap<string, SohlItem>();
     }
-    override evaluate(context?: SohlActionContext): void {}
-    override finalize(context?: SohlActionContext): void {}
+    override evaluate(): void {}
+    override finalize(): void {}
 }
 
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
+        shortcode: new StringField({
+            blank: false,
+            required: true,
+            hint: "A unique identifier for this actor",
+        }),
         bioImage: new FilePathField({
             categories: ["IMAGE"],
             initial: foundry.CONST.DEFAULT_TOKEN,

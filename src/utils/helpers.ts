@@ -213,68 +213,6 @@ export function maxPrecision(value: number, precision: number = 0): number {
     return +parseFloat(value.toString()).toFixed(precision);
 }
 
-/**
- * Register a value or object in the `sohl` global namespace.
- *
- * If a string path is provided, the value is set at that path.
- * If an object is provided, all flattened key paths are expanded and set.
- *
- * @param pathOrObject - The path string or object map to register.
- * @param value - The value to assign at the given path (only if path is a string).
- * @param descriptor - A property descriptor for the registered value.
- */
-export function registerValue(
-    pathOrObject: string | PlainObject,
-    value?: any,
-    descriptor: PropertyDescriptor = {
-        writable: false,
-        configurable: true,
-        enumerable: false,
-    },
-): void {
-    if (typeof pathOrObject === "string") {
-        foundry.utils.setProperty(sohl, pathOrObject, value);
-    } else if (typeof pathOrObject === "object") {
-        const flattened = foundry.utils.flattenObject(pathOrObject);
-        for (const [path, val] of Object.entries(flattened)) {
-            foundry.utils.setProperty(sohl, path, val);
-        }
-    }
-}
-
-/**
- * Unregister a value from the `sohl` global namespace.
- *
- * @param path - The dot-path string to remove.
- * @returns True if the path was successfully removed.
- */
-export function unregisterValue(path: string): boolean {
-    return foundry.utils.deleteProperty(globalThis.sohl, path);
-}
-
-export async function toHTMLWithTemplate(
-    template: FilePath,
-    data: PlainObject = {},
-): Promise<HTMLString> {
-    const html = await foundry.applications.handlebars.renderTemplate(
-        template,
-        data,
-    );
-    return toSanitizedHTML(html);
-}
-
-export async function toHTMLWithContent(
-    content: HTMLString,
-    data: PlainObject = {},
-): Promise<HTMLString> {
-    const compiled = Handlebars.compile(content);
-    const result = compiled(data, {
-        allowProtoMethodsByDefault: true,
-        allowProtoPropertiesByDefault: true,
-    });
-    return toSanitizedHTML(result);
-}
-
 export function createUniqueName<T extends { name: string }>(
     baseName: string,
     siblings: Map<string, T>,

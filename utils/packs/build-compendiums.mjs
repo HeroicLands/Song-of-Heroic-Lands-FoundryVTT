@@ -20,17 +20,17 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { Characteristics } from "./characteristics.mjs";
-import { Characters } from "./characters.mjs";
-import { Creatures } from "./creatures.mjs";
-import { Mysteries } from "./mysteries.mjs";
+import { PeopleCreatures } from "./peoplecreatures.mjs";
+import { VehicleStructures } from "./VehicleStructures.mjs";
 import { Possessions } from "./possessions.mjs";
+import { Journals } from "./journals.mjs";
 
 const PACKS = {
     "characteristics": Characteristics,
-    "mysteries": Mysteries,
     "possessions": Possessions,
-    "characters": Characters,
-    "creatures": Creatures,
+    "people-and-creatures": PeopleCreatures,
+    "vehicles-and-structures": VehicleStructures,
+    "journals": Journals,
 };
 
 /**
@@ -109,10 +109,12 @@ function packageCommand() {
 /* ----------------------------------------- */
 
 async function compilePacks(packName) {
-    const packs = system.packs.filter((p) => !packName || p.name === packName);
+    const packs = Object.keys(PACKS)
+        .map((key) => ({ name: key, class: PACKS[key] }))
+        .filter((p) => !packName || p.name === packName);
 
     for (const packInfo of packs) {
-        const packClass = PACKS[packInfo.name];
+        const packClass = packInfo.class;
         if (!packClass) {
             log.warn(
                 `No pack class found for ${packInfo.name}, skipping...`,

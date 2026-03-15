@@ -15,9 +15,12 @@ import { SohlItem } from "@common/item/SohlItem";
 import { HTMLString, toHTMLString } from "@utils/helpers";
 import {
     getContextItem,
+    ITEM_KIND,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroup,
 } from "@utils/constants";
+import type { ActionLogic } from "@common/item/Action";
+import { SohlActionContext } from "@common/SohlActionContext";
 
 export class SohlContextMenu extends (foundry.applications as any).ux
     .ContextMenu {
@@ -45,21 +48,27 @@ export class SohlContextMenu extends (foundry.applications as any).ux
                 if (it.functionName) {
                     newItem.callback = (target: HTMLElement) => {
                         const item = getContextItem(target);
-                        if (item) {
-                            item.logic.execute({
-                                element: target,
-                                async: true,
-                            });
+                        const ctx = new SohlActionContext({
+                            speaker: item?.actor?.getSpeaker(),
+                        });
+                        // call the function on item.logic with the context
+                        const logic = item?.logic as any;
+                        const fn = logic?.[it.functionName as string];
+                        if (typeof fn === "function") {
+                            fn.call(logic, ctx);
+                        } else {
+                            console.warn(
+                                `Function "${it.functionName}" not found on logic for context menu item "${it.name}".`,
+                            );
                         }
                     };
                 } else {
                     throw new Error(
-                        `Context menu item "${name}" does not have a callback function.`,
+                        `Context menu item "${it.name}" does not have a callback function.`,
                     );
                 }
             }
         });
-        options.jQuery = options.jQuery || false;
         super(container as any, selector, menuItems as any, options);
     }
 

@@ -11,7 +11,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
+/*
+ * The Cohort actor represents a group of actors that are treated as a single unit.
+ * It allows for the management of multiple actors as a cohesive group, with shared,
+ * properties and behaviors, such as shared reactions, movement, or combat.
+ * 
+ * The Cohort can represent a variety of groupings, such as a party of adventurers,
+ * a squad of soldiers, or a pack of animals. It provides a way to manage these groups
+ * more efficiently, especially in situations where they need to be treated as a single
+ * entity for certain mechanics, while still allowing for individual actors to have
+ * their own unique properties and actions.
+ * 
+ * Each member of the Cohort must have a unique name.
+ * 
+ * If a member's `isLinked` property is set to true, then the member is considered
+ * to be directly representing that actor. If the `isLinked` property is false, then
+ * the member is considered to be an individual of the same type as the world actor
+ * with the specified `shortcode`. For example, if a Cohort represents a pack of wolves,
+ * each member may have the same `shortcode` representing a generic wolf, but each member
+ * will have a unique `name` and the `isLinked` property set to false, indicating that
+ * they are separate individuals of the same type. 
+ * 
+ * When a Cohort actor is dropped onto a scene, a dialog will appear providing a choice
+ * between creating a single token representing the entire Cohort or creating individual
+ * tokens for each member. Single token Cohorts may not participate in combat, but are useful
+ * for representing movement of groups, especially on large-scale maps.
+ */
 import {
     SohlActor,
     SohlActorBaseLogic,
@@ -22,13 +47,12 @@ import {
 } from "@common/actor/SohlActor";
 import {
     ACTOR_KIND,
-    ACTOR_METADATA,
     COHORT_MEMBER_ROLE,
     CohortMemberRoles,
     REACTION,
     Reactions,
 } from "@utils/constants";
-const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
+const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 
 /**
@@ -42,18 +66,18 @@ export class CohortLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 
@@ -63,49 +87,36 @@ export interface CohortData<
 
 /**
  * Defines the data schema for the Cohort actor.
- *
- * @remarks
- * `leader` refers to the Document ID of the actor in this Cohort
- * which serves as the leader. This may affect certain checks
- * or abilities that depend on leadership.
- *
- * `moveRep` refers to the Document ID of the actor in this Cohort
- * which serves as the representative for movement purposes. Generally
- * this would be the slowest member of the Cohort, but may vary based
- * on the situation.
- *
- * @returns The data schema for the Cohort actor.
  */
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        leader: new DocumentIdField({ nullable: true, initial: null }),
-        moveRep: new DocumentIdField({ nullable: true, initial: null }),
+        leaderName: new StringField({
+            hint: "The name of the actor in this cohort serving as the leader",
+        }),
+        moveRepName: new StringField({
+            hint: "The name of the actor in this cohort representing this cohort for movement purposes",
+        }),
         members: new ArrayField(
             new SchemaField({
-                actorId: new DocumentIdField({ nullable: false }),
+                shortcode: new StringField({
+                    blank: false,
+                    required: true,
+                    hint: "The shortcode of the actor representing this member",
+                }),
+                name: new StringField({
+                    blank: false,
+                    required: true,
+                    hint: "The unique name of the actor representing this member",
+                }),
+                isLinked: new BooleanField({
+                    initial: false,
+                    hint: "Whether this member is linked to a specific actor in the world",
+                }),
                 role: new StringField({
                     choices: CohortMemberRoles,
                     initial: COHORT_MEMBER_ROLE.MEMBER,
-                }),
-                quantity: new NumberField({
-                    initial: 1,
-                    min: 1,
-                    integer: true,
-                }),
-            }),
-        ),
-        defaultReaction: new StringField({
-            choices: Reactions,
-            initial: REACTION.NEUTRAL,
-        }),
-        reactions: new ArrayField(
-            new SchemaField({
-                targetId: new DocumentIdField({ nullable: false }),
-                targetName: new StringField({ nullable: true, initial: null }),
-                reaction: new StringField({
-                    choices: Reactions,
-                    initial: REACTION.NEUTRAL,
+                    hint: "The role of this member within the cohort",
                 }),
             }),
         ),

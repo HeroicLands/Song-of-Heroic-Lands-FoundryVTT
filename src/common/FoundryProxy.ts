@@ -11,12 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    FilePath,
-    toHTMLWithContent,
-    toHTMLWithTemplate,
-    HTMLString,
-} from "@utils/helpers";
+import { FilePath, toSanitizedHTML, HTMLString } from "@utils/helpers";
 
 /*
  * =====================================================
@@ -73,6 +68,29 @@ export interface DialogConfig {
 export interface AwaitDialogResult {
     value: any;
     action: string;
+}
+
+export async function toHTMLWithTemplate(
+    template: FilePath,
+    data: PlainObject = {},
+): Promise<HTMLString> {
+    const html = await foundry.applications.handlebars.renderTemplate(
+        template,
+        data,
+    );
+    return toSanitizedHTML(html);
+}
+
+export async function toHTMLWithContent(
+    content: HTMLString,
+    data: PlainObject = {},
+): Promise<HTMLString> {
+    const compiled = Handlebars.compile(content);
+    const result = compiled(data, {
+        allowProtoMethodsByDefault: true,
+        allowProtoPropertiesByDefault: true,
+    });
+    return toSanitizedHTML(result);
 }
 
 /**

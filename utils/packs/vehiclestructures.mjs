@@ -27,9 +27,8 @@ const stats = {
     lastModifiedBy: "sohlbuilder00000",
 };
 
-export class Creatures {
-    static items = [];
-    static id = "creatures";
+export class VehicleStructures {
+    static id = "vehicles-and-structures";
 
     constructor(dataDir, outputDir) {
         Object.defineProperty(this, "dataDir", {
@@ -40,48 +39,6 @@ export class Creatures {
             value: outputDir,
             writable: false,
         });
-
-        Object.defineProperty(this, "items", {
-            value: Creatures.loadItems(),
-            writable: false,
-        });
-    }
-
-    static loadItems() {
-        const baseDir = "packs";
-        const packs = ["characteristics", "mysteries", "possessions"];
-
-        for (const pack of packs) {
-            const dirPath = path.join(baseDir, pack, "_source");
-            try {
-                const files = fs.readdirSync(dirPath);
-                for (const file of files) {
-                    const filePath = path.join(dirPath, file);
-                    if (file.endsWith(".json")) {
-                        try {
-                            const data = fs.readFileSync(filePath, "utf8");
-                            const json = JSON.parse(data);
-                            this.items.push(json);
-                        } catch (err) {
-                            log.error(
-                                `Error reading or parsing ${filePath}:`,
-                                err.message,
-                            );
-                        }
-                    }
-                }
-            } catch (err) {
-                log.error(`Error reading directory ${dirPath}:`, err.message);
-            }
-        }
-
-        return this.items;
-    }
-
-    getItem(name, type) {
-        return this.items.find(
-            (item) => item.name === name && item.type === type,
-        );
     }
 
     static mergeObject(obj1, obj2, depth = 0, maxDepth = 20) {
@@ -116,34 +73,77 @@ export class Creatures {
         return result;
     }
 
-    async processCharacters() {
-        const filePath = path.join(this.dataDir, "creatures.yaml");
+    async processVehicles() {
+        const filePath = path.join(this.dataDir, "vehicles.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping vehicles: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
-        for (const creature of data) {
-            log.debug(`Processing Creature ${creature.name}`);
+        for (const vehicle of data) {
+            log.debug(`Processing vehicle ${vehicle.name}`);
             let fname =
-                `${unidecode(creature.name)}_${creature.id}`.replace(
+                `${unidecode(vehicle.name)}_${vehicle.id}`.replace(
                     /[^0-9a-zA-Z]+/g,
                     "_",
                 ) + ".json";
             let outputPath = path.join(this.outputDir, fname);
 
-            const outputData = Creatures.mergeObject(creature, {
+            const outputData = {
+                name: vehicle.name,
+                type: "vehicle",
+                img: vehicle.img,
+                _id: vehicle.id,
                 system: {
                 },
-                items: [],
+                effects: [],
+                flags: vehicle.flags || {},
                 _stats: stats,
                 ownership: { default: 0 },
-                _key: `!items!${creature.id}`,
-            });
-            for (const item of creature.items) {
-                const itemData = this.getItem(item.name, item.type);
-                if (itemData) {
-                    itemData._key = `!actors.items!{character.id}.{itemData.id}`;
-                    outputData.items.push(itemData);
-                }
-            }
+                folder: vehicle.folderId || null,
+                _key: `!items!${vehicle.id}`,
+            };
+
+            fs.writeFileSync(
+                outputPath,
+                JSON.stringify(outputData, null, 2),
+                "utf8",
+            );
+        }
+    }
+
+    async processStructures() {
+        const filePath = path.join(this.dataDir, "structures.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping structures: ${filePath}`);
+            return;
+        }
+        const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
+
+        for (const structure of data) {
+            log.debug(`Processing structure ${structure.name}`);
+            let fname =
+                `${unidecode(structure.name)}_${structure.id}`.replace(
+                    /[^0-9a-zA-Z]+/g,
+                    "_",
+                ) + ".json";
+            let outputPath = path.join(this.outputDir, fname);
+
+            const outputData = {
+                name: structure.name,
+                type: "structure",
+                img: structure.img,
+                _id: structure.id,
+                system: {
+                },
+                effects: [],
+                flags: structure.flags || {},
+                _stats: stats,
+                ownership: { default: 0 },
+                folder: structure.folderId || null,
+                _key: `!items!${structure.id}`,
+            };
 
             fs.writeFileSync(
                 outputPath,
@@ -155,6 +155,10 @@ export class Creatures {
 
     async processFolders() {
         const filePath = path.join(this.dataDir, "folders.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping folders: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const folder of data) {
@@ -188,7 +192,8 @@ export class Creatures {
     }
 
     async compile() {
-        await this.processCharacters();
+        await this.processVehicles();
+        await this.processStructures();
         await this.processFolders();
     }
 }

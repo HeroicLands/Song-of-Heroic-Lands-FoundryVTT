@@ -17,6 +17,7 @@ import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
 import { LOGLEVEL } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
+import { SohlCombatant } from "@common/combatant/SohlCombatant";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
@@ -278,6 +279,35 @@ function registerSystemHooks() {
         const isTotm = input?.checked ?? false;
         scene.setFlag("sohl" as any, "isTotm", isTotm);
     });
+
+    (Hooks as any).on(
+        "updateCombat",
+        async (combat: Combat, changed: DeepPartial<Combat.Source>) => {
+            if (changed.turn === undefined && changed.round === undefined)
+                return;
+
+            const combatant = combat.combatant as SohlCombatant | null;
+            if (!combatant?.token) return;
+
+            const token = combatant.token as any;
+            const center = token.object?.center ?? token.center;
+            if (!center) return;
+
+            const updateData = {
+                system: {
+                    initialLocation: {
+                        x: center.x,
+                        y: center.y,
+                        elevation: token.elevation ?? 0,
+                    },
+                    didAction: false,
+                },
+            } satisfies DeepPartial<
+                SohlCombatant["_source"]
+            > as Combatant.UpdateData;
+            await combatant.update(updateData);
+        },
+    );
 }
 
 // Register init hook

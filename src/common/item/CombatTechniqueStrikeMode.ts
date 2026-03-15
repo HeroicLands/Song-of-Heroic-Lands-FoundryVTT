@@ -52,8 +52,8 @@ export class CombatTechniqueStrikeModeLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this.defense = {
             block: new sohl.CONFIG.CombatModifier({}, { parent: this }),
             counterstrike: new sohl.CONFIG.CombatModifier({}, { parent: this }),
@@ -61,8 +61,8 @@ export class CombatTechniqueStrikeModeLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
         if (this.assocSkill) {
             this.defense.block.addVM(
                 (this.assocSkill.logic as unknown as SkillLogic).masteryLevel,
@@ -96,8 +96,8 @@ export class CombatTechniqueStrikeModeLogic<
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

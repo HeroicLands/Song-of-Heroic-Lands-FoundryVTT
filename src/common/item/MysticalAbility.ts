@@ -68,8 +68,8 @@ export class MysticalAbilityLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    initialize(): void {
+        super.initialize();
         this.charges = {
             value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.value,
@@ -85,8 +85,8 @@ export class MysticalAbilityLogic<
     }
 
     /** @inheritdoc */
-    evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    evaluate(): void {
+        super.evaluate();
 
         if (!this.actor) return;
         const allItemTypes = this.actor.allItemTypes;
@@ -101,8 +101,8 @@ export class MysticalAbilityLogic<
     }
 
     /** @inheritdoc */
-    finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    finalize(): void {
+        super.finalize();
     }
 }
 

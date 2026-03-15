@@ -74,6 +74,10 @@ export class Possessions {
 
     async processMiscGear() {
         const filePath = path.join(this.dataDir, "miscgear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping misc gear: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const miscgear of data) {
@@ -122,6 +126,10 @@ export class Possessions {
 
     async processContainerGear() {
         const filePath = path.join(this.dataDir, "containergear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping container gear: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const containergear of data) {
@@ -171,6 +179,10 @@ export class Possessions {
 
     async processConcoctionGear() {
         const filePath = path.join(this.dataDir, "concoctiongear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping concoction gear: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const concoctiongear of data) {
@@ -221,6 +233,10 @@ export class Possessions {
 
     async processProjectileGear() {
         const filePath = path.join(this.dataDir, "projectilegear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping projectile gear: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const projectilegear of data) {
@@ -326,6 +342,10 @@ export class Possessions {
 
     async processArmorGear() {
         const filePath = path.join(this.dataDir, "armorgear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping armor gear: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const armorgear of data) {
@@ -354,6 +374,7 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: armorgear.description,
+                    nestedItems: [],
                     transfer: false,
                     shortcode: armorgear.shortcode || "",
                     quantity: 1,
@@ -481,6 +502,10 @@ export class Possessions {
 
     async processWeaponGear() {
         let filePath = path.join(this.dataDir, "weapongear.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping weapon gear: ${filePath}`);
+            return;
+        }
         let data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         const weapons = new Map();
@@ -504,6 +529,7 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: weapongear.description,
+                    nestedItems: [],
                     transfer: false,
                     shortcode: weapongear.shortcode || "",
                     quantity: 1,
@@ -524,11 +550,21 @@ export class Possessions {
         }
 
         filePath = path.join(this.dataDir, "weapons-strike-modes.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping weapon gear: ${filePath}`);
+            return;
+        }
         data = yaml.parse(fs.readFileSync(filePath, "utf8"));
         for (const weaponsm of data) {
             const smname = `${weaponsm.name} (${weaponsm.subDesc})`;
             log.debug(`Processing StrikeMode ${smname}`);
             const weapon = weapons.get(weaponsm.weaponId);
+            if (!weapon) {
+                log.warn(
+                    `Skipping strike mode ${smname}; no weapon found for weaponId=${weaponsm.weaponId}.`,
+                );
+                continue;
+            }
             const traits = {
                 armorReduction: weaponsm["AR"],
                 blockMod: weaponsm["blockMod"],
@@ -1016,6 +1052,10 @@ export class Possessions {
 
     async processFolders() {
         const filePath = path.join(this.dataDir, "folders.yaml");
+        if (!fs.existsSync(filePath)) {
+            log.warn(`File does not exist, skipping folders: ${filePath}`);
+            return;
+        }
         const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
 
         for (const folder of data) {

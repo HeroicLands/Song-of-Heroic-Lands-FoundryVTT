@@ -1,7 +1,7 @@
 import type { SohlSystem, SohlBase, SohlBaseConstructor } from "@common";
+import type { GroupStance } from "@utils/constants";
 import type {
     SohlMap,
-    SohlClassRegistry,
     SohlLogger,
     SohlLocalize,
     SohlMersenneTwister,
@@ -9,6 +9,7 @@ import type {
 import type { SohlTokenDocument } from "@common/document/SohlTokenDocument";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlCombat, CombatDataModel } from "@common/combat/SohlCombat";
 import type { Being } from "@common/actor/Being";
 import type { Assembly } from "@common/actor/Assembly";
 import type { SohlCombatant } from "@common/combat/SohlCombatant";
@@ -37,6 +38,8 @@ import type { ProtectionLogic } from "@common/item/Protection";
 import type { SkillLogic } from "@common/item/Skill";
 import type { TraitLogic } from "@common/item/Trait";
 import type { WeaponGearLogic } from "@common/item/WeaponGear";
+import type { SohlLogic } from "@common/SohlLogic";
+import type { SohlActionContext } from "@common/SohlActionContext";
 
 // ✅ Custom utility types
 declare global {
@@ -55,6 +58,13 @@ declare global {
 
     /** May be missing or intentionally cleared */
     type Maybe<T> = T | null | undefined;
+
+    /** Recursively makes all properties optional */
+    type DeepPartial<T> = T extends object
+        ? T extends any[] | ((...args: any[]) => any) | (new (...args: any[]) => any)
+            ? T
+            : { [K in keyof T]?: DeepPartial<T[K]> }
+        : T;
 
     /** Optional field */
     type Optional<T> = T | undefined;
@@ -131,12 +141,21 @@ declare global {
             secondsRemainder: number;
         };
     }
-
+    
     // ✅ Global system accessor
     var sohl: SohlSystem;
 }
 
 declare module "fvtt-types/configuration" {
+    namespace Hooks {
+        interface HookConfig {
+            "SOHL.postFinalize": (
+                item: SohlItem,
+                context?: SohlActionContext,
+            ) => void;
+        }
+    }
+
     interface SystemNameConfig {
         name: "sohl";
     }
@@ -170,24 +189,29 @@ declare module "fvtt-types/configuration" {
     interface DocumentClassConfig {
         Actor: typeof SohlActor;
         Item: typeof SohlItem;
+        Combat: typeof SohlCombat;
         Combatant: typeof SohlCombatant;
         ActiveEffect: typeof SohlActiveEffect;
     }
 
     interface ConfiguredActor<SubType extends Actor.SubType> {
-        Actor: SohlActor<SohlActorLogic, any, SubType>;
+        document: SohlActor<SohlActorLogic, any, SubType>;
     }
 
     interface ConfiguredItem<SubType extends Item.SubType> {
-        Item: SohlItem<SohlItemLogic, any, SubType>;
+        document: SohlItem<SohlItemLogic, any, SubType>;
+    }
+
+    interface ConfiguredCombat<SubType extends Combat.SubType> {
+        document: SohlCombat;
     }
 
     interface ConfiguredCombatant<SubType extends Combatant.SubType> {
-        Combatant: SohlCombatant<SubType>;
+        document: SohlCombatant<SubType>;
     }
 
     interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
-        Effect: SohlActiveEffect<SubType>;
+        document: SohlActiveEffect<SubType>;
     }
 
     interface DataModelConfig {
@@ -224,8 +248,11 @@ declare module "fvtt-types/configuration" {
             trait: typeof TraitLogic.DataModel;
             weapongear: typeof WeaponGearLogic.DataModel;
         };
+        Combat: {
+            sohlcombatdata: typeof SohlCombatDataModel;
+        };
         Combatant: {
-            combatantdata: typeof SohlCombatantData.DataModel;
+            sohlcombatantdata: typeof SohlCombatantDataModel;
         };
         ActiveEffect: {
             sohleffectdata: typeof SohlEffectData.DataModel;

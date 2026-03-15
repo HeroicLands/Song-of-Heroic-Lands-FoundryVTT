@@ -18,13 +18,8 @@ import {
 } from "@utils/constants";
 import { SohlActor } from "@common/actor/SohlActor";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import {
-    FilePath,
-    isFilePath,
-    toHTMLWithContent,
-    HTMLString,
-    toHTMLWithTemplate,
-} from "@utils/helpers";
+import { FilePath, isFilePath, HTMLString } from "@utils/helpers";
+import { toHTMLWithContent, toHTMLWithTemplate } from "@common/FoundryProxy";
 import { SimpleRoll } from "@utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@utils/constants";
 

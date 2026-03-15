@@ -62,6 +62,7 @@ export const {
 } = defineType("TYPES.Item", {
     ACTION: "action",
     AFFILIATION: "affiliation",
+    DISPOSITION: "disposition",
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
     BODYLOCATION: "bodylocation",
@@ -100,6 +101,17 @@ export type CombatantKind =
     (typeof COMBATANT_KIND)[keyof typeof COMBATANT_KIND];
 
 export const {
+    kind: COMBAT_KIND,
+    values: CombatKinds,
+    isValue: isCombatKind,
+    labels: combatKindLabels,
+} = defineType("TYPES.Combat", {
+    COMBATDATA: "sohlcombatdata",
+});
+export type CombatKind =
+    (typeof COMBAT_KIND)[keyof typeof COMBAT_KIND];
+
+export const {
     kind: EFFECT_KIND,
     values: EffectKinds,
     isValue: isEffectKind,
@@ -135,6 +147,11 @@ export const {
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.AFFILIATION]: {
+        IconCssClass: "fa-duotone fa-people-group",
+        Image: "systems/sohl/assets/icons/people-group.svg",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ITEM_KIND.DISPOSITION]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -325,6 +342,19 @@ export const {
     FRIENDLY: "friendly",
     NEUTRAL: "neutral",
 });
+export type Reaction = (typeof REACTION)[keyof typeof REACTION];
+
+export const {
+    kind: GROUP_STANCE,
+    values: GroupStances,
+    isValue: isGroupStance,
+    labels: groupStanceLabels,
+} = defineType("SOHL.SohlActor.GROUP_STANCE", {
+    ENEMY: "enemy",
+    ALLY: "ally",
+    NEUTRAL: "neutral",
+});
+export type GroupStance = (typeof GROUP_STANCE)[keyof typeof GROUP_STANCE];
 
 export const {
     kind: BIOME,
@@ -860,6 +890,20 @@ export type CombatantMetadata =
     (typeof COMBATANT_METADATA)[keyof typeof COMBATANT_METADATA];
 
 export const {
+    kind: COMBAT_METADATA,
+    values: CombatMetadatas,
+    isValue: isCombatMetadata,
+    labels: combatMetadataLabels,
+} = defineType(`SOHL.Combat.METADATA`, {
+    [COMBAT_KIND.COMBATDATA]: {
+        IconCssClass: "fa-duotone fa-people-group",
+        Image: "systems/sohl/assets/icons/people-group.svg",
+    },
+});
+export type CombatMetadata =
+    (typeof COMBAT_METADATA)[keyof typeof COMBAT_METADATA];
+
+    export const {
     kind: GEAR_KIND,
     values: GearKinds,
     isValue: isGearKind,

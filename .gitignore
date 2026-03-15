@@ -4,6 +4,7 @@
 # dotenv environment variables file
 /.env
 /.env.test
+/.env.local
 
 # Visual Studio
 /.vscode/
@@ -11,6 +12,9 @@
 
 # GitHub
 .github/copilot-instructions.md
+
+# Claude Code
+CLAUDE.md
 
 # macOS specific files
 # general

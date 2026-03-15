@@ -40,13 +40,13 @@ export class DomainLogic<TData extends DomainData = DomainData>
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
         let item: SohlItem = this.item.actor?.allItemTypes.philosophy.find(
             (p: SohlItem) =>
                 (p as any).system.shortcode === this.data.philosophyCode,
@@ -55,8 +55,8 @@ export class DomainLogic<TData extends DomainData = DomainData>
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

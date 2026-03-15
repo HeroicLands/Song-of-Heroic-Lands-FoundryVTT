@@ -32,11 +32,11 @@ const pkg = JSON.parse(packageRaw);
 
 // --- Modify fields ---
 template.version = pkg.version;
-template.url = "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT";
+template.url = "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT";
 template.bugs =
-    "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues";
-template.manifest = `https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json`;
-template.download = `https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/releases/download/v${pkg.version}/system.zip`;
+    "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues";
+template.manifest = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/latest/download/system.json`;
+template.download = `https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/releases/download/v${pkg.version}/system.zip`;
 
 // --- Write final system.json ---
 await writeFile(systemJsonPath, JSON.stringify(template, null, 2), "utf-8");

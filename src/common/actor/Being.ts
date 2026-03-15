@@ -13,6 +13,9 @@
 
 import type { ValueModifier } from "@common/modifier/ValueModifier";
 import type { SohlItem } from "@common/item/SohlItem";
+import type { ImpactResult } from "@common/result/ImpactResult";
+import type { SuccessTestResult } from "@common/result/SuccessTestResult";
+import type { SohlActionContext } from "@common/SohlActionContext";
 import {
     SohlActor,
     SohlActorBaseLogic,
@@ -21,12 +24,9 @@ import {
     SohlActorLogic,
     SohlActorSheetBase,
 } from "@common/actor/SohlActor";
-import type { ImpactResult } from "@common/result/ImpactResult";
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { SohlActionContext } from "@common/SohlActionContext";
-import { ACTOR_KIND, ACTOR_METADATA } from "@utils/constants";
+import { ACTOR_KIND } from "@utils/constants";
 
-const { ArrayField, NumberField } = foundry.data.fields;
+const { StringField } = foundry.data.fields;
 
 /**
  * The business logic class for the Being actor.
@@ -385,8 +385,8 @@ export class BeingLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
         //             return foundry.utils.mergeObject(super.defineSchema(), {
@@ -428,13 +428,13 @@ export class BeingLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 
@@ -445,9 +445,6 @@ export interface BeingData<
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        baseMovement: new ArrayField(new NumberField({ initial: 0, min: 0 }), {
-            initial: Array(53).fill(0),
-        }),
     };
 }
 

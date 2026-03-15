@@ -39,8 +39,8 @@ export class BodyLocationLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
                 const modifier = new sohl.ValueModifier({}, { parent: this });
@@ -54,13 +54,13 @@ export class BodyLocationLogic<
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 

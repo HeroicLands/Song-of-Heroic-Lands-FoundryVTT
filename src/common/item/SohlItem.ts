@@ -13,7 +13,6 @@
 
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlActionContext } from "@common/SohlActionContext";
 import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
@@ -149,9 +148,9 @@ export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
 export class SohlItemBaseLogic<
     TData extends SohlItemData = SohlItemData,
 > extends SohlLogic<TData> {
-    override initialize(context?: SohlActionContext): void {}
-    override evaluate(context?: SohlActionContext): void {}
-    override finalize(context?: SohlActionContext): void {}
+    override initialize(): void {}
+    override evaluate(): void {}
+    override finalize(): void {}
 }
 
 const SHORTCODE_RE = /^[A-Za-z0-9]{1,12}$/;

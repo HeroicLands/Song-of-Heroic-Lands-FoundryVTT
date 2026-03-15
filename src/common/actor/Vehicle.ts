@@ -35,18 +35,18 @@ export class VehicleLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    override initialize(context: SohlActionContext): void {
-        super.initialize(context);
+    override initialize(): void {
+        super.initialize();
     }
 
     /** @inheritdoc */
-    override evaluate(context: SohlActionContext): void {
-        super.evaluate(context);
+    override evaluate(): void {
+        super.evaluate();
     }
 
     /** @inheritdoc */
-    override finalize(context: SohlActionContext): void {
-        super.finalize(context);
+    override finalize(): void {
+        super.finalize();
     }
 }
 
@@ -62,6 +62,18 @@ export interface VehicleData<
 function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
+        passengers: new ArrayField(
+            // The passengers may be either individual being actors, or
+            // Cohort actors representing groups of passengers
+            new StringField({
+                blank: false,
+                required: true,
+            }),
+            {
+                initial: [],
+                hint: "The shortcodes of the actors that are passengers in this vehicle",
+            }
+        ),
     };
 }
 

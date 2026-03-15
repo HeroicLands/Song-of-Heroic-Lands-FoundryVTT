@@ -50,6 +50,11 @@ import {
     AffiliationSheet,
 } from "@common/item/Affiliation";
 import {
+    DispositionLogic,
+    DispositionDataModel,
+    DispositionSheet,
+} from "@common/item/Disposition";
+import {
     AfflictionLogic,
     AfflictionDataModel,
     AfflictionSheet,
@@ -144,16 +149,22 @@ import {
     WeaponGearSheet,
 } from "@common/item/WeaponGear";
 import { ActionLogic, ActionDataModel, ActionSheet } from "@common/item/Action";
-import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { SohlCombatant } from "@common/combatant/SohlCombatant";
+import {
+    SohlActiveEffect,
+    SohlActiveEffectDataModel,
+    SohlActiveEffectSheet,
+} from "@common/effect/SohlActiveEffect";
+import {
+    SohlCombatant,
+    SohlCombatantDataModel,
+} from "@common/combatant/SohlCombatant";
+import { SohlCombat, SohlCombatDataModel } from "@common/combat/SohlCombat";
 import * as utils from "@utils/helpers";
 import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
 import { SohlBase } from "@common/SohlBase";
-import { SohlEffectData } from "@common/effect/SohlEffectData";
-import { SohlCombatantData } from "@common/combatant/SohlCombatantData";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -163,12 +174,6 @@ import {
     ItemKinds,
     itemKindLabels,
     ITEM_METADATA,
-    EFFECT_KIND,
-    EffectKinds,
-    EFFECT_METADATA,
-    COMBATANT_KIND,
-    CombatantKinds,
-    COMBATANT_METADATA,
     defineType,
     DefinedType,
     SOHL_DEFAULT_CALENDAR_CONFIG,
@@ -251,6 +256,7 @@ export type ItemDMMap = Record<
 export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.ACTION]: ActionDataModel,
     [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
+    [ITEM_KIND.DISPOSITION]: DispositionDataModel,
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
     [ITEM_KIND.BODYLOCATION]: BodyLocationDataModel,
@@ -300,6 +306,7 @@ export const {
 } = defineType("TYPES.Item", {
     [ITEM_KIND.ACTION]: ActionLogic,
     [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    [ITEM_KIND.DISPOSITION]: DispositionLogic,
     [ITEM_KIND.AFFLICTION]: AfflictionLogic,
     [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
     [ITEM_KIND.BODYLOCATION]: BodyLocationLogic,
@@ -333,6 +340,7 @@ export const {
 } = defineType("SOHL.Item.Sheet", {
     [ITEM_KIND.ACTION]: ActionSheet,
     [ITEM_KIND.AFFILIATION]: AffiliationSheet,
+    [ITEM_KIND.DISPOSITION]: DispositionSheet,
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
     [ITEM_KIND.BODYLOCATION]: BodyLocationSheet,
@@ -358,45 +366,17 @@ export const {
     [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
-export const {
-    kind: EFFECT_DATA_MODEL,
-    values: EffectDataModels,
-    isValue: isEffectDataModel,
-    labels: EffectDataModelLabels,
-} = defineType("TYPES.Effect", {
-    [EFFECT_KIND.EFFECTDATA]: SohlEffectData.DataModel,
-} as StrictObject<Constructor<SohlEffectData.DataModel>>);
-
-export const {
-    kind: EFFECT_LOGIC,
-    values: EffectLogic,
-    isValue: isEffectLogic,
-    labels: EffectLogicLabels,
-} = defineType("TYPES.Effect", {
-    [EFFECT_KIND.EFFECTDATA]: SohlEffectData,
-} as StrictObject<Constructor<SohlEffectData.Logic>>);
-
-export const {
-    kind: COMBATANT_DATA_MODEL,
-    values: CombatantDataModels,
-    isValue: isCombatantDataModel,
-    labels: CombatantDataModelLabels,
-} = defineType("TYPES.Combatant", {
-    [COMBATANT_KIND.COMBATANTDATA]: SohlCombatantData.DataModel,
-} as unknown as StrictObject<Constructor<SohlCombatantData.DataModel>>);
-
-export const {
-    kind: COMBATANT_LOGIC,
-    values: CombatantLogic,
-    isValue: isCombatantLogic,
-    labels: CombatantLogicLabels,
-} = defineType("TYPES.Combatant", {
-    [COMBATANT_KIND.COMBATANTDATA]: SohlCombatantData,
-} as StrictObject<Constructor<SohlCombatantData.Logic>>);
-
 /**
  * Abstract class representing a system variant for the Song of Heroic Lands (SoHL).
- * This class provides a structure for defining system-specific properties and methods.
+ * This class provides the canonical runtime registry/config surface for constructing
+ * data models, results, and modifiers in a variant-agnostic way.
+ *
+ * Design contract:
+ * - Runtime code resolves constructors through `sohl.CONFIG` and registries.
+ * - Variants may override logic and sheets, but shared persisted data model schemas
+ *   should remain stable across variants.
+ * - Variant-specific persisted data belongs in `flags.sohl.<variant>...` and logic
+ *   must handle missing flags safely.
  */
 export abstract class SohlSystem {
     protected static _variants: SohlMap<string, SohlSystem> = new SohlMap<
@@ -482,35 +462,58 @@ export abstract class SohlSystem {
             },
             ActiveEffect: {
                 documentClass: SohlActiveEffect,
-                documentSheets: [],
-                dataModels: EFFECT_DATA_MODEL,
-                typeLabels: EffectDataModelLabels,
-                typeIcons: Object.fromEntries(
-                    EffectKinds.map((kind) => [
-                        kind,
-                        EFFECT_METADATA[kind].IconCssClass,
-                    ]),
-                ),
-                types: EffectKinds,
+                documentSheets: [
+                    {
+                        cls: SohlActiveEffectSheet,
+                        types: ["base", "sohleffectdata"],
+                    },
+                ],
+                dataModels: {
+                    sohleffectdata: SohlActiveEffectDataModel,
+                },
+                typeLabels: {
+                    base: "Base",
+                    sohleffectdata: "SOHL.SohlActiveEffect.sohleffectdata",
+                },
+                typeIcons: {
+                    base: "fa-duotone fa-aura",
+                    sohleffectdata: "fa-duotone fa-people-group",
+                },
+                types: ["base", "sohleffectdata"],
                 legacyTransferral: false,
             },
             Combatant: {
                 documentClass: SohlCombatant,
                 documentSheets: [],
-                dataModels: COMBATANT_DATA_MODEL,
-                typeLabels: CombatantDataModelLabels,
-                typeIcons: Object.fromEntries(
-                    CombatantKinds.map((kind) => [
-                        kind,
-                        COMBATANT_METADATA[kind].IconCssClass,
-                    ]),
-                ),
-                types: CombatantKinds,
+                dataModels: {
+                    sohlcombatantdata: SohlCombatantDataModel,
+                },
+                typeLabels: {
+                    base: "Base",
+                    sohlcombatantdata: "SOHL.SohlCombatant.combatantdata",
+                },
+                typeIcons: {
+                    base: "fa-duotone fa-user-helmet-safety",
+                    sohlcombatantdata: "fa-duotone fa-people-group",
+                },
+                types: ["base", "sohlcombatantdata"],
             },
-            // Macro: {
-            //     documentClass: SohlMacro,
-            //     documentSheet: SohlMacroConfig,
-            // },
+            Combat: {
+                documentClass: SohlCombat,
+                documentSheets: [],
+                dataModels: {
+                    sohlcombatdata: SohlCombatDataModel,
+                },
+                typeLabels: {
+                    base: "Base",
+                    sohlcombatdata: "SOHL.SohlCombat.combatdata",
+                },
+                typeIcons: {
+                    base: "fa-duotone fa-shield-halved",
+                    sohlcombatdata: "fa-duotone fa-people-group",
+                },
+                types: ["base", "sohlcombatdata"],
+            },
             ValueModifier: ValueModifier,
             CombatModifier: CombatModifier,
             ImpactModifier: ImpactModifier,
@@ -548,7 +551,10 @@ export abstract class SohlSystem {
     readonly classRegistry: SohlMap<string, Constructor<SohlBase>>;
     readonly dataModelRegistry: SohlMap<
         string,
-        Constructor<SohlDataModel<any, any, any>>
+        Constructor<
+            | SohlDataModel<any, any, any>
+            | foundry.abstract.TypeDataModel<any, any>
+        >
     >;
     readonly i18n: SohlLocalize;
     readonly log: SohlLogger;
@@ -608,11 +614,16 @@ export abstract class SohlSystem {
     protected constructor() {
         this.dataModelRegistry = new SohlMap<
             string,
-            Constructor<SohlDataModel<any, any, any>>
+            Constructor<
+                | SohlDataModel<any, any, any>
+                | foundry.abstract.TypeDataModel<any, any>
+            >
         >([
             ...Object.entries(COMMON_ACTOR_DATA_MODEL),
             ...Object.entries(COMMON_ITEM_DATA_MODEL),
-            ...Object.entries(EFFECT_DATA_MODEL),
+            ["sohlactiveeffectdata", SohlActiveEffectDataModel],
+            ["sohlcombatantdata", SohlCombatantDataModel],
+            ["sohlcombatdata", SohlCombatDataModel],
         ]);
         this.classRegistry = new SohlMap<string, Constructor<SohlBase>>([
             ["ValueModifier", ValueModifier],
@@ -661,7 +672,12 @@ export namespace SohlSystem {
             cls: any;
             types: string[];
         }>;
-        dataModels: StrictObject<Constructor<SohlDataModel<any, any, any>>>;
+        dataModels: StrictObject<
+            Constructor<
+                | SohlDataModel<any, any, any>
+                | foundry.abstract.TypeDataModel<any, any>
+            >
+        >;
         typeLabels: StrictObject<string>;
         typeIcons: StrictObject<string>;
         types: string[];
@@ -684,6 +700,7 @@ export namespace SohlSystem {
         Item: DocumentConfig;
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
+        Combat: DocumentConfig;
         ValueModifier: Constructor<ValueModifier>;
         CombatModifier: Constructor<CombatModifier>;
         ImpactModifier: Constructor<ImpactModifier>;

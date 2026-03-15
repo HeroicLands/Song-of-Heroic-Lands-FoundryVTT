@@ -17,9 +17,9 @@
     "license": "GPL-3.0-or-later AND CC-BY-SA-4.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT"
+        "url": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT"
     },
-    "bugs": "https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues",
+    "bugs": "https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues",
     "engines": {
         "node": ">=20.18.0 < 26.0.0"
     },
@@ -45,12 +45,14 @@
         "build:packdb": "node ./utils/packs/build-compendiums.mjs package pack",
         "build:unpackdb": "node ./utils/packs/build-compendiums.mjs package unpack",
         "build:pack-release": "node utils/pack-release.mjs",
-	"push:dev": "rsync -avh --delete build/stage/ atlas:/srv/docker/data/foundryvtt-dev/Data/systems/sohl/",
-	"push:prod": "rsync -avh --delete build/stage/ atlas:/srv/docker/data/foundryvtt-prod/Data/systems/sohl/",
-	"push:local-dev": "rsync -avh --delete build/stage/ /Users/tomr/Games/fvtt/data-dev/Data/systems/sohl/",
-	"deploy:local": "run-s build push:local-dev", 
-	"deploy:dev": "run-s build push:dev", 
-	"deploy:prod": "run-s build push:prod", 
+        "push:dev": "node utils/push-stage.mjs dev",
+        "push:qa": "node utils/push-stage.mjs qa",
+        "push:prod": "node utils/push-stage.mjs prod",
+        "push:local-dev": "npm run push:qa",
+        "deploy:local": "npm run deploy:qa",
+        "deploy:qa": "run-s build push:qa",
+        "deploy:dev": "run-s build push:dev",
+        "deploy:prod": "run-s build push:prod",
         "deploy:release": "run-s build build:pack-release",
         "docs": "run-s docs:prepare docs:html docs:md",
         "docs:prepare": "node utils/build-docs-entry.mjs",
