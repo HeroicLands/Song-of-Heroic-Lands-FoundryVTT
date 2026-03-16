@@ -16,6 +16,16 @@ import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 
+/**
+ * Logic for the **Misc Gear** item type — general-purpose equipment.
+ *
+ * Misc Gear is the catch-all category for physical items that don't fit into
+ * more specific gear types: tools, torches, rope, rations, clothing, jewelry,
+ * and other mundane possessions. It adds no specialized logic beyond the
+ * base {@link GearLogic} (weight, value, quality, durability, carry/equip state).
+ *
+ * @typeParam TData - The MiscGear data interface.
+ */
 export class MiscGearLogic<
     TData extends MiscGearData = MiscGearData,
 > extends GearLogic<TData> {
@@ -59,7 +69,7 @@ export class MiscGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements MiscGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MiscGear.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MiscGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MISCGEAR;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

@@ -17,6 +17,22 @@ import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { SohlItem, SohlItemSheetBase } from "@common/item/SohlItem";
 const { NumberField } = foundry.data.fields;
 
+/**
+ * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
+ *
+ * Weapon Gear represents a physical weapon: swords, axes, bows, maces, daggers,
+ * and similar. The weapon itself is primarily a container; the actual attack
+ * capabilities are defined by nested {@link StrikeModeLogic | Strike Mode} items
+ * (e.g., a sword might have "Slash" and "Thrust" strike modes with different
+ * damage and skill associations).
+ *
+ * Weapon Gear tracks a base **length** (reach), which is inherited by its
+ * melee strike modes. Inherits weight, value, quality, and durability tracking
+ * from {@link GearLogic}. The weapon's durability is shared with its strike
+ * modes during evaluation.
+ *
+ * @typeParam TData - The WeaponGear data interface.
+ */
 export class WeaponGearLogic<
     TData extends WeaponGearData = WeaponGearData,
 > extends GearLogic<TData> {
@@ -43,6 +59,7 @@ export class WeaponGearLogic<
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Base reach/length of the weapon */
     lengthBase: number;
 }
 
@@ -67,7 +84,7 @@ export class WeaponGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements WeaponGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.WeaponGear.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.WeaponGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
 

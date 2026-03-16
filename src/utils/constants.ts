@@ -90,38 +90,6 @@ export const {
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
-    kind: COMBATANT_KIND,
-    values: CombatantKinds,
-    isValue: isCombatantKind,
-    labels: combatantKindLabels,
-} = defineType("TYPES.Combatant", {
-    COMBATANTDATA: "sohlcombatantdata",
-});
-export type CombatantKind =
-    (typeof COMBATANT_KIND)[keyof typeof COMBATANT_KIND];
-
-export const {
-    kind: COMBAT_KIND,
-    values: CombatKinds,
-    isValue: isCombatKind,
-    labels: combatKindLabels,
-} = defineType("TYPES.Combat", {
-    COMBATDATA: "sohlcombatdata",
-});
-export type CombatKind =
-    (typeof COMBAT_KIND)[keyof typeof COMBAT_KIND];
-
-export const {
-    kind: EFFECT_KIND,
-    values: EffectKinds,
-    isValue: isEffectKind,
-    labels: effectKindLabels,
-} = defineType("TYPES.Effect", {
-    EFFECTDATA: "sohleffectdata",
-});
-export type EffectKind = (typeof EFFECT_KIND)[keyof typeof EFFECT_KIND];
-
-export const {
     kind: ACTOR_KIND,
     values: ActorKinds,
     isValue: isActorKind,
@@ -315,29 +283,11 @@ export type ActorMetadata =
     (typeof ACTOR_METADATA)[keyof typeof ACTOR_METADATA];
 
 export const {
-    kind: EFFECT_METADATA,
-    values: EffectMetadatas,
-    isValue: isEffectMetadata,
-    labels: effectMetadataLabels,
-} = defineType(`SOHL.Effect.METADATA`, {
-    [EFFECT_KIND.EFFECTDATA]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-        Sheet: "systems/sohl/templates/effect/effect-sheet.hbs",
-    },
-});
-export type EffectMetadata =
-    (typeof EFFECT_METADATA)[keyof typeof EFFECT_METADATA];
-
-export const EFFECT_IMAGE: string =
-    "systems/sohl/assets/icons/people-group.svg";
-
-export const {
     kind: REACTION,
     values: Reactions,
     isValue: isReaction,
     labels: reactionLabels,
-} = defineType("SOHL.SohlActor.REACTION", {
+} = defineType("SOHL.Actor.REACTION", {
     HOSTILE: "hostile",
     FRIENDLY: "friendly",
     NEUTRAL: "neutral",
@@ -349,7 +299,7 @@ export const {
     values: GroupStances,
     isValue: isGroupStance,
     labels: groupStanceLabels,
-} = defineType("SOHL.SohlActor.GROUP_STANCE", {
+} = defineType("SOHL.Actor.GROUP_STANCE", {
     ENEMY: "enemy",
     ALLY: "ally",
     NEUTRAL: "neutral",
@@ -876,34 +826,6 @@ export type CohortMemberRole =
     (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
 
 export const {
-    kind: COMBATANT_METADATA,
-    values: CombatantMetadatas,
-    isValue: isCombatantMetadata,
-    labels: combatantMetadataLabels,
-} = defineType(`SOHL.Combatant.METADATA`, {
-    [COMBATANT_KIND.COMBATANTDATA]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-    },
-});
-export type CombatantMetadata =
-    (typeof COMBATANT_METADATA)[keyof typeof COMBATANT_METADATA];
-
-export const {
-    kind: COMBAT_METADATA,
-    values: CombatMetadatas,
-    isValue: isCombatMetadata,
-    labels: combatMetadataLabels,
-} = defineType(`SOHL.Combat.METADATA`, {
-    [COMBAT_KIND.COMBATDATA]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-    },
-});
-export type CombatMetadata =
-    (typeof COMBAT_METADATA)[keyof typeof COMBAT_METADATA];
-
-    export const {
     kind: GEAR_KIND,
     values: GearKinds,
     isValue: isGearKind,
@@ -1589,7 +1511,7 @@ export const {
     kind: SKILL_COMBAT_CATEGORY,
     values: SkillCombatCategories,
     isValue: isSkillCombatCategory,
-} = defineType("SOHL.Skill.Combat", {
+} = defineType("SOHL.Skill.COMBAT", {
     NONE: "none",
     ALL: "all",
     MELEE: "melee",
@@ -1954,85 +1876,85 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
         values: [
             // Springtide, Spr, Vernal equinox; planting season begins
             {
-                name: "SOHL.CALENDAR.DEFAULT.Springtide",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SpringtideAbbr",
+                name: "SOHL.Calendar.Default.Month.0.label",
+                abbreviation: "SOHL.Calendar.Default.Month.0.abbr",
                 ordinal: 1,
                 days: 30,
             },
             // Blossomreach, Blo, Flowers and bees return
             {
-                name: "SOHL.CALENDAR.DEFAULT.Blossomreach",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.BlossomreachAbbr",
+                name: "SOHL.Calendar.Default.Month.1.label",
+                abbreviation: "SOHL.Calendar.Default.Month.1.abbr",
                 ordinal: 2,
                 days: 30,
             },
             // Greengold, Grn, Young crops rise
             {
-                name: "SOHL.CALENDAR.DEFAULT.Greengold",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.GreengoldAbbr",
+                name: "SOHL.Calendar.Default.Month.2.label",
+                abbreviation: "SOHL.Calendar.Default.Month.2.abbr",
                 ordinal: 3,
                 days: 30,
             },
             // Highsun, Sun, The sun’s zenith; labor in full swing
             {
-                name: "SOHL.CALENDAR.DEFAULT.Highsun",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.HighsunAbbr",
+                name: "SOHL.Calendar.Default.Month.3.label",
+                abbreviation: "SOHL.Calendar.Default.Month.3.abbr",
                 ordinal: 4,
                 days: 30,
             },
             // Midsummer, Mid, Festivals, First fruits
             {
-                name: "SOHL.CALENDAR.DEFAULT.Midsummer",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.MidsummerAbbr",
+                name: "SOHL.Calendar.Default.Month.4.label",
+                abbreviation: "SOHL.Calendar.Default.Month.4.abbr",
                 ordinal: 5,
                 days: 30,
             },
             // Hayfall, Hay, Preparation for harvest
             {
-                name: "SOHL.CALENDAR.DEFAULT.Hayfall",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.HayfallAbbr",
+                name: "SOHL.Calendar.Default.Month.5.label",
+                abbreviation: "SOHL.Calendar.Default.Month.5.abbr",
                 ordinal: 6,
                 days: 30,
             },
             // Reapmoon, Rep, The main harvest
             {
-                name: "SOHL.CALENDAR.DEFAULT.Reapmoon",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ReapmoonAbbr",
+                name: "SOHL.Calendar.Default.Month.6.label",
+                abbreviation: "SOHL.Calendar.Default.Month.6.abbr",
                 ordinal: 7,
                 days: 30,
             },
             // Emberwane, Emb, Smoke in the fields, turning leaves
             {
-                name: "SOHL.CALENDAR.DEFAULT.Emberwane",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.EmberwaneAbbr",
+                name: "SOHL.Calendar.Default.Month.7.label",
+                abbreviation: "SOHL.Calendar.Default.Month.7.abbr",
                 ordinal: 8,
                 days: 30,
             },
             // Fallmere, Fal, Final gathering before cold
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fallmere",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FallmereAbbr",
+                name: "SOHL.Calendar.Default.Month.8.label",
+                abbreviation: "SOHL.Calendar.Default.Month.8.abbr",
                 ordinal: 9,
                 days: 30,
             },
             // Frostwane, Frs, First frosts, fading light, herds brought in
             {
-                name: "SOHL.CALENDAR.DEFAULT.Frostwane",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FrostwaneAbbr",
+                name: "SOHL.Calendar.Default.Month.9.label",
+                abbreviation: "SOHL.Calendar.Default.Month.9.abbr",
                 ordinal: 10,
                 days: 30,
             },
             // Snorest, Sno, Deep winter, Quiet, hearth, mending tools
             {
-                name: "SOHL.CALENDAR.DEFAULT.Snowrest",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SnowrestAbbr",
+                name: "SOHL.Calendar.Default.Month.10.label",
+                abbreviation: "SOHL.Calendar.Default.Month.10.abbr",
                 ordinal: 11,
                 days: 30,
             },
             // Thawrise, Tha, Snows melt, life stirs, hope returns
             {
-                name: "SOHL.CALENDAR.DEFAULT.Thawrise",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ThawriseAbbr",
+                name: "SOHL.Calendar.Default.Month.11.label",
+                abbreviation: "SOHL.Calendar.Default.Month.11.abbr",
                 ordinal: 12,
                 days: 30,
             },
@@ -2041,53 +1963,53 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     days: {
         values: [
             {
-                name: "SOHL.CALENDAR.DEFAULT.Oneday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.OnedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.0.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.0.abbr",
                 ordinal: 1,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Twoday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.TwodayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.1.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.1.abbr",
                 ordinal: 2,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Threeday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ThreedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.2.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.2.abbr",
                 ordinal: 3,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fourday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FourdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.3.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.3.abbr",
                 ordinal: 4,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fiveday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FivedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.4.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.4.abbr",
                 ordinal: 5,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Sixday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SixdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.5.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.5.abbr",
                 ordinal: 6,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Sevenday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SevendayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.6.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.6.abbr",
                 ordinal: 7,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Eightday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.EightdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.7.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.7.abbr",
                 ordinal: 8,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Nineday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.NinedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.8.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.8.abbr",
                 ordinal: 9,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Tenday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.TendayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.9.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.9.abbr",
                 ordinal: 10,
             },
         ],
@@ -2099,18 +2021,22 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     seasons: {
         values: [
             {
-                name: "SOHL.CALENDAR.DEFAULT.Spring",
+                name: "SOHL.Calendar.Default.Season.0.label",
                 monthStart: 1,
                 monthEnd: 3,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Summer",
+                name: "SOHL.Calendar.Default.Season.1.label",
                 monthStart: 4,
                 monthEnd: 6,
             },
-            { name: "SOHL.CALENDAR.DEFAULT.Fall", monthStart: 7, monthEnd: 9 },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Winter",
+                name: "SOHL.Calendar.Default.Season.2.label",
+                monthStart: 7,
+                monthEnd: 9,
+            },
+            {
+                name: "SOHL.Calendar.Default.Season.3.label",
                 monthStart: 10,
                 monthEnd: 12,
             },

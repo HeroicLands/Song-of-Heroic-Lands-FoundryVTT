@@ -13,14 +13,6 @@
 
 import { FilePath, toSanitizedHTML, HTMLString } from "@utils/helpers";
 
-/*
- * =====================================================
- * Foundry VTT Wrapper Functions
- * =====================================================
- * These functions are wrappers around Foundry VTT's core functions
- * to enable easier mocking and access from Typescript.
- */
-
 // Dialog-related types
 export type DialogButtonCallback = (
     event: PointerEvent | SubmitEvent,

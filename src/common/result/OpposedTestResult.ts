@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActionContext } from "@common/SohlActionContext";
 import { SuccessTestResult } from "@common/result/SuccessTestResult";
 import { TestResult } from "@common/result/TestResult";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
@@ -21,6 +20,15 @@ import {
     TestType,
 } from "@utils/constants";
 
+/**
+ * Represents the result of an opposed test, where two parties are directly
+ * competing against each other, such as in skill contests. This includes
+ * the results of both the source and target tests, as well as any relevant
+ * context such as the roll mode, tie-breaking rules, and whether ties are
+ * considered wins for the source or target.
+ *
+ * Combat uses a more specialized {@link CombatResult} that extends this class.
+ */
 export class OpposedTestResult extends TestResult {
     sourceTestResult!: SuccessTestResult;
     targetTestResult!: SuccessTestResult;

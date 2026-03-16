@@ -1,0 +1,2662 @@
+[
+  {
+    "key": "SOHL.Action",
+    "occurrences": [
+      {
+        "file": "src/common/item/Action.ts",
+        "line": 247,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Action\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Action.Role",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1213,
+        "snippet": "} = defineType(\"SOHL.Action.Role\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Action.SUBTYPE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1361,
+        "snippet": "} = defineType(\"SOHL.Action.SUBTYPE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ActiveEffect",
+    "occurrences": [
+      {
+        "file": "src/common/effect/SohlActiveEffect.ts",
+        "line": 156,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ActiveEffect\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Assembly.ts",
+        "line": 120,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Assembly\", \"SOHL.Actor\"];"
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 416,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Being\", \"SOHL.Actor\"];"
+      },
+      {
+        "file": "src/common/actor/Cohort.ts",
+        "line": 162,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Cohort\", \"SOHL.Actor\"];"
+      },
+      {
+        "file": "src/common/actor/SohlActor.ts",
+        "line": 628,
+        "snippet": "return `SOHL.Actor.${this.kind}`;"
+      },
+      {
+        "file": "src/common/actor/Structure.ts",
+        "line": 92,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Structure\", \"SOHL.Actor\"];"
+      },
+      {
+        "file": "src/common/actor/Vehicle.ts",
+        "line": 103,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Vehicle\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.being.opposedTestResume.getOpposedItem.attributeLabel",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 288,
+        "snippet": "//                 \"SOHL.Actor.being.opposedTestResume.getOpposedItem.attributeLabel\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.being.opposedTestResume.getOpposedItem.label",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 271,
+        "snippet": "//         \"SOHL.Actor.being.opposedTestResume.getOpposedItem.label\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.being.opposedTestResume.getOpposedItem.noUsableSkills",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 325,
+        "snippet": "//             \"SOHL.Actor.being.opposedTestResume.getOpposedItem.noUsableSkills\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.being.opposedTestResume.getOpposedItem.title",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 274,
+        "snippet": "//         \"SOHL.Actor.being.opposedTestResume.getOpposedItem.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.GROUP_STANCE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 302,
+        "snippet": "} = defineType(\"SOHL.Actor.GROUP_STANCE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.Logic",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 231,
+        "snippet": "} = defineType(\"SOHL.Actor.Logic\", {"
+      },
+      {
+        "file": "src/legendary/LegendarySystem.ts",
+        "line": 139,
+        "snippet": "} = defineType(\"SOHL.Actor.Logic\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.METADATA",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 255,
+        "snippet": "} = defineType(`SOHL.Actor.METADATA`, {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.REACTION",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 290,
+        "snippet": "} = defineType(\"SOHL.Actor.REACTION\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.Sheet",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 244,
+        "snippet": "} = defineType(\"SOHL.Actor.Sheet\", {"
+      },
+      {
+        "file": "src/legendary/LegendarySystem.ts",
+        "line": 152,
+        "snippet": "} = defineType(\"SOHL.Actor.Sheet\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.SHEET.profile",
+    "occurrences": [
+      {
+        "file": "src/legendary/actor/LgndAssembly.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndCohort.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndStructure.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndVehicle.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.SHEET.tab.nested.label",
+    "occurrences": [
+      {
+        "file": "src/legendary/actor/LgndAssembly.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndCohort.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndStructure.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndVehicle.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affiliation",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affiliation.ts",
+        "line": 112,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Affiliation\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 284,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Affliction\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.FATIGUE_CATEGORY",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1277,
+        "snippet": "} = defineType(\"SOHL.Affliction.FATIGUE_CATEGORY\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.FEAR_LEVEL",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1306,
+        "snippet": "} = defineType(\"SOHL.Affliction.FEAR_LEVEL\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 322,
+        "snippet": "} = defineType(\"SOHL.Affliction.INTRINSIC_ACTION\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 337,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 346,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.coursetest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 416,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 367,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 385,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.fearTest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 427,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 376,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.moraletest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 325,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 394,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.MORALE_LEVEL",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1321,
+        "snippet": "} = defineType(\"SOHL.Affliction.MORALE_LEVEL\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.PRIVATION_CATEGORY",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1290,
+        "snippet": "} = defineType(\"SOHL.Affliction.PRIVATION_CATEGORY\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.SUBTYPE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1238,
+        "snippet": "} = defineType(\"SOHL.Affliction.SUBTYPE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.TRANSMISSION",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1257,
+        "snippet": "} = defineType(\"SOHL.Affliction.TRANSMISSION\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.AIPlanStatus",
+    "occurrences": [
+      {
+        "file": "src/utils/ai/AIPlanProposal.ts",
+        "line": 21,
+        "snippet": "} = defineType(\"SOHL.AIPlanStatus\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.AllSkills",
+    "occurrences": [
+      {
+        "file": "src/common/item/Mystery.ts",
+        "line": 103,
+        "snippet": "field = \"SOHL.AllSkills\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ArmorGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/ArmorGear.ts",
+        "line": 99,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ArmorGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Assembly",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Assembly.ts",
+        "line": 120,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Assembly\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.AttackResult.Mishap",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 942,
+        "snippet": "} = defineType(\"SOHL.AttackResult.Mishap\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.AttackResult.TacticalAdvantage",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 913,
+        "snippet": "} = defineType(\"SOHL.AttackResult.TacticalAdvantage\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Being",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 416,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Being\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Being.EffectKey",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1075,
+        "snippet": "} = defineType(\"SOHL.Being.EffectKey\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Biome",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 314,
+        "snippet": "} = defineType(\"SOHL.Biome\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.BodyLocation",
+    "occurrences": [
+      {
+        "file": "src/common/item/BodyLocation.ts",
+        "line": 117,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyLocation\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.BodyPart",
+    "occurrences": [
+      {
+        "file": "src/common/item/BodyPart.ts",
+        "line": 101,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyPart\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.BodyZone",
+    "occurrences": [
+      {
+        "file": "src/common/item/BodyZone.ts",
+        "line": 88,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyZone\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.BeforeEraAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1871,
+        "snippet": "beforeAbbrev: \"SOHL.CALENDAR.DEFAULT.BeforeEraAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.BeforeEraName",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1870,
+        "snippet": "beforeName: \"SOHL.CALENDAR.DEFAULT.BeforeEraName\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Blossomreach",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1886,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Blossomreach\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.BlossomreachAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1887,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.BlossomreachAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Eightday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2001,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Eightday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.EightdayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2002,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.EightdayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Emberwane",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1928,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Emberwane\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.EmberwaneAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1929,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.EmberwaneAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.EraAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1869,
+        "snippet": "abbrev: \"SOHL.CALENDAR.DEFAULT.EraAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.EraName",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1868,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.EraName\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fall",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2033,
+        "snippet": "{ name: \"SOHL.CALENDAR.DEFAULT.Fall\", monthStart: 7, monthEnd: 9 },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fallmere",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1935,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fallmere\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.FallmereAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1936,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.FallmereAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fiveday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1986,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fiveday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.FivedayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1987,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.FivedayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fourday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1981,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fourday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.FourdayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1982,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.FourdayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Frostwane",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1942,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Frostwane\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.FrostwaneAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1943,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.FrostwaneAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Greengold",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1893,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Greengold\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.GreengoldAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1894,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.GreengoldAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Hayfall",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1914,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Hayfall\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.HayfallAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1915,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.HayfallAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Highsun",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1900,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Highsun\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.HighsunAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1901,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.HighsunAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Midsummer",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1907,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Midsummer\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.MidsummerAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1908,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.MidsummerAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Nineday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2006,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Nineday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.NinedayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2007,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.NinedayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Oneday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1966,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Oneday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.OnedayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1967,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.OnedayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Reapmoon",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1921,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Reapmoon\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.ReapmoonAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1922,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.ReapmoonAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Sevenday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1996,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Sevenday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.SevendayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1997,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.SevendayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Sixday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1991,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Sixday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.SixdayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1992,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.SixdayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Snowrest",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1949,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Snowrest\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.SnowrestAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1950,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.SnowrestAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Spring",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2024,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Spring\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Springtide",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1879,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Springtide\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.SpringtideAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1880,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.SpringtideAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Summer",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2029,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Summer\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Tenday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2011,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Tenday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.TendayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2012,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.TendayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Thawrise",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1956,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Thawrise\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.ThawriseAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1957,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.ThawriseAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Threeday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1976,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Threeday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.ThreedayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1977,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.ThreedayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Twoday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1971,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Twoday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.TwodayAbbr",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1972,
+        "snippet": "abbreviation: \"SOHL.CALENDAR.DEFAULT.TwodayAbbr\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Winter",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2035,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Winter\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.class.SuccessTestResult",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 115,
+        "snippet": "//     testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 146,
+        "snippet": "//     options.testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 175,
+        "snippet": "//     options.testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 194,
+        "snippet": "//     options.testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 215,
+        "snippet": "//     options.testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 238,
+        "snippet": "//     options.testResult = new CONFIG.SOHL.class.SuccessTestResult("
+      }
+    ]
+  },
+  {
+    "key": "SOHL.class.Utility.currentCombatantAttack",
+    "occurrences": [
+      {
+        "file": "assets/packs/macros/unique/Automated_Attack_E49krgnOxfJrFnyF.json",
+        "line": 8,
+        "snippet": "\"command\": \"await CONFIG.SOHL.class.Utility.currentCombatantAttack();\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.class.ValueModifier",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 343,
+        "snippet": "//     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {"
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 365,
+        "snippet": "//     this.$healingBase = new CONFIG.SOHL.class.ValueModifier("
+      },
+      {
+        "file": "src/common/actor/Being.ts",
+        "line": 372,
+        "snippet": "//     this.$engagedOpponents = new CONFIG.SOHL.class.ValueModifier("
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Cohort",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Cohort.ts",
+        "line": 162,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Cohort\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Cohort.MEMBER_ROLE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 820,
+        "snippet": "} = defineType(\"SOHL.Cohort.MEMBER_ROLE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Combat",
+    "occurrences": [
+      {
+        "file": "src/common/combat/SohlCombat.ts",
+        "line": 79,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Combat\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Combatant",
+    "occurrences": [
+      {
+        "file": "src/common/combatant/SohlCombatant.ts",
+        "line": 166,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Combatant\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CombatTechniqueStrikeMode",
+    "occurrences": [
+      {
+        "file": "src/common/item/CombatTechniqueStrikeMode.ts",
+        "line": 161,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.CombatTechniqueStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ConcoctionGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/ConcoctionGear.ts",
+        "line": 111,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ConcoctionGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ConcoctionGear.Potency",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1347,
+        "snippet": "} = defineType(\"SOHL.ConcoctionGear.Potency\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ConcoctionGear.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1335,
+        "snippet": "} = defineType(\"SOHL.ConcoctionGear.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ContainerGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/ContainerGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ContainerGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ContextMenu.SORT_GROUP",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1055,
+        "snippet": "} = defineType(\"SOHL.ContextMenu.SORT_GROUP\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.DefendResult.DefendMishap",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 956,
+        "snippet": "} = defineType(\"SOHL.DefendResult.DefendMishap\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.DELTAINFO.DISABLED",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/ValueModifier.ts",
+        "line": 200,
+        "snippet": "else this.disabledReason = \"SOHL.DELTAINFO.DISABLED\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Disposition",
+    "occurrences": [
+      {
+        "file": "src/common/item/Disposition.ts",
+        "line": 92,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Disposition\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.docLabelFormat",
+    "occurrences": [
+      {
+        "file": "src/common/SohlLogic.ts",
+        "line": 160,
+        "snippet": "return sohl.i18n.format(\"SOHL.docLabelFormat\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Domain",
+    "occurrences": [
+      {
+        "file": "src/common/item/Domain.ts",
+        "line": 115,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Domain\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Domain.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1467,
+        "snippet": "} = defineType(\"SOHL.Domain.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Event.Repeat",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1187,
+        "snippet": "} = defineType(\"SOHL.Event.Repeat\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Event.State",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1160,
+        "snippet": "} = defineType(\"SOHL.Event.State\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Event.Term",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1174,
+        "snippet": "} = defineType(\"SOHL.Event.Term\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Gear",
+    "occurrences": [
+      {
+        "file": "src/common/item/ArmorGear.ts",
+        "line": 99,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ArmorGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ConcoctionGear.ts",
+        "line": 111,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ConcoctionGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ContainerGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ContainerGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MiscGear.ts",
+        "line": 72,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MiscGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ProjectileGear.ts",
+        "line": 127,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ProjectileGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/WeaponGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.WeaponGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Gear.GEAR_KIND",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 833,
+        "snippet": "} = defineType(`SOHL.Gear.GEAR_KIND`, {"
+      },
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1123,
+        "snippet": "} = defineType(`SOHL.Gear.GEAR_KIND`, {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ImpactModifier.Aspect",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1033,
+        "snippet": "} = defineType(\"SOHL.ImpactModifier.Aspect\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ImpactModifier.DISABLED",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/ImpactModifier.ts",
+        "line": 45,
+        "snippet": "\"SOHL.ImpactModifier.DISABLED\""
+      }
+    ]
+  },
+  {
+    "key": "SOHL.INFO",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/ValueDelta.ts",
+        "line": 51,
+        "snippet": "if (!name?.startsWith(\"SOHL.INFO.\"))"
+      },
+      {
+        "file": "src/common/modifier/ValueDelta.ts",
+        "line": 52,
+        "snippet": "throw new Error(\"ValueDelta name must start with SOHL.INFO.\");"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 134,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Injury\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.INTRINSIC_ACTION",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 187,
+        "snippet": "} = defineType(\"SOHL.Injury.INTRINSIC_ACTION\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.INTRINSIC_ACTION.healingtest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 211,
+        "snippet": "title: \"SOHL.Injury.INTRINSIC_ACTION.healingtest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 190,
+        "snippet": "title: \"SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.SHOCK",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 163,
+        "snippet": "} = defineType(\"SOHL.Injury.SHOCK\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item",
+    "occurrences": [
+      {
+        "file": "src/common/item/Action.ts",
+        "line": 247,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Action\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Affiliation.ts",
+        "line": 112,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Affiliation\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 284,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Affliction\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ArmorGear.ts",
+        "line": 99,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ArmorGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/BodyLocation.ts",
+        "line": 117,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyLocation\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/BodyPart.ts",
+        "line": 101,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyPart\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/BodyZone.ts",
+        "line": 88,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.BodyZone\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/CombatTechniqueStrikeMode.ts",
+        "line": 161,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.CombatTechniqueStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ConcoctionGear.ts",
+        "line": 111,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ConcoctionGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ContainerGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ContainerGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Disposition.ts",
+        "line": 92,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Disposition\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Domain.ts",
+        "line": 115,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Domain\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 134,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Injury\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MeleeWeaponStrikeMode.ts",
+        "line": 185,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MeleeWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MiscGear.ts",
+        "line": 72,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MiscGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MissileWeaponStrikeMode.ts",
+        "line": 105,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MissileWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MovementProfile.ts",
+        "line": 187,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MovementProfile\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Mystery.ts",
+        "line": 301,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Mystery\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MysticalAbility.ts",
+        "line": 195,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MysticalAbility\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MysticalDevice.ts",
+        "line": 140,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MysticalDevice\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Philosophy.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Philosophy\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/ProjectileGear.ts",
+        "line": 127,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ProjectileGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Protection.ts",
+        "line": 175,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Protection\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Skill.ts",
+        "line": 121,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Skill\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 230,
+        "snippet": "return `SOHL.Item.${this.kind}`;"
+      },
+      {
+        "file": "src/common/item/Trait.ts",
+        "line": 158,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Trait\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/WeaponGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.WeaponGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.METADATA",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 111,
+        "snippet": "} = defineType(`SOHL.Item.METADATA`, {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.Sheet",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 340,
+        "snippet": "} = defineType(\"SOHL.Item.Sheet\", {"
+      },
+      {
+        "file": "src/legendary/LegendarySystem.ts",
+        "line": 199,
+        "snippet": "} = defineType(\"SOHL.Item.Sheet\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.actions",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 330,
+        "snippet": "{ id: \"actions\", label: \"SOHL.Item.tab.actions\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.description",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 328,
+        "snippet": "{ id: \"description\", label: \"SOHL.Item.tab.description\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.effects",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 331,
+        "snippet": "{ id: \"effectsTab\", label: \"SOHL.Item.tab.effects\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.nestedItems",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 329,
+        "snippet": "{ id: \"nestedItems\", label: \"SOHL.Item.tab.nestedItems\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.properties",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 326,
+        "snippet": "label: \"SOHL.Item.tab.properties\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Logger.LogLevel",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 49,
+        "snippet": "} = defineType(\"SOHL.Logger.LogLevel\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel",
+    "occurrences": [
+      {
+        "file": "src/common/item/MysticalAbility.ts",
+        "line": 195,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MysticalAbility\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Skill.ts",
+        "line": 121,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Skill\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/Trait.ts",
+        "line": 158,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Trait\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.AuraBasedNoFate",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 363,
+        "snippet": "\"SOHL.MasteryLevel.AuraBasedNoFate\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.FateDisabled",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 328,
+        "snippet": "\"SOHL.MasteryLevel.FateDisabled\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.FateNotSupported",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 332,
+        "snippet": "\"SOHL.MasteryLevel.FateNotSupported\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.fateTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 114,
+        "snippet": "title: sohl.i18n.format(\"SOHL.MasteryLevel.fateTest.title\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.increase.desc",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 179,
+        "snippet": "\"SOHL.MasteryLevel.improveSDR.increase.desc\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.increase.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 164,
+        "snippet": "\"SOHL.MasteryLevel.improveSDR.increase.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 187,
+        "snippet": "\"SOHL.MasteryLevel.improveSDR.noIncrease.desc\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.noIncrease.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 170,
+        "snippet": "\"SOHL.MasteryLevel.improveSDR.noIncrease.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 153,
+        "snippet": "title: sohl.i18n.format(\"SOHL.MasteryLevel.improveSDR.title\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.NoFateAvailable",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 390,
+        "snippet": "\"SOHL.MasteryLevel.NoFateAvailable\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevelModifier.successTest",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/MasteryLevelModifier.ts",
+        "line": 171,
+        "snippet": "sohl.i18n.format(\"SOHL.MasteryLevelModifier.successTest\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevelModifier.successValueTest",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/MasteryLevelModifier.ts",
+        "line": 307,
+        "snippet": "\"SOHL.MasteryLevelModifier.successValueTest\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MeleeWeaponStrikeMode",
+    "occurrences": [
+      {
+        "file": "src/common/item/MeleeWeaponStrikeMode.ts",
+        "line": 185,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MeleeWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MeleeWeaponStrikeMode.EffectKey",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1137,
+        "snippet": "} = defineType(\"SOHL.MeleeWeaponStrikeMode.EffectKey\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MiscGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/MiscGear.ts",
+        "line": 72,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MiscGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MissileWeaponStrikeMode",
+    "occurrences": [
+      {
+        "file": "src/common/item/MissileWeaponStrikeMode.ts",
+        "line": 105,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MissileWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MOD",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/ValueModifier.ts",
+        "line": 241,
+        "snippet": "!(typeof name === \"string\" && name.startsWith(\"SOHL.MOD.\"))"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MovementFactorMode",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 365,
+        "snippet": "} = defineType(\"SOHL.MovementFactorMode\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MovementMedium",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 351,
+        "snippet": "} = defineType(\"SOHL.MovementMedium\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MovementProfile",
+    "occurrences": [
+      {
+        "file": "src/common/item/MovementProfile.ts",
+        "line": 187,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MovementProfile\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Mystery",
+    "occurrences": [
+      {
+        "file": "src/common/item/Mystery.ts",
+        "line": 301,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Mystery\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Mystery.Category",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1389,
+        "snippet": "} = defineType(\"SOHL.Mystery.Category\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Mystery.CategoryMap",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1402,
+        "snippet": "} = defineType(\"SOHL.Mystery.CategoryMap\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Mystery.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1372,
+        "snippet": "} = defineType(\"SOHL.Mystery.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MysticalAbility",
+    "occurrences": [
+      {
+        "file": "src/common/item/MysticalAbility.ts",
+        "line": 195,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MysticalAbility\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MysticalAbility.Degree",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1439,
+        "snippet": "} = defineType(\"SOHL.MysticalAbility.Degree\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MysticalAbility.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1419,
+        "snippet": "} = defineType(\"SOHL.MysticalAbility.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MysticalDevice",
+    "occurrences": [
+      {
+        "file": "src/common/item/MysticalDevice.ts",
+        "line": 140,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MysticalDevice\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MysticalDevice.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1453,
+        "snippet": "} = defineType(\"SOHL.MysticalDevice.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.OpposedTestResult.TieBreak",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1021,
+        "snippet": "} = defineType(\"SOHL.OpposedTestResult.TieBreak\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Philosophy",
+    "occurrences": [
+      {
+        "file": "src/common/item/Philosophy.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Philosophy\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.PlannedAction",
+    "occurrences": [
+      {
+        "file": "src/utils/ai/AIPlannedAction.ts",
+        "line": 20,
+        "snippet": "} = defineType(\"SOHL.PlannedAction\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.postFinalize",
+    "occurrences": [
+      {
+        "file": "types/sohl-globals.d.ts",
+        "line": 152,
+        "snippet": "\"SOHL.postFinalize\": ("
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ProjectileGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/ProjectileGear.ts",
+        "line": 127,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.ProjectileGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ProjectileGear.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1481,
+        "snippet": "} = defineType(\"SOHL.ProjectileGear.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Protection",
+    "occurrences": [
+      {
+        "file": "src/common/item/Protection.ts",
+        "line": 175,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Protection\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Season",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 490,
+        "snippet": "} = defineType(\"SOHL.Season\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.CHOICES.Legendary",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 52,
+        "snippet": "legendary: \"SOHL.Settings.Variant.CHOICES.Legendary\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.CHOICES.MistyIsle",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 53,
+        "snippet": "mistyisle: \"SOHL.Settings.Variant.CHOICES.MistyIsle\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.hint",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 45,
+        "snippet": "hint: \"SOHL.Settings.Variant.hint\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.label",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 44,
+        "snippet": "name: \"SOHL.Settings.Variant.label\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Skill",
+    "occurrences": [
+      {
+        "file": "src/common/item/Skill.ts",
+        "line": 121,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Skill\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Skill.COMBAT",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1514,
+        "snippet": "} = defineType(\"SOHL.Skill.COMBAT\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Skill.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1496,
+        "snippet": "} = defineType(\"SOHL.Skill.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Slope",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 412,
+        "snippet": "} = defineType(\"SOHL.Slope\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlAction.Scope",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1199,
+        "snippet": "} = defineType(\"SOHL.SohlAction.Scope\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlActiveEffect.sohleffectdata",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 476,
+        "snippet": "sohleffectdata: \"SOHL.SohlActiveEffect.sohleffectdata\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlCombat.combatdata",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 509,
+        "snippet": "sohlcombatdata: \"SOHL.SohlCombat.combatdata\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlCombatant.combatantdata",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 493,
+        "snippet": "sohlcombatantdata: \"SOHL.SohlCombatant.combatantdata\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlItem.labelWithName",
+    "occurrences": [
+      {
+        "file": "src/common/actor/SohlActor.ts",
+        "line": 638,
+        "snippet": "result = sohl.i18n.localize(\"SOHL.SohlItem.labelWithName\", {"
+      },
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 265,
+        "snippet": "result = sohl.i18n.localize(\"SOHL.SohlItem.labelWithName\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlLogic.INTRINSIC_ACTION",
+    "occurrences": [
+      {
+        "file": "src/common/SohlLogic.ts",
+        "line": 35,
+        "snippet": "} = defineType(\"SOHL.SohlLogic.INTRINSIC_ACTION\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
+    "occurrences": [
+      {
+        "file": "src/common/SohlLogic.ts",
+        "line": 38,
+        "snippet": "title: \"SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlSpeaker.ROLL_MODE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 981,
+        "snippet": "} = defineType(\"SOHL.SohlSpeaker.ROLL_MODE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlSpeaker.SOUND",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1008,
+        "snippet": "} = defineType(\"SOHL.SohlSpeaker.SOUND\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlSpeaker.SOUND.sounds",
+    "occurrences": [
+      {
+        "file": "lang/en.json",
+        "line": 906,
+        "snippet": "\"SOHL.SohlSpeaker.SOUND.sounds/dice.wav\": \"Dice\","
+      },
+      {
+        "file": "lang/en.json",
+        "line": 907,
+        "snippet": "\"SOHL.SohlSpeaker.SOUND.sounds/drums.wav\": \"Combat\","
+      },
+      {
+        "file": "lang/en.json",
+        "line": 908,
+        "snippet": "\"SOHL.SohlSpeaker.SOUND.sounds/lock.wav\": \"Lock\","
+      },
+      {
+        "file": "lang/en.json",
+        "line": 909,
+        "snippet": "\"SOHL.SohlSpeaker.SOUND.sounds/notify.wav\": \"Notification\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlSpeaker.STYLE",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 995,
+        "snippet": "} = defineType(\"SOHL.SohlSpeaker.STYLE\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlSystem.Variant",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 30,
+        "snippet": "} = defineType(\"SOHL.SohlSystem.Variant\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.StrikeMode",
+    "occurrences": [
+      {
+        "file": "src/common/item/CombatTechniqueStrikeMode.ts",
+        "line": 161,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.CombatTechniqueStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MeleeWeaponStrikeMode.ts",
+        "line": 185,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MeleeWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      },
+      {
+        "file": "src/common/item/MissileWeaponStrikeMode.ts",
+        "line": 105,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.MissileWeaponStrikeMode\", \"SOHL.StrikeMode\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.StrikeMode.EffectKey",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1089,
+        "snippet": "} = defineType(\"SOHL.StrikeMode.EffectKey\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Structure",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Structure.ts",
+        "line": 92,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Structure\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.CriticalFailure",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 358,
+        "snippet": ":   \"SOHL.SuccessTestResult.CriticalFailure\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.CriticalSuccess",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 357,
+        "snippet": "\"SOHL.SuccessTestResult.CriticalSuccess\""
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SUCCESSTESTRESULT.evaluate.NoPerm",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 302,
+        "snippet": "sohl.i18n.format(\"SOHL.SUCCESSTESTRESULT.evaluate.NoPerm\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.Failure",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 369,
+        "snippet": ":   \"SOHL.SuccessTestResult.Failure\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.MarginalFailure",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 363,
+        "snippet": ":   \"SOHL.SuccessTestResult.MarginalFailure\";"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.MarginalSuccess",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 362,
+        "snippet": "\"SOHL.SuccessTestResult.MarginalSuccess\""
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.Mishap",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 932,
+        "snippet": "} = defineType(\"SOHL.SuccessTestResult.Mishap\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.Movement",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 386,
+        "snippet": "`SOHL.SuccessTestResult.Movement.${val}`,"
+      },
+      {
+        "file": "src/utils/constants.ts",
+        "line": 970,
+        "snippet": "} = defineType(\"SOHL.SuccessTestResult.Movement\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.Success",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 368,
+        "snippet": "\"SOHL.SuccessTestResult.Success\""
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SuccessTestResult.TestType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1554,
+        "snippet": "} = defineType(\"SOHL.SuccessTestResult.TestType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Terrain",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 380,
+        "snippet": "} = defineType(\"SOHL.Terrain\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.TestResult.FAILURE",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 197,
+        "snippet": ":   sohl.i18n.format(\"SOHL.TestResult.FAILURE\"),"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.TestResult.SUCCESS",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 196,
+        "snippet": "sohl.i18n.format(\"SOHL.TestResult.SUCCESS\")"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.TIME.Until",
+    "occurrences": [
+      {
+        "file": "src/common/SohlCalendar.ts",
+        "line": 272,
+        "snippet": "relTime < 0 ? \"TIME.Since\" : \"SOHL.TIME.Until\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Trait",
+    "occurrences": [
+      {
+        "file": "src/common/item/Trait.ts",
+        "line": 158,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Trait\", \"SOHL.MasteryLevel\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Trait.Intensity",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1541,
+        "snippet": "} = defineType(\"SOHL.Trait.Intensity\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Trait.SubType",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1530,
+        "snippet": "} = defineType(\"SOHL.Trait.SubType\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ValueDelta.INFO",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 847,
+        "snippet": "} = defineType(\"SOHL.ValueDelta.INFO\", {"
+      },
+      {
+        "file": "src/utils/constants.ts",
+        "line": 880,
+        "snippet": "const name = `SOHL.ValueDelta.INFO.${val}`;"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.ValueDelta.OPERATOR",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 891,
+        "snippet": "} = defineType(\"SOHL.ValueDelta.OPERATOR\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Vegetation",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 398,
+        "snippet": "} = defineType(\"SOHL.Vegetation\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Vehicle",
+    "occurrences": [
+      {
+        "file": "src/common/actor/Vehicle.ts",
+        "line": 103,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.Vehicle\", \"SOHL.Actor\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WaterDepth",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 427,
+        "snippet": "} = defineType(\"SOHL.WaterDepth\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeaponGear",
+    "occurrences": [
+      {
+        "file": "src/common/item/WeaponGear.ts",
+        "line": 87,
+        "snippet": "static override readonly LOCALIZATION_PREFIXES = [\"SOHL.WeaponGear\", \"SOHL.Gear\", \"SOHL.Item\"];"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Weather",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 682,
+        "snippet": "} = defineType(\"SOHL.Weather\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherPrecip",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 790,
+        "snippet": "} = defineType(\"SOHL.WeatherPrecip\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherRegime",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 805,
+        "snippet": "} = defineType(\"SOHL.WeatherRegime\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherSky",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 721,
+        "snippet": "} = defineType(\"SOHL.WeatherSky\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherTemp",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 737,
+        "snippet": "} = defineType(\"SOHL.WeatherTemp\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherWindDir",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 752,
+        "snippet": "} = defineType(\"SOHL.WeatherWindDir\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.WeatherWindForce",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 769,
+        "snippet": "} = defineType(\"SOHL.WeatherWindForce\", {"
+      }
+    ]
+  },
+  {
+    "key": "TYPES.Actor",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 211,
+        "snippet": "\"TYPES.Actor\","
+      },
+      {
+        "file": "src/utils/constants.ts",
+        "line": 97,
+        "snippet": "} = defineType(\"TYPES.Actor\", {"
+      }
+    ]
+  },
+  {
+    "key": "TYPES.Item",
+    "occurrences": [
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 285,
+        "snippet": "\"TYPES.Item\","
+      },
+      {
+        "file": "src/common/SohlSystem.ts",
+        "line": 306,
+        "snippet": "} = defineType(\"TYPES.Item\", {"
+      },
+      {
+        "file": "src/legendary/LegendarySystem.ts",
+        "line": 165,
+        "snippet": "} = defineType(\"TYPES.Item\", {"
+      },
+      {
+        "file": "src/utils/constants.ts",
+        "line": 62,
+        "snippet": "} = defineType(\"TYPES.Item\", {"
+      }
+    ]
+  }
+]

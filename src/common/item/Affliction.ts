@@ -41,6 +41,31 @@ import { serializeFn } from "@utils/helpers";
 import { ActionData } from "@common/item/Action";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
+/**
+ * Logic for the **Affliction** item type — an ongoing condition affecting
+ * a character.
+ *
+ * Afflictions represent diseases, poisons, curses, madness, and other
+ * persistent conditions that impair a character over time. Each affliction
+ * tracks:
+ *
+ * - **level** — Severity of the affliction, as a {@link ValueModifier}
+ * - **healingRate** — Rate of natural recovery (−1 indicates no natural healing)
+ * - **contagionIndex** — Risk of transmission to others
+ * - **transmission** — Mode of spread (contact, airborne, ingestion, etc.)
+ * - **isDormant** — Whether the affliction is currently inactive
+ * - **isTreated** — Whether medical treatment has been applied
+ *
+ * Afflictions support a full medical workflow through intrinsic actions:
+ * diagnosis, treatment, healing, course progression (worsening/improving),
+ * fatigue effects, morale/fear impacts, and contagion transmission.
+ *
+ * Afflictions are categorized by {@link AfflictionData.subType | subType}
+ * (Disease, Poison, Madness, etc.) and are typically attached to Beings
+ * or Cohorts.
+ *
+ * @typeParam TData - The Affliction data interface.
+ */
 export class AfflictionLogic<
     TData extends AfflictionData = AfflictionData,
 > extends SohlItemBaseLogic<TData> {
@@ -189,14 +214,23 @@ export class AfflictionLogic<
 export interface AfflictionData<
     TLogic extends AfflictionLogic<AfflictionData> = AfflictionLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Affliction category (Disease, Poison, Fatigue, etc.) */
     subType: AfflictionSubType;
+    /** Additional sub-categorization within the affliction type */
     category: string;
+    /** Whether the affliction is inactive but potentially contagious */
     isDormant: boolean;
+    /** Whether medical treatment has been applied */
     isTreated: boolean;
+    /** Modifier to treatment tests from successful diagnosis */
     diagnosisBonusBase: number;
+    /** Severity of the affliction */
     levelBase: number;
+    /** Rate of natural recovery; -1 means no natural healing */
     healingRateBase: number;
+    /** Risk of transmitting this affliction to others */
     contagionIndexBase: number;
+    /** How this affliction spreads (Contact, Airborne, etc.) */
     transmission: AfflictionTransmission;
 }
 
@@ -247,7 +281,7 @@ export class AfflictionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements AfflictionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affliction.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affliction", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
     category!: string;

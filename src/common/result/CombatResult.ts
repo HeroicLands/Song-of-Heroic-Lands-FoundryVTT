@@ -15,8 +15,20 @@ import { AttackResult } from "@common/result/AttackResult";
 import { DefendResult } from "@common/result/DefendResult";
 import { OpposedTestResult } from "@common/result/OpposedTestResult";
 
+/**
+ * Represents the result of a combat test, which is an opposed test
+ * between an attack and a defense. This includes the results of both
+ * the attack and defense tests for the specific combat action.
+ *
+ * Note that this result represents the outcome of the combat test, and
+ * whether the attacker or defender ultimately succeeds, as well as by how much.
+ * The actual damage dealt is not represented in this result, as that value
+ * will be determined later in the combat resolution process with an {@link ImpactResult}.
+ */
 export class CombatResult extends OpposedTestResult {
+    /** The result of the attack test in this combat. */
     attackResult: AttackResult;
+    /** The result of the defense test in this combat. */
     defendResult: DefendResult;
 
     constructor(

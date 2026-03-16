@@ -22,6 +22,22 @@ import type { SohlActionContext } from "@common/SohlActionContext";
 import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Body Zone** item type — a broad anatomical region grouping
+ * body parts.
+ *
+ * Body Zones are the top level of the three-tier anatomy model:
+ * **Zone → Part → Location**. They represent broad regions such as "Upper Body,"
+ * "Lower Body," or "Head/Neck." Each zone contains one or more
+ * {@link BodyPartLogic | Body Parts}, which in turn contain
+ * {@link BodyLocationLogic | Body Locations}.
+ *
+ * Body Zones contribute to the Being's {@link BeingLogic.zoneSum | zoneSum},
+ * which is used in hit location resolution to determine which zone is struck
+ * during combat.
+ *
+ * @typeParam TData - The BodyZone data interface.
+ */
 export class BodyZoneLogic<
     TData extends BodyZoneData = BodyZoneData,
 > extends SohlItemBaseLogic<TData> {
@@ -69,7 +85,7 @@ export class BodyZoneDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyZoneData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyZone.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyZone", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.BODYZONE;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

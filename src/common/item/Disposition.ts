@@ -22,6 +22,22 @@ import {
 import { ITEM_KIND, REACTION, Reactions } from "@utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
+/**
+ * Logic for the **Disposition** item type — an attitude or reaction toward
+ * another entity.
+ *
+ * Dispositions record how a character feels about or reacts to another actor
+ * (or toward entities in general). Each disposition specifies:
+ *
+ * - **targetShortcode** — The shortcode of the actor this disposition applies
+ *   to, or blank for a general/default disposition
+ * - **reaction** — The reaction type (Neutral, Friendly, Hostile, etc.)
+ *
+ * Dispositions are lightweight relationship records used for NPC behavior,
+ * social encounter resolution, and faction relationship tracking.
+ *
+ * @typeParam TData - The Disposition data interface.
+ */
 export class DispositionLogic<
     TData extends DispositionData = DispositionData,
 > extends SohlItemBaseLogic<TData> {
@@ -41,7 +57,9 @@ export class DispositionLogic<
 export interface DispositionData<
     TLogic extends SohlItemLogic<DispositionData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Shortcode of the actor this disposition applies to; blank for general */
     targetShortcode: string;
+    /** Attitude toward the target (Neutral, Friendly, Hostile, etc.) */
     reaction: string;
 }
 
@@ -52,12 +70,10 @@ function defineDispositionDataSchema(): foundry.data.fields.DataSchema {
             // Blank indicates a general reaction that applies to all actors not specified in the reactions property
             blank: true,
             required: true,
-            hint: "The shortcode of the actor that this reaction applies to",
         }),
         reaction: new StringField({
             choices: Reactions,
             initial: REACTION.NEUTRAL,
-            hint: "The reaction of this actor towards the target actor",
         }),
     };
 }
@@ -73,7 +89,7 @@ export class DispositionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements DispositionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Disposition.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Disposition", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.DISPOSITION;
     targetShortcode!: string;
     reaction!: string;

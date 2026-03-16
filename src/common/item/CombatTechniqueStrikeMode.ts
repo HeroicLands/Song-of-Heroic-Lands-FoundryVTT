@@ -26,6 +26,26 @@ import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { ValueModifier } from "@common/modifier/ValueModifier";
 const { NumberField, StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Combat Technique Strike Mode** item type — a specialized
+ * combat maneuver or fighting style.
+ *
+ * Combat technique strike modes represent trained maneuvers that go beyond
+ * basic weapon attacks: grappling, disarming, tripping, shield bashing,
+ * and other specialized fighting techniques. Unlike weapon-based strike modes,
+ * these are tied to a combat technique skill rather than a specific weapon.
+ *
+ * Like {@link MeleeWeaponStrikeModeLogic}, combat techniques provide:
+ *
+ * - **defense.block** — Modifier for defensive use of the technique
+ * - **defense.counterstrike** — Modifier for counterattacking
+ * - **length** — Effective range of the technique
+ *
+ * Defense modifiers incorporate the associated skill's mastery level and
+ * the outnumbered penalty during evaluation.
+ *
+ * @typeParam TData - The CombatTechniqueStrikeMode data interface.
+ */
 export class CombatTechniqueStrikeModeLogic<
     TData extends CombatTechniqueStrikeModeData = CombatTechniqueStrikeModeData,
 > extends StrikeModeLogic<TData> {
@@ -105,6 +125,9 @@ export interface CombatTechniqueStrikeModeData<
     TLogic extends
         CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> = CombatTechniqueStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
+    /** Combat technique group this mode belongs to */
+    group?: string;
+    /** Effective range of this combat technique */
     lengthBase: number;
 }
 
@@ -135,9 +158,7 @@ export class CombatTechniqueStrikeModeDataModel<
     extends StrikeModeDataModel<TSchema, TLogic>
     implements CombatTechniqueStrikeModeData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.CombatTechniqueStrikeMode.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.CombatTechniqueStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUESTRIKEMODE;
     lengthBase!: number;
     static override defineSchema(): foundry.data.fields.DataSchema {

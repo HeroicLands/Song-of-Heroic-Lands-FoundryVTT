@@ -34,165 +34,145 @@ function setupVariant(): SohlSystem {
 
 function registerSystemSettings() {
     game.settings.register("sohl", "systemMigrationVersion", {
-        name: "System Migration Version",
+        name: "SOHL.Settings.systemMigrationVersion.label",
         scope: "world",
         config: false,
         type: String,
         default: "",
     });
     game.settings.register("sohl", "variant", {
-        name: "Rules Variant",
-        hint: "Which variant of rules to use",
+        name: "SOHL.Settings.Variant.label",
+        hint: "SOHL.Settings.Variant.hint",
         scope: "world",
         config: true,
         requiresReload: true,
         default: "legendary",
         type: String,
         choices: {
-            legendary: "Legendary",
-            mistyisle: "MistyIsle",
+            legendary: "SOHL.Settings.Variant.CHOICES.Legendary",
+            mistyisle: "SOHL.Settings.Variant.CHOICES.MistyIsle",
         },
     });
     game.settings.register("sohl", "logLevel", {
-        name: "Log Level",
-        hint: "The level of detail to include in logs",
+        name: "SOHL.Settings.logLevel.label",
+        hint: "SOHL.Settings.logLevel.hint",
         scope: "client",
         config: true,
         default: "info",
         type: String,
         choices: {
-            debug: "Debug",
-            info: "Informational",
-            warn: "Warning",
-            error: "Error",
+            debug: "SOHL.Settings.logLevel.CHOICES.debug",
+            info: "SOHL.Settings.logLevel.CHOICES.info",
+            warn: "SOHL.Settings.logLevel.CHOICES.warn",
+            error: "SOHL.Settings.logLevel.CHOICES.error",
+        },
+        onChange: (value: string): void => {
+            sohl.log.setLogThreshold(value);
         },
     });
     game.settings.register("sohl", "showWelcomeDialog", {
-        name: "Show welcome dialog on start",
-        hint: "Display the welcome dialog box when the user logs in.",
+        name: "SOHL.Settings.showWelcomeDialog.label",
+        hint: "SOHL.Settings.showWelcomeDialog.hint",
         scope: "client",
         config: true,
         type: Boolean,
         default: true,
     });
     game.settings.register("sohl", "showAssemblies", {
-        name: "Show Assemblies in Actors Tab",
-        hint: "If enabled, shows all Assembly actors you own.",
+        name: "SOHL.Settings.showAssemblies.label",
+        hint: "SOHL.Settings.showAssemblies.hint",
         scope: "client",
         config: true,
         type: Boolean,
         default: false,
     });
     game.settings.register("sohl", "combatAudio", {
-        name: "Combat sounds",
-        hint: "Enable combat flavor sounds",
+        name: "SOHL.Settings.combatAudio.label",
+        hint: "SOHL.Settings.combatAudio.hint",
         scope: "world",
         config: true,
         type: Boolean,
         default: true,
     });
     game.settings.register("sohl", "recordTrauma", {
-        name: "Record trauma automatically",
-        hint: "Automatically add physical and mental afflictions and injuries",
+        name: "SOHL.Settings.recordTrauma.label",
+        hint: "SOHL.Settings.recordTrauma.hint",
         scope: "world",
         config: true,
         default: "enable",
         type: String,
         choices: {
-            enable: "Record trauma automatically",
-            disable: "Don't record trauma automatically",
-            ask: "Prompt user on each injury or affliction",
+            enable: "SOHL.Settings.recordTrauma.Choices.Enable",
+            disable: "SOHL.Settings.recordTrauma.Choices.Disable",
+            ask: "SOHL.Settings.recordTrauma.Choices.Ask",
         },
     });
     game.settings.register("sohl", "healingSeconds", {
-        name: "Seconds between healing checks",
-        hint: "Number of seconds between healing checks. Set to 0 to disable.",
+        name: "SOHL.Settings.healingSeconds.label",
+        hint: "SOHL.Settings.healingSeconds.hint",
         scope: "world",
         config: true,
         type: Number,
         default: 432000, // 5 days
     });
     game.settings.register("sohl", "optionProjectileTracking", {
-        name: "Track Projectile/Missile Quantity",
-        hint: "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero",
+        name: "SOHL.Settings.optionProjectileTracking.label",
+        hint: "SOHL.Settings.optionProjectileTracking.hint",
         scope: "world",
         config: true,
         type: Boolean,
         default: false,
     });
     game.settings.register("sohl", "optionFate", {
-        name: "Fate: Use fate rules",
+        name: "SOHL.Settings.optionFate.label",
+        hint: "SOHL.Settings.optionFate.hint",
         scope: "world",
         config: true,
         default: "enable",
         type: String,
         choices: {
-            none: "Fate rules disabled",
-            pconly: "Fate rules only apply to PCs",
-            everyone: "Fate rules apply to all animate actors",
+            none: "SOHL.Settings.optionFate.None",
+            pconly: "SOHL.Settings.optionFate.PCOnly",
+            everyone: "SOHL.Settings.optionFate.Everyone",
         },
     });
     game.settings.register("sohl", "optionGearDamage", {
-        name: "Gear Damage",
-        hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
+        name: "SOHL.Settings.optionGearDamage.label",
+        hint: "SOHL.Settings.optionGearDamage.hint",
         scope: "world",
         config: true,
         type: Boolean,
         default: false,
     });
     game.settings.register("sohl", "tacticalDistanceUnit", {
-        name: "Tactical Distance Unit",
-        hint: "The unit used for measuring distance in tactical situations.",
+        name: "SOHL.Settings.tacticalDistanceUnit.label",
+        hint: "SOHL.Settings.tacticalDistanceUnit.hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            meter: "Meter",
-            foot: "Foot", // 0.3048 meters
-            yard: "Yard", // 0.9144 meters
-            cubit: "Cubit", // 0.4572 meters
+            meter: "SOHL.Settings.tacticalDistanceUnit.CHOICES.meter", // 1 meter
+            foot: "SOHL.Settings.tacticalDistanceUnit.CHOICES.foot", // 0.3048 meters
+            yard: "SOHL.Settings.tacticalDistanceUnit.CHOICES.yard", // 0.9144 meters
+            cubit: "SOHL.Settings.tacticalDistanceUnit.CHOICES.cubit", // 0.4572 meters
         },
         default: "meter",
     });
     game.settings.register("sohl", "trekDistanceUnit", {
-        name: "Trek Distance Unit",
-        hint: "The unit used for measuring distance outside tactical situations (such as trekking).",
+        name: "SOHL.Settings.trekDistanceUnit.label",
+        hint: "SOHL.Settings.trekDistanceUnit.hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            kilometer: "Kilometer", // 1000 meters
-            mile: "Mile", // 1609.344 meters
-            nauticalMile: "Nautical Mile", // 1852 meters
-            league: "League", // 4828.032 meters
-            li: "LI", // Chinese miles; 500 meters
-            parsang: "Parsang", // 5500 meters
+            kilometer: "SOHL.Settings.trekDistanceUnit.CHOICES.kilometer", // 1000 meters
+            mile: "SOHL.Settings.trekDistanceUnit.CHOICES.mile", // 1609.344 meters
+            nauticalMile: "SOHL.Settings.trekDistanceUnit.CHOICES.nauticalMile", // 1852 meters
+            league: "SOHL.Settings.trekDistanceUnit.CHOICES.league", // 4828.032 meters
+            li: "SOHL.Settings.trekDistanceUnit.CHOICES.li", // Chinese miles; 500 meters
+            parsang: "SOHL.Settings.trekDistanceUnit.CHOICES.parsang", // 5500 meters
         },
         default: "kilometer",
-    });
-    // game.settings.register("sohl", "biomeSpeedFactors", {
-    //     name: "Biome Speed Factors",
-    //     hint: "Multipliers for base movement speed by biome. 1.0 = normal speed.",
-    //     scope: "world",
-    //     config: true,
-    //     type: Array,
-    //     default: DEFAULT_BIOME_SPEED_FACTORS,
-    // });
-    game.settings.register("sohl", "logThreshold", {
-        name: "Log Level Threshold",
-        scope: "world",
-        config: true,
-        default: "info",
-        type: String,
-        choices: {
-            debug: "Debug",
-            info: "Informational",
-            warn: "Warning",
-            error: "Error",
-        },
-        onChange: (value: string): void => {
-            sohl.log.setLogThreshold(value);
-        },
     });
 }
 

@@ -1,0 +1,607 @@
+[
+  {
+    "key": "SOHL.${this.kind}.typelabel",
+    "occurrences": [
+      {
+        "file": "src/common/actor/SohlActor.ts",
+        "line": 636,
+        "snippet": "let result = sohl.i18n.localize(`SOHL.${this.kind}.typelabel`);"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.SHEET.profile",
+    "occurrences": [
+      {
+        "file": "src/legendary/actor/LgndAssembly.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndCohort.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndStructure.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      },
+      {
+        "file": "src/legendary/actor/LgndVehicle.ts",
+        "line": 97,
+        "snippet": "label: \"SOHL.Actor.SHEET.profile\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Actor.SHEET.tab.nested.label",
+    "occurrences": [
+      {
+        "file": "src/legendary/actor/LgndAssembly.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndCohort.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndStructure.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      },
+      {
+        "file": "src/legendary/actor/LgndVehicle.ts",
+        "line": 99,
+        "snippet": "{ id: \"nested\", label: \"SOHL.Actor.SHEET.tab.nested.label\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 337,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 346,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.coursetest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 416,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 367,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 385,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.fearTest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 427,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 376,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.moraletest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 325,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Affliction.ts",
+        "line": 394,
+        "snippet": "title: \"SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Blossomreach",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1886,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Blossomreach\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Eightday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2001,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Eightday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Emberwane",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1928,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Emberwane\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.EraName",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1868,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.EraName\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fall",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2033,
+        "snippet": "{ name: \"SOHL.CALENDAR.DEFAULT.Fall\", monthStart: 7, monthEnd: 9 },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fallmere",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1935,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fallmere\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fiveday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1986,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fiveday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Fourday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1981,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Fourday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Frostwane",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1942,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Frostwane\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Greengold",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1893,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Greengold\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Hayfall",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1914,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Hayfall\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Highsun",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1900,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Highsun\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Midsummer",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1907,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Midsummer\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Nineday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2006,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Nineday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Oneday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1966,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Oneday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Reapmoon",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1921,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Reapmoon\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Sevenday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1996,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Sevenday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Sixday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1991,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Sixday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Snowrest",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1949,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Snowrest\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Spring",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2024,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Spring\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Springtide",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1879,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Springtide\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Summer",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2029,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Summer\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Tenday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2011,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Tenday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Thawrise",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1956,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Thawrise\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Threeday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1976,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Threeday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Twoday",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 1971,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Twoday\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.CALENDAR.DEFAULT.Winter",
+    "occurrences": [
+      {
+        "file": "src/utils/constants.ts",
+        "line": 2035,
+        "snippet": "name: \"SOHL.CALENDAR.DEFAULT.Winter\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.docLabelFormat",
+    "occurrences": [
+      {
+        "file": "src/common/SohlLogic.ts",
+        "line": 160,
+        "snippet": "return sohl.i18n.format(\"SOHL.docLabelFormat\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.INTRINSIC_ACTION.healingtest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 211,
+        "snippet": "title: \"SOHL.Injury.INTRINSIC_ACTION.healingtest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/Injury.ts",
+        "line": 190,
+        "snippet": "title: \"SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.actions",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 330,
+        "snippet": "{ id: \"actions\", label: \"SOHL.Item.tab.actions\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.description",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 328,
+        "snippet": "{ id: \"description\", label: \"SOHL.Item.tab.description\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.effects",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 331,
+        "snippet": "{ id: \"effectsTab\", label: \"SOHL.Item.tab.effects\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.nestedItems",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 329,
+        "snippet": "{ id: \"nestedItems\", label: \"SOHL.Item.tab.nestedItems\" },"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Item.tab.properties",
+    "occurrences": [
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 326,
+        "snippet": "label: \"SOHL.Item.tab.properties\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.fateTest.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 114,
+        "snippet": "title: sohl.i18n.format(\"SOHL.MasteryLevel.fateTest.title\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevel.improveSDR.title",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 153,
+        "snippet": "title: sohl.i18n.format(\"SOHL.MasteryLevel.improveSDR.title\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.MasteryLevelModifier.successTest",
+    "occurrences": [
+      {
+        "file": "src/common/modifier/MasteryLevelModifier.ts",
+        "line": 171,
+        "snippet": "sohl.i18n.format(\"SOHL.MasteryLevelModifier.successTest\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.hint",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 45,
+        "snippet": "hint: \"SOHL.Settings.Variant.hint\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.Settings.Variant.label",
+    "occurrences": [
+      {
+        "file": "src/sohl.ts",
+        "line": 44,
+        "snippet": "name: \"SOHL.Settings.Variant.label\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlItem.labelWithName",
+    "occurrences": [
+      {
+        "file": "src/common/actor/SohlActor.ts",
+        "line": 638,
+        "snippet": "result = sohl.i18n.localize(\"SOHL.SohlItem.labelWithName\", {"
+      },
+      {
+        "file": "src/common/item/SohlItem.ts",
+        "line": 265,
+        "snippet": "result = sohl.i18n.localize(\"SOHL.SohlItem.labelWithName\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
+    "occurrences": [
+      {
+        "file": "src/common/SohlLogic.ts",
+        "line": 38,
+        "snippet": "title: \"SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title\","
+      }
+    ]
+  },
+  {
+    "key": "SOHL.SUCCESSTESTRESULT.evaluate.NoPerm",
+    "occurrences": [
+      {
+        "file": "src/common/result/SuccessTestResult.ts",
+        "line": 302,
+        "snippet": "sohl.i18n.format(\"SOHL.SUCCESSTESTRESULT.evaluate.NoPerm\", {"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.TestResult.FAILURE",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 197,
+        "snippet": ":   sohl.i18n.format(\"SOHL.TestResult.FAILURE\"),"
+      }
+    ]
+  },
+  {
+    "key": "SOHL.TestResult.SUCCESS",
+    "occurrences": [
+      {
+        "file": "src/common/item/MasteryLevel.ts",
+        "line": 196,
+        "snippet": "sohl.i18n.format(\"SOHL.TestResult.SUCCESS\")"
+      }
+    ]
+  }
+]

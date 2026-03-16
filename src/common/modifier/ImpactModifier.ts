@@ -21,7 +21,8 @@ import {
 import { SimpleRoll } from "@utils/SimpleRoll";
 
 /**
- * Specialized ValueModifier for Impacts
+ * Represents the impact of an attack or effect, including the damage dice, aspect, and any situational modifiers.
+ * This represents the "base" impact before any defenses or resistances are applied. dealt to a target.
  */
 export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;

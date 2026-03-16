@@ -32,6 +32,28 @@ import {
 } from "@utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Melee Weapon Strike Mode** item type — a way of attacking
+ * with a melee weapon.
+ *
+ * Melee strike modes represent specific attack patterns for hand-to-hand
+ * weapons: slashing with a sword, thrusting with a spear, bashing with a mace,
+ * etc. They are typically nested inside {@link WeaponGearLogic | Weapon Gear}.
+ *
+ * In addition to the attack and impact modifiers inherited from
+ * {@link StrikeModeLogic}, melee strike modes provide:
+ *
+ * - **defense.block** — Modifier for blocking incoming attacks with this weapon
+ * - **defense.counterstrike** — Modifier for counterattacking after a successful defense
+ * - **length** — Weapon reach, inherited from the parent weapon and affecting
+ *   engagement range
+ *
+ * During evaluation, defense modifiers incorporate the associated skill's
+ * mastery level and an **outnumbered penalty** (−10 per additional engaged
+ * opponent beyond the first).
+ *
+ * @typeParam TData - The MeleeWeaponStrikeMode data interface.
+ */
 export class MeleeWeaponStrikeModeLogic<
     TData extends MeleeWeaponStrikeModeData = MeleeWeaponStrikeModeData,
 > extends StrikeModeLogic<TData> {
@@ -127,6 +149,7 @@ export interface MeleeWeaponStrikeModeData<
         modifier: number;
         aspect: ImpactAspect;
     };
+    /** Effective melee reach of this attack mode */
     lengthBase: number;
 }
 
@@ -159,9 +182,7 @@ export class MeleeWeaponStrikeModeDataModel<
     extends StrikeModeDataModel<TSchema, TLogic>
     implements MeleeWeaponStrikeModeData
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.MeleeWeaponStrikeMode.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MeleeWeaponStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
     subType!: Variant;
     lengthBase!: number;

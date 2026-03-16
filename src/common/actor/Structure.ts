@@ -25,7 +25,19 @@ const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;
 
 /**
- * The business logic class for the Structure actor.
+ * Logic for the **Structure** actor type — a fixed installation or location.
+ *
+ * A Structure represents a building, fortification, bridge, ship hull, or any
+ * other immovable (or semi-permanent) physical entity that can be targeted,
+ * damaged, and repaired. Structures can own items such as Protection entries
+ * (representing walls, doors, or barriers), Injuries (structural damage),
+ * Domains (jurisdiction), and Affiliations (ownership).
+ *
+ * Structures do not have anatomy, skills, or movement profiles. Their primary
+ * mechanical role is as targets in siege or environmental encounters and as
+ * containers for location-based items and effects.
+ *
+ * @typeParam TData - The Structure data interface.
  */
 export class StructureLogic<
     TData extends StructureData = StructureData,
@@ -77,7 +89,7 @@ export class StructureDataModel<
     TLogic extends
         StructureLogic<StructureData> = StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure", "SOHL.Actor"];
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 
     static defineSchema(): foundry.data.fields.DataSchema {

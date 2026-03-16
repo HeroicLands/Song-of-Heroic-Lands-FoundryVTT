@@ -29,6 +29,27 @@ import {
 const { NumberField, StringField, BooleanField, SchemaField } =
     foundry.data.fields;
 
+/**
+ * Logic for the **Mystical Device** item type — a magical object that grants
+ * or channels mystical abilities.
+ *
+ * Mystical Devices represent enchanted items: wands, staves, amulets, rings,
+ * spell scrolls, runestones, and similar artifacts that enable supernatural
+ * effects. A device may contain nested {@link MysticalAbilityLogic | Mystical Abilities}
+ * representing the powers it grants to its wielder.
+ *
+ * Key properties:
+ * - **requiresAttunement** — Whether the device must be attuned before use
+ * - **isAttuned** — Current attunement state
+ * - **usesVolition** — Whether the device has its own will/personality
+ * - **volition** — If willful: the device's ego, morality alignment, and purpose
+ * - **domain** — The philosophy and domain the device is associated with
+ *
+ * Devices with volition may resist their wielder or act independently,
+ * creating interesting roleplay dynamics.
+ *
+ * @typeParam TData - The MysticalDevice data interface.
+ */
 export class MysticalDeviceLogic<
     TData extends MysticalDeviceData = MysticalDeviceData,
 > extends SohlItemBaseLogic<TData> {
@@ -56,13 +77,18 @@ export interface MysticalDeviceData<
     TLogic extends
         MysticalDeviceLogic<MysticalDeviceData> = MysticalDeviceLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Whether the device must be attuned before use */
     requiresAttunement: boolean;
+    /** Whether the device has its own will and personality */
     usesVolition: boolean;
+    /** Mystical domain association (philosophy and domain name) */
     domain: {
         philosophy: string;
         name: string;
     };
+    /** Whether the wielder has attuned to this device */
     isAttuned: boolean;
+    /** The device's willpower: ego strength, morality, and purpose */
     volition: {
         ego: number;
         morality: number;
@@ -111,9 +137,7 @@ export class MysticalDeviceDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysticalDeviceData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.MysticalDevice.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MysticalDevice", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MYSTICALDEVICE;
     subType!: MysticalDeviceSubType;
     requiresAttunement!: boolean;

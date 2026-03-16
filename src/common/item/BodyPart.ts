@@ -22,6 +22,20 @@ import {
 import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { BooleanField, StringField, DocumentIdField } = foundry.data.fields;
 
+/**
+ * Logic for the **Body Part** item type — a concrete anatomical part of a Being.
+ *
+ * Body Parts represent major anatomical components such as arms, legs, the head,
+ * or the torso. They serve as an intermediate grouping between
+ * {@link BodyZoneLogic | Body Zones} (broad regions) and
+ * {@link BodyLocationLogic | Body Locations} (specific hit locations).
+ *
+ * A Body Part can optionally **hold an item** (e.g., a hand holding a weapon
+ * or shield), tracked via `canHoldItem` and `heldItemId`. This models the
+ * concept of hand slots and wielded equipment.
+ *
+ * @typeParam TData - The BodyPart data interface.
+ */
 export class BodyPartLogic<
     TData extends BodyPartData = BodyPartData,
 > extends SohlItemBaseLogic<TData> {
@@ -60,7 +74,9 @@ export class BodyPartLogic<
 export interface BodyPartData<
     TLogic extends BodyPartLogic<BodyPartData> = BodyPartLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Whether this body part can grasp and wield items */
     canHoldItem: boolean;
+    /** ID of the item currently held by this body part, or null */
     heldItemId: string | null;
 }
 
@@ -82,7 +98,7 @@ export class BodyPartDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyPartData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyPart.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyPart", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.BODYPART;
     canHoldItem!: boolean;
     heldItemId!: string | null;

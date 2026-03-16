@@ -94,7 +94,7 @@ export class LgndAssemblySheet extends SohlActorSheetBase {
                 { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label" },
                 {
                     id: "profile",
-                    label: "SOHL.Actor.SHEET.profile",
+                    label: "SOHL.Actor.SHEET.tab.profile.label",
                 },
                 { id: "nested", label: "SOHL.Actor.SHEET.tab.nested.label" },
             ],

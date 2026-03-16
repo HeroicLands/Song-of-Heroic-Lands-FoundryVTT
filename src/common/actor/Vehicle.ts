@@ -25,7 +25,19 @@ const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;
 
 /**
- * The business logic class for the Vehicle actor.
+ * Logic for the **Vehicle** actor type — a movable platform or conveyance.
+ *
+ * A Vehicle represents a wagon, ship, mount abstraction, or any mobile platform
+ * that can carry passengers and cargo. Vehicles track their **passengers** as
+ * an array of actor shortcodes (which may reference individual Beings or entire
+ * Cohorts).
+ *
+ * Vehicles can own Protection items (hull armor, reinforced sides), Injuries
+ * (structural damage), Container Gear (cargo holds), and Actions. They are
+ * often composed into an {@link AssemblyLogic | Assembly} alongside crew
+ * Cohorts and mounted weapon Structures.
+ *
+ * @typeParam TData - The Vehicle data interface.
  */
 export class VehicleLogic<
     TData extends VehicleData = VehicleData,
@@ -52,7 +64,10 @@ export class VehicleLogic<
 
 export interface VehicleData<
     TLogic extends SohlActorLogic<VehicleData> = SohlActorLogic<any>,
-> extends SohlActorData<TLogic> {}
+> extends SohlActorData<TLogic> {
+    /** Shortcodes of actors traveling in this vehicle */
+    passengers: string[];
+}
 
 /**
  * Defines the data schema for the Vehicle actor.
@@ -71,7 +86,6 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
             }),
             {
                 initial: [],
-                hint: "The shortcodes of the actors that are passengers in this vehicle",
             }
         ),
     };
@@ -86,7 +100,7 @@ export class VehicleDataModel<
     TSchema extends foundry.data.fields.DataSchema = VehicleDataSchema,
     TLogic extends VehicleLogic<VehicleData> = VehicleLogic<VehicleData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Vehicle.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Vehicle", "SOHL.Actor"];
     static override readonly kind = ACTOR_KIND.VEHICLE;
 
     static defineSchema(): foundry.data.fields.DataSchema {

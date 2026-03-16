@@ -31,23 +31,34 @@ const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
 /**
- * The MysticalAbility class represents a mystical ability associated with an
- * entity, either a character or an object. These powers generally must
- * be activated, and often the results or success of the powers are
- * determined at least partially randomly.
+ * Logic for the **Mystical Ability** item type — an actively invoked
+ * supernatural power.
  *
- * The following ability subtypes are supported:
- *   Shamanic Rite: Perform a shamanic rite on target(s)
- *   Spirit Action: Perform a spirit action (Roaming, Sensing, Communing, Immersion, Conflict, etc.)
- *   Spirit Power: Perform a spirit power (Ancestor, Totem, or Energy)
- *   Benediction: Bestow blessing
- *   Divine Devotion: Request blessing or miracle
- *   Divine Incantation: Divine spells
- *   Arcane Incantation: Arcane spells
- *   Arcane Talent: Intrinsic spell-like arcane powers
- *   Spirit Talent: Intrinsic spell-like spirit powers
- *   Alchemy: Create alchemical elixirs or perform actions
- *   Divination: Foretelling the future
+ * Mystical Abilities represent spells, rites, invocations, and other powers
+ * that a character actively uses. Unlike {@link MysteryLogic | Mysteries}
+ * (which are often passive), mystical abilities must be deliberately activated
+ * and their success is typically determined by a skill test.
+ *
+ * Each ability is linked to an **associated skill** (via shortcode) that
+ * governs its activation test, and to a {@link DomainLogic | Domain} that
+ * determines its mystical tradition. Abilities track a **level** (power),
+ * **charges** (uses remaining), and inherit mastery level progression from
+ * {@link MasteryLevelLogic}.
+ *
+ * Supported subtypes:
+ * - Shamanic Rite: Perform a shamanic rite on target(s)
+ * - Spirit Action: Spirit world interaction (Roaming, Sensing, Communing, etc.)
+ * - Spirit Power: Channel spirit power (Ancestor, Totem, or Energy)
+ * - Benediction: Bestow a blessing
+ * - Divine Devotion: Request blessing or miracle from a deity
+ * - Divine Incantation: Cast divine spells
+ * - Arcane Incantation: Cast arcane spells
+ * - Arcane Talent: Intrinsic spell-like arcane powers
+ * - Spirit Talent: Intrinsic spell-like spirit powers
+ * - Alchemy: Create alchemical elixirs or perform alchemical actions
+ * - Divination: Foretell the future
+ *
+ * @typeParam TData - The MysticalAbility data interface.
  */
 export class MysticalAbilityLogic<
         TData extends MysticalAbilityData = MysticalAbilityData,
@@ -110,11 +121,17 @@ export interface MysticalAbilityData<
     TLogic extends
         MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<any>,
 > extends MasteryLevelData<TLogic> {
+    /** Ability type (Incantation, Rite, Talent, etc.) */
     subType: MysticalAbilitySubType;
+    /** Shortcode of the skill used to activate this ability */
     assocSkillCode?: string;
+    /** Whether this ability's mastery level can be improved */
     isImprovable: boolean;
+    /** Shortcode of the mystical domain this ability belongs to */
     domainCode?: string;
+    /** Power level of this ability */
     levelBase: number;
+    /** Usage tracking: current charges and maximum */
     charges: {
         value: number;
         max: number | null;
@@ -175,9 +192,7 @@ export class MysticalAbilityDataModel<
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements MysticalAbilityData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.MysticalAbility.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MysticalAbility", "SOHL.MasteryLevel", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkillCode?: string;

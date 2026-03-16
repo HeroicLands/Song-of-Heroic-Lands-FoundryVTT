@@ -65,6 +65,30 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
     },
 ] as const;
 
+/**
+ * Abstract base logic for items with mastery level progression — the foundation
+ * for {@link SkillLogic}, {@link TraitLogic}, and {@link MysticalAbilityLogic}.
+ *
+ * A mastery level (ML) represents learned proficiency in a skill, the intensity
+ * of a trait, or the power of a mystical ability. The ML is computed from a
+ * **skill base formula** (referencing other traits/skills) plus a trained
+ * mastery level value, and is tracked as a {@link MasteryLevelModifier}.
+ *
+ * Key mechanics handled by this class:
+ *
+ * - **Skill base calculation** — Parses the `skillBaseFormula` to compute a
+ *   base value from referenced traits, producing the starting ML before training.
+ * - **Mastery level modifiers** — Maintains both a primary {@link masteryLevel}
+ *   and a {@link fateMasteryLevel} (used for fate-influenced re-tests).
+ * - **Fate system** — Integrates with Mystery items of type FATE to allow
+ *   spending fate points for re-rolls. Fate ML is derived from Aura trait.
+ * - **Improvement via SDR** — Supports the Standard Difficulty Rating improvement
+ *   mechanic where skills can be improved through successful use.
+ * - **Boost calculation** — Higher mastery levels grant fewer boost increments
+ *   per improvement (diminishing returns at higher skill levels).
+ *
+ * @typeParam TData - The mastery level data interface.
+ */
 export abstract class MasteryLevelLogic<
     TData extends MasteryLevelData = MasteryLevelData,
 > extends SohlItemBaseLogic<TData> {
@@ -372,8 +396,11 @@ export abstract class MasteryLevelLogic<
 export interface MasteryLevelData<
     TLogic extends MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Formula for calculating the skill base from referenced traits */
     skillBaseFormula: string;
+    /** Base mastery level representing training and experience */
     masteryLevelBase: number;
+    /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
 }
 

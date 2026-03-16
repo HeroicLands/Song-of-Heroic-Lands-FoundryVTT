@@ -16,7 +16,11 @@ import type { SohlLogic } from "@common/SohlLogic";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 
 /**
- * Represents a value and its modifying deltas.
+ * Represents the result of a test, including whether the test was successful,
+ * who the speaker is for any associated chat messages, and any relevant
+ * descriptions or titles.  Also tracks the parent logic that produced this
+ * result, which can be used to access additional context about the test and
+ * its place within the overall action or event sequence.
  */
 export abstract class TestResult extends SohlBase {
     protected _speaker: SohlSpeaker;

@@ -13,6 +13,9 @@
 
 import { getCanvas } from "@common/FoundryProxy";
 
+/**
+ * A helper class for working with TokenDocument instances in the SoHL system.
+ */
 export class SohlTokenDocument extends TokenDocument {
     /**
      * Gets the user-targeted tokens.

@@ -25,6 +25,24 @@ import {
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { NumberField, StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Concoction Gear** item type — a consumable alchemical mixture.
+ *
+ * Concoction Gear represents potions, poisons, salves, elixirs, and other
+ * prepared substances that produce effects when consumed, applied, or
+ * administered. Each concoction has:
+ *
+ * - A {@link ConcoctionGearData.subType | subType} categorizing the concoction
+ * - A {@link ConcoctionGearData.potency | potency} level
+ * - A **strength** value determining effectiveness
+ *
+ * Concoctions are typically attached to Beings and can apply
+ * {@link AfflictionLogic | Afflictions} or other effects when used.
+ *
+ * Inherits weight, value, quality, and durability tracking from {@link GearLogic}.
+ *
+ * @typeParam TData - The ConcoctionGear data interface.
+ */
 export class ConcoctionGearLogic<
     TData extends ConcoctionGearData = ConcoctionGearData,
 > extends GearLogic<TData> {
@@ -52,8 +70,11 @@ export interface ConcoctionGearData<
     TLogic extends
         ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Concoction category (Mundane, Exotic, Elixir) */
     subType: ConcoctionGearSubType;
+    /** Potency level (Mild, Strong, Great) */
     potency: ConcoctionGearPotency;
+    /** Numeric effectiveness rating */
     strength: number;
 }
 
@@ -87,9 +108,7 @@ export class ConcoctionGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ConcoctionGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.ConcoctionGear.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ConcoctionGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind: string = ITEM_KIND.CONCOCTIONGEAR;
     subType!: ConcoctionGearSubType;
     potency!: ConcoctionGearPotency;

@@ -40,6 +40,34 @@ export type ActionTriggerFn = (doc?: SohlDocument) => boolean;
 export type ActionVisibilityFn = (element: HTMLElement) => boolean;
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
 
+/**
+ * Logic for the **Action** item type — an executable procedure attached to
+ * a document.
+ *
+ * Actions represent anything a character or item can *do*: performing a skill
+ * test, making an attack, activating a mystical ability, using an item, or
+ * triggering a custom script. They appear as clickable entries in context menus
+ * and chat cards.
+ *
+ * There are two subtypes:
+ * - **Intrinsic actions** — Built-in actions defined by Logic classes (e.g.,
+ *   `attackTest` on a StrikeMode, `healingTest` on an Injury). These call
+ *   a named method on the target logic.
+ * - **Custom actions** — User-defined actions with arbitrary executor code.
+ *
+ * Each action has:
+ * - An **executor** function that performs the action
+ * - A **trigger** predicate that determines when the action is available
+ * - A **visible** flag/function controlling UI display
+ * - A **scope** (SELF, ITEM, or ACTOR) determining which logic object
+ *   the executor runs against
+ *
+ * During initialization, the Action resolves its executor, trigger, and
+ * visibility from stored string representations into callable functions,
+ * and binds them to the appropriate target logic based on scope.
+ *
+ * @typeParam TData - The Action data interface.
+ */
 export class ActionLogic<
     TData extends ActionData = ActionData,
 > extends SohlItemBaseLogic<TData> {
@@ -149,15 +177,25 @@ export class ActionLogic<
 export interface ActionData<
     TLogic extends ActionLogic<ActionData> = ActionLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Whether this is an intrinsic or custom action */
     subType: ActionSubType;
+    /** Display title for this action */
     title: string;
+    /** Whether this action executes asynchronously */
     isAsync: boolean;
+    /** Execution context: Self, Parent Item, or Owning Actor */
     scope: string;
+    /** Function name or code that performs the action */
     executor: string;
+    /** Predicate determining when this action is available */
     trigger: string;
+    /** Controls whether this action appears in the UI */
     visible: string;
+    /** FontAwesome CSS class for the action's icon */
     iconFAClass: string;
+    /** Context menu group for sorting this action */
     group: string;
+    /** Access control settings for this action */
     permissions: {
         execute: number;
     };
@@ -206,7 +244,7 @@ export class ActionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements ActionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Action.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Action", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.ACTION;
     subType!: ActionSubType;
     title!: string;

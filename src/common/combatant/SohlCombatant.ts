@@ -136,7 +136,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         groups: new foundry.data.fields.ArrayField(
             new foundry.data.fields.StringField({ blank: false }), {
             initial: [],
-            hint: "The groups that this combatant belongs to. Used for determining allies.",
         }),
         startLocation: new foundry.data.fields.ObjectField({
             initial: {
@@ -144,7 +143,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
                 y: 0,
                 elevation: 0,
             },
-            hint: "The location where this combatant started their turn.",
             fields: {
                 x: new foundry.data.fields.NumberField({ required: true }),
                 y: new foundry.data.fields.NumberField({ required: true }),
@@ -154,7 +152,6 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
         didAction: new foundry.data.fields.BooleanField({
             required: false,
             initial: false,
-            hint: "Whether this combatant has performed an action on their current turn.",
         }),
     };
 }
@@ -166,7 +163,7 @@ export class SohlCombatantDataModel<
     >
     extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.SohlCombatant.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
     static readonly kind = "sohlcombatantdata";
     groups!: string[];
     startLocation!: {

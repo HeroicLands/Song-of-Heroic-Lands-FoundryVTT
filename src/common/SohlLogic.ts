@@ -46,6 +46,34 @@ export const {
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
+/**
+ * Abstract base class for all business logic in the SoHL system.
+ *
+ * Every actor type and item type has a corresponding Logic class that extends
+ * `SohlLogic`. Logic classes are responsible for game rules, calculations, and
+ * actions — separated from data persistence ({@link SohlDataModel}) and UI
+ * presentation (Sheet classes).
+ *
+ * Logic instances are created automatically by the data model's `create()` factory
+ * and are accessible via `document.system.logic` (or the convenience `document.logic`
+ * accessor on {@link SohlActor} and {@link SohlItem}).
+ *
+ * All Logic classes participate in a three-phase preparation lifecycle with strict
+ * ordering guarantees:
+ *
+ * 1. **{@link initialize}** — Set up cached values, create modifier instances,
+ *    and (for actors) register virtual items. All `initialize()` calls across
+ *    every item on an actor complete before any `evaluate()` runs.
+ * 2. **{@link evaluate}** — Calculate derived values, resolve references to other
+ *    items (e.g., linking a Domain to its Philosophy). All `evaluate()` calls
+ *    complete before any `finalize()` runs.
+ * 3. **{@link finalize}** — Resolve cross-item dependencies that require all
+ *    other items to have completed their evaluation (e.g., applying fate bonuses
+ *    that depend on computed mastery levels).
+ *
+ * @typeParam TData - The data interface this logic operates on, extending
+ *   {@link SohlDataModel.Data}.
+ */
 export abstract class SohlLogic<
     TData extends SohlDataModel.Data<any> = SohlDataModel.Data<any>,
 > extends SohlBase {

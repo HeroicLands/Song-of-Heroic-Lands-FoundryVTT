@@ -13,6 +13,10 @@
 
 import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 
+/**
+ * Represents a combat modifier that can be applied to an attack or defense,
+ * such as a bonus or penalty to hit.
+ */
 export class CombatModifier extends MasteryLevelModifier {
     constructor(
         data: Partial<CombatModifier.Data> = {},

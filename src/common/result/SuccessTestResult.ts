@@ -39,6 +39,15 @@ import {
     TestType,
 } from "@utils/constants";
 
+/**
+ * Represents the result of a success test, including whether the test was successful,
+ * whether it was a critical success or failure, and any mishaps that occurred. Also
+ * includes information about the test such as the roll, the test type, any situational
+ * modifiers, and the token and item associated with the test.
+ *
+ * This is a base class for more specific test result types such as {@link ImpactResult},
+ * {@link AttackResult}, and {@link DefendResult}.
+ */
 export class SuccessTestResult extends TestResult {
     resultText: string;
     resultDesc: string;

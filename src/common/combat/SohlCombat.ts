@@ -76,7 +76,7 @@ export class SohlCombatDataModel<
     >
     extends foundry.abstract.TypeDataModel<TSchema, SohlCombat>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.SohlCombat.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combat"];
     static readonly kind = "sohlcombatdata";
 
     groupStances!: StrictObject<StrictObject<GroupStance>>;

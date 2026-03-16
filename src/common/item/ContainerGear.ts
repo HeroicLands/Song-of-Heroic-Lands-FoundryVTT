@@ -17,6 +17,21 @@ import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { NumberField } = foundry.data.fields;
 
+/**
+ * Logic for the **Container Gear** item type — storage for other items.
+ *
+ * Container Gear represents backpacks, saddlebags, chests, belt pouches, cargo
+ * holds, and other receptacles that hold nested gear items. Containers track a
+ * **maximum capacity** limiting how much they can store.
+ *
+ * Container Gear may be attached to Beings (a character's backpack) or Vehicles
+ * (a ship's cargo hold). Nested items inside a container inherit carry/equip
+ * state from the container.
+ *
+ * Inherits weight, value, quality, and durability tracking from {@link GearLogic}.
+ *
+ * @typeParam TData - The ContainerGear data interface.
+ */
 export class ContainerGearLogic<
     TData extends ContainerGearData = ContainerGearData,
 > extends GearLogic<TData> {
@@ -44,6 +59,7 @@ export interface ContainerGearData<
     TLogic extends
         ContainerGearLogic<ContainerGearData> = ContainerGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Maximum weight or volume this container can hold */
     maxCapacityBase: number;
 }
 
@@ -68,9 +84,7 @@ export class ContainerGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ContainerGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.ContainerGear.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ContainerGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.CONTAINERGEAR;
     maxCapacityBase!: number;
 

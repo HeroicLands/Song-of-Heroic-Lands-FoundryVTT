@@ -29,6 +29,30 @@ import {
 } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Skill** item type — a trained capability with a mastery level.
+ *
+ * Skills represent learned abilities that characters use to accomplish tasks:
+ * combat techniques, social interactions, crafting, perception, and more.
+ * Each skill has a **skill base formula** (typically derived from one or more
+ * traits like Strength, Dexterity, or Aura) and a **mastery level** representing
+ * training and experience.
+ *
+ * Skills are categorized by {@link SkillData.subType | subType} (e.g., combat,
+ * social, physical) and may be associated with a **weapon group** or a
+ * **mystical domain**. A skill can also reference a **base skill** from which
+ * it derives or shares advancement.
+ *
+ * Skills are the primary mechanism for resolving actions in SoHL. When a
+ * character attempts a task, the relevant skill's mastery level is tested
+ * against a target number, with modifiers from traits, gear, conditions,
+ * and situational factors.
+ *
+ * Inherits mastery level progression, fate integration, and SDR improvement
+ * from {@link MasteryLevelLogic}.
+ *
+ * @typeParam TData - The Skill data interface.
+ */
 export class SkillLogic<TData extends SkillData = SkillData>
     extends MasteryLevelLogic<TData>
     implements SkillLogic<TData>
@@ -56,9 +80,13 @@ export class SkillLogic<TData extends SkillData = SkillData>
 export interface SkillData<
     TLogic extends SkillLogic<SkillData> = SkillLogic<any>,
 > extends MasteryLevelData<TLogic> {
+    /** Skill category (Combat, Social, Physical, etc.) */
     subType: SkillSubType;
+    /** Combat category this skill applies to, if any */
     weaponGroup: string;
+    /** Name of the base skill if this is a specialization */
     baseSkill: string;
+    /** Mystical domain associated with this skill, if any */
     domain: string;
 }
 
@@ -90,7 +118,7 @@ export class SkillDataModel<
     implements SkillData<TLogic>
 {
     static override readonly kind = ITEM_KIND.SKILL;
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Skill.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Skill", "SOHL.MasteryLevel", "SOHL.Item"];
     subType!: SkillSubType;
     weaponGroup!: string;
     baseSkill!: string;

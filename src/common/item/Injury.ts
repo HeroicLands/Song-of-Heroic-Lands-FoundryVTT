@@ -35,6 +35,30 @@ import { serializeFn } from "@utils/helpers";
 const { NumberField, BooleanField, StringField, DocumentIdField } =
     foundry.data.fields;
 
+/**
+ * Logic for the **Injury** item type — a specific instance of physical harm.
+ *
+ * Injuries represent wounds and trauma sustained by a character, tied to a
+ * specific {@link InjuryData.bodyLocationId | body location}. Each injury tracks:
+ *
+ * - **injuryLevel** — Severity on a graduated scale: M1 (Minor), S2–S3
+ *   (Serious), G4–G5 (Grievous), with higher levels causing greater
+ *   impairment and risk of death
+ * - **healingRate** — How quickly the wound heals (influenced by treatment)
+ * - **aspect** — The type of damage that caused the injury (Blunt, Pierce,
+ *   Cut, Heat, Cold), which affects treatment and healing
+ * - **isTreated** — Whether the injury has received medical treatment
+ *   (untreated wounds heal slower and risk infection)
+ * - **isBleeding** — Whether the wound is actively bleeding
+ *
+ * Injuries contribute to the character's overall {@link BeingLogic.shockState | shock state}
+ * and interact with the anatomy model (body zones, body parts, body locations)
+ * to determine hit location effects.
+ *
+ * Injuries support treatment and healing test actions.
+ *
+ * @typeParam TData - The Injury data interface.
+ */
 export class InjuryLogic<
     TData extends InjuryData = InjuryData,
 > extends SohlItemBaseLogic<TData> {
@@ -61,11 +85,17 @@ export class InjuryLogic<
 export interface InjuryData<
     TLogic extends InjuryLogic<InjuryData> = InjuryLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Severity on a graduated scale: M1, S2-S3, G4-G5 */
     injuryLevelBase: number;
+    /** Base rate of wound healing per time period */
     healingRateBase: number;
+    /** Type of damage: Blunt, Edged, Piercing, or Fire */
     aspect: ImpactAspect;
+    /** Whether the injury has received medical treatment */
     isTreated: boolean;
+    /** Whether the wound is actively bleeding */
     isBleeding: boolean;
+    /** ID of the body location where this injury occurred */
     bodyLocationId: string;
 }
 
@@ -101,7 +131,7 @@ export class InjuryDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements InjuryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Injury.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Injury", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.INJURY;
     injuryLevelBase!: number;
     healingRateBase!: number;

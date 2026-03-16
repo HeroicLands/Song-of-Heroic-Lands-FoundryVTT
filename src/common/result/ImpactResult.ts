@@ -18,6 +18,10 @@ const kImpactResult = Symbol("ImpactResult");
 const kData = Symbol("ImpactResult.Data");
 const kContext = Symbol("ImpactResult.Context");
 
+/**
+ * Represents the raw damage of an attack or effect, including the damage dice, aspect,
+ * and any situational modifiers.
+ */
 export class ImpactResult extends SuccessTestResult {
     impactModifier: ImpactModifier;
     deliversImpact: boolean;

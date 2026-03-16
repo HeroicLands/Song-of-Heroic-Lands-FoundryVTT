@@ -23,6 +23,31 @@ import { ValueModifier } from "@common/modifier/ValueModifier";
 import { ImpactAspects, ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 const { BooleanField, StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Body Location** item type — a specific anatomical hit location.
+ *
+ * Body Locations are the finest-grained elements of the anatomy model. Each
+ * represents a specific area that can be struck in combat (e.g., Skull, Thorax,
+ * Left Forearm, Right Thigh). Body Locations are grouped under
+ * {@link BodyPartLogic | Body Parts}, which in turn belong to
+ * {@link BodyZoneLogic | Body Zones}.
+ *
+ * Each Body Location accumulates **protection** values per {@link ImpactAspect}
+ * (Blunt, Pierce, Cut, Heat, Cold) from equipped armor and natural defenses.
+ * These are tracked as {@link ValueModifier | ValueModifiers} so that each
+ * contributing layer can be audited.
+ *
+ * Body Locations also track:
+ * - **layersList** — names of armor layers currently covering this location
+ * - **traits** — flags such as `isRigid` (indicating rigid armor coverage)
+ * - **isFumble** / **isStumble** — whether hits to this location trigger
+ *   fumble or stumble checks
+ *
+ * Protection items apply their modifiers to Body Locations during the
+ * evaluate phase.
+ *
+ * @typeParam TData - The BodyLocation data interface.
+ */
 export class BodyLocationLogic<
     TData extends BodyLocationData = BodyLocationData,
 > extends SohlItemBaseLogic<TData> {
@@ -68,7 +93,9 @@ export interface BodyLocationData<
     TLogic extends BodyLocationLogic<any> = BodyLocationLogic<any>,
 > extends SohlItemData<TLogic> {
     shortcode: string;
+    /** Whether hits to this location trigger fumble checks */
     isFumble: boolean;
+    /** Whether hits to this location trigger stumble checks */
     isStumble: boolean;
 }
 
@@ -87,7 +114,7 @@ export class BodyLocationDataModel<
     TLogic extends
         BodyLocationLogic<BodyLocationData> = BodyLocationLogic<BodyLocationData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyLocation.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyLocation", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.BODYLOCATION;
     isFumble!: boolean;
     isStumble!: boolean;

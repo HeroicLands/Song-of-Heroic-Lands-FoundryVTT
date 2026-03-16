@@ -23,6 +23,23 @@ import {
 import { ITEM_KIND } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Philosophy** item type — a belief system, doctrine, or ethos.
+ *
+ * Philosophies represent organized systems of belief: religions, arcane
+ * traditions, druidic orders, shamanic practices, or secular philosophies.
+ * They serve as the top-level organizational container for the mystical
+ * system, grouping related {@link DomainLogic | Domains} together.
+ *
+ * A character's Philosophy determines which Domains they can access, which
+ * in turn governs their available {@link MysticalAbilityLogic | Mystical Abilities}
+ * and {@link MysteryLogic | Mysteries}.
+ *
+ * Philosophy is a pure reference item with no custom logic or calculations.
+ * Domains link back to their Philosophy via a shortcode reference.
+ *
+ * @typeParam TData - The Philosophy data interface.
+ */
 export class PhilosophyLogic<TData extends PhilosophyData = PhilosophyData>
     extends SohlItemBaseLogic<TData>
     implements PhilosophyLogic<TData>
@@ -67,7 +84,7 @@ export class PhilosophyDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements PhilosophyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Philosophy.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Philosophy", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.PHILOSOPHY;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

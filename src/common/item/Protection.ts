@@ -32,6 +32,26 @@ import { ValueModifier } from "@common/modifier/ValueModifier";
 
 const { StringField, SchemaField, NumberField } = foundry.data.fields;
 
+/**
+ * Logic for the **Protection** item type — a source of defensive value
+ * against physical damage.
+ *
+ * Protections represent armor ratings, barriers, wards, natural hide, or any
+ * other source of damage reduction. They are typically **nested inside**
+ * {@link ArmorGearLogic | Armor Gear} items, but can also be attached directly
+ * to a Being (for natural armor) or to Structures and Vehicles.
+ *
+ * Each Protection provides damage reduction values per {@link ImpactAspect}
+ * (Blunt, Pierce, Cut, Heat, Cold), tracked as {@link ValueModifier | ValueModifiers}
+ * so that enchantments, damage, and other effects can be audited.
+ *
+ * During the evaluate phase, Protection resolves which {@link BodyLocationLogic | body locations}
+ * it covers and applies its protection modifiers to each. When nested inside
+ * equipped Armor Gear, it automatically determines applicable locations from
+ * the armor's location lists and marks rigid armor layers.
+ *
+ * @typeParam TData - The Protection data interface.
+ */
 export class ProtectionLogic<
     TData extends ProtectionData = ProtectionData,
 > extends SohlItemBaseLogic<TData> {
@@ -112,7 +132,9 @@ export class ProtectionLogic<
 export interface ProtectionData<
     TLogic extends ProtectionLogic<ProtectionData> = ProtectionLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Rules variant this protection belongs to */
     subType: Variant;
+    /** Base damage reduction values keyed by impact aspect */
     protectionBase: StrictObject<number>;
 }
 
@@ -150,7 +172,7 @@ export class ProtectionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements ProtectionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Protection.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Protection", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.PROTECTION;
     subType!: Variant;
     protectionBase!: StrictObject<number>;

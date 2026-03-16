@@ -26,6 +26,16 @@ import { SOHL_ACTION_SCOPE, ACTION_SUBTYPE, ITEM_KIND } from "@utils/constants";
 import type { ActionLogic } from "@common/item/Action";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
+/**
+ * Base class for all Actor documents in the SoHL system, including
+ * Beings, Cohorts, Structures, Vehicles, and Assemblies.
+ *
+ * This class provides functionality to manage both embedded items
+ * (persisted in the database) and virtual items (created dynamically
+ * during preparation and not persisted), and the nested items. It
+ * also handles context menu options, chat card interactions, and
+ * lifecycle management of items during actor preparation.
+ */
 export class SohlActor extends Actor {
     private _allItemsMap?: SohlMap<string, SohlItem>;
     private _allItemTypesCache?: StrictObject<SohlItem[]>;
@@ -97,14 +107,21 @@ export class SohlActor extends Actor {
         }
     }
 
+    /** Returns all items, including both embedded and virtual items. */
     get allItems(): SohlMap<string, SohlItem> {
         return this._allItemsMap ?? new SohlMap<string, SohlItem>();
     }
 
+    /** Returns all item types, categorized by type. */
     get allItemTypes(): StrictObject<SohlItem[]> {
         return this._allItemTypesCache ?? {};
     }
 
+    /**
+     * A generator that yields all items, including both embedded and virtual items.
+     * This is used during preparation to ensure that any virtual items added during
+     * initialization are included in the preparation lifecycle.
+     */
     *dynamicAllItems(): Generator<SohlItem> {
         const seen = new Set<string>();
 
@@ -138,6 +155,10 @@ export class SohlActor extends Actor {
         } while (emitted > 0);
     }
 
+    /**
+     * Finalizes the items cache, including both embedded and virtual items.
+     * Any virtual items added after this point will not be included.
+     */
     finalizeItemsCache(): void {
         if (this._allItemsBuilt) return;
 
@@ -162,6 +183,10 @@ export class SohlActor extends Actor {
         this._allItemsBuilt = true;
     }
 
+    /**
+     * Returns the Token representing this actor in the active scene, if any.
+     * @returns The Token representing this actor in the active scene, or null if none exists.
+     */
     getToken(): SohlTokenDocument | null {
         // Case 1: synthetic (unlinked) actor -> has a backing TokenDocument
         if (this.isToken && this.token) {
@@ -179,12 +204,22 @@ export class SohlActor extends Actor {
         return linkedTokens[0] ?? null;
     }
 
+    /**
+     * Returns the {@link SohlActionContext} for this actor.
+     * @param token The token to use for context, if any.
+     * @returns The action context for this actor.
+     */
     protected _getContext(token?: TokenDocument): SohlActionContext {
         return new SohlActionContext({
             speaker: this.getSpeaker(token),
         });
     }
 
+    /**
+     * Returns a SohlSpeaker for this actor, optionally using a specific token if provided.
+     * @param token The token to use for the speaker, if any.
+     * @returns The SohlSpeaker for this actor.
+     */
     getSpeaker(token?: TokenDocument): SohlSpeaker {
         if (token) {
             return new SohlSpeaker({ token: token.id });
@@ -198,6 +233,10 @@ export class SohlActor extends Actor {
         return this._speaker;
     }
 
+    /**
+     * Sets up the intrinsic actions for this actor.
+     * @param context The action context to use for setup.
+     */
     setupIntrinsicActions(context: SohlActionContext): void {}
 
     prepareBaseData(): void {
@@ -506,6 +545,9 @@ export interface SohlActorLogic<TData extends SohlDataModel.Data<SohlActor>>
     virtualItems: SohlMap<string, SohlItem>;
 }
 
+/**
+ * An interface representing the common data structure for all Actor types in the SoHL system.
+ */
 export interface SohlActorData<TLogic extends SohlLogic<any> = SohlLogic<any>>
     extends SohlDataModel.Data<SohlActor, TLogic> {
     label(options?: { withName: boolean }): string;
@@ -515,6 +557,20 @@ export interface SohlActorData<TLogic extends SohlLogic<any> = SohlLogic<any>>
     textReference: string;
 }
 
+/**
+ * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
+ *
+ * Provides the foundation that all actor logic classes build upon, including
+ * management of {@link virtualItems} — dynamically created items that exist only
+ * during the preparation lifecycle (not persisted to the database). Virtual items
+ * are registered during {@link initialize} and become part of the actor's item
+ * collection for the remainder of the lifecycle.
+ *
+ * Concrete actor logic classes extend this to implement type-specific rules:
+ * health tracking, anatomy modeling, passenger management, etc.
+ *
+ * @typeParam TData - The actor data interface, extending {@link SohlActorData}.
+ */
 export class SohlActorBaseLogic<
     TData extends SohlActorData = SohlActorData,
 > extends SohlLogic<TData> {
@@ -531,7 +587,6 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
         shortcode: new StringField({
             blank: false,
             required: true,
-            hint: "A unique identifier for this actor",
         }),
         bioImage: new FilePathField({
             categories: ["IMAGE"],

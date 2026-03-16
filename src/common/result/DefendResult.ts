@@ -14,6 +14,12 @@
 import { ImpactResult } from "@common/result/ImpactResult";
 import { DEFEND_MISHAP, TEST_TYPE } from "@utils/constants";
 
+/**
+ * Represents the result of a defense test, including whether the defense was
+ * successful, whether it was a critical success or failure, and any mishaps that
+ * occurred. Also includes information about any situational modifiers that may
+ * have affected the defense.
+ */
 export class DefendResult extends ImpactResult {
     situationalModifier: number;
 

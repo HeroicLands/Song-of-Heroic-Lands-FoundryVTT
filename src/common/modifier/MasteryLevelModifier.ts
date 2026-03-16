@@ -126,6 +126,13 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
         },
     ] as const;
 
+/**
+ * A specialized ValueModifier that represents a modifier to a Mastery Level test.
+ * This includes additional properties and methods relevant to Mastery Level tests,
+ * such as critical success/failure thresholds, success level modifiers,
+ * and success test descriptions, as well as the ability to perform the
+ * success test itself.
+ */
 export class MasteryLevelModifier extends ValueModifier {
     minTarget: number;
     maxTarget: number;

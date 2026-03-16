@@ -24,6 +24,22 @@ import {
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { NumberField, StringField, SchemaField } = foundry.data.fields;
 
+/**
+ * Logic for the **Projectile Gear** item type — ammunition for ranged weapons.
+ *
+ * Projectile Gear represents arrows, bolts, sling stones, throwing axes, and
+ * other objects launched by {@link MissileWeaponStrikeModeLogic | missile weapon
+ * strike modes}. Each projectile defines its own **impact** characteristics
+ * (damage dice, modifier, and aspect), which combine with the weapon's base
+ * values during attack resolution.
+ *
+ * Projectiles are categorized by {@link ProjectileGearData.subType | subType}
+ * (matching the weapon's `projectileType`) and have a **shortName** for
+ * compact display. Quantity tracking (from {@link GearLogic}) represents
+ * the number of projectiles remaining.
+ *
+ * @typeParam TData - The ProjectileGear data interface.
+ */
 export class ProjectileGearLogic<
     TData extends ProjectileGearData = ProjectileGearData,
 > extends GearLogic<TData> {
@@ -51,8 +67,11 @@ export interface ProjectileGearData<
     TLogic extends
         ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Projectile category (Arrow, Bolt, Bullet, etc.) */
     subType: ProjectileGearSubType;
+    /** Abbreviated name for compact display */
     shortName: string;
+    /** Base damage characteristics: dice, modifier, and aspect */
     impactBase: {
         numDice: number;
         die: number;
@@ -105,9 +124,7 @@ export class ProjectileGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ProjectileGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.ProjectileGear.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ProjectileGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.PROJECTILEGEAR;
     subType!: ProjectileGearSubType;
     shortName!: string;

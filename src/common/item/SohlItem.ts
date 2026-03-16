@@ -145,6 +145,21 @@ export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
     nestedIn: string | null;
 }
 
+/**
+ * Base logic class for all item types.
+ *
+ * Provides the minimal lifecycle implementation (no-op {@link initialize},
+ * {@link evaluate}, and {@link finalize}) that all item logic classes inherit
+ * from. Concrete item classes extend this to implement type-specific rules,
+ * modifiers, and calculations.
+ *
+ * Items may be attached directly to an actor or nested within another item
+ * (e.g., a Protection nested inside ArmorGear, or a StrikeMode nested inside
+ * WeaponGear). The nesting relationship is tracked via the `nestedIn` field
+ * on the data model.
+ *
+ * @typeParam TData - The item data interface, extending {@link SohlItemData}.
+ */
 export class SohlItemBaseLogic<
     TData extends SohlItemData = SohlItemData,
 > extends SohlLogic<TData> {
@@ -169,12 +184,10 @@ function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
                     `shortcode must be 1-12 alphanumeric characters`
                 );
             },
-            hint: "a short, stable, human-typeable symbolic identifier, unique within an Item type; used for programmatic reference and occasionally displayed to users",
         }),
         nestedIn: new DocumentIdField({
             nullable: true,
             initial: null,
-            hint: "The item on the actor that this item is nested within, if any.",
         }),
     };
 }

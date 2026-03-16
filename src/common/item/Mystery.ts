@@ -37,26 +37,35 @@ const { SchemaField, ArrayField, NumberField, StringField } =
     foundry.data.fields;
 
 /**
- * The Mystery class represents a mystical power associated with an
- * entity, either a character or an object. These powers may or may not
- * need to be activated. However, in many cases these mysteries can be "used up",
- * as such mysteries may have charges which may increase or decrease.
+ * Logic for the **Mystery** item type — a passive or charge-based mystical
+ * power associated with a character or object.
  *
- * Mysteries optionally have a category:
- *    Skill: These mysteries primarily enhance a character's chance of
- *           success with a skill or skills.
- *    Creature: These mysteries are tied to a specific type of creature.
- *    Divine: These mysteries are granted by a divine entity or force.
+ * Mysteries represent supernatural gifts, blessings, and connections that
+ * influence a character's capabilities. Unlike {@link MysticalAbilityLogic | Mystical Abilities}
+ * (which are actively cast), mysteries are often passive or limited-use
+ * powers that enhance skills, grant re-rolls, or provide divine favor.
  *
- * The following mysteries are supported:
- *     Grace (Divine): Divine favor which manifests as granting of a wish
- *     Piety (Divine): A deep devotion to a religion
- *     Fate (Skill): The number of times the entity can influence the outcome of a random event
- *     FateBonus (Skill): A temporary bonus to the fate roll
- *     FatePointBonus (None): An increase in the number of fate points available
- *     Blessing (Divine): Religious fervor increasing mastery level for a particular skill
- *     Ancestor Spirit Power (Skill): Ancestor spirit connection increasing mastery level of a skill
- *     Totem Spirit Power (Creature): A spiritual connection to an animal, granting skill bonuses
+ * Each mystery tracks a **level** and optional **charges** (value and max),
+ * where charges of −1 indicate infinite uses. Mysteries link to a
+ * {@link DomainLogic | Domain} and/or specific {@link SkillLogic | Skills}
+ * that they affect.
+ *
+ * Mysteries are organized by category:
+ * - **Skill** — Enhance a character's success with specific skills
+ * - **Creature** — Tied to a specific creature type
+ * - **Divine** — Granted by a divine entity or force
+ *
+ * Supported subtypes:
+ * - Grace (Divine): Divine favor manifesting as a granted wish
+ * - Piety (Divine): Deep religious devotion
+ * - Fate (Skill): Ability to influence random outcomes (re-rolls)
+ * - FateBonus (Skill): Temporary bonus to fate rolls
+ * - FatePointBonus: Increase in available fate points
+ * - Blessing (Divine): Religious fervor boosting a skill's mastery level
+ * - Ancestor Spirit Power (Skill): Ancestral connection boosting a skill
+ * - Totem Spirit Power (Creature): Animal spirit connection granting skill bonuses
+ *
+ * @typeParam TData - The Mystery data interface.
  */
 export class MysteryLogic<
     TData extends MysteryData = MysteryData,
@@ -226,10 +235,15 @@ export class MysteryLogic<
 export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Mystery category (Grace, Piety, Fate, Blessing, etc.) */
     subType: MysterySubType;
+    /** Shortcode of the associated mystical domain */
     domainCode?: string;
+    /** Shortcodes of skills this mystery affects */
     skills: string[];
+    /** Power level of this mystery */
     levelBase: number;
+    /** Usage tracking: current charges and maximum */
     charges: {
         value: number;
         max: number;
@@ -284,7 +298,7 @@ export class MysteryDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysteryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     domainCode?: string;

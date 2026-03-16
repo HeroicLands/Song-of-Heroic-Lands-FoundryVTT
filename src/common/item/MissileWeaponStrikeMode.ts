@@ -27,6 +27,24 @@ import {
 } from "@common/item/StrikeMode";
 const { StringField } = foundry.data.fields;
 
+/**
+ * Logic for the **Missile Weapon Strike Mode** item type — a way of attacking
+ * at range with a projectile weapon.
+ *
+ * Missile strike modes represent ranged attack patterns: shooting a bow,
+ * firing a crossbow, hurling a javelin, or slinging a stone. They are
+ * typically nested inside {@link WeaponGearLogic | Weapon Gear}.
+ *
+ * Each missile strike mode references a {@link MissileWeaponStrikeModeData.projectileType | projectile type}
+ * that determines which {@link ProjectileGearLogic | Projectile Gear} items
+ * are compatible ammunition. The projectile's impact values combine with
+ * the weapon's base values during attack resolution.
+ *
+ * Inherits attack, impact, associated skill, and durability tracking from
+ * {@link StrikeModeLogic}.
+ *
+ * @typeParam TData - The MissileWeaponStrikeMode data interface.
+ */
 export class MissileWeaponStrikeModeLogic<
     TData extends MissileWeaponStrikeModeData = MissileWeaponStrikeModeData,
 > extends StrikeModeLogic<TData> {
@@ -54,6 +72,7 @@ export interface MissileWeaponStrikeModeData<
     TLogic extends
         MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> = MissileWeaponStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
+    /** Type of ammunition used by this strike mode */
     projectileType: ProjectileGearSubType;
 }
 
@@ -83,9 +102,7 @@ export class MissileWeaponStrikeModeDataModel<
     extends StrikeModeDataModel<TSchema, TLogic>
     implements MissileWeaponStrikeModeData
 {
-    static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.MissileWeaponStrikeMode.DATA",
-    ];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MissileWeaponStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
     projectileType!: ProjectileGearSubType;
 

@@ -23,7 +23,15 @@ import {
 } from "@utils/constants";
 
 /**
- * Represents a value and its modifying deltas.
+ * Represents a value and its modifiers. This allows for a flexible system of
+ * applying various adjustment to a base value, that can be subsequently
+ * described in a standardized way. Also allows for specific adjustments to be
+ * subsequently removed or modified.
+ *
+ * ValueModifiers can also be disabled, which will cause their effective value to
+ * be zero regardless of any modifiers. This is useful for representing conditions
+ * that would negate a value entirely, while making it possible to denote the difference
+ * between a value that is zero due to modifiers and a value that is zero due to being disabled.
  */
 export class ValueModifier extends SohlBase {
     private _shortcode!: string;

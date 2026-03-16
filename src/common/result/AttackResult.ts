@@ -14,6 +14,16 @@
 import { ImpactResult } from "@common/result/ImpactResult";
 import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@utils/constants";
 
+/**
+ * Represents the result of an attack test, including whether the attack was
+ * successful, whether it was a critical hit or miss, and any mishaps that
+ * occurred. Also includes information about the raw outcome of the attack, such
+ * as the damage dealt and any situational modifiers.
+ *
+ * Note that the damage in particular is not final until after the target's
+ * defenses and resistances have been applied, so this represents the "base"
+ * damage dealt by the attack before any reductions.
+ */
 export class AttackResult extends ImpactResult {
     situationalModifier: number;
     allowedDefenses: Set<string>;

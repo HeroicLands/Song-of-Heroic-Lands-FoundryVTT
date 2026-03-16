@@ -29,25 +29,32 @@ import { ACTOR_KIND } from "@utils/constants";
 const { StringField } = foundry.data.fields;
 
 /**
- * The business logic class for the Being actor.
+ * Logic for the **Being** actor type — a single person, creature, or NPC.
+ *
+ * A Being is the most detailed actor type in SoHL, representing an individual
+ * entity with a full anatomy model (body zones, body parts, body locations),
+ * skills, traits, injuries, afflictions, gear, and mystical abilities. Beings
+ * are the primary participants in combat, skill tests, and social interactions.
+ *
+ * @typeParam TData - The Being data interface.
  */
 export class BeingLogic<
     TData extends BeingData = BeingData,
 > extends SohlActorBaseLogic<TData> {
     /**
-     * Represents the health of a being.
+     * Overall health state, derived from injury levels across body zones
      *
      * @type {ValueModifier}
      */
     health!: ValueModifier;
 
     /**
-     * Represents the base healing rate
+     * Base healing rate, ultimately influenced by traits and treatment
      */
     healingBase!: ValueModifier;
 
     /**
-     * Represents the sum of all zones.
+     * Total number of zones on this being.
      *
      * @type {number}
      */
@@ -61,74 +68,20 @@ export class BeingLogic<
     bodyWeight!: ValueModifier;
 
     /**
-     * Represents the level of shock the character is experiencing.
+     * Current shock state, derived from accumulated injuries and other factors.
      *
      * @type {number}
      */
     shockState!: number;
 
-    engagedOpponents!: ValueModifier;
-
-    domains!: StrictObject<SohlItem[]>;
-
-    magicMod!: ValueModifier;
-
-    /* --------------------------------------------- */
-    /* Common Being Actions                        */
-    /* --------------------------------------------- */
-
-    async improveWithSDR(context: SohlActionContext): Promise<void> {
-        return;
-    }
-
-    async successTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async fatigueTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async courseTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async treatmentTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async diagnosisTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async healingTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async bleedingStoppageTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
-    async bloodlossAdvanceTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return null;
-    }
-
+    /**
+     * Apply the impact of an attack or effect to this being, calculating the resulting
+     * location and damage. If armor or other defenses are unable to fully mitigate the impact,
+     * this will return the resulting damage and location as an {@link ImpactResult} that can
+     * then be used to apply damage to the being's body zones and parts.
+     * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
+     * @returns The impact result, or null if no impact occurred.
+     */
     async calcImpact(context: SohlActionContext): Promise<ImpactResult | null> {
         // let { impactResult, itemId } = options;
         // if (!(impactResult instanceof ImpactResult)) {
@@ -460,7 +413,7 @@ export class BeingDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements BeingData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Being.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Being", "SOHL.Actor"];
     static override readonly kind = ACTOR_KIND.BEING;
 
     static defineSchema(): foundry.data.fields.DataSchema {

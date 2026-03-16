@@ -17,6 +17,24 @@ import { ITEM_KIND, ITEM_METADATA } from "@utils/constants";
 import { GearLogic, GearDataModel, GearData } from "@common/item/Gear";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 
+/**
+ * Logic for the **Armor Gear** item type — wearable protective equipment.
+ *
+ * Armor Gear represents physical armor worn by a character: chainmail, leather
+ * jerkins, plate cuirasses, helmets, shields, and similar protective equipment.
+ * Each piece of armor covers specific {@link BodyLocationLogic | body locations},
+ * categorized as **flexible** or **rigid** coverage.
+ *
+ * Armor Gear acts as a container for nested {@link ProtectionLogic | Protection}
+ * items, which define the actual damage reduction values per impact aspect.
+ * It may also contain nested Trait items representing armor-specific properties.
+ *
+ * The armor's **material** affects its properties (weight, protection values,
+ * durability). Inherits weight, value, quality, and durability tracking from
+ * {@link GearLogic}.
+ *
+ * @typeParam TData - The ArmorGear data interface.
+ */
 export class ArmorGearLogic<
     TData extends ArmorGearData = ArmorGearData,
 > extends GearLogic<TData> {
@@ -48,7 +66,9 @@ export class ArmorGearLogic<
 export interface ArmorGearData<
     TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<any>,
 > extends GearData<TLogic> {
+    /** Primary material the armor is made from */
     material: string;
+    /** Body locations covered, split by flexible and rigid coverage */
     locations: {
         flexible: string[];
         rigid: string[];
@@ -76,7 +96,7 @@ export class ArmorGearDataModel<
     extends GearDataModel<TSchema, TLogic>
     implements ArmorGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ArmorGear.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ArmorGear", "SOHL.Gear", "SOHL.Item"];
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };

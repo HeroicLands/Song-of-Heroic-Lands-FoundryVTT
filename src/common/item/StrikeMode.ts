@@ -34,6 +34,29 @@ import {
 import { isGearItem } from "@utils/helpers";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
 
+/**
+ * Abstract base logic for all strike modes — the foundation for
+ * {@link MeleeWeaponStrikeModeLogic}, {@link MissileWeaponStrikeModeLogic},
+ * and {@link CombatTechniqueStrikeModeLogic}.
+ *
+ * A strike mode represents a specific way of using a weapon or combat technique
+ * to attack. For example, a sword might have "Slash" and "Thrust" strike modes,
+ * each with different impact dice, aspects (blunt/pierce/cut), and associated
+ * skills. Strike modes are typically nested inside a {@link WeaponGearLogic}
+ * item or attached directly to a Being.
+ *
+ * Each strike mode tracks:
+ * - **impact** — Damage dice and aspect (e.g., 2d6+1 cutting), as an {@link ImpactModifier}
+ * - **attack** — Attack roll modifier, as a {@link CombatModifier}
+ * - **assocSkill** — The skill used for attack tests (resolved by name from the actor)
+ * - **durability** — Weapon durability, inherited from the parent weapon gear
+ * - **traits** — Flags like `noAttack` or `noBlock` restricting usage
+ *
+ * During initialization, the strike mode resolves its associated skill from the
+ * owning actor and incorporates the skill's mastery level into the attack modifier.
+ *
+ * @typeParam TData - The strike mode data interface.
+ */
 export abstract class StrikeModeLogic<
     TData extends StrikeModeData = StrikeModeData,
 > extends SohlItemBaseLogic<TData> {
@@ -103,10 +126,15 @@ export abstract class StrikeModeLogic<
 export interface StrikeModeData<
     TLogic extends StrikeModeLogic<StrikeModeData> = StrikeModeLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Rules variant this strike mode belongs to */
     subType: Variant;
+    /** Name of the attack mode (e.g., Slash, Thrust) */
     mode: string;
+    /** Minimum number of body parts needed to use this strike mode */
     minParts: number;
+    /** Name of the skill used for attack tests */
     assocSkillName: string;
+    /** Base damage characteristics: dice, modifier, and aspect */
     impactBase: {
         numDice: number;
         die: number;

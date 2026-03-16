@@ -56,7 +56,27 @@ const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 
 /**
- * The business logic class for the Cohort actor.
+ * Logic for the **Cohort** actor type — a group of individuals acting as a unit.
+ *
+ * A Cohort represents multiple actors treated as a single entity for movement,
+ * combat, and other mechanics. Examples include a party of adventurers, a squad
+ * of soldiers, a pack of animals, or a ship's crew section.
+ *
+ * Each member of a Cohort has a unique name and a `shortcode` referencing a
+ * world actor that defines their capabilities. Members may be **linked**
+ * (directly representing a specific world actor) or **unlinked** (individual
+ * instances of a generic type, e.g., several wolves sharing the same base stats
+ * but tracked separately). Members also have a {@link COHORT_MEMBER_ROLE | role}
+ * within the cohort (e.g., leader, follower).
+ *
+ * The Cohort tracks a designated **leader** and a **movement representative**
+ * whose movement profile determines the group's travel speed.
+ *
+ * When placed on a scene, a Cohort can appear as either a single group token
+ * or individual tokens per member. Single-token cohorts cannot participate
+ * in combat but are useful for representing group movement on large-scale maps.
+ *
+ * @typeParam TData - The Cohort data interface.
  */
 export class CohortLogic<
     TData extends CohortData = CohortData,
@@ -83,7 +103,19 @@ export class CohortLogic<
 
 export interface CohortData<
     TLogic extends SohlActorLogic<CohortData> = SohlActorLogic<any>,
-> extends SohlActorData<TLogic> {}
+> extends SohlActorData<TLogic> {
+    /** Name of the cohort member serving as leader */
+    leaderName: string;
+    /** Name of the member whose movement profile determines group speed */
+    moveRepName: string;
+    /** The individuals that make up this cohort */
+    members: {
+        shortcode: string;
+        name: string;
+        isLinked: boolean;
+        role: string;
+    }[];
+}
 
 /**
  * Defines the data schema for the Cohort actor.
@@ -91,32 +123,24 @@ export interface CohortData<
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        leaderName: new StringField({
-            hint: "The name of the actor in this cohort serving as the leader",
-        }),
-        moveRepName: new StringField({
-            hint: "The name of the actor in this cohort representing this cohort for movement purposes",
-        }),
+        leaderName: new StringField(),
+        moveRepName: new StringField(),
         members: new ArrayField(
             new SchemaField({
                 shortcode: new StringField({
                     blank: false,
                     required: true,
-                    hint: "The shortcode of the actor representing this member",
                 }),
                 name: new StringField({
                     blank: false,
                     required: true,
-                    hint: "The unique name of the actor representing this member",
                 }),
                 isLinked: new BooleanField({
                     initial: false,
-                    hint: "Whether this member is linked to a specific actor in the world",
                 }),
                 role: new StringField({
                     choices: CohortMemberRoles,
                     initial: COHORT_MEMBER_ROLE.MEMBER,
-                    hint: "The role of this member within the cohort",
                 }),
             }),
         ),
@@ -135,8 +159,11 @@ export class CohortDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements CohortData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Cohort.DATA"];
+    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Cohort", "SOHL.Actor"];
     static override readonly kind = ACTOR_KIND.COHORT;
+    leaderName!: string;
+    moveRepName!: string;
+    members!: { shortcode: string; name: string; isLinked: boolean; role: string }[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineCohortDataSchema();
