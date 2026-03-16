@@ -1,13 +1,19 @@
-import { GROUP_STANCE, GroupStance, COMBAT_KIND } from "@utils/constants";
+import { GROUP_STANCE, GroupStance } from "@utils/constants";
 
-export class SohlCombat extends Combat<typeof COMBAT_KIND.COMBATDATA> {
+export class SohlCombat<
+    SubType extends Combat.SubType = Combat.SubType,
+> extends Combat<SubType> {
     getGroupStances(group: string): StrictObject<GroupStance> {
         const combatData = this.system as SohlCombatDataModel;
         const groupStances = combatData.groupStances[group] ?? {};
         return groupStances;
     }
-    
-    async setGroupStance(group: string, targetGroup: string, stance: GroupStance) {
+
+    async setGroupStance(
+        group: string,
+        targetGroup: string,
+        stance: GroupStance,
+    ) {
         const combatData = this.system as SohlCombatDataModel;
         const groupStances = foundry.utils.deepClone(
             combatData.groupStances,
@@ -72,10 +78,8 @@ function defineSohlCombatDataSchema(): foundry.data.fields.DataSchema {
 type SohlCombatDataSchema = ReturnType<typeof defineSohlCombatDataSchema>;
 
 export class SohlCombatDataModel<
-        TSchema extends foundry.data.fields.DataSchema = SohlCombatDataSchema,
-    >
-    extends foundry.abstract.TypeDataModel<TSchema, SohlCombat>
-{
+    TSchema extends foundry.data.fields.DataSchema = SohlCombatDataSchema,
+> extends foundry.abstract.TypeDataModel<TSchema, SohlCombat> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combat"];
     static readonly kind = "sohlcombatdata";
 

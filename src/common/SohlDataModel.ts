@@ -20,8 +20,6 @@ import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlItem } from "@common/item/SohlItem";
 import {
     ActorKinds,
-    EFFECT_KIND,
-    EFFECT_METADATA,
     KIND_KEY,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
@@ -443,8 +441,8 @@ export namespace SohlDataModel {
                 }
                 const aeData = {
                     name,
-                    type: EFFECT_KIND.EFFECTDATA,
-                    icon: EFFECT_METADATA[EFFECT_KIND.EFFECTDATA].Image,
+                    type: "sohleffectdata",
+                    icon: "icons/svg/aura.svg",
                     origin: this.document.uuid,
                 };
 
