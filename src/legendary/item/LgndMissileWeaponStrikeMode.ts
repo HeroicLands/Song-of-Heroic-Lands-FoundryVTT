@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    MissileWeaponStrikeModeData,
-    MissileWeaponStrikeModeLogic,
-    MissileWeaponStrikeModeSheet,
-} from "@common/item/MissileWeaponStrikeMode";
+import { MissileWeaponStrikeModeData, MissileWeaponStrikeModeLogic,  } from "@common/item/logic/MissileWeaponStrikeModeLogic";
+import { MissileWeaponStrikeModeSheet } from "@common/item/foundry/MissileWeaponStrikeModeSheet";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndMissileWeaponStrikeModeLogic extends MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> {

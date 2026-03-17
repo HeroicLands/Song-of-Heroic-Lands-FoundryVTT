@@ -11,6 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    isActiveGM as fvttIsActiveGM,
+    resolveUuidAsync as fvttResolveUuidAsync,
+} from "@common/foundry-helpers";
+
 /**
  * A single timed event in the queue, uniquely identified by
  * {@link uuid} + {@link kind}.
@@ -197,7 +202,7 @@ export class SohlEventQueue {
      */
     async processDueEvents(worldTime: number): Promise<void> {
         // Defense-in-depth: only the primary GM processes events
-        if (!(game as any).user?.isActiveGM) return;
+        if (!fvttIsActiveGM()) return;
 
         while (true) {
             // Find the earliest event
@@ -219,9 +224,7 @@ export class SohlEventQueue {
 
             try {
                 // Resolve the document
-                const doc = await (globalThis as any).fromUuid(
-                    earliest.uuid,
-                );
+                const doc = await fvttResolveUuidAsync(earliest.uuid);
                 if (!doc) continue; // Document deleted — discard silently
 
                 // Dispatch to the document

@@ -12,8 +12,8 @@
  */
 
 import type { SohlActionContext } from "@common/SohlActionContext";
-import type { SohlItem } from "@common/item/SohlItem";
-import type { SohlActor } from "@common/actor/SohlActor";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
 import type { SohlDataModel } from "@common/SohlDataModel";
 import {
     ACTION_SUBTYPE,
@@ -25,7 +25,7 @@ import {
 import { instanceToJSON } from "@utils/helpers";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import { SohlSpeaker } from "@common/SohlSpeaker";
-import type { ActionData, ActionLogic } from "@common/item/Action";
+import type { ActionData, ActionLogic } from "@common/item/logic/ActionLogic";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -153,10 +153,9 @@ export abstract class SohlLogic<
     get label(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
-        const name = sohl.localize(
-            `SOHL.${type}.${dataModel.shortcode}.label`,
-            dataModel.parent.name,
-        );
+        const locKey = `SOHL.${type}.${dataModel.shortcode}.label`;
+        const locResult = sohl.i18n.localize(locKey);
+        const name = locResult !== locKey ? locResult : dataModel.parent.name;
         return sohl.i18n.format("SOHL.docLabelFormat", {
             type: this.typeLabel,
             name,

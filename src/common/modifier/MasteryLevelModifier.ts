@@ -19,6 +19,9 @@ import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
 import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    notifyWarn as fvttNotifyWarn,
+} from "@common/foundry-helpers";
 
 // TODO: This needs to be internationalized
 const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -204,7 +207,7 @@ export class MasteryLevelModifier extends ValueModifier {
         };
         const testResult: SuccessTestResult =
             scope.priorTestResult ??
-            sohl.CONFIG.SuccessTestResult(
+            new (sohl.CONFIG as any).SuccessTestResult(
                 {
                     chat: this.parent.speaker,
                     type: context.type ?? this.type,
@@ -361,7 +364,7 @@ export class MasteryLevelModifier extends ValueModifier {
             });
 
             if (!scope.targetToken.isOwner) {
-                ui.notifications.warn(
+                fvttNotifyWarn(
                     sohl.i18n.format(
                         "You do not have permissions to perform this operation on {name}",
                         { name: scope.targetToken.name },
@@ -388,7 +391,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         if (!sourceTestResult) return null;
 
-        const result: OpposedTestResult = new sohl.CONFIG.OpposedTestResult(
+        const result: OpposedTestResult = new (sohl.CONFIG as any).OpposedTestResult(
             {
                 sourceTestResult,
                 targetTestResult: null,

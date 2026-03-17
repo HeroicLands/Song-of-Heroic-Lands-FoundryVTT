@@ -11,12 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    BodyZoneData,
-    BodyZoneLogic,
-    BodyZoneSheet,
-} from "@common/item/BodyZone";
-import { SohlItem } from "@common/item/SohlItem";
+import { BodyZoneData, BodyZoneLogic,  } from "@common/item/logic/BodyZoneLogic";
+import { BodyZoneSheet } from "@common/item/foundry/BodyZoneSheet";
+import { SohlItem } from "@common/item/foundry/SohlItem";
 import { SohlActionContext } from "@common/SohlActionContext";
 import { TRAIT_INTENSITY } from "@utils/constants";
 

@@ -14,12 +14,15 @@
 import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import { SimpleRoll } from "@utils/SimpleRoll";
 import { TestResult } from "@common/result/TestResult";
 import { toFilePath } from "@utils/helpers";
 import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
+import {
+    mergeObject as fvttMergeObject,
+} from "@common/foundry-helpers";
 import {
     MARGINAL_FAILURE,
     CRITICAL_FAILURE,
@@ -70,26 +73,26 @@ export class SuccessTestResult extends TestResult {
         options: Partial<SuccessTestResult.Options> = {},
     ) {
         if (options.testResult) {
-            data = foundry.utils.mergeObject(
+            data = fvttMergeObject(
                 options.testResult.toJSON(),
                 data,
                 {
                     inplace: false,
                 },
-            );
+            ) as Partial<SuccessTestResult.Data>;
         }
         super(data, options);
         if (options.mlMod)
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
-                new sohl.ValueModifier({}, { parent: this.parent });
+                new (sohl.CONFIG as any).ValueModifier({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
         this._successLevel = MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
-            new sohl.MasteryLevelModifier(
+            new (sohl.CONFIG as any).MasteryLevelModifier(
                 {},
                 {
                     parent: this.parent,
@@ -253,7 +256,7 @@ export class SuccessTestResult extends TestResult {
                 label: v,
             })),
         };
-        foundry.utils.mergeObject(testData, data);
+        fvttMergeObject(testData, data);
 
         // Create the dialog window
         return await inputDialog({
@@ -377,7 +380,7 @@ export class SuccessTestResult extends TestResult {
     }
 
     async toChat(data: PlainObject = {}): Promise<void> {
-        let chatData = foundry.utils.mergeObject(this.toJSON() as PlainObject, {
+        let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...data,
             variant: sohl.id,
             template: "systems/sohl/templates/chat/standard-test-card.html",
@@ -390,7 +393,7 @@ export class SuccessTestResult extends TestResult {
                 value: k,
                 label: v,
             })),
-        });
+        }) as PlainObject;
 
         const options: PlainObject = {};
         options.roll = await this.roll.createRoll();

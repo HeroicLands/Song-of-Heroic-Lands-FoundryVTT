@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    BodyPartData,
-    BodyPartLogic,
-    BodyPartSheet,
-} from "@common/item/BodyPart";
+import { BodyPartData, BodyPartLogic,  } from "@common/item/logic/BodyPartLogic";
+import { BodyPartSheet } from "@common/item/foundry/BodyPartSheet";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndBodyPartLogic extends BodyPartLogic<BodyPartData> {

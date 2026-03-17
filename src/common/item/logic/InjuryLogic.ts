@@ -1,0 +1,165 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import type { ActionData } from "@common/item/logic/ActionLogic";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ImpactAspect,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@utils/constants";
+import {
+    SohlItemBaseLogic,
+    SohlItemData,
+} from "@common/item/foundry/SohlItem";
+import { serializeFn } from "@utils/helpers";
+
+/**
+ * Logic for the **Injury** item type — a specific instance of physical harm.
+ *
+ * Injuries represent wounds and trauma sustained by a character, tied to a
+ * specific {@link InjuryData.bodyLocationId | body location}. Each injury tracks:
+ *
+ * - **injuryLevel** — Severity on a graduated scale: M1 (Minor), S2–S3
+ *   (Serious), G4–G5 (Grievous), with higher levels causing greater
+ *   impairment and risk of death
+ * - **healingRate** — How quickly the wound heals (influenced by treatment)
+ * - **aspect** — The type of damage that caused the injury (Blunt, Pierce,
+ *   Cut, Heat, Cold), which affects treatment and healing
+ * - **isTreated** — Whether the injury has received medical treatment
+ *   (untreated wounds heal slower and risk infection)
+ * - **isBleeding** — Whether the wound is actively bleeding
+ *
+ * Injuries contribute to the character's overall {@link BeingLogic.shockState | shock state}
+ * and interact with the anatomy model (body zones, body parts, body locations)
+ * to determine hit location effects.
+ *
+ * Injuries support treatment and healing test actions.
+ *
+ * @typeParam TData - The Injury data interface.
+ */
+export class InjuryLogic<
+    TData extends InjuryData = InjuryData,
+> extends SohlItemBaseLogic<TData> {
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
+    /** @inheritdoc */
+    override initialize(): void {
+        super.initialize();
+    }
+
+    /** @inheritdoc */
+    override evaluate(): void {
+        super.evaluate();
+    }
+
+    /** @inheritdoc */
+    override finalize(): void {
+        super.finalize();
+    }
+}
+
+export interface InjuryData<
+    TLogic extends InjuryLogic<InjuryData> = InjuryLogic<any>,
+> extends SohlItemData<TLogic> {
+    /** Severity on a graduated scale: M1, S2-S3, G4-G5 */
+    injuryLevelBase: number;
+    /** Base rate of wound healing per time period */
+    healingRateBase: number;
+    /** Type of damage: Blunt, Edged, Piercing, or Fire */
+    aspect: ImpactAspect;
+    /** Whether the injury has received medical treatment */
+    isTreated: boolean;
+    /** Whether the wound is actively bleeding */
+    isBleeding: boolean;
+    /** ID of the body location where this injury occurred */
+    bodyLocationId: string;
+}
+
+export const {
+    kind: SHOCK,
+    values: Shock,
+    isValue: isShock,
+} = defineType("SOHL.Injury.SHOCK", {
+    NONE: 0,
+    STUNNED: 1,
+    INCAPACITATED: 2,
+    UNCONCIOUS: 3,
+    KILLED: 4,
+});
+export type Shock = (typeof SHOCK)[keyof typeof SHOCK];
+
+export const UNTREATED = {
+    hr: 4,
+    infect: true,
+    bleed: false,
+    impair: false,
+    newInj: -1,
+} as const;
+
+export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
+
+export const {
+    kind: INTRINSIC_ACTION,
+    values: IntrinsicActions,
+    isValue: isIntrinsicAction,
+    labels: IntrinsicActionLabels,
+} = defineType("SOHL.Injury.INTRINSIC_ACTION", {
+    TREATMENTTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        title: "SOHL.Injury.INTRINSIC_ACTION.treatmenttest.title",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-staff-snake",
+        executor: "treatmentTest",
+        visible: serializeFn((header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const physician = item?.actor?.getSkillByAbbrev("pysn");
+            // return physician && !physician.system.$masteryLevel.disabled;
+        }),
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    HEALINGTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        title: "SOHL.Injury.INTRINSIC_ACTION.healingtest.title",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-heart-pulse",
+        executor: "healingTest",
+        visible: serializeFn((header: HTMLElement) => {
+            // FIXME: This is a temporary fix to allow opposed tests to be
+            // started from the item header. It should be replaced with a
+            // proper implementation that allows opposed tests to be started
+            // from any item in the context menu.
+            return true;
+            // const item = cast<BaseItem>(
+            //     SohlContextMenu._getContextItem(header),
+            // );
+            // if (item?.system.isBleeding) return false;
+            // const endurance = item?.actor?.getTraitByAbbrev("end");
+            // return endurance && !endurance.system.$masteryLevel.disabled;
+        }),
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+} as StrictObject<Partial<ActionData>>);
+export type IntrinsicAction =
+    (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];

@@ -16,12 +16,22 @@ import {
     SOHL_SPEAKER_STYLE,
     SohlSpeakerRollMode,
 } from "@utils/constants";
-import { SohlActor } from "@common/actor/SohlActor";
+import { SohlActor } from "@common/actor/foundry/SohlActor";
 import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@utils/helpers";
 import { toHTMLWithContent, toHTMLWithTemplate } from "@common/FoundryProxy";
 import { SimpleRoll } from "@utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@utils/constants";
+import {
+    getSetting as fvttGetSetting,
+    getToken as fvttGetToken,
+    getActor as fvttGetActor,
+    getScene as fvttGetScene,
+    getUser as fvttGetUser,
+    currentUser as fvttCurrentUser,
+    applyRollMode as fvttApplyRollMode,
+    createChatMessage as fvttCreateChatMessage,
+} from "@common/foundry-helpers";
 
 export class SohlSpeaker {
     _speaker!: SohlSpeaker.Data;
@@ -49,28 +59,28 @@ export class SohlSpeaker {
         this.scene = null;
         this.rollMode =
             data.rollMode ||
-            (game as any).settings.get("core", "rollMode") ||
+            (fvttGetSetting("core", "rollMode") as string) ||
             SOHL_SPEAKER_ROLL_MODE.SYSTEM;
         if (data.token) {
             if (!(canvas instanceof foundry.canvas.Canvas)) {
                 throw new Error("Canvas is not initialized");
             } else {
-                this.token = (canvas.tokens?.get(data.token) ||
+                this.token = (fvttGetToken(data.token) ||
                     null) as SohlTokenDocument | null;
             }
             this.actor = this.token?.actor || null;
         }
         if (!this.actor && data.actor) {
-            this.actor = (game as any).actors?.get(data.actor);
+            this.actor = fvttGetActor(data.actor);
         }
         if (data.scene) {
-            this.scene = (game as any).scenes?.get(data.scene);
+            this.scene = fvttGetScene(data.scene);
         }
 
         this.user =
             data.user ?
-                (game as any).users?.get(data.user)
-            :   (game as any).user;
+                fvttGetUser(data.user)
+            :   fvttCurrentUser();
         if (data.alias) {
             this.name = data.alias;
         } else if (this.token?.name) {
@@ -141,13 +151,11 @@ export class SohlSpeaker {
         const messageData = await this._prepareChat(data, options);
         messageData.content = await toHTMLWithTemplate(template, data);
         if (messageData.rollMode) {
-            ChatMessage.applyRollMode(messageData, messageData.rollMode);
+            fvttApplyRollMode(messageData, messageData.rollMode);
             delete messageData.rollMode;
         }
 
-        // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
-        // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return foundry.documents.ChatMessage.create(messageData) as Promise<
+        return fvttCreateChatMessage(messageData) as Promise<
             ChatMessage | undefined
         >;
     }
@@ -167,13 +175,11 @@ export class SohlSpeaker {
 
         messageData.content = toHTMLWithContent(content, data);
         if (messageData.rollMode) {
-            ChatMessage.applyRollMode(messageData, messageData.rollMode);
+            fvttApplyRollMode(messageData, messageData.rollMode);
             delete messageData.rollMode;
         }
 
-        // ChatMessage.create() exists, but TS doesn't realize it because ChatMessage extends
-        // ClientDocumentMixin, and TS loses track of the fact that it is a Document.
-        return foundry.documents.ChatMessage.create(messageData) as Promise<
+        return fvttCreateChatMessage(messageData) as Promise<
             ChatMessage | undefined
         >;
     }

@@ -11,9 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/SohlActor";
-import { BeingData, BeingLogic, BeingSheet } from "@common/actor/Being";
-import { SohlActorSheetBase } from "@common/actor/SohlActor";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
+import { BeingData, BeingLogic } from "@common/actor/logic/BeingLogic";
+import { BeingSheet } from "@common/actor/foundry/BeingSheet";
+import { SohlActorSheetBase } from "@common/actor/foundry/SohlActor";
 
 export class LgndBeingLogic extends BeingLogic<BeingData> {
     /* --------------------------------------------- */

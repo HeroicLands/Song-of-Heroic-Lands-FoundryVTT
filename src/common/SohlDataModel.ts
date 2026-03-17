@@ -16,8 +16,8 @@ import {
     inputDialog,
     okDialog,
 } from "@common/FoundryProxy";
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -35,6 +35,10 @@ import { SohlContextMenu } from "@utils/SohlContextMenu";
 import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import type { SohlLogic } from "@common/SohlLogic";
 import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@common/SohlSystem";
+import {
+    resolveUuid as fvttResolveUuid,
+    notifyWarn as fvttNotifyWarn,
+} from "@common/foundry-helpers";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export abstract class SohlDataModel<
@@ -465,7 +469,7 @@ export namespace SohlDataModel {
 
                 // Owned Items
                 if (li.dataset.uuid) {
-                    const item = fromUuidSync(li.dataset.uuid) as any;
+                    const item = fvttResolveUuid(li.dataset.uuid) as any;
                     dragData = item?.toDragData() || null;
                 }
 
@@ -717,7 +721,7 @@ export namespace SohlDataModel {
                 if (!dlgResult) return;
 
                 if (array.some((a: string) => a === dlgResult)) {
-                    ui.notifications.warn(
+                    fvttNotifyWarn(
                         `Choice with value "${dlgResult} already exists, ignoring`,
                     );
                     return;
@@ -785,7 +789,7 @@ export namespace SohlDataModel {
                             a.name === dlgResult.name,
                     )
                 ) {
-                    ui.notifications.warn(
+                    fvttNotifyWarn(
                         `Aim with name "${dlgResult.name} already exists, ignoring`,
                     );
                     return;
@@ -852,7 +856,7 @@ export namespace SohlDataModel {
                             a.label === dlgResult.label,
                     )
                 ) {
-                    ui.notifications.warn(
+                    fvttNotifyWarn(
                         `Aim with name "${dlgResult.label} already exists, ignoring`,
                     );
                     return;
@@ -1086,7 +1090,7 @@ export namespace SohlDataModel {
             //                     if (defaultAction?.callback instanceof Function) {
             //                         defaultAction.callback();
             //                     } else {
-            //                         ui.notifications.warn(
+            //                         fvttNotifyWarn(
             //                             `${item.label} has no available default action`,
             //                         );
             //                     }

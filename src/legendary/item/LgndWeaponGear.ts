@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    WeaponGearData,
-    WeaponGearLogic,
-    WeaponGearSheet,
-} from "@common/item/WeaponGear";
+import { WeaponGearData, WeaponGearLogic,  } from "@common/item/logic/WeaponGearLogic";
+import { WeaponGearSheet } from "@common/item/foundry/WeaponGearSheet";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndWeaponGearLogic extends WeaponGearLogic<WeaponGearData> {

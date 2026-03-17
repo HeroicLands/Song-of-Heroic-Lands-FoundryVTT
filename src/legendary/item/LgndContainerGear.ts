@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ContainerGearData,
-    ContainerGearLogic,
-    ContainerGearSheet,
-} from "@common/item/ContainerGear";
+import { ContainerGearData, ContainerGearLogic,  } from "@common/item/logic/ContainerGearLogic";
+import { ContainerGearSheet } from "@common/item/foundry/ContainerGearSheet";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndContainerGearLogic extends ContainerGearLogic<ContainerGearData> {

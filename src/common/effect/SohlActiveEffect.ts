@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import { ITEM_METADATA, ItemKinds } from "@utils/constants";
 const { StringField } = foundry.data.fields;

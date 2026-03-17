@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
 import { ACTOR_KIND } from "@utils/constants";
 
 /**

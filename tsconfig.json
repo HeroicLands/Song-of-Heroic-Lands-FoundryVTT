@@ -19,7 +19,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["fvtt-types/lenient"],
+        "types": ["fvtt-types/lenient", "vitest/globals"],
         "paths": {
             "@types/*": ["./types/*"],
             "@utils/*": ["./src/utils/*"],

@@ -12,10 +12,10 @@
  */
 
 import type { SohlLogic } from "@common/SohlLogic";
-import type { MasteryLevelLogic } from "@common/item/MasteryLevel";
-import type { SohlItem } from "@common/item/SohlItem";
-import type { AfflictionLogic } from "@common/item/Affliction";
-import type { InjuryLogic } from "@common/item/Injury";
+import type { MasteryLevelLogic } from "@common/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
+import type { AfflictionLogic } from "@common/item/logic/AfflictionLogic";
+import type { InjuryLogic } from "@common/item/logic/InjuryLogic";
 import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import { Itr } from "@utils/Itr";
 
@@ -1767,9 +1767,9 @@ export const {
         condition: (header: HTMLElement): boolean => {
             const item = getContextItem(header);
             if (!item?.actor?.items) return false;
-            const dodge = Itr.from(item.actor.items.values()).find(
-                (it) =>
-                    (it as SohlItem).type === ITEM_KIND.SKILL &&
+            const dodge = Itr.from<SohlItem>(item.actor.items.values() as Iterable<SohlItem>).find(
+                (it: SohlItem) =>
+                    it.type === ITEM_KIND.SKILL &&
                     it.name === "Dodge",
             ) as SohlItem | null;
             return !!(

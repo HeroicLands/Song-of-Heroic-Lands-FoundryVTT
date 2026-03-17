@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    MeleeWeaponStrikeModeData,
-    MeleeWeaponStrikeModeLogic,
-    MeleeWeaponStrikeModeSheet,
-} from "@common/item/MeleeWeaponStrikeMode";
+import { MeleeWeaponStrikeModeData, MeleeWeaponStrikeModeLogic,  } from "@common/item/logic/MeleeWeaponStrikeModeLogic";
+import { MeleeWeaponStrikeModeSheet } from "@common/item/foundry/MeleeWeaponStrikeModeSheet";
 import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndMeleeWeaponStrikeModeLogic extends MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> {

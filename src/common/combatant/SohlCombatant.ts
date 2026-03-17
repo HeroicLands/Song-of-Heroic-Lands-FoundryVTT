@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SkillLogic } from "@common/item/Skill";
-import type { SohlItem } from "@common/item/SohlItem";
+import type { SohlActor } from "@common/actor/foundry/SohlActor";
+import type { SkillLogic } from "@common/item/logic/SkillLogic";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
 import type { SohlCombat } from "@common/combat/SohlCombat";
 import { getCanvas } from "@common/FoundryProxy";
 

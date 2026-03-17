@@ -11,11 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@common/item/SohlItem";
-import type { GearData } from "@common/item/Gear";
-import type { MasteryLevelData } from "@common/item/MasteryLevel";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
+import type { GearData } from "@common/item/logic/GearLogic";
+import type { MasteryLevelData } from "@common/item/logic/MasteryLevelLogic";
 import { ITEM_KIND, KIND_KEY } from "@utils/constants";
 import { SohlMap } from "@utils/collection/SohlMap";
+import {
+    mergeObject as fvttMergeObject,
+    resolveUuid as fvttResolveUuid,
+} from "@common/foundry-helpers";
 
 export type SohlSettingValue =
     | string
@@ -485,7 +489,7 @@ export function defaultFromJSON(value: unknown): unknown {
             case "URL":
                 return new URL(maybe.href);
             case "ClientDocument":
-                return fromUuidSync(maybe.uuid);
+                return fvttResolveUuid(maybe.uuid);
         }
 
         const result: Record<string, unknown> = {};
@@ -564,19 +568,19 @@ export function defaultToJSON(value: any): JsonValue | undefined {
         } as JsonValue;
     }
 
-    if (Object.hasOwn(value, "documentName")) {
-        return {
-            __type: "ClientDocument",
-            uuid: value.uuid,
-        } as JsonValue;
-    }
-
     if (
         typeof value === "function" ||
         typeof value === "symbol" ||
         value === undefined
     ) {
         return undefined;
+    }
+
+    if (Object.hasOwn(value, "documentName")) {
+        return {
+            __type: "ClientDocument",
+            uuid: value.uuid,
+        } as JsonValue;
     }
 
     if (Array.isArray(value)) {
@@ -633,7 +637,7 @@ export function cloneInstance<T>(
     options: PlainObject = {},
 ): T {
     const original = instanceToJSON(instance);
-    const newObj = foundry.utils.mergeObject(original, data) as PlainObject;
+    const newObj = fvttMergeObject(original, data) as PlainObject;
     return new (instance.constructor as any)(newObj, options) as T;
 }
 
@@ -674,7 +678,8 @@ export function serializeFn(fn: (...args: any[]) => any): string {
                 );
             }
             argList = normalizeArrowParams(match[1]);
-            body = match[2].trim();
+            // Expression arrow body needs a return statement
+            body = `return (${match[2].trim()})`;
         }
     }
 

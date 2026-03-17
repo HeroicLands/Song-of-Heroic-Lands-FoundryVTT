@@ -11,6 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import {
+    worldTime as fvttWorldTime,
+    getListFormatter as fvttGetListFormatter,
+} from "@common/foundry-helpers";
+
 const { SchemaField, StringField, BooleanField } = foundry.data.fields;
 
 export interface SohlCalendarComponents
@@ -121,7 +126,7 @@ export class SohlCalendarData extends foundry.data
     }
 
     get worldDate(): SohlCalendarComponents {
-        return this.timeToComponents(game.time.worldTime);
+        return this.timeToComponents(fvttWorldTime());
     }
 
     /**
@@ -234,7 +239,7 @@ export class SohlCalendarData extends foundry.data
         const fromTime =
             fromComponents ?
                 calendar.componentsToTime(fromComponents)
-            :   game.time.worldTime;
+            :   fvttWorldTime();
         let nTime: number = calendar.componentsToTime(components);
         let relTime: number = fromTime - nTime;
         const nComponents: SohlCalendarComponents = calendar.timeToComponents(
@@ -247,7 +252,7 @@ export class SohlCalendarData extends foundry.data
             minute: "TIME.Minute",
             second: "TIME.Second",
         };
-        const plurals = new Intl.PluralRules(game.i18n.lang);
+        const plurals = new Intl.PluralRules(sohl.i18n.lang);
         let parts = (
             Object.entries(terms) as [
                 keyof foundry.data.CalendarData.TimeComponents,
@@ -255,20 +260,20 @@ export class SohlCalendarData extends foundry.data
             ][]
         ).reduce((arr: string[], [k, t]) => {
             const v = Math.round(nComponents[k] as number);
-            if (short) arr.push(`${v}${game.i18n.localize(t + ".abbr")}`);
+            if (short) arr.push(`${v}${sohl.i18n.localize(t + ".abbr")}`);
             else
                 arr.push(
-                    `${v} ${game.i18n.localize(`${t}.${plurals.select(v)}`).toLowerCase()}`,
+                    `${v} ${sohl.i18n.localize(`${t}.${plurals.select(v)}`).toLowerCase()}`,
                 );
             return arr;
         }, []);
-        if (!parts.length) return game.i18n.localize("TIME.Now");
+        if (!parts.length) return sohl.i18n.localize("TIME.Now");
         if (maxTerms) parts = parts.slice(0, maxTerms);
         const rel =
             short ?
                 parts.join(" ")
-            :   game.i18n.getListFormatter().format(parts);
-        return game.i18n.format(
+            :   fvttGetListFormatter().format(parts);
+        return sohl.i18n.format(
             relTime < 0 ? "TIME.Since" : "SOHL.TIME.Until",
             { since: rel },
         );

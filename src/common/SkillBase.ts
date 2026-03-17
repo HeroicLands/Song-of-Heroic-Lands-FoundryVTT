@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@common/item/SohlItem";
-import type { TraitData, TraitLogic } from "@common/item/Trait";
+import type { SohlItem } from "@common/item/foundry/SohlItem";
+import type { TraitData, TraitLogic } from "@common/item/logic/TraitLogic";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
 
 export class SkillBase {
@@ -39,8 +39,8 @@ export class SkillBase {
         this._formula = formula || null;
         this._attrs = {};
         this._sunsigns =
-            (options.sunsign?.system as any).textValue.split("-") || [];
-        this._parsedFormula = null;
+            (options.sunsign?.system as any)?.textValue?.split("-") || [];
+        this._parsedFormula = this._parseFormula;
         this._value = 0;
         if (options.items) {
             this.setAttributes(options.items);
