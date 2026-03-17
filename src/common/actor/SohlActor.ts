@@ -93,6 +93,23 @@ export class SohlActor extends Actor {
         console.log("Edit action clicked:", btn);
     }
 
+    /**
+     * Handle a timed event dispatched by the SoHL event queue.
+     * Override in subclasses to implement actor-specific event handling.
+     * @param kind - Event kind identifier
+     * @param time - Scheduled trigger time (world seconds)
+     * @param payload - Optional context data
+     */
+    async handleSohlEvent(
+        kind: string,
+        _time: number,
+        _payload?: Record<string, unknown>,
+    ): Promise<void> {
+        console.warn(
+            `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
+        );
+    }
+
     addVirtualItem(item: SohlItem): void {
         if (this._allItemsBuilt) {
             throw new Error(

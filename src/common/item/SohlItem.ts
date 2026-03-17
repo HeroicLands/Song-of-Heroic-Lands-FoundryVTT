@@ -65,6 +65,23 @@ export class SohlItem extends Item {
     }
 
     /**
+     * Handle a timed event dispatched by the SoHL event queue.
+     * Override in subclasses to implement item-specific event handling.
+     * @param kind - Event kind identifier
+     * @param time - Scheduled trigger time (world seconds)
+     * @param payload - Optional context data
+     */
+    async handleSohlEvent(
+        kind: string,
+        _time: number,
+        _payload?: Record<string, unknown>,
+    ): Promise<void> {
+        console.warn(
+            `SoHL | ${this.name} (Item) received unhandled event "${kind}"`,
+        );
+    }
+
+    /**
      * The SohlActor that owns this item, or null if it is unowned.
      */
     get actor(): SohlActor | null {

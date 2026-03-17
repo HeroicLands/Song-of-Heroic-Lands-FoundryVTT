@@ -159,6 +159,16 @@ import {
     SohlCombatantDataModel,
 } from "@common/combatant/SohlCombatant";
 import { SohlCombat, SohlCombatDataModel } from "@common/combat/SohlCombat";
+import {
+    SohlRegion,
+    SohlRegionConfig,
+} from "@common/region/SohlRegion";
+import { SohlEventQueue } from "@common/SohlEventQueue";
+import {
+    SohlEncounter,
+    SohlEncounterDataModel,
+    SohlEncounterConfig,
+} from "@common/region-behavior/SohlEncounter";
 import * as utils from "@utils/helpers";
 import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlLocalize } from "@utils/SohlLocalize";
@@ -384,6 +394,8 @@ export abstract class SohlSystem {
         SohlSystem
     >();
     protected static _curVariant?: SohlSystem;
+    protected static _calendars: SohlMap<string, SohlSystem.CalendarRegistration> =
+        new SohlMap<string, SohlSystem.CalendarRegistration>();
     static get CONFIG(): SohlSystem.Config {
         return {
             statusEffects: [
@@ -480,7 +492,6 @@ export abstract class SohlSystem {
                     sohleffectdata: "fa-duotone fa-people-group",
                 },
                 types: ["base", "sohleffectdata"],
-                legacyTransferral: false,
             },
             Combatant: {
                 documentClass: SohlCombatant,
@@ -513,6 +524,24 @@ export abstract class SohlSystem {
                     sohlcombatdata: "fa-duotone fa-people-group",
                 },
                 types: ["base", "sohlcombatdata"],
+            },
+            Region: {
+                documentClass: SohlRegion,
+                sheetClass: SohlRegionConfig,
+            },
+            RegionBehavior: {
+                dataModels: {
+                    sohlencounter: SohlEncounterDataModel,
+                },
+                sheetClasses: {
+                    sohlencounter: SohlEncounterConfig,
+                },
+                typeLabels: {
+                    sohlencounter: "SOHL.Encounter.typeLabel",
+                },
+                typeIcons: {
+                    sohlencounter: "fa-solid fa-dragon",
+                },
             },
             ValueModifier: ValueModifier,
             CombatModifier: CombatModifier,
@@ -558,6 +587,7 @@ export abstract class SohlSystem {
     >;
     readonly i18n: SohlLocalize;
     readonly log: SohlLogger;
+    readonly events: SohlEventQueue;
 
     static registerVariant(variantId: string, variant: SohlSystem): void {
         if (this._variants.has(variantId)) {
@@ -586,6 +616,68 @@ export abstract class SohlSystem {
 
     static get variants(): Itr<[string, SohlSystem]> {
         return this._variants.entries();
+    }
+
+    /* -------------------------------------------- */
+    /*  Calendar Registry                           */
+    /* -------------------------------------------- */
+
+    /**
+     * Register a calendar configuration. Overwrites any existing registration
+     * with the same ID.
+     */
+    static registerCalendar(
+        id: string,
+        registration: SohlSystem.CalendarRegistration,
+    ): void {
+        this._calendars.set(id, registration);
+    }
+
+    /**
+     * Remove a calendar registration. Throws if the calendar is builtin.
+     */
+    static unregisterCalendar(id: string): void {
+        const cal = this._calendars.get(id);
+        if (!cal) return;
+        if (cal.builtin) {
+            throw new Error(
+                `Cannot delete built-in calendar "${id}".`,
+            );
+        }
+        this._calendars.delete(id);
+    }
+
+    /**
+     * Get a registered calendar by ID.
+     */
+    static getCalendar(
+        id: string,
+    ): SohlSystem.CalendarRegistration | undefined {
+        return this._calendars.get(id);
+    }
+
+    /**
+     * All registered calendars.
+     */
+    static get calendars(): SohlMap<string, SohlSystem.CalendarRegistration> {
+        return this._calendars;
+    }
+
+    /**
+     * Apply a registered calendar to CONFIG.time.
+     */
+    static applyCalendar(id: string): void {
+        const cal = this._calendars.get(id);
+        if (!cal) {
+            throw new Error(
+                `Calendar "${id}" is not registered. Available: ${Array.from(
+                    this._calendars.keys(),
+                ).join(", ")}`,
+            );
+        }
+        CONFIG.time.worldCalendarConfig = cal.config as any;
+        CONFIG.time.worldCalendarClass =
+            (cal.calendarClass ?? SohlCalendarData) as any;
     }
 
     get CONFIG(): PlainObject {
@@ -639,6 +731,7 @@ export abstract class SohlSystem {
         ]);
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();
+        this.events = new SohlEventQueue();
     }
 
     get game(): SohlSystem {
@@ -659,7 +752,26 @@ export abstract class SohlSystem {
     abstract setupSheets(): void;
 }
 
+// Register the default calendar
+SohlSystem.registerCalendar("sohl-default", {
+    label: "SOHL.CalendarSettings.default",
+    config: SOHL_DEFAULT_CALENDAR_CONFIG,
+    calendarClass: SohlCalendarData,
+    builtin: true,
+});
+
 export namespace SohlSystem {
+    export interface CalendarRegistration {
+        /** Display name (localization key or plain text) */
+        label: string;
+        /** Calendar data matching CalendarData.CreateData shape */
+        config: object;
+        /** CalendarData subclass to use (defaults to SohlCalendarData) */
+        calendarClass?: typeof SohlCalendarData;
+        /** If true, cannot be deleted via the settings UI */
+        builtin?: boolean;
+    }
+
     export interface ConfigStatusEffect {
         id: string;
         name: string;
@@ -684,7 +796,6 @@ export namespace SohlSystem {
         defaultType?: string;
         compendiums?: string[];
         macros?: StrictObject<FilePath>;
-        legacyTransferral?: boolean;
     }
 
     export interface ClassConfig {
@@ -701,6 +812,16 @@ export namespace SohlSystem {
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
         Combat: DocumentConfig;
+        Region: {
+            documentClass: any;
+            sheetClass: any;
+        };
+        RegionBehavior: {
+            dataModels: StrictObject<any>;
+            sheetClasses: StrictObject<any>;
+            typeLabels: StrictObject<string>;
+            typeIcons: StrictObject<string>;
+        };
         ValueModifier: Constructor<ValueModifier>;
         CombatModifier: Constructor<CombatModifier>;
         ImpactModifier: Constructor<ImpactModifier>;

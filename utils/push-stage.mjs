@@ -28,9 +28,9 @@ dotenv.config({ path: path.join(repoRoot, ".env") });
 const SOURCE = "build/stage/";
 
 const STAGE_ENV_MAP = {
-    dev: "SOHL_DEV_SYSTEM_DIR",
-    qa: "SOHL_QA_SYSTEM_DIR",
-    prod: "SOHL_PROD_SYSTEM_DIR",
+    dev: "FOUNDRYVTT_DEV_DATA",
+    qa: "FOUNDRYVTT_QA_DATA",
+    prod: "FOUNDRYVTT_PROD_DATA",
 };
 
 function resolveStage(stageArg) {
@@ -55,16 +55,35 @@ function main() {
         process.exit(1);
     }
 
-    const destination = process.env[envVarName]?.trim() ?? "";
+    const dataRoot = process.env[envVarName]?.trim() ?? "";
 
-    if (!destination) {
+    if (!dataRoot) {
         console.error(
             `No destination configured for stage '${stage}'. Set environment variable ${envVarName}.`,
         );
         console.error(
-            `Example: ${envVarName}="/path/or/rsync:target/systems/sohl/" npm run push:${stage}`,
+            `Example: ${envVarName}="/path/to/foundryvtt/data"`,
         );
         process.exit(1);
+    }
+
+    // Append the system path within the Foundry data directory.
+    // For remote rsync targets (host:path), insert after the colon.
+    const colonIdx = dataRoot.indexOf(":");
+    const isRemote = colonIdx > 0 && !dataRoot.startsWith("/");
+    const destination = isRemote
+        ? `${dataRoot.slice(0, colonIdx + 1)}${path.posix.join(dataRoot.slice(colonIdx + 1), "Data/systems/sohl/")}`
+        : path.join(dataRoot, "Data", "systems", "sohl") + "/";
+
+    // Verify rsync is available for remote targets
+    if (isRemote) {
+        const check = spawnSync("rsync", ["--version"], { stdio: "ignore" });
+        if (check.error) {
+            console.error(
+                `Remote destination requires rsync, but it is not installed or not in PATH.`,
+            );
+            process.exit(1);
+        }
     }
 
     const args = ["-avh", "--delete", SOURCE, destination];

@@ -112,7 +112,6 @@ export interface CohortData<
     members: {
         shortcode: string;
         name: string;
-        isLinked: boolean;
         role: string;
     }[];
 }
@@ -134,9 +133,6 @@ function defineCohortDataSchema(): foundry.data.fields.DataSchema {
                 name: new StringField({
                     blank: false,
                     required: true,
-                }),
-                isLinked: new BooleanField({
-                    initial: false,
                 }),
                 role: new StringField({
                     choices: CohortMemberRoles,
@@ -163,7 +159,7 @@ export class CohortDataModel<
     static override readonly kind = ACTOR_KIND.COHORT;
     leaderName!: string;
     moveRepName!: string;
-    members!: { shortcode: string; name: string; isLinked: boolean; role: string }[];
+    members!: { shortcode: string; name: string; role: string }[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineCohortDataSchema();

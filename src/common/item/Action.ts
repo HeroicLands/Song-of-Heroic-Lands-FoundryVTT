@@ -179,22 +179,31 @@ export interface ActionData<
 > extends SohlItemData<TLogic> {
     /** Whether this is an intrinsic or custom action */
     subType: ActionSubType;
+
     /** Display title for this action */
     title: string;
+
     /** Whether this action executes asynchronously */
     isAsync: boolean;
+
     /** Execution context: Self, Parent Item, or Owning Actor */
     scope: string;
+
     /** Function name or code that performs the action */
     executor: string;
+
     /** Predicate determining when this action is available */
     trigger: string;
+
     /** Controls whether this action appears in the UI */
     visible: string;
+
     /** FontAwesome CSS class for the action's icon */
     iconFAClass: string;
+
     /** Context menu group for sorting this action */
     group: string;
+
     /** Access control settings for this action */
     permissions: {
         execute: number;
@@ -244,7 +253,10 @@ export class ActionDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements ActionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Action", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Action",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.ACTION;
     subType!: ActionSubType;
     title!: string;

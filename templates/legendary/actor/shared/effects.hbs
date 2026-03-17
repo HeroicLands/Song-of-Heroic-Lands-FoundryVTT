@@ -36,8 +36,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
                     </div>
                     <div class="ele target" data-tooltip="{{effect.system.targetLabel}}">{{effect.system.targetLabel}}</div>
-                    <div class="ele duration">{{#if (eq effect._aeDuration.label "None")}}Indefinite{{else}}{{effect._aeDuration.label}}{{/if}}</div>
-                    <div class="ele changes" data-tooltip="{{effect._aeChanges}}">{{effect._aeChanges}}</div>
+                    <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
+                    <div class="ele changes">{{effect.system.changes.length}} changes</div>
                     <div class="effect-controls">
                         <a class="effect-control effect-toggle"><i class="fas {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i></a>
                         <a class="effect-control effect-contextmenu" title="Menu"><i
@@ -64,8 +64,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <h4 data-tooltip="{{effect.name}}">{{effect.name}}</h4>
                     </div>
                     <div class="ele source" data-tooltip="{{effect.sourceName}}">{{effect.sourceName}}</div>
-                    <div class="ele duration">{{#if (eq effect._aeDuration.label "None")}}Indefinite{{else}}{{effect._aeDuration.label}}{{/if}}</div>
-                    <div class="ele changes" data-tooltip="{{effect._aeChanges}}">{{effect._aeChanges}}</div>
+                    <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
+                    <div class="ele changes">{{effect.system.changes.length}} changes</div>
                 </li>
             {{/each}}
         </ol>

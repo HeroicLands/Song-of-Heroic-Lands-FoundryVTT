@@ -40,14 +40,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 {{ effect.system.targetLabel }}
             </div>
             <div class="detail duration">
-                {{#if (eq effect.duration.type "none")}}
-                Indefinite
+                {{#if effect.isTemporary}}
+                {{effect.duration.label}}
                 {{else}}
-                {{{effect.duration.endTimeHtml}}}
+                Indefinite
                 {{/if}}
             </div>
-            <div class="detail changes" data-tooltip="{{ effect._aeChanges }}">
-                {{ effect._aeChanges }}
+            <div class="detail changes">
+                {{effect.system.changes.length}} changes
             </div>
             <div class="effect-controls">
                 <a class="effect-control effect-toggle"><i
@@ -79,10 +79,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 {{ effect.sourceName }}
             </div>
             <div class="detail duration">
-                {{optionalString (eq effect.duration.label "None") "Indefinite" effect.duration.label}}
+                {{#if effect.isTemporary}}
+                {{effect.duration.label}}
+                {{else}}
+                Indefinite
+                {{/if}}
             </div>
-            <div class="detail changes" data-tooltip="{{ effect._aeChanges }}">
-                {{ effect._aeChanges }}
+            <div class="detail changes">
+                {{effect.system.changes.length}} changes
             </div>
         </li>
         {{/each}}

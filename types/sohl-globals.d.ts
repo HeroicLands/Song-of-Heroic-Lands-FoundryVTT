@@ -60,11 +60,16 @@ declare global {
     type Maybe<T> = T | null | undefined;
 
     /** Recursively makes all properties optional */
-    type DeepPartial<T> = T extends object
-        ? T extends any[] | ((...args: any[]) => any) | (new (...args: any[]) => any)
-            ? T
-            : { [K in keyof T]?: DeepPartial<T[K]> }
-        : T;
+    type DeepPartial<T> =
+        T extends object ?
+            T extends (
+                | any[]
+                | ((...args: any[]) => any)
+                | (new (...args: any[]) => any)
+            ) ?
+                T
+            :   { [K in keyof T]?: DeepPartial<T[K]> }
+        :   T;
 
     /** Optional field */
     type Optional<T> = T | undefined;
@@ -141,7 +146,7 @@ declare global {
             secondsRemainder: number;
         };
     }
-    
+
     // ✅ Global system accessor
     var sohl: SohlSystem;
 }
@@ -166,6 +171,22 @@ declare module "fvtt-types/configuration" {
         Item: {
             sohl: Record<string, unknown>;
         };
+        Scene: {
+            sohl: {
+                "defaultBiome.terrain": string;
+                "defaultBiome.vegetation": string;
+                "defaultBiome.slope": string;
+                "defaultBiome.hydrology": string;
+            };
+        };
+        RegionDocument: {
+            sohl: {
+                "biome.terrain": string;
+                "biome.vegetation": string;
+                "biome.slope": string;
+                "biome.hydrology": string;
+            };
+        };
     }
 
     interface SettingConfig {
@@ -184,6 +205,8 @@ declare module "fvtt-types/configuration" {
         "sohl.trekDistanceUnit": string;
         "sohl.tacticalDistanceUnit": string;
         "sohl.logThreshold": string;
+        "sohl.activeCalendar": string;
+        "sohl.importedCalendars": Record<string, any>;
     }
 
     interface DocumentClassConfig {

@@ -420,67 +420,16 @@ export const {
 export type Slope = (typeof SLOPE)[keyof typeof SLOPE];
 
 export const {
-    kind: WATER_DEPTH,
-    values: WaterDepths,
-    isValue: isWaterDepth,
-    labels: waterDepthLabels,
-} = defineType("SOHL.WaterDepth", {
+    kind: HYDROLOGY,
+    values: Hydrologies,
+    isValue: isHydrology,
+    labels: hydrologyLabels,
+} = defineType("SOHL.Hydrology", {
+    DRY: "dry", // No water present
     SHALLOW: "shallow", // Streams, rocky riverbeds, tidal flats, marsh, flooded fields
     DEEP: "deep", // Rivers, lakes, ocean (swimming required)
 });
-export type WaterDepth = (typeof WATER_DEPTH)[keyof typeof WATER_DEPTH];
-
-export interface GridLocation {
-    row: number; // Row index in the grid
-    col: number; // Column index in the grid
-}
-
-export interface GridLocationsProfile {
-    gridLocations: GridLocation[]; // List of grid locations that share this profile
-    environment: Partial<GridEnvironmentProfile>; // Environment profile for these grid locations
-}
-
-export interface GridEnvironmentProfile {
-    biome: Biome; // Macro climate/ecology classification used for weather, seasons, and regional defaults
-    terrestrial?: {
-        terrain: Terrain; // Primary ground substrate determining footing, load-bearing, and base movement friction
-        vegetation: Vegetation; // Vegetation density/type affecting obstruction, visibility, and movement resistance
-        slope: Slope; // Local topographic steepness influencing gravity-related movement penalties and mode changes
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    aerial?: {
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    aquatic?: {
-        depth: WaterDepth; // Water body depth classification affecting swimming difficulty and movement mode
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    subterranean?: {
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-}
-
-export interface RouteSegment {
-    gridLocations: GridLocation[]; // List of grid locations that this segment covers
-    class: string; // Classification of the route segment (e.g., trail, road, river)
-    envOverride?: Partial<Omit<GridEnvironmentProfile, "biome">>; // Optional overrides for the environment profile
-}
-
-export interface RouteProfile {
-    id: string; // Unique identifier for the route profile
-    name: string; // Human-readable name for the route profile
-    segments: RouteSegment[]; // Ordered list of route segments composing the full route
-}
-
-export interface SOHLSceneProfile {
-    defaultEnvironment: GridEnvironmentProfile; // Default environment profile for the scene
-    environmentProfiles: GridLocationsProfile[]; // List of environment profiles for the scene
-    routeProfiles: RouteProfile[]; // List of route profiles for the scene
-}
+export type Hydrology = (typeof HYDROLOGY)[keyof typeof HYDROLOGY];
 
 export const {
     kind: SEASON,
@@ -1858,8 +1807,8 @@ export const {
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
 
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
-    name: "Default Calendar",
-    description: "The default calendar for Song of Heroic Lands.",
+    name: "Turning Wheel",
+    description: "The Turning Wheel calendar for Song of Heroic Lands.",
     years: {
         yearZero: 720,
         firstWeekday: 0,

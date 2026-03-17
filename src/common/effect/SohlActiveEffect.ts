@@ -230,12 +230,17 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 break;
 
             case "changes":
-                partContext.modes = Object.entries(
-                    CONST.ACTIVE_EFFECT_MODES,
-                ).reduce((modes: StrictObject<string>, [key, value]) => {
-                    modes[value] = sohl.i18n.localize(`EFFECT.MODE_${key}`);
-                    return modes;
-                }, {});
+                // v14: Use ActiveEffect.CHANGE_TYPES (string-keyed registry)
+                // instead of deprecated CONST.ACTIVE_EFFECT_MODES (numeric)
+                partContext.changeTypes = Object.entries(
+                    (ActiveEffect as any).CHANGE_TYPES ?? {},
+                ).reduce(
+                    (types: StrictObject<string>, [key, config]: [string, any]) => {
+                        types[key] = sohl.i18n.localize(config.label ?? key);
+                        return types;
+                    },
+                    {},
+                );
                 const itemData =
                     document.type in ITEM_METADATA ?
                         ITEM_METADATA[

@@ -15,9 +15,12 @@ import type { SohlSpeaker } from "@common/SohlSpeaker";
 import { SohlSystem } from "@common/SohlSystem";
 import { LegendarySystem } from "@legendary/LegendarySystem";
 import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
-import { LOGLEVEL } from "@utils/constants";
+import { ACTOR_KIND, LOGLEVEL } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
 import { SohlCombatant } from "@common/combatant/SohlCombatant";
+import { SohlEncounterConfig } from "@common/region-behavior/SohlEncounter";
+import { SohlRegionConfig } from "@common/region/SohlRegion";
+import { CalendarSettingsMenu } from "@common/apps/CalendarSettingsMenu";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
@@ -89,7 +92,7 @@ function registerSystemSettings() {
     game.settings.register("sohl", "combatAudio", {
         name: "SOHL.Settings.combatAudio.label",
         hint: "SOHL.Settings.combatAudio.hint",
-        scope: "world",
+        scope: "client",
         config: true,
         type: Boolean,
         default: true,
@@ -97,7 +100,7 @@ function registerSystemSettings() {
     game.settings.register("sohl", "recordTrauma", {
         name: "SOHL.Settings.recordTrauma.label",
         hint: "SOHL.Settings.recordTrauma.hint",
-        scope: "world",
+        scope: "client",
         config: true,
         default: "enable",
         type: String,
@@ -174,12 +177,305 @@ function registerSystemSettings() {
         },
         default: "kilometer",
     });
+
+    // Calendar settings
+    game.settings.register("sohl", "activeCalendar", {
+        name: "SOHL.Settings.Calendar.Name",
+        hint: "SOHL.Settings.Calendar.Hint",
+        scope: "world",
+        config: false,
+        type: String,
+        default: "sohl-default",
+        requiresReload: true,
+    });
+    game.settings.register("sohl", "importedCalendars", {
+        name: "SOHL.Settings.ImportedCalendars.Name",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+    });
+    game.settings.registerMenu("sohl", "calendarConfig", {
+        name: "SOHL.Settings.CalendarConfig.Name",
+        label: "SOHL.Settings.CalendarConfig.Label",
+        hint: "SOHL.Settings.CalendarConfig.Hint",
+        icon: "fa-solid fa-calendar",
+        type: CalendarSettingsMenu as any,
+        restricted: true,
+    });
+}
+
+/**
+ * Rehydrate imported calendars from the world setting into the registry.
+ */
+function rehydrateCalendars(): void {
+    const imported = game.settings.get("sohl", "importedCalendars") as Record<
+        string,
+        any
+    >;
+    for (const [id, reg] of Object.entries(imported)) {
+        SohlSystem.registerCalendar(id, {
+            ...reg,
+            builtin: false,
+        });
+    }
+}
+
+/**
+ * Apply the active calendar from settings to CONFIG.time.
+ */
+function applyActiveCalendar(): void {
+    const activeId = game.settings.get("sohl", "activeCalendar") as string;
+    const cal = SohlSystem.getCalendar(activeId);
+    if (cal) {
+        SohlSystem.applyCalendar(activeId);
+    } else {
+        console.warn(
+            `SoHL | Calendar "${activeId}" not found, falling back to default`,
+        );
+        SohlSystem.applyCalendar("sohl-default");
+    }
 }
 
 /**
  * Register startup hooks
  */
+/**
+ * Find valid placement positions for multiple tokens near a drop point.
+ *
+ * Uses BFS outward from the drop cell, skipping cells that are occupied
+ * by existing tokens, already claimed in this batch, or separated from
+ * the drop point by a wall.
+ *
+ * @param dropX - Drop X coordinate (canvas pixels)
+ * @param dropY - Drop Y coordinate (canvas pixels)
+ * @param count - Number of positions needed
+ * @param elevation - Elevation for all tokens
+ * @returns Array of {x, y} positions in canvas coordinates
+ */
+export function findPlacementPositions(
+    dropX: number,
+    dropY: number,
+    count: number,
+    elevation: number,
+): { x: number; y: number }[] {
+    const grid = (canvas as any).grid;
+    const gridSize = grid.size;
+
+    // Snap drop point to grid center
+    const snapped = grid.getSnappedPoint({ x: dropX, y: dropY });
+    const startCol = Math.floor(snapped.x / gridSize);
+    const startRow = Math.floor(snapped.y / gridSize);
+
+    // Build set of occupied cells from existing scene tokens at same elevation
+    const occupied = new Set<string>();
+    for (const token of (canvas as any).scene.tokens) {
+        if (token.elevation !== elevation) continue;
+        const col = Math.floor(token.x / gridSize);
+        const row = Math.floor(token.y / gridSize);
+        occupied.add(`${col},${row}`);
+    }
+
+    const results: { x: number; y: number }[] = [];
+    const visited = new Set<string>();
+    const queue: [number, number][] = [[startCol, startRow]];
+    visited.add(`${startCol},${startRow}`);
+
+    // 4-directional neighbors (up, down, left, right)
+    const dirs = [
+        [0, -1],
+        [0, 1],
+        [-1, 0],
+        [1, 0],
+    ];
+
+    while (queue.length > 0 && results.length < count) {
+        const [col, row] = queue.shift()!;
+        const cellKey = `${col},${row}`;
+        const cellX = col * gridSize;
+        const cellY = row * gridSize;
+        const cellCenterX = cellX + gridSize / 2;
+        const cellCenterY = cellY + gridSize / 2;
+
+        // Check if cell is occupied
+        if (!occupied.has(cellKey)) {
+            // Check wall collision between drop point and this cell
+            const hasWall = (CONFIG as any).Canvas?.losBackend
+                ? (canvas as any).walls.checkCollision(
+                      new Ray(
+                          { x: snapped.x, y: snapped.y },
+                          { x: cellCenterX, y: cellCenterY },
+                      ),
+                      { type: "move", mode: "any" },
+                  )
+                : false;
+
+            if (!hasWall) {
+                results.push({ x: cellX, y: cellY });
+                occupied.add(cellKey); // Claim this cell
+            }
+        }
+
+        // Expand to neighbors
+        for (const [dx, dy] of dirs) {
+            const nc = col + dx;
+            const nr = row + dy;
+            const nk = `${nc},${nr}`;
+            if (!visited.has(nk)) {
+                visited.add(nk);
+                // Stay within canvas bounds
+                if (
+                    nc >= 0 &&
+                    nr >= 0 &&
+                    nc * gridSize < (canvas as any).dimensions.width &&
+                    nr * gridSize < (canvas as any).dimensions.height
+                ) {
+                    queue.push([nc, nr]);
+                }
+            }
+        }
+    }
+
+    return results;
+}
+
+/**
+ * Handle placing a Cohort actor on a scene, with a dialog asking
+ * the user to choose group or individual token placement.
+ *
+ * Used both by the canvas drop hook and by encounter spawning.
+ *
+ * @param actor - The Cohort actor to place
+ * @param data - Object with at least `x` and `y` drop coordinates
+ */
+export async function handleCohortDrop(
+    actor: any,
+    data: any,
+): Promise<void> {
+    const dropX = data.x ?? 0;
+    const dropY = data.y ?? 0;
+
+    const choice = await foundry.applications.api.DialogV2.wait({
+        window: {
+            title: game.i18n.localize("SOHL.Cohort.Drop.title"),
+        },
+        content: game.i18n.format("SOHL.Cohort.Drop.content", {
+            name: actor.name,
+        }),
+        buttons: [
+            {
+                action: "group",
+                label: game.i18n.localize("SOHL.Cohort.Drop.group"),
+                icon: "fa-solid fa-users",
+            },
+            {
+                action: "individual",
+                label: game.i18n.localize("SOHL.Cohort.Drop.individual"),
+                icon: "fa-solid fa-user",
+            },
+        ],
+        close: () => null,
+    } as any);
+
+    if (!choice) return; // Dialog closed without choosing
+
+    const scene = (canvas as any).scene;
+
+    if (choice === "group") {
+        // Create a single token for the Cohort actor
+        const tokenData = (await (actor as any).getTokenDocument(
+            { x: dropX, y: dropY },
+            { parent: scene },
+        )) as any;
+        await tokenData.constructor.create(tokenData.toObject(), {
+            parent: scene,
+        });
+    } else if (choice === "individual") {
+        // Create individual tokens for each member
+        const members = (actor.system as any).members ?? [];
+        if (members.length === 0) return;
+
+        // Find placement positions
+        const elevation = 0; // Default elevation at drop point
+        const positions = findPlacementPositions(
+            dropX,
+            dropY,
+            members.length,
+            elevation,
+        );
+
+        const tokenDocs: any[] = [];
+        for (let i = 0; i < members.length; i++) {
+            const member = members[i];
+            const pos = positions[i];
+            if (!pos) break; // Ran out of valid positions
+
+            // Find the world actor by shortcode
+            const memberActor = game.actors?.find(
+                (a: any) => a.system?.shortcode === member.shortcode,
+            );
+            if (!memberActor) {
+                console.warn(
+                    game.i18n.format(
+                        "SOHL.Cohort.Drop.memberNotFound",
+                        { shortcode: member.shortcode, name: member.name },
+                    ),
+                );
+                continue;
+            }
+
+            // Create token from the member actor's prototype token
+            const tokenData = (await (memberActor as any).getTokenDocument(
+                {
+                    x: pos.x,
+                    y: pos.y,
+                    elevation,
+                    name: member.name,
+                },
+                { parent: scene },
+            )) as any;
+
+            tokenDocs.push(tokenData.toObject());
+        }
+
+        // Batch create all tokens
+        if (tokenDocs.length > 0) {
+            await (TokenDocument as any).createDocuments(tokenDocs, {
+                parent: scene,
+            });
+        }
+    }
+}
+
 function registerSystemHooks() {
+    // Process timed events when world time advances.
+    // Only the primary GM processes to prevent duplicate execution.
+    (Hooks as any).on(
+        "updateWorldTime",
+        async (worldTime: number, _delta: number) => {
+            if (!(game as any).user?.isActiveGM) return;
+            await sohl.events.processDueEvents(worldTime);
+        },
+    );
+
+    // Intercept Cohort drops to offer group vs. individual token placement.
+    (Hooks as any).on(
+        "dropCanvasData",
+        (_canvas: any, data: any, _event: any) => {
+            if (data.type !== "Actor") return true;
+            const actor = (Actor as any).implementation.fromDropData?.(data)
+                ?? game.actors?.get(data.id);
+            if (!actor || actor.type !== ACTOR_KIND.COHORT) return true;
+            if (!actor.isOwner) return false; // silently cancel for non-owners
+
+            // Cancel default token creation — we'll handle it in the dialog
+            handleCohortDrop(actor, data).catch((err: any) =>
+                console.error("SoHL | Cohort drop error:", err),
+            );
+            return false;
+        },
+    );
+
     Hooks.on(
         "chatMessage",
         (
@@ -314,6 +610,8 @@ Hooks.once("init", () => {
 
     registerSystemSettings();
     globalThis.sohl = setupVariant();
+    rehydrateCalendars();
+    applyActiveCalendar();
     sohl.log.setLogThreshold(
         (game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO,
     );
@@ -322,6 +620,22 @@ Hooks.once("init", () => {
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;
     CONFIG.time.turnTime = 0;
+
+    // Register Region sheet
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(
+        RegionDocument as any,
+        "sohl",
+        SohlRegionConfig as any,
+        { makeDefault: true },
+    );
+
+    // Register RegionBehavior encounter sheet
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(
+        RegionBehavior as any,
+        "sohl",
+        SohlEncounterConfig as any,
+        { types: ["sohlencounter"], makeDefault: true },
+    );
 });
 
 // Register ready hook

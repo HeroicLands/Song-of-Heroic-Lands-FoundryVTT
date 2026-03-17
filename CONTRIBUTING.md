@@ -33,13 +33,34 @@ Game mechanics themselves are not copyrightable and may be implemented, but the 
 
 If you are unsure whether material is permissible, ask before contributing it. Contributions found to contain prohibited content will be removed immediately.
 
+## Prerequisites
+
+- **Node.js** (see `engines` in `package.json` for supported versions)
+- **Git** — required for version control
+
+The following are only needed for specific workflows:
+
+- **rsync** — required for deploying to remote Foundry VTT instances
+  (`npm run push:dev`, `npm run push:prod`). Not needed for local deployments
+  or for building the system.
+
+Releases are created via the GitHub API (no local git tagging required).
+Set `GITHUB_TOKEN` in `.env.local` to use `npm run deploy:release`.
+
+All other tooling (TypeScript, Vite, Sass, Prettier, ESLint, etc.) is installed
+automatically via `npm ci` and runs from the project's `node_modules`.
+
 ## Getting Started
 
 1. Fork the repository and create a feature branch from `main`.
-2. Read `CLAUDE.md` for build commands, architecture overview, and project conventions.
-3. Review `docs/concepts/` for architecture and lifecycle documentation.
-4. Make your changes, ensuring `npm run build` and `npm run docs` both pass.
-5. Submit a Pull Request with a clear description of what changed and why.
+2. Run `npm ci` to install dependencies.
+3. Copy `.env.local.example` to `.env.local` and fill in the paths for your
+   local Foundry VTT installations. This file is gitignored — each developer
+   maintains their own copy. See the comments in the example file for details.
+4. Read `CLAUDE.md` for build commands, architecture overview, and project conventions.
+5. Review `docs/concepts/` for architecture and lifecycle documentation.
+6. Make your changes, ensuring `npm run build` and `npm run docs` both pass.
+7. Submit a Pull Request with a clear description of what changed and why.
 
 ## Development Standards
 

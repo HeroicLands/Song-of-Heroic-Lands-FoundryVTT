@@ -84,8 +84,11 @@ Current startup sequence (from `src/sohl.ts`):
 - `Hooks.once("init")`
     - registers system settings (`registerSystemSettings()`),
     - selects/configures variant (`setupVariant()`),
+    - rehydrates imported calendars (`rehydrateCalendars()`),
+    - applies the active calendar (`applyActiveCalendar()`),
     - registers system hooks (`registerSystemHooks()`),
-    - sets combat/time defaults.
+    - sets combat/time defaults,
+    - registers Region and RegionBehavior sheets.
 - `Hooks.once("ready")`
     - registers Handlebars helpers (`registerHandlebarsHelpers()`),
     - sets `SohlSystem.ready = true`.
@@ -271,7 +274,109 @@ This is a critical extension surface.
 
 - Add a small self-test function (dev-only) that asserts required mappings exist.
 
-## 9) AI integration (optional subsystem)
+## 9) Calendar registration
+
+SoHL provides a calendar registry that modules can use to add custom calendars.
+Registered calendars appear in the GM's calendar settings dropdown alongside the
+built-in default.
+
+**Registering a calendar from a module:**
+
+Register your calendar in your module's `init` hook. This must happen during
+`init` so the calendar is available when the system applies the active calendar
+selection.
+
+```js
+Hooks.once("init", () => {
+    game.system.api.SohlSystem.registerCalendar("my-calendar", {
+        label: "My Campaign Calendar",
+        config: {
+            name: "My Campaign Calendar",
+            description: "A 13-month lunar calendar.",
+            years: {
+                yearZero: 0,
+                firstWeekday: 0,
+            },
+            months: {
+                values: [
+                    { name: "Moonrise", abbreviation: "Mnr", ordinal: 1, days: 28 },
+                    // ... remaining months
+                ],
+            },
+            days: {
+                values: [
+                    { name: "Firstday", abbreviation: "1st", ordinal: 1 },
+                    // ... remaining weekdays
+                ],
+                daysPerYear: 364,
+                hoursPerDay: 24,
+                minutesPerHour: 60,
+                secondsPerMinute: 60,
+            },
+            seasons: {
+                values: [
+                    { name: "Spring", monthStart: 1, monthEnd: 4 },
+                    // ... remaining seasons
+                ],
+            },
+            era: {
+                hasYearZero: false,
+                name: "Age",
+                abbrev: "A",
+                beforeName: "Before Age",
+                beforeAbbrev: "BA",
+                description: "",
+            },
+        },
+        builtin: true,  // true = cannot be deleted by the GM via settings UI
+    });
+});
+```
+
+**Registry API** (on `SohlSystem`):
+
+| Method | Description |
+|--------|-------------|
+| `registerCalendar(id, registration)` | Register or overwrite a calendar. |
+| `unregisterCalendar(id)` | Remove a calendar (throws if `builtin`). |
+| `getCalendar(id)` | Get a registration by ID. |
+| `calendars` | `SohlMap` of all registered calendars. |
+| `applyCalendar(id)` | Apply a calendar to `CONFIG.time`. |
+
+**CalendarRegistration shape:**
+
+```ts
+interface CalendarRegistration {
+    label: string;           // Display name or i18n key
+    config: object;          // Full calendar data (see user guide for JSON format)
+    calendarClass?: typeof SohlCalendarData;  // Defaults to SohlCalendarData
+    builtin?: boolean;       // If true, cannot be deleted via settings UI
+}
+```
+
+**Key files:**
+
+- Registry: `src/common/SohlSystem.ts` (static calendar methods)
+- Calendar data model: `src/common/SohlCalendar.ts` (`SohlCalendarData`)
+- Default config: `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
+- Settings UI: `src/common/apps/CalendarSettingsMenu.ts`
+- Init wiring: `src/sohl.ts` (`rehydrateCalendars`, `applyActiveCalendar`)
+
+**Custom CalendarData subclass:**
+
+If your calendar needs custom time-to-components logic (e.g., a non-standard
+era system), you can subclass `SohlCalendarData` and pass it as `calendarClass`
+in the registration. Your subclass must extend `SohlCalendarData` (or
+`foundry.data.CalendarData`) and override `timeToComponents()`.
+
+**Persistence model:**
+
+- Calendars registered by code (modules, system) use `builtin: true` and are
+  re-registered on every init.
+- Calendars imported by the GM via the settings UI are persisted in the
+  `sohl.importedCalendars` world setting and rehydrated at init.
+
+## 10) AI integration (optional subsystem)
 
 `src/utils/ai/*`
 

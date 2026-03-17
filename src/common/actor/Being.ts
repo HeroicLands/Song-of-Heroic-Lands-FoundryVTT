@@ -12,7 +12,6 @@
  */
 
 import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SohlItem } from "@common/item/SohlItem";
 import type { ImpactResult } from "@common/result/ImpactResult";
 import type { SuccessTestResult } from "@common/result/SuccessTestResult";
 import type { SohlActionContext } from "@common/SohlActionContext";
@@ -413,7 +412,10 @@ export class BeingDataModel<
     extends SohlActorDataModel<TSchema, TLogic>
     implements BeingData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Being", "SOHL.Actor"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Being",
+        "SOHL.Actor",
+    ];
     static override readonly kind = ACTOR_KIND.BEING;
 
     static defineSchema(): foundry.data.fields.DataSchema {

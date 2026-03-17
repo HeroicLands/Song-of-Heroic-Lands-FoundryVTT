@@ -1,0 +1,42 @@
+<section class="calendar-settings">
+    {{!-- Active Calendar Selection --}}
+    <fieldset>
+        <legend>{{localize "SOHL.CalendarSettings.activeCalendar.label"}}</legend>
+        <div class="form-group">
+            <label for="activeCalendar">{{localize "SOHL.CalendarSettings.activeCalendar.label"}}</label>
+            <select name="activeCalendar" id="activeCalendar">
+                {{#each calendars}}
+                <option value="{{this.id}}" {{#if this.active}}selected{{/if}}>{{this.label}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </fieldset>
+
+    {{!-- Import Calendar --}}
+    <fieldset>
+        <legend>{{localize "SOHL.CalendarSettings.import.label"}}</legend>
+        <div class="form-group">
+            <button type="button" data-action="importCalendar">
+                <i class="fa-solid fa-file-import"></i>
+                {{localize "SOHL.CalendarSettings.import.button"}}
+            </button>
+        </div>
+    </fieldset>
+
+    {{!-- Imported Calendars (deletable) --}}
+    {{#if hasImported}}
+    <fieldset>
+        <legend>{{localize "SOHL.CalendarSettings.delete.label"}}</legend>
+        <div class="imported-calendars">
+            {{#each imported}}
+            <div class="imported-calendar" data-calendar-id="{{this.id}}">
+                <span class="calendar-name">{{this.label}}</span>
+                <button type="button" class="delete-btn" data-action="deleteCalendar" data-tooltip="Delete">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+            {{/each}}
+        </div>
+    </fieldset>
+    {{/if}}
+</section>

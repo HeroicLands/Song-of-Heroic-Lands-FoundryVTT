@@ -32,6 +32,11 @@
             "@tests/*": ["./tests/*"]
         }
     },
-    "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts",
+        "types/index.d.ts",
+        "nogit/WeatherGrid.ts"
+    ],
     "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }
