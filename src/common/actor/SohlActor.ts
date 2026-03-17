@@ -15,14 +15,14 @@ import type { SohlContextMenu } from "@utils/SohlContextMenu";
 import { SohlItem } from "@common/item/SohlItem";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
 import { SohlActionContext } from "@common/SohlActionContext";
-import { FilePath, HTMLString, toDocumentId } from "@utils/helpers";
+import { FilePath, HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlMap } from "@utils/collection/SohlMap";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
-import { SOHL_ACTION_SCOPE, ACTION_SUBTYPE, ACTOR_KIND, ITEM_KIND } from "@utils/constants";
+import { ACTOR_KIND, ITEM_KIND } from "@utils/constants";
 import type { ActionLogic } from "@common/item/Action";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 

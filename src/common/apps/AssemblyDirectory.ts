@@ -13,7 +13,7 @@
 
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlItem } from "@common/item/SohlItem";
-import { ACTOR_KIND, ITEM_KIND, ItemKinds } from "@utils/constants";
+import { ACTOR_KIND } from "@utils/constants";
 
 /**
  * A custom sidebar directory for Assembly actors.

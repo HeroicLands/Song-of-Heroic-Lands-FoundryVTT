@@ -16,7 +16,6 @@ import {
     AffiliationLogic,
     AffiliationSheet,
 } from "@common/item/Affiliation";
-import { SohlActionContext } from "@common/SohlActionContext";
 
 export class LgndAffiliationLogic extends AffiliationLogic<AffiliationData> {
     /* --------------------------------------------- */
