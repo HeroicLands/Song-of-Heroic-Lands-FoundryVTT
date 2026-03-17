@@ -31,38 +31,23 @@ import {
     AssemblyLogic,
     AssemblySheet,
 } from "@common/actor/Assembly";
-import { LgndCohortLogic, LgndCohortSheet } from "@legendary/actor/LgndCohort";
-import {
-    LgndStructureLogic,
-    LgndStructureSheet,
-} from "@legendary/actor/LgndStructure";
-import {
-    LgndVehicleLogic,
-    LgndVehicleSheet,
-} from "@legendary/actor/LgndVehicle";
+import { CohortLogic, CohortSheet } from "@common/actor/Cohort";
+import { StructureLogic, StructureSheet } from "@common/actor/Structure";
+import { VehicleLogic, VehicleSheet } from "@common/actor/Vehicle";
 import {
     LgndWeaponGearLogic,
     LgndWeaponGearSheet,
 } from "@legendary/item/LgndWeaponGear";
-import { LgndTraitLogic, LgndTraitSheet } from "@legendary/item/LgndTrait";
-import { LgndActionLogic, LgndActionSheet } from "@legendary/item/LgndAssembly";
+import { TraitLogic, TraitSheet } from "@common/item/Trait";
+import { ActionLogic, ActionSheet } from "@common/item/Action";
 import { LgndSkillLogic, LgndSkillSheet } from "@legendary/item/LgndSkill";
-import {
-    LgndAffiliationLogic,
-    LgndAffiliationSheet,
-} from "@legendary/item/LgndAffiliation";
-import {
-    LgndDispositionLogic,
-    LgndDispositionSheet,
-} from "@legendary/item/LgndDisposition";
+import { AffiliationLogic, AffiliationSheet } from "@common/item/Affiliation";
+import { DispositionLogic, DispositionSheet } from "@common/item/Disposition";
 import {
     LgndProtectionLogic,
     LgndProtectionSheet,
 } from "@legendary/item/LgndProtection";
-import {
-    LgndAfflictionLogic,
-    LgndAfflictionSheet,
-} from "@legendary/item/LgndAffliction";
+import { AfflictionLogic, AfflictionSheet } from "@common/item/Affliction";
 import {
     LgndArmorGearLogic,
     LgndArmorGearSheet,
@@ -91,7 +76,7 @@ import {
     LgndConcoctionGearLogic,
     LgndConcoctionGearSheet,
 } from "@legendary/item/LgndConcoctionGear";
-import { LgndDomainLogic, LgndDomainSheet } from "@legendary/item/LgndDomain";
+import { DomainLogic, DomainSheet } from "@common/item/Domain";
 import { LgndInjuryLogic, LgndInjurySheet } from "@legendary/item/LgndInjury";
 import {
     LgndMeleeWeaponStrikeModeLogic,
@@ -105,10 +90,7 @@ import {
     LgndMissileWeaponStrikeModeLogic,
     LgndMissileWeaponStrikeModeSheet,
 } from "@legendary/item/LgndMissileWeaponStrikeMode";
-import {
-    LgndMovementProfileLogic,
-    LgndMovementProfileSheet,
-} from "@legendary/item/LgndMovementProfile";
+import { MovementProfileLogic, MovementProfileSheet } from "@common/item/MovementProfile";
 import {
     LgndMysteryLogic,
     LgndMysterySheet,
@@ -121,10 +103,7 @@ import {
     LgndMysticalDeviceLogic,
     LgndMysticalDeviceSheet,
 } from "@legendary/item/LgndMysticalDevice";
-import {
-    LgndPhilosophyLogic,
-    LgndPhilosophySheet,
-} from "@legendary/item/LgndPhilosophy";
+import { PhilosophyLogic, PhilosophySheet } from "@common/item/Philosophy";
 import {
     LgndProjectileGearLogic,
     LgndProjectileGearSheet,
@@ -139,9 +118,9 @@ export const {
 } = defineType("SOHL.Actor.Logic", {
     [ACTOR_KIND.BEING]: LgndBeingLogic,
     [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
-    [ACTOR_KIND.COHORT]: LgndCohortLogic,
-    [ACTOR_KIND.STRUCTURE]: LgndStructureLogic,
-    [ACTOR_KIND.VEHICLE]: LgndVehicleLogic,
+    [ACTOR_KIND.COHORT]: CohortLogic,
+    [ACTOR_KIND.STRUCTURE]: StructureLogic,
+    [ACTOR_KIND.VEHICLE]: VehicleLogic,
 } as StrictObject<Constructor<SohlActorLogic<any>>>);
 
 export const {
@@ -152,9 +131,9 @@ export const {
 } = defineType("SOHL.Actor.Sheet", {
     [ACTOR_KIND.BEING]: LgndBeingSheet,
     [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
-    [ACTOR_KIND.COHORT]: LgndCohortSheet,
-    [ACTOR_KIND.STRUCTURE]: LgndStructureSheet,
-    [ACTOR_KIND.VEHICLE]: LgndVehicleSheet,
+    [ACTOR_KIND.COHORT]: CohortSheet,
+    [ACTOR_KIND.STRUCTURE]: StructureSheet,
+    [ACTOR_KIND.VEHICLE]: VehicleSheet,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
 export const {
@@ -163,10 +142,10 @@ export const {
     isValue: isCommonItemLogic,
     labels: CommonItemLogicLabels,
 } = defineType("TYPES.Item", {
-    [ITEM_KIND.ACTION]: LgndActionLogic,
-    [ITEM_KIND.AFFILIATION]: LgndAffiliationLogic,
-    [ITEM_KIND.DISPOSITION]: LgndDispositionLogic,
-    [ITEM_KIND.AFFLICTION]: LgndAfflictionLogic,
+    [ITEM_KIND.ACTION]: ActionLogic,
+    [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    [ITEM_KIND.DISPOSITION]: DispositionLogic,
+    [ITEM_KIND.AFFLICTION]: AfflictionLogic,
     [ITEM_KIND.ARMORGEAR]: LgndArmorGearLogic,
     [ITEM_KIND.BODYLOCATION]: LgndBodyLocationLogic,
     [ITEM_KIND.BODYPART]: LgndBodyPartLogic,
@@ -174,20 +153,20 @@ export const {
     [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: LgndCombatTechniqueStrikeModeLogic,
     [ITEM_KIND.CONCOCTIONGEAR]: LgndConcoctionGearLogic,
     [ITEM_KIND.CONTAINERGEAR]: LgndContainerGearLogic,
-    [ITEM_KIND.DOMAIN]: LgndDomainLogic,
+    [ITEM_KIND.DOMAIN]: DomainLogic,
     [ITEM_KIND.INJURY]: LgndInjuryLogic,
     [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: LgndMeleeWeaponStrikeModeLogic,
     [ITEM_KIND.MISCGEAR]: LgndMiscGearLogic,
     [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: LgndMissileWeaponStrikeModeLogic,
-    [ITEM_KIND.MOVEMENTPROFILE]: LgndMovementProfileLogic,
+    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileLogic,
     [ITEM_KIND.MYSTERY]: LgndMysteryLogic,
     [ITEM_KIND.MYSTICALABILITY]: LgndMysticalAbilityLogic,
     [ITEM_KIND.MYSTICALDEVICE]: LgndMysticalDeviceLogic,
-    [ITEM_KIND.PHILOSOPHY]: LgndPhilosophyLogic,
+    [ITEM_KIND.PHILOSOPHY]: PhilosophyLogic,
     [ITEM_KIND.PROJECTILEGEAR]: LgndProjectileGearLogic,
     [ITEM_KIND.PROTECTION]: LgndProtectionLogic,
     [ITEM_KIND.SKILL]: LgndSkillLogic,
-    [ITEM_KIND.TRAIT]: LgndTraitLogic,
+    [ITEM_KIND.TRAIT]: TraitLogic,
     [ITEM_KIND.WEAPONGEAR]: LgndWeaponGearLogic,
 } as StrictObject<Constructor<SohlItemLogic<any>>>);
 
@@ -197,10 +176,10 @@ export const {
     isValue: isCommonItemSheet,
     labels: CommonItemSheetLabels,
 } = defineType("SOHL.Item.Sheet", {
-    [ITEM_KIND.ACTION]: LgndActionSheet,
-    [ITEM_KIND.AFFILIATION]: LgndAffiliationSheet,
-    [ITEM_KIND.DISPOSITION]: LgndDispositionSheet,
-    [ITEM_KIND.AFFLICTION]: LgndAfflictionSheet,
+    [ITEM_KIND.ACTION]: ActionSheet,
+    [ITEM_KIND.AFFILIATION]: AffiliationSheet,
+    [ITEM_KIND.DISPOSITION]: DispositionSheet,
+    [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: LgndArmorGearSheet,
     [ITEM_KIND.BODYLOCATION]: LgndBodyLocationSheet,
     [ITEM_KIND.BODYPART]: LgndBodyPartSheet,
@@ -208,20 +187,20 @@ export const {
     [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: LgndCombatTechniqueStrikeModeSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: LgndConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: LgndContainerGearSheet,
-    [ITEM_KIND.DOMAIN]: LgndDomainSheet,
+    [ITEM_KIND.DOMAIN]: DomainSheet,
     [ITEM_KIND.INJURY]: LgndInjurySheet,
     [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: LgndMeleeWeaponStrikeModeSheet,
     [ITEM_KIND.MISCGEAR]: LgndMiscGearSheet,
     [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: LgndMissileWeaponStrikeModeSheet,
-    [ITEM_KIND.MOVEMENTPROFILE]: LgndMovementProfileSheet,
+    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileSheet,
     [ITEM_KIND.MYSTERY]: LgndMysterySheet,
     [ITEM_KIND.MYSTICALABILITY]: LgndMysticalAbilitySheet,
     [ITEM_KIND.MYSTICALDEVICE]: LgndMysticalDeviceSheet,
-    [ITEM_KIND.PHILOSOPHY]: LgndPhilosophySheet,
+    [ITEM_KIND.PHILOSOPHY]: PhilosophySheet,
     [ITEM_KIND.PROJECTILEGEAR]: LgndProjectileGearSheet,
     [ITEM_KIND.PROTECTION]: LgndProtectionSheet,
     [ITEM_KIND.SKILL]: LgndSkillSheet,
-    [ITEM_KIND.TRAIT]: LgndTraitSheet,
+    [ITEM_KIND.TRAIT]: TraitSheet,
     [ITEM_KIND.WEAPONGEAR]: LgndWeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 

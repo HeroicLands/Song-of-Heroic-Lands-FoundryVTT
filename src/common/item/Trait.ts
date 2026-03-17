@@ -107,6 +107,8 @@ export interface TraitData<
     }[];
     /** Predefined selection options for this trait */
     choices: StrictObject<string>;
+    /** Dice formula used for random generation of this trait's value */
+    diceFormula: string;
 }
 
 function defineTraitSchema(): foundry.data.fields.DataSchema {
@@ -143,6 +145,7 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
             }),
         ),
         choices: new ObjectField(),
+        diceFormula: new StringField({ initial: "" }),
     };
 }
 
@@ -167,6 +170,7 @@ export class TraitDataModel<
         maxValue: number;
     }[];
     choices!: StrictObject<string>;
+    diceFormula!: string;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineTraitSchema();
@@ -174,6 +178,15 @@ export class TraitDataModel<
 }
 
 export class TraitSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/trait-properties.hbs",
+            scrollable: [""],
+        },
+    };
+
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -193,6 +206,7 @@ export class TraitSheet extends SohlItemSheetBase {
             intensity: system.intensity,
             valueDesc: system.valueDesc,
             choices: system.choices,
+            diceFormula: system.diceFormula,
         });
     }
 }

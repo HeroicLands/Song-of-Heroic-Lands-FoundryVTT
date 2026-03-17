@@ -260,6 +260,12 @@ Intended usage:
 - The core (`src/common`) defines general behaviors and contracts.
 - Variants override/extend only what differs.
 
+### Variant-invariant types
+
+Many actor and item types are **variant-invariant**: their logic, data model, and sheet are fully defined in `src/common/` and shared across all variants with no overrides. Only types that have genuine variant-specific behavior (e.g., Being, Skill, combat gear types) have Legendary or MistyIsle overrides.
+
+See the [Type Catalog](../reference/type-catalog.md#variant-invariance) for the complete classification of which types are variant-invariant vs. variant-specific.
+
 Runtime selection (implemented in `src/sohl.ts` + `src/common/SohlSystem.ts`):
 
 - Available variants are registered at startup via `SohlSystem.registerVariant(...)`.

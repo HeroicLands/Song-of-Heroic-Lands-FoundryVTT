@@ -97,4 +97,33 @@ export class StructureDataModel<
     }
 }
 
-export abstract class StructureSheet extends SohlActorSheetBase {}
+export class StructureSheet extends SohlActorSheetBase {
+    static DEFAULT_OPTIONS: PlainObject = {
+        id: "structure-sheet",
+        tag: "form",
+        position: { width: 900, height: 640 },
+        classes: ["sohl", "sheet", "actor", "structure"],
+        dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }],
+    };
+
+    static PARTS = {
+        header: { template: "systems/sohl/templates/actor/structure/header.hbs" },
+        tabs: { template: "templates/generic/tab-navigation.hbs" },
+        facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
+        gear: { template: "systems/sohl/templates/actor/parts/gear.hbs" },
+        actions: { template: "systems/sohl/templates/actor/parts/actions.hbs" },
+        effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
+    } as const;
+
+    static TABS = {
+        primary: {
+            initial: "facade",
+            tabs: [
+                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label", icon: "fas fa-masks-theater" },
+                { id: "gear", label: "SOHL.Actor.SHEET.tab.gear.label", icon: "fas fa-briefcase" },
+                { id: "actions", label: "SOHL.Actor.SHEET.tab.actions.label", icon: "fas fa-cogs" },
+                { id: "effects", label: "SOHL.Actor.SHEET.tab.effects.label", icon: "fas fa-bolt" },
+            ],
+        },
+    };
+}

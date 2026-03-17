@@ -445,7 +445,7 @@ export class SohlActor extends Actor {
                     ) {
                         const rollFormula =
                             (options.rollFormula === "default" ?
-                                obj.flags?.sohl?.diceFormula
+                                obj.system.diceFormula
                             :   options.rollFormula) || "0";
 
                         try {

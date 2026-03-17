@@ -77,6 +77,61 @@ For conceptual details, see `docs/concepts/architecture.md`, `docs/concepts/nest
 | **Mystical Device**  | A magical device enabling abilities/effects.                 | Being; may contain nested abilities |
 | **Philosophy**       | Belief system / doctrine / ethos; may unlock actions/traits. | Being, Cohort                       |
 
+## Variant invariance
+
+Some types are **variant-invariant**: their logic, data model, and sheet are defined entirely in `src/common/` and do not change between rule variants (Legendary, MistyIsle). Other types are **variant-specific**: they have overrides in `src/legendary/` or `src/mistyisle/` that add or modify behavior.
+
+### Variant-invariant actors
+
+| Actor         | Notes                                                                 |
+| ------------- | --------------------------------------------------------------------- |
+| **Assembly**  | Hybrid Actor/Item container. See [Assembly Architecture](../concepts/assembly-architecture.md). |
+| **Cohort**    | Group entity. Logic and sheet in `src/common/actor/Cohort.ts`.        |
+| **Structure** | Fixed installation. Logic and sheet in `src/common/actor/Structure.ts`. |
+| **Vehicle**   | Movable platform. Logic and sheet in `src/common/actor/Vehicle.ts`.   |
+
+### Variant-specific actors
+
+| Actor      | Notes                                                              |
+| ---------- | ------------------------------------------------------------------ |
+| **Being**  | Has variant-specific logic and sheet in `src/legendary/actor/LgndBeing.ts`. |
+
+### Variant-invariant items
+
+| Item                 | Notes                                                                   |
+| -------------------- | ----------------------------------------------------------------------- |
+| **Action**           | Logic and sheet in `src/common/item/Action.ts`.                         |
+| **Affiliation**      | Logic and sheet in `src/common/item/Affiliation.ts`.                    |
+| **Affliction**       | Logic and sheet in `src/common/item/Affliction.ts`.                     |
+| **Disposition**      | Logic and sheet in `src/common/item/Disposition.ts`.                    |
+| **Domain**           | Logic and sheet in `src/common/item/Domain.ts`.                         |
+| **Movement Profile** | Logic and sheet in `src/common/item/MovementProfile.ts`.                |
+| **Philosophy**       | Logic and sheet in `src/common/item/Philosophy.ts`.                     |
+| **Trait**            | Logic and sheet in `src/common/item/Trait.ts`.                          |
+
+### Variant-specific items
+
+| Item                             | Notes                                                                              |
+| -------------------------------- | ---------------------------------------------------------------------------------- |
+| **Armor Gear**                   | Variant overrides in `src/legendary/item/LgndArmorGear.ts`.                        |
+| **Body Location**                | Variant overrides in `src/legendary/item/LgndBodyLocation.ts`.                     |
+| **Body Part**                    | Variant overrides in `src/legendary/item/LgndBodyPart.ts`.                         |
+| **Body Zone**                    | Variant overrides in `src/legendary/item/LgndBodyZone.ts`.                         |
+| **Combat Technique Strike Mode** | Variant overrides in `src/legendary/item/LgndCombatTechniqueStrikeMode.ts`.        |
+| **Concoction Gear**              | Variant overrides in `src/legendary/item/LgndConcoctionGear.ts`.                   |
+| **Container Gear**               | Variant overrides in `src/legendary/item/LgndContainerGear.ts`.                    |
+| **Injury**                       | Variant overrides in `src/legendary/item/LgndInjury.ts`.                           |
+| **Melee Weapon Strike Mode**     | Variant overrides in `src/legendary/item/LgndMeleeWeaponStrikeMode.ts`.            |
+| **Misc Gear**                    | Variant overrides in `src/legendary/item/LgndMiscGear.ts`.                         |
+| **Missile Weapon Strike Mode**   | Variant overrides in `src/legendary/item/LgndMissileWeaponStrikeMode.ts`.          |
+| **Mystery**                      | Variant overrides in `src/legendary/item/LgndMystery.ts`.                          |
+| **Mystical Ability**             | Variant overrides in `src/legendary/item/LgndMysticalAbility.ts`.                  |
+| **Mystical Device**              | Variant overrides in `src/legendary/item/LgndMysticalDevice.ts`.                   |
+| **Projectile Gear**              | Variant overrides in `src/legendary/item/LgndProjectileGear.ts`.                   |
+| **Protection**                   | Variant overrides in `src/legendary/item/LgndProtection.ts`.                       |
+| **Skill**                        | Variant overrides in `src/legendary/item/LgndSkill.ts`.                            |
+| **Weapon Gear**                  | Variant overrides in `src/legendary/item/LgndWeaponGear.ts`.                       |
+
 ## Core architecture concepts
 
 - **NestedItems:** SoHL supports “items within items” even though Foundry does not natively. See `docs/concepts/nested-items.md`.

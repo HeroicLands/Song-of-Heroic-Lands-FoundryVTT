@@ -197,6 +197,15 @@ export class MovementProfileDataModel<
 }
 
 export class MovementProfileSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/movementprofile-properties.hbs",
+            scrollable: [""],
+        },
+    };
+
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

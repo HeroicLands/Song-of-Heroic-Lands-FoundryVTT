@@ -166,4 +166,33 @@ export class CohortDataModel<
     }
 }
 
-export abstract class CohortSheet extends SohlActorSheetBase {}
+export class CohortSheet extends SohlActorSheetBase {
+    static DEFAULT_OPTIONS: PlainObject = {
+        id: "cohort-sheet",
+        tag: "form",
+        position: { width: 900, height: 640 },
+        classes: ["sohl", "sheet", "actor", "cohort"],
+        dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }],
+    };
+
+    static PARTS = {
+        header: { template: "systems/sohl/templates/actor/cohort/header.hbs" },
+        tabs: { template: "templates/generic/tab-navigation.hbs" },
+        facade: { template: "systems/sohl/templates/actor/parts/facade.hbs" },
+        members: { template: "systems/sohl/templates/actor/cohort/members.hbs" },
+        actions: { template: "systems/sohl/templates/actor/parts/actions.hbs" },
+        effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
+    } as const;
+
+    static TABS = {
+        primary: {
+            initial: "facade",
+            tabs: [
+                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label", icon: "fas fa-masks-theater" },
+                { id: "members", label: "SOHL.Actor.SHEET.tab.members.label", icon: "fas fa-users" },
+                { id: "actions", label: "SOHL.Actor.SHEET.tab.actions.label", icon: "fas fa-cogs" },
+                { id: "effects", label: "SOHL.Actor.SHEET.tab.effects.label", icon: "fas fa-bolt" },
+            ],
+        },
+    };
+}
