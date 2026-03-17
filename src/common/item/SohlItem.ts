@@ -18,6 +18,9 @@ import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
+const TextEditor = foundry.applications.ux.TextEditor.implementation;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
+type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 export class SohlItem extends Item {
     /**
@@ -382,9 +385,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     }
 
     async _prepareContext(
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const context = await super._prepareContext(options);
 
@@ -397,10 +400,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
 
     async _preparePartContext(
         partId: string,
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
@@ -425,10 +428,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     }
 
     protected async _prepareTabsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         return context;
     }
@@ -438,10 +441,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Provides the item name, image, and type label.
      */
     protected async _prepareHeaderContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const system = this.document.system as any;
         const subType = system.subType ?? "";
@@ -469,10 +472,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * this to add type-specific properties.
      */
     protected async _preparePropertiesContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const system = this.document.system as any;
         return Object.assign(context, {
@@ -488,10 +491,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Provides enriched HTML for the full-page ProseMirror description editor.
      */
     protected async _prepareDescriptionContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const system = this.document.system as any;
         return Object.assign(context, {
@@ -506,10 +509,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Provides the list of items nested within this item.
      */
     protected async _prepareNestedItemsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const nestedItems: SohlItem[] = [];
         if (this.actor) {
@@ -527,10 +530,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Provides the list of action items associated with this item.
      */
     protected async _prepareActionsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const actions = this.document.logic?.actions ?? [];
         return Object.assign(context, { actions });
@@ -541,10 +544,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Provides the item's own effects and any transferred effects.
      */
     protected async _prepareEffectsTabContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
+        RenderContext
     > {
         const effects = (this.document as any).effects?.contents ?? [];
         const trxEffects: PlainObject = {};

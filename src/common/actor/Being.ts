@@ -31,6 +31,9 @@ import {
 import type { SohlItem } from "@common/item/SohlItem";
 
 const { StringField } = foundry.data.fields;
+const TextEditor = foundry.applications.ux.TextEditor.implementation;
+type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
+type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
@@ -449,10 +452,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     async _preparePartContext(
         partId: string,
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         switch (partId) {
             case "header":
@@ -488,10 +491,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the sheet header: name, image, health, status effects, body parts. */
     async _prepareHeaderContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
@@ -529,20 +532,20 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Tabs navigation. */
     async _prepareTabsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         return context;
     }
 
     /** Prepare context for the Facade tab: bio image and description. */
     async _prepareFacadeContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const system = this.document.system as any;
         return Object.assign(context, {
@@ -555,10 +558,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Profile tab: attributes, traits, affiliations, biography. */
     async _prepareProfileContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
         const traits = actor.allItemTypes[ITEM_KIND.TRAIT] ?? [];
@@ -593,10 +596,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Skills tab: skills grouped by subType. */
     async _prepareSkillsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const skills = this.document.allItemTypes[ITEM_KIND.SKILL] ?? [];
         const skillGroups: StrictObject<SohlItem[]> = {};
@@ -621,10 +624,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
      * combat techniques, and the full body anatomy structure.
      */
     async _prepareCombatContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
 
@@ -704,10 +707,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Trauma tab: injuries and afflictions. */
     async _prepareTraumaContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
@@ -736,10 +739,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
      * philosophies, and domains.
      */
     async _prepareMysteriesContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
 
@@ -793,10 +796,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
      * and encumbrance totals.
      */
     async _prepareGearContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actor = this.document;
 
@@ -858,10 +861,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Actions tab: actor-level actions. */
     async _prepareActionsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const actions = this.document.logic?.actions ?? [];
         return Object.assign(context, { actions });
@@ -869,10 +872,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
 
     /** Prepare context for the Effects tab: own and transferred effects. */
     async _prepareEffectsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        context: RenderContext,
+        _options: RenderOptions,
     ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
+        RenderContext
     > {
         const effects =
             (this.document as any).effects?.contents ?? [];
