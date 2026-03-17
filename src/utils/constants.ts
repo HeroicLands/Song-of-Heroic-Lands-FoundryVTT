@@ -766,7 +766,7 @@ export const {
     values: CohortMemberRoles,
     isValue: isCohortMemberRole,
     labels: cohortMemberRoleLabels,
-} = defineType("SOHL.Cohort.MEMBER_ROLE", {
+} = defineType("SOHL.Cohort.MemberRole", {
     DIRECTOR: "director",
     MEMBER: "member",
     SUBORDINATE: "subordinate",
@@ -1014,7 +1014,7 @@ export const {
     kind: SOHL_CONTEXT_MENU_SORT_GROUP,
     values: SohlContextMenuSortGroups,
     isValue: isSohlContextMenuSortGroup,
-} = defineType("SOHL.ContextMenu.SORT_GROUP", {
+} = defineType("SOHL.ContextMenu.SortGroup", {
     DEFAULT: "default",
     ESSENTIAL: "essential",
     GENERAL: "general",
@@ -1197,7 +1197,7 @@ export const {
     values: AfflictionSubTypes,
     isValue: isAfflictionSubType,
     labels: AfflictionSubTypeLabels,
-} = defineType("SOHL.Affliction.SUBTYPE", {
+} = defineType("SOHL.Affliction.SubType", {
     PRIVATION: "privation",
     FATIGUE: "fatigue",
     DISEASE: "disease",
@@ -1216,7 +1216,7 @@ export const {
     values: AfflictionTransmissions,
     isValue: isAfflictionTransmission,
     labels: AfflictionTransmissionLabels,
-} = defineType("SOHL.Affliction.TRANSMISSION", {
+} = defineType("SOHL.Affliction.Transmission", {
     NONE: "none",
     AIRBORNE: "airborne",
     CONTACT: "contact",
@@ -1320,7 +1320,7 @@ export const {
     values: ActionSubTypes,
     isValue: isActionSubType,
     labels: ActionSubTypeLabels,
-} = defineType("SOHL.Action.SUBTYPE", {
+} = defineType("SOHL.Action.SubType", {
     BASIC: "basic",
     SCRIPT_ACTION: "scriptaction",
     INTRINSIC_ACTION: "intrinsicaction",
@@ -1473,7 +1473,7 @@ export const {
     kind: SKILL_COMBAT_CATEGORY,
     values: SkillCombatCategories,
     isValue: isSkillCombatCategory,
-} = defineType("SOHL.Skill.COMBAT", {
+} = defineType("SOHL.Skill.Combat", {
     NONE: "none",
     ALL: "all",
     MELEE: "melee",
@@ -1767,10 +1767,11 @@ export const {
         condition: (header: HTMLElement): boolean => {
             const item = getContextItem(header);
             if (!item?.actor?.items) return false;
-            const dodge = Itr.from<SohlItem>(item.actor.items.values() as Iterable<SohlItem>).find(
+            const dodge = Itr.from<SohlItem>(
+                item.actor.items.values() as Iterable<SohlItem>,
+            ).find(
                 (it: SohlItem) =>
-                    it.type === ITEM_KIND.SKILL &&
-                    it.name === "Dodge",
+                    it.type === ITEM_KIND.SKILL && it.name === "Dodge",
             ) as SohlItem | null;
             return !!(
                 dodge &&

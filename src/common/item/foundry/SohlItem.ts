@@ -17,12 +17,11 @@ import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import {
-    notifyWarn as fvttNotifyWarn,
-} from "@common/foundry-helpers";
+import { notifyWarn as fvttNotifyWarn } from "@common/foundry-helpers";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
-type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
+type RenderContext =
+    foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 export class SohlItem extends Item {
@@ -182,11 +181,13 @@ export class SohlItem extends Item {
     }
 }
 
-export interface SohlItemLogic<TData extends SohlDataModel.Data<SohlItem>>
-    extends SohlLogic<TData> {}
+export interface SohlItemLogic<
+    TData extends SohlDataModel.Data<SohlItem>,
+> extends SohlLogic<TData> {}
 
-export interface SohlItemData<TLogic extends SohlLogic<any> = SohlLogic<any>>
-    extends SohlDataModel.Data<SohlItem, TLogic> {
+export interface SohlItemData<
+    TLogic extends SohlLogic<any> = SohlLogic<any>,
+> extends SohlDataModel.Data<SohlItem, TLogic> {
     get item(): SohlItem;
     label(options?: { withName: boolean; withSubType: boolean }): string;
     notes: HTMLString;
@@ -252,10 +253,9 @@ type SohlItemDataSchema = ReturnType<typeof defineSohlItemDataSchema>;
  * definition and initialization logic.
  */
 export abstract class SohlItemDataModel<
-        TSchema extends foundry.data.fields.DataSchema = SohlItemDataSchema,
-        TLogic extends
-            SohlItemLogic<SohlItemData> = SohlItemLogic<SohlItemData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = SohlItemDataSchema,
+    TLogic extends SohlItemLogic<SohlItemData> = SohlItemLogic<SohlItemData>,
+>
     extends SohlDataModel<TSchema, SohlItem, TLogic>
     implements SohlItemData<TLogic>
 {
@@ -415,11 +415,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         );
     }
 
-    async _prepareContext(
-        options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    async _prepareContext(options: RenderOptions): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
@@ -433,9 +429,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         partId: string,
         context: RenderContext,
         options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
         switch (partId) {
@@ -461,9 +455,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareTabsContext(
         context: RenderContext,
         options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         return context;
     }
 
@@ -474,16 +466,14 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareHeaderContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const system = this.document.system as any;
         const subType = system.subType ?? "";
         let subTypeLabel = "";
         if (subType) {
             // Try to localize the subtype using the type's localization prefix
             const kind = system.constructor?.kind ?? this.document.type;
-            const locKey = `SOHL.${kind}.SUBTYPE.${subType}`;
+            const locKey = `SOHL.${kind}.SubType.${subType}`;
             const localized = sohl.i18n.localize(locKey);
             subTypeLabel = localized !== locKey ? localized : subType;
         }
@@ -505,9 +495,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _preparePropertiesContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const system = this.document.system as any;
         return Object.assign(context, {
             shortcode: system.shortcode,
@@ -524,9 +512,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareDescriptionContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const system = this.document.system as any;
         return Object.assign(context, {
             descriptionHTML: await TextEditor.enrichHTML(
@@ -542,9 +528,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareNestedItemsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const nestedItems: SohlItem[] = [];
         if (this.actor) {
             for (const item of this.actor.allItems.values()) {
@@ -563,9 +547,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareActionsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actions = this.document.logic?.actions ?? [];
         return Object.assign(context, { actions });
     }
@@ -577,13 +559,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     protected async _prepareEffectsTabContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const effects = (this.document as any).effects?.contents ?? [];
         const trxEffects: PlainObject = {};
-        const transferredEffects =
-            (this.document as any).transferredEffects;
+        const transferredEffects = (this.document as any).transferredEffects;
         if (transferredEffects) {
             for (const effect of transferredEffects) {
                 if (!effect.disabled) {
