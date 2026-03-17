@@ -22,7 +22,7 @@ import { SohlMap } from "@utils/collection/SohlMap";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { SkillBase } from "@common/SkillBase";
 import { SohlSpeaker } from "@common/SohlSpeaker";
-import { SOHL_ACTION_SCOPE, ACTION_SUBTYPE, ITEM_KIND } from "@utils/constants";
+import { SOHL_ACTION_SCOPE, ACTION_SUBTYPE, ACTOR_KIND, ITEM_KIND } from "@utils/constants";
 import type { ActionLogic } from "@common/item/Action";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
@@ -554,6 +554,73 @@ export class SohlActor extends Actor {
             data,
         ])) as SohlActiveEffect[];
         return created;
+    }
+
+    /* --------------------------------------------- */
+    /* Assembly Invariant Enforcement                */
+    /* --------------------------------------------- */
+
+    /**
+     * Enforce the Assembly canonical item invariant on item creation:
+     * an Assembly must have exactly one root item (nestedIn === null).
+     * New items added to an Assembly that already has a root must have nestedIn set.
+     */
+    protected override _preCreateDescendantDocuments(
+        ...args: Actor.PreCreateDescendantDocumentsArgs
+    ): void {
+        super._preCreateDescendantDocuments(...args);
+
+        if (this.type !== ACTOR_KIND.ASSEMBLY) return;
+
+        const [_parent, collection, data, _options, _userId] = args;
+        if (collection !== "items") return;
+
+        const hasRoot = this.items.some(
+            (i: SohlItem) => (i.system as any).nestedIn == null,
+        );
+
+        for (const itemData of data as PlainObject[]) {
+            const nestedIn = foundry.utils.getProperty(itemData, "system.nestedIn");
+            if (nestedIn == null && hasRoot) {
+                ui.notifications.warn(
+                    game.i18n.format("SOHL.Assembly.invalidState.multipleRoots", {
+                        name: this.name,
+                    }),
+                );
+                // Prevent creation by clearing the data array
+                data.length = 0;
+                return;
+            }
+        }
+    }
+
+    /**
+     * Synchronize the Assembly actor's name when its canonical item's name changes.
+     */
+    protected override _onUpdateDescendantDocuments(
+        ...args: Actor.OnUpdateDescendantDocumentsArgs
+    ): void {
+        super._onUpdateDescendantDocuments(...args);
+
+        if (this.type !== ACTOR_KIND.ASSEMBLY) return;
+
+        const [_parent, collection, documents, changes, _options, _userId] = args;
+        if (collection !== "items") return;
+
+        // Check if any of the updated items is the canonical item (nestedIn === null)
+        // and if its name changed
+        for (let i = 0; i < documents.length; i++) {
+            const item = documents[i] as SohlItem;
+            const change = changes[i] as PlainObject;
+            if (
+                (item.system as any).nestedIn == null &&
+                change.name &&
+                change.name !== this.name
+            ) {
+                this.update({ name: change.name });
+                break;
+            }
+        }
     }
 }
 

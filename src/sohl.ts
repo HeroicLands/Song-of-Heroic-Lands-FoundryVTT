@@ -21,6 +21,10 @@ import { SohlCombatant } from "@common/combatant/SohlCombatant";
 import { SohlEncounterConfig } from "@common/region-behavior/SohlEncounter";
 import { SohlRegionConfig } from "@common/region/SohlRegion";
 import { CalendarSettingsMenu } from "@common/apps/CalendarSettingsMenu";
+import {
+    registerAssemblySidebar,
+    registerAssemblyContextMenu,
+} from "@common/apps/AssemblyDirectory";
 
 // Register all system variants
 SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
@@ -80,14 +84,6 @@ function registerSystemSettings() {
         config: true,
         type: Boolean,
         default: true,
-    });
-    game.settings.register("sohl", "showAssemblies", {
-        name: "SOHL.Settings.showAssemblies.label",
-        hint: "SOHL.Settings.showAssemblies.hint",
-        scope: "client",
-        config: true,
-        type: Boolean,
-        default: false,
     });
     game.settings.register("sohl", "combatAudio", {
         name: "SOHL.Settings.combatAudio.label",
@@ -670,6 +666,10 @@ Hooks.once("init", () => {
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;
     CONFIG.time.turnTime = 0;
+
+    // Register the Assemblies sidebar tab and filter Assemblies from Actors sidebar
+    registerAssemblySidebar();
+    registerAssemblyContextMenu();
 
     // Register Region sheet
     foundry.applications.apps.DocumentSheetConfig.registerSheet(

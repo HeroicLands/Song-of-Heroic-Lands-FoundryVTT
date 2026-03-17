@@ -221,18 +221,6 @@ When enabled, a welcome dialog is displayed each time you log in to the
 world. The dialog provides quick links and version information. Disable it
 once you are familiar with the system.
 
-## Show Assemblies
-
-**Default:** Disabled
-
-When enabled, Assembly actors that you own are shown in the Actors sidebar.
-Assemblies are typically used as containers for complex items (weapons with
-nested strike modes, enchanted gear, etc.) and are not usually interacted
-with directly during play.
-
-Enable this if you need to inspect or edit assembly contents. Most players
-can leave it disabled.
-
 ## Log Level
 
 **Default:** Info

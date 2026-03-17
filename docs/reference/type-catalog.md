@@ -13,7 +13,7 @@ For conceptual details, see `docs/concepts/architecture.md`, `docs/concepts/nest
 | **Cohort**    | A group acting as a unit (followers, squad, crew element), often simplified vs individual beings.            | Skills (group), Traits, Gear (shared), Injuries/Afflictions, Actions, Domain/Affiliation                                         |
 | **Structure** | A fixed installation/location entity (building, fortification, ship component), often targetable/damageable. | Protection, Injuries/Damage abstractions, Domains, Affiliation, Actions                                                          |
 | **Vehicle**   | A movable platform (wagon, ship, mount abstraction) with capacity, protection, and possibly crew.            | Container/Storage items, Protection, Injuries/Damage, Actions, Affiliation, Domains                                              |
-| **Assembly**  | A composed entity made from sub-entities (e.g., a crewed vehicle, formation, or “thing made of things”).     | NestedItems-heavy; can aggregate Beings/Cohorts/Structures/Vehicle components, shared Actions, shared Domain/Affiliation         |
+| **Assembly**  | A hybrid Actor/Item container for complex nested item hierarchies (e.g., enchanted weapon, treasure chest). Variant-invariant. Has its own sidebar tab. See [Assembly Architecture](../concepts/assembly-architecture.md). | Any item type as canonical item; nested items depend on the canonical item's type (e.g., WeaponGear with StrikeModes, ContainerGear with contents). |
 
 ## Items
 

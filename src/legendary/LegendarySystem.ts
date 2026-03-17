@@ -28,9 +28,9 @@ import { SohlActorLogic, SohlActorSheetBase } from "@common/actor/SohlActor";
 import { SohlItemLogic, SohlItemSheetBase } from "@common/item/SohlItem";
 import { LgndBeingLogic, LgndBeingSheet } from "@legendary/actor/LgndBeing";
 import {
-    LgndAssemblyLogic,
-    LgndAssemblySheet,
-} from "@legendary/actor/LgndAssembly";
+    AssemblyLogic,
+    AssemblySheet,
+} from "@common/actor/Assembly";
 import { LgndCohortLogic, LgndCohortSheet } from "@legendary/actor/LgndCohort";
 import {
     LgndStructureLogic,
@@ -138,7 +138,7 @@ export const {
     labels: CommonActorLogicLabels,
 } = defineType("SOHL.Actor.Logic", {
     [ACTOR_KIND.BEING]: LgndBeingLogic,
-    [ACTOR_KIND.ASSEMBLY]: LgndAssemblyLogic,
+    [ACTOR_KIND.ASSEMBLY]: AssemblyLogic,
     [ACTOR_KIND.COHORT]: LgndCohortLogic,
     [ACTOR_KIND.STRUCTURE]: LgndStructureLogic,
     [ACTOR_KIND.VEHICLE]: LgndVehicleLogic,
@@ -151,7 +151,7 @@ export const {
     labels: CommonActorSheetLabels,
 } = defineType("SOHL.Actor.Sheet", {
     [ACTOR_KIND.BEING]: LgndBeingSheet,
-    [ACTOR_KIND.ASSEMBLY]: LgndAssemblySheet,
+    [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
     [ACTOR_KIND.COHORT]: LgndCohortSheet,
     [ACTOR_KIND.STRUCTURE]: LgndStructureSheet,
     [ACTOR_KIND.VEHICLE]: LgndVehicleSheet,

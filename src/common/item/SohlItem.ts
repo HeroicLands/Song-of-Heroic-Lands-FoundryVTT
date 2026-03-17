@@ -149,6 +149,34 @@ export class SohlItem extends Item {
         ])) as SohlActiveEffect[];
         return created;
     }
+
+    /**
+     * Prevent deletion of items that have nested children.
+     * Children must be un-nested or deleted before the parent can be removed.
+     */
+    protected override async _preDelete(
+        options: Item.Database.PreDeleteOptions,
+        user: User.Implementation,
+    ): Promise<boolean | void> {
+        const allowed = await super._preDelete(options, user);
+        if (allowed === false) return false;
+
+        if (!this.actor) return;
+
+        // Use the raw Foundry embedded collection for reliability
+        const children = this.actor.items.filter(
+            (i: SohlItem) => (i.system as any).nestedIn === this.id,
+        );
+        if (children.length > 0) {
+            ui.notifications.warn(
+                game.i18n.format("SOHL.Item.deleteBlockedByChildren", {
+                    name: this.name,
+                    count: String(children.length),
+                }),
+            );
+            return false;
+        }
+    }
 }
 
 export interface SohlItemLogic<TData extends SohlDataModel.Data<SohlItem>>

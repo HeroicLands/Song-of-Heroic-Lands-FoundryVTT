@@ -207,7 +207,6 @@ declare module "fvtt-types/configuration" {
         "sohl.variant": string;
         "sohl.logLevel": string;
         "sohl.showWelcomeDialog": boolean;
-        "sohl.showAssemblies": boolean;
         "sohl.combatAudio": boolean;
         "sohl.recordTrauma": string;
         "sohl.healingSeconds": number;

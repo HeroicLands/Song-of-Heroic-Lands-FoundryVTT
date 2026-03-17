@@ -77,6 +77,18 @@ Practical effect:
 
 Treat sheet-level move logic as part of the nested-item integrity boundary.
 
+## Deletion guard
+
+An item with nested children cannot be deleted. Children must be un-nested or deleted before the parent can be removed. This is enforced via `SohlItem._preDelete` and applies codebase-wide.
+
+This prevents orphaned items with dangling `nestedIn` pointers.
+
+## Assembly as item container
+
+An Assembly actor exists to host standalone nested item trees outside of a Being, Cohort, Structure, or Vehicle. The Assembly is conceptually a single Item with children — it uses an Actor document as the container because Foundry requires items to embed within actors.
+
+See [Assembly Architecture](./assembly-architecture.md) for full details.
+
 ## Variant interaction
 
 NestedItems machinery is variant-agnostic.
