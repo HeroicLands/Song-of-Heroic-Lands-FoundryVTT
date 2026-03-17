@@ -12,9 +12,8 @@
  */
 
 import type { SohlLogic } from "@common/SohlLogic";
-import { maxPrecision } from "@utils/helpers";
+import { maxPrecision, instanceToJSON, cloneInstance } from "@utils/helpers";
 import { ValueDelta } from "@common/modifier/ValueDelta";
-import { SohlBase } from "@common/SohlBase";
 import {
     SYMBOL,
     VALUE_DELTA_INFO,
@@ -33,7 +32,7 @@ import {
  * that would negate a value entirely, while making it possible to denote the difference
  * between a value that is zero due to modifiers and a value that is zero due to being disabled.
  */
-export class ValueModifier extends SohlBase {
+export class ValueModifier {
     private _shortcode!: string;
     private _dirty: boolean;
     private _effective!: number;
@@ -50,7 +49,6 @@ export class ValueModifier extends SohlBase {
         if (!options?.parent) {
             throw new Error("ValueModifier must be constructed with a parent.");
         }
-        super(data, options);
         this._parent = options.parent;
         this.disabledReason = data.disabledReason ?? "";
         this.baseValue = data.baseValue ?? undefined;
@@ -58,6 +56,14 @@ export class ValueModifier extends SohlBase {
         this.deltas = data.deltas ?? [];
         this._dirty = true;
         this._apply();
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
+    }
+
+    clone<T>(data: PlainObject = {}, options: PlainObject = {}): T {
+        return cloneInstance<T>(this, data, options);
     }
 
     protected _apply(): void {

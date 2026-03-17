@@ -17,7 +17,7 @@ import { Itr } from "@utils/Itr";
  * @summary A tracked array that participates in the SoHL data lifecycle.
  * @description
  * `SohlArray<T>` is an extension of the native `Array<T>` that supports automatic tracking of parent context and persistence.
- * It is used to hold ordered collections of `SohlBase`-derived objects such as Effects or nested Logic items.
+ * It is used to hold ordered collections of objects such as Effects or nested Logic items.
  *
  * @remarks
  * The array tracks its parent context (SohlBeing or SohlLogic) and notifies it when changes occur.
@@ -247,7 +247,7 @@ export class SohlArray<T> {
      * not be saved or correctly initialized.
      *
      * @remarks
-     * - If the value is a subclass of `SohlBase`, `setTracking()` is called automatically.
+     * - If the value supports tracking, `setTracking()` is called automatically.
      * - Triggers `markChanged(index)` to notify the parent that this slot has been updated.
      * - Maintains internal consistency and enables serialization, rollback, and syncing behavior.
      *

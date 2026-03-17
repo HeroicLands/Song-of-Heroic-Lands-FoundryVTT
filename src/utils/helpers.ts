@@ -14,7 +14,7 @@
 import type { SohlItem } from "@common/item/SohlItem";
 import type { GearData } from "@common/item/Gear";
 import type { MasteryLevelData } from "@common/item/MasteryLevel";
-import { ITEM_KIND } from "@utils/constants";
+import { ITEM_KIND, KIND_KEY } from "@utils/constants";
 import { SohlMap } from "@utils/collection/SohlMap";
 
 export type SohlSettingValue =
@@ -597,6 +597,44 @@ export function defaultToJSON(value: any): JsonValue | undefined {
     }
 
     return value;
+}
+
+/**
+ * Serialize an object instance to a plain JSON-safe object.
+ * Strips leading underscores from property names, skips functions,
+ * and includes a `__kind` field for type identification.
+ */
+export function instanceToJSON(instance: object): PlainObject {
+    const result: PlainObject = {};
+    result[KIND_KEY] = (instance.constructor as any).kind;
+
+    for (const key of Object.keys(instance)) {
+        const value = (instance as any)[key];
+        const nkey = key.startsWith("_") ? key.substring(1) : key;
+
+        if (typeof value === "function") {
+            const descriptor = Object.getOwnPropertyDescriptor(instance, key);
+            if (!descriptor || typeof descriptor.value !== "function") continue;
+        }
+
+        result[nkey] = defaultToJSON(value);
+    }
+
+    return result;
+}
+
+/**
+ * Create a deep copy of an object instance by serializing via
+ * {@link instanceToJSON} and reconstructing via the same constructor.
+ */
+export function cloneInstance<T>(
+    instance: object,
+    data: PlainObject = {},
+    options: PlainObject = {},
+): T {
+    const original = instanceToJSON(instance);
+    const newObj = foundry.utils.mergeObject(original, data) as PlainObject;
+    return new (instance.constructor as any)(newObj, options) as T;
 }
 
 export function serializeFn(fn: (...args: any[]) => any): string {

@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common/SohlBase";
+import { instanceToJSON } from "@utils/helpers";
 import type { SohlLogic } from "@common/SohlLogic";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 
@@ -22,7 +22,7 @@ import { SohlSpeaker } from "@common/SohlSpeaker";
  * result, which can be used to access additional context about the test and
  * its place within the overall action or event sequence.
  */
-export abstract class TestResult extends SohlBase {
+export abstract class TestResult {
     protected _speaker: SohlSpeaker;
     protected _name: string;
     protected _title: string;
@@ -36,12 +36,15 @@ export abstract class TestResult extends SohlBase {
         if (!options.parent) {
             throw new Error("TestResult requires a parent");
         }
-        super(data, options);
         this._parent = options.parent;
         this._speaker = data.speaker ?? new SohlSpeaker();
         this._name = data.name ?? "";
         this._title = data.title ?? "";
         this._description = data.description ?? "";
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
     }
 
     get description(): string {

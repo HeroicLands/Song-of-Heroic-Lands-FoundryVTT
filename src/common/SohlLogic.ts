@@ -22,7 +22,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@utils/constants";
-import { SohlBase } from "@common/SohlBase";
+import { instanceToJSON } from "@utils/helpers";
 import { SohlContextMenu } from "@utils/SohlContextMenu";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 import type { ActionData, ActionLogic } from "@common/item/Action";
@@ -76,7 +76,7 @@ export type IntrinsicAction =
  */
 export abstract class SohlLogic<
     TData extends SohlDataModel.Data<any> = SohlDataModel.Data<any>,
-> extends SohlBase {
+> {
     private readonly _parent: TData;
     actions: ActionLogic[];
 
@@ -185,9 +185,12 @@ export abstract class SohlLogic<
                 "SohlLogic must be constructed with a parent item or actor.",
             );
         }
-        super(data, options);
         this._parent = options.parent;
         this.actions = [];
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
     }
 
     setDefaultAction(action: ActionLogic[]): void {

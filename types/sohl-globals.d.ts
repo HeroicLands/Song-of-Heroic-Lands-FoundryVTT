@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSystem, SohlBase, SohlBaseConstructor } from "@common";
+import type { SohlSystem } from "@common";
 import type { GroupStance } from "@utils/constants";
 import type {
     SohlMap,

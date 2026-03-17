@@ -174,7 +174,6 @@ import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
-import { SohlBase } from "@common/SohlBase";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -577,7 +576,7 @@ export abstract class SohlSystem {
 
     static readonly utils: typeof utils = utils;
     static ready: boolean = false;
-    readonly classRegistry: SohlMap<string, Constructor<SohlBase>>;
+    readonly classRegistry: SohlMap<string, Constructor<any>>;
     readonly dataModelRegistry: SohlMap<
         string,
         Constructor<
@@ -717,7 +716,7 @@ export abstract class SohlSystem {
             ["sohlcombatantdata", SohlCombatantDataModel],
             ["sohlcombatdata", SohlCombatDataModel],
         ]);
-        this.classRegistry = new SohlMap<string, Constructor<SohlBase>>([
+        this.classRegistry = new SohlMap<string, Constructor<any>>([
             ["ValueModifier", ValueModifier],
             ["CombatModifier", CombatModifier],
             ["ImpactModifier", ImpactModifier],
@@ -799,7 +798,7 @@ export namespace SohlSystem {
     }
 
     export interface ClassConfig {
-        classes: StrictObject<Constructor<SohlBase>>;
+        classes: StrictObject<Constructor<any>>;
     }
 
     export interface Config {

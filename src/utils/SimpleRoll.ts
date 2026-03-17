@@ -11,13 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common/SohlBase";
+import { instanceToJSON } from "@utils/helpers";
 
-export class SimpleRoll extends SohlBase {
-    numDice!: number;
-    dieFaces!: number;
-    modifier!: number;
-    rolls!: number[];
+export class SimpleRoll {
+    numDice: number;
+    dieFaces: number;
+    modifier: number;
+    rolls: number[];
+
+    constructor(data: Partial<SimpleRoll.Data> = {}) {
+        this.numDice = data.numDice ?? 0;
+        this.dieFaces = data.dieFaces ?? 0;
+        this.modifier = data.modifier ?? 0;
+        this.rolls = data.rolls ?? [];
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
+    }
 
     /**
      * @summary Roll the dice randomly.

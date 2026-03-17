@@ -33,7 +33,7 @@ export class ImpactModifier extends ValueModifier {
         options: Partial<ImpactModifier.Options> = {},
     ) {
         super(data, options);
-        this.roll = data.roll ? new SimpleRoll(data.roll, options) : null;
+        this.roll = data.roll ? new SimpleRoll(data.roll) : null;
         this.aspect =
             isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
     }

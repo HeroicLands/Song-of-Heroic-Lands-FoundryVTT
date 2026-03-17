@@ -13,10 +13,10 @@
 
 import type { SohlActor } from "@common/actor/SohlActor";
 import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SohlBase } from "@common/SohlBase";
+import { instanceToJSON, cloneInstance } from "@utils/helpers";
 import { SohlSpeaker } from "@common/SohlSpeaker";
 
-export class SohlActionContext extends SohlBase {
+export class SohlActionContext {
     speaker: SohlSpeaker;
     target: SohlTokenDocument | null;
     skipDialog: boolean;
@@ -26,7 +26,6 @@ export class SohlActionContext extends SohlBase {
     scope: UnknownObject;
 
     constructor(data: Partial<SohlActionContext.Data> = {}) {
-        super(data);
         const {
             speaker,
             target = null,
@@ -73,6 +72,14 @@ export class SohlActionContext extends SohlBase {
         this.type = type;
         this.title = title;
         this.scope = scope;
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
+    }
+
+    clone<T>(data: PlainObject = {}, options: PlainObject = {}): T {
+        return cloneInstance<T>(this, data, options);
     }
 
     get character(): SohlActor | null {

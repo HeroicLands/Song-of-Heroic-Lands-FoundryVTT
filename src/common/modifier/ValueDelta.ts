@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlBase } from "@common/SohlBase";
+import { instanceToJSON } from "@utils/helpers";
 import {
     VALUE_DELTA_OPERATOR,
     ValueDeltaOperator,
@@ -23,7 +23,7 @@ const kValueDelta = Symbol("ValueDelta");
 /**
  * Represents a single change (delta) applied to a numeric value.
  */
-export class ValueDelta extends SohlBase {
+export class ValueDelta {
     name: string;
     shortcode: string;
     op: number;
@@ -50,7 +50,6 @@ export class ValueDelta extends SohlBase {
 
         if (!name?.startsWith("SOHL.INFO."))
             throw new Error("ValueDelta name must start with SOHL.INFO.");
-        super(data, options);
         this.name = name;
         this.shortcode = shortcode;
         this.op = op;
@@ -70,6 +69,10 @@ export class ValueDelta extends SohlBase {
             }
         }
         this.value ??= strValue;
+    }
+
+    toJSON(): PlainObject {
+        return instanceToJSON(this);
     }
 
     /**
