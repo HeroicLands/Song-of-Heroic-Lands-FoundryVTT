@@ -80,6 +80,9 @@
             "containergear": {
                 "htmlFields": ["description", "textReference"]
             },
+            "disposition": {
+                "htmlFields": ["description", "textReference"]
+            },
             "domain": {
                 "htmlFields": ["description", "textReference"]
             },
