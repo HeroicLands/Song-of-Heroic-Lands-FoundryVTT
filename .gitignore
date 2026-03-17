@@ -6,15 +6,17 @@
 /.env.test
 /.env.local
 
+# AI
+/.claude/
+CLAUDE.md
+AI.md
+
 # Visual Studio
 /.vscode/
 /*.code-workspace
 
 # GitHub
 .github/copilot-instructions.md
-
-# Claude Code
-CLAUDE.md
 
 # macOS specific files
 # general
