@@ -38,6 +38,8 @@ After selecting the rules variant, you will need to close the world and restart 
 
 > Although it is possible to change the variant later, doing so is not recommended.
 
+For more about how variants affect gameplay, see [Rules Variants](user-guide/rules-variants.md).
+
 # Create a First Character {#2LHnAvPMBgbe4QPH}
 
 Generally speaking, you should avoid using the Create Actor dialog for Beings. It will require

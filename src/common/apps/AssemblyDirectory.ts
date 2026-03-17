@@ -25,6 +25,10 @@ import { ACTOR_KIND } from "@utils/constants";
  * This directory filters the world's actor collection to show only
  * Assembly-type actors.
  */
+// TODO: The "Create Assembly" button should launch a Create Item workflow
+// (item type selection + name entry). The resulting item is created as an
+// embedded item inside a new Assembly actor with the same name — not as a
+// World Item. This ensures Assemblies are never empty.
 export class AssemblyDirectory extends ActorDirectory {
     static tabName = "assemblies";
 

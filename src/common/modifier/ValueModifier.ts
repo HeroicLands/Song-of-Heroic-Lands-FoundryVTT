@@ -243,6 +243,10 @@ export class ValueModifier {
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
     ): ValueModifier {
+        // TODO: Name prefix mismatch — _oper validates "SOHL.MOD." but ValueDelta
+        // constructor requires "SOHL.INFO.". These are mutually exclusive, so
+        // add()/multiply()/set()/floor()/ceiling() cannot currently create deltas.
+        // Align the prefix conventions before using the modifier API.
         if (!isValueDeltaOperator(op)) {
             throw new TypeError("op is not valid");
         } else if (

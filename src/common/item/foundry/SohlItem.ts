@@ -19,11 +19,17 @@ import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
 import { notifyWarn as fvttNotifyWarn } from "@common/foundry-helpers";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
+// TODO: This still uses the deprecated global TextEditor. Should use the
+// foundry-helpers shim (enrichHTML) like Being.ts does, for consistency.
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
+// TODO: This file is a monolith — contains SohlItem (Document), SohlItemLogic (interface),
+// SohlItemData (interface), SohlItemBaseLogic (base class), SohlItemDataModel (base DataModel),
+// and SohlItemSheetBase (base Sheet). Should be split into separate files following the
+// logic/foundry pattern used by all concrete item types.
 export class SohlItem extends Item {
     /**
      * Get the logic object for this item.

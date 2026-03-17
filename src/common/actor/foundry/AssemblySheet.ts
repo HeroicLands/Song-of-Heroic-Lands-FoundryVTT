@@ -78,7 +78,9 @@ export class AssemblySheet extends SohlActorSheetBase {
             canonicalItem.sheet.render(true);
             return this;
         }
-        // Fall back to default rendering for empty/invalid assemblies
+        // TODO: The fallback renders the Assembly's own sheet (facade/nestedItems/actions/effects)
+        // but there's no specific "empty Assembly" or "invalid Assembly" UI. Consider adding
+        // a clear message explaining the state and providing a way to add items.
         return super.render(options as any, _options as any);
     }
 }

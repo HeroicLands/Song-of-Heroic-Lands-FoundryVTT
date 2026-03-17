@@ -95,16 +95,22 @@ implements:
 1. SoHL Lifecycle mechanism
 2. Virtual Items collection
 
-The code for all Actors resides in the `src/common/actor` folder (and
-parallel folders for each system variant).
+Each actor type is split into two subdirectories:
+
+- `src/common/actor/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
+- `src/common/actor/foundry/` — DataModel classes, Sheet classes, and the base SohlActor document
 
 #### Items
 
 SoHL extends the Foundry VTT `Item` class with the `SohlItem` class
-(see `src/common/item/SohlItem.ts`).
+(see `src/common/item/foundry/SohlItem.ts`).
 
-The code for all Items resides in the `src/common/item` folder (and
-parallel folders for each system variant).
+Each item type is split into two subdirectories:
+
+- `src/common/item/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
+- `src/common/item/foundry/` — DataModel classes, Sheet classes, and the base SohlItem document
+
+Variant-specific overrides reside in `src/legendary/` or `src/mistyisle/`.
 
 #### Active Effects
 

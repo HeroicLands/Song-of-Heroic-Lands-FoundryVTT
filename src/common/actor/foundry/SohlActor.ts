@@ -37,6 +37,10 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * Base class for all Actor documents in the SoHL system, including
  * Beings, Cohorts, Structures, Vehicles, and Assemblies.
  *
+ * TODO: This file is a monolith — contains SohlActor (Document), SohlActorLogic (interface),
+ * SohlActorData (interface), SohlActorBaseLogic (base class), SohlActorDataModel (base DataModel),
+ * and SohlActorSheetBase (base Sheet). Should be split following the logic/foundry pattern.
+ *
  * This class provides functionality to manage both embedded items
  * (persisted in the database) and virtual items (created dynamically
  * during preparation and not persisted), and the nested items. It
@@ -600,6 +604,14 @@ export class SohlActor extends Actor {
             }
         }
     }
+
+    // TODO: Add _preUpdateDescendantDocuments to enforce Assembly invariant when
+    // an item's nestedIn is changed to null (would create a second root item).
+    // Also guard against setting nestedIn to non-null on the canonical item
+    // (would leave no root item).
+
+    // TODO: Also sync Assembly actor image (img) with canonical item image
+    // when the canonical item's image changes.
 
     /**
      * Synchronize the Assembly actor's name when its canonical item's name changes.
