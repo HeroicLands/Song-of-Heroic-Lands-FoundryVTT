@@ -165,6 +165,15 @@ export class MysticalDeviceSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            subType: system.subType,
+            requiresAttunement: system.requiresAttunement,
+            usesVolition: system.usesVolition,
+            domain: system.domain,
+            isAttuned: system.isAttuned,
+            volition: system.volition,
+        });
     }
 }

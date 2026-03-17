@@ -433,67 +433,131 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return context;
     }
 
+    /**
+     * Prepare context for the sheet header.
+     * Provides the item name, image, and type label.
+     */
     protected async _prepareHeaderContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const system = this.document.system as any;
+        const subType = system.subType ?? "";
+        let subTypeLabel = "";
+        if (subType) {
+            // Try to localize the subtype using the type's localization prefix
+            const kind = system.constructor?.kind ?? this.document.type;
+            const locKey = `SOHL.${kind}.SUBTYPE.${subType}`;
+            const localized = game.i18n.localize(locKey);
+            subTypeLabel = localized !== locKey ? localized : subType;
+        }
+        return Object.assign(context, {
+            itemName: this.document.name,
+            itemImg: this.document.img,
+            typeLabel: this.document.logic?.typeLabel ?? this.document.type,
+            subTypeLabel,
+        });
     }
 
+    /**
+     * Prepare context for the Properties tab.
+     *
+     * The base implementation provides the common item properties
+     * (shortcode, nestedIn, notes, textReference). Subclasses override
+     * this to add type-specific properties.
+     */
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            shortcode: system.shortcode,
+            nestedIn: system.nestedIn,
+            notes: system.notes ?? "",
+            textReference: system.textReference ?? "",
+        });
     }
 
+    /**
+     * Prepare context for the Description tab.
+     * Provides enriched HTML for the full-page ProseMirror description editor.
+     */
     protected async _prepareDescriptionContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            descriptionHTML: await TextEditor.enrichHTML(
+                system.description ?? "",
+            ),
+        });
     }
 
+    /**
+     * Prepare context for the Nested Items tab.
+     * Provides the list of items nested within this item.
+     */
     protected async _prepareNestedItemsContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const nestedItems: SohlItem[] = [];
+        if (this.actor) {
+            for (const item of this.actor.allItems.values()) {
+                if ((item.system as any).nestedIn === this.document.id) {
+                    nestedItems.push(item);
+                }
+            }
+        }
+        return Object.assign(context, { nestedItems });
     }
 
+    /**
+     * Prepare context for the Actions tab.
+     * Provides the list of action items associated with this item.
+     */
     protected async _prepareActionsContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const actions = this.document.logic?.actions ?? [];
+        return Object.assign(context, { actions });
     }
 
-    protected async _prepareEventsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
-    > {
-        return context;
-    }
-
+    /**
+     * Prepare context for the Effects tab.
+     * Provides the item's own effects and any transferred effects.
+     */
     protected async _prepareEffectsTabContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
+        _options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        const effects = (this.document as any).effects?.contents ?? [];
+        const trxEffects: PlainObject = {};
+        const transferredEffects =
+            (this.document as any).transferredEffects;
+        if (transferredEffects) {
+            for (const effect of transferredEffects) {
+                if (!effect.disabled) {
+                    trxEffects[effect.id] = effect;
+                }
+            }
+        }
+        return Object.assign(context, { effects, trxEffects });
     }
 
     protected async _onDropItem(

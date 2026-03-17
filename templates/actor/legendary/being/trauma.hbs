@@ -1,0 +1,116 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab trauma" data-tab="trauma">
+    {{!-- Shock State --}}
+    {{#if shockState}}
+    <div class="notification warning">
+        <i class="fas fa-triangle-exclamation"></i> Shock State: {{shockState}}
+    </div>
+    {{/if}}
+
+    {{!-- Injuries --}}
+    <fieldset>
+        <legend>Injuries</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Injury</h3>
+                <div class="item-detail" data-tooltip="Injury Level">Level</div>
+                <div class="item-detail">Aspect</div>
+                <div class="item-detail" data-tooltip="Treated">Treated</div>
+                <div class="item-detail" data-tooltip="Bleeding">Bleeding</div>
+            </li>
+            {{#each injuries as |injury|}}
+            <li class="item flexrow" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
+                <div class="item-name default-action flexrow">
+                    <div class="item-image" style="background-image: url('{{injury.img}}')"></div>
+                    <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
+                </div>
+                <div class="item-detail">
+                    {{#if (lte injury.system.$injuryLevel.effective 0)}}
+                    <i class="fas fa-heart-circle-plus fa-lg"></i>
+                    {{else}}
+                    {{injury.system.$injuryLevel.severity}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">{{injury.system.aspect}}</div>
+                <div class="item-detail">
+                    {{#if injury.system.isTreated}}
+                    <i class="fas fa-check"></i>
+                    {{else}}
+                    <i class="fas fa-xmark"></i>
+                    {{/if}}
+                </div>
+                <div class="item-detail">
+                    {{#if injury.system.isBleeding}}
+                    <i class="fas fa-droplet danger"></i>
+                    {{else}}
+                    <i class="fas fa-xmark"></i>
+                    {{/if}}
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+
+    {{!-- Afflictions --}}
+    {{#each afflictionGroups as |afflictions groupName|}}
+    <fieldset>
+        <legend>{{@key}} Afflictions</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Affliction</h3>
+                <div class="item-detail" data-tooltip="Level">Level</div>
+                <div class="item-detail" data-tooltip="Healing Rate">HR</div>
+                <div class="item-detail">Source</div>
+            </li>
+            {{#each afflictions as |aff|}}
+            <li class="item flexrow" data-item-id="{{aff.id}}" data-item-name="{{aff.name}}">
+                <div class="item-name default-action flexrow">
+                    <div class="item-image" style="background-image: url('{{aff.img}}')"></div>
+                    <h4 data-tooltip="{{aff.name}}">{{aff.name}}</h4>
+                </div>
+                <div class="item-detail">{{aff.system.$level.effective}}</div>
+                <div class="item-detail">
+                    {{#if aff.system.$healingRate.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{aff.system.$healingRate.effective}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">{{aff.system.source.name}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/each}}
+</section>

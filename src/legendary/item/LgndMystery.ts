@@ -41,7 +41,7 @@ export class LgndMysterySheet extends MysterySheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/mystery-properties.hbs",
             scrollable: [""],
         },
     };

@@ -100,6 +100,18 @@ export class ContainerGearSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            quantity: system.quantity,
+            weightBase: system.weightBase,
+            valueBase: system.valueBase,
+            isCarried: system.isCarried,
+            isEquipped: system.isEquipped,
+            qualityBase: system.qualityBase,
+            durabilityBase: system.durabilityBase,
+            visibleToCohort: system.visibleToCohort,
+            maxCapacityBase: system.maxCapacityBase,
+        });
     }
 }

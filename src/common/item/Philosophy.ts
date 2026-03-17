@@ -99,6 +99,7 @@ export class PhilosophySheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
+        await super._preparePropertiesContext(context, options);
         return context;
     }
 }

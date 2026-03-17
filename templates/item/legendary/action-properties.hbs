@@ -1,0 +1,33 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.title rootId="action-title" classes="text-field" stacked=true value=system.title}}
+        {{formField fields.scope rootId="action-scope" classes="text-field" stacked=true value=system.scope}}
+        {{formField fields.executor rootId="action-executor" classes="text-field" stacked=true value=system.executor}}
+        {{formField fields.trigger rootId="action-trigger" classes="text-field" stacked=true value=system.trigger}}
+        {{formField fields.visible rootId="action-visible" classes="text-field" stacked=true value=system.visible}}
+        {{formField fields.iconFAClass rootId="action-icon" classes="text-field" stacked=true value=system.iconFAClass}}
+        {{formField fields.group rootId="action-group" classes="text-field" stacked=true value=system.group}}
+        {{formField fields.isAsync rootId="action-async" classes="text-field" stacked=true value=system.isAsync}}
+    </div>
+    <div class="grid grid-3col">
+        <div class="form-group stacked text-field">
+            <label>Execute Permission</label>
+            <div class="form-fields">
+                <input type="number" name="system.permissions.execute" value="{{system.permissions.execute}}" min="0" step="1" />
+            </div>
+        </div>
+    </div>
+</section>

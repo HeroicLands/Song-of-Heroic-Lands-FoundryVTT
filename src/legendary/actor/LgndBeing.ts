@@ -42,52 +42,47 @@ export class LgndBeingSheet extends BeingSheet {
     static PARTS = {
         header: {
             id: "header",
-            template: "systems/sohl/templates/legendary/actor/being/header.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/header.hbs",
         },
         tabs: {
             id: "tabs",
-            template: "systems/sohl/templates/legendary/actor/being/tabs.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/tabs.hbs",
         },
         facade: {
             id: "facade",
-            template:
-                "systems/sohl/templates/legendary/actor/shared/facade.hbs",
+            template: "systems/sohl/templates/actor/parts/facade.hbs",
         },
         profile: {
             id: "profile",
-            template:
-                "systems/sohl/templates/legendary/actor/being/profile.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/profile.hbs",
         },
         skills: {
             id: "skills",
-            template: "systems/sohl/templates/legendary/actor/being/skills.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/skills.hbs",
         },
         combat: {
             id: "combat",
-            template: "systems/sohl/templates/legendary/actor/being/combat.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/combat.hbs",
         },
         trauma: {
             id: "trauma",
-            template: "systems/sohl/templates/legendary/actor/being/trauma.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/trauma.hbs",
         },
         mysteries: {
             id: "mysteries",
-            template:
-                "systems/sohl/templates/legendary/actor/being/mysteries.hbs",
+            template: "systems/sohl/templates/actor/legendary/being/mysteries.hbs",
         },
         gear: {
             id: "gear",
-            template: "systems/sohl/templates/legendary/actor/shared/gear.hbs",
+            template: "systems/sohl/templates/actor/parts/gear.hbs",
         },
         actions: {
             id: "actions",
-            template:
-                "systems/sohl/templates/legendary/actor/shared/actions.hbs",
+            template: "systems/sohl/templates/actor/parts/actions.hbs",
         },
         effects: {
             id: "effects",
-            template:
-                "systems/sohl/templates/legendary/actor/shared/effects.hbs",
+            template: "systems/sohl/templates/actor/parts/effects.hbs",
         },
     } as const;
 
@@ -175,115 +170,9 @@ export class LgndBeingSheet extends BeingSheet {
         );
     }
 
-    override async _preparePartContext(
-        partId: string,
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        switch (partId) {
-            case "profile":
-                return this._prepareProfileContext(context, options);
-            case "skills":
-                return await this._prepareSkillsContext(context, options);
-            case "combat":
-                return await this._prepareCombatContext(context, options);
-            case "trauma":
-                return await this._prepareTraumaContext(context, options);
-            case "mysteries":
-                return await this._prepareMysteriesContext(context, options);
-            case "gear":
-                return await this._prepareGearContext(context, options);
-            case "actions":
-                return await this._prepareActionsContext(context, options);
-            case "effects":
-                return await this._prepareEffectsContext(context, options);
-            default:
-                return context;
-        }
-    }
-
-    async _prepareProfileContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareSkillsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareCombatContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareTraumaContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareMysteriesContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareGearContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareActionsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareEventsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-
-    async _prepareEffectsContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
+    // Context preparation is handled by BeingSheet (common).
+    // Override individual _prepare*Context methods here to add
+    // Legendary-specific enrichments if needed.
 
     protected _filters: foundry.applications.ux.SearchFilter[] = [
         new foundry.applications.ux.SearchFilter({

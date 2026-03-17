@@ -126,13 +126,4 @@ export class AssemblyDataModel<
     }
 }
 
-export class AssemblySheet extends SohlActorSheetBase {
-    protected async _preparePropertiesContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-}
+export abstract class AssemblySheet extends SohlActorSheetBase {}

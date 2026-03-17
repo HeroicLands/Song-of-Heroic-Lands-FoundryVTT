@@ -41,7 +41,7 @@ export class LgndInjurySheet extends InjurySheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/injury-properties.hbs",
             scrollable: [""],
         },
     };

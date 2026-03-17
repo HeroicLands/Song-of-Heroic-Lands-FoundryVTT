@@ -1,0 +1,87 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab profile" data-tab="profile">
+    {{!-- Attributes --}}
+    <fieldset>
+        <legend>Attributes</legend>
+        <div class="grid grid-4col">
+            {{#each attributes as |attr|}}
+            <div class="attribute item" data-item-id="{{attr.id}}">
+                <span class="attr-name">{{attr.name}}</span>
+                <span class="attr-value">{{attr.system.masteryLevelBase}}</span>
+            </div>
+            {{/each}}
+        </div>
+    </fieldset>
+
+    {{!-- Traits --}}
+    {{#each traitGroups as |traits groupName|}}
+    <fieldset>
+        <legend>{{@key}}</legend>
+        <ol class="item-list traits">
+            {{#each traits as |trait|}}
+            <li class="item flexrow" data-item-id="{{trait.id}}" data-item-name="{{trait.name}}">
+                <div class="item-name flexrow">
+                    <h4>{{trait.name}}</h4>
+                </div>
+                <div class="item-detail">
+                    {{#if trait.system.isNumeric}}{{trait.system.masteryLevelBase}}{{else}}{{trait.system.textValue}}{{/if}}
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/each}}
+
+    {{!-- Affiliations --}}
+    {{#if affiliations.length}}
+    <fieldset>
+        <legend>Affiliations</legend>
+        <ol class="item-list">
+            {{#each affiliations as |aff|}}
+            <li class="item flexrow" data-item-id="{{aff.id}}">
+                <div class="item-name"><h4>{{aff.name}}</h4></div>
+                <div class="item-detail">{{aff.system.society}}</div>
+                <div class="item-detail">{{aff.system.title}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/if}}
+
+    {{!-- Biography --}}
+    <fieldset>
+        <legend>Biography</legend>
+        {{editor biographyHTML target="system.biography" button=false editable=editable engine="prosemirror" collaborate=false}}
+    </fieldset>
+</section>

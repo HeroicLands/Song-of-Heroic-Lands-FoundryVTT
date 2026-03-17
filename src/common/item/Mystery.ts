@@ -321,6 +321,14 @@ export class MysterySheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            subType: system.subType,
+            domainCode: system.domainCode,
+            skills: system.skills,
+            levelBase: system.levelBase,
+            charges: system.charges,
+        });
     }
 }

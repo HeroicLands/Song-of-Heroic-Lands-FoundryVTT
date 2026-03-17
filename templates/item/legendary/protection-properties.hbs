@@ -1,0 +1,27 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="prot-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+    </div>
+    <fieldset class="protection-base">
+        <legend>Protection</legend>
+        <div class="grid grid-4col">
+            {{formField fields.protectionBase.fields.blunt rootId="prot-b" classes="text-field" stacked=true value=system.protectionBase.blunt}}
+            {{formField fields.protectionBase.fields.edged rootId="prot-e" classes="text-field" stacked=true value=system.protectionBase.edged}}
+            {{formField fields.protectionBase.fields.piercing rootId="prot-p" classes="text-field" stacked=true value=system.protectionBase.piercing}}
+            {{formField fields.protectionBase.fields.fire rootId="prot-f" classes="text-field" stacked=true value=system.protectionBase.fire}}
+        </div>
+    </fieldset>
+</section>

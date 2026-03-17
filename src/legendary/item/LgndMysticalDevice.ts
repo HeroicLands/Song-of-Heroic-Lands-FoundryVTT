@@ -45,7 +45,7 @@ export class LgndMysticalDeviceSheet extends MysticalDeviceSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/mysticaldevice-properties.hbs",
             scrollable: [""],
         },
     };

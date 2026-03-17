@@ -1,0 +1,41 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="inj-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+        {{formField fields.aspect rootId="inj-aspect" classes="text-field" stacked=true value=system.aspect}}
+        {{formField fields.injuryLevelBase rootId="inj-il" classes="text-field" stacked=true value=system.injuryLevelBase}}
+        {{formField fields.healingRateBase rootId="inj-hr" classes="text-field" stacked=true value=system.healingRateBase}}
+        <div class="form-group text-field">
+            {{formInput fields.isTreated rootId="inj-treated" classes="form-fields" value=system.isTreated}}
+            <label>Treated</label>
+        </div>
+        <div class="form-group text-field">
+            {{formInput fields.isBleeding rootId="inj-bleeding" classes="form-fields" value=system.isBleeding}}
+            <label>Bleeding</label>
+        </div>
+        <div class="form-group stacked text-field">
+            <label>Body Location</label>
+            <div class="form-fields">
+                {{#if hasActor}}
+                <select name="system.bodyLocationUuid">
+                    {{selectOptions bodyLocationChoices selected=idata.bodyLocationUuid sort=true blank=false}}
+                </select>
+                {{else}}
+                {{formInput fields.bodyLocationUuid rootId="inj-bodyloc" classes="text-field" stacked=true value=system.bodyLocationUuid}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</section>

@@ -391,59 +391,74 @@ export async function handleCohortDrop(
             parent: scene,
         });
     } else if (choice === "individual") {
-        // Create individual tokens for each member
-        const members = (actor.system as any).members ?? [];
-        if (members.length === 0) return;
+        await spawnCohortMembers(actor, dropX, dropY, 0);
+    }
+}
 
-        // Find placement positions
-        const elevation = 0; // Default elevation at drop point
-        const positions = findPlacementPositions(
-            dropX,
-            dropY,
-            members.length,
-            elevation,
+/**
+ * Create individual tokens for each member of a Cohort actor,
+ * placed in a cluster around the given point.
+ *
+ * Used by both the Cohort drop dialog and the TokenHUD expand button.
+ *
+ * @param actor - The Cohort actor
+ * @param dropX - Center X coordinate (canvas pixels)
+ * @param dropY - Center Y coordinate (canvas pixels)
+ * @param elevation - Elevation for all placed tokens
+ */
+export async function spawnCohortMembers(
+    actor: any,
+    dropX: number,
+    dropY: number,
+    elevation: number,
+): Promise<void> {
+    const scene = (canvas as any).scene;
+    const members = actor.system?.members ?? [];
+    if (members.length === 0) return;
+
+    const positions = findPlacementPositions(
+        dropX,
+        dropY,
+        members.length,
+        elevation,
+    );
+
+    const tokenDocs: any[] = [];
+    for (let i = 0; i < members.length; i++) {
+        const member = members[i];
+        const pos = positions[i];
+        if (!pos) break;
+
+        const memberActor = game.actors?.find(
+            (a: any) => a.system?.shortcode === member.shortcode,
         );
-
-        const tokenDocs: any[] = [];
-        for (let i = 0; i < members.length; i++) {
-            const member = members[i];
-            const pos = positions[i];
-            if (!pos) break; // Ran out of valid positions
-
-            // Find the world actor by shortcode
-            const memberActor = game.actors?.find(
-                (a: any) => a.system?.shortcode === member.shortcode,
+        if (!memberActor) {
+            console.warn(
+                game.i18n.format(
+                    "SOHL.Cohort.Drop.memberNotFound",
+                    { shortcode: member.shortcode, name: member.name },
+                ),
             );
-            if (!memberActor) {
-                console.warn(
-                    game.i18n.format(
-                        "SOHL.Cohort.Drop.memberNotFound",
-                        { shortcode: member.shortcode, name: member.name },
-                    ),
-                );
-                continue;
-            }
-
-            // Create token from the member actor's prototype token
-            const tokenData = (await (memberActor as any).getTokenDocument(
-                {
-                    x: pos.x,
-                    y: pos.y,
-                    elevation,
-                    name: member.name,
-                },
-                { parent: scene },
-            )) as any;
-
-            tokenDocs.push(tokenData.toObject());
+            continue;
         }
 
-        // Batch create all tokens
-        if (tokenDocs.length > 0) {
-            await (TokenDocument as any).createDocuments(tokenDocs, {
-                parent: scene,
-            });
-        }
+        const tokenData = (await (memberActor as any).getTokenDocument(
+            {
+                x: pos.x,
+                y: pos.y,
+                elevation,
+                name: member.name,
+            },
+            { parent: scene },
+        )) as any;
+
+        tokenDocs.push(tokenData.toObject());
+    }
+
+    if (tokenDocs.length > 0) {
+        await (TokenDocument as any).createDocuments(tokenDocs, {
+            parent: scene,
+        });
     }
 }
 
@@ -473,6 +488,41 @@ function registerSystemHooks() {
                 console.error("SoHL | Cohort drop error:", err),
             );
             return false;
+        },
+    );
+
+    // Add "Expand Cohort" button to TokenHUD for Cohort tokens.
+    (Hooks as any).on(
+        "renderTokenHUD",
+        (hud: any, element: HTMLElement) => {
+            const actor = hud.actor;
+            if (!actor || actor.type !== ACTOR_KIND.COHORT) return;
+            if (!actor.isOwner) return;
+
+            const leftCol = element.querySelector(".col.left");
+            if (!leftCol) return;
+
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.classList.add("control-icon");
+            btn.dataset.tooltip = game.i18n.localize(
+                "SOHL.Cohort.HUD.expand",
+            );
+            btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
+            btn.addEventListener("click", async (ev: Event) => {
+                ev.preventDefault();
+                const token = hud.document;
+                const x = token.x;
+                const y = token.y;
+                const elevation = token.elevation ?? 0;
+
+                // Delete the group token first
+                await token.delete();
+
+                // Spawn individual members at that location
+                await spawnCohortMembers(actor, x, y, elevation);
+            });
+            leftCol.appendChild(btn);
         },
     );
 

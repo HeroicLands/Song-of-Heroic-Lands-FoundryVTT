@@ -106,6 +106,11 @@ export class DispositionSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            targetShortcode: system.targetShortcode,
+            reaction: system.reaction,
+        });
     }
 }

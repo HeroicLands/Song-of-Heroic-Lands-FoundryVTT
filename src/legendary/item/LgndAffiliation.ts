@@ -45,7 +45,7 @@ export class LgndAffiliationSheet extends AffiliationSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/affiliation-properties.hbs",
             scrollable: [""],
         },
     };

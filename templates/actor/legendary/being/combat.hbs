@@ -1,0 +1,242 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab combat" data-tab="combat">
+    {{!-- Melee Weapons --}}
+    {{#if meleeWeapons.length}}
+    <fieldset>
+        <legend>Melee Weapons</legend>
+        {{#each meleeWeapons as |entry|}}
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">{{entry.weapon.name}}</h3>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </header>
+            <ol class="item-list">
+                <li class="items-header flexrow">
+                    <h3 class="item-name">Strike Mode</h3>
+                    <div class="item-detail" data-tooltip="Reach">RCH</div>
+                    <div class="item-detail" data-tooltip="Zone Dice">ZD</div>
+                    <div class="item-detail" data-tooltip="Impact Formula">Impact</div>
+                    <div class="item-detail" data-tooltip="Attack Mastery Level">Atk</div>
+                    <div class="item-detail" data-tooltip="Block Mastery Level">Blk</div>
+                    <div class="item-detail" data-tooltip="Counterstrike Mastery Level">CX</div>
+                </li>
+                {{#each entry.strikeModes as |sm|}}
+                <li class="item flexrow" data-item-id="{{sm.id}}" data-item-name="{{sm.name}}">
+                    <div class="item-name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{sm.img}}')"></div>
+                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
+                    </div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$reach.shortcode}}">{{sm.system.$reach.effective}}</div>
+                    <div class="item-detail">d{{sm.system.zoneDie}}</div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$impact.shortcode}}">
+                        {{#unless sm.system.$impact.disabled}}
+                        {{sm.system.$impact.label}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$attack.shortcode}}">
+                        {{#unless sm.system.$attack.disabled}}
+                        {{sm.system.$attack.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$defense.block.shortcode}}">
+                        {{#unless sm.system.$defense.block.disabled}}
+                        {{sm.system.$defense.block.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$defense.counterstrike.shortcode}}">
+                        {{#unless sm.system.$defense.counterstrike.disabled}}
+                        {{sm.system.$defense.counterstrike.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        {{/each}}
+    </fieldset>
+    {{/if}}
+
+    {{!-- Missile Weapons --}}
+    {{#if missileWeapons.length}}
+    <fieldset>
+        <legend>Missile Weapons</legend>
+        {{#each missileWeapons as |entry|}}
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">{{entry.weapon.name}}</h3>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </header>
+            <ol class="item-list">
+                <li class="items-header flexrow">
+                    <h3 class="item-name">Strike Mode</h3>
+                    <div class="item-detail" data-tooltip="Base Range">BR</div>
+                    <div class="item-detail" data-tooltip="Impact Formula">Impact</div>
+                    <div class="item-detail" data-tooltip="Attack Mastery Level">Atk</div>
+                </li>
+                {{#each entry.strikeModes as |sm|}}
+                <li class="item flexrow" data-item-id="{{sm.id}}" data-item-name="{{sm.name}}">
+                    <div class="item-name default-action flexrow">
+                        <div class="item-image" style="background-image: url('{{sm.img}}')"></div>
+                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
+                    </div>
+                    <div class="item-detail">{{sm.system.$baseRange.effective}}</div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$impact.shortcode}}">
+                        {{#unless sm.system.$impact.disabled}}
+                        {{sm.system.$impact.label}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-detail" data-tooltip="{{sm.system.$attack.shortcode}}">
+                        {{#unless sm.system.$attack.disabled}}
+                        {{sm.system.$attack.effective}}
+                        {{else}}
+                        <i class="fas fa-xmark fa-lg"></i>
+                        {{/unless}}
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+        {{/each}}
+    </fieldset>
+    {{/if}}
+
+    {{!-- Combat Techniques --}}
+    {{#if combatTechniques.length}}
+    <fieldset>
+        <legend>Combat Techniques</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Technique</h3>
+                <div class="item-detail" data-tooltip="Attack Mastery Level">Atk</div>
+                <div class="item-detail" data-tooltip="Block Mastery Level">Blk</div>
+                <div class="item-detail" data-tooltip="Counterstrike Mastery Level">CX</div>
+            </li>
+            {{#each combatTechniques as |ct|}}
+            <li class="item flexrow" data-item-id="{{ct.id}}" data-item-name="{{ct.name}}">
+                <div class="item-name default-action flexrow">
+                    <div class="item-image" style="background-image: url('{{ct.img}}')"></div>
+                    <h4 data-tooltip="{{ct.name}}">{{ct.name}}</h4>
+                </div>
+                <div class="item-detail" data-tooltip="{{ct.system.$attack.shortcode}}">
+                    {{#unless ct.system.$attack.disabled}}
+                    {{ct.system.$attack.effective}}
+                    {{else}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{/unless}}
+                </div>
+                <div class="item-detail" data-tooltip="{{ct.system.$defense.block.shortcode}}">
+                    {{#unless ct.system.$defense.block.disabled}}
+                    {{ct.system.$defense.block.effective}}
+                    {{else}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{/unless}}
+                </div>
+                <div class="item-detail" data-tooltip="{{ct.system.$defense.counterstrike.shortcode}}">
+                    {{#unless ct.system.$defense.counterstrike.disabled}}
+                    {{ct.system.$defense.counterstrike.effective}}
+                    {{else}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{/unless}}
+                </div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/if}}
+
+    {{!-- Anatomy --}}
+    {{#if bodyZones.length}}
+    <fieldset>
+        <legend>Anatomy</legend>
+        {{#each bodyZones as |zoneEntry|}}
+        <div class="items-list bodyzone">
+            <header class="items-header flexrow" data-item-id="{{zoneEntry.zone.id}}">
+                <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
+                <h3 class="item-name name default-action">Zone: {{zoneEntry.zone.name}}</h3>
+            </header>
+            {{#each zoneEntry.parts as |partEntry|}}
+            <ol class="items-list bodypart-list">
+                <li class="item bodypart flexrow" data-item-id="{{partEntry.part.id}}" data-item-name="{{partEntry.part.name}}">
+                    <div class="body-drop"></div>
+                    <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
+                    <div class="item-name default-action">
+                        <h4>Part: {{partEntry.part.name}}</h4>
+                    </div>
+                    <div class="item-controls">
+                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    </div>
+                </li>
+                <ol class="item-list bodylocations-list">
+                    {{#each partEntry.locations as |loc|}}
+                    <li class="item bodylocation flexrow" data-item-id="{{loc.id}}" data-item-name="{{loc.name}}">
+                        <div class="body-drop"></div>
+                        <div class="body-drop"></div>
+                        <div class="body-drop"></div>
+                        <div class="item-name default-action flexrow">
+                            <h4>{{loc.name}}</h4>
+                        </div>
+                        <div class="item-detail" data-tooltip="Blunt">B:{{loc.system.$protection.blunt.effective}}</div>
+                        <div class="item-detail" data-tooltip="Edged">E:{{loc.system.$protection.edged.effective}}</div>
+                        <div class="item-detail" data-tooltip="Piercing">P:{{loc.system.$protection.piercing.effective}}</div>
+                        <div class="item-detail" data-tooltip="Fire">F:{{loc.system.$protection.fire.effective}}</div>
+                        <div class="item-controls">
+                            <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ol>
+            </ol>
+            {{/each}}
+        </div>
+        {{/each}}
+    </fieldset>
+    {{/if}}
+</section>

@@ -128,6 +128,13 @@ export class AffiliationSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            society: system.society,
+            office: system.office,
+            title: system.title,
+            level: system.level,
+        });
     }
 }

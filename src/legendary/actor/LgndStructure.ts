@@ -64,39 +64,33 @@ export class LgndStructureSheet extends SohlActorSheetBase {
 
     static PARTS = {
         header: {
-            template:
-                "systems/sohl/templates/legendary/actor/assembly/header.hbs",
+            template: "systems/sohl/templates/actor/legendary/structure/header.hbs",
         },
         tabs: {
-            template:
-                "systems/sohl/templates/legendary/actor/assembly/tabs.hbs",
+            template: "templates/generic/tab-navigation.hbs",
         },
         facade: {
-            template:
-                "systems/sohl/templates/legendary/actor/shared/facade.hbs",
+            template: "systems/sohl/templates/actor/parts/facade.hbs",
         },
-        profile: {
-            template:
-                "systems/sohl/templates/legendary/actor/assembly/profile.hbs",
+        gear: {
+            template: "systems/sohl/templates/actor/parts/gear.hbs",
         },
-        nested: {
-            template:
-                "systems/sohl/templates/legendary/actor/assembly/nested.hbs",
+        actions: {
+            template: "systems/sohl/templates/actor/parts/actions.hbs",
+        },
+        effects: {
+            template: "systems/sohl/templates/actor/parts/effects.hbs",
         },
     } as const;
 
     static TABS = {
-        sheet: {
-            navSelector: ".tabs[data-group='sheet']",
-            contentSelector: ".content[data-group='sheet']",
+        primary: {
             initial: "facade",
             tabs: [
-                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label" },
-                {
-                    id: "profile",
-                    label: "SOHL.Actor.SHEET.profile",
-                },
-                { id: "nested", label: "SOHL.Actor.SHEET.tab.nested.label" },
+                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label", icon: "fas fa-masks-theater" },
+                { id: "gear", label: "SOHL.Actor.SHEET.tab.gear.label", icon: "fas fa-briefcase" },
+                { id: "actions", label: "SOHL.Actor.SHEET.tab.actions.label", icon: "fas fa-cogs" },
+                { id: "effects", label: "SOHL.Actor.SHEET.tab.effects.label", icon: "fas fa-bolt" },
             ],
         },
     };

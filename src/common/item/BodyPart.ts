@@ -115,6 +115,11 @@ export class BodyPartSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            canHoldItem: system.canHoldItem,
+            heldItemId: system.heldItemId,
+        });
     }
 }

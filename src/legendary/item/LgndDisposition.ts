@@ -38,7 +38,7 @@ export class LgndDispositionSheet extends DispositionSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/legendary/item/disposition-sheet.hbs",
+                "systems/sohl/templates/item/legendary/disposition-properties.hbs",
             scrollable: [""],
         },
     };

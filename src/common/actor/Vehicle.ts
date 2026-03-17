@@ -25,12 +25,15 @@ const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;
 
 /**
- * Logic for the **Vehicle** actor type — a movable platform or conveyance.
+ * Logic for the **Vehicle** actor type — a movable inanimate conveyance.
  *
- * A Vehicle represents a wagon, ship, mount abstraction, or any mobile platform
- * that can carry passengers and cargo. Vehicles track their **passengers** as
- * an array of actor shortcodes (which may reference individual Beings or entire
- * Cohorts).
+ * A Vehicle represents a wagon, ship, cart, or any mobile platform that can
+ * hold both **occupants** and embedded **items** (cargo, equipment, etc.).
+ * Vehicles are not Beings — they have no anatomy, skills, or traits.
+ *
+ * Occupants are tracked as an array of actor shortcodes. Each shortcode may
+ * reference either a **Being** (a single individual) or a **Cohort** (which
+ * is shorthand for all of that Cohort's members being occupants).
  *
  * Vehicles can own Protection items (hull armor, reinforced sides), Injuries
  * (structural damage), Container Gear (cargo holds), and Actions. They are
@@ -65,8 +68,12 @@ export class VehicleLogic<
 export interface VehicleData<
     TLogic extends SohlActorLogic<VehicleData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {
-    /** Shortcodes of actors traveling in this vehicle */
-    passengers: string[];
+    /**
+     * Shortcodes of actors occupying this vehicle.
+     * Each entry may reference a Being (individual) or a Cohort
+     * (shorthand for all of that Cohort's members).
+     */
+    occupants: string[];
 }
 
 /**
@@ -77,16 +84,16 @@ export interface VehicleData<
 function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        passengers: new ArrayField(
-            // The passengers may be either individual being actors, or
-            // Cohort actors representing groups of passengers
+        occupants: new ArrayField(
+            // The occupants may be either individual Being actors, or
+            // Cohort actors representing groups of occupants.
             new StringField({
                 blank: false,
                 required: true,
             }),
             {
                 initial: [],
-            }
+            },
         ),
     };
 }
@@ -100,21 +107,16 @@ export class VehicleDataModel<
     TSchema extends foundry.data.fields.DataSchema = VehicleDataSchema,
     TLogic extends VehicleLogic<VehicleData> = VehicleLogic<VehicleData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Vehicle", "SOHL.Actor"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Vehicle",
+        "SOHL.Actor",
+    ];
     static override readonly kind = ACTOR_KIND.VEHICLE;
+    occupants!: string[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineVehicleDataSchema();
     }
 }
 
-export class VehicleSheet extends SohlActorSheetBase {
-    protected async _preparePropertiesContext(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
-        options: foundry.applications.api.DocumentSheetV2.RenderOptions,
-    ): Promise<
-        foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
-    > {
-        return context;
-    }
-}
+export abstract class VehicleSheet extends SohlActorSheetBase {}

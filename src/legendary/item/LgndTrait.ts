@@ -46,7 +46,7 @@ export class LgndTraitSheet extends TraitSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/trait-properties.hbs",
             scrollable: [""],
         },
     };

@@ -1,0 +1,91 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="trait-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+        {{formField fields.skillBaseFormula rootId="trait-sbf" classes="text-field" stacked=true value=system.skillBaseFormula}}
+        {{formField fields.masteryLevelBase rootId="trait-mlb" classes="text-field" stacked=true value=system.masteryLevelBase}}
+        {{formField fields.improveFlag rootId="trait-improve" classes="text-field" stacked=true value=system.improveFlag}}
+        {{formField fields.intensity rootId="trait-intensity" classes="text-field" stacked=true value=system.intensity}}
+        {{formField fields.isNumeric rootId="trait-isnumeric" classes="text-field" stacked=true value=system.isNumeric}}
+    </div>
+
+    <div class="grid grid-3col">
+        {{#if hasTraitChoices}}
+        <div class="form-group stacked text-field">
+            <label>Value</label>
+            <div class="form-fields">
+                <select class="value" name="system.textValue">
+                    {{selectOptions system.choices selected=system.textValue}}
+                </select>
+            </div>
+        </div>
+        {{else}}
+        {{formField fields.textValue rootId="trait-textvalue" classes="text-field" stacked=true value=system.textValue}}
+        {{/if}}
+        {{#if system.isNumeric}}
+        {{formField fields.max rootId="trait-max" classes="text-field" stacked=true value=system.max}}
+        {{/if}}
+    </div>
+
+    <div class="items">
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">Value Desc</h3>
+                <div class="detail ele">Max</div>
+                <div class="item-controls">
+                    <a class="item-control add-array-item" data-array="system.aim" data-object-type="ValueDesc"
+                        data-title="Add Value Description"><i class="fas fa-plus"></i> Add</a>
+                </div>
+            </header>
+            <ol class="items-list">
+                {{#each idata.aim}}
+                <li class="item flexrow">
+                    <div class="item-name name">{{label}}</div>
+                    <div class="detail ele">{{maxValue}}</div>
+                    <div class="item-controls">
+                        <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
+                            title="Delete Value Description"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+
+    <div class="items">
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">Choice Label</h3>
+                <div class="detail notes">Key</div>
+                <div class="item-controls">
+                    <a class="item-control add-object-key" data-object="system.choices"
+                        data-title="Add Choice"><i class="fas fa-plus"></i> Add</a>
+                </div>
+            </header>
+            <ol class="items-list">
+                {{#each idata.choices}}
+                <li class="item flexrow">
+                    <div class="item-name name" title="{{this}}">{{this}}</div>
+                    <div class="detail notes" title="{{@key}}">{{@key}}</div>
+                    <div class="item-controls">
+                        <a class="delete-object-key" data-object="system.choices" data-key="{{@key}}"
+                            title="Delete Choice"><i class="fas fa-trash"></i></a>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</section>

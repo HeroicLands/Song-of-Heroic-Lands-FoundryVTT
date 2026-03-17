@@ -45,7 +45,7 @@ export class LgndMissileWeaponStrikeModeSheet extends MissileWeaponStrikeModeShe
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/missileweaponstrikemode-properties.hbs",
             scrollable: [""],
         },
     };

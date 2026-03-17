@@ -216,6 +216,18 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            skillBaseFormula: system.skillBaseFormula,
+            masteryLevelBase: system.masteryLevelBase,
+            improveFlag: system.improveFlag,
+            subType: system.subType,
+            assocSkillCode: system.assocSkillCode,
+            isImprovable: system.isImprovable,
+            domainCode: system.domainCode,
+            levelBase: system.levelBase,
+            charges: system.charges,
+        });
     }
 }

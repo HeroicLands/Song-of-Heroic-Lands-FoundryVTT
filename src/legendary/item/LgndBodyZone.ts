@@ -97,7 +97,7 @@ export class LgndBodyZoneSheet extends BodyZoneSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/bodyzone-properties.hbs",
             scrollable: [""],
         },
     };

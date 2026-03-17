@@ -45,7 +45,7 @@ export class LgndAfflictionSheet extends AfflictionSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/affliction-properties.hbs",
             scrollable: [""],
         },
     };

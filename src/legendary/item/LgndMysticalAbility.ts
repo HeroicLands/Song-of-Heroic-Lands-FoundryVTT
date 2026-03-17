@@ -45,7 +45,7 @@ export class LgndMysticalAbilitySheet extends MysticalAbilitySheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/mysticalability-properties.hbs",
             scrollable: [""],
         },
     };

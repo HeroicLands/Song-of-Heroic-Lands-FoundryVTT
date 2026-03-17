@@ -1,0 +1,26 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="ail-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+        {{formField fields.category rootId="ail-category" classes="text-field" stacked=true value=system.category}}
+        {{formField fields.transmission rootId="ail-trx" classes="text-field" stacked=true value=system.transmission}}
+        {{formField fields.isDormant rootId="ail-dormant" classes="text-field" stacked=true value=system.isDormant}}
+        {{formField fields.isTreated rootId="ail-treated" classes="text-field" stacked=true value=system.isTreated}}
+        {{formField fields.levelBase rootId="ail-level" classes="text-field" stacked=true value=system.levelBase}}
+        {{formField fields.healingRateBase rootId="ail-hr" classes="text-field" stacked=true value=system.healingRateBase}}
+        {{formField fields.diagnosisBonusBase rootId="ail-diag" classes="text-field" stacked=true value=system.diagnosisBonusBase}}
+        {{formField fields.contagionIndexBase rootId="ail-contidx" classes="text-field" stacked=true value=system.contagionIndexBase}}
+    </div>
+</section>

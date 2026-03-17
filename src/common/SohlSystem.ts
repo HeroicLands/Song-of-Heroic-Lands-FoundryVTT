@@ -252,11 +252,11 @@ export const {
     isValue: isCommonActorSheet,
     labels: CommonActorSheetLabels,
 } = defineType("SOHL.Actor.Sheet", {
-    [ACTOR_KIND.BEING]: BeingSheet,
-    [ACTOR_KIND.ASSEMBLY]: AssemblySheet,
-    [ACTOR_KIND.COHORT]: CohortSheet,
-    [ACTOR_KIND.STRUCTURE]: StructureSheet,
-    [ACTOR_KIND.VEHICLE]: VehicleSheet,
+    [ACTOR_KIND.BEING]: BeingSheet as any,
+    [ACTOR_KIND.ASSEMBLY]: AssemblySheet as any,
+    [ACTOR_KIND.COHORT]: CohortSheet as any,
+    [ACTOR_KIND.STRUCTURE]: StructureSheet as any,
+    [ACTOR_KIND.VEHICLE]: VehicleSheet as any,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
 export type ItemDMMap = Record<

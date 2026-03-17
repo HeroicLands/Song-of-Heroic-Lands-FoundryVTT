@@ -45,7 +45,7 @@ export class LgndContainerGearSheet extends ContainerGearSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/containergear-properties.hbs",
             scrollable: [""],
         },
     };

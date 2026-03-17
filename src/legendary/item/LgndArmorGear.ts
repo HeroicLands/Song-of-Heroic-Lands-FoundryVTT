@@ -45,7 +45,7 @@ export class LgndArmorGearSheet extends ArmorGearSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/armorgear-properties.hbs",
             scrollable: [""],
         },
     };

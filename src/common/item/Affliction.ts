@@ -305,7 +305,19 @@ export class AfflictionSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            subType: system.subType,
+            category: system.category,
+            isDormant: system.isDormant,
+            isTreated: system.isTreated,
+            diagnosisBonusBase: system.diagnosisBonusBase,
+            levelBase: system.levelBase,
+            healingRateBase: system.healingRateBase,
+            contagionIndexBase: system.contagionIndexBase,
+            transmission: system.transmission,
+        });
     }
 }
 

@@ -45,7 +45,7 @@ export class LgndConcoctionGearSheet extends ConcoctionGearSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/concoctiongear-properties.hbs",
             scrollable: [""],
         },
     };

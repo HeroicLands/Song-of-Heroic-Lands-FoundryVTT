@@ -52,7 +52,7 @@ export class LgndWeaponGearSheet extends WeaponGearSheet {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/skill-properties.hbs",
+                "systems/sohl/templates/item/legendary/weapongear-properties.hbs",
             scrollable: [""],
         },
     };

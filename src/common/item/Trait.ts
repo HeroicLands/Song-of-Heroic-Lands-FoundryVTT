@@ -180,6 +180,19 @@ export class TraitSheet extends SohlItemSheetBase {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
-        return context;
+        await super._preparePropertiesContext(context, options);
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            skillBaseFormula: system.skillBaseFormula,
+            masteryLevelBase: system.masteryLevelBase,
+            improveFlag: system.improveFlag,
+            subType: system.subType,
+            textValue: system.textValue,
+            max: system.max,
+            isNumeric: system.isNumeric,
+            intensity: system.intensity,
+            valueDesc: system.valueDesc,
+            choices: system.choices,
+        });
     }
 }

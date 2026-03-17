@@ -1,0 +1,38 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="mystdev-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+        {{formField fields.requiresAttunement rootId="mystdev-reqattune" classes="text-field" stacked=true value=system.requiresAttunement}}
+        {{formField fields.isAttuned rootId="mystdev-attuned" classes="text-field" stacked=true value=system.isAttuned}}
+        {{formField fields.usesVolition rootId="mystdev-usesvolition" classes="text-field" stacked=true value=system.usesVolition}}
+    </div>
+
+    <fieldset>
+        <legend>Domain</legend>
+        <div class="grid grid-3col">
+            {{formField fields.domain.fields.philosophy rootId="mystdev-dom-phil" classes="text-field" stacked=true value=system.domain.philosophy}}
+            {{formField fields.domain.fields.name rootId="mystdev-dom-name" classes="text-field" stacked=true value=system.domain.name}}
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Volition</legend>
+        <div class="grid grid-3col">
+            {{formField fields.volition.fields.ego rootId="mystdev-vol-ego" classes="text-field" stacked=true value=system.volition.ego}}
+            {{formField fields.volition.fields.morality rootId="mystdev-vol-morality" classes="text-field" stacked=true value=system.volition.morality}}
+        </div>
+        {{formField fields.volition.fields.purpose rootId="mystdev-vol-purpose" classes="text-field" stacked=true value=system.volition.purpose}}
+    </fieldset>
+</section>
