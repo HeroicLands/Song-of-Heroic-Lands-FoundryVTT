@@ -26,7 +26,7 @@ const kValueDelta = Symbol("ValueDelta");
 export class ValueDelta {
     name: string;
     shortcode: string;
-    op: number;
+    op: ValueDeltaOperator;
     value: string;
     readonly [kValueDelta] = true;
 
@@ -40,7 +40,7 @@ export class ValueDelta {
         else return Number(this.value) || 0;
     }
 
-    constructor(data: PlainObject = {}, options: PlainObject = {}) {
+    constructor(data: PlainObject = {}) {
         const { name, shortcode, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
@@ -54,21 +54,21 @@ export class ValueDelta {
         this.shortcode = shortcode;
         this.op = op;
         if (op === VALUE_DELTA_OPERATOR.CUSTOM) {
-            if (typeof strValue !== "string") {
-                throw new TypeError(
-                    "ValueDelta value must be a string for CUSTOM operator",
-                );
-            } else if (strValue.toLowerCase() === "true") {
+            if (strValue.toLowerCase() === "true") {
                 this.value = "true";
             } else if (strValue.toLowerCase() === "false") {
                 this.value = "false";
+            } else {
+                this.value = strValue;
             }
         } else {
-            if (typeof strValue !== "number") {
-                throw new TypeError("ValueDelta value must be a number");
+            if (isNaN(Number(strValue))) {
+                throw new TypeError(
+                    `ValueDelta value must be numeric for operator ${op}, got "${strValue}"`,
+                );
             }
+            this.value = strValue;
         }
-        this.value ??= strValue;
     }
 
     toJSON(): PlainObject {
@@ -105,9 +105,9 @@ export class ValueDelta {
                     case VALUE_DELTA_OPERATOR.OVERRIDE:
                         return Number(this.value); // OVERRIDE
                     case VALUE_DELTA_OPERATOR.UPGRADE:
-                        return Math.min(base, Number(this.value)); // FLOOR
+                        return Math.max(base, Number(this.value)); // FLOOR
                     case VALUE_DELTA_OPERATOR.DOWNGRADE:
-                        return Math.max(base, Number(this.value)); // CEIL
+                        return Math.min(base, Number(this.value)); // CEIL
                 }
             }
         }

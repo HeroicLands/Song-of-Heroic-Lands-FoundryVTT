@@ -18,7 +18,9 @@ import {
     SYMBOL,
     VALUE_DELTA_INFO,
     VALUE_DELTA_OPERATOR,
+    VALUE_DELTA_OPERATOR_ORDER,
     ValueDeltaOperator,
+    isValueDeltaOperator,
 } from "@utils/constants";
 
 /**
@@ -74,11 +76,11 @@ export class ValueModifier {
         } else {
             const mods = this.deltas.concat();
 
-            // Sort modifiers so that we process Adds first, then Mults, then Floor, then Ceil
-            mods.sort((a, b) =>
-                a.op < b.op ? -1
-                : a.op > b.op ? 1
-                : 0,
+            // Sort modifiers by processing order: add, multiply, upgrade, downgrade, override, custom
+            mods.sort(
+                (a, b) =>
+                    VALUE_DELTA_OPERATOR_ORDER.indexOf(a.op as string) -
+                    VALUE_DELTA_OPERATOR_ORDER.indexOf(b.op as string),
             );
 
             let minVal: number | null = null;
@@ -241,7 +243,7 @@ export class ValueModifier {
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
     ): ValueModifier {
-        if (!ValueDelta.isA(op)) {
+        if (!isValueDeltaOperator(op)) {
             throw new TypeError("op is not valid");
         } else if (
             !(typeof name === "string" && name.startsWith("SOHL.MOD."))
@@ -263,13 +265,13 @@ export class ValueModifier {
                 if (existingOverride.numValue !== 0) {
                     // If this ValueModifier is being overriden, throw out all other modifications
                     this.deltas = [
-                        new ValueDelta(this, { name, shortcode, op, value }),
+                        new ValueDelta({ name, shortcode, op, value }),
                     ];
                 }
             }
         } else {
-            const deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
-            deltas.push(new ValueDelta(this, { name, shortcode, op, value }));
+            this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
+            this.deltas.push(new ValueDelta({ name, shortcode, op, value }));
         }
 
         this._dirty = true;
@@ -291,8 +293,8 @@ export class ValueModifier {
     delete(shortcode: string): void {
         if (typeof shortcode !== "string")
             throw new TypeError("shortcode is not a string");
-        const newMods =
-            this.deltas.filter((m) => m.shortcode !== shortcode) || [];
+        this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
+        this._dirty = true;
     }
 
     add(...args: any[]): ValueModifier {

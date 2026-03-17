@@ -838,13 +838,26 @@ export const {
     values: ValueDeltaOperators,
     isValue: isValueDeltaOperator,
 } = defineType("SOHL.ValueDelta.OPERATOR", {
-    CUSTOM: 0,
-    MULTIPLY: 1,
-    ADD: 2,
-    DOWNGRADE: 3,
-    UPGRADE: 4,
-    OVERRIDE: 5,
+    ADD: "add",
+    MULTIPLY: "multiply",
+    UPGRADE: "upgrade",
+    DOWNGRADE: "downgrade",
+    OVERRIDE: "override",
+    CUSTOM: "custom",
 });
+
+/**
+ * Processing order for delta operators: flat bonuses first, then scaling,
+ * then clamping (min/max), then hard override, then custom escape hatch.
+ */
+export const VALUE_DELTA_OPERATOR_ORDER: readonly string[] = [
+    "add",
+    "multiply",
+    "upgrade",
+    "downgrade",
+    "override",
+    "custom",
+] as const;
 export type ValueDeltaOperator =
     (typeof VALUE_DELTA_OPERATOR)[keyof typeof VALUE_DELTA_OPERATOR];
 export type ValueDeltaValue = string | number;
