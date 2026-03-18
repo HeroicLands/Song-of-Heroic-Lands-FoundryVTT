@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AIPlannedAction } from "@utils/ai/AIPlannedAction";
-import { defineType } from "@utils/constants";
+import { AIPlannedAction } from "@src/utils/ai/AIPlannedAction";
+import { defineType } from "@src/utils/constants";
 
 const {
     kind: AI_PLAN_STATUS,

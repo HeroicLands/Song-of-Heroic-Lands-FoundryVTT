@@ -11,15 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { ImpactResult } from "@common/result/ImpactResult";
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { SohlActionContext } from "@common/SohlActionContext";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
+import type { ImpactResult } from "@src/common/result/ImpactResult";
+import type { SuccessTestResult } from "@src/common/result/SuccessTestResult";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
 import {
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorLogic,
-} from "@common/actor/foundry/SohlActor";
+} from "@src/common/actor/foundry/SohlActor";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.

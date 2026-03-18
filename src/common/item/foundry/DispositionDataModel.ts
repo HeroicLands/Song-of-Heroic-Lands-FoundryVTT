@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { DispositionLogic, DispositionData } from "@common/item/logic/DispositionLogic";
-import { ITEM_KIND, REACTION, Reactions } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    DispositionLogic,
+    DispositionData,
+} from "@src/common/item/logic/DispositionLogic";
+import { ITEM_KIND, REACTION, Reactions } from "@src/utils/constants";
 const { StringField } = foundry.data.fields;
 
 function defineDispositionDataSchema(): foundry.data.fields.DataSchema {
@@ -34,15 +37,17 @@ function defineDispositionDataSchema(): foundry.data.fields.DataSchema {
 type SohlDispositionDataSchema = ReturnType<typeof defineDispositionDataSchema>;
 
 export class DispositionDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = SohlDispositionDataSchema,
-        TLogic extends
-            DispositionLogic<DispositionData> = DispositionLogic<DispositionData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = SohlDispositionDataSchema,
+    TLogic extends DispositionLogic<DispositionData> =
+        DispositionLogic<DispositionData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements DispositionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Disposition", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Disposition",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.DISPOSITION;
     targetShortcode!: string;
     reaction!: string;

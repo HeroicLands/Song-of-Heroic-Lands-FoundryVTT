@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { GearLogic, GearData } from "@common/item/logic/GearLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import { GearLogic, GearData } from "@src/common/item/logic/GearLogic";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
 function defineGearDataSchema(): foundry.data.fields.DataSchema {

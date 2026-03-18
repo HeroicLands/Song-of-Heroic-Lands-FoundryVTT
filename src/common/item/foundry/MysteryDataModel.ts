@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { MysteryLogic, MysteryData } from "@common/item/logic/MysteryLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import { MysteryLogic, MysteryData } from "@src/common/item/logic/MysteryLogic";
 import {
     ITEM_KIND,
     MysterySubType,
     MysterySubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { SchemaField, ArrayField, NumberField, StringField } =
     foundry.data.fields;
 
@@ -63,13 +63,16 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
 type MysteryDataSchema = ReturnType<typeof defineMysterySchema>;
 
 export class MysteryDataModel<
-        TSchema extends foundry.data.fields.DataSchema = MysteryDataSchema,
-        TLogic extends MysteryLogic<MysteryData> = MysteryLogic<MysteryData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = MysteryDataSchema,
+    TLogic extends MysteryLogic<MysteryData> = MysteryLogic<MysteryData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysteryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Mystery", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Mystery",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
     domainCode?: string;

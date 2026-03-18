@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearLogic, GearData } from "@common/item/logic/GearLogic";
+import { GearLogic, GearData } from "@src/common/item/logic/GearLogic";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.

@@ -11,12 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import type { SohlCombat } from "@common/combat/SohlCombat";
-import { getCanvas } from "@common/FoundryProxy";
-
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { SohlCombat } from "@src/common/combat/SohlCombat";
+import { getCanvas } from "@src/common/FoundryProxy";
 
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
@@ -71,7 +70,6 @@ export class SohlCombatant<
     get didAction(): boolean {
         return (this.system as SohlCombatantDataModel).didAction;
     }
-
 
     /**
      * The number of spaces this combatant has moved since
@@ -134,9 +132,11 @@ export class SohlCombatant<
 function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
     return {
         groups: new foundry.data.fields.ArrayField(
-            new foundry.data.fields.StringField({ blank: false }), {
-            initial: [],
-        }),
+            new foundry.data.fields.StringField({ blank: false }),
+            {
+                initial: [],
+            },
+        ),
         startLocation: new foundry.data.fields.ObjectField({
             initial: {
                 x: 0,
@@ -159,10 +159,8 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
 type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 
 export class SohlCombatantDataModel<
-        TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
-    >
-    extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant>
-{
+    TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
+> extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
     static readonly kind = "sohlcombatantdata";
     groups!: string[];

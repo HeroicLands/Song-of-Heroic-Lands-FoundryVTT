@@ -41,7 +41,7 @@ import {
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorLogic,
-} from "@common/actor/foundry/SohlActor";
+} from "@src/common/actor/foundry/SohlActor";
 
 /**
  * Logic for the **Cohort** actor type — a group of individuals acting as a unit.

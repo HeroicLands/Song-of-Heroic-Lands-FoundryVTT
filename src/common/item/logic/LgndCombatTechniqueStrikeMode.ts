@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { CombatTechniqueStrikeModeData, CombatTechniqueStrikeModeLogic,  } from "@common/item/logic/CombatTechniqueStrikeModeLogic";
-import { CombatTechniqueStrikeModeSheet } from "@common/item/foundry/CombatTechniqueStrikeModeSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    CombatTechniqueStrikeModeData,
+    CombatTechniqueStrikeModeLogic,
+} from "@src/common/item/logic/CombatTechniqueStrikeModeLogic";
+import { CombatTechniqueStrikeModeSheet } from "@src/common/item/foundry/CombatTechniqueStrikeModeSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndCombatTechniqueStrikeModeLogic extends CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> {
     /* --------------------------------------------- */

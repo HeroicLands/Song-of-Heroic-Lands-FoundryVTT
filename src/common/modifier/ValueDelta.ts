@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { instanceToJSON } from "@utils/helpers";
+import { instanceToJSON } from "@src/utils/helpers";
 import {
     VALUE_DELTA_OPERATOR,
     ValueDeltaOperator,
     isValueDeltaOperator,
     ValueDeltaValue,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const kValueDelta = Symbol("ValueDelta");
 
 /**

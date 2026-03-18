@@ -11,21 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import type { SohlDataModel } from "@common/SohlDataModel";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import type { SohlDataModel } from "@src/common/SohlDataModel";
 import {
     ACTION_SUBTYPE,
     ActorKinds,
     defineType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@utils/constants";
-import { instanceToJSON } from "@utils/helpers";
-import { SohlContextMenu } from "@utils/SohlContextMenu";
-import { SohlSpeaker } from "@common/SohlSpeaker";
-import type { ActionData, ActionLogic } from "@common/item/logic/ActionLogic";
+} from "@src/utils/constants";
+import { instanceToJSON } from "@src/utils/helpers";
+import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import type {
+    ActionData,
+    ActionLogic,
+} from "@src/common/item/logic/ActionLogic";
 
 export const {
     kind: INTRINSIC_ACTION,

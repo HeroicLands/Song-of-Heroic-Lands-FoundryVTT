@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@common/item/foundry/MasteryLevelDataModel";
-import { TraitLogic, TraitData } from "@common/item/logic/TraitLogic";
+import { MasteryLevelDataModel } from "@src/common/item/foundry/MasteryLevelDataModel";
+import { TraitLogic, TraitData } from "@src/common/item/logic/TraitLogic";
 import {
     ITEM_KIND,
     TRAIT_INTENSITY,
@@ -21,7 +21,7 @@ import {
     TraitIntensity,
     TraitSubType,
     TraitSubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const {
     ArrayField,
     ObjectField,
@@ -72,13 +72,17 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
 type TraitSchema = ReturnType<typeof defineTraitSchema>;
 
 export class TraitDataModel<
-        TSchema extends foundry.data.fields.DataSchema = TraitSchema,
-        TLogic extends TraitLogic<TraitData> = TraitLogic<TraitData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = TraitSchema,
+    TLogic extends TraitLogic<TraitData> = TraitLogic<TraitData>,
+>
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements TraitData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Trait", "SOHL.MasteryLevel", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Trait",
+        "SOHL.MasteryLevel",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
     textValue!: string;

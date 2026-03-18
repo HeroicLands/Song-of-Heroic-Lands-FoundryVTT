@@ -11,17 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DialogButtonCallback, inputDialog } from "@common/FoundryProxy";
-import { ValueModifier } from "@common/modifier/ValueModifier";
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { OpposedTestResult } from "@common/result/OpposedTestResult";
-import { FilePath, toFilePath } from "@utils/helpers";
-import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@utils/constants";
-import { SohlActionContext } from "@common/SohlActionContext";
-import {
-    notifyWarn as fvttNotifyWarn,
-} from "@common/foundry-helpers";
+import { DialogButtonCallback, inputDialog } from "@src/common/FoundryProxy";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
+import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
+import type { OpposedTestResult } from "@src/common/result/OpposedTestResult";
+import { FilePath, toFilePath } from "@src/utils/helpers";
+import { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
+import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@src/utils/constants";
+import { SohlActionContext } from "@src/common/SohlActionContext";
+import { notifyWarn as fvttNotifyWarn } from "@src/common/foundry-helpers";
 
 // TODO: This needs to be internationalized
 const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [

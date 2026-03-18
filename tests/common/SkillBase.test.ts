@@ -1,9 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { SkillBase } from "@common/SkillBase";
-import { ITEM_KIND, TRAIT_INTENSITY } from "@utils/constants";
+import { SkillBase } from "@src/common/SkillBase";
+import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 
 // Helper to create a mock trait item
-function mockTrait(shortcode: string, textValue: string, opts: { isNumeric?: boolean; intensity?: string } = {}) {
+function mockTrait(
+    shortcode: string,
+    textValue: string,
+    opts: { isNumeric?: boolean; intensity?: string } = {},
+) {
     return {
         type: ITEM_KIND.TRAIT,
         system: {
@@ -24,7 +28,11 @@ function mockSunsign(textValue: string) {
     } as any;
 }
 
-function createSkillBase(formula: string, items: any[] = [], sunsign?: any): SkillBase {
+function createSkillBase(
+    formula: string,
+    items: any[] = [],
+    sunsign?: any,
+): SkillBase {
     const opts: any = { items };
     if (sunsign) opts.sunsign = sunsign;
     return new SkillBase(formula, opts);
@@ -48,7 +56,11 @@ describe("SkillBase", () => {
         });
 
         it("parses sunsign textValue split by dash", () => {
-            const sb = createSkillBase("@str, @int", [], mockSunsign("hirin-ahnu"));
+            const sb = createSkillBase(
+                "@str, @int",
+                [],
+                mockSunsign("hirin-ahnu"),
+            );
             expect(sb.sunsigns).toEqual(["hirin", "ahnu"]);
         });
     });
@@ -72,7 +84,12 @@ describe("SkillBase", () => {
         it("accumulates multiple numeric modifiers", () => {
             const sb = createSkillBase("@str, @int, 3, 2");
             // First modifier: 3, second: 3+2=5
-            expect(sb._parseFormula).toEqual(["attr:str", "attr:int", "3", "5"]);
+            expect(sb._parseFormula).toEqual([
+                "attr:str",
+                "attr:int",
+                "3",
+                "5",
+            ]);
         });
 
         it("rejects non-numeric non-attribute non-sunsign tokens", () => {
@@ -87,7 +104,12 @@ describe("SkillBase", () => {
 
         it("handles mixed formula with attributes and modifiers", () => {
             const sb = createSkillBase("@str, @int, @sta, 5");
-            expect(sb._parseFormula).toEqual(["attr:str", "attr:int", "attr:sta", "5"]);
+            expect(sb._parseFormula).toEqual([
+                "attr:str",
+                "attr:int",
+                "attr:sta",
+                "5",
+            ]);
         });
     });
 
@@ -157,7 +179,9 @@ describe("SkillBase", () => {
             expect(sb.value).toBe(55);
         });
 
-        it.todo("ensures result is at least 0 — needs negative modifier support investigation");
+        it.todo(
+            "ensures result is at least 0 — needs negative modifier support investigation",
+        );
 
         it("handles missing attributes gracefully (value 0)", () => {
             const sb = createSkillBase("@str, @dex", [
@@ -172,9 +196,18 @@ describe("SkillBase", () => {
     describe("setAttributes", () => {
         it("only picks traits with intensity=attribute and isNumeric=true", () => {
             const sb = createSkillBase("@str, @per", [
-                mockTrait("str", "60", { intensity: TRAIT_INTENSITY.ATTRIBUTE, isNumeric: true }),
-                mockTrait("per", "50", { intensity: TRAIT_INTENSITY.TRAIT, isNumeric: true }), // not an attribute
-                mockTrait("chr", "70", { intensity: TRAIT_INTENSITY.ATTRIBUTE, isNumeric: false }), // not numeric
+                mockTrait("str", "60", {
+                    intensity: TRAIT_INTENSITY.ATTRIBUTE,
+                    isNumeric: true,
+                }),
+                mockTrait("per", "50", {
+                    intensity: TRAIT_INTENSITY.TRAIT,
+                    isNumeric: true,
+                }), // not an attribute
+                mockTrait("chr", "70", {
+                    intensity: TRAIT_INTENSITY.ATTRIBUTE,
+                    isNumeric: false,
+                }), // not numeric
             ]);
             // Only str resolves, per has wrong intensity, chr not numeric
             // str=60, per=0 → average=(60+0)/2=30

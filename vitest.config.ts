@@ -10,18 +10,41 @@ export default defineConfig({
             // so the test mock takes precedence during testing
             {
                 find: "@common/foundry-helpers",
-                replacement: isTest
-                    ? path.resolve(__dirname, "tests/mocks/foundry/core/foundry-helpers.ts")
-                    : path.resolve(__dirname, "src/common/foundry-helpers.ts"),
+                replacement:
+                    isTest ?
+                        path.resolve(
+                            __dirname,
+                            "tests/mocks/foundry/core/foundry-helpers.ts",
+                        )
+                    :   path.resolve(
+                            __dirname,
+                            "src/common/foundry-helpers.ts",
+                        ),
             },
-            { find: /^@types\/(.*)/, replacement: path.resolve(__dirname, "types/$1") },
-            { find: /^@utils\/(.*)/, replacement: path.resolve(__dirname, "src/utils/$1") },
-            { find: /^@common\/(.*)/, replacement: path.resolve(__dirname, "src/common/$1") },
-            { find: /^@mistyisle\/(.*)/, replacement: path.resolve(__dirname, "src/mistyisle/$1") },
-            { find: /^@templates\/(.*)/, replacement: path.resolve(__dirname, "templates/$1") },
-            { find: /^@assets\/(.*)/, replacement: path.resolve(__dirname, "assets/$1") },
-            { find: /^@lang\/(.*)/, replacement: path.resolve(__dirname, "lang/$1") },
-            { find: /^@tests\/(.*)/, replacement: path.resolve(__dirname, "tests/$1") },
+            {
+                find: /^@types\/(.*)/,
+                replacement: path.resolve(__dirname, "types/$1"),
+            },
+            {
+                find: /^@src\/(.*)/,
+                replacement: path.resolve(__dirname, "src/$1"),
+            },
+            {
+                find: /^@templates\/(.*)/,
+                replacement: path.resolve(__dirname, "templates/$1"),
+            },
+            {
+                find: /^@assets\/(.*)/,
+                replacement: path.resolve(__dirname, "assets/$1"),
+            },
+            {
+                find: /^@lang\/(.*)/,
+                replacement: path.resolve(__dirname, "lang/$1"),
+            },
+            {
+                find: /^@tests\/(.*)/,
+                replacement: path.resolve(__dirname, "tests/$1"),
+            },
         ],
     },
     test: {

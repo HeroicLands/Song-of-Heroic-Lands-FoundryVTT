@@ -11,10 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorSheetBase,
-} from "@common/actor/foundry/SohlActor";
-import type { AssemblyLogic } from "@common/actor/logic/AssemblyLogic";
+import { SohlActorSheetBase } from "@src/common/actor/foundry/SohlActor";
+import type { AssemblyLogic } from "@src/common/actor/logic/AssemblyLogic";
 
 export class AssemblySheet extends SohlActorSheetBase {
     static DEFAULT_OPTIONS: PlainObject = {
@@ -55,10 +53,26 @@ export class AssemblySheet extends SohlActorSheetBase {
         primary: {
             initial: "facade",
             tabs: [
-                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label", icon: "fas fa-masks-theater" },
-                { id: "nestedItems", label: "SOHL.Actor.SHEET.tab.nested.label", icon: "fas fa-sitemap" },
-                { id: "actions", label: "SOHL.Actor.SHEET.tab.actions.label", icon: "fas fa-cogs" },
-                { id: "effects", label: "SOHL.Actor.SHEET.tab.effects.label", icon: "fas fa-bolt" },
+                {
+                    id: "facade",
+                    label: "SOHL.Actor.SHEET.tab.facade.label",
+                    icon: "fas fa-masks-theater",
+                },
+                {
+                    id: "nestedItems",
+                    label: "SOHL.Actor.SHEET.tab.nested.label",
+                    icon: "fas fa-sitemap",
+                },
+                {
+                    id: "actions",
+                    label: "SOHL.Actor.SHEET.tab.actions.label",
+                    icon: "fas fa-cogs",
+                },
+                {
+                    id: "effects",
+                    label: "SOHL.Actor.SHEET.tab.effects.label",
+                    icon: "fas fa-bolt",
+                },
             ],
         },
     };

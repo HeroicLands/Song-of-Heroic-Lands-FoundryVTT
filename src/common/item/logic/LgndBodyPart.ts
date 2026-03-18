@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BodyPartData, BodyPartLogic,  } from "@common/item/logic/BodyPartLogic";
-import { BodyPartSheet } from "@common/item/foundry/BodyPartSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    BodyPartData,
+    BodyPartLogic,
+} from "@src/common/item/logic/BodyPartLogic";
+import { BodyPartSheet } from "@src/common/item/foundry/BodyPartSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndBodyPartLogic extends BodyPartLogic<BodyPartData> {
     get probWeight(): number {

@@ -15,7 +15,7 @@ import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Body Zone** item type — a broad anatomical region grouping

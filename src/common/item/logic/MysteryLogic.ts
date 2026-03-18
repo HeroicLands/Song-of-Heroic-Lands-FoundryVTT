@@ -11,22 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
-import type { DomainLogic } from "@common/item/logic/DomainLogic";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import type { DomainLogic } from "@src/common/item/logic/DomainLogic";
 import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 import {
     ITEM_KIND,
     MYSTERY_CATEGORY,
     MYSTERY_CATEGORYMAP,
     MYSTERY_SUBTYPE,
     MysterySubType,
-} from "@utils/constants";
-import { isItemWithSubType } from "@utils/helpers";
+} from "@src/utils/constants";
+import { isItemWithSubType } from "@src/utils/helpers";
 
 /**
  * Logic for the **Mystery** item type — a passive or charge-based mystical

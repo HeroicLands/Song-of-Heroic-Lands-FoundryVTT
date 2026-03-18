@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
-import type { MasteryLevelLogic } from "@common/item/logic/MasteryLevelLogic";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import type { AfflictionLogic } from "@common/item/logic/AfflictionLogic";
-import type { InjuryLogic } from "@common/item/logic/InjuryLogic";
-import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import { Itr } from "@utils/Itr";
+import type { SohlLogic } from "@src/common/SohlLogic";
+import type { MasteryLevelLogic } from "@src/common/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { AfflictionLogic } from "@src/common/item/logic/AfflictionLogic";
+import type { InjuryLogic } from "@src/common/item/logic/InjuryLogic";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import { Itr } from "@src/utils/Itr";
 
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;

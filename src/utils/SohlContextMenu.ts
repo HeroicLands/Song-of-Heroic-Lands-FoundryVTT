@@ -11,19 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/foundry/SohlItem";
-import { HTMLString, toHTMLString } from "@utils/helpers";
+import { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { HTMLString, toHTMLString } from "@src/utils/helpers";
 import {
     getContextItem,
     ITEM_KIND,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroup,
-} from "@utils/constants";
-import type { ActionLogic } from "@common/item/logic/ActionLogic";
-import { SohlActionContext } from "@common/SohlActionContext";
+} from "@src/utils/constants";
+import type { ActionLogic } from "@src/common/item/logic/ActionLogic";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
-export class SohlContextMenu extends (foundry.applications as any).ux
-    .ContextMenu {
+export class SohlContextMenu
+    extends (foundry.applications as any).ux.ContextMenu
+{
     declare readonly implementation: typeof SohlContextMenu;
 
     constructor(

@@ -20,7 +20,7 @@ import {
     SLOPE,
     TERRAIN,
     VEGETATION,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 /**
  * An extension of the base Region class to include support for
@@ -149,7 +149,11 @@ export class SohlRegionConfig extends foundry.applications.sheets.RegionConfig {
         context: any,
         options: any,
     ): Promise<any> {
-        const result = await super._preparePartContext(partId, context, options);
+        const result = await super._preparePartContext(
+            partId,
+            context,
+            options,
+        );
         if (partId === "biome") {
             const region = this.document as unknown as SohlRegion;
             Object.assign(result, {

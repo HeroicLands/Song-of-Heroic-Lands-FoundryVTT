@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@common/result/ImpactResult";
-import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@utils/constants";
+import { ImpactResult } from "@src/common/result/ImpactResult";
+import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
 
 /**
  * Represents the result of an attack test, including whether the attack was

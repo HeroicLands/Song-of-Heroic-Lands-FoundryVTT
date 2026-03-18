@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem, SohlItemSheetBase } from "@common/item/foundry/SohlItem";
+import { SohlItem, SohlItemSheetBase } from "@src/common/item/foundry/SohlItem";
 
 export class WeaponGearSheet extends SohlItemSheetBase {
     protected async _preparePropertiesContext(

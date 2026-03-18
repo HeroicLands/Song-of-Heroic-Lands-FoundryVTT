@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { PhilosophyLogic, PhilosophyData } from "@common/item/logic/PhilosophyLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    PhilosophyLogic,
+    PhilosophyData,
+} from "@src/common/item/logic/PhilosophyLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 function definePhilosophyDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -24,14 +27,17 @@ function definePhilosophyDataSchema(): foundry.data.fields.DataSchema {
 type PhilosophyDataSchema = ReturnType<typeof definePhilosophyDataSchema>;
 
 export class PhilosophyDataModel<
-        TSchema extends foundry.data.fields.DataSchema = PhilosophyDataSchema,
-        TLogic extends
-            PhilosophyLogic<PhilosophyData> = PhilosophyLogic<PhilosophyData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = PhilosophyDataSchema,
+    TLogic extends PhilosophyLogic<PhilosophyData> =
+        PhilosophyLogic<PhilosophyData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements PhilosophyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Philosophy", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Philosophy",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.PHILOSOPHY;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

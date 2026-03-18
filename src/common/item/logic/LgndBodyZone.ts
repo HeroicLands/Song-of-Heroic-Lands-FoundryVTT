@@ -11,11 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BodyZoneData, BodyZoneLogic,  } from "@common/item/logic/BodyZoneLogic";
-import { BodyZoneSheet } from "@common/item/foundry/BodyZoneSheet";
-import { SohlItem } from "@common/item/foundry/SohlItem";
-import { SohlActionContext } from "@common/SohlActionContext";
-import { TRAIT_INTENSITY } from "@utils/constants";
+import {
+    BodyZoneData,
+    BodyZoneLogic,
+} from "@src/common/item/logic/BodyZoneLogic";
+import { BodyZoneSheet } from "@src/common/item/foundry/BodyZoneSheet";
+import { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { SohlActionContext } from "@src/common/SohlActionContext";
+import { TRAIT_INTENSITY } from "@src/utils/constants";
 
 export class LgndBodyZoneLogic extends BodyZoneLogic<BodyZoneData> {
     get affectedSkills(): SohlItem[] {

@@ -11,19 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@common/SohlSpeaker";
-import { SohlSystem } from "@common/SohlSystem";
-import { LegendarySystem } from "@common/LegendarySystem";
-import { ACTOR_KIND, LOGLEVEL } from "@utils/constants";
-import { AIAdapter } from "@utils/ai/AIAdapter";
-import { SohlCombatant } from "@common/combatant/SohlCombatant";
-import { SohlEncounterConfig } from "@common/region-behavior/SohlEncounter";
-import { SohlRegionConfig } from "@common/region/SohlRegion";
-import { CalendarSettingsMenu } from "@common/apps/CalendarSettingsMenu";
+import type { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SohlSystem } from "@src/common/SohlSystem";
+import { LegendarySystem } from "@src/common/LegendarySystem";
+import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
+import { AIAdapter } from "@src/utils/ai/AIAdapter";
+import { SohlCombatant } from "@src/common/combatant/SohlCombatant";
+import { SohlEncounterConfig } from "@src/common/region-behavior/SohlEncounter";
+import { SohlRegionConfig } from "@src/common/region/SohlRegion";
+import { CalendarSettingsMenu } from "@src/common/apps/CalendarSettingsMenu";
 import {
     registerAssemblySidebar,
     registerAssemblyContextMenu,
-} from "@common/apps/AssemblyDirectory";
+} from "@src/common/apps/AssemblyDirectory";
 
 /**
  * Register all built-in variants and allow modules to register their own.
@@ -31,7 +31,10 @@ import {
  */
 function registerVariants(): void {
     // Register built-in variants
-    SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
+    SohlSystem.registerVariant(
+        LegendarySystem.ID,
+        LegendarySystem.getInstance(),
+    );
 
     // Allow modules to register additional variants.
     // Modules should listen for this hook and call SohlSystem.registerVariant().
@@ -306,15 +309,16 @@ export function findPlacementPositions(
         // Check if cell is occupied
         if (!occupied.has(cellKey)) {
             // Check wall collision between drop point and this cell
-            const hasWall = (CONFIG as any).Canvas?.losBackend
-                ? (canvas as any).walls.checkCollision(
-                      new Ray(
-                          { x: snapped.x, y: snapped.y },
-                          { x: cellCenterX, y: cellCenterY },
-                      ),
-                      { type: "move", mode: "any" },
-                  )
-                : false;
+            const hasWall =
+                (CONFIG as any).Canvas?.losBackend ?
+                    (canvas as any).walls.checkCollision(
+                        new Ray(
+                            { x: snapped.x, y: snapped.y },
+                            { x: cellCenterX, y: cellCenterY },
+                        ),
+                        { type: "move", mode: "any" },
+                    )
+                :   false;
 
             if (!hasWall) {
                 results.push({ x: cellX, y: cellY });
@@ -354,10 +358,7 @@ export function findPlacementPositions(
  * @param actor - The Cohort actor to place
  * @param data - Object with at least `x` and `y` drop coordinates
  */
-export async function handleCohortDrop(
-    actor: any,
-    data: any,
-): Promise<void> {
+export async function handleCohortDrop(actor: any, data: any): Promise<void> {
     const dropX = data.x ?? 0;
     const dropY = data.y ?? 0;
 
@@ -440,10 +441,10 @@ export async function spawnCohortMembers(
         );
         if (!memberActor) {
             console.warn(
-                game.i18n.format(
-                    "SOHL.Cohort.Drop.memberNotFound",
-                    { shortcode: member.shortcode, name: member.name },
-                ),
+                game.i18n.format("SOHL.Cohort.Drop.memberNotFound", {
+                    shortcode: member.shortcode,
+                    name: member.name,
+                }),
             );
             continue;
         }
@@ -484,8 +485,9 @@ function registerSystemHooks() {
         "dropCanvasData",
         (_canvas: any, data: any, _event: any) => {
             if (data.type !== "Actor") return true;
-            const actor = (Actor as any).implementation.fromDropData?.(data)
-                ?? game.actors?.get(data.id);
+            const actor =
+                (Actor as any).implementation.fromDropData?.(data) ??
+                game.actors?.get(data.id);
             if (!actor || actor.type !== ACTOR_KIND.COHORT) return true;
             if (!actor.isOwner) return false; // silently cancel for non-owners
 
@@ -498,39 +500,34 @@ function registerSystemHooks() {
     );
 
     // Add "Expand Cohort" button to TokenHUD for Cohort tokens.
-    (Hooks as any).on(
-        "renderTokenHUD",
-        (hud: any, element: HTMLElement) => {
-            const actor = hud.actor;
-            if (!actor || actor.type !== ACTOR_KIND.COHORT) return;
-            if (!actor.isOwner) return;
+    (Hooks as any).on("renderTokenHUD", (hud: any, element: HTMLElement) => {
+        const actor = hud.actor;
+        if (!actor || actor.type !== ACTOR_KIND.COHORT) return;
+        if (!actor.isOwner) return;
 
-            const leftCol = element.querySelector(".col.left");
-            if (!leftCol) return;
+        const leftCol = element.querySelector(".col.left");
+        if (!leftCol) return;
 
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.classList.add("control-icon");
-            btn.dataset.tooltip = game.i18n.localize(
-                "SOHL.Cohort.HUD.expand",
-            );
-            btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
-            btn.addEventListener("click", async (ev: Event) => {
-                ev.preventDefault();
-                const token = hud.document;
-                const x = token.x;
-                const y = token.y;
-                const elevation = token.elevation ?? 0;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.classList.add("control-icon");
+        btn.dataset.tooltip = game.i18n.localize("SOHL.Cohort.HUD.expand");
+        btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
+        btn.addEventListener("click", async (ev: Event) => {
+            ev.preventDefault();
+            const token = hud.document;
+            const x = token.x;
+            const y = token.y;
+            const elevation = token.elevation ?? 0;
 
-                // Delete the group token first
-                await token.delete();
+            // Delete the group token first
+            await token.delete();
 
-                // Spawn individual members at that location
-                await spawnCohortMembers(actor, x, y, elevation);
-            });
-            leftCol.appendChild(btn);
-        },
-    );
+            // Spawn individual members at that location
+            await spawnCohortMembers(actor, x, y, elevation);
+        });
+        leftCol.appendChild(btn);
+    });
 
     Hooks.on(
         "chatMessage",
@@ -687,12 +684,19 @@ async function showVariantSelectionDialog(): Promise<void> {
                         icon: '<i class="fas fa-check"></i>',
                         label: "Confirm",
                         callback: async (html: HTMLElement | JQuery) => {
-                            const el = html instanceof HTMLElement ? html : html[0];
-                            const select = el.querySelector<HTMLSelectElement>("#sohl-variant-select");
+                            const el =
+                                html instanceof HTMLElement ? html : html[0];
+                            const select = el.querySelector<HTMLSelectElement>(
+                                "#sohl-variant-select",
+                            );
                             const variant = select?.value;
                             if (variant) {
                                 (dialog as any)._variantSelected = true;
-                                await game.settings.set("sohl", "variant", variant);
+                                await game.settings.set(
+                                    "sohl",
+                                    "variant",
+                                    variant,
+                                );
                                 window.location.reload();
                             }
                             resolve();
@@ -702,7 +706,10 @@ async function showVariantSelectionDialog(): Promise<void> {
                 close: () => {
                     // Prevent closing without a selection — reopen
                     if (!(dialog as any)._variantSelected) {
-                        setTimeout(() => showVariantSelectionDialog().then(resolve), 100);
+                        setTimeout(
+                            () => showVariantSelectionDialog().then(resolve),
+                            100,
+                        );
                     }
                 },
             },

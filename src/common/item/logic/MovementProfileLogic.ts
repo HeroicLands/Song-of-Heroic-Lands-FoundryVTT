@@ -15,10 +15,8 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemLogic,
-} from "@common/item/foundry/SohlItem";
-import {
-    MovementMedium,
-} from "@utils/constants";
+} from "@src/common/item/foundry/SohlItem";
+import { MovementMedium } from "@src/utils/constants";
 
 /**
  * Logic for the **Movement Profile** item type — a mode of movement with

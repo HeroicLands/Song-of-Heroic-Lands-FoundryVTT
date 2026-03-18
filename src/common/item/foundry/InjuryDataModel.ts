@@ -11,14 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { InjuryLogic, InjuryData } from "@common/item/logic/InjuryLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import { InjuryLogic, InjuryData } from "@src/common/item/logic/InjuryLogic";
 import {
     IMPACT_ASPECT,
     ImpactAspect,
     ImpactAspects,
     ITEM_KIND,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { NumberField, BooleanField, StringField, DocumentIdField } =
     foundry.data.fields;
 
@@ -48,13 +48,16 @@ function defineInjuryDataSchema(): foundry.data.fields.DataSchema {
 type InjuryDataSchema = ReturnType<typeof defineInjuryDataSchema>;
 
 export class InjuryDataModel<
-        TSchema extends foundry.data.fields.DataSchema = InjuryDataSchema,
-        TLogic extends InjuryLogic<InjuryData> = InjuryLogic<InjuryData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = InjuryDataSchema,
+    TLogic extends InjuryLogic<InjuryData> = InjuryLogic<InjuryData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements InjuryData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Injury", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Injury",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.INJURY;
     injuryLevelBase!: number;
     healingRateBase!: number;

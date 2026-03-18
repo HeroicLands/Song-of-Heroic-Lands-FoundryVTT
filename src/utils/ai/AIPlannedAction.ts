@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defineType } from "@utils/constants";
+import { defineType } from "@src/utils/constants";
 
 const {
     kind: PLANNED_ACTION,

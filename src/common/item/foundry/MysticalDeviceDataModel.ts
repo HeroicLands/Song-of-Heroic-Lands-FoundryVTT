@@ -11,13 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { MysticalDeviceLogic, MysticalDeviceData } from "@common/item/logic/MysticalDeviceLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    MysticalDeviceLogic,
+    MysticalDeviceData,
+} from "@src/common/item/logic/MysticalDeviceLogic";
 import {
     ITEM_KIND,
     MysticalDeviceSubType,
     MysticalDeviceSubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 const { NumberField, StringField, BooleanField, SchemaField } =
     foundry.data.fields;
@@ -55,15 +58,17 @@ function defineMysticalDeviceSchema(): foundry.data.fields.DataSchema {
 type MysticalDeviceDataSchema = ReturnType<typeof defineMysticalDeviceSchema>;
 
 export class MysticalDeviceDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = MysticalDeviceDataSchema,
-        TLogic extends
-            MysticalDeviceLogic<MysticalDeviceData> = MysticalDeviceLogic<MysticalDeviceData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = MysticalDeviceDataSchema,
+    TLogic extends MysticalDeviceLogic<MysticalDeviceData> =
+        MysticalDeviceLogic<MysticalDeviceData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements MysticalDeviceData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MysticalDevice", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MysticalDevice",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MYSTICALDEVICE;
     subType!: MysticalDeviceSubType;
     requiresAttunement!: boolean;

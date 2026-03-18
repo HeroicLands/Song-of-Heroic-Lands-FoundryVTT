@@ -1,4 +1,4 @@
-import { SohlArray } from "@utils/collection/SohlArray";
+import { SohlArray } from "@src/utils/collection/SohlArray";
 
 describe("SohlArray", () => {
     describe("basic operations", () => {
@@ -73,7 +73,9 @@ describe("SohlArray", () => {
             expect(arr.at(1)).toBe(99);
         });
 
-        it.todo("throws for index beyond length — verify SohlArray bounds checking behavior");
+        it.todo(
+            "throws for index beyond length — verify SohlArray bounds checking behavior",
+        );
     });
 
     describe("iteration", () => {
@@ -132,6 +134,8 @@ describe("SohlArray", () => {
             ]);
         });
 
-        it.todo("picks up entries added during iteration — verify expandingEntries behavior");
+        it.todo(
+            "picks up entries added during iteration — verify expandingEntries behavior",
+        );
     });
 });

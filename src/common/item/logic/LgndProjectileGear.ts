@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ProjectileGearData, ProjectileGearLogic,  } from "@common/item/logic/ProjectileGearLogic";
-import { ProjectileGearSheet } from "@common/item/foundry/ProjectileGearSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    ProjectileGearData,
+    ProjectileGearLogic,
+} from "@src/common/item/logic/ProjectileGearLogic";
+import { ProjectileGearSheet } from "@src/common/item/foundry/ProjectileGearSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndProjectileGearLogic extends ProjectileGearLogic<ProjectileGearData> {
     /* --------------------------------------------- */

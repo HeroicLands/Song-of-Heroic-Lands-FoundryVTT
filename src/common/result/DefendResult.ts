@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@common/result/ImpactResult";
-import { DEFEND_MISHAP, TEST_TYPE } from "@utils/constants";
+import { ImpactResult } from "@src/common/result/ImpactResult";
+import { DEFEND_MISHAP, TEST_TYPE } from "@src/utils/constants";
 
 /**
  * Represents the result of a defense test, including whether the defense was

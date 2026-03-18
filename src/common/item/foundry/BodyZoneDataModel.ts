@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { BodyZoneLogic, BodyZoneData } from "@common/item/logic/BodyZoneLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    BodyZoneLogic,
+    BodyZoneData,
+} from "@src/common/item/logic/BodyZoneLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -24,14 +27,16 @@ function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
 type BodyZoneDataSchema = ReturnType<typeof defineBodyZoneDataSchema>;
 
 export class BodyZoneDataModel<
-        TSchema extends foundry.data.fields.DataSchema = BodyZoneDataSchema,
-        TLogic extends
-            BodyZoneLogic<BodyZoneData> = BodyZoneLogic<BodyZoneData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = BodyZoneDataSchema,
+    TLogic extends BodyZoneLogic<BodyZoneData> = BodyZoneLogic<BodyZoneData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyZoneData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyZone", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.BodyZone",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.BODYZONE;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

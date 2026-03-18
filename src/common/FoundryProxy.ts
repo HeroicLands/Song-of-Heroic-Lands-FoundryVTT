@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { FilePath, toSanitizedHTML, HTMLString } from "@utils/helpers";
+import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 
 // Dialog-related types
 export type DialogButtonCallback = (

@@ -11,14 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { ProtectionLogic, ProtectionData } from "@common/item/logic/ProtectionLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    ProtectionLogic,
+    ProtectionData,
+} from "@src/common/item/logic/ProtectionLogic";
 import {
     ImpactAspects,
     ITEM_KIND,
     Variant,
     Variants,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 const { StringField, SchemaField, NumberField } = foundry.data.fields;
 
@@ -49,14 +52,17 @@ function defineProtectionDataSchema(): foundry.data.fields.DataSchema {
 type ProtectionDataSchema = ReturnType<typeof defineProtectionDataSchema>;
 
 export class ProtectionDataModel<
-        TSchema extends foundry.data.fields.DataSchema = ProtectionDataSchema,
-        TLogic extends
-            ProtectionLogic<ProtectionData> = ProtectionLogic<ProtectionData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ProtectionDataSchema,
+    TLogic extends ProtectionLogic<ProtectionData> =
+        ProtectionLogic<ProtectionData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements ProtectionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Protection", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Protection",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.PROTECTION;
     subType!: Variant;
     protectionBase!: StrictObject<number>;

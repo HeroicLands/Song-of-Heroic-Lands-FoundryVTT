@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorDataModel,
-} from "@common/actor/foundry/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
-import type { VehicleData } from "@common/actor/logic/VehicleLogic";
-import { VehicleLogic } from "@common/actor/logic/VehicleLogic";
+import { SohlActorDataModel } from "@src/common/actor/foundry/SohlActor";
+import { ACTOR_KIND } from "@src/utils/constants";
+import type { VehicleData } from "@src/common/actor/logic/VehicleLogic";
+import { VehicleLogic } from "@src/common/actor/logic/VehicleLogic";
 
 const { ArrayField, SchemaField, StringField, NumberField, DocumentIdField } =
     foundry.data.fields;

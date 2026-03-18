@@ -1,9 +1,4 @@
-import {
-    defineConfig,
-    type PluginOption,
-    type UserConfig,
-    type ConfigEnv,
-} from "vite";
+import { defineConfig, type UserConfig, type ConfigEnv } from "vite";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -46,9 +41,7 @@ export default defineConfig((ctx: ConfigEnv): UserConfig => {
             extensions: [".ts", ".js", ".json"],
             alias: {
                 "@types": path.resolve(__dirname, "types"),
-                "@utils": path.resolve(__dirname, "src/utils"),
-                "@common": path.resolve(__dirname, "src/common"),
-                "@mistyisle": path.resolve(__dirname, "src/mistyisle"),
+                "@src": path.resolve(__dirname, "src"),
                 "@templates": path.resolve(__dirname, "templates"),
                 "@assets": path.resolve(__dirname, "assets"),
                 "@lang": path.resolve(__dirname, "lang"),

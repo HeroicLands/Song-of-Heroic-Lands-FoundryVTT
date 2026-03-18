@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { MiscGearLogic, MiscGearData } from "@common/item/logic/MiscGearLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    MiscGearLogic,
+    MiscGearData,
+} from "@src/common/item/logic/MiscGearLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 function defineMiscGearSchema(): foundry.data.fields.DataSchema {
     return {
@@ -24,14 +27,17 @@ function defineMiscGearSchema(): foundry.data.fields.DataSchema {
 type MiscGearSchema = ReturnType<typeof defineMiscGearSchema>;
 
 export class MiscGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
-        TLogic extends
-            MiscGearLogic<MiscGearData> = MiscGearLogic<MiscGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
+    TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<MiscGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements MiscGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MiscGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MiscGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MISCGEAR;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

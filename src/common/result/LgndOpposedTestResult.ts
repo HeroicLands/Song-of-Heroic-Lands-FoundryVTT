@@ -11,5 +11,5 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { OpposedTestResult } from "@common/result/OpposedTestResult";
+import { OpposedTestResult } from "@src/common/result/OpposedTestResult";
 export class LgndOpposedTestResult extends OpposedTestResult {}

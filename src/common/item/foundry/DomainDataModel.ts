@@ -11,14 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { DomainLogic, DomainData } from "@common/item/logic/DomainLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import { DomainLogic, DomainData } from "@src/common/item/logic/DomainLogic";
 import {
     ITEM_KIND,
     DomainSubTypes,
     DOMAIN_SUBTYPE,
     DomainSubType,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField } = foundry.data.fields;
 
 function defineDomainSchema(): foundry.data.fields.DataSchema {
@@ -39,13 +39,16 @@ function defineDomainSchema(): foundry.data.fields.DataSchema {
 type DomainSchema = ReturnType<typeof defineDomainSchema>;
 
 export class DomainDataModel<
-        TSchema extends foundry.data.fields.DataSchema = DomainSchema,
-        TLogic extends DomainLogic<DomainData> = DomainLogic<DomainData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = DomainSchema,
+    TLogic extends DomainLogic<DomainData> = DomainLogic<DomainData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements DomainData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Domain", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Domain",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.DOMAIN;
     subType!: DomainSubType;
     philosophyCode!: string;

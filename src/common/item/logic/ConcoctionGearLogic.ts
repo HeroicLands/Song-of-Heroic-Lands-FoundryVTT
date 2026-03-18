@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearLogic, GearData } from "@common/item/logic/GearLogic";
+import { GearLogic, GearData } from "@src/common/item/logic/GearLogic";
 import {
     ConcoctionGearPotency,
     ConcoctionGearSubType,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 /**
  * Logic for the **Concoction Gear** item type — a consumable alchemical mixture.
@@ -59,8 +59,8 @@ export class ConcoctionGearLogic<
 }
 
 export interface ConcoctionGearData<
-    TLogic extends
-        ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<any>,
+    TLogic extends ConcoctionGearLogic<ConcoctionGearData> =
+        ConcoctionGearLogic<any>,
 > extends GearData<TLogic> {
     /** Concoction category (Mundane, Exotic, Elixir) */
     subType: ConcoctionGearSubType;

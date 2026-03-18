@@ -11,16 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
-import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { CombatModifier } from "@common/modifier/CombatModifier";
-import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import type { SuccessTestResult } from "@src/common/result/SuccessTestResult";
+import type { CombatModifier } from "@src/common/modifier/CombatModifier";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
 import {
     StrikeModeLogic,
     StrikeModeData,
-} from "@common/item/logic/StrikeModeLogic";
+} from "@src/common/item/logic/StrikeModeLogic";
 
 /**
  * Logic for the **Combat Technique Strike Mode** item type — a specialized
@@ -99,10 +99,7 @@ export class CombatTechniqueStrikeModeLogic<
             const defendPenalty =
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
-                this.defense.block.add(
-                    sohl.mod.OUTNUMBERED,
-                    defendPenalty,
-                );
+                this.defense.block.add(sohl.mod.OUTNUMBERED, defendPenalty);
                 this.defense.counterstrike.add(
                     sohl.mod.OUTNUMBERED,
                     defendPenalty,
@@ -119,7 +116,8 @@ export class CombatTechniqueStrikeModeLogic<
 
 export interface CombatTechniqueStrikeModeData<
     TLogic extends
-        CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> = CombatTechniqueStrikeModeLogic<any>,
+        CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> =
+        CombatTechniqueStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
     /** Combat technique group this mode belongs to */
     group?: string;

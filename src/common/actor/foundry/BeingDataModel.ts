@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorDataModel,
-} from "@common/actor/foundry/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
-import type { BeingData } from "@common/actor/logic/BeingLogic";
-import { BeingLogic } from "@common/actor/logic/BeingLogic";
+import { SohlActorDataModel } from "@src/common/actor/foundry/SohlActor";
+import { ACTOR_KIND } from "@src/utils/constants";
+import type { BeingData } from "@src/common/actor/logic/BeingLogic";
+import { BeingLogic } from "@src/common/actor/logic/BeingLogic";
 
 const { StringField } = foundry.data.fields;
 
@@ -32,9 +30,9 @@ type BeingDataSchema = ReturnType<typeof defineBeingDataSchema>;
  * The Foundry VTT data model for the Being actor.
  */
 export class BeingDataModel<
-        TSchema extends foundry.data.fields.DataSchema = BeingDataSchema,
-        TLogic extends BeingLogic<BeingData> = BeingLogic<BeingData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = BeingDataSchema,
+    TLogic extends BeingLogic<BeingData> = BeingLogic<BeingData>,
+>
     extends SohlActorDataModel<TSchema, TLogic>
     implements BeingData<TLogic>
 {

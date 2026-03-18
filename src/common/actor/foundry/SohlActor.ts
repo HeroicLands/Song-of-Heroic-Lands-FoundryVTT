@@ -11,19 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import { SohlItem } from "@common/item/foundry/SohlItem";
-import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { SohlActionContext } from "@common/SohlActionContext";
-import { FilePath, HTMLString } from "@utils/helpers";
-import { SohlDataModel } from "@common/SohlDataModel";
-import { SohlLogic } from "@common/SohlLogic";
-import { SohlMap } from "@utils/collection/SohlMap";
-import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { SkillBase } from "@common/SkillBase";
-import { SohlSpeaker } from "@common/SohlSpeaker";
-import { ACTOR_KIND, ITEM_KIND } from "@utils/constants";
-import type { ActionLogic } from "@common/item/logic/ActionLogic";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
+import { SohlActionContext } from "@src/common/SohlActionContext";
+import { FilePath, HTMLString } from "@src/utils/helpers";
+import { SohlDataModel } from "@src/common/SohlDataModel";
+import { SohlLogic } from "@src/common/SohlLogic";
+import { SohlMap } from "@src/utils/collection/SohlMap";
+import { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
+import { SkillBase } from "@src/common/SkillBase";
+import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { ACTOR_KIND, ITEM_KIND } from "@src/utils/constants";
+import type { ActionLogic } from "@src/common/item/logic/ActionLogic";
 import {
     callHook as fvttCallHook,
     callHookCancel as fvttCallHookCancel,
@@ -31,7 +31,7 @@ import {
     resolveUuidAsync as fvttResolveUuidAsync,
     createRoll as fvttCreateRoll,
     notifyWarn as fvttNotifyWarn,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 /**
@@ -300,7 +300,9 @@ export class SohlActor extends Actor {
 
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
-            if (fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)) {
+            if (
+                fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
+            ) {
                 item.logic.initialize();
             }
             fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
@@ -348,11 +350,15 @@ export class SohlActor extends Actor {
     prepareDerivedData(): void {
         super.prepareDerivedData();
         const ctx = this._getContext();
-        if (fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)) {
+        if (
+            fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
+        ) {
             this.logic.evaluate();
         }
         fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
-        if (fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)) {
+        if (
+            fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)
+        ) {
             this.logic.finalize();
         }
         fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
@@ -425,7 +431,9 @@ export class SohlActor extends Actor {
         // If the created actor has items (only applicable to duplicated actors) bypass the new actor creation logic
         if (createData.items) {
             if (options.cloneActorUuid) {
-                const cloneActor = await fvttResolveUuidAsync(options.cloneActorUuid);
+                const cloneActor = await fvttResolveUuidAsync(
+                    options.cloneActorUuid,
+                );
                 if (cloneActor) {
                     let newData = cloneActor.toObject();
                     delete newData._id;
@@ -598,12 +606,18 @@ export class SohlActor extends Actor {
         );
 
         for (const itemData of data as PlainObject[]) {
-            const nestedIn = foundry.utils.getProperty(itemData, "system.nestedIn");
+            const nestedIn = foundry.utils.getProperty(
+                itemData,
+                "system.nestedIn",
+            );
             if (nestedIn == null && hasRoot) {
                 fvttNotifyWarn(
-                    sohl.i18n.format("SOHL.Assembly.invalidState.multipleRoots", {
-                        name: this.name,
-                    }),
+                    sohl.i18n.format(
+                        "SOHL.Assembly.invalidState.multipleRoots",
+                        {
+                            name: this.name,
+                        },
+                    ),
                 );
                 // Prevent creation by clearing the data array
                 data.length = 0;
@@ -630,7 +644,8 @@ export class SohlActor extends Actor {
 
         if (this.type !== ACTOR_KIND.ASSEMBLY) return;
 
-        const [_parent, collection, documents, changes, _options, _userId] = args;
+        const [_parent, collection, documents, changes, _options, _userId] =
+            args;
         if (collection !== "items") return;
 
         // Check if any of the updated items is the canonical item (nestedIn === null)
@@ -650,16 +665,18 @@ export class SohlActor extends Actor {
     }
 }
 
-export interface SohlActorLogic<TData extends SohlDataModel.Data<SohlActor>>
-    extends SohlLogic<TData> {
+export interface SohlActorLogic<
+    TData extends SohlDataModel.Data<SohlActor>,
+> extends SohlLogic<TData> {
     virtualItems: SohlMap<string, SohlItem>;
 }
 
 /**
  * An interface representing the common data structure for all Actor types in the SoHL system.
  */
-export interface SohlActorData<TLogic extends SohlLogic<any> = SohlLogic<any>>
-    extends SohlDataModel.Data<SohlActor, TLogic> {
+export interface SohlActorData<
+    TLogic extends SohlLogic<any> = SohlLogic<any>,
+> extends SohlDataModel.Data<SohlActor, TLogic> {
     label(options?: { withName: boolean }): string;
     biography: HTMLString;
     description: HTMLString;
@@ -711,10 +728,10 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
 type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
 
 export abstract class SohlActorDataModel<
-        TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
-        TLogic extends
-            SohlActorLogic<SohlActorData> = SohlActorLogic<SohlActorData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
+    TLogic extends SohlActorLogic<SohlActorData> =
+        SohlActorLogic<SohlActorData>,
+>
     extends SohlDataModel<TSchema, SohlActor, TLogic>
     implements SohlActorData<TLogic>
 {
@@ -807,14 +824,22 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareHeaderContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "tabs":
                 context = await this._prepareTabsContext(context, options);
                 return context;
             case "facade":
                 context = await this._prepareFacadeContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareFacadeContext`,
+                    this,
+                    context,
+                );
                 return context;
             default:
                 return context;

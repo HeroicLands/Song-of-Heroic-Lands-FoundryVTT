@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ConcoctionGearData, ConcoctionGearLogic,  } from "@common/item/logic/ConcoctionGearLogic";
-import { ConcoctionGearSheet } from "@common/item/foundry/ConcoctionGearSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    ConcoctionGearData,
+    ConcoctionGearLogic,
+} from "@src/common/item/logic/ConcoctionGearLogic";
+import { ConcoctionGearSheet } from "@src/common/item/foundry/ConcoctionGearSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndConcoctionGearLogic extends ConcoctionGearLogic<ConcoctionGearData> {
     /* --------------------------------------------- */

@@ -11,15 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { StrikeModeLogic, StrikeModeData } from "@common/item/logic/StrikeModeLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    StrikeModeLogic,
+    StrikeModeData,
+} from "@src/common/item/logic/StrikeModeLogic";
 import {
     ImpactAspect,
     IMPACT_ASPECT,
     ImpactAspects,
     Variants,
     Variant,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
 
 function defineStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -63,10 +66,10 @@ function defineStrikeModeSchema(): foundry.data.fields.DataSchema {
 type StrikeModeSchema = ReturnType<typeof defineStrikeModeSchema>;
 
 export abstract class StrikeModeDataModel<
-        TSchema extends foundry.data.fields.DataSchema = StrikeModeSchema,
-        TLogic extends
-            StrikeModeLogic<StrikeModeData> = StrikeModeLogic<StrikeModeData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = StrikeModeSchema,
+    TLogic extends StrikeModeLogic<StrikeModeData> =
+        StrikeModeLogic<StrikeModeData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements StrikeModeData<TLogic>
 {

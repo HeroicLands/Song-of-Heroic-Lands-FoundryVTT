@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { ContainerGearLogic, ContainerGearData } from "@common/item/logic/ContainerGearLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    ContainerGearLogic,
+    ContainerGearData,
+} from "@src/common/item/logic/ContainerGearLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField } = foundry.data.fields;
 
 function defineContainerGearSchema(): foundry.data.fields.DataSchema {
@@ -30,14 +33,18 @@ function defineContainerGearSchema(): foundry.data.fields.DataSchema {
 type ContainerGearSchema = ReturnType<typeof defineContainerGearSchema>;
 
 export class ContainerGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
-        TLogic extends
-            ContainerGearLogic<ContainerGearData> = ContainerGearLogic<ContainerGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
+    TLogic extends ContainerGearLogic<ContainerGearData> =
+        ContainerGearLogic<ContainerGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements ContainerGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ContainerGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ContainerGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.CONTAINERGEAR;
     maxCapacityBase!: number;
 

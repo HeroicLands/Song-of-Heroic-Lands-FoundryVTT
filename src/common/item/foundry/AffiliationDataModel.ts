@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { AffiliationLogic, AffiliationData } from "@common/item/logic/AffiliationLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    AffiliationLogic,
+    AffiliationData,
+} from "@src/common/item/logic/AffiliationLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
 function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
@@ -39,15 +42,17 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
 type SohlAffiliationDataSchema = ReturnType<typeof defineAffiliationDataSchema>;
 
 export class AffiliationDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
-        TLogic extends
-            AffiliationLogic<AffiliationData> = AffiliationLogic<AffiliationData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
+    TLogic extends AffiliationLogic<AffiliationData> =
+        AffiliationLogic<AffiliationData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements AffiliationData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affiliation", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Affiliation",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.AFFILIATION;
     society!: string;
     office!: string;

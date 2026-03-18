@@ -14,17 +14,15 @@
 import {
     SohlActor,
     SohlActorSheetBase,
-} from "@common/actor/foundry/SohlActor";
-import { callHook as fvttCallHook } from "@common/foundry-helpers";
-import {
-    ITEM_KIND,
-    TRAIT_INTENSITY,
-} from "@utils/constants";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import { enrichHTML as fvttEnrichHTML } from "@common/foundry-helpers";
-import type { BeingLogic } from "@common/actor/logic/BeingLogic";
+} from "@src/common/actor/foundry/SohlActor";
+import { callHook as fvttCallHook } from "@src/common/foundry-helpers";
+import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { enrichHTML as fvttEnrichHTML } from "@src/common/foundry-helpers";
+import type { BeingLogic } from "@src/common/actor/logic/BeingLogic";
 
-type RenderContext = foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
+type RenderContext =
+    foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 export abstract class BeingSheet extends SohlActorSheetBase {
@@ -50,53 +48,91 @@ export abstract class BeingSheet extends SohlActorSheetBase {
         partId: string,
         context: RenderContext,
         options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const type = this.document.type;
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareHeaderContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "tabs":
                 context = await this._prepareTabsContext(context, options);
                 return context;
             case "facade":
                 context = await this._prepareFacadeContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareFacadeContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "profile":
                 context = await this._prepareProfileContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareProfileContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareProfileContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "skills":
                 context = await this._prepareSkillsContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareSkillsContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareSkillsContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "combat":
                 context = await this._prepareCombatContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareCombatContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareCombatContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "trauma":
                 context = await this._prepareTraumaContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareTraumaContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareTraumaContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "mysteries":
                 context = await this._prepareMysteriesContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareMysteriesContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareMysteriesContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "gear":
                 context = await this._prepareGearContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareGearContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareGearContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "actions":
                 context = await this._prepareActionsContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareActionsContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareActionsContext`,
+                    this,
+                    context,
+                );
                 return context;
             case "effects":
                 context = await this._prepareEffectsContext(context, options);
-                fvttCallHook(`sohl.actor.${type}.prepareEffectsContext`, this, context);
+                fvttCallHook(
+                    `sohl.actor.${type}.prepareEffectsContext`,
+                    this,
+                    context,
+                );
                 return context;
             default:
                 return context;
@@ -111,9 +147,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareHeaderContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
@@ -152,9 +186,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareTabsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         return context;
     }
 
@@ -162,15 +194,11 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareFacadeContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const system = this.document.system as any;
         return Object.assign(context, {
             bioImage: system.bioImage,
-            descriptionHTML: await fvttEnrichHTML(
-                system.description ?? "",
-            ),
+            descriptionHTML: await fvttEnrichHTML(system.description ?? ""),
         });
     }
 
@@ -178,9 +206,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareProfileContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
         const traits = actor.allItemTypes[ITEM_KIND.TRAIT] ?? [];
 
@@ -198,17 +224,14 @@ export abstract class BeingSheet extends SohlActorSheetBase {
             }
         }
 
-        const affiliations =
-            actor.allItemTypes[ITEM_KIND.AFFILIATION] ?? [];
+        const affiliations = actor.allItemTypes[ITEM_KIND.AFFILIATION] ?? [];
 
         const system = this.document.system as any;
         return Object.assign(context, {
             attributes,
             traitGroups,
             affiliations,
-            biographyHTML: await fvttEnrichHTML(
-                system.biography ?? "",
-            ),
+            biographyHTML: await fvttEnrichHTML(system.biography ?? ""),
         });
     }
 
@@ -216,9 +239,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareSkillsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const skills = this.document.allItemTypes[ITEM_KIND.SKILL] ?? [];
         const skillGroups: StrictObject<SohlItem[]> = {};
 
@@ -244,9 +265,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareCombatContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
 
         // Equipped weapons with their nested strike modes
@@ -265,9 +284,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
                 if ((item.system as any).nestedIn !== weapon.id) continue;
                 if (item.type === ITEM_KIND.MELEEWEAPONSTRIKEMODE) {
                     meleeStrikeModes.push(item);
-                } else if (
-                    item.type === ITEM_KIND.MISSILEWEAPONSTRIKEMODE
-                ) {
+                } else if (item.type === ITEM_KIND.MISSILEWEAPONSTRIKEMODE) {
                     missileStrikeModes.push(item);
                 }
             }
@@ -291,29 +308,29 @@ export abstract class BeingSheet extends SohlActorSheetBase {
             actor.allItemTypes[ITEM_KIND.COMBATTECHNIQUESTRIKEMODE] ?? [];
 
         // Body anatomy hierarchy: zones → parts → locations
-        const bodyZones = (
-            actor.allItemTypes[ITEM_KIND.BODYZONE] ?? []
-        ).map((zone: SohlItem) => {
-            const parts = (
-                actor.allItemTypes[ITEM_KIND.BODYPART] ?? []
-            ).filter(
-                (part: SohlItem) =>
-                    (part.system as any).nestedIn === zone.id,
-            );
+        const bodyZones = (actor.allItemTypes[ITEM_KIND.BODYZONE] ?? []).map(
+            (zone: SohlItem) => {
+                const parts = (
+                    actor.allItemTypes[ITEM_KIND.BODYPART] ?? []
+                ).filter(
+                    (part: SohlItem) =>
+                        (part.system as any).nestedIn === zone.id,
+                );
 
-            return {
-                zone,
-                parts: parts.map((part: SohlItem) => {
-                    const locations = (
-                        actor.allItemTypes[ITEM_KIND.BODYLOCATION] ?? []
-                    ).filter(
-                        (loc: SohlItem) =>
-                            (loc.system as any).nestedIn === part.id,
-                    );
-                    return { part, locations };
-                }),
-            };
-        });
+                return {
+                    zone,
+                    parts: parts.map((part: SohlItem) => {
+                        const locations = (
+                            actor.allItemTypes[ITEM_KIND.BODYLOCATION] ?? []
+                        ).filter(
+                            (loc: SohlItem) =>
+                                (loc.system as any).nestedIn === part.id,
+                        );
+                        return { part, locations };
+                    }),
+                };
+            },
+        );
 
         return Object.assign(context, {
             meleeWeapons,
@@ -327,21 +344,17 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
         const injuries = actor.allItemTypes[ITEM_KIND.INJURY] ?? [];
-        const afflictions =
-            actor.allItemTypes[ITEM_KIND.AFFLICTION] ?? [];
+        const afflictions = actor.allItemTypes[ITEM_KIND.AFFLICTION] ?? [];
 
         // Group afflictions by subType
         const afflictionGroups: StrictObject<SohlItem[]> = {};
         for (const affliction of afflictions) {
-            const subType =
-                (affliction.system as any).subType ?? "other";
+            const subType = (affliction.system as any).subType ?? "other";
             (afflictionGroups[subType] ??= []).push(affliction);
         }
 
@@ -359,9 +372,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareMysteriesContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
 
         // Mysteries grouped by subType
@@ -373,8 +384,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
         }
 
         // Mystical abilities grouped by subType
-        const abilities =
-            actor.allItemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
+        const abilities = actor.allItemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
         const abilityGroups: StrictObject<SohlItem[]> = {};
         for (const ability of abilities) {
             const subType = (ability.system as any).subType ?? "other";
@@ -382,20 +392,17 @@ export abstract class BeingSheet extends SohlActorSheetBase {
         }
 
         // Philosophies with their associated domains
-        const philosophies =
-            actor.allItemTypes[ITEM_KIND.PHILOSOPHY] ?? [];
+        const philosophies = actor.allItemTypes[ITEM_KIND.PHILOSOPHY] ?? [];
         const domains = actor.allItemTypes[ITEM_KIND.DOMAIN] ?? [];
 
-        const philosophyEntries = philosophies.map(
-            (philosophy: SohlItem) => {
-                const assocDomains = domains.filter(
-                    (d: SohlItem) =>
-                        (d.system as any).philosophyCode ===
-                        (philosophy.system as any).shortcode,
-                );
-                return { philosophy, domains: assocDomains };
-            },
-        );
+        const philosophyEntries = philosophies.map((philosophy: SohlItem) => {
+            const assocDomains = domains.filter(
+                (d: SohlItem) =>
+                    (d.system as any).philosophyCode ===
+                    (philosophy.system as any).shortcode,
+            );
+            return { philosophy, domains: assocDomains };
+        });
 
         // Mystical devices
         const mysticalDevices =
@@ -416,15 +423,12 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareGearContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actor = this.document;
 
         // Build container hierarchy
         const containers: any[] = [];
-        const containerGear =
-            actor.allItemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
+        const containerGear = actor.allItemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
 
         // Virtual "On Body" container for ungrouped gear
         const onBodyItems: SohlItem[] = [];
@@ -444,9 +448,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
         }
 
         // Sort gear into containers
-        const containerIds = new Set(
-            containerGear.map((c: SohlItem) => c.id),
-        );
+        const containerIds = new Set(containerGear.map((c: SohlItem) => c.id));
         for (const gear of allGear) {
             const nestedIn = (gear.system as any).nestedIn;
             if (nestedIn && containerIds.has(nestedIn)) continue; // handled by container
@@ -458,8 +460,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
         // Build each container's content list
         for (const container of containerGear) {
             const items = allGear.filter(
-                (g: SohlItem) =>
-                    (g.system as any).nestedIn === container.id,
+                (g: SohlItem) => (g.system as any).nestedIn === container.id,
             );
             items.sort((a: SohlItem, b: SohlItem) =>
                 a.name.localeCompare(b.name),
@@ -481,9 +482,7 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareActionsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
+    ): Promise<RenderContext> {
         const actions = this.document.logic?.actions ?? [];
         return Object.assign(context, { actions });
     }
@@ -492,14 +491,10 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     async _prepareEffectsContext(
         context: RenderContext,
         _options: RenderOptions,
-    ): Promise<
-        RenderContext
-    > {
-        const effects =
-            (this.document as any).effects?.contents ?? [];
+    ): Promise<RenderContext> {
+        const effects = (this.document as any).effects?.contents ?? [];
         const trxEffects: PlainObject = {};
-        const transferredEffects =
-            (this.document as any).transferredEffects;
+        const transferredEffects = (this.document as any).transferredEffects;
         if (transferredEffects) {
             for (const effect of transferredEffects) {
                 if (!effect.disabled) {

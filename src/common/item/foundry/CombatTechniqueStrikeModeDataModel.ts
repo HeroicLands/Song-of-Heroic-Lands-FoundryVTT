@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { StrikeModeDataModel } from "@common/item/foundry/StrikeModeDataModel";
+import { StrikeModeDataModel } from "@src/common/item/foundry/StrikeModeDataModel";
 import {
     CombatTechniqueStrikeModeLogic,
     CombatTechniqueStrikeModeData,
-} from "@common/item/logic/CombatTechniqueStrikeModeLogic";
-import { ITEM_KIND } from "@utils/constants";
+} from "@src/common/item/logic/CombatTechniqueStrikeModeLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
 function defineCombatTechniqueStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -36,17 +36,22 @@ type CombatTechniqueStrikeModeSchema = ReturnType<
 >;
 
 export class CombatTechniqueStrikeModeDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = CombatTechniqueStrikeModeSchema,
-        TLogic extends
-            CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> = CombatTechniqueStrikeModeLogic<
+    TSchema extends foundry.data.fields.DataSchema =
+        CombatTechniqueStrikeModeSchema,
+    TLogic extends
+        CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> =
+        CombatTechniqueStrikeModeLogic<
             CombatTechniqueStrikeModeData<CombatTechniqueStrikeModeLogic<any>>
         >,
-    >
+>
     extends StrikeModeDataModel<TSchema, TLogic>
     implements CombatTechniqueStrikeModeData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.CombatTechniqueStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.CombatTechniqueStrikeMode",
+        "SOHL.StrikeMode",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUESTRIKEMODE;
     lengthBase!: number;
     static override defineSchema(): foundry.data.fields.DataSchema {

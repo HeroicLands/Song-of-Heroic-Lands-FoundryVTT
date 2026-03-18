@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { WeaponGearData, WeaponGearLogic,  } from "@common/item/logic/WeaponGearLogic";
-import { WeaponGearSheet } from "@common/item/foundry/WeaponGearSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    WeaponGearData,
+    WeaponGearLogic,
+} from "@src/common/item/logic/WeaponGearLogic";
+import { WeaponGearSheet } from "@src/common/item/foundry/WeaponGearSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndWeaponGearLogic extends WeaponGearLogic<WeaponGearData> {
     get encumbrance(): number {

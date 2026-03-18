@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorDataModel,
-} from "@common/actor/foundry/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
-import type { StructureData } from "@common/actor/logic/StructureLogic";
-import { StructureLogic } from "@common/actor/logic/StructureLogic";
+import { SohlActorDataModel } from "@src/common/actor/foundry/SohlActor";
+import { ACTOR_KIND } from "@src/utils/constants";
+import type { StructureData } from "@src/common/actor/logic/StructureLogic";
+import { StructureLogic } from "@src/common/actor/logic/StructureLogic";
 
 /**
  * Defines the data schema for the Structure actor.
@@ -38,10 +36,13 @@ type StructureDataSchema = ReturnType<typeof defineStructureDataSchema>;
  */
 export class StructureDataModel<
     TSchema extends foundry.data.fields.DataSchema = StructureDataSchema,
-    TLogic extends
-        StructureLogic<StructureData> = StructureLogic<StructureData>,
+    TLogic extends StructureLogic<StructureData> =
+        StructureLogic<StructureData>,
 > extends SohlActorDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Structure", "SOHL.Actor"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Structure",
+        "SOHL.Actor",
+    ];
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 
     static defineSchema(): foundry.data.fields.DataSchema {

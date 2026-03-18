@@ -11,15 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    DomainSubType,
-} from "@utils/constants";
+import { DomainSubType } from "@src/utils/constants";
 import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import { PhilosophyLogic } from "@common/item/logic/PhilosophyLogic";
+} from "@src/common/item/foundry/SohlItem";
+import { PhilosophyLogic } from "@src/common/item/logic/PhilosophyLogic";
 
 /**
  * Logic for the **Domain** item type — a sphere of mystical authority or influence.
@@ -72,8 +70,9 @@ export class DomainLogic<TData extends DomainData = DomainData>
     }
 }
 
-export interface DomainData<TLogic extends DomainLogic<any> = DomainLogic<any>>
-    extends SohlItemData<TLogic> {
+export interface DomainData<
+    TLogic extends DomainLogic<any> = DomainLogic<any>,
+> extends SohlItemData<TLogic> {
     /** Domain category (Arcane, Divine, Spiritual, etc.) */
     subType: DomainSubType;
     /** Shortcode of the philosophy this domain belongs to */

@@ -15,37 +15,37 @@ import {
     DialogButtonCallback,
     inputDialog,
     okDialog,
-} from "@common/FoundryProxy";
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
+} from "@src/common/FoundryProxy";
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
 import {
     ACTOR_KIND,
     ActorKinds,
     KIND_KEY,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@utils/constants";
+} from "@src/utils/constants";
 import {
     defaultFromJSON,
     FilePath,
     HTMLString,
     toFilePath,
     toHTMLString,
-} from "@utils/helpers";
-import { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import type { SohlLogic } from "@common/SohlLogic";
-import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@common/SohlSystem";
+} from "@src/utils/helpers";
+import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
+import type { SohlLogic } from "@src/common/SohlLogic";
+import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/common/SohlSystem";
 import {
     resolveUuid as fvttResolveUuid,
     notifyWarn as fvttNotifyWarn,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export abstract class SohlDataModel<
-        TSchema extends foundry.data.fields.DataSchema,
-        TDocument extends SohlDocument,
-        TLogic extends SohlLogic<any> = SohlLogic<any>,
-    >
+    TSchema extends foundry.data.fields.DataSchema,
+    TDocument extends SohlDocument,
+    TLogic extends SohlLogic<any> = SohlLogic<any>,
+>
     extends foundry.abstract.TypeDataModel<TSchema, TDocument>
     implements SohlDataModel.Data<TDocument>
 {
@@ -540,7 +540,8 @@ export namespace SohlDataModel {
                 if (droppedActor.type !== ACTOR_KIND.ASSEMBLY) return;
 
                 const targetActor = this.actor;
-                if (!targetActor || targetActor.type === ACTOR_KIND.ASSEMBLY) return;
+                if (!targetActor || targetActor.type === ACTOR_KIND.ASSEMBLY)
+                    return;
 
                 const sourceItems = Array.from(
                     droppedActor.items as Iterable<SohlItem>,
@@ -574,7 +575,8 @@ export namespace SohlDataModel {
                     // Remap nestedIn to the new parent ID
                     const oldNestedIn = (itemData as any).system?.nestedIn;
                     if (oldNestedIn != null && idMap.has(oldNestedIn)) {
-                        (itemData as any).system.nestedIn = idMap.get(oldNestedIn);
+                        (itemData as any).system.nestedIn =
+                            idMap.get(oldNestedIn);
                     }
 
                     const created = await targetActor.createItem(itemData);

@@ -11,65 +11,128 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common/SohlSystem";
-import { LgndCombatModifier } from "@common/modifier/LgndCombatModifier";
-import { LgndImpactModifier } from "@common/modifier/LgndImpactModifier";
-import { LgndSuccessTestResult } from "@common/result/LgndSuccessTestResult";
-import { LgndOpposedTestResult } from "@common/result/LgndOpposedTestResult";
-import { LgndCombatResult } from "@common/result/LgndCombatResult";
+import { SohlSystem } from "@src/common/SohlSystem";
+import { LgndCombatModifier } from "@src/common/modifier/LgndCombatModifier";
+import { LgndImpactModifier } from "@src/common/modifier/LgndImpactModifier";
+import { LgndSuccessTestResult } from "@src/common/result/LgndSuccessTestResult";
+import { LgndOpposedTestResult } from "@src/common/result/LgndOpposedTestResult";
+import { LgndCombatResult } from "@src/common/result/LgndCombatResult";
 import {
     ACTOR_KIND,
     ActorKinds,
     defineType,
     ITEM_KIND,
     ItemKinds,
-} from "@utils/constants";
-import { SohlActorLogic, SohlActorSheetBase } from "@common/actor/foundry/SohlActor";
-import { SohlItemLogic, SohlItemSheetBase } from "@common/item/foundry/SohlItem";
-import { LgndBeingLogic, LgndBeingSheet } from "@common/actor/logic/LgndBeing";
-import { AssemblyLogic } from "@common/actor/logic/AssemblyLogic";
-import { AssemblySheet } from "@common/actor/foundry/AssemblySheet";
-import { CohortLogic } from "@common/actor/logic/CohortLogic";
-import { CohortSheet } from "@common/actor/foundry/CohortSheet";
-import { StructureLogic } from "@common/actor/logic/StructureLogic";
-import { StructureSheet } from "@common/actor/foundry/StructureSheet";
-import { VehicleLogic } from "@common/actor/logic/VehicleLogic";
-import { VehicleSheet } from "@common/actor/foundry/VehicleSheet";
-import { LgndWeaponGearLogic, LgndWeaponGearSheet } from "@common/item/logic/LgndWeaponGear";
-import { TraitLogic } from "@common/item/logic/TraitLogic";
-import { TraitSheet } from "@common/item/foundry/TraitSheet";
-import { ActionLogic } from "@common/item/logic/ActionLogic";
-import { ActionSheet } from "@common/item/foundry/ActionSheet";
-import { LgndSkillLogic, LgndSkillSheet } from "@common/item/logic/LgndSkill";
-import { AffiliationLogic } from "@common/item/logic/AffiliationLogic";
-import { AffiliationSheet } from "@common/item/foundry/AffiliationSheet";
-import { DispositionLogic } from "@common/item/logic/DispositionLogic";
-import { DispositionSheet } from "@common/item/foundry/DispositionSheet";
-import { LgndProtectionLogic, LgndProtectionSheet } from "@common/item/logic/LgndProtection";
-import { AfflictionLogic } from "@common/item/logic/AfflictionLogic";
-import { AfflictionSheet } from "@common/item/foundry/AfflictionSheet";
-import { LgndArmorGearLogic, LgndArmorGearSheet } from "@common/item/logic/LgndArmorGear";
-import { LgndBodyLocationLogic, LgndBodyLocationSheet } from "@common/item/logic/LgndBodyLocation";
-import { LgndBodyPartLogic, LgndBodyPartSheet } from "@common/item/logic/LgndBodyPart";
-import { LgndBodyZoneLogic, LgndBodyZoneSheet } from "@common/item/logic/LgndBodyZone";
-import { LgndCombatTechniqueStrikeModeLogic, LgndCombatTechniqueStrikeModeSheet } from "@common/item/logic/LgndCombatTechniqueStrikeMode";
-import { LgndContainerGearLogic, LgndContainerGearSheet } from "@common/item/logic/LgndContainerGear";
-import { LgndConcoctionGearLogic, LgndConcoctionGearSheet } from "@common/item/logic/LgndConcoctionGear";
-import { DomainLogic } from "@common/item/logic/DomainLogic";
-import { DomainSheet } from "@common/item/foundry/DomainSheet";
-import { LgndInjuryLogic, LgndInjurySheet } from "@common/item/logic/LgndInjury";
-import { LgndMeleeWeaponStrikeModeLogic, LgndMeleeWeaponStrikeModeSheet } from "@common/item/logic/LgndMeleeWeaponStrikeMode";
-import { LgndMiscGearLogic, LgndMiscGearSheet } from "@common/item/logic/LgndMiscGear";
-import { LgndMissileWeaponStrikeModeLogic, LgndMissileWeaponStrikeModeSheet } from "@common/item/logic/LgndMissileWeaponStrikeMode";
-import { MovementProfileLogic } from "@common/item/logic/MovementProfileLogic";
-import { MovementProfileSheet } from "@common/item/foundry/MovementProfileSheet";
-import { LgndMysteryLogic, LgndMysterySheet } from "@common/item/logic/LgndMystery";
-import { LgndMysticalAbilityLogic, LgndMysticalAbilitySheet } from "@common/item/logic/LgndMysticalAbility";
-import { LgndMysticalDeviceLogic, LgndMysticalDeviceSheet } from "@common/item/logic/LgndMysticalDevice";
-import { PhilosophyLogic } from "@common/item/logic/PhilosophyLogic";
-import { PhilosophySheet } from "@common/item/foundry/PhilosophySheet";
-import { LgndProjectileGearLogic, LgndProjectileGearSheet } from "@common/item/logic/LgndProjectileGear";
-import { SohlActiveEffectSheet } from "@common/effect/SohlActiveEffect";
+} from "@src/utils/constants";
+import {
+    SohlActorLogic,
+    SohlActorSheetBase,
+} from "@src/common/actor/foundry/SohlActor";
+import {
+    SohlItemLogic,
+    SohlItemSheetBase,
+} from "@src/common/item/foundry/SohlItem";
+import {
+    LgndBeingLogic,
+    LgndBeingSheet,
+} from "@src/common/actor/logic/LgndBeing";
+import { AssemblyLogic } from "@src/common/actor/logic/AssemblyLogic";
+import { AssemblySheet } from "@src/common/actor/foundry/AssemblySheet";
+import { CohortLogic } from "@src/common/actor/logic/CohortLogic";
+import { CohortSheet } from "@src/common/actor/foundry/CohortSheet";
+import { StructureLogic } from "@src/common/actor/logic/StructureLogic";
+import { StructureSheet } from "@src/common/actor/foundry/StructureSheet";
+import { VehicleLogic } from "@src/common/actor/logic/VehicleLogic";
+import { VehicleSheet } from "@src/common/actor/foundry/VehicleSheet";
+import {
+    LgndWeaponGearLogic,
+    LgndWeaponGearSheet,
+} from "@src/common/item/logic/LgndWeaponGear";
+import { TraitLogic } from "@src/common/item/logic/TraitLogic";
+import { TraitSheet } from "@src/common/item/foundry/TraitSheet";
+import { ActionLogic } from "@src/common/item/logic/ActionLogic";
+import { ActionSheet } from "@src/common/item/foundry/ActionSheet";
+import {
+    LgndSkillLogic,
+    LgndSkillSheet,
+} from "@src/common/item/logic/LgndSkill";
+import { AffiliationLogic } from "@src/common/item/logic/AffiliationLogic";
+import { AffiliationSheet } from "@src/common/item/foundry/AffiliationSheet";
+import { DispositionLogic } from "@src/common/item/logic/DispositionLogic";
+import { DispositionSheet } from "@src/common/item/foundry/DispositionSheet";
+import {
+    LgndProtectionLogic,
+    LgndProtectionSheet,
+} from "@src/common/item/logic/LgndProtection";
+import { AfflictionLogic } from "@src/common/item/logic/AfflictionLogic";
+import { AfflictionSheet } from "@src/common/item/foundry/AfflictionSheet";
+import {
+    LgndArmorGearLogic,
+    LgndArmorGearSheet,
+} from "@src/common/item/logic/LgndArmorGear";
+import {
+    LgndBodyLocationLogic,
+    LgndBodyLocationSheet,
+} from "@src/common/item/logic/LgndBodyLocation";
+import {
+    LgndBodyPartLogic,
+    LgndBodyPartSheet,
+} from "@src/common/item/logic/LgndBodyPart";
+import {
+    LgndBodyZoneLogic,
+    LgndBodyZoneSheet,
+} from "@src/common/item/logic/LgndBodyZone";
+import {
+    LgndCombatTechniqueStrikeModeLogic,
+    LgndCombatTechniqueStrikeModeSheet,
+} from "@src/common/item/logic/LgndCombatTechniqueStrikeMode";
+import {
+    LgndContainerGearLogic,
+    LgndContainerGearSheet,
+} from "@src/common/item/logic/LgndContainerGear";
+import {
+    LgndConcoctionGearLogic,
+    LgndConcoctionGearSheet,
+} from "@src/common/item/logic/LgndConcoctionGear";
+import { DomainLogic } from "@src/common/item/logic/DomainLogic";
+import { DomainSheet } from "@src/common/item/foundry/DomainSheet";
+import {
+    LgndInjuryLogic,
+    LgndInjurySheet,
+} from "@src/common/item/logic/LgndInjury";
+import {
+    LgndMeleeWeaponStrikeModeLogic,
+    LgndMeleeWeaponStrikeModeSheet,
+} from "@src/common/item/logic/LgndMeleeWeaponStrikeMode";
+import {
+    LgndMiscGearLogic,
+    LgndMiscGearSheet,
+} from "@src/common/item/logic/LgndMiscGear";
+import {
+    LgndMissileWeaponStrikeModeLogic,
+    LgndMissileWeaponStrikeModeSheet,
+} from "@src/common/item/logic/LgndMissileWeaponStrikeMode";
+import { MovementProfileLogic } from "@src/common/item/logic/MovementProfileLogic";
+import { MovementProfileSheet } from "@src/common/item/foundry/MovementProfileSheet";
+import {
+    LgndMysteryLogic,
+    LgndMysterySheet,
+} from "@src/common/item/logic/LgndMystery";
+import {
+    LgndMysticalAbilityLogic,
+    LgndMysticalAbilitySheet,
+} from "@src/common/item/logic/LgndMysticalAbility";
+import {
+    LgndMysticalDeviceLogic,
+    LgndMysticalDeviceSheet,
+} from "@src/common/item/logic/LgndMysticalDevice";
+import { PhilosophyLogic } from "@src/common/item/logic/PhilosophyLogic";
+import { PhilosophySheet } from "@src/common/item/foundry/PhilosophySheet";
+import {
+    LgndProjectileGearLogic,
+    LgndProjectileGearSheet,
+} from "@src/common/item/logic/LgndProjectileGear";
+import { SohlActiveEffectSheet } from "@src/common/effect/SohlActiveEffect";
 
 export const {
     kind: LGND_ACTOR_LOGIC,

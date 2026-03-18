@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ACTOR_KIND } from "@utils/constants";
+import { ACTOR_KIND } from "@src/utils/constants";
 import { handleCohortDrop } from "../../sohl";
 
 /** The event kind used by encounter check scheduling. */
@@ -229,8 +229,7 @@ export class SohlEncounter<
         if (interval <= 0) return;
 
         // Next time that is a multiple of interval and strictly after currentTime
-        const nextTime =
-            (Math.floor(currentTime / interval) + 1) * interval;
+        const nextTime = (Math.floor(currentTime / interval) + 1) * interval;
 
         sohl.events.registerEvent(
             encounter.uuid,
@@ -399,8 +398,9 @@ export class SohlEncounterDataModel<
  * Extends the base behavior config with encounter-specific fields:
  * cohort selection, trigger limits, cooldown, and probability.
  */
-export class SohlEncounterConfig extends foundry.applications.sheets
-    .RegionBehaviorConfig {
+export class SohlEncounterConfig
+    extends foundry.applications.sheets.RegionBehaviorConfig
+{
     static override DEFAULT_OPTIONS = {
         classes: ["sohl", "encounter-config"],
     };

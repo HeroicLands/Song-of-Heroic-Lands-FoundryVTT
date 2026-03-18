@@ -1,4 +1,4 @@
-import { Itr } from "@utils/Itr";
+import { Itr } from "@src/utils/Itr";
 
 describe("Itr", () => {
     describe("construction", () => {

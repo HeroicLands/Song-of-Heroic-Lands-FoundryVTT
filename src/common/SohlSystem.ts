@@ -11,156 +11,156 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlMap } from "@utils/collection/SohlMap";
-import { SohlDataModel } from "@common/SohlDataModel";
-import { SohlCalendarData } from "@common/SohlCalendar";
-import { SohlEventQueue } from "@common/SohlEventQueue";
-import { ImpactModifier } from "@common/modifier/ImpactModifier";
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
-import { ValueModifier } from "@common/modifier/ValueModifier";
-import { CombatModifier } from "@common/modifier/CombatModifier";
-import { AttackResult } from "@common/result/AttackResult";
-import { DefendResult } from "@common/result/DefendResult";
-import { CombatResult } from "@common/result/CombatResult";
-import { ImpactResult } from "@common/result/ImpactResult";
-import { OpposedTestResult } from "@common/result/OpposedTestResult";
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { SohlMap } from "@src/utils/collection/SohlMap";
+import { SohlDataModel } from "@src/common/SohlDataModel";
+import { SohlCalendarData } from "@src/common/SohlCalendar";
+import { SohlEventQueue } from "@src/common/SohlEventQueue";
+import { ImpactModifier } from "@src/common/modifier/ImpactModifier";
+import { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
+import { CombatModifier } from "@src/common/modifier/CombatModifier";
+import { AttackResult } from "@src/common/result/AttackResult";
+import { DefendResult } from "@src/common/result/DefendResult";
+import { CombatResult } from "@src/common/result/CombatResult";
+import { ImpactResult } from "@src/common/result/ImpactResult";
+import { OpposedTestResult } from "@src/common/result/OpposedTestResult";
+import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 // Actor logic
-import { BeingLogic } from "@common/actor/logic/BeingLogic";
-import { AssemblyLogic } from "@common/actor/logic/AssemblyLogic";
-import { CohortLogic } from "@common/actor/logic/CohortLogic";
-import { StructureLogic } from "@common/actor/logic/StructureLogic";
-import { VehicleLogic } from "@common/actor/logic/VehicleLogic";
+import { BeingLogic } from "@src/common/actor/logic/BeingLogic";
+import { AssemblyLogic } from "@src/common/actor/logic/AssemblyLogic";
+import { CohortLogic } from "@src/common/actor/logic/CohortLogic";
+import { StructureLogic } from "@src/common/actor/logic/StructureLogic";
+import { VehicleLogic } from "@src/common/actor/logic/VehicleLogic";
 
 // Actor foundry
 import {
     SohlActor,
     SohlActorLogic,
     SohlActorSheetBase,
-} from "@common/actor/foundry/SohlActor";
-import { BeingDataModel } from "@common/actor/foundry/BeingDataModel";
-import { BeingSheet } from "@common/actor/foundry/BeingSheet";
-import { AssemblyDataModel } from "@common/actor/foundry/AssemblyDataModel";
-import { AssemblySheet } from "@common/actor/foundry/AssemblySheet";
-import { CohortDataModel } from "@common/actor/foundry/CohortDataModel";
-import { CohortSheet } from "@common/actor/foundry/CohortSheet";
-import { StructureDataModel } from "@common/actor/foundry/StructureDataModel";
-import { StructureSheet } from "@common/actor/foundry/StructureSheet";
-import { VehicleDataModel } from "@common/actor/foundry/VehicleDataModel";
-import { VehicleSheet } from "@common/actor/foundry/VehicleSheet";
+} from "@src/common/actor/foundry/SohlActor";
+import { BeingDataModel } from "@src/common/actor/foundry/BeingDataModel";
+import { BeingSheet } from "@src/common/actor/foundry/BeingSheet";
+import { AssemblyDataModel } from "@src/common/actor/foundry/AssemblyDataModel";
+import { AssemblySheet } from "@src/common/actor/foundry/AssemblySheet";
+import { CohortDataModel } from "@src/common/actor/foundry/CohortDataModel";
+import { CohortSheet } from "@src/common/actor/foundry/CohortSheet";
+import { StructureDataModel } from "@src/common/actor/foundry/StructureDataModel";
+import { StructureSheet } from "@src/common/actor/foundry/StructureSheet";
+import { VehicleDataModel } from "@src/common/actor/foundry/VehicleDataModel";
+import { VehicleSheet } from "@src/common/actor/foundry/VehicleSheet";
 
 // Item logic
-import { ActionLogic } from "@common/item/logic/ActionLogic";
-import { AffiliationLogic } from "@common/item/logic/AffiliationLogic";
-import { AfflictionLogic } from "@common/item/logic/AfflictionLogic";
-import { ArmorGearLogic } from "@common/item/logic/ArmorGearLogic";
-import { BodyLocationLogic } from "@common/item/logic/BodyLocationLogic";
-import { BodyPartLogic } from "@common/item/logic/BodyPartLogic";
-import { BodyZoneLogic } from "@common/item/logic/BodyZoneLogic";
-import { CombatTechniqueStrikeModeLogic } from "@common/item/logic/CombatTechniqueStrikeModeLogic";
-import { ConcoctionGearLogic } from "@common/item/logic/ConcoctionGearLogic";
-import { ContainerGearLogic } from "@common/item/logic/ContainerGearLogic";
-import { DispositionLogic } from "@common/item/logic/DispositionLogic";
-import { DomainLogic } from "@common/item/logic/DomainLogic";
-import { InjuryLogic } from "@common/item/logic/InjuryLogic";
-import { MeleeWeaponStrikeModeLogic } from "@common/item/logic/MeleeWeaponStrikeModeLogic";
-import { MiscGearLogic } from "@common/item/logic/MiscGearLogic";
-import { MissileWeaponStrikeModeLogic } from "@common/item/logic/MissileWeaponStrikeModeLogic";
-import { MovementProfileLogic } from "@common/item/logic/MovementProfileLogic";
-import { MysteryLogic } from "@common/item/logic/MysteryLogic";
-import { MysticalAbilityLogic } from "@common/item/logic/MysticalAbilityLogic";
-import { MysticalDeviceLogic } from "@common/item/logic/MysticalDeviceLogic";
-import { PhilosophyLogic } from "@common/item/logic/PhilosophyLogic";
-import { ProjectileGearLogic } from "@common/item/logic/ProjectileGearLogic";
-import { ProtectionLogic } from "@common/item/logic/ProtectionLogic";
-import { SkillLogic } from "@common/item/logic/SkillLogic";
-import { TraitLogic } from "@common/item/logic/TraitLogic";
-import { WeaponGearLogic } from "@common/item/logic/WeaponGearLogic";
+import { ActionLogic } from "@src/common/item/logic/ActionLogic";
+import { AffiliationLogic } from "@src/common/item/logic/AffiliationLogic";
+import { AfflictionLogic } from "@src/common/item/logic/AfflictionLogic";
+import { ArmorGearLogic } from "@src/common/item/logic/ArmorGearLogic";
+import { BodyLocationLogic } from "@src/common/item/logic/BodyLocationLogic";
+import { BodyPartLogic } from "@src/common/item/logic/BodyPartLogic";
+import { BodyZoneLogic } from "@src/common/item/logic/BodyZoneLogic";
+import { CombatTechniqueStrikeModeLogic } from "@src/common/item/logic/CombatTechniqueStrikeModeLogic";
+import { ConcoctionGearLogic } from "@src/common/item/logic/ConcoctionGearLogic";
+import { ContainerGearLogic } from "@src/common/item/logic/ContainerGearLogic";
+import { DispositionLogic } from "@src/common/item/logic/DispositionLogic";
+import { DomainLogic } from "@src/common/item/logic/DomainLogic";
+import { InjuryLogic } from "@src/common/item/logic/InjuryLogic";
+import { MeleeWeaponStrikeModeLogic } from "@src/common/item/logic/MeleeWeaponStrikeModeLogic";
+import { MiscGearLogic } from "@src/common/item/logic/MiscGearLogic";
+import { MissileWeaponStrikeModeLogic } from "@src/common/item/logic/MissileWeaponStrikeModeLogic";
+import { MovementProfileLogic } from "@src/common/item/logic/MovementProfileLogic";
+import { MysteryLogic } from "@src/common/item/logic/MysteryLogic";
+import { MysticalAbilityLogic } from "@src/common/item/logic/MysticalAbilityLogic";
+import { MysticalDeviceLogic } from "@src/common/item/logic/MysticalDeviceLogic";
+import { PhilosophyLogic } from "@src/common/item/logic/PhilosophyLogic";
+import { ProjectileGearLogic } from "@src/common/item/logic/ProjectileGearLogic";
+import { ProtectionLogic } from "@src/common/item/logic/ProtectionLogic";
+import { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import { TraitLogic } from "@src/common/item/logic/TraitLogic";
+import { WeaponGearLogic } from "@src/common/item/logic/WeaponGearLogic";
 
 // Item foundry
 import {
     SohlItem,
     SohlItemLogic,
     SohlItemSheetBase,
-} from "@common/item/foundry/SohlItem";
-import { ActionDataModel } from "@common/item/foundry/ActionDataModel";
-import { ActionSheet } from "@common/item/foundry/ActionSheet";
-import { AffiliationDataModel } from "@common/item/foundry/AffiliationDataModel";
-import { AffiliationSheet } from "@common/item/foundry/AffiliationSheet";
-import { AfflictionDataModel } from "@common/item/foundry/AfflictionDataModel";
-import { AfflictionSheet } from "@common/item/foundry/AfflictionSheet";
-import { ArmorGearDataModel } from "@common/item/foundry/ArmorGearDataModel";
-import { ArmorGearSheet } from "@common/item/foundry/ArmorGearSheet";
-import { BodyLocationDataModel } from "@common/item/foundry/BodyLocationDataModel";
-import { BodyLocationSheet } from "@common/item/foundry/BodyLocationSheet";
-import { BodyPartDataModel } from "@common/item/foundry/BodyPartDataModel";
-import { BodyPartSheet } from "@common/item/foundry/BodyPartSheet";
-import { BodyZoneDataModel } from "@common/item/foundry/BodyZoneDataModel";
-import { BodyZoneSheet } from "@common/item/foundry/BodyZoneSheet";
-import { CombatTechniqueStrikeModeDataModel } from "@common/item/foundry/CombatTechniqueStrikeModeDataModel";
-import { CombatTechniqueStrikeModeSheet } from "@common/item/foundry/CombatTechniqueStrikeModeSheet";
-import { ConcoctionGearDataModel } from "@common/item/foundry/ConcoctionGearDataModel";
-import { ConcoctionGearSheet } from "@common/item/foundry/ConcoctionGearSheet";
-import { ContainerGearDataModel } from "@common/item/foundry/ContainerGearDataModel";
-import { ContainerGearSheet } from "@common/item/foundry/ContainerGearSheet";
-import { DispositionDataModel } from "@common/item/foundry/DispositionDataModel";
-import { DispositionSheet } from "@common/item/foundry/DispositionSheet";
-import { DomainDataModel } from "@common/item/foundry/DomainDataModel";
-import { DomainSheet } from "@common/item/foundry/DomainSheet";
-import { InjuryDataModel } from "@common/item/foundry/InjuryDataModel";
-import { InjurySheet } from "@common/item/foundry/InjurySheet";
-import { MeleeWeaponStrikeModeDataModel } from "@common/item/foundry/MeleeWeaponStrikeModeDataModel";
-import { MeleeWeaponStrikeModeSheet } from "@common/item/foundry/MeleeWeaponStrikeModeSheet";
-import { MiscGearDataModel } from "@common/item/foundry/MiscGearDataModel";
-import { MiscGearSheet } from "@common/item/foundry/MiscGearSheet";
-import { MissileWeaponStrikeModeDataModel } from "@common/item/foundry/MissileWeaponStrikeModeDataModel";
-import { MissileWeaponStrikeModeSheet } from "@common/item/foundry/MissileWeaponStrikeModeSheet";
-import { MovementProfileDataModel } from "@common/item/foundry/MovementProfileDataModel";
-import { MovementProfileSheet } from "@common/item/foundry/MovementProfileSheet";
-import { MysteryDataModel } from "@common/item/foundry/MysteryDataModel";
-import { MysterySheet } from "@common/item/foundry/MysterySheet";
-import { MysticalAbilityDataModel } from "@common/item/foundry/MysticalAbilityDataModel";
-import { MysticalAbilitySheet } from "@common/item/foundry/MysticalAbilitySheet";
-import { MysticalDeviceDataModel } from "@common/item/foundry/MysticalDeviceDataModel";
-import { MysticalDeviceSheet } from "@common/item/foundry/MysticalDeviceSheet";
-import { PhilosophyDataModel } from "@common/item/foundry/PhilosophyDataModel";
-import { PhilosophySheet } from "@common/item/foundry/PhilosophySheet";
-import { ProjectileGearDataModel } from "@common/item/foundry/ProjectileGearDataModel";
-import { ProjectileGearSheet } from "@common/item/foundry/ProjectileGearSheet";
-import { ProtectionDataModel } from "@common/item/foundry/ProtectionDataModel";
-import { ProtectionSheet } from "@common/item/foundry/ProtectionSheet";
-import { SkillDataModel } from "@common/item/foundry/SkillDataModel";
-import { SkillSheet } from "@common/item/foundry/SkillSheet";
-import { TraitDataModel } from "@common/item/foundry/TraitDataModel";
-import { TraitSheet } from "@common/item/foundry/TraitSheet";
-import { WeaponGearDataModel } from "@common/item/foundry/WeaponGearDataModel";
-import { WeaponGearSheet } from "@common/item/foundry/WeaponGearSheet";
+} from "@src/common/item/foundry/SohlItem";
+import { ActionDataModel } from "@src/common/item/foundry/ActionDataModel";
+import { ActionSheet } from "@src/common/item/foundry/ActionSheet";
+import { AffiliationDataModel } from "@src/common/item/foundry/AffiliationDataModel";
+import { AffiliationSheet } from "@src/common/item/foundry/AffiliationSheet";
+import { AfflictionDataModel } from "@src/common/item/foundry/AfflictionDataModel";
+import { AfflictionSheet } from "@src/common/item/foundry/AfflictionSheet";
+import { ArmorGearDataModel } from "@src/common/item/foundry/ArmorGearDataModel";
+import { ArmorGearSheet } from "@src/common/item/foundry/ArmorGearSheet";
+import { BodyLocationDataModel } from "@src/common/item/foundry/BodyLocationDataModel";
+import { BodyLocationSheet } from "@src/common/item/foundry/BodyLocationSheet";
+import { BodyPartDataModel } from "@src/common/item/foundry/BodyPartDataModel";
+import { BodyPartSheet } from "@src/common/item/foundry/BodyPartSheet";
+import { BodyZoneDataModel } from "@src/common/item/foundry/BodyZoneDataModel";
+import { BodyZoneSheet } from "@src/common/item/foundry/BodyZoneSheet";
+import { CombatTechniqueStrikeModeDataModel } from "@src/common/item/foundry/CombatTechniqueStrikeModeDataModel";
+import { CombatTechniqueStrikeModeSheet } from "@src/common/item/foundry/CombatTechniqueStrikeModeSheet";
+import { ConcoctionGearDataModel } from "@src/common/item/foundry/ConcoctionGearDataModel";
+import { ConcoctionGearSheet } from "@src/common/item/foundry/ConcoctionGearSheet";
+import { ContainerGearDataModel } from "@src/common/item/foundry/ContainerGearDataModel";
+import { ContainerGearSheet } from "@src/common/item/foundry/ContainerGearSheet";
+import { DispositionDataModel } from "@src/common/item/foundry/DispositionDataModel";
+import { DispositionSheet } from "@src/common/item/foundry/DispositionSheet";
+import { DomainDataModel } from "@src/common/item/foundry/DomainDataModel";
+import { DomainSheet } from "@src/common/item/foundry/DomainSheet";
+import { InjuryDataModel } from "@src/common/item/foundry/InjuryDataModel";
+import { InjurySheet } from "@src/common/item/foundry/InjurySheet";
+import { MeleeWeaponStrikeModeDataModel } from "@src/common/item/foundry/MeleeWeaponStrikeModeDataModel";
+import { MeleeWeaponStrikeModeSheet } from "@src/common/item/foundry/MeleeWeaponStrikeModeSheet";
+import { MiscGearDataModel } from "@src/common/item/foundry/MiscGearDataModel";
+import { MiscGearSheet } from "@src/common/item/foundry/MiscGearSheet";
+import { MissileWeaponStrikeModeDataModel } from "@src/common/item/foundry/MissileWeaponStrikeModeDataModel";
+import { MissileWeaponStrikeModeSheet } from "@src/common/item/foundry/MissileWeaponStrikeModeSheet";
+import { MovementProfileDataModel } from "@src/common/item/foundry/MovementProfileDataModel";
+import { MovementProfileSheet } from "@src/common/item/foundry/MovementProfileSheet";
+import { MysteryDataModel } from "@src/common/item/foundry/MysteryDataModel";
+import { MysterySheet } from "@src/common/item/foundry/MysterySheet";
+import { MysticalAbilityDataModel } from "@src/common/item/foundry/MysticalAbilityDataModel";
+import { MysticalAbilitySheet } from "@src/common/item/foundry/MysticalAbilitySheet";
+import { MysticalDeviceDataModel } from "@src/common/item/foundry/MysticalDeviceDataModel";
+import { MysticalDeviceSheet } from "@src/common/item/foundry/MysticalDeviceSheet";
+import { PhilosophyDataModel } from "@src/common/item/foundry/PhilosophyDataModel";
+import { PhilosophySheet } from "@src/common/item/foundry/PhilosophySheet";
+import { ProjectileGearDataModel } from "@src/common/item/foundry/ProjectileGearDataModel";
+import { ProjectileGearSheet } from "@src/common/item/foundry/ProjectileGearSheet";
+import { ProtectionDataModel } from "@src/common/item/foundry/ProtectionDataModel";
+import { ProtectionSheet } from "@src/common/item/foundry/ProtectionSheet";
+import { SkillDataModel } from "@src/common/item/foundry/SkillDataModel";
+import { SkillSheet } from "@src/common/item/foundry/SkillSheet";
+import { TraitDataModel } from "@src/common/item/foundry/TraitDataModel";
+import { TraitSheet } from "@src/common/item/foundry/TraitSheet";
+import { WeaponGearDataModel } from "@src/common/item/foundry/WeaponGearDataModel";
+import { WeaponGearSheet } from "@src/common/item/foundry/WeaponGearSheet";
 
 // Effect/combatant/combat/region
 import {
     SohlActiveEffect,
     SohlActiveEffectDataModel,
     SohlActiveEffectSheet,
-} from "@common/effect/SohlActiveEffect";
+} from "@src/common/effect/SohlActiveEffect";
 import {
     SohlCombatant,
     SohlCombatantDataModel,
-} from "@common/combatant/SohlCombatant";
-import { SohlCombat, SohlCombatDataModel } from "@common/combat/SohlCombat";
-import { SohlRegion, SohlRegionConfig } from "@common/region/SohlRegion";
+} from "@src/common/combatant/SohlCombatant";
+import { SohlCombat, SohlCombatDataModel } from "@src/common/combat/SohlCombat";
+import { SohlRegion, SohlRegionConfig } from "@src/common/region/SohlRegion";
 import {
     SohlEncounter,
     SohlEncounterDataModel,
     SohlEncounterConfig,
-} from "@common/region-behavior/SohlEncounter";
+} from "@src/common/region-behavior/SohlEncounter";
 
 // Utilities
-import * as utils from "@utils/helpers";
-import * as constants from "@utils/constants";
-import { FilePath, toFilePath } from "@utils/helpers";
-import { SohlLocalize } from "@utils/SohlLocalize";
-import { SohlLogger } from "@utils/SohlLogger";
-import { Itr } from "@utils/Itr";
+import * as utils from "@src/utils/helpers";
+import * as constants from "@src/utils/constants";
+import { FilePath, toFilePath } from "@src/utils/helpers";
+import { SohlLocalize } from "@src/utils/SohlLocalize";
+import { SohlLogger } from "@src/utils/SohlLogger";
+import { Itr } from "@src/utils/Itr";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -173,8 +173,8 @@ import {
     defineType,
     DefinedType,
     SOHL_DEFAULT_CALENDAR_CONFIG,
-} from "@utils/constants";
-import { getGame } from "@common/FoundryProxy";
+} from "@src/utils/constants";
+import { getGame } from "@src/common/FoundryProxy";
 
 export type ActorDMMap = Record<
     string,
@@ -720,7 +720,6 @@ export abstract class SohlSystem {
     get mod(): PlainObject {
         return (this.CONFIG as any).MOD ?? {};
     }
-
 
     protected constructor() {
         this.i18n = SohlLocalize.getInstance();

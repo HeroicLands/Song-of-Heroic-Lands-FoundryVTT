@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import { BeingData, BeingLogic } from "@common/actor/logic/BeingLogic";
-import { BeingSheet } from "@common/actor/foundry/BeingSheet";
-import { SohlActorSheetBase } from "@common/actor/foundry/SohlActor";
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import { BeingData, BeingLogic } from "@src/common/actor/logic/BeingLogic";
+import { BeingSheet } from "@src/common/actor/foundry/BeingSheet";
+import { SohlActorSheetBase } from "@src/common/actor/foundry/SohlActor";
 
 export class LgndBeingLogic extends BeingLogic<BeingData> {
     /* --------------------------------------------- */
@@ -53,7 +53,8 @@ export class LgndBeingSheet extends BeingSheet {
         },
         profile: {
             id: "profile",
-            template: "systems/sohl/templates/actor/legendary/being/profile.hbs",
+            template:
+                "systems/sohl/templates/actor/legendary/being/profile.hbs",
         },
         skills: {
             id: "skills",
@@ -69,7 +70,8 @@ export class LgndBeingSheet extends BeingSheet {
         },
         mysteries: {
             id: "mysteries",
-            template: "systems/sohl/templates/actor/legendary/being/mysteries.hbs",
+            template:
+                "systems/sohl/templates/actor/legendary/being/mysteries.hbs",
         },
         gear: {
             id: "gear",

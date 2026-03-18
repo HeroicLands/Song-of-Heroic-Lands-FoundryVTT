@@ -14,7 +14,7 @@
 import {
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Philosophy** item type — a belief system, doctrine, or ethos.

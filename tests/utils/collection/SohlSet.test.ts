@@ -1,4 +1,4 @@
-import { SohlSet } from "@utils/collection/SohlSet";
+import { SohlSet } from "@src/utils/collection/SohlSet";
 
 describe("SohlSet", () => {
     describe("basic operations", () => {

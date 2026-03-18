@@ -15,7 +15,7 @@ import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Body Part** item type — a concrete anatomical part of a Being.

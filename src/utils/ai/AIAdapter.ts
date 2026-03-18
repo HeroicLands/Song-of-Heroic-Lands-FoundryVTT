@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSpeaker } from "@common/SohlSpeaker";
-import { AIExecutionResult } from "@utils/ai/AIExecutionResult";
-import { toHTMLString } from "@utils/helpers";
+import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { AIExecutionResult } from "@src/utils/ai/AIExecutionResult";
+import { toHTMLString } from "@src/utils/helpers";
 
 export interface CompletionOptions {
     model?: string;

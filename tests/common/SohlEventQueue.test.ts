@@ -3,7 +3,7 @@ import { describe, it } from "vitest";
 // NOTE: SohlEventQueue imports @common/foundry-helpers which currently
 // fails to resolve in the test environment. Once the alias configuration
 // is fixed, the real tests below can be enabled by importing:
-//   import { SohlEventQueue } from "@common/SohlEventQueue";
+//   import { SohlEventQueue } from"@src/common/SohlEventQueue";
 
 describe("SohlEventQueue", () => {
     describe("registerEvent", () => {
@@ -11,7 +11,9 @@ describe("SohlEventQueue", () => {
         it.todo("overwrites an existing event with the same uuid+kind");
         it.todo("stores separate events for different kinds on the same uuid");
         it.todo("stores separate events for different uuids with same kind");
-        it.todo("discards event with time <= current processing time during dispatch (loop protection)");
+        it.todo(
+            "discards event with time <= current processing time during dispatch (loop protection)",
+        );
     });
 
     describe("unregisterEvent", () => {

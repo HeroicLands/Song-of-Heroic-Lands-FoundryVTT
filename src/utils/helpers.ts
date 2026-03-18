@@ -11,15 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import type { GearData } from "@common/item/logic/GearLogic";
-import type { MasteryLevelData } from "@common/item/logic/MasteryLevelLogic";
-import { ITEM_KIND, KIND_KEY } from "@utils/constants";
-import { SohlMap } from "@utils/collection/SohlMap";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { GearData } from "@src/common/item/logic/GearLogic";
+import type { MasteryLevelData } from "@src/common/item/logic/MasteryLevelLogic";
+import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
+import { SohlMap } from "@src/utils/collection/SohlMap";
 import {
     mergeObject as fvttMergeObject,
     resolveUuid as fvttResolveUuid,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 
 export type SohlSettingValue =
     | string
@@ -814,4 +814,3 @@ export function index(value: number): number {
     if (value <= 0) return 0;
     return Math.trunc(value / 10);
 }
-

@@ -11,11 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearLogic, GearData } from "@common/item/logic/GearLogic";
-import {
-    ImpactAspect,
-    ProjectileGearSubType,
-} from "@utils/constants";
+import { GearLogic, GearData } from "@src/common/item/logic/GearLogic";
+import { ImpactAspect, ProjectileGearSubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Projectile Gear** item type — ammunition for ranged weapons.
@@ -57,8 +54,8 @@ export class ProjectileGearLogic<
 }
 
 export interface ProjectileGearData<
-    TLogic extends
-        ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<any>,
+    TLogic extends ProjectileGearLogic<ProjectileGearData> =
+        ProjectileGearLogic<any>,
 > extends GearData<TLogic> {
     /** Projectile category (Arrow, Bolt, Bullet, etc.) */
     subType: ProjectileGearSubType;

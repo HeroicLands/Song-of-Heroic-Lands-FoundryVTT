@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { instanceToJSON } from "@utils/helpers";
+import { instanceToJSON } from "@src/utils/helpers";
 
 export class SimpleRoll {
     numDice: number;

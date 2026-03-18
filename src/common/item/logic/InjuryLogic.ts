@@ -11,19 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ActionData } from "@common/item/logic/ActionLogic";
+import type { ActionData } from "@src/common/item/logic/ActionLogic";
 import {
     ACTION_SUBTYPE,
     defineType,
     ImpactAspect,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@utils/constants";
+} from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import { serializeFn } from "@utils/helpers";
+} from "@src/common/item/foundry/SohlItem";
+import { serializeFn } from "@src/utils/helpers";
 
 /**
  * Logic for the **Injury** item type — a specific instance of physical harm.

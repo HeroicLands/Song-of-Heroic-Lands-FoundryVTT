@@ -15,13 +15,16 @@ import {
     SOHL_SPEAKER_ROLL_MODE,
     SOHL_SPEAKER_STYLE,
     SohlSpeakerRollMode,
-} from "@utils/constants";
-import { SohlActor } from "@common/actor/foundry/SohlActor";
-import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import { FilePath, isFilePath, HTMLString } from "@utils/helpers";
-import { toHTMLWithContent, toHTMLWithTemplate } from "@common/FoundryProxy";
-import { SimpleRoll } from "@utils/SimpleRoll";
-import { SohlSpeakerStyle } from "@utils/constants";
+} from "@src/utils/constants";
+import { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
+import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
+import {
+    toHTMLWithContent,
+    toHTMLWithTemplate,
+} from "@src/common/FoundryProxy";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SohlSpeakerStyle } from "@src/utils/constants";
 import {
     getSetting as fvttGetSetting,
     getToken as fvttGetToken,
@@ -31,7 +34,7 @@ import {
     currentUser as fvttCurrentUser,
     applyRollMode as fvttApplyRollMode,
     createChatMessage as fvttCreateChatMessage,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 
 export class SohlSpeaker {
     _speaker!: SohlSpeaker.Data;
@@ -77,10 +80,7 @@ export class SohlSpeaker {
             this.scene = fvttGetScene(data.scene);
         }
 
-        this.user =
-            data.user ?
-                fvttGetUser(data.user)
-            :   fvttCurrentUser();
+        this.user = data.user ? fvttGetUser(data.user) : fvttCurrentUser();
         if (data.alias) {
             this.name = data.alias;
         } else if (this.token?.name) {

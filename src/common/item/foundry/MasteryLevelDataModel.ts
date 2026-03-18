@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
 import {
     MasteryLevelLogic,
     MasteryLevelData,
-} from "@common/item/logic/MasteryLevelLogic";
+} from "@src/common/item/logic/MasteryLevelLogic";
 const { StringField, NumberField, BooleanField } = foundry.data.fields;
 
 function defineMasteryLevelSchema(): foundry.data.fields.DataSchema {
@@ -34,8 +34,8 @@ type MasteryLevelSchema = ReturnType<typeof defineMasteryLevelSchema>;
 
 export abstract class MasteryLevelDataModel<
     TSchema extends foundry.data.fields.DataSchema = MasteryLevelSchema,
-    TLogic extends
-        MasteryLevelLogic<MasteryLevelData> = MasteryLevelLogic<MasteryLevelData>,
+    TLogic extends MasteryLevelLogic<MasteryLevelData> =
+        MasteryLevelLogic<MasteryLevelData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
     skillBaseFormula!: string;
     masteryLevelBase!: number;

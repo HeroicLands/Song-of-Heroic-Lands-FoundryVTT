@@ -11,16 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { StrikeModeDataModel } from "@common/item/foundry/StrikeModeDataModel";
+import { StrikeModeDataModel } from "@src/common/item/foundry/StrikeModeDataModel";
 import {
     MeleeWeaponStrikeModeLogic,
     MeleeWeaponStrikeModeData,
-} from "@common/item/logic/MeleeWeaponStrikeModeLogic";
-import {
-    ITEM_KIND,
-    Variant,
-    Variants,
-} from "@utils/constants";
+} from "@src/common/item/logic/MeleeWeaponStrikeModeLogic";
+import { ITEM_KIND, Variant, Variants } from "@src/utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
 function defineMeleeWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -44,15 +40,19 @@ type MeleeWeaponStrikeModeSchema = ReturnType<
 >;
 
 export class MeleeWeaponStrikeModeDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = MeleeWeaponStrikeModeSchema,
-        TLogic extends
-            MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> = MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema =
+        MeleeWeaponStrikeModeSchema,
+    TLogic extends MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> =
+        MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData>,
+>
     extends StrikeModeDataModel<TSchema, TLogic>
     implements MeleeWeaponStrikeModeData
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MeleeWeaponStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MeleeWeaponStrikeMode",
+        "SOHL.StrikeMode",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
     subType!: Variant;
     lengthBase!: number;

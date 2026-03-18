@@ -1,4 +1,4 @@
-import { SimpleRoll } from "@utils/SimpleRoll";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 describe("SimpleRoll", () => {
     describe("constructor", () => {
@@ -186,7 +186,11 @@ describe("SimpleRoll", () => {
         });
 
         it("returns just modifier when 0 dice", () => {
-            const roll = new SimpleRoll({ numDice: 0, dieFaces: 6, modifier: 5 });
+            const roll = new SimpleRoll({
+                numDice: 0,
+                dieFaces: 6,
+                modifier: 5,
+            });
             expect(roll.median).toBe(5);
         });
 
@@ -221,6 +225,8 @@ describe("SimpleRoll", () => {
     });
 
     describe("createRoll", () => {
-        it.todo("generates a Foundry VTT Roll instance (requires Foundry mocking)");
+        it.todo(
+            "generates a Foundry VTT Roll instance (requires Foundry mocking)",
+        );
     });
 });

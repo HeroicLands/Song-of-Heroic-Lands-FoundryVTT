@@ -11,5 +11,5 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { CombatResult } from "@common/result/CombatResult";
+import { CombatResult } from "@src/common/result/CombatResult";
 export class LgndCombatResult extends CombatResult {}

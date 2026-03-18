@@ -11,8 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { AfflictionLogic, AfflictionData } from "@common/item/logic/AfflictionLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    AfflictionLogic,
+    AfflictionData,
+} from "@src/common/item/logic/AfflictionLogic";
 import {
     AFFLICTION_TRANSMISSION,
     AfflictionHealRate,
@@ -21,7 +24,7 @@ import {
     AfflictionTransmission,
     AfflictionTransmissions,
     ITEM_KIND,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
 function defineAfflictionSchema(): foundry.data.fields.DataSchema {
@@ -64,14 +67,17 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
 type AfflictionDataSchema = ReturnType<typeof defineAfflictionSchema>;
 
 export class AfflictionDataModel<
-        TSchema extends foundry.data.fields.DataSchema = AfflictionDataSchema,
-        TLogic extends
-            AfflictionLogic<AfflictionData> = AfflictionLogic<AfflictionData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = AfflictionDataSchema,
+    TLogic extends AfflictionLogic<AfflictionData> =
+        AfflictionLogic<AfflictionData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements AfflictionData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Affliction", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Affliction",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.AFFLICTION;
     subType!: AfflictionSubType;
     category!: string;

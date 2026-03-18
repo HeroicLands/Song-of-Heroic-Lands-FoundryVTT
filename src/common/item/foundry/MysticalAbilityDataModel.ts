@@ -11,13 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@common/item/foundry/MasteryLevelDataModel";
-import { MysticalAbilityLogic, MysticalAbilityData } from "@common/item/logic/MysticalAbilityLogic";
+import { MasteryLevelDataModel } from "@src/common/item/foundry/MasteryLevelDataModel";
+import {
+    MysticalAbilityLogic,
+    MysticalAbilityData,
+} from "@src/common/item/logic/MysticalAbilityLogic";
 import {
     ITEM_KIND,
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { SchemaField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
@@ -67,15 +70,18 @@ type MysticalAbilityDataSchema = ReturnType<
 >;
 
 export class MysticalAbilityDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
-        TLogic extends
-            MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<MysticalAbilityData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
+    TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
+        MysticalAbilityLogic<MysticalAbilityData>,
+>
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements MysticalAbilityData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MysticalAbility", "SOHL.MasteryLevel", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MysticalAbility",
+        "SOHL.MasteryLevel",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkillCode?: string;

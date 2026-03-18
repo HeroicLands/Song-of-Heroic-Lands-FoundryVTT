@@ -1,4 +1,4 @@
-import { SohlMersenneTwister } from "@utils/SohlMersenneTwister";
+import { SohlMersenneTwister } from "@src/utils/SohlMersenneTwister";
 
 describe("SohlMersenneTwister", () => {
     afterEach(() => {

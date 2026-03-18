@@ -11,5 +11,5 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 export class LgndSuccessTestResult extends SuccessTestResult {}

@@ -15,7 +15,7 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemLogic,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Affiliation** item type — membership in an organization

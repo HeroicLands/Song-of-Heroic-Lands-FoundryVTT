@@ -1,4 +1,4 @@
-import { SohlMap } from "@utils/collection/SohlMap";
+import { SohlMap } from "@src/utils/collection/SohlMap";
 
 describe("SohlMap", () => {
     describe("basic operations", () => {

@@ -28,7 +28,7 @@ import {
     defaultFromJSON,
     sortStrings,
     getStatic,
-} from "@utils/helpers";
+} from "@src/utils/helpers";
 
 describe("romanize", () => {
     it("converts 1 to I", () => {
@@ -550,7 +550,10 @@ describe("defaultToJSON / defaultFromJSON", () => {
     });
 
     it("round-trips Map", () => {
-        const map = new Map([["a", 1], ["b", 2]]);
+        const map = new Map([
+            ["a", 1],
+            ["b", 2],
+        ]);
         const serialized = defaultToJSON(map);
         const restored = defaultFromJSON(serialized);
         expect(restored).toBeInstanceOf(Map);

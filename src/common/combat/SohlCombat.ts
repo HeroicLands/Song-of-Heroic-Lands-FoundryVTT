@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GROUP_STANCE, GroupStance } from "@utils/constants";
+import { GROUP_STANCE, GroupStance } from "@src/utils/constants";
 
 export class SohlCombat<
     SubType extends Combat.SubType = Combat.SubType,

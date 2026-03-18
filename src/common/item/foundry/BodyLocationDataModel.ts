@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { BodyLocationLogic, BodyLocationData } from "@common/item/logic/BodyLocationLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    BodyLocationLogic,
+    BodyLocationData,
+} from "@src/common/item/logic/BodyLocationLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { BooleanField } = foundry.data.fields;
 
 function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
@@ -28,10 +31,13 @@ type BodyLocationDataSchema = ReturnType<typeof defineBodyLocationDataSchema>;
 
 export class BodyLocationDataModel<
     TSchema extends foundry.data.fields.DataSchema = BodyLocationDataSchema,
-    TLogic extends
-        BodyLocationLogic<BodyLocationData> = BodyLocationLogic<BodyLocationData>,
+    TLogic extends BodyLocationLogic<BodyLocationData> =
+        BodyLocationLogic<BodyLocationData>,
 > extends SohlItemDataModel<TSchema, TLogic> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyLocation", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.BodyLocation",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.BODYLOCATION;
     isFumble!: boolean;
     isStumble!: boolean;

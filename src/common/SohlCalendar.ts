@@ -14,7 +14,7 @@
 import {
     worldTime as fvttWorldTime,
     getListFormatter as fvttGetListFormatter,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 
 const { SchemaField, StringField, BooleanField } = foundry.data.fields;
 
@@ -270,9 +270,7 @@ export class SohlCalendarData extends foundry.data
         if (!parts.length) return sohl.i18n.localize("TIME.Now");
         if (maxTerms) parts = parts.slice(0, maxTerms);
         const rel =
-            short ?
-                parts.join(" ")
-            :   fvttGetListFormatter().format(parts);
+            short ? parts.join(" ") : fvttGetListFormatter().format(parts);
         return sohl.i18n.format(
             relTime < 0 ? "TIME.Since" : "SOHL.TIME.Until",
             { since: rel },

@@ -11,6 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { CombatModifier } from "@common/modifier/CombatModifier";
+import { CombatModifier } from "@src/common/modifier/CombatModifier";
 
 export class LgndCombatModifier extends CombatModifier {}

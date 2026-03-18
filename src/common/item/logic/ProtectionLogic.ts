@@ -11,19 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ArmorGearData } from "@common/item/logic/ArmorGearLogic";
-import type { BodyLocationLogic } from "@common/item/logic/BodyLocationLogic";
+import type { ArmorGearData } from "@src/common/item/logic/ArmorGearLogic";
+import type { BodyLocationLogic } from "@src/common/item/logic/BodyLocationLogic";
 import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import {
-    ImpactAspects,
-    ITEM_KIND,
-    Variant,
-} from "@utils/constants";
-import { ValueModifier } from "@common/modifier/ValueModifier";
+} from "@src/common/item/foundry/SohlItem";
+import { ImpactAspects, ITEM_KIND, Variant } from "@src/utils/constants";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
 
 /**
  * Logic for the **Protection** item type — a source of defensive value

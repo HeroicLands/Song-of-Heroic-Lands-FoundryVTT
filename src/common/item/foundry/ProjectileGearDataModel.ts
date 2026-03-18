@@ -11,15 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { ProjectileGearLogic, ProjectileGearData } from "@common/item/logic/ProjectileGearLogic";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    ProjectileGearLogic,
+    ProjectileGearData,
+} from "@src/common/item/logic/ProjectileGearLogic";
 import {
     IMPACT_ASPECT,
     ImpactAspect,
     ITEM_KIND,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { NumberField, StringField, SchemaField } = foundry.data.fields;
 
 function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
@@ -58,15 +61,18 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
 type ProjectileGearDataSchema = ReturnType<typeof defineProjectileGearSchema>;
 
 export class ProjectileGearDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = ProjectileGearDataSchema,
-        TLogic extends
-            ProjectileGearLogic<ProjectileGearData> = ProjectileGearLogic<ProjectileGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ProjectileGearDataSchema,
+    TLogic extends ProjectileGearLogic<ProjectileGearData> =
+        ProjectileGearLogic<ProjectileGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements ProjectileGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ProjectileGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ProjectileGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.PROJECTILEGEAR;
     subType!: ProjectileGearSubType;
     shortName!: string;

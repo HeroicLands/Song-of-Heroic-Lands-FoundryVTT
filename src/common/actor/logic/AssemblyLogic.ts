@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@common/item/foundry/SohlItem";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
 import {
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorLogic,
-} from "@common/actor/foundry/SohlActor";
+} from "@src/common/actor/foundry/SohlActor";
 
 /**
  * Logic for the **Assembly** actor type — a hybrid Actor/Item container for

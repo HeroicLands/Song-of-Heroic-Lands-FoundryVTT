@@ -11,12 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorDataModel,
-} from "@common/actor/foundry/SohlActor";
-import { ACTOR_KIND } from "@utils/constants";
-import type { AssemblyData } from "@common/actor/logic/AssemblyLogic";
-import { AssemblyLogic } from "@common/actor/logic/AssemblyLogic";
+import { SohlActorDataModel } from "@src/common/actor/foundry/SohlActor";
+import { ACTOR_KIND } from "@src/utils/constants";
+import type { AssemblyData } from "@src/common/actor/logic/AssemblyLogic";
+import { AssemblyLogic } from "@src/common/actor/logic/AssemblyLogic";
 
 function defineAssemblyDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -34,14 +32,16 @@ type AssemblyDataSchema = ReturnType<typeof defineAssemblyDataSchema>;
  * from the embedded items collection.
  */
 export class AssemblyDataModel<
-        TSchema extends foundry.data.fields.DataSchema = AssemblyDataSchema,
-        TLogic extends
-            AssemblyLogic<AssemblyData> = AssemblyLogic<AssemblyData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = AssemblyDataSchema,
+    TLogic extends AssemblyLogic<AssemblyData> = AssemblyLogic<AssemblyData>,
+>
     extends SohlActorDataModel<TSchema, TLogic>
     implements AssemblyData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Assembly", "SOHL.Actor"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Assembly",
+        "SOHL.Actor",
+    ];
     static override readonly kind = ACTOR_KIND.ASSEMBLY;
 
     static defineSchema(): foundry.data.fields.DataSchema {

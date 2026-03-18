@@ -11,9 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
-import { maxPrecision, instanceToJSON, cloneInstance } from "@utils/helpers";
-import { ValueDelta } from "@common/modifier/ValueDelta";
+import type { SohlLogic } from "@src/common/SohlLogic";
+import {
+    maxPrecision,
+    instanceToJSON,
+    cloneInstance,
+} from "@src/utils/helpers";
+import { ValueDelta } from "@src/common/modifier/ValueDelta";
 import {
     SYMBOL,
     VALUE_DELTA_INFO,
@@ -21,7 +25,7 @@ import {
     VALUE_DELTA_OPERATOR_ORDER,
     ValueDeltaOperator,
     isValueDeltaOperator,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 /**
  * Represents a value and its modifiers. This allows for a flexible system of

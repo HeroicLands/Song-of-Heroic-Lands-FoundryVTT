@@ -11,14 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
-import { TestResult } from "@common/result/TestResult";
-import { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
+import { TestResult } from "@src/common/result/TestResult";
+import { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
     TestType,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 /**
  * Represents the result of an opposed test, where two parties are directly

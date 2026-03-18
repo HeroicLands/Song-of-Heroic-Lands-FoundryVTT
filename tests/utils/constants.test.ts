@@ -8,7 +8,7 @@ import {
     isItemKind,
     KIND_KEY,
     SCHEMA_VERSION_KEY,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 describe("defineType", () => {
     it("returns kind matching the input definition", () => {

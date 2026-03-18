@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { ArmorGearLogic, ArmorGearData } from "@common/item/logic/ArmorGearLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    ArmorGearLogic,
+    ArmorGearData,
+} from "@src/common/item/logic/ArmorGearLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { StringField, SchemaField, ArrayField } = foundry.data.fields;
 
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
@@ -30,14 +33,18 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
 type ArmorGearDataSchema = ReturnType<typeof defineArmorGearSchema>;
 
 export class ArmorGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
-        TLogic extends
-            ArmorGearLogic<ArmorGearData> = ArmorGearLogic<ArmorGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
+    TLogic extends ArmorGearLogic<ArmorGearData> =
+        ArmorGearLogic<ArmorGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements ArmorGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ArmorGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ArmorGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };

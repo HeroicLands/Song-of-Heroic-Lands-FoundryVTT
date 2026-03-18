@@ -11,18 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
-import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
-import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import { SohlSpeaker } from "@common/SohlSpeaker";
-import { SimpleRoll } from "@utils/SimpleRoll";
-import { TestResult } from "@common/result/TestResult";
-import { toFilePath } from "@utils/helpers";
-import { inputDialog, DialogButtonCallback } from "@common/FoundryProxy";
-import {
-    mergeObject as fvttMergeObject,
-} from "@common/foundry-helpers";
+import type { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
+import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { TestResult } from "@src/common/result/TestResult";
+import { toFilePath } from "@src/utils/helpers";
+import { inputDialog, DialogButtonCallback } from "@src/common/FoundryProxy";
+import { mergeObject as fvttMergeObject } from "@src/common/foundry-helpers";
 import {
     MARGINAL_FAILURE,
     CRITICAL_FAILURE,
@@ -40,7 +38,7 @@ import {
     isSohlSpeakerRollMode,
     SohlSpeakerRollMode,
     TestType,
-} from "@utils/constants";
+} from "@src/utils/constants";
 
 /**
  * Represents the result of a success test, including whether the test was successful,
@@ -73,13 +71,9 @@ export class SuccessTestResult extends TestResult {
         options: Partial<SuccessTestResult.Options> = {},
     ) {
         if (options.testResult) {
-            data = fvttMergeObject(
-                options.testResult.toJSON(),
-                data,
-                {
-                    inplace: false,
-                },
-            ) as Partial<SuccessTestResult.Data>;
+            data = fvttMergeObject(options.testResult.toJSON(), data, {
+                inplace: false,
+            }) as Partial<SuccessTestResult.Data>;
         }
         super(data, options);
         if (options.mlMod)

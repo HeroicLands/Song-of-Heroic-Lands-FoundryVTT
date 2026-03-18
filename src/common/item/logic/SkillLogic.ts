@@ -14,10 +14,8 @@
 import {
     MasteryLevelLogic,
     MasteryLevelData,
-} from "@common/item/logic/MasteryLevelLogic";
-import type {
-    SkillSubType,
-} from "@utils/constants";
+} from "@src/common/item/logic/MasteryLevelLogic";
+import type { SkillSubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Skill** item type — a trained capability with a mastery level.

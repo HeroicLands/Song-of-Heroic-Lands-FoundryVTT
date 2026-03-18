@@ -11,17 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { DomainLogic } from "@common/item/logic/DomainLogic";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
+import type { DomainLogic } from "@src/common/item/logic/DomainLogic";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
 import {
     MasteryLevelLogic,
     MasteryLevelData,
-} from "@common/item/logic/MasteryLevelLogic";
-import { SohlItem } from "@common/item/foundry/SohlItem";
-import {
-    MysticalAbilitySubType,
-} from "@utils/constants";
+} from "@src/common/item/logic/MasteryLevelLogic";
+import { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { MysticalAbilitySubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Mystical Ability** item type — an actively invoked
@@ -54,8 +52,8 @@ import {
  * @typeParam TData - The MysticalAbility data interface.
  */
 export class MysticalAbilityLogic<
-        TData extends MysticalAbilityData = MysticalAbilityData,
-    >
+    TData extends MysticalAbilityData = MysticalAbilityData,
+>
     extends MasteryLevelLogic<TData>
     implements MysticalAbilityLogic<TData>
 {
@@ -111,8 +109,8 @@ export class MysticalAbilityLogic<
 }
 
 export interface MysticalAbilityData<
-    TLogic extends
-        MysticalAbilityLogic<MysticalAbilityData> = MysticalAbilityLogic<any>,
+    TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
+        MysticalAbilityLogic<any>,
 > extends MasteryLevelData<TLogic> {
     /** Ability type (Incantation, Rite, Talent, etc.) */
     subType: MysticalAbilitySubType;

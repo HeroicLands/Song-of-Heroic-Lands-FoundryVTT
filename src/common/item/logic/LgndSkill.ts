@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SkillData, SkillLogic } from "@common/item/logic/SkillLogic";
-import { SkillSheet } from "@common/item/foundry/SkillSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import { SkillData, SkillLogic } from "@src/common/item/logic/SkillLogic";
+import { SkillSheet } from "@src/common/item/foundry/SkillSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndSkillLogic extends SkillLogic<SkillData> {
     /* --------------------------------------------- */

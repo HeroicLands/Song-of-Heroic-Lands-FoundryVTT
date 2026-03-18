@@ -14,7 +14,7 @@
 import {
     isActiveGM as fvttIsActiveGM,
     resolveUuidAsync as fvttResolveUuidAsync,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 
 /**
  * A single timed event in the queue, uniquely identified by
@@ -155,10 +155,7 @@ export class SohlEventQueue {
         time: number,
         payload?: Record<string, unknown>,
     ): void {
-        if (
-            this._processingTime !== null &&
-            time <= this._processingTime
-        ) {
+        if (this._processingTime !== null && time <= this._processingTime) {
             console.warn(
                 `SoHL | Event "${kind}" for ${uuid} registered with time ${time} <= current processing time ${this._processingTime}; discarding to prevent infinite loop.`,
             );

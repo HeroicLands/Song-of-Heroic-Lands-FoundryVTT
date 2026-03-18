@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import { ITEM_METADATA, ItemKinds } from "@utils/constants";
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import { ITEM_METADATA, ItemKinds } from "@src/utils/constants";
 const { StringField } = foundry.data.fields;
 
 export class SohlActiveEffect extends ActiveEffect {
@@ -235,7 +235,10 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 partContext.changeTypes = Object.entries(
                     (ActiveEffect as any).CHANGE_TYPES ?? {},
                 ).reduce(
-                    (types: StrictObject<string>, [key, config]: [string, any]) => {
+                    (
+                        types: StrictObject<string>,
+                        [key, config]: [string, any],
+                    ) => {
                         types[key] = sohl.i18n.localize(config.label ?? key);
                         return types;
                     },

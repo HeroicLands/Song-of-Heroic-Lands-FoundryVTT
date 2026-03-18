@@ -14,11 +14,8 @@
 import {
     MasteryLevelLogic,
     MasteryLevelData,
-} from "@common/item/logic/MasteryLevelLogic";
-import type {
-    TraitIntensity,
-    TraitSubType,
-} from "@utils/constants";
+} from "@src/common/item/logic/MasteryLevelLogic";
+import type { TraitIntensity, TraitSubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Trait** item type — an innate characteristic, advantage,

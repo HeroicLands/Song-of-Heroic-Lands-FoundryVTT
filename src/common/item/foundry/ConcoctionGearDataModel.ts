@@ -11,15 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { ConcoctionGearLogic, ConcoctionGearData } from "@common/item/logic/ConcoctionGearLogic";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    ConcoctionGearLogic,
+    ConcoctionGearData,
+} from "@src/common/item/logic/ConcoctionGearLogic";
 import {
     CONCOCTIONGEAR_POTENCY,
     ConcoctionGearPotency,
     ConcoctionGearSubType,
     ConcoctionGearSubTypes,
     ITEM_KIND,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
 function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
@@ -45,14 +48,18 @@ function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
 type ConcoctionGearSchema = ReturnType<typeof defineConcoctionGearSchema>;
 
 export class ConcoctionGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = ConcoctionGearSchema,
-        TLogic extends
-            ConcoctionGearLogic<ConcoctionGearData> = ConcoctionGearLogic<ConcoctionGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ConcoctionGearSchema,
+    TLogic extends ConcoctionGearLogic<ConcoctionGearData> =
+        ConcoctionGearLogic<ConcoctionGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements ConcoctionGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ConcoctionGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.ConcoctionGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind: string = ITEM_KIND.CONCOCTIONGEAR;
     subType!: ConcoctionGearSubType;
     potency!: ConcoctionGearPotency;

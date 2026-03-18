@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BodyLocationData, BodyLocationLogic,  } from "@common/item/logic/BodyLocationLogic";
-import { BodyLocationSheet } from "@common/item/foundry/BodyLocationSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    BodyLocationData,
+    BodyLocationLogic,
+} from "@src/common/item/logic/BodyLocationLogic";
+import { BodyLocationSheet } from "@src/common/item/foundry/BodyLocationSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndBodyLocationLogic extends BodyLocationLogic<BodyLocationData> {
     get bleedingSevThreshold(): number {

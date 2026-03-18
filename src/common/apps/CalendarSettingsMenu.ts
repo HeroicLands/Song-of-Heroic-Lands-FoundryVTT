@@ -11,12 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@common/SohlSystem";
+import { SohlSystem } from "@src/common/SohlSystem";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CalendarSettingsMenu_Base: any = foundry.applications.api.HandlebarsApplicationMixin(
-    foundry.applications.api.ApplicationV2,
-);
+const CalendarSettingsMenu_Base: any =
+    foundry.applications.api.HandlebarsApplicationMixin(
+        foundry.applications.api.ApplicationV2,
+    );
 
 /**
  * Settings menu for managing the calendar registry.
@@ -51,17 +52,14 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
     static PARTS: Record<string, any> = {
         form: {
-            template:
-                "systems/sohl/templates/apps/calendar-settings.hbs",
+            template: "systems/sohl/templates/apps/calendar-settings.hbs",
         },
         footer: {
             template: "templates/generic/form-footer.hbs",
         },
     };
 
-    override async _prepareContext(
-        options: any,
-    ): Promise<any> {
+    override async _prepareContext(options: any): Promise<any> {
         const activeId = game.settings.get("sohl", "activeCalendar") as string;
         const calendars: { id: string; label: string; active: boolean }[] = [];
         for (const [id, reg] of SohlSystem.calendars.entries()) {
@@ -111,10 +109,9 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
             callback: async (path: string) => {
                 if (!path.endsWith(".json")) {
                     ui.notifications.error(
-                        game.i18n.format(
-                            "SOHL.CalendarSettings.import.error",
-                            { error: "File must be a .json file" },
-                        ),
+                        game.i18n.format("SOHL.CalendarSettings.import.error", {
+                            error: "File must be a .json file",
+                        }),
                     );
                     return;
                 }
@@ -173,10 +170,9 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
                     this.render();
                 } catch (err: any) {
                     ui.notifications.error(
-                        game.i18n.format(
-                            "SOHL.CalendarSettings.import.error",
-                            { error: err.message ?? String(err) },
-                        ),
+                        game.i18n.format("SOHL.CalendarSettings.import.error", {
+                            error: err.message ?? String(err),
+                        }),
                     );
                 }
             },
@@ -191,7 +187,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         _event: Event,
         target: HTMLElement,
     ): Promise<void> {
-        const calendarId = target.closest("[data-calendar-id]")
+        const calendarId = target
+            .closest("[data-calendar-id]")
             ?.getAttribute("data-calendar-id");
         if (!calendarId) return;
 
@@ -223,11 +220,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         // If the deleted calendar was active, switch to default
         const activeId = game.settings.get("sohl", "activeCalendar");
         if (activeId === calendarId) {
-            await game.settings.set(
-                "sohl",
-                "activeCalendar",
-                "sohl-default",
-            );
+            await game.settings.set("sohl", "activeCalendar", "sohl-default");
             ui.notifications.warn(
                 game.i18n.localize(
                     "SOHL.CalendarSettings.delete.activeWarning",

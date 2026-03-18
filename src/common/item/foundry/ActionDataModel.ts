@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { ActionLogic, ActionData } from "@common/item/logic/ActionLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import { ActionLogic, ActionData } from "@src/common/item/logic/ActionLogic";
 import {
     ActionSubType,
     ActionSubTypes,
@@ -22,7 +22,7 @@ import {
     SohlActionScopes,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroups,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField, BooleanField, SchemaField, NumberField } =
     foundry.data.fields;
 
@@ -63,9 +63,9 @@ function defineEventSchema(): foundry.data.fields.DataSchema {
 type ActionDataSchema = ReturnType<typeof defineEventSchema>;
 
 export class ActionDataModel<
-        TSchema extends foundry.data.fields.DataSchema = ActionDataSchema,
-        TLogic extends ActionLogic<ActionData> = ActionLogic<ActionData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = ActionDataSchema,
+    TLogic extends ActionLogic<ActionData> = ActionLogic<ActionData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements ActionData<TLogic>
 {

@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { defaultFromJSON, defaultToJSON } from "@utils/helpers";
-import { Itr } from "@utils/Itr";
+import { defaultFromJSON, defaultToJSON } from "@src/utils/helpers";
+import { Itr } from "@src/utils/Itr";
 
 /**
  * SohlMap - An extension of Map that returns Itr instances for iterator methods

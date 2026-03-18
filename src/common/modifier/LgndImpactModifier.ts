@@ -11,6 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactModifier } from "@common/modifier/ImpactModifier";
+import { ImpactModifier } from "@src/common/modifier/ImpactModifier";
 
 export class LgndImpactModifier extends ImpactModifier {}

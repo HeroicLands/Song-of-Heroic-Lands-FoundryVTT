@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@common/item/foundry/MasteryLevelDataModel";
-import { SkillLogic, SkillData } from "@common/item/logic/SkillLogic";
+import { MasteryLevelDataModel } from "@src/common/item/foundry/MasteryLevelDataModel";
+import { SkillLogic, SkillData } from "@src/common/item/logic/SkillLogic";
 import {
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
@@ -20,7 +20,7 @@ import {
     SkillSubType,
     SKILL_SUBTYPE,
     ITEM_KIND,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField } = foundry.data.fields;
 
 function defineSkillSchema(): foundry.data.fields.DataSchema {
@@ -44,14 +44,18 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
 type SkillSchema = ReturnType<typeof defineSkillSchema>;
 
 export class SkillDataModel<
-        TSchema extends foundry.data.fields.DataSchema = SkillSchema,
-        TLogic extends SkillLogic<SkillData> = SkillLogic<SkillData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = SkillSchema,
+    TLogic extends SkillLogic<SkillData> = SkillLogic<SkillData>,
+>
     extends MasteryLevelDataModel<TSchema, TLogic>
     implements SkillData<TLogic>
 {
     static override readonly kind = ITEM_KIND.SKILL;
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Skill", "SOHL.MasteryLevel", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Skill",
+        "SOHL.MasteryLevel",
+        "SOHL.Item",
+    ];
     subType!: SkillSubType;
     weaponGroup!: string;
     baseSkill!: string;

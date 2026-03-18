@@ -1,6 +1,6 @@
-import { ValueModifier } from "@common/modifier/ValueModifier";
-import { ValueDelta } from "@common/modifier/ValueDelta";
-import { VALUE_DELTA_OPERATOR } from "@utils/constants";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
+import { ValueDelta } from "@src/common/modifier/ValueDelta";
+import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 
 const mockParent = {
     id: "test",

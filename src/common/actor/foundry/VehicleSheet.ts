@@ -11,9 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorSheetBase,
-} from "@common/actor/foundry/SohlActor";
+import { SohlActorSheetBase } from "@src/common/actor/foundry/SohlActor";
 
 export class VehicleSheet extends SohlActorSheetBase {
     static DEFAULT_OPTIONS: PlainObject = {
@@ -37,10 +35,26 @@ export class VehicleSheet extends SohlActorSheetBase {
         primary: {
             initial: "facade",
             tabs: [
-                { id: "facade", label: "SOHL.Actor.SHEET.tab.facade.label", icon: "fas fa-masks-theater" },
-                { id: "gear", label: "SOHL.Actor.SHEET.tab.gear.label", icon: "fas fa-briefcase" },
-                { id: "actions", label: "SOHL.Actor.SHEET.tab.actions.label", icon: "fas fa-cogs" },
-                { id: "effects", label: "SOHL.Actor.SHEET.tab.effects.label", icon: "fas fa-bolt" },
+                {
+                    id: "facade",
+                    label: "SOHL.Actor.SHEET.tab.facade.label",
+                    icon: "fas fa-masks-theater",
+                },
+                {
+                    id: "gear",
+                    label: "SOHL.Actor.SHEET.tab.gear.label",
+                    icon: "fas fa-briefcase",
+                },
+                {
+                    id: "actions",
+                    label: "SOHL.Actor.SHEET.tab.actions.label",
+                    icon: "fas fa-cogs",
+                },
+                {
+                    id: "effects",
+                    label: "SOHL.Actor.SHEET.tab.effects.label",
+                    icon: "fas fa-bolt",
+                },
             ],
         },
     };

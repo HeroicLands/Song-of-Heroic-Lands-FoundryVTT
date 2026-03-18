@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { InjuryData, InjuryLogic } from "@common/item/logic/InjuryLogic";
-import { InjurySheet } from "@common/item/foundry/InjurySheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import { InjuryData, InjuryLogic } from "@src/common/item/logic/InjuryLogic";
+import { InjurySheet } from "@src/common/item/foundry/InjurySheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndInjuryLogic extends InjuryLogic<InjuryData> {
     /* --------------------------------------------- */

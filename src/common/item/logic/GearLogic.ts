@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@common/modifier/ValueModifier";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -72,8 +72,9 @@ export abstract class GearLogic<
     }
 }
 
-export interface GearData<TLogic extends GearLogic<GearData> = GearLogic<any>>
-    extends SohlItemData<TLogic> {
+export interface GearData<
+    TLogic extends GearLogic<GearData> = GearLogic<any>,
+> extends SohlItemData<TLogic> {
     /** Number of this item in the stack */
     quantity: number;
     /** Base weight of a single unit */

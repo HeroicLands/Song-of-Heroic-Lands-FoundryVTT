@@ -11,14 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@common/modifier/ValueModifier";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
 import {
     IMPACT_ASPECT,
     IMPACT_ASPECT_CHAR,
     ImpactAspect,
     isImpactAspect,
-} from "@utils/constants";
-import { SimpleRoll } from "@utils/SimpleRoll";
+} from "@src/utils/constants";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 /**
  * Represents the impact of an attack or effect, including the damage dice, aspect, and any situational modifiers.

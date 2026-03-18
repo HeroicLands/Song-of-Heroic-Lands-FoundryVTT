@@ -14,10 +14,8 @@
 import {
     StrikeModeLogic,
     StrikeModeData,
-} from "@common/item/logic/StrikeModeLogic";
-import type {
-    ProjectileGearSubType,
-} from "@utils/constants";
+} from "@src/common/item/logic/StrikeModeLogic";
+import type { ProjectileGearSubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Missile Weapon Strike Mode** item type — a way of attacking
@@ -61,8 +59,8 @@ export class MissileWeaponStrikeModeLogic<
 }
 
 export interface MissileWeaponStrikeModeData<
-    TLogic extends
-        MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> = MissileWeaponStrikeModeLogic<any>,
+    TLogic extends MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> =
+        MissileWeaponStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
     /** Type of ammunition used by this strike mode */
     projectileType: ProjectileGearSubType;

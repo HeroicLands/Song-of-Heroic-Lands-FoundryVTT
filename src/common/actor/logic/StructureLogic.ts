@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
 import {
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorLogic,
-} from "@common/actor/foundry/SohlActor";
+} from "@src/common/actor/foundry/SohlActor";
 
 /**
  * Logic for the **Structure** actor type — a fixed installation or location.

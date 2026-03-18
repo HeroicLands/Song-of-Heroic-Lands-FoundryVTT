@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearLogic, GearData } from "@common/item/logic/GearLogic";
+import { GearLogic, GearData } from "@src/common/item/logic/GearLogic";
 
 /**
  * Logic for the **Container Gear** item type — storage for other items.
@@ -52,8 +52,8 @@ export class ContainerGearLogic<
 }
 
 export interface ContainerGearData<
-    TLogic extends
-        ContainerGearLogic<ContainerGearData> = ContainerGearLogic<any>,
+    TLogic extends ContainerGearLogic<ContainerGearData> =
+        ContainerGearLogic<any>,
 > extends GearData<TLogic> {
     /** Maximum weight or volume this container can hold */
     maxCapacityBase: number;

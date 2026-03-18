@@ -11,23 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ImpactAspect,
-    Variant,
-} from "@utils/constants";
-import type { SohlActionContext } from "@common/SohlActionContext";
-import type { CombatModifier } from "@common/modifier/CombatModifier";
-import type { ImpactModifier } from "@common/modifier/ImpactModifier";
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { GearLogic } from "@common/item/logic/GearLogic";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
+import { ImpactAspect, Variant } from "@src/utils/constants";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { CombatModifier } from "@src/common/modifier/CombatModifier";
+import type { ImpactModifier } from "@src/common/modifier/ImpactModifier";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
+import type { GearLogic } from "@src/common/item/logic/GearLogic";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import type { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import { isGearItem } from "@utils/helpers";
+} from "@src/common/item/foundry/SohlItem";
+import { isGearItem } from "@src/utils/helpers";
 
 /**
  * Abstract base logic for all strike modes — the foundation for

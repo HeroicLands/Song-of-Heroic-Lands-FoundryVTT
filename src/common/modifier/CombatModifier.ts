@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
+import { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
 
 /**
  * Represents a combat modifier that can be applied to an attack or defense,

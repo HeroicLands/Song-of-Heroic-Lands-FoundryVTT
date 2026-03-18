@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Itr } from "@utils/Itr";
+import { Itr } from "@src/utils/Itr";
 
 /**
  * @summary A tracked array that participates in the SoHL data lifecycle.

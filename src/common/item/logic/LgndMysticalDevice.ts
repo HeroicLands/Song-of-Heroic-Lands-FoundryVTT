@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MysticalDeviceData, MysticalDeviceLogic,  } from "@common/item/logic/MysticalDeviceLogic";
-import { MysticalDeviceSheet } from "@common/item/foundry/MysticalDeviceSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    MysticalDeviceData,
+    MysticalDeviceLogic,
+} from "@src/common/item/logic/MysticalDeviceLogic";
+import { MysticalDeviceSheet } from "@src/common/item/foundry/MysticalDeviceSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndMysticalDeviceLogic extends MysticalDeviceLogic<MysticalDeviceData> {
     /* --------------------------------------------- */

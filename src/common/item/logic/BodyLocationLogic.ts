@@ -14,9 +14,9 @@
 import {
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import { ValueModifier } from "@common/modifier/ValueModifier";
-import { ImpactAspects } from "@utils/constants";
+} from "@src/common/item/foundry/SohlItem";
+import { ValueModifier } from "@src/common/modifier/ValueModifier";
+import { ImpactAspects } from "@src/utils/constants";
 
 /**
  * Logic for the **Body Location** item type — a specific anatomical hit location.

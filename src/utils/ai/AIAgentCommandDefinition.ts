@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
 import type { JSONSchema7 } from "json-schema";
 
 export interface AIExecutionResult {

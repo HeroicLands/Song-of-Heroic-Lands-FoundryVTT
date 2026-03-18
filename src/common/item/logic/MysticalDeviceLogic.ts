@@ -14,7 +14,7 @@
 import {
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Mystical Device** item type — a magical object that grants
@@ -61,8 +61,8 @@ export class MysticalDeviceLogic<
 }
 
 export interface MysticalDeviceData<
-    TLogic extends
-        MysticalDeviceLogic<MysticalDeviceData> = MysticalDeviceLogic<any>,
+    TLogic extends MysticalDeviceLogic<MysticalDeviceData> =
+        MysticalDeviceLogic<any>,
 > extends SohlItemData<TLogic> {
     /** Whether the device must be attuned before use */
     requiresAttunement: boolean;

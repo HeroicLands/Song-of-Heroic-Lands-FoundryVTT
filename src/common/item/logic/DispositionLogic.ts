@@ -15,7 +15,7 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
     SohlItemLogic,
-} from "@common/item/foundry/SohlItem";
+} from "@src/common/item/foundry/SohlItem";
 
 /**
  * Logic for the **Disposition** item type — an attitude or reaction toward

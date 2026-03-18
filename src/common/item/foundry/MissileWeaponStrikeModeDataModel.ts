@@ -11,17 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { StrikeModeDataModel } from "@common/item/foundry/StrikeModeDataModel";
+import { StrikeModeDataModel } from "@src/common/item/foundry/StrikeModeDataModel";
 import {
     MissileWeaponStrikeModeLogic,
     MissileWeaponStrikeModeData,
-} from "@common/item/logic/MissileWeaponStrikeModeLogic";
+} from "@src/common/item/logic/MissileWeaponStrikeModeLogic";
 import {
     ITEM_KIND,
     PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubType,
     ProjectileGearSubTypes,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField } = foundry.data.fields;
 
 function defineMissileWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
@@ -40,17 +40,21 @@ type MissileWeaponStrikeModeSchema = ReturnType<
 >;
 
 export class MissileWeaponStrikeModeDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = MissileWeaponStrikeModeSchema,
-        TLogic extends
-            MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> = MissileWeaponStrikeModeLogic<
+    TSchema extends foundry.data.fields.DataSchema =
+        MissileWeaponStrikeModeSchema,
+    TLogic extends MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> =
+        MissileWeaponStrikeModeLogic<
             MissileWeaponStrikeModeData<MissileWeaponStrikeModeLogic<any>>
         >,
-    >
+>
     extends StrikeModeDataModel<TSchema, TLogic>
     implements MissileWeaponStrikeModeData
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MissileWeaponStrikeMode", "SOHL.StrikeMode", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MissileWeaponStrikeMode",
+        "SOHL.StrikeMode",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
     projectileType!: ProjectileGearSubType;
 

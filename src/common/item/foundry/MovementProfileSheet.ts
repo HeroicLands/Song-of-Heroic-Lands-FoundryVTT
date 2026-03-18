@@ -11,14 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem, SohlItemSheetBase } from "@common/item/foundry/SohlItem";
+import { SohlItem, SohlItemSheetBase } from "@src/common/item/foundry/SohlItem";
 
 export class MovementProfileSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/movementprofile-properties.hbs",
+            template:
+                "systems/sohl/templates/item/movementprofile-properties.hbs",
             scrollable: [""],
         },
     };

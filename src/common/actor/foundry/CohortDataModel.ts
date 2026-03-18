@@ -11,16 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    SohlActorDataModel,
-} from "@common/actor/foundry/SohlActor";
+import { SohlActorDataModel } from "@src/common/actor/foundry/SohlActor";
 import {
     ACTOR_KIND,
     COHORT_MEMBER_ROLE,
     CohortMemberRoles,
-} from "@utils/constants";
-import type { CohortData } from "@common/actor/logic/CohortLogic";
-import { CohortLogic } from "@common/actor/logic/CohortLogic";
+} from "@src/utils/constants";
+import type { CohortData } from "@src/common/actor/logic/CohortLogic";
+import { CohortLogic } from "@src/common/actor/logic/CohortLogic";
 
 const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
@@ -58,13 +56,16 @@ type CohortDataSchema = ReturnType<typeof defineCohortDataSchema>;
  * The Foundry VTT data model for the Cohort actor.
  */
 export class CohortDataModel<
-        TSchema extends foundry.data.fields.DataSchema = CohortDataSchema,
-        TLogic extends CohortLogic<CohortData> = CohortLogic<CohortData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = CohortDataSchema,
+    TLogic extends CohortLogic<CohortData> = CohortLogic<CohortData>,
+>
     extends SohlActorDataModel<TSchema, TLogic>
     implements CohortData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.Cohort", "SOHL.Actor"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.Cohort",
+        "SOHL.Actor",
+    ];
     static override readonly kind = ACTOR_KIND.COHORT;
     leaderName!: string;
     moveRepName!: string;

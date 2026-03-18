@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AttackResult } from "@common/result/AttackResult";
-import { DefendResult } from "@common/result/DefendResult";
-import { OpposedTestResult } from "@common/result/OpposedTestResult";
+import { AttackResult } from "@src/common/result/AttackResult";
+import { DefendResult } from "@src/common/result/DefendResult";
+import { OpposedTestResult } from "@src/common/result/OpposedTestResult";
 
 /**
  * Represents the result of a combat test, which is an opposed test

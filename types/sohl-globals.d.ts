@@ -11,48 +11,51 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSystem } from "@common";
-import type { GroupStance } from "@utils/constants";
+import type { SohlSystem } from "@src/common";
+import type { GroupStance } from "@src/utils/constants";
 import type {
     SohlMap,
     SohlLogger,
     SohlLocalize,
     SohlMersenneTwister,
-} from "@utils/helpers";
-import type { SohlTokenDocument } from "@common/document/SohlTokenDocument";
-import type { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import type { SohlActor } from "@common/actor/SohlActor";
-import type { SohlCombat, CombatDataModel } from "@common/combat/SohlCombat";
-import type { Being } from "@common/actor/Being";
-import type { Assembly } from "@common/actor/Assembly";
-import type { SohlCombatant } from "@common/combat/SohlCombatant";
-import type { SohlCombatantData } from "@common/combatant/SohlCombatantData";
-import type { SohlItem } from "@common/item/SohlItem";
-import type { AffiliationLogic } from "@common/item/Affiliation";
-import type { AfflictionLogic } from "@common/item/Affliction";
-import type { ArmorGear } from "@common/item/ArmorGear";
-import type { BodyLocationLogic } from "@common/item/BodyLocation";
-import type { BodyPartLogic } from "@common/item/BodyPart";
-import type { BodyZone } from "@common/item/BodyZone";
-import type { CombatTechniqueStrikeMode } from "@common/item/CombatTechniqueStrikeMode";
-import type { ConcoctionGearLogic } from "@common/item/ConcoctionGear";
-import type { ContainerGearLogic } from "@common/item/ContainerGear";
-import type { DomainLogic } from "@common/item/Domain";
-import type { InjuryLogic } from "@common/item/Injury";
-import type { MeleeWeaponStrikeModeLogic } from "@common/item/MeleeWeaponStrikeMode";
-import type { MiscGearLogic } from "@common/item/MiscGear";
-import type { MissileWeaponStrikeModeLogic } from "@common/item/MissileWeaponStrikeMode";
-import type { MysteryLogic } from "@common/item/Mystery";
-import type { MysticalAbilityLogic } from "@common/item/MysticalAbility";
-import type { MysticalDeviceLogic } from "@common/item/MysticalDevice";
-import type { PhilosophyLogic } from "@common/item/Philosophy";
-import type { ProjectileGearLogic } from "@common/item/ProjectileGear";
-import type { ProtectionLogic } from "@common/item/Protection";
-import type { SkillLogic } from "@common/item/Skill";
-import type { TraitLogic } from "@common/item/Trait";
-import type { WeaponGearLogic } from "@common/item/WeaponGear";
-import type { SohlLogic } from "@common/SohlLogic";
-import type { SohlActionContext } from "@common/SohlActionContext";
+} from "@src/utils/helpers";
+import type { SohlTokenDocument } from "@src/common/document/SohlTokenDocument";
+import type { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
+import type { SohlActor } from "@src/common/actor/SohlActor";
+import type {
+    SohlCombat,
+    CombatDataModel,
+} from "@src/common/combat/SohlCombat";
+import type { Being } from "@src/common/actor/Being";
+import type { Assembly } from "@src/common/actor/Assembly";
+import type { SohlCombatant } from "@src/common/combat/SohlCombatant";
+import type { SohlCombatantData } from "@src/common/combatant/SohlCombatantData";
+import type { SohlItem } from "@src/common/item/SohlItem";
+import type { AffiliationLogic } from "@src/common/item/Affiliation";
+import type { AfflictionLogic } from "@src/common/item/Affliction";
+import type { ArmorGear } from "@src/common/item/ArmorGear";
+import type { BodyLocationLogic } from "@src/common/item/BodyLocation";
+import type { BodyPartLogic } from "@src/common/item/BodyPart";
+import type { BodyZone } from "@src/common/item/BodyZone";
+import type { CombatTechniqueStrikeMode } from "@src/common/item/CombatTechniqueStrikeMode";
+import type { ConcoctionGearLogic } from "@src/common/item/ConcoctionGear";
+import type { ContainerGearLogic } from "@src/common/item/ContainerGear";
+import type { DomainLogic } from "@src/common/item/Domain";
+import type { InjuryLogic } from "@src/common/item/Injury";
+import type { MeleeWeaponStrikeModeLogic } from "@src/common/item/MeleeWeaponStrikeMode";
+import type { MiscGearLogic } from "@src/common/item/MiscGear";
+import type { MissileWeaponStrikeModeLogic } from "@src/common/item/MissileWeaponStrikeMode";
+import type { MysteryLogic } from "@src/common/item/Mystery";
+import type { MysticalAbilityLogic } from "@src/common/item/MysticalAbility";
+import type { MysticalDeviceLogic } from "@src/common/item/MysticalDevice";
+import type { PhilosophyLogic } from "@src/common/item/Philosophy";
+import type { ProjectileGearLogic } from "@src/common/item/ProjectileGear";
+import type { ProtectionLogic } from "@src/common/item/Protection";
+import type { SkillLogic } from "@src/common/item/Skill";
+import type { TraitLogic } from "@src/common/item/Trait";
+import type { WeaponGearLogic } from "@src/common/item/WeaponGear";
+import type { SohlLogic } from "@src/common/SohlLogic";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
 
 // ✅ Custom utility types
 declare global {

@@ -11,15 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { MovementProfileLogic, MovementProfileData } from "@common/item/logic/MovementProfileLogic";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    MovementProfileLogic,
+    MovementProfileData,
+} from "@src/common/item/logic/MovementProfileLogic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
     MovementFactorModes,
     MovementMedium,
     MovementMediums,
-} from "@utils/constants";
+} from "@src/utils/constants";
 const { StringField, NumberField, BooleanField, ArrayField, SchemaField } =
     foundry.data.fields;
 
@@ -66,15 +69,18 @@ type SohlMovementProfileDataSchema = ReturnType<
 >;
 
 export class MovementProfileDataModel<
-        TSchema extends
-            foundry.data.fields.DataSchema = SohlMovementProfileDataSchema,
-        TLogic extends
-            MovementProfileLogic<MovementProfileData> = MovementProfileLogic<MovementProfileData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema =
+        SohlMovementProfileDataSchema,
+    TLogic extends MovementProfileLogic<MovementProfileData> =
+        MovementProfileLogic<MovementProfileData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements MovementProfileData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.MovementProfile", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MovementProfile",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.MOVEMENTPROFILE;
     medium!: MovementMedium;
     metersPerRound!: number;

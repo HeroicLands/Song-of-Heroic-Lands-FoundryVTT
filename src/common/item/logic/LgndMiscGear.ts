@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MiscGearData, MiscGearLogic,  } from "@common/item/logic/MiscGearLogic";
-import { MiscGearSheet } from "@common/item/foundry/MiscGearSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    MiscGearData,
+    MiscGearLogic,
+} from "@src/common/item/logic/MiscGearLogic";
+import { MiscGearSheet } from "@src/common/item/foundry/MiscGearSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndMiscGearLogic extends MiscGearLogic<MiscGearData> {
     /* --------------------------------------------- */

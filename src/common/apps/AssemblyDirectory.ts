@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@common/actor/foundry/SohlActor";
-import type { SohlItem } from "@common/item/foundry/SohlItem";
-import { ACTOR_KIND } from "@utils/constants";
+import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/common/item/foundry/SohlItem";
+import { ACTOR_KIND } from "@src/utils/constants";
 
 /**
  * A custom sidebar directory for Assembly actors.
@@ -87,13 +87,17 @@ export function registerAssemblyContextMenu(): void {
                 condition: (li: HTMLElement) => {
                     const itemId = li.dataset.documentId ?? li.dataset.entryId;
                     if (!itemId) return false;
-                    const item = (game as any).items.get(itemId) as SohlItem | undefined;
+                    const item = (game as any).items.get(itemId) as
+                        | SohlItem
+                        | undefined;
                     return !!item;
                 },
                 callback: async (li: HTMLElement) => {
                     const itemId = li.dataset.documentId ?? li.dataset.entryId;
                     if (!itemId) return;
-                    const sourceItem = (game as any).items.get(itemId) as SohlItem | undefined;
+                    const sourceItem = (game as any).items.get(itemId) as
+                        | SohlItem
+                        | undefined;
                     if (!sourceItem) return;
 
                     // Create a new Assembly actor with the same name
@@ -101,13 +105,19 @@ export function registerAssemblyContextMenu(): void {
                         name: sourceItem.name,
                         type: ACTOR_KIND.ASSEMBLY,
                     };
-                    const assembly = await Actor.create(assemblyData) as SohlActor | undefined;
+                    const assembly = (await Actor.create(assemblyData)) as
+                        | SohlActor
+                        | undefined;
                     if (!assembly) return;
 
                     // Copy the source item into the Assembly as the canonical item
                     const itemData = sourceItem.toObject();
                     delete (itemData as any)._id;
-                    foundry.utils.setProperty(itemData, "system.nestedIn", null);
+                    foundry.utils.setProperty(
+                        itemData,
+                        "system.nestedIn",
+                        null,
+                    );
                     await assembly.createEmbeddedDocuments("Item", [itemData]);
                 },
             });

@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ProtectionData, ProtectionLogic,  } from "@common/item/logic/ProtectionLogic";
-import { ProtectionSheet } from "@common/item/foundry/ProtectionSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    ProtectionData,
+    ProtectionLogic,
+} from "@src/common/item/logic/ProtectionLogic";
+import { ProtectionSheet } from "@src/common/item/foundry/ProtectionSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndProtectionLogic extends ProtectionLogic<ProtectionData> {
     /* --------------------------------------------- */

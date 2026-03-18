@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LOGLEVEL, isLogLevel, LogLevel } from "@utils/constants";
+import { LOGLEVEL, isLogLevel, LogLevel } from "@src/utils/constants";
 import { SourceMapConsumer } from "source-map";
 
 interface LogCallerInfo {

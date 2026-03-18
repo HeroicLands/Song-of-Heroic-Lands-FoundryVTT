@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MysteryData, MysteryLogic } from "@common/item/logic/MysteryLogic";
-import { MysterySheet } from "@common/item/foundry/MysterySheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import { MysteryData, MysteryLogic } from "@src/common/item/logic/MysteryLogic";
+import { MysterySheet } from "@src/common/item/foundry/MysterySheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndMysteryLogic extends MysteryLogic<MysteryData> {
     /* --------------------------------------------- */

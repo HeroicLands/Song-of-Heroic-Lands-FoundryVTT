@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { instanceToJSON } from "@utils/helpers";
-import type { SohlLogic } from "@common/SohlLogic";
-import { SohlSpeaker } from "@common/SohlSpeaker";
+import { instanceToJSON } from "@src/utils/helpers";
+import type { SohlLogic } from "@src/common/SohlLogic";
+import { SohlSpeaker } from "@src/common/SohlSpeaker";
 
 /**
  * Represents the result of a test, including whether the test was successful,

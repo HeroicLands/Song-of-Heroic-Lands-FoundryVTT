@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ArmorGearData, ArmorGearLogic,  } from "@common/item/logic/ArmorGearLogic";
-import { ArmorGearSheet } from "@common/item/foundry/ArmorGearSheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    ArmorGearData,
+    ArmorGearLogic,
+} from "@src/common/item/logic/ArmorGearLogic";
+import { ArmorGearSheet } from "@src/common/item/foundry/ArmorGearSheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndArmorGearLogic extends ArmorGearLogic<ArmorGearData> {
     /* --------------------------------------------- */

@@ -11,24 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActionContext } from "@common/SohlActionContext";
-import type { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
-import type { MysteryLogic } from "@common/item/logic/MysteryLogic";
+import { SohlActionContext } from "@src/common/SohlActionContext";
+import type { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
+import type { MysteryLogic } from "@src/common/item/logic/MysteryLogic";
 import {
     SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
-} from "@common/item/foundry/SohlItem";
-import { FilePath, isItemWithSubType, toFilePath } from "@utils/helpers";
-import { ITEM_KIND, MYSTERY_SUBTYPE } from "@utils/constants";
-import { SkillBase } from "@common/SkillBase";
-import { TraitLogic } from "@common/item/logic/TraitLogic";
-import { SuccessTestResult } from "@common/result/SuccessTestResult";
+} from "@src/common/item/foundry/SohlItem";
+import { FilePath, isItemWithSubType, toFilePath } from "@src/utils/helpers";
+import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
+import { SkillBase } from "@src/common/SkillBase";
+import { TraitLogic } from "@src/common/item/logic/TraitLogic";
+import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 import {
     createRoll as fvttCreateRoll,
     isCurrentUserGM as fvttIsCurrentUserGM,
     getSetting as fvttGetSetting,
-} from "@common/foundry-helpers";
+} from "@src/common/foundry-helpers";
 
 // TODO: This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -373,10 +373,7 @@ export abstract class MasteryLevelLogic<
         if (!this.fateMasteryLevel.disabled) {
             // Apply magic modifiers
             if (this.magicMod) {
-                this.fateMasteryLevel.add(
-                    sohl.mod.MAGICMOD,
-                    this.magicMod,
-                );
+                this.fateMasteryLevel.add(sohl.mod.MAGICMOD, this.magicMod);
             }
             this.fateBonusItems.forEach((it) => {
                 this.fateMasteryLevel.add(

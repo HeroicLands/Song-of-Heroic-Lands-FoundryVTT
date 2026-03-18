@@ -11,21 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@common/SohlActionContext";
-import type { ValueModifier } from "@common/modifier/ValueModifier";
-import type { SkillLogic } from "@common/item/logic/SkillLogic";
-import type { CombatModifier } from "@common/modifier/CombatModifier";
-import type { SuccessTestResult } from "@common/result/SuccessTestResult";
-import type { SohlTokenDocument } from "@common/token/SohlTokenDocument";
+import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { ValueModifier } from "@src/common/modifier/ValueModifier";
+import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
+import type { CombatModifier } from "@src/common/modifier/CombatModifier";
+import type { SuccessTestResult } from "@src/common/result/SuccessTestResult";
+import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
 import {
     StrikeModeLogic,
     StrikeModeData,
-} from "@common/item/logic/StrikeModeLogic";
-import {
-    ImpactAspect,
-    ITEM_KIND,
-    Variant,
-} from "@utils/constants";
+} from "@src/common/item/logic/StrikeModeLogic";
+import { ImpactAspect, ITEM_KIND, Variant } from "@src/utils/constants";
 
 /**
  * Logic for the **Melee Weapon Strike Mode** item type — a way of attacking
@@ -112,10 +108,7 @@ export class MeleeWeaponStrikeModeLogic<
             const defendPenalty =
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
-                this.defense.block.add(
-                    sohl.mod.OUTNUMBERED,
-                    defendPenalty,
-                );
+                this.defense.block.add(sohl.mod.OUTNUMBERED, defendPenalty);
                 this.defense.counterstrike.add(
                     sohl.mod.OUTNUMBERED,
                     defendPenalty,
@@ -131,8 +124,8 @@ export class MeleeWeaponStrikeModeLogic<
 }
 
 export interface MeleeWeaponStrikeModeData<
-    TLogic extends
-        MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> = MeleeWeaponStrikeModeLogic<any>,
+    TLogic extends MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> =
+        MeleeWeaponStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
     subType: Variant;
     mode: string;

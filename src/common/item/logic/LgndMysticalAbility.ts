@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MysticalAbilityData, MysticalAbilityLogic,  } from "@common/item/logic/MysticalAbilityLogic";
-import { MysticalAbilitySheet } from "@common/item/foundry/MysticalAbilitySheet";
-import { SohlActionContext } from "@common/SohlActionContext";
+import {
+    MysticalAbilityData,
+    MysticalAbilityLogic,
+} from "@src/common/item/logic/MysticalAbilityLogic";
+import { MysticalAbilitySheet } from "@src/common/item/foundry/MysticalAbilitySheet";
+import { SohlActionContext } from "@src/common/SohlActionContext";
 
 export class LgndMysticalAbilityLogic extends MysticalAbilityLogic<MysticalAbilityData> {
     /* --------------------------------------------- */

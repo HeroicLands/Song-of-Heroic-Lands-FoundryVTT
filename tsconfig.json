@@ -22,20 +22,13 @@
         "types": ["fvtt-types/lenient", "vitest/globals"],
         "paths": {
             "@types/*": ["./types/*"],
-            "@utils/*": ["./src/utils/*"],
-            "@common/*": ["./src/common/*"],
-            "@mistyisle/*": ["./src/mistyisle/*"],
+            "@src/*": ["./src/*"],
             "@templates/*": ["./templates/*"],
             "@assets/*": ["./assets/*"],
             "@lang/*": ["./lang/*"],
             "@tests/*": ["./tests/*"]
         }
     },
-    "include": [
-        "src/**/*.ts",
-        "tests/**/*.ts",
-        "types/index.d.ts",
-        "nogit/WeatherGrid.ts"
-    ],
+    "include": ["src/**/*.ts", "tests/**/*.ts", "types/index.d.ts"],
     "exclude": ["build/docs", "build/generated", "build/stage", "build/tmp"]
 }

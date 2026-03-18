@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemDataModel } from "@common/item/foundry/SohlItem";
-import { BodyPartLogic, BodyPartData } from "@common/item/logic/BodyPartLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { SohlItemDataModel } from "@src/common/item/foundry/SohlItem";
+import {
+    BodyPartLogic,
+    BodyPartData,
+} from "@src/common/item/logic/BodyPartLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { BooleanField, DocumentIdField } = foundry.data.fields;
 
 function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
@@ -27,14 +30,16 @@ function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
 type BodyPartDataSchema = ReturnType<typeof defineBodyPartDataSchema>;
 
 export class BodyPartDataModel<
-        TSchema extends foundry.data.fields.DataSchema = BodyPartDataSchema,
-        TLogic extends
-            BodyPartLogic<BodyPartData> = BodyPartLogic<BodyPartData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = BodyPartDataSchema,
+    TLogic extends BodyPartLogic<BodyPartData> = BodyPartLogic<BodyPartData>,
+>
     extends SohlItemDataModel<TSchema, TLogic>
     implements BodyPartData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.BodyPart", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.BodyPart",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.BODYPART;
     canHoldItem!: boolean;
     heldItemId!: string | null;

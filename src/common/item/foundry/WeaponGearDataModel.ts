@@ -11,9 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@common/item/foundry/GearDataModel";
-import { WeaponGearLogic, WeaponGearData } from "@common/item/logic/WeaponGearLogic";
-import { ITEM_KIND } from "@utils/constants";
+import { GearDataModel } from "@src/common/item/foundry/GearDataModel";
+import {
+    WeaponGearLogic,
+    WeaponGearData,
+} from "@src/common/item/logic/WeaponGearLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField } = foundry.data.fields;
 
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
@@ -30,14 +33,18 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
 type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 
 export class WeaponGearDataModel<
-        TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
-        TLogic extends
-            WeaponGearLogic<WeaponGearData> = WeaponGearLogic<WeaponGearData>,
-    >
+    TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
+    TLogic extends WeaponGearLogic<WeaponGearData> =
+        WeaponGearLogic<WeaponGearData>,
+>
     extends GearDataModel<TSchema, TLogic>
     implements WeaponGearData<TLogic>
 {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.WeaponGear", "SOHL.Gear", "SOHL.Item"];
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.WeaponGear",
+        "SOHL.Gear",
+        "SOHL.Item",
+    ];
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
 
