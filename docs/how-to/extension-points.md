@@ -404,6 +404,11 @@ When adding:
 
 ## Deep dives
 
+- [Action Items — User Guide](../../assets/packs/journals/data/user-guide/actions.md) — creating and configuring Action items (user-facing)
+- [Action Items — Developer Reference](./actions.md) — Action API, subType/scope constants, lifecycle naming pattern
+- [Lifecycle Hooks](./lifecycle-hooks.md) — complete hook name reference and module guard patterns
+- [System Class Overrides](./system-class-overrides.md) — extending SohlSystem, CONFIG structure, class replacement
+- [Creating a Variant Module](./variant-module.md) — full variant module walkthrough
 - [Lifecycle Model](../concepts/lifecycle-model.md)
 - [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
 - [Modifier Model](../reference/modifier-model.md)

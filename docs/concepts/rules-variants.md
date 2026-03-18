@@ -8,7 +8,7 @@ SoHL supports rules customization at three levels:
 
 This lets SoHL share a large common framework while still supporting major and minor rules differences.
 
-See also: [Extension Points (Developer Guide)](../how-to/extension-points.md) and [House Rules Cookbook](../how-to/house-rules-cookbook.md).
+See also: [Extension Points (Developer Guide)](../how-to/extension-points.md), [House Rules Cookbook](../how-to/house-rules-cookbook.md), [Lifecycle Hooks](../how-to/lifecycle-hooks.md), [System Class Overrides](../how-to/system-class-overrides.md), and [Creating a Variant Module](../how-to/variant-module.md).
 
 **You are here**
 

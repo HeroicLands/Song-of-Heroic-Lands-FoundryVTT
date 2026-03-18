@@ -103,5 +103,9 @@ Typical signals you need a Variant:
 
 ## Related docs
 
+- [Action Items — User Guide](../../assets/packs/journals/data/user-guide/actions.md) — full field-by-field reference on creating and configuring Action items
+- [Lifecycle Hooks (Developer Guide)](./lifecycle-hooks.md) — complete hook name reference for module authors
+- [System Class Overrides](./system-class-overrides.md) — replacing modifier/result/sheet classes
+- [Creating a Variant Module](./variant-module.md) — full variant implementation guide
 - [Rules Variants and Extension Mechanisms](../concepts/rules-variants.md)
 - [Extension Points (Developer Guide)](./extension-points.md)
