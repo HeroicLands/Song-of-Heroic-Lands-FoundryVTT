@@ -6,7 +6,7 @@ See also: [SoHL Architecture (Overview)](../concepts/architecture.md), [Combat R
 
 ## Token utilities
 
-Primary file: `src/common/token/SohlTokenDocument.ts`
+Primary file: `src/document/token/SohlTokenDocument.ts`
 
 `SohlTokenDocument` provides static helpers used throughout action/combat flows:
 
@@ -22,10 +22,9 @@ Current distance behavior:
 
 ## Combatant model
 
-Primary files:
+Primary file:
 
-- `src/common/combatant/SohlCombatant.ts`
-- `src/common/combatant/SohlCombatantData.ts`
+- `src/document/combatant/SohlCombatant.ts`
 
 ### Initiative contract
 
@@ -45,8 +44,8 @@ Helper methods expose and mutate these relations (`addAlly`, `removeAlly`, `addT
 
 Primary files:
 
-- `src/common/scene/SceneData.ts`
-- `src/common/scene/Encounter.ts`
+- `src/document/scene/SceneData.ts`
+- `src/document/scene/Encounter.ts`
 
 Current scene-side structures define:
 
@@ -59,10 +58,9 @@ These files are currently type/interface oriented and function as data contracts
 
 ## Calendar and weather
 
-Primary files:
+Primary file:
 
-- `src/common/SohlCalendar.ts`
-- `src/common/WeatherGrid.ts`
+- `src/core/SohlCalendar.ts`
 
 ### Calendar
 
@@ -72,17 +70,6 @@ Primary files:
 - absolute timestamp formatting,
 - default in-world date formatting,
 - relative-time formatting.
-
-### Weather grid
-
-`WeatherGrid` models weather as a per-cell simulation influenced by:
-
-- global regime/base weather,
-- biome profile offsets,
-- calendar/daylight context,
-- stochastic evolution and smoothing.
-
-Public usage includes `step()`, `getWeatherAt(x,y)`, `setWeatherAt(x,y,state)`.
 
 ## Extension guidance
 

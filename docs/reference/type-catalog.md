@@ -79,58 +79,58 @@ For conceptual details, see `docs/concepts/architecture.md`, `docs/concepts/nest
 
 ## Variant invariance
 
-Some types are **variant-invariant**: their logic, data model, and sheet are defined entirely in `src/common/` and do not change between rule variants (Legendary, MistyIsle). Other types are **variant-specific**: they have overrides in `src/legendary/` or `src/mistyisle/` that add or modify behavior.
+Some types are **variant-invariant**: their logic, data model, and sheet are defined in `src/document/` with no `Lgnd*` override and do not change between rule variants. Other types are **variant-specific**: they have `Lgnd*` override classes co-located in `src/document/*/logic/` that add or modify behavior.
 
 ### Variant-invariant actors
 
 | Actor         | Notes                                                                 |
 | ------------- | --------------------------------------------------------------------- |
 | **Assembly**  | Hybrid Actor/Item container. See [Assembly Architecture](../concepts/assembly-architecture.md). |
-| **Cohort**    | Group entity. Logic and sheet in `src/common/actor/Cohort.ts`.        |
-| **Structure** | Fixed installation. Logic and sheet in `src/common/actor/Structure.ts`. |
-| **Vehicle**   | Movable platform. Logic and sheet in `src/common/actor/Vehicle.ts`.   |
+| **Cohort**    | Group entity. Logic in `src/document/actor/logic/CohortLogic.ts`.        |
+| **Structure** | Fixed installation. Logic in `src/document/actor/logic/StructureLogic.ts`. |
+| **Vehicle**   | Movable platform. Logic in `src/document/actor/logic/VehicleLogic.ts`.   |
 
 ### Variant-specific actors
 
 | Actor      | Notes                                                              |
 | ---------- | ------------------------------------------------------------------ |
-| **Being**  | Has variant-specific logic and sheet in `src/legendary/actor/LgndBeing.ts`. |
+| **Being**  | Has variant-specific logic in `src/document/actor/logic/LgndBeing.ts`. |
 
 ### Variant-invariant items
 
 | Item                 | Notes                                                                   |
 | -------------------- | ----------------------------------------------------------------------- |
-| **Action**           | Logic and sheet in `src/common/item/Action.ts`.                         |
-| **Affiliation**      | Logic and sheet in `src/common/item/Affiliation.ts`.                    |
-| **Affliction**       | Logic and sheet in `src/common/item/Affliction.ts`.                     |
-| **Disposition**      | Logic and sheet in `src/common/item/Disposition.ts`.                    |
-| **Domain**           | Logic and sheet in `src/common/item/Domain.ts`.                         |
-| **Movement Profile** | Logic and sheet in `src/common/item/MovementProfile.ts`.                |
-| **Philosophy**       | Logic and sheet in `src/common/item/Philosophy.ts`.                     |
-| **Trait**            | Logic and sheet in `src/common/item/Trait.ts`.                          |
+| **Action**           | Logic in `src/document/item/logic/ActionLogic.ts`.                         |
+| **Affiliation**      | Logic in `src/document/item/logic/AffiliationLogic.ts`.                    |
+| **Affliction**       | Logic in `src/document/item/logic/AfflictionLogic.ts`.                     |
+| **Disposition**      | Logic in `src/document/item/logic/DispositionLogic.ts`.                    |
+| **Domain**           | Logic in `src/document/item/logic/DomainLogic.ts`.                         |
+| **Movement Profile** | Logic in `src/document/item/logic/MovementProfileLogic.ts`.                |
+| **Philosophy**       | Logic in `src/document/item/logic/PhilosophyLogic.ts`.                     |
+| **Trait**            | Logic in `src/document/item/logic/TraitLogic.ts`.                          |
 
 ### Variant-specific items
 
 | Item                             | Notes                                                                              |
 | -------------------------------- | ---------------------------------------------------------------------------------- |
-| **Armor Gear**                   | Variant overrides in `src/legendary/item/LgndArmorGear.ts`.                        |
-| **Body Location**                | Variant overrides in `src/legendary/item/LgndBodyLocation.ts`.                     |
-| **Body Part**                    | Variant overrides in `src/legendary/item/LgndBodyPart.ts`.                         |
-| **Body Zone**                    | Variant overrides in `src/legendary/item/LgndBodyZone.ts`.                         |
-| **Combat Technique Strike Mode** | Variant overrides in `src/legendary/item/LgndCombatTechniqueStrikeMode.ts`.        |
-| **Concoction Gear**              | Variant overrides in `src/legendary/item/LgndConcoctionGear.ts`.                   |
-| **Container Gear**               | Variant overrides in `src/legendary/item/LgndContainerGear.ts`.                    |
-| **Injury**                       | Variant overrides in `src/legendary/item/LgndInjury.ts`.                           |
-| **Melee Weapon Strike Mode**     | Variant overrides in `src/legendary/item/LgndMeleeWeaponStrikeMode.ts`.            |
-| **Misc Gear**                    | Variant overrides in `src/legendary/item/LgndMiscGear.ts`.                         |
-| **Missile Weapon Strike Mode**   | Variant overrides in `src/legendary/item/LgndMissileWeaponStrikeMode.ts`.          |
-| **Mystery**                      | Variant overrides in `src/legendary/item/LgndMystery.ts`.                          |
-| **Mystical Ability**             | Variant overrides in `src/legendary/item/LgndMysticalAbility.ts`.                  |
-| **Mystical Device**              | Variant overrides in `src/legendary/item/LgndMysticalDevice.ts`.                   |
-| **Projectile Gear**              | Variant overrides in `src/legendary/item/LgndProjectileGear.ts`.                   |
-| **Protection**                   | Variant overrides in `src/legendary/item/LgndProtection.ts`.                       |
-| **Skill**                        | Variant overrides in `src/legendary/item/LgndSkill.ts`.                            |
-| **Weapon Gear**                  | Variant overrides in `src/legendary/item/LgndWeaponGear.ts`.                       |
+| **Armor Gear**                   | Legendary override: `src/document/item/logic/LgndArmorGear.ts`.                        |
+| **Body Location**                | Legendary override: `src/document/item/logic/LgndBodyLocation.ts`.                     |
+| **Body Part**                    | Legendary override: `src/document/item/logic/LgndBodyPart.ts`.                         |
+| **Body Zone**                    | Legendary override: `src/document/item/logic/LgndBodyZone.ts`.                         |
+| **Combat Technique Strike Mode** | Legendary override: `src/document/item/logic/LgndCombatTechniqueStrikeMode.ts`.        |
+| **Concoction Gear**              | Legendary override: `src/document/item/logic/LgndConcoctionGear.ts`.                   |
+| **Container Gear**               | Legendary override: `src/document/item/logic/LgndContainerGear.ts`.                    |
+| **Injury**                       | Legendary override: `src/document/item/logic/LgndInjury.ts`.                           |
+| **Melee Weapon Strike Mode**     | Legendary override: `src/document/item/logic/LgndMeleeWeaponStrikeMode.ts`.            |
+| **Misc Gear**                    | Legendary override: `src/document/item/logic/LgndMiscGear.ts`.                         |
+| **Missile Weapon Strike Mode**   | Legendary override: `src/document/item/logic/LgndMissileWeaponStrikeMode.ts`.          |
+| **Mystery**                      | Legendary override: `src/document/item/logic/LgndMystery.ts`.                          |
+| **Mystical Ability**             | Legendary override: `src/document/item/logic/LgndMysticalAbility.ts`.                  |
+| **Mystical Device**              | Legendary override: `src/document/item/logic/LgndMysticalDevice.ts`.                   |
+| **Projectile Gear**              | Legendary override: `src/document/item/logic/LgndProjectileGear.ts`.                   |
+| **Protection**                   | Legendary override: `src/document/item/logic/LgndProtection.ts`.                       |
+| **Skill**                        | Legendary override: `src/document/item/logic/LgndSkill.ts`.                            |
+| **Weapon Gear**                  | Legendary override: `src/document/item/logic/LgndWeaponGear.ts`.                       |
 
 ## Core architecture concepts
 

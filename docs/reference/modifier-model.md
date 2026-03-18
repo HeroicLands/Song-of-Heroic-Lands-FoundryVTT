@@ -6,11 +6,11 @@ See also: [Combat Resolution Pipeline](./combat-resolution-pipeline.md), [Extens
 
 ## Core types
 
-- `ValueDelta`: `src/common/modifier/ValueDelta.ts`
-- `ValueModifier`: `src/common/modifier/ValueModifier.ts`
-- `MasteryLevelModifier`: `src/common/modifier/MasteryLevelModifier.ts`
-- `CombatModifier`: `src/common/modifier/CombatModifier.ts`
-- `ImpactModifier`: `src/common/modifier/ImpactModifier.ts`
+- `ValueDelta`: `src/modifier/ValueDelta.ts`
+- `ValueModifier`: `src/modifier/ValueModifier.ts`
+- `MasteryLevelModifier`: `src/modifier/MasteryLevelModifier.ts`
+- `CombatModifier`: `src/modifier/CombatModifier.ts`
+- `ImpactModifier`: `src/modifier/ImpactModifier.ts`
 
 ## Conceptual model
 

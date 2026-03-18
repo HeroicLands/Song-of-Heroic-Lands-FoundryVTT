@@ -65,7 +65,7 @@ When in doubt:
 Primary entry:
 
 - `src/sohl.ts`
-- `src/common/SohlSystem.ts`
+- `src/core/SohlSystem.ts`
 
 Common extension needs:
 
@@ -97,7 +97,7 @@ Current startup sequence (from `src/sohl.ts`):
 
 ### Actors
 
-Core actor classes are under `src/common/actor/*` with base `SohlActor.ts`.
+Core actor classes are under `src/document/actor/` with base `SohlActor.ts` in `src/document/actor/foundry/`.
 
 Layering reminder:
 
@@ -108,13 +108,13 @@ Layering reminder:
 
 **How to extend**
 
-- Add a new actor subclass under `src/common/actor/` (or variant directory)
+- Add a new actor subclass under `src/document/actor/logic/` (logic) and `src/document/actor/foundry/` (data model + sheet)
 - Ensure any required sheet templates are added under `templates/...`
-- Register data model/logic/sheet mappings in `src/common/SohlSystem.ts` (and variant system mappings where applicable)
+- Register data model/logic/sheet mappings in `src/core/SohlSystem.ts` (and variant system mappings where applicable)
 
 ### Items
 
-Core item classes are under `src/common/item/*` with base `SohlItem.ts`.
+Core item classes are under `src/document/item/` with base `SohlItem.ts` in `src/document/item/foundry/`.
 
 Layering reminder:
 
@@ -131,9 +131,9 @@ Data model invariant:
 
 **How to extend**
 
-- Add a new item subclass under `src/common/item/`
+- Add a new item subclass under `src/document/item/logic/` (logic) and `src/document/item/foundry/` (data model + sheet)
 - Add templates if it has a sheet representation
-- Register data model/logic/sheet mappings in `src/common/SohlSystem.ts` (and variant mappings when specialized)
+- Register data model/logic/sheet mappings in `src/core/SohlSystem.ts` (and variant mappings when specialized)
 
 **Avoid**
 
@@ -142,9 +142,9 @@ Data model invariant:
 Worked example pattern (minimal checklist for a new Item kind):
 
 1. Add new kind constant in `src/utils/constants.ts` (`ITEM_KIND`).
-2. Create item logic/data/sheet class under `src/common/item/`.
-3. Register data model/logic/sheet in `src/common/SohlSystem.ts` mappings.
-4. If variant-specific behavior is needed, override mapping in `src/legendary/LegendarySystem.ts` and/or `src/mistyisle/*`.
+2. Create item logic class under `src/document/item/logic/` and data model + sheet under `src/document/item/foundry/`.
+3. Register data model/logic/sheet in `src/core/SohlSystem.ts` mappings.
+4. If variant-specific behavior is needed, add a `Lgnd*` logic override class in `src/document/item/logic/` and update `src/core/LegendarySystem.ts` mappings.
 5. Add/adjust templates and localization keys.
 6. Validate actor/item sheet rendering and context-menu behavior.
 
@@ -152,11 +152,11 @@ Worked example pattern (minimal checklist for a new Item kind):
 
 Core components:
 
-- `src/common/result/*`
-- `src/common/modifier/*`
-- `src/common/combatant/*`
-- `src/common/SohlLogic.ts` (likely orchestrator)
-- `src/common/SohlActionContext.ts` (request context)
+- `src/result/*`
+- `src/modifier/*`
+- `src/document/combatant/`
+- `src/core/SohlLogic.ts` (likely orchestrator)
+- `src/core/SohlActionContext.ts` (request context)
 
 **Safe extension pattern**
 
@@ -179,7 +179,7 @@ Core components:
 
 Core:
 
-- `src/common/effect/*` (`SohlActiveEffect`, config, data)
+- `src/document/effect/` (`SohlActiveEffect`)
 
 **Safe extension**
 
@@ -193,7 +193,7 @@ Core:
 
 Current effects integration points:
 
-- Effects are standard `SohlActiveEffect` documents (`src/common/effect/SohlActiveEffect.ts`).
+- Effects are standard `SohlActiveEffect` documents (`src/document/effect/SohlActiveEffect.ts`).
 - `SohlDataModel` sheet context exposes:
     - `data.effects` (owned effects)
     - `data.trxEffects` (active transferred effects)
@@ -241,16 +241,13 @@ Sheets:
 
 ## 7) Variants (Legendary / Misty Isle)
 
-Variants live in:
-
-- `src/legendary/*`
-- `src/mistyisle/*`
+Legendary variant overrides are `Lgnd*` classes co-located in `src/document/*/logic/`. MistyIsle is planned as a separate Foundry module.
 
 **How to extend variants**
 
-- Prefer implementing differences in variant directories with `Lgnd*` / `Isle*` types.
-- Keep shared behavior in `src/common`.
-- Avoid pulling variant logic into common unless it truly applies to all variants.
+- Prefer implementing differences as `Lgnd*` override classes in `src/document/*/logic/`.
+- Keep shared behavior in `src/core/` and `src/document/` base classes.
+- Avoid pulling variant logic into base classes unless it truly applies to all variants.
 
 **Portability contract**
 
@@ -260,7 +257,7 @@ Variants live in:
 
 ## 8) System registries
 
-`src/common/SohlSystem.ts`
+`src/core/SohlSystem.ts`
 
 This is a critical extension surface.
 
@@ -356,10 +353,10 @@ interface CalendarRegistration {
 
 **Key files:**
 
-- Registry: `src/common/SohlSystem.ts` (static calendar methods)
-- Calendar data model: `src/common/SohlCalendar.ts` (`SohlCalendarData`)
+- Registry: `src/core/SohlSystem.ts` (static calendar methods)
+- Calendar data model: `src/core/SohlCalendar.ts` (`SohlCalendarData`)
 - Default config: `src/utils/constants.ts` (`SOHL_DEFAULT_CALENDAR_CONFIG`)
-- Settings UI: `src/common/apps/CalendarSettingsMenu.ts`
+- Settings UI: `src/apps/CalendarSettingsMenu.ts`
 - Init wiring: `src/sohl.ts` (`rehydrateCalendars`, `applyActiveCalendar`)
 
 **Custom CalendarData subclass:**

@@ -6,10 +6,8 @@ See also: [Modifier Model](./modifier-model.md), [Extension Points](../how-to/ex
 
 ## Core implementation files
 
-- Effect document wrapper: `src/common/effect/SohlActiveEffect.ts`
-- Effect logic + data model: `src/common/effect/SohlEffectData.ts`
-- Effect sheet config: `src/common/effect/SohlActiveEffectConfig.ts`
-- Shared sheet context wiring: `src/common/SohlDataModel.ts`
+- Effect document wrapper: `src/document/effect/SohlActiveEffect.ts`
+- Shared sheet context wiring: `src/core/SohlDataModel.ts`
 
 ## Document and logic layering
 

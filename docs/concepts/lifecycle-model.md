@@ -62,7 +62,7 @@ Assumptions you can make:
 
 ## Concrete scheduling in `SohlActor`
 
-Primary implementation: `src/common/actor/SohlActor.ts`
+Primary implementation: `src/document/actor/foundry/SohlActor.ts`
 
 - `prepareBaseData()`
     - resets actor caches,

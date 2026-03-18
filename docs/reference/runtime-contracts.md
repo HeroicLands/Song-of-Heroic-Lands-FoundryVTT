@@ -12,7 +12,7 @@ See also: [SoHL Architecture (Overview)](../concepts/architecture.md), [Extensio
 
 ## System-level contracts (`SohlSystem`)
 
-Primary file: `src/common/SohlSystem.ts`
+Primary file: `src/core/SohlSystem.ts`
 
 `SohlSystem` defines the static/runtime contract for variants and class wiring:
 
@@ -43,7 +43,7 @@ This keeps common logic variant-agnostic while still allowing each variant to su
 
 ## Data model contract (`SohlDataModel`)
 
-Primary file: `src/common/SohlDataModel.ts`
+Primary file: `src/core/SohlDataModel.ts`
 
 `SohlDataModel` is the central typed data-layer wrapper over Foundry `TypeDataModel`.
 
@@ -72,7 +72,7 @@ SoHL intentionally separates persistence from behavior:
 
 This pattern applies to both Items and Actors.
 
-Concrete item example (`src/common/item/Skill.ts`):
+Concrete item example (Skill type):
 
 - `Skill` document is represented by `SohlItem` with `type = skill`.
 - Persisted state is `SkillDataModel` on `system`.
@@ -95,7 +95,7 @@ When extending sheets, use this mixin path so behavior remains consistent across
 
 ## Registry contract (`SohlSystem`)
 
-Primary file: `src/common/SohlSystem.ts`
+Primary file: `src/core/SohlSystem.ts`
 
 - `SohlSystem` owns runtime registries for constructor/data-model mappings.
 - Registry content is initialized in the system constructor and used during variant/runtime setup.

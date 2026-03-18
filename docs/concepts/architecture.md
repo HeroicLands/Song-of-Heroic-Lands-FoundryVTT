@@ -24,10 +24,10 @@ Song of Heroic Lands (SoHL) is a Foundry VTT system implementing HârnMaster-com
 
 SoHL is designed as:
 
-- a **core system** (`src/common`) with reusable abstractions
-- plus **setting/system variants** (`src/legendary`, `src/mistyisle`) that extend or specialize the core
+- a **core system** (`src/core/` and `src/document/`) with reusable abstractions
+- plus **Legendary variant overrides** co-located as `Lgnd*` classes in `src/document/*/logic/`
 
-In practice, `src/common` functions as a variant-agnostic rules kernel and document framework. Variant folders layer on top of that kernel by overriding specific logic, sheets, modifiers, and result classes.
+In practice, `src/core/` and `src/document/` function as variant-agnostic foundations. `Lgnd*` classes layer on top by overriding specific logic. MistyIsle is planned as a separate Foundry module.
 
 ## High-level layers
 
@@ -72,7 +72,7 @@ and persistence model, but the logic layer is designed to be completely separate
 to enable unit testing of the logic layer in a node-only environment without
 the Foundry VTT environment. The implication of this is that all functions
 called from the logic layer should not use Foundry VTT functions or classes
-directly, but only via shims (see `src/common/FoundryProxy.ts`). In addition
+directly, but only via shims (see `src/core/FoundryProxy.ts`). In addition
 to business logic, the logic layer also contains any derived or synthesized
 properties that are not persisted.
 
@@ -89,7 +89,7 @@ to have separate HTML presentations.
 #### Actors
 
 SoHL extends the Foundry VTT `Actor` class with the `SohlActor` class
-(see `src/common/actor/SohlActor.ts`). Among other things, this class
+(see `src/document/actor/foundry/SohlActor.ts`). Among other things, this class
 implements:
 
 1. SoHL Lifecycle mechanism
@@ -97,25 +97,25 @@ implements:
 
 Each actor type is split into two subdirectories:
 
-- `src/common/actor/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
-- `src/common/actor/foundry/` — DataModel classes, Sheet classes, and the base SohlActor document
+- `src/document/actor/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
+- `src/document/actor/foundry/` — DataModel classes, Sheet classes, and the base SohlActor document
 
 #### Items
 
 SoHL extends the Foundry VTT `Item` class with the `SohlItem` class
-(see `src/common/item/foundry/SohlItem.ts`).
+(see `src/document/item/foundry/SohlItem.ts`).
 
 Each item type is split into two subdirectories:
 
-- `src/common/item/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
-- `src/common/item/foundry/` — DataModel classes, Sheet classes, and the base SohlItem document
+- `src/document/item/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
+- `src/document/item/foundry/` — DataModel classes, Sheet classes, and the base SohlItem document
 
-Variant-specific overrides reside in `src/legendary/` or `src/mistyisle/`.
+Legendary variant-specific overrides are `Lgnd*` classes co-located in `src/document/item/logic/`.
 
 #### Active Effects
 
 SoHL extends the Foundry VTT `ActiveEffect` class with the `SohlActiveEffect`
-class (see `src/common/effect/SohlActiveEffect.ts`).
+class (see `src/document/effect/SohlActiveEffect.ts`).
 
 While the standard Foundry VTT ActiveEffect class only supports effects that
 apply to the current document, the `SohlEffectLogic` class implements
@@ -125,13 +125,12 @@ extensions that allow Active Effects to target either:
 - the Actor associated with the current document, or
 - other Item(s) embedded in the Actor associated with the current document
 
-The code for all Effects resides in the `src/common/effect` folder (and
-parallel folders for each system variant).
+The code for all Effects resides in `src/document/effect/`.
 
 #### Combatants
 
 SoHL extends the Foundry VTT `Combatant` class with the `SohlCombatant` class
-(see `src/common/combatant/SohlCombatant.ts`).
+(see `src/document/combatant/SohlCombatant.ts`).
 
 Combatants are different from the other documents in that they do not
 have data models or sheets or logic layers. Therefore all of the combatant
@@ -251,28 +250,25 @@ Why variants matter:
 - Allow variant-specific rules behavior, sheets, and result/modifier logic where needed.
 - Preserve portability and maintainability by isolating differences to variant layers.
 
-Variants live under:
-
-- `src/legendary/*`
-- `src/mistyisle/*`
+Variant override classes are co-located in `src/document/*/logic/` (Legendary) and `src/core/LegendarySystem.ts`.
 
 Pattern:
 
-- Variant-specific System class (e.g., `LegendarySystem.ts`, `MistyIsleSystem.ts`)
-- Variant-specific Actors/Items/Modifiers/Results prefixed with `Lgnd*` / `Isle*`
+- Variant-specific System class: `src/core/LegendarySystem.ts`
+- Variant-specific logic overrides prefixed with `Lgnd*` in `src/document/*/logic/`
 
 Intended usage:
 
-- The core (`src/common`) defines general behaviors and contracts.
-- Variants override/extend only what differs.
+- The core (`src/core/` and `src/document/`) defines general behaviors and contracts.
+- Variant `Lgnd*` override classes extend only what differs.
 
 ### Variant-invariant types
 
-Many actor and item types are **variant-invariant**: their logic, data model, and sheet are fully defined in `src/common/` and shared across all variants with no overrides. Only types that have genuine variant-specific behavior (e.g., Being, Skill, combat gear types) have Legendary or MistyIsle overrides.
+Many actor and item types are **variant-invariant**: their logic, data model, and sheet are fully defined in `src/document/` with no `Lgnd*` override. Only types that have genuine variant-specific behavior (e.g., Being, Skill, combat gear types) have Legendary `Lgnd*` overrides.
 
 See the [Type Catalog](../reference/type-catalog.md#variant-invariance) for the complete classification of which types are variant-invariant vs. variant-specific.
 
-Runtime selection (implemented in `src/sohl.ts` + `src/common/SohlSystem.ts`):
+Runtime selection (implemented in `src/sohl.ts` + `src/core/SohlSystem.ts`):
 
 - Available variants are registered at startup via `SohlSystem.registerVariant(...)`.
 - A world setting (`sohl.variant`) selects the active variant.
@@ -290,7 +286,7 @@ Why this is significant:
 - It ensures virtual and embedded items are fully initialized before evaluation/finalization logic depends on them.
 - It defines safe extension timing for hooks and Action items, reducing race conditions and inconsistent state.
 
-Concrete extension flow currently implemented in `src/common/actor/SohlActor.ts`:
+Concrete extension flow currently implemented in `src/document/actor/foundry/SohlActor.ts`:
 
 1. `prepareBaseData()` resets caches and runs actor logic `initialize()`.
 2. `prepareEmbeddedData()` runs **all item `initialize()`** calls (embedded + virtual), then freezes the item cache.

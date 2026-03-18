@@ -21,10 +21,9 @@ Variants are full implementations of rules behavior using parallel class hierarc
 
 This is intended for **large-scale, internally consistent rulesets** (for example: HarnMaster Kethira vs HarnMaster 3.5 vs HarnMaster Gold), where many interacting mechanics differ but the overall game concept remains similar.
 
-- Shared/base framework lives in `src/common/*`.
-- Variant implementations live in:
-    - `src/legendary/*`
-    - `src/mistyisle/*`
+- Shared/base framework lives in `src/core/` and `src/document/`.
+- Legendary variant overrides are `Lgnd*` classes co-located in `src/document/*/logic/`.
+- MistyIsle is planned as a separate Foundry module.
 
 Runtime selection is implemented in `src/sohl.ts`:
 
@@ -33,7 +32,7 @@ Runtime selection is implemented in `src/sohl.ts`:
 - `SohlSystem.selectVariant(...)` activates the selected variant.
 - The selected variant contributes its own `CONFIG` (document sheets, result/modifier classes, etc.).
 
-Core variant registry/selection logic is in `src/common/SohlSystem.ts`.
+Core variant registry/selection logic is in `src/core/SohlSystem.ts`.
 
 ### Constructor dispatch model
 
@@ -43,7 +42,7 @@ At runtime, `globalThis.sohl` points to the selected `SohlSystem` variant instan
 
 SoHL exposes hook points during document/item lifecycle processing so external modules can extend behavior without patching core files.
 
-Current lifecycle hook calls are emitted from actor embedded-data preparation in `src/common/actor/SohlActor.ts`:
+Current lifecycle hook calls are emitted from actor embedded-data preparation in `src/document/actor/foundry/SohlActor.ts`:
 
 - `Hooks.callAll("sohl.<itemType>.postInitialize", item, ctx)`
 - `Hooks.callAll("sohl.<itemType>.postEvaluate", item, ctx)`
@@ -68,7 +67,7 @@ Module-based extension does **not** require modifying SoHL core files, but it do
 
 ## 3) Actions (item-attached executable logic)
 
-SoHL has a first-class `Action` item type (`ITEM_KIND.ACTION`) defined in `src/common/item/Action.ts`.
+SoHL has a first-class `Action` item type (`ITEM_KIND.ACTION`) defined in `src/document/item/logic/ActionLogic.ts`.
 
 Each Action item can define:
 
@@ -116,8 +115,8 @@ For most table-specific house rules, start with **Action items** (narrow) or a *
 
 ## Dependency direction
 
-- `src/common` must remain variant-agnostic.
-- Variant code can depend on `src/common`.
+- `src/core/` and `src/document/` base classes must remain variant-agnostic.
+- Variant `Lgnd*` override classes can depend on base classes.
 - Module extensions should prefer hooks and Action items before patching core logic.
 
 ## Data model portability invariant

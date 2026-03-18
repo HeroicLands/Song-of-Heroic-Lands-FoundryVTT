@@ -58,7 +58,7 @@ SoHL tests run in Node.js via vitest — no browser, no Foundry VTT server. This
 
 ### 1. The Foundry runtime shim (`foundry-helpers.ts`)
 
-The file `src/common/foundry-helpers.ts` is a thin wrapper around Foundry VTT globals that are only available inside a running Foundry environment:
+The file `src/core/foundry-helpers.ts` is a thin wrapper around Foundry VTT globals that are only available inside a running Foundry environment:
 
 - `game.*` (settings, user, actors, scenes, time)
 - `canvas.*` (tokens)
@@ -78,7 +78,7 @@ During testing, vitest swaps this module for a mock at `tests/mocks/foundry/core
     find: "@common/foundry-helpers",
     replacement: isTest
         ? path.resolve(__dirname, "tests/mocks/foundry/core/foundry-helpers.ts")
-        : path.resolve(__dirname, "src/common/foundry-helpers.ts"),
+        : path.resolve(__dirname, "src/core/foundry-helpers.ts"),
 }
 ```
 
@@ -115,7 +115,7 @@ The boundary is clear: **if SoHL controls it, test it directly. If Foundry provi
 
 When production code needs a new Foundry global:
 
-1. Add the wrapper function to `src/common/foundry-helpers.ts`
+1. Add the wrapper function to `src/core/foundry-helpers.ts`
 2. Add the corresponding mock to `tests/mocks/foundry/core/foundry-helpers.ts`
 3. Import from `@common/foundry-helpers` in the consuming file (use `fvtt` prefix aliases to avoid name collisions, e.g., `import { notifyWarn as fvttNotifyWarn }`)
 4. Do NOT shim `sohl.*` access — use it directly

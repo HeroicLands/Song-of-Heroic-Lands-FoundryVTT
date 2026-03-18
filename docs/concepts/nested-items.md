@@ -34,7 +34,7 @@ NestedItems are used for composition-heavy gameplay structures, including:
 
 ### 1) Item-level relationship APIs
 
-Implemented in `src/common/item/SohlItem.ts`:
+Implemented in `src/document/item/foundry/SohlItem.ts`:
 
 - `system.nestedIn` schema field (`DocumentIdField`)
 - `item.nestedIn` (resolved parent item)
@@ -44,7 +44,7 @@ Implemented in `src/common/item/SohlItem.ts`:
 
 ### 2) Actor-level item graph and lifecycle
 
-Implemented in `src/common/actor/SohlActor.ts`:
+Implemented in `src/document/actor/foundry/SohlActor.ts`:
 
 - `dynamicAllItems()` iterates embedded + virtual items during initialize phase
 - `finalizeItemsCache()` builds immutable pass caches:
@@ -56,7 +56,7 @@ This ordering matters because virtual/nested additions can happen during initial
 
 ### 3) Logic convenience
 
-Implemented in `src/common/SohlLogic.ts`:
+Implemented in `src/core/SohlLogic.ts`:
 
 - `logic.nestedIn` forwards to `logic.item?.nestedIn`
 
@@ -93,5 +93,5 @@ See [Assembly Architecture](./assembly-architecture.md) for full details.
 
 NestedItems machinery is variant-agnostic.
 
-- `src/common/*` owns relationship mechanics.
+- `src/core/` and `src/document/` own relationship mechanics.
 - variants decide which item structures exist and how they are evaluated.

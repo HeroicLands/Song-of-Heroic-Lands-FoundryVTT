@@ -29,7 +29,7 @@ The canonical item is derived at runtime via `AssemblyLogic.canonicalItem`. Ther
 
 ## Variant invariance
 
-Assemblies do not vary between rule variants. All logic, data model, and sheet classes are defined at the common level in `src/common/actor/Assembly.ts`. No variant-specific overrides exist or should be created.
+Assemblies do not vary between rule variants. All logic, data model, and sheet classes are defined in `src/document/actor/logic/AssemblyLogic.ts` and `src/document/actor/foundry/AssemblyDataModel.ts` / `AssemblySheet.ts`. No variant-specific overrides exist or should be created.
 
 ## Sheet delegation
 
@@ -77,22 +77,20 @@ A "Treasure Chest" Assembly might contain:
 
 ### Core classes
 
-All in `src/common/actor/Assembly.ts`:
-
-- `AssemblyLogic` — lifecycle, `canonicalItem` getter, `isValid` check
-- `AssemblyDataModel` — schema (inherits from `SohlActorDataModel`, no additional fields)
-- `AssemblySheet` — concrete sheet with render delegation to canonical item
+- `AssemblyLogic` — `src/document/actor/logic/AssemblyLogic.ts` — lifecycle, `canonicalItem` getter, `isValid` check
+- `AssemblyDataModel` — `src/document/actor/foundry/AssemblyDataModel.ts` — schema (inherits from `SohlActorDataModel`, no additional fields)
+- `AssemblySheet` — `src/document/actor/foundry/AssemblySheet.ts` — concrete sheet with render delegation to canonical item
 
 ### Invariant enforcement
 
-In `src/common/actor/SohlActor.ts`:
+In `src/document/actor/foundry/SohlActor.ts`:
 
 - `_preCreateDescendantDocuments` — prevents adding a second root item to an Assembly
 - `_onUpdateDescendantDocuments` — syncs Assembly name when canonical item name changes
 
 ### Sidebar
 
-In `src/common/apps/AssemblyDirectory.ts`:
+In `src/apps/AssemblyDirectory.ts`:
 
 - `AssemblyDirectory` — sidebar tab showing only Assembly actors
 - `FilteredActorDirectory` — replaces default ActorDirectory, excludes Assemblies
@@ -101,6 +99,6 @@ In `src/common/apps/AssemblyDirectory.ts`:
 
 ### Deletion guard
 
-In `src/common/item/SohlItem.ts`:
+In `src/document/item/foundry/SohlItem.ts`:
 
 - `_preDelete` — prevents deletion of items with nested children (codebase-wide)
