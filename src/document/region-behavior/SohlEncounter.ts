@@ -12,7 +12,7 @@
  */
 
 import { ACTOR_KIND } from "@src/utils/constants";
-import { handleCohortDrop } from "@src/sohl";
+import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 
 /** The event kind used by encounter check scheduling. */
 const ENCOUNTER_EVENT_KIND = "encounterCheck";
@@ -169,7 +169,7 @@ export class SohlEncounter<
      * Spawn the cohort associated with this encounter.
      *
      * Resolves the cohort actor, determines the drop point from the
-     * location config, and delegates to {@link handleCohortDrop} which
+     * location config, and delegates to {@link CohortDataModel.handleCohortDrop} which
      * shows the GM a dialog to choose group or individual placement.
      */
     private async _spawnCohort(): Promise<void> {
@@ -197,7 +197,7 @@ export class SohlEncounter<
             return;
         }
 
-        await handleCohortDrop(cohortActor, {
+        await CohortDataModel.handleCohortDrop(cohortActor, {
             x: dropPoint.x,
             y: dropPoint.y,
         });
