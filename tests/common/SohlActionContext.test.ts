@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { SohlActionContext } from "@src/common/core/SohlActionContext";
-import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import { SohlSpeaker } from "@src/core/SohlSpeaker";
 
 function createSpeaker(): SohlSpeaker {
     return new SohlSpeaker({ alias: "Test Speaker" });

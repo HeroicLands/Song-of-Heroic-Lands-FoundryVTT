@@ -11,15 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@src/common/item/foundry/SohlItem";
-import type { GearData } from "@src/common/item/logic/GearLogic";
-import type { MasteryLevelData } from "@src/common/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@src/item/foundry/SohlItem";
+import type { GearData } from "@src/item/logic/GearLogic";
+import type { MasteryLevelData } from "@src/item/logic/MasteryLevelLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import {
     mergeObject as fvttMergeObject,
     resolveUuid as fvttResolveUuid,
-} from "@src/common/core/foundry-helpers";
+} from "@src/core/foundry-helpers";
 
 export type SohlSettingValue =
     | string

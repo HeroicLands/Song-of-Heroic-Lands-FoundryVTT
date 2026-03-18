@@ -20,12 +20,9 @@ import type {
     SohlMersenneTwister,
 } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/common/document/SohlTokenDocument";
-import type { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/effect/SohlActiveEffect";
 import type { SohlActor } from "@src/common/actor/SohlActor";
-import type {
-    SohlCombat,
-    CombatDataModel,
-} from "@src/common/combat/SohlCombat";
+import type { SohlCombat, CombatDataModel } from "@src/combat/SohlCombat";
 import type { Being } from "@src/common/actor/Being";
 import type { Assembly } from "@src/common/actor/Assembly";
 import type { SohlCombatant } from "@src/common/combat/SohlCombatant";
@@ -54,8 +51,8 @@ import type { ProtectionLogic } from "@src/common/item/Protection";
 import type { SkillLogic } from "@src/common/item/Skill";
 import type { TraitLogic } from "@src/common/item/Trait";
 import type { WeaponGearLogic } from "@src/common/item/WeaponGear";
-import type { SohlLogic } from "@src/common/core/SohlLogic";
-import type { SohlActionContext } from "@src/common/core/SohlActionContext";
+import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
 
 // ✅ Custom utility types
 declare global {

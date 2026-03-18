@@ -1,4 +1,4 @@
-import { ValueDelta } from "@src/common/modifier/ValueDelta";
+import { ValueDelta } from "@src/modifier/ValueDelta";
 import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 
 describe("ValueDelta", () => {

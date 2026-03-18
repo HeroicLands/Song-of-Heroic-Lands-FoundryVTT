@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@src/common/core/SohlLogic";
-import type { MasteryLevelLogic } from "@src/common/item/logic/MasteryLevelLogic";
-import type { SohlItem } from "@src/common/item/foundry/SohlItem";
-import type { AfflictionLogic } from "@src/common/item/logic/AfflictionLogic";
-import type { InjuryLogic } from "@src/common/item/logic/InjuryLogic";
+import type { SohlLogic } from "@src/core/SohlLogic";
+import type { MasteryLevelLogic } from "@src/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@src/item/foundry/SohlItem";
+import type { AfflictionLogic } from "@src/item/logic/AfflictionLogic";
+import type { InjuryLogic } from "@src/item/logic/InjuryLogic";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { Itr } from "@src/utils/Itr";
 

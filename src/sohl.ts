@@ -11,19 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@src/common/core/SohlSpeaker";
-import { SohlSystem } from "@src/common/core/SohlSystem";
-import { LegendarySystem } from "@src/common/core/LegendarySystem";
+import type { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SohlSystem } from "@src/core/SohlSystem";
+import { LegendarySystem } from "@src/core/LegendarySystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
-import { SohlCombatant } from "@src/common/combatant/SohlCombatant";
-import { SohlEncounterConfig } from "@src/common/region-behavior/SohlEncounter";
-import { SohlRegionConfig } from "@src/common/region/SohlRegion";
-import { CalendarSettingsMenu } from "@src/common/apps/CalendarSettingsMenu";
+import { SohlCombatant } from "@src/combatant/SohlCombatant";
+import { SohlEncounterConfig } from "@src/region-behavior/SohlEncounter";
+import { SohlRegionConfig } from "@src/region/SohlRegion";
+import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import {
     registerAssemblySidebar,
     registerAssemblyContextMenu,
-} from "@src/common/apps/AssemblyDirectory";
+} from "@src/apps/AssemblyDirectory";
 
 /**
  * Register all built-in variants and allow modules to register their own.
