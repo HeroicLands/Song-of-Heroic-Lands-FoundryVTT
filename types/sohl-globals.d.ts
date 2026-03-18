@@ -20,9 +20,12 @@ import type {
     SohlMersenneTwister,
 } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/common/document/SohlTokenDocument";
-import type { SohlActiveEffect } from "@src/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlActor } from "@src/common/actor/SohlActor";
-import type { SohlCombat, CombatDataModel } from "@src/combat/SohlCombat";
+import type {
+    SohlCombat,
+    CombatDataModel,
+} from "@src/document/combat/SohlCombat";
 import type { Being } from "@src/common/actor/Being";
 import type { Assembly } from "@src/common/actor/Assembly";
 import type { SohlCombatant } from "@src/common/combat/SohlCombatant";

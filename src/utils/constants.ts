@@ -12,10 +12,10 @@
  */
 
 import type { SohlLogic } from "@src/core/SohlLogic";
-import type { MasteryLevelLogic } from "@src/item/logic/MasteryLevelLogic";
-import type { SohlItem } from "@src/item/foundry/SohlItem";
-import type { AfflictionLogic } from "@src/item/logic/AfflictionLogic";
-import type { InjuryLogic } from "@src/item/logic/InjuryLogic";
+import type { MasteryLevelLogic } from "@src/document/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
+import type { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { Itr } from "@src/utils/Itr";
 

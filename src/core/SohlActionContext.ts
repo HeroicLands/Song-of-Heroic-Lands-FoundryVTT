@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@src/actor/foundry/SohlActor";
-import type { SohlTokenDocument } from "@src/token/SohlTokenDocument";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { instanceToJSON, cloneInstance } from "@src/utils/helpers";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 

@@ -16,8 +16,8 @@ import {
     inputDialog,
     okDialog,
 } from "@src/core/FoundryProxy";
-import type { SohlActor } from "@src/actor/foundry/SohlActor";
-import type { SohlItem } from "@src/item/foundry/SohlItem";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -32,7 +32,7 @@ import {
     toHTMLString,
 } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlActiveEffect } from "@src/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/core/SohlSystem";
 import {

@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@src/item/foundry/SohlItem";
-import type { GearData } from "@src/item/logic/GearLogic";
-import type { MasteryLevelData } from "@src/item/logic/MasteryLevelLogic";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { GearData } from "@src/document/item/logic/GearLogic";
+import type { MasteryLevelData } from "@src/document/item/logic/MasteryLevelLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import {

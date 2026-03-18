@@ -16,8 +16,8 @@ import {
     SOHL_SPEAKER_STYLE,
     SohlSpeakerRollMode,
 } from "@src/utils/constants";
-import { SohlActor } from "@src/actor/foundry/SohlActor";
-import { SohlTokenDocument } from "@src/token/SohlTokenDocument";
+import { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
 import { toHTMLWithContent, toHTMLWithTemplate } from "@src/core/FoundryProxy";
 import { SimpleRoll } from "@src/utils/SimpleRoll";

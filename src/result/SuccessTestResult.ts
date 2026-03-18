@@ -12,9 +12,9 @@
  */
 
 import type { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
-import type { SohlTokenDocument } from "@src/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlItem } from "@src/item/foundry/SohlItem";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { TestResult } from "@src/result/TestResult";

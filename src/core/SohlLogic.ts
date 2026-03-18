@@ -12,8 +12,8 @@
  */
 
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SohlItem } from "@src/item/foundry/SohlItem";
-import type { SohlActor } from "@src/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlDataModel } from "@src/core/SohlDataModel";
 import {
     ACTION_SUBTYPE,
@@ -25,7 +25,10 @@ import {
 import { instanceToJSON } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import type { ActionData, ActionLogic } from "@src/item/logic/ActionLogic";
+import type {
+    ActionData,
+    ActionLogic,
+} from "@src/document/item/logic/ActionLogic";
 
 export const {
     kind: INTRINSIC_ACTION,

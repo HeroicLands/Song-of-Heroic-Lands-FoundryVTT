@@ -16,9 +16,9 @@ import { SohlSystem } from "@src/core/SohlSystem";
 import { LegendarySystem } from "@src/core/LegendarySystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
-import { SohlCombatant } from "@src/combatant/SohlCombatant";
-import { SohlEncounterConfig } from "@src/region-behavior/SohlEncounter";
-import { SohlRegionConfig } from "@src/region/SohlRegion";
+import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { SohlEncounterConfig } from "@src/document/region-behavior/SohlEncounter";
+import { SohlRegionConfig } from "@src/document/region/SohlRegion";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import {
     registerAssemblySidebar,

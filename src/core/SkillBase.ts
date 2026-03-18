@@ -11,8 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@src/item/foundry/SohlItem";
-import type { TraitData, TraitLogic } from "@src/item/logic/TraitLogic";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type {
+    TraitData,
+    TraitLogic,
+} from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 
 export class SkillBase {
