@@ -17,7 +17,6 @@ export default defineConfig({
             { find: /^@types\/(.*)/, replacement: path.resolve(__dirname, "types/$1") },
             { find: /^@utils\/(.*)/, replacement: path.resolve(__dirname, "src/utils/$1") },
             { find: /^@common\/(.*)/, replacement: path.resolve(__dirname, "src/common/$1") },
-            { find: /^@legendary\/(.*)/, replacement: path.resolve(__dirname, "src/legendary/$1") },
             { find: /^@mistyisle\/(.*)/, replacement: path.resolve(__dirname, "src/mistyisle/$1") },
             { find: /^@templates\/(.*)/, replacement: path.resolve(__dirname, "templates/$1") },
             { find: /^@assets\/(.*)/, replacement: path.resolve(__dirname, "assets/$1") },

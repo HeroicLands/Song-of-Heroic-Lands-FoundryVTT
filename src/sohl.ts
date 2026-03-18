@@ -13,8 +13,7 @@
 
 import type { SohlSpeaker } from "@common/SohlSpeaker";
 import { SohlSystem } from "@common/SohlSystem";
-import { LegendarySystem } from "@legendary/LegendarySystem";
-import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
+import { LegendarySystem } from "@common/LegendarySystem";
 import { ACTOR_KIND, LOGLEVEL } from "@utils/constants";
 import { AIAdapter } from "@utils/ai/AIAdapter";
 import { SohlCombatant } from "@common/combatant/SohlCombatant";
@@ -33,7 +32,6 @@ import {
 function registerVariants(): void {
     // Register built-in variants
     SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
-    SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
 
     // Allow modules to register additional variants.
     // Modules should listen for this hook and call SohlSystem.registerVariant().

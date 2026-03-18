@@ -48,7 +48,6 @@ export default defineConfig((ctx: ConfigEnv): UserConfig => {
                 "@types": path.resolve(__dirname, "types"),
                 "@utils": path.resolve(__dirname, "src/utils"),
                 "@common": path.resolve(__dirname, "src/common"),
-                "@legendary": path.resolve(__dirname, "src/legendary"),
                 "@mistyisle": path.resolve(__dirname, "src/mistyisle"),
                 "@templates": path.resolve(__dirname, "templates"),
                 "@assets": path.resolve(__dirname, "assets"),

@@ -24,7 +24,6 @@
             "@types/*": ["./types/*"],
             "@utils/*": ["./src/utils/*"],
             "@common/*": ["./src/common/*"],
-            "@legendary/*": ["./src/legendary/*"],
             "@mistyisle/*": ["./src/mistyisle/*"],
             "@templates/*": ["./templates/*"],
             "@assets/*": ["./assets/*"],
