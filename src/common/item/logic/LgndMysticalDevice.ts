@@ -16,7 +16,7 @@ import {
     MysticalDeviceLogic,
 } from "@src/common/item/logic/MysticalDeviceLogic";
 import { MysticalDeviceSheet } from "@src/common/item/foundry/MysticalDeviceSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMysticalDeviceLogic extends MysticalDeviceLogic<MysticalDeviceData> {
     /* --------------------------------------------- */

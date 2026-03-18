@@ -16,7 +16,7 @@ import {
     CombatTechniqueStrikeModeLogic,
 } from "@src/common/item/logic/CombatTechniqueStrikeModeLogic";
 import { CombatTechniqueStrikeModeSheet } from "@src/common/item/foundry/CombatTechniqueStrikeModeSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndCombatTechniqueStrikeModeLogic extends CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> {
     /* --------------------------------------------- */

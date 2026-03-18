@@ -16,7 +16,7 @@ import {
     MysticalAbilityLogic,
 } from "@src/common/item/logic/MysticalAbilityLogic";
 import { MysticalAbilitySheet } from "@src/common/item/foundry/MysticalAbilitySheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMysticalAbilityLogic extends MysticalAbilityLogic<MysticalAbilityData> {
     /* --------------------------------------------- */

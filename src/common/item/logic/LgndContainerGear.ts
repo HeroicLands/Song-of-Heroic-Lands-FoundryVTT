@@ -16,7 +16,7 @@ import {
     ContainerGearLogic,
 } from "@src/common/item/logic/ContainerGearLogic";
 import { ContainerGearSheet } from "@src/common/item/foundry/ContainerGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndContainerGearLogic extends ContainerGearLogic<ContainerGearData> {
     /* --------------------------------------------- */

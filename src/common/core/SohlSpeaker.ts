@@ -22,7 +22,7 @@ import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
 import {
     toHTMLWithContent,
     toHTMLWithTemplate,
-} from "@src/common/FoundryProxy";
+} from "@src/common/core/FoundryProxy";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@src/utils/constants";
 import {
@@ -34,7 +34,7 @@ import {
     currentUser as fvttCurrentUser,
     applyRollMode as fvttApplyRollMode,
     createChatMessage as fvttCreateChatMessage,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 
 export class SohlSpeaker {
     _speaker!: SohlSpeaker.Data;

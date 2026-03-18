@@ -20,7 +20,7 @@ import {
     SohlContextMenuSortGroup,
 } from "@src/utils/constants";
 import type { ActionLogic } from "@src/common/item/logic/ActionLogic";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class SohlContextMenu
     extends (foundry.applications as any).ux.ContextMenu

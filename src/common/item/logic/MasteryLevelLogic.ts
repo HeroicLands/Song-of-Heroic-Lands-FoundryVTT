@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 import type { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
 import type { MysteryLogic } from "@src/common/item/logic/MysteryLogic";
 import {
@@ -21,14 +21,14 @@ import {
 } from "@src/common/item/foundry/SohlItem";
 import { FilePath, isItemWithSubType, toFilePath } from "@src/utils/helpers";
 import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
-import { SkillBase } from "@src/common/SkillBase";
+import { SkillBase } from "@src/common/core/SkillBase";
 import { TraitLogic } from "@src/common/item/logic/TraitLogic";
 import { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 import {
     createRoll as fvttCreateRoll,
     isCurrentUserGM as fvttIsCurrentUserGM,
     getSetting as fvttGetSetting,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 
 // TODO: This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [

@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@src/common/SohlSpeaker";
-import { SohlSystem } from "@src/common/SohlSystem";
-import { LegendarySystem } from "@src/common/LegendarySystem";
+import type { SohlSpeaker } from "@src/common/core/SohlSpeaker";
+import { SohlSystem } from "@src/common/core/SohlSystem";
+import { LegendarySystem } from "@src/common/core/LegendarySystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/common/combatant/SohlCombatant";

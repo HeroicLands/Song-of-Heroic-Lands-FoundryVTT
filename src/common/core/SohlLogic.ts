@@ -11,10 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 import type { SohlItem } from "@src/common/item/foundry/SohlItem";
 import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
-import type { SohlDataModel } from "@src/common/SohlDataModel";
+import type { SohlDataModel } from "@src/common/core/SohlDataModel";
 import {
     ACTION_SUBTYPE,
     ActorKinds,
@@ -24,7 +24,7 @@ import {
 } from "@src/utils/constants";
 import { instanceToJSON } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
 import type {
     ActionData,
     ActionLogic,

@@ -14,7 +14,7 @@
 import {
     worldTime as fvttWorldTime,
     getListFormatter as fvttGetListFormatter,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 
 const { SchemaField, StringField, BooleanField } = foundry.data.fields;
 

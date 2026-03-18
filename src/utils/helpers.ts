@@ -19,7 +19,7 @@ import { SohlMap } from "@src/utils/collection/SohlMap";
 import {
     mergeObject as fvttMergeObject,
     resolveUuid as fvttResolveUuid,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 
 export type SohlSettingValue =
     | string

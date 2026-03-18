@@ -15,7 +15,7 @@ import {
     DialogButtonCallback,
     inputDialog,
     okDialog,
-} from "@src/common/FoundryProxy";
+} from "@src/common/core/FoundryProxy";
 import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/common/item/foundry/SohlItem";
 import {
@@ -33,12 +33,15 @@ import {
 } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
-import type { SohlLogic } from "@src/common/SohlLogic";
-import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/common/SohlSystem";
+import type { SohlLogic } from "@src/common/core/SohlLogic";
+import {
+    COMMON_ACTOR_LOGIC,
+    COMMON_ITEM_LOGIC,
+} from "@src/common/core/SohlSystem";
 import {
     resolveUuid as fvttResolveUuid,
     notifyWarn as fvttNotifyWarn,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export abstract class SohlDataModel<

@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
 import { AIExecutionResult } from "@src/utils/ai/AIExecutionResult";
 import { toHTMLString } from "@src/utils/helpers";
 

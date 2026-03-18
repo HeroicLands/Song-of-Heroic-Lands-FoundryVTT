@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@src/common/SohlSystem";
+import { SohlSystem } from "@src/common/core/SohlSystem";
 import { LgndCombatModifier } from "@src/common/modifier/LgndCombatModifier";
 import { LgndImpactModifier } from "@src/common/modifier/LgndImpactModifier";
 import { LgndSuccessTestResult } from "@src/common/result/LgndSuccessTestResult";

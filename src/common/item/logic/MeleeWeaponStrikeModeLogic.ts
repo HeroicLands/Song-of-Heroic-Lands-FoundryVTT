@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 import type { ValueModifier } from "@src/common/modifier/ValueModifier";
 import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
 import type { CombatModifier } from "@src/common/modifier/CombatModifier";

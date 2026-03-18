@@ -15,7 +15,7 @@ import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/common/item/logic/SkillLogic";
 import type { SohlItem } from "@src/common/item/foundry/SohlItem";
 import type { SohlCombat } from "@src/common/combat/SohlCombat";
-import { getCanvas } from "@src/common/FoundryProxy";
+import { getCanvas } from "@src/common/core/FoundryProxy";
 
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,

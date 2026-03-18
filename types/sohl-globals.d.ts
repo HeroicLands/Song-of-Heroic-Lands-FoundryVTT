@@ -54,8 +54,8 @@ import type { ProtectionLogic } from "@src/common/item/Protection";
 import type { SkillLogic } from "@src/common/item/Skill";
 import type { TraitLogic } from "@src/common/item/Trait";
 import type { WeaponGearLogic } from "@src/common/item/WeaponGear";
-import type { SohlLogic } from "@src/common/SohlLogic";
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlLogic } from "@src/common/core/SohlLogic";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 // ✅ Custom utility types
 declare global {

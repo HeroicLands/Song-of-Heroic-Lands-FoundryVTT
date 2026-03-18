@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@src/common/SohlLogic";
+import type { SohlLogic } from "@src/common/core/SohlLogic";
 import {
     maxPrecision,
     instanceToJSON,

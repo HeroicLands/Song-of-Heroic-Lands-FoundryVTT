@@ -15,12 +15,15 @@ import type { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModi
 import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlItem } from "@src/common/item/foundry/SohlItem";
-import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { TestResult } from "@src/common/result/TestResult";
 import { toFilePath } from "@src/utils/helpers";
-import { inputDialog, DialogButtonCallback } from "@src/common/FoundryProxy";
-import { mergeObject as fvttMergeObject } from "@src/common/foundry-helpers";
+import {
+    inputDialog,
+    DialogButtonCallback,
+} from "@src/common/core/FoundryProxy";
+import { mergeObject as fvttMergeObject } from "@src/common/core/foundry-helpers";
 import {
     MARGINAL_FAILURE,
     CRITICAL_FAILURE,

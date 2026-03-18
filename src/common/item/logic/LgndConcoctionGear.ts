@@ -16,7 +16,7 @@ import {
     ConcoctionGearLogic,
 } from "@src/common/item/logic/ConcoctionGearLogic";
 import { ConcoctionGearSheet } from "@src/common/item/foundry/ConcoctionGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndConcoctionGearLogic extends ConcoctionGearLogic<ConcoctionGearData> {
     /* --------------------------------------------- */

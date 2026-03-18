@@ -16,7 +16,7 @@ import {
     BodyPartLogic,
 } from "@src/common/item/logic/BodyPartLogic";
 import { BodyPartSheet } from "@src/common/item/foundry/BodyPartSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndBodyPartLogic extends BodyPartLogic<BodyPartData> {
     get probWeight(): number {

@@ -14,13 +14,13 @@
 import type { SohlActor } from "@src/common/actor/foundry/SohlActor";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { HTMLString } from "@src/utils/helpers";
-import { SohlDataModel } from "@src/common/SohlDataModel";
-import { SohlLogic } from "@src/common/SohlLogic";
+import { SohlDataModel } from "@src/common/core/SohlDataModel";
+import { SohlLogic } from "@src/common/core/SohlLogic";
 import { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
 import {
     notifyWarn as fvttNotifyWarn,
     callHook as fvttCallHook,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
 // TODO: This still uses the deprecated global TextEditor. Should use the
 // foundry-helpers shim (enrichHTML) like Being.ts does, for consistency.

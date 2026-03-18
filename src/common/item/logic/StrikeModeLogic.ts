@@ -12,7 +12,7 @@
  */
 
 import { ImpactAspect, Variant } from "@src/utils/constants";
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 import type { CombatModifier } from "@src/common/modifier/CombatModifier";
 import type { ImpactModifier } from "@src/common/modifier/ImpactModifier";
 import type { ValueModifier } from "@src/common/modifier/ValueModifier";

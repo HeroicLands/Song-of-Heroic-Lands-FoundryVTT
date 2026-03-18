@@ -16,7 +16,7 @@ import {
     BodyLocationLogic,
 } from "@src/common/item/logic/BodyLocationLogic";
 import { BodyLocationSheet } from "@src/common/item/foundry/BodyLocationSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndBodyLocationLogic extends BodyLocationLogic<BodyLocationData> {
     get bleedingSevThreshold(): number {

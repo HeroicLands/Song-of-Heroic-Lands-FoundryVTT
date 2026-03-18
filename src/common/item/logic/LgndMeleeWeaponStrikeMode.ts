@@ -16,7 +16,7 @@ import {
     MeleeWeaponStrikeModeLogic,
 } from "@src/common/item/logic/MeleeWeaponStrikeModeLogic";
 import { MeleeWeaponStrikeModeSheet } from "@src/common/item/foundry/MeleeWeaponStrikeModeSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMeleeWeaponStrikeModeLogic extends MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> {
     /* --------------------------------------------- */

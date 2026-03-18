@@ -12,8 +12,8 @@
  */
 
 import { instanceToJSON } from "@src/utils/helpers";
-import type { SohlLogic } from "@src/common/SohlLogic";
-import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import type { SohlLogic } from "@src/common/core/SohlLogic";
+import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
 
 /**
  * Represents the result of a test, including whether the test was successful,

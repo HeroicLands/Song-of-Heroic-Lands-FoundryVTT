@@ -16,7 +16,7 @@ import {
     ProtectionLogic,
 } from "@src/common/item/logic/ProtectionLogic";
 import { ProtectionSheet } from "@src/common/item/foundry/ProtectionSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndProtectionLogic extends ProtectionLogic<ProtectionData> {
     /* --------------------------------------------- */

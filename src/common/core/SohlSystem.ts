@@ -12,9 +12,9 @@
  */
 
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { SohlDataModel } from "@src/common/SohlDataModel";
-import { SohlCalendarData } from "@src/common/SohlCalendar";
-import { SohlEventQueue } from "@src/common/SohlEventQueue";
+import { SohlDataModel } from "@src/common/core/SohlDataModel";
+import { SohlCalendarData } from "@src/common/core/SohlCalendar";
+import { SohlEventQueue } from "@src/common/core/SohlEventQueue";
 import { ImpactModifier } from "@src/common/modifier/ImpactModifier";
 import { MasteryLevelModifier } from "@src/common/modifier/MasteryLevelModifier";
 import { ValueModifier } from "@src/common/modifier/ValueModifier";
@@ -174,7 +174,7 @@ import {
     DefinedType,
     SOHL_DEFAULT_CALENDAR_CONFIG,
 } from "@src/utils/constants";
-import { getGame } from "@src/common/FoundryProxy";
+import { getGame } from "@src/common/core/FoundryProxy";
 
 export type ActorDMMap = Record<
     string,

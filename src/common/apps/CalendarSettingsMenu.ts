@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlSystem } from "@src/common/SohlSystem";
+import { SohlSystem } from "@src/common/core/SohlSystem";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CalendarSettingsMenu_Base: any =

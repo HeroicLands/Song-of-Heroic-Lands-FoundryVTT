@@ -13,7 +13,7 @@
 
 import { InjuryData, InjuryLogic } from "@src/common/item/logic/InjuryLogic";
 import { InjurySheet } from "@src/common/item/foundry/InjurySheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndInjuryLogic extends InjuryLogic<InjuryData> {
     /* --------------------------------------------- */

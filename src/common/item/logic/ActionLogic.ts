@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 import {
     SohlItemBaseLogic,
     SohlItemData,
@@ -22,7 +22,7 @@ import {
     ITEM_METADATA,
     SOHL_ACTION_SCOPE,
 } from "@src/utils/constants";
-import { SohlLogic } from "@src/common/SohlLogic";
+import { SohlLogic } from "@src/common/core/SohlLogic";
 import { textToFunction } from "@src/utils/helpers";
 
 export type ActionTriggerFn = (doc?: SohlDocument) => boolean;

@@ -13,7 +13,7 @@
 
 import { SkillData, SkillLogic } from "@src/common/item/logic/SkillLogic";
 import { SkillSheet } from "@src/common/item/foundry/SkillSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndSkillLogic extends SkillLogic<SkillData> {
     /* --------------------------------------------- */

@@ -13,7 +13,7 @@
 
 import { MysteryData, MysteryLogic } from "@src/common/item/logic/MysteryLogic";
 import { MysterySheet } from "@src/common/item/foundry/MysterySheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMysteryLogic extends MysteryLogic<MysteryData> {
     /* --------------------------------------------- */

@@ -16,7 +16,7 @@ import {
     ProjectileGearLogic,
 } from "@src/common/item/logic/ProjectileGearLogic";
 import { ProjectileGearSheet } from "@src/common/item/foundry/ProjectileGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndProjectileGearLogic extends ProjectileGearLogic<ProjectileGearData> {
     /* --------------------------------------------- */

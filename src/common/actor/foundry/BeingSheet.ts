@@ -15,10 +15,10 @@ import {
     SohlActor,
     SohlActorSheetBase,
 } from "@src/common/actor/foundry/SohlActor";
-import { callHook as fvttCallHook } from "@src/common/foundry-helpers";
+import { callHook as fvttCallHook } from "@src/common/core/foundry-helpers";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 import type { SohlItem } from "@src/common/item/foundry/SohlItem";
-import { enrichHTML as fvttEnrichHTML } from "@src/common/foundry-helpers";
+import { enrichHTML as fvttEnrichHTML } from "@src/common/core/foundry-helpers";
 import type { BeingLogic } from "@src/common/actor/logic/BeingLogic";
 
 type RenderContext =

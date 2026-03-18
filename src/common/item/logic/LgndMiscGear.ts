@@ -16,7 +16,7 @@ import {
     MiscGearLogic,
 } from "@src/common/item/logic/MiscGearLogic";
 import { MiscGearSheet } from "@src/common/item/foundry/MiscGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMiscGearLogic extends MiscGearLogic<MiscGearData> {
     /* --------------------------------------------- */

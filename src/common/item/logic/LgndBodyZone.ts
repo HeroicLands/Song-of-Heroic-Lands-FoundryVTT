@@ -17,7 +17,7 @@ import {
 } from "@src/common/item/logic/BodyZoneLogic";
 import { BodyZoneSheet } from "@src/common/item/foundry/BodyZoneSheet";
 import { SohlItem } from "@src/common/item/foundry/SohlItem";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 import { TRAIT_INTENSITY } from "@src/utils/constants";
 
 export class LgndBodyZoneLogic extends BodyZoneLogic<BodyZoneData> {

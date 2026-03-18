@@ -14,7 +14,7 @@
 import {
     isActiveGM as fvttIsActiveGM,
     resolveUuidAsync as fvttResolveUuidAsync,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 
 /**
  * A single timed event in the queue, uniquely identified by

@@ -14,14 +14,14 @@
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { SohlItem } from "@src/common/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/common/token/SohlTokenDocument";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 import { FilePath, HTMLString } from "@src/utils/helpers";
-import { SohlDataModel } from "@src/common/SohlDataModel";
-import { SohlLogic } from "@src/common/SohlLogic";
+import { SohlDataModel } from "@src/common/core/SohlDataModel";
+import { SohlLogic } from "@src/common/core/SohlLogic";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { SohlActiveEffect } from "@src/common/effect/SohlActiveEffect";
-import { SkillBase } from "@src/common/SkillBase";
-import { SohlSpeaker } from "@src/common/SohlSpeaker";
+import { SkillBase } from "@src/common/core/SkillBase";
+import { SohlSpeaker } from "@src/common/core/SohlSpeaker";
 import { ACTOR_KIND, ITEM_KIND } from "@src/utils/constants";
 import type { ActionLogic } from "@src/common/item/logic/ActionLogic";
 import {
@@ -31,7 +31,7 @@ import {
     resolveUuidAsync as fvttResolveUuidAsync,
     createRoll as fvttCreateRoll,
     notifyWarn as fvttNotifyWarn,
-} from "@src/common/foundry-helpers";
+} from "@src/common/core/foundry-helpers";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 /**

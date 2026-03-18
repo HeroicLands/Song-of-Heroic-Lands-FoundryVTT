@@ -16,7 +16,7 @@ import {
     MissileWeaponStrikeModeLogic,
 } from "@src/common/item/logic/MissileWeaponStrikeModeLogic";
 import { MissileWeaponStrikeModeSheet } from "@src/common/item/foundry/MissileWeaponStrikeModeSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndMissileWeaponStrikeModeLogic extends MissileWeaponStrikeModeLogic<MissileWeaponStrikeModeData> {
     /* --------------------------------------------- */

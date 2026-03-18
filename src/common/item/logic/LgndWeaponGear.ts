@@ -16,7 +16,7 @@ import {
     WeaponGearLogic,
 } from "@src/common/item/logic/WeaponGearLogic";
 import { WeaponGearSheet } from "@src/common/item/foundry/WeaponGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndWeaponGearLogic extends WeaponGearLogic<WeaponGearData> {
     get encumbrance(): number {

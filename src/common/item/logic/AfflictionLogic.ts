@@ -12,7 +12,7 @@
  */
 
 import type { ValueModifier } from "@src/common/modifier/ValueModifier";
-import type { SohlActionContext } from "@src/common/SohlActionContext";
+import type { SohlActionContext } from "@src/common/core/SohlActionContext";
 import type { SuccessTestResult } from "@src/common/result/SuccessTestResult";
 import type { InjuryData } from "@src/common/item/logic/InjuryLogic";
 import {

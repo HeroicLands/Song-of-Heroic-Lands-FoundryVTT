@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { SkillBase } from "@src/common/SkillBase";
+import { SkillBase } from "@src/common/core/SkillBase";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 
 // Helper to create a mock trait item

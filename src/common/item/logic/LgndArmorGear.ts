@@ -16,7 +16,7 @@ import {
     ArmorGearLogic,
 } from "@src/common/item/logic/ArmorGearLogic";
 import { ArmorGearSheet } from "@src/common/item/foundry/ArmorGearSheet";
-import { SohlActionContext } from "@src/common/SohlActionContext";
+import { SohlActionContext } from "@src/common/core/SohlActionContext";
 
 export class LgndArmorGearLogic extends ArmorGearLogic<ArmorGearData> {
     /* --------------------------------------------- */
