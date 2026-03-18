@@ -52,6 +52,10 @@ export function createRoll(_formula: string): any {
 
 export function callHook(_name: string, ..._args: unknown[]): void {}
 
+export function callHookCancel(_name: string, ..._args: unknown[]): boolean {
+    return true;
+}
+
 export function hookOnError(_source: string, _error: Error, _data?: object): void {}
 
 // ---------------------------------------------------------------------------

@@ -55,10 +55,10 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.value = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.quality = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.durability = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+        this.weight = new sohl.modifier.Value({}, { parent: this });
+        this.value = new sohl.modifier.Value({}, { parent: this });
+        this.quality = new sohl.modifier.Value({}, { parent: this });
+        this.durability = new sohl.modifier.Value({}, { parent: this });
     }
 
     /** @inheritdoc */

@@ -26,6 +26,7 @@ import { ACTOR_KIND, ITEM_KIND } from "@utils/constants";
 import type { ActionLogic } from "@common/item/logic/ActionLogic";
 import {
     callHook as fvttCallHook,
+    callHookCancel as fvttCallHookCancel,
     hookOnError as fvttHookOnError,
     resolveUuidAsync as fvttResolveUuidAsync,
     createRoll as fvttCreateRoll,
@@ -271,7 +272,10 @@ export class SohlActor extends Actor {
         super.prepareBaseData();
         this._speaker = undefined;
         this._lifecycleActionsCache = new Map<string, SohlItem>();
-        this.logic.initialize();
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
+            this.logic.initialize();
+        }
+        fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
     }
 
     getLifecycleAction(name: string): SohlItem | undefined {
@@ -296,15 +300,14 @@ export class SohlActor extends Actor {
 
         // Initialize all items, handling the initialization logic adding items to virtualItems
         for (const item of this.dynamicAllItems()) {
-            item.logic.initialize();
-
-            // Call any hooks listening for this item type's post-initialize event
+            if (fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)) {
+                item.logic.initialize();
+            }
             fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
 
             const postInitialize = this.getLifecycleAction(
                 `${item.type}.${item.system.shortcode}.postInitialize`,
             );
-            // Execute the post-initialize action if it exists on this item
             if (postInitialize) {
                 (postInitialize.logic as ActionLogic).execute(ctx);
             }
@@ -314,12 +317,11 @@ export class SohlActor extends Actor {
 
         // Evaluate and finalize all objects, recognizing that the virtualItems map is now immutable
         this.allItems.forEach((it) => {
-            it.logic.evaluate();
-
-            // Call any hooks listening for this item's post-evaluate event
+            if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
+                it.logic.evaluate();
+            }
             fvttCallHook(`sohl.${it.type}.postEvaluate`, it, ctx);
 
-            // Execute the post-evaluate action if it exists on this item
             const postEvaluate = this.getLifecycleAction(
                 `${it.type}.${it.system.shortcode}.postEvaluate`,
             );
@@ -329,12 +331,11 @@ export class SohlActor extends Actor {
         });
 
         this.allItems.forEach((it) => {
-            it.logic.finalize();
-
-            // Call any hooks listening for this item's post-finalize event
+            if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
+                it.logic.finalize();
+            }
             fvttCallHook(`sohl.${it.type}.postFinalize`, it, ctx);
 
-            // Execute the post-finalize action if it exists on this item
             const postFinalize = this.getLifecycleAction(
                 `${it.type}.${it.system.shortcode}.postFinalize`,
             );
@@ -347,8 +348,14 @@ export class SohlActor extends Actor {
     prepareDerivedData(): void {
         super.prepareDerivedData();
         const ctx = this._getContext();
-        this.logic.evaluate();
-        this.logic.finalize();
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)) {
+            this.logic.evaluate();
+        }
+        fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
+        if (fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)) {
+            this.logic.finalize();
+        }
+        fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
     }
 
     static createUniqueName(baseName: string): string {
@@ -796,15 +803,19 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
     > {
-        // _preparePartContext is called for each part with the specific partId
-        // This is where you prepare part-specific data
+        const type = this.document.type;
         switch (partId) {
             case "header":
-                return await this._prepareHeaderContext(context, options);
+                context = await this._prepareHeaderContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
+                return context;
             case "tabs":
-                return await this._prepareTabsContext(context, options);
+                context = await this._prepareTabsContext(context, options);
+                return context;
             case "facade":
-                return await this._prepareFacadeContext(context, options);
+                context = await this._prepareFacadeContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
+                return context;
             default:
                 return context;
         }

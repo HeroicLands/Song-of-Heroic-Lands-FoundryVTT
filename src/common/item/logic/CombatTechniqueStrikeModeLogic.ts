@@ -71,8 +71,8 @@ export class CombatTechniqueStrikeModeLogic<
     override initialize(): void {
         super.initialize();
         this.defense = {
-            block: new (sohl.CONFIG as any).CombatModifier({}, { parent: this }),
-            counterstrike: new (sohl.CONFIG as any).CombatModifier({}, { parent: this }),
+            block: new sohl.modifier.Combat({}, { parent: this }),
+            counterstrike: new sohl.modifier.Combat({}, { parent: this }),
         };
     }
 
@@ -100,11 +100,11 @@ export class CombatTechniqueStrikeModeLogic<
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
                 this.defense.block.add(
-                    (sohl.CONFIG as any).MOD.OUTNUMBERED,
+                    sohl.mod.OUTNUMBERED,
                     defendPenalty,
                 );
                 this.defense.counterstrike.add(
-                    (sohl.CONFIG as any).MOD.OUTNUMBERED,
+                    sohl.mod.OUTNUMBERED,
                     defendPenalty,
                 );
             }

@@ -146,6 +146,7 @@ const sohlMock = {
 
 (globalThis as any).Hooks = {
     callAll(_name: string, ..._args: any[]) {},
+    call(_name: string, ..._args: any[]) { return true; },
     onError(_source: string, _error: Error, _data?: any) {},
     on(_name: string, _fn: Function) {},
     once(_name: string, _fn: Function) {},

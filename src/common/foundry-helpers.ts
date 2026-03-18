@@ -82,6 +82,15 @@ export function callHook(name: string, ...args: unknown[]): void {
     Hooks.callAll(name as any, ...args);
 }
 
+/**
+ * Call hooks with cancellation support. Returns false if any handler
+ * returns false explicitly, indicating that processing should be skipped.
+ * Used for pre-phase hooks (preInitialize, preEvaluate, preFinalize).
+ */
+export function callHookCancel(name: string, ...args: unknown[]): boolean {
+    return Hooks.call(name as any, ...args);
+}
+
 /** Report an error to the Foundry hook error handler. */
 export function hookOnError(source: string, error: Error, data?: object): void {
     Hooks.onError(source as any, error, data as any);

@@ -172,22 +172,22 @@ export class AfflictionLogic<
         super.initialize();
         this.isDormant = false;
         this.isTreated = false;
-        this.diagnosisBonus = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.level = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.healingRate = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
-        this.contagionIndex = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+        this.diagnosisBonus = new sohl.modifier.Value({}, { parent: this });
+        this.level = new sohl.modifier.Value({}, { parent: this });
+        this.healingRate = new sohl.modifier.Value({}, { parent: this });
+        this.contagionIndex = new sohl.modifier.Value({}, { parent: this });
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
-        this.healingRate = new (sohl.CONFIG as any).ValueModifier(this);
+        this.healingRate = new sohl.modifier.Value(this);
         if (this.data.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
             this.healingRate.base = this.data.healingRateBase;
         }
-        this.contagionIndex = new (sohl.CONFIG as any).ValueModifier(this, {
+        this.contagionIndex = new sohl.modifier.Value(this, {
             base: this.data.contagionIndexBase,
         });
-        this.level = new (sohl.CONFIG as any).ValueModifier(this, {
+        this.level = new sohl.modifier.Value(this, {
             base: this.data.levelBase,
         });
     }

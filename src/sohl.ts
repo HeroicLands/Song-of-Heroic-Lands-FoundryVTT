@@ -26,9 +26,19 @@ import {
     registerAssemblyContextMenu,
 } from "@common/apps/AssemblyDirectory";
 
-// Register all system variants
-SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
-SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
+/**
+ * Register all built-in variants and allow modules to register their own.
+ * Called during the init hook, before settings are registered.
+ */
+function registerVariants(): void {
+    // Register built-in variants
+    SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
+    SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
+
+    // Allow modules to register additional variants.
+    // Modules should listen for this hook and call SohlSystem.registerVariant().
+    Hooks.callAll("sohl.registerVariants" as any);
+}
 
 function setupVariant(): SohlSystem {
     const variantId = game.settings.get("sohl", "variant");
@@ -47,6 +57,11 @@ function registerSystemSettings() {
         type: String,
         default: "",
     });
+    // Build variant choices dynamically from the registry
+    const variantChoices: Record<string, string> = {};
+    for (const [id, variant] of SohlSystem.variants) {
+        variantChoices[id] = (variant.constructor as any).TITLE || id;
+    }
     game.settings.register("sohl", "variant", {
         name: "SOHL.Settings.Variant.label",
         hint: "SOHL.Settings.Variant.hint",
@@ -55,10 +70,7 @@ function registerSystemSettings() {
         requiresReload: true,
         default: "",
         type: String,
-        choices: {
-            legendary: "SOHL.Settings.Variant.CHOICES.Legendary",
-            mistyisle: "SOHL.Settings.Variant.CHOICES.MistyIsle",
-        },
+        choices: variantChoices,
     });
     game.settings.register("sohl", "logLevel", {
         name: "SOHL.Settings.logLevel.label",
@@ -637,27 +649,32 @@ function registerSystemHooks() {
  * The dialog cannot be dismissed without making a choice.
  * After selection, the setting is saved and the page is reloaded
  * so the system initializes cleanly with the chosen variant.
+ *
+ * The dropdown is built dynamically from all registered variants
+ * via SohlSystem.variants.
  */
 async function showVariantSelectionDialog(): Promise<void> {
+    // Build dropdown options from registered variants
+    const options = Array.from(SohlSystem.variants)
+        .map(([id, variant]) => {
+            const title = (variant.constructor as any).TITLE || id;
+            return `<option value="${id}">${title}</option>`;
+        })
+        .join("\n");
+
     const content = `
-        <div style="text-align: center; padding: 1em;">
-            <h2 style="margin-bottom: 0.5em;">Welcome to Song of Heroic Lands</h2>
+        <div style="padding: 1em;">
+            <h2 style="text-align: center; margin-bottom: 0.5em;">Welcome to Song of Heroic Lands</h2>
             <p style="margin-bottom: 1.5em;">
                 Before you begin, please choose which rules variant to use for this world.
                 This choice determines how combat, skills, and other game mechanics work.
                 <strong>This cannot be easily changed later.</strong>
             </p>
-            <div style="display: flex; gap: 1em; justify-content: center; flex-wrap: wrap;">
-                <button type="button" class="sohl-variant-btn" data-variant="legendary"
-                    style="padding: 1em 2em; font-size: 1.1em; cursor: pointer; min-width: 200px;">
-                    <strong>Legendary</strong><br>
-                    <small>Compatible with HârnMaster Kethira</small>
-                </button>
-                <button type="button" class="sohl-variant-btn" data-variant="mistyisle"
-                    style="padding: 1em 2em; font-size: 1.1em; cursor: pointer; min-width: 200px;">
-                    <strong>Misty Isle</strong><br>
-                    <small>Compatible with HârnMaster 3.5</small>
-                </button>
+            <div class="form-group">
+                <label for="sohl-variant-select">Rules Variant</label>
+                <select id="sohl-variant-select" style="width: 100%;">
+                    ${options}
+                </select>
             </div>
         </div>
     `;
@@ -667,30 +684,32 @@ async function showVariantSelectionDialog(): Promise<void> {
             {
                 title: "Song of Heroic Lands — Choose Rules Variant",
                 content,
-                buttons: {},
+                buttons: {
+                    confirm: {
+                        icon: '<i class="fas fa-check"></i>',
+                        label: "Confirm",
+                        callback: async (html: HTMLElement | JQuery) => {
+                            const el = html instanceof HTMLElement ? html : html[0];
+                            const select = el.querySelector<HTMLSelectElement>("#sohl-variant-select");
+                            const variant = select?.value;
+                            if (variant) {
+                                (dialog as any)._variantSelected = true;
+                                await game.settings.set("sohl", "variant", variant);
+                                window.location.reload();
+                            }
+                            resolve();
+                        },
+                    },
+                },
                 close: () => {
                     // Prevent closing without a selection — reopen
                     if (!(dialog as any)._variantSelected) {
                         setTimeout(() => showVariantSelectionDialog().then(resolve), 100);
                     }
                 },
-                render: (html: HTMLElement | JQuery) => {
-                    const el = html instanceof HTMLElement ? html : html[0];
-                    el.querySelectorAll<HTMLButtonElement>(".sohl-variant-btn").forEach((btn) => {
-                        btn.addEventListener("click", async () => {
-                            const variant = btn.dataset.variant!;
-                            (dialog as any)._variantSelected = true;
-                            await game.settings.set("sohl", "variant", variant);
-                            dialog.close();
-                            // Reload the page so the system initializes with the chosen variant
-                            window.location.reload();
-                            resolve();
-                        });
-                    });
-                },
             },
             {
-                width: 500,
+                width: 420,
                 classes: ["sohl-variant-dialog"],
             },
         );
@@ -720,6 +739,10 @@ Hooks.once("init", () => {
 
     console.log(`SoHL | ${initMessage}`);
 
+    // Register built-in variants and let modules add theirs
+    registerVariants();
+
+    // Register settings (variant choices are built from the registry)
     registerSystemSettings();
 
     // Check if a variant has been selected
@@ -734,6 +757,7 @@ Hooks.once("init", () => {
 
     // Variant is set — proceed with full initialization
     globalThis.sohl = setupVariant();
+
     rehydrateCalendars();
     applyActiveCalendar();
     sohl.log.setLogThreshold(

@@ -61,7 +61,7 @@ export class ProtectionLogic<
         this.bodyLocations = [];
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
-                const modifier = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+                const modifier = new sohl.modifier.Value({}, { parent: this });
                 modifier.setBase(this.data.protectionBase[aspect] || 0);
                 return [aspect, modifier];
             }),

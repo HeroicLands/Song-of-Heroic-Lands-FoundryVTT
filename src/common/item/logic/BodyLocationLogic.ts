@@ -63,7 +63,7 @@ export class BodyLocationLogic<
         super.initialize();
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
-                const modifier = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+                const modifier = new sohl.modifier.Value({}, { parent: this });
                 return [aspect, modifier];
             }),
         ) as StrictObject<ValueModifier>;

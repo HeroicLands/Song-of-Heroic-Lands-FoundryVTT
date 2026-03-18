@@ -78,10 +78,10 @@ export class MeleeWeaponStrikeModeLogic<
     override initialize(): void {
         super.initialize();
         this.defense = {
-            block: new (sohl.CONFIG as any).CombatModifier({}, { parent: this }),
-            counterstrike: new (sohl.CONFIG as any).CombatModifier({}, { parent: this }),
+            block: new sohl.modifier.Combat({}, { parent: this }),
+            counterstrike: new sohl.modifier.Combat({}, { parent: this }),
         };
-        this.length = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+        this.length = new sohl.modifier.Value({}, { parent: this });
 
         // Length is only set if this Strike Mode is nested in a WeaponGear
         if (this.item.nestedIn?.type === ITEM_KIND.WEAPONGEAR) {
@@ -113,11 +113,11 @@ export class MeleeWeaponStrikeModeLogic<
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
                 this.defense.block.add(
-                    (sohl.CONFIG as any).MOD.OUTNUMBERED,
+                    sohl.mod.OUTNUMBERED,
                     defendPenalty,
                 );
                 this.defense.counterstrike.add(
-                    (sohl.CONFIG as any).MOD.OUTNUMBERED,
+                    sohl.mod.OUTNUMBERED,
                     defendPenalty,
                 );
             }

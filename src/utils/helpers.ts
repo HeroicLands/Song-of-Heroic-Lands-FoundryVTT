@@ -814,3 +814,4 @@ export function index(value: number): number {
     if (value <= 0) return 0;
     return Math.trunc(value / 10);
 }
+

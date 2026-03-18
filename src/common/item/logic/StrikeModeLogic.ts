@@ -78,9 +78,9 @@ export abstract class StrikeModeLogic<
             noAttack: false,
             noBlock: false,
         };
-        this.impact = new (sohl.CONFIG as any).ImpactModifier({}, { parent: this });
-        this.attack = new (sohl.CONFIG as any).CombatModifier({}, { parent: this });
-        this.durability = new (sohl.CONFIG as any).ValueModifier({}, { parent: this });
+        this.impact = new sohl.modifier.Impact({}, { parent: this });
+        this.attack = new sohl.modifier.Combat({}, { parent: this });
+        this.durability = new sohl.modifier.Value({}, { parent: this });
         this.impact.base = this.data.impactBase;
         const skills: SkillLogic[] =
             this.actor?.itemTypes.skill.map(

@@ -13,6 +13,8 @@
 
 import { SohlMap } from "@utils/collection/SohlMap";
 import { SohlDataModel } from "@common/SohlDataModel";
+import { SohlCalendarData } from "@common/SohlCalendar";
+import { SohlEventQueue } from "@common/SohlEventQueue";
 import { ImpactModifier } from "@common/modifier/ImpactModifier";
 import { MasteryLevelModifier } from "@common/modifier/MasteryLevelModifier";
 import { ValueModifier } from "@common/modifier/ValueModifier";
@@ -31,7 +33,11 @@ import { StructureLogic } from "@common/actor/logic/StructureLogic";
 import { VehicleLogic } from "@common/actor/logic/VehicleLogic";
 
 // Actor foundry
-import { SohlActor, SohlActorLogic, SohlActorSheetBase } from "@common/actor/foundry/SohlActor";
+import {
+    SohlActor,
+    SohlActorLogic,
+    SohlActorSheetBase,
+} from "@common/actor/foundry/SohlActor";
 import { BeingDataModel } from "@common/actor/foundry/BeingDataModel";
 import { BeingSheet } from "@common/actor/foundry/BeingSheet";
 import { AssemblyDataModel } from "@common/actor/foundry/AssemblyDataModel";
@@ -72,7 +78,11 @@ import { TraitLogic } from "@common/item/logic/TraitLogic";
 import { WeaponGearLogic } from "@common/item/logic/WeaponGearLogic";
 
 // Item foundry
-import { SohlItem, SohlItemLogic, SohlItemSheetBase } from "@common/item/foundry/SohlItem";
+import {
+    SohlItem,
+    SohlItemLogic,
+    SohlItemSheetBase,
+} from "@common/item/foundry/SohlItem";
 import { ActionDataModel } from "@common/item/foundry/ActionDataModel";
 import { ActionSheet } from "@common/item/foundry/ActionSheet";
 import { AffiliationDataModel } from "@common/item/foundry/AffiliationDataModel";
@@ -127,26 +137,44 @@ import { WeaponGearDataModel } from "@common/item/foundry/WeaponGearDataModel";
 import { WeaponGearSheet } from "@common/item/foundry/WeaponGearSheet";
 
 // Effect/combatant/combat/region
-import { SohlActiveEffect, SohlActiveEffectDataModel, SohlActiveEffectSheet } from "@common/effect/SohlActiveEffect";
-import { SohlCombatant, SohlCombatantDataModel } from "@common/combatant/SohlCombatant";
+import {
+    SohlActiveEffect,
+    SohlActiveEffectDataModel,
+    SohlActiveEffectSheet,
+} from "@common/effect/SohlActiveEffect";
+import {
+    SohlCombatant,
+    SohlCombatantDataModel,
+} from "@common/combatant/SohlCombatant";
 import { SohlCombat, SohlCombatDataModel } from "@common/combat/SohlCombat";
 import { SohlRegion, SohlRegionConfig } from "@common/region/SohlRegion";
-import { SohlEventQueue } from "@common/SohlEventQueue";
-import { SohlEncounter, SohlEncounterDataModel, SohlEncounterConfig } from "@common/region-behavior/SohlEncounter";
+import {
+    SohlEncounter,
+    SohlEncounterDataModel,
+    SohlEncounterConfig,
+} from "@common/region-behavior/SohlEncounter";
 
 // Utilities
 import * as utils from "@utils/helpers";
+import * as constants from "@utils/constants";
 import { FilePath, toFilePath } from "@utils/helpers";
 import { SohlLocalize } from "@utils/SohlLocalize";
 import { SohlLogger } from "@utils/SohlLogger";
 import { Itr } from "@utils/Itr";
 import {
-    ACTOR_KIND, ActorKinds, actorKindLabels, ACTOR_METADATA,
-    ITEM_KIND, ItemKinds, itemKindLabels, ITEM_METADATA,
-    defineType, DefinedType, SOHL_DEFAULT_CALENDAR_CONFIG,
+    ACTOR_KIND,
+    ActorKinds,
+    actorKindLabels,
+    ACTOR_METADATA,
+    ITEM_KIND,
+    ItemKinds,
+    itemKindLabels,
+    ITEM_METADATA,
+    defineType,
+    DefinedType,
+    SOHL_DEFAULT_CALENDAR_CONFIG,
 } from "@utils/constants";
 import { getGame } from "@common/FoundryProxy";
-import { SohlCalendarData } from "@common/SohlCalendar";
 
 export type ActorDMMap = Record<
     string,
@@ -336,8 +364,10 @@ export abstract class SohlSystem {
         SohlSystem
     >();
     protected static _curVariant?: SohlSystem;
-    protected static _calendars: SohlMap<string, SohlSystem.CalendarRegistration> =
-        new SohlMap<string, SohlSystem.CalendarRegistration>();
+    protected static _calendars: SohlMap<
+        string,
+        SohlSystem.CalendarRegistration
+    > = new SohlMap<string, SohlSystem.CalendarRegistration>();
     static get CONFIG(): SohlSystem.Config {
         return {
             statusEffects: [
@@ -485,16 +515,22 @@ export abstract class SohlSystem {
                     sohlencounter: "fa-solid fa-dragon",
                 },
             },
-            ValueModifier: ValueModifier,
-            CombatModifier: CombatModifier,
-            ImpactModifier: ImpactModifier,
-            MasteryLevelModifier: MasteryLevelModifier,
-            SuccessTestResult: SuccessTestResult,
-            OpposedTestResult: OpposedTestResult,
-            ImpactResult: ImpactResult,
-            CombatResult: CombatResult,
-            AttackResult: AttackResult,
-            DefendResult: DefendResult,
+            Modifier: {
+                ValueModifier: ValueModifier,
+                CombatModifier: CombatModifier,
+                ImpactModifier: ImpactModifier,
+                MasteryLevelModifier: MasteryLevelModifier,
+            },
+            Result: {
+                SuccessTestResult: SuccessTestResult,
+                OpposedTestResult: OpposedTestResult,
+                ImpactResult: ImpactResult,
+                CombatResult: CombatResult,
+                AttackResult: AttackResult,
+                DefendResult: DefendResult,
+            },
+            // Base system class for variant module extension
+            SohlSystem,
         };
     }
 
@@ -518,15 +554,8 @@ export abstract class SohlSystem {
     static readonly INIT_MESSAGE: string;
 
     static readonly utils: typeof utils = utils;
+    static readonly constants: typeof constants = constants;
     static ready: boolean = false;
-    readonly classRegistry: SohlMap<string, Constructor<any>>;
-    readonly dataModelRegistry: SohlMap<
-        string,
-        Constructor<
-            | SohlDataModel<any, any, any>
-            | foundry.abstract.TypeDataModel<any, any>
-        >
-    >;
     readonly i18n: SohlLocalize;
     readonly log: SohlLogger;
     readonly events: SohlEventQueue;
@@ -582,9 +611,7 @@ export abstract class SohlSystem {
         const cal = this._calendars.get(id);
         if (!cal) return;
         if (cal.builtin) {
-            throw new Error(
-                `Cannot delete built-in calendar "${id}".`,
-            );
+            throw new Error(`Cannot delete built-in calendar "${id}".`);
         }
         this._calendars.delete(id);
     }
@@ -618,8 +645,8 @@ export abstract class SohlSystem {
             );
         }
         CONFIG.time.worldCalendarConfig = cal.config as any;
-        CONFIG.time.worldCalendarClass =
-            (cal.calendarClass ?? SohlCalendarData) as any;
+        CONFIG.time.worldCalendarClass = (cal.calendarClass ??
+            SohlCalendarData) as any;
     }
 
     get CONFIG(): PlainObject {
@@ -645,32 +672,57 @@ export abstract class SohlSystem {
         return (this.constructor as any).utils;
     }
 
+    get constants(): typeof constants {
+        return (this.constructor as any).constants;
+    }
+
+    /* -------------------------------------------- */
+    /*  Variant-Aware Class Accessors               */
+    /* -------------------------------------------- */
+
+    /**
+     * Variant-aware modifier constructors.
+     * Usage: `new sohl.modifier.Value({}, { parent: this })`
+     */
+    get modifier() {
+        const cfg = this.CONFIG.Modifier;
+        return {
+            Value: cfg.ValueModifier as Constructor<ValueModifier>,
+            Combat: cfg.CombatModifier as Constructor<CombatModifier>,
+            Impact: cfg.ImpactModifier as Constructor<ImpactModifier>,
+            MasteryLevel:
+                cfg.MasteryLevelModifier as Constructor<MasteryLevelModifier>,
+        };
+    }
+
+    /**
+     * Variant-aware result constructors.
+     * Usage: `new sohl.result.SuccessTest({}, { parent: this })`
+     */
+    get result() {
+        const cfg = this.CONFIG.Result;
+        return {
+            SuccessTest:
+                cfg.SuccessTestResult as Constructor<SuccessTestResult>,
+            OpposedTest:
+                cfg.OpposedTestResult as Constructor<OpposedTestResult>,
+            Impact: cfg.ImpactResult as Constructor<ImpactResult>,
+            Combat: cfg.CombatResult as Constructor<CombatResult>,
+            Attack: cfg.AttackResult as Constructor<AttackResult>,
+            Defend: cfg.DefendResult as Constructor<DefendResult>,
+        };
+    }
+
+    /**
+     * Variant-aware modifier constant definitions.
+     * Usage: `sohl.mod.OUTNUMBERED`, `sohl.mod.MLDSBL`
+     */
+    get mod(): PlainObject {
+        return (this.CONFIG as any).MOD ?? {};
+    }
+
+
     protected constructor() {
-        this.dataModelRegistry = new SohlMap<
-            string,
-            Constructor<
-                | SohlDataModel<any, any, any>
-                | foundry.abstract.TypeDataModel<any, any>
-            >
-        >([
-            ...Object.entries(COMMON_ACTOR_DATA_MODEL),
-            ...Object.entries(COMMON_ITEM_DATA_MODEL),
-            ["sohlactiveeffectdata", SohlActiveEffectDataModel],
-            ["sohlcombatantdata", SohlCombatantDataModel],
-            ["sohlcombatdata", SohlCombatDataModel],
-        ]);
-        this.classRegistry = new SohlMap<string, Constructor<any>>([
-            ["ValueModifier", ValueModifier],
-            ["CombatModifier", CombatModifier],
-            ["ImpactModifier", ImpactModifier],
-            ["MasteryLevelModifier", MasteryLevelModifier],
-            ["SuccessTestResult", SuccessTestResult],
-            ["OpposedTestResult", OpposedTestResult],
-            ["ImpactResult", ImpactResult],
-            ["CombatResult", CombatResult],
-            ["AttackResult", AttackResult],
-            ["DefendResult", DefendResult],
-        ]);
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();
         this.events = new SohlEventQueue();
@@ -764,15 +816,21 @@ export namespace SohlSystem {
             typeLabels: StrictObject<string>;
             typeIcons: StrictObject<string>;
         };
-        ValueModifier: Constructor<ValueModifier>;
-        CombatModifier: Constructor<CombatModifier>;
-        ImpactModifier: Constructor<ImpactModifier>;
-        MasteryLevelModifier: Constructor<MasteryLevelModifier>;
-        SuccessTestResult: Constructor<SuccessTestResult>;
-        OpposedTestResult: Constructor<OpposedTestResult>;
-        ImpactResult: Constructor<ImpactResult>;
-        CombatResult: Constructor<CombatResult>;
-        AttackResult: Constructor<AttackResult>;
-        DefendResult: Constructor<DefendResult>;
+        Modifier: {
+            ValueModifier: Constructor<ValueModifier>;
+            CombatModifier: Constructor<CombatModifier>;
+            ImpactModifier: Constructor<ImpactModifier>;
+            MasteryLevelModifier: Constructor<MasteryLevelModifier>;
+        };
+        Result: {
+            SuccessTestResult: Constructor<SuccessTestResult>;
+            OpposedTestResult: Constructor<OpposedTestResult>;
+            ImpactResult: Constructor<ImpactResult>;
+            CombatResult: Constructor<CombatResult>;
+            AttackResult: Constructor<AttackResult>;
+            DefendResult: Constructor<DefendResult>;
+        };
+        /** Base system class for variant module extension */
+        SohlSystem: typeof SohlSystem;
     }
 }

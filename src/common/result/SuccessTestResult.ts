@@ -85,14 +85,14 @@ export class SuccessTestResult extends TestResult {
         if (options.mlMod)
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
-                new (sohl.CONFIG as any).ValueModifier({}, { parent: this.parent });
+                new sohl.modifier.Value({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
         this._successLevel = MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
-            new (sohl.CONFIG as any).MasteryLevelModifier(
+            new sohl.modifier.MasteryLevel(
                 {},
                 {
                     parent: this.parent,

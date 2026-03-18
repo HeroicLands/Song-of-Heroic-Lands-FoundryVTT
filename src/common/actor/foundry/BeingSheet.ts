@@ -15,6 +15,7 @@ import {
     SohlActor,
     SohlActorSheetBase,
 } from "@common/actor/foundry/SohlActor";
+import { callHook as fvttCallHook } from "@common/foundry-helpers";
 import {
     ITEM_KIND,
     TRAIT_INTENSITY,
@@ -52,29 +53,51 @@ export abstract class BeingSheet extends SohlActorSheetBase {
     ): Promise<
         RenderContext
     > {
+        const type = this.document.type;
         switch (partId) {
             case "header":
-                return this._prepareHeaderContext(context, options);
+                context = await this._prepareHeaderContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareHeaderContext`, this, context);
+                return context;
             case "tabs":
-                return this._prepareTabsContext(context, options);
+                context = await this._prepareTabsContext(context, options);
+                return context;
             case "facade":
-                return this._prepareFacadeContext(context, options);
+                context = await this._prepareFacadeContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareFacadeContext`, this, context);
+                return context;
             case "profile":
-                return this._prepareProfileContext(context, options);
+                context = await this._prepareProfileContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareProfileContext`, this, context);
+                return context;
             case "skills":
-                return this._prepareSkillsContext(context, options);
+                context = await this._prepareSkillsContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareSkillsContext`, this, context);
+                return context;
             case "combat":
-                return this._prepareCombatContext(context, options);
+                context = await this._prepareCombatContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareCombatContext`, this, context);
+                return context;
             case "trauma":
-                return this._prepareTraumaContext(context, options);
+                context = await this._prepareTraumaContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareTraumaContext`, this, context);
+                return context;
             case "mysteries":
-                return this._prepareMysteriesContext(context, options);
+                context = await this._prepareMysteriesContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareMysteriesContext`, this, context);
+                return context;
             case "gear":
-                return this._prepareGearContext(context, options);
+                context = await this._prepareGearContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareGearContext`, this, context);
+                return context;
             case "actions":
-                return this._prepareActionsContext(context, options);
+                context = await this._prepareActionsContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareActionsContext`, this, context);
+                return context;
             case "effects":
-                return this._prepareEffectsContext(context, options);
+                context = await this._prepareEffectsContext(context, options);
+                fvttCallHook(`sohl.actor.${type}.prepareEffectsContext`, this, context);
+                return context;
             default:
                 return context;
         }

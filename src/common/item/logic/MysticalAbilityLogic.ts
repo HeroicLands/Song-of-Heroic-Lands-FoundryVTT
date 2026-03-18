@@ -75,15 +75,15 @@ export class MysticalAbilityLogic<
     initialize(): void {
         super.initialize();
         this.charges = {
-            value: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            value: new sohl.modifier.Value({}, { parent: this }).setBase(
                 this.data.charges.value,
             ),
-            max: sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+            max: new sohl.modifier.Value({}, { parent: this }).setBase(
                 this.data.charges.max,
             ),
         };
 
-        this.level = sohl.CONFIG.ValueModifier({}, { parent: this }).setBase(
+        this.level = new sohl.modifier.Value({}, { parent: this }).setBase(
             this.data.levelBase,
         );
     }

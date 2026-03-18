@@ -207,7 +207,7 @@ export class MasteryLevelModifier extends ValueModifier {
         };
         const testResult: SuccessTestResult =
             scope.priorTestResult ??
-            new (sohl.CONFIG as any).SuccessTestResult(
+            new sohl.result.SuccessTest(
                 {
                     chat: this.parent.speaker,
                     type: context.type ?? this.type,
@@ -391,7 +391,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         if (!sourceTestResult) return null;
 
-        const result: OpposedTestResult = new (sohl.CONFIG as any).OpposedTestResult(
+        const result: OpposedTestResult = new sohl.result.OpposedTest(
             {
                 sourceTestResult,
                 targetTestResult: null,

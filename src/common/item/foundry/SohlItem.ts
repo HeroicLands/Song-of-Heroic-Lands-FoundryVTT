@@ -17,7 +17,10 @@ import { HTMLString } from "@utils/helpers";
 import { SohlDataModel } from "@common/SohlDataModel";
 import { SohlLogic } from "@common/SohlLogic";
 import { SohlActiveEffect } from "@common/effect/SohlActiveEffect";
-import { notifyWarn as fvttNotifyWarn } from "@common/foundry-helpers";
+import {
+    notifyWarn as fvttNotifyWarn,
+    callHook as fvttCallHook,
+} from "@common/foundry-helpers";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
 // TODO: This still uses the deprecated global TextEditor. Should use the
 // foundry-helpers shim (enrichHTML) like Being.ts does, for consistency.
@@ -438,21 +441,35 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<RenderContext> {
         // _preparePartContext is called for each part with the specific partId
         // This is where you prepare part-specific data
+        const type = this.document.type;
         switch (partId) {
             case "properties":
-                return this._preparePropertiesContext(context, options);
+                context = await this._preparePropertiesContext(context, options);
+                fvttCallHook(`sohl.${type}.preparePropertiesContext`, this, context);
+                return context;
             case "description":
-                return await this._prepareDescriptionContext(context, options);
+                context = await this._prepareDescriptionContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareDescriptionContext`, this, context);
+                return context;
             case "nestedItems":
-                return await this._prepareNestedItemsContext(context, options);
+                context = await this._prepareNestedItemsContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareNestedItemsContext`, this, context);
+                return context;
             case "actions":
-                return await this._prepareActionsContext(context, options);
+                context = await this._prepareActionsContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareActionsContext`, this, context);
+                return context;
             case "effectsTab":
-                return await this._prepareEffectsTabContext(context, options);
+                context = await this._prepareEffectsTabContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareEffectsContext`, this, context);
+                return context;
             case "header":
-                return await this._prepareHeaderContext(context, options);
+                context = await this._prepareHeaderContext(context, options);
+                fvttCallHook(`sohl.${type}.prepareHeaderContext`, this, context);
+                return context;
             case "tabs":
-                return await this._prepareTabsContext(context, options);
+                context = await this._prepareTabsContext(context, options);
+                return context;
             default:
                 return context;
         }

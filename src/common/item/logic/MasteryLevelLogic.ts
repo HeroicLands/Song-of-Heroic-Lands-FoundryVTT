@@ -290,11 +290,11 @@ export abstract class MasteryLevelLogic<
     override initialize(): void {
         super.initialize();
         this._boosts = 0;
-        this.masteryLevel = new (sohl.CONFIG as any).MasteryLevelModifier(
+        this.masteryLevel = new sohl.modifier.MasteryLevel(
             {},
             { parent: this },
         );
-        this.fateMasteryLevel = new (sohl.CONFIG as any).MasteryLevelModifier(
+        this.fateMasteryLevel = new sohl.modifier.MasteryLevel(
             {
                 testDescTable: FATE_DESC_TABLE,
                 type: `${this.data.kind}-${this.name}-fate-test`,
@@ -368,19 +368,19 @@ export abstract class MasteryLevelLogic<
     override finalize(): void {
         super.finalize();
         if (this.masteryLevel.disabled) {
-            this.fateMasteryLevel.disabled = (sohl.CONFIG as any).MOD.MLDSBL.name;
+            this.fateMasteryLevel.disabled = sohl.mod.MLDSBL.name;
         }
         if (!this.fateMasteryLevel.disabled) {
             // Apply magic modifiers
             if (this.magicMod) {
                 this.fateMasteryLevel.add(
-                    (sohl.CONFIG as any).MOD.MAGICMOD,
+                    sohl.mod.MAGICMOD,
                     this.magicMod,
                 );
             }
             this.fateBonusItems.forEach((it) => {
                 this.fateMasteryLevel.add(
-                    (sohl.CONFIG as any).MOD.FATEBNS,
+                    sohl.mod.FATEBNS,
                     (it.logic as any).level.effective,
                     { skill: it.system.label },
                 );

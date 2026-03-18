@@ -186,15 +186,15 @@ export class MysteryLogic<
     override initialize(): void {
         super.initialize();
 
-        this.level = new (sohl.CONFIG as any).ValueModifier({}, { parent: this }).setBase(
+        this.level = new sohl.modifier.Value({}, { parent: this }).setBase(
             this.data.levelBase,
         );
 
         this.charges = {
-            value: new (sohl.CONFIG as any).ValueModifier({}, { parent: this }).setBase(
+            value: new sohl.modifier.Value({}, { parent: this }).setBase(
                 this.data.charges.value,
             ),
-            max: new (sohl.CONFIG as any).ValueModifier({}, { parent: this }).setBase(
+            max: new sohl.modifier.Value({}, { parent: this }).setBase(
                 this.data.charges.max,
             ),
         };
