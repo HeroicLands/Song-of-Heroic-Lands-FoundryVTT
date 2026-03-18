@@ -15,6 +15,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { ITEM_METADATA, ItemKinds } from "@src/utils/constants";
+import { resolveItemTargets } from "./active-effect-logic";
 const { StringField } = foundry.data.fields;
 
 export class SohlActiveEffect extends ActiveEffect {
@@ -51,17 +52,6 @@ export class SohlActiveEffect extends ActiveEffect {
      * @returns Target documents as `SohlItem` and/or `SohlActor`.
      */
     get targets(): Array<SohlItem | SohlActor> {
-        function getItemAttributeShortcodes(item: SohlItem): string[] {
-            const attrs = (item.logic as any).skillBase?.attributes;
-            if (!Array.isArray(attrs)) return [];
-            return attrs
-                .map((attr: any) => attr?.data?.shortcode)
-                .filter(
-                    (shortcode: unknown): shortcode is string =>
-                        typeof shortcode === "string" && shortcode.length > 0,
-                );
-        }
-
         const { targetType, targetName } = this
             .system as SohlActiveEffectDataModel;
 
@@ -79,46 +69,8 @@ export class SohlActiveEffect extends ActiveEffect {
             return this.actor ? [this.actor] : [];
         }
 
-        const trimmedTargetName = targetName?.trim() ?? "";
-        const isAttributeTarget = trimmedTargetName.startsWith("attr:");
-        const matchName =
-            isAttributeTarget ?
-                trimmedTargetName.slice(5).trim()
-            :   trimmedTargetName;
-
         const typeItems: SohlItem[] = this.actor.allItemTypes[targetType] ?? [];
-        if (!matchName) {
-            return isAttributeTarget ?
-                    typeItems.filter(
-                        (item: SohlItem) =>
-                            getItemAttributeShortcodes(item).length > 0,
-                    )
-                :   typeItems;
-        }
-
-        const exactMatches = typeItems.filter((item: SohlItem) => {
-            if (isAttributeTarget) {
-                return getItemAttributeShortcodes(item).includes(matchName);
-            }
-            return item.system.shortcode === matchName;
-        });
-        if (exactMatches.length) return exactMatches;
-
-        let regex: RegExp;
-        try {
-            regex = new RegExp(matchName);
-        } catch {
-            return [];
-        }
-
-        return typeItems.filter((item: SohlItem) => {
-            if (isAttributeTarget) {
-                return getItemAttributeShortcodes(item).some(
-                    (shortcode: string) => regex.test(shortcode),
-                );
-            }
-            return regex.test(item.system.shortcode);
-        });
+        return resolveItemTargets({ targetName, typeItems });
     }
 
     /**

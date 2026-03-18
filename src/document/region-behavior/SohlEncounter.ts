@@ -13,6 +13,13 @@
 
 import { ACTOR_KIND } from "@src/utils/constants";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
+import {
+    calculateNextCheckTime,
+    shouldScheduleCheck,
+    isCooldownActive,
+    evaluateTrigger,
+    nextCheckTimeAfterTrigger,
+} from "./encounter-logic";
 
 /** The event kind used by encounter check scheduling. */
 const ENCOUNTER_EVENT_KIND = "encounterCheck";
@@ -84,25 +91,16 @@ export class SohlEncounter<
         const data = this.system as SohlEncounterDataModel;
         const { trigger } = data;
 
-        // Don't process if disabled
-        if (data.disabled) return;
+        if (!shouldScheduleCheck(data.disabled, trigger.max, trigger.count))
+            return;
 
-        // Don't process if max reached (0 = unlimited)
-        if (trigger.max > 0 && trigger.count >= trigger.max) return;
-
-        // Check cooldown: skip if not enough time has passed since last occurrence
-        if (
-            trigger.lastOccured > 0 &&
-            time - trigger.lastOccured < trigger.cooldown
-        ) {
-            // Schedule next check and return
+        if (isCooldownActive(trigger.lastOccured, trigger.cooldown, time)) {
             SohlEncounter.scheduleNextCheck(this, time);
             return;
         }
 
-        // Roll against probability
         const roll = Math.random();
-        const triggered = roll <= trigger.probability;
+        const triggered = evaluateTrigger(trigger, time, roll);
 
         if (triggered) {
             await this.update({
@@ -110,18 +108,17 @@ export class SohlEncounter<
                 "system.trigger.lastOccured": time,
             } as any);
 
-            // Spawn the cohort
             await this._spawnCohort();
 
             console.log(
                 `SoHL | Encounter "${this.name}" triggered (roll ${roll.toFixed(3)} <= ${trigger.probability})`,
             );
 
-            // Schedule next check after cooldown expires — skip to the
-            // first interval boundary at or after time + cooldown
-            SohlEncounter.scheduleNextCheck(this, time + trigger.cooldown);
+            SohlEncounter.scheduleNextCheck(
+                this,
+                nextCheckTimeAfterTrigger(trigger, time),
+            );
         } else {
-            // Not triggered — schedule at the next regular interval
             SohlEncounter.scheduleNextCheck(this, time);
         }
     }
@@ -221,15 +218,11 @@ export class SohlEncounter<
         const data = encounter.system as SohlEncounterDataModel;
         const { trigger } = data;
 
-        // Don't schedule if disabled or max reached
-        if (data.disabled) return;
-        if (trigger.max > 0 && trigger.count >= trigger.max) return;
+        if (!shouldScheduleCheck(data.disabled, trigger.max, trigger.count))
+            return;
+        if (trigger.interval <= 0) return;
 
-        const interval = trigger.interval;
-        if (interval <= 0) return;
-
-        // Next time that is a multiple of interval and strictly after currentTime
-        const nextTime = (Math.floor(currentTime / interval) + 1) * interval;
+        const nextTime = calculateNextCheckTime(currentTime, trigger.interval);
 
         sohl.events.registerEvent(
             encounter.uuid,
@@ -246,10 +239,11 @@ export class SohlEncounter<
         super.prepareData();
         const data = this.system as SohlEncounterDataModel;
 
-        // Only schedule if not disabled, not maxed out, and has a valid interval
-        if (data.disabled) return;
-        if (data.trigger.max > 0 && data.trigger.count >= data.trigger.max)
-            return;
+        if (!shouldScheduleCheck(
+            data.disabled,
+            data.trigger.max,
+            data.trigger.count,
+        )) return;
         if (data.trigger.interval <= 0) return;
 
         SohlEncounter.scheduleNextCheck(this, game.time.worldTime);

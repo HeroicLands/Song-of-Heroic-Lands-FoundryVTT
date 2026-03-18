@@ -27,7 +27,7 @@ SoHL is designed as:
 - a **core system** (`src/core/` and `src/document/`) with reusable abstractions
 - plus **Legendary variant overrides** co-located as `Lgnd*` classes in `src/document/*/logic/`
 
-In practice, `src/core/` and `src/document/` function as variant-agnostic foundations. `Lgnd*` classes layer on top by overriding specific logic. MistyIsle is planned as a separate Foundry module.
+In practice, `src/core/` and `src/document/` function as variant-agnostic foundations. `Lgnd*` classes layer on top by overriding specific logic.
 
 ## High-level layers
 

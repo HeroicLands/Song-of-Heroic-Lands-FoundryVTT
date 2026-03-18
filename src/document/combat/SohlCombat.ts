@@ -11,15 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GROUP_STANCE, GroupStance } from "@src/utils/constants";
+import { GroupStance } from "@src/utils/constants";
+import {
+    getGroupStancesForGroup,
+    allyGroups as allyGroupsLogic,
+    enemyGroups as enemyGroupsLogic,
+    withGroupStanceSet,
+    withGroupRemoved,
+} from "./combat-logic";
 
 export class SohlCombat<
     SubType extends Combat.SubType = Combat.SubType,
 > extends Combat<SubType> {
     getGroupStances(group: string): StrictObject<GroupStance> {
         const combatData = this.system as SohlCombatDataModel;
-        const groupStances = combatData.groupStances[group] ?? {};
-        return groupStances;
+        return getGroupStancesForGroup(combatData.groupStances, group);
     }
 
     async setGroupStance(
@@ -28,54 +34,29 @@ export class SohlCombat<
         stance: GroupStance,
     ) {
         const combatData = this.system as SohlCombatDataModel;
-        const groupStances = foundry.utils.deepClone(
+        const groupStances = withGroupStanceSet(
             combatData.groupStances,
-        ) as StrictObject<StrictObject<GroupStance>>;
-
-        const existing = groupStances[group] ?? {};
-        groupStances[group] = {
-            ...existing,
-            [targetGroup]: stance,
-        };
-
-        const updateData = {
-            system: {
-                groupStances,
-            },
-        } as Combat.UpdateData;
-
-        return await this.update(updateData);
+            group,
+            targetGroup,
+            stance,
+        );
+        return await this.update({ system: { groupStances } } as Combat.UpdateData);
     }
 
     async removeGroup(group: string): Promise<void> {
         const combatData = this.system as SohlCombatDataModel;
-        const groupStances = foundry.utils.deepClone(
-            combatData.groupStances,
-        ) as StrictObject<StrictObject<GroupStance>>;
-        delete groupStances[group];
-        const updateData = {
-            system: {
-                groupStances,
-            },
-        } as Combat.UpdateData;
-
-        await this.update(updateData);
+        const groupStances = withGroupRemoved(combatData.groupStances, group);
+        await this.update({ system: { groupStances } } as Combat.UpdateData);
     }
 
     allyGroups(group: string): string[] {
         const combatData = this.system as SohlCombatDataModel;
-        const stances = combatData.groupStances[group] ?? {};
-        return Object.entries(stances)
-            .filter(([_, stance]) => stance === GROUP_STANCE.ALLY)
-            .map(([targetGroup, _]) => targetGroup);
+        return allyGroupsLogic(combatData.groupStances, group);
     }
 
     enemyGroups(group: string): string[] {
         const combatData = this.system as SohlCombatDataModel;
-        const stances = combatData.groupStances[group] ?? {};
-        return Object.entries(stances)
-            .filter(([_, stance]) => stance === GROUP_STANCE.ENEMY)
-            .map(([targetGroup, _]) => targetGroup);
+        return enemyGroupsLogic(combatData.groupStances, group);
     }
 }
 

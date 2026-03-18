@@ -16,6 +16,7 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlCombat } from "@src/document/combat/SohlCombat";
 import { getCanvas } from "@src/core/FoundryProxy";
+import { expandAllyGroups } from "./combatant-logic";
 
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
@@ -35,19 +36,18 @@ export class SohlCombatant<
         if (!myGroups.size) return [];
         const combat = this.combat as SohlCombat;
 
-        // Add all of my allied groups to the set of groups to check against
-        for (const group of combatData.groups) {
-            for (const allyGroup of combat.allyGroups(group)) {
-                myGroups.add(allyGroup);
-            }
-        }
+        const expandedGroups = expandAllyGroups(myGroups, (group) =>
+            combat.allyGroups(group),
+        );
 
         // A combatant is an ally if they share any group with me (including through allied groups)
         return combat.combatants.contents.filter((combatant: SohlCombatant) => {
             if (combatant === this) return false;
 
             const otherGroups = combatData.groups;
-            return otherGroups.some((group: string) => myGroups.has(group));
+            return otherGroups.some((group: string) =>
+                expandedGroups.has(group),
+            );
         }) as SohlCombatant[];
     }
 
