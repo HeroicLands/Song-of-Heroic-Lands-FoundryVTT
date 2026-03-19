@@ -15,12 +15,13 @@ import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SuccessTestResult } from "@src/result/SuccessTestResult";
-import type { CombatModifier } from "@src/modifier/CombatModifier";
+import { CombatModifier } from "@src/modifier/CombatModifier";
 import type { ValueModifier } from "@src/modifier/ValueModifier";
 import {
     StrikeModeLogic,
     StrikeModeData,
 } from "@src/document/item/logic/StrikeModeLogic";
+import { VALUE_DELTA_ID, VALUE_DELTA_INFO } from "@src/utils/constants";
 
 /**
  * Logic for the **Combat Technique Strike Mode** item type — a specialized
@@ -71,8 +72,8 @@ export class CombatTechniqueStrikeModeLogic<
     override initialize(): void {
         super.initialize();
         this.defense = {
-            block: new sohl.modifier.Combat({}, { parent: this }),
-            counterstrike: new sohl.modifier.Combat({}, { parent: this }),
+            block: new CombatModifier({}, { parent: this }),
+            counterstrike: new CombatModifier({}, { parent: this }),
         };
     }
 
@@ -99,9 +100,9 @@ export class CombatTechniqueStrikeModeLogic<
             const defendPenalty =
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
-                this.defense.block.add(sohl.mod.OUTNUMBERED, defendPenalty);
+                this.defense.block.add(VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED], defendPenalty);
                 this.defense.counterstrike.add(
-                    sohl.mod.OUTNUMBERED,
+                    VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED],
                     defendPenalty,
                 );
             }

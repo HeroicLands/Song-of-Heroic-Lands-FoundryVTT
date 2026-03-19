@@ -12,6 +12,9 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
+import { ValueModifier } from "@src/modifier/ValueModifier";
+import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
+import type { BodyLocationLogic } from "@src/document/item/logic/BodyLocationLogic";
 
 /**
  * Logic for the **Armor Gear** item type — wearable protective equipment.
@@ -21,20 +24,19 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
  * Each piece of armor covers specific {@link BodyLocationLogic | body locations},
  * categorized as **flexible** or **rigid** coverage.
  *
- * Armor Gear acts as a container for nested {@link ProtectionLogic | Protection}
- * items, which define the actual damage reduction values per impact aspect.
- * It may also contain nested Trait items representing armor-specific properties.
+ * Protection values (`protectionBase`) are stored directly on the armor and applied
+ * to matching body locations during the evaluate phase whenever the armor is equipped.
+ * Rigid locations additionally set `traits.isRigid` on the body location.
  *
- * The armor's **material** affects its properties (weight, protection values,
- * durability). Inherits weight, value, quality, and durability tracking from
- * {@link GearLogic}.
+ * The armor's **material** name is pushed into each covered body location's
+ * `layersList` for display and rule purposes.
  *
  * @typeParam TData - The ArmorGear data interface.
  */
 export class ArmorGearLogic<
     TData extends ArmorGearData = ArmorGearData,
 > extends GearLogic<TData> {
-    protection!: PlainObject;
+    protection!: StrictObject<ValueModifier>;
     traits!: StrictObject<string>;
 
     /* --------------------------------------------- */
@@ -44,13 +46,44 @@ export class ArmorGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.protection = {};
+        this.protection = Object.fromEntries(
+            ImpactAspects.map((aspect) => {
+                const modifier = new ValueModifier({}, { parent: this });
+                modifier.setBase(this.data.protectionBase[aspect] || 0);
+                return [aspect, modifier];
+            }),
+        ) as StrictObject<ValueModifier>;
         this.traits = {};
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        if (!this.data.isEquipped) return;
+
+        const allItems = this.actor?.allItems || [];
+        allItems.forEach((bl) => {
+            if (bl.type !== ITEM_KIND.BODYLOCATION) return;
+            const inFlexible = this.data.locations.flexible.includes(bl.name);
+            const inRigid = this.data.locations.rigid.includes(bl.name);
+            if (!inFlexible && !inRigid) return;
+
+            const blLogic = bl.logic as BodyLocationLogic;
+            ImpactAspects.forEach((aspect) => {
+                if (this.protection[aspect].effective) {
+                    blLogic.protection[aspect]?.add(
+                        this.name,
+                        this.name,
+                        this.protection[aspect].effective,
+                    );
+                }
+            });
+
+            if (this.data.material) {
+                blLogic.layersList.push(this.data.material);
+            }
+            blLogic.traits.isRigid ||= inRigid;
+        });
     }
 
     /** @inheritdoc */
@@ -69,4 +102,8 @@ export interface ArmorGearData<
         flexible: string[];
         rigid: string[];
     };
+    /** Base damage reduction per impact aspect */
+    protectionBase: StrictObject<number>;
+    /** Encumbrance value of the armor */
+    encumbrance: number;
 }

@@ -14,10 +14,14 @@
 import { DialogButtonCallback, inputDialog } from "@src/core/FoundryProxy";
 import { ValueModifier } from "@src/modifier/ValueModifier";
 import { SuccessTestResult } from "@src/result/SuccessTestResult";
-import type { OpposedTestResult } from "@src/result/OpposedTestResult";
+import { OpposedTestResult } from "@src/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
-import { SOHL_SPEAKER_ROLL_MODE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    SOHL_SPEAKER_ROLL_MODE,
+    TestType,
+    VALUE_DELTA_ID,
+} from "@src/utils/constants";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { notifyWarn as fvttNotifyWarn } from "@src/core/foundry-helpers";
 
@@ -205,12 +209,12 @@ export class MasteryLevelModifier extends ValueModifier {
         };
         const testResult: SuccessTestResult =
             scope.priorTestResult ??
-            new sohl.result.SuccessTest(
+            new SuccessTestResult(
                 {
-                    chat: this.parent.speaker,
-                    type: context.type ?? this.type,
+                    speaker: this.parent.speaker,
+                    testType: (context.type ?? this.type) as TestType,
                     title: context.title ?? this.title,
-                    mlMod: this.clone(),
+                    masteryLevelModifier: this.clone() as MasteryLevelModifier,
                     targetValueFunc: scope.targetValueFunc,
                     successStarTable: scope.successStarTable,
                 },
@@ -389,10 +393,10 @@ export class MasteryLevelModifier extends ValueModifier {
 
         if (!sourceTestResult) return null;
 
-        const result: OpposedTestResult = new sohl.result.OpposedTest(
+        const result: OpposedTestResult = new OpposedTestResult(
             {
                 sourceTestResult,
-                targetTestResult: null,
+                targetTestResult: undefined,
                 targetToken: scope.targetToken,
             },
             {

@@ -15,29 +15,6 @@ See also: [Extension Points (Developer Guide)](../how-to/extension-points.md), [
 - This page is the canonical conceptual model for choosing between Variants, Modules, and Action items.
 - For step-by-step implementation workflow, use [Extension Points (Developer Guide)](../how-to/extension-points.md).
 
-## 1) Variants (parallel code hierarchies)
-
-Variants are full implementations of rules behavior using parallel class hierarchies.
-
-This is intended for **large-scale, internally consistent rulesets** (for example: HarnMaster Kethira vs HarnMaster 3.5 vs HarnMaster Gold), where many interacting mechanics differ but the overall game concept remains similar.
-
-- Shared/base framework lives in `src/core/` and `src/document/`.
-- Legendary variant overrides are `Lgnd*` classes co-located in `src/document/*/logic/`.
-- MistyIsle is planned as a separate Foundry module.
-
-Runtime selection is implemented in `src/sohl.ts`:
-
-- `SohlSystem.registerVariant(...)` registers available variants.
-- World setting `sohl.variant` selects the active variant (`legendary` or `mistyisle`).
-- `SohlSystem.selectVariant(...)` activates the selected variant.
-- The selected variant contributes its own `CONFIG` (document sheets, result/modifier classes, etc.).
-
-Core variant registry/selection logic is in `src/core/SohlSystem.ts`.
-
-### Constructor dispatch model
-
-At runtime, `globalThis.sohl` points to the selected `SohlSystem` variant instance. Common code can then construct variant-appropriate classes through mapped constructors (for example, `sohl.CONFIG.ImpactModifier`) without hard-coding variant class names or adding factory wrappers.
-
 ## 2) Modules and lifecycle hooks
 
 SoHL exposes hook points during document/item lifecycle processing so external modules can extend behavior without patching core files.

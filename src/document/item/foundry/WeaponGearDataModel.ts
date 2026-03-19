@@ -27,6 +27,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        encumbrance: new NumberField({ initial: 0, min: 0 }),
     };
 }
 
@@ -47,6 +48,7 @@ export class WeaponGearDataModel<
     ];
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
+    encumbrance!: number;
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();

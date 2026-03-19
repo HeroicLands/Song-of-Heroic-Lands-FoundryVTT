@@ -492,7 +492,7 @@ export class SohlActor extends Actor {
                 // Calculate initial skills mastery levels
                 for (const obj of updateData.items) {
                     if (obj.type === "skill") {
-                        if (obj.flags?.sohl?.legendary?.initSkillMult) {
+                        if (obj.system.initSkillMult) {
                             const sb = new SkillBase(
                                 obj.system.skillBaseFormula,
                                 {
@@ -500,8 +500,7 @@ export class SohlActor extends Actor {
                                 },
                             );
                             obj.system.masteryLevelBase =
-                                sb.value *
-                                obj.flags.sohl.legendary.initSkillMult;
+                                sb.value * obj.system.initSkillMult;
                         }
                     }
                 }

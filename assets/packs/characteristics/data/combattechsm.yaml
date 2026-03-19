@@ -12,7 +12,6 @@
 
 - name: Unarmed Bite
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 1
   id: vMwD4xyoZAW4qDSy
@@ -41,7 +40,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Grab Hold
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 2
   id: B1EfmuOl5CtGQihu
@@ -70,7 +68,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Grab Take
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 3
   id: rvFq5FepPUInqjxf
@@ -99,7 +96,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Headbutt
   group: Headbutt
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 4
   id: pqTDFnehx61A64by
@@ -124,7 +120,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Kick
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 5
   id: 8fIXUjAkKWfXRweO
@@ -153,7 +148,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Limb Block
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 6
   id: xFAcnR7IGhEaR66R
@@ -178,7 +172,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Press
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 7
   id: qtcn70JC4Fac5DrZ
@@ -207,7 +200,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Punch
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 8
   id: m2qf74BvOkEk0cQx
@@ -232,7 +224,6 @@
   folderId: dv8AthmrwfYNGB1k
 - name: Unarmed Trip
   group: Unarmed
-  subType: legendary
   combatManeuverId: B3NcsoGN9cSTKmxD
   strikeModeNum: 9
   id: MfUTMbvLNcjIdc0q

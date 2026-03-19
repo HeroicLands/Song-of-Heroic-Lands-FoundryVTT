@@ -13,7 +13,6 @@
 
 import type { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlSystem } from "@src/core/SohlSystem";
-import { LegendarySystem } from "@src/core/LegendarySystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
@@ -26,25 +25,8 @@ import {
     registerAssemblyContextMenu,
 } from "@src/apps/AssemblyDirectory";
 
-/**
- * Register all built-in variants and allow modules to register their own.
- * Called during the init hook, before settings are registered.
- */
-function registerVariants(): void {
-    // Register built-in variants
-    SohlSystem.registerVariant(
-        LegendarySystem.ID,
-        LegendarySystem.getInstance(),
-    );
-
-    // Allow modules to register additional variants.
-    // Modules should listen for this hook and call SohlSystem.registerVariant().
-    Hooks.callAll("sohl.registerVariants" as any);
-}
-
-function setupVariant(): SohlSystem {
-    const variantId = game.settings.get("sohl", "variant");
-    const sohl = SohlSystem.selectVariant(variantId);
+function setupSystem(): SohlSystem {
+    const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
     sohl.setupSheets();
     console.log(sohl.initMessage);
@@ -58,21 +40,6 @@ function registerSystemSettings() {
         config: false,
         type: String,
         default: "",
-    });
-    // Build variant choices dynamically from the registry
-    const variantChoices: Record<string, string> = {};
-    for (const [id, variant] of SohlSystem.variants) {
-        variantChoices[id] = (variant.constructor as any).TITLE || id;
-    }
-    game.settings.register("sohl", "variant", {
-        name: "SOHL.Settings.Variant.label",
-        hint: "SOHL.Settings.Variant.hint",
-        scope: "world",
-        config: true,
-        requiresReload: true,
-        default: "",
-        type: String,
-        choices: variantChoices,
     });
     game.settings.register("sohl", "logLevel", {
         name: "SOHL.Settings.logLevel.label",
@@ -417,89 +384,6 @@ function registerSystemHooks() {
     );
 }
 
-/**
- * Show a blocking dialog for first-time variant selection.
- * The dialog cannot be dismissed without making a choice.
- * After selection, the setting is saved and the page is reloaded
- * so the system initializes cleanly with the chosen variant.
- *
- * The dropdown is built dynamically from all registered variants
- * via SohlSystem.variants.
- */
-async function showVariantSelectionDialog(): Promise<void> {
-    // Build dropdown options from registered variants
-    const options = Array.from(SohlSystem.variants)
-        .map(([id, variant]) => {
-            const title = (variant.constructor as any).TITLE || id;
-            return `<option value="${id}">${title}</option>`;
-        })
-        .join("\n");
-
-    const content = `
-        <div style="padding: 1em;">
-            <h2 style="text-align: center; margin-bottom: 0.5em;">Welcome to Song of Heroic Lands</h2>
-            <p style="margin-bottom: 1.5em;">
-                Before you begin, please choose which rules variant to use for this world.
-                This choice determines how combat, skills, and other game mechanics work.
-                <strong>This cannot be easily changed later.</strong>
-            </p>
-            <div class="form-group">
-                <label for="sohl-variant-select">Rules Variant</label>
-                <select id="sohl-variant-select" style="width: 100%;">
-                    ${options}
-                </select>
-            </div>
-        </div>
-    `;
-
-    return new Promise<void>((resolve) => {
-        const dialog = new Dialog(
-            {
-                title: "Song of Heroic Lands — Choose Rules Variant",
-                content,
-                buttons: {
-                    confirm: {
-                        icon: '<i class="fas fa-check"></i>',
-                        label: "Confirm",
-                        callback: async (html: HTMLElement | JQuery) => {
-                            const el =
-                                html instanceof HTMLElement ? html : html[0];
-                            const select = el.querySelector<HTMLSelectElement>(
-                                "#sohl-variant-select",
-                            );
-                            const variant = select?.value;
-                            if (variant) {
-                                (dialog as any)._variantSelected = true;
-                                await game.settings.set(
-                                    "sohl",
-                                    "variant",
-                                    variant,
-                                );
-                                window.location.reload();
-                            }
-                            resolve();
-                        },
-                    },
-                },
-                close: () => {
-                    // Prevent closing without a selection — reopen
-                    if (!(dialog as any)._variantSelected) {
-                        setTimeout(
-                            () => showVariantSelectionDialog().then(resolve),
-                            100,
-                        );
-                    }
-                },
-            },
-            {
-                width: 420,
-                classes: ["sohl-variant-dialog"],
-            },
-        );
-        dialog.render(true);
-    });
-}
-
 // Register init hook
 Hooks.once("init", () => {
     const initMessage = `Initializing the Song of Heroic Lands Game System
@@ -522,24 +406,9 @@ Hooks.once("init", () => {
 
     console.log(`SoHL | ${initMessage}`);
 
-    // Register built-in variants and let modules add theirs
-    registerVariants();
-
-    // Register settings (variant choices are built from the registry)
     registerSystemSettings();
 
-    // Check if a variant has been selected
-    const variantId = game.settings.get("sohl", "variant") as string;
-
-    if (!variantId) {
-        // No variant selected — defer full initialization until the user picks one.
-        // Register a minimal sohl global so nothing crashes if accessed.
-        console.log("SoHL | No variant selected — awaiting user selection.");
-        return;
-    }
-
-    // Variant is set — proceed with full initialization
-    globalThis.sohl = setupVariant();
+    globalThis.sohl = setupSystem();
 
     rehydrateCalendars();
     applyActiveCalendar();
@@ -574,15 +443,7 @@ Hooks.once("init", () => {
 });
 
 // Register ready hook
-Hooks.once("ready", async () => {
-    const variantId = game.settings.get("sohl", "variant") as string;
-
-    if (!variantId) {
-        // No variant selected — show blocking selection dialog
-        await showVariantSelectionDialog();
-        return;
-    }
-
+Hooks.once("ready", () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
 });

@@ -27,19 +27,6 @@ See also: [Documentation Hub](README.md), [User Documentation Source](user-guide
 2. Create a world and select **Song of Heroic Lands** as the game system.
 3. Launch the world.
 
-# Choose Your Rules Variant {#QJkdbvJuDsEBMgtk}
-
-Once SoHL launches for the first time, it will ask which rules variant you wish to use.
-
-- **Legendary**: Compatible with _HârnMaster Kethira_
-- **Misty Isle**: Compatible with _HârnMaster 3.5_
-
-After selecting the rules variant, you will need to close the world and restart it.
-
-> Although it is possible to change the variant later, doing so is not recommended.
-
-For more about how variants affect gameplay, see [Rules Variants](user-guide/rules-variants.md).
-
 # Create a First Character {#2LHnAvPMBgbe4QPH}
 
 Generally speaking, you should avoid using the Create Actor dialog for Beings. It will require

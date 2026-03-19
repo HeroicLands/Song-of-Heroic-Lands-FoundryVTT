@@ -64,4 +64,10 @@ export interface MissileWeaponStrikeModeData<
 > extends StrikeModeData<TLogic> {
     /** Type of ammunition used by this strike mode */
     projectileType: ProjectileGearSubType;
+    /** Maximum volley multiplier for range calculation */
+    maxVolleyMult: number;
+    /** Base range before modifiers */
+    baseRangeBase: number;
+    /** Base draw time for this missile weapon */
+    drawBase: number;
 }

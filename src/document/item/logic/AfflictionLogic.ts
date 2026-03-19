@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SuccessTestResult } from "@src/result/SuccessTestResult";
 import type { InjuryData } from "@src/document/item/logic/InjuryLogic";
@@ -172,24 +172,26 @@ export class AfflictionLogic<
         super.initialize();
         this.isDormant = false;
         this.isTreated = false;
-        this.diagnosisBonus = new sohl.modifier.Value({}, { parent: this });
-        this.level = new sohl.modifier.Value({}, { parent: this });
-        this.healingRate = new sohl.modifier.Value({}, { parent: this });
-        this.contagionIndex = new sohl.modifier.Value({}, { parent: this });
+        this.diagnosisBonus = new ValueModifier({}, { parent: this });
+        this.level = new ValueModifier({}, { parent: this });
+        this.healingRate = new ValueModifier({}, { parent: this });
+        this.contagionIndex = new ValueModifier({}, { parent: this });
         this.transmission = AFFLICTION_TRANSMISSION.NONE;
 
-        this.healingRate = new sohl.modifier.Value(this);
+        this.healingRate = new ValueModifier({}, { parent: this });
         if (this.data.healingRateBase === -1) {
             this.healingRate.disabled = "No Healing Rate";
         } else {
             this.healingRate.base = this.data.healingRateBase;
         }
-        this.contagionIndex = new sohl.modifier.Value(this, {
-            base: this.data.contagionIndexBase,
-        });
-        this.level = new sohl.modifier.Value(this, {
-            base: this.data.levelBase,
-        });
+        this.contagionIndex = new ValueModifier(
+            { baseValue: this.data.contagionIndexBase },
+            { parent: this },
+        );
+        this.level = new ValueModifier(
+            { baseValue: this.data.levelBase },
+            { parent: this },
+        );
     }
 
     /** @inheritdoc */

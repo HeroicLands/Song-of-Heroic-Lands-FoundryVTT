@@ -22,10 +22,6 @@ against a target number derived from a character's skill mastery level.
 When two characters compete, the system uses **opposed tests** to determine
 the winner.
 
-> **Variant note:** The specific thresholds for critical success/failure and
-> some test resolution details differ between variants.
-> See [Rules Variants](user-guide/rules-variants.md).
-
 See also: [Skills](user-guide/item-skill.md), [Combat Basics](user-guide/combat-basics.md)
 
 # Performing a Skill Test {#tests-performing}
@@ -48,8 +44,7 @@ A skill test rolls against the effective mastery level. The result is one of:
 - **Marginal Failure (MF)** — a failure by a narrow margin
 - **Critical Failure (CF)** — a significant failure (roll of 96+)
 
-The exact thresholds depend on the effective mastery level and the rules
-variant in use.
+The exact thresholds depend on the effective mastery level.
 
 <!-- TODO: Document the exact success/failure determination rules for
      both Legendary and MistyIsle variants. Include the critical success

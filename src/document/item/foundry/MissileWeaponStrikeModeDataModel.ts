@@ -22,7 +22,7 @@ import {
     ProjectileGearSubType,
     ProjectileGearSubTypes,
 } from "@src/utils/constants";
-const { StringField } = foundry.data.fields;
+const { NumberField, StringField } = foundry.data.fields;
 
 function defineMissileWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
     return {
@@ -31,6 +31,21 @@ function defineMissileWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
             initial: PROJECTILEGEAR_SUBTYPE.NONE,
             required: true,
             choices: ProjectileGearSubTypes,
+        }),
+        maxVolleyMult: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        baseRangeBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        drawBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
         }),
     };
 }
@@ -57,6 +72,9 @@ export class MissileWeaponStrikeModeDataModel<
     ];
     static override readonly kind = ITEM_KIND.MISSILEWEAPONSTRIKEMODE;
     projectileType!: ProjectileGearSubType;
+    maxVolleyMult!: number;
+    baseRangeBase!: number;
+    drawBase!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMissileWeaponStrikeModeSchema();

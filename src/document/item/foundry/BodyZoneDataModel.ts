@@ -17,10 +17,25 @@ import {
     BodyZoneData,
 } from "@src/document/item/logic/BodyZoneLogic";
 import { ITEM_KIND } from "@src/utils/constants";
+const { ArrayField, StringField, NumberField, BooleanField } =
+    foundry.data.fields;
 
 function defineBodyZoneDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        affectedSkillNames: new ArrayField(
+            new StringField({ blank: false }),
+            { initial: [] },
+        ),
+        affectedAttributeNames: new ArrayField(
+            new StringField({ blank: false }),
+            { initial: [] },
+        ),
+        affectsMobility: new BooleanField({ initial: false }),
+        zones: new ArrayField(
+            new NumberField({ integer: true, min: 0 }),
+            { initial: [] },
+        ),
     };
 }
 
@@ -38,6 +53,10 @@ export class BodyZoneDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.BODYZONE;
+    affectedSkillNames!: string[];
+    affectedAttributeNames!: string[];
+    affectsMobility!: boolean;
+    zones!: number[];
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineBodyZoneDataSchema();

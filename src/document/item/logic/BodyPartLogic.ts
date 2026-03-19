@@ -73,4 +73,6 @@ export interface BodyPartData<
     canHoldItem: boolean;
     /** ID of the item currently held by this body part, or null */
     heldItemId: string | null;
+    /** Relative probability weight for hit location rolls */
+    probWeight: number;
 }

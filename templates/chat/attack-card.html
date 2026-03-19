@@ -8,31 +8,27 @@
     <div class="card-note">
         <span>{{notes}}</span>
     </div>
-    {{/if}}
-    
-    {{#if isMissile}}
+    {{/if}} {{#if isMissile}}
     <div class="card-content">
         <span class="label">Missile:</span>
         <span class="value">{{missile}}</span>
     </div>
 
-        {{#if projectile}}
-        <div class="card-content">
-            <span class="label">Projectile:</span>
-            <span class="value">{{projectile}}</span>
-        </div>
-        {{/if}}
-    
-    {{/if}}
+    {{#if projectile}}
+    <div class="card-content">
+        <span class="label">Projectile:</span>
+        <span class="value">{{projectile}}</span>
+    </div>
+    {{/if}} {{/if}}
 
-    {{#if (eq variant "legendary")}}
     <div class="card-content center">
         <div class="flexrow">
             <span class="label">Zone Die + Start:</span>
-            <span class="value">d{{strikeMode.system.zoneDie}} + {{zoneStart}}</span>
+            <span class="value"
+                >d{{strikeMode.system.zoneDie}} + {{zoneStart}}</span
+            >
         </div>
     </div>
-    {{/if}}
 
     <div class="card-content">
         <label>Impact Modifiers</label>
@@ -74,9 +70,7 @@
         <span class="label">Success Level Modifier:</span>
         <span class="value">{{successLevelMod}}</span>
     </div>
-    {{/if}}
-    
-    {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
+    {{/if}} {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
     <div class="card-buttons">
         <div class="grid grid-2col mingap">
             {{#if hasDodge}}
@@ -89,7 +83,7 @@
                 data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
                 data-attack-obj-json="{{jsonStringify attackMods}}"
                 data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-zone-start="{{zoneStart}}">
                 Dodge
             </button>
             {{/if}} {{#if hasCounterstrike}}
@@ -102,7 +96,7 @@
                 data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
                 data-attack-obj-json="{{jsonStringify attackMods}}"
                 data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-zone-start="{{zoneStart}}">
                 Counterstrike
             </button>
             {{/if}} {{#if hasBlock}}
@@ -115,7 +109,7 @@
                 data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
                 data-attack-obj-json="{{jsonStringify attackMods}}"
                 data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-zone-start="{{zoneStart}}">
                 Block
             </button>
             {{/if}} {{#if hasIgnore}}
@@ -128,7 +122,7 @@
                 data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
                 data-attack-obj-json="{{jsonStringify attackMods}}"
                 data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-zone-start="{{zoneStart}}">
                 Ignore
             </button>
             {{/if}}

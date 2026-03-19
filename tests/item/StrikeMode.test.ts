@@ -37,8 +37,8 @@ describe("StrikeModeLogic", () => {
 describe("StrikeModeDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
-        it.todo("defines subType with Variants choices");
         it.todo("defines mode as a StringField");
+        it.todo("defines zoneDie as integer NumberField with min 0, initial 0");
         it.todo("defines minParts as integer NumberField with min 0, initial 1");
         it.todo("defines assocSkillName as a StringField");
         it.todo("defines impactBase as SchemaField with numDice, die, modifier, and aspect");

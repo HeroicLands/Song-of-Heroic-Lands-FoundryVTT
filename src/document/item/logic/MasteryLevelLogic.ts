@@ -12,7 +12,7 @@
  */
 
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import type { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
+import { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
 import type { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import {
     SohlItem,
@@ -20,7 +20,12 @@ import {
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
 import { FilePath, isItemWithSubType, toFilePath } from "@src/utils/helpers";
-import { ITEM_KIND, MYSTERY_SUBTYPE } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    MYSTERY_SUBTYPE,
+    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 import { SkillBase } from "@src/core/SkillBase";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { SuccessTestResult } from "@src/result/SuccessTestResult";
@@ -290,11 +295,11 @@ export abstract class MasteryLevelLogic<
     override initialize(): void {
         super.initialize();
         this._boosts = 0;
-        this.masteryLevel = new sohl.modifier.MasteryLevel(
+        this.masteryLevel = new MasteryLevelModifier(
             {},
             { parent: this },
         );
-        this.fateMasteryLevel = new sohl.modifier.MasteryLevel(
+        this.fateMasteryLevel = new MasteryLevelModifier(
             {
                 testDescTable: FATE_DESC_TABLE,
                 type: `${this.data.kind}-${this.name}-fate-test`,
@@ -368,16 +373,20 @@ export abstract class MasteryLevelLogic<
     override finalize(): void {
         super.finalize();
         if (this.masteryLevel.disabled) {
-            this.fateMasteryLevel.disabled = sohl.mod.MLDSBL.name;
+            this.fateMasteryLevel.disabled =
+                VALUE_DELTA_ID[VALUE_DELTA_INFO.MLDSBL].name;
         }
         if (!this.fateMasteryLevel.disabled) {
             // Apply magic modifiers
             if (this.magicMod) {
-                this.fateMasteryLevel.add(sohl.mod.MAGICMOD, this.magicMod);
+                this.fateMasteryLevel.add(
+                    VALUE_DELTA_ID[VALUE_DELTA_INFO.MAGICMOD],
+                    this.magicMod,
+                );
             }
             this.fateBonusItems.forEach((it) => {
                 this.fateMasteryLevel.add(
-                    sohl.mod.FATEBNS,
+                    VALUE_DELTA_ID[VALUE_DELTA_INFO.FATEBNS],
                     (it.logic as any).level.effective,
                     { skill: it.system.label },
                 );

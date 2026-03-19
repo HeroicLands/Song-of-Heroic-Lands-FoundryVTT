@@ -63,7 +63,8 @@ export class BodyLocationLogic<
         super.initialize();
         this.protection = Object.fromEntries(
             ImpactAspects.map((aspect) => {
-                const modifier = new sohl.modifier.Value({}, { parent: this });
+                const modifier = new ValueModifier({}, { parent: this });
+                modifier.setBase(this.data.protectionBase[aspect] || 0);
                 return [aspect, modifier];
             }),
         ) as StrictObject<ValueModifier>;
@@ -92,4 +93,14 @@ export interface BodyLocationData<
     isFumble: boolean;
     /** Whether hits to this location trigger stumble checks */
     isStumble: boolean;
+    /** Minimum severity level at which a wound at this location causes bleeding */
+    bleedingSevThreshold: number;
+    /** Modifier applied to amputation rolls for this location */
+    amputateModifier: number;
+    /** Shock value inflicted when this location is struck */
+    shockValue: number;
+    /** Relative probability weight for hit location rolls */
+    probWeight: number;
+    /** Intrinsic natural protection per impact aspect (e.g. creature hide) */
+    protectionBase: StrictObject<number>;
 }

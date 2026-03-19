@@ -17,13 +17,14 @@ import {
     BodyPartData,
 } from "@src/document/item/logic/BodyPartLogic";
 import { ITEM_KIND } from "@src/utils/constants";
-const { BooleanField, DocumentIdField } = foundry.data.fields;
+const { BooleanField, DocumentIdField, NumberField } = foundry.data.fields;
 
 function defineBodyPartDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         canHoldItem: new BooleanField({ initial: false }),
         heldItemId: new DocumentIdField({ nullable: true }),
+        probWeight: new NumberField({ integer: true, initial: 0, min: 0 }),
     };
 }
 
@@ -43,6 +44,7 @@ export class BodyPartDataModel<
     static override readonly kind = ITEM_KIND.BODYPART;
     canHoldItem!: boolean;
     heldItemId!: string | null;
+    probWeight!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineBodyPartDataSchema();

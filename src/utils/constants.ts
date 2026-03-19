@@ -22,17 +22,6 @@ import { Itr } from "@src/utils/Itr";
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
 
-export const {
-    kind: VARIANT,
-    values: Variants,
-    isValue: isVariant,
-    labels: VariantLabels,
-} = defineType("SOHL.SohlSystem.Variant", {
-    LEGENDARY: "legendary",
-    MYSTYISLE: "mystyisle",
-});
-export type Variant = (typeof VARIANT)[keyof typeof VARIANT];
-
 export const SYMBOL: StrictObject<string> = {
     TIMES: String.fromCharCode(0x00d7),
     GREATERTHANOREQUAL: String.fromCodePoint(0x2265),
@@ -82,7 +71,6 @@ export const {
     MYSTICALDEVICE: "mysticaldevice",
     PHILOSOPHY: "philosophy",
     PROJECTILEGEAR: "projectilegear",
-    PROTECTION: "protection",
     SKILL: "skill",
     TRAIT: "trait",
     WEAPONGEAR: "weapongear",
@@ -217,11 +205,6 @@ export const {
     [ITEM_KIND.PROJECTILEGEAR]: {
         IconCssClass: "fas fa-bow-arrow",
         Image: "systems/sohl/assets/icons/arrow.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.PROTECTION]: {
-        IconCssClass: "fas fa-shield",
-        Image: "systems/sohl/assets/icons/shield.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.SKILL]: {

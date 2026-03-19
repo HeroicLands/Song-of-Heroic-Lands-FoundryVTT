@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
+import { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -79,14 +79,14 @@ export class SuccessTestResult extends TestResult {
         if (options.mlMod)
             this._masteryLevelModifier =
                 data.masteryLevelModifier ??
-                new sohl.modifier.Value({}, { parent: this.parent });
+                new MasteryLevelModifier({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
         this._successLevel = MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
-            new sohl.modifier.MasteryLevel(
+            new MasteryLevelModifier(
                 {},
                 {
                     parent: this.parent,

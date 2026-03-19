@@ -72,7 +72,6 @@ import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLo
 import { MysticalDeviceLogic } from "@src/document/item/logic/MysticalDeviceLogic";
 import { PhilosophyLogic } from "@src/document/item/logic/PhilosophyLogic";
 import { ProjectileGearLogic } from "@src/document/item/logic/ProjectileGearLogic";
-import { ProtectionLogic } from "@src/document/item/logic/ProtectionLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
@@ -127,8 +126,6 @@ import { PhilosophyDataModel } from "@src/document/item/foundry/PhilosophyDataMo
 import { PhilosophySheet } from "@src/document/item/foundry/PhilosophySheet";
 import { ProjectileGearDataModel } from "@src/document/item/foundry/ProjectileGearDataModel";
 import { ProjectileGearSheet } from "@src/document/item/foundry/ProjectileGearSheet";
-import { ProtectionDataModel } from "@src/document/item/foundry/ProtectionDataModel";
-import { ProtectionSheet } from "@src/document/item/foundry/ProtectionSheet";
 import { SkillDataModel } from "@src/document/item/foundry/SkillDataModel";
 import { SkillSheet } from "@src/document/item/foundry/SkillSheet";
 import { TraitDataModel } from "@src/document/item/foundry/TraitDataModel";
@@ -163,7 +160,6 @@ import * as constants from "@src/utils/constants";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SohlLocalize } from "@src/utils/SohlLocalize";
 import { SohlLogger } from "@src/utils/SohlLogger";
-import { Itr } from "@src/utils/Itr";
 import {
     ACTOR_KIND,
     ActorKinds,
@@ -177,7 +173,6 @@ import {
     DefinedType,
     SOHL_DEFAULT_CALENDAR_CONFIG,
 } from "@src/utils/constants";
-import { getGame } from "@src/core/FoundryProxy";
 
 export type ActorDMMap = Record<
     string,
@@ -259,7 +254,6 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceDataModel,
     [ITEM_KIND.PHILOSOPHY]: PhilosophyDataModel,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearDataModel,
-    [ITEM_KIND.PROTECTION]: ProtectionDataModel,
     [ITEM_KIND.SKILL]: SkillDataModel,
     [ITEM_KIND.TRAIT]: TraitDataModel,
     [ITEM_KIND.WEAPONGEAR]: WeaponGearDataModel,
@@ -309,7 +303,6 @@ export const {
     [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceLogic,
     [ITEM_KIND.PHILOSOPHY]: PhilosophyLogic,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
-    [ITEM_KIND.PROTECTION]: ProtectionLogic,
     [ITEM_KIND.SKILL]: SkillLogic,
     [ITEM_KIND.TRAIT]: TraitLogic,
     [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
@@ -343,30 +336,26 @@ export const {
     [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceSheet,
     [ITEM_KIND.PHILOSOPHY]: PhilosophySheet,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearSheet,
-    [ITEM_KIND.PROTECTION]: ProtectionSheet,
     [ITEM_KIND.SKILL]: SkillSheet,
     [ITEM_KIND.TRAIT]: TraitSheet,
     [ITEM_KIND.WEAPONGEAR]: WeaponGearSheet,
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
 /**
- * Abstract class representing a system variant for the Song of Heroic Lands (SoHL).
- * This class provides the canonical runtime registry/config surface for constructing
- * data models, results, and modifiers in a variant-agnostic way.
- *
- * Design contract:
- * - Runtime code resolves constructors through `sohl.CONFIG` and registries.
- * - Variants may override logic and sheets, but shared persisted data model schemas
- *   should remain stable across variants.
- * - Variant-specific persisted data belongs in `flags.sohl.<variant>...` and logic
- *   must handle missing flags safely.
+ * Central system class for the Song of Heroic Lands (SoHL).
+ * Provides the canonical runtime registry/config surface for constructing
+ * data models, results, and modifiers.
  */
-export abstract class SohlSystem {
-    protected static _variants: SohlMap<string, SohlSystem> = new SohlMap<
-        string,
-        SohlSystem
-    >();
-    protected static _curVariant?: SohlSystem;
+export class SohlSystem {
+    private static _instance: SohlSystem | null = null;
+
+    static getInstance(): SohlSystem {
+        if (!this._instance) {
+            this._instance = new SohlSystem();
+        }
+        return this._instance;
+    }
+
     protected static _calendars: SohlMap<
         string,
         SohlSystem.CalendarRegistration
@@ -541,56 +530,12 @@ export abstract class SohlSystem {
         return {} as const;
     }
 
-    /**
-     * A short string ID for this system variant.
-     */
-    static readonly ID: string;
-
-    /**
-     * The human-readable title of the system variant.
-     */
-    static readonly TITLE: string;
-
-    /**
-     * The system initialization message, displayed during loading.
-     */
-    static readonly INIT_MESSAGE: string;
-
     static readonly utils: typeof utils = utils;
     static readonly constants: typeof constants = constants;
     static ready: boolean = false;
     readonly i18n: SohlLocalize;
     readonly log: SohlLogger;
     readonly events: SohlEventQueue;
-
-    static registerVariant(variantId: string, variant: SohlSystem): void {
-        if (this._variants.has(variantId)) {
-            throw new Error(
-                `Variant with ID "${variantId}" is already registered.`,
-            );
-        }
-        this._variants.set(variantId, variant);
-    }
-
-    static selectVariant(variantId?: string): SohlSystem {
-        if (!variantId) {
-            this._curVariant = SohlSystem._variants.values().next().value;
-        } else {
-            this._curVariant = SohlSystem._variants.get(variantId);
-        }
-        if (!this._curVariant) {
-            throw new Error(
-                `SohlSystem: No variant found for "${variantId}". Available variants: ${Array.from(
-                    this._variants.keys(),
-                ).join(", ")}`,
-            );
-        }
-        return this._curVariant;
-    }
-
-    static get variants(): Itr<[string, SohlSystem]> {
-        return this._variants.entries();
-    }
 
     /* -------------------------------------------- */
     /*  Calendar Registry                           */
@@ -679,51 +624,6 @@ export abstract class SohlSystem {
         return (this.constructor as any).constants;
     }
 
-    /* -------------------------------------------- */
-    /*  Variant-Aware Class Accessors               */
-    /* -------------------------------------------- */
-
-    /**
-     * Variant-aware modifier constructors.
-     * Usage: `new sohl.modifier.Value({}, { parent: this })`
-     */
-    get modifier() {
-        const cfg = this.CONFIG.Modifier;
-        return {
-            Value: cfg.ValueModifier as Constructor<ValueModifier>,
-            Combat: cfg.CombatModifier as Constructor<CombatModifier>,
-            Impact: cfg.ImpactModifier as Constructor<ImpactModifier>,
-            MasteryLevel:
-                cfg.MasteryLevelModifier as Constructor<MasteryLevelModifier>,
-        };
-    }
-
-    /**
-     * Variant-aware result constructors.
-     * Usage: `new sohl.result.SuccessTest({}, { parent: this })`
-     */
-    get result() {
-        const cfg = this.CONFIG.Result;
-        return {
-            SuccessTest:
-                cfg.SuccessTestResult as Constructor<SuccessTestResult>,
-            OpposedTest:
-                cfg.OpposedTestResult as Constructor<OpposedTestResult>,
-            Impact: cfg.ImpactResult as Constructor<ImpactResult>,
-            Combat: cfg.CombatResult as Constructor<CombatResult>,
-            Attack: cfg.AttackResult as Constructor<AttackResult>,
-            Defend: cfg.DefendResult as Constructor<DefendResult>,
-        };
-    }
-
-    /**
-     * Variant-aware modifier constant definitions.
-     * Usage: `sohl.mod.OUTNUMBERED`, `sohl.mod.MLDSBL`
-     */
-    get mod(): PlainObject {
-        return (this.CONFIG as any).MOD ?? {};
-    }
-
     protected constructor() {
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();
@@ -731,21 +631,41 @@ export abstract class SohlSystem {
     }
 
     get game(): SohlSystem {
-        if (!(this.constructor as any).curVariant) {
-            const variant = (getGame().settings as any).get(
+        return SohlSystem.getInstance();
+    }
+
+    setupSheets(): void {
+        ActorKinds.forEach((kind) => {
+            foundry.applications.apps.DocumentSheetConfig.registerSheet(
+                CONFIG.Actor.documentClass,
                 "sohl",
-                "variant",
-            ) as string;
-            (this.constructor as any).selectVariant(variant);
-        }
-        return (this.constructor as any).curVariant;
+                COMMON_ACTOR_SHEETS[kind] as any,
+                {
+                    types: [kind],
+                    makeDefault: true,
+                },
+            );
+        });
+        ItemKinds.forEach((kind) => {
+            foundry.applications.apps.DocumentSheetConfig.registerSheet(
+                CONFIG.Item.documentClass,
+                "sohl",
+                COMMON_ITEM_SHEETS[kind] as any,
+                {
+                    types: [kind],
+                    makeDefault: true,
+                },
+            );
+        });
+        foundry.applications.apps.DocumentSheetConfig.registerSheet(
+            CONFIG.ActiveEffect.documentClass,
+            "sohl",
+            SohlActiveEffectSheet,
+            {
+                makeDefault: true,
+            },
+        );
     }
-
-    get variants(): Itr<[string, SohlSystem]> {
-        return (this.constructor as any).variants;
-    }
-
-    abstract setupSheets(): void;
 }
 
 // Register the default calendar

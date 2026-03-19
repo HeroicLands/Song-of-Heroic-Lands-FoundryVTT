@@ -53,15 +53,6 @@ Key contracts:
 - Logic object is created lazily through `create(...)` + `logic` accessor.
 - `fromData(...)` resolves model class by `kind` across configured document families and normalizes serialized JSON forms.
 
-### Variant stability rule
-
-- Data model schema is intentionally variant-agnostic and stable across variants.
-- Variants may override logic and sheets, but should not introduce variant-specific persisted fields in shared data model schema.
-- Variant-specific persisted data should be stored under namespaced flags: `flags.sohl.<variant>...`.
-- Logic must handle missing variant flags gracefully to support cross-variant imports.
-
-This allows data created in one variant (for example, `legendary`) to be imported into another (for example, `mistyisle`) without schema failures.
-
 ## Document/DataModel/Logic contract (Actor and Item)
 
 SoHL intentionally separates persistence from behavior:

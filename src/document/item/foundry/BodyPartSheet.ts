@@ -17,6 +17,15 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 export class BodyPartSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/legendary/bodypart-properties.hbs",
+            scrollable: [""],
+        },
+    };
+
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

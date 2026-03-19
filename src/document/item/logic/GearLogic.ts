@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
     SohlItemData,
@@ -55,10 +55,10 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new sohl.modifier.Value({}, { parent: this });
-        this.value = new sohl.modifier.Value({}, { parent: this });
-        this.quality = new sohl.modifier.Value({}, { parent: this });
-        this.durability = new sohl.modifier.Value({}, { parent: this });
+        this.weight = new ValueModifier({}, { parent: this });
+        this.value = new ValueModifier({}, { parent: this });
+        this.quality = new ValueModifier({}, { parent: this });
+        this.durability = new ValueModifier({}, { parent: this });
     }
 
     /** @inheritdoc */

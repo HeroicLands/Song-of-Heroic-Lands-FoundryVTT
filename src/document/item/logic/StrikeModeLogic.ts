@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactAspect, Variant } from "@src/utils/constants";
+import { ImpactAspect } from "@src/utils/constants";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { CombatModifier } from "@src/modifier/CombatModifier";
-import type { ImpactModifier } from "@src/modifier/ImpactModifier";
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import { CombatModifier } from "@src/modifier/CombatModifier";
+import { ImpactModifier } from "@src/modifier/ImpactModifier";
+import { ValueModifier } from "@src/modifier/ValueModifier";
 import type { GearLogic } from "@src/document/item/logic/GearLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SuccessTestResult } from "@src/result/SuccessTestResult";
@@ -75,9 +75,9 @@ export abstract class StrikeModeLogic<
             noAttack: false,
             noBlock: false,
         };
-        this.impact = new sohl.modifier.Impact({}, { parent: this });
-        this.attack = new sohl.modifier.Combat({}, { parent: this });
-        this.durability = new sohl.modifier.Value({}, { parent: this });
+        this.impact = new ImpactModifier({}, { parent: this });
+        this.attack = new CombatModifier({}, { parent: this });
+        this.durability = new ValueModifier({}, { parent: this });
         this.impact.base = this.data.impactBase;
         const skills: SkillLogic[] =
             this.actor?.itemTypes.skill.map(
@@ -118,10 +118,10 @@ export abstract class StrikeModeLogic<
 export interface StrikeModeData<
     TLogic extends StrikeModeLogic<StrikeModeData> = StrikeModeLogic<any>,
 > extends SohlItemData<TLogic> {
-    /** Rules variant this strike mode belongs to */
-    subType: Variant;
     /** Name of the attack mode (e.g., Slash, Thrust) */
     mode: string;
+    /** Zone die for hit location determination */
+    zoneDie: number;
     /** Minimum number of body parts needed to use this strike mode */
     minParts: number;
     /** Name of the skill used for attack tests */

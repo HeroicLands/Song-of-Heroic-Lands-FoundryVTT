@@ -16,17 +16,12 @@ import {
     MeleeWeaponStrikeModeLogic,
     MeleeWeaponStrikeModeData,
 } from "@src/document/item/logic/MeleeWeaponStrikeModeLogic";
-import { ITEM_KIND, Variant, Variants } from "@src/utils/constants";
-const { NumberField, StringField } = foundry.data.fields;
+import { ITEM_KIND } from "@src/utils/constants";
+const { NumberField } = foundry.data.fields;
 
 function defineMeleeWeaponStrikeModeSchema(): foundry.data.fields.DataSchema {
     return {
         ...StrikeModeDataModel.defineSchema(),
-        subType: new StringField({
-            choices: Variants,
-            required: true,
-        }),
-
         lengthBase: new NumberField({
             integer: true,
             initial: 0,
@@ -54,7 +49,6 @@ export class MeleeWeaponStrikeModeDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.MELEEWEAPONSTRIKEMODE;
-    subType!: Variant;
     lengthBase!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

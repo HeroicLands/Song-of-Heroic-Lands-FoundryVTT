@@ -17,6 +17,15 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 export class ArmorGearSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/legendary/armorgear-properties.hbs",
+            scrollable: [""],
+        },
+    };
+
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -36,6 +45,7 @@ export class ArmorGearSheet extends SohlItemSheetBase {
             visibleToCohort: system.visibleToCohort,
             material: system.material,
             locations: system.locations,
+            protectionBase: system.protectionBase,
         });
     }
 }

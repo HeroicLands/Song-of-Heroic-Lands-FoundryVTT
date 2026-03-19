@@ -145,14 +145,6 @@ export class Characteristics {
                 ) + ".json";
             let outputPath = path.join(this.outputDir, fname);
 
-            Characteristics.mergeObject(skill["flags"], {
-                sohl: {
-                    legendary: {
-                        initSkillMult: skill.initSM,
-                        expertiseParentSkill: skill.expertiseParentSkill || "",
-                    },
-                },
-            });
             const outputData = {
                 name: skill.name,
                 type: "skill",
@@ -171,6 +163,8 @@ export class Characteristics {
                     weaponGroup: skill.weaponGroup,
                     domain: skill.domain,
                     baseSkill: skill.baseSkill,
+                    initSkillMult: skill.initSM,
+                    expertiseParentSkill: skill.expertiseParentSkill || "",
                 },
                 effects: skill.effects || [],
                 flags: skill.flags || {},
@@ -207,14 +201,6 @@ export class Characteristics {
                 ) + ".json";
             let outputPath = path.join(this.outputDir, fname);
 
-            Characteristics.mergeObject(cmbttech["flags"], {
-                sohl: {
-                    legendary: {
-                        zoneDie: cmbttech.zoneDie,
-                    },
-                },
-            });
-
             const sm = {
                 name: cmbttech.name,
                 type: "combattechniquestrikemode",
@@ -225,6 +211,7 @@ export class Characteristics {
                     textReference: "",
                     description: "",
                     group: cmbttech.group,
+                    zoneDie: cmbttech.zoneDie,
                     mode: cmbttech.subDesc,
                     minParts: cmbttech.minParts,
                     assocSkillName: cmbttech.assocSkill,

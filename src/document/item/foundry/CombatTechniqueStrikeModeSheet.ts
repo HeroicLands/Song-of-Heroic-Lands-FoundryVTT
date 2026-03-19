@@ -17,6 +17,15 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 export class CombatTechniqueStrikeModeSheet extends SohlItemSheetBase {
+    static override PARTS = {
+        ...super.PARTS,
+        properties: {
+            container: { classes: ["tab-body"], id: "tabs" },
+            template: "systems/sohl/templates/item/legendary/combattechniquestrikemode-properties.hbs",
+            scrollable: [""],
+        },
+    };
+
     protected async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -26,7 +35,6 @@ export class CombatTechniqueStrikeModeSheet extends SohlItemSheetBase {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         return Object.assign(context, {
-            subType: system.subType,
             mode: system.mode,
             minParts: system.minParts,
             assocSkillName: system.assocSkillName,

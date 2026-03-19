@@ -21,7 +21,7 @@ import {
     SKILL_SUBTYPE,
     ITEM_KIND,
 } from "@src/utils/constants";
-const { StringField } = foundry.data.fields;
+const { NumberField, StringField } = foundry.data.fields;
 
 function defineSkillSchema(): foundry.data.fields.DataSchema {
     return {
@@ -38,6 +38,12 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
         }),
         baseSkill: new StringField(),
         domain: new StringField(),
+        initSkillMult: new NumberField({
+            integer: false,
+            initial: 0,
+            min: 0,
+        }),
+        expertiseParentSkill: new StringField(),
     };
 }
 
@@ -60,6 +66,8 @@ export class SkillDataModel<
     weaponGroup!: string;
     baseSkill!: string;
     domain!: string;
+    initSkillMult!: number;
+    expertiseParentSkill!: string;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();

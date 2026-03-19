@@ -57,4 +57,6 @@ export interface WeaponGearData<
 > extends GearData<TLogic> {
     /** Base reach/length of the weapon */
     lengthBase: number;
+    /** Encumbrance value of the weapon */
+    encumbrance: number;
 }

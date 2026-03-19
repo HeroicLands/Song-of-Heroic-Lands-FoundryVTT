@@ -16,14 +16,30 @@ import {
     BodyLocationLogic,
     BodyLocationData,
 } from "@src/document/item/logic/BodyLocationLogic";
-import { ITEM_KIND } from "@src/utils/constants";
-const { BooleanField } = foundry.data.fields;
+import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
+const { BooleanField, NumberField, SchemaField } = foundry.data.fields;
 
 function defineBodyLocationDataSchema(): foundry.data.fields.DataSchema {
+    const protectionObj = Object.fromEntries(
+        ImpactAspects.map((aspect) => [
+            aspect,
+            new NumberField({ integer: true, initial: 0, min: 0 }),
+        ]),
+    ) as foundry.data.fields.DataSchema;
+
     return {
         ...SohlItemDataModel.defineSchema(),
         isFumble: new BooleanField({ initial: false }),
         isStumble: new BooleanField({ initial: false }),
+        bleedingSevThreshold: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        amputateModifier: new NumberField({ integer: true, initial: 0 }),
+        shockValue: new NumberField({ integer: true, initial: 0, min: 0 }),
+        probWeight: new NumberField({ integer: true, initial: 0, min: 0 }),
+        protectionBase: new SchemaField({ ...protectionObj }),
     };
 }
 
@@ -41,6 +57,11 @@ export class BodyLocationDataModel<
     static override readonly kind = ITEM_KIND.BODYLOCATION;
     isFumble!: boolean;
     isStumble!: boolean;
+    bleedingSevThreshold!: number;
+    amputateModifier!: number;
+    shockValue!: number;
+    probWeight!: number;
+    protectionBase!: StrictObject<number>;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineBodyLocationDataSchema();

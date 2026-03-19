@@ -12,16 +12,21 @@
  */
 
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import type { CombatModifier } from "@src/modifier/CombatModifier";
+import { CombatModifier } from "@src/modifier/CombatModifier";
 import type { SuccessTestResult } from "@src/result/SuccessTestResult";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     StrikeModeLogic,
     StrikeModeData,
 } from "@src/document/item/logic/StrikeModeLogic";
-import { ImpactAspect, ITEM_KIND, Variant } from "@src/utils/constants";
+import {
+    ImpactAspect,
+    ITEM_KIND,
+    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 
 /**
  * Logic for the **Melee Weapon Strike Mode** item type — a way of attacking
@@ -74,10 +79,10 @@ export class MeleeWeaponStrikeModeLogic<
     override initialize(): void {
         super.initialize();
         this.defense = {
-            block: new sohl.modifier.Combat({}, { parent: this }),
-            counterstrike: new sohl.modifier.Combat({}, { parent: this }),
+            block: new CombatModifier({}, { parent: this }),
+            counterstrike: new CombatModifier({}, { parent: this }),
         };
-        this.length = new sohl.modifier.Value({}, { parent: this });
+        this.length = new ValueModifier({}, { parent: this });
 
         // Length is only set if this Strike Mode is nested in a WeaponGear
         if (this.item.nestedIn?.type === ITEM_KIND.WEAPONGEAR) {
@@ -108,9 +113,9 @@ export class MeleeWeaponStrikeModeLogic<
             const defendPenalty =
                 Math.max(combatant.threatenedBy.length - 1, 0) * -10;
             if (defendPenalty) {
-                this.defense.block.add(sohl.mod.OUTNUMBERED, defendPenalty);
+                this.defense.block.add(VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED], defendPenalty);
                 this.defense.counterstrike.add(
-                    sohl.mod.OUTNUMBERED,
+                    VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED],
                     defendPenalty,
                 );
             }
@@ -127,16 +132,6 @@ export interface MeleeWeaponStrikeModeData<
     TLogic extends MeleeWeaponStrikeModeLogic<MeleeWeaponStrikeModeData> =
         MeleeWeaponStrikeModeLogic<any>,
 > extends StrikeModeData<TLogic> {
-    subType: Variant;
-    mode: string;
-    minParts: number;
-    assocSkillName: string;
-    impactBase: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: ImpactAspect;
-    };
     /** Effective melee reach of this attack mode */
     lengthBase: number;
 }

@@ -76,4 +76,8 @@ export interface SkillData<
     baseSkill: string;
     /** Mystical domain associated with this skill, if any */
     domain: string;
+    /** Multiplier applied to skill base when initializing a new character */
+    initSkillMult: number;
+    /** Parent skill name for expertise specializations */
+    expertiseParentSkill: string;
 }

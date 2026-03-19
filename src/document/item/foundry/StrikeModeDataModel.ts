@@ -20,19 +20,18 @@ import {
     ImpactAspect,
     IMPACT_ASPECT,
     ImpactAspects,
-    Variants,
-    Variant,
 } from "@src/utils/constants";
 const { StringField, NumberField, SchemaField } = foundry.data.fields;
 
 function defineStrikeModeSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        subType: new StringField({
-            choices: Variants,
-            required: true,
-        }),
         mode: new StringField(),
+        zoneDie: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
         minParts: new NumberField({
             integer: true,
             initial: 1,
@@ -73,8 +72,8 @@ export abstract class StrikeModeDataModel<
     extends SohlItemDataModel<TSchema, TLogic>
     implements StrikeModeData<TLogic>
 {
-    subType!: Variant;
     mode!: string;
+    zoneDie!: number;
     minParts!: number;
     assocSkillName!: string;
     impactBase!: {

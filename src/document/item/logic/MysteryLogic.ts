@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { DomainLogic } from "@src/document/item/logic/DomainLogic";
 import {
@@ -186,15 +186,15 @@ export class MysteryLogic<
     override initialize(): void {
         super.initialize();
 
-        this.level = new sohl.modifier.Value({}, { parent: this }).setBase(
+        this.level = new ValueModifier({}, { parent: this }).setBase(
             this.data.levelBase,
         );
 
         this.charges = {
-            value: new sohl.modifier.Value({}, { parent: this }).setBase(
+            value: new ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.value,
             ),
-            max: new sohl.modifier.Value({}, { parent: this }).setBase(
+            max: new ValueModifier({}, { parent: this }).setBase(
                 this.data.charges.max,
             ),
         };

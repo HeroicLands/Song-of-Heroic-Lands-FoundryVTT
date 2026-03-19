@@ -357,14 +357,6 @@ export class Possessions {
                 ) + ".json";
             let outputPath = path.join(this.outputDir, fname);
 
-            Possessions.mergeObject(armorgear.flags, {
-                sohl: {
-                    legendary: {
-                        encumbrance: armorgear.encumbrance,
-                    },
-                },
-            });
-
             const outputData = {
                 name: armorgear.name,
                 type: "armorgear",
@@ -385,9 +377,16 @@ export class Possessions {
                     qualityBase: armorgear.quality,
                     durabilityBase: armorgear.durability,
                     material: armorgear.material,
+                    encumbrance: armorgear.encumbrance,
                     locations: {
                         flexible: armorgear.flexloc,
                         rigid: armorgear.rigidloc,
+                    },
+                    protectionBase: {
+                        blunt: armorgear.protection.blunt,
+                        edged: armorgear.protection.edged,
+                        piercing: armorgear.protection.piercing,
+                        fire: armorgear.protection.fire,
                     },
                 },
                 effects: armorgear.effects || [],
@@ -398,26 +397,8 @@ export class Possessions {
                 _key: `!items!${armorgear.id}`,
             };
 
-            const legProt = {
-                name: "Legendary Protection",
-                type: "protection",
-                img: armorgear.img,
-                _id: armorgear.legendary.id,
-                system: {
-                    transfer: true,
-                    subType: "legendary",
-                    protectionBase: {
-                        blunt: armorgear.legendary.blunt,
-                        edged: armorgear.legendary.edged,
-                        piercing: armorgear.legendary.piercing,
-                        fire: armorgear.legendary.fire,
-                    },
-                },
-                effects: [],
-                ownership: { default: 0 },
-            };
             if (armorgear.perception) {
-                legProt.effects.push(
+                outputData.effects.push(
                     {
                         name: "Skills Using Perception",
                         icon: "icons/svg/aura.svg",
@@ -451,7 +432,7 @@ export class Possessions {
                         description: "",
                         statuses: [],
                         flags: {},
-                        _key: `!effects!${armorgear.id}.${armorgear.perceptionSkillEffectId}`,
+                        _key: `!items.effects!${armorgear.id}.${armorgear.perceptionSkillEffectId}`,
                     },
                     {
                         name: "Perception Attribute",
@@ -486,11 +467,10 @@ export class Possessions {
                         description: "",
                         statuses: [],
                         flags: {},
-                        _key: `!effects!${armorgear.id}.${armorgear.perceptionTraitEffectId}`,
+                        _key: `!items.effects!${armorgear.id}.${armorgear.perceptionTraitEffectId}`,
                     },
                 );
             }
-            outputData.system.nestedItems.push(legProt);
 
             fs.writeFileSync(
                 outputPath,
@@ -511,14 +491,6 @@ export class Possessions {
         const weapons = new Map();
         for (const weapongear of data) {
             log.debug(`Processing Weapon Gear ${weapongear.name}`);
-
-            Possessions.mergeObject(weapongear.flags, {
-                sohl: {
-                    legendary: {
-                        encumbrance: weapongear.encumbrance,
-                    },
-                },
-            });
 
             weapons.set(weapongear.id, {
                 name: weapongear.name,
@@ -594,25 +566,6 @@ export class Possessions {
                 halfImpact: weaponsm["halfImpact"],
                 durMod: weaponsm["durabilityMod"],
             };
-            if (weaponsm.subType === "legendary") {
-                Possessions.mergeObject(weaponsm.flags, {
-                    sohl: {
-                        legendary: {
-                            zoneDie: weaponsm.zoneDie,
-                        },
-                    },
-                });
-            } else if (weaponsm.subType === "mistyisle") {
-                Possessions.mergeObject(weaponsm.flags, {
-                    sohl: {
-                        mistyisle: {
-                            oneHandedPenalty:
-                                weaponsm.mistyisle.oneHandedPenalty,
-                        },
-                    },
-                });
-            }
-
             const sm = {
                 name: weaponsm.subDesc,
                 type: "meleestrikemode",
@@ -623,8 +576,8 @@ export class Possessions {
                     textReference: "",
                     description: "",
                     transfer: true,
-                    subType: weaponsm.subType,
                     mode: weaponsm.subDesc,
+                    zoneDie: weaponsm.zoneDie,
                     minParts: weaponsm.minParts,
                     assocSkillName: weaponsm.assocSkill,
                     impactBase: {
@@ -666,26 +619,9 @@ export class Possessions {
                 }
                 sm.type = "missilestrikemode";
                 sm.system.projectileType = weaponsm.projtype;
-                if (weaponsm.subType === "legendary") {
-                    Possessions.mergeObject(sm.flags, {
-                        sohl: {
-                            legendary: {
-                                maxVolleyMult: weaponsm.maxVM,
-                                baseRangeBase: weaponsm.baseRange,
-                                drawBase: weaponsm.draw,
-                            },
-                        },
-                    });
-                } else if (weaponsm.subType === "mistyisle") {
-                    Possessions.mergeObject(sm.flags, {
-                        sohl: {
-                            mistyisle: {
-                                range: weaponsm.mistyisle.range,
-                                impact: weaponsm.mistyisle.impact,
-                            },
-                        },
-                    });
-                }
+                sm.system.maxVolleyMult = weaponsm.maxVM;
+                sm.system.baseRangeBase = weaponsm.baseRange;
+                sm.system.drawBase = weaponsm.draw;
             }
 
             const effect = {
@@ -717,50 +653,36 @@ export class Possessions {
                 _key: `!items.effects!${weaponsm.smId}.${weaponsm.AEID}`,
             };
 
-            if (weaponsm.subType === "legendary") {
-                if (weaponsm.shaft) {
-                    Possessions.mergeObject(effect.flags, {
-                        sohl: {
-                            legendary: {
-                                zoneDie: 8,
-                            },
-                        },
-                    });
-                    Possessions.mergeObject(sm.system.impactBase, {
-                        die: 6,
-                        modifier: 1,
-                        aspect: "blunt",
-                    });
-                    traits.slow = false;
-                    traits.thrust = false;
-                    effect.changes.push({
-                        key: "mod:system.$length",
-                        mode: 2,
-                        value: -2,
-                        priority: null,
-                    });
-                }
+            if (weaponsm.shaft) {
+                sm.system.zoneDie = 8;
+                Possessions.mergeObject(sm.system.impactBase, {
+                    die: 6,
+                    modifier: 1,
+                    aspect: "blunt",
+                });
+                traits.slow = false;
+                traits.thrust = false;
+                effect.changes.push({
+                    key: "mod:system.$length",
+                    mode: 2,
+                    value: -2,
+                    priority: null,
+                });
+            }
 
-                if (weaponsm.pommel) {
-                    Possessions.mergeObject(effect.flags, {
-                        sohl: {
-                            legendary: {
-                                zoneDie: 4,
-                            },
-                        },
-                    });
-                    Possessions.mergeObject(sm.system.impactBase, {
-                        die: 6,
-                        modifier: 0,
-                        aspect: "blunt",
-                    });
-                    effect.changes.push({
-                        key: "mod:system.$length",
-                        mode: 5,
-                        value: 1,
-                        priority: null,
-                    });
-                }
+            if (weaponsm.pommel) {
+                sm.system.zoneDie = 4;
+                Possessions.mergeObject(sm.system.impactBase, {
+                    die: 6,
+                    modifier: 0,
+                    aspect: "blunt",
+                });
+                effect.changes.push({
+                    key: "mod:system.$length",
+                    mode: 5,
+                    value: 1,
+                    priority: null,
+                });
             }
 
             if (weaponsm.halfSword) {
@@ -768,9 +690,8 @@ export class Possessions {
                     sm.system.impactBase.modifier = 0;
                     sm.system.impactBase.die = 6;
                 }
-                if (sm.flags?.sohl?.legendary?.zoneDie > 4) {
-                    sm.flags.sohl.legendary.zoneDie =
-                        sm.flags.sohl.legendary.zoneDie - 2;
+                if (sm.system.zoneDie > 4) {
+                    sm.system.zoneDie = sm.system.zoneDie - 2;
                 }
                 traits.thrust = true;
                 effect.changes.push(

@@ -67,10 +67,6 @@ Beings can be placed on scenes as tokens. Each token represents the Being's
 physical presence in the game world. Tokens can be moved, have vision, and
 participate in combat encounters.
 
-> **Variant note:** Some Being mechanics (combat, character creation, skill
-> tests) differ between the Legendary and Misty Isle variants.
-> See [Rules Variants](user-guide/rules-variants.md).
-
 <!-- TODO: Expand with token configuration details, linked vs unlinked tokens,
      prototype token setup, and vision/light settings -->
 

@@ -16,10 +16,18 @@ import {
     ArmorGearLogic,
     ArmorGearData,
 } from "@src/document/item/logic/ArmorGearLogic";
-import { ITEM_KIND } from "@src/utils/constants";
-const { StringField, SchemaField, ArrayField } = foundry.data.fields;
+import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
+const { StringField, SchemaField, ArrayField, NumberField } =
+    foundry.data.fields;
 
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
+    const protectionObj = Object.fromEntries(
+        ImpactAspects.map((aspect) => [
+            aspect,
+            new NumberField({ integer: true, initial: 0, min: 0 }),
+        ]),
+    ) as foundry.data.fields.DataSchema;
+
     return {
         ...GearDataModel.defineSchema(),
         material: new StringField(),
@@ -27,6 +35,8 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
             flexible: new ArrayField(new StringField()),
             rigid: new ArrayField(new StringField()),
         }),
+        protectionBase: new SchemaField({ ...protectionObj }),
+        encumbrance: new NumberField({ initial: 0, min: 0 }),
     };
 }
 
@@ -48,6 +58,8 @@ export class ArmorGearDataModel<
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };
+    protectionBase!: StrictObject<number>;
+    encumbrance!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineArmorGearSchema();
