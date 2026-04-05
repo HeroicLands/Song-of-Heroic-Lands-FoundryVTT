@@ -91,7 +91,7 @@ export class MysticalAbilityLogic<
         super.evaluate();
 
         if (!this.actor) return;
-        const allItemTypes = this.actor.allItemTypes;
+        const allItemTypes = this.actor.itemTypes;
 
         this.mystery = allItemTypes.mystery.find(
             (it: SohlItem) => it.system.shortcode === this.data.mysteryCode,

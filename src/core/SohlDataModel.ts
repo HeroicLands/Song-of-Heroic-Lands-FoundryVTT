@@ -430,7 +430,7 @@ export namespace SohlDataModel {
                             (anyDoc as SohlActor)
                         :   anyDoc.actor;
                     if (!actor) return [];
-                    doc = actor.allItems.get(docId);
+                    doc = actor.items.get(docId);
                 }
                 if (doc) {
                     const uiContext = (foundry as any).ui.context;

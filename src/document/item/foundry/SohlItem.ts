@@ -521,7 +521,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const toCreate = [];
         for (let itemData of itemList) {
             // Determine if a similar item exists
-            let similarItem = this.actor.allItems.find(
+            let similarItem = this.actor.items.find(
                 (it: SohlItem) =>
                     it.name === itemData.name &&
                     it.type === itemData.type &&
@@ -703,7 +703,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<SohlItem[] | undefined> {
         if (!this.actor || !this.actor.isOwner)
             return Promise.resolve(undefined);
-        const items = this.actor.allItems;
+        const items = this.actor.items;
         const sourceId = item.id;
         if (!sourceId) return Promise.resolve(undefined);
         const source = items.get(sourceId);

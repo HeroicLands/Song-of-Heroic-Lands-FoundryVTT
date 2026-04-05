@@ -246,7 +246,7 @@ export abstract class MasteryLevelLogic<
         if (!this.item?.name) return result;
 
         if (this.actor) {
-            this.actor.allItems.forEach((it: SohlItem) => {
+            this.actor.items.forEach((it: SohlItem) => {
                 if (
                     it.type === ITEM_KIND.MYSTERY &&
                     isItemWithSubType(it, MYSTERY_SUBTYPE.FATEBONUS)
@@ -295,10 +295,7 @@ export abstract class MasteryLevelLogic<
     override initialize(): void {
         super.initialize();
         this._boosts = 0;
-        this.masteryLevel = new MasteryLevelModifier(
-            {},
-            { parent: this },
-        );
+        this.masteryLevel = new MasteryLevelModifier({}, { parent: this });
         this.fateMasteryLevel = new MasteryLevelModifier(
             {
                 testDescTable: FATE_DESC_TABLE,
@@ -313,7 +310,7 @@ export abstract class MasteryLevelLogic<
         if (this.actor) {
             const fateSetting = fvttGetSetting("sohl", "optionFate");
 
-            const auraLogic = this.actor?.allItems.find(
+            const auraLogic = this.actor?.items.find(
                 (it) =>
                     it.type === ITEM_KIND.TRAIT &&
                     (it.system as any).shortcode === "aur",
@@ -340,7 +337,7 @@ export abstract class MasteryLevelLogic<
 
         // Calculate Skill Base
         this._skillBase ||= new SkillBase(this.data.skillBaseFormula, {
-            items: Array.from(this.actor?.allItems.values() || []),
+            items: Array.from(this.actor?.items.values() || []),
         });
     }
 

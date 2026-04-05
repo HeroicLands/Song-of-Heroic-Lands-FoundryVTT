@@ -116,7 +116,7 @@ export class SohlCombatant<
      */
     override _getInitiativeFormula(): string {
         if (this.actor) {
-            const init = this.actor.allItemTypes.skill.find(
+            const init = this.actor.itemTypes.skill.find(
                 (s) => (s.system as any).shortcode === "init",
             ) as unknown as SohlItem;
             if (init) {

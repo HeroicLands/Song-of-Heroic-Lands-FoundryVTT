@@ -12,25 +12,23 @@
  */
 
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { ActionLogic } from "@src/document/item/logic/ActionLogic";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { FilePath, HTMLString } from "@src/utils/helpers";
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import { FilePath, HTMLString } from "@src/utils/helpers";
 import { SohlDataModel } from "@src/core/SohlDataModel";
 import { SohlLogic } from "@src/core/SohlLogic";
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import { SkillBase } from "@src/core/SkillBase";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { ACTOR_KIND, ITEM_KIND } from "@src/utils/constants";
-import type { ActionLogic } from "@src/document/item/logic/ActionLogic";
 import {
     callHook as fvttCallHook,
     callHookCancel as fvttCallHookCancel,
     hookOnError as fvttHookOnError,
     resolveUuidAsync as fvttResolveUuidAsync,
     createRoll as fvttCreateRoll,
-    notifyWarn as fvttNotifyWarn,
 } from "@src/core/foundry-helpers";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
@@ -43,15 +41,11 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * and SohlActorSheetBase (base Sheet). Should be split following the logic/foundry pattern.
  */
 export class SohlActor extends Actor {
-    private _allItemsMap?: SohlMap<string, SohlItem>;
-    private _allItemTypesCache?: StrictObject<SohlItem[]>;
-    private _allItemsBuilt: boolean;
     protected _speaker?: SohlSpeaker;
     protected _lifecycleActionsCache: Map<string, SohlItem>;
 
     constructor(data: any, options?: any) {
         super(data, options);
-        this._allItemsBuilt = false;
         this._lifecycleActionsCache = new Map<string, SohlItem>();
     }
 
@@ -114,40 +108,6 @@ export class SohlActor extends Actor {
         console.warn(
             `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
         );
-    }
-
-    /** Returns all items on this actor. */
-    get allItems(): SohlMap<string, SohlItem> {
-        return this._allItemsMap ?? new SohlMap<string, SohlItem>();
-    }
-
-    /** Returns all item types, categorized by type. */
-    get allItemTypes(): StrictObject<SohlItem[]> {
-        return this._allItemTypesCache ?? {};
-    }
-
-    /**
-     * Builds the items cache from embedded items.
-     */
-    finalizeItemsCache(): void {
-        if (this._allItemsBuilt) return;
-
-        this._allItemsMap = new SohlMap<string, SohlItem>();
-
-        for (const [id, it] of this.items.entries()) {
-            this._allItemsMap.set(id, it as SohlItem);
-        }
-
-        this._allItemTypesCache = this.allItems.reduce(
-            (acc: StrictObject<SohlItem[]>, it: SohlItem) => {
-                const ary: SohlItem[] = acc[it.type] ?? [];
-                ary.push(it);
-                acc[it.type] = ary;
-                return acc;
-            },
-            {},
-        );
-        this._allItemsBuilt = true;
     }
 
     /**
@@ -238,7 +198,7 @@ export class SohlActor extends Actor {
         const ctx = this._getContext();
 
         // Initialize all items
-        for (const item of this.items.values() as Iterable<SohlItem>) {
+        this.items.forEach((item) => {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
             ) {
@@ -252,12 +212,10 @@ export class SohlActor extends Actor {
             if (postInitialize) {
                 (postInitialize.logic as ActionLogic).execute(ctx);
             }
-        }
-
-        this.finalizeItemsCache();
+        });
 
         // Evaluate and finalize all items
-        this.allItems.forEach((it) => {
+        this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
             }
@@ -271,7 +229,7 @@ export class SohlActor extends Actor {
             }
         });
 
-        this.allItems.forEach((it) => {
+        this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
                 it.logic.finalize();
             }

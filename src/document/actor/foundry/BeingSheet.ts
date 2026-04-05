@@ -41,8 +41,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
         profile: {
             id: "profile",
-            template:
-                "systems/sohl/templates/actor/being/profile.hbs",
+            template: "systems/sohl/templates/actor/being/profile.hbs",
         },
         skills: {
             id: "skills",
@@ -58,8 +57,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
         mysteries: {
             id: "mysteries",
-            template:
-                "systems/sohl/templates/actor/being/mysteries.hbs",
+            template: "systems/sohl/templates/actor/being/mysteries.hbs",
         },
         gear: {
             id: "gear",
@@ -384,7 +382,7 @@ export class BeingSheet extends SohlActorSheetBase {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const actor = this.document;
-        const traits = actor.allItemTypes[ITEM_KIND.TRAIT] ?? [];
+        const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
 
         // Separate attributes (intensity === "attribute") from other traits
         const attributes: SohlItem[] = [];
@@ -400,7 +398,7 @@ export class BeingSheet extends SohlActorSheetBase {
             }
         }
 
-        const affiliations = actor.allItemTypes[ITEM_KIND.AFFILIATION] ?? [];
+        const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
 
         const system = this.document.system as any;
         return Object.assign(context, {
@@ -416,7 +414,7 @@ export class BeingSheet extends SohlActorSheetBase {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const skills = this.document.allItemTypes[ITEM_KIND.SKILL] ?? [];
+        const skills = this.document.itemTypes[ITEM_KIND.SKILL] ?? [];
         const skillGroups: StrictObject<SohlItem[]> = {};
 
         for (const skill of skills) {
@@ -453,8 +451,8 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        const injuries = actor.allItemTypes[ITEM_KIND.INJURY] ?? [];
-        const afflictions = actor.allItemTypes[ITEM_KIND.AFFLICTION] ?? [];
+        const injuries = actor.itemTypes[ITEM_KIND.INJURY] ?? [];
+        const afflictions = actor.itemTypes[ITEM_KIND.AFFLICTION] ?? [];
 
         // Group afflictions by subType
         const afflictionGroups: StrictObject<SohlItem[]> = {};
@@ -480,7 +478,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
 
         // Mysteries grouped by subType
-        const mysteries = actor.allItemTypes[ITEM_KIND.MYSTERY] ?? [];
+        const mysteries = actor.itemTypes[ITEM_KIND.MYSTERY] ?? [];
         const mysteryGroups: StrictObject<SohlItem[]> = {};
         for (const mystery of mysteries) {
             const subType = (mystery.system as any).subType ?? "other";
@@ -488,7 +486,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }
 
         // Mystical abilities grouped by subType
-        const abilities = actor.allItemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
+        const abilities = actor.itemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
         const abilityGroups: StrictObject<SohlItem[]> = {};
         for (const ability of abilities) {
             const subType = (ability.system as any).subType ?? "other";
@@ -513,7 +511,7 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Build container hierarchy
         const containers: any[] = [];
-        const containerGear = actor.allItemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
+        const containerGear = actor.itemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
 
         // Virtual "On Body" container for ungrouped gear
         const onBodyItems: SohlItem[] = [];
@@ -529,7 +527,7 @@ export class BeingSheet extends SohlActorSheetBase {
         ];
         const allGear: SohlItem[] = [];
         for (const type of gearTypes) {
-            allGear.push(...(actor.allItemTypes[type] ?? []));
+            allGear.push(...(actor.itemTypes[type] ?? []));
         }
 
         // Sort gear into containers

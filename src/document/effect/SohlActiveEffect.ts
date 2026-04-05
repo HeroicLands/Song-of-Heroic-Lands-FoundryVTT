@@ -69,7 +69,8 @@ export class SohlActiveEffect extends ActiveEffect {
             return this.actor ? [this.actor] : [];
         }
 
-        const typeItems: SohlItem[] = this.actor.allItemTypes[targetType] ?? [];
+        const typeItems: SohlItem[] =
+            this.actor.itemTypes[targetType as any] ?? [];
         return resolveItemTargets({ targetName, typeItems });
     }
 

@@ -135,7 +135,7 @@ export class MysteryLogic<
         if (!this.item?.name) return result;
 
         if (this.actor) {
-            this.actor.allItems.forEach((it: SohlItem) => {
+            this.actor.items.forEach((it: SohlItem) => {
                 if (
                     it.type === ITEM_KIND.MYSTERY &&
                     isItemWithSubType(it, MYSTERY_SUBTYPE.FATEBONUS)
@@ -183,7 +183,7 @@ export class MysteryLogic<
         super.evaluate();
 
         if (!this.actor) return;
-        const allItemTypes = this.actor.allItemTypes;
+        const allItemTypes = this.actor.itemTypes;
 
         this.skills = allItemTypes.skill
             .filter((it: SohlItem) =>
