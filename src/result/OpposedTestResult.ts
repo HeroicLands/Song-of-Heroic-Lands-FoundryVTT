@@ -129,7 +129,7 @@ export class OpposedTestResult extends TestResult {
     async toChat(data: PlainObject = {}): Promise<void> {
         const msgData: PlainObject = {
             variant: sohl.id,
-            template: "systems/sohl/templates/chat/opposed-request-card.html",
+            template: "systems/sohl/templates/chat/opposed-request-card.hbs",
             title: "SOHL.OpposedTestResult.toChat.title",
             opposedTestResult: this,
             opposedTestResultJson: this.toJSON(),

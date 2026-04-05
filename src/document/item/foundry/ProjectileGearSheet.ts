@@ -21,7 +21,7 @@ export class ProjectileGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/projectilegear-properties.hbs",
+            template: "systems/sohl/templates/item/projectilegear-properties.hbs",
             scrollable: [""],
         },
     };

@@ -21,7 +21,7 @@ export class InjurySheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/injury-properties.hbs",
+            template: "systems/sohl/templates/item/injury-properties.hbs",
             scrollable: [""],
         },
     };

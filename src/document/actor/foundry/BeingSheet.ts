@@ -29,11 +29,11 @@ export class BeingSheet extends SohlActorSheetBase {
     static PARTS = {
         header: {
             id: "header",
-            template: "systems/sohl/templates/actor/legendary/being/header.hbs",
+            template: "systems/sohl/templates/actor/being/header.hbs",
         },
         tabs: {
             id: "tabs",
-            template: "systems/sohl/templates/actor/legendary/being/tabs.hbs",
+            template: "systems/sohl/templates/actor/being/tabs.hbs",
         },
         facade: {
             id: "facade",
@@ -42,24 +42,24 @@ export class BeingSheet extends SohlActorSheetBase {
         profile: {
             id: "profile",
             template:
-                "systems/sohl/templates/actor/legendary/being/profile.hbs",
+                "systems/sohl/templates/actor/being/profile.hbs",
         },
         skills: {
             id: "skills",
-            template: "systems/sohl/templates/actor/legendary/being/skills.hbs",
+            template: "systems/sohl/templates/actor/being/skills.hbs",
         },
         combat: {
             id: "combat",
-            template: "systems/sohl/templates/actor/legendary/being/combat.hbs",
+            template: "systems/sohl/templates/actor/being/combat.hbs",
         },
         trauma: {
             id: "trauma",
-            template: "systems/sohl/templates/actor/legendary/being/trauma.hbs",
+            template: "systems/sohl/templates/actor/being/trauma.hbs",
         },
         mysteries: {
             id: "mysteries",
             template:
-                "systems/sohl/templates/actor/legendary/being/mysteries.hbs",
+                "systems/sohl/templates/actor/being/mysteries.hbs",
         },
         gear: {
             id: "gear",

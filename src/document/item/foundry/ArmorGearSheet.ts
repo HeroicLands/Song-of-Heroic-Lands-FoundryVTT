@@ -21,7 +21,7 @@ export class ArmorGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/armorgear-properties.hbs",
+            template: "systems/sohl/templates/item/armorgear-properties.hbs",
             scrollable: [""],
         },
     };

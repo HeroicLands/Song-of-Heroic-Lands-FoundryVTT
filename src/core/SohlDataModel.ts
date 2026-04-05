@@ -960,7 +960,7 @@ export namespace SohlDataModel {
                 };
 
                 let dlgTemplate: FilePath = toFilePath(
-                    "systems/sohl/templates/dialog/keyvalue-dialog.html",
+                    "systems/sohl/templates/dialog/keyvalue-dialog.hbs",
                 );
 
                 const dlgResult = await inputDialog({

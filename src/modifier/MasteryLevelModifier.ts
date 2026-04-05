@@ -229,7 +229,7 @@ export class MasteryLevelModifier extends ValueModifier {
         if (!context.skipDialog) {
             // Render modal dialog
             let dlgTemplate: FilePath = toFilePath(
-                "systems/sohl/templates/dialog/standard-test-dialog.html",
+                "systems/sohl/templates/dialog/standard-test-dialog.hbs",
             );
 
             let dialogData: PlainObject = {
@@ -450,7 +450,7 @@ export class MasteryLevelModifier extends ValueModifier {
         if (allowed && !context.noChat) {
             opposedTestResult.toChat({
                 template:
-                    "systems/sohl/templates/chat/opposed-result-card.html",
+                    "systems/sohl/templates/chat/opposed-result-card.hbs",
                 title: sohl.i18n.format("Opposed Action Result"),
             });
         }

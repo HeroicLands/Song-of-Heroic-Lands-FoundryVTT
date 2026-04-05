@@ -22,7 +22,7 @@ export class CombatTechniqueSheet extends SohlItemSheetBase {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/combattechniquestrikemode-properties.hbs",
+                "systems/sohl/templates/item/combattechniquestrikemode-properties.hbs",
             scrollable: [""],
         },
     };

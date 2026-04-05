@@ -22,7 +22,7 @@ export class MysterySheet extends SohlItemSheetBase {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/mystery-properties.hbs",
+                "systems/sohl/templates/item/mystery-properties.hbs",
             scrollable: [""],
         },
     };

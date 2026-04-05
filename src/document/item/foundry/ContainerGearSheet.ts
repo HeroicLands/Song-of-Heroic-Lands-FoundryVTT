@@ -21,7 +21,7 @@ export class ContainerGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/containergear-properties.hbs",
+            template: "systems/sohl/templates/item/containergear-properties.hbs",
             scrollable: [""],
         },
     };

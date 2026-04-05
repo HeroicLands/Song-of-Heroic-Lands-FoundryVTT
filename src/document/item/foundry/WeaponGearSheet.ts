@@ -21,7 +21,7 @@ export class WeaponGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/weapongear-properties.hbs",
+            template: "systems/sohl/templates/item/weapongear-properties.hbs",
             scrollable: [""],
         },
     };

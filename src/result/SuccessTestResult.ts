@@ -230,7 +230,7 @@ export class SuccessTestResult extends TestResult {
             ...this.toJSON(),
             variant: sohl.id,
             template: toFilePath(
-                "systems/sohl/templates/dialog/standard-test-dialog.html",
+                "systems/sohl/templates/dialog/standard-test-dialog.hbs",
             ),
             title: sohl.i18n.format("SOHL.SuccessTestResult.testDialog.title", {
                 name: this._speaker.name,
@@ -377,7 +377,7 @@ export class SuccessTestResult extends TestResult {
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...data,
             variant: sohl.id,
-            template: "systems/sohl/templates/chat/standard-test-card.html",
+            template: "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,
                 `SOHL.SuccessTestResult.Movement.${val}`,

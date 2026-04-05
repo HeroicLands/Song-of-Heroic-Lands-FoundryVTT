@@ -22,7 +22,7 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
             template:
-                "systems/sohl/templates/item/legendary/mysticalability-properties.hbs",
+                "systems/sohl/templates/item/mysticalability-properties.hbs",
             scrollable: [""],
         },
     };

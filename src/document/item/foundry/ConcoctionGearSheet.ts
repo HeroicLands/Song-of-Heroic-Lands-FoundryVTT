@@ -21,7 +21,7 @@ export class ConcoctionGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/concoctiongear-properties.hbs",
+            template: "systems/sohl/templates/item/concoctiongear-properties.hbs",
             scrollable: [""],
         },
     };

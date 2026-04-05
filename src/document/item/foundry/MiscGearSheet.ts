@@ -21,7 +21,7 @@ export class MiscGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/miscgear-properties.hbs",
+            template: "systems/sohl/templates/item/miscgear-properties.hbs",
             scrollable: [""],
         },
     };

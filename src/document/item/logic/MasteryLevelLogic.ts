@@ -153,7 +153,7 @@ export abstract class MasteryLevelLogic<
                 this.data.masteryLevelBase + this.sdrIncr;
         }
         const chatTemplate: FilePath = toFilePath(
-            "systems/sohl/templates/chat/standard-test-card.html",
+            "systems/sohl/templates/chat/standard-test-card.hbs",
         );
         const chatTemplateData = {
             variant: sohl.id,
