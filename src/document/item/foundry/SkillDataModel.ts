@@ -37,7 +37,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             choices: SkillCombatCategories,
         }),
         baseSkill: new StringField(),
-        domain: new StringField(),
+        mysteryCode: new StringField(),
         initSkillMult: new NumberField({
             integer: false,
             initial: 0,
@@ -65,7 +65,7 @@ export class SkillDataModel<
     subType!: SkillSubType;
     weaponGroup!: string;
     baseSkill!: string;
-    domain!: string;
+    mysteryCode!: string;
     initSkillMult!: number;
     expertiseParentSkill!: string;
 

@@ -31,10 +31,6 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             choices: MysterySubTypes,
             required: true,
         }),
-        domainCode: new StringField({
-            blank: false,
-            nullable: true,
-        }),
         skills: new ArrayField(
             new StringField({
                 required: true,
@@ -47,17 +43,20 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         charges: new SchemaField({
-            // Note: if value is -1, then there are infinite charges remaining
+            // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
-                initial: -1,
-                min: -1,
+                nullable: true,
+                initial: 0,
+                min: 0,
             }),
-            // Note: if max is 0, then there is no maximum
+            // Note: if max is 0, then there is no maximum, if max is null,
+            // then the mystery does not use charges
             max: new NumberField({
                 integer: true,
-                initial: -1,
-                min: -1,
+                nullable: true,
+                initial: null,
+                min: 0,
             }),
         }),
     };
@@ -78,7 +77,6 @@ export class MysteryDataModel<
     ];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
-    domainCode?: string;
     skills!: string[];
     levelBase!: number;
     charges!: {

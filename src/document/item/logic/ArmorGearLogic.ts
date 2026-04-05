@@ -13,23 +13,17 @@
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import { ValueModifier } from "@src/modifier/ValueModifier";
-import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
-import type { BodyLocationLogic } from "@src/document/item/logic/BodyLocationLogic";
+import { ImpactAspects } from "@src/utils/constants";
 
 /**
  * Logic for the **Armor Gear** item type — wearable protective equipment.
  *
  * Armor Gear represents physical armor worn by a character: chainmail, leather
  * jerkins, plate cuirasses, helmets, shields, and similar protective equipment.
- * Each piece of armor covers specific {@link BodyLocationLogic | body locations},
- * categorized as **flexible** or **rigid** coverage.
+ * Each piece of armor covers specific body locations, categorized as
+ * **flexible** or **rigid** coverage.
  *
- * Protection values (`protectionBase`) are stored directly on the armor and applied
- * to matching body locations during the evaluate phase whenever the armor is equipped.
- * Rigid locations additionally set `traits.isRigid` on the body location.
- *
- * The armor's **material** name is pushed into each covered body location's
- * `layersList` for display and rule purposes.
+ * Protection values (`protectionBase`) are stored directly on the armor.
  *
  * @typeParam TData - The ArmorGear data interface.
  */
@@ -59,31 +53,6 @@ export class ArmorGearLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-        if (!this.data.isEquipped) return;
-
-        const allItems = this.actor?.allItems || [];
-        allItems.forEach((bl) => {
-            if (bl.type !== ITEM_KIND.BODYLOCATION) return;
-            const inFlexible = this.data.locations.flexible.includes(bl.name);
-            const inRigid = this.data.locations.rigid.includes(bl.name);
-            if (!inFlexible && !inRigid) return;
-
-            const blLogic = bl.logic as BodyLocationLogic;
-            ImpactAspects.forEach((aspect) => {
-                if (this.protection[aspect].effective) {
-                    blLogic.protection[aspect]?.add(
-                        this.name,
-                        this.name,
-                        this.protection[aspect].effective,
-                    );
-                }
-            });
-
-            if (this.data.material) {
-                blLogic.layersList.push(this.data.material);
-            }
-            blLogic.traits.isRigid ||= inRigid;
-        });
     }
 
     /** @inheritdoc */

@@ -35,9 +35,6 @@ import {
  * person) and whether it is **equipped** (actively worn or wielded, as opposed
  * to stowed in a pack).
  *
- * Gear items may contain nested items: armor contains Protection entries,
- * weapons contain StrikeMode entries, and containers hold other gear.
- *
  * @typeParam TData - The gear data interface.
  */
 export abstract class GearLogic<
@@ -47,6 +44,7 @@ export abstract class GearLogic<
     value!: ValueModifier;
     quality!: ValueModifier;
     durability!: ValueModifier;
+    containedIn!: GearLogic | null;
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -59,11 +57,14 @@ export abstract class GearLogic<
         this.value = new ValueModifier({}, { parent: this });
         this.quality = new ValueModifier({}, { parent: this });
         this.durability = new ValueModifier({}, { parent: this });
+        this.containedIn = null;
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        this.containedIn =
+            this.actor?.items.get(this.data.containerId ?? "")?.logic ?? null;
     }
 
     /** @inheritdoc */
@@ -91,4 +92,6 @@ export interface GearData<
     durabilityBase: number;
     /** Whether this item is visible to cohort members */
     visibleToCohort: boolean;
+    /** The container this item is contained in, if any */
+    containerId: string | null;
 }

@@ -18,14 +18,7 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
  *
  * Weapon Gear represents a physical weapon: swords, axes, bows, maces, daggers,
  * and similar. The weapon itself is primarily a container; the actual attack
- * capabilities are defined by nested {@link StrikeModeLogic | Strike Mode} items
- * (e.g., a sword might have "Slash" and "Thrust" strike modes with different
- * damage and skill associations).
- *
- * Weapon Gear tracks a base **length** (reach), which is inherited by its
- * melee strike modes. Inherits weight, value, quality, and durability tracking
- * from {@link GearLogic}. The weapon's durability is shared with its strike
- * modes during evaluation.
+ * capabilities are defined by the strike modes.
  *
  * @typeParam TData - The WeaponGear data interface.
  */

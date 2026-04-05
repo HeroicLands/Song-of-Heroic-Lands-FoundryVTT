@@ -21,7 +21,7 @@ import {
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
 } from "@src/utils/constants";
-const { SchemaField, NumberField, StringField, BooleanField } =
+const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 
 function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
@@ -35,8 +35,11 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             blank: false,
             nullable: true,
         }),
+        assocWeaponId: new DocumentIdField({
+            nullable: true,
+        }),
         isImprovable: new BooleanField({ initial: false }),
-        domainCode: new StringField({
+        mysteryCode: new StringField({
             blank: false,
             nullable: true,
         }),
@@ -86,7 +89,7 @@ export class MysticalAbilityDataModel<
     subType!: MysticalAbilitySubType;
     assocSkillCode?: string;
     isImprovable!: boolean;
-    domainCode?: string;
+    mysteryCode?: string;
     levelBase!: number;
     charges!: {
         value: number;

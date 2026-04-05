@@ -12,8 +12,8 @@
  */
 
 import { ValueModifier } from "@src/modifier/ValueModifier";
-import type { DomainLogic } from "@src/document/item/logic/DomainLogic";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { MysteryLogic } from "./MysteryLogic";
 import {
     MasteryLevelLogic,
     MasteryLevelData,
@@ -31,7 +31,7 @@ import { MysticalAbilitySubType } from "@src/utils/constants";
  * and their success is typically determined by a skill test.
  *
  * Each ability is linked to an **associated skill** (via shortcode) that
- * governs its activation test, and to a {@link DomainLogic | Domain} that
+ * governs its activation test, and to a mystery that
  * determines its mystical tradition. Abilities track a **level** (power),
  * **charges** (uses remaining), and inherit mastery level progression from
  * {@link MasteryLevelLogic}.
@@ -58,7 +58,7 @@ export class MysticalAbilityLogic<
     implements MysticalAbilityLogic<TData>
 {
     assocSkill?: SkillLogic;
-    domain?: DomainLogic;
+    mystery?: MysteryLogic;
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -93,9 +93,9 @@ export class MysticalAbilityLogic<
         if (!this.actor) return;
         const allItemTypes = this.actor.allItemTypes;
 
-        this.domain = allItemTypes.domain.find(
-            (it: SohlItem) => it.system.shortcode === this.data.domainCode,
-        )?.logic as DomainLogic;
+        this.mystery = allItemTypes.mystery.find(
+            (it: SohlItem) => it.system.shortcode === this.data.mysteryCode,
+        )?.logic as MysteryLogic;
 
         this.assocSkill = allItemTypes.skill.find(
             (it: SohlItem) => it.system.shortcode === this.data.assocSkillCode,
@@ -118,8 +118,8 @@ export interface MysticalAbilityData<
     assocSkillCode?: string;
     /** Whether this ability's mastery level can be improved */
     isImprovable: boolean;
-    /** Shortcode of the mystical domain this ability belongs to */
-    domainCode?: string;
+    /** Shortcode of the mystery this ability belongs to */
+    mysteryCode?: string;
     /** Power level of this ability */
     levelBase: number;
     /** Usage tracking: current charges and maximum */

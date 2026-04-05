@@ -13,7 +13,9 @@
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-const { StringField, NumberField, BooleanField } = foundry.data.fields;
+import { MysticalDeviceSubTypes } from "@src/utils/constants";
+const { StringField, NumberField, BooleanField, SchemaField, DocumentIdField } =
+    foundry.data.fields;
 
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -43,8 +45,32 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        containerId: new DocumentIdField({ required: false }),
         visibleToCohort: new BooleanField({
             initial: false,
+        }),
+        mystical: new SchemaField({
+            subType: new StringField({
+                choices: MysticalDeviceSubTypes,
+                required: true,
+            }),
+            requiresAttunement: new BooleanField({ initial: false }),
+            usesVolition: new BooleanField({ initial: false }),
+            mysteryCode: new StringField({ blank: false }),
+            isAttuned: new BooleanField({ initial: false }),
+            volition: new SchemaField({
+                ego: new NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                morality: new NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                purpose: new StringField(),
+            }),
         }),
     };
 }
@@ -63,6 +89,7 @@ export abstract class GearDataModel<
     qualityBase!: number;
     durabilityBase!: number;
     visibleToCohort!: boolean;
+    containerId!: string | null;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineGearDataSchema();

@@ -13,6 +13,7 @@
 - name: Backpack
   id: rMnbWzyue0vPuDdS
   img: systems/sohl/assets/icons/sack.svg
+  shortcode: backpk
   quality: 0
   durability: 8
   maxCapacity: 30
@@ -26,6 +27,7 @@
 - name: Bag, lg, canvas
   id: wqfE3unujfDW90un
   img: systems/sohl/assets/icons/sack.svg
+  shortcode: bglgcvs
   quality: 0
   durability: 8
   maxCapacity: 20
@@ -39,6 +41,7 @@
 - name: Bag, sm, canvas
   id: DZVw51vpCgNHX7Qt
   img: systems/sohl/assets/icons/sack.svg
+  shortcode: bgsmcvs
   quality: 0
   durability: 8
   maxCapacity: 10
@@ -52,6 +55,7 @@
 - name: Basket, large
   id: VbXV36kl3FRBIAwy
   img: systems/sohl/assets/icons/basket.svg
+  shortcode: bktlrg
   quality: 0
   durability: 8
   maxCapacity: 25
@@ -65,6 +69,7 @@
 - name: Belt pouch, leather, lg
   id: w56MDdmyCKDDEVAY
   img: systems/sohl/assets/icons/sack.svg
+  shortcode: bpchlgltr
   quality: 0
   durability: 8
   maxCapacity: 5
@@ -78,6 +83,7 @@
 - name: Belt pouch, leather, med
   id: JMXUmoqI6uWt5LN4
   img: systems/sohl/assets/icons/sack.svg
+  shortcode: bpchmdltr
   quality: 0
   durability: 8
   maxCapacity: 3
@@ -91,6 +97,7 @@
 - name: Waterskin, 2qt.
   id: DdlmMVb2ldCpGzkk
   img: systems/sohl/assets/icons/miscgear.svg
+  shortcode: wtrskin
   quality: 0
   durability: 7
   maxCapacity: 4

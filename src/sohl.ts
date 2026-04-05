@@ -20,10 +20,6 @@ import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { SohlEncounterConfig } from "@src/document/region-behavior/SohlEncounter";
 import { SohlRegionConfig } from "@src/document/region/SohlRegion";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
-import {
-    registerAssemblySidebar,
-    registerAssemblyContextMenu,
-} from "@src/apps/AssemblyDirectory";
 
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
@@ -420,10 +416,6 @@ Hooks.once("init", () => {
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;
     CONFIG.time.turnTime = 0;
-
-    // Register the Assemblies sidebar tab and filter Assemblies from Actors sidebar
-    registerAssemblySidebar();
-    registerAssemblyContextMenu();
 
     // Register Region sheet
     foundry.applications.apps.DocumentSheetConfig.registerSheet(

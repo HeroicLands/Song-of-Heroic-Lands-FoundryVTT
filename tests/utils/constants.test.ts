@@ -76,7 +76,6 @@ describe("ITEM_KIND", () => {
         expect(ITEM_KIND.INJURY).toBe("injury");
         expect(ITEM_KIND.AFFLICTION).toBe("affliction");
         expect(ITEM_KIND.MYSTERY).toBe("mystery");
-        expect(ITEM_KIND.ACTION).toBe("action");
     });
 
     it("isItemKind validates correctly", () => {

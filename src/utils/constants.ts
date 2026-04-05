@@ -49,27 +49,16 @@ export const {
     isValue: isItemKind,
     labels: itemKindLabels,
 } = defineType("TYPES.Item", {
-    ACTION: "action",
     AFFILIATION: "affiliation",
-    DISPOSITION: "disposition",
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
-    BODYLOCATION: "bodylocation",
-    BODYPART: "bodypart",
-    BODYZONE: "bodyzone",
-    COMBATTECHNIQUESTRIKEMODE: "combattechniquestrikemode",
+    COMBATTECHNIQUE: "combattechnique",
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
-    DOMAIN: "domain",
     INJURY: "injury",
-    MELEEWEAPONSTRIKEMODE: "meleeweaponstrikemode",
     MISCGEAR: "miscgear",
-    MISSILEWEAPONSTRIKEMODE: "missileweaponstrikemode",
-    MOVEMENTPROFILE: "movementprofile",
     MYSTERY: "mystery",
     MYSTICALABILITY: "mysticalability",
-    MYSTICALDEVICE: "mysticaldevice",
-    PHILOSOPHY: "philosophy",
     PROJECTILEGEAR: "projectilegear",
     SKILL: "skill",
     TRAIT: "trait",
@@ -97,17 +86,7 @@ export const {
     isValue: isItemMetadata,
     labels: itemMetadataLabels,
 } = defineType(`SOHL.Item.METADATA`, {
-    [ITEM_KIND.ACTION]: {
-        IconCssClass: "fas fa-gears",
-        Image: "systems/sohl/assets/icons/gears.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.AFFILIATION]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.DISPOSITION]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -122,22 +101,7 @@ export const {
         Image: "systems/sohl/assets/icons/armor.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.BODYLOCATION]: {
-        IconCssClass: "fas fa-hand",
-        Image: "systems/sohl/assets/icons/hand.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.BODYPART]: {
-        IconCssClass: "fa-duotone fa-skeleton-ribs",
-        Image: "systems/sohl/assets/icons/ribcage.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.BODYZONE]: {
-        IconCssClass: "fa-duotone fa-person",
-        Image: "systems/sohl/assets/icons/person.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: {
+    [ITEM_KIND.COMBATTECHNIQUE]: {
         IconCssClass: "fas fa-hand-fist",
         Image: "systems/sohl/assets/icons/punch.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -152,34 +116,14 @@ export const {
         Image: "systems/sohl/assets/icons/sack.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.DOMAIN]: {
-        IconCssClass: "fas fa-sparkle",
-        Image: "systems/sohl/assets/icons/sparkle.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.INJURY]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: {
-        IconCssClass: "fas fa-sword",
-        Image: "systems/sohl/assets/icons/sword.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.MISCGEAR]: {
         IconCssClass: "fas fa-ball-pile",
         Image: "systems/sohl/assets/icons/miscgear.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: {
-        IconCssClass: "fas fa-bow-arrow",
-        Image: "systems/sohl/assets/icons/longbow.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.MOVEMENTPROFILE]: {
-        IconCssClass: "fas fa-walking",
-        Image: "systems/sohl/assets/icons/walk.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTERY]: {
@@ -190,16 +134,6 @@ export const {
     [ITEM_KIND.MYSTICALABILITY]: {
         IconCssClass: "fas fa-hand-sparkles",
         Image: "systems/sohl/assets/icons/hand-sparkles.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.MYSTICALDEVICE]: {
-        IconCssClass: "fas fa-wand-sparkles",
-        Image: "systems/sohl/assets/icons/magic-wand.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.PHILOSOPHY]: {
-        IconCssClass: "fas fa-arrow",
-        Image: "systems/sohl/assets/icons/sparkle.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.PROJECTILEGEAR]: {
@@ -1027,40 +961,6 @@ export type SohlBeingEffectKey =
     (typeof BEING_EFFECT_KEY)[keyof typeof BEING_EFFECT_KEY];
 
 export const {
-    kind: STRIKE_MODE_EFFECT_KEY,
-    values: StrikeModeEffectKey,
-    isValue: isStrikeModeEffectKey,
-    labels: StrikeModeEffectKeyLabels,
-} = defineType("SOHL.StrikeMode.EffectKey", {
-    IMPACT: {
-        name: "system.logic.impact",
-        shortcode: "Imp",
-    },
-    ATTACK: {
-        name: "system.logic.attack",
-        shortcode: "Atk",
-    },
-    BLOCK: {
-        name: "system.logic.defense.block",
-        shortcode: "Blk",
-    },
-    COUNTERSTRIKE: {
-        name: "system.logic.defense.counterstrike",
-        shortcode: "CXMod",
-    },
-    NOATTACK: {
-        name: "system.logic.traits.noAttack",
-        shortcode: "NoAtk",
-    },
-    NOBLOCK: {
-        name: "system.logic.traits.noBlock",
-        shortcode: "NoBlk",
-    },
-} as StrictObject<SohlLogic.EffectKeyData>);
-export type StrikeModeEffectKey =
-    (typeof STRIKE_MODE_EFFECT_KEY)[keyof typeof STRIKE_MODE_EFFECT_KEY];
-
-export const {
     kind: MASTERY_EFFECT_KEYS,
     values: MasteryEffectKeys,
     isValue: isMasteryEffectKey,
@@ -1073,29 +973,6 @@ export const {
 });
 export type EffectKey =
     (typeof MASTERY_EFFECT_KEYS)[keyof typeof MASTERY_EFFECT_KEYS];
-
-export const {
-    kind: MELEE_WEAPON_STRIKEMODE_EFFECT_KEY,
-    values: MeleeWeaponStrikeModeEffectKey,
-    isValue: isMeleeWeaponStrikeModeEffectKey,
-    labels: MeleeWeaponStrikeModeEffectKeyLabels,
-} = defineType("SOHL.MeleeWeaponStrikeMode.EffectKey", {
-    ...STRIKE_MODE_EFFECT_KEY,
-    LENGTH: {
-        name: "system.logic.length",
-        shortcode: "Len",
-    },
-    BLOCK: {
-        name: "system.logic.defense.block",
-        shortcode: "Blk",
-    },
-    COUNTERSTRIKE: {
-        name: "system.logic.defense.counterstrike",
-        shortcode: "CX",
-    },
-} as StrictObject<SohlLogic.EffectKeyData>);
-export type MeleeWeaponStrikeModeEffectKey =
-    (typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY)[keyof typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY];
 
 export const {
     kind: SOHL_EVENT_STATE,
@@ -1332,7 +1209,7 @@ export const {
     values: MysteryCategories,
     isValue: isMysteryCategory,
 } = defineType("SOHL.Mystery.Category", {
-    DIVINE: "divinedomain",
+    DIVINE: "divine",
     SKILL: "skill",
     CREATURE: "creature",
     NONE: "none",
@@ -1405,19 +1282,6 @@ export const {
 export type MysticalDeviceSubType =
     (typeof MYSTICALDEVICE_SUBTYPE)[keyof typeof MYSTICALDEVICE_SUBTYPE];
 
-export const {
-    kind: DOMAIN_SUBTYPE,
-    values: DomainSubTypes,
-    isValue: isDomainSubType,
-} = defineType("SOHL.Domain.SubType", {
-    ARCANE: "arcane",
-    DIVINE: "divine",
-    SPIRIT: "spirit",
-    ASTRAL: "astral",
-    NATURAL: "natural",
-});
-export type DomainSubType =
-    (typeof DOMAIN_SUBTYPE)[keyof typeof DOMAIN_SUBTYPE];
 
 export const {
     kind: PROJECTILEGEAR_SUBTYPE,

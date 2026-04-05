@@ -19,10 +19,16 @@ import {
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
+    ActionSubType,
+    ActionSubTypes,
     ACTOR_KIND,
     ActorKinds,
     KIND_KEY,
+    SOHL_ACTION_ROLE,
+    SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    SohlActionScopes,
+    SohlContextMenuSortGroups,
 } from "@src/utils/constants";
 import {
     defaultFromJSON,
@@ -40,6 +46,50 @@ import {
     notifyWarn as fvttNotifyWarn,
 } from "@src/core/foundry-helpers";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
+const { StringField, BooleanField, SchemaField, NumberField, ArrayField } =
+    foundry.data.fields;
+
+function defineSohlDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        shortcode: new StringField({
+            blank: false,
+            required: true,
+        }),
+        actions: new ArrayField(
+            new SchemaField({
+                subType: new StringField({
+                    choices: ActionSubTypes,
+                    required: true,
+                }),
+                title: new StringField({ initial: "" }),
+                isAsync: new BooleanField({ initial: false }),
+                scope: new StringField({
+                    choices: SohlActionScopes,
+                    required: true,
+                    initial: SOHL_ACTION_SCOPE.SELF,
+                }),
+                executor: new StringField({ initial: "" }),
+                trigger: new StringField({ initial: "" }),
+                visible: new StringField({ initial: "true" }),
+                iconFAClass: new StringField({
+                    initial: "fas fa-question-circle",
+                }),
+                group: new StringField({
+                    choices: SohlContextMenuSortGroups,
+                    initial: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
+                }),
+                permissions: new SchemaField({
+                    execute: new NumberField({
+                        min: SOHL_ACTION_ROLE.NONE,
+                        max: SOHL_ACTION_ROLE.GAMEMASTER,
+                        initial: SOHL_ACTION_ROLE.OWNER,
+                    }),
+                }),
+            }),
+            { initial: [] },
+        ),
+    };
+}
 
 export abstract class SohlDataModel<
     TSchema extends foundry.data.fields.DataSchema,
@@ -62,8 +112,9 @@ export abstract class SohlDataModel<
      */
     static override readonly LOCALIZATION_PREFIXES: string[];
     static readonly kind: string = "" as const;
-
     _logic!: TLogic;
+    shortcode!: string;
+    actions!: SohlDataModel.ActionSchema[];
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         super(data as any, options as any);
@@ -146,13 +197,29 @@ export abstract class SohlDataModel<
 export namespace SohlDataModel {
     export type Any = SohlDataModel<SohlDocument, any>;
 
+    export interface ActionSchema {
+        subType: ActionSubType;
+        title: string;
+        isAsync: boolean;
+        scope: string;
+        executor: string;
+        trigger: string;
+        visible: string;
+        iconFAClass: string;
+        group: string;
+        permissions: {
+            execute: number;
+        };
+    }
     export interface Data<
         TParent extends SohlDocument,
         TLogic extends SohlLogic<any> = SohlLogic<any>,
     > {
-        readonly parent: TParent | null;
-        readonly logic: TLogic;
-        readonly kind: string;
+        parent: TParent | null;
+        logic: TLogic;
+        kind: string;
+        shortcode: string;
+        actions: ActionSchema[];
     }
 
     export namespace DataModel {
@@ -547,43 +614,6 @@ export namespace SohlDataModel {
                     droppedActor.items as Iterable<SohlItem>,
                 );
                 if (sourceItems.length === 0) return;
-
-                // Sort by nesting depth: roots first, then children
-                // so parents are created before their children.
-                const getDepth = (item: SohlItem): number => {
-                    let depth = 0;
-                    let current = item;
-                    while ((current.system as any).nestedIn != null) {
-                        const parent = sourceItems.find(
-                            (i) => i.id === (current.system as any).nestedIn,
-                        );
-                        if (!parent) break;
-                        current = parent;
-                        depth++;
-                    }
-                    return depth;
-                };
-
-                sourceItems.sort((a, b) => getDepth(a) - getDepth(b));
-
-                // Create items on the target, remapping IDs
-                const idMap = new Map<string, string>();
-                for (const sourceItem of sourceItems) {
-                    const itemData = sourceItem.toObject();
-                    delete (itemData as any)._id;
-
-                    // Remap nestedIn to the new parent ID
-                    const oldNestedIn = (itemData as any).system?.nestedIn;
-                    if (oldNestedIn != null && idMap.has(oldNestedIn)) {
-                        (itemData as any).system.nestedIn =
-                            idMap.get(oldNestedIn);
-                    }
-
-                    const created = await targetActor.createItem(itemData);
-                    if (created && sourceItem.id) {
-                        idMap.set(sourceItem.id, created.id!);
-                    }
-                }
             }
 
             async _onDropFolder(

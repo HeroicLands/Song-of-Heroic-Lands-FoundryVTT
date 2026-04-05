@@ -349,22 +349,12 @@ export class BeingSheet extends SohlActorSheetBase {
             dead: statuses.has("dead"),
         };
 
-        // Body parts with injury state
-        const bodyParts = (actor.allItemTypes[ITEM_KIND.BODYPART] ?? []).map(
-            (item: SohlItem) => ({
-                id: item.id,
-                name: item.name,
-                item,
-            }),
-        );
-
         return Object.assign(context, {
             actorName: actor.name,
             actorImg: actor.img,
             health: logic?.health,
             shockState: logic?.shockState,
             statusEffects,
-            bodyParts,
         });
     }
 
@@ -452,78 +442,7 @@ export class BeingSheet extends SohlActorSheetBase {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        const actor = this.document;
-
-        // Equipped weapons with their nested strike modes
-        const weapons = actor.allItemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
-        const meleeWeapons: any[] = [];
-        const missileWeapons: any[] = [];
-
-        for (const weapon of weapons) {
-            if (!(weapon.system as any).isEquipped) continue;
-
-            const meleeStrikeModes: SohlItem[] = [];
-            const missileStrikeModes: SohlItem[] = [];
-
-            // Find nested strike modes
-            for (const item of actor.allItems.values()) {
-                if ((item.system as any).nestedIn !== weapon.id) continue;
-                if (item.type === ITEM_KIND.MELEEWEAPONSTRIKEMODE) {
-                    meleeStrikeModes.push(item);
-                } else if (item.type === ITEM_KIND.MISSILEWEAPONSTRIKEMODE) {
-                    missileStrikeModes.push(item);
-                }
-            }
-
-            if (meleeStrikeModes.length > 0) {
-                meleeWeapons.push({
-                    weapon,
-                    strikeModes: meleeStrikeModes,
-                });
-            }
-            if (missileStrikeModes.length > 0) {
-                missileWeapons.push({
-                    weapon,
-                    strikeModes: missileStrikeModes,
-                });
-            }
-        }
-
-        // Combat techniques
-        const combatTechniques =
-            actor.allItemTypes[ITEM_KIND.COMBATTECHNIQUESTRIKEMODE] ?? [];
-
-        // Body anatomy hierarchy: zones → parts → locations
-        const bodyZones = (actor.allItemTypes[ITEM_KIND.BODYZONE] ?? []).map(
-            (zone: SohlItem) => {
-                const parts = (
-                    actor.allItemTypes[ITEM_KIND.BODYPART] ?? []
-                ).filter(
-                    (part: SohlItem) =>
-                        (part.system as any).nestedIn === zone.id,
-                );
-
-                return {
-                    zone,
-                    parts: parts.map((part: SohlItem) => {
-                        const locations = (
-                            actor.allItemTypes[ITEM_KIND.BODYLOCATION] ?? []
-                        ).filter(
-                            (loc: SohlItem) =>
-                                (loc.system as any).nestedIn === part.id,
-                        );
-                        return { part, locations };
-                    }),
-                };
-            },
-        );
-
-        return Object.assign(context, {
-            meleeWeapons,
-            missileWeapons,
-            combatTechniques,
-            bodyZones,
-        });
+        return context;
     }
 
     /** Prepare context for the Trauma tab: injuries and afflictions. */
@@ -552,8 +471,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /**
-     * Prepare context for the Mysteries tab: mysteries, mystical abilities,
-     * philosophies, and domains.
+     * Prepare context for the Mysteries tab: mysteries, mystical abilities.
      */
     async _prepareMysteriesContext(
         context: RenderContext,
@@ -577,28 +495,9 @@ export class BeingSheet extends SohlActorSheetBase {
             (abilityGroups[subType] ??= []).push(ability);
         }
 
-        // Philosophies with their associated domains
-        const philosophies = actor.allItemTypes[ITEM_KIND.PHILOSOPHY] ?? [];
-        const domains = actor.allItemTypes[ITEM_KIND.DOMAIN] ?? [];
-
-        const philosophyEntries = philosophies.map((philosophy: SohlItem) => {
-            const assocDomains = domains.filter(
-                (d: SohlItem) =>
-                    (d.system as any).philosophyCode ===
-                    (philosophy.system as any).shortcode,
-            );
-            return { philosophy, domains: assocDomains };
-        });
-
-        // Mystical devices
-        const mysticalDevices =
-            actor.allItemTypes[ITEM_KIND.MYSTICALDEVICE] ?? [];
-
         return Object.assign(context, {
             mysteryGroups,
             abilityGroups,
-            philosophyEntries,
-            mysticalDevices,
         });
     }
 
@@ -635,28 +534,6 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Sort gear into containers
         const containerIds = new Set(containerGear.map((c: SohlItem) => c.id));
-        for (const gear of allGear) {
-            const nestedIn = (gear.system as any).nestedIn;
-            if (nestedIn && containerIds.has(nestedIn)) continue; // handled by container
-            if (!nestedIn || !containerIds.has(nestedIn)) {
-                onBodyItems.push(gear);
-            }
-        }
-
-        // Build each container's content list
-        for (const container of containerGear) {
-            const items = allGear.filter(
-                (g: SohlItem) => (g.system as any).nestedIn === container.id,
-            );
-            items.sort((a: SohlItem, b: SohlItem) =>
-                a.name.localeCompare(b.name),
-            );
-            containers.push({ container, items });
-        }
-
-        onBodyItems.sort((a: SohlItem, b: SohlItem) =>
-            a.name.localeCompare(b.name),
-        );
 
         return Object.assign(context, {
             containers,

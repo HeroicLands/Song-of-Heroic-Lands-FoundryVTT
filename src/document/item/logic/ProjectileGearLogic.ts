@@ -18,8 +18,7 @@ import { ImpactAspect, ProjectileGearSubType } from "@src/utils/constants";
  * Logic for the **Projectile Gear** item type — ammunition for ranged weapons.
  *
  * Projectile Gear represents arrows, bolts, sling stones, throwing axes, and
- * other objects launched by {@link MissileWeaponStrikeModeLogic | missile weapon
- * strike modes}. Each projectile defines its own **impact** characteristics
+ * other objects launched by missile weapon strike modes. Each projectile defines its own **impact** characteristics
  * (damage dice, modifier, and aspect), which combine with the weapon's base
  * values during attack resolution.
  *

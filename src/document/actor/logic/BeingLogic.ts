@@ -367,9 +367,6 @@ export class BeingLogic<
         //         { parent: this },
         //     );
         //     this.$engagedOpponents.setBase(0);
-        //     this.$domains = Object.fromEntries(
-        //         Object.keys(PhilosophyItemData.categories).map((c) => [c, []]),
-        //     );
         // }
     }
 

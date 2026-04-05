@@ -50,27 +50,16 @@ import { VehicleDataModel } from "@src/document/actor/foundry/VehicleDataModel";
 import { VehicleSheet } from "@src/document/actor/foundry/VehicleSheet";
 
 // Item logic
-import { ActionLogic } from "@src/document/item/logic/ActionLogic";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
-import { BodyLocationLogic } from "@src/document/item/logic/BodyLocationLogic";
-import { BodyPartLogic } from "@src/document/item/logic/BodyPartLogic";
-import { BodyZoneLogic } from "@src/document/item/logic/BodyZoneLogic";
-import { CombatTechniqueStrikeModeLogic } from "@src/document/item/logic/CombatTechniqueStrikeModeLogic";
+import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
-import { DispositionLogic } from "@src/document/item/logic/DispositionLogic";
-import { DomainLogic } from "@src/document/item/logic/DomainLogic";
 import { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
-import { MeleeWeaponStrikeModeLogic } from "@src/document/item/logic/MeleeWeaponStrikeModeLogic";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
-import { MissileWeaponStrikeModeLogic } from "@src/document/item/logic/MissileWeaponStrikeModeLogic";
-import { MovementProfileLogic } from "@src/document/item/logic/MovementProfileLogic";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
-import { MysticalDeviceLogic } from "@src/document/item/logic/MysticalDeviceLogic";
-import { PhilosophyLogic } from "@src/document/item/logic/PhilosophyLogic";
 import { ProjectileGearLogic } from "@src/document/item/logic/ProjectileGearLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
@@ -82,48 +71,26 @@ import {
     SohlItemLogic,
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
-import { ActionDataModel } from "@src/document/item/foundry/ActionDataModel";
-import { ActionSheet } from "@src/document/item/foundry/ActionSheet";
 import { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
 import { AffiliationSheet } from "@src/document/item/foundry/AffiliationSheet";
 import { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataModel";
 import { AfflictionSheet } from "@src/document/item/foundry/AfflictionSheet";
 import { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataModel";
 import { ArmorGearSheet } from "@src/document/item/foundry/ArmorGearSheet";
-import { BodyLocationDataModel } from "@src/document/item/foundry/BodyLocationDataModel";
-import { BodyLocationSheet } from "@src/document/item/foundry/BodyLocationSheet";
-import { BodyPartDataModel } from "@src/document/item/foundry/BodyPartDataModel";
-import { BodyPartSheet } from "@src/document/item/foundry/BodyPartSheet";
-import { BodyZoneDataModel } from "@src/document/item/foundry/BodyZoneDataModel";
-import { BodyZoneSheet } from "@src/document/item/foundry/BodyZoneSheet";
-import { CombatTechniqueStrikeModeDataModel } from "@src/document/item/foundry/CombatTechniqueStrikeModeDataModel";
-import { CombatTechniqueStrikeModeSheet } from "@src/document/item/foundry/CombatTechniqueStrikeModeSheet";
+import { CombatTechniqueDataModel } from "@src/document/item/foundry/CombatTechniqueDataModel";
+import { CombatTechniqueSheet } from "@src/document/item/foundry/CombatTechniqueSheet";
 import { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
 import { ConcoctionGearSheet } from "@src/document/item/foundry/ConcoctionGearSheet";
 import { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
 import { ContainerGearSheet } from "@src/document/item/foundry/ContainerGearSheet";
-import { DispositionDataModel } from "@src/document/item/foundry/DispositionDataModel";
-import { DispositionSheet } from "@src/document/item/foundry/DispositionSheet";
-import { DomainDataModel } from "@src/document/item/foundry/DomainDataModel";
-import { DomainSheet } from "@src/document/item/foundry/DomainSheet";
 import { InjuryDataModel } from "@src/document/item/foundry/InjuryDataModel";
 import { InjurySheet } from "@src/document/item/foundry/InjurySheet";
-import { MeleeWeaponStrikeModeDataModel } from "@src/document/item/foundry/MeleeWeaponStrikeModeDataModel";
-import { MeleeWeaponStrikeModeSheet } from "@src/document/item/foundry/MeleeWeaponStrikeModeSheet";
 import { MiscGearDataModel } from "@src/document/item/foundry/MiscGearDataModel";
 import { MiscGearSheet } from "@src/document/item/foundry/MiscGearSheet";
-import { MissileWeaponStrikeModeDataModel } from "@src/document/item/foundry/MissileWeaponStrikeModeDataModel";
-import { MissileWeaponStrikeModeSheet } from "@src/document/item/foundry/MissileWeaponStrikeModeSheet";
-import { MovementProfileDataModel } from "@src/document/item/foundry/MovementProfileDataModel";
-import { MovementProfileSheet } from "@src/document/item/foundry/MovementProfileSheet";
 import { MysteryDataModel } from "@src/document/item/foundry/MysteryDataModel";
 import { MysterySheet } from "@src/document/item/foundry/MysterySheet";
 import { MysticalAbilityDataModel } from "@src/document/item/foundry/MysticalAbilityDataModel";
 import { MysticalAbilitySheet } from "@src/document/item/foundry/MysticalAbilitySheet";
-import { MysticalDeviceDataModel } from "@src/document/item/foundry/MysticalDeviceDataModel";
-import { MysticalDeviceSheet } from "@src/document/item/foundry/MysticalDeviceSheet";
-import { PhilosophyDataModel } from "@src/document/item/foundry/PhilosophyDataModel";
-import { PhilosophySheet } from "@src/document/item/foundry/PhilosophySheet";
 import { ProjectileGearDataModel } from "@src/document/item/foundry/ProjectileGearDataModel";
 import { ProjectileGearSheet } from "@src/document/item/foundry/ProjectileGearSheet";
 import { SkillDataModel } from "@src/document/item/foundry/SkillDataModel";
@@ -232,27 +199,16 @@ export type ItemDMMap = Record<
     Constructor<SohlDataModel<any, SohlItem, any>>
 >;
 export const ITEM_DM_DEF: ItemDMMap = {
-    [ITEM_KIND.ACTION]: ActionDataModel,
     [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
-    [ITEM_KIND.DISPOSITION]: DispositionDataModel,
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
-    [ITEM_KIND.BODYLOCATION]: BodyLocationDataModel,
-    [ITEM_KIND.BODYPART]: BodyPartDataModel,
-    [ITEM_KIND.BODYZONE]: BodyZoneDataModel,
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeDataModel,
+    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueDataModel,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
-    [ITEM_KIND.DOMAIN]: DomainDataModel,
     [ITEM_KIND.INJURY]: InjuryDataModel,
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeDataModel,
     [ITEM_KIND.MISCGEAR]: MiscGearDataModel,
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeDataModel,
-    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileDataModel,
     [ITEM_KIND.MYSTERY]: MysteryDataModel,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
-    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceDataModel,
-    [ITEM_KIND.PHILOSOPHY]: PhilosophyDataModel,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearDataModel,
     [ITEM_KIND.SKILL]: SkillDataModel,
     [ITEM_KIND.TRAIT]: TraitDataModel,
@@ -281,27 +237,16 @@ export const {
     isValue: isCommonItemLogic,
     labels: CommonItemLogicLabels,
 } = defineType("TYPES.Item", {
-    [ITEM_KIND.ACTION]: ActionLogic,
     [ITEM_KIND.AFFILIATION]: AffiliationLogic,
-    [ITEM_KIND.DISPOSITION]: DispositionLogic,
     [ITEM_KIND.AFFLICTION]: AfflictionLogic,
     [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
-    [ITEM_KIND.BODYLOCATION]: BodyLocationLogic,
-    [ITEM_KIND.BODYPART]: BodyPartLogic,
-    [ITEM_KIND.BODYZONE]: BodyZoneLogic,
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeLogic,
+    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
-    [ITEM_KIND.DOMAIN]: DomainLogic,
     [ITEM_KIND.INJURY]: InjuryLogic,
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeLogic,
     [ITEM_KIND.MISCGEAR]: MiscGearLogic,
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeLogic,
-    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileLogic,
     [ITEM_KIND.MYSTERY]: MysteryLogic,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
-    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceLogic,
-    [ITEM_KIND.PHILOSOPHY]: PhilosophyLogic,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
     [ITEM_KIND.SKILL]: SkillLogic,
     [ITEM_KIND.TRAIT]: TraitLogic,
@@ -314,27 +259,16 @@ export const {
     isValue: isCommonItemSheet,
     labels: CommonItemSheetLabels,
 } = defineType("SOHL.Item.Sheet", {
-    [ITEM_KIND.ACTION]: ActionSheet,
     [ITEM_KIND.AFFILIATION]: AffiliationSheet,
-    [ITEM_KIND.DISPOSITION]: DispositionSheet,
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
-    [ITEM_KIND.BODYLOCATION]: BodyLocationSheet,
-    [ITEM_KIND.BODYPART]: BodyPartSheet,
-    [ITEM_KIND.BODYZONE]: BodyZoneSheet,
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: CombatTechniqueStrikeModeSheet,
+    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
-    [ITEM_KIND.DOMAIN]: DomainSheet,
     [ITEM_KIND.INJURY]: InjurySheet,
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: MeleeWeaponStrikeModeSheet,
     [ITEM_KIND.MISCGEAR]: MiscGearSheet,
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: MissileWeaponStrikeModeSheet,
-    [ITEM_KIND.MOVEMENTPROFILE]: MovementProfileSheet,
     [ITEM_KIND.MYSTERY]: MysterySheet,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,
-    [ITEM_KIND.MYSTICALDEVICE]: MysticalDeviceSheet,
-    [ITEM_KIND.PHILOSOPHY]: PhilosophySheet,
     [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearSheet,
     [ITEM_KIND.SKILL]: SkillSheet,
     [ITEM_KIND.TRAIT]: TraitSheet,

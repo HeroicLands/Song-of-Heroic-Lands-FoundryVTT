@@ -13,7 +13,6 @@
 
 import { ValueModifier } from "@src/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import type { DomainLogic } from "@src/document/item/logic/DomainLogic";
 import {
     SohlItem,
     SohlItemBaseLogic,
@@ -39,7 +38,7 @@ import { isItemWithSubType } from "@src/utils/helpers";
  *
  * Each mystery tracks a **level** and optional **charges** (value and max),
  * where charges of −1 indicate infinite uses. Mysteries link to a
- * {@link DomainLogic | Domain} and/or specific {@link SkillLogic | Skills}
+ * a domain and/or specific {@link SkillLogic | Skills}
  * that they affect.
  *
  * Mysteries are organized by category:
@@ -62,7 +61,6 @@ import { isItemWithSubType } from "@src/utils/helpers";
 export class MysteryLogic<
     TData extends MysteryData = MysteryData,
 > extends SohlItemBaseLogic<TData> {
-    domain?: DomainLogic | null;
     skills!: SkillLogic[];
     level!: ValueModifier;
     charges!: {
@@ -76,16 +74,6 @@ export class MysteryLogic<
 
         let field: string = "";
         switch (category) {
-            case MYSTERY_CATEGORY.DIVINE:
-                field =
-                    this.actor?.allItems.find(
-                        (d) =>
-                            d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.domain?.item.name &&
-                            d.system.philosophy === this.domain?.philosophy,
-                    )?.name ?? "";
-                break;
-
             case MYSTERY_CATEGORY.SKILL:
                 if (this.skills.length) {
                     field = sohl.i18n.formatListOr(
@@ -94,16 +82,6 @@ export class MysteryLogic<
                 } else {
                     field = "SOHL.AllSkills";
                 }
-                break;
-
-            case MYSTERY_CATEGORY.CREATURE:
-                field =
-                    this.actor?.allItems.find(
-                        (d) =>
-                            d.type === ITEM_KIND.DOMAIN &&
-                            d.name === this.domain?.item.name &&
-                            d.system.philosophy === this.domain?.philosophy,
-                    )?.name ?? "";
                 break;
 
             default:
@@ -207,10 +185,6 @@ export class MysteryLogic<
         if (!this.actor) return;
         const allItemTypes = this.actor.allItemTypes;
 
-        this.domain = allItemTypes.domain.find(
-            (it: SohlItem) => it.system.shortcode === this.data.domainCode,
-        )?.logic as DomainLogic;
-
         this.skills = allItemTypes.skill
             .filter((it: SohlItem) =>
                 this.data.skills.includes(it.system.shortcode),
@@ -229,8 +203,6 @@ export interface MysteryData<
 > extends SohlItemData<TLogic> {
     /** Mystery category (Grace, Piety, Fate, Blessing, etc.) */
     subType: MysterySubType;
-    /** Shortcode of the associated mystical domain */
-    domainCode?: string;
     /** Shortcodes of skills this mystery affects */
     skills: string[];
     /** Power level of this mystery */

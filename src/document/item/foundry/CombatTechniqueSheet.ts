@@ -16,12 +16,13 @@ import {
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
 
-export class PhilosophySheet extends SohlItemSheetBase {
+export class CombatTechniqueSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/philosophy-properties.hbs",
+            template:
+                "systems/sohl/templates/item/legendary/combattechniquestrikemode-properties.hbs",
             scrollable: [""],
         },
     };
@@ -33,6 +34,14 @@ export class PhilosophySheet extends SohlItemSheetBase {
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
         await super._preparePropertiesContext(context, options);
-        return context;
+        const system = this.document.system as any;
+        return Object.assign(context, {
+            mode: system.mode,
+            minParts: system.minParts,
+            assocSkillName: system.assocSkillName,
+            impactBase: system.impactBase,
+            group: system.group,
+            lengthBase: system.lengthBase,
+        });
     }
 }

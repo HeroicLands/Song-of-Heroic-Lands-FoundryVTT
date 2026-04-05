@@ -134,10 +134,6 @@ export abstract class SohlLogic<
         );
     }
 
-    get nestedIn(): SohlItem | null {
-        return this.item?.nestedIn ?? null;
-    }
-
     get typeLabel(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;

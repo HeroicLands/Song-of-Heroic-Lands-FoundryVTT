@@ -44,11 +44,6 @@ describe("SohlLogic", () => {
         it.todo("returns a new SohlSpeaker when no actor is available");
     });
 
-    describe("nestedIn", () => {
-        it.todo("returns item.nestedIn");
-        it.todo("returns null when item has no nestedIn");
-    });
-
     describe("typeLabel", () => {
         it.todo("returns localized type label for the document type");
         it.todo("includes subType in label when subType is a string");

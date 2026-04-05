@@ -21,6 +21,7 @@ import {
     notifyWarn as fvttNotifyWarn,
     callHook as fvttCallHook,
 } from "@src/core/foundry-helpers";
+import { GearLogic } from "../logic/GearLogic";
 const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
 // TODO: This still uses the deprecated global TextEditor. Should use the
 // foundry-helpers shim (enrichHTML) like Being.ts does, for consistency.
@@ -103,51 +104,6 @@ export class SohlItem extends Item {
     }
 
     /**
-     * The SohlItem that this item is nested within, or null if it is not nested.
-     */
-    get nestedIn(): SohlItem | null {
-        const item: SohlItem | undefined = this.actor?.allItems.get(
-            (this.system as any).nestedIn,
-        );
-        return item ?? null;
-    }
-
-    /**
-     * Whether this item is nested within another item.
-     */
-    get isNested(): boolean {
-        return !!this.nestedIn;
-    }
-
-    /**
-     * Get all nested items of this item.
-     * @param types An optional array of item types to filter by.
-     * @returns An array of nested SohlItem documents.
-     */
-    nestedItems(types: string[] = []): SohlItem[] {
-        return (
-            this.actor?.allItems.filter(
-                (i: SohlItem) =>
-                    i.nestedIn === this.id &&
-                    (!types?.length || types.includes(i.type)),
-            ) || []
-        );
-    }
-
-    /**
-     * Helper method to create a new item nested within this item.
-     * @param data  The data for the new item to create.
-     * @returns The created nested item or null if creation failed.
-     */
-    async createNestedItem(
-        data: foundry.abstract.Document.CreateDataForName<"Item">,
-    ): Promise<SohlItem | null> {
-        if (!this.actor) return null;
-        foundry.utils.setProperty(data, "system.nestedIn", this.id);
-        return await this.actor.createItem(data);
-    }
-
-    /**
      * Helper method to create a new Active Effect for this item.
      * @param data The data for the new Active Effect to create.
      * @returns The created Active Effect or null if creation failed.
@@ -159,34 +115,6 @@ export class SohlItem extends Item {
             data,
         ])) as SohlActiveEffect[];
         return created;
-    }
-
-    /**
-     * Prevent deletion of items that have nested children.
-     * Children must be un-nested or deleted before the parent can be removed.
-     */
-    protected override async _preDelete(
-        options: Item.Database.PreDeleteOptions,
-        user: User.Implementation,
-    ): Promise<boolean | void> {
-        const allowed = await super._preDelete(options, user);
-        if (allowed === false) return false;
-
-        if (!this.actor) return;
-
-        // Use the raw Foundry embedded collection for reliability
-        const children = this.actor.items.filter(
-            (i: SohlItem) => (i.system as any).nestedIn === this.id,
-        );
-        if (children.length > 0) {
-            fvttNotifyWarn(
-                sohl.i18n.format("SOHL.Item.deleteBlockedByChildren", {
-                    name: this.name,
-                    count: String(children.length),
-                }),
-            );
-            return false;
-        }
     }
 }
 
@@ -202,8 +130,6 @@ export interface SohlItemData<
     notes: HTMLString;
     description: HTMLString;
     textReference: HTMLString;
-    shortcode: string;
-    nestedIn: string | null;
 }
 
 /**
@@ -213,11 +139,6 @@ export interface SohlItemData<
  * {@link evaluate}, and {@link finalize}) that all item logic classes inherit
  * from. Concrete item classes extend this to implement type-specific rules,
  * modifiers, and calculations.
- *
- * Items may be attached directly to an actor or nested within another item
- * (e.g., a Protection nested inside ArmorGear, or a StrikeMode nested inside
- * WeaponGear). The nesting relationship is tracked via the `nestedIn` field
- * on the data model.
  *
  * @typeParam TData - The item data interface, extending {@link SohlItemData}.
  */
@@ -229,27 +150,11 @@ export class SohlItemBaseLogic<
     override finalize(): void {}
 }
 
-const SHORTCODE_RE = /^[A-Za-z0-9]{1,12}$/;
-
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
         notes: new HTMLField(),
         description: new HTMLField(),
         textReference: new HTMLField(),
-        shortcode: new StringField({
-            required: true,
-            blank: false,
-            validate: (value: string) => {
-                return (
-                    SHORTCODE_RE.test(value) ||
-                    `shortcode must be 1-12 alphanumeric characters`
-                );
-            },
-        }),
-        nestedIn: new DocumentIdField({
-            nullable: true,
-            initial: null,
-        }),
     };
 }
 
@@ -271,9 +176,7 @@ export abstract class SohlItemDataModel<
     notes!: HTMLString;
     description!: HTMLString;
     textReference!: HTMLString;
-    shortcode!: string;
     transfer!: boolean;
-    nestedIn!: string | null;
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!(options.parent instanceof SohlItem)) {
@@ -357,11 +260,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             template: "systems/sohl/templates/item/parts/description.hbs",
             scrollable: [""],
         },
-        nestedItems: {
-            container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/parts/nested-items.hbs",
-            scrollable: [""],
-        },
         actions: {
             container: { classes: ["tab-body"], id: "tabs" },
             template: "systems/sohl/templates/item/parts/actions.hbs",
@@ -386,7 +284,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                     label: "SOHL.Item.tab.properties",
                 },
                 { id: "description", label: "SOHL.Item.tab.description" },
-                { id: "nestedItems", label: "SOHL.Item.tab.nestedItems" },
                 { id: "actions", label: "SOHL.Item.tab.actions" },
                 { id: "effectsTab", label: "SOHL.Item.tab.effects" },
             ],
@@ -419,7 +316,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             "properties",
             "description",
             "actions",
-            "nestedItems",
             "effectsTab",
         );
     }
@@ -461,17 +357,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                 );
                 fvttCallHook(
                     `sohl.${type}.prepareDescriptionContext`,
-                    this,
-                    context,
-                );
-                return context;
-            case "nestedItems":
-                context = await this._prepareNestedItemsContext(
-                    context,
-                    options,
-                );
-                fvttCallHook(
-                    `sohl.${type}.prepareNestedItemsContext`,
                     this,
                     context,
                 );
@@ -548,7 +433,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Prepare context for the Properties tab.
      *
      * The base implementation provides the common item properties
-     * (shortcode, nestedIn, notes, textReference). Subclasses override
+     * (notes, textReference). Subclasses override
      * this to add type-specific properties.
      */
     protected async _preparePropertiesContext(
@@ -557,8 +442,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<RenderContext> {
         const system = this.document.system as any;
         return Object.assign(context, {
-            shortcode: system.shortcode,
-            nestedIn: system.nestedIn,
             notes: system.notes ?? "",
             textReference: system.textReference ?? "",
         });
@@ -578,25 +461,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                 system.description ?? "",
             ),
         });
-    }
-
-    /**
-     * Prepare context for the Nested Items tab.
-     * Provides the list of items nested within this item.
-     */
-    protected async _prepareNestedItemsContext(
-        context: RenderContext,
-        _options: RenderOptions,
-    ): Promise<RenderContext> {
-        const nestedItems: SohlItem[] = [];
-        if (this.actor) {
-            for (const item of this.actor.allItems.values()) {
-                if ((item.system as any).nestedIn === this.document.id) {
-                    nestedItems.push(item);
-                }
-            }
-        }
-        return Object.assign(context, { nestedItems });
     }
 
     /**
@@ -714,12 +578,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             sourceName: "",
         };
 
-        if (item.nestedIn) {
-            dlgData.sourceName = `${(item.nestedIn.system as any).label}`;
-        } else {
-            dlgData.sourceName = item.actor.name || "Unknown";
-        }
-
         const compiled = Handlebars.compile(`<form id="items-to-move">
             <p>Moving ${dlgData.itemName} from ${dlgData.sourceName} to ${dlgData.targetName}</p>
             <div class="form-group">
@@ -774,7 +632,6 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                 destContainerId,
             );
         }
-        destContainer ||= this.document.nestedIn;
 
         if (droppedItem.id === destContainer?.id) {
             // Prohibit moving a container into itself
@@ -782,21 +639,22 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             return false;
         }
 
-        if (!destContainer || destContainer.id === droppedItem.nestedIn?.id) {
+        if (
+            !destContainer ||
+            destContainer.id ===
+                (droppedItem.logic as GearLogic).containedIn?.id
+        ) {
             // If dropped item source and dest containers are the same,
             // then we are simply rearranging
             await this._onSortItem(event, droppedItem);
             return true;
         }
 
-        const similarItem: SohlItem | undefined = destContainer
-            .nestedItems()
-            .find(
-                (it: SohlItem) =>
-                    droppedItem.id === it.id ||
-                    (droppedItem.name === it.name &&
-                        droppedItem.type === it.type),
-            );
+        const similarItem: SohlItem | undefined = destContainer.find(
+            (it: SohlItem) =>
+                droppedItem.id === it.id ||
+                (droppedItem.name === it.name && droppedItem.type === it.type),
+        );
 
         if (similarItem) {
             sohl.log.uiError(`Similar item exists in ${destContainer.name}`);
@@ -809,9 +667,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             quantity = await this._moveQtyDialog(droppedItem, destContainer);
         }
 
-        const itemData = droppedItem.toObject();
-        delete (itemData as any)._id; // Remove ID to create a new item
-        (itemData.system as any).quantity = quantity;
+        const itemData = droppedItem.toObject() as any;
+        delete itemData._id; // Remove ID to create a new item
+        itemData.system.quantity = quantity;
         return (
             ((await SohlItem.create(itemData, {
                 parent: destContainer,
@@ -823,10 +681,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         event: DragEvent,
         droppedItem: SohlItem,
     ): Promise<boolean> {
-        if (
-            droppedItem.nestedIn?.id === this.document.id ||
-            droppedItem.parent?.id === this.document.id
-        ) {
+        if (droppedItem.parent?.id === this.document.id) {
             // Sort items
             const result = await this._onSortItem(event, droppedItem);
             return !!result?.length;

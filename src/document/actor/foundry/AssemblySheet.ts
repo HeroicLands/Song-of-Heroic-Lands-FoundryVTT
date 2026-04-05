@@ -38,9 +38,6 @@ export class AssemblySheet extends SohlActorSheetBase {
         facade: {
             template: "systems/sohl/templates/actor/parts/facade.hbs",
         },
-        nestedItems: {
-            template: "systems/sohl/templates/actor/assembly/nested-items.hbs",
-        },
         actions: {
             template: "systems/sohl/templates/actor/parts/actions.hbs",
         },
@@ -59,11 +56,6 @@ export class AssemblySheet extends SohlActorSheetBase {
                     icon: "fas fa-masks-theater",
                 },
                 {
-                    id: "nestedItems",
-                    label: "SOHL.Actor.SHEET.tab.nested.label",
-                    icon: "fas fa-sitemap",
-                },
-                {
                     id: "actions",
                     label: "SOHL.Actor.SHEET.tab.actions.label",
                     icon: "fas fa-cogs",
@@ -76,25 +68,4 @@ export class AssemblySheet extends SohlActorSheetBase {
             ],
         },
     };
-
-    /**
-     * Delegate rendering to the canonical item's sheet when one exists.
-     * If the Assembly is empty (invalid state), fall back to the Assembly's
-     * own sheet to allow the user to manage the situation.
-     */
-    override async render(
-        options?: boolean | Record<string, unknown>,
-        _options?: Record<string, unknown>,
-    ): Promise<this> {
-        const logic = (this.document.system as any).logic as AssemblyLogic;
-        const canonicalItem = logic?.canonicalItem;
-        if (canonicalItem?.sheet) {
-            canonicalItem.sheet.render(true);
-            return this;
-        }
-        // TODO: The fallback renders the Assembly's own sheet (facade/nestedItems/actions/effects)
-        // but there's no specific "empty Assembly" or "invalid Assembly" UI. Consider adding
-        // a clear message explaining the state and providing a way to add items.
-        return super.render(options as any, _options as any);
-    }
 }

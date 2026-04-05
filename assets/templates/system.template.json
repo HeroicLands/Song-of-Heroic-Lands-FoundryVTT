@@ -50,9 +50,6 @@
             }
         },
         "Item": {
-            "action": {
-                "htmlFields": ["description", "textReference"]
-            },
             "affiliation": {
                 "htmlFields": ["description", "textReference"]
             },
@@ -62,16 +59,7 @@
             "armorgear": {
                 "htmlFields": ["description", "textReference"]
             },
-            "bodylocation": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "bodypart": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "bodyzone": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "combattechniquestrikemode": {
+            "combattechnique": {
                 "htmlFields": ["description", "textReference"]
             },
             "concoctiongear": {
@@ -80,25 +68,10 @@
             "containergear": {
                 "htmlFields": ["description", "textReference"]
             },
-            "disposition": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "domain": {
-                "htmlFields": ["description", "textReference"]
-            },
             "injury": {
                 "htmlFields": ["description", "textReference"]
             },
-            "meleeweaponstrikemode": {
-                "htmlFields": ["description", "textReference"]
-            },
             "miscgear": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "missileweaponstrikemode": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "movementprofile": {
                 "htmlFields": ["description", "textReference"]
             },
             "mystery": {
@@ -107,16 +80,7 @@
             "mysticalability": {
                 "htmlFields": ["description", "textReference"]
             },
-            "mysticaldevice": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "philosophy": {
-                "htmlFields": ["description", "textReference"]
-            },
             "projectilegear": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "protection": {
                 "htmlFields": ["description", "textReference"]
             },
             "skill": {

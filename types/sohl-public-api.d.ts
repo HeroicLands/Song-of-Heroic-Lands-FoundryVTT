@@ -42,7 +42,6 @@ export type { VehicleLogic, VehicleData } from "../src/common/actor/logic/Vehicl
 
 // Item types — base classes
 export type { GearLogic, GearData } from "../src/common/item/logic/GearLogic";
-export type { StrikeModeLogic, StrikeModeData } from "../src/common/item/logic/StrikeModeLogic";
 export type { MasteryLevelLogic, MasteryLevelData } from "../src/common/item/logic/MasteryLevelLogic";
 
 // Item types — concrete
@@ -50,25 +49,14 @@ export type { ActionLogic, ActionData } from "../src/common/item/logic/ActionLog
 export type { AffiliationLogic, AffiliationData } from "../src/common/item/logic/AffiliationLogic";
 export type { AfflictionLogic, AfflictionData } from "../src/common/item/logic/AfflictionLogic";
 export type { ArmorGearLogic, ArmorGearData } from "../src/common/item/logic/ArmorGearLogic";
-export type { BodyLocationLogic, BodyLocationData } from "../src/common/item/logic/BodyLocationLogic";
-export type { BodyPartLogic, BodyPartData } from "../src/common/item/logic/BodyPartLogic";
-export type { BodyZoneLogic, BodyZoneData } from "../src/common/item/logic/BodyZoneLogic";
-export type { CombatTechniqueStrikeModeLogic, CombatTechniqueStrikeModeData } from "../src/common/item/logic/CombatTechniqueStrikeModeLogic";
+export type { CombatTechniqueLogic, CombatTechniqueData } from "../src/common/item/logic/CombatTechniqueLogic";
 export type { ConcoctionGearLogic, ConcoctionGearData } from "../src/common/item/logic/ConcoctionGearLogic";
 export type { ContainerGearLogic, ContainerGearData } from "../src/common/item/logic/ContainerGearLogic";
-export type { DispositionLogic, DispositionData } from "../src/common/item/logic/DispositionLogic";
-export type { DomainLogic, DomainData } from "../src/common/item/logic/DomainLogic";
 export type { InjuryLogic, InjuryData } from "../src/common/item/logic/InjuryLogic";
-export type { MeleeWeaponStrikeModeLogic } from "../src/common/item/logic/MeleeWeaponStrikeModeLogic";
 export type { MiscGearLogic, MiscGearData } from "../src/common/item/logic/MiscGearLogic";
-export type { MissileWeaponStrikeModeLogic } from "../src/common/item/logic/MissileWeaponStrikeModeLogic";
-export type { MovementProfileLogic, MovementProfileData } from "../src/common/item/logic/MovementProfileLogic";
 export type { MysteryLogic, MysteryData } from "../src/common/item/logic/MysteryLogic";
 export type { MysticalAbilityLogic, MysticalAbilityData } from "../src/common/item/logic/MysticalAbilityLogic";
-export type { MysticalDeviceLogic, MysticalDeviceData } from "../src/common/item/logic/MysticalDeviceLogic";
-export type { PhilosophyLogic, PhilosophyData } from "../src/common/item/logic/PhilosophyLogic";
 export type { ProjectileGearLogic, ProjectileGearData } from "../src/common/item/logic/ProjectileGearLogic";
-export type { ProtectionLogic, ProtectionData } from "../src/common/item/logic/ProtectionLogic";
 export type { SkillLogic, SkillData } from "../src/common/item/logic/SkillLogic";
 export type { TraitLogic, TraitData } from "../src/common/item/logic/TraitLogic";
 export type { WeaponGearLogic, WeaponGearData } from "../src/common/item/logic/WeaponGearLogic";

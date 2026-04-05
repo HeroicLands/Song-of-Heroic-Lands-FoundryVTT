@@ -41,12 +41,6 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * TODO: This file is a monolith — contains SohlActor (Document), SohlActorLogic (interface),
  * SohlActorData (interface), SohlActorBaseLogic (base class), SohlActorDataModel (base DataModel),
  * and SohlActorSheetBase (base Sheet). Should be split following the logic/foundry pattern.
- *
- * This class provides functionality to manage both embedded items
- * (persisted in the database) and virtual items (created dynamically
- * during preparation and not persisted), and the nested items. It
- * also handles context menu options, chat card interactions, and
- * lifecycle management of items during actor preparation.
  */
 export class SohlActor extends Actor {
     private _allItemsMap?: SohlMap<string, SohlItem>;
@@ -122,21 +116,7 @@ export class SohlActor extends Actor {
         );
     }
 
-    addVirtualItem(item: SohlItem): void {
-        if (this._allItemsBuilt) {
-            throw new Error(
-                "Virtual items have already been finalized, no new items may be added.",
-            );
-        }
-        if (!this.logic.virtualItems) {
-            throw new Error("Virtual items map not initialized.");
-        }
-        if (item.id) {
-            this.logic.virtualItems.set(item.id, item);
-        }
-    }
-
-    /** Returns all items, including both embedded and virtual items. */
+    /** Returns all items on this actor. */
     get allItems(): SohlMap<string, SohlItem> {
         return this._allItemsMap ?? new SohlMap<string, SohlItem>();
     }
@@ -147,46 +127,7 @@ export class SohlActor extends Actor {
     }
 
     /**
-     * A generator that yields all items, including both embedded and virtual items.
-     * This is used during preparation to ensure that any virtual items added during
-     * initialization are included in the preparation lifecycle.
-     */
-    *dynamicAllItems(): Generator<SohlItem> {
-        const seen = new Set<string>();
-
-        // 1) Yield embedded items (fixed set)
-        for (const [id, it] of this.items.entries()) {
-            seen.add(id);
-            yield it as SohlItem;
-        }
-
-        // 2) Repeatedly sweep virtuals until a full pass finds nothing new
-        const virtuals = (this.system as any).virtualItems as Map<
-            string,
-            SohlItem
-        >;
-        let emitted: number;
-        // optional safety cap if you fear runaway item factories
-        const MAX = 10_000;
-        let total = 0;
-
-        do {
-            emitted = 0;
-            for (const [id, it] of virtuals) {
-                if (!seen.has(id)) {
-                    seen.add(id);
-                    emitted++;
-                    if (++total > MAX)
-                        throw new Error("dynamicAllItems(): runaway growth?");
-                    yield it; // caller will call initialize(); next pass picks up anything it added
-                }
-            }
-        } while (emitted > 0);
-    }
-
-    /**
-     * Finalizes the items cache, including both embedded and virtual items.
-     * Any virtual items added after this point will not be included.
+     * Builds the items cache from embedded items.
      */
     finalizeItemsCache(): void {
         if (this._allItemsBuilt) return;
@@ -195,9 +136,6 @@ export class SohlActor extends Actor {
 
         for (const [id, it] of this.items.entries()) {
             this._allItemsMap.set(id, it as SohlItem);
-        }
-        for (const [id, it] of (this.system as any).virtualItems.entries()) {
-            this._allItemsMap.set(id, it);
         }
 
         this._allItemTypesCache = this.allItems.reduce(
@@ -279,16 +217,17 @@ export class SohlActor extends Actor {
     }
 
     getLifecycleAction(name: string): SohlItem | undefined {
-        let actionItem = this._lifecycleActionsCache.get(name);
-        if (!actionItem) {
-            actionItem = this.items.find(
-                (it) => it.type === ITEM_KIND.ACTION && it.name === name,
-            ) as SohlItem | undefined;
-            if (actionItem) {
-                this._lifecycleActionsCache.set(name, actionItem);
-            }
-        }
-        return actionItem;
+        // let actionItem = this._lifecycleActionsCache.get(name);
+        // if (!actionItem) {
+        //     actionItem = this.items.find(
+        //         (it) => it.type === ITEM_KIND.ACTION && it.name === name,
+        //     ) as SohlItem | undefined;
+        //     if (actionItem) {
+        //         this._lifecycleActionsCache.set(name, actionItem);
+        //     }
+        // }
+        // return actionItem;
+        return undefined;
     }
 
     prepareEmbeddedData(): void {
@@ -298,8 +237,8 @@ export class SohlActor extends Actor {
 
         const ctx = this._getContext();
 
-        // Initialize all items, handling the initialization logic adding items to virtualItems
-        for (const item of this.dynamicAllItems()) {
+        // Initialize all items
+        for (const item of this.items.values() as Iterable<SohlItem>) {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
             ) {
@@ -317,7 +256,7 @@ export class SohlActor extends Actor {
 
         this.finalizeItemsCache();
 
-        // Evaluate and finalize all objects, recognizing that the virtualItems map is now immutable
+        // Evaluate and finalize all items
         this.allItems.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
@@ -546,16 +485,6 @@ export class SohlActor extends Actor {
     //         }
     //     }
 
-    //     this.system.virtualItems.forEach((it) => {
-    //         const toUpdate = it.updateEffectsOrigin();
-    //         while (toUpdate.length) {
-    //             const eChange = toUpdate.pop();
-    //             const effect = it.effects.get(eChange._id);
-    //             if (effect) {
-    //                 effect.update({ origin: eChange.origin });
-    //             }
-    //         }
-    //     });
     // }
 
     /**
@@ -580,95 +509,11 @@ export class SohlActor extends Actor {
         ])) as SohlActiveEffect[];
         return created;
     }
-
-    /* --------------------------------------------- */
-    /* Assembly Invariant Enforcement                */
-    /* --------------------------------------------- */
-
-    /**
-     * Enforce the Assembly canonical item invariant on item creation:
-     * an Assembly must have exactly one root item (nestedIn === null).
-     * New items added to an Assembly that already has a root must have nestedIn set.
-     */
-    protected override _preCreateDescendantDocuments(
-        ...args: Actor.PreCreateDescendantDocumentsArgs
-    ): void {
-        super._preCreateDescendantDocuments(...args);
-
-        if (this.type !== ACTOR_KIND.ASSEMBLY) return;
-
-        const [_parent, collection, data, _options, _userId] = args;
-        if (collection !== "items") return;
-
-        const hasRoot = this.items.some(
-            (i: SohlItem) => (i.system as any).nestedIn == null,
-        );
-
-        for (const itemData of data as PlainObject[]) {
-            const nestedIn = foundry.utils.getProperty(
-                itemData,
-                "system.nestedIn",
-            );
-            if (nestedIn == null && hasRoot) {
-                fvttNotifyWarn(
-                    sohl.i18n.format(
-                        "SOHL.Assembly.invalidState.multipleRoots",
-                        {
-                            name: this.name,
-                        },
-                    ),
-                );
-                // Prevent creation by clearing the data array
-                data.length = 0;
-                return;
-            }
-        }
-    }
-
-    // TODO: Add _preUpdateDescendantDocuments to enforce Assembly invariant when
-    // an item's nestedIn is changed to null (would create a second root item).
-    // Also guard against setting nestedIn to non-null on the canonical item
-    // (would leave no root item).
-
-    // TODO: Also sync Assembly actor image (img) with canonical item image
-    // when the canonical item's image changes.
-
-    /**
-     * Synchronize the Assembly actor's name when its canonical item's name changes.
-     */
-    protected override _onUpdateDescendantDocuments(
-        ...args: Actor.OnUpdateDescendantDocumentsArgs
-    ): void {
-        super._onUpdateDescendantDocuments(...args);
-
-        if (this.type !== ACTOR_KIND.ASSEMBLY) return;
-
-        const [_parent, collection, documents, changes, _options, _userId] =
-            args;
-        if (collection !== "items") return;
-
-        // Check if any of the updated items is the canonical item (nestedIn === null)
-        // and if its name changed
-        for (let i = 0; i < documents.length; i++) {
-            const item = documents[i] as SohlItem;
-            const change = changes[i] as PlainObject;
-            if (
-                (item.system as any).nestedIn == null &&
-                change.name &&
-                change.name !== this.name
-            ) {
-                this.update({ name: change.name });
-                break;
-            }
-        }
-    }
 }
 
 export interface SohlActorLogic<
     TData extends SohlDataModel.Data<SohlActor>,
-> extends SohlLogic<TData> {
-    virtualItems: SohlMap<string, SohlItem>;
-}
+> extends SohlLogic<TData> {}
 
 /**
  * An interface representing the common data structure for all Actor types in the SoHL system.
@@ -677,21 +522,16 @@ export interface SohlActorData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > extends SohlDataModel.Data<SohlActor, TLogic> {
     label(options?: { withName: boolean }): string;
-    biography: HTMLString;
-    description: HTMLString;
-    bioImage: FilePath;
-    textReference: string;
+    shortcode: string;
+    dossier: HTMLString;
+    appearance: HTMLString;
+    portrait: FilePath;
 }
 
 /**
  * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
  *
- * Provides the foundation that all actor logic classes build upon, including
- * management of {@link virtualItems} — dynamically created items that exist only
- * during the preparation lifecycle (not persisted to the database). Virtual items
- * are registered during {@link initialize} and become part of the actor's item
- * collection for the remainder of the lifecycle.
- *
+ * Provides the foundation that all actor logic classes build upon.
  * Concrete actor logic classes extend this to implement type-specific rules:
  * health tracking, anatomy modeling, passenger management, etc.
  *
@@ -700,10 +540,7 @@ export interface SohlActorData<
 export class SohlActorBaseLogic<
     TData extends SohlActorData = SohlActorData,
 > extends SohlLogic<TData> {
-    virtualItems!: SohlMap<string, SohlItem>;
-    override initialize(): void {
-        this.virtualItems = new SohlMap<string, SohlItem>();
-    }
+    override initialize(): void {}
     override evaluate(): void {}
     override finalize(): void {}
 }
@@ -714,13 +551,12 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
             blank: false,
             required: true,
         }),
-        bioImage: new FilePathField({
+        portrait: new FilePathField({
             categories: ["IMAGE"],
             initial: foundry.CONST.DEFAULT_TOKEN,
         }),
-        description: new HTMLField(),
-        biography: new HTMLField(),
-        textReference: new StringField(),
+        appearance: new HTMLField(),
+        dossier: new HTMLField(),
     };
 }
 
@@ -734,10 +570,10 @@ export abstract class SohlActorDataModel<
     extends SohlDataModel<TSchema, SohlActor, TLogic>
     implements SohlActorData<TLogic>
 {
-    biography!: HTMLString;
-    description!: HTMLString;
-    bioImage!: FilePath;
-    textReference!: string;
+    shortcode!: string;
+    dossier!: HTMLString;
+    appearance!: HTMLString;
+    portrait!: FilePath;
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!(options.parent instanceof SohlActor)) {

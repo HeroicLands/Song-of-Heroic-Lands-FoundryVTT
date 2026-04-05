@@ -17,7 +17,7 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
  * Logic for the **Container Gear** item type — storage for other items.
  *
  * Container Gear represents backpacks, saddlebags, chests, belt pouches, cargo
- * holds, and other receptacles that hold nested gear items. Containers track a
+ * holds, and other receptacles that hold gear items. Containers track a
  * **maximum capacity** limiting how much they can store.
  *
  * Container Gear may be attached to Beings (a character's backpack) or Vehicles

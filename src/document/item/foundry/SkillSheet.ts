@@ -21,7 +21,8 @@ export class SkillSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/skill-properties.hbs",
+            template:
+                "systems/sohl/templates/item/legendary/skill-properties.hbs",
             scrollable: [""],
         },
     };
@@ -41,7 +42,7 @@ export class SkillSheet extends SohlItemSheetBase {
             subType: system.subType,
             weaponGroup: system.weaponGroup,
             baseSkill: system.baseSkill,
-            domain: system.domain,
+            mysteryCode: system.mysteryCode,
         });
     }
 }

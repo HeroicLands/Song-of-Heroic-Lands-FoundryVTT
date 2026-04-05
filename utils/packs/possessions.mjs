@@ -366,7 +366,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: armorgear.description,
-                    nestedItems: [],
                     transfer: false,
                     shortcode: armorgear.shortcode || "",
                     quantity: 1,
@@ -501,7 +500,6 @@ export class Possessions {
                     notes: "",
                     textReference: "",
                     description: weapongear.description,
-                    nestedItems: [],
                     transfer: false,
                     shortcode: weapongear.shortcode || "",
                     quantity: 1,
@@ -949,8 +947,6 @@ export class Possessions {
                 });
             }
             sm.effects.push(effect);
-            sm.sort = (weapon.system.nestedItems.length + 1) * 100000;
-            weapon.system.nestedItems.push(sm);
         }
 
         for (const weaponid of weapons.keys()) {

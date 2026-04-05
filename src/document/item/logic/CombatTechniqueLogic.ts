@@ -18,10 +18,15 @@ import type { SuccessTestResult } from "@src/result/SuccessTestResult";
 import { CombatModifier } from "@src/modifier/CombatModifier";
 import type { ValueModifier } from "@src/modifier/ValueModifier";
 import {
-    StrikeModeLogic,
-    StrikeModeData,
-} from "@src/document/item/logic/StrikeModeLogic";
-import { VALUE_DELTA_ID, VALUE_DELTA_INFO } from "@src/utils/constants";
+    ImpactAspect,
+    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
+import {
+    SohlItemBaseLogic,
+    SohlItemData,
+    SohlItemLogic,
+} from "../foundry/SohlItem";
 
 /**
  * Logic for the **Combat Technique Strike Mode** item type — a specialized
@@ -32,7 +37,7 @@ import { VALUE_DELTA_ID, VALUE_DELTA_INFO } from "@src/utils/constants";
  * and other specialized fighting techniques. Unlike weapon-based strike modes,
  * these are tied to a combat technique skill rather than a specific weapon.
  *
- * Like {@link MeleeWeaponStrikeModeLogic}, combat techniques provide:
+ * Like weapon strike modes, combat techniques provide:
  *
  * - **defense.block** — Modifier for defensive use of the technique
  * - **defense.counterstrike** — Modifier for counterattacking
@@ -43,9 +48,9 @@ import { VALUE_DELTA_ID, VALUE_DELTA_INFO } from "@src/utils/constants";
  *
  * @typeParam TData - The CombatTechniqueStrikeMode data interface.
  */
-export class CombatTechniqueStrikeModeLogic<
-    TData extends CombatTechniqueStrikeModeData = CombatTechniqueStrikeModeData,
-> extends StrikeModeLogic<TData> {
+export class CombatTechniqueLogic<
+    TData extends CombatTechniqueData = CombatTechniqueData,
+> extends SohlItemBaseLogic<TData> {
     length!: ValueModifier;
     defense!: {
         block: CombatModifier;
@@ -80,33 +85,6 @@ export class CombatTechniqueStrikeModeLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-        if (this.assocSkill) {
-            this.defense.block.addVM(
-                (this.assocSkill.logic as unknown as SkillLogic).masteryLevel,
-                {
-                    includeBase: true,
-                },
-            );
-            this.defense.counterstrike.addVM(
-                (this.assocSkill.logic as unknown as SkillLogic).masteryLevel,
-                { includeBase: true },
-            );
-        }
-
-        const token = this.actor?.getActiveTokens().shift() as Token;
-        const combatant = (token?.document as SohlTokenDocument).combatant;
-        // If outnumbered, then add the outnumbered penalty to the defend "bonus" (in this case a penalty)
-        if (combatant && !combatant.isDefeated) {
-            const defendPenalty =
-                Math.max(combatant.threatenedBy.length - 1, 0) * -10;
-            if (defendPenalty) {
-                this.defense.block.add(VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED], defendPenalty);
-                this.defense.counterstrike.add(
-                    VALUE_DELTA_ID[VALUE_DELTA_INFO.OUTNUMBERED],
-                    defendPenalty,
-                );
-            }
-        }
     }
 
     /** @inheritdoc */
@@ -115,13 +93,25 @@ export class CombatTechniqueStrikeModeLogic<
     }
 }
 
-export interface CombatTechniqueStrikeModeData<
-    TLogic extends
-        CombatTechniqueStrikeModeLogic<CombatTechniqueStrikeModeData> =
-        CombatTechniqueStrikeModeLogic<any>,
-> extends StrikeModeData<TLogic> {
-    /** Combat technique group this mode belongs to */
-    group?: string;
+export interface CombatTechniqueStrikeMode {
+    mode: string;
+    strikeAccuracy: number;
+    assocSkillCode: string;
+    lengthBase: number;
+    impactBase: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
+}
+
+export interface CombatTechniqueData<
+    TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
+        CombatTechniqueLogic<any>,
+> extends SohlItemData<TLogic> {
     /** Effective range of this combat technique */
     lengthBase: number;
+    /** Strike modes available for this combat technique */
+    strikeModes: CombatTechniqueStrikeMode[];
 }

@@ -52,31 +52,20 @@ Emitted for every item on every actor during data preparation.
 | Type string | Item |
 |-------------|------|
 | `skill` | Skill |
-| `trait` | Trait |
-| `action` | Action |
 | `affiliation` | Affiliation |
 | `affliction` | Affliction |
-| `injury` | Injury |
 | `armorgear` | Armor Gear |
-| `weapongear` | Weapon Gear |
-| `miscgear` | Misc Gear |
+| `combattechnique` | Combat Technique |
+| `concoctiongear` | Concoction Gear |
 | `containergear` | Container Gear |
-| `projectilegear` | Projectile Gear |
-| `concoctionsgear` | Concoction Gear |
-| `meleeweaponstrikemodes` | Melee Weapon Strike Mode |
-| `missileweaponstrikemodes` | Missile Weapon Strike Mode |
-| `combattechniquestrikemodes` | Combat Technique Strike Mode |
-| `mysticalability` | Mystical Ability |
+| `injury` | Injury |
+| `miscgear` | Misc Gear |
 | `mystery` | Mystery |
-| `mysticaldevice` | Mystical Device |
-| `bodylocation` | Body Location |
-| `bodyzone` | Body Zone |
-| `bodypart` | Body Part |
-| `movementprofile` | Movement Profile |
-| `protection` | Protection |
-| `philosophy` | Philosophy |
-| `domain` | Domain |
-| `disposition` | Disposition |
+| `mysticalability` | Mystical Ability |
+| `projectilegear` | Projectile Gear |
+| `skill` | Skill |
+| `trait` | Trait |
+| `weapongear` | Weapon Gear |
 
 For the canonical list, see `ITEM_KIND` in `src/utils/constants.ts`.
 

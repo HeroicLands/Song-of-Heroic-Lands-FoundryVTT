@@ -11,25 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
 import {
-    WeaponGearLogic,
-    WeaponGearData,
-} from "@src/document/item/logic/WeaponGearLogic";
-import {
-    IMPACT_ASPECT,
-    ImpactAspects,
-    ITEM_KIND,
-    PROJECTILEGEAR_SUBTYPE,
-    ProjectileGearSubTypes,
-} from "@src/utils/constants";
+    CombatTechniqueLogic,
+    CombatTechniqueData,
+    CombatTechniqueStrikeMode,
+} from "@src/document/item/logic/CombatTechniqueLogic";
+import { IMPACT_ASPECT, ImpactAspects, ITEM_KIND } from "@src/utils/constants";
+import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
 const { NumberField, StringField, ArrayField, SchemaField } =
     foundry.data.fields;
 
-function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
+function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
     return {
-        ...GearDataModel.defineSchema(),
-        encumbrance: new NumberField({ initial: 0, min: 0 }),
+        ...SohlItemDataModel.defineSchema(),
         strikeModes: new ArrayField(
             new SchemaField({
                 mode: new StringField(),
@@ -40,26 +34,6 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                 }),
                 assocSkillCode: new StringField(),
                 lengthBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                projectileType: new StringField({
-                    initial: PROJECTILEGEAR_SUBTYPE.NONE,
-                    required: true,
-                    choices: ProjectileGearSubTypes,
-                }),
-                maxVolleyMult: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                baseRangeBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                drawBase: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
@@ -88,29 +62,36 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
             }),
             { initial: [] },
         ),
+
+        group: new StringField({}),
+        lengthBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
     };
 }
 
-type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
+type CombatTechniqueSchema = ReturnType<typeof defineCombatTechniqueSchema>;
 
-export class WeaponGearDataModel<
-    TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
-    TLogic extends WeaponGearLogic<WeaponGearData> =
-        WeaponGearLogic<WeaponGearData>,
+export class CombatTechniqueDataModel<
+    TSchema extends foundry.data.fields.DataSchema = CombatTechniqueSchema,
+    TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
+        CombatTechniqueLogic<CombatTechniqueData<CombatTechniqueLogic<any>>>,
 >
-    extends GearDataModel<TSchema, TLogic>
-    implements WeaponGearData<TLogic>
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements CombatTechniqueData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = [
-        "SOHL.WeaponGear",
-        "SOHL.Gear",
+        "SOHL.CombatTechnique",
+        "SOHL.StrikeMode",
         "SOHL.Item",
     ];
-    static override readonly kind = ITEM_KIND.WEAPONGEAR;
+    static override readonly kind = ITEM_KIND.COMBATTECHNIQUE;
     lengthBase!: number;
-    encumbrance!: number;
+    strikeModes!: CombatTechniqueStrikeMode[];
 
-    static defineSchema(): foundry.data.fields.DataSchema {
-        return defineWeaponGearSchema();
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineCombatTechniqueSchema();
     }
 }

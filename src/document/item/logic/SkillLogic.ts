@@ -28,7 +28,7 @@ import type { SkillSubType } from "@src/utils/constants";
  *
  * Skills are categorized by {@link SkillData.subType | subType} (e.g., combat,
  * social, physical) and may be associated with a **weapon group** or a
- * **mystical domain**. A skill can also reference a **base skill** from which
+ * **mystery**. A skill can also reference a **base skill** from which
  * it derives or shares advancement.
  *
  * Skills are the primary mechanism for resolving actions in SoHL. When a
@@ -74,8 +74,8 @@ export interface SkillData<
     weaponGroup: string;
     /** Name of the base skill if this is a specialization */
     baseSkill: string;
-    /** Mystical domain associated with this skill, if any */
-    domain: string;
+    /** Mystery associated with this skill, if any */
+    mysteryCode: string;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
     /** Parent skill name for expertise specializations */

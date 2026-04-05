@@ -21,7 +21,8 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/legendary/mysticalability-properties.hbs",
+            template:
+                "systems/sohl/templates/item/legendary/mysticalability-properties.hbs",
             scrollable: [""],
         },
     };
@@ -41,7 +42,7 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
             isImprovable: system.isImprovable,
-            domainCode: system.domainCode,
+            mysteryCode: system.mysteryCode,
             levelBase: system.levelBase,
             charges: system.charges,
         });
