@@ -2,7 +2,7 @@
 
 > **Audience:** Developers extending actor/item logic or lifecycle-triggered Actions.
 
-See also: [Architecture Overview](./architecture.md), [Rules Variants and Extension Mechanisms](./rules-variants.md), [Extension Points](../how-to/extension-points.md).
+See also: [Architecture Overview](./architecture.md), [Extension Points](../how-to/extension-points.md).
 
 ## Why this matters — the problem with Foundry's default lifecycle
 

@@ -131,11 +131,45 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
     ] as const;
 
 /**
- * A specialized ValueModifier that represents a modifier to a Mastery Level test.
- * This includes additional properties and methods relevant to Mastery Level tests,
- * such as critical success/failure thresholds, success level modifiers,
- * and success test descriptions, as well as the ability to perform the
- * success test itself.
+ * A {@link ValueModifier} specialized for mastery level tests — the primary
+ * resolution mechanic in SoHL.
+ *
+ * Extends ValueModifier with test-specific state and the ability to
+ * execute success tests, success value tests, and opposed tests.
+ *
+ * ## Test-specific properties
+ *
+ * - **minTarget / maxTarget** — clamp the effective mastery level to a
+ *   valid range. `constrainedEffective` returns the clamped value.
+ * - **successLevelMod** — flat offset to the success level after the
+ *   roll (e.g., fate bonuses).
+ * - **critFailureDigits / critSuccessDigits** — last-digit lists that
+ *   trigger critical results (e.g., `[0, 5]` means rolls ending in 0
+ *   or 5 are critical).
+ * - **testDescTable** — maps success levels to descriptive labels and
+ *   star ratings for chat output.
+ * - **svTable** — maps success levels to success value results for
+ *   value-producing tests.
+ *
+ * ## Test methods
+ *
+ * - {@link successTest} — standard d100 test against the constrained
+ *   effective mastery level. Displays a dialog (unless suppressed) to
+ *   collect situational modifiers, rolls, evaluates, and posts to chat.
+ * - {@link successValueTest} — like successTest but produces a success
+ *   value (quality of result) rather than just pass/fail.
+ * - {@link opposedTestStart} — initiates an opposed test by performing
+ *   the source actor's success test and creating an
+ *   {@link OpposedTestResult} awaiting the target's response.
+ * - {@link opposedTestResume} — completes an opposed test by performing
+ *   the target actor's success test and evaluating the opposed outcome.
+ *
+ * ## Lifecycle
+ *
+ * Created during {@link MasteryLevelLogic.initialize} with a base from
+ * the persisted mastery level. Deltas are added during evaluate/finalize
+ * (e.g., injury penalties, equipment bonuses, situational modifiers from
+ * the test dialog). Rebuilt each preparation cycle like all ValueModifiers.
  */
 export class MasteryLevelModifier extends ValueModifier {
     minTarget: number;
@@ -232,7 +266,6 @@ export class MasteryLevelModifier extends ValueModifier {
             );
 
             let dialogData: PlainObject = {
-                variant: sohl.id,
                 type: testResult.testType,
                 title: sohl.i18n.format(
                     "SOHL.MasteryLevelModifier.successTest.dialogTitle",

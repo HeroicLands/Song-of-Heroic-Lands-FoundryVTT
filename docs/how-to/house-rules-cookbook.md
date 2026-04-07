@@ -2,7 +2,7 @@
 
 > **Audience:** GMs and developers who want to change behavior without forking SoHL.
 
-See also: [Documentation Hub](../README.md), [Extension Points](./extension-points.md), [Rules Variants and Extension Mechanisms](../concepts/rules-variants.md)
+See also: [Documentation Hub](../README.md), [Extension Points](./extension-points.md)
 
 This page gives quick, practical patterns for choosing and implementing house rules.
 
@@ -10,7 +10,6 @@ This page gives quick, practical patterns for choosing and implementing house ru
 
 - Use an **Action item** when you want to change behavior for one specific item (for example, only `curse`).
 - Use a **Module hook** when you want to apply logic broadly across many items (for example, all spells).
-- Use a **Variant** only when you need a large, coherent rule family.
 
 ## Recipe 1: Change one spell only (Action item)
 
@@ -28,7 +27,7 @@ Result: only the `Curse` item runs this logic during lifecycle.
 
 Goal: run generic logic for `mysticalability` items (optionally narrowed by shortcode filters).
 
-Current core emits hooks as:
+Core emits hooks as:
 
 - `sohl.<itemType>.postInitialize`
 - `sohl.<itemType>.postEvaluate`
@@ -79,16 +78,6 @@ Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
 
 Result: the same module can be installed everywhere, activated per world, and executed by a single authority.
 
-## Recipe 4: Escalate to Variant
-
-Use a Variant only when your changes are systemic (many actors/items/results/modifiers together), such as maintaining a whole alternate rules family.
-
-Typical signals you need a Variant:
-
-- multiple subsystems need coordinated changes,
-- many classes need overrides, and
-- long-term maintainability matters more than minimal setup.
-
 ## Tradeoffs summary
 
 - **Action item**
@@ -97,15 +86,9 @@ Typical signals you need a Variant:
 - **Module**
     - No SoHL core edits required.
     - Best for campaign-wide or category-wide house rules.
-- **Variant**
-    - Requires SoHL source changes.
-    - Best for full alternate rulesets.
 
 ## Related docs
 
 - [Action Items — User Guide](../../assets/packs/journals/data/user-guide/actions.md) — full field-by-field reference on creating and configuring Action items
 - [Lifecycle Hooks (Developer Guide)](./lifecycle-hooks.md) — complete hook name reference for module authors
-- [System Class Overrides](./system-class-overrides.md) — replacing modifier/result/sheet classes
-- [Creating a Variant Module](./variant-module.md) — full variant implementation guide
-- [Rules Variants and Extension Mechanisms](../concepts/rules-variants.md)
 - [Extension Points (Developer Guide)](./extension-points.md)

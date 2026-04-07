@@ -46,9 +46,8 @@ A skill test rolls against the effective mastery level. The result is one of:
 
 The exact thresholds depend on the effective mastery level.
 
-<!-- TODO: Document the exact success/failure determination rules for
-     both Legendary and MistyIsle variants. Include the critical success
-     and critical failure thresholds. -->
+<!-- TODO: Document the exact success/failure determination rules,
+     including the critical success and critical failure thresholds. -->
 
 # Effective Mastery Level {#tests-eml}
 

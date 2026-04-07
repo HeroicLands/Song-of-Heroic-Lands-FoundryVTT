@@ -16,11 +16,35 @@ import type { SohlLogic } from "@src/core/SohlLogic";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 
 /**
- * Represents the result of a test, including whether the test was successful,
- * who the speaker is for any associated chat messages, and any relevant
- * descriptions or titles.  Also tracks the parent logic that produced this
- * result, which can be used to access additional context about the test and
- * its place within the overall action or event sequence.
+ * Abstract base class for all test results in the combat resolution pipeline.
+ *
+ * Every test in SoHL — skill checks, opposed contests, attacks, defenses —
+ * produces a result object that captures the outcome, the speaker identity
+ * for chat messages, and a reference back to the Logic that initiated the
+ * test.
+ *
+ * ## Class hierarchy
+ *
+ * ```
+ * TestResult (abstract)
+ * ├── SuccessTestResult — d100 roll-under mastery level test
+ * │   └── ImpactResult — adds damage dice and aspect
+ * │       ├── AttackResult — attacker's roll with allowed defenses
+ * │       └── DefendResult — defender's roll with situational modifiers
+ * └── OpposedTestResult — two competing SuccessTestResults
+ *     └── CombatResult — attack vs. defense with full combat resolution
+ * ```
+ *
+ * ## Lifecycle
+ *
+ * 1. Created by a test method (e.g., {@link MasteryLevelModifier.successTest}).
+ * 2. {@link evaluate} is called to resolve the outcome (roll dice, compute
+ *    success level, etc.). Returns `true` if the result should be displayed.
+ * 3. Result is posted to chat and/or consumed by the next stage of the
+ *    pipeline (e.g., an AttackResult feeds into a CombatResult).
+ *
+ * Results are **not** persisted to the database — they exist transiently
+ * during resolution and are displayed via chat cards.
  */
 export abstract class TestResult {
     protected _speaker: SohlSpeaker;

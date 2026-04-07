@@ -69,6 +69,32 @@ Templates are under `templates/effects/*`.
 
 This is the main bridge for rendering effect state in actor/item sheets.
 
+## Foundry v14 Active Effect specifics
+
+SoHL targets Foundry v14+. The Active Effect API changed significantly from v13:
+
+### Changes system
+
+- Effect changes are in `system.changes` (not the top-level `changes` array).
+- Change modes use a string `type` field (`"add"`, `"multiply"`, `"override"`, etc.) — not the numeric `mode` field from v13.
+- Use `ActiveEffect.CHANGE_TYPES` for the change type registry (not `CONST.ACTIVE_EFFECT_MODES`).
+- Register custom change types via `CONFIG.ActiveEffect.changeTypes`.
+
+### Duration
+
+- Duration uses `duration.value` + `duration.units` (not `duration.seconds`/`rounds`/`turns`).
+- Start time uses `start.time` / `start.round` / `start.turn` (not `duration.startTime` etc.).
+- Expiry uses `duration.expiry` event name + `duration.expired` boolean.
+- Register custom expiry events via `CONFIG.ActiveEffect.expiryEvents`.
+
+### Removed features
+
+- `legacyTransferral` is removed — do not reference it.
+
+### Key rule
+
+When writing effect code, always use the v14 API. Do not use deprecated v13 patterns — they will not work.
+
 ## Current boundaries
 
 - There is no single centralized effects→modifiers transformer in one file.

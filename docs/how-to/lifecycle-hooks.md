@@ -10,7 +10,6 @@ See also: [Action Items](./actions.md), [Extension Points](./extension-points.md
 
 - This page covers SoHL's **lifecycle hooks**: Foundry VTT hook points emitted during data preparation that modules can listen to.
 - For narrow per-item logic, use [Action Items](./actions.md) instead.
-- For broad structural changes, see [System Class Overrides](./system-class-overrides.md).
 
 ## Overview
 
@@ -96,9 +95,6 @@ Emitted for the actor itself during data preparation.
 
 | Hook name | Cancellable | Arguments | When |
 |-----------|------------|-----------|------|
-| `sohl.registerVariants` | no | *(none)* | During Foundry `init`, after SoHL registers built-in variants |
-
-Modules listen for `sohl.registerVariants` to call `SohlSystem.registerVariant()`. See [Creating a Variant Module](./variant-module.md).
 
 ## Hook arguments
 

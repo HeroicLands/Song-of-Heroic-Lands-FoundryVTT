@@ -28,15 +28,47 @@ import {
 } from "@src/utils/constants";
 
 /**
- * Represents a value and its modifiers. This allows for a flexible system of
- * applying various adjustment to a base value, that can be subsequently
- * described in a standardized way. Also allows for specific adjustments to be
- * subsequently removed or modified.
+ * A tracked numeric value composed of a **base** plus zero or more
+ * **deltas** (modifiers), producing a fully auditable **effective** value.
  *
- * ValueModifiers can also be disabled, which will cause their effective value to
- * be zero regardless of any modifiers. This is useful for representing conditions
- * that would negate a value entirely, while making it possible to denote the difference
- * between a value that is zero due to modifiers and a value that is zero due to being disabled.
+ * ## Effective value calculation
+ *
+ * `effective = base + deltas`, computed lazily when accessed:
+ *
+ * 1. Start with `base` (from {@link setBase}, or 0 if unset).
+ * 2. Sort all {@link ValueDelta} entries by operator priority.
+ * 3. Apply in order:
+ *    - **ADD** — add to running total
+ *    - **MULTIPLY** — multiply running total
+ *    - **UPGRADE** (floor) — enforce a minimum value
+ *    - **DOWNGRADE** (ceiling) — enforce a maximum value
+ *    - **OVERRIDE** — replace with an explicit value
+ *    - **CUSTOM** — delegate to {@link customFunction}
+ * 4. Round to 3 significant digits.
+ *
+ * `modifier` returns `effective - base`, i.e., just the delta contribution.
+ *
+ * ## Disabled state
+ *
+ * A ValueModifier can be **disabled** by setting a reason string. When
+ * disabled, `effective` is always 0 regardless of base or deltas. This
+ * distinguishes "value is zero because of modifiers" from "value is
+ * inapplicable" (e.g., a skill the character cannot use).
+ *
+ * ## Lifecycle
+ *
+ * ValueModifiers are created during {@link SohlLogic.initialize} with a
+ * base from persisted data. Deltas are added during `evaluate`/`finalize`
+ * by active effects, cross-item dependencies, or other logic. The entire
+ * object is rebuilt on the next preparation cycle — deltas are never
+ * persisted.
+ *
+ * ## Auditability
+ *
+ * Each delta has a `name` and `shortcode` identifying its source, so
+ * the full breakdown of "why is this value X?" is always available via
+ * the {@link deltas} array. Use {@link get}, {@link has}, and
+ * {@link delete} to inspect or remove specific deltas by shortcode.
  */
 export class ValueModifier {
     private _shortcode!: string;
@@ -91,7 +123,7 @@ export class ValueModifier {
             let maxVal: number | null = null;
             let overrideVal: number | null = null;
 
-            this._effective = 0;
+            this._effective = this.baseValue ?? 0;
 
             // Process each modifier
             mods.forEach((adj) => {

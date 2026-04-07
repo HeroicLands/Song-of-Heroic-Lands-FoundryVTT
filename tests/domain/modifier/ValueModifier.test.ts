@@ -274,8 +274,8 @@ describe("ValueModifier", () => {
         it("returns effective minus base", () => {
             const vm = createVM({ baseValue: 10 });
             pushDelta(vm, "A", VALUE_DELTA_OPERATOR.ADD, 15);
-            // effective is 15 (sum of deltas), base is 10
-            expect(vm.modifier).toBe(15 - 10);
+            // effective is 25 (base 10 + delta 15), base is 10
+            expect(vm.modifier).toBe(15);
         });
 
         it("returns effective when base is undefined (base defaults to 0)", () => {

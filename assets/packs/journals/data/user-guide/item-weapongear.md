@@ -43,6 +43,28 @@ Weapon Gear items are typically added from compendium packs.
 - **Nested Strike Modes** — the Melee and/or Missile Strike Mode items
   that define how the weapon can be used in combat.
 
+# Accuracy and Hit Location {#weapongear-accuracy}
+
+Each strike mode has an **accuracy** value that determines how precisely the
+attacker can place a blow. Accuracy matters when the attacker **aims** at a
+specific body part:
+
+- A **lower** accuracy value means the strike is more precise — when
+  accuracy is less than or equal to the target body part's probability
+  weight, the aimed part is always hit.
+- A **higher** accuracy value means the strike is less controlled. The
+  system rolls against the target part's weight, and on a miss, the strike
+  drifts along the body's adjacency graph to a neighboring part. The
+  further accuracy exceeds the target's weight, the more likely the strike
+  wanders.
+
+For **unaimed** strikes, accuracy is not used. Instead, the hit location
+is selected randomly, weighted by each body part's probability weight —
+larger parts are struck more often.
+
+See [Combat Basics](user-guide/combat-basics) for the full hit location
+resolution rules.
+
 <!-- TODO: Expand with details on weapon quality effects, weapon length
      and reach, dual-wielding considerations, and how weapon skills
      link to strike modes -->

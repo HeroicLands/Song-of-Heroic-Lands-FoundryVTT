@@ -14,25 +14,26 @@ Choose a path based on your goal:
 
 - [Architecture Overview](concepts/architecture.md)
 - [Lifecycle Model](concepts/lifecycle-model.md)
-- [Rules Variants and Extension Mechanisms](concepts/rules-variants.md)
+- [Assembly Architecture](concepts/assembly-architecture.md)
 
 ## How-to
 
+- [Getting Started (New Developer Guide)](how-to/getting-started.md)
 - [Extension Points (Developer Guide)](how-to/extension-points.md)
+- [Lifecycle Hooks](how-to/lifecycle-hooks.md)
+- [Actions](how-to/actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
-- [User Quickstart](user/00-quickstart.md)
-- [Character Creation](user/10-character-creation.md)
-- [Combat Basics](user/20-combat-basics.md)
-- [Effect Targeting](user/30-effect-targeting.md)
+- [Testing](how-to/testing.md)
 
 ## Reference
 
-- [Runtime Contracts](reference/runtime-contracts.md)
 - [Type Catalog](reference/type-catalog.md)
-- [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
 - [Modifier Model](reference/modifier-model.md)
-- [Effects Integration](reference/effects-integration.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
+- [Body Structure](reference/body-structure.md)
+- [Effects Integration](reference/effects-integration.md)
+- [Runtime Contracts](reference/runtime-contracts.md)
+- [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
 - [Journal Generation Spec](reference/journal-generation-spec.md)
 
 ## Authoring sources

@@ -19,8 +19,22 @@ const kData = Symbol("ImpactResult.Data");
 const kContext = Symbol("ImpactResult.Context");
 
 /**
- * Represents the raw damage of an attack or effect, including the damage dice, aspect,
- * and any situational modifiers.
+ * A {@link SuccessTestResult} that carries **impact** (damage) information —
+ * dice, modifier, and damage aspect.
+ *
+ * ImpactResult extends a standard success test with an
+ * {@link ImpactModifier} that defines the damage formula (e.g., 2d6+3
+ * edged). The {@link deliversImpact} flag indicates whether this result
+ * actually deals damage (a miss may produce an ImpactResult with
+ * `deliversImpact = false` for display purposes).
+ *
+ * ## Position in the pipeline
+ *
+ * ImpactResult is the base for both {@link AttackResult} (attacker's
+ * perspective, with allowed defenses) and {@link DefendResult}
+ * (defender's perspective, with situational modifiers). The actual
+ * damage dealt is determined later when attack and defense are compared
+ * in a {@link CombatResult}.
  */
 export class ImpactResult extends SuccessTestResult {
     impactModifier: ImpactModifier;

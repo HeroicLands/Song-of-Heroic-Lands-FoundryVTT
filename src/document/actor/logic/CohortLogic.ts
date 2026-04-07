@@ -82,6 +82,26 @@ export class CohortLogic<
     TData extends CohortData = CohortData,
 > extends SohlActorBaseLogic<TData> {
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a member. */
+    addMemberUpdate(member: CohortData["members"][number]): PlainObject {
+        return {
+            "system.members": [...this.data.members, member],
+        };
+    }
+
+    /** Build an `update()` payload that removes a member by name. */
+    removeMemberUpdate(name: string): PlainObject {
+        return {
+            "system.members": this.data.members.filter(
+                (m) => m.name !== name,
+            ),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

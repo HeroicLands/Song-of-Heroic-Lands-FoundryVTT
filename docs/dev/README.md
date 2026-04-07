@@ -6,22 +6,30 @@ This index groups the primary developer-facing guides.
 
 See also: [Documentation Hub](../README.md)
 
-## Core extension and architecture
+## Architecture and concepts
 
-- [Extension Points](../how-to/extension-points.md)
-- [House Rules Cookbook](../how-to/house-rules-cookbook.md)
+- [Architecture Overview](../concepts/architecture.md)
 - [Lifecycle Model](../concepts/lifecycle-model.md)
-- [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
+- [Assembly Architecture](../concepts/assembly-architecture.md)
+
+## How-to guides
+
+- [Getting Started (New Developer Guide)](../how-to/getting-started.md)
+- [Extension Points](../how-to/extension-points.md)
+- [Lifecycle Hooks](../how-to/lifecycle-hooks.md)
+- [Actions](../how-to/actions.md)
+- [House Rules Cookbook](../how-to/house-rules-cookbook.md)
+- [Testing](../how-to/testing.md)
+
+## Reference
+
+- [Type Catalog](../reference/type-catalog.md)
 - [Modifier Model](../reference/modifier-model.md)
+- [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
+- [Body Structure](../reference/body-structure.md)
 - [Effects Integration](../reference/effects-integration.md)
 - [Runtime Contracts](../reference/runtime-contracts.md)
 - [Scene, Token, and Combatant Systems](../reference/scene-token-combatant.md)
-
-## Overview references
-
-- [Architecture Overview](../concepts/architecture.md)
-- [Rules Variants and Extension Mechanisms](../concepts/rules-variants.md)
-- [Type Catalog](../reference/type-catalog.md)
 
 ## User docs source for journal generation
 

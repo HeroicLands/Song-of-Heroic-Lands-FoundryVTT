@@ -25,8 +25,8 @@ See also: [Skill Tests](user-guide/skill-tests.md), [Traits](user-guide/item-tra
 
 # Fate Points {#fate-points}
 
-Each character has a number of Fate points determined by their traits and
-the rules variant in use. Fate points can be:
+Each character has a number of Fate points determined by their traits.
+Fate points can be:
 
 - **Spent** to improve a test result or avoid a catastrophic outcome
 - **Earned** through gameplay milestones or GM awards
@@ -52,14 +52,9 @@ when a character faces a life-threatening situation.
 Characters can voluntarily spend Fate points to:
 
 <!-- TODO: Document the specific ways Fate can be spent — re-rolls,
-     result upgrades, death avoidance, etc. Differs by variant. -->
+     result upgrades, death avoidance, etc. -->
 
-# Fate and the Rules Variants {#fate-variants}
-
-The Fate system differs between the Legendary and MistyIsle variants.
-
-<!-- TODO: Document the specific Fate mechanics for each variant,
-     including how many Fate points characters start with, how they
+<!-- TODO: Document how many Fate points characters start with, how they
      regenerate, and what options are available for spending them -->
 
 # Settings {#fate-settings}

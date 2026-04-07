@@ -15,10 +15,21 @@ import { ImpactResult } from "@src/domain/result/ImpactResult";
 import { DEFEND_MISHAP, TEST_TYPE } from "@src/utils/constants";
 
 /**
- * Represents the result of a defense test, including whether the defense was
- * successful, whether it was a critical success or failure, and any mishaps that
- * occurred. Also includes information about any situational modifiers that may
- * have affected the defense.
+ * The defender's side of a combat exchange — an {@link ImpactResult} with
+ * defense-specific data.
+ *
+ * ## Key properties
+ *
+ * - {@link situationalModifier} — player-entered modifier from the
+ *   defense dialog.
+ *
+ * ## Evaluation
+ *
+ * {@link evaluate} performs the defense roll (block, counterstrike, or
+ * dodge), determines success/failure, and checks for defense-specific
+ * mishaps (shield break, stumble, fumble). The defense success level
+ * is then compared against the {@link AttackResult} in the containing
+ * {@link CombatResult} to determine the final outcome.
  */
 export class DefendResult extends ImpactResult {
     situationalModifier: number;

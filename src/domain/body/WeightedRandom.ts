@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { ValueModifier } from "../modifier/ValueModifier";
+
 /**
  * Select a random item from an array, weighted by each item's `probWeight`
  * property. Items with higher weights are proportionally more likely to
@@ -18,16 +20,19 @@
  *
  * @throws {Error} If the array is empty or all weights are zero.
  */
-export function weightedRandom<T extends { probWeight: number }>(
+export function weightedRandom<T extends { probWeight: ValueModifier }>(
     items: T[],
 ): T {
-    const totalWeight = items.reduce((sum, item) => sum + item.probWeight, 0);
+    const totalWeight = items.reduce(
+        (sum, item) => sum + item.probWeight.effective,
+        0,
+    );
     if (totalWeight <= 0 || items.length === 0) {
         throw new Error("Cannot select from empty array or zero total weight");
     }
     let roll = Math.random() * totalWeight;
     for (const item of items) {
-        roll -= item.probWeight;
+        roll -= item.probWeight.effective;
         if (roll <= 0) return item;
     }
     return items[items.length - 1];

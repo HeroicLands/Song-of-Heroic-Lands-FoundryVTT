@@ -15,6 +15,7 @@ import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
 import {
     WeaponGearLogic,
     WeaponGearData,
+    WeaponGearStrikeMode,
 } from "@src/document/item/logic/WeaponGearLogic";
 import {
     IMPACT_ASPECT,
@@ -109,6 +110,7 @@ export class WeaponGearDataModel<
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
     encumbrance!: number;
+    strikeModes!: WeaponGearStrikeMode[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();

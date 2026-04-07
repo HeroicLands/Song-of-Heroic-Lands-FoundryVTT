@@ -12,6 +12,8 @@
  */
 
 import type { ImpactAspect } from "@src/utils/constants";
+import type { BodyPart } from "@src/domain/body/BodyPart";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
  * A specific hit location within a {@link BodyPart} — e.g., "Skull",
@@ -21,66 +23,95 @@ import type { ImpactAspect } from "@src/utils/constants";
  * natural protection values per {@link ImpactAspect}, and injury-related
  * thresholds (bleeding severity, amputation modifier, shock value).
  *
- * Constructed from persisted data during the Being's lifecycle and used
- * by the combat resolution pipeline for hit location determination and
- * damage calculation.
+ * Used by the combat resolution pipeline for hit location determination
+ * and damage calculation.
+ *
+ * **Lifecycle:** Rebuilt from persisted schema data on every preparation
+ * cycle. May be mutated during the lifecycle (e.g., active effects adding
+ * modifiers to protection values), but mutations are not persisted — they
+ * are recomputed on the next cycle.
  */
 export class BodyLocation {
-    readonly name: string;
+    readonly shortcode: string;
     readonly isFumble: boolean;
     readonly isStumble: boolean;
-    readonly bleedingSevThreshold: number;
-    readonly amputateModifier: number;
-    readonly shockValue: number;
-    readonly probWeight: number;
-    readonly protectionBase: BodyLocation.ProtectionMap;
+    readonly bleedingSevThreshold: ValueModifier;
+    readonly amputateModifier: ValueModifier;
+    readonly shockValue: ValueModifier;
+    readonly probWeight: ValueModifier;
+    readonly protectionBase: {
+        blunt: ValueModifier;
+        edged: ValueModifier;
+        piercing: ValueModifier;
+        fire: ValueModifier;
+    };
+    readonly bodyPart: BodyPart;
+    /** Zero-based index of this location within {@link BodyPart.locations}. */
+    readonly index: number;
 
-    constructor(data: BodyLocation.Data) {
-        this.name = data.name;
+    constructor(data: BodyLocation.Data, bodyPart: BodyPart, index: number) {
+        const beingLogic = bodyPart.bodyStructure.beingLogic;
+
+        this.shortcode = data.shortcode;
         this.isFumble = data.isFumble;
         this.isStumble = data.isStumble;
-        this.bleedingSevThreshold = data.bleedingSevThreshold;
-        this.amputateModifier = data.amputateModifier;
-        this.shockValue = data.shockValue;
-        this.probWeight = data.probWeight;
-        this.protectionBase = { ...data.protectionBase };
+        this.bleedingSevThreshold = new ValueModifier(
+            {},
+            { parent: beingLogic },
+        ).setBase(data.bleedingSevThreshold);
+        this.amputateModifier = new ValueModifier(
+            {},
+            { parent: beingLogic },
+        ).setBase(data.amputateModifier);
+        this.shockValue = new ValueModifier({}, { parent: beingLogic }).setBase(
+            data.shockValue,
+        );
+        this.probWeight = new ValueModifier({}, { parent: beingLogic }).setBase(
+            data.probWeight,
+        );
+        this.protectionBase = {
+            blunt: new ValueModifier({}, { parent: beingLogic }).setBase(
+                data.protectionBase.blunt,
+            ),
+            edged: new ValueModifier({}, { parent: beingLogic }).setBase(
+                data.protectionBase.edged,
+            ),
+            piercing: new ValueModifier({}, { parent: beingLogic }).setBase(
+                data.protectionBase.piercing,
+            ),
+            fire: new ValueModifier({}, { parent: beingLogic }).setBase(
+                data.protectionBase.fire,
+            ),
+        };
+        this.bodyPart = bodyPart;
+        this.index = index;
     }
 
     /**
-     * Get the natural protection value for a given impact aspect.
-     * Returns 0 if the aspect is not present.
+     * The dot-notation path prefix for Foundry `update()` calls targeting
+     * this location's persisted fields, e.g.
+     * `"system.bodyStructure.parts.2.locations.1"`.
      */
-    getProtection(aspect: ImpactAspect): number {
-        return this.protectionBase[aspect] ?? 0;
-    }
-
-    toJSON(): BodyLocation.Data {
-        return {
-            name: this.name,
-            isFumble: this.isFumble,
-            isStumble: this.isStumble,
-            bleedingSevThreshold: this.bleedingSevThreshold,
-            amputateModifier: this.amputateModifier,
-            shockValue: this.shockValue,
-            probWeight: this.probWeight,
-            protectionBase: { ...this.protectionBase },
-        };
+    get updatePath(): string {
+        return `${this.bodyPart.updatePath}.locations.${this.index}`;
     }
 }
 
 export namespace BodyLocation {
-    /** Natural protection values keyed by impact aspect. */
-    export type ProtectionMap = Record<string, number>;
-
     /** Persisted data shape for a body location. */
     export interface Data {
-        name: string;
+        shortcode: string;
         isFumble: boolean;
         isStumble: boolean;
         bleedingSevThreshold: number;
         amputateModifier: number;
         shockValue: number;
         probWeight: number;
-        protectionBase: ProtectionMap;
+        protectionBase: {
+            blunt: number;
+            edged: number;
+            piercing: number;
+            fire: number;
+        };
     }
 }

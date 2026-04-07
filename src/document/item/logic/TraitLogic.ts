@@ -53,6 +53,26 @@ export class TraitLogic<
     }
 
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a value description entry. */
+    addValueDescUpdate(entry: { label: string; maxValue: number }): PlainObject {
+        return {
+            "system.valueDesc": [...this.data.valueDesc, entry],
+        };
+    }
+
+    /** Build an `update()` payload that removes a value description by label. */
+    removeValueDescUpdate(label: string): PlainObject {
+        return {
+            "system.valueDesc": this.data.valueDesc.filter(
+                (vd) => vd.label !== label,
+            ),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

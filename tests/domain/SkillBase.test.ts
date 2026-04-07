@@ -21,7 +21,7 @@ function mockTrait(
     } as any;
 }
 
-function mockSunsign(textValue: string) {
+function mockBirthsign(textValue: string) {
     return {
         type: ITEM_KIND.TRAIT,
         system: { textValue },
@@ -31,10 +31,10 @@ function mockSunsign(textValue: string) {
 function createSkillBase(
     formula: string,
     items: any[] = [],
-    sunsign?: any,
+    birthsign?: any,
 ): SkillBase {
     const opts: any = { items };
-    if (sunsign) opts.sunsign = sunsign;
+    if (birthsign) opts.birthsign = birthsign;
     return new SkillBase(formula, opts);
 }
 
@@ -50,18 +50,18 @@ describe("SkillBase", () => {
             expect(sb.formula).toBe("@str, @int");
         });
 
-        it("works without a sunsign", () => {
+        it("works without a birthsign", () => {
             const sb = createSkillBase("@str, @int");
-            expect(sb.sunsigns).toEqual([]);
+            expect(sb.birthsigns).toEqual([]);
         });
 
-        it("parses sunsign textValue split by dash", () => {
+        it("parses birthsign textValue split by dash", () => {
             const sb = createSkillBase(
                 "@str, @int",
                 [],
-                mockSunsign("hirin-ahnu"),
+                mockBirthsign("hirin-ahnu"),
             );
-            expect(sb.sunsigns).toEqual(["hirin", "ahnu"]);
+            expect(sb.birthsigns).toEqual(["hirin", "ahnu"]);
         });
     });
 
@@ -92,7 +92,7 @@ describe("SkillBase", () => {
             ]);
         });
 
-        it("rejects non-numeric non-attribute non-sunsign tokens", () => {
+        it("rejects non-numeric non-attribute non-birthsign tokens", () => {
             const sb = createSkillBase("@str, abc, @int");
             expect(sb._parseFormula).toBeNull();
         });
@@ -221,9 +221,9 @@ describe("SkillBase", () => {
             expect(sb.formula).toBe("@str, @int");
         });
 
-        it("sunsigns returns the parsed sunsign array", () => {
-            const sb = createSkillBase("@str, @int", [], mockSunsign("hirin"));
-            expect(sb.sunsigns).toEqual(["hirin"]);
+        it("birthsigns returns the parsed birthsign array", () => {
+            const sb = createSkillBase("@str, @int", [], mockBirthsign("hirin"));
+            expect(sb.birthsigns).toEqual(["hirin"]);
         });
 
         it("value returns 0 for null formula", () => {

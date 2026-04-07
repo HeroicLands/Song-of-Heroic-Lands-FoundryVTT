@@ -25,7 +25,7 @@ function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
     sohl.setupSheets();
-    console.log(sohl.initMessage);
+    console.log("Song of Heroic Lands | System initialized");
     return sohl;
 }
 
@@ -382,8 +382,7 @@ function registerSystemHooks() {
 
 // Register init hook
 Hooks.once("init", () => {
-    const initMessage = `Initializing the Song of Heroic Lands Game System
-===========================================================
+    const initMessage = `===========================================================
  _____                            __
 /  ___|                          / _|
 \\ \`--.  ___  _ __   __ _    ___ | |_

@@ -154,7 +154,6 @@ export abstract class MasteryLevelLogic<
             "systems/sohl/templates/chat/standard-test-card.hbs",
         );
         const chatTemplateData = {
-            variant: sohl.id,
             type: `${this.data.kind}-${this.name}-improve-sdr`,
             title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
                 label: this.label,

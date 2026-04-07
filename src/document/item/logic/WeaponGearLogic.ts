@@ -12,6 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
+import type { ImpactAspect } from "@src/utils/constants";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -25,6 +26,26 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 export class WeaponGearLogic<
     TData extends WeaponGearData = WeaponGearData,
 > extends GearLogic<TData> {
+    /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a strike mode. */
+    addStrikeModeUpdate(strikeMode: WeaponGearStrikeMode): PlainObject {
+        return {
+            "system.strikeModes": [...this.data.strikeModes, strikeMode],
+        };
+    }
+
+    /** Build an `update()` payload that removes a strike mode by mode name. */
+    removeStrikeModeUpdate(mode: string): PlainObject {
+        return {
+            "system.strikeModes": this.data.strikeModes.filter(
+                (sm) => sm.mode !== mode,
+            ),
+        };
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -45,6 +66,23 @@ export class WeaponGearLogic<
     }
 }
 
+export interface WeaponGearStrikeMode {
+    mode: string;
+    strikeAccuracy: number;
+    assocSkillCode: string;
+    lengthBase: number;
+    projectileType: string;
+    maxVolleyMult: number;
+    baseRangeBase: number;
+    drawBase: number;
+    impactBase: {
+        numDice: number;
+        die: number;
+        modifier: number;
+        aspect: ImpactAspect;
+    };
+}
+
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
@@ -52,4 +90,6 @@ export interface WeaponGearData<
     lengthBase: number;
     /** Encumbrance value of the weapon */
     encumbrance: number;
+    /** Strike modes available for this weapon */
+    strikeModes: WeaponGearStrikeMode[];
 }

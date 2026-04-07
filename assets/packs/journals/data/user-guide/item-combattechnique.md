@@ -37,9 +37,29 @@ maneuvers even when disarmed.
 - **Technique Type** — the nature of the combat maneuver (unarmed strike,
   grapple, trip, disarm, etc.).
 - **Impact** — the base damage or effect strength of the technique.
+- **Accuracy** — how precisely the technique can target a specific body
+  part. See below.
 - **Associated Skill** — which skill governs this technique.
 - **Description** — details about how the technique is performed and any
   special rules.
+
+# Accuracy and Hit Location {#combattechnique-accuracy}
+
+Like weapon strike modes, combat techniques have an **accuracy** value
+that governs aimed strike resolution:
+
+- A **lower** accuracy means the technique is more precise — aimed strikes
+  reliably hit the intended body part.
+- A **higher** accuracy means the strike is harder to place. On a miss
+  against the target part, the blow drifts to a neighboring body part
+  along the adjacency graph.
+
+For **unaimed** techniques, accuracy is not used. The hit location is
+selected randomly, weighted by body part probability.
+
+See [Combat Basics](user-guide/combat-basics) for the full hit location
+resolution rules, and [Weapon Gear](user-guide/item-weapongear) for how
+accuracy works on weapon strike modes.
 
 <!-- TODO: Expand with details on the standard combat techniques
      available, how techniques interact with the combat resolution

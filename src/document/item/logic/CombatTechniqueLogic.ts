@@ -70,6 +70,26 @@ export class CombatTechniqueLogic<
     }
 
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a strike mode. */
+    addStrikeModeUpdate(strikeMode: CombatTechniqueStrikeMode): PlainObject {
+        return {
+            "system.strikeModes": [...this.data.strikeModes, strikeMode],
+        };
+    }
+
+    /** Build an `update()` payload that removes a strike mode by mode name. */
+    removeStrikeModeUpdate(mode: string): PlainObject {
+        return {
+            "system.strikeModes": this.data.strikeModes.filter(
+                (sm) => sm.mode !== mode,
+            ),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

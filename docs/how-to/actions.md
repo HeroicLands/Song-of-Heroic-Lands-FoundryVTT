@@ -2,13 +2,12 @@
 
 > **Audience:** Developers implementing new action types or working with the Action API. For user-facing documentation on creating and using Actions, see the in-game user guide entry **Actions** (journal: User Guide → Actions).
 
-See also: [Lifecycle Hooks](./lifecycle-hooks.md), [Extension Points](./extension-points.md), [Rules Variants](../concepts/rules-variants.md), [House Rules Cookbook](./house-rules-cookbook.md).
+See also: [Lifecycle Hooks](./lifecycle-hooks.md), [Extension Points](./extension-points.md), [House Rules Cookbook](./house-rules-cookbook.md).
 
 **You are here**
 
 - This page covers **Action items**: document-attached executable logic tightly bound to a specific Actor or Item.
 - For broad type-level logic that runs across all items of a type, use [Lifecycle Hooks](./lifecycle-hooks.md) instead.
-- For full rule-family overrides, see [System Class Overrides](./system-class-overrides.md) and [Creating a Variant Module](./variant-module.md).
 
 ## What is an Action item?
 
@@ -160,7 +159,5 @@ Goal: add a "Calculate Encumbrance" action to a Being actor.
 |-----------|----------|
 | **Action item** | You need to affect one specific item or actor by name/shortcode |
 | **Lifecycle Hook** | You need to affect all items of a given type (e.g., all skills) |
-| **System Class Override** | You need deep behavioral changes requiring new classes |
-| **Variant** | You need a coherent alternative rule family |
 
 Actions are the narrowest, easiest scope. Prefer them over hooks when the behavior change is isolated to one item.

@@ -30,23 +30,6 @@ This guide documents all available settings. For a quick start, see
 
 World settings are configured by the GM and apply to all players in the world.
 
-## Rules Variant
-
-**Default:** Legendary
-
-SoHL supports multiple rules variants. The active variant is selected when
-the world is first created and can be changed later (though this is not
-recommended for worlds with existing data).
-
-- **Legendary** — Compatible with HarnMaster Kethira
-- **Misty Isle** — Compatible with HarnMaster 3.5
-
-To change the variant, select a different **Rules Variant** and reload.
-
-> **Warning:** Changing the rules variant on a world with existing characters
-> and items may cause data to display incorrectly or behave unexpectedly.
-> Back up your world before switching variants.
-
 ## Calendar
 
 **Default:** Turning Wheel

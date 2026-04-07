@@ -157,6 +157,24 @@ export class MysteryLogic<
     }
 
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a skill shortcode. */
+    addSkillUpdate(skillCode: string): PlainObject {
+        const canonical = this.data.skills;
+        if (canonical.includes(skillCode)) return {};
+        return { "system.skills": [...canonical, skillCode] };
+    }
+
+    /** Build an `update()` payload that removes a skill shortcode. */
+    removeSkillUpdate(skillCode: string): PlainObject {
+        return {
+            "system.skills": this.data.skills.filter((s) => s !== skillCode),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

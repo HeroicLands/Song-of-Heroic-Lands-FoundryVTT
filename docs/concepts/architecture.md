@@ -1,323 +1,220 @@
-# SoHL Architecture (Overview)
+# SoHL Architecture
 
-> **Audience:** Maintainers, contributors, and AI assistants.  
-> **Goal:** Provide a mental model of SoHL’s major subsystems, boundaries, and the “direction of dependency.”
+> **Audience:** Developers, contributors, and anyone needing a mental model of the system.
 
-See also: [Documentation Hub](../README.md), [Runtime Contracts](../reference/runtime-contracts.md), [Extension Points](../how-to/extension-points.md)
-
-**You are here**
-
-- This page is the conceptual top-level map.
-- For extension implementation guidance, continue with [Extension Points](../how-to/extension-points.md).
-- For canonical runtime invariants, continue with [Runtime Contracts](../reference/runtime-contracts.md).
-
-**Common maintainer commands**
-
-- `npm run build` — full build with tests and coverage.
-- `npm run push:dev` / `npm run push:qa` / `npm run push:prod` — sync `build/stage` to configured targets.
-- `npm run deploy:release` — build and package `build/dist/system.zip` + `build/dist/system.json`.
-- `npm run changeset` / `npm run changeset:check` / `npm run changeset:version` — release note + version workflows.
+See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), [Lifecycle Model](./lifecycle-model.md).
 
 ## What SoHL is
 
-Song of Heroic Lands (SoHL) is a Foundry VTT system implementing HârnMaster-compatible gameplay with deep automation: actors/items/effects, combat resolution, chat cards, UI sheets, localization, and compendium content.
+Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaster-compatible gameplay with deep automation: actors, items, active effects, combat resolution, chat cards, UI sheets, localization, and compendium content. All code targets Foundry VTT v14+.
+
+## Directory structure
+
+```
+src/
+├── core/                  Foundry-layer foundations
+│   ├── FoundryHelpers.ts      Foundry API shim (mock-swapped in tests)
+│   ├── SohlSystem.ts          Central registry and CONFIG
+│   ├── SohlDataModel.ts       Abstract base for all DataModels
+│   ├── SohlLogic.ts           Abstract base for all Logic classes
+│   ├── SohlCalendar.ts        Game world calendar
+│   ├── SohlSpeaker.ts         Chat message identity
+│   ├── SohlActionContext.ts   Context passed to action execution
+│   └── SohlEventQueue.ts     Timed event scheduling
+│
+├── domain/                Pure game-mechanics objects (no Foundry deps)
+│   ├── action/                Action definitions (SohlAction)
+│   ├── body/                  Body structure (BodyStructure, BodyPart, BodyLocation)
+│   ├── modifier/              Value tracking (ValueModifier, MasteryLevelModifier, etc.)
+│   ├── movement/              Movement profiles (MovementProfile)
+│   ├── result/                Test results (SuccessTestResult, CombatResult, etc.)
+│   └── SkillBase.ts           Skill base formula computation
+│
+├── document/              Foundry document classes
+│   ├── actor/
+│   │   ├── foundry/           DataModel + Sheet classes (BeingDataModel, BeingSheet, etc.)
+│   │   └── logic/             Logic classes + Data interfaces (BeingLogic, CohortLogic, etc.)
+│   ├── item/
+│   │   ├── foundry/           DataModel + Sheet classes
+│   │   └── logic/             Logic classes + Data interfaces
+│   ├── effect/                SohlActiveEffect
+│   ├── combat/                SohlCombat
+│   ├── combatant/             SohlCombatant
+│   ├── token/                 SohlTokenDocument
+│   ├── scene/                 SohlScene
+│   └── region/                SohlRegion
+│
+├── utils/                 Shared utilities
+│   ├── constants.ts           Type enums, action definitions, metadata
+│   ├── helpers.ts             Pure utility functions
+│   ├── SimpleRoll.ts          Foundry-free dice primitive
+│   ├── SohlContextMenu.ts    Context menu integration
+│   └── SohlLogger.ts         Logging
+│
+├── sohl.ts                Entry point (Foundry hooks, system registration)
+│
+templates/                 Handlebars templates (.hbs only)
+├── actor/                     Actor sheets
+├── item/                      Item sheets
+├── chat/                      Chat card templates
+├── dialog/                    Dialog templates
+└── effect/                    Effect config templates
+
+tests/                     Vitest test suite (mirrors src/ structure)
+docs/                      Developer documentation
+assets/                    Compendium data, icons, templates
+lang/                      Localization (en.json)
+```
+
+## Three-layer architecture
+
+### Foundry layer
+
+Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VTT integration: persistence, data preparation lifecycle, sheet rendering, and document operations. These live in `src/document/*/foundry/` and `src/core/`.
+
+### Logic layer
 
-SoHL is designed as:
+Logic classes handle game rules, calculations, and actions — separated from Foundry persistence. They live in `src/document/*/logic/` and must **never** import Foundry globals directly. All Foundry API access goes through `src/core/FoundryHelpers.ts`, which is mock-swapped during testing.
 
-- a **core system** (`src/core/` and `src/document/`) with reusable abstractions
-- plus **Legendary variant overrides** co-located as `Lgnd*` classes in `src/document/*/logic/`
+### Domain layer
 
-In practice, `src/core/` and `src/document/` function as variant-agnostic foundations. `Lgnd*` classes layer on top by overriding specific logic.
+Pure game-mechanics objects in `src/domain/` — modifiers, test results, body structure, movement profiles, skill base computation. These have no Foundry dependency at all and are fully unit-testable.
 
-## High-level layers
+### Presentation layer
 
-### Foundry Layer
+Sheet classes and Handlebars templates (`.hbs`) handle UI. Sheets extend `SohlActorSheetBase` or `SohlItemSheetBase`. Chat cards use templates in `templates/chat/`.
 
-SoHL implements documents at the Foundry layer to allow integration with
-the core Foundry VTT logic. This includes support for Actors, Items,
-Active Effects, and Combatants, as well as things like Journal Entries.
+## Three-class pattern
 
-This layer generally consists of the core document classes as well as
-data model classes (for Actors, Items and Active Effects) and Sheet
-classes.
+Every actor and item type is split into three classes across two directories:
 
-### Logic Layer
+1. **Logic class** (e.g., `SkillLogic` in `item/logic/SkillLogic.ts`) — business logic, calculations, actions. Participates in the phase-batched lifecycle: `initialize()` → `evaluate()` → `finalize()`. Also contains the Data interface.
 
-SoHL introduces a business logic layer as well. The business logic classes
-are kept segregated from the core Foundry classes so that they can be
-easily unit tested outside of the Foundry VTT framework, using only
-node.js.
+2. **DataModel class** (e.g., `SkillDataModel` in `item/foundry/SkillDataModel.ts`) — extends Foundry `TypeDataModel`, defines the persisted schema via `defineSchema()`.
 
-The logic instances are associated with the Data Model. A method on the
-data model class allows access to the logic instance for that object.
+3. **Sheet class** (e.g., `SkillSheet` in `item/foundry/SkillSheet.ts`) — UI presentation, extends the appropriate sheet base class.
 
-### Presentation layer (UI + chat)
+The `logic/` directory contains code that can run and be tested without Foundry VTT. The `foundry/` directory contains code that depends on the Foundry runtime.
 
-UI templates and chat cards:
+## Document types
 
-- `templates/chat/*`
-- `templates/dialog/*`
+### Actors (5)
 
-## Core Classes
+| Type | Class | Description |
+|------|-------|-------------|
+| `being` | `BeingLogic` | Individual person or creature with full anatomy, skills, and gear |
+| `cohort` | `CohortLogic` | Group of actors acting as a unit |
+| `structure` | `StructureLogic` | Fixed installation or building |
+| `vehicle` | `VehicleLogic` | Movable platform (wagon, ship) |
+| `assembly` | `AssemblyLogic` | Item container for grouping related items |
 
-### Documents (Actors, Items, Effects, Combatants)
+### Items (14)
 
-SoHL integrates and extends the standard Foundry VTT documents, implementing
-document models for these documents to store additional information.
+| Type | Class | Description |
+|------|-------|-------------|
+| `skill` | `SkillLogic` | Trained capability with mastery level |
+| `trait` | `TraitLogic` | Innate characteristic or attribute |
+| `affliction` | `AfflictionLogic` | Ongoing condition (disease, poison, curse) |
+| `injury` | `InjuryLogic` | Specific harm instance (wound/trauma) |
+| `affiliation` | `AffiliationLogic` | Faction or group membership |
+| `armorgear` | `ArmorGearLogic` | Wearable protection |
+| `weapongear` | `WeaponGearLogic` | Weapon with strike modes |
+| `miscgear` | `MiscGearLogic` | General equipment |
+| `containergear` | `ContainerGearLogic` | Inventory container |
+| `concoctiongear` | `ConcoctionGearLogic` | Consumable mixture |
+| `projectilegear` | `ProjectileGearLogic` | Ammunition |
+| `combattechnique` | `CombatTechniqueLogic` | Combat maneuver with strike modes |
+| `mystery` | `MysteryLogic` | Mystical concept grouping abilities |
+| `mysticalability` | `MysticalAbilityLogic` | Specific magical power or spell |
 
-For each document, the type-specific business logic is kept distinct from the
-data model. These classes consistently are named `*Logic`. The data model is
-tightly bound to the Foundry VTT lifecycle
-and persistence model, but the logic layer is designed to be completely separate
-to enable unit testing of the logic layer in a node-only environment without
-the Foundry VTT environment. The implication of this is that all functions
-called from the logic layer should not use Foundry VTT functions or classes
-directly, but only via shims (see `src/core/FoundryHelpers.ts`). In addition
-to business logic, the logic layer also contains any derived or synthesized
-properties that are not persisted.
+All type constants are defined in `src/utils/constants.ts` via `ACTOR_KIND` and `ITEM_KIND` enums. See the [Type Catalog](../reference/type-catalog.md) for full details.
 
-The document model class (consistently named `*Model`) contains the
-persisted state of the document. No business logic should be present in the
-document model, which lives purely in the Foundry VTT space.
+## Phase-batched lifecycle
 
-The sheet class (consistently named `*Sheet`) contains the UI/Presentation
-logic for the document's sheet. Note that this logic is separate from the
-actual HTML code, which is kept in the `templates` folder, but they are
-tightly integrated. Nevertheless, it is possible for the same sheet class
-to have separate HTML presentations.
+Foundry VTT processes each embedded item fully before moving to the next, so sibling items cannot depend on each other. SoHL overrides `prepareEmbeddedData()` to run three **phase-batched** passes across all items with barriers between them:
 
-#### Actors
+1. **initialize** — set up base state from persisted data. Cannot read sibling items.
+2. **evaluate** — compute derived values using sibling items' initialized state.
+3. **finalize** — resolve cross-item dependencies requiring evaluated state.
 
-SoHL extends the Foundry VTT `Actor` class with the `SohlActor` class
-(see `src/document/actor/foundry/SohlActor.ts`). Among other things, this class
-implements:
+See [Lifecycle Model](./lifecycle-model.md) for the full rationale and rules.
 
-1. SoHL phase-batched lifecycle mechanism (see [Lifecycle Model](./lifecycle-model.md))
+## Domain objects
 
-Each actor type is split into two subdirectories:
+Game-mechanics value objects in `src/domain/` are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.
 
-- `src/document/actor/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
-- `src/document/actor/foundry/` — DataModel classes, Sheet classes, and the base SohlActor document
+| Directory | Key classes | Purpose |
+|-----------|-------------|---------|
+| `domain/modifier/` | `ValueModifier`, `MasteryLevelModifier`, `ImpactModifier`, `CombatModifier` | Auditable tracked values with base + deltas |
+| `domain/result/` | `SuccessTestResult`, `OpposedTestResult`, `AttackResult`, `DefendResult`, `CombatResult` | Test and combat resolution outcomes |
+| `domain/body/` | `BodyStructure`, `BodyPart`, `BodyLocation` | Anatomical structure with weighted hit location selection |
+| `domain/movement/` | `MovementProfile` | Movement speeds per medium with modifier factors |
+| `domain/action/` | `SohlAction` | Executable action definitions (context menu entries, chat buttons) |
+| `domain/` | `SkillBase` | Skill base formula computation from traits |
 
-#### Items
+See [Modifier Model](../reference/modifier-model.md), [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md), [Body Structure](../reference/body-structure.md).
 
-SoHL extends the Foundry VTT `Item` class with the `SohlItem` class
-(see `src/document/item/foundry/SohlItem.ts`).
+## Active Effects
 
-Each item type is split into two subdirectories:
+`SohlActiveEffect` extends Foundry's ActiveEffect with an extended targeting model:
 
-- `src/document/item/logic/` — Logic classes and Data interfaces (unit-testable, no Foundry UI deps)
-- `src/document/item/foundry/` — DataModel classes, Sheet classes, and the base SohlItem document
+- `targetType`: `this` (self), `actor` (owning actor), or `<itemType>` (other items on actor)
+- `targetName`: regex pattern matched against item shortcodes
 
-Legendary variant-specific overrides are `Lgnd*` classes co-located in `src/document/item/logic/`.
+See [Effects Integration](../reference/effects-integration.md).
 
-#### Active Effects
+## Extension mechanisms
 
-SoHL extends the Foundry VTT `ActiveEffect` class with the `SohlActiveEffect`
-class (see `src/document/effect/SohlActiveEffect.ts`).
+SoHL provides two levels of extension for customizing behavior without modifying core source:
 
-While the standard Foundry VTT ActiveEffect class only supports effects that
-apply to the current document, the `SohlEffectLogic` class implements
-extensions that allow Active Effects to target either:
+1. **Modules via lifecycle hooks** — Foundry modules listen for hooks emitted at each lifecycle phase to augment behavior broadly across items or actors. See [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
-- the current document,
-- the Actor associated with the current document, or
-- other Item(s) embedded in the Actor associated with the current document
+2. **Action items** — document-attached executable logic for per-item overrides. See [Actions](../how-to/actions.md).
 
-The code for all Effects resides in `src/document/effect/`.
+## FoundryHelpers shim
 
-#### Combatants
+`src/core/FoundryHelpers.ts` wraps all Foundry VTT globals (`game`, `canvas`, `Hooks`, `Roll`, etc.) behind a stable API. During testing, vitest swaps it for a mock. Logic classes must import from FoundryHelpers, never from Foundry directly.
 
-SoHL extends the Foundry VTT `Combatant` class with the `SohlCombatant` class
-(see `src/document/combatant/SohlCombatant.ts`).
+Shim exports use the `fvtt` prefix (e.g., `fvttGetSetting`, `fvttCallHook`). Functions that don't wrap globals (e.g., `inputDialog`, `getContextItem`) use plain names.
 
-Combatants are different from the other documents in that they do not
-have data models or sheets or logic layers. Therefore all of the combatant
-code is located in the `SohlCombatant` class.
+For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger), not the shim.
 
-`SohlCombatant` tracks capabilities such as allies, enemy combatants which
-are threatening the combatant, whether actions have already been performed
-this turn, and how far the combatant has moved this turn.
+## Build system
 
-### Values and Traceable Modifiers
+```bash
+npm run build              # Full pipeline: types → test → bundle
+npm run build:types        # TypeScript compilation only
+npm run build:code         # Vite bundle
+npm run build:css          # Sass compilation
+npm run test               # Vitest
+npm run push:qa            # Sync to QA Foundry instance
+npm run docs               # Generate TypeDoc
+```
 
-SoHL provides the ability to track integer values that have modifiers
-associated with them. This is done through the `ValueModifier` class.
-Instances of this class have an `effective` getter that returns the
-fully calculated value of the instance. This value is composed of
-a "base" value, plus a set of named modifiers to that value.
+Build output goes to `build/stage/`, which mirrors the Foundry system directory. `system.json` is generated from `assets/templates/system.template.json`.
 
-This allows the system to answer the question: What modifiers have been
-applied to this value? This often occurs when for instance trying to
-figure out why the weight is a certain value, or why the target number for
-a success test is a certain value.
+## Architectural rules
 
-The base `ValueModifier` provides this basic but useful functionality.
-
-Other subclasses of `ValueModifier` build on this to provide specialized
-forms of modifiers, such as `ImpactModifier` to track modifiers to impact
-values or the `CombatModifier` to track Attack/Defense modifiers or the
-`MasteryLevelModifier` to track changes to Mastery Level values.
-
-### Success Test Results
-
-SoHL defines a "success test" as a roll against a target number, the result of
-which is a Success Level. At its most basic, if the roll succeeds, the Success
-level is set to 1; if it fails, the success level is set to 0. Any success level
-greater than 0 is considered success, any success level less than or equal to zero
-is failure.
-
-The success level can be affected by critical rules. If a critical success rule
-is triggered, the success level is set to 2; if the critical failure rule is triggered,
-the success level is set to -1.
-
-Modifiers can be specified to the Success Level of a test, resulting in Success
-Levels greater than 2 or less than -1. These represent higher levels of
-"criticalness", the meaning of which will depend on what is being tested.
-
-The `SuccessTestResult` class tracks the results of a success test, so that
-it may be used and evaluated at a later time. These results can be transferred
-over time (by persisting the object), and questions regarding the modifiers
-that led to the result can be queried, and the result can even be modified
-retroactively by changing the modifiers after the fact without reperforming
-the roll (it remembers the results of the roll that resulted in the result).
-
-## Build System
-
-For day-to-day development and release work, the expected workflow is:
-
-1. Run `npm run build`.
-    - Compiles typescript into javascript
-    - Generates CSS
-    - Generates Item and Actor pack source from YAML
-    - Generates JournalEntry pack source from markdown documentation
-    - Generates system.json file
-    - Performs unit tests and generates coverage
-    - Bundles and minifies the code into sohl.js file and completes staging
-
-2. If validating in the development Foundry environment, run `npm run push:dev`.
-
-    Push targets are locally-configured via environment variables:
-    - `SOHL_DEV_SYSTEM_DIR`
-    - `SOHL_QA_SYSTEM_DIR`
-    - `SOHL_PROD_SYSTEM_DIR`
-
-    These values are standard `rsync` destinations (local path or `host:/path`).
-    If a stage is requested and its variable is unset/blank, the push command exits with an error.
-
-    Do not push these files to GitHub; the paths will differ based on machine
-    and should be kept local only.
-
-3. When ready to release, run `npm run deploy:release`.
-    - Builds and packages release artifacts (`build/dist/system.zip` and `build/dist/system.json`).
-
-### Versioning with Changesets
-
-SoHL uses Changesets to track release notes and drive version bumps in a
-structured way.
-
-- Create a changeset for user-facing changes: `npm run changeset`
-- Validate changesets in CI or before merge: `npm run changeset:check`
-- Apply queued version bumps/changelog updates: `npm run changeset:version`
-
-Repository config lives in `.changeset/config.json` (base branch `master`,
-GitHub changelog integration enabled for `HeroicLands/Song-of-Heroic-Lands-FoundryVTT`).
-
-Typical maintainer flow:
-
-1. Add/update code.
-2. Add a changeset if the change should be released.
-3. Run `npm run build`.
-4. Push to dev (`npm run push:dev`) for system testing.
-5. When ready, run `npm run deploy:release`.
-
-When not to add a changeset:
-
-- Pure refactors with no behavior change.
-- Test-only changes.
-- Documentation-only edits.
-- Internal tooling/chore work that does not affect runtime behavior or released content.
-
-## Variants: Legendary and Misty Isle
-
-Variants are complete rules-family implementations built on top of the same core SoHL framework.
-They allow SoHL to support different gameplay flavors without forking the entire system.
-
-Why variants matter:
-
-- Keep one shared core for stability, bug fixes, and common tooling.
-- Allow variant-specific rules behavior, sheets, and result/modifier logic where needed.
-- Preserve portability and maintainability by isolating differences to variant layers.
-
-Variant override classes are co-located in `src/document/*/logic/` (Legendary) and `src/core/LegendarySystem.ts`.
-
-Pattern:
-
-- Variant-specific System class: `src/core/LegendarySystem.ts`
-- Variant-specific logic overrides prefixed with `Lgnd*` in `src/document/*/logic/`
-
-Intended usage:
-
-- The core (`src/core/` and `src/document/`) defines general behaviors and contracts.
-- Variant `Lgnd*` override classes extend only what differs.
-
-### Variant-invariant types
-
-Many actor and item types are **variant-invariant**: their logic, data model, and sheet are fully defined in `src/document/` with no `Lgnd*` override. Only types that have genuine variant-specific behavior (e.g., Being, Skill, combat gear types) have Legendary `Lgnd*` overrides.
-
-See the [Type Catalog](../reference/type-catalog.md#variant-invariance) for the complete classification of which types are variant-invariant vs. variant-specific.
-
-Runtime selection (implemented in `src/sohl.ts` + `src/core/SohlSystem.ts`):
-
-- Available variants are registered at startup via `SohlSystem.registerVariant(...)`.
-- A world setting (`sohl.variant`) selects the active variant.
-- `SohlSystem.selectVariant(...)` returns the selected variant.
-- The selected variant's `CONFIG` is merged into Foundry `CONFIG` and its sheets are set up.
-
-## Document Lifecycle
-
-The lifecycle is the ordered process SoHL uses to prepare actor and item state each data-preparation pass.
-In SoHL, this process is explicitly phased: `initialize` → `evaluate` → `finalize`.
-
-Why this is significant:
-
-- It creates predictable phase boundaries for derived data and cross-item dependencies.
-- It ensures virtual and embedded items are fully initialized before evaluation/finalization logic depends on them.
-- It defines safe extension timing for hooks and Action items, reducing race conditions and inconsistent state.
-
-Concrete extension flow currently implemented in `src/document/actor/foundry/SohlActor.ts`:
-
-1. `prepareBaseData()` resets caches and runs actor logic `initialize()`.
-2. `prepareEmbeddedData()` runs **all item `initialize()`** calls (embedded + virtual), then freezes the item cache.
-3. `prepareEmbeddedData()` then runs **all item `evaluate()`** calls.
-4. `prepareEmbeddedData()` then runs **all item `finalize()`** calls.
-5. During each item stage (`postInitialize`, `postEvaluate`, `postFinalize`):
-
-- emits `Hooks.callAll("sohl.<itemType>.<stage>", item, ctx)`
-- looks up lifecycle-named Action items and executes them.
-
-6. `prepareDerivedData()` runs actor logic `evaluate()` and then `finalize()`.
-
-This is a phased lifecycle model (`initialize` → `evaluate` → `finalize`) and differs from Foundry's typical per-document "do everything in one pass" mental model.
-
-For full lifecycle invariants and safe extension rules, see `docs/concepts/lifecycle-model.md`.
-
-## Architectural “guardrails”
-
-1. Variants should never create new types, only extend existing types.
-2. Data model is specified and locked by the common Data Model classes. Variants may not modify or extend the data model; if they have additional properties to persist, they should be placed in flags on the document under `sohl.<variant>.<whatever>`.
-3. Keep localization keys stable.
-4. Keep system initialization predictable and explicit.
+1. **Logic layer stays Foundry-free.** All Foundry API calls go through `FoundryHelpers.ts`.
+2. **Extension over rewrites.** Use hooks and action items, not source modifications.
+3. **Backwards compatibility.** Never rename data fields without a migration strategy.
+4. **No global search-and-replace.** Cross-cutting changes must be scoped and validated.
+5. **Stable localization keys.** Never rename keys in `lang/en.json` — add new ones.
+6. **Small, focused changes.** One feature or fix per PR.
+7. **Complete implementations.** No placeholder stubs.
 
 ## Where to learn more
 
-- Developer docs index: `docs/dev/README.md`
-- Developer extension points: `docs/how-to/extension-points.md`
-- House rule implementation patterns: `docs/how-to/house-rules-cookbook.md`
-- Lifecycle model: `docs/concepts/lifecycle-model.md`
-- Combat resolution details: `docs/reference/combat-resolution-pipeline.md`
-- Modifier internals: `docs/reference/modifier-model.md`
-- Effects internals: `docs/reference/effects-integration.md`
-- Runtime contracts and registries: `docs/reference/runtime-contracts.md`
-- Scene/token/combatant systems: `docs/reference/scene-token-combatant.md`
-- API reference (generated): TypeDoc HTML output (see build docs)
+| Topic | Document |
+|-------|----------|
+| Lifecycle phases | [Lifecycle Model](./lifecycle-model.md) |
+| Extending SoHL | [Extension Points](../how-to/extension-points.md) |
+| Lifecycle hooks | [Lifecycle Hooks](../how-to/lifecycle-hooks.md) |
+| Action items | [Actions](../how-to/actions.md) |
+| Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
+| Modifier system | [Modifier Model](../reference/modifier-model.md) |
+| Body anatomy | [Body Structure](../reference/body-structure.md) |
+| Active effects | [Effects Integration](../reference/effects-integration.md) |
+| Testing | [Testing Guide](../how-to/testing.md) |
+| Type catalog | [Type Catalog](../reference/type-catalog.md) |
+| Runtime contracts | [Runtime Contracts](../reference/runtime-contracts.md) |

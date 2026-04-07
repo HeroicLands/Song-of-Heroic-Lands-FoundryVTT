@@ -21,13 +21,39 @@ import {
 } from "@src/utils/constants";
 
 /**
- * Represents the result of an opposed test, where two parties are directly
- * competing against each other, such as in skill contests. This includes
- * the results of both the source and target tests, as well as any relevant
- * context such as the roll mode, tie-breaking rules, and whether ties are
- * considered wins for the source or target.
+ * The result of an **opposed test** — two actors directly competing via
+ * their respective {@link SuccessTestResult | success tests}.
  *
- * Combat uses a more specialized {@link CombatResult} that extends this class.
+ * Opposed tests are used for contested actions: grappling, stealth vs.
+ * perception, persuasion vs. will, and similar skill-vs-skill situations.
+ * Each side performs a success test independently, and the results are
+ * compared to determine the winner.
+ *
+ * ## Resolution
+ *
+ * - {@link sourceTestResult} — the initiating actor's success test
+ * - {@link targetTestResult} — the responding actor's success test
+ * - Winner determined by comparing success levels, with configurable
+ *   tie-breaking rules ({@link tieBreak}, {@link breakTies}).
+ *
+ * ## Key properties
+ *
+ * - {@link sourceWins} / {@link targetWins} — outcome flags
+ * - {@link isTied} — both sides achieved the same success level
+ * - {@link bothFail} — neither side succeeded
+ *
+ * ## Two-phase execution
+ *
+ * Opposed tests are executed in two phases:
+ * 1. {@link MasteryLevelModifier.opposedTestStart} — source rolls and
+ *    result is posted to chat with a "respond" button.
+ * 2. {@link MasteryLevelModifier.opposedTestResume} — target rolls and
+ *    the opposed outcome is evaluated and posted.
+ *
+ * ## Subclass
+ *
+ * {@link CombatResult} extends this for full combat resolution (attack
+ * vs. defense with damage calculation).
  */
 export class OpposedTestResult extends TestResult {
     sourceTestResult!: SuccessTestResult;
@@ -128,7 +154,6 @@ export class OpposedTestResult extends TestResult {
 
     async toChat(data: PlainObject = {}): Promise<void> {
         const msgData: PlainObject = {
-            variant: sohl.id,
             template: "systems/sohl/templates/chat/opposed-request-card.hbs",
             title: "SOHL.OpposedTestResult.toChat.title",
             opposedTestResult: this,

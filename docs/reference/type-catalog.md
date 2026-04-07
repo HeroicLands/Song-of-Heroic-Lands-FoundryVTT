@@ -12,7 +12,7 @@ This document is an index of the primary SoHL Actor and Item types, plus their m
 | **Cohort**    | A group acting as a unit (followers, squad, crew element), often simplified vs individual beings.            | Skills (group), Traits, Gear (shared), Injuries/Afflictions, Affiliation               |
 | **Structure** | A fixed installation/location entity (building, fortification, ship component), often targetable/damageable. | Injuries/Damage abstractions, Affiliation                                              |
 | **Vehicle**   | A movable platform (wagon, ship, mount abstraction) with capacity, protection, and possibly crew.            | Container/Storage items, Injuries/Damage, Affiliation                                  |
-| **Assembly**  | A container for grouping related items (e.g., armor set, treasure chest). Variant-invariant. See [Assembly Architecture](../concepts/assembly-architecture.md). | Any item type. |
+| **Assembly**  | A container for grouping related items (e.g., armor set, treasure chest). See [Assembly Architecture](../concepts/assembly-architecture.md). | Any item type. |
 
 ## Items
 

@@ -39,7 +39,7 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
         bodyStructure: new SchemaField({
             parts: new ArrayField(
                 new SchemaField({
-                    name: new StringField({ blank: false }),
+                    shortcode: new StringField({ blank: false }),
                     affectedSkillCodes: new ArrayField(
                         new StringField({ blank: false }),
                         {
@@ -63,7 +63,7 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                     }),
                     locations: new ArrayField(
                         new SchemaField({
-                            name: new StringField({ blank: false }),
+                            shortcode: new StringField({ blank: false }),
                             isFumble: new BooleanField({ initial: false }),
                             isStumble: new BooleanField({ initial: false }),
                             bleedingSevThreshold: new NumberField({
@@ -145,7 +145,7 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                         key: new StringField({
                             blank: false,
                         }),
-                        mode: new NumberField({
+                        mode: new StringField({
                             choices: MovementFactorModes,
                         }),
                         textValue: new StringField({

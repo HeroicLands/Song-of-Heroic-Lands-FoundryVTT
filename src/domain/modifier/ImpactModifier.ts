@@ -21,8 +21,42 @@ import {
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 /**
- * Represents the impact of an attack or effect, including the damage dice, aspect, and any situational modifiers.
- * This represents the "base" impact before any defenses or resistances are applied. dealt to a target.
+ * A {@link ValueModifier} specialized for damage/impact calculation —
+ * the amount of harm delivered by an attack or effect before defenses
+ * and resistances are applied.
+ *
+ * ## Impact components
+ *
+ * An impact has three parts:
+ *
+ * - **Dice** — a {@link SimpleRoll} defining the random component
+ *   (e.g., 2d6 for a broadsword). Access via {@link numDice} and
+ *   {@link die}.
+ * - **Modifier** — the ValueModifier base + deltas (strength bonus,
+ *   weapon quality, situational effects).
+ * - **Aspect** — the damage type ({@link ImpactAspect}): blunt, edged,
+ *   piercing, or fire. Determines which protection values defend
+ *   against this impact.
+ *
+ * ## Key properties
+ *
+ * - {@link diceFormula} — human-readable formula string, e.g. `"2d6+3"`
+ * - {@link label} — formula with aspect suffix, e.g. `"2d6+3e"` (edged)
+ * - {@link evaluate} — rolls the dice (if not already rolled) and returns
+ *   the total impact value (dice + effective modifier)
+ *
+ * ## Disabled state
+ *
+ * Automatically disabled when both dice and effective modifier are zero,
+ * meaning the strike deals no damage. Can also be explicitly disabled
+ * via the inherited `disabled` property.
+ *
+ * ## Lifecycle
+ *
+ * Created from strike mode data during combat resolution. The base
+ * modifier comes from the weapon/technique's impact base, and deltas
+ * are added for strength, quality, and situational factors before
+ * {@link evaluate} is called.
  */
 export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;

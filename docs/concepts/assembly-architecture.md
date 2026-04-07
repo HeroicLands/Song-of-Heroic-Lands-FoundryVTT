@@ -13,10 +13,6 @@ An Assembly is a container for items. It uses an Actor document so that Foundry'
 
 A common use case is representing a suit of armor: an Assembly holds all the individual armor pieces, allowing someone to drag and drop the entire set onto an actor at once.
 
-## Variant invariance
-
-Assemblies do not vary between rule variants. All logic, data model, and sheet classes are defined in `src/document/actor/logic/AssemblyLogic.ts` and `src/document/actor/foundry/AssemblyDataModel.ts` / `AssemblySheet.ts`. No variant-specific overrides exist or should be created.
-
 ## Drop behavior
 
 When an Assembly is dropped onto another actor (e.g., a Being), its items are unpacked onto the target actor. The result is the same as having added the items individually.

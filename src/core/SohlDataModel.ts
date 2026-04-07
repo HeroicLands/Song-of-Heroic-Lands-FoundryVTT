@@ -284,8 +284,6 @@ export namespace SohlDataModel {
 
             override async _prepareContext(options: any): Promise<PlainObject> {
                 const data: PlainObject = await super._prepareContext(options);
-                data.variant = sohl.id as string;
-                data.const = sohl.CONST;
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
                 data.limited = !!this.document.limited;
@@ -927,7 +925,6 @@ export namespace SohlDataModel {
                 ) as any;
 
                 const dialogData = {
-                    variant: sohl.id,
                     newKey: "",
                     newValue: "",
                 };

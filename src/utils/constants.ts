@@ -280,11 +280,11 @@ export const {
     isValue: isMovementFactorMode,
     labels: movementFactorModeLabels,
 } = defineType("SOHL.MovementFactorMode", {
-    MULTIPLY: 0,
-    ADD: 1,
-    FLOOR: 2,
-    CEILING: 3,
-    OVERRIDE: 4,
+    MULTIPLY: "multiply",
+    ADD: "add",
+    FLOOR: "floor",
+    CEILING: "ceiling",
+    OVERRIDE: "override",
 });
 export type MovementFactorMode =
     (typeof MOVEMENT_FACTOR_MODE)[keyof typeof MOVEMENT_FACTOR_MODE];
@@ -736,7 +736,7 @@ export const {
     OFFHAND: "OffHnd",
     OUTNUMBERED: "Outn",
     PLAYER: "SitMod",
-    SSMOD: "SSMod",
+    BSMOD: "BSMod",
 });
 export type ValueDeltaInfo =
     (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];

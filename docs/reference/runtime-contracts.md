@@ -2,50 +2,56 @@
 
 > **Audience:** Maintainers working on system startup, registration, and core object construction.
 
-See also: [SoHL Architecture (Overview)](../concepts/architecture.md), [Extension Points](../how-to/extension-points.md).
+See also: [Architecture Overview](../concepts/architecture.md), [Extension Points](../how-to/extension-points.md).
 
-**You are here**
-
-- This page is the canonical reference for runtime contracts and invariants.
-- If guidance here conflicts with narrative/how-to pages, this page is authoritative.
-- For conceptual framing, start with [Architecture Overview](../concepts/architecture.md).
+This page is the canonical reference for runtime contracts and invariants. If guidance here conflicts with narrative/how-to pages, this page is authoritative.
 
 ## System-level contracts (`SohlSystem`)
 
 Primary file: `src/core/SohlSystem.ts`
 
-`SohlSystem` defines the static/runtime contract for variants and class wiring:
+- `globalThis.sohl` is assigned during init (`src/sohl.ts`) and provides the runtime system instance.
+- Core config surface (`CONFIG`) exposes document classes, data models, sheets, and result/modifier constructors.
+- Calendar registry (see [Extension Points — Calendar Registration](../how-to/extension-points.md#8-calendar-registration)).
 
-- Variant registry:
-    - `registerVariant(variantId, variant)`
-    - `selectVariant(variantId?)`
-    - `variants` iterator
-- Runtime singleton-like access through `game` getter using world setting `sohl.variant`.
-- Shared registries initialized in constructor:
-    - `dataModelRegistry`
-    - `classRegistry`
-- Core config surface (`CONFIG`) for document classes, data models, sheets, and result/modifier constructors.
+### CONFIG structure
 
-### Runtime accessor and dynamic constructor dispatch
+`sohl.CONFIG` defines which classes are active at runtime:
 
-- `globalThis.sohl` is assigned during init (`src/sohl.ts`) and points to the selected `SohlSystem` variant instance.
-- Common runtime code should construct variant-resolved classes through `sohl.CONFIG` mappings rather than hard-coding variant class names.
-- Example pattern: `sohl.CONFIG.ImpactModifier({}, { parent: this })`.
+#### Modifier classes
 
-This keeps common logic variant-agnostic while still allowing each variant to supply specialized implementations.
+| CONFIG key | Default class | Description |
+|------------|---------------|-------------|
+| `CONFIG.ValueModifier` | `ValueModifier` | Base auditable value tracker |
+| `CONFIG.CombatModifier` | `CombatModifier` | Combat-specific modifier |
+| `CONFIG.ImpactModifier` | `ImpactModifier` | Damage/impact modifier |
+| `CONFIG.MasteryLevelModifier` | `MasteryLevelModifier` | Test mastery level modifier |
+
+#### Result classes
+
+| CONFIG key | Default class | Description |
+|------------|---------------|-------------|
+| `CONFIG.SuccessTestResult` | `SuccessTestResult` | Single test result |
+| `CONFIG.OpposedTestResult` | `OpposedTestResult` | Opposed test result |
+| `CONFIG.ImpactResult` | `ImpactResult` | Impact/damage result |
+| `CONFIG.AttackResult` | `AttackResult` | Attack resolution |
+| `CONFIG.DefendResult` | `DefendResult` | Defense resolution |
+| `CONFIG.CombatResult` | `CombatResult` | Full combat outcome |
+
+#### Document sheets
+
+`CONFIG.Actor.documentSheets` and `CONFIG.Item.documentSheets` map actor/item type strings to sheet classes.
 
 ### Invariants
 
-- Variant IDs must be unique.
-- Selecting an unknown variant is a hard error.
 - Core constructor mappings (results/modifiers/data models) must be available before sheet and runtime usage.
-- Common code must resolve variant-specific classes through `sohl.CONFIG`/registries, not direct imports from variant folders.
+- Common code should construct classes through `sohl.CONFIG` mappings when available.
 
 ## Data model contract (`SohlDataModel`)
 
 Primary file: `src/core/SohlDataModel.ts`
 
-`SohlDataModel` is the central typed data-layer wrapper over Foundry `TypeDataModel`.
+`SohlDataModel` is the typed data-layer wrapper over Foundry `TypeDataModel`.
 
 Key contracts:
 
@@ -53,53 +59,39 @@ Key contracts:
 - Logic object is created lazily through `create(...)` + `logic` accessor.
 - `fromData(...)` resolves model class by `kind` across configured document families and normalizes serialized JSON forms.
 
-## Document/DataModel/Logic contract (Actor and Item)
+## Document/DataModel/Logic contract
 
-SoHL intentionally separates persistence from behavior:
+SoHL separates persistence from behavior:
 
-- **Document** (`SohlItem`, `SohlActor`) integrates with Foundry document APIs.
-- **DataModel** (`document.system`) defines persisted fields/schema only.
-- **Logic** (`document.system.logic`) contains lifecycle methods, rules behavior, and synthesized properties.
+- **Document** (`SohlItem`, `SohlActor`) — integrates with Foundry document APIs.
+- **DataModel** (`document.system`) — defines persisted fields/schema only.
+- **Logic** (`document.system.logic`) — contains lifecycle methods, rules behavior, and derived properties.
 
-This pattern applies to both Items and Actors.
+Concrete example (Skill type):
 
-Concrete item example (Skill type):
+- `SohlItem` with `type = skill`
+- `SkillDataModel` on `system` (persisted fields)
+- `SkillLogic` on `system.logic` (lifecycle, calculations)
+- `SkillSheet` (UI/editor)
 
-- `Skill` document is represented by `SohlItem` with `type = skill`.
-- Persisted state is `SkillDataModel` on `system`.
-- Behavior is `SkillLogic` (derived from mastery-level logic).
-- UI editor is `SkillSheet`.
-
-Actor classes follow the same split with actor-specific `*DataModel`, `*Logic`, and sheet classes.
-
-Guideline: put stored fields in DataModel, derived behavior in Logic, integration helpers in Document, and presentation/event handling in Sheet classes.
+**Guideline:** Stored fields in DataModel, derived behavior in Logic, integration helpers in Document, presentation in Sheet.
 
 ## Sheet mixin contract
 
 `SohlDataModel.SheetMixin(...)` provides shared sheet behavior:
 
-- context build (`variant`, `config`, `system`, `effects`, transferred effects)
-- drag/drop hooks and routing by dropped document type
-- item/effect context-menu wiring through `SohlContextMenu`
+- Context build (`config`, `system`, `effects`, transferred effects)
+- Drag/drop hooks and routing by dropped document type
+- Item/effect context-menu wiring through `SohlContextMenu`
 
-When extending sheets, use this mixin path so behavior remains consistent across actor/item/effect documents.
-
-## Registry contract (`SohlSystem`)
-
-Primary file: `src/core/SohlSystem.ts`
-
-- `SohlSystem` owns runtime registries for constructor/data-model mappings.
-- Registry content is initialized in the system constructor and used during variant/runtime setup.
-- Variant selection and config wiring depend on these mappings being valid.
-
-Use this as the authoritative registry layer and keep mappings explicit.
+Use this mixin for consistent behavior across actor/item/effect sheets.
 
 ## Constants and metadata contract
 
 Primary file: `src/utils/constants.ts`
 
-- Canonical kind IDs (`ACTOR_KIND`, `ITEM_KIND`, `EFFECT_KIND`, `COMBATANT_KIND`).
-- Metadata maps (`*_METADATA`) used by registration and UI metadata lookups.
+- Canonical kind IDs (`ACTOR_KIND`, `ITEM_KIND`).
+- Metadata maps (`*_METADATA`) for registration and UI lookups.
 - Test/modifier enums used throughout result/modifier pipelines.
 
 Changing constants is a high-impact operation: treat as migration-sensitive.
@@ -109,5 +101,5 @@ Changing constants is a high-impact operation: treat as migration-sensitive.
 1. Add new kind constant + metadata.
 2. Implement data model + logic + (if needed) sheet class.
 3. Register mappings in `SohlSystem` config/registries.
-4. Verify `fromData(...)` and drag/drop/sheet contexts still resolve correctly.
-5. Validate variant selection + startup with world setting changes.
+4. Verify `fromData(...)` and drag/drop/sheet contexts resolve correctly.
+5. Validate startup.

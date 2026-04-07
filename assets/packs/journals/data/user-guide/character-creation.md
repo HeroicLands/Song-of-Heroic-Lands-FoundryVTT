@@ -65,4 +65,4 @@ Before play, confirm:
 
 - Wrong actor type selected (not **Being**).
 - Missing nested strike mode on a weapon setup.
-- Assuming variant-neutral values in a variant-specific campaign.
+- Using incorrect base values for traits or skills.

@@ -16,14 +16,38 @@ import { DefendResult } from "@src/domain/result/DefendResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 
 /**
- * Represents the result of a combat test, which is an opposed test
- * between an attack and a defense. This includes the results of both
- * the attack and defense tests for the specific combat action.
+ * The full result of a **combat exchange** — an {@link OpposedTestResult}
+ * composing an {@link AttackResult} and a {@link DefendResult}.
  *
- * Note that this result represents the outcome of the combat test, and
- * whether the attacker or defender ultimately succeeds, as well as by how much.
- * The actual damage dealt is not represented in this result, as that value
- * will be determined later in the combat resolution process with an {@link ImpactResult}.
+ * CombatResult is the culmination of the combat resolution pipeline:
+ *
+ * 1. Attacker rolls → {@link AttackResult} (success level, pre-defense
+ *    damage, allowed defenses).
+ * 2. Defender chooses a defense type and rolls → {@link DefendResult}.
+ * 3. CombatResult compares the two via opposed test resolution
+ *    (inherited from OpposedTestResult) to determine who prevails.
+ *
+ * ## What CombatResult determines
+ *
+ * - Whether the attacker or defender wins the exchange
+ *   ({@link sourceWins} / {@link targetWins}, inherited).
+ * - The **margin** of victory (difference in success levels).
+ * - Mishaps on either side (weapon break, shield break, stumble, fumble).
+ *
+ * ## What CombatResult does NOT determine
+ *
+ * The **final damage** is computed separately by the impact resolution
+ * stage, which takes the CombatResult's margin, the AttackResult's
+ * pre-defense damage, and the target's armor/body location protection
+ * to produce an {@link ImpactResult} with the actual injury.
+ *
+ * ## Specialized resolution methods
+ *
+ * - {@link calcMeleeCombatResult} — melee-specific opposed evaluation
+ * - {@link calcDodgeCombatResult} — dodge-specific opposed evaluation
+ * - {@link opposedTestEvaluate} — general opposed outcome computation
+ *
+ * (These methods are currently stubs pending full implementation.)
  */
 export class CombatResult extends OpposedTestResult {
     /** The result of the attack test in this combat. */

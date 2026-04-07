@@ -89,7 +89,7 @@ During testing, vitest swaps this module for a mock at `tests/mocks/foundry/core
 
 **What goes through the shim:** Only globals that Foundry VTT provides and that do not exist in Node.js. These are things you cannot construct or control yourself.
 
-**What does NOT go through the shim:** The `globalThis.sohl` object (a `SohlSystem` instance) is entirely under SoHL's control. It provides localization (`sohl.i18n`), logging (`sohl.log`), variant configuration (`sohl.CONFIG`), and system identity (`sohl.id`). Since we own this object, we set it up directly in the test setup file rather than shimming it.
+**What does NOT go through the shim:** The `globalThis.sohl` object (a `SohlSystem` instance) is entirely under SoHL's control. It provides localization (`sohl.i18n`), logging (`sohl.log`), configuration (`sohl.CONFIG`), and system identity (`sohl.id`). Since we own this object, we set it up directly in the test setup file rather than shimming it.
 
 ### 2. The test setup file (`tests/setup.ts`)
 
@@ -133,3 +133,102 @@ Logic classes typically require parent data models, which require actors/items. 
 - **Logic with parent dependency** — create a minimal mock parent: `const mockParent = { id: "test", name: "Test" } as any;`
 - **Logic that reads `sohl.CONFIG`** — set up the needed CONFIG entries in `globalThis.sohl.CONFIG` in a `beforeEach` block.
 - **Complex integration tests** — use `it.todo()` placeholders to document what should be tested once more infrastructure is available.
+
+## End-to-end example: testing a domain object
+
+Here's a complete example of testing a domain object following the TDD workflow.
+
+### 1. Write the test first
+
+```typescript
+// tests/domain/modifier/ValueModifier.test.ts
+import { describe, it, expect } from "vitest";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
+
+// Minimal mock parent — ValueModifier only checks truthiness
+const mockParent = { id: "test", name: "Test" } as any;
+
+function createVM(data: Partial<ValueModifier.Data> = {}): ValueModifier {
+    return new ValueModifier(data, { parent: mockParent });
+}
+
+describe("ValueModifier", () => {
+    it("effective equals base when no deltas", () => {
+        const vm = createVM();
+        vm.setBase(50);
+        expect(vm.effective).toBe(50);
+    });
+
+    it("add deltas increase effective", () => {
+        const vm = createVM();
+        vm.setBase(50);
+        // Push a delta manually (the add() method has naming requirements)
+        vm.deltas.push({
+            name: "SOHL.MOD.test",
+            shortcode: "TST",
+            op: VALUE_DELTA_OPERATOR.ADD,
+            value: "10",
+            numValue: 10,
+        } as any);
+        expect(vm.effective).toBe(60);
+    });
+});
+```
+
+### 2. Run the test — it should fail (or pass if code exists)
+
+```bash
+npm run test -- tests/domain/modifier/ValueModifier.test.ts
+```
+
+### 3. Key patterns for mocking
+
+**Domain objects with a `beingLogic` parent** (body structure, movement profiles):
+
+```typescript
+const MOCK_BEING_LOGIC = {
+    actor: null,
+    data: { bodyStructure: SAMPLE_DATA },
+} as any;
+
+const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+```
+
+**Domain objects with a `parent` Logic** (ValueModifier, results):
+
+```typescript
+const mockParent = { id: "test", name: "Test" } as any;
+const vm = new ValueModifier({}, { parent: mockParent });
+```
+
+**Testing randomness** (weighted random, dice):
+
+```typescript
+// Statistical approach: run many iterations, check distribution
+const counts: Record<string, number> = {};
+for (let i = 0; i < 1000; i++) {
+    const result = body.getRandomPart();
+    counts[result.shortcode] = (counts[result.shortcode] ?? 0) + 1;
+}
+expect(counts["thorax"]).toBeGreaterThan(counts["head"]); // thorax has higher weight
+```
+
+**Testing update payloads** (array helpers):
+
+```typescript
+const update = body.addPartUpdate(newPartData);
+const parts = update["system.bodyStructure.parts"];
+expect(parts).toHaveLength(3);
+expect(parts[2].shortcode).toBe("larm");
+```
+
+### 4. Test file organization
+
+Mirror the `src/` structure in `tests/`:
+
+```
+src/domain/body/BodyStructure.ts  →  tests/domain/body/BodyStructure.test.ts
+src/domain/modifier/ValueModifier.ts  →  tests/domain/modifier/ValueModifier.test.ts
+src/document/item/logic/SkillLogic.ts  →  tests/item/Skill.test.ts
+```

@@ -341,9 +341,9 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.bodyStructure = new BodyStructure(this.data.bodyStructure);
+        this.bodyStructure = new BodyStructure(this.data.bodyStructure, this);
         this.movementProfiles = (this.data.movementProfiles ?? []).map(
-            (d) => new MovementProfile(d),
+            (d, i) => new MovementProfile(d, this, i),
         );
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {

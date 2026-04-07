@@ -30,10 +30,10 @@
       "_key": "!journal.pages!mRqupERLIOaPek9P.xz3W90mbJoqCHmZd"
     },
     {
-      "name": "Choose Your Rules Variant",
+      "name": "Configure Your World",
       "type": "text",
       "text": {
-        "content": "<p>Once SoHL launches for the first time, it will ask which rules variant you wish to use.</p><ul><li><strong>Legendary</strong>: Compatible with <em>HârnMaster Kethira</em></li><li><strong>Misty Isle</strong>: Compatible with <em>HârnMaster 3.5</em></li></ul><p>After selecting the rules variant, you will need to close the world and restart it.</p><blockquote><p>Although it is possible to change the variant later, doing so is not recommended.</p></blockquote>",
+        "content": "<p>Once SoHL launches for the first time, configure your world settings including the calendar and any other options in the system settings menu.</p>",
         "format": 1
       },
       "_id": "QJkdbvJuDsEBMgtk",

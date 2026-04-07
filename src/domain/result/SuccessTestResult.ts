@@ -45,13 +45,41 @@ import {
 } from "@src/utils/constants";
 
 /**
- * Represents the result of a success test, including whether the test was successful,
- * whether it was a critical success or failure, and any mishaps that occurred. Also
- * includes information about the test such as the roll, the test type, any situational
- * modifiers, and the token and item associated with the test.
+ * The result of a **d100 roll-under mastery level test** — the most common
+ * resolution mechanic in SoHL.
  *
- * This is a base class for more specific test result types such as {@link ImpactResult},
- * {@link AttackResult}, and {@link DefendResult}.
+ * A success test rolls 1d100 against a constrained effective mastery level.
+ * The roll determines the **success level** (how far above or below the
+ * target), which maps to descriptive outcomes via the test description
+ * table.
+ *
+ * ## Key properties
+ *
+ * - {@link roll} — the d100 {@link SimpleRoll} (can be pre-set for fate)
+ * - {@link masteryLevelModifier} — the ML modifier used for this test
+ * - {@link successLevel} — how many points the roll beat/missed the target
+ * - {@link isSuccess} / {@link isCritical} — outcome flags
+ * - {@link mishaps} — fumble/stumble flags triggered by critical failures
+ * - {@link movement} — tactical movement state after the test
+ *
+ * ## Evaluation flow
+ *
+ * 1. If no prior roll exists, a new d100 is rolled via {@link SimpleRoll}.
+ * 2. Success level = constrained ML − roll result.
+ * 3. Critical success/failure checked against last-digit lists.
+ * 4. Success stars computed from the description table.
+ * 5. Result text and description populated for chat display.
+ *
+ * ## Chat output
+ *
+ * {@link toChat} renders the result using
+ * `templates/chat/standard-test-card.hbs` and posts it via the speaker.
+ *
+ * ## Subclasses
+ *
+ * - {@link ImpactResult} — adds damage dice and impact aspect
+ * - {@link AttackResult} — attacker's roll with allowed defenses
+ * - {@link DefendResult} — defender's roll with situational modifiers
  */
 export class SuccessTestResult extends TestResult {
     resultText: string;
@@ -232,7 +260,6 @@ export class SuccessTestResult extends TestResult {
         const ctor = this.constructor as typeof SuccessTestResult;
         let testData: PlainObject = {
             ...this.toJSON(),
-            variant: sohl.id,
             template: toFilePath(
                 "systems/sohl/templates/dialog/standard-test-dialog.hbs",
             ),
@@ -380,7 +407,6 @@ export class SuccessTestResult extends TestResult {
     async toChat(data: PlainObject = {}): Promise<void> {
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...data,
-            variant: sohl.id,
             template: "systems/sohl/templates/chat/standard-test-card.hbs",
             movementOptions: SuccessTestResultMovements.map((val) => [
                 val,

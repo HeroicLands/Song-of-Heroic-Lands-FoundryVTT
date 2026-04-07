@@ -198,7 +198,6 @@ declare module "fvtt-types/configuration" {
 
     interface SettingConfig {
         "sohl.systemMigrationVersion": string;
-        "sohl.variant": string;
         "sohl.logLevel": string;
         "sohl.showWelcomeDialog": boolean;
         "sohl.combatAudio": boolean;

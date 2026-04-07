@@ -39,6 +39,46 @@ export class ArmorGearLogic<
     traits!: StrictObject<string>;
 
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a location to flexible coverage. */
+    addFlexibleLocationUpdate(location: string): PlainObject {
+        const canonical = this.data.locations.flexible;
+        if (canonical.includes(location)) return {};
+        return {
+            "system.locations.flexible": [...canonical, location],
+        };
+    }
+
+    /** Build an `update()` payload that removes a location from flexible coverage. */
+    removeFlexibleLocationUpdate(location: string): PlainObject {
+        return {
+            "system.locations.flexible": this.data.locations.flexible.filter(
+                (l) => l !== location,
+            ),
+        };
+    }
+
+    /** Build an `update()` payload that adds a location to rigid coverage. */
+    addRigidLocationUpdate(location: string): PlainObject {
+        const canonical = this.data.locations.rigid;
+        if (canonical.includes(location)) return {};
+        return {
+            "system.locations.rigid": [...canonical, location],
+        };
+    }
+
+    /** Build an `update()` payload that removes a location from rigid coverage. */
+    removeRigidLocationUpdate(location: string): PlainObject {
+        return {
+            "system.locations.rigid": this.data.locations.rigid.filter(
+                (l) => l !== location,
+            ),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

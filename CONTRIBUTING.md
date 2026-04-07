@@ -57,8 +57,8 @@ automatically via `npm ci` and runs from the project's `node_modules`.
 3. Copy `.env.local.example` to `.env.local` and fill in the paths for your
    local Foundry VTT installations. This file is gitignored — each developer
    maintains their own copy. See the comments in the example file for details.
-4. Read `CLAUDE.md` for build commands, architecture overview, and project conventions.
-5. Review `docs/concepts/` for architecture and lifecycle documentation.
+4. Read [Getting Started](docs/how-to/getting-started.md) for an overview of the codebase and how to make changes.
+5. Review [Architecture Overview](docs/concepts/architecture.md) for the mental model and project conventions.
 6. Make your changes, ensuring `npm run build` and `npm run docs` both pass.
 7. Submit a Pull Request with a clear description of what changed and why.
 

@@ -14,8 +14,8 @@
 /**
  * Public API type declarations for Song of Heroic Lands.
  *
- * This file declares the types available to variant modules and
- * house-rules modules via `globalThis.sohl.classes`.
+ * This file declares the types available to extension modules
+ * via `globalThis.sohl.classes`.
  *
  * Usage in a module project:
  *   1. Copy this file into your module's types/ directory

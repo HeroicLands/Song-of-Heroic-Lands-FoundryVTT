@@ -15,14 +15,25 @@ import { ImpactResult } from "@src/domain/result/ImpactResult";
 import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
 
 /**
- * Represents the result of an attack test, including whether the attack was
- * successful, whether it was a critical hit or miss, and any mishaps that
- * occurred. Also includes information about the raw outcome of the attack, such
- * as the damage dealt and any situational modifiers.
+ * The attacker's side of a combat exchange — an {@link ImpactResult} with
+ * additional attack-specific data.
  *
- * Note that the damage in particular is not final until after the target's
- * defenses and resistances have been applied, so this represents the "base"
- * damage dealt by the attack before any reductions.
+ * ## Key properties
+ *
+ * - {@link allowedDefenses} — which defense types (block, counterstrike,
+ *   dodge, ignore) the target may use against this attack.
+ * - {@link damage} — the **pre-defense** damage value. This is the raw
+ *   impact before the target's armor, defenses, and resistances are
+ *   applied. Final damage is determined in {@link CombatResult}.
+ * - {@link situationalModifier} — player-entered modifier from the
+ *   attack dialog.
+ * - {@link modifiers} — named modifier map for display/audit.
+ *
+ * ## Evaluation
+ *
+ * {@link evaluate} performs the attack roll, determines success/failure,
+ * checks for attack-specific mishaps (weapon break, stumble, fumble,
+ * wild swing), and computes the pre-defense damage if the attack hits.
  */
 export class AttackResult extends ImpactResult {
     situationalModifier: number;

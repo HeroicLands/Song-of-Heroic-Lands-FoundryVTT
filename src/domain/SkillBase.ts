@@ -18,21 +18,76 @@ import type {
 } from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 
+/**
+ * Computes the **skill base** (SB) for a skill from a formula referencing
+ * trait attributes and optional birthsign bonuses.
+ *
+ * The skill base is the foundation value for a mastery level — it
+ * represents natural aptitude before any training. Most skills derive
+ * their SB by averaging two or more trait attributes (Strength,
+ * Dexterity, Intelligence, etc.) and adding optional modifiers.
+ *
+ * ## Formula syntax
+ *
+ * A skill base formula is a comma-separated list of terms:
+ *
+ * ```
+ * "@str, @int, @sta, hirin:2, ahnu, 5"
+ * ```
+ *
+ * | Term | Meaning |
+ * |------|---------|
+ * | `@str` | Reference to attribute trait by shortcode (prefixed with `@`) |
+ * | `hirin:2` | Birthsign bonus: add 2 if character's birthsign includes "hirin" |
+ * | `ahnu` | Birthsign bonus: add 1 (default when no modifier specified) |
+ * | `5` | Flat numeric modifier added to the result |
+ *
+ * A valid formula must have **2 or more** attribute references.
+ * Birthsign bonuses and numeric modifiers are optional.
+ *
+ * ## Calculation
+ *
+ * 1. Look up each referenced attribute's numeric value from the actor's
+ *    trait items.
+ * 2. Average the attribute values:
+ *    - If exactly 2 attributes: round **up** if the first (primary)
+ *      attribute is larger, otherwise round **down**.
+ *    - If 3+ attributes: standard rounding.
+ * 3. Add the **largest** matching birthsign bonus (only one applies,
+ *    even if multiple birthsigns match).
+ * 4. Add any flat numeric modifiers.
+ * 5. Clamp to minimum 0.
+ *
+ * ## Lifecycle
+ *
+ * Created during {@link MasteryLevelLogic.initialize} from the skill's
+ * persisted `skillBaseFormula` field and the actor's current items.
+ * Rebuilt each preparation cycle. The computed {@link value} feeds into
+ * the mastery level modifier and SDR improvement rolls.
+ *
+ * ## Key properties
+ *
+ * - {@link value} — the computed skill base number
+ * - {@link formula} — the raw formula string (or null)
+ * - {@link valid} — whether the formula parsed successfully
+ * - {@link attributes} — the resolved TraitLogic instances referenced
+ *   by the formula
+ */
 export class SkillBase {
     _attrs: StrictObject<{ name: string; value: number; logic: TraitLogic }>;
     _formula: string | null;
-    _sunsigns: string[];
+    _birthsigns: string[];
     _parsedFormula: string[] | null;
     _value: number;
 
     constructor(
         formula: string,
-        options: { items?: SohlItem[]; sunsign?: SohlItem } = {},
+        options: { items?: SohlItem[]; birthsign?: SohlItem } = {},
     ) {
         if (!formula) {
             this._formula = null;
             this._attrs = {};
-            this._sunsigns = [];
+            this._birthsigns = [];
         }
 
         if (options?.items && !(Symbol.iterator in Object(options.items))) {
@@ -41,8 +96,8 @@ export class SkillBase {
 
         this._formula = formula || null;
         this._attrs = {};
-        this._sunsigns =
-            (options.sunsign?.system as any)?.textValue?.split("-") || [];
+        this._birthsigns =
+            (options.birthsign?.system as any)?.textValue?.split("-") || [];
         this._parsedFormula = this._parseFormula;
         this._value = 0;
         if (options.items) {
@@ -114,8 +169,8 @@ export class SkillBase {
         return this._parsedFormula;
     }
 
-    get sunsigns(): string[] {
-        return this._sunsigns;
+    get birthsigns(): string[] {
+        return this._birthsigns;
     }
 
     get attributes(): TraitLogic[] {
@@ -135,8 +190,8 @@ export class SkillBase {
      *
      * meaning
      *   average STR, INT, and STA
-     *   add 2 if sunsign hirin (modifier after colon ":")
-     *   add 1 if sunsign ahnu (1 since no modifier specified)
+     *   add 2 if birthsign hirin (modifier after colon ":")
+     *   add 1 if birthsign ahnu (1 since no modifier specified)
      *   add 5 to result
      *
      * A valid formula must have exactly 2 or more attributes, everything else is optional.
@@ -173,30 +228,30 @@ export class SkillBase {
                 }
 
                 if (param.match(/^\W/)) {
-                    // This is a sunsign
+                    // This is a birthsign
 
-                    let ssParts = param.split(":");
+                    let bsParts = param.split(":");
 
                     // if more than 2 parts, it's invalid
-                    if (ssParts.length > 2) {
+                    if (bsParts.length > 2) {
                         isFormulaValid = false;
                         break;
                     }
 
-                    const ssName = ssParts[0].trim;
-                    let ssCount = 1;
+                    const bsName = bsParts[0].trim;
+                    let bsCount = 1;
                     // if second part provided, must be a number
-                    if (ssParts.length === 2) {
-                        const ssNumber = ssParts[1].trim().match(/^[-+]?\d+/);
-                        if (ssNumber) {
-                            ssCount = Number.parseInt(ssNumber[0], 10);
+                    if (bsParts.length === 2) {
+                        const bsNumber = bsParts[1].trim().match(/^[-+]?\d+/);
+                        if (bsNumber) {
+                            bsCount = Number.parseInt(bsNumber[0], 10);
                         } else {
                             isFormulaValid = false;
                         }
                         break;
                     }
 
-                    parseResult.push(`ss:${ssName}:${ssCount}`);
+                    parseResult.push(`bs:${bsName}:${bsCount}`);
 
                     continue;
                 }
@@ -225,7 +280,7 @@ export class SkillBase {
     _calcValue(): number {
         if (!this.valid) return 0;
         let attrScores: number[] = [];
-        let ssBonus: number = Number.MIN_SAFE_INTEGER;
+        let bsBonus: number = Number.MIN_SAFE_INTEGER;
         let modifier: number = 0;
         this.parsedFormula?.forEach((param) => {
             let val: number;
@@ -244,11 +299,11 @@ export class SkillBase {
 
                 if (subType === "attr") {
                     attrScores.push(this._attrs[name]?.value || 0);
-                } else if (subType === "ss") {
-                    if (this.sunsigns.includes(name)) {
-                        // We matched a character's sunsign, apply modifier
-                        // Character only gets the largest sunsign bonus
-                        ssBonus = Math.max(mult, ssBonus);
+                } else if (subType === "bs") {
+                    if (this.birthsigns.includes(name)) {
+                        // We matched a character's birthsign, apply modifier
+                        // Character only gets the largest birthsign bonus
+                        bsBonus = Math.max(mult, bsBonus);
                     }
                 }
             } else {
@@ -256,7 +311,7 @@ export class SkillBase {
             }
         });
 
-        ssBonus = ssBonus > Number.MIN_SAFE_INTEGER ? ssBonus : 0;
+        bsBonus = bsBonus > Number.MIN_SAFE_INTEGER ? bsBonus : 0;
         let result = attrScores.reduce((acc, cur) => acc + cur, 0);
         result = result / attrScores.length;
 
@@ -272,7 +327,7 @@ export class SkillBase {
             result = Math.round(result);
         }
 
-        result += ssBonus + modifier;
+        result += bsBonus + modifier;
 
         result = Math.max(0, result); // Make sure result is >= 0
 

@@ -294,7 +294,7 @@ export class SohlSystem {
         string,
         SohlSystem.CalendarRegistration
     > = new SohlMap<string, SohlSystem.CalendarRegistration>();
-    static get CONFIG(): SohlSystem.Config {
+    get CONFIG(): SohlSystem.Config {
         return {
             statusEffects: [
                 {
@@ -455,13 +455,9 @@ export class SohlSystem {
                 AttackResult: AttackResult,
                 DefendResult: DefendResult,
             },
-            // Base system class for variant module extension
+            // Central system class for module extension
             SohlSystem,
         };
-    }
-
-    static get CONST(): PlainObject {
-        return {} as const;
     }
 
     static readonly utils: typeof utils = utils;
@@ -529,25 +525,6 @@ export class SohlSystem {
         CONFIG.time.worldCalendarConfig = cal.config as any;
         CONFIG.time.worldCalendarClass = (cal.calendarClass ??
             SohlCalendarData) as any;
-    }
-
-    get CONFIG(): PlainObject {
-        return (this.constructor as any).CONFIG;
-    }
-
-    get CONST(): PlainObject {
-        return (this.constructor as any).CONST;
-    }
-    get id(): string {
-        return (this.constructor as any).ID;
-    }
-
-    get title(): string {
-        return (this.constructor as any).TITLE;
-    }
-
-    get initMessage(): string {
-        return (this.constructor as any).INIT_MESSAGE;
     }
 
     get utils(): typeof utils {
@@ -686,7 +663,7 @@ export namespace SohlSystem {
             AttackResult: Constructor<AttackResult>;
             DefendResult: Constructor<DefendResult>;
         };
-        /** Base system class for variant module extension */
+        /** Central system class */
         SohlSystem: typeof SohlSystem;
     }
 }

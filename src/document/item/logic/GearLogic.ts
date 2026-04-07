@@ -64,6 +64,28 @@ export abstract class GearLogic<
     sharedWithCohorts!: SohlActor[];
 
     /* --------------------------------------------- */
+    /* Array update helpers                          */
+    /* --------------------------------------------- */
+
+    /** Build an `update()` payload that adds a cohort ID to the sharing list. */
+    addSharedCohortUpdate(cohortId: string): PlainObject {
+        const canonical = this.data.sharedWithCohortIds;
+        if (canonical.includes(cohortId)) return {};
+        return {
+            "system.sharedWithCohortIds": [...canonical, cohortId],
+        };
+    }
+
+    /** Build an `update()` payload that removes a cohort ID from the sharing list. */
+    removeSharedCohortUpdate(cohortId: string): PlainObject {
+        return {
+            "system.sharedWithCohortIds": this.data.sharedWithCohortIds.filter(
+                (id) => id !== cohortId,
+            ),
+        };
+    }
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 

@@ -40,11 +40,32 @@ If your table uses additional house-rule logic, ensure related Action items or m
 
 # Defenses and opposed resolution {#WpGtdzf06J4CxDIc}
 
-Depending on selected rules variant and setup, defenses may involve opposed or follow-up checks.
+Defenses may involve opposed or follow-up checks depending on the situation.
 
 - Keep both actor sheets open when learning flow.
 - Resolve in posted order from chat/results.
 - Apply effects immediately to reduce drift.
+
+# Hit location: aimed vs. unaimed strikes {#hLoc8mKd2vRtPqXz}
+
+When an attack lands, the system determines which body part is struck. This works differently depending on whether the attacker aimed at a specific part.
+
+## Unaimed strikes
+
+An unaimed strike selects the hit location randomly, weighted by each body part's probability weight. Larger or more exposed parts (like the thorax) are struck more often than smaller ones (like the head). No accuracy value is involved.
+
+## Aimed strikes
+
+An aimed strike targets a specific body part and uses the attacker's **accuracy** to determine whether the strike lands where intended or drifts to a neighboring part.
+
+The resolution works as follows:
+
+1. If accuracy is less than or equal to the target part's probability weight, the aimed part is always hit.
+2. Otherwise, a random number from 1 to accuracy is rolled. If the roll is within the part's probability weight, that part is hit.
+3. On a miss, the accuracy is reduced by the part's probability weight, and the strike drifts to a random adjacent body part (weighted by probability). The check repeats from step 1 with the new part and reduced accuracy.
+4. If there are no more adjacent parts to drift to, the current part is hit.
+
+This means high accuracy relative to the target part makes aimed strikes reliable, while low accuracy causes the strike to wander along the body's adjacency graph. Aiming at a small, hard-to-hit part (low probability weight) with insufficient accuracy will often result in hitting a neighboring part instead.
 
 # Injury and effects updates {#6uwrEK3c1Ud9c4o4}
 
