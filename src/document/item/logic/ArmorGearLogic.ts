@@ -12,7 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ImpactAspects } from "@src/utils/constants";
 
 /**

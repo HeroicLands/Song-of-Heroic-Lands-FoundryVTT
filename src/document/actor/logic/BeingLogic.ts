@@ -11,16 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@src/modifier/ValueModifier";
-import type { ImpactResult } from "@src/result/ImpactResult";
-import type { SuccessTestResult } from "@src/result/SuccessTestResult";
+import type { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import type { ImpactResult } from "@src/domain/result/ImpactResult";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import {
     SohlActorBaseLogic,
     SohlActorData,
     SohlActorLogic,
 } from "@src/document/actor/foundry/SohlActor";
-import { BeingMovementFactor, BeingParts } from "@src/utils/constants";
+import { BodyStructure } from "@src/domain/body/BodyStructure";
+import { MovementProfile } from "@src/domain/movement/MovementProfile";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
@@ -55,17 +56,17 @@ export class BeingLogic<
     bodyWeight!: ValueModifier;
 
     /**
-     * The anatomical structure of the being, including body parts and their adjacency.
+     * The anatomical structure of the being, including body parts,
+     * hit locations, and adjacency relationships. Constructed from
+     * persisted data during {@link initialize}.
      */
-    bodyStructure!: {
-        parts: BeingParts[];
-        adjacent: string[][];
-    };
+    bodyStructure!: BodyStructure;
 
     /**
-     * Movement factors affecting the being's mobility across different mediums.
+     * Movement profiles for each medium this being can move through.
+     * Constructed from persisted data during {@link initialize}.
      */
-    factors!: BeingMovementFactor[];
+    movementProfiles!: MovementProfile[];
 
     /**
      * Current shock state, derived from accumulated injuries and other factors.
@@ -340,6 +341,10 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.bodyStructure = new BodyStructure(this.data.bodyStructure);
+        this.movementProfiles = (this.data.movementProfiles ?? []).map(
+            (d) => new MovementProfile(d),
+        );
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
         //             return foundry.utils.mergeObject(super.defineSchema(), {
@@ -391,10 +396,6 @@ export class BeingLogic<
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {
-    bodyStructure: {
-        parts: BeingParts[];
-        adjacent: string[][];
-    };
-
-    factors: BeingMovementFactor[];
+    bodyStructure: BodyStructure.Data;
+    movementProfiles: MovementProfile.Data[];
 }

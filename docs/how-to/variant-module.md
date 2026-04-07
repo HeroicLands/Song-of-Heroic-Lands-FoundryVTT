@@ -116,8 +116,8 @@ export class MyBeingLogic extends BeingLogic {
 ### Subclassing a modifier class
 
 ```typescript
-// src/modifier/MyCombatModifier.ts
-import { CombatModifier } from "@src/modifier/CombatModifier";
+// src/domain/modifier/MyCombatModifier.ts
+import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 
 export class MyCombatModifier extends CombatModifier {
     // Override or extend as needed
@@ -127,8 +127,8 @@ export class MyCombatModifier extends CombatModifier {
 ### Subclassing a result class
 
 ```typescript
-// src/result/MySuccessTestResult.ts
-import { SuccessTestResult } from "@src/result/SuccessTestResult";
+// src/domain/result/MySuccessTestResult.ts
+import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 
 export class MySuccessTestResult extends SuccessTestResult {
     // Override evaluate(), toChat(), etc.
@@ -244,6 +244,6 @@ const myFlag = item.getFlag("sohl", "my-variant.myField") ?? defaultValue;
 | `src/core/SohlSystem.ts` | Base class to extend |
 | `src/core/LegendarySystem.ts` | Reference implementation of a SohlSystem subclass |
 | `src/sohl.ts` | Shows startup sequence and registerVariants call |
-| `src/modifier/` | Modifier base classes to subclass |
-| `src/result/` | Result base classes to subclass |
+| `src/domain/modifier/` | Modifier base classes to subclass |
+| `src/domain/result/` | Result base classes to subclass |
 | `src/document/*/logic/` | Logic base classes to subclass |

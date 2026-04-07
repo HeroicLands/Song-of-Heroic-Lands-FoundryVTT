@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
+import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
-import { TestResult } from "@src/result/TestResult";
+import { TestResult } from "@src/domain/result/TestResult";
 import { toFilePath } from "@src/utils/helpers";
 import {
     inputDialog,

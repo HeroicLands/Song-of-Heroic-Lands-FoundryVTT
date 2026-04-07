@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SuccessTestResult } from "@src/result/SuccessTestResult";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { InjuryData } from "@src/document/item/logic/InjuryLogic";
 import {
     ACTION_SUBTYPE,
@@ -31,7 +31,7 @@ import {
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
 import { serializeFn } from "@src/utils/helpers";
-import { SohlActionData } from "@src/core/SohlAction";
+import { SohlActionData } from "@src/domain/action/SohlAction";
 
 /**
  * Logic for the **Affliction** item type — an ongoing condition affecting

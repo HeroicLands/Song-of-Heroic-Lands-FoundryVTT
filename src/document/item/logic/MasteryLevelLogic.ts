@@ -12,7 +12,7 @@
  */
 
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import { MasteryLevelModifier } from "@src/modifier/MasteryLevelModifier";
+import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import type { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import {
     SohlItem,
@@ -26,10 +26,10 @@ import {
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
-import { SkillBase } from "@src/core/SkillBase";
+import { SkillBase } from "@src/domain/SkillBase";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
-import { SuccessTestResult } from "@src/result/SuccessTestResult";
+import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { fvttIsCurrentUserGM, fvttGetSetting } from "@src/core/FoundryHelpers";
 
 // TODO: This needs to be internationalized

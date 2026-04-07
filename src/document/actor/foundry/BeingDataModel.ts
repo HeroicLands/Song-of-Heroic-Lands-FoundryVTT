@@ -14,16 +14,15 @@
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActor";
 import {
     ACTOR_KIND,
-    BeingMovementFactor,
-    BeingParts,
     ImpactAspects,
     MOVEMENT_MEDIUM,
     MovementFactorModes,
-    MovementMedium,
     MovementMediums,
 } from "@src/utils/constants";
 import type { BeingData } from "@src/document/actor/logic/BeingLogic";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { BodyStructure } from "@src/domain/body/BodyStructure";
+import type { MovementProfile } from "@src/domain/movement/MovementProfile";
 
 const {
     StringField,
@@ -178,11 +177,8 @@ export class BeingDataModel<
         "SOHL.Actor",
     ];
     static override readonly kind = ACTOR_KIND.BEING;
-    bodyStructure!: {
-        parts: BeingParts[];
-        adjacent: string[][];
-    };
-    factors!: BeingMovementFactor[];
+    bodyStructure!: BodyStructure.Data;
+    movementProfiles!: MovementProfile.Data[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineBeingDataSchema();

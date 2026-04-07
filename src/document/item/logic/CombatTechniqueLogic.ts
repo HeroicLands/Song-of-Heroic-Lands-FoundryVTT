@@ -14,9 +14,9 @@
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import type { SuccessTestResult } from "@src/result/SuccessTestResult";
-import { CombatModifier } from "@src/modifier/CombatModifier";
-import type { ValueModifier } from "@src/modifier/ValueModifier";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { CombatModifier } from "@src/domain/modifier/CombatModifier";
+import type { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import {
     ImpactAspect,
     VALUE_DELTA_ID,

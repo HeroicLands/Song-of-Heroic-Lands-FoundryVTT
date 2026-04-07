@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/modifier/ValueModifier";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { MysteryLogic } from "./MysteryLogic";
 import {

@@ -1,5 +1,5 @@
-import { ValueModifier } from "@src/modifier/ValueModifier";
-import { ValueDelta } from "@src/modifier/ValueDelta";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueDelta } from "@src/domain/modifier/ValueDelta";
 import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
 
 const mockParent = {

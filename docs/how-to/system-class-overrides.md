@@ -181,7 +181,7 @@ Goal: replace `CombatModifier` with a subclass that adds a new modifier operatio
 
 ```typescript
 // my-module/MyCombatModifier.ts
-import { CombatModifier } from "@src/modifier/CombatModifier";
+import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 
 export class MyCombatModifier extends CombatModifier {
     addMorale(label: string, value: number): this {

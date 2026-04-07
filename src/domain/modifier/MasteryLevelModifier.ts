@@ -12,9 +12,9 @@
  */
 
 import { DialogButtonCallback, inputDialog } from "@src/core/FoundryHelpers";
-import { ValueModifier } from "@src/modifier/ValueModifier";
-import { SuccessTestResult } from "@src/result/SuccessTestResult";
-import { OpposedTestResult } from "@src/result/OpposedTestResult";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {

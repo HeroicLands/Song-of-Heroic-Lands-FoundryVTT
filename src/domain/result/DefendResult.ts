@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@src/result/ImpactResult";
+import { ImpactResult } from "@src/domain/result/ImpactResult";
 import { DEFEND_MISHAP, TEST_TYPE } from "@src/utils/constants";
 
 /**

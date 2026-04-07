@@ -24,7 +24,7 @@ import {
 import { instanceToJSON } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SohlActionData, SohlAction } from "@src/core/SohlAction";
+import { SohlActionData, SohlAction } from "@src/domain/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 
 export const {

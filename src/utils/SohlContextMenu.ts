@@ -19,7 +19,7 @@ import {
     SohlContextMenuSortGroup,
 } from "@src/utils/constants";
 import { getContextItem } from "@src/core/FoundryHelpers";
-import type { SohlAction } from "@src/core/SohlAction";
+import type { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 
 export class SohlContextMenu

@@ -12,14 +12,14 @@
  */
 
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlAction } from "@src/core/SohlAction";
+import type { SohlAction } from "@src/domain/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlDataModel } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import { SkillBase } from "@src/core/SkillBase";
+import { SkillBase } from "@src/domain/SkillBase";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import {

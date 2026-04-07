@@ -15,7 +15,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { SohlActionData } from "@src/core/SohlAction";
+import type { SohlActionData } from "@src/domain/action/SohlAction";
 import {
     DialogButtonCallback,
     inputDialog,

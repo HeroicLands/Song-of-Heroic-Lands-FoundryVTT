@@ -152,8 +152,8 @@ Worked example pattern (minimal checklist for a new Item kind):
 
 Core components:
 
-- `src/result/*`
-- `src/modifier/*`
+- `src/domain/result/*`
+- `src/domain/modifier/*`
 - `src/document/combatant/`
 - `src/core/SohlLogic.ts` (likely orchestrator)
 - `src/core/SohlActionContext.ts` (request context)

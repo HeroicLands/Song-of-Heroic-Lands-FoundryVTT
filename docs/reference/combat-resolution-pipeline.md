@@ -6,14 +6,14 @@ See also: [Extension Points](../how-to/extension-points.md), [Rules Variants and
 
 ## Core classes
 
-- Base result contract: `src/result/TestResult.ts`
-- Standard test flow: `src/result/SuccessTestResult.ts`
-- Opposed test orchestration: `src/result/OpposedTestResult.ts`
-- Impact-capable results: `src/result/ImpactResult.ts`
+- Base result contract: `src/domain/result/TestResult.ts`
+- Standard test flow: `src/domain/result/SuccessTestResult.ts`
+- Opposed test orchestration: `src/domain/result/OpposedTestResult.ts`
+- Impact-capable results: `src/domain/result/ImpactResult.ts`
 - Combat-specific result specializations:
-    - `src/result/AttackResult.ts`
-    - `src/result/DefendResult.ts`
-    - `src/result/CombatResult.ts`
+    - `src/domain/result/AttackResult.ts`
+    - `src/domain/result/DefendResult.ts`
+    - `src/domain/result/CombatResult.ts`
 
 ## Pipeline shape
 

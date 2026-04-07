@@ -1652,46 +1652,7 @@ export const {
 } as StrictObject<SohlContextMenu.Entry>);
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
 
-export interface BeingLocations {
-    name: string;
-    isFumble: boolean;
-    isStumble: boolean;
-    bleedingSevThreshold: number;
-    amputateModifier: number;
-    shockValue: number;
-    probWeight: number;
-    protectionBase: {
-        blunt: number;
-        edged: number;
-        piercing: number;
-        fire: number;
-    };
-}
 
-export interface BeingParts {
-    name: string;
-    affectedSkillCodes: string[];
-    affectedAttributeCodes: string[];
-    affectsMobility: boolean;
-    canHoldItem: boolean;
-    heldItemId: string | null;
-    probWeight: number;
-    locations: BeingLocations[];
-}
-
-export interface BeingMovementFactor {
-    scope: string;
-    key: string;
-    mode: string;
-    textValue: string;
-}
-export interface BeingMovementProfile {
-    medium: MovementMedium;
-    metersPerRound: number;
-    metersPerWatch: number;
-    disabled: boolean;
-    factors: BeingMovementFactor[];
-}
 
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     name: "Turning Wheel",

@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionData } from "@src/core/SohlAction";
+import type { SohlActionData } from "@src/domain/action/SohlAction";
 import {
     ACTION_SUBTYPE,
     defineType,

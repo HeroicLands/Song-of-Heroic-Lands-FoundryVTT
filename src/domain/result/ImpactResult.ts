@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@src/result/SuccessTestResult";
-import { ImpactModifier } from "@src/modifier/ImpactModifier";
+import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 const kImpactResult = Symbol("ImpactResult");
 const kData = Symbol("ImpactResult.Data");

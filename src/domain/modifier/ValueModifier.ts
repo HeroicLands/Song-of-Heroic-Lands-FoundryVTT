@@ -17,7 +17,7 @@ import {
     instanceToJSON,
     cloneInstance,
 } from "@src/utils/helpers";
-import { ValueDelta } from "@src/modifier/ValueDelta";
+import { ValueDelta } from "@src/domain/modifier/ValueDelta";
 import {
     SYMBOL,
     VALUE_DELTA_INFO,

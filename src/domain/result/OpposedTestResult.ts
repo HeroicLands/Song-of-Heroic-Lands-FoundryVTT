@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@src/result/SuccessTestResult";
-import { TestResult } from "@src/result/TestResult";
+import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { TestResult } from "@src/domain/result/TestResult";
 import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
