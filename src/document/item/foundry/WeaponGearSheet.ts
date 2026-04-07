@@ -42,7 +42,7 @@ export class WeaponGearSheet extends SohlItemSheetBase {
             isEquipped: system.isEquipped,
             qualityBase: system.qualityBase,
             durabilityBase: system.durabilityBase,
-            visibleToCohort: system.visibleToCohort,
+            sharedWithCohortIds: system.sharedWithCohortIds,
             lengthBase: system.lengthBase,
         });
     }

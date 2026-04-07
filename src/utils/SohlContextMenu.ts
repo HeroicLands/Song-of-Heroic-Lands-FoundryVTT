@@ -14,12 +14,12 @@
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { HTMLString, toHTMLString } from "@src/utils/helpers";
 import {
-    getContextItem,
     ITEM_KIND,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroup,
 } from "@src/utils/constants";
-import type { ActionLogic } from "@src/document/item/logic/ActionLogic";
+import { getContextItem } from "@src/core/FoundryHelpers";
+import type { SohlAction } from "@src/core/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 
 export class SohlContextMenu

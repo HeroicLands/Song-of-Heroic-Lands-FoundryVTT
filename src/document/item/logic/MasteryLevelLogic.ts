@@ -27,13 +27,10 @@ import {
     VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { SkillBase } from "@src/core/SkillBase";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { TraitLogic } from "@src/document/item/logic/TraitLogic";
 import { SuccessTestResult } from "@src/result/SuccessTestResult";
-import {
-    createRoll as fvttCreateRoll,
-    isCurrentUserGM as fvttIsCurrentUserGM,
-    getSetting as fvttGetSetting,
-} from "@src/core/foundry-helpers";
+import { fvttIsCurrentUserGM, fvttGetSetting } from "@src/core/FoundryHelpers";
 
 // TODO: This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -143,10 +140,11 @@ export abstract class MasteryLevelLogic<
 
     async improveWithSDR(context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
-        let roll = await fvttCreateRoll(
-            `1d100 + ${this.skillBase.value}`,
-        ).evaluate();
-        const isSuccess = (roll.total ?? 0) > this.masteryLevel.base;
+        const roll = SimpleRoll.fromFormula(
+            `1d100+${this.skillBase.value}`,
+        );
+        roll.roll();
+        const isSuccess = roll.total > this.masteryLevel.base;
 
         if (isSuccess) {
             updateData["system.masteryLevelBase"] =
@@ -208,6 +206,40 @@ export abstract class MasteryLevelLogic<
         };
 
         context.speaker.toChat(chatTemplate, chatTemplateData);
+    }
+
+    /**
+     * Recalculates the mastery level base using the roll formula stored in
+     * `flags.sohl.rollFormula`. The formula is a standard Foundry VTT roll
+     * expression where the variable `sb` is replaced with the skill base
+     * value (always 0 for traits).
+     *
+     * If no roll formula flag is set, this method does nothing.
+     */
+    async recalculate(): Promise<void> {
+        const rollFormula = this.item.getFlag("sohl", "rollFormula") as
+            | string
+            | undefined;
+        if (!rollFormula) return;
+
+        const sb = this.skillBaseForRoll;
+        const resolved = rollFormula.replace(/\bsb\b/gi, String(sb));
+        const roll = SimpleRoll.fromFormula(resolved);
+        roll.roll();
+
+        const updateData: PlainObject = {
+            "system.masteryLevelBase": roll.total,
+        };
+        await this.item.update(updateData);
+    }
+
+    /**
+     * The skill base value to substitute for `sb` in a roll formula.
+     * Override in subclasses to provide a different value (e.g., traits
+     * always return 0).
+     */
+    protected get skillBaseForRoll(): number {
+        return this.skillBase?.value ?? 0;
     }
 
     get magicMod(): number {

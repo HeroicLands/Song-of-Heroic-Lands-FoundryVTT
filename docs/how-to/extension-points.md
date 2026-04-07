@@ -197,7 +197,6 @@ Current effects integration points:
 - `SohlDataModel` sheet context exposes:
     - `data.effects` (owned effects)
     - `data.trxEffects` (active transferred effects)
-- Actor/item helper methods create embedded ActiveEffects (`createActiveEffect(...)` in `SohlActor` and `SohlItem`).
 - SoHL extends Foundry targeting via effect fields:
     - `targetType`: `this`, `actor`, or an item document type
     - `targetName`: regex used for item-type targeting (matched against item shortcodes)
@@ -296,7 +295,12 @@ Hooks.once("init", () => {
             },
             months: {
                 values: [
-                    { name: "Moonrise", abbreviation: "Mnr", ordinal: 1, days: 28 },
+                    {
+                        name: "Moonrise",
+                        abbreviation: "Mnr",
+                        ordinal: 1,
+                        days: 28,
+                    },
                     // ... remaining months
                 ],
             },
@@ -325,29 +329,29 @@ Hooks.once("init", () => {
                 description: "",
             },
         },
-        builtin: true,  // true = cannot be deleted by the GM via settings UI
+        builtin: true, // true = cannot be deleted by the GM via settings UI
     });
 });
 ```
 
 **Registry API** (on `SohlSystem`):
 
-| Method | Description |
-|--------|-------------|
-| `registerCalendar(id, registration)` | Register or overwrite a calendar. |
-| `unregisterCalendar(id)` | Remove a calendar (throws if `builtin`). |
-| `getCalendar(id)` | Get a registration by ID. |
-| `calendars` | `SohlMap` of all registered calendars. |
-| `applyCalendar(id)` | Apply a calendar to `CONFIG.time`. |
+| Method                               | Description                              |
+| ------------------------------------ | ---------------------------------------- |
+| `registerCalendar(id, registration)` | Register or overwrite a calendar.        |
+| `unregisterCalendar(id)`             | Remove a calendar (throws if `builtin`). |
+| `getCalendar(id)`                    | Get a registration by ID.                |
+| `calendars`                          | `SohlMap` of all registered calendars.   |
+| `applyCalendar(id)`                  | Apply a calendar to `CONFIG.time`.       |
 
 **CalendarRegistration shape:**
 
 ```ts
 interface CalendarRegistration {
-    label: string;           // Display name or i18n key
-    config: object;          // Full calendar data (see user guide for JSON format)
-    calendarClass?: typeof SohlCalendarData;  // Defaults to SohlCalendarData
-    builtin?: boolean;       // If true, cannot be deleted via settings UI
+    label: string; // Display name or i18n key
+    config: object; // Full calendar data (see user guide for JSON format)
+    calendarClass?: typeof SohlCalendarData; // Defaults to SohlCalendarData
+    builtin?: boolean; // If true, cannot be deleted via settings UI
 }
 ```
 

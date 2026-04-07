@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ActionData } from "@src/document/item/logic/ActionLogic";
+import type { SohlActionData } from "@src/core/SohlAction";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -160,6 +160,6 @@ export const {
         }),
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
-} as StrictObject<Partial<ActionData>>);
+} as StrictObject<Partial<SohlActionData>>);
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];

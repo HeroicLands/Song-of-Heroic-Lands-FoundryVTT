@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getCanvas } from "@src/core/FoundryProxy";
+import { getCanvas } from "@src/core/FoundryHelpers";
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.

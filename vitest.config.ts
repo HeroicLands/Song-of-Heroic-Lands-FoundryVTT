@@ -6,21 +6,19 @@ const isTest = process.env.VITEST === "true";
 export default defineConfig({
     resolve: {
         alias: [
-            // foundry-helpers must come before the general @common/* alias
+            // FoundryHelpers must come before the general @src/* alias
             // so the test mock takes precedence during testing
-            {
-                find: "@common/foundry-helpers",
-                replacement:
-                    isTest ?
-                        path.resolve(
-                            __dirname,
-                            "tests/mocks/foundry/core/foundry-helpers.ts",
-                        )
-                    :   path.resolve(
-                            __dirname,
-                            "src/common/foundry-helpers.ts",
-                        ),
-            },
+            ...(isTest
+                ? [
+                      {
+                          find: "@src/core/FoundryHelpers",
+                          replacement: path.resolve(
+                              __dirname,
+                              "tests/mocks/foundry/core/FoundryHelpers.ts",
+                          ),
+                      },
+                  ]
+                : []),
             {
                 find: /^@types\/(.*)/,
                 replacement: path.resolve(__dirname, "types/$1"),
@@ -66,17 +64,7 @@ export default defineConfig({
                 // Entry point and system registration (integration-level)
                 "src/sohl.ts",
                 // Foundry shim (tested via mock swap, not directly)
-                "src/common/foundry-helpers.ts",
-                // Foundry proxy (wraps Foundry APIs)
-                "src/common/FoundryProxy.ts",
-                // Apps (UI-only)
-                "src/common/apps/**",
-                // Token/combatant/region (Foundry document wrappers)
-                "src/common/token/**",
-                "src/common/combatant/**",
-                "src/common/region-behavior/**",
-                "src/common/region/**",
-                "src/common/effect/**",
+                "src/core/FoundryHelpers.ts",
             ],
         },
     },

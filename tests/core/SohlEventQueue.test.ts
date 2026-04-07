@@ -1,9 +1,9 @@
 import { describe, it } from "vitest";
 
-// NOTE: SohlEventQueue imports @common/foundry-helpers which currently
-// fails to resolve in the test environment. Once the alias configuration
-// is fixed, the real tests below can be enabled by importing:
-//   import { SohlEventQueue } from"@src/common/SohlEventQueue";
+// NOTE: SohlEventQueue imports @src/core/FoundryHelpers which is
+// mock-swapped via vitest alias. The real tests below can be enabled
+// by importing:
+//   import { SohlEventQueue } from "@src/core/SohlEventQueue";
 
 describe("SohlEventQueue", () => {
     describe("registerEvent", () => {

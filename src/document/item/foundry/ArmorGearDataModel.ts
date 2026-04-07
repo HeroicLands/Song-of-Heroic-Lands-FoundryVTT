@@ -21,13 +21,6 @@ const { StringField, SchemaField, ArrayField, NumberField } =
     foundry.data.fields;
 
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
-    const protectionObj = Object.fromEntries(
-        ImpactAspects.map((aspect) => [
-            aspect,
-            new NumberField({ integer: true, initial: 0, min: 0 }),
-        ]),
-    ) as foundry.data.fields.DataSchema;
-
     return {
         ...GearDataModel.defineSchema(),
         material: new StringField(),
@@ -35,7 +28,12 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
             flexible: new ArrayField(new StringField()),
             rigid: new ArrayField(new StringField()),
         }),
-        protectionBase: new SchemaField({ ...protectionObj }),
+        protectionBase: new SchemaField({
+            blunt: new NumberField({ integer: true, initial: 0, min: 0 }),
+            edged: new NumberField({ integer: true, initial: 0, min: 0 }),
+            piercing: new NumberField({ integer: true, initial: 0, min: 0 }),
+            fire: new NumberField({ integer: true, initial: 0, min: 0 }),
+        }),
         encumbrance: new NumberField({ initial: 0, min: 0 }),
     };
 }
@@ -58,7 +56,12 @@ export class ArmorGearDataModel<
     static override readonly kind = ITEM_KIND.ARMORGEAR;
     material!: string;
     locations!: { flexible: string[]; rigid: string[] };
-    protectionBase!: StrictObject<number>;
+    protectionBase!: {
+        blunt: number;
+        edged: number;
+        piercing: number;
+        fire: number;
+    };
     encumbrance!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {

@@ -21,7 +21,6 @@ See also: [Documentation Hub](../README.md)
 
 - [Architecture Overview](../concepts/architecture.md)
 - [Rules Variants and Extension Mechanisms](../concepts/rules-variants.md)
-- [Nested Items](../concepts/nested-items.md)
 - [Type Catalog](../reference/type-catalog.md)
 
 ## User docs source for journal generation

@@ -42,7 +42,7 @@ export class ProjectileGearSheet extends SohlItemSheetBase {
             isEquipped: system.isEquipped,
             qualityBase: system.qualityBase,
             durabilityBase: system.durabilityBase,
-            visibleToCohort: system.visibleToCohort,
+            sharedWithCohortIds: system.sharedWithCohortIds,
             subType: system.subType,
             shortName: system.shortName,
             impactBase: system.impactBase,

@@ -47,6 +47,11 @@ import type { TraitIntensity, TraitSubType } from "@src/utils/constants";
 export class TraitLogic<
     TData extends TraitData = TraitData,
 > extends MasteryLevelLogic<TData> {
+    /** Traits always use 0 for the skill base in roll formulas. */
+    protected override get skillBaseForRoll(): number {
+        return 0;
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

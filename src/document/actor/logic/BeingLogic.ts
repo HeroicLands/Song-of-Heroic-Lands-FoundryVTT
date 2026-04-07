@@ -20,6 +20,7 @@ import {
     SohlActorData,
     SohlActorLogic,
 } from "@src/document/actor/foundry/SohlActor";
+import { BeingMovementFactor, BeingParts } from "@src/utils/constants";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
@@ -47,18 +48,24 @@ export class BeingLogic<
     healingBase!: ValueModifier;
 
     /**
-     * Total number of zones on this being.
-     *
-     * @type {number}
-     */
-    zoneSum!: number;
-
-    /**
      * Represents the base body weight of a being without any gear
      *
      * @type {ValueModifier}
      */
     bodyWeight!: ValueModifier;
+
+    /**
+     * The anatomical structure of the being, including body parts and their adjacency.
+     */
+    bodyStructure!: {
+        parts: BeingParts[];
+        adjacent: string[][];
+    };
+
+    /**
+     * Movement factors affecting the being's mobility across different mediums.
+     */
+    factors!: BeingMovementFactor[];
 
     /**
      * Current shock state, derived from accumulated injuries and other factors.
@@ -383,4 +390,11 @@ export class BeingLogic<
 
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
-> extends SohlActorData<TLogic> {}
+> extends SohlActorData<TLogic> {
+    bodyStructure: {
+        parts: BeingParts[];
+        adjacent: string[][];
+    };
+
+    factors: BeingMovementFactor[];
+}

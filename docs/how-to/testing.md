@@ -18,7 +18,7 @@ Tests live in `tests/` mirroring the `src/` directory structure:
 tests/
   setup.ts                          # Global test setup (runs before all tests)
   mocks/foundry/core/
-    foundry-helpers.ts              # Mock of the Foundry runtime shim
+    FoundryHelpers.ts               # Mock of the Foundry runtime shim
   utils/
     helpers.test.ts                 # Tests for src/utils/helpers.ts
     SimpleRoll.test.ts              # Tests for src/utils/SimpleRoll.ts
@@ -56,29 +56,34 @@ For placeholder tests, use `it.todo("description")` to document intended behavio
 
 SoHL tests run in Node.js via vitest — no browser, no Foundry VTT server. This is possible because of two mechanisms:
 
-### 1. The Foundry runtime shim (`foundry-helpers.ts`)
+### 1. The Foundry runtime shim (`FoundryHelpers.ts`)
 
-The file `src/core/foundry-helpers.ts` is a thin wrapper around Foundry VTT globals that are only available inside a running Foundry environment:
+The file `src/core/FoundryHelpers.ts` is a thin wrapper around Foundry VTT globals that are only available inside a running Foundry environment:
 
 - `game.*` (settings, user, actors, scenes, time)
 - `canvas.*` (tokens)
-- `ui.*` (notifications)
 - `Hooks.*` (callAll, onError)
 - `foundry.utils.*` (mergeObject)
 - `fromUuid` / `fromUuidSync` (document resolution)
-- `Roll.create()` (dice)
+- `Roll` (dice — converting `SimpleRoll` to Foundry Roll for chat display)
 - `ChatMessage.*` (chat operations)
 - `TextEditor.enrichHTML()` (rich text)
+- `DialogV2.*` (dialogs)
+- `DocumentSheetConfig` (sheet registration)
 
-During testing, vitest swaps this module for a mock at `tests/mocks/foundry/core/foundry-helpers.ts` via the alias configuration in `vitest.config.ts`:
+All exports that wrap Foundry globals use the `fvtt` prefix (e.g., `fvttGetSetting`, `fvttCallHook`). Functions that don't wrap globals (e.g., `inputDialog`, `getContextItem`) use plain names.
+
+For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger) instead of wrapping `ui.notifications` directly.
+
+During testing, vitest swaps this module for a mock at `tests/mocks/foundry/core/FoundryHelpers.ts` via the alias configuration in `vitest.config.ts`:
 
 ```typescript
 // vitest.config.ts
 {
-    find: "@common/foundry-helpers",
+    find: "@src/core/FoundryHelpers",
     replacement: isTest
-        ? path.resolve(__dirname, "tests/mocks/foundry/core/foundry-helpers.ts")
-        : path.resolve(__dirname, "src/core/foundry-helpers.ts"),
+        ? path.resolve(__dirname, "tests/mocks/foundry/core/FoundryHelpers.ts")
+        : undefined, // falls through to the normal @src/* alias
 }
 ```
 
@@ -115,10 +120,10 @@ The boundary is clear: **if SoHL controls it, test it directly. If Foundry provi
 
 When production code needs a new Foundry global:
 
-1. Add the wrapper function to `src/core/foundry-helpers.ts`
-2. Add the corresponding mock to `tests/mocks/foundry/core/foundry-helpers.ts`
-3. Import from `@common/foundry-helpers` in the consuming file (use `fvtt` prefix aliases to avoid name collisions, e.g., `import { notifyWarn as fvttNotifyWarn }`)
-4. Do NOT shim `sohl.*` access — use it directly
+1. Add the wrapper function to `src/core/FoundryHelpers.ts` (use the `fvtt` prefix for the export name, e.g., `fvttGetSetting`)
+2. Add the corresponding mock to `tests/mocks/foundry/core/FoundryHelpers.ts`
+3. Import directly in the consuming file (e.g., `import { fvttGetSetting } from "@src/core/FoundryHelpers"`)
+4. Do NOT shim `sohl.*` access — use it directly (e.g., `sohl.log.uiWarn` instead of wrapping `ui.notifications.warn`)
 
 ## Writing tests for Logic classes
 

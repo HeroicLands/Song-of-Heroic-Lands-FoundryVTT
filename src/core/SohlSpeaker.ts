@@ -19,19 +19,21 @@ import {
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
-import { toHTMLWithContent, toHTMLWithTemplate } from "@src/core/FoundryProxy";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@src/utils/constants";
 import {
-    getSetting as fvttGetSetting,
-    getToken as fvttGetToken,
-    getActor as fvttGetActor,
-    getScene as fvttGetScene,
-    getUser as fvttGetUser,
-    currentUser as fvttCurrentUser,
-    applyRollMode as fvttApplyRollMode,
-    createChatMessage as fvttCreateChatMessage,
-} from "@src/core/foundry-helpers";
+    toHTMLWithContent,
+    toHTMLWithTemplate,
+    fvttGetSetting,
+    fvttGetToken,
+    fvttGetActor,
+    fvttGetScene,
+    fvttGetUser,
+    fvttCurrentUser,
+    fvttApplyRollMode,
+    fvttCreateChatMessage,
+    fvttToFoundryRoll,
+} from "@src/core/FoundryHelpers";
 
 export class SohlSpeaker {
     _speaker!: SohlSpeaker.Data;
@@ -207,7 +209,7 @@ export class SohlSpeaker {
 
         if (options.rolls) {
             for (const roll of options.rolls) {
-                msgData.rolls.push(await roll.createRoll());
+                msgData.rolls.push(await fvttToFoundryRoll(roll));
             }
         }
 

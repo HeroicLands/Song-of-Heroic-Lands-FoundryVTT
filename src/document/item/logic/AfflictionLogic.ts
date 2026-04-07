@@ -22,16 +22,16 @@ import {
     AfflictionSubType,
     AfflictionTransmission,
     defineType,
-    getContextItem,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
+import { getContextItem } from "@src/core/FoundryHelpers";
 import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
 import { serializeFn } from "@src/utils/helpers";
-import { ActionData } from "@src/document/item/logic/ActionLogic";
+import { SohlActionData } from "@src/core/SohlAction";
 
 /**
  * Logic for the **Affliction** item type — an ongoing condition affecting
@@ -361,4 +361,4 @@ export const {
         }),
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
-} as StrictObject<Partial<ActionData>>);
+} as StrictObject<Partial<SohlActionData>>);

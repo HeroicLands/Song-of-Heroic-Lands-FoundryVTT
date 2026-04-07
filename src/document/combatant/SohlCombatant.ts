@@ -15,7 +15,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlCombat } from "@src/document/combat/SohlCombat";
-import { getCanvas } from "@src/core/FoundryProxy";
+import { getCanvas } from "@src/core/FoundryHelpers";
 import { expandAllyGroups } from "./combatant-logic";
 
 export class SohlCombatant<

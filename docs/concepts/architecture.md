@@ -72,7 +72,7 @@ and persistence model, but the logic layer is designed to be completely separate
 to enable unit testing of the logic layer in a node-only environment without
 the Foundry VTT environment. The implication of this is that all functions
 called from the logic layer should not use Foundry VTT functions or classes
-directly, but only via shims (see `src/core/FoundryProxy.ts`). In addition
+directly, but only via shims (see `src/core/FoundryHelpers.ts`). In addition
 to business logic, the logic layer also contains any derived or synthesized
 properties that are not persisted.
 
@@ -92,8 +92,7 @@ SoHL extends the Foundry VTT `Actor` class with the `SohlActor` class
 (see `src/document/actor/foundry/SohlActor.ts`). Among other things, this class
 implements:
 
-1. SoHL Lifecycle mechanism
-2. Virtual Items collection
+1. SoHL phase-batched lifecycle mechanism (see [Lifecycle Model](./lifecycle-model.md))
 
 Each actor type is split into two subdirectories:
 

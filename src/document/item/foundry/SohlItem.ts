@@ -13,18 +13,14 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import { HTMLString } from "@src/utils/helpers";
+import type { HTMLString } from "@src/utils/helpers";
 import { SohlDataModel } from "@src/core/SohlDataModel";
-import { SohlLogic } from "@src/core/SohlLogic";
-import { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
-import {
-    notifyWarn as fvttNotifyWarn,
-    callHook as fvttCallHook,
-} from "@src/core/foundry-helpers";
+import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import { fvttCallHook } from "@src/core/FoundryHelpers";
 import { GearLogic } from "../logic/GearLogic";
-const { HTMLField, DocumentIdField, StringField } = foundry.data.fields;
+const { HTMLField } = foundry.data.fields;
 // TODO: This still uses the deprecated global TextEditor. Should use the
-// foundry-helpers shim (enrichHTML) like Being.ts does, for consistency.
+// FoundryHelpers shim (enrichHTML) like Being.ts does, for consistency.
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
@@ -102,29 +98,15 @@ export class SohlItem extends Item {
     get actor(): SohlActor | null {
         return this.parent;
     }
-
-    /**
-     * Helper method to create a new Active Effect for this item.
-     * @param data The data for the new Active Effect to create.
-     * @returns The created Active Effect or null if creation failed.
-     */
-    async createActiveEffect(
-        data: foundry.abstract.Document.CreateDataForName<"ActiveEffect">,
-    ): Promise<SohlActiveEffect> {
-        const [created] = (await this.createEmbeddedDocuments("ActiveEffect", [
-            data,
-        ])) as SohlActiveEffect[];
-        return created;
-    }
 }
 
 export interface SohlItemLogic<
-    TData extends SohlDataModel.Data<SohlItem>,
+    TData extends SohlLogicData<SohlItem>,
 > extends SohlLogic<TData> {}
 
 export interface SohlItemData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlDataModel.Data<SohlItem, TLogic> {
+> extends SohlLogicData<SohlItem, TLogic> {
     get item(): SohlItem;
     label(options?: { withName: boolean; withSubType: boolean }): string;
     notes: HTMLString;

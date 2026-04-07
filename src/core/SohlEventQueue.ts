@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    isActiveGM as fvttIsActiveGM,
-    resolveUuidAsync as fvttResolveUuidAsync,
-} from "@src/core/foundry-helpers";
+import { fvttIsActiveGM, fvttResolveUuidAsync } from "@src/core/FoundryHelpers";
 
 /**
  * A single timed event in the queue, uniquely identified by

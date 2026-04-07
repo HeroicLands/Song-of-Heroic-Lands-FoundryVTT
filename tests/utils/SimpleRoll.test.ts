@@ -224,9 +224,48 @@ describe("SimpleRoll", () => {
         it.todo("serializes to JSON with __kind field");
     });
 
-    describe("createRoll", () => {
+    describe("result", () => {
+        it("returns a single die value without brackets", () => {
+            const roll = new SimpleRoll({ numDice: 1, dieFaces: 6, modifier: 0, rolls: [4] });
+            expect(roll.result).toBe("4");
+        });
+
+        it("returns multiple die values in brackets with modifier", () => {
+            const roll = new SimpleRoll({ numDice: 2, dieFaces: 6, modifier: 3, rolls: [2, 5] });
+            expect(roll.result).toBe("[2, 5] +3");
+        });
+
+        it("returns modifier only when no dice", () => {
+            const roll = new SimpleRoll({ numDice: 0, dieFaces: 0, modifier: 7, rolls: [] });
+            expect(roll.result).toBe("7");
+        });
+
+        it("returns '0' for empty roll", () => {
+            const roll = new SimpleRoll();
+            expect(roll.result).toBe("0");
+        });
+    });
+
+    describe("formula", () => {
+        it("returns dice formula string", () => {
+            const roll = new SimpleRoll({ numDice: 2, dieFaces: 6, modifier: 3, rolls: [] });
+            expect(roll.formula).toBe("2d6+3");
+        });
+
+        it("returns modifier only when no dice", () => {
+            const roll = new SimpleRoll({ numDice: 0, dieFaces: 0, modifier: 5, rolls: [] });
+            expect(roll.formula).toBe("5");
+        });
+
+        it("handles negative modifier", () => {
+            const roll = new SimpleRoll({ numDice: 1, dieFaces: 100, modifier: -10, rolls: [] });
+            expect(roll.formula).toBe("1d100-10");
+        });
+    });
+
+    describe("toFoundryRoll", () => {
         it.todo(
-            "generates a Foundry VTT Roll instance (requires Foundry mocking)",
+            "converts to a Foundry VTT Roll instance (requires Foundry mocking)",
         );
     });
 });

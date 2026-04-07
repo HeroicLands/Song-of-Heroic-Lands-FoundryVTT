@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@src/core/SohlLogic";
 import type { MasteryLevelLogic } from "@src/document/item/logic/MasteryLevelLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import type { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { Itr } from "@src/utils/Itr";
+import { getContextItem } from "@src/core/FoundryHelpers";
 
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
@@ -1269,21 +1269,6 @@ export type MysticalAbilityDegree =
     (typeof MYSTICALABILITY_DEGREE)[keyof typeof MYSTICALABILITY_DEGREE];
 
 export const {
-    kind: MYSTICALDEVICE_SUBTYPE,
-    values: MysticalDeviceSubTypes,
-    isValue: isMysticalDeviceSubType,
-} = defineType("SOHL.MysticalDevice.SubType", {
-    ARTIFACT: "artifact",
-    ANCESTOR_TALISMAN: "ancestortalisman",
-    TOTEM_TALISMAN: "totemtalisman",
-    REMNANT: "remnant",
-    RELIC: "relic",
-});
-export type MysticalDeviceSubType =
-    (typeof MYSTICALDEVICE_SUBTYPE)[keyof typeof MYSTICALDEVICE_SUBTYPE];
-
-
-export const {
     kind: PROJECTILEGEAR_SUBTYPE,
     values: ProjectileGearSubTypes,
     isValue: isProjectileGearSubType,
@@ -1667,6 +1652,47 @@ export const {
 } as StrictObject<SohlContextMenu.Entry>);
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
 
+export interface BeingLocations {
+    name: string;
+    isFumble: boolean;
+    isStumble: boolean;
+    bleedingSevThreshold: number;
+    amputateModifier: number;
+    shockValue: number;
+    probWeight: number;
+    protectionBase: {
+        blunt: number;
+        edged: number;
+        piercing: number;
+        fire: number;
+    };
+}
+
+export interface BeingParts {
+    name: string;
+    affectedSkillCodes: string[];
+    affectedAttributeCodes: string[];
+    affectsMobility: boolean;
+    canHoldItem: boolean;
+    heldItemId: string | null;
+    probWeight: number;
+    locations: BeingLocations[];
+}
+
+export interface BeingMovementFactor {
+    scope: string;
+    key: string;
+    mode: string;
+    textValue: string;
+}
+export interface BeingMovementProfile {
+    medium: MovementMedium;
+    metersPerRound: number;
+    metersPerWatch: number;
+    disabled: boolean;
+    factors: BeingMovementFactor[];
+}
+
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     name: "Turning Wheel",
     description: "The Turning Wheel calendar for Song of Heroic Lands.",
@@ -1893,17 +1919,4 @@ export function defineType<const T extends Record<string, unknown>>(
         labels,
         Type: null as unknown as KindValue,
     };
-}
-
-export function getContextItem(header: HTMLElement): SohlItem | null {
-    const element = header.closest(".item") as HTMLElement;
-    const item =
-        element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-    return item && typeof item === "object" ? (item as SohlItem) : null;
-}
-
-export function getContextLogic(element: HTMLElement): any {
-    const found = element.closest(".logic") as any;
-    if (!found) return null;
-    return fromUuidSync(found.dataset.uuid);
 }

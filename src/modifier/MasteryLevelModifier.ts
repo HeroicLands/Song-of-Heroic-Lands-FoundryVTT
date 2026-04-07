@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DialogButtonCallback, inputDialog } from "@src/core/FoundryProxy";
+import { DialogButtonCallback, inputDialog } from "@src/core/FoundryHelpers";
 import { ValueModifier } from "@src/modifier/ValueModifier";
 import { SuccessTestResult } from "@src/result/SuccessTestResult";
 import { OpposedTestResult } from "@src/result/OpposedTestResult";
@@ -23,7 +23,6 @@ import {
     VALUE_DELTA_ID,
 } from "@src/utils/constants";
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import { notifyWarn as fvttNotifyWarn } from "@src/core/foundry-helpers";
 
 // TODO: This needs to be internationalized
 const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -366,7 +365,7 @@ export class MasteryLevelModifier extends ValueModifier {
             });
 
             if (!scope.targetToken.isOwner) {
-                fvttNotifyWarn(
+                sohl.log.uiWarn(
                     sohl.i18n.format(
                         "You do not have permissions to perform this operation on {name}",
                         { name: scope.targetToken.name },

@@ -16,6 +16,8 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import { fvttGetActor } from "@src/core/FoundryHelpers";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -46,6 +48,21 @@ export abstract class GearLogic<
     durability!: ValueModifier;
     containedIn!: GearLogic | null;
 
+    /**
+     * The Cohort actors this gear item is shared with, resolved from
+     * {@link GearData.sharedWithCohortIds}.
+     *
+     * Populated during {@link initialize} by looking up each cohort ID
+     * in the world actor collection.
+     *
+     * TODO: The Cohort sheet should query all member actors' gear items
+     * for entries whose sharedWithCohortIds includes its own actor ID,
+     * and display them on a dedicated "Shared Gear" tab. This gives a
+     * single-glance view of all equipment owned by the cohort without
+     * duplicating item data.
+     */
+    sharedWithCohorts!: SohlActor[];
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -53,18 +70,31 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.weight = new ValueModifier({}, { parent: this });
-        this.value = new ValueModifier({}, { parent: this });
-        this.quality = new ValueModifier({}, { parent: this });
-        this.durability = new ValueModifier({}, { parent: this });
+        this.weight = new ValueModifier({}, { parent: this }).setBase(
+            this.data.weightBase,
+        );
+        this.value = new ValueModifier({}, { parent: this }).setBase(
+            this.data.valueBase,
+        );
+        this.quality = new ValueModifier({}, { parent: this }).setBase(
+            this.data.qualityBase,
+        );
+        this.durability = new ValueModifier({}, { parent: this }).setBase(
+            this.data.durabilityBase,
+        );
         this.containedIn = null;
+        this.sharedWithCohorts = (this.data.sharedWithCohortIds ?? [])
+            .map((id) => fvttGetActor(id) as SohlActor | null)
+            .filter((a): a is SohlActor => a !== null);
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-        this.containedIn =
-            this.actor?.items.get(this.data.containerId ?? "")?.logic ?? null;
+        if (this.data.containerId && this.actor) {
+            this.containedIn =
+                this.actor.items.get(this.data.containerId)?.logic ?? null;
+        }
     }
 
     /** @inheritdoc */
@@ -90,8 +120,8 @@ export interface GearData<
     qualityBase: number;
     /** Structural integrity rating */
     durabilityBase: number;
-    /** Whether this item is visible to cohort members */
-    visibleToCohort: boolean;
+    /** IDs of Cohort actors this gear is shared with */
+    sharedWithCohortIds: string[];
     /** The container this item is contained in, if any */
     containerId: string | null;
 }

@@ -130,36 +130,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
-    {{!-- Mystical Devices --}}
-    {{#if mysticalDevices.length}}
-    <fieldset>
-        <legend>Mystical Devices</legend>
-        <ol class="item-list">
-            <li class="items-header flexrow">
-                <h3 class="item-name">Device</h3>
-                <div class="item-detail">Charges</div>
-                <div class="item-detail">Notes</div>
-            </li>
-            {{#each mysticalDevices as |device|}}
-            <li class="item flexrow" data-item-id="{{device.id}}" data-item-name="{{device.name}}">
-                <div class="item-name default-action flexrow">
-                    <div class="item-image" style="background-image: url('{{device.img}}')"></div>
-                    <h4 data-tooltip="{{device.name}}">{{device.name}}</h4>
-                </div>
-                <div class="item-detail">
-                    {{#if device.system.$charges.disabled}}
-                    <i class="fas fa-xmark fa-lg"></i>
-                    {{else}}
-                    {{numberFormat device.system.$charges.effective}}{{#if (gt device.system.$charges.max.effective 0)}}/{{numberFormat device.system.$charges.max.effective}}{{/if}}
-                    {{/if}}
-                </div>
-                <div class="item-detail">{{device.system.notes}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </li>
-            {{/each}}
-        </ol>
-    </fieldset>
-    {{/if}}
 </section>

@@ -14,7 +14,6 @@
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlDataModel } from "@src/core/SohlDataModel";
 import {
     ACTION_SUBTYPE,
     ActorKinds,
@@ -25,10 +24,8 @@ import {
 import { instanceToJSON } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import type {
-    ActionData,
-    ActionLogic,
-} from "@src/document/item/logic/ActionLogic";
+import { SohlActionData, SohlAction } from "@src/core/SohlAction";
+import { SohlMap } from "@src/utils/collection/SohlMap";
 
 export const {
     kind: INTRINSIC_ACTION,
@@ -45,7 +42,7 @@ export const {
         visible: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
-} as StrictObject<Partial<ActionData>>);
+} as StrictObject<Partial<SohlActionData>>);
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
@@ -61,27 +58,41 @@ export type IntrinsicAction =
  * and are accessible via `document.system.logic` (or the convenience `document.logic`
  * accessor on {@link SohlActor} and {@link SohlItem}).
  *
- * All Logic classes participate in a three-phase preparation lifecycle with strict
- * ordering guarantees:
+ * ## Phase-batched lifecycle
  *
- * 1. **{@link initialize}** — Set up cached values, create modifier instances,
- *    and (for actors) register virtual items. All `initialize()` calls across
- *    every item on an actor complete before any `evaluate()` runs.
- * 2. **{@link evaluate}** — Calculate derived values, resolve references to other
- *    items (e.g., linking a Domain to its Philosophy). All `evaluate()` calls
+ * Foundry VTT's default behavior processes each embedded item fully
+ * (`prepareBaseData` → `prepareEmbeddedData` → `prepareDerivedData`) before
+ * moving to the next item. This means sibling items cannot depend on each
+ * other — when Item B prepares, Item A may or may not be ready.
+ *
+ * SoHL overrides this in {@link SohlActor.prepareEmbeddedData} to run three
+ * phases across **all** items with barriers between them:
+ *
+ * 1. **{@link initialize}** — Set up base state from persisted data: create
+ *    ValueModifiers, set base values. **Cannot** read
+ *    sibling items (they may not have initialized yet).
+ * 2. **{@link evaluate}** — Compute derived values that depend on sibling
+ *    items being initialized (e.g., a Skill reading trait attribute values
+ *    for its skill base formula). All `initialize()` calls across every item
+ *    on the actor complete before any `evaluate()` runs.
+ * 3. **{@link finalize}** — Resolve cross-item dependencies that require
+ *    sibling items to have been evaluated (e.g., fate mastery level
+ *    depending on a fully computed Aura trait). All `evaluate()` calls
  *    complete before any `finalize()` runs.
- * 3. **{@link finalize}** — Resolve cross-item dependencies that require all
- *    other items to have completed their evaluation (e.g., applying fate bonuses
- *    that depend on computed mastery levels).
+ *
+ * These method names are deliberately different from Foundry's
+ * `prepareBaseData`/`prepareDerivedData` to signal that they follow
+ * different ordering rules. Do not implement Foundry's preparation
+ * methods on items — use these lifecycle methods instead.
  *
  * @typeParam TData - The data interface this logic operates on, extending
- *   {@link SohlDataModel.Data}.
+ *   {@link SohlLogicData}.
  */
 export abstract class SohlLogic<
-    TData extends SohlDataModel.Data<any> = SohlDataModel.Data<any>,
+    TData extends SohlLogicData<any> = SohlLogicData<any>,
 > {
     private readonly _parent: TData;
-    actions: ActionLogic[];
+    actions: SohlMap<string, SohlAction>;
 
     /**
      * The parent data model this logic is embedded in.
@@ -184,18 +195,23 @@ export abstract class SohlLogic<
             );
         }
         this._parent = options.parent;
-        this.actions = [];
+        this.actions = new SohlMap<string, SohlAction>(
+            this.data.actionDefs.map((def: SohlActionData) => [
+                def.title,
+                new SohlAction(def, this.data as any),
+            ]),
+        );
     }
 
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
 
-    setDefaultAction(action: ActionLogic[]): void {
+    setDefaultAction(action: SohlAction[]): void {
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
         action.forEach((act) => {
-            const action = act as ActionLogic;
+            const action = act as SohlAction;
             const isDefault =
                 action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
             if (hasDefault) {
@@ -222,7 +238,7 @@ export abstract class SohlLogic<
         }
 
         const collator = new Intl.Collator(sohl.i18n.lang);
-        action.sort((actA: ActionLogic, actB: ActionLogic) => {
+        action.sort((actA: SohlAction, actB: SohlAction) => {
             const groupA =
                 actA.data.group || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
             const groupB =
@@ -282,39 +298,69 @@ export abstract class SohlLogic<
     }
 
     /*--------------------------------------
-     * Common Lifecycle Actions
-     * These are called in order by the parent document during its lifecycle.
+     * Phase-batched lifecycle methods
+     *
+     * Called by SohlActor.prepareEmbeddedData() in three barrier-separated
+     * passes across ALL items, NOT per-item like Foundry's default.
+     * See the class-level JSDoc and docs/concepts/lifecycle-model.md.
      *--------------------------------------*/
 
     /**
-     * Initializes base state for this participant.
-     * Should not rely on sibling or external logic state.
+     * **Phase 1 — Initialize.**
+     *
+     * Set up base state from persisted data: create ValueModifiers, set base
+     * values. Called on every item before any item's
+     * {@link evaluate} runs.
+     *
+     * **Safe to access:** own persisted data fields (`this.data.*`).
+     *
+     * **Not safe to access:** sibling items on the same actor — they may not
+     * have initialized yet. Cross-item reads belong in {@link evaluate}.
      */
     abstract initialize(): void;
 
     /**
-     * Evaluates business logic using current and sibling state.
+     * **Phase 2 — Evaluate.**
+     *
+     * Compute derived values that depend on sibling items being initialized.
+     * Called on every item after ALL items have completed {@link initialize}.
+     *
+     * **Safe to access:** sibling items' initialized state (e.g., reading
+     * trait attribute values for a skill base formula).
+     *
+     * **Not safe to access:** sibling items' evaluated state — another item's
+     * `evaluate()` may not have run yet. Dependencies on evaluated state
+     * belong in {@link finalize}.
      */
     abstract evaluate(): void;
 
     /**
-     * Final stage of lifecycle — compute derived values, cleanup, etc.
+     * **Phase 3 — Finalize.**
+     *
+     * Resolve cross-item dependencies that require all items to have been
+     * evaluated. Called on every item after ALL items have completed
+     * {@link evaluate}.
+     *
+     * **Safe to access:** all sibling items' initialized and evaluated state.
      */
     abstract finalize(): void;
 }
 
-export namespace SohlLogic {
-    export interface EffectKeyData {
-        name: string;
-        shortcode: string;
-    }
-
-    export interface Data<
-        TParent extends SohlDocument,
-        TLogic extends SohlLogic<any>,
-    > extends SohlDataModel.Data<TParent> {
-        readonly parent: TParent;
-        readonly logic: TLogic;
-        readonly kind: string;
-    }
+/**
+ * The base data interface for all Logic classes.
+ *
+ * Every actor/item data interface (e.g., {@link SohlItemData},
+ * {@link SohlActorData}, {@link GearData}) ultimately extends this.
+ * The corresponding {@link SohlDataModel} class implements it via
+ * Foundry's schema system.
+ */
+export interface SohlLogicData<
+    TParent extends SohlDocument = SohlDocument,
+    TLogic extends SohlLogic<any> = SohlLogic<any>,
+> {
+    parent: TParent | null;
+    logic: TLogic;
+    kind: string;
+    shortcode: string;
+    actionDefs: SohlActionData[];
 }

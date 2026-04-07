@@ -14,9 +14,12 @@
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActor";
 import {
     ACTOR_KIND,
+    BeingMovementFactor,
+    BeingParts,
     ImpactAspects,
     MOVEMENT_MEDIUM,
     MovementFactorModes,
+    MovementMedium,
     MovementMediums,
 } from "@src/utils/constants";
 import type { BeingData } from "@src/document/actor/logic/BeingLogic";
@@ -32,13 +35,6 @@ const {
 } = foundry.data.fields;
 
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
-    const protectionObj = Object.fromEntries(
-        ImpactAspects.map((aspect) => [
-            aspect,
-            new NumberField({ integer: true, initial: 0, min: 0 }),
-        ]),
-    ) as foundry.data.fields.DataSchema;
-
     return {
         ...SohlActorDataModel.defineSchema(),
         bodyStructure: new SchemaField({
@@ -91,7 +87,26 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                                 min: 0,
                             }),
                             protectionBase: new SchemaField({
-                                ...protectionObj,
+                                blunt: new NumberField({
+                                    integer: true,
+                                    initial: 0,
+                                    min: 0,
+                                }),
+                                edged: new NumberField({
+                                    integer: true,
+                                    initial: 0,
+                                    min: 0,
+                                }),
+                                piercing: new NumberField({
+                                    integer: true,
+                                    initial: 0,
+                                    min: 0,
+                                }),
+                                fire: new NumberField({
+                                    integer: true,
+                                    initial: 0,
+                                    min: 0,
+                                }),
                             }),
                         }),
                         { initial: [] },
@@ -163,6 +178,11 @@ export class BeingDataModel<
         "SOHL.Actor",
     ];
     static override readonly kind = ACTOR_KIND.BEING;
+    bodyStructure!: {
+        parts: BeingParts[];
+        adjacent: string[][];
+    };
+    factors!: BeingMovementFactor[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineBeingDataSchema();

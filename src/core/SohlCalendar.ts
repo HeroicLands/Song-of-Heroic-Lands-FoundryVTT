@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    worldTime as fvttWorldTime,
-    getListFormatter as fvttGetListFormatter,
-} from "@src/core/foundry-helpers";
+import { fvttWorldTime, fvttGetListFormatter } from "@src/core/FoundryHelpers";
 
 const { SchemaField, StringField, BooleanField } = foundry.data.fields;
 

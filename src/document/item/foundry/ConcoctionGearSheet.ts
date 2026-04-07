@@ -42,7 +42,7 @@ export class ConcoctionGearSheet extends SohlItemSheetBase {
             isEquipped: system.isEquipped,
             qualityBase: system.qualityBase,
             durabilityBase: system.durabilityBase,
-            visibleToCohort: system.visibleToCohort,
+            sharedWithCohortIds: system.sharedWithCohortIds,
             subType: system.subType,
             potency: system.potency,
             strength: system.strength,

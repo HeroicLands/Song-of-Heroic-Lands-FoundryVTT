@@ -16,10 +16,7 @@ import type { GearData } from "@src/document/item/logic/GearLogic";
 import type { MasteryLevelData } from "@src/document/item/logic/MasteryLevelLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import {
-    mergeObject as fvttMergeObject,
-    resolveUuid as fvttResolveUuid,
-} from "@src/core/foundry-helpers";
+import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
 
 export type SohlSettingValue =
     | string

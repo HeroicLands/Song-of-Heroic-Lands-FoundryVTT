@@ -13,8 +13,7 @@
 
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { MysticalDeviceSubTypes } from "@src/utils/constants";
-const { StringField, NumberField, BooleanField, SchemaField, DocumentIdField } =
+const { StringField, NumberField, BooleanField, ArrayField, DocumentIdField } =
     foundry.data.fields;
 
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
@@ -46,31 +45,8 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         containerId: new DocumentIdField({ required: false }),
-        visibleToCohort: new BooleanField({
-            initial: false,
-        }),
-        mystical: new SchemaField({
-            subType: new StringField({
-                choices: MysticalDeviceSubTypes,
-                required: true,
-            }),
-            requiresAttunement: new BooleanField({ initial: false }),
-            usesVolition: new BooleanField({ initial: false }),
-            mysteryCode: new StringField({ blank: false }),
-            isAttuned: new BooleanField({ initial: false }),
-            volition: new SchemaField({
-                ego: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                morality: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                purpose: new StringField(),
-            }),
+        sharedWithCohortIds: new ArrayField(new StringField(), {
+            initial: [],
         }),
     };
 }
@@ -84,12 +60,12 @@ export abstract class GearDataModel<
     quantity!: number;
     weightBase!: number;
     valueBase!: number;
-    isCarried!: boolean;
-    isEquipped!: boolean;
     qualityBase!: number;
     durabilityBase!: number;
-    visibleToCohort!: boolean;
+    sharedWithCohortIds!: string[];
     containerId!: string | null;
+    isCarried!: boolean;
+    isEquipped!: boolean;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineGearDataSchema();

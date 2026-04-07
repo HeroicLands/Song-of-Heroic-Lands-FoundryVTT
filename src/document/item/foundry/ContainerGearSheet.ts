@@ -42,7 +42,7 @@ export class ContainerGearSheet extends SohlItemSheetBase {
             isEquipped: system.isEquipped,
             qualityBase: system.qualityBase,
             durabilityBase: system.durabilityBase,
-            visibleToCohort: system.visibleToCohort,
+            sharedWithCohortIds: system.sharedWithCohortIds,
             maxCapacityBase: system.maxCapacityBase,
         });
     }

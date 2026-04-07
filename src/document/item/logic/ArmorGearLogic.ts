@@ -30,7 +30,12 @@ import { ImpactAspects } from "@src/utils/constants";
 export class ArmorGearLogic<
     TData extends ArmorGearData = ArmorGearData,
 > extends GearLogic<TData> {
-    protection!: StrictObject<ValueModifier>;
+    protection!: {
+        blunt: ValueModifier;
+        edged: ValueModifier;
+        piercing: ValueModifier;
+        fire: ValueModifier;
+    };
     traits!: StrictObject<string>;
 
     /* --------------------------------------------- */
@@ -40,13 +45,12 @@ export class ArmorGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.protection = Object.fromEntries(
-            ImpactAspects.map((aspect) => {
-                const modifier = new ValueModifier({}, { parent: this });
-                modifier.setBase(this.data.protectionBase[aspect] || 0);
-                return [aspect, modifier];
-            }),
-        ) as StrictObject<ValueModifier>;
+        this.protection = {
+            blunt: new ValueModifier({}, { parent: this }),
+            edged: new ValueModifier({}, { parent: this }),
+            piercing: new ValueModifier({}, { parent: this }),
+            fire: new ValueModifier({}, { parent: this }),
+        };
         this.traits = {};
     }
 
@@ -72,7 +76,12 @@ export interface ArmorGearData<
         rigid: string[];
     };
     /** Base damage reduction per impact aspect */
-    protectionBase: StrictObject<number>;
+    protectionBase: {
+        blunt: number;
+        edged: number;
+        piercing: number;
+        fire: number;
+    };
     /** Encumbrance value of the armor */
     encumbrance: number;
 }

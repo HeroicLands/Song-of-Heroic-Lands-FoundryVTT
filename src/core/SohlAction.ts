@@ -12,17 +12,13 @@
  */
 
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import {
-    SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlDataModel } from "@src/core/SohlDataModel";
 import {
     ACTION_SUBTYPE,
     ActionSubType,
-    ITEM_METADATA,
     SOHL_ACTION_SCOPE,
 } from "@src/utils/constants";
-import { SohlLogic } from "@src/core/SohlLogic";
 import { textToFunction } from "@src/utils/helpers";
 
 export type ActionTriggerFn = (doc?: SohlDocument) => boolean;
@@ -57,12 +53,76 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  *
  * @typeParam TData - The Action data interface.
  */
-export class ActionLogic<
-    TData extends ActionData = ActionData,
-> extends SohlItemBaseLogic<TData> {
-    executor!: ActionExecutorFn;
-    trigger!: ActionTriggerFn;
-    visible!: boolean | ActionVisibilityFn;
+export class SohlAction {
+    data: SohlActionData;
+    parent: SohlDocument;
+    executor: ActionExecutorFn;
+    trigger: ActionTriggerFn;
+    visible: boolean | ActionVisibilityFn;
+
+    constructor(data: SohlActionData, dataModel: SohlDataModel<any, any>) {
+        if (!dataModel) {
+            throw new Error("Data model is required to create a SohlAction.");
+        }
+
+        if (!data) {
+            throw new Error("Action data is required to create a SohlAction.");
+        }
+
+        this.data = data;
+        this.parent = dataModel;
+        if (data.visible === "true") {
+            this.visible = (element: HTMLElement) => true;
+        } else if (!data.visible || data.visible === "false") {
+            this.visible = (element: HTMLElement) => false;
+        } else {
+            this.visible = textToFunction(data.visible, ["element"], {
+                isAsync: false,
+            }) as ActionVisibilityFn;
+        }
+
+        this.trigger = textToFunction(data.trigger ?? "", ["doc"], {
+            isAsync: data.isAsync,
+        }) as (doc: SohlDocument) => boolean;
+        if (data.executor) {
+            let target: SohlLogic | undefined;
+            let func: Function;
+
+            switch (data.scope) {
+                case SOHL_ACTION_SCOPE.SELF:
+                    target = dataModel.logic;
+                    break;
+
+                case SOHL_ACTION_SCOPE.ITEM:
+                    target = (dataModel as any).item?.logic as SohlLogic;
+                    break;
+
+                case SOHL_ACTION_SCOPE.ACTOR:
+                    target = (dataModel as any).item?.actor?.logic as SohlLogic;
+                    break;
+                default:
+                    throw new Error(`Unknown action scope: ${data.scope}`);
+            }
+
+            if (data.subType === ACTION_SUBTYPE.INTRINSIC_ACTION) {
+                func = (target as any)?.[data.executor ?? ""];
+                if (!func || typeof func !== "function") {
+                    throw new Error(
+                        `The target of this action does not have a function named "${data.executor ?? ""}".`,
+                    );
+                }
+
+                this.executor = func.bind(target);
+            } else {
+                func = textToFunction(data.executor ?? "", ["context"], {
+                    isAsync: data.isAsync,
+                });
+                this.executor = func.bind(target);
+            }
+        } else {
+            this.executor = (ctx: SohlActionContext) => Promise.resolve();
+        }
+    }
 
     /**
      * Executes the action synchronously.
@@ -97,75 +157,9 @@ export class ActionLogic<
     async execute(actionContext: SohlActionContext): Promise<unknown> {
         return Promise.resolve(this.executor(actionContext));
     }
-
-    /* --------------------------------------------- */
-    /* Common Lifecycle Actions                      */
-    /* --------------------------------------------- */
-
-    /** @inheritdoc */
-    override initialize(): void {
-        super.initialize();
-        if (this.data?.visible === "true") {
-            this.visible = (element: HTMLElement) => true;
-        }
-
-        this.trigger = textToFunction(this.data.trigger ?? "", ["doc"], {
-            isAsync: this.data?.isAsync,
-        }) as (doc: SohlDocument) => boolean;
-        if (this.data?.executor) {
-            let target: SohlLogic | undefined;
-            let func: Function;
-
-            switch (this.data.scope) {
-                case SOHL_ACTION_SCOPE.SELF:
-                    target = this;
-                    break;
-
-                case SOHL_ACTION_SCOPE.ITEM:
-                    target = this.parent?.item?.logic as SohlLogic;
-                    break;
-
-                case SOHL_ACTION_SCOPE.ACTOR:
-                    target = this.parent?.item?.actor?.logic as SohlLogic;
-                    break;
-                default:
-                    throw new Error(`Unknown action scope: ${this.data.scope}`);
-            }
-
-            if (this.data?.subType === ACTION_SUBTYPE.INTRINSIC_ACTION) {
-                func = (target as any)?.[this.data.executor ?? ""];
-                if (!func || typeof func !== "function") {
-                    throw new Error(
-                        `The target of this action does not have a function named "${this.data.executor ?? ""}".`,
-                    );
-                }
-
-                this.executor = func.bind(target);
-            } else {
-                func = textToFunction(this.data.executor ?? "", ["context"], {
-                    isAsync: this.data?.isAsync,
-                });
-                this.executor = func.bind(target);
-            }
-        } else {
-            this.executor = (ctx: SohlActionContext) => Promise.resolve();
-        }
-    }
-
-    /** @inheritdoc */
-    override evaluate(): void {
-        super.evaluate();
-    }
-
-    /** @inheritdoc */
-    override finalize(): void {
-        super.finalize();
-    }
 }
 
-export interface ActionData<
-    TLogic extends ActionLogic<ActionData> = ActionLogic<any>,
-> extends SohlItemData<TLogic> {
+export interface SohlActionData {
     /** Whether this is an intrinsic or custom action */
     subType: ActionSubType;
 

@@ -19,8 +19,12 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { TestResult } from "@src/result/TestResult";
 import { toFilePath } from "@src/utils/helpers";
-import { inputDialog, DialogButtonCallback } from "@src/core/FoundryProxy";
-import { mergeObject as fvttMergeObject } from "@src/core/foundry-helpers";
+import {
+    inputDialog,
+    DialogButtonCallback,
+    fvttMergeObject,
+    fvttToFoundryRoll,
+} from "@src/core/FoundryHelpers";
 import {
     MARGINAL_FAILURE,
     CRITICAL_FAILURE,
@@ -390,7 +394,7 @@ export class SuccessTestResult extends TestResult {
         }) as PlainObject;
 
         const options: PlainObject = {};
-        options.roll = await this.roll.createRoll();
+        options.roll = await fvttToFoundryRoll(this.roll);
         options.sound = SOHL_SPEAKER_SOUND.DICE;
         this._speaker.toChat(chatData.template, chatData, options);
     }

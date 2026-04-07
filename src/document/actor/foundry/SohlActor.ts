@@ -12,24 +12,22 @@
  */
 
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { ActionLogic } from "@src/document/item/logic/ActionLogic";
+import type { SohlAction } from "@src/core/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlDataModel } from "@src/core/SohlDataModel";
-import { SohlLogic } from "@src/core/SohlLogic";
-import { SohlMap } from "@src/utils/collection/SohlMap";
+import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { SkillBase } from "@src/core/SkillBase";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 import {
-    callHook as fvttCallHook,
-    callHookCancel as fvttCallHookCancel,
-    hookOnError as fvttHookOnError,
-    resolveUuidAsync as fvttResolveUuidAsync,
-    createRoll as fvttCreateRoll,
-} from "@src/core/foundry-helpers";
+    fvttCallHook,
+    fvttCallHookCancel,
+    fvttHookOnError,
+    fvttResolveUuidAsync,
+} from "@src/core/FoundryHelpers";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 /**
@@ -176,20 +174,6 @@ export class SohlActor extends Actor {
         fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
     }
 
-    getLifecycleAction(name: string): SohlItem | undefined {
-        // let actionItem = this._lifecycleActionsCache.get(name);
-        // if (!actionItem) {
-        //     actionItem = this.items.find(
-        //         (it) => it.type === ITEM_KIND.ACTION && it.name === name,
-        //     ) as SohlItem | undefined;
-        //     if (actionItem) {
-        //         this._lifecycleActionsCache.set(name, actionItem);
-        //     }
-        // }
-        // return actionItem;
-        return undefined;
-    }
-
     prepareEmbeddedData(): void {
         // @ts-expect-error - prepareEmbeddedData exists in FoundryVTT V13 Actor but is missing from foundry-vtt-types
         // It's called between prepareBaseData() and prepareDerivedData() in the data preparation lifecycle
@@ -197,49 +181,51 @@ export class SohlActor extends Actor {
 
         const ctx = this._getContext();
 
-        // Initialize all items
+        /*
+         * Here we implement the phase-batched lifecycle for all embedded items
+         * in three phases: initialize, evaluate, and finalize.
+         *
+         * Each phase runs across all items before moving to the next phase.
+         * Within each phase, we first call the pre-phase hooks for each item,
+         * then execute the phase method on the item's logic, and finally call
+         * the post-phase hooks for each item.
+         *
+         * The hooks here are per item type, not per individual item, and are
+         * passed in the specific item being processed and context.
+         */
+
+        // Phase I: Initialize all embedded items
         this.items.forEach((item) => {
             if (
                 fvttCallHookCancel(`sohl.${item.type}.preInitialize`, item, ctx)
             ) {
                 item.logic.initialize();
-            }
-            fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
+                fvttCallHook(`sohl.${item.type}.postInitialize`, item, ctx);
 
-            const postInitialize = this.getLifecycleAction(
-                `${item.type}.${item.system.shortcode}.postInitialize`,
-            );
-            if (postInitialize) {
-                (postInitialize.logic as ActionLogic).execute(ctx);
+                const postInitialize = item.logic.actions.get("postInitialize");
+                postInitialize?.execute(ctx);
             }
         });
 
-        // Evaluate and finalize all items
+        // Phase II: Evaluate all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preEvaluate`, it, ctx)) {
                 it.logic.evaluate();
-            }
-            fvttCallHook(`sohl.${it.type}.postEvaluate`, it, ctx);
+                fvttCallHook(`sohl.${it.type}.postEvaluate`, it, ctx);
 
-            const postEvaluate = this.getLifecycleAction(
-                `${it.type}.${it.system.shortcode}.postEvaluate`,
-            );
-            if (postEvaluate) {
-                (postEvaluate.logic as ActionLogic).execute(ctx);
+                const postEvaluate = it.logic.actions.get("postEvaluate");
+                postEvaluate?.execute(ctx);
             }
         });
 
+        // Phase III: Finalize all embedded items
         this.items.forEach((it) => {
             if (fvttCallHookCancel(`sohl.${it.type}.preFinalize`, it, ctx)) {
                 it.logic.finalize();
-            }
-            fvttCallHook(`sohl.${it.type}.postFinalize`, it, ctx);
+                fvttCallHook(`sohl.${it.type}.postFinalize`, it, ctx);
 
-            const postFinalize = this.getLifecycleAction(
-                `${it.type}.${it.system.shortcode}.postFinalize`,
-            );
-            if (postFinalize) {
-                (postFinalize.logic as ActionLogic).execute(ctx);
+                const postFinalize = it.logic.actions.get("postFinalize");
+                postFinalize?.execute(ctx);
             }
         });
     }
@@ -251,14 +237,14 @@ export class SohlActor extends Actor {
             fvttCallHookCancel(`sohl.actor.${this.type}.preEvaluate`, this, ctx)
         ) {
             this.logic.evaluate();
+            fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
         }
-        fvttCallHook(`sohl.actor.${this.type}.postEvaluate`, this, ctx);
         if (
             fvttCallHookCancel(`sohl.actor.${this.type}.preFinalize`, this, ctx)
         ) {
             this.logic.finalize();
+            fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
         }
-        fvttCallHook(`sohl.actor.${this.type}.postFinalize`, this, ctx);
     }
 
     static createUniqueName(baseName: string): string {
@@ -355,53 +341,6 @@ export class SohlActor extends Actor {
             if (!this.img) updateData["img"] = artwork?.img;
             if (!this.prototypeToken.texture.src)
                 updateData["prototypeToken.texture.src"] = artwork?.texture.src;
-
-            // If a rollFormula is provided, then we will perform the designated rolling
-            // for all attributes, and then for all skills we will calculate the initial
-            // mastery level based on those attributes.
-            if (options.rollFormula) {
-                for (const obj of updateData.items) {
-                    if (
-                        options.rollFormula &&
-                        obj.type === "trait" &&
-                        obj.system.intensity === "attribute"
-                    ) {
-                        const rollFormula =
-                            (options.rollFormula === "default" ?
-                                obj.system.diceFormula
-                            :   options.rollFormula) || "0";
-
-                        try {
-                            let roll = fvttCreateRoll(rollFormula);
-                            const rollResult = await roll.evaluate();
-                            if (rollResult?.total)
-                                obj.system.textValue =
-                                    rollResult.total.toString();
-                        } catch (err: any) {
-                            fvttHookOnError("SohlActor#_preCreate", err, {
-                                msg: `Roll formula "${rollFormula}" is invalid`,
-                                log: "error",
-                            });
-                        }
-                    }
-                }
-
-                // Calculate initial skills mastery levels
-                for (const obj of updateData.items) {
-                    if (obj.type === "skill") {
-                        if (obj.system.initSkillMult) {
-                            const sb = new SkillBase(
-                                obj.system.skillBaseFormula,
-                                {
-                                    items: updateData.items,
-                                },
-                            );
-                            obj.system.masteryLevelBase =
-                                sb.value * obj.system.initSkillMult;
-                        }
-                    }
-                }
-            }
         }
 
         this.updateSource(updateData);
@@ -444,33 +383,10 @@ export class SohlActor extends Actor {
     //     }
 
     // }
-
-    /**
-     * Create a new item embedded in this actor.
-     * @param data The data for the new item.
-     * @returns The created SohlItem.
-     */
-    async createItem(
-        data: foundry.abstract.Document.CreateDataForName<"Item">,
-    ): Promise<SohlItem> {
-        const [created] = (await this.createEmbeddedDocuments("Item", [
-            data,
-        ])) as SohlItem[];
-        return created;
-    }
-
-    async createActiveEffect(
-        data: foundry.abstract.Document.CreateDataForName<"ActiveEffect">,
-    ): Promise<SohlActiveEffect> {
-        const [created] = (await this.createEmbeddedDocuments("ActiveEffect", [
-            data,
-        ])) as SohlActiveEffect[];
-        return created;
-    }
 }
 
 export interface SohlActorLogic<
-    TData extends SohlDataModel.Data<SohlActor>,
+    TData extends SohlLogicData<SohlActor>,
 > extends SohlLogic<TData> {}
 
 /**
@@ -478,9 +394,8 @@ export interface SohlActorLogic<
  */
 export interface SohlActorData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlDataModel.Data<SohlActor, TLogic> {
+> extends SohlLogicData<SohlActor, TLogic> {
     label(options?: { withName: boolean }): string;
-    shortcode: string;
     dossier: HTMLString;
     appearance: HTMLString;
     portrait: FilePath;
@@ -505,10 +420,6 @@ export class SohlActorBaseLogic<
 
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
-        shortcode: new StringField({
-            blank: false,
-            required: true,
-        }),
         portrait: new FilePathField({
             categories: ["IMAGE"],
             initial: foundry.CONST.DEFAULT_TOKEN,
@@ -528,7 +439,6 @@ export abstract class SohlActorDataModel<
     extends SohlDataModel<TSchema, SohlActor, TLogic>
     implements SohlActorData<TLogic>
 {
-    shortcode!: string;
     dossier!: HTMLString;
     appearance!: HTMLString;
     portrait!: FilePath;
@@ -555,7 +465,7 @@ export abstract class SohlActorDataModel<
     ): string {
         let result = sohl.i18n.localize(`SOHL.${this.kind}.typelabel`);
         if (options.withName) {
-            result = sohl.i18n.format("SOHL.SohlItem.labelWithName", {
+            result = sohl.i18n.format("SOHL.SohlActor.labelWithName", {
                 name: this.parent.name,
                 type: result,
             });

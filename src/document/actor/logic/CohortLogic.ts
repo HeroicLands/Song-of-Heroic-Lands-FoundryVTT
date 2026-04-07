@@ -66,6 +66,18 @@ import {
  *
  * @typeParam TData - The Cohort data interface.
  */
+/**
+ * TODO: Shared Gear Tab
+ * The Cohort sheet should provide a "Shared Gear" tab that aggregates
+ * gear items from all member actors whose `sharedWithCohortIds` includes
+ * this cohort's actor ID. This gives a single-glance view of all
+ * equipment the cohort collectively owns, without duplicating item data.
+ * Gear stays on the carrying actor (custodian); the cohort view is
+ * read-only. Implementation requires:
+ * - Iterating all member actors' items
+ * - Filtering for gear with this cohort's ID in `sharedWithCohortIds`
+ * - Displaying results in a dedicated sheet tab
+ */
 export class CohortLogic<
     TData extends CohortData = CohortData,
 > extends SohlActorBaseLogic<TData> {

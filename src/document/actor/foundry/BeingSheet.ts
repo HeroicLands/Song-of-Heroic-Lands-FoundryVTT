@@ -15,10 +15,9 @@ import {
     SohlActor,
     SohlActorSheetBase,
 } from "@src/document/actor/foundry/SohlActor";
-import { callHook as fvttCallHook } from "@src/core/foundry-helpers";
+import { fvttCallHook, fvttEnrichHTML } from "@src/core/FoundryHelpers";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import { enrichHTML as fvttEnrichHTML } from "@src/core/foundry-helpers";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 
 type RenderContext =

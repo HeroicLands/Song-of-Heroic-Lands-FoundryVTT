@@ -15,7 +15,6 @@ Choose a path based on your goal:
 - [Architecture Overview](concepts/architecture.md)
 - [Lifecycle Model](concepts/lifecycle-model.md)
 - [Rules Variants and Extension Mechanisms](concepts/rules-variants.md)
-- [Nested Items](concepts/nested-items.md)
 
 ## How-to
 

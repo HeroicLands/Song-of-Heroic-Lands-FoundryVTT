@@ -13,6 +13,16 @@
 
 import { instanceToJSON } from "@src/utils/helpers";
 
+/**
+ * A Foundry-free dice primitive for structured `NdM+K` rolls.
+ *
+ * Unlike Foundry's Roll class, SimpleRoll requires no runtime environment,
+ * supports deterministic testing via {@link setRolls}, and provides a
+ * {@link median} calculation for statistical analysis.
+ *
+ * To convert a SimpleRoll to a Foundry Roll for chat display, use the
+ * `toFoundryRoll()` shim in `FoundryHelpers.ts`.
+ */
 export class SimpleRoll {
     numDice: number;
     dieFaces: number;
@@ -91,6 +101,45 @@ export class SimpleRoll {
         return this.rolls.reduce((sum, r) => sum + r, 0) + this.modifier;
     }
 
+    /**
+     * A human-readable string showing the evaluated expression,
+     * e.g. `"[3, 5] + 2"` for 2d6+2 with rolls of 3 and 5.
+     */
+    get result(): string {
+        const parts: string[] = [];
+        if (this.rolls.length > 0) {
+            parts.push(
+                this.rolls.length === 1 ?
+                    `${this.rolls[0]}`
+                :   `[${this.rolls.join(", ")}]`,
+            );
+        }
+        if (this.modifier !== 0) {
+            parts.push(
+                (this.modifier > 0 && parts.length > 0 ? "+" : "") +
+                    `${this.modifier}`,
+            );
+        }
+        return parts.join(" ") || "0";
+    }
+
+    /**
+     * The dice formula string, e.g. `"2d6+3"` or `"1d100"`.
+     */
+    get formula(): string {
+        const parts: string[] = [];
+        if (this.numDice > 0 && this.dieFaces > 0) {
+            parts.push(`${this.numDice}d${this.dieFaces}`);
+        }
+        if (this.modifier !== 0) {
+            parts.push(
+                (this.modifier > 0 && parts.length > 0 ? "+" : "") +
+                    `${this.modifier}`,
+            );
+        }
+        return parts.join("") || "0";
+    }
+
     static fromFormula(formula: string): SimpleRoll {
         const match = formula
             .trim()
@@ -115,47 +164,6 @@ export class SimpleRoll {
         });
     }
 
-    /**
-     * Generate a Foundry VTT Roll instance that reflects the current state.
-     * @param {SimpleRoll} simpleRoll
-     * @returns {Promise<Roll>}
-     */
-    async createRoll(): Promise<foundry.dice.Roll> {
-        /**
-         * Type Guard for DieTerm
-         * @param {RollTerm} term
-         * @returns {boolean}
-         */
-        function isDieTerm(term: unknown): term is foundry.dice.terms.Die {
-            return term instanceof foundry.dice.terms.Die;
-        }
-
-        const formulaParts = [];
-        if (this.numDice > 0 && this.dieFaces > 0) {
-            formulaParts.push(`${this.numDice}d${this.dieFaces}`);
-        }
-        if (this.modifier !== 0) {
-            formulaParts.push((this.modifier > 0 ? "+" : "") + this.modifier);
-        }
-
-        const formula = formulaParts.join(" ");
-        const roll = new Roll(formula);
-        for (const term of roll.terms) {
-            if (isDieTerm(term)) {
-                if (this.rolls.length !== term.number) {
-                    throw new Error(
-                        "Mismatch between term and provided rolls.",
-                    );
-                }
-                term.results = this.rolls.map((r) => ({
-                    result: r,
-                    active: true,
-                }));
-                await term.evaluate();
-            }
-        }
-        return roll;
-    }
 }
 
 export namespace SimpleRoll {

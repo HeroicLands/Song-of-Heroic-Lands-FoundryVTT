@@ -24,13 +24,13 @@ Because this mechanism uses Foundry module hooks, it requires building and insta
 
 ## Lifecycle phase recap
 
-SoHL runs document preparation in three batched phases:
+Foundry VTT processes each embedded item fully before moving to the next, so sibling items cannot depend on each other's derived state. SoHL overrides `prepareEmbeddedData()` to run three **phase-batched** passes across all items with barriers between them:
 
-1. **`initialize`** — set initial state; create virtual items.
-2. **`evaluate`** — compute derived values (all `initialize` calls complete first).
-3. **`finalize`** — resolve cross-item dependencies (all `evaluate` calls complete first).
+1. **`initialize`** — set up base state from persisted data. Cannot read sibling items.
+2. **`evaluate`** — compute derived values using sibling items' initialized state (all `initialize` calls complete first).
+3. **`finalize`** — resolve cross-item dependencies requiring evaluated state (all `evaluate` calls complete first).
 
-For each phase, SoHL emits both a `pre*` hook (cancellable) and a `post*` hook (informational) around the logic call. See [Lifecycle Model](../concepts/lifecycle-model.md) for full phase semantics.
+For each phase, SoHL emits both a `pre*` hook (cancellable) and a `post*` hook (informational) around the logic call. See [Lifecycle Model](../concepts/lifecycle-model.md) for the full rationale and phase semantics.
 
 ## Complete hook reference
 
@@ -133,7 +133,7 @@ The lifecycle context object. Key properties:
 
 ## Cancellable hooks
 
-`pre*` hooks are cancellable. If **any** listener returns a truthy value, the associated logic method is **skipped** for that document. The corresponding `post*` hook is also not emitted.
+`pre*` hooks use Foundry's `Hooks.call()`, which is cancellable. If **any** listener returns `false` explicitly, the associated logic method is **skipped** for that document. The corresponding `post*` hook is also not emitted.
 
 This allows a module to completely replace lifecycle behavior for a specific type:
 
@@ -144,7 +144,7 @@ Hooks.on("sohl.skill.preEvaluate", (item, ctx) => {
     // Run custom evaluate instead of default
     myCustomTacticsEvaluate(item, ctx);
 
-    return true; // cancel default evaluate()
+    return false; // cancel default evaluate()
 });
 ```
 

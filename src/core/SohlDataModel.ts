@@ -11,13 +11,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import type { SohlActionData } from "@src/core/SohlAction";
 import {
     DialogButtonCallback,
     inputDialog,
     okDialog,
-} from "@src/core/FoundryProxy";
-import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+    fvttResolveUuid,
+} from "@src/core/FoundryHelpers";
 import {
     ActionSubType,
     ActionSubTypes,
@@ -38,13 +42,7 @@ import {
     toHTMLString,
 } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
-import type { SohlLogic } from "@src/core/SohlLogic";
 import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/core/SohlSystem";
-import {
-    resolveUuid as fvttResolveUuid,
-    notifyWarn as fvttNotifyWarn,
-} from "@src/core/foundry-helpers";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { StringField, BooleanField, SchemaField, NumberField, ArrayField } =
     foundry.data.fields;
@@ -55,7 +53,7 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             blank: false,
             required: true,
         }),
-        actions: new ArrayField(
+        actionDefs: new ArrayField(
             new SchemaField({
                 subType: new StringField({
                     choices: ActionSubTypes,
@@ -97,7 +95,7 @@ export abstract class SohlDataModel<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 >
     extends foundry.abstract.TypeDataModel<TSchema, TDocument>
-    implements SohlDataModel.Data<TDocument>
+    implements SohlLogicData<TDocument>
 {
     declare parent: TDocument;
 
@@ -114,7 +112,7 @@ export abstract class SohlDataModel<
     static readonly kind: string = "" as const;
     _logic!: TLogic;
     shortcode!: string;
-    actions!: SohlDataModel.ActionSchema[];
+    actionDefs!: SohlActionData[];
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         super(data as any, options as any);
@@ -196,31 +194,6 @@ export abstract class SohlDataModel<
 
 export namespace SohlDataModel {
     export type Any = SohlDataModel<SohlDocument, any>;
-
-    export interface ActionSchema {
-        subType: ActionSubType;
-        title: string;
-        isAsync: boolean;
-        scope: string;
-        executor: string;
-        trigger: string;
-        visible: string;
-        iconFAClass: string;
-        group: string;
-        permissions: {
-            execute: number;
-        };
-    }
-    export interface Data<
-        TParent extends SohlDocument,
-        TLogic extends SohlLogic<any> = SohlLogic<any>,
-    > {
-        parent: TParent | null;
-        logic: TLogic;
-        kind: string;
-        shortcode: string;
-        actions: ActionSchema[];
-    }
 
     export namespace DataModel {
         export interface Statics {
@@ -753,7 +726,7 @@ export namespace SohlDataModel {
                 if (!dlgResult) return;
 
                 if (array.some((a: string) => a === dlgResult)) {
-                    fvttNotifyWarn(
+                    sohl.log.uiWarn(
                         `Choice with value "${dlgResult} already exists, ignoring`,
                     );
                     return;
@@ -821,7 +794,7 @@ export namespace SohlDataModel {
                             a.name === dlgResult.name,
                     )
                 ) {
-                    fvttNotifyWarn(
+                    sohl.log.uiWarn(
                         `Aim with name "${dlgResult.name} already exists, ignoring`,
                     );
                     return;
@@ -888,7 +861,7 @@ export namespace SohlDataModel {
                             a.label === dlgResult.label,
                     )
                 ) {
-                    fvttNotifyWarn(
+                    sohl.log.uiWarn(
                         `Aim with name "${dlgResult.label} already exists, ignoring`,
                     );
                     return;
@@ -1122,7 +1095,7 @@ export namespace SohlDataModel {
             //                     if (defaultAction?.callback instanceof Function) {
             //                         defaultAction.callback();
             //                     } else {
-            //                         fvttNotifyWarn(
+            //                         sohl.log.uiWarn(
             //                             `${item.label} has no available default action`,
             //                         );
             //                     }
