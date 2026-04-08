@@ -36,6 +36,8 @@ export class ArmorGearLogic<
         piercing: ValueModifier;
         fire: ValueModifier;
     };
+    /** Armor encumbrance penalty. */
+    encumbrance!: ValueModifier;
     traits!: StrictObject<string>;
 
     /* --------------------------------------------- */
@@ -86,11 +88,23 @@ export class ArmorGearLogic<
     override initialize(): void {
         super.initialize();
         this.protection = {
-            blunt: new ValueModifier({}, { parent: this }),
-            edged: new ValueModifier({}, { parent: this }),
-            piercing: new ValueModifier({}, { parent: this }),
-            fire: new ValueModifier({}, { parent: this }),
+            blunt: new ValueModifier({}, { parent: this }).setBase(
+                this.data.protectionBase.blunt,
+            ),
+            edged: new ValueModifier({}, { parent: this }).setBase(
+                this.data.protectionBase.edged,
+            ),
+            piercing: new ValueModifier({}, { parent: this }).setBase(
+                this.data.protectionBase.piercing,
+            ),
+            fire: new ValueModifier({}, { parent: this }).setBase(
+                this.data.protectionBase.fire,
+            ),
         };
+        this.encumbrance = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.encumbrance);
         this.traits = {};
     }
 

@@ -14,11 +14,17 @@
 import {
     CombatTechniqueLogic,
     CombatTechniqueData,
-    CombatTechniqueStrikeMode,
 } from "@src/document/item/logic/CombatTechniqueLogic";
-import { IMPACT_ASPECT, ImpactAspects, ITEM_KIND } from "@src/utils/constants";
+import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import {
+    IMPACT_ASPECT,
+    ImpactAspects,
+    ITEM_KIND,
+    STRIKE_MODE_TYPE,
+    StrikeModeTypes,
+} from "@src/utils/constants";
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
-const { NumberField, StringField, ArrayField, SchemaField } =
+const { NumberField, StringField, ArrayField, SchemaField, ObjectField } =
     foundry.data.fields;
 
 function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
@@ -26,18 +32,47 @@ function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
         ...SohlItemDataModel.defineSchema(),
         strikeModes: new ArrayField(
             new SchemaField({
+                type: new StringField({
+                    required: true,
+                    initial: STRIKE_MODE_TYPE.MELEE,
+                    choices: StrikeModeTypes,
+                }),
                 mode: new StringField(),
+                minParts: new NumberField({
+                    integer: true,
+                    initial: 1,
+                    min: 1,
+                }),
+                assocSkillCode: new StringField(),
+                // Melee fields
                 strikeAccuracy: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
                 }),
-                assocSkillCode: new StringField(),
                 lengthBase: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
                 }),
+                // Missile fields
+                projectileType: new StringField({ initial: "none" }),
+                maxVolleyMult: new NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                baseRangeBase: new NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                drawBase: new NumberField({
+                    integer: true,
+                    initial: 0,
+                    min: 0,
+                }),
+                // Shared fields
                 impactBase: new SchemaField({
                     numDice: new NumberField({
                         integer: true,
@@ -59,6 +94,7 @@ function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
                         choices: ImpactAspects,
                     }),
                 }),
+                traits: new ObjectField({ initial: {} }),
             }),
             { initial: [] },
         ),
@@ -89,7 +125,12 @@ export class CombatTechniqueDataModel<
     ];
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUE;
     lengthBase!: number;
-    strikeModes!: CombatTechniqueStrikeMode[];
+    strikeModes!: StrikeModeBase.Data[];
+
+    /** Alias for the persisted strikeModes array (Data interface name). */
+    get strikeModeData(): StrikeModeBase.Data[] {
+        return this.strikeModes;
+    }
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCombatTechniqueSchema();

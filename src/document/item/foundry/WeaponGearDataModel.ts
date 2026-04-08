@@ -15,16 +15,18 @@ import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
 import {
     WeaponGearLogic,
     WeaponGearData,
-    WeaponGearStrikeMode,
 } from "@src/document/item/logic/WeaponGearLogic";
+import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import {
     IMPACT_ASPECT,
     ImpactAspects,
     ITEM_KIND,
     PROJECTILEGEAR_SUBTYPE,
     ProjectileGearSubTypes,
+    STRIKE_MODE_TYPE,
+    StrikeModeTypes,
 } from "@src/utils/constants";
-const { NumberField, StringField, ArrayField, SchemaField } =
+const { NumberField, StringField, ArrayField, SchemaField, ObjectField } =
     foundry.data.fields;
 
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
@@ -33,18 +35,30 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
         encumbrance: new NumberField({ initial: 0, min: 0 }),
         strikeModes: new ArrayField(
             new SchemaField({
+                type: new StringField({
+                    required: true,
+                    initial: STRIKE_MODE_TYPE.MELEE,
+                    choices: StrikeModeTypes,
+                }),
                 mode: new StringField(),
+                minParts: new NumberField({
+                    integer: true,
+                    initial: 1,
+                    min: 1,
+                }),
+                assocSkillCode: new StringField(),
+                // Melee fields
                 strikeAccuracy: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
                 }),
-                assocSkillCode: new StringField(),
                 lengthBase: new NumberField({
                     integer: true,
                     initial: 0,
                     min: 0,
                 }),
+                // Missile fields
                 projectileType: new StringField({
                     initial: PROJECTILEGEAR_SUBTYPE.NONE,
                     required: true,
@@ -65,6 +79,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                     initial: 0,
                     min: 0,
                 }),
+                // Shared fields
                 impactBase: new SchemaField({
                     numDice: new NumberField({
                         integer: true,
@@ -86,6 +101,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                         choices: ImpactAspects,
                     }),
                 }),
+                traits: new ObjectField({ initial: {} }),
             }),
             { initial: [] },
         ),
@@ -110,7 +126,12 @@ export class WeaponGearDataModel<
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
     lengthBase!: number;
     encumbrance!: number;
-    strikeModes!: WeaponGearStrikeMode[];
+    strikeModes!: StrikeModeBase.Data[];
+
+    /** Alias for the persisted strikeModes array (Data interface name). */
+    get strikeModeData(): StrikeModeBase.Data[] {
+        return this.strikeModes;
+    }
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();

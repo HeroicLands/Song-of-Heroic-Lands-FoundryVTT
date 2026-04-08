@@ -172,6 +172,12 @@ const sohlMock = {
 
 (globalThis as any).fromUuid = async (_uuid: string) => null;
 (globalThis as any).fromUuidSync = (_uuid: string) => null;
+(globalThis as any).TokenDocument = class {
+    constructor(_data?: any, _context?: any) {}
+};
+(globalThis as any).Ray = class {
+    constructor(public origin: any, public destination: any) {}
+};
 (globalThis as any).Dialog = {
     async prompt(_opts: any) { return null; },
 };

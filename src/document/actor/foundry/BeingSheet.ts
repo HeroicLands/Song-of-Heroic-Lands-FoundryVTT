@@ -439,7 +439,44 @@ export class BeingSheet extends SohlActorSheetBase {
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
-        return context;
+        const actor = this.document;
+        const logic = actor.logic as BeingLogic;
+
+        // Weapons with their strike mode domain objects
+        const weapons = actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
+        const meleeWeapons: any[] = [];
+        const missileWeapons: any[] = [];
+
+        for (const weapon of weapons) {
+            const weaponLogic = weapon.logic as any;
+            const allModes = weaponLogic?.strikeModes ?? [];
+            const melee = allModes.filter((sm: any) => sm.isMelee);
+            const missile = allModes.filter((sm: any) => sm.isMissile);
+            if (melee.length > 0) {
+                meleeWeapons.push({ weapon, strikeModes: melee });
+            }
+            if (missile.length > 0) {
+                missileWeapons.push({ weapon, strikeModes: missile });
+            }
+        }
+
+        // Combat techniques with their strike mode domain objects
+        const combatTechniques = (
+            actor.itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []
+        ).map((ct: SohlItem) => ({
+            item: ct,
+            strikeModes: (ct.logic as any)?.strikeModes ?? [],
+        }));
+
+        // Body structure for anatomy display
+        const bodyStructure = logic?.bodyStructure;
+
+        return Object.assign(context, {
+            meleeWeapons,
+            missileWeapons,
+            combatTechniques,
+            bodyStructure,
+        });
     }
 
     /** Prepare context for the Trauma tab: injuries and afflictions. */
@@ -529,8 +566,31 @@ export class BeingSheet extends SohlActorSheetBase {
             allGear.push(...(actor.itemTypes[type] ?? []));
         }
 
-        // Sort gear into containers
-        const containerIds = new Set(containerGear.map((c: SohlItem) => c.id));
+        const containerIds = new Set(
+            containerGear.map((c: SohlItem) => c.id),
+        );
+
+        // Build a map of containerId → items inside that container
+        const containerContents = new Map<string, SohlItem[]>();
+        for (const item of allGear) {
+            const containerId = (item.system as any).containerId;
+            if (containerId && containerIds.has(containerId)) {
+                const list = containerContents.get(containerId) ?? [];
+                list.push(item);
+                containerContents.set(containerId, list);
+            } else {
+                // Not in any container — goes to "On Body"
+                onBodyItems.push(item);
+            }
+        }
+
+        // Build container entries with their contents
+        for (const container of containerGear) {
+            containers.push({
+                container,
+                items: containerContents.get(container.id!) ?? [],
+            });
+        }
 
         return Object.assign(context, {
             containers,

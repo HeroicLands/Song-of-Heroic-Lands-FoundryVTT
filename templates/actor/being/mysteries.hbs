@@ -11,19 +11,6 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
 <section class="tab mysteries" data-tab="mysteries">
     {{!-- Mysteries --}}
     {{#each mysteryGroups as |mysteries groupName|}}
@@ -43,13 +30,19 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
                 </div>
                 <div class="item-detail">
-                    {{#if (or (eq mystery.system.subType "fateBonus") (eq mystery.system.subType "blessing"))}}
-                    <span>{{numberFormat mystery.system.$level.effective sign=true}}</span>
-                    {{else}}
+                    {{#if mystery.logic.level.disabled}}
                     <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{numberFormat mystery.logic.level.effective sign=true}}
                     {{/if}}
                 </div>
-                <div class="item-detail">{{mystery.system.$charges.effective}}{{#if (gt mystery.system.$charges.max.effective 0)}}/{{numberFormat mystery.system.$charges.max.effective}}{{/if}}</div>
+                <div class="item-detail">
+                    {{#if mystery.logic.charges.value.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{mystery.logic.charges.value.effective}}{{#if (gt mystery.logic.charges.max.effective 0)}}/{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
+                    {{/if}}
+                </div>
                 <div class="item-detail">{{mystery.system.notes}}</div>
                 <div class="item-controls">
                     <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
@@ -67,8 +60,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <ol class="item-list">
             <li class="items-header flexrow">
                 <h3 class="item-name">Ability</h3>
-                <div class="item-detail">Domain</div>
-                <div class="item-detail">Level</div>
+                <div class="item-detail">ML</div>
                 <div class="item-detail">Charges</div>
                 <div class="item-detail">Notes</div>
             </li>
@@ -78,13 +70,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-image" style="background-image: url('{{ability.img}}')"></div>
                     <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>
                 </div>
-                <div class="item-detail">{{ability.system.domain}}</div>
-                <div class="item-detail">{{ability.system.$level.roman}}</div>
                 <div class="item-detail">
-                    {{#if (or (not ability.system.charges.usesCharges) ability.system.$charges.disabled)}}
+                    {{#if ability.logic.level.disabled}}
                     <i class="fas fa-xmark fa-lg"></i>
                     {{else}}
-                    {{numberFormat ability.system.$charges.effective}}{{#if (gt ability.system.$charges.max.effective 0)}}/{{numberFormat ability.system.$charges.max.effective}}{{/if}}
+                    {{ability.logic.level.effective}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">
+                    {{#if ability.logic.charges.value.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{ability.logic.charges.value.effective}}{{#if (gt ability.logic.charges.max.effective 0)}}/{{numberFormat ability.logic.charges.max.effective}}{{/if}}
                     {{/if}}
                 </div>
                 <div class="item-detail">{{ability.system.notes}}</div>
@@ -96,38 +93,4 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </ol>
     </fieldset>
     {{/each}}
-
-    {{!-- Philosophies with Domains --}}
-    {{#if philosophyEntries.length}}
-    <fieldset>
-        <legend>Philosophies</legend>
-        {{#each philosophyEntries as |entry|}}
-        <div class="items-list">
-            <header class="items-header flexrow" data-item-id="{{entry.philosophy.id}}">
-                <h3 class="item-name name default-action">{{entry.philosophy.name}}</h3>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
-                </div>
-            </header>
-            {{#if entry.domains.length}}
-            <ol class="item-list">
-                {{#each entry.domains as |domain|}}
-                <li class="item flexrow" data-item-id="{{domain.id}}" data-item-name="{{domain.name}}">
-                    <div class="item-name default-action flexrow">
-                        <div class="item-image" style="background-image: url('{{domain.img}}')"></div>
-                        <h4 data-tooltip="{{domain.name}}">{{domain.name}}</h4>
-                    </div>
-                    <div class="item-detail">{{domain.system.notes}}</div>
-                    <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
-                    </div>
-                </li>
-                {{/each}}
-            </ol>
-            {{/if}}
-        </div>
-        {{/each}}
-    </fieldset>
-    {{/if}}
-
 </section>

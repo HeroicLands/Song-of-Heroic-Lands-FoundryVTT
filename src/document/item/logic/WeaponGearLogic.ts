@@ -12,7 +12,11 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import type { ImpactAspect } from "@src/utils/constants";
+import { STRIKE_MODE_TYPE } from "@src/utils/constants";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -26,21 +30,28 @@ import type { ImpactAspect } from "@src/utils/constants";
 export class WeaponGearLogic<
     TData extends WeaponGearData = WeaponGearData,
 > extends GearLogic<TData> {
+    /** Strike mode domain objects, constructed from persisted data. */
+    strikeModes!: StrikeModeBase[];
+    /** Overall weapon length. */
+    length!: ValueModifier;
+    /** Weapon encumbrance. */
+    encumbrance!: ValueModifier;
+
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
     /** Build an `update()` payload that adds a strike mode. */
-    addStrikeModeUpdate(strikeMode: WeaponGearStrikeMode): PlainObject {
+    addStrikeModeUpdate(strikeMode: StrikeModeBase.Data): PlainObject {
         return {
-            "system.strikeModes": [...this.data.strikeModes, strikeMode],
+            "system.strikeModes": [...this.data.strikeModeData, strikeMode],
         };
     }
 
     /** Build an `update()` payload that removes a strike mode by mode name. */
     removeStrikeModeUpdate(mode: string): PlainObject {
         return {
-            "system.strikeModes": this.data.strikeModes.filter(
+            "system.strikeModes": this.data.strikeModeData.filter(
                 (sm) => sm.mode !== mode,
             ),
         };
@@ -53,6 +64,19 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.length = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.lengthBase);
+        this.encumbrance = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.encumbrance);
+        this.strikeModes = (this.data.strikeModeData ?? []).map((d, i) =>
+            d.type === STRIKE_MODE_TYPE.MELEE ?
+                new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, i)
+            :   new MissileStrikeMode(d as MissileStrikeMode.Data, this, i),
+        );
     }
 
     /** @inheritdoc */
@@ -66,23 +90,6 @@ export class WeaponGearLogic<
     }
 }
 
-export interface WeaponGearStrikeMode {
-    mode: string;
-    strikeAccuracy: number;
-    assocSkillCode: string;
-    lengthBase: number;
-    projectileType: string;
-    maxVolleyMult: number;
-    baseRangeBase: number;
-    drawBase: number;
-    impactBase: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: ImpactAspect;
-    };
-}
-
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
@@ -90,6 +97,6 @@ export interface WeaponGearData<
     lengthBase: number;
     /** Encumbrance value of the weapon */
     encumbrance: number;
-    /** Strike modes available for this weapon */
-    strikeModes: WeaponGearStrikeMode[];
+    /** Persisted strike mode data (use Logic.strikeModes for domain objects) */
+    strikeModeData: StrikeModeBase.Data[];
 }

@@ -267,7 +267,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                 },
                 { id: "description", label: "SOHL.Item.tab.description" },
                 { id: "actions", label: "SOHL.Item.tab.actions" },
-                { id: "effectsTab", label: "SOHL.Item.tab.effects" },
+                { id: "effects", label: "SOHL.Item.tab.effects" },
             ],
         },
     };
@@ -298,7 +298,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             "properties",
             "description",
             "actions",
-            "effectsTab",
+            "effects",
         );
     }
 
@@ -351,7 +351,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
                     context,
                 );
                 return context;
-            case "effectsTab":
+            case "effects":
                 context = await this._prepareEffectsTabContext(
                     context,
                     options,

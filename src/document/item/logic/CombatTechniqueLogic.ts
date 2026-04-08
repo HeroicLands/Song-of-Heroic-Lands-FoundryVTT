@@ -11,79 +11,55 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
-import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import { CombatModifier } from "@src/domain/modifier/CombatModifier";
-import type { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import {
-    ImpactAspect,
-    VALUE_DELTA_ID,
-    VALUE_DELTA_INFO,
-} from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
     SohlItemData,
-    SohlItemLogic,
 } from "../foundry/SohlItem";
+import { STRIKE_MODE_TYPE } from "@src/utils/constants";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 
 /**
- * Logic for the **Combat Technique Strike Mode** item type — a specialized
- * combat maneuver or fighting style.
+ * Logic for the **Combat Technique** item type — a specialized combat
+ * maneuver or fighting style not tied to a specific weapon.
  *
- * Combat technique strike modes represent trained maneuvers that go beyond
- * basic weapon attacks: grappling, disarming, tripping, shield bashing,
- * and other specialized fighting techniques. Unlike weapon-based strike modes,
- * these are tied to a combat technique skill rather than a specific weapon.
+ * Combat techniques represent trained maneuvers: grappling, disarming,
+ * tripping, shield bashing, unarmed strikes, and other specialized
+ * techniques. Unlike weapon-based strike modes, these belong directly
+ * to a Being rather than being nested inside a weapon.
  *
- * Like weapon strike modes, combat techniques provide:
+ * Each combat technique has one or more {@link StrikeModeBase | strike modes}
+ * (typically melee, but possibly missile for creature abilities like
+ * tail-flung quills). Each strike mode carries its own attack, impact,
+ * and defense modifiers.
  *
- * - **defense.block** — Modifier for defensive use of the technique
- * - **defense.counterstrike** — Modifier for counterattacking
- * - **length** — Effective range of the technique
- *
- * Defense modifiers incorporate the associated skill's mastery level and
- * the outnumbered penalty during evaluation.
- *
- * @typeParam TData - The CombatTechniqueStrikeMode data interface.
+ * @typeParam TData - The CombatTechnique data interface.
  */
 export class CombatTechniqueLogic<
     TData extends CombatTechniqueData = CombatTechniqueData,
 > extends SohlItemBaseLogic<TData> {
+    /** Strike mode domain objects, constructed from persisted data. */
+    strikeModes!: StrikeModeBase[];
+    /** Effective range of this combat technique. */
     length!: ValueModifier;
-    defense!: {
-        block: CombatModifier;
-        counterstrike: CombatModifier;
-    };
-
-    async blockTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return (await this.defense.block.successTest(context)) || null;
-    }
-
-    async counterstrikeTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null> {
-        return (await this.defense.counterstrike.successTest(context)) || null;
-    }
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
     /** Build an `update()` payload that adds a strike mode. */
-    addStrikeModeUpdate(strikeMode: CombatTechniqueStrikeMode): PlainObject {
+    addStrikeModeUpdate(strikeMode: StrikeModeBase.Data): PlainObject {
         return {
-            "system.strikeModes": [...this.data.strikeModes, strikeMode],
+            "system.strikeModes": [...this.data.strikeModeData, strikeMode],
         };
     }
 
     /** Build an `update()` payload that removes a strike mode by mode name. */
     removeStrikeModeUpdate(mode: string): PlainObject {
         return {
-            "system.strikeModes": this.data.strikeModes.filter(
+            "system.strikeModes": this.data.strikeModeData.filter(
                 (sm) => sm.mode !== mode,
             ),
         };
@@ -96,10 +72,15 @@ export class CombatTechniqueLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.defense = {
-            block: new CombatModifier({}, { parent: this }),
-            counterstrike: new CombatModifier({}, { parent: this }),
-        };
+        this.length = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.lengthBase);
+        this.strikeModes = (this.data.strikeModeData ?? []).map((d, i) =>
+            d.type === STRIKE_MODE_TYPE.MELEE ?
+                new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, i)
+            :   new MissileStrikeMode(d as MissileStrikeMode.Data, this, i),
+        );
     }
 
     /** @inheritdoc */
@@ -113,25 +94,12 @@ export class CombatTechniqueLogic<
     }
 }
 
-export interface CombatTechniqueStrikeMode {
-    mode: string;
-    strikeAccuracy: number;
-    assocSkillCode: string;
-    lengthBase: number;
-    impactBase: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: ImpactAspect;
-    };
-}
-
 export interface CombatTechniqueData<
     TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
         CombatTechniqueLogic<any>,
 > extends SohlItemData<TLogic> {
     /** Effective range of this combat technique */
     lengthBase: number;
-    /** Strike modes available for this combat technique */
-    strikeModes: CombatTechniqueStrikeMode[];
+    /** Persisted strike mode data (use Logic.strikeModes for domain objects) */
+    strikeModeData: StrikeModeBase.Data[];
 }

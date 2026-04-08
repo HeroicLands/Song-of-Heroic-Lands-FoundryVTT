@@ -12,6 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
  * Logic for the **Container Gear** item type — storage for other items.
@@ -31,6 +32,9 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 export class ContainerGearLogic<
     TData extends ContainerGearData = ContainerGearData,
 > extends GearLogic<TData> {
+    /** Maximum capacity of this container. */
+    maxCapacity!: ValueModifier;
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -38,6 +42,10 @@ export class ContainerGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.maxCapacity = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.maxCapacityBase);
     }
 
     /** @inheritdoc */

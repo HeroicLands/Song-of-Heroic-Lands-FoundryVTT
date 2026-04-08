@@ -12,6 +12,7 @@
  */
 
 import type { SohlActionData } from "@src/domain/action/SohlAction";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import {
     ACTION_SUBTYPE,
     defineType,
@@ -52,6 +53,11 @@ import { serializeFn } from "@src/utils/helpers";
 export class InjuryLogic<
     TData extends InjuryData = InjuryData,
 > extends SohlItemBaseLogic<TData> {
+    /** Injury severity level (M1=1, S2=2, S3=3, G4=4, G5=5). */
+    injuryLevel!: ValueModifier;
+    /** Healing rate — how quickly the wound heals. */
+    healingRate!: ValueModifier;
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -59,6 +65,14 @@ export class InjuryLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.injuryLevel = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.injuryLevelBase);
+        this.healingRate = new ValueModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.healingRateBase);
     }
 
     /** @inheritdoc */

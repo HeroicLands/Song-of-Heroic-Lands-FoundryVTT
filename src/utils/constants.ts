@@ -1284,6 +1284,17 @@ export type ProjectileGearSubType =
     (typeof PROJECTILEGEAR_SUBTYPE)[keyof typeof PROJECTILEGEAR_SUBTYPE];
 
 export const {
+    kind: STRIKE_MODE_TYPE,
+    values: StrikeModeTypes,
+    isValue: isStrikeModeType,
+} = defineType("SOHL.StrikeMode.Type", {
+    MELEE: "melee",
+    MISSILE: "missile",
+});
+export type StrikeModeType =
+    (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
+
+export const {
     kind: SKILL_SUBTYPE,
     values: SkillSubTypes,
     isValue: isSkillSubType,
