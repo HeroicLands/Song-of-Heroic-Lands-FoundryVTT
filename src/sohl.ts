@@ -20,6 +20,9 @@ import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { SohlEncounterConfig } from "@src/document/region-behavior/SohlEncounter";
 import { SohlRegionConfig } from "@src/document/region/SohlRegion";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
+import { DomainManagerApp } from "@src/apps/DomainManagerApp";
+import { SohlDomains } from "@src/core/SohlDomains";
+import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
@@ -175,6 +178,47 @@ function registerSystemSettings() {
         icon: "fa-solid fa-calendar",
         type: CalendarSettingsMenu as any,
         restricted: true,
+    });
+
+    // Domain registry settings
+    game.settings.register("sohl", "domains", {
+        name: "SOHL.Settings.domains.label",
+        hint: "SOHL.Settings.domains.hint",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+        requiresReload: false,
+    });
+    game.settings.registerMenu("sohl", "domainsMenu", {
+        name: "SOHL.Settings.domainsMenu.name",
+        label: "SOHL.Settings.domainsMenu.label",
+        hint: "SOHL.Settings.domainsMenu.hint",
+        icon: "fa-solid fa-circle-nodes",
+        type: DomainManagerApp as any,
+        restricted: true,
+    });
+}
+
+/**
+ * Seed the world domain registry with system built-ins. Only fills in
+ * shortcodes that are not already present, so any GM-saved overrides win
+ * on subsequent world loads. Idempotent and safe to call once per session.
+ */
+let __builtinDomainsSeeded = false;
+function registerBuiltinDomains(): void {
+    if (__builtinDomainsSeeded) return;
+    __builtinDomainsSeeded = true;
+    const existing = SohlDomains.getAll();
+    const missing = BUILTIN_DOMAINS.filter(
+        (entry) => !(entry.shortcode in existing),
+    );
+    if (missing.length === 0) return;
+    void SohlDomains.register(missing, "sohl").catch((err) => {
+        sohl.log.error(
+            "SoHL | Failed to register built-in domains",
+            err,
+        );
     });
 }
 
@@ -405,6 +449,7 @@ Hooks.once("init", () => {
 
     globalThis.sohl = setupSystem();
 
+    registerBuiltinDomains();
     rehydrateCalendars();
     applyActiveCalendar();
     sohl.log.setLogThreshold(

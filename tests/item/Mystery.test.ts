@@ -53,7 +53,9 @@ describe("MysteryLogic", () => {
     });
 
     describe("evaluate", () => {
-        it.todo("resolves domain from actor items by mysteryCode shortcode");
+        it.todo(
+            "resolves domain from SohlDomains registry by domainCode shortcode",
+        );
         it.todo(
             "resolves skills from actor items matching data.skills shortcodes",
         );
@@ -69,7 +71,7 @@ describe("MysteryDataModel", () => {
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines subType with MysterySubTypes choices");
-        it.todo("defines mysteryCode as nullable non-blank StringField");
+        it.todo("defines domainCode as optional StringField");
         it.todo("defines skills as ArrayField of StringFields");
         it.todo("defines levelBase as integer NumberField with min 0");
         it.todo(

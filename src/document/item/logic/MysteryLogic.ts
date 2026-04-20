@@ -221,6 +221,8 @@ export interface MysteryData<
 > extends SohlItemData<TLogic> {
     /** Mystery category (Grace, Piety, Fate, Blessing, etc.) */
     subType: MysterySubType;
+    /** Fully-qualified Domain registry shortcode (e.g. "sohl.totem.Bear"). */
+    domainCode: string;
     /** Shortcodes of skills this mystery affects */
     skills: string[];
     /** Power level of this mystery */

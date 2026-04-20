@@ -42,7 +42,7 @@ export class SkillSheet extends SohlItemSheetBase {
             subType: system.subType,
             weaponGroup: system.weaponGroup,
             baseSkill: system.baseSkill,
-            mysteryCode: system.mysteryCode,
+            domainCode: system.domainCode,
         });
     }
 }

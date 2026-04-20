@@ -110,8 +110,7 @@ export interface SohlItemData<
     get item(): SohlItem;
     label(options?: { withName: boolean; withSubType: boolean }): string;
     notes: HTMLString;
-    description: HTMLString;
-    textReference: HTMLString;
+    docHtml: HTMLString;
 }
 
 /**
@@ -135,8 +134,7 @@ export class SohlItemBaseLogic<
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
         notes: new HTMLField(),
-        description: new HTMLField(),
-        textReference: new HTMLField(),
+        docHtml: new HTMLField(),
     };
 }
 
@@ -156,9 +154,7 @@ export abstract class SohlItemDataModel<
     implements SohlItemData<TLogic>
 {
     notes!: HTMLString;
-    description!: HTMLString;
-    textReference!: HTMLString;
-    transfer!: boolean;
+    docHtml!: HTMLString;
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!(options.parent instanceof SohlItem)) {
@@ -294,12 +290,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         // Don't show the other tabs if only limited view
         if ((this.document as any).limited) return;
         // If the document is not limited, we show all parts
-        options.parts.push(
-            "properties",
-            "description",
-            "actions",
-            "effects",
-        );
+        options.parts.push("properties", "description", "actions", "effects");
     }
 
     async _prepareContext(options: RenderOptions): Promise<RenderContext> {

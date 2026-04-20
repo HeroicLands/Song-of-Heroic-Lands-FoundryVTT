@@ -31,6 +31,11 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             choices: MysterySubTypes,
             required: true,
         }),
+        domainCode: new StringField({
+            required: false,
+            blank: true,
+            initial: "",
+        }),
         skills: new ArrayField(
             new StringField({
                 required: true,
@@ -77,6 +82,7 @@ export class MysteryDataModel<
     ];
     static override readonly kind = ITEM_KIND.MYSTERY;
     subType!: MysterySubType;
+    domainCode!: string;
     skills!: string[];
     levelBase!: number;
     charges!: {

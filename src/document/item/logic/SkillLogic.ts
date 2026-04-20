@@ -74,8 +74,8 @@ export interface SkillData<
     weaponGroup: string;
     /** Name of the base skill if this is a specialization */
     baseSkill: string;
-    /** Mystery associated with this skill, if any */
-    mysteryCode: string;
+    /** Fully-qualified Domain registry shortcode associated with this skill, if any. */
+    domainCode: string;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
     /** Parent skill name for expertise specializations */

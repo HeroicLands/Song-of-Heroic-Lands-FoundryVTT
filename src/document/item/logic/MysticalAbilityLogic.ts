@@ -13,13 +13,13 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
-import type { MysteryLogic } from "./MysteryLogic";
 import {
     MasteryLevelLogic,
     MasteryLevelData,
 } from "@src/document/item/logic/MasteryLevelLogic";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { MysticalAbilitySubType } from "@src/utils/constants";
+import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
 
 /**
  * Logic for the **Mystical Ability** item type — an actively invoked
@@ -58,7 +58,12 @@ export class MysticalAbilityLogic<
     implements MysticalAbilityLogic<TData>
 {
     assocSkill?: SkillLogic;
-    mystery?: MysteryLogic;
+    /**
+     * Resolved Domain entry for this ability's `domainCode`. Looked up
+     * via {@link SohlDomains.get} during evaluation. Undefined if the
+     * code is empty or does not match any registered domain.
+     */
+    domain?: DomainEntry;
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -90,12 +95,15 @@ export class MysticalAbilityLogic<
     evaluate(): void {
         super.evaluate();
 
+        // Resolve the domain entry from the world-scoped registry. This
+        // is independent of the actor — domains are reference data, not
+        // actor-local items.
+        this.domain = this.data.domainCode
+            ? SohlDomains.get(this.data.domainCode)
+            : undefined;
+
         if (!this.actor) return;
         const allItemTypes = this.actor.itemTypes;
-
-        this.mystery = allItemTypes.mystery.find(
-            (it: SohlItem) => it.system.shortcode === this.data.mysteryCode,
-        )?.logic as MysteryLogic;
 
         this.assocSkill = allItemTypes.skill.find(
             (it: SohlItem) => it.system.shortcode === this.data.assocSkillCode,
@@ -118,8 +126,8 @@ export interface MysticalAbilityData<
     assocSkillCode?: string;
     /** Whether this ability's mastery level can be improved */
     isImprovable: boolean;
-    /** Shortcode of the mystery this ability belongs to */
-    mysteryCode?: string;
+    /** Fully-qualified Domain registry shortcode (e.g. "sohl.hexhodai.pyrethos"). */
+    domainCode?: string;
     /** Power level of this ability */
     levelBase: number;
     /** Usage tracking: current charges and maximum */

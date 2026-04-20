@@ -42,7 +42,7 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
             subType: system.subType,
             assocSkillCode: system.assocSkillCode,
             isImprovable: system.isImprovable,
-            mysteryCode: system.mysteryCode,
+            domainCode: system.domainCode,
             levelBase: system.levelBase,
             charges: system.charges,
         });

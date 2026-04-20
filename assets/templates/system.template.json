@@ -34,63 +34,63 @@
     "documentTypes": {
         "Actor": {
             "being": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "cohort": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "structure": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "vehicle": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "assembly": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             }
         },
         "Item": {
             "affiliation": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "affliction": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "armorgear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "combattechnique": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "concoctiongear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "containergear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "injury": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "miscgear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "mystery": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "mysticalability": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "projectilegear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "skill": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "trait": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "weapongear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             }
         },
         "ActiveEffect": {
@@ -138,7 +138,7 @@
         },
         {
             "label": "Possessions",
-            "type": "Actor",
+            "type": "Item",
             "name": "possessions",
             "system": "sohl",
             "path": "packs/possessions",

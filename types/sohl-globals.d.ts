@@ -212,6 +212,7 @@ declare module "fvtt-types/configuration" {
         "sohl.logThreshold": string;
         "sohl.activeCalendar": string;
         "sohl.importedCalendars": Record<string, any>;
+        "sohl.domains": Record<string, any>;
     }
 
     interface DocumentClassConfig {

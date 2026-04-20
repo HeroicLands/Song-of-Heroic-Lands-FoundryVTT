@@ -43,9 +43,16 @@ import {
 } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/core/SohlSystem";
+import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
-const { StringField, BooleanField, SchemaField, NumberField, ArrayField } =
-    foundry.data.fields;
+const {
+    StringField,
+    BooleanField,
+    SchemaField,
+    NumberField,
+    ArrayField,
+    JavaScriptField,
+} = foundry.data.fields;
 
 function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -53,6 +60,7 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
             blank: false,
             required: true,
         }),
+        docUrl: new URLField(),
         actionDefs: new ArrayField(
             new SchemaField({
                 subType: new StringField({
@@ -66,9 +74,9 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     required: true,
                     initial: SOHL_ACTION_SCOPE.SELF,
                 }),
-                executor: new StringField({ initial: "" }),
-                trigger: new StringField({ initial: "" }),
-                visible: new StringField({ initial: "true" }),
+                executor: new JavaScriptField(),
+                trigger: new JavaScriptField(),
+                visible: new JavaScriptField({ initial: "return true" }),
                 iconFAClass: new StringField({
                     initial: "fas fa-question-circle",
                 }),

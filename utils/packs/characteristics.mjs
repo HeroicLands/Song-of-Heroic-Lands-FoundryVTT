@@ -15,17 +15,97 @@ import fs from "fs";
 import path from "path";
 import yaml from "yaml";
 import unidecode from "unidecode";
+import markdownit from "markdown-it";
 import log from "loglevel";
-import prefix from "loglevel-plugin-prefix";
+
+const md = markdownit({ html: true });
 
 const stats = {
     systemId: "sohl",
-    systemVersion: "0.5.6",
-    coreVersion: "13",
+    systemVersion: "0.6.0",
+    coreVersion: "14",
     createdTime: 0,
     modifiedTime: 0,
     lastModifiedBy: "sohlbuilder00000",
 };
+
+/**
+ * Parses a markdown file with YAML frontmatter.
+ * Returns { frontmatter, description } where description is the
+ * markdown content after the frontmatter block, converted to basic HTML.
+ */
+function parseMarkdownFile(filePath) {
+    const content = fs.readFileSync(filePath, "utf8");
+    const fmMatch = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+    if (!fmMatch) {
+        log.warn(`No frontmatter found in ${filePath}`);
+        return { frontmatter: {}, description: "" };
+    }
+    const frontmatter = yaml.parse(fmMatch[1]) || {};
+    const rawMarkdown = fmMatch[2].trim();
+    const description = rawMarkdown ? md.render(rawMarkdown) : "";
+    return { frontmatter, description };
+}
+
+/**
+ * Generates a filename from a name and ID, matching the existing naming scheme:
+ * `Name_id.json` with non-alphanumeric characters replaced by underscores.
+ */
+function makeFilename(name, id) {
+    return (
+        `${unidecode(name)}_${id}`.replace(/[^0-9a-zA-Z]+/g, "_") + ".json"
+    );
+}
+
+/**
+ * Reads all markdown files from a directory and returns parsed results.
+ */
+function readMarkdownDir(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        log.warn(`Directory does not exist, skipping: ${dirPath}`);
+        return [];
+    }
+    return fs
+        .readdirSync(dirPath)
+        .filter((f) => f.endsWith(".md"))
+        .map((f) => parseMarkdownFile(path.join(dirPath, f)));
+}
+
+/**
+ * Resolves a dotted frontmatter key (e.g., "charges.value") into the
+ * correct nested value. Also handles the trait valueDesc format.
+ */
+function getFrontmatter(fm, key, defaultValue = undefined) {
+    // Check for dotted notation in frontmatter keys (e.g., "name.full", "charges.value")
+    if (key in fm) return fm[key];
+    const dotKey = key;
+    const parts = dotKey.split(".");
+    let current = fm;
+    for (const part of parts) {
+        if (current == null || typeof current !== "object") return defaultValue;
+        current = current[part];
+    }
+    return current !== undefined ? current : defaultValue;
+}
+
+/**
+ * Parses the trait valueDesc format. In frontmatter this can appear as:
+ * - An array of "Label:MaxValue" strings
+ * - An array of objects with { label, maxValue }
+ */
+function parseValueDesc(raw) {
+    if (!raw || !Array.isArray(raw)) return [];
+    return raw.map((entry) => {
+        if (typeof entry === "string") {
+            const [label, maxStr] = entry.split(":");
+            return { label: label.trim(), maxValue: parseInt(maxStr, 10) || 0 };
+        }
+        if (typeof entry === "object" && entry.label !== undefined) {
+            return { label: entry.label, maxValue: entry.maxValue || 0 };
+        }
+        return { label: String(entry), maxValue: 0 };
+    });
+}
 
 export class Characteristics {
     static id = "characteristics";
@@ -41,295 +121,240 @@ export class Characteristics {
         });
     }
 
-    static mergeObject(obj1, obj2, depth = 0, maxDepth = 20) {
-        if (depth > maxDepth) {
-            throw new Error(
-                `Recursion depth exceeded: Maximum allowed depth is ${maxDepth}`,
-            );
-        }
-
-        if (typeof obj1 !== "object" || obj1 === null) return obj2;
-        if (typeof obj2 !== "object" || obj2 === null) return obj1;
-
-        const result = { ...obj1 };
-
-        for (const key of Object.keys(obj2)) {
-            if (
-                obj2[key] &&
-                typeof obj2[key] === "object" &&
-                !Array.isArray(obj2[key])
-            ) {
-                result[key] = this.mergeObject(
-                    obj1[key] || {},
-                    obj2[key],
-                    depth + 1,
-                    maxDepth,
-                );
-            } else {
-                result[key] = obj2[key];
-            }
-        }
-
-        return result;
+    writeItem(outputData) {
+        const fname = makeFilename(outputData.name, outputData._id);
+        const outputPath = path.join(this.outputDir, fname);
+        fs.writeFileSync(
+            outputPath,
+            JSON.stringify(outputData, null, 2),
+            "utf8",
+        );
     }
 
     async processTraits() {
-        const filePath = path.join(this.dataDir, "traits.yaml");
-        if (!fs.existsSync(filePath)) {
-            log.warn(`File does not exist, skipping traits: ${filePath}`);
-            return;
-        }
-        const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
+        const dirPath = path.join(this.dataDir, "traits");
+        const items = readMarkdownDir(dirPath);
 
-        for (const trait of data) {
-            log.debug(`Processing trait ${trait.name}`);
-            let fname =
-                `${unidecode(trait.name)}_${trait.id}`.replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
+        for (const { frontmatter: fm, description } of items) {
+            const name = getFrontmatter(fm, "name.full", "Unknown Trait");
+            const id = fm.id;
+            if (!id) {
+                log.warn(`Trait "${name}" has no id, skipping`);
+                continue;
+            }
+            log.debug(`Processing trait ${name}`);
 
-            const outputData = {
-                name: trait.name,
+            this.writeItem({
+                name,
                 type: "trait",
-                img: trait.img,
-                _id: trait.id,
+                img:
+                    fm.img || "systems/sohl/assets/icons/user-gear.svg",
+                _id: id,
                 system: {
                     notes: "",
-                    description: trait.description,
-                    textReference: trait.textReference,
-                    nestedIn: null,
-                    subType: trait.subType,
-                    textValue: trait.textValue,
-                    max: trait.max,
-                    isNumeric: trait.isNumeric,
-                    intensity: trait.intensity,
-                    valueDesc: trait.valueDesc,
-                    choices: trait.choices,
-                    shortcode: trait.shortcode,
-                    skillBaseFormula: trait.skillBaseFormula,
+                    description,
+                    textReference: "",
+                    shortcode: fm.shortcode || fm.abbrev || "",
+                    subType: fm.subType || "physique",
+                    textValue: fm.textValue != null ? String(fm.textValue) : "",
+                    max: fm.max != null ? Number(fm.max) : null,
+                    isNumeric: fm.isNumeric || false,
+                    intensity: fm.intensity || "trait",
+                    valueDesc: parseValueDesc(fm.valueDesc),
+                    choices: fm.choices || {},
+                    diceFormula: fm.diceFormula || "",
+                    skillBaseFormula: fm.skillBaseFormula || "",
                     masteryLevelBase: 0,
                     improveFlag: false,
                 },
-                effects: [],
-                flags: trait.flags || {},
+                effects: fm.effects || [],
+                flags: fm.flags || {},
                 _stats: stats,
                 ownership: { default: 0 },
-                folder: trait.folderId || null,
-                _key: `!items!${trait.id}`,
-            };
-
-            fs.writeFileSync(
-                outputPath,
-                JSON.stringify(outputData, null, 2),
-                "utf8",
-            );
+                folder: fm.folderId || null,
+                _key: `!items!${id}`,
+            });
         }
     }
 
     async processSkills() {
-        const filePath = path.join(this.dataDir, "skills.yaml");
-        if (!fs.existsSync(filePath)) {
-            log.warn(`File does not exist, skipping skills: ${filePath}`);
-            return;
-        }
-        const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
+        const dirPath = path.join(this.dataDir, "skills");
+        const items = readMarkdownDir(dirPath);
 
-        for (const skill of data) {
-            log.debug(`Processing skill ${skill.name}`);
-            let fname =
-                `${unidecode(skill.name)}_${skill.id}`.replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
+        for (const { frontmatter: fm, description } of items) {
+            const name = getFrontmatter(fm, "name.full", "Unknown Skill");
+            const id = fm.id;
+            if (!id) {
+                log.warn(`Skill "${name}" has no id, skipping`);
+                continue;
+            }
+            log.debug(`Processing skill ${name}`);
 
-            const outputData = {
-                name: skill.name,
+            this.writeItem({
+                name,
                 type: "skill",
-                img: skill.img,
-                _id: skill.id,
+                img:
+                    fm.img || "systems/sohl/assets/icons/head-gear.svg",
+                _id: id,
                 system: {
                     notes: "",
-                    description: skill.description,
-                    textReference: skill.textReference,
-                    nestedIn: null,
-                    subType: skill.subType,
-                    shortcode: skill.shortcode,
-                    skillBaseFormula: skill.skillBaseFormula,
+                    description,
+                    textReference: "",
+                    shortcode: fm.shortcode || "",
+                    subType: fm.subType || "social",
+                    skillBaseFormula: fm.skillBaseFormula || "",
                     masteryLevelBase: 0,
                     improveFlag: false,
-                    weaponGroup: skill.weaponGroup,
-                    domain: skill.domain,
-                    baseSkill: skill.baseSkill,
-                    initSkillMult: skill.initSM,
-                    expertiseParentSkill: skill.expertiseParentSkill || "",
+                    weaponGroup: fm.weaponGroup || "none",
+                    domainCode: fm.domainCode || "",
+                    baseSkill: fm.baseSkill || "",
+                    initSkillMult: fm.initSM || 0,
+                    expertiseParentSkill: fm.expertiseParentSkill || "",
                 },
-                effects: skill.effects || [],
-                flags: skill.flags || {},
+                effects: fm.effects || [],
+                flags: fm.flags || {},
                 _stats: stats,
                 ownership: { default: 0 },
-                folder: skill.folderId || null,
-                _key: `!items!${skill.id}`,
-            };
-
-            fs.writeFileSync(
-                outputPath,
-                JSON.stringify(outputData, null, 2),
-                "utf8",
-            );
+                folder: fm.folderId || null,
+                _key: `!items!${id}`,
+            });
         }
     }
 
-    async processCombatTechniques() {
-        let filePath = path.join(this.dataDir, "combattechsm.yaml");
-        if (!fs.existsSync(filePath)) {
-            log.warn(
-                `File does not exist, skipping combat techniques: ${filePath}`,
-            );
-            return;
-        }
-        let data = yaml.parse(fs.readFileSync(filePath, "utf8"));
+    async processAfflictions() {
+        const dirPath = path.join(this.dataDir, "afflictions");
+        const items = readMarkdownDir(dirPath);
 
-        for (const cmbttech of data) {
-            log.debug(`Processing Combat Technique ${cmbttech.name}`);
-            let fname =
-                `${unidecode(cmbttech.name)}_${cmbttech.id}`.replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
-
-            const sm = {
-                name: cmbttech.name,
-                type: "combattechniquestrikemode",
-                img: cmbttech.img,
-                _id: cmbttech.id,
-                system: {
-                    notes: "",
-                    textReference: "",
-                    description: "",
-                    group: cmbttech.group,
-                    zoneDie: cmbttech.zoneDie,
-                    mode: cmbttech.subDesc,
-                    minParts: cmbttech.minParts,
-                    assocSkillName: cmbttech.assocSkill,
-                    lengthBase: cmbttech.lengthBase,
-                    impactBase: {
-                        numDice: cmbttech.impactDie > 0 ? 1 : 0,
-                        die: cmbttech.impactDie,
-                        modifier: cmbttech.impactMod,
-                        aspect: cmbttech.impactAspect,
-                    },
-                },
-                effects: [],
-                flags: cmbttech.flags || {},
-                _stats: stats,
-                ownership: { default: 0 },
-                folder: null,
-                _key: `!items!${cmbttech.id}`,
-            };
-
-            const eid = cmbttech.effectId;
-
-            const effect = {
-                name: `${cmbttech.subDesc} Traits`,
-                icon: "icons/svg/aura.svg",
-                changes: [],
-                flags: {},
-                _id: eid,
-                disabled: false,
-                type: "sohlactiveeffect",
-                system: {
-                    targetType: "this",
-                    targetName: "",
-                },
-                duration: {
-                    startTime: null,
-                    seconds: null,
-                    combat: null,
-                    rounds: null,
-                    turns: null,
-                    startRound: null,
-                    startTurn: null,
-                },
-                origin: "",
-                tint: null,
-                transfer: false,
-                description: "",
-                statuses: [],
-                _key: `!items.effects!${sm._id}.${eid}`,
-            };
-
-            for (const chg of (cmbttech.effectChanges || [])) {
-                const change = {
-                    key: chg.key,
-                    mode: chg.mode,
-                    value: chg.value,
-                    priority: null,
-                };
-                effect.changes.push(change);
+        for (const { frontmatter: fm, description } of items) {
+            const name = getFrontmatter(fm, "name.full", "Unknown Affliction");
+            const id = fm.id;
+            if (!id) {
+                log.warn(`Affliction "${name}" has no id, skipping`);
+                continue;
             }
-            sm.effects.push(effect);
+            log.debug(`Processing affliction ${name}`);
 
-            fs.writeFileSync(
-                outputPath,
-                JSON.stringify(sm, null, 2),
-                "utf8",
-            );
-        }
-    }
-
-    async processAfflictionss() {
-        const filePath = path.join(this.dataDir, "afflictions.yaml");
-        if (!fs.existsSync(filePath)) {
-            log.warn(`File does not exist, skipping afflictions: ${filePath}`);
-            return;
-        }
-        const data = yaml.parse(fs.readFileSync(filePath, "utf8"));
-
-        for (const affliction of data) {
-            log.debug(`Processing Affliction ${affliction.name}`);
-            let fname =
-                `${unidecode(affliction.name)}_${affliction.id}`.replace(
-                    /[^0-9a-zA-Z]+/g,
-                    "_",
-                ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
-
-            const outputData = {
-                name: affliction.name,
+            this.writeItem({
+                name,
                 type: "affliction",
-                img: affliction.img,
-                _id: affliction.id,
+                img:
+                    fm.img || "systems/sohl/assets/icons/sick.svg",
+                _id: id,
                 system: {
                     notes: "",
+                    description,
                     textReference: "",
-                    description: affliction.description,
-                    subType: affliction.subType,
-                    category: affliction.category,
+                    shortcode: fm.shortcode || "",
+                    subType: fm.subType || "",
+                    skillBaseFormula: "",
+                    masteryLevelBase: 0,
+                    improveFlag: false,
                     isDormant: false,
                     isTreated: false,
-                    diagnosisBonusBase: affliction.diagnosisBonus,
-                    levelBase: affliction.level,
-                    healingRateBase: affliction.healingRate,
-                    contagionIndexBase: affliction.contagionIndex,
-                    transmission: affliction.transmission,
+                    diagnosisBonusBase: fm.diagnosisBonus || 0,
+                    levelBase: fm.level || 0,
+                    healingRateBase: fm.healingRate || 0,
+                    contagionIndexBase: fm.contagionIndex || 0,
+                    transmission: fm.transmission || "",
                 },
-                effects: affliction.effects || [],
-                flags: affliction.flags || {},
+                effects: fm.effects || [],
+                flags: fm.flags || {},
                 _stats: stats,
                 ownership: { default: 0 },
-                folder: affliction.folderId || null,
-                _key: `!items!${affliction.id}`,
-            };
+                folder: fm.folderId || null,
+                _key: `!items!${id}`,
+            });
+        }
+    }
 
-            fs.writeFileSync(
-                outputPath,
-                JSON.stringify(outputData, null, 2),
-                "utf8",
-            );
+    async processMysteries() {
+        const dirPath = path.join(this.dataDir, "mysteries");
+        const items = readMarkdownDir(dirPath);
+
+        for (const { frontmatter: fm, description } of items) {
+            const name = getFrontmatter(fm, "name.full", "Unknown Mystery");
+            const id = fm.id;
+            if (!id) {
+                log.warn(`Mystery "${name}" has no id, skipping`);
+                continue;
+            }
+            log.debug(`Processing mystery ${name}`);
+
+            this.writeItem({
+                name,
+                type: "mystery",
+                img:
+                    fm.img || "systems/sohl/assets/icons/sparkles.svg",
+                _id: id,
+                system: {
+                    notes: "",
+                    description,
+                    textReference: "",
+                    shortcode: fm.shortcode || "",
+                    subType: fm.subType || "",
+                    domainCode: fm.domainCode || "",
+                    skills: fm.skills || [],
+                    levelBase: fm.level || 0,
+                    charges: {
+                        value: getFrontmatter(fm, "charges.value", null),
+                        max: getFrontmatter(fm, "charges.max", null),
+                    },
+                },
+                effects: fm.effects || [],
+                flags: fm.flags || {},
+                _stats: stats,
+                ownership: { default: 0 },
+                folder: fm.folderId || null,
+                _key: `!items!${id}`,
+            });
+        }
+    }
+
+    async processMysticalAbilities() {
+        const dirPath = path.join(this.dataDir, "mystical-abilities");
+        const items = readMarkdownDir(dirPath);
+
+        for (const { frontmatter: fm, description } of items) {
+            const name = getFrontmatter(fm, "name.full", "Unknown Ability");
+            const id = fm.id;
+            if (!id) {
+                log.warn(`Mystical ability "${name}" has no id, skipping`);
+                continue;
+            }
+            log.debug(`Processing mystical ability ${name}`);
+
+            this.writeItem({
+                name,
+                type: "mysticalability",
+                img:
+                    fm.img ||
+                    "systems/sohl/assets/icons/hand-sparkles.svg",
+                _id: id,
+                system: {
+                    notes: "",
+                    description,
+                    textReference: "",
+                    shortcode: fm.shortcode || "",
+                    subType: fm.subType || "",
+                    assocSkillCode: fm.assocSkillCode || null,
+                    isImprovable: fm.isImprovable || false,
+                    domainCode: fm.domainCode || "",
+                    skillBaseFormula: fm.skillBaseFormula || "",
+                    masteryLevelBase: 0,
+                    improveFlag: false,
+                    levelBase: fm.level || 0,
+                    charges: {
+                        value: getFrontmatter(fm, "charges.value", null),
+                        max: getFrontmatter(fm, "charges.max", null),
+                    },
+                },
+                effects: fm.effects || [],
+                flags: fm.flags || {},
+                _stats: stats,
+                ownership: { default: 0 },
+                folder: fm.folderId || null,
+                _key: `!items!${id}`,
+            });
         }
     }
 
@@ -343,12 +368,12 @@ export class Characteristics {
 
         for (const folder of data) {
             log.debug(`Processing Folder ${folder.name}`);
-            let fname =
+            const fname =
                 `folder_${unidecode(folder.name)}_${folder.id}`.replace(
                     /[^0-9a-zA-Z]+/g,
                     "_",
                 ) + ".json";
-            let outputPath = path.join(this.outputDir, fname);
+            const outputPath = path.join(this.outputDir, fname);
 
             const outputData = {
                 name: folder.name,
@@ -372,10 +397,11 @@ export class Characteristics {
     }
 
     async compile() {
+        await this.processFolders();
         await this.processTraits();
         await this.processSkills();
-        await this.processCombatTechniques();
-        await this.processAfflictionss();
-        await this.processFolders();
+        await this.processAfflictions();
+        await this.processMysteries();
+        await this.processMysticalAbilities();
     }
 }

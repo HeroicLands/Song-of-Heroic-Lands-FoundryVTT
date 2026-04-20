@@ -39,7 +39,7 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             nullable: true,
         }),
         isImprovable: new BooleanField({ initial: false }),
-        mysteryCode: new StringField({
+        domainCode: new StringField({
             blank: false,
             nullable: true,
         }),
@@ -89,7 +89,7 @@ export class MysticalAbilityDataModel<
     subType!: MysticalAbilitySubType;
     assocSkillCode?: string;
     isImprovable!: boolean;
-    mysteryCode?: string;
+    domainCode?: string;
     levelBase!: number;
     charges!: {
         value: number;

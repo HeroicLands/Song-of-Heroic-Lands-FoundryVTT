@@ -67,6 +67,21 @@ export const {
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
+    kind: DOMAIN_FAMILY,
+    values: DomainFamilies,
+    isValue: isDomainFamily,
+    labels: domainFamilyLabels,
+} = defineType("SOHL.Domain.FAMILY", {
+    ARCANE: "arcane", // schools of magic, elements
+    DIVINE: "divine", // deities, divine aspects
+    RELIGION: "religion", // faiths, sects, cults — usually parented to a deity
+    SPIRIT: "spirit", // totems, ancestor spirits
+    ASTRAL: "astral", // birthsigns
+    NATURAL: "natural", // geology, mathematics, biology, etc.
+});
+export type DomainFamily = (typeof DOMAIN_FAMILY)[keyof typeof DOMAIN_FAMILY];
+
+export const {
     kind: ACTOR_KIND,
     values: ActorKinds,
     isValue: isActorKind,
@@ -1662,8 +1677,6 @@ export const {
     },
 } as StrictObject<SohlContextMenu.Entry>);
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
-
-
 
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     name: "Turning Wheel",

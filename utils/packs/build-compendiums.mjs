@@ -21,7 +21,7 @@ import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
 import { Characteristics } from "./characteristics.mjs";
 import { PeopleCreatures } from "./peoplecreatures.mjs";
-import { VehicleStructures } from "./VehicleStructures.mjs";
+import { VehicleStructures } from "./vehiclestructures.mjs";
 import { Possessions } from "./possessions.mjs";
 import { Journals } from "./journals.mjs";
 
