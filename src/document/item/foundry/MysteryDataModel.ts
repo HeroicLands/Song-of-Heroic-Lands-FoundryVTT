@@ -16,37 +16,12 @@ import {
     MysteryLogic,
     MysteryData,
 } from "@src/document/item/logic/MysteryLogic";
-import {
-    ITEM_KIND,
-    MysterySubType,
-    MysterySubTypes,
-} from "@src/utils/constants";
-const { SchemaField, ArrayField, NumberField, StringField } =
-    foundry.data.fields;
+import { ITEM_KIND } from "@src/utils/constants";
+const { SchemaField, NumberField } = foundry.data.fields;
 
 function defineMysterySchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
-        subType: new StringField({
-            choices: MysterySubTypes,
-            required: true,
-        }),
-        domainCode: new StringField({
-            required: false,
-            blank: true,
-            initial: "",
-        }),
-        skills: new ArrayField(
-            new StringField({
-                required: true,
-                blank: false,
-            }),
-        ),
-        levelBase: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
         charges: new SchemaField({
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
@@ -81,10 +56,6 @@ export class MysteryDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.MYSTERY;
-    subType!: MysterySubType;
-    domainCode!: string;
-    skills!: string[];
-    levelBase!: number;
     charges!: {
         value: number;
         max: number;

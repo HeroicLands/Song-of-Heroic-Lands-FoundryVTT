@@ -11,11 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    MasteryLevelLogic,
-    MasteryLevelData,
-} from "@src/document/item/logic/MasteryLevelLogic";
-import type { TraitIntensity, TraitSubType } from "@src/utils/constants";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { TraitIntensity, TraitSubType } from "@src/utils/constants";
+import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 
 /**
  * Logic for the **Trait** item type — an innate characteristic, advantage,
@@ -46,18 +44,19 @@ import type { TraitIntensity, TraitSubType } from "@src/utils/constants";
  */
 export class TraitLogic<
     TData extends TraitData = TraitData,
-> extends MasteryLevelLogic<TData> {
-    /** Traits always use 0 for the skill base in roll formulas. */
-    protected override get skillBaseForRoll(): number {
-        return 0;
-    }
+> extends SohlItemBaseLogic<TData> {
+    score!: number;
+    targetLevel!: ValueModifier;
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
     /** Build an `update()` payload that adds a value description entry. */
-    addValueDescUpdate(entry: { label: string; maxValue: number }): PlainObject {
+    addValueDescUpdate(entry: {
+        label: string;
+        maxValue: number;
+    }): PlainObject {
         return {
             "system.valueDesc": [...this.data.valueDesc, entry],
         };
@@ -94,7 +93,7 @@ export class TraitLogic<
 
 export interface TraitData<
     TLogic extends TraitLogic<TraitData> = TraitLogic<any>,
-> extends MasteryLevelData<TLogic> {
+> extends SohlItemData<TLogic> {
     /** Trait category (Physique, Personality, Transcendent) */
     subType: TraitSubType;
     /** Descriptive value for non-numeric traits */

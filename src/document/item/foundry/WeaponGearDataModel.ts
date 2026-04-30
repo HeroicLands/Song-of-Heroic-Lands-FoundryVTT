@@ -47,6 +47,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                     min: 1,
                 }),
                 assocSkillCode: new StringField(),
+
                 // Melee fields
                 strikeAccuracy: new NumberField({
                     integer: true,
@@ -58,6 +59,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                     initial: 0,
                     min: 0,
                 }),
+
                 // Missile fields
                 projectileType: new StringField({
                     initial: PROJECTILEGEAR_SUBTYPE.NONE,
@@ -79,6 +81,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
                     initial: 0,
                     min: 0,
                 }),
+
                 // Shared fields
                 impactBase: new SchemaField({
                     numDice: new NumberField({

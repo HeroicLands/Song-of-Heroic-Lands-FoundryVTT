@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@src/document/item/foundry/MasteryLevelDataModel";
 import {
     MysticalAbilityLogic,
     MysticalAbilityData,
@@ -21,27 +20,22 @@ import {
     MysticalAbilitySubType,
     MysticalAbilitySubTypes,
 } from "@src/utils/constants";
+import { SohlItemDataModel } from "./SohlItem";
 const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 
 function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
     return {
-        ...MasteryLevelDataModel.defineSchema(),
+        ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
             choices: MysticalAbilitySubTypes,
             required: true,
         }),
         assocSkillCode: new StringField({
-            blank: false,
-            nullable: true,
+            initial: "",
         }),
-        assocWeaponId: new DocumentIdField({
-            nullable: true,
-        }),
-        isImprovable: new BooleanField({ initial: false }),
-        domainCode: new StringField({
-            blank: false,
-            nullable: true,
+        assocMysteryCode: new StringField({
+            initial: "",
         }),
         levelBase: new NumberField({
             integer: true,
@@ -77,7 +71,7 @@ export class MysticalAbilityDataModel<
     TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
         MysticalAbilityLogic<MysticalAbilityData>,
 >
-    extends MasteryLevelDataModel<TSchema, TLogic>
+    extends SohlItemDataModel<TSchema, TLogic>
     implements MysticalAbilityData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = [
@@ -88,8 +82,7 @@ export class MysticalAbilityDataModel<
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
     assocSkillCode?: string;
-    isImprovable!: boolean;
-    domainCode?: string;
+    assocMysteryCode?: string;
     levelBase!: number;
     charges!: {
         value: number;

@@ -11,13 +11,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { MasteryLevelLogic } from "@src/document/item/logic/MasteryLevelLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import type { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { Itr } from "@src/utils/Itr";
 import { getContextItem } from "@src/core/FoundryHelpers";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
@@ -1207,47 +1207,12 @@ export const {
     values: MysterySubTypes,
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
-    GRACE: "grace",
-    PIETY: "piety",
-    FATE: "fate",
-    FATEBONUS: "fateBonus",
-    FATEPOINTBONUS: "fatePointBonus",
-    BLESSING: "blessing",
-    ANCESTORSPIRITPOWER: "ancestorSpiritPower",
-    TOTEMSPIRITPOWER: "totemSpiritPower",
+    LEVEL: "level",
+    BUFF: "buff",
+    OTHER: "other",
 });
 export type MysterySubType =
     (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
-
-export const {
-    kind: MYSTERY_CATEGORY,
-    values: MysteryCategories,
-    isValue: isMysteryCategory,
-} = defineType("SOHL.Mystery.Category", {
-    DIVINE: "divine",
-    SKILL: "skill",
-    CREATURE: "creature",
-    NONE: "none",
-});
-export type MysteryCategory =
-    (typeof MYSTERY_CATEGORY)[keyof typeof MYSTERY_CATEGORY];
-
-export const {
-    kind: MYSTERY_CATEGORYMAP,
-    values: MysteryCategoryMaps,
-    isValue: isMysteryCategoryMap,
-} = defineType("SOHL.Mystery.CategoryMap", {
-    [MYSTERY_SUBTYPE.GRACE]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.PIETY]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.FATE]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.FATEBONUS]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.FATEPOINTBONUS]: MYSTERY_CATEGORY.NONE,
-    [MYSTERY_SUBTYPE.BLESSING]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.TOTEMSPIRITPOWER]: MYSTERY_CATEGORY.CREATURE,
-});
-export type MysteryCategoryMap =
-    (typeof MYSTERY_CATEGORYMAP)[keyof typeof MYSTERY_CATEGORYMAP];
 
 export const {
     kind: MYSTICALABILITY_SUBTYPE,
@@ -1378,7 +1343,7 @@ export const {
         iconClass: "fas fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
+                ?.system as unknown as SkillLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1389,7 +1354,7 @@ export const {
         iconClass: "far fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
+                ?.system as unknown as SkillLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1400,7 +1365,7 @@ export const {
         iconClass: "fas fa-star",
         condition: (header: HTMLElement): boolean => {
             const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
+                ?.system as unknown as SkillLogic;
             return mlLogic?.canImprove && !mlLogic.data.improveFlag;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -1632,8 +1597,7 @@ export const {
                     it.type === ITEM_KIND.SKILL && it.name === "Dodge",
             ) as SohlItem | null;
             return !!(
-                dodge &&
-                !(dodge.logic as MasteryLevelLogic).masteryLevel.disabled
+                dodge && !(dodge.logic as SkillLogic).masteryLevel.disabled
             );
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

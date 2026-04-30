@@ -58,10 +58,10 @@ export interface ProjectileGearData<
 > extends GearData<TLogic> {
     /** Projectile category (Arrow, Bolt, Bullet, etc.) */
     subType: ProjectileGearSubType;
-    /** Abbreviated name for compact display */
-    shortName: string;
     /** Base damage characteristics: dice, modifier, and aspect */
     impactBase: {
+        overrideDice: boolean;
+        overrideModifier: boolean;
         numDice: number;
         die: number;
         modifier: number;

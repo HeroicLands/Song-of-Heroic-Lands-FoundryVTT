@@ -246,11 +246,16 @@ export class ValueModifier {
         this._dirty = true;
     }
 
+    setDisabled(reason: string | boolean): this {
+        this.disabled = reason;
+        return this;
+    }
+
     get base(): number {
         return this.baseValue ?? 0;
     }
 
-    setBase(value: unknown): ValueModifier {
+    setBase(value: unknown): this {
         if (typeof value === "number" || typeof value === "undefined") {
             this.baseValue = value;
         } else {
@@ -278,7 +283,7 @@ export class ValueModifier {
         value: string | number = 0,
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
-    ): ValueModifier {
+    ): this {
         // TODO: Name prefix mismatch — _oper validates "SOHL.MOD." but ValueDelta
         // constructor requires "SOHL.INFO.". These are mutually exclusive, so
         // add()/multiply()/set()/floor()/ceiling() cannot currently create deltas.
@@ -337,7 +342,7 @@ export class ValueModifier {
         this._dirty = true;
     }
 
-    add(...args: any[]): ValueModifier {
+    add(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             [{ name, shortcode }, value, data = {}] = args;
@@ -361,7 +366,7 @@ export class ValueModifier {
         return this;
     }
 
-    multiply(...args: any[]): ValueModifier {
+    multiply(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             [{ name, shortcode }, value, data = {}] = args;
@@ -380,7 +385,7 @@ export class ValueModifier {
      * Sets the value to a specific number, overriding all other modifiers.
      * @param args - The arguments can be an object with name and shortcode, followed by value and optional data.
      */
-    set(...args: any[]): ValueModifier {
+    set(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             [{ name, shortcode }, value, data = {}] = args;
@@ -396,7 +401,7 @@ export class ValueModifier {
         );
     }
 
-    floor(...args: any[]): ValueModifier {
+    floor(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             [{ name, shortcode }, value, data = {}] = args;
@@ -412,7 +417,7 @@ export class ValueModifier {
         );
     }
 
-    ceiling(...args: any[]): ValueModifier {
+    ceiling(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
             name = args[0].name;

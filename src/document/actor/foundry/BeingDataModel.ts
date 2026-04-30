@@ -40,6 +40,7 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
             parts: new ArrayField(
                 new SchemaField({
                     shortcode: new StringField({ blank: false }),
+                    name: new StringField({ blank: false }),
                     affectedSkillCodes: new ArrayField(
                         new StringField({ blank: false }),
                         {
@@ -64,6 +65,7 @@ function defineBeingDataSchema(): foundry.data.fields.DataSchema {
                     locations: new ArrayField(
                         new SchemaField({
                             shortcode: new StringField({ blank: false }),
+                            name: new StringField({ blank: false }),
                             isFumble: new BooleanField({ initial: false }),
                             isStumble: new BooleanField({ initial: false }),
                             bleedingSevThreshold: new NumberField({

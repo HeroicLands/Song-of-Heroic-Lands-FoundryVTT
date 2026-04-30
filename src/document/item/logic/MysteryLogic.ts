@@ -18,14 +18,7 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
-import {
-    ITEM_KIND,
-    MYSTERY_CATEGORY,
-    MYSTERY_CATEGORYMAP,
-    MYSTERY_SUBTYPE,
-    MysterySubType,
-} from "@src/utils/constants";
-import { isItemWithSubType } from "@src/utils/helpers";
+import { MysterySubType } from "@src/utils/constants";
 
 /**
  * Logic for the **Mystery** item type — a passive or charge-based mystical
@@ -61,118 +54,10 @@ import { isItemWithSubType } from "@src/utils/helpers";
 export class MysteryLogic<
     TData extends MysteryData = MysteryData,
 > extends SohlItemBaseLogic<TData> {
-    skills!: SkillLogic[];
-    level!: ValueModifier;
     charges!: {
         value: ValueModifier;
         max: ValueModifier;
     };
-
-    get fieldData(): string {
-        this.data.subType;
-        const category = MYSTERY_CATEGORYMAP[this.data.subType];
-
-        let field: string = "";
-        switch (category) {
-            case MYSTERY_CATEGORY.SKILL:
-                if (this.skills.length) {
-                    field = sohl.i18n.formatListOr(
-                        Array.from(this.skills.values()) as unknown as string[],
-                    );
-                } else {
-                    field = "SOHL.AllSkills";
-                }
-                break;
-
-            default:
-                field = "SOHL.Mystery.UnknownDomain";
-                break;
-        }
-
-        return field;
-    }
-
-    getApplicableFate(target: SohlItem): SohlItem[] {
-        const result: SohlItem[] = [];
-        if (this.data.subType === MYSTERY_SUBTYPE.FATE) {
-            // If a fate item has a list of skills, then that fate
-            // item is only applicable to those skills.  If the fate item
-            // has no list of skills, then the fate item is applicable
-            // to all skills.
-            if (
-                !this.data.skills.length ||
-                this.data.skills.includes(target.name)
-            ) {
-                if (this.level.effective > 0) result.push(this.item);
-            }
-        }
-        return result;
-    }
-
-    _usesCharges(): boolean {
-        return (
-            [
-                MYSTERY_SUBTYPE.FATE,
-                MYSTERY_SUBTYPE.FATEBONUS,
-                MYSTERY_SUBTYPE.FATEPOINTBONUS,
-                MYSTERY_SUBTYPE.GRACE,
-                MYSTERY_SUBTYPE.PIETY,
-            ] as MysterySubType[]
-        ).includes(this.data.subType);
-    }
-
-    _usesLevels(): boolean {
-        return (
-            [
-                MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER,
-                MYSTERY_SUBTYPE.TOTEMSPIRITPOWER,
-            ] as MysterySubType[]
-        ).includes(this.data.subType);
-    }
-
-    get fateBonusItems(): SohlItem[] {
-        let result: SohlItem[] = [];
-        if (!this.item?.name) return result;
-
-        if (this.actor) {
-            this.actor.items.forEach((it: SohlItem) => {
-                if (
-                    it.type === ITEM_KIND.MYSTERY &&
-                    isItemWithSubType(it, MYSTERY_SUBTYPE.FATEBONUS)
-                ) {
-                    const itLogic = it.logic as any;
-                    const skills = (it.system as any).skills;
-                    if (!skills || skills.includes(this.item.name)) {
-                        if (
-                            !itLogic.charges.value.disabled ||
-                            itLogic.charges.value.effective > 0
-                        ) {
-                            result.push(it);
-                        }
-                    }
-                }
-            });
-        }
-        return result;
-    }
-
-    /* --------------------------------------------- */
-    /* Array update helpers                          */
-    /* --------------------------------------------- */
-
-    /** Build an `update()` payload that adds a skill shortcode. */
-    addSkillUpdate(skillCode: string): PlainObject {
-        const canonical = this.data.skills;
-        if (canonical.includes(skillCode)) return {};
-        return { "system.skills": [...canonical, skillCode] };
-    }
-
-    /** Build an `update()` payload that removes a skill shortcode. */
-    removeSkillUpdate(skillCode: string): PlainObject {
-        return {
-            "system.skills": this.data.skills.filter((s) => s !== skillCode),
-        };
-    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -182,32 +67,30 @@ export class MysteryLogic<
     override initialize(): void {
         super.initialize();
 
-        this.level = new ValueModifier({}, { parent: this }).setBase(
-            this.data.levelBase,
-        );
-
-        this.charges = {
-            value: new ValueModifier({}, { parent: this }).setBase(
-                this.data.charges.value,
-            ),
-            max: new ValueModifier({}, { parent: this }).setBase(
-                this.data.charges.max,
-            ),
-        };
+        if (this.data.charges.max !== null) {
+            this.charges = {
+                value: new ValueModifier({}, { parent: this }).setBase(
+                    this.data.charges.value,
+                ),
+                max: new ValueModifier({}, { parent: this }).setBase(
+                    this.data.charges.max,
+                ),
+            };
+        } else {
+            this.charges = {
+                value: new ValueModifier({}, { parent: this }).setDisabled(
+                    "This mystery doesn't use charges",
+                ),
+                max: new ValueModifier({}, { parent: this }).setDisabled(
+                    "This mystery doesn't use charges",
+                ),
+            };
+        }
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-
-        if (!this.actor) return;
-        const allItemTypes = this.actor.itemTypes;
-
-        this.skills = allItemTypes.skill
-            .filter((it: SohlItem) =>
-                this.data.skills.includes(it.system.shortcode),
-            )
-            .map((it: SohlItem) => it.logic as SkillLogic);
     }
 
     /** @inheritdoc */
@@ -219,14 +102,6 @@ export class MysteryLogic<
 export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
-    /** Mystery category (Grace, Piety, Fate, Blessing, etc.) */
-    subType: MysterySubType;
-    /** Fully-qualified Domain registry shortcode (e.g. "sohl.totem.Bear"). */
-    domainCode: string;
-    /** Shortcodes of skills this mystery affects */
-    skills: string[];
-    /** Power level of this mystery */
-    levelBase: number;
     /** Usage tracking: current charges and maximum */
     charges: {
         value: number;

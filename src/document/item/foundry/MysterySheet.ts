@@ -21,8 +21,7 @@ export class MysterySheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template:
-                "systems/sohl/templates/item/mystery-properties.hbs",
+            template: "systems/sohl/templates/item/mystery-properties.hbs",
             scrollable: [""],
         },
     };
@@ -37,7 +36,7 @@ export class MysterySheet extends SohlItemSheetBase {
         const system = this.document.system as any;
         return Object.assign(context, {
             subType: system.subType,
-            skills: system.skills,
+            domain: system.domain,
             levelBase: system.levelBase,
             charges: system.charges,
         });

@@ -14,12 +14,13 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
-    MasteryLevelLogic,
-    MasteryLevelData,
-} from "@src/document/item/logic/MasteryLevelLogic";
-import { SohlItem } from "@src/document/item/foundry/SohlItem";
+    SohlItem,
+    SohlItemBaseLogic,
+    SohlItemData,
+} from "@src/document/item/foundry/SohlItem";
 import { MysticalAbilitySubType } from "@src/utils/constants";
 import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
+import { MysteryLogic } from "./MysteryLogic";
 
 /**
  * Logic for the **Mystical Ability** item type — an actively invoked
@@ -53,17 +54,9 @@ import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
  */
 export class MysticalAbilityLogic<
     TData extends MysticalAbilityData = MysticalAbilityData,
->
-    extends MasteryLevelLogic<TData>
-    implements MysticalAbilityLogic<TData>
-{
+> extends SohlItemBaseLogic<TData> {
     assocSkill?: SkillLogic;
-    /**
-     * Resolved Domain entry for this ability's `domainCode`. Looked up
-     * via {@link SohlDomains.get} during evaluation. Undefined if the
-     * code is empty or does not match any registered domain.
-     */
-    domain?: DomainEntry;
+    assocMystery?: MysteryLogic;
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -95,19 +88,16 @@ export class MysticalAbilityLogic<
     evaluate(): void {
         super.evaluate();
 
-        // Resolve the domain entry from the world-scoped registry. This
-        // is independent of the actor — domains are reference data, not
-        // actor-local items.
-        this.domain = this.data.domainCode
-            ? SohlDomains.get(this.data.domainCode)
-            : undefined;
-
         if (!this.actor) return;
         const allItemTypes = this.actor.itemTypes;
 
         this.assocSkill = allItemTypes.skill.find(
             (it: SohlItem) => it.system.shortcode === this.data.assocSkillCode,
         )?.logic as SkillLogic;
+        this.assocMystery = allItemTypes.mystery.find(
+            (it: SohlItem) =>
+                it.system.shortcode === this.data.assocMysteryCode,
+        )?.logic as MysteryLogic;
     }
 
     /** @inheritdoc */
@@ -119,15 +109,13 @@ export class MysticalAbilityLogic<
 export interface MysticalAbilityData<
     TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
         MysticalAbilityLogic<any>,
-> extends MasteryLevelData<TLogic> {
+> extends SohlItemData<TLogic> {
     /** Ability type (Incantation, Rite, Talent, etc.) */
     subType: MysticalAbilitySubType;
     /** Shortcode of the skill used to activate this ability */
     assocSkillCode?: string;
-    /** Whether this ability's mastery level can be improved */
-    isImprovable: boolean;
-    /** Fully-qualified Domain registry shortcode (e.g. "sohl.hexhodai.pyrethos"). */
-    domainCode?: string;
+    /** Shortcode of the mystery that determines this ability's tradition */
+    assocMysteryCode?: string;
     /** Power level of this ability */
     levelBase: number;
     /** Usage tracking: current charges and maximum */

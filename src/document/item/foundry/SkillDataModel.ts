@@ -11,8 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@src/document/item/foundry/MasteryLevelDataModel";
-import { SkillLogic, SkillData } from "@src/document/item/logic/SkillLogic";
+import type {
+    SkillLogic,
+    SkillData,
+} from "@src/document/item/logic/SkillLogic";
 import {
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
@@ -21,16 +23,23 @@ import {
     SKILL_SUBTYPE,
     ITEM_KIND,
 } from "@src/utils/constants";
-const { NumberField, StringField } = foundry.data.fields;
+import { SohlItemDataModel } from "./SohlItem";
+const { NumberField, StringField, BooleanField } = foundry.data.fields;
 
 function defineSkillSchema(): foundry.data.fields.DataSchema {
     return {
-        ...MasteryLevelDataModel.defineSchema(),
+        ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
             initial: SKILL_SUBTYPE.SOCIAL,
             required: true,
             choices: SkillSubTypes,
         }),
+        skillBaseFormula: new StringField(),
+        masteryLevelBase: new NumberField({
+            initial: 0,
+            min: 0,
+        }),
+        improveFlag: new BooleanField({ initial: false }),
         weaponGroup: new StringField({
             initial: SKILL_COMBAT_CATEGORY.NONE,
             blank: false,
@@ -53,7 +62,7 @@ export class SkillDataModel<
     TSchema extends foundry.data.fields.DataSchema = SkillSchema,
     TLogic extends SkillLogic<SkillData> = SkillLogic<SkillData>,
 >
-    extends MasteryLevelDataModel<TSchema, TLogic>
+    extends SohlItemDataModel<TSchema, TLogic>
     implements SkillData<TLogic>
 {
     static override readonly kind = ITEM_KIND.SKILL;
@@ -63,6 +72,9 @@ export class SkillDataModel<
         "SOHL.Item",
     ];
     subType!: SkillSubType;
+    skillBaseFormula!: string;
+    masteryLevelBase!: number;
+    improveFlag!: boolean;
     weaponGroup!: string;
     baseSkill!: string;
     domainCode!: string;
