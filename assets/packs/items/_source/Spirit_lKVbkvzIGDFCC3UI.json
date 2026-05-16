@@ -1,0 +1,39 @@
+{
+  "name": "Spirit",
+  "type": "mysticalability",
+  "img": "systems/sohl/assets/icons/psionics.svg",
+  "_id": "lKVbkvzIGDFCC3UI",
+  "system": {
+    "shortcode": "sprt",
+    "docUrl": "https://heroiclands.org/sohl/mysticalability/spirit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "",
+    "subType": "spiritaction",
+    "assocSkillCode": "",
+    "assocMysteryCode": "",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "levelBase": 0,
+    "charges": {
+      "usesCharges": false,
+      "value": 0,
+      "max": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gpLM4ElXNiI1rN7l",
+  "_key": "!items!lKVbkvzIGDFCC3UI"
+}
