@@ -10,16 +10,16 @@ const SAMPLE_FACTOR: MovementProfile.Factor = {
 
 const TERRESTRIAL: MovementProfile.Data = {
     medium: "terrestrial",
-    metersPerRound: 10,
-    metersPerWatch: 20000,
+    feetPerRound: 10,
+    leaguesPerWatch: 20000,
     disabled: false,
     factors: [SAMPLE_FACTOR],
 };
 
 const AQUATIC: MovementProfile.Data = {
     medium: "aquatic",
-    metersPerRound: 5,
-    metersPerWatch: 8000,
+    feetPerRound: 5,
+    leaguesPerWatch: 8000,
     disabled: false,
     factors: [],
 };
@@ -36,8 +36,8 @@ describe("MovementProfile", () => {
         it("creates from data with all properties", () => {
             const profile = new MovementProfile(TERRESTRIAL, MOCK_BEING_LOGIC, 0);
             expect(profile.medium).toBe("terrestrial");
-            expect(profile.metersPerRound.effective).toBe(10);
-            expect(profile.metersPerWatch.effective).toBe(20000);
+            expect(profile.feetPerRound.effective).toBe(10);
+            expect(profile.leaguesPerWatch.effective).toBe(20000);
             expect(profile.disabled).toBe(false);
             expect(profile.factors).toHaveLength(1);
             expect(profile.index).toBe(0);
@@ -88,8 +88,8 @@ describe("MovementProfile", () => {
             const profile = new MovementProfile(TERRESTRIAL, MOCK_BEING_LOGIC, 0);
             const newData: MovementProfile.Data = {
                 medium: "aerial",
-                metersPerRound: 20,
-                metersPerWatch: 40000,
+                feetPerRound: 20,
+                leaguesPerWatch: 40000,
                 disabled: false,
                 factors: [],
             };

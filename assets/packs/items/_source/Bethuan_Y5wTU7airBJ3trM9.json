@@ -1,0 +1,35 @@
+{
+  "name": "Bethuan",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/speaking.svg",
+  "_id": "Y5wTU7airBJ3trM9",
+  "system": {
+    "shortcode": "langbet",
+    "docUrl": "https://heroiclands.org/sohl/skill/bethuan/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Bethuan is a tongue of the Helonic family. Fluency measures the sophistication of expression in Bethuan, from the halting phrases of a traveler to the nuanced and learned discourse of a native speaker. As with all specific languages, this skill inherits its mechanics from the general [[Language]] skill; see [[Bethuan_Language|Bethuan Language]] for the linguistic and cultural background of the tongue itself.</p>\n",
+    "subType": "language",
+    "skillBaseFormula": "@elo, @rea",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "language",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "sn9NBuZMZOBqxsYv",
+  "_key": "!items!Y5wTU7airBJ3trM9"
+}

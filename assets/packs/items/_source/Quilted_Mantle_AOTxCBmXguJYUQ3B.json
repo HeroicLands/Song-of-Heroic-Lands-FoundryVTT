@@ -1,0 +1,55 @@
+{
+  "name": "Quilted Mantle",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/mantle.svg",
+  "_id": "AOTxCBmXguJYUQ3B",
+  "system": {
+    "shortcode": "QMntl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/quilted-mantle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Featuring layers of fabric sewn together, the Quilted Mantle offers exceptional insulation and comfort. It's suitable for colder weather, providing both warmth and a bit of extra protection.</p>\n",
+    "quantity": 1,
+    "weightBase": 3.8,
+    "valueBase": 84,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Quilted",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!AOTxCBmXguJYUQ3B"
+}

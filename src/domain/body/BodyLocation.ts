@@ -33,10 +33,10 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  */
 export class BodyLocation {
     readonly shortcode: string;
-    readonly isFumble: boolean;
-    readonly isStumble: boolean;
-    readonly bleedingSevThreshold: ValueModifier;
-    readonly amputateModifier: ValueModifier;
+    /** Bleeding tier — see BleedingSusceptibility in constants. */
+    readonly bleedingSusceptibility: string;
+    /** Amputability tier — see Amputability in constants. */
+    readonly amputability: string;
     readonly shockValue: ValueModifier;
     readonly probWeight: ValueModifier;
     readonly protectionBase: {
@@ -50,36 +50,30 @@ export class BodyLocation {
     readonly index: number;
 
     constructor(data: BodyLocation.Data, bodyPart: BodyPart, index: number) {
-        const beingLogic = bodyPart.bodyStructure.beingLogic;
+        const lineageLogic = bodyPart.bodyStructure.lineageLogic;
 
         this.shortcode = data.shortcode;
-        this.isFumble = data.isFumble;
-        this.isStumble = data.isStumble;
-        this.bleedingSevThreshold = new ValueModifier(
+        this.bleedingSusceptibility = data.bleedingSusceptibility;
+        this.amputability = data.amputability;
+        this.shockValue = new ValueModifier(
             {},
-            { parent: beingLogic },
-        ).setBase(data.bleedingSevThreshold);
-        this.amputateModifier = new ValueModifier(
+            { parent: lineageLogic },
+        ).setBase(data.shockValue);
+        this.probWeight = new ValueModifier(
             {},
-            { parent: beingLogic },
-        ).setBase(data.amputateModifier);
-        this.shockValue = new ValueModifier({}, { parent: beingLogic }).setBase(
-            data.shockValue,
-        );
-        this.probWeight = new ValueModifier({}, { parent: beingLogic }).setBase(
-            data.probWeight,
-        );
+            { parent: lineageLogic },
+        ).setBase(data.probWeight);
         this.protectionBase = {
-            blunt: new ValueModifier({}, { parent: beingLogic }).setBase(
+            blunt: new ValueModifier({}, { parent: lineageLogic }).setBase(
                 data.protectionBase.blunt,
             ),
-            edged: new ValueModifier({}, { parent: beingLogic }).setBase(
+            edged: new ValueModifier({}, { parent: lineageLogic }).setBase(
                 data.protectionBase.edged,
             ),
-            piercing: new ValueModifier({}, { parent: beingLogic }).setBase(
+            piercing: new ValueModifier({}, { parent: lineageLogic }).setBase(
                 data.protectionBase.piercing,
             ),
-            fire: new ValueModifier({}, { parent: beingLogic }).setBase(
+            fire: new ValueModifier({}, { parent: lineageLogic }).setBase(
                 data.protectionBase.fire,
             ),
         };
@@ -101,12 +95,15 @@ export namespace BodyLocation {
     /** Persisted data shape for a body location. */
     export interface Data {
         shortcode: string;
-        isFumble: boolean;
-        isStumble: boolean;
-        bleedingSevThreshold: number;
-        amputateModifier: number;
+        /** Bleeding tier (BleedingSusceptibility value). */
+        bleedingSusceptibility: string;
+        /** Amputability tier (Amputability value). */
+        amputability: string;
+        /** Base shock value for injuries to this location (subject to modifiers) */
         shockValue: number;
+        /** Weight used in random hit location selection */
         probWeight: number;
+        /** Base protection values for different impact aspects */
         protectionBase: {
             blunt: number;
             edged: number;

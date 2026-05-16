@@ -11,7 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import {
+    ValueModifier as MasteryLevelModifier,
+    ValueModifier,
+} from "@src/domain/modifier/ValueModifier";
 import { TraitIntensity, TraitSubType } from "@src/utils/constants";
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 
@@ -45,8 +48,7 @@ import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 export class TraitLogic<
     TData extends TraitData = TraitData,
 > extends SohlItemBaseLogic<TData> {
-    score!: number;
-    targetLevel!: ValueModifier;
+    score!: ValueModifier;
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
@@ -78,6 +80,12 @@ export class TraitLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.score = new ValueModifier({}, { parent: this });
+        if (this.data.isNumeric) {
+            this.score.setBase(this.data.score?.value ?? 0);
+        } else {
+            this.score.setDisabled("This trait doesn't use a numeric score");
+        }
     }
 
     /** @inheritdoc */
@@ -98,10 +106,14 @@ export interface TraitData<
     subType: TraitSubType;
     /** Descriptive value for non-numeric traits */
     textValue: string;
-    /** Optional upper limit for this trait's value, or null for no limit */
-    max: number | null;
     /** Whether this trait uses numeric rather than text values */
     isNumeric: boolean;
+    /** Numeric value for this trait, or null if not applicable */
+    score?: {
+        value: number;
+        /** Optional upper limit for this trait's value, or null for no limit */
+        max: number | null;
+    };
     /** Intensity level: Trait, Impulse, Disorder, or Attribute */
     intensity: TraitIntensity;
     /** Labels mapping numeric value ranges to descriptive names */
@@ -111,6 +123,4 @@ export interface TraitData<
     }[];
     /** Predefined selection options for this trait */
     choices: StrictObject<string>;
-    /** Dice formula used for random generation of this trait's value */
-    diceFormula: string;
 }

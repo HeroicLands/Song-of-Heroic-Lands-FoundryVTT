@@ -14,9 +14,14 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import { ITEM_METADATA, ItemKinds } from "@src/utils/constants";
-import { resolveItemTargets } from "./active-effect-logic";
-const { StringField } = foundry.data.fields;
+import {
+    ACTIVE_EFFECT_SCOPE,
+    ActiveEffectScopes,
+    ITEM_METADATA,
+    ItemKinds,
+} from "@src/utils/constants";
+import { textToFunction } from "@src/utils/helpers";
+const { StringField, JavaScriptField } = foundry.data.fields;
 
 export class SohlActiveEffect extends ActiveEffect {
     get item(): SohlItem | null {
@@ -30,48 +35,81 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     /**
-     * Resolve the targets of this effect from `targetType` and `targetName`.
+     * Resolve the documents this effect applies to, based on `system.scope`
+     * and (for the `test` scope) `system.test`.
      *
-     * Resolution rules:
-     * - `targetType === "this"`: returns the owning item if present, otherwise the owning actor.
-     * - `targetType === "actor"`: returns the owning actor.
-     * - Otherwise: inspects actor items of type `targetType`.
+     * Scope resolution:
+     * - `"this"`: the owning item if the effect is embedded in an item,
+     *   otherwise the owning actor.
+     * - `"actor"`: the owning actor (the actor of the parent item, or the
+     *   parent itself if the parent is an actor).
+     * - `"test"`: every embedded item on the owning actor for which the
+     *   `system.test` JavaScript expression returns truthy. The expression is
+     *   evaluated as a function body with a single parameter `doc` bound to
+     *   each candidate item. Returns an empty array when there is no owning
+     *   actor, when `system.test` is blank, or when the expression fails to
+     *   compile.
      *
-     * Name matching rules for item targets:
-     * - Default mode: match against `item.system.shortcode`.
-     * - Attribute mode (`targetName` starts with `"attr:"`): match against each
-     *   attribute shortcode on the item's Skill Base,
-     *   i.e. `item.logic.skillBase.attributes[*].data.shortcode`.
-     * - In both modes, if match value is non-blank, matching attempts exact
-     *   match first; if none are found, the value is treated as a regular
-     *   expression.
-     * - If the match value is blank:
-     *   - default mode returns all items of `targetType`;
-     *   - attribute mode returns only items that expose at least one Skill Base attribute shortcode.
+     * Errors thrown by the test expression for an individual item are caught
+     * and logged; that item is skipped and evaluation continues.
      *
      * @returns Target documents as `SohlItem` and/or `SohlActor`.
      */
     get targets(): Array<SohlItem | SohlActor> {
-        const { targetType, targetName } = this
-            .system as SohlActiveEffectDataModel;
-
         if (!this.actor) return [];
 
-        if (targetType === "this") {
+        if (this.system.scope === ACTIVE_EFFECT_SCOPE.THIS) {
             return (
                 this.item ? [this.item]
                 : this.actor ? [this.actor]
                 : []
             );
-        }
-
-        if (targetType === "actor") {
+        } else if (this.system.scope === ACTIVE_EFFECT_SCOPE.ACTOR) {
             return this.actor ? [this.actor] : [];
+        } else if (this.system.scope === ACTIVE_EFFECT_SCOPE.TEST) {
+            return this._resolveTestTargets();
+        } else {
+            sohl.log.warn("Unrecognized scope on Active Effect:", {
+                scope: this.system.scope,
+                effect: this,
+            });
+            return [];
+        }
+    }
+
+    /**
+     * Compile `system.test` as `(doc) => unknown` and run it against every
+     * embedded item on the owning actor. See {@link targets} for scope rules.
+     */
+    protected _resolveTestTargets(): SohlItem[] {
+        const script = this.system.test;
+        if (!script || !this.actor) return [];
+
+        let predicate: (doc: SohlItem) => unknown;
+        try {
+            predicate = textToFunction(script, ["doc"], {
+                isAsync: false,
+            }) as (doc: SohlItem) => unknown;
+        } catch (err) {
+            sohl.log.warn(
+                "Failed to compile test script on Active Effect:",
+                { test: script, effect: this, error: err },
+            );
+            return [];
         }
 
-        const typeItems: SohlItem[] =
-            this.actor.itemTypes[targetType as any] ?? [];
-        return resolveItemTargets({ targetName, typeItems });
+        const matched: SohlItem[] = [];
+        for (const item of this.actor.items.values() as Iterable<SohlItem>) {
+            try {
+                if (predicate(item)) matched.push(item);
+            } catch (err) {
+                sohl.log.warn(
+                    "Test script threw on Active Effect evaluation:",
+                    { test: script, effect: this, item, error: err },
+                );
+            }
+        }
+        return matched;
     }
 
     /**
@@ -94,8 +132,12 @@ export class SohlActiveEffect extends ActiveEffect {
 
 function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
     return {
-        targetType: new StringField({}),
-        targetName: new StringField({}),
+        scope: new StringField({
+            blank: false,
+            initial: ACTIVE_EFFECT_SCOPE.THIS,
+            choices: ActiveEffectScopes,
+        }),
+        test: new JavaScriptField({}),
     };
 }
 
@@ -108,8 +150,8 @@ export class SohlActiveEffectDataModel<
 > extends foundry.abstract.TypeDataModel<TSchema, SohlActiveEffect> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.ActiveEffect"];
     static readonly kind = "sohleffectdata";
-    targetType!: string;
-    targetName!: string;
+    scope!: string;
+    test!: string;
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineActiveEffectDataSchema();

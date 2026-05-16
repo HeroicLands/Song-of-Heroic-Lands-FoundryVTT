@@ -1,0 +1,35 @@
+{
+  "name": "Singing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/sing.svg",
+  "_id": "CCqx4sjkxUIXUyLC",
+  "system": {
+    "shortcode": "sing",
+    "docUrl": "https://heroiclands.org/sohl/skill/singing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Singing measures vocal performance ability—the control of pitch, tone, volume, and phrasing that transforms the human voice into a musical instrument. Every culture has its own repertoire of songs for work, worship, celebration, and mourning, and a skilled singer can move audiences to emotion, enhance ceremonial occasions, and earn social standing through their art. Natural vocal quality provides a foundation, but true excellence requires training and creative interpretation.</p>\n",
+    "subType": "social",
+    "skillBaseFormula": "@voi, @cre",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 3
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!CCqx4sjkxUIXUyLC"
+}

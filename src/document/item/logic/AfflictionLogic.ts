@@ -14,11 +14,10 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import type { InjuryData } from "@src/document/item/logic/InjuryLogic";
+import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
-    AfflictionHealRate,
     AfflictionSubType,
     AfflictionTransmission,
     defineType,
@@ -337,7 +336,7 @@ export const {
         executor: "diagnosisTest",
         visible: serializeFn((header: HTMLElement) => {
             const item = getContextItem(header);
-            return !!item && !(item.system as InjuryData).isTreated;
+            return !!item && !(item.system as TraumaData).isTreated;
         }),
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },

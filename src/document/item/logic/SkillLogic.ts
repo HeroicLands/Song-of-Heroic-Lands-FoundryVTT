@@ -27,6 +27,7 @@ import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlItem, SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 import { fvttGetSetting, fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
+import { AttributeLogic } from "./AttributeLogic";
 
 // TODO: This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -93,6 +94,7 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
 export class SkillLogic<
     TData extends SkillData = SkillData,
 > extends SohlItemBaseLogic<TData> {
+    parentSkill!: SkillLogic | null;
     _boosts!: number;
     _skillBase!: SkillBase;
     masteryLevel!: MasteryLevelModifier;
@@ -292,8 +294,12 @@ export class SkillLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        this.parentSkill = null;
         this._boosts = 0;
-        this.masteryLevel = new MasteryLevelModifier({}, { parent: this });
+        this.masteryLevel = new MasteryLevelModifier(
+            {},
+            { parent: this },
+        ).setBase(this.data.masteryLevelBase);
         this.fateMasteryLevel = new MasteryLevelModifier(
             {
                 testDescTable: FATE_DESC_TABLE,
@@ -302,7 +308,6 @@ export class SkillLogic<
             },
             { parent: this },
         );
-        this.masteryLevel.setBase(this.data.masteryLevelBase);
 
         // Calculate Fate Mastery Level
         if (this.actor) {
@@ -310,10 +315,10 @@ export class SkillLogic<
 
             const auraLogic = this.actor.items.find(
                 (it) =>
-                    it.type === ITEM_KIND.TRAIT &&
+                    it.type === ITEM_KIND.ATTRIBUTE &&
                     (it.system as any).shortcode === "aur",
-            )?.logic as TraitLogic;
-            if (!auraLogic.targetLevel.disabled) {
+            )?.logic as AttributeLogic | undefined;
+            if (auraLogic && !auraLogic.masteryLevel.disabled) {
                 if (
                     fateSetting === "everyone" ||
                     (fateSetting === "pconly" && this.actor.hasPlayerOwner)
@@ -321,7 +326,7 @@ export class SkillLogic<
                     this.fateMasteryLevel.setBase(50);
                     this.fateMasteryLevel.add(
                         "AuraSecondaryModifier",
-                        Math.trunc(auraLogic.targetLevel.effective / 2),
+                        Math.trunc(auraLogic.masteryLevel.effective / 2),
                     );
                 } else {
                     this.fateMasteryLevel.disabled =
@@ -342,6 +347,17 @@ export class SkillLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        if (this.data.parentSkillCode && this.actor) {
+            // If this skill references a parent skill, find it and link it here so we can pull in its properties as needed
+            const parentItem = this.actor.items.find(
+                (it) =>
+                    it.type === ITEM_KIND.SKILL &&
+                    (it.system as any).shortcode === this.data.parentSkillCode,
+            );
+            if (parentItem) {
+                this.parentSkill = parentItem.logic as SkillLogic;
+            }
+        }
         if (this.masteryLevel.base > 0) {
             let newML = this.masteryLevel.base;
             for (let i = 0; i < this.boosts; i++) {
@@ -416,13 +432,9 @@ export interface SkillData<
     /** Whether this item is flagged for mastery improvement via SDR */
     improveFlag: boolean;
     /** Combat category this skill applies to, if any */
-    weaponGroup: string;
+    combatCategory: string;
     /** Name of the base skill if this is a specialization */
-    baseSkill: string;
-    /** Fully-qualified Domain registry shortcode associated with this skill, if any. */
-    domainCode: string;
+    parentSkillCode: string;
     /** Multiplier applied to skill base when initializing a new character */
     initSkillMult: number;
-    /** Parent skill name for expertise specializations */
-    expertiseParentSkill: string;
 }

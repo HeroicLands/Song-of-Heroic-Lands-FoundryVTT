@@ -1,0 +1,55 @@
+{
+  "name": "Rawhide Blacksmith Apron",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/apron.svg",
+  "_id": "8P1qXxWez6hM15T3",
+  "system": {
+    "shortcode": "RhApr",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-blacksmith-apron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Rawhide Blacksmith Apron is built for heavy-duty protection. Thick and rugged, it guards against sparks, heat, and sharp objects, making it the go-to choice for blacksmiths and other metalworkers who need serious armor for their craft.</p>\n",
+    "quantity": 1,
+    "weightBase": 5,
+    "valueBase": 80,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!8P1qXxWez6hM15T3"
+}

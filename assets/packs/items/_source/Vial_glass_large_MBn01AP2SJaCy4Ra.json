@@ -1,0 +1,38 @@
+{
+  "name": "Vial, glass, large",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "MBn01AP2SJaCy4Ra",
+  "system": {
+    "shortcode": "vialglassl",
+    "docUrl": "https://heroiclands.org/sohl/containergear/vial-glass-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A narrow-necked bottle of hand-blown greenish glass with a ground-glass or cork stopper, used by alchemists and physicians for storing potent liquids, essences, and tinctures. The limited opening prevents casual spillage and allows for careful pouring or dosing, while the glass preserves the contents from light and allows inspection of the liquid's color and clarity. The weight and fragility demand careful handling.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.25,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 0.5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!MBn01AP2SJaCy4Ra"
+}

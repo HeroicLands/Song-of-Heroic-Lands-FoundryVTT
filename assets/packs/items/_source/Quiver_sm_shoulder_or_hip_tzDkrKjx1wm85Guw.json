@@ -1,0 +1,38 @@
+{
+  "name": "Quiver, sm (shoulder or hip)",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "tzDkrKjx1wm85Guw",
+  "system": {
+    "shortcode": "quiversmsh",
+    "docUrl": "https://heroiclands.org/sohl/containergear/quiver-sm-shoulder-or-hip/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A smaller leather and wooden quiver that can be worn slung across the shoulder or secured to the hip belt, offering quick access to arrows without the bulk of a full-sized tube. Practical for hunters and scouts who prioritize mobility and stealth over carrying large arrow supplies, it holds enough shafts for light skirmishing or a morning's hunt.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 8,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 1.5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!tzDkrKjx1wm85Guw"
+}

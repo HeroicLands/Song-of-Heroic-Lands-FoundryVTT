@@ -1,0 +1,37 @@
+{
+  "name": "Wool, Raw",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "oGPBLbmZpa4a0fSN",
+  "system": {
+    "shortcode": "woolraw",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/wool-raw/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Raw wool is freshly sheared fleece, carded clean of seeds and dirt but not yet spun. Soft and warm, it is traded by weight between shepherds and clothiers. The wool is washed in hot soapy water, dried, then carded to align the fibers. Spinners twist it into thread; weavers then turn thread into cloth. The best wool comes from fine-breed sheep and commands premium prices.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!oGPBLbmZpa4a0fSN"
+}

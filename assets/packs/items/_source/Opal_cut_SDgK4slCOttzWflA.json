@@ -1,0 +1,37 @@
+{
+  "name": "Opal, cut",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "SDgK4slCOttzWflA",
+  "system": {
+    "shortcode": "opalcut",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/opal-cut/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Opal, a luminous gem of pale white or cream with flashes of rainbow colors, cut with care by the lapidary. The stone's iridescent play of light makes it highly prized for pendants and rings, though it is softer than other gems and requires gentle handling. Each opal is unique, displaying its own pattern of color and fire.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0004,
+    "valueBase": 80,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!SDgK4slCOttzWflA"
+}

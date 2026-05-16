@@ -37,7 +37,7 @@ import type { ArmorGear } from "@src/common/item/ArmorGear";
 import type { CombatTechniqueLogic } from "@src/common/item/CombatTechnique";
 import type { ConcoctionGearLogic } from "@src/common/item/ConcoctionGear";
 import type { ContainerGearLogic } from "@src/common/item/ContainerGear";
-import type { InjuryLogic } from "@src/common/item/Injury";
+import type { TraumaLogic } from "@src/common/item/Trauma";
 import type { MiscGearLogic } from "@src/common/item/MiscGear";
 import type { MysteryLogic } from "@src/common/item/Mystery";
 import type { MysticalAbilityLogic } from "@src/common/item/MysticalAbility";
@@ -180,17 +180,15 @@ declare module "fvtt-types/configuration" {
         };
         Scene: {
             sohl: {
-                "defaultBiome.terrain": string;
-                "defaultBiome.vegetation": string;
-                "defaultBiome.slope": string;
+                "defaultBiome.topography": string;
+                "defaultBiome.surfaceCover": string;
                 "defaultBiome.hydrology": string;
             };
         };
         RegionDocument: {
             sohl: {
-                "biome.terrain": string;
-                "biome.vegetation": string;
-                "biome.slope": string;
+                "biome.topography": string;
+                "biome.surfaceCover": string;
                 "biome.hydrology": string;
             };
         };
@@ -258,7 +256,7 @@ declare module "fvtt-types/configuration" {
             combattechnique: typeof CombatTechniqueLogic.DataModel;
             concoctiongear: typeof ConcoctionGearLogic.DataModel;
             containergear: typeof ContainerGearLogic.DataModel;
-            injury: typeof InjuryLogic.DataModel;
+            trauma: typeof TraumaLogic.DataModel;
             miscgear: typeof MiscGearLogic.DataModel;
             mystery: typeof MysteryLogic.DataModel;
             mysticalability: typeof MysticalAbilityLogic.DataModel;

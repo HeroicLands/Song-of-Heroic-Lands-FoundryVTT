@@ -19,6 +19,7 @@ import { fvttCallHook, fvttEnrichHTML } from "@src/core/FoundryHelpers";
 import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
@@ -381,20 +382,17 @@ export class BeingSheet extends SohlActorSheetBase {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const actor = this.document;
-        const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
 
-        // Separate attributes (intensity === "attribute") from other traits
         const attributes: SohlItem[] = [];
-        const traitGroups: StrictObject<SohlItem[]> = {};
+        for (const attr of attributes) {
+            attributes.push(attr);
+        }
 
+        const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
+        const traitGroups: StrictObject<SohlItem[]> = {};
         for (const trait of traits) {
-            const data = trait.system as any;
-            if (data.intensity === TRAIT_INTENSITY.ATTRIBUTE) {
-                attributes.push(trait);
-            } else {
-                const subType = data.subType ?? "other";
-                (traitGroups[subType] ??= []).push(trait);
-            }
+            const subType = (trait.system as any).subType ?? "other";
+            (traitGroups[subType] ??= []).push(trait);
         }
 
         const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
@@ -468,8 +466,10 @@ export class BeingSheet extends SohlActorSheetBase {
             strikeModes: (ct.logic as any)?.strikeModes ?? [],
         }));
 
-        // Body structure for anatomy display
-        const bodyStructure = logic?.bodyStructure;
+        // Body structure for anatomy display — sourced from the actor's Lineage item
+        const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
+        const bodyStructure = lineageLogic?.bodyStructure;
 
         return Object.assign(context, {
             meleeWeapons,
@@ -479,7 +479,7 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Trauma tab: injuries and afflictions. */
+    /** Prepare context for the Trauma tab: traumas and afflictions. */
     async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -487,7 +487,7 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        const injuries = actor.itemTypes[ITEM_KIND.INJURY] ?? [];
+        const traumas = actor.itemTypes[ITEM_KIND.TRAUMA] ?? [];
         const afflictions = actor.itemTypes[ITEM_KIND.AFFLICTION] ?? [];
 
         // Group afflictions by subType
@@ -498,7 +498,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }
 
         return Object.assign(context, {
-            injuries,
+            traumas,
             afflictionGroups,
             shockState: logic?.shockState,
         });
@@ -566,9 +566,7 @@ export class BeingSheet extends SohlActorSheetBase {
             allGear.push(...(actor.itemTypes[type] ?? []));
         }
 
-        const containerIds = new Set(
-            containerGear.map((c: SohlItem) => c.id),
-        );
+        const containerIds = new Set(containerGear.map((c: SohlItem) => c.id));
 
         // Build a map of containerId → items inside that container
         const containerContents = new Map<string, SohlItem[]>();

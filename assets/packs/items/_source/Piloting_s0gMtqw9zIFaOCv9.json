@@ -1,0 +1,35 @@
+{
+  "name": "Piloting",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/piloting.svg",
+  "_id": "s0gMtqw9zIFaOCv9",
+  "system": {
+    "shortcode": "pilt",
+    "docUrl": "https://heroiclands.org/sohl/skill/piloting/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Piloting is the skill of navigating watercraft through coastal waters, rivers, lakes, and harbors—the practical art of guiding a vessel safely through confined or treacherous passages. Unlike Seamanship, which governs the operation of a ship on open water, Piloting focuses on the intimate knowledge of local waters: channels, shallows, currents, tidal patterns, and landmarks. Skilled pilots are essential for safe passage through unfamiliar harbors and dangerous coastal approaches.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@rea, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!s0gMtqw9zIFaOCv9"
+}

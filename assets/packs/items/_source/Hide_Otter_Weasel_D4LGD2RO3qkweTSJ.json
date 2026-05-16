@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Otter/Weasel",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "D4LGD2RO3qkweTSJ",
+  "system": {
+    "shortcode": "hideotterw",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-otter-weasel/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Furs from riverland hunters—otter or weasel pelt, salted and dried—prized for lining and trim. The dense guard hair sheds water, and the fur is soft enough for glove linings and collar facing. Furriers and tailors seek steady supplies from marshland trappers and wetland communities.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.5,
+    "valueBase": 24,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!D4LGD2RO3qkweTSJ"
+}

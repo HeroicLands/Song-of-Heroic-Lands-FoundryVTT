@@ -1,0 +1,37 @@
+{
+  "name": "Marching",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "5rUkCBrDJLoU5vTL",
+  "system": {
+    "shortcode": "march",
+    "docUrl": "https://heroiclands.org/sohl/affliction/marching/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Marching fatigue is the cumulative weariness of long-distance walking at a sustainable pace — the daily fifteen miles of an army on the move, the trader's slow plod between markets, the pilgrim's long road. The body can do this indefinitely with proper rest and food, but neglect of either turns the march from sustainable into a slow erosion of capacity. 5 fatigue per four hours of walking.</p>\n<h3>Symptoms</h3>\n<p>Persistent ache in feet and calves, slight stiffness in the lower back, slow stride, occasional stumble, the gentle drag of the eyes by late afternoon. Speech becomes terse with familiar companions.</p>\n<h3>Progression</h3>\n<p>Unrecovered marching weariness compounds across days into deep fatigue that affects every other capacity. Soldiers' marches are paced to recover most of the day's accrual with the night's sleep; longer or harder marches deliberately bank fatigue against expected idle days.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Halt; sit; remove boots if conditions permit</li>\n<li>Tend feet for blisters and abrasion</li>\n<li>Eat and drink; replace what the walk burned</li>\n<li>Resume at a pace that respects what was lost</li>\n</ul>\n<h3>Recovery</h3>\n<p>Four hours of rest reduces weariness fatigue by 5; eight hours of sleep reduces it by 15.</p>\n",
+    "subType": "fatigue",
+    "category": "weariness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!5rUkCBrDJLoU5vTL"
+}

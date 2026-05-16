@@ -1,0 +1,57 @@
+{
+  "name": "Buckram Trousers",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "XB38UDLulxgQYJlz",
+  "system": {
+    "shortcode": "BTrsr",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/buckram-trousers/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Buckram Trousers are stiff and structured, crafted from coarse cloth stiffened with glue. They offer durability and a reliable fit, suitable for tasks requiring a more rigid and dependable garment.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 39,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!XB38UDLulxgQYJlz"
+}

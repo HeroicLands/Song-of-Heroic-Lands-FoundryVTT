@@ -1,0 +1,63 @@
+{
+  "name": "Quilted Coat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "aOJoKqbfNQ4SPMZf",
+  "system": {
+    "shortcode": "QCoat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/quilted-coat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Layers of fabric stitched together create the Quilted Coat, providing excellent insulation and warmth. It’s suitable for colder climates, offering both comfort and protection from harsh weather.</p>\n",
+    "quantity": 1,
+    "weightBase": 11.5,
+    "valueBase": 256,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Quilted",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Left Forearm",
+        "Right Forearm",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!aOJoKqbfNQ4SPMZf"
+}

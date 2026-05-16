@@ -13,8 +13,12 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { GearData } from "@src/document/item/logic/GearLogic";
-import type { MasteryLevelData } from "@src/document/item/logic/MasteryLevelLogic";
+import type { MysticalAbilityData } from "@src/document/item/logic/MysticalAbilityLogic";
+import type { SkillData } from "@src/document/item/logic/SkillLogic";
+import type { TraitData } from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
+
+type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
 
@@ -367,22 +371,80 @@ const DISALLOWED_KEYWORDS = [
     "globalThis",
     "Function",
     "eval",
-    "new Function",
     "XMLHttpRequest",
     "fetch",
     "require",
     "import",
     "setTimeout",
     "setInterval",
+    "setImmediate",
+    "process",
+    "Worker",
+    "ServiceWorker",
+    "SharedWorker",
+    "WebSocket",
+    "MessageChannel",
+    "BroadcastChannel",
+    "indexedDB",
+    "localStorage",
+    "sessionStorage",
+    "navigator",
+    "location",
+    "parent",
+    "top",
+    "self",
+    "Reflect",
+    "Proxy",
+    "atob",
+    "btoa",
 ] as const;
 
+// Pattern checks complement the keyword list: even with `Function` and `eval`
+// blocked, `({}).constructor.constructor("...")()` reaches the Function
+// constructor without naming it. These patterns block the standard escape
+// vectors via property access on the prototype chain.
+//
+// Patterns are matched against the *original* script rather than the
+// strings-stripped one, because `["constructor"]`/`["__proto__"]` access
+// requires an actual string literal in the bracket position.
+const DISALLOWED_PATTERNS: ReadonlyArray<readonly [RegExp, string]> = [
+    [/\.\s*constructor\b/, ".constructor"],
+    [/\[\s*(['"`])constructor\1\s*\]/, '["constructor"]'],
+    [/\.\s*__proto__\b/, ".__proto__"],
+    [/\[\s*(['"`])__proto__\1\s*\]/, '["__proto__"]'],
+];
+
+const VALID_PARAM = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+
+/**
+ * Strip line/block comments and string literals from a script so the keyword
+ * scan doesn't false-positive on flagged words appearing inside strings or
+ * comments (e.g. `"window-shopping"` or `// uses fetch`). Replacements keep
+ * the original character positions roughly aligned.
+ */
+function stripStringsAndComments(script: string): string {
+    return script
+        .replace(/\/\*[\s\S]*?\*\//g, " ")
+        .replace(/\/\/[^\n]*/g, " ")
+        .replace(/'(?:\\.|[^'\\])*'/g, "''")
+        .replace(/"(?:\\.|[^"\\])*"/g, '""')
+        .replace(/`(?:\\.|[^`\\])*`/g, "``");
+}
+
 function checkScriptSafety(script: string): void {
-    const lowered = script.toLowerCase();
+    const stripped = stripStringsAndComments(script);
     for (const keyword of DISALLOWED_KEYWORDS) {
-        const pattern = new RegExp(`\\b${keyword.toLowerCase()}\\b`, "g");
-        if (pattern.test(lowered)) {
+        const pattern = new RegExp(`\\b${keyword}\\b`);
+        if (pattern.test(stripped)) {
             throw new Error(
                 `Disallowed keyword detected in script: ${keyword}`,
+            );
+        }
+    }
+    for (const [pattern, label] of DISALLOWED_PATTERNS) {
+        if (pattern.test(script)) {
+            throw new Error(
+                `Disallowed pattern detected in script: ${label}`,
             );
         }
     }
@@ -393,14 +455,29 @@ export function textToFunction(
     args: string[],
     { isAsync = false }: { isAsync?: boolean } = {},
 ): AsyncFunction | Function {
-    checkScriptSafety(script);
-    let body = script.trim();
-    if (!/^\s*(return|{|if|for|while|switch|try)\b/.test(body)) {
-        // Looks like a bare expression, not a block — wrap it in return
-        body = `return (${body});`;
+    // Reject anything that isn't a plain identifier so callers cannot smuggle
+    // default-value expressions through the Function-constructor parameter
+    // list (e.g. `args = ["x = sideEffect()"]`, which would execute at call
+    // time).
+    for (const arg of args) {
+        if (!VALID_PARAM.test(arg)) {
+            throw new Error(`Invalid parameter name: ${JSON.stringify(arg)}`);
+        }
     }
-    args.push(`"use strict";\n${body}`);
-    return isAsync ? new AsyncFunction(...args) : new Function(...args);
+    checkScriptSafety(script);
+    const body = script.trim();
+    // For the wrap-in-return heuristic, look at the body with strings and
+    // comments removed so that a leading `// comment\nreturn x;` is still
+    // recognised as a statement block.
+    const bodyForCheck = stripStringsAndComments(body).trim();
+    const compiled = `"use strict";\n${
+        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ?
+            body
+        :   `return (${body});`
+    }`;
+    return isAsync ?
+            new AsyncFunction(...args, compiled)
+        :   new Function(...args, compiled);
 }
 
 const HASH_ALPHABET =

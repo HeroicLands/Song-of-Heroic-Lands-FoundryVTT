@@ -3,29 +3,23 @@ import { BodyPart } from "@src/domain/body/BodyPart";
 
 const SAMPLE_DATA: BodyPart.Data = {
     shortcode: "larm",
-    affectedSkillCodes: [],
-    affectedAttributeCodes: [],
-    affectsMobility: false,
+    zones: [],
     canHoldItem: true,
     heldItemId: null,
     probWeight: 20,
     locations: [
         {
             shortcode: "ularm",
-            isFumble: true,
-            isStumble: false,
-            bleedingSevThreshold: 3,
-            amputateModifier: -10,
+            bleedingSusceptibility: "high",
+            amputability: "low",
             shockValue: 2,
             probWeight: 15,
             protectionBase: { blunt: 1, edged: 0, piercing: 0, fire: 0 },
         },
         {
             shortcode: "lhand",
-            isFumble: true,
-            isStumble: false,
-            bleedingSevThreshold: 2,
-            amputateModifier: -5,
+            bleedingSusceptibility: "none",
+            amputability: "none",
             shockValue: 1,
             probWeight: 5,
             protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
@@ -33,9 +27,9 @@ const SAMPLE_DATA: BodyPart.Data = {
     ],
 };
 
-// Minimal mock: beingLogic with a null actor (no item resolution)
+// Minimal mock: lineageLogic with a null actor (no item resolution)
 const MOCK_BODY_STRUCTURE = {
-    beingLogic: { actor: null },
+    lineageLogic: { actor: null },
 } as any;
 
 describe("BodyPart", () => {

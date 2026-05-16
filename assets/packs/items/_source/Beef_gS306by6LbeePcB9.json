@@ -1,0 +1,37 @@
+{
+  "name": "Beef",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "gS306by6LbeePcB9",
+  "system": {
+    "shortcode": "beef",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/beef/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Fresh beef, quartered or cut into joints, purchased from a butcher or slaughtered on the estate. Wealthy households and taverns serve beef roasted or stewed; soldiers receive beef rations when available. The meat spoils quickly in warm weather unless salted, smoked, or jerked, but freshly butchered beef is sweet and sustaining for those who can afford it.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!gS306by6LbeePcB9"
+}

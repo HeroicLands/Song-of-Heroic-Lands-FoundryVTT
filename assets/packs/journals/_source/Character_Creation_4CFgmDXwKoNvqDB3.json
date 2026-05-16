@@ -1,0 +1,119 @@
+{
+  "name": "Character Creation",
+  "pages": [
+    {
+      "_id": "XvgvfmGmDVg3m3Hf",
+      "name": "Overview",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>This guide walks through creating a playable <strong>Being</strong> actor in SoHL.</p>\n<p>See also: <a href=\"README.md\">Documentation Hub</a>, <a href=\"user-guide/quickstart.md\">Quickstart</a>, <a href=\"user-guide/combat-basics.md\">Combat Basics</a></p>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.XvgvfmGmDVg3m3Hf"
+    },
+    {
+      "_id": "8qHUveVr9fydLyt2",
+      "name": "Create the actor",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ol>\n<li>In the Actors directory, create a new actor.</li>\n<li>Select actor type <strong>Being</strong>.</li>\n<li>Set name, image, and any basic biography fields.</li>\n</ol>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.8qHUveVr9fydLyt2"
+    },
+    {
+      "_id": "R3l5KuobhX1By87m",
+      "name": "Establish the core profile",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Populate the essentials first:</p>\n<ul>\n<li>Traits</li>\n<li>Skills</li>\n<li>Movement profile</li>\n<li>Starting gear</li>\n</ul>\n<p>A playable baseline is more useful than filling every field before first session.</p>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.R3l5KuobhX1By87m"
+    },
+    {
+      "_id": "ILz9m5IwXSps0g51",
+      "name": "Add gear and nested capabilities",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Many SoHL items are compositional (for example, weapon entries with strike modes).</p>\n<ol>\n<li>Add key gear (weapon, armor, utility equipment).</li>\n<li>Verify expected nested items/modes are present.</li>\n<li>Confirm action availability on the sheet.</li>\n</ol>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.ILz9m5IwXSps0g51"
+    },
+    {
+      "_id": "devAGWhv7poer90A",
+      "name": "Add mystical or special features (optional)",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>If the character uses mystical systems:</p>\n<ol>\n<li>Add relevant <strong>Mystery</strong> and/or <strong>Mystical Ability</strong> items.</li>\n<li>Confirm associated skills or prerequisites are present.</li>\n<li>Verify charges/levels where applicable.</li>\n</ol>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.devAGWhv7poer90A"
+    },
+    {
+      "_id": "W7Z866iVU9jpKmHo",
+      "name": "Validate sheet readiness",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Before play, confirm:</p>\n<ul>\n<li>At least one combat-capable action is available.</li>\n<li>Skills and core traits are non-empty where needed.</li>\n<li>Encumbrance/movement values look reasonable.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.W7Z866iVU9jpKmHo"
+    },
+    {
+      "_id": "k28yWmvgQanQcD24",
+      "name": "Common mistakes",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ul>\n<li>Wrong actor type selected (not <strong>Being</strong>).</li>\n<li>Missing nested strike mode on a weapon setup.</li>\n<li>Using incorrect base values for traits or skills.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!4CFgmDXwKoNvqDB3.k28yWmvgQanQcD24"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "4CFgmDXwKoNvqDB3",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!4CFgmDXwKoNvqDB3"
+}

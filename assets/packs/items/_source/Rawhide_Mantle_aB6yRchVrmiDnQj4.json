@@ -1,0 +1,55 @@
+{
+  "name": "Rawhide Mantle",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/mantle.svg",
+  "_id": "aB6yRchVrmiDnQj4",
+  "system": {
+    "shortcode": "RhMntl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-mantle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Rawhide Mantle is thick and rugged, providing substantial protection. Ideal for harsh environments, it offers durable coverage for those needing a reliable outer layer in tough conditions.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.1,
+    "valueBase": 74,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!aB6yRchVrmiDnQj4"
+}

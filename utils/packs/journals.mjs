@@ -11,153 +11,63 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Journals pack compiler — produces JSON pack files for the "journals"
+ * Foundry compendium from markdown notes in the HeroicLands vault.
+ *
+ * The vault root (`vaultBase`) is walked recursively; any `.md` file
+ * whose frontmatter declares `type: doc` and `package: sohl` is compiled
+ * into one JournalEntry document. Each note's body is split on top-level
+ * H1 headings; the optional content before the first H1 becomes an
+ * "Introduction" page, and each subsequent H1 starts a new page named
+ * after its heading text. All page bodies are rendered to HTML.
+ *
+ * Folder placement is identical to the items pack: `sohl.folder` in
+ * frontmatter is the target folder's id (from folders.yaml), resolved
+ * against a folders.yaml list via the constructor's `folderResolver`.
+ */
+
 import fs from "fs";
-import crypto from "crypto";
 import path from "path";
-import { globSync } from "glob";
-import yaml from "yaml";
+import log from "loglevel";
 
-const INDEX_OUTPUT_DIR = path.resolve("build/stage/packs/user-manual");
-const INDEX_OUTPUT_FILE = path.join(INDEX_OUTPUT_DIR, "journal-index.json");
+import {
+    walkMarkdownTree,
+    sohlField,
+    makeFilename,
+    makeId,
+    resolveName,
+    buildStats,
+    md,
+} from "./helpers.mjs";
 
-const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---\n?/;
+const STATS = buildStats("0.6.0");
 
-const STATS = {
-    systemId: "sohl",
-    systemVersion: "0.6.0",
-    coreVersion: "13",
-    createdTime: 0,
-    modifiedTime: 0,
-    lastModifiedBy: "sohlbuilder00000",
-};
-
-function makeId(namespace, value) {
-    return crypto
-        .createHash("sha1")
-        .update(`${namespace}:${value}`)
-        .digest("hex")
-        .slice(0, 16);
-}
-
-function slugify(name) {
-    return name
-        .toLowerCase()
-        .replace("'", "")
-        .replace(/[^a-z0-9]+/gi, " ")
-        .trim()
-        .replace(/\s+|-{2,}/g, "-");
-}
-
-function cleanOutputDir(dir) {
-    fs.rmSync(dir, { recursive: true, force: true });
-    fs.mkdirSync(dir, { recursive: true });
-}
-
-function escapeHtml(text) {
-    return text
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-}
-
-function stripQuotes(value) {
-    const trimmed = value.trim();
-    if (
-        (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-        (trimmed.startsWith("'") && trimmed.endsWith("'"))
-    ) {
-        return trimmed.slice(1, -1);
-    }
-    return trimmed;
-}
-
-function toFoundrySrcPath(srcPath) {
-    const trimmed = srcPath.trim();
-    if (!trimmed) return trimmed;
-
-    if (
-        /^(https?:\/\/|data:|blob:|file:|\/|#|@UUID\[)/i.test(trimmed) ||
-        trimmed.startsWith("system/sohl/") ||
-        trimmed.startsWith("systems/sohl/")
-    ) {
-        return trimmed;
-    }
-
-    const normalized = trimmed.replace(/^\.\//, "");
-    return `system/sohl/${normalized}`;
-}
-
-function rewriteSrcPathsInMarkdown(markdown) {
-    let rewritten = markdown;
-
-    rewritten = rewritten.replace(
-        /!\[([^\]]*)\]\(([^)]+)\)/g,
-        (full, alt, srcPath) => `![${alt}](${toFoundrySrcPath(srcPath)})`,
-    );
-
-    rewritten = rewritten.replace(
-        /\bsrc\s*=\s*"([^"]+)"/gi,
-        (full, srcPath) => `src="${toFoundrySrcPath(srcPath)}"`,
-    );
-    rewritten = rewritten.replace(
-        /\bsrc\s*=\s*'([^']+)'/gi,
-        (full, srcPath) => `src='${toFoundrySrcPath(srcPath)}'`,
-    );
-
-    return rewritten;
-}
-
-function rewriteSrcPathsInHtml(html) {
-    let rewritten = html;
-    rewritten = rewritten.replace(
-        /\bsrc\s*=\s*"([^"]+)"/gi,
-        (full, srcPath) => `src="${toFoundrySrcPath(srcPath)}"`,
-    );
-    rewritten = rewritten.replace(
-        /\bsrc\s*=\s*'([^']+)'/gi,
-        (full, srcPath) => `src='${toFoundrySrcPath(srcPath)}'`,
-    );
-    return rewritten;
-}
-
-function parseFrontmatter(frontmatterText) {
-    const parsed = yaml.parse(frontmatterText) || {};
-    const result = {
-        ...parsed,
-        tags: Array.isArray(parsed.tags) ? parsed.tags : [],
-        foundry:
-            parsed.foundry && typeof parsed.foundry === "object" ?
-                parsed.foundry
-            :   {},
-    };
-
-    const orderValue = result.order ?? result.sort;
-    if (typeof orderValue === "string" || typeof orderValue === "number") {
-        const parsed = Number(orderValue);
-        result.order = Number.isFinite(parsed) ? parsed : undefined;
-    }
-
-    return result;
-}
-
-function parseJournalPages(markdown, defaultPageName) {
-    const lines = markdown.split("\n");
+/**
+ * Splits a markdown body into pages by top-level H1 headings. Fenced
+ * code blocks are respected so `# foo` inside ``` blocks doesn't trigger
+ * a split. Content before the first H1 (if non-empty) becomes a leading
+ * "Introduction" page. Each H1 yields a page whose name is the heading
+ * text (with any `{#anchor-id}` suffix stripped out and surfaced as
+ * `anchorId`).
+ *
+ * Returns an array of `{ name, anchorId, markdown }` in document order.
+ */
+function splitPages(body) {
+    const lines = body.split("\n");
     const pages = [];
-    const beforeFirstH1Lines = [];
-    let currentPage = null;
+    const beforeFirstH1 = [];
+    let current = null;
     let inCodeBlock = false;
 
-    const closeCurrentPage = () => {
-        if (!currentPage) return;
+    const closeCurrent = () => {
+        if (!current) return;
         pages.push({
-            name: currentPage.name,
-            id: currentPage.id,
-            type: "text",
-            markdown: currentPage.lines.join("\n").trim(),
+            name: current.name,
+            anchorId: current.anchorId,
+            markdown: current.lines.join("\n").trim(),
         });
-        currentPage = null;
+        current = null;
     };
 
     for (const line of lines) {
@@ -166,384 +76,168 @@ function parseJournalPages(markdown, defaultPageName) {
         }
 
         const h1Match =
-            !inCodeBlock ?
-                line.match(/^\s*#\s+(.+?)\s*#*\s*$/)
-            :   null;
+            !inCodeBlock ? line.match(/^\s*#\s+(.+?)\s*#*\s*$/) : null;
         if (h1Match) {
-            closeCurrentPage();
+            closeCurrent();
             const rawHeading = h1Match[1].trim();
-            const headingIdMatch = rawHeading.match(/^(.*?)\s*\{#([^}]+)\}\s*$/);
-            const name =
-                (headingIdMatch ? headingIdMatch[1] : rawHeading).trim() ||
-                defaultPageName;
-            const headingId = headingIdMatch?.[2]?.trim();
-
-            currentPage = {
-                name,
-                id: headingId || undefined,
-                lines: [],
-            };
+            const anchorMatch = rawHeading.match(/^(.*?)\s*\{#([^}]+)\}\s*$/);
+            const name = (anchorMatch ? anchorMatch[1] : rawHeading).trim();
+            const anchorId = anchorMatch?.[2]?.trim() || null;
+            current = { name, anchorId, lines: [] };
             continue;
         }
 
-        if (currentPage) {
-            currentPage.lines.push(line);
+        if (current) {
+            current.lines.push(line);
         } else {
-            beforeFirstH1Lines.push(line);
+            beforeFirstH1.push(line);
         }
     }
+    closeCurrent();
 
-    closeCurrentPage();
-
-    const overviewMarkdown = beforeFirstH1Lines.join("\n").trim();
-    if (overviewMarkdown) {
-        pages.unshift({
-            name: "Overview",
-            type: "text",
-            markdown: overviewMarkdown,
-        });
-    }
-
-    if (!pages.length) {
-        pages.push({
-            name: defaultPageName,
-            type: "text",
-            markdown: "",
-        });
+    const intro = beforeFirstH1.join("\n").trim();
+    if (intro) {
+        pages.unshift({ name: "Introduction", anchorId: null, markdown: intro });
     }
 
     return pages;
 }
 
-function rewriteInternalLinks(markdown, sourcePath, slugByRelativePath) {
-    return markdown;
-}
-
-function formatInline(text) {
-    const imagePlaceholders = [];
-    let normalized = text.replace(
-        /!\[([^\]]*)\]\(([^)]+)\)/g,
-        (full, alt, srcPath) => {
-            const placeholder = `__SOHL_IMG_${imagePlaceholders.length}__`;
-            imagePlaceholders.push(
-                `<img alt="${escapeHtml(alt)}" src="${escapeHtml(toFoundrySrcPath(srcPath))}" />`,
-            );
-            return placeholder;
-        },
-    );
-
-    let formatted = escapeHtml(normalized);
-    formatted = formatted.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-    formatted = formatted.replace(/`([^`]+)`/g, "<code>$1</code>");
-    formatted = formatted.replace(
-        /\[([^\]]+)\]\(([^)]+)\)/g,
-        '<a href="$2">$1</a>',
-    );
-
-    for (let index = 0; index < imagePlaceholders.length; index += 1) {
-        formatted = formatted.replace(
-            `__SOHL_IMG_${index}__`,
-            imagePlaceholders[index],
-        );
-    }
-
-    return formatted;
-}
-
-function markdownToHtml(markdown) {
-    const lines = markdown.split("\n");
-    const html = [];
-    let inCodeBlock = false;
-    let listType = null;
-    let paragraph = [];
-
-    const flushParagraph = () => {
-        if (!paragraph.length) return;
-        html.push(`<p>${formatInline(paragraph.join(" "))}</p>`);
-        paragraph = [];
-    };
-
-    const closeList = () => {
-        if (!listType) return;
-        html.push(listType === "ol" ? "</ol>" : "</ul>");
-        listType = null;
-    };
-
-    for (const line of lines) {
-        if (line.trim().startsWith("```")) {
-            flushParagraph();
-            closeList();
-            if (!inCodeBlock) {
-                html.push("<pre><code>");
-                inCodeBlock = true;
-            } else {
-                html.push("</code></pre>");
-                inCodeBlock = false;
-            }
-            continue;
-        }
-
-        if (inCodeBlock) {
-            html.push(escapeHtml(line));
-            continue;
-        }
-
-        if (!line.trim()) {
-            flushParagraph();
-            closeList();
-            continue;
-        }
-
-        const heading = line.match(/^(#{1,6})\s+(.+)$/);
-        if (heading) {
-            flushParagraph();
-            closeList();
-            const level = heading[1].length;
-            html.push(`<h${level}>${formatInline(heading[2])}</h${level}>`);
-            continue;
-        }
-
-        const orderedItem = line.match(/^\d+\.\s+(.+)$/);
-        if (orderedItem) {
-            flushParagraph();
-            if (listType !== "ol") {
-                closeList();
-                html.push("<ol>");
-                listType = "ol";
-            }
-            html.push(`<li>${formatInline(orderedItem[1])}</li>`);
-            continue;
-        }
-
-        const unorderedItem = line.match(/^[-*]\s+(.+)$/);
-        if (unorderedItem) {
-            flushParagraph();
-            if (listType !== "ul") {
-                closeList();
-                html.push("<ul>");
-                listType = "ul";
-            }
-            html.push(`<li>${formatInline(unorderedItem[1])}</li>`);
-            continue;
-        }
-
-        paragraph.push(line.trim());
-    }
-
-    flushParagraph();
-    closeList();
-
-    return html.join("\n");
-}
-
-function buildJournalDocument(entry) {
-    const journalId = entry.foundry.id || makeId("journal-entry", entry.slug);
-    const sourceHash = crypto
-        .createHash("sha1")
-        .update(entry.contentMarkdown)
-        .digest("hex");
-
-    const pages = entry.pages.map((page, index) => {
-        const pageId = makeId(
-            "journal-page",
-            `${entry.slug}:${index}:${page.name}:${page.type}`,
-        );
-        const resolvedPageId = page.id || pageId;
-        return {
-            _id: resolvedPageId,
-            name: page.name,
-            type: "text",
-            title: {
-                show: true,
-                level: 1,
-            },
-            text: {
-                format: 1,
-                content: page.html,
-            },
-            _key: `!journal.pages!${journalId}.${resolvedPageId}`,
-        };
-    });
-
-    return {
-        name: entry.title,
-        pages,
-        folder: entry.foundry.folderId,
-        sort: entry.order,
-        ownership: entry.foundry.ownership || { default: 0 },
-        flags: entry.foundry.flags || {},
-        _id: journalId,
-        _stats: {
-            ...STATS,
-            coreVersion: entry.foundry.coreVersion || STATS.coreVersion,
-        },
-        _key: `!journal!${journalId}`,
-    };
-}
-
-function buildEntry(filePath) {
-    const source = fs.readFileSync(filePath, "utf8");
-    const match = source.match(FRONTMATTER_RE);
-    if (!match) {
-        return {
-            skipReason: "Missing front matter",
-        };
-    }
-
-    const frontmatter = parseFrontmatter(match[1]);
-    for (const field of ["title", "slug"]) {
-        if (frontmatter[field] === undefined || frontmatter[field] === "") {
-            return {
-                skipReason: `Missing required front matter field: ${field}`,
-            };
-        }
-    }
-
-    if (frontmatter.order === undefined) {
-        return {
-            skipReason: "Missing required front matter field: order (or sort)",
-        };
-    }
-
-    if (!frontmatter.foundry?.folderId) {
-        return {
-            skipReason: "Missing required front matter field: foundry.folderId",
-        };
-    }
-
-    const body = source.slice(match[0].length).trim();
-    const relativePath = path
-        .relative(process.cwd(), filePath)
-        .replace(/\\/g, "/");
-
-    return {
-        title: frontmatter.title,
-        slug: frontmatter.slug,
-        order: frontmatter.order,
-        category: frontmatter.category ?? "User Guide",
-        tags: frontmatter.tags,
-        foundry: {
-            id: frontmatter.foundry.id,
-            folderId: frontmatter.foundry.folderId,
-            permissions: frontmatter.foundry.permissions ?? "default",
-            ownership: frontmatter.foundry.ownership,
-            flags: frontmatter.foundry.flags,
-            coreVersion: frontmatter.foundry.coreVersion,
-        },
-        sourcePath: relativePath,
-        wordCount: body ? body.split(/\s+/).length : 0,
-        contentMarkdown: body,
-        journalRef: `JournalEntry.${frontmatter.slug}`,
-    };
-}
-
 export class Journals {
     static id = "journals";
 
-    constructor(dataDir, outputDir) {
-        Object.defineProperty(this, "dataDir", {
-            value: dataDir,
+    /** @type {string} */
+    vaultBase;
+    /** @type {string} */
+    outputDir;
+    /** @type {(path: string|null) => string|null} */
+    folderResolver;
+    /** @type {number} */
+    errorCount = 0;
+
+    constructor({ vaultBase, dest, folderResolver = () => null }) {
+        if (!vaultBase) {
+            throw new Error("Journals compiler requires `vaultBase`");
+        }
+        if (!fs.existsSync(vaultBase)) {
+            throw new Error(
+                `HeroicLands vault not found at ${vaultBase} — expected sibling to the SoHL project`,
+            );
+        }
+        Object.defineProperty(this, "vaultBase", {
+            value: vaultBase,
             writable: false,
         });
         Object.defineProperty(this, "outputDir", {
-            value: outputDir,
+            value: dest,
+            writable: false,
+        });
+        Object.defineProperty(this, "folderResolver", {
+            value: folderResolver,
             writable: false,
         });
     }
 
-    async compile() {
-        const sourceGlob = path
-            .join(this.dataDir, "**/*.md")
-            .replace(/\\/g, "/");
-
-        const files = globSync(sourceGlob, {
-            ignore: ["**/README.md"],
-        }).sort((a, b) => a.localeCompare(b));
-
-        const entries = [];
-        const skipped = [];
-
-        for (const file of files) {
-            const entry = buildEntry(path.resolve(file));
-            if (entry.skipReason) {
-                skipped.push({ file, reason: entry.skipReason });
-                continue;
-            }
-            entries.push(entry);
-        }
-
-        entries.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title));
-
-        const slugByRelativePath = new Map(
-            entries.map((entry) => [entry.sourcePath, entry.slug]),
-        );
-
-        for (const entry of entries) {
-            let pages;
-            try {
-                pages = parseJournalPages(entry.contentMarkdown, entry.title);
-            } catch (error) {
-                skipped.push({ file: entry.sourcePath, reason: error.message });
-                entry.skipGenerated = true;
-                continue;
-            }
-
-            for (const page of pages) {
-                if (page.type !== "text") continue;
-                const rewrittenMarkdown = rewriteInternalLinks(
-                    page.markdown,
-                    entry.sourcePath,
-                    slugByRelativePath,
-                );
-                page.markdown = rewriteSrcPathsInMarkdown(rewrittenMarkdown);
-                page.html = rewriteSrcPathsInHtml(markdownToHtml(page.markdown));
-            }
-
-            entry.pages = pages;
-        }
-
-        const generatedEntries = entries.filter((entry) => !entry.skipGenerated);
-        const generatedDocs = generatedEntries.map((entry) => ({
-            entry,
-            doc: buildJournalDocument(entry),
-        }));
-
-        cleanOutputDir(this.outputDir);
-
-        for (const generatedDoc of generatedDocs) {
-            const baseName = generatedDoc.entry.slug || slugify(generatedDoc.doc.name);
-            const filename = `${baseName}_${generatedDoc.doc._id}.json`;
-            fs.writeFileSync(
-                path.join(this.outputDir, filename),
-                `${JSON.stringify(generatedDoc.doc, null, 2)}\n`,
-                "utf8",
-            );
-        }
-
-        const output = {
-            generatedAt: new Date().toISOString(),
-            sourceGlob,
-            entryCount: generatedEntries.length,
-            folderCount: new Set(
-                generatedEntries.map((entry) => entry.foundry.folderId),
-            ).size,
-            skippedCount: skipped.length,
-            entries: generatedEntries,
-            skipped,
-            packSourceDir: path
-                .relative(process.cwd(), this.outputDir)
-                .replace(/\\/g, "/"),
-        };
-
-        fs.mkdirSync(INDEX_OUTPUT_DIR, { recursive: true });
+    writeEntry(doc) {
+        const fname = makeFilename(doc.name, doc._id);
         fs.writeFileSync(
-            INDEX_OUTPUT_FILE,
-            `${JSON.stringify(output, null, 2)}\n`,
+            path.join(this.outputDir, fname),
+            JSON.stringify(doc, null, 2),
             "utf8",
         );
+    }
 
-        console.log(
-            `✅ Generated ${INDEX_OUTPUT_FILE} and ${this.outputDir} with ${generatedEntries.length} entries (${skipped.length} skipped).`,
+    buildPages(rawPages, entryId, noteName) {
+        if (rawPages.length === 0) {
+            throw new Error(
+                `note "${noteName}" has no Introduction content and no H1 headings — nothing to compile`,
+            );
+        }
+        return rawPages.map((page, index) => {
+            const pageId =
+                page.anchorId ||
+                makeId(
+                    "journal-page",
+                    `${entryId}:${index}:${page.name}`,
+                );
+            return {
+                _id: pageId,
+                name: page.name,
+                type: "text",
+                title: { show: true, level: 1 },
+                text: {
+                    format: 1,
+                    content: page.markdown ? md.render(page.markdown) : "",
+                },
+                _key: `!journal.pages!${entryId}.${pageId}`,
+            };
+        });
+    }
+
+    buildEntry(fm, body) {
+        const name = resolveName(fm);
+        const id = fm.id;
+        const rawPages = splitPages(body);
+        const pages = this.buildPages(rawPages, id, name);
+
+        const folderId = sohlField(fm, "folder", null);
+        const folder = this.folderResolver(folderId);
+
+        return {
+            name,
+            pages,
+            folder,
+            sort: 0,
+            ownership: { default: 0 },
+            flags: fm.flags || {},
+            _id: id,
+            _stats: STATS,
+            _key: `!journal!${id}`,
+        };
+    }
+
+    async compile() {
+        let compiled = 0;
+        let skippedNoId = 0;
+        let skippedDraft = 0;
+        let skippedOther = 0;
+
+        for (const { frontmatter: fm, body, absPath } of walkMarkdownTree(
+            this.vaultBase,
+        )) {
+            if (!fm || fm.type !== "doc" || fm.package !== "sohl") {
+                skippedOther++;
+                continue;
+            }
+            if (fm.draft === true) {
+                skippedDraft++;
+                log.debug(`Skipping draft: ${absPath}`);
+                continue;
+            }
+            if (!fm.id) {
+                skippedNoId++;
+                log.warn(`Journal note missing id, skipping: ${absPath}`);
+                continue;
+            }
+
+            log.debug(`Processing journal: ${resolveName(fm)} (${absPath})`);
+            try {
+                const doc = this.buildEntry(fm, body);
+                this.writeEntry(doc);
+                compiled++;
+            } catch (err) {
+                this.errorCount++;
+                log.error(
+                    `Failed to compile journal at ${absPath}: ${err.message}`,
+                );
+            }
+        }
+
+        log.info(`Compiled ${compiled} journal entr${compiled === 1 ? "y" : "ies"}`);
+        if (skippedNoId) log.info(`Skipped ${skippedNoId} note(s) missing id`);
+        if (skippedDraft) log.info(`Skipped ${skippedDraft} draft(s)`);
+        log.debug(
+            `Skipped ${skippedOther} non-doc file(s) (not type:doc package:sohl)`,
         );
     }
 }

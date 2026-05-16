@@ -605,13 +605,36 @@ function registerHandlebarsHelpers() {
         return ary.join(",");
     });
 
-    Handlebars.registerHelper("injurySeverity", function (val) {
-        return "NA"; // TODO: Remove this line when CONFIG.Item.dataModels.injury is available
-        // if (val <= 0) return "NA";
-        // return val <= 5 ?
-        //         (CONFIG.Item.dataModels.injury)?.injuryLevels[val]
-        //     :   `G${val}`;
-    });
+    /**
+     * Format a trauma severity level for display, dispatching on subType.
+     *   - physical: 0 → "NA", 1 → "M1", 2 → "S2", 3 → "S3", 4 → "G4",
+     *               5 → "G5", >5 → "G{val}".
+     *   - mental:   0 → "—", N → "PSY {N}".
+     *   - spiritual: 0 → "—", N → "AS {N}".
+     *   - shadow:   0 → "—", N → "SL {N}".
+     * Unknown subType falls back to the bare number.
+     */
+    Handlebars.registerHelper(
+        "injurySeverity",
+        function (val: unknown, subType: unknown) {
+            const n = Number(val) || 0;
+            switch (subType) {
+                case "physical":
+                    if (n <= 0) return "NA";
+                    return n <= 5 ?
+                            ["NA", "M1", "S2", "S3", "G4", "G5"][n]
+                        :   `G${n}`;
+                case "mental":
+                    return n <= 0 ? "—" : `PSY ${n}`;
+                case "spiritual":
+                    return n <= 0 ? "—" : `AS ${n}`;
+                case "shadow":
+                    return n <= 0 ? "—" : `SL ${n}`;
+                default:
+                    return String(n);
+            }
+        },
+    );
 
     Handlebars.registerHelper("object", function ({ hash }) {
         return hash;

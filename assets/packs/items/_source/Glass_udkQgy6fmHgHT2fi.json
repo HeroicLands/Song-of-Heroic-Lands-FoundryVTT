@@ -1,0 +1,37 @@
+{
+  "name": "Glass",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "udkQgy6fmHgHT2fi",
+  "system": {
+    "shortcode": "glass",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/glass/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Glass, melted sand formed in a furnace and cast or blown into lumps, sheets, or vessels. The material resists corrosion and allows light to pass through, making it valuable for lamps, windows, and fine goblets. Glassmakers are found primarily in larger towns; the material is traded in quantities by weight.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!udkQgy6fmHgHT2fi"
+}

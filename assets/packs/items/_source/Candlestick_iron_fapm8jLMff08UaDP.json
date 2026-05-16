@@ -1,0 +1,37 @@
+{
+  "name": "Candlestick, iron",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "fapm8jLMff08UaDP",
+  "system": {
+    "shortcode": "candlestic",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/candlestick-iron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Iron forged into a tapering socket with a wide base, shaped to grip a candle's end and hold it upright on a table or shelf. Iron candlesticks are simple and sturdy, favored in barracks, workshops, and common rooms where elegant brass or pewter would be out of place. The base is weighted to resist tipping; the socket is tight enough to hold the candle without sliding but loose enough to allow removal without wasting wax.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 7,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "csqutf8WiTRM8oru",
+  "_key": "!items!fapm8jLMff08UaDP"
+}

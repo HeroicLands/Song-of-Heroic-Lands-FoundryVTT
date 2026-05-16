@@ -1,0 +1,35 @@
+{
+  "name": "Language",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/speaking.svg",
+  "_id": "0WMCAQZCegZRDOrJ",
+  "system": {
+    "shortcode": "lang",
+    "docUrl": "https://heroiclands.org/sohl/skill/language/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Language represents fluency and comprehension in a specific tongue. Every native speaker possesses functional mastery, but the skill measures the complexity of ideas one can express or understand—from the simple vocabulary of a laborer to the erudite discourse of a scholar. The degree of fluency directly affects the sophistication of any persuasion or deception attempted in that language. Related languages may share enough common roots to permit partial understanding between speakers of different but linguistically connected tongues.</p>\n",
+    "subType": "language",
+    "skillBaseFormula": "@elo, @rea",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "sn9NBuZMZOBqxsYv",
+  "_key": "!items!0WMCAQZCegZRDOrJ"
+}

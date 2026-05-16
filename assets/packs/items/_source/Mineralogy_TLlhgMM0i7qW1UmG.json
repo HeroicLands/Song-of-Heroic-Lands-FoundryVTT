@@ -1,0 +1,35 @@
+{
+  "name": "Mineralogy",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/miner.svg",
+  "_id": "TLlhgMM0i7qW1UmG",
+  "system": {
+    "shortcode": "mnrl",
+    "docUrl": "https://heroiclands.org/sohl/skill/mineralogy/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Mineralogy is the knowledge of rocks, minerals, ores, and the geological formations in which they occur. A skilled mineralogist can identify mineral deposits, assess the quality and commercial value of ore samples, and advise on the most productive locations and methods for mining operations. The skill is essential for prospecting and mine management, and serves as a secondary discipline in Engineering projects that involve excavation or the selection of building stone.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@rea, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!TLlhgMM0i7qW1UmG"
+}

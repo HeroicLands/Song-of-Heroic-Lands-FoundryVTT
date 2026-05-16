@@ -1,0 +1,57 @@
+{
+  "name": "Gambeson Long Vest",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/vest.svg",
+  "_id": "4KmqYgK21xbn1xtr",
+  "system": {
+    "shortcode": "GLngVest",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/gambeson-long-vest/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Offering padded protection, the Gambeson Long Vest is ideal for use under armor or as standalone defense. It provides excellent insulation and cushioning, perfect for both combat and daily wear.</p>\n",
+    "quantity": 1,
+    "weightBase": 10.9,
+    "valueBase": 312,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Gambeson",
+    "locations": {
+      "flexible": [
+        "Neck",
+        "Left Shoulder",
+        "Right Shoulder"
+      ],
+      "rigid": [
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!4KmqYgK21xbn1xtr"
+}

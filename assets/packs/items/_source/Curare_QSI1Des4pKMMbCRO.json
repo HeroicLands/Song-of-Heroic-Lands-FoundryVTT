@@ -1,0 +1,37 @@
+{
+  "name": "Curare",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "QSI1Des4pKMMbCRO",
+  "system": {
+    "shortcode": "curare",
+    "docUrl": "https://heroiclands.org/sohl/affliction/curare/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Curare is a plant-derived toxin used by indigenous tribes for its potent paralyzing effect, often used on arrow tips.</p>\n<h3>Symptoms</h3>\n<p>Curare blocks neuromuscular transmission, leading to muscle paralysis. Initial symptoms include weakness and difficulty moving.</p>\n<h3>Progression</h3>\n<p>Progresses rapidly to total paralysis, including respiratory muscles, resulting in death by asphyxiation if untreated.</p>\n<h3>Treatment</h3>\n<p>While detailed herbal countermeasures for curare are limited, maintaining airway patency and manual ventilation techniques are used to keep the victim breathing until the effect of the toxin wears off, alongside the use of stimulant herbs like caffeine-containing plants to stimulate the respiratory system.</p>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!QSI1Des4pKMMbCRO"
+}

@@ -13,10 +13,10 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type {
-    TraitData,
-    TraitLogic,
-} from "@src/document/item/logic/TraitLogic";
-import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
+    AttributeData,
+    AttributeLogic,
+} from "@src/document/item/logic/AttributeLogic";
+import { ITEM_KIND } from "@src/utils/constants";
 
 /**
  * Computes the **skill base** (SB) for a skill from a formula referencing
@@ -48,7 +48,7 @@ import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
  * ## Calculation
  *
  * 1. Look up each referenced attribute's numeric value from the actor's
- *    trait items.
+ *    attribute items.
  * 2. Average the attribute values:
  *    - If exactly 2 attributes: round **up** if the first (primary)
  *      attribute is larger, otherwise round **down**.
@@ -70,11 +70,15 @@ import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
  * - {@link value} — the computed skill base number
  * - {@link formula} — the raw formula string (or null)
  * - {@link valid} — whether the formula parsed successfully
- * - {@link attributes} — the resolved TraitLogic instances referenced
+ * - {@link attributes} — the resolved AttributeLogic instances referenced
  *   by the formula
  */
 export class SkillBase {
-    _attrs: StrictObject<{ name: string; value: number; logic: TraitLogic }>;
+    _attrs: StrictObject<{
+        name: string;
+        value: number;
+        logic: AttributeLogic;
+    }>;
     _formula: string | null;
     _birthsigns: string[];
     _parsedFormula: string[] | null;
@@ -106,17 +110,10 @@ export class SkillBase {
     }
 
     setAttributes(items: SohlItem[] = []): void {
-        const attributes: TraitData[] = [];
+        const attributes: SohlItem[] = [];
         for (const it of items) {
-            const itData: TraitData | null =
-                it.type === ITEM_KIND.TRAIT ?
-                    (it.system as unknown as TraitData)
-                :   null;
-            if (
-                itData?.intensity === TRAIT_INTENSITY.ATTRIBUTE &&
-                itData.isNumeric
-            )
-                attributes.push(itData);
+            if ((it.type as string) === ITEM_KIND.ATTRIBUTE)
+                attributes.push(it);
         }
         this._parsedFormula?.forEach((param) => {
             const type = typeof param;
@@ -125,11 +122,16 @@ export class SkillBase {
                 const [subType, name, multval] = param.split(":");
                 if (subType === "attr") {
                     const attr = attributes.find(
-                        (a: TraitData) => a.shortcode === name,
+                        (a) =>
+                            (a.system as unknown as AttributeData).shortcode ===
+                            name,
                     );
 
                     if (attr) {
-                        const score = Number.parseInt(attr.textValue, 10);
+                        const attrLogic = attr.logic as
+                            | AttributeLogic
+                            | undefined;
+                        const score = attrLogic?.score?.effective ?? Number.NaN;
                         if (Number.isInteger(score)) {
                             let mult =
                                 typeof multval === "string" ?
@@ -140,10 +142,13 @@ export class SkillBase {
                                     "invalid attribute multiplier not number",
                                 );
                             }
-                            this._attrs[attr.shortcode] = {
+                            const shortcode = (
+                                attr.system as unknown as AttributeData
+                            ).shortcode;
+                            this._attrs[shortcode] = {
                                 name: attr.parent?.name || "",
                                 value: score * mult,
-                                logic: attr.logic,
+                                logic: attrLogic!,
                             };
                         } else {
                             throw new Error(
@@ -173,7 +178,7 @@ export class SkillBase {
         return this._birthsigns;
     }
 
-    get attributes(): TraitLogic[] {
+    get attributes(): AttributeLogic[] {
         return Object.values(this._attrs).map((a) => a.logic);
     }
 

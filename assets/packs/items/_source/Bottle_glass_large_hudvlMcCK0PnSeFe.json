@@ -1,0 +1,38 @@
+{
+  "name": "Bottle, glass, large",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "hudvlMcCK0PnSeFe",
+  "system": {
+    "shortcode": "bottleglas",
+    "docUrl": "https://heroiclands.org/sohl/containergear/bottle-glass-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A substantial bottle of blown glass, greenish and slightly bubbly in character, closed with a cork or waxed-cloth stopper—an expensive vessel used by apothecaries, merchants, and wealthy households for storing wine, oil, or medicinal preparations. The thick-walled glass demands careful handling; breakage is costly. Medieval glass carries a slight color and occasional impurity as markers of its handmade origin.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 25,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 8
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!hudvlMcCK0PnSeFe"
+}

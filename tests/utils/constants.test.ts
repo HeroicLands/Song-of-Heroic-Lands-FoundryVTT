@@ -73,7 +73,7 @@ describe("ITEM_KIND", () => {
         expect(ITEM_KIND.TRAIT).toBe("trait");
         expect(ITEM_KIND.WEAPONGEAR).toBe("weapongear");
         expect(ITEM_KIND.ARMORGEAR).toBe("armorgear");
-        expect(ITEM_KIND.INJURY).toBe("injury");
+        expect(ITEM_KIND.TRAUMA).toBe("trauma");
         expect(ITEM_KIND.AFFLICTION).toBe("affliction");
         expect(ITEM_KIND.MYSTERY).toBe("mystery");
     });

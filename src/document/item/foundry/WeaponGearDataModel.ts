@@ -11,103 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { GearDataModel } from "@src/document/item/foundry/GearDataModel";
 import {
     WeaponGearLogic,
     WeaponGearData,
 } from "@src/document/item/logic/WeaponGearLogic";
-import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
-import {
-    IMPACT_ASPECT,
-    ImpactAspects,
-    ITEM_KIND,
-    PROJECTILEGEAR_SUBTYPE,
-    ProjectileGearSubTypes,
-    STRIKE_MODE_TYPE,
-    StrikeModeTypes,
-} from "@src/utils/constants";
-const { NumberField, StringField, ArrayField, SchemaField, ObjectField } =
-    foundry.data.fields;
+import { ITEM_KIND } from "@src/utils/constants";
+const { NumberField, ObjectField } = foundry.data.fields;
 
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
         encumbrance: new NumberField({ initial: 0, min: 0 }),
-        strikeModes: new ArrayField(
-            new SchemaField({
-                type: new StringField({
-                    required: true,
-                    initial: STRIKE_MODE_TYPE.MELEE,
-                    choices: StrikeModeTypes,
-                }),
-                mode: new StringField(),
-                minParts: new NumberField({
-                    integer: true,
-                    initial: 1,
-                    min: 1,
-                }),
-                assocSkillCode: new StringField(),
-
-                // Melee fields
-                strikeAccuracy: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                lengthBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-
-                // Missile fields
-                projectileType: new StringField({
-                    initial: PROJECTILEGEAR_SUBTYPE.NONE,
-                    required: true,
-                    choices: ProjectileGearSubTypes,
-                }),
-                maxVolleyMult: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                baseRangeBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-                drawBase: new NumberField({
-                    integer: true,
-                    initial: 0,
-                    min: 0,
-                }),
-
-                // Shared fields
-                impactBase: new SchemaField({
-                    numDice: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    die: new NumberField({
-                        integer: true,
-                        initial: 6,
-                        min: 0,
-                    }),
-                    modifier: new NumberField({
-                        integer: true,
-                        initial: 0,
-                    }),
-                    aspect: new StringField({
-                        initial: IMPACT_ASPECT.BLUNT,
-                        required: true,
-                        choices: ImpactAspects,
-                    }),
-                }),
-                traits: new ObjectField({ initial: {} }),
-            }),
-            { initial: [] },
-        ),
+        strikeModes: new ObjectField({ initial: {} }),
     };
 }
 
@@ -127,12 +44,12 @@ export class WeaponGearDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.WEAPONGEAR;
-    lengthBase!: number;
     encumbrance!: number;
-    strikeModes!: StrikeModeBase.Data[];
+    heftBase!: number;
+    strikeModes!: StrictObject<StrikeModeBase.Data>;
 
-    /** Alias for the persisted strikeModes array (Data interface name). */
-    get strikeModeData(): StrikeModeBase.Data[] {
+    /** Alias for the persisted strikeModes dict (Data interface name). */
+    get strikeModeData(): StrictObject<StrikeModeBase.Data> {
         return this.strikeModes;
     }
 

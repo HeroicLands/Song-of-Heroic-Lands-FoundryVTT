@@ -1,0 +1,71 @@
+{
+  "name": "Scale Cowl",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hood.svg",
+  "_id": "sRAqQ1hPLPlzcfWf",
+  "system": {
+    "shortcode": "SCwl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/scale-cowl/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Scale Cowl consists of overlapping metal scales sewn onto a fabric or leather backing. It provides excellent protection and mobility, making it suitable for various combat situations.</p>\n",
+    "quantity": 1,
+    "weightBase": 3.3,
+    "valueBase": 60,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Scale",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Neck"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [
+    {
+      "name": "Anything Using Perception",
+      "type": "sohleffectdata",
+      "_id": "1ZPUr7bXSIuky6Mk",
+      "system": {
+        "scope": "test",
+        "test": "(doc.type==='skill' && doc.logic.hasAttr('per'))||(doc.type==='attribute' && doc.system.shortcode==='per')"
+      },
+      "changes": [
+        {
+          "key": "mod:logic.masteryLevel",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        }
+      ],
+      "_key": "!items.effects!sRAqQ1hPLPlzcfWf.1ZPUr7bXSIuky6Mk"
+    }
+  ],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!sRAqQ1hPLPlzcfWf"
+}

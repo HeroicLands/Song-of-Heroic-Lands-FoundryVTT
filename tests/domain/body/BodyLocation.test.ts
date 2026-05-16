@@ -3,10 +3,8 @@ import { BodyLocation } from "@src/domain/body/BodyLocation";
 
 const SAMPLE_DATA: BodyLocation.Data = {
     shortcode: "skull",
-    isFumble: false,
-    isStumble: false,
-    bleedingSevThreshold: 4,
-    amputateModifier: 0,
+    bleedingSusceptibility: "medium",
+    amputability: "none",
     shockValue: 3,
     probWeight: 10,
     protectionBase: {
@@ -19,7 +17,7 @@ const SAMPLE_DATA: BodyLocation.Data = {
 
 const MOCK_PART = {
     updatePath: "system.bodyStructure.parts.1",
-    bodyStructure: { beingLogic: { actor: null } },
+    bodyStructure: { lineageLogic: { actor: null } },
 } as any;
 
 describe("BodyLocation", () => {
@@ -27,10 +25,8 @@ describe("BodyLocation", () => {
         it("creates from data with all properties", () => {
             const loc = new BodyLocation(SAMPLE_DATA, MOCK_PART, 0);
             expect(loc.shortcode).toBe("skull");
-            expect(loc.isFumble).toBe(false);
-            expect(loc.isStumble).toBe(false);
-            expect(loc.bleedingSevThreshold.effective).toBe(4);
-            expect(loc.amputateModifier.effective).toBe(0);
+            expect(loc.bleedingSusceptibility).toBe("medium");
+            expect(loc.amputability).toBe("none");
             expect(loc.shockValue.effective).toBe(3);
             expect(loc.probWeight.effective).toBe(10);
             expect(loc.index).toBe(0);

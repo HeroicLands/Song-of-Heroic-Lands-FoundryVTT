@@ -16,6 +16,7 @@ import type {
     SkillData,
 } from "@src/document/item/logic/SkillLogic";
 import {
+    BodyZones,
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
     SkillSubTypes,
@@ -24,7 +25,8 @@ import {
     ITEM_KIND,
 } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
-const { NumberField, StringField, BooleanField } = foundry.data.fields;
+const { ArrayField, NumberField, StringField, BooleanField } =
+    foundry.data.fields;
 
 function defineSkillSchema(): foundry.data.fields.DataSchema {
     return {
@@ -40,19 +42,27 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         improveFlag: new BooleanField({ initial: false }),
-        weaponGroup: new StringField({
+        combatCategory: new StringField({
             initial: SKILL_COMBAT_CATEGORY.NONE,
             blank: false,
             choices: SkillCombatCategories,
         }),
-        baseSkill: new StringField(),
-        domainCode: new StringField(),
+        parentSkillCode: new StringField(),
         initSkillMult: new NumberField({
             integer: false,
             initial: 0,
             min: 0,
         }),
-        expertiseParentSkill: new StringField(),
+        /**
+         * Body zones whose injury impairs this skill. The skill is impaired
+         * if the actor has any unhealed injury at a body part tagged with
+         * any of these zones. Zones: vital, core, manipulator, locomotor.
+         * See BodyZone in constants for semantics.
+         */
+        impairedByZones: new ArrayField(
+            new StringField({ blank: false, choices: BodyZones }),
+            { initial: [] },
+        ),
     };
 }
 
@@ -75,11 +85,10 @@ export class SkillDataModel<
     skillBaseFormula!: string;
     masteryLevelBase!: number;
     improveFlag!: boolean;
-    weaponGroup!: string;
-    baseSkill!: string;
-    domainCode!: string;
+    combatCategory!: string;
+    parentSkillCode!: string;
     initSkillMult!: number;
-    expertiseParentSkill!: string;
+    impairedByZones!: string[];
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();

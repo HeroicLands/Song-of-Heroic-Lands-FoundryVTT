@@ -479,6 +479,83 @@ describe("textToFunction", () => {
             /Disallowed keyword/,
         );
     });
+
+    it("blocks the Function-constructor escape via .constructor", () => {
+        expect(() =>
+            textToFunction("({}).constructor.constructor('x')", []),
+        ).toThrow(/Disallowed pattern/);
+    });
+
+    it("blocks the Function-constructor escape via [\"constructor\"]", () => {
+        expect(() =>
+            textToFunction('({})["constructor"]("x")', []),
+        ).toThrow(/Disallowed pattern/);
+    });
+
+    it("blocks __proto__ chain access", () => {
+        expect(() => textToFunction("({}).__proto__", [])).toThrow(
+            /Disallowed pattern/,
+        );
+        expect(() => textToFunction('({})["__proto__"]', [])).toThrow(
+            /Disallowed pattern/,
+        );
+    });
+
+    it("blocks new Function regardless of whitespace between tokens", () => {
+        // Caught by the `Function` keyword scan, which is whitespace-agnostic.
+        expect(() => textToFunction("new   Function('x')", [])).toThrow(
+            /Disallowed/,
+        );
+        expect(() => textToFunction("new\tFunction('x')", [])).toThrow(
+            /Disallowed/,
+        );
+    });
+
+    it("blocks additional dangerous globals", () => {
+        for (const keyword of [
+            "process",
+            "Reflect",
+            "Proxy",
+            "navigator",
+            "location",
+            "localStorage",
+        ]) {
+            expect(() => textToFunction(`${keyword}.foo`, [])).toThrow(
+                /Disallowed keyword/,
+            );
+        }
+    });
+
+    it("does not false-positive on flagged words inside strings", () => {
+        const fn = textToFunction('return "window-shopping";', []) as Function;
+        expect(fn()).toBe("window-shopping");
+    });
+
+    it("does not false-positive on flagged words inside comments", () => {
+        const fn = textToFunction(
+            "// uses fetch internally\nreturn 1;",
+            [],
+        ) as Function;
+        expect(fn()).toBe(1);
+    });
+
+    it("rejects non-identifier parameter names", () => {
+        expect(() =>
+            textToFunction("return x;", ["x = sideEffect()"]),
+        ).toThrow(/Invalid parameter name/);
+        expect(() => textToFunction("return 1;", ["a, b"])).toThrow(
+            /Invalid parameter name/,
+        );
+        expect(() => textToFunction("return 1;", ["1abc"])).toThrow(
+            /Invalid parameter name/,
+        );
+    });
+
+    it("does not mutate the caller-supplied args array", () => {
+        const args = ["a", "b"];
+        textToFunction("a + b", args);
+        expect(args).toEqual(["a", "b"]);
+    });
 });
 
 describe("secondaryModifier", () => {

@@ -1,0 +1,35 @@
+{
+  "name": "Cookery",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/cookery.svg",
+  "_id": "RcPswIec44IFMKew",
+  "system": {
+    "shortcode": "cook",
+    "docUrl": "https://heroiclands.org/sohl/skill/cookery/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Cookery is the practical art of preparing food—transforming raw ingredients into meals that nourish, satisfy, and sometimes delight. A skilled cook understands the properties of different foodstuffs, the timing of heat and seasoning, and how to make the most of whatever provisions are available. The quality of a meal affects not only the health of those who eat it but can influence the mood and social dynamics of a gathering. Truly dreadful cooking may cause illness, while exceptional fare enhances the host's standing and persuasive power.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@per, @rea",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!RcPswIec44IFMKew"
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Padded Coat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "IUb0GI1P4v78tPBo",
+  "system": {
+    "shortcode": "PCoat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/padded-coat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Padded Coat provides warmth and cushioning, perfect for cold weather or as additional under-armor padding. It offers comfort and a bit of extra protection where needed.</p>\n",
+    "quantity": 1,
+    "weightBase": 5.1,
+    "valueBase": 128,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Padded",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Left Forearm",
+        "Right Forearm",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!IUb0GI1P4v78tPBo"
+}

@@ -19,25 +19,19 @@ import path from "path";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
-import { Characteristics } from "./characteristics.mjs";
-import { PeopleCreatures } from "./peoplecreatures.mjs";
-import { VehicleStructures } from "./vehiclestructures.mjs";
-import { Possessions } from "./possessions.mjs";
-import { Journals } from "./journals.mjs";
-
-const PACKS = {
-    "characteristics": Characteristics,
-    "possessions": Possessions,
-    "people-and-creatures": PeopleCreatures,
-    "vehicles-and-structures": VehicleStructures,
-    "journals": Journals,
-};
 
 /**
- * Base folder for the data files.
- * @type {string}
+ * Packs that compile from a committed per-entry JSON tree. Each entry's
+ * `_source/` directory is produced by `npm run packs:export` and consumed
+ * directly here — no vault access is needed during compile.
  */
-const DATA_BASE = path.resolve("./assets/packs");
+const SOURCE_PACKS = ["items", "journals"];
+
+/** Root of each pack's committed `_source/` tree. */
+const PACK_SOURCE_DIR = (name) =>
+    path.resolve(`./assets/packs/${name}/_source`);
+
+/** Where `unpack` writes extracted JSON, and where `clean` operates. */
 const PACK_DEST = path.resolve("./build/tmp/packs");
 const STAGE_DEST = path.resolve("./build/stage/packs");
 
@@ -76,7 +70,7 @@ function packageCommand() {
             yargs.positional("action", {
                 describe: "The action to perform.",
                 type: "string",
-                choices: ["compile", "unpack", "pack", "clean"],
+                choices: ["compile", "unpack", "clean"],
             });
             yargs.positional("pack", {
                 describe: "Name of the pack upon which to work.",
@@ -95,8 +89,6 @@ function packageCommand() {
                     return await compilePacks(pack);
                 case "clean":
                     return await cleanPacks(pack, entry);
-                case "pack":
-                    return await packPacks(pack);
                 case "unpack":
                     return await extractPacks(pack, entry);
             }
@@ -108,28 +100,33 @@ function packageCommand() {
 /*  Compile Packs                            */
 /* ----------------------------------------- */
 
+/**
+ * Builds the LevelDB output for each pack from its committed `_source`
+ * tree (produced by `npm run packs:export`). No vault access is needed
+ * here. Destination: `build/stage/packs/<name>/`.
+ */
 async function compilePacks(packName) {
-    const packs = Object.keys(PACKS)
-        .map((key) => ({ name: key, class: PACKS[key] }))
-        .filter((p) => !packName || p.name === packName);
+    const packNames = SOURCE_PACKS.filter(
+        (name) => !packName || name === packName,
+    );
 
-    for (const packInfo of packs) {
-        const packClass = packInfo.class;
-        if (!packClass) {
-            log.warn(
-                `No pack class found for ${packInfo.name}, skipping...`,
+    for (const name of packNames) {
+        const source = PACK_SOURCE_DIR(name);
+        if (!fs.existsSync(source)) {
+            log.error(
+                `Pack ${name}: _source/ not found at ${source}. Run 'npm run packs:export' first.`,
             );
             continue;
         }
+        log.info(`Pack ${name}: using committed _source tree`);
 
-        const src = path.join(DATA_BASE, packInfo.name, "data");
-        const dest = path.join(PACK_DEST, packInfo.name);
-        if (!fs.existsSync(dest)) {
-            fs.mkdirSync(dest, { recursive: true });
-        }
-        log.info(`Compiling pack ${packInfo.name}`);
-        const pack = new packClass(src, dest);
-        await pack.compile();
+        const stage = path.join(STAGE_DEST, name);
+        log.info(`Pack ${name}: compiling to LevelDB at ${stage}`);
+        await compilePack(source, stage, {
+            recursive: true,
+            log: false,
+            transformEntry: cleanPackEntry,
+        });
     }
     log.info("Pack compilation complete.");
 }
@@ -242,27 +239,6 @@ async function cleanPacks(packName, entryName) {
                 mode: 0o664,
             });
         }
-    }
-}
-
-async function packPacks(packName) {
-    const packs = system.packs.filter((p) => !packName || p.name === packName);
-
-    for (const packInfo of packs) {
-        const src = path.join(PACK_DEST, packInfo.name);
-        const dest = path.join(STAGE_DEST, packInfo.name);
-        if (!fs.existsSync(src)) {
-            log.warn(
-                `No source files exist for pack ${packInfo.name}, skipping...`,
-            );
-            continue;
-        }
-        log.info(`Packing pack ${packInfo.name}`);
-        await compilePack(src, dest, {
-            recursive: true,
-            log: false,
-            transformEntry: cleanPackEntry,
-        });
     }
 }
 

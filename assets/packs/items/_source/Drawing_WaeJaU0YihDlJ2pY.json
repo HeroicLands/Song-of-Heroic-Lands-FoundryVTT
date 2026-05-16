@@ -1,0 +1,35 @@
+{
+  "name": "Drawing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/drawing.svg",
+  "_id": "WaeJaU0YihDlJ2pY",
+  "system": {
+    "shortcode": "draw",
+    "docUrl": "https://heroiclands.org/sohl/skill/drawing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Drawing covers the visual arts—painting, sketching, fresco work, and pen-and-ink illustration—in whatever style prevails in the character's culture. While anyone can make crude marks, true skill produces works of artistic merit or, in the case of maps and technical diagrams, practical accuracy. The quality of a drawing reflects both the creator's technical facility and their creative vision. Drawing also serves as the basis for executing heraldic designs and other works requiring precise visual representation.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @cre",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!WaeJaU0YihDlJ2pY"
+}

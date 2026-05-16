@@ -1,0 +1,37 @@
+{
+  "name": "Dye, Nut Brown",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/potion.svg",
+  "_id": "whZskojn7qDPJ6BD",
+  "system": {
+    "shortcode": "dyenut",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/dye-nut-brown/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A simple powder made from walnut hulls and iron salts, mordanted and dried for common use. Nut brown yields a warm, earthy tone much favored for everyday cloth—breeches, tunics, and soldier's garb. The dye is relatively cheap, sets easily, and does not easily fade or bleed when the cloth is washed, making it practical for working garments.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7r8WTAO2Ac8SF9tf",
+  "_key": "!items!whZskojn7qDPJ6BD"
+}

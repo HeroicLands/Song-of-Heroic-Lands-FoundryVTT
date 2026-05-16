@@ -1,0 +1,57 @@
+{
+  "name": "Cloth Trousers",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "fzL4qWkf0Paapldb",
+  "system": {
+    "shortcode": "CTrsr",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/cloth-trousers/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Simple and versatile, Cloth Trousers are made from softer fabrics, offering basic comfort and warmth. They are ideal for everyday activities and casual wear, providing a practical and adaptable garment.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 39,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!fzL4qWkf0Paapldb"
+}

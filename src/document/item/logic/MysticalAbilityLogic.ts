@@ -57,6 +57,7 @@ export class MysticalAbilityLogic<
 > extends SohlItemBaseLogic<TData> {
     assocSkill?: SkillLogic;
     assocMystery?: MysteryLogic;
+    masteryLevel!: ValueModifier;
     level!: ValueModifier;
     charges!: {
         value: ValueModifier;
@@ -79,6 +80,29 @@ export class MysticalAbilityLogic<
             ),
         };
 
+        if (this.data.levelBase > 0) {
+            this.level = new ValueModifier({}, { parent: this }).setBase(
+                this.data.levelBase,
+            );
+        } else {
+            this.level = new ValueModifier({}, { parent: this }).setDisabled(
+                "This mystical ability doesn't have a level",
+            );
+        }
+
+        if (!this.data.assocSkillCode) {
+            // If there's no associated skill, this ability uses its own mastery level.
+            this.masteryLevel = new ValueModifier({}, { parent: this }).setBase(
+                this.data.masteryLevelBase,
+            );
+        } else {
+            // If there is an associated skill, the mastery level will eventually be determined by that skill.
+            // But we will need to wait until much later to merge that skill's mastery leel modifier into this one,
+            // in case there are modifiers to that skill's mastery level that need to be applied first.
+            // On the other hand, we may need to add our own modifiers to this Mystical Ability's mastery level before then,
+            // so we need to initialize the masteryLevel modifier now, even though it will be effectively empty for a while.
+            this.masteryLevel = new ValueModifier({}, { parent: this });
+        }
         this.level = new ValueModifier({}, { parent: this }).setBase(
             this.data.levelBase,
         );
@@ -103,6 +127,13 @@ export class MysticalAbilityLogic<
     /** @inheritdoc */
     finalize(): void {
         super.finalize();
+
+        // Now, if we have an associated skill, merge that skill's mastery level into this ability's mastery level.
+        if (this.assocSkill) {
+            this.masteryLevel.addVM(this.assocSkill.masteryLevel, {
+                includeBase: true,
+            });
+        }
     }
 }
 
@@ -118,9 +149,14 @@ export interface MysticalAbilityData<
     assocMysteryCode?: string;
     /** Power level of this ability */
     levelBase: number;
+    /** Mastery level of this mystical ability if assocSkillCode is blank */
+    masteryLevelBase: number;
+    /** Whether this item is flagged for mastery improvement via SDR */
+    improveFlag: boolean;
     /** Usage tracking: current charges and maximum */
     charges: {
+        usesCharges: boolean;
         value: number;
-        max: number | null;
+        max: number;
     };
 }

@@ -1,0 +1,37 @@
+{
+  "name": "Ink, Brown",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/ink.svg",
+  "_id": "SaV83V3KypNHOdF2",
+  "system": {
+    "shortcode": "inkbrn",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/ink-brown/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A tawny ink distilled from walnut husks or iron-tannate, softer than black and warmer in tone. Brown ink is common in ledgers and correspondence, lending an aged, earthy finish. It fades more readily over decades but suits drafts and working copies.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 8,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!SaV83V3KypNHOdF2"
+}

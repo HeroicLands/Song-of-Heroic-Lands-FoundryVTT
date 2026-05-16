@@ -1,0 +1,60 @@
+{
+  "name": "Sealskin Longshirt",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/shirt.svg",
+  "_id": "NME5mBMEM08ffCnW",
+  "system": {
+    "shortcode": "SlsLgSh",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/sealskin-longshirt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Water-resistant and warm, the Sealskin Longshirt is ideal for harsh, wet, and cold environments. It offers excellent protection against the elements while providing comfort.</p>\n",
+    "quantity": 1,
+    "weightBase": 8.2,
+    "valueBase": 444,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Left Forearm",
+        "Right Forearm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!NME5mBMEM08ffCnW"
+}

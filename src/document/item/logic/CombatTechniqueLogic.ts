@@ -12,17 +12,8 @@
  */
 
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
-import {
-    ImpactAspect,
-    STRIKE_MODE_TYPE,
-    StrikeModeType,
-} from "@src/utils/constants";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
-import type { SkillLogic } from "./SkillLogic";
-import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 
 /**
  * Logic for the **Combat Technique** item type — a specialized combat
@@ -43,12 +34,6 @@ import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 export class CombatTechniqueLogic<
     TData extends CombatTechniqueData = CombatTechniqueData,
 > extends SohlItemBaseLogic<TData> {
-    /** Effective range of this combat technique. */
-    length!: ValueModifier;
-    assocSkill!: SkillLogic;
-    baseRange!: ValueModifier;
-    impact!: ImpactModifier;
-
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -56,9 +41,6 @@ export class CombatTechniqueLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.length = new ValueModifier({}, { parent: this }).setBase(
-            this.data.lengthBase,
-        );
     }
 
     /** @inheritdoc */
@@ -76,18 +58,14 @@ export interface CombatTechniqueData<
     TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
         CombatTechniqueLogic<any>,
 > extends SohlItemData<TLogic> {
+    // The combat technique's grouping, such as "Karate", "Pugalistics", etc. Used to
+    // group related techniques together.
     group: string;
-    method: StrikeModeType;
-    assocSkillCode: string;
-    strikeAccuracy: number;
-    lengthBase: number;
-    maxVolleyMult: number;
-    baseRangeBase: number;
-    impactBase: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: ImpactAspect;
-    };
-    traits: PlainObject;
+
+    /**
+     * Persisted strike-mode payload — a discriminated union over melee /
+     * missile shapes. The runtime domain instance (with modifier wrappers)
+     * is obtained via `CombatTechniqueDataModel.strikeModeInstance`.
+     */
+    strikeMode: MeleeStrikeMode.Data | MissileStrikeMode.Data;
 }

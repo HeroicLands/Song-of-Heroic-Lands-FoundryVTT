@@ -1,0 +1,37 @@
+{
+  "name": "Spurs",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "LNhN2ULgkxS2u073",
+  "system": {
+    "shortcode": "spurs",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/spurs/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Iron or bronze rowels attached to a rider's heels by leather straps, used to urge a horse forward through subtle pressure rather than force. A blunt rowel communicates a gentle request; a sharp rowel draws blood if the rider is rough-handed. Cavalry and mounted nobility wear spurs as a mark of station; the quality and decoration of the rowel signal the bearer's rank and martial experience.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.25,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "WTIUTjADwAcpyv0H",
+  "_key": "!items!LNhN2ULgkxS2u073"
+}

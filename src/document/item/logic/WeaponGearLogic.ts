@@ -32,29 +32,56 @@ export class WeaponGearLogic<
 > extends GearLogic<TData> {
     /** Strike mode domain objects, constructed from persisted data. */
     strikeModes!: StrikeModeBase[];
-    /** Overall weapon length. */
-    length!: ValueModifier;
     /** Weapon encumbrance. */
     encumbrance!: ValueModifier;
 
     /* --------------------------------------------- */
-    /* Array update helpers                          */
+    /* Strike mode update helpers                    */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a strike mode. */
-    addStrikeModeUpdate(strikeMode: StrikeModeBase.Data): PlainObject {
-        return {
-            "system.strikeModes": [...this.data.strikeModeData, strikeMode],
-        };
+    /**
+     * Build an `update()` payload that adds a strike mode under a new id.
+     *
+     * @param strikeMode - The strike mode data to add.
+     * @param id - Optional id; a fresh `randomID()` is generated when omitted.
+     * @throws If a strike mode with the same id already exists on this weapon.
+     */
+    addStrikeModeUpdate(
+        strikeMode: StrikeModeBase.Data,
+        id: string = foundry.utils.randomID(),
+    ): PlainObject {
+        if (this.data.strikeModes[id]) {
+            throw new Error(
+                `Strike mode with id "${id}" already exists on this weapon.`,
+            );
+        }
+        return { [`system.strikeModes.${id}`]: strikeMode };
     }
 
-    /** Build an `update()` payload that removes a strike mode by mode name. */
-    removeStrikeModeUpdate(mode: string): PlainObject {
-        return {
-            "system.strikeModes": this.data.strikeModeData.filter(
-                (sm) => sm.mode !== mode,
-            ),
-        };
+    /**
+     * Build an `update()` payload that removes a strike mode by id, using
+     * Foundry's `-=` deletion key syntax for object fields.
+     */
+    removeStrikeModeUpdate(id: string): PlainObject {
+        return { [`system.strikeModes.-=${id}`]: null };
+    }
+
+    /**
+     * Build an `update()` payload that applies a partial update to a single
+     * strike mode, leaving other strike modes untouched.
+     *
+     * @param id - The id of the strike mode to update.
+     * @param partial - The fields to change on that strike mode.
+     */
+    updateStrikeModeUpdate(
+        id: string,
+        partial: Partial<StrikeModeBase.Data>,
+    ): PlainObject {
+        const update: PlainObject = {};
+        for (const [key, value] of Object.entries(partial)) {
+            update[`system.strikeModes.${id}.${key}`] = value;
+        }
+        return update;
     }
 
     /* --------------------------------------------- */
@@ -64,18 +91,18 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.length = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.lengthBase);
-        this.encumbrance = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.encumbrance);
-        this.strikeModes = (this.data.strikeModeData ?? []).map((d, i) =>
-            d.type === STRIKE_MODE_TYPE.MELEE ?
-                new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, i)
-            :   new MissileStrikeMode(d as MissileStrikeMode.Data, this, i),
+        this.encumbrance = new ValueModifier({}, { parent: this }).setBase(
+            this.data.encumbrance,
+        );
+        this.strikeModes = Object.entries(this.data.strikeModes ?? {}).map(
+            ([id, d]) =>
+                d.type === STRIKE_MODE_TYPE.MELEE ?
+                    new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, id)
+                :   new MissileStrikeMode(
+                        d as MissileStrikeMode.Data,
+                        this,
+                        id,
+                    ),
         );
     }
 
@@ -93,10 +120,10 @@ export class WeaponGearLogic<
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
-    /** Base reach/length of the weapon */
-    lengthBase: number;
     /** Encumbrance value of the weapon */
     encumbrance: number;
-    /** Persisted strike mode data (use Logic.strikeModes for domain objects) */
-    strikeModeData: StrikeModeBase.Data[];
+    /** Heft of the weapon */
+    heftBase: number;
+    /** Persisted strike modes, keyed by Foundry-style id. */
+    strikeModes: StrictObject<StrikeModeBase.Data>;
 }

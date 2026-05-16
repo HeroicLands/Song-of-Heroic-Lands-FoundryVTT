@@ -1,0 +1,53 @@
+{
+  "name": "Plate Halfhelm",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/helm.svg",
+  "_id": "K4Em43ZVHFbyIXHk",
+  "system": {
+    "shortcode": "PlHHelm",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/plate-halfhelm/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Plate Halfhelm is a steel helmet covering the top and sides of the head, leaving the face exposed. It offers moderate protection while allowing for better visibility and airflow compared to a full helm.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 80,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Plate",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Right Ear",
+        "Left Ear"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!K4Em43ZVHFbyIXHk"
+}

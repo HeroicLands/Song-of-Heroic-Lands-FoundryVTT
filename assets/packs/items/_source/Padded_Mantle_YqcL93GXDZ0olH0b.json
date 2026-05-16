@@ -1,0 +1,55 @@
+{
+  "name": "Padded Mantle",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/mantle.svg",
+  "_id": "YqcL93GXDZ0olH0b",
+  "system": {
+    "shortcode": "PMntl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/padded-mantle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Padded Mantle offers excellent insulation and warmth, made with cushioning materials. It’s ideal for cold climates, providing both comfort and protection from harsh weather.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.7,
+    "valueBase": 42,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Padded",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!YqcL93GXDZ0olH0b"
+}

@@ -49,26 +49,6 @@ export class BeingLogic<
     healingBase!: ValueModifier;
 
     /**
-     * Represents the base body weight of a being without any gear
-     *
-     * @type {ValueModifier}
-     */
-    bodyWeight!: ValueModifier;
-
-    /**
-     * The anatomical structure of the being, including body parts,
-     * hit locations, and adjacency relationships. Constructed from
-     * persisted data during {@link initialize}.
-     */
-    bodyStructure!: BodyStructure;
-
-    /**
-     * Movement profiles for each medium this being can move through.
-     * Constructed from persisted data during {@link initialize}.
-     */
-    movementProfiles!: MovementProfile[];
-
-    /**
      * Current shock state, derived from accumulated injuries and other factors.
      *
      * @type {number}
@@ -341,10 +321,6 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.bodyStructure = new BodyStructure(this.data.bodyStructure, this);
-        this.movementProfiles = (this.data.movementProfiles ?? []).map(
-            (d, i) => new MovementProfile(d, this, i),
-        );
         //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
         //         static defineSchema() {
         //             return foundry.utils.mergeObject(super.defineSchema(), {
@@ -395,7 +371,4 @@ export class BeingLogic<
 
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
-> extends SohlActorData<TLogic> {
-    bodyStructure: BodyStructure.Data;
-    movementProfiles: MovementProfile.Data[];
-}
+> extends SohlActorData<TLogic> {}

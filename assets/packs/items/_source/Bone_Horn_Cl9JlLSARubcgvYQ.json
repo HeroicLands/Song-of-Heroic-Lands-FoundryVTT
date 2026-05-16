@@ -1,0 +1,37 @@
+{
+  "name": "Bone/Horn",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Cl9JlLSARubcgvYQ",
+  "system": {
+    "shortcode": "bonehorn",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bone-horn/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A hollow length of bone or horn—typically from sheep, bullock, or stag—scraped smooth and stoppered at the narrow end with a cork or wooden plug. Horners work raw horn into simple pipes and signaling instruments; shepherds carve bone offcuts into rough whistles for calling dogs and sheep. The reedy, piercing voice carries far across open moorland.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!Cl9JlLSARubcgvYQ"
+}

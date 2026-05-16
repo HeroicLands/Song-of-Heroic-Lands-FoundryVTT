@@ -14,12 +14,10 @@
 import {
     HYDROLOGY,
     isHydrology,
-    isSlope,
-    isTerrain,
-    isVegetation,
-    SLOPE,
-    TERRAIN,
-    VEGETATION,
+    isSurfaceCover,
+    isTopography,
+    SURFACE_COVER,
+    TOPOGRAPHY,
 } from "@src/utils/constants";
 
 /**
@@ -42,28 +40,20 @@ export class SohlRegion extends RegionDocument {
         return (this as any).getFlag(scope, key);
     }
 
-    get terrain(): string {
-        const result = (this._getFlag("sohl", "biome.terrain") ??
-            this.scene.getFlag("sohl", "defaultBiome.terrain")) as
+    get topography(): string {
+        const result = (this._getFlag("sohl", "biome.topography") ??
+            this.scene.getFlag("sohl", "defaultBiome.topography")) as
             | string
             | undefined;
-        return isTerrain(result) ? result : TERRAIN.GROUND_FIRM;
+        return isTopography(result) ? result : TOPOGRAPHY.FLAT;
     }
 
-    get vegetation(): string {
-        const result = (this._getFlag("sohl", "biome.vegetation") ??
-            this.scene.getFlag("sohl", "defaultBiome.vegetation")) as
+    get surfaceCover(): string {
+        const result = (this._getFlag("sohl", "biome.surfaceCover") ??
+            this.scene.getFlag("sohl", "defaultBiome.surfaceCover")) as
             | string
             | undefined;
-        return isVegetation(result) ? result : VEGETATION.NONE;
-    }
-
-    get slope(): string {
-        const result = (this._getFlag("sohl", "biome.slope") ??
-            this.scene.getFlag("sohl", "defaultBiome.slope")) as
-            | string
-            | undefined;
-        return isSlope(result) ? result : SLOPE.FLAT;
+        return isSurfaceCover(result) ? result : SURFACE_COVER.GRASSLAND;
     }
 
     get hydrology(): string {
@@ -157,9 +147,8 @@ export class SohlRegionConfig extends foundry.applications.sheets.RegionConfig {
         if (partId === "biome") {
             const region = this.document as unknown as SohlRegion;
             Object.assign(result, {
-                terrain: region.terrain,
-                vegetation: region.vegetation,
-                slope: region.slope,
+                topography: region.topography,
+                surfaceCover: region.surfaceCover,
                 hydrology: region.hydrology,
                 tab: context.tabs?.biome,
             });

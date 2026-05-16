@@ -1,0 +1,38 @@
+{
+  "name": "Belt pouch, leather, med",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/sack.svg",
+  "_id": "JMXUmoqI6uWt5LN4",
+  "system": {
+    "shortcode": "bpchmd",
+    "docUrl": "https://heroiclands.org/sohl/containergear/belt-pouch-leather-med/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A moderate-sized leather pouch of tanned hide, stitched and hung from the belt by a leather loop or cord, sized to hold a handful of coins or a small daily necessity. The pouch mouth gathers at the top and closes with a drawstring. Worn at the hip by merchants, traders, and laborers, it offers quick access without impeding movement or requiring a pack.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 3
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!JMXUmoqI6uWt5LN4"
+}

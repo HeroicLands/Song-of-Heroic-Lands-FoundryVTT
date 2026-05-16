@@ -1,0 +1,60 @@
+{
+  "name": "Gambeson Sleeved Tunic",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "NYauy93nzKmTr2nz",
+  "system": {
+    "shortcode": "GSTnc",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/gambeson-sleeved-tunic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Gambeson Sleeved Tunic offers padded protection, ideal for use under armor or as standalone defense. It provides excellent insulation and cushioning, perfect for both combat and daily wear.</p>\n",
+    "quantity": 1,
+    "weightBase": 14.6,
+    "valueBase": 416,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Gambeson",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow"
+      ],
+      "rigid": [
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 10
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!NYauy93nzKmTr2nz"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Harness, Ox",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "LkN0jMhIb5hYbECr",
+  "system": {
+    "shortcode": "harnessox",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/harness-ox/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A stout arrangement of leather bands, rope, and iron fixtures built to withstand the tremendous force of oxen pulling stone, timber, or fully laden carts. Unlike horse harness, ox harness employs a yoke or breast collar sized for the beast's bulk and strength; the traces are double-thick leather, often tarred for durability. Carters, masons, and quarrymen depend on ox harness to move the dead weight that horses cannot budge.</p>\n",
+    "quantity": 1,
+    "weightBase": 7,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "WTIUTjADwAcpyv0H",
+  "_key": "!items!LkN0jMhIb5hYbECr"
+}

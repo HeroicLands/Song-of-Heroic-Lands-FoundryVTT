@@ -1,0 +1,37 @@
+{
+  "name": "Wedge, splitting",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "VOpTN4N1Lct3ceyA",
+  "system": {
+    "shortcode": "wedgesplit",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/wedge-splitting/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A wedge of forged steel, thick on one end and tapered to a fine edge, driven between wood grain to cleave a log in two. A woodcutter carries several and strikes them with a maul; used with care they last years without dulling. Split wood dries faster than chopped, and a good splitting wedge saves labor on a long campaign.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!VOpTN4N1Lct3ceyA"
+}

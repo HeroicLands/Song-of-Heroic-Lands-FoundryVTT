@@ -1,0 +1,35 @@
+{
+  "name": "Throwing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/throw.svg",
+  "_id": "iOdCwOYdX9N6NeiD",
+  "system": {
+    "shortcode": "thro",
+    "docUrl": "https://heroiclands.org/sohl/skill/throwing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Throwing governs the ability to hurl objects—daggers, hand axes, javelins, stones, and other improvised or purpose-made projectiles—with accuracy and force. While less powerful than archery at extended ranges, thrown weapons offer the advantage of quick deployment and require less specialized equipment. Coordination and perception are the primary physical attributes involved, and skilled throwers can achieve surprising accuracy even with objects not designed as weapons.</p>\n",
+    "subType": "combat",
+    "skillBaseFormula": "@dex, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "missile",
+    "parentSkillCode": "",
+    "initSkillMult": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "EphAMAfFhWBrJxyF",
+  "_key": "!items!iOdCwOYdX9N6NeiD"
+}

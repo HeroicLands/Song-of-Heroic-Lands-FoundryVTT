@@ -1,0 +1,37 @@
+{
+  "name": "Lard",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Et56QUJ8UzEj3fdI",
+  "system": {
+    "shortcode": "lard",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/lard/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rendered hog fat, white and stable, is the cook's workhorse—frying bread, seasoning beans, and sealing preserves. Packed in a glazed pot, lard keeps all year in a cool larder. Every pig-butcher renders it; its value lies in its versatility, stretching dough and enriching the plainest pottage.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!Et56QUJ8UzEj3fdI"
+}

@@ -15,7 +15,7 @@ import type { BodyStructure } from "@src/domain/body/BodyStructure";
 import { BodyLocation } from "@src/domain/body/BodyLocation";
 import { weightedRandom } from "@src/domain/body/WeightedRandom";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
-import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
+import { BODY_ZONE } from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
@@ -23,9 +23,11 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * e.g., "Head" (containing Skull, Face), "Left Arm" (containing Upper Arm,
  * Elbow, Forearm, Hand).
  *
- * Each part tracks which skills and attributes are affected by injuries to
- * this part, whether it affects mobility, whether it can hold an item
- * (e.g., a hand), and its probability weight for random part selection.
+ * Each part is tagged with one or more {@link BodyZone}s describing which
+ * functional roles it fulfills (VITAL, CORE, MANIPULATOR, LOCOMOTOR). Skills
+ * and attributes declare which zones impair them; injury at a part impairs
+ * every skill/attribute that lists any of the part's zones. Mishap behavior
+ * (fumble/stumble checks) is also zone-driven; see BodyZone in constants.
  *
  * **Lifecycle:** Rebuilt from persisted schema data on every preparation
  * cycle. May be mutated during the lifecycle (e.g., modifiers applied by
@@ -34,9 +36,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  */
 export class BodyPart {
     readonly shortcode: string;
-    readonly affectedSkills: SohlItem[];
-    readonly affectedAttributes: SohlItem[];
-    readonly affectsMobility: boolean;
+    readonly zones: string[];
     readonly canHoldItem: boolean;
     readonly heldItem: SohlItem | null;
     readonly probWeight: ValueModifier;
@@ -45,47 +45,29 @@ export class BodyPart {
     /** Zero-based index of this part within {@link BodyStructure.parts}. */
     readonly index: number;
 
+    /**
+     * Convenience predicate: this part affects mobility if it carries any
+     * of the mobility-relevant zones (VITAL, CORE, or LOCOMOTOR). Pure
+     * MANIPULATOR-tagged parts (arms, hands) don't drop a creature when
+     * injured, so their injury doesn't impair mobility.
+     */
+    get affectsMobility(): boolean {
+        return this.zones.some(
+            (z) =>
+                z === BODY_ZONE.VITAL ||
+                z === BODY_ZONE.CORE ||
+                z === BODY_ZONE.LOCOMOTOR,
+        );
+    }
+
     constructor(
         data: BodyPart.Data,
         bodyStructure: BodyStructure,
         index: number,
     ) {
-        const actor = bodyStructure.beingLogic.actor;
+        const actor = bodyStructure.lineageLogic.actor;
         this.shortcode = data.shortcode;
-        this.affectedSkills = data.affectedSkillCodes.reduce((skills, code) => {
-            const item = actor?.items.find(
-                (it) =>
-                    it.type === ITEM_KIND.SKILL && it.system.shortcode === code,
-            );
-            if (item) {
-                skills.push(item);
-            } else {
-                sohl.log.warn(
-                    `Skill with shortcode "${code}" not found for actor "${actor?.name}"`,
-                );
-            }
-            return skills;
-        }, [] as SohlItem[]);
-        this.affectedAttributes = data.affectedAttributeCodes.reduce(
-            (attributes, code) => {
-                const item = actor?.items.find(
-                    (it) =>
-                        it.type === ITEM_KIND.TRAIT &&
-                        it.system.intensity === TRAIT_INTENSITY.ATTRIBUTE &&
-                        it.system.shortcode === code,
-                );
-                if (item) {
-                    attributes.push(item);
-                } else {
-                    sohl.log.warn(
-                        `Attribute with shortcode "${code}" not found for actor "${actor?.name}"`,
-                    );
-                }
-                return attributes;
-            },
-            [] as SohlItem[],
-        );
-        this.affectsMobility = data.affectsMobility;
+        this.zones = [...data.zones];
         this.canHoldItem = data.canHoldItem;
         this.heldItem =
             data.heldItemId ?
@@ -93,7 +75,7 @@ export class BodyPart {
             :   null;
         this.probWeight = new ValueModifier(
             {},
-            { parent: bodyStructure.beingLogic },
+            { parent: bodyStructure.lineageLogic },
         ).setBase(data.probWeight);
         this.index = index;
         this.bodyStructure = bodyStructure;
@@ -136,7 +118,7 @@ export class BodyPart {
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
         const canonical =
-            this.bodyStructure.beingLogic.data.bodyStructure.parts[this.index]
+            this.bodyStructure.lineageLogic.data.bodyStructure.parts[this.index]
                 .locations;
         return {
             [`${this.updatePath}.locations`]: [...canonical, locationData],
@@ -150,7 +132,7 @@ export class BodyPart {
      */
     removeLocationUpdate(shortcode: string): PlainObject {
         const canonical =
-            this.bodyStructure.beingLogic.data.bodyStructure.parts[this.index]
+            this.bodyStructure.lineageLogic.data.bodyStructure.parts[this.index]
                 .locations;
         return {
             [`${this.updatePath}.locations`]: canonical.filter(
@@ -164,9 +146,8 @@ export namespace BodyPart {
     /** Persisted data shape for a body part. */
     export interface Data {
         shortcode: string;
-        affectedSkillCodes: string[];
-        affectedAttributeCodes: string[];
-        affectsMobility: boolean;
+        /** Functional zones this part fulfills (BodyZone values). */
+        zones: string[];
         canHoldItem: boolean;
         heldItemId: string | null;
         probWeight: number;

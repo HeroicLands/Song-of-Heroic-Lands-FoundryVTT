@@ -1,0 +1,38 @@
+{
+  "name": "Impaired Vision",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "MnRZLMrpfl9LcWyY",
+  "system": {
+    "shortcode": "imprdvsn",
+    "docUrl": "https://heroiclands.org/sohl/trait/impaired-vision/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Impaired Vision is a condition where one's ability to see clearly is reduced, causing difficulties in performing everyday tasks. Without the availability of modern corrective lenses or treatments, those afflicted must rely on natural adaptations and assistance from others to manage their impaired sight.</p>\n<h3>Impulse</h3>\n<p>Difficulty focusing on distant or near objects, leading to blurred vision, eye strain, and occasional disorientation. These symptoms can be managed by adjusting one’s activities and relying more on other senses.\n<strong>Example:</strong> Scribe Mathias finds it increasingly difficult to read the fine script of ancient manuscripts. He often squints and moves the parchment closer to his face, straining his eyes to make out the words, but manages to complete his work with effort.</p>\n<h3>Disorder</h3>\n<p>In addition to impulse intensity behaviors: Severe impairment in vision, making it challenging to recognize faces, read, or navigate environments. This condition can lead to significant disruptions in daily life and increased reliance on others for assistance.</p>\n<h3>Physical Symptoms</h3>\n<p>Persistent blurred vision, frequent headaches from eye strain, difficulty distinguishing objects or people, and clumsiness due to impaired depth perception.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Fears of worsening vision, anxiety over becoming entirely dependent on others, and concerns about missing important details or dangers in the environment.</p>\n<h3>Emotional Distress</h3>\n<p>Frustration, sadness, and a sense of helplessness stemming from the inability to perform tasks that require clear vision, such as reading or crafting. This can lead to social withdrawal and a feeling of isolation.</p>\n<p><strong>Example:</strong> Weaver Talia’s vision has worsened to the point where she can no longer see the fine threads of her loom clearly. She struggles to continue her craft, often making mistakes and feeling overwhelmed by the prospect of losing her livelihood. Her worry about becoming a burden to her family and the fear of further deterioration in her sight weigh heavily on her mind, leading her to withdraw from social activities.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!MnRZLMrpfl9LcWyY"
+}

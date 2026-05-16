@@ -1,0 +1,38 @@
+{
+  "name": "Jar, ointment, tiny",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "S4G7z0kdZ2uITseE",
+  "system": {
+    "shortcode": "jarointmen4",
+    "docUrl": "https://heroiclands.org/sohl/containergear/jar-ointment-tiny/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A thumb-sized ceramic vessel with the wide mouth and waxed or wooden lid of an ointment jar, used for carrying a precious unguent, poison antidote, or rare medicinal paste. Small enough to tuck into a belt pouch or hold in a closed fist, yet sturdy enough to survive being carried deep in a pack among heavier gear.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.9,
+    "valueBase": 0.5,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 0.03125
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!S4G7z0kdZ2uITseE"
+}

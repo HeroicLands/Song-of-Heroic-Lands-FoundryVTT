@@ -1,0 +1,35 @@
+{
+  "name": "Brewing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/brewing.svg",
+  "_id": "dT4YnBxLtCwWErLv",
+  "system": {
+    "shortcode": "brew",
+    "docUrl": "https://heroiclands.org/sohl/skill/brewing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Brewing is the craft of producing alcoholic beverages, from common ales consumed within days of production to fine wines and meads that improve with age over months or years. The skill encompasses the entire process—selecting ingredients, managing fermentation, and judging when a batch has reached its peak. Distillation of spirits is a rarer and more demanding branch of the craft. The quality of the finished product determines both its market value and its social impact when served at gatherings.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@per, @rea",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!dT4YnBxLtCwWErLv"
+}

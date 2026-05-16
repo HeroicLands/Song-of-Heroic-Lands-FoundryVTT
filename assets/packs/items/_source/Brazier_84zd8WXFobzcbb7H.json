@@ -1,0 +1,37 @@
+{
+  "name": "Brazier",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "84zd8WXFobzcbb7H",
+  "system": {
+    "shortcode": "brazier",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/brazier/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A cast-iron or bronze basin set on a tripod or short legs, filled with live coals or charred wood to provide steady warmth where a hearth-fire is absent. Braziers are favored in great halls, barracks, and wealthy merchant houses during winter; the basin is deep enough to hold coals for hours without constant tending. A brazier sheds sufficient light to read by and radiates heat across a room, though it demands care—a tipped brazier spills burning coals and can consume a tapestry or wooden beam in moments.</p>\n",
+    "quantity": 1,
+    "weightBase": 25,
+    "valueBase": 100,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "csqutf8WiTRM8oru",
+  "_key": "!items!84zd8WXFobzcbb7H"
+}

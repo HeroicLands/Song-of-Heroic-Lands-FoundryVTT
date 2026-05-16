@@ -1,0 +1,19 @@
+{
+  "name": "Social",
+  "sorting": "a",
+  "folder": "vP5BufUGUOMMlPlB",
+  "type": "Item",
+  "_id": "JBr2U30FsJTs8F3l",
+  "sort": 0,
+  "color": "#FF69B4",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!JBr2U30FsJTs8F3l"
+}

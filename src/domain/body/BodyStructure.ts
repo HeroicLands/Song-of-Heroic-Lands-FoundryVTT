@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { BodyPart } from "@src/domain/body/BodyPart";
 import { BodyLocation } from "@src/domain/body/BodyLocation";
 import { weightedRandom } from "@src/domain/body/WeightedRandom";
@@ -20,7 +20,7 @@ import { weightedRandom } from "@src/domain/body/WeightedRandom";
  * The complete anatomical structure of a Being — all body parts, their
  * hit locations, and the adjacency relationships between parts.
  *
- * Constructed from persisted data during {@link BeingLogic.initialize}.
+ * Constructed from persisted data during {@link LineageLogic.initialize}.
  * Provides weighted random selection for hit location determination and
  * adjacency queries for mechanics like bleeding spread or cascading injuries.
  *
@@ -37,10 +37,10 @@ import { weightedRandom } from "@src/domain/body/WeightedRandom";
 export class BodyStructure {
     readonly parts: BodyPart[];
     readonly adjacent: string[][];
-    readonly beingLogic: BeingLogic;
+    readonly lineageLogic: LineageLogic;
 
-    constructor(data: BodyStructure.Data, beingLogic: BeingLogic) {
-        this.beingLogic = beingLogic;
+    constructor(data: BodyStructure.Data, lineageLogic: LineageLogic) {
+        this.lineageLogic = lineageLogic;
         this.parts = data.parts.map((d, i) => new BodyPart(d, this, i));
         this.adjacent = data.adjacent.map((pair) => [...pair]);
     }
@@ -154,7 +154,7 @@ export class BodyStructure {
      * domain objects.
      */
     addPartUpdate(partData: BodyPart.Data): PlainObject {
-        const canonical = this.beingLogic.data.bodyStructure.parts;
+        const canonical = this.lineageLogic.data.bodyStructure.parts;
         return {
             "system.bodyStructure.parts": [...canonical, partData],
         };
@@ -166,7 +166,7 @@ export class BodyStructure {
      * the canonical DataModel data.
      */
     removePartUpdate(shortcode: string): PlainObject {
-        const canonical = this.beingLogic.data.bodyStructure.parts;
+        const canonical = this.lineageLogic.data.bodyStructure.parts;
         return {
             "system.bodyStructure.parts": canonical.filter(
                 (p) => p.shortcode !== shortcode,
@@ -191,7 +191,7 @@ export class BodyStructure {
      * the array unchanged. Sources from canonical DataModel data.
      */
     addEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical = this.beingLogic.data.bodyStructure.adjacent;
+        const canonical = this.lineageLogic.data.bodyStructure.adjacent;
         const exists = canonical.some(
             (pair) => pair.includes(partA) && pair.includes(partB),
         );
@@ -207,7 +207,7 @@ export class BodyStructure {
      * `["B", "A"]` are the same edge. Sources from canonical DataModel data.
      */
     removeEdgeUpdate(partA: string, partB: string): PlainObject {
-        const canonical = this.beingLogic.data.bodyStructure.adjacent;
+        const canonical = this.lineageLogic.data.bodyStructure.adjacent;
         return {
             "system.bodyStructure.adjacent": canonical.filter(
                 (pair) => !(pair.includes(partA) && pair.includes(partB)),

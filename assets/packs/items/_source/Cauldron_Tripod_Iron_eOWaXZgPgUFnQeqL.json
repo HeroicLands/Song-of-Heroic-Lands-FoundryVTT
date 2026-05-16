@@ -1,0 +1,37 @@
+{
+  "name": "Cauldron Tripod, Iron",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "eOWaXZgPgUFnQeqL",
+  "system": {
+    "shortcode": "cauldrontr",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cauldron-tripod-iron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A wrought-iron tripod frame forged in three legs that spread to a stable stance, fitted with a ring or hook at the top for suspending a cauldron or pot over an open fire. Soldiers, tinkers, and field-cooks carry these to cook food or brew medicinal decoctions where no hearth stands. The iron is rough but sturdy; rust gradually eats at the metal if left unwaxed in damp weather, but a properly maintained tripod outlives the cook who owns it.</p>\n",
+    "quantity": 1,
+    "weightBase": 8,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!eOWaXZgPgUFnQeqL"
+}

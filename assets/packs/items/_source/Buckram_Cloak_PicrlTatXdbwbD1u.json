@@ -1,0 +1,56 @@
+{
+  "name": "Buckram Cloak",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/cloak.svg",
+  "_id": "PicrlTatXdbwbD1u",
+  "system": {
+    "shortcode": "BClk",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/buckram-cloak/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Buckram Cloak is stiff and durable, made from coarse cloth stiffened with glue. It offers a structured fit and is suitable for activities requiring a more rigid, reliable garment.</p>\n",
+    "quantity": 1,
+    "weightBase": 3.3,
+    "valueBase": 66,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!PicrlTatXdbwbD1u"
+}

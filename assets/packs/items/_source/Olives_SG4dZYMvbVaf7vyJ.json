@@ -1,0 +1,37 @@
+{
+  "name": "Olives",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "SG4dZYMvbVaf7vyJ",
+  "system": {
+    "shortcode": "olives",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/olives/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Pickled olives, brined in salt and herbs, travel well in sealed jars and are eaten as a relish or pressed for oil. Southern merchants prize them as a luxury trade good; they keep indefinitely under brine. A handful rounds out a meager meal, adding salt and richness to bread and cheese.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 8,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!SG4dZYMvbVaf7vyJ"
+}

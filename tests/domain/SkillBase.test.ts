@@ -1,22 +1,20 @@
 import { describe, it, expect } from "vitest";
 import { SkillBase } from "@src/domain/SkillBase";
-import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
+import { ITEM_KIND } from "@src/utils/constants";
 
-// Helper to create a mock trait item
-function mockTrait(
+// Helper to create a mock attribute item
+function mockAttribute(
     shortcode: string,
-    textValue: string,
-    opts: { isNumeric?: boolean; intensity?: string } = {},
+    score: number,
+    opts: { type?: string } = {},
 ) {
     return {
-        type: ITEM_KIND.TRAIT,
-        system: {
-            shortcode,
-            textValue,
-            isNumeric: opts.isNumeric ?? true,
-            intensity: opts.intensity ?? TRAIT_INTENSITY.ATTRIBUTE,
-            parent: { name: shortcode },
-            logic: { id: shortcode },
+        type: opts.type ?? ITEM_KIND.ATTRIBUTE,
+        parent: { name: shortcode },
+        system: { shortcode },
+        logic: {
+            data: { shortcode },
+            score: { effective: score },
         },
     } as any;
 }
@@ -135,8 +133,8 @@ describe("SkillBase", () => {
 
         it("averages two attribute scores", () => {
             const sb = createSkillBase("@str, @dex", [
-                mockTrait("str", "60"),
-                mockTrait("dex", "40"),
+                mockAttribute("str", 60),
+                mockAttribute("dex", 40),
             ]);
             // (60 + 40) / 2 = 50, primary (60) > secondary (40), round up
             expect(sb.value).toBe(50);
@@ -144,8 +142,8 @@ describe("SkillBase", () => {
 
         it("rounds up when primary > secondary for two attributes", () => {
             const sb = createSkillBase("@str, @dex", [
-                mockTrait("str", "61"),
-                mockTrait("dex", "40"),
+                mockAttribute("str", 61),
+                mockAttribute("dex", 40),
             ]);
             // (61 + 40) / 2 = 50.5, primary > secondary → ceil = 51
             expect(sb.value).toBe(51);
@@ -153,8 +151,8 @@ describe("SkillBase", () => {
 
         it("rounds down when primary <= secondary for two attributes", () => {
             const sb = createSkillBase("@str, @dex", [
-                mockTrait("str", "40"),
-                mockTrait("dex", "61"),
+                mockAttribute("str", 40),
+                mockAttribute("dex", 61),
             ]);
             // (40 + 61) / 2 = 50.5, primary <= secondary → floor = 50
             expect(sb.value).toBe(50);
@@ -162,9 +160,9 @@ describe("SkillBase", () => {
 
         it("uses normal rounding for three or more attributes", () => {
             const sb = createSkillBase("@str, @int, @dex", [
-                mockTrait("str", "60"),
-                mockTrait("int", "50"),
-                mockTrait("dex", "41"),
+                mockAttribute("str", 60),
+                mockAttribute("int", 50),
+                mockAttribute("dex", 41),
             ]);
             // (60 + 50 + 41) / 3 = 50.333 → round = 50
             expect(sb.value).toBe(50);
@@ -172,8 +170,8 @@ describe("SkillBase", () => {
 
         it("adds numeric modifiers", () => {
             const sb = createSkillBase("@str, @dex, 5", [
-                mockTrait("str", "60"),
-                mockTrait("dex", "40"),
+                mockAttribute("str", 60),
+                mockAttribute("dex", 40),
             ]);
             // average = 50, + 5 = 55
             expect(sb.value).toBe(55);
@@ -185,7 +183,7 @@ describe("SkillBase", () => {
 
         it("handles missing attributes gracefully (value 0)", () => {
             const sb = createSkillBase("@str, @dex", [
-                mockTrait("str", "60"),
+                mockAttribute("str", 60),
                 // dex not provided
             ]);
             // str=60, dex=0 (missing), average=(60+0)/2=30, primary>secondary → ceil=30
@@ -194,23 +192,13 @@ describe("SkillBase", () => {
     });
 
     describe("setAttributes", () => {
-        it("only picks traits with intensity=attribute and isNumeric=true", () => {
+        it("ignores items that are not of kind ATTRIBUTE", () => {
             const sb = createSkillBase("@str, @per", [
-                mockTrait("str", "60", {
-                    intensity: TRAIT_INTENSITY.ATTRIBUTE,
-                    isNumeric: true,
-                }),
-                mockTrait("per", "50", {
-                    intensity: TRAIT_INTENSITY.TRAIT,
-                    isNumeric: true,
-                }), // not an attribute
-                mockTrait("chr", "70", {
-                    intensity: TRAIT_INTENSITY.ATTRIBUTE,
-                    isNumeric: false,
-                }), // not numeric
+                mockAttribute("str", 60),
+                mockAttribute("per", 50, { type: ITEM_KIND.TRAIT }),
             ]);
-            // Only str resolves, per has wrong intensity, chr not numeric
-            // str=60, per=0 → average=(60+0)/2=30
+            // Only str resolves (per is a TRAIT, not an ATTRIBUTE)
+            // str=60, per=0 → average=(60+0)/2=30, primary>secondary → ceil=30
             expect(sb.value).toBe(30);
         });
     });

@@ -1,0 +1,35 @@
+{
+  "name": "Herblore",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/herblore.svg",
+  "_id": "d6bv7kUA4uEgtGOw",
+  "system": {
+    "shortcode": "herb",
+    "docUrl": "https://heroiclands.org/sohl/skill/herblore/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Herblore is the knowledge of plants and their medicinal, culinary, and mystical properties—how to identify, gather, preserve, and prepare them for use in concoctions. In settled lands, apothecaries' guilds regulate the trade in herbs, but rural herbalists and tribal practitioners often work outside such structures, gathering and processing plants on their own. Prepared herbs serve as ingredients in the recipes of brewers, cooks, embalmers, and perfumers, while the herbalist can also create potions with direct curative, toxic, or exotic effects. Proper storage is essential, as gathered herbs lose potency over time.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@rea, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!d6bv7kUA4uEgtGOw"
+}

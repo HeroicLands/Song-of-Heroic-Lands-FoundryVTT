@@ -1,0 +1,37 @@
+{
+  "name": "Cider, Keg",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/ale.svg",
+  "_id": "MA3Zirm2Bo8LNinK",
+  "system": {
+    "shortcode": "cdrkeg",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cider-keg/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A keg of apple cider pressed from autumn harvests and left to ferment. Orchardmen and villages near apple country keep these through winter; slightly sweet and mellow, it serves as a gentler alternative to ale. Spoils faster than beer in warm weather.</p>\n",
+    "quantity": 1,
+    "weightBase": 72,
+    "valueBase": 16,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "jLdeIpOIZokm8obv",
+  "_key": "!items!MA3Zirm2Bo8LNinK"
+}

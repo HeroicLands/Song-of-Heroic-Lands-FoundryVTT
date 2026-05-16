@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Ermine/Sable",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "MJhFOQ9tHJu3RIoE",
+  "system": {
+    "shortcode": "hideermine",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-ermine-sable/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A tiny pelt of ermine or sable—the snow-white winter coat of the stoat or the dark luxuriant fur of the marten—dried and salted whole. Nobles and wealthy merchants commission cloaks and trim from dozens of these pelts; furriers guard good sources. A single skin fits in a pouch.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 45,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!MJhFOQ9tHJu3RIoE"
+}

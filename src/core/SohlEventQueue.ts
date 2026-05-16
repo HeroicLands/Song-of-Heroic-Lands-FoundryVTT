@@ -85,7 +85,7 @@ export interface SohlTimedEvent {
  *     this.item.uuid,
  *     "healingTest",
  *     game.time.worldTime + healingInterval,
- *     { injuryLevel: this.data.injuryLevelBase },
+ *     { level: this.data.levelBase },
  * );
  * ```
  *
@@ -97,7 +97,7 @@ export interface SohlTimedEvent {
  *     switch (kind) {
  *         case "healingTest":
  *             // Perform healing logic, update the document
- *             await this.update({ "system.injuryLevelBase": newLevel });
+ *             await this.update({ "system.levelBase": newLevel });
  *             // The update triggers re-preparation, which calls finalize(),
  *             // which registers the next healing event automatically.
  *             break;

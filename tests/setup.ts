@@ -77,8 +77,18 @@ const sohlMock = {
         expandObject(obj: any) {
             return obj;
         },
+        randomID(length: number = 16): string {
+            const chars =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let out = "";
+            for (let i = 0; i < length; i++) {
+                out += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return out;
+        },
     },
     data: {
+        CalendarData: class { constructor(..._args: any[]) {} },
         fields: {
             StringField: class { constructor(_opts?: any) {} },
             NumberField: class { constructor(_opts?: any) {} },
@@ -104,6 +114,7 @@ const sohlMock = {
                     async enrichHTML(content: string) { return content; },
                 },
             },
+            ContextMenu: class { constructor(..._args: any[]) {} },
         },
     },
     documents: {

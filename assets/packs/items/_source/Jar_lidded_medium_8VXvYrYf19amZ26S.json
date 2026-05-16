@@ -1,0 +1,38 @@
+{
+  "name": "Jar, lidded, medium",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "8VXvYrYf19amZ26S",
+  "system": {
+    "shortcode": "jarliddedm",
+    "docUrl": "https://heroiclands.org/sohl/containergear/jar-lidded-medium/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A moderately sized stoneware jar with a fitted ceramic or wooden lid, sized for everyday household storage of honey, jam, oil, or salt. Smaller than its gallon counterpart but still substantial enough to hold a family's weekly needs, it sits comfortably on a shelf or in a cupboard. The thick walls resist temperature swings, and a snug lid keeps contents dry and protected from pests.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.8,
+    "valueBase": 5,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!8VXvYrYf19amZ26S"
+}

@@ -31,17 +31,17 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="item-detail" data-tooltip="Treated">Trt</div>
                 <div class="item-detail" data-tooltip="Bleeding">Bld</div>
             </li>
-            {{#each injuries as |injury|}}
+            {{#each traumas as |injury|}}
             <li class="item flexrow" data-item-id="{{injury.id}}" data-item-name="{{injury.name}}">
                 <div class="item-name default-action flexrow">
                     <div class="item-image" style="background-image: url('{{injury.img}}')"></div>
                     <h4 data-tooltip="{{injury.name}}">{{injury.name}}</h4>
                 </div>
                 <div class="item-detail">
-                    {{#if (lte injury.logic.injuryLevel.effective 0)}}
+                    {{#if (lte injury.logic.level.effective 0)}}
                     <i class="fas fa-heart-circle-plus fa-lg"></i>
                     {{else}}
-                    {{injury.logic.injuryLevel.effective}}
+                    {{injury.logic.level.effective}}
                     {{/if}}
                 </div>
                 <div class="item-detail">

@@ -1,0 +1,37 @@
+{
+  "name": "Plums",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "VCkjj1qClr8UXiTX",
+  "system": {
+    "shortcode": "plums",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/plums/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Plums are gathered in late summer from cottage orchards and wild trees. Fresh plums are soft, sweet, and perishable, stained with purple or gold depending on variety. Dried plums harden to chewy nuggets that store through winter, sustaining orchard workers, soldiers, and travelers. The pits are discarded, and the shriveled fruit develops deeper sweetness.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.75,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!VCkjj1qClr8UXiTX"
+}

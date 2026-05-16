@@ -1,0 +1,37 @@
+{
+  "name": "String",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "ervpGnNKyjyPqrSq",
+  "system": {
+    "shortcode": "string",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/string/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A length of twisted twine, coiled and sold by the bundle—thin enough to fit a pocket yet strong enough to bundle firewood or lash a bedroll closed. Fletchers draw string for bowstrings; tailor and seamstress use it to bind seams. A traveler carries a coil of it without thought.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!ervpGnNKyjyPqrSq"
+}

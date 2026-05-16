@@ -36,129 +36,6 @@ const {
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        bodyStructure: new SchemaField({
-            parts: new ArrayField(
-                new SchemaField({
-                    shortcode: new StringField({ blank: false }),
-                    name: new StringField({ blank: false }),
-                    affectedSkillCodes: new ArrayField(
-                        new StringField({ blank: false }),
-                        {
-                            initial: [],
-                        },
-                    ),
-                    affectedAttributeCodes: new ArrayField(
-                        new StringField({ blank: false }),
-                        { initial: [] },
-                    ),
-                    affectsMobility: new BooleanField({ initial: false }),
-                    canHoldItem: new BooleanField({ initial: false }),
-                    heldItemId: new DocumentIdField({
-                        nullable: true,
-                        initial: null,
-                    }),
-                    probWeight: new NumberField({
-                        integer: true,
-                        initial: 0,
-                        min: 0,
-                    }),
-                    locations: new ArrayField(
-                        new SchemaField({
-                            shortcode: new StringField({ blank: false }),
-                            name: new StringField({ blank: false }),
-                            isFumble: new BooleanField({ initial: false }),
-                            isStumble: new BooleanField({ initial: false }),
-                            bleedingSevThreshold: new NumberField({
-                                integer: true,
-                                initial: 0,
-                                min: 0,
-                            }),
-                            amputateModifier: new NumberField({
-                                integer: true,
-                                initial: 0,
-                            }),
-                            shockValue: new NumberField({
-                                integer: true,
-                                initial: 0,
-                                min: 0,
-                            }),
-                            probWeight: new NumberField({
-                                integer: true,
-                                initial: 0,
-                                min: 0,
-                            }),
-                            protectionBase: new SchemaField({
-                                blunt: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                                edged: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                                piercing: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                                fire: new NumberField({
-                                    integer: true,
-                                    initial: 0,
-                                    min: 0,
-                                }),
-                            }),
-                        }),
-                        { initial: [] },
-                    ),
-                }),
-                { initial: [] },
-            ),
-            adjacent: new ArrayField(
-                new ArrayField(new StringField({ blank: false }), {
-                    initial: [],
-                }),
-                { initial: [] },
-            ),
-        }),
-        movementProfiles: new ArrayField(
-            new SchemaField({
-                medium: new StringField({
-                    required: true,
-                    choices: MovementMediums,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
-                }),
-                metersPerRound: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                metersPerWatch: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                factors: new ArrayField(
-                    new SchemaField({
-                        scope: new StringField({
-                            blank: false,
-                        }),
-                        key: new StringField({
-                            blank: false,
-                        }),
-                        mode: new StringField({
-                            choices: MovementFactorModes,
-                        }),
-                        textValue: new StringField({
-                            blank: false,
-                        }),
-                    }),
-                ),
-                disabled: new BooleanField({ initial: false }),
-            }),
-            { initial: [] },
-        ),
     };
 }
 
@@ -179,8 +56,6 @@ export class BeingDataModel<
         "SOHL.Actor",
     ];
     static override readonly kind = ACTOR_KIND.BEING;
-    bodyStructure!: BodyStructure.Data;
-    movementProfiles!: MovementProfile.Data[];
 
     static defineSchema(): foundry.data.fields.DataSchema {
         return defineBeingDataSchema();

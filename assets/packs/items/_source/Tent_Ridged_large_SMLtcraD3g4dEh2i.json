@@ -1,0 +1,37 @@
+{
+  "name": "Tent, Ridged, large",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "SMLtcraD3g4dEh2i",
+  "system": {
+    "shortcode": "tentridged",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/tent-ridged-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A long ridge-pole tent with a pitched roof supported by two upright posts, the ends closed and the sides staked. Oiled linen walls shed water; a small door at one end closes with cord. Merchants and soldiers favor the larger ridged tents for parties of two or three; the streamlined design balances protection with pack-weight.</p>\n",
+    "quantity": 1,
+    "weightBase": 31,
+    "valueBase": 144,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!SMLtcraD3g4dEh2i"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Cheese",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "7Tt68Asw0UPg0zaq",
+  "system": {
+    "shortcode": "cheese",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cheese/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Aged or fresh cheese made from curd and whey, ranging from soft and creamy to hard and crumbly, wrapped in cloth or herb-dusted rind. A cheesemaker produces rounds for household use and market; cheese feeds travelers, soldiers, and laborers well, keeping fresh for weeks and traveling without spoilage. Hard cheese is grated, soft cheese spread on bread, and both are carried on long journeys.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!7Tt68Asw0UPg0zaq"
+}

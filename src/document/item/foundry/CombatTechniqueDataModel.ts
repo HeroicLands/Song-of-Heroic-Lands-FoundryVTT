@@ -15,82 +15,40 @@ import {
     CombatTechniqueLogic,
     CombatTechniqueData,
 } from "@src/document/item/logic/CombatTechniqueLogic";
-import {
-    IMPACT_ASPECT,
-    ImpactAspect,
-    ImpactAspects,
-    ITEM_KIND,
-    STRIKE_MODE_TYPE,
-    StrikeModeType,
-    StrikeModeTypes,
-} from "@src/utils/constants";
+import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
 import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
-const { NumberField, StringField, ArrayField, SchemaField, ObjectField } =
-    foundry.data.fields;
+import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+
+const { StringField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
 function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
         group: new StringField({}),
-        method: new StringField({
-            required: true,
-            initial: STRIKE_MODE_TYPE.MELEE,
-            choices: StrikeModeTypes,
+        strikeMode: new TypedSchemaField({
+            [STRIKE_MODE_TYPE.MELEE]: new SchemaField(
+                MeleeStrikeMode.schemaFields(),
+            ),
+            [STRIKE_MODE_TYPE.MISSILE]: new SchemaField(
+                MissileStrikeMode.schemaFields(),
+            ),
         }),
-        assocSkillCode: new StringField(),
-
-        // Melee fields
-        strikeAccuracy: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-        lengthBase: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-
-        // Missile fields
-        maxVolleyMult: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-        baseRangeBase: new NumberField({
-            integer: true,
-            initial: 0,
-            min: 0,
-        }),
-
-        // Shared fields
-        impactBase: new SchemaField({
-            numDice: new NumberField({
-                integer: true,
-                initial: 0,
-                min: 0,
-            }),
-            die: new NumberField({
-                integer: true,
-                initial: 6,
-                min: 0,
-            }),
-            modifier: new NumberField({
-                integer: true,
-                initial: 0,
-            }),
-            aspect: new StringField({
-                initial: IMPACT_ASPECT.BLUNT,
-                required: true,
-                choices: ImpactAspects,
-            }),
-        }),
-        traits: new ObjectField({ initial: {} }),
     };
 }
 
 type CombatTechniqueSchema = ReturnType<typeof defineCombatTechniqueSchema>;
 
+/**
+ * Foundry DataModel backing a CombatTechnique item.
+ *
+ * The persisted `strikeMode` field is a discriminated union (TypedSchemaField)
+ * over melee/missile strike mode shapes — only the raw plain-data form is
+ * stored. Use {@link strikeModeInstance} to obtain a fully constructed
+ * `StrikeModeBase` (i.e. {@link MeleeStrikeMode} or {@link MissileStrikeMode})
+ * with the runtime modifier wrappers attached.
+ */
 export class CombatTechniqueDataModel<
     TSchema extends foundry.data.fields.DataSchema = CombatTechniqueSchema,
     TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
@@ -106,21 +64,34 @@ export class CombatTechniqueDataModel<
     ];
     static override readonly kind = ITEM_KIND.COMBATTECHNIQUE;
     group!: string;
-    method!: StrikeModeType;
-    assocSkillCode!: string;
-    strikeAccuracy!: number;
-    lengthBase!: number;
-    maxVolleyMult!: number;
-    baseRangeBase!: number;
-    impactBase!: {
-        numDice: number;
-        die: number;
-        modifier: number;
-        aspect: ImpactAspect;
-    };
-    traits!: PlainObject;
+    strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCombatTechniqueSchema();
+    }
+
+    /**
+     * Construct a domain-layer strike mode instance from the persisted
+     * `strikeMode` payload. The instance carries the runtime ValueModifier /
+     * CombatModifier / ImpactModifier wrappers and is what gameplay code
+     * should interact with.
+     *
+     * Constructed fresh each call; do not persist mutations to the returned
+     * object — they are not written back through this accessor.
+     */
+    get strikeModeInstance(): StrikeModeBase {
+        const id = this.parent?.id ?? "";
+        if (this.strikeMode.type === STRIKE_MODE_TYPE.MELEE) {
+            return new MeleeStrikeMode(
+                this.strikeMode as MeleeStrikeMode.Data,
+                this.logic as any,
+                id,
+            );
+        }
+        return new MissileStrikeMode(
+            this.strikeMode as MissileStrikeMode.Data,
+            this.logic as any,
+            id,
+        );
     }
 }

@@ -1,0 +1,37 @@
+{
+  "name": "Heat-Exhausted",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/privation.svg",
+  "_id": "rl6cp1JGUqZAhgAl",
+  "system": {
+    "shortcode": "htexh",
+    "docUrl": "https://heroiclands.org/sohl/affliction/heat-exhausted/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Heat exhaustion is the intermediate stage of heat injury, in which the body's cooling and circulation begin to fail under the combined load of high temperature and dehydration. Unlike heat fatigue it impairs function in real and obvious ways, and unlike heat stroke it remains reversible — but only if the victim is taken out of the heat at once.</p>\n<h3>Symptoms</h3>\n<p>Pale, clammy skin despite the heat; weak and rapid pulse; nausea or vomiting; sudden faintness on standing; muscle cramps in the legs, abdomen, or shoulders; persistent headache and dizziness. Heavy sweating continues even as the skin grows cool.</p>\n<h3>Progression</h3>\n<p>Heat exhaustion does not kill outright but it ends a march, a fight, or a watch — the victim cannot continue. If cooling is not provided, it progresses to heat stroke within minutes to an hour: skin goes hot and dry, sweating stops, and consciousness fails.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Move to shade or a cool space without delay; lay the victim flat with legs raised</li>\n<li>Sponge with cool water; fan the skin; loosen all clothing</li>\n<li>Sips of cool water with a pinch of salt every few minutes</li>\n<li>Do not allow the victim to return to exertion that day, or the next if travel allows</li>\n</ul>\n",
+    "subType": "privation",
+    "category": "heat",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 2,
+    "healingRateBase": 3,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "wz4hXqKLntkdXNue",
+  "_key": "!items!rl6cp1JGUqZAhgAl"
+}

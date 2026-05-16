@@ -1,0 +1,37 @@
+{
+  "name": "Gold",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "WbtsZ9lkdjcMjuXJ",
+  "system": {
+    "shortcode": "gold",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/gold/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Gold, the precious metal most sought by nobility and merchants, beaten into ingots or stamped into coins by the royal mints. The metal holds its luster and does not tarnish; smiths hammer it into fine jewelry, ornaments for temples and halls, and the ceremonial regalia of the realm. Couriers and moneylenders guard gold as the foundation of trade.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 1200,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!WbtsZ9lkdjcMjuXJ"
+}

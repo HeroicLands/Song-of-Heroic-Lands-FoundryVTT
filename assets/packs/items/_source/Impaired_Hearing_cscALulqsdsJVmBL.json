@@ -1,0 +1,38 @@
+{
+  "name": "Impaired Hearing",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "cscALulqsdsJVmBL",
+  "system": {
+    "shortcode": "impaired",
+    "docUrl": "https://heroiclands.org/sohl/trait/impaired-hearing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Impaired Hearing is a condition where one’s ability to hear sounds is diminished, making it difficult to perceive conversations and environmental noises. Without access to modern hearing aids or treatments, those afflicted must rely on alternative communication methods and heightened awareness to manage their condition.</p>\n<h3>Impulse</h3>\n<p>Difficulty hearing soft or distant sounds, leading to frequent misunderstandings and the need to ask others to repeat themselves. This can cause frustration and strain in communication.\n<strong>Example:</strong> Farmer Eadric often misses the sounds of approaching footsteps or distant calls while working in the fields. He frequently asks his family to speak louder, struggling to catch every word in conversation.</p>\n<h3>Disorder</h3>\n<p>In addition to impulse intensity behaviors: Significant hearing loss that makes it challenging to engage in conversations, even in quiet settings. The individual may struggle to hear anything below a loud volume, leading to social isolation and difficulty performing daily tasks.</p>\n<h3>Physical Symptoms</h3>\n<p>Inability to hear normal conversations, difficulty distinguishing between sounds, and the need to rely on lip-reading or other visual cues to understand speech.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Constant anxiety about missing important information or failing to respond appropriately in conversations, fear of becoming completely deaf, and worries about being left out or misunderstood.</p>\n<h3>Emotional Distress</h3>\n<p>Deep frustration, sadness, and a sense of isolation due to the inability to participate fully in social interactions. The individual may withdraw from social situations, feeling disconnected from others and fearful of becoming a burden.</p>\n<p><strong>Example:</strong> Elderly Seraphina can no longer hear the chatter of her grandchildren or the sounds of daily life in the village. She feels increasingly isolated, unable to join in conversations without misunderstanding or missing key points. The silence around her deepens her sense of loneliness and fear of being cut off from the world she once enjoyed.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!cscALulqsdsJVmBL"
+}

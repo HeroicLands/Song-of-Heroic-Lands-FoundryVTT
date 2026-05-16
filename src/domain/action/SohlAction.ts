@@ -36,7 +36,7 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  *
  * There are two subtypes:
  * - **Intrinsic actions** — Built-in actions defined by Logic classes (e.g.,
- *   `attackTest` on a StrikeMode, `healingTest` on an Injury). These call
+ *   `attackTest` on a StrikeMode, `healingTest` on a Trauma). These call
  *   a named method on the target logic.
  * - **Custom actions** — User-defined actions with arbitrary executor code.
  *

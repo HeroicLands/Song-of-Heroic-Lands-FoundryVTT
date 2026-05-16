@@ -1,0 +1,37 @@
+{
+  "name": "Harp, Jarind (great)",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Oht30mPSQV0ZNJC5",
+  "system": {
+    "shortcode": "harpjarind",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/harp-jarind-great/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A substantial frame harp crafted by master luthiers, the Jarind is distinguished by its deep resonance and a range spanning three full octaves. The frame is typically carved from oak or ash, the soundbox reinforced with internal bracing, and the strings—often numbering thirty or more—drawn tight across an elegant, asymmetrical plane. Played in royal courts and great halls, the Jarind's voice is rich, sonorous, and capable of both thunderous power and delicate tremolo.</p>\n",
+    "quantity": 1,
+    "weightBase": 25,
+    "valueBase": 300,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!Oht30mPSQV0ZNJC5"
+}

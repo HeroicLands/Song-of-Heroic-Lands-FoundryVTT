@@ -1,0 +1,37 @@
+{
+  "name": "Heatstruck",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/privation.svg",
+  "_id": "Rfjv47YUnhsLhcZZ",
+  "system": {
+    "shortcode": "htstrk",
+    "docUrl": "https://heroiclands.org/sohl/affliction/heatstruck/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Heat stroke is the catastrophic failure of the body's heat regulation. Sweating stops, the skin grows hot and dry, the core temperature climbs beyond what tissues can survive, and the brain begins to cook within its skull. It is a true emergency — every minute of delay multiplies the chance of death or permanent damage — and even successful treatment may leave lasting impairment.</p>\n<h3>Symptoms</h3>\n<p>Hot, dry, flushed skin; the absence of sweat that should be present; a pounding then thready pulse; rapid shallow breathing; severe headache; sudden confusion, slurred speech, staggering, hallucination, or aggressive outbursts; seizures; loss of consciousness.</p>\n<h3>Progression</h3>\n<p>Without immediate cooling, organ damage becomes irreversible within minutes — kidneys, liver, brain. Death from heat stroke is common even when treatment is attempted, and survivors often carry permanent cognitive deficits, weakened kidneys, or future heat intolerance.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Cool the body as fast as possible — immersion in cool water, wet cloths, fanning</li>\n<li>Do not wait for shade; cooling matters more than location</li>\n<li>Do not give fluids to an unconscious victim; if conscious, only sips of cool water</li>\n<li>Even a successful field treatment is followed by days of rest and weeks of careful exposure</li>\n</ul>\n",
+    "subType": "privation",
+    "category": "heat",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 1,
+    "levelBase": 4,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "wz4hXqKLntkdXNue",
+  "_key": "!items!Rfjv47YUnhsLhcZZ"
+}

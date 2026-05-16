@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Lambskin",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "SB3QBYYuA2XYrdEQ",
+  "system": {
+    "shortcode": "hidelambsk",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-lambskin/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A young sheep's pelt—soft, light, and still bearing its wool—salted whole for the tanners and clothiers. Shepherds trade lambskins seasonally after spring shearing and autumn culling. The fine hair takes dye well, and when tanned, the leather is pliant and warm.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.75,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!SB3QBYYuA2XYrdEQ"
+}

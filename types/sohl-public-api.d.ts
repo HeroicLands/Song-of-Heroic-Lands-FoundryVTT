@@ -52,7 +52,7 @@ export type { ArmorGearLogic, ArmorGearData } from "../src/common/item/logic/Arm
 export type { CombatTechniqueLogic, CombatTechniqueData } from "../src/common/item/logic/CombatTechniqueLogic";
 export type { ConcoctionGearLogic, ConcoctionGearData } from "../src/common/item/logic/ConcoctionGearLogic";
 export type { ContainerGearLogic, ContainerGearData } from "../src/common/item/logic/ContainerGearLogic";
-export type { InjuryLogic, InjuryData } from "../src/common/item/logic/InjuryLogic";
+export type { TraumaLogic, TraumaData } from "../src/common/item/logic/TraumaLogic";
 export type { MiscGearLogic, MiscGearData } from "../src/common/item/logic/MiscGearLogic";
 export type { MysteryLogic, MysteryData } from "../src/common/item/logic/MysteryLogic";
 export type { MysticalAbilityLogic, MysticalAbilityData } from "../src/common/item/logic/MysticalAbilityLogic";

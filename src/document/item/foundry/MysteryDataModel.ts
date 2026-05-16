@@ -17,16 +17,22 @@ import {
     MysteryData,
 } from "@src/document/item/logic/MysteryLogic";
 import { ITEM_KIND } from "@src/utils/constants";
-const { SchemaField, NumberField } = foundry.data.fields;
+const { SchemaField, NumberField, BooleanField } = foundry.data.fields;
 
 function defineMysterySchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
+        // Note: if value is null, then there is no defined level
+        levelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
         charges: new SchemaField({
+            usesCharges: new BooleanField({ initial: false }),
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
-                nullable: true,
                 initial: 0,
                 min: 0,
             }),
@@ -34,8 +40,7 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             // then the mystery does not use charges
             max: new NumberField({
                 integer: true,
-                nullable: true,
-                initial: null,
+                initial: 0,
                 min: 0,
             }),
         }),
@@ -56,7 +61,9 @@ export class MysteryDataModel<
         "SOHL.Item",
     ];
     static override readonly kind = ITEM_KIND.MYSTERY;
+    levelBase!: number;
     charges!: {
+        usesCharges: boolean;
         value: number;
         max: number;
     };

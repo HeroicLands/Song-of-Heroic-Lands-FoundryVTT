@@ -1,0 +1,37 @@
+{
+  "name": "Fetters",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "cJPbnYJ8TgGxeYcj",
+  "system": {
+    "shortcode": "fetters",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/fetters/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A pair of iron leg-shackles joined by a short chain, fitted with locking clasps. Fetters are used by town guards and military escorts to restrain prisoners during transport or confinement. The iron is heavy enough to discourage running and the chain is long enough to allow walking but not sprinting; they are frequently chained through a ring bolt to secure a captive to a post or wagon.</p>\n",
+    "quantity": 1,
+    "weightBase": 5,
+    "valueBase": 30,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!cJPbnYJ8TgGxeYcj"
+}

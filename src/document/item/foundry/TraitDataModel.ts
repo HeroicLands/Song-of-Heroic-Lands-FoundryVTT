@@ -11,7 +11,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MasteryLevelDataModel } from "@src/document/item/foundry/MasteryLevelDataModel";
 import { TraitLogic, TraitData } from "@src/document/item/logic/TraitLogic";
 import {
     ITEM_KIND,
@@ -22,6 +21,7 @@ import {
     TraitSubType,
     TraitSubTypes,
 } from "@src/utils/constants";
+import { SohlItemDataModel } from "./SohlItem";
 const {
     ArrayField,
     ObjectField,
@@ -33,19 +33,25 @@ const {
 
 function defineTraitSchema(): foundry.data.fields.DataSchema {
     return {
-        ...MasteryLevelDataModel.defineSchema(),
+        ...SohlItemDataModel.defineSchema(),
         subType: new StringField({
             initial: TRAIT_SUBTYPE.PHYSIQUE,
             required: true,
             choices: TraitSubTypes,
         }),
-        textValue: new StringField(),
-        max: new NumberField({
-            integer: true,
-            nullable: true,
-            initial: null,
-        }),
         isNumeric: new BooleanField({ initial: false }),
+        textValue: new StringField({ initial: "" }),
+        score: new SchemaField(
+            {
+                value: new NumberField({ initial: 0 }),
+                max: new NumberField({
+                    integer: true,
+                    nullable: true,
+                    initial: null,
+                }),
+            },
+            { nullable: true, initial: null },
+        ),
         intensity: new StringField({
             initial: TRAIT_INTENSITY.TRAIT,
             required: true,
@@ -65,7 +71,6 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
             }),
         ),
         choices: new ObjectField(),
-        diceFormula: new StringField({ initial: "" }),
     };
 }
 
@@ -75,7 +80,7 @@ export class TraitDataModel<
     TSchema extends foundry.data.fields.DataSchema = TraitSchema,
     TLogic extends TraitLogic<TraitData> = TraitLogic<TraitData>,
 >
-    extends MasteryLevelDataModel<TSchema, TLogic>
+    extends SohlItemDataModel<TSchema, TLogic>
     implements TraitData<TLogic>
 {
     static override readonly LOCALIZATION_PREFIXES = [
@@ -85,16 +90,18 @@ export class TraitDataModel<
     ];
     static override readonly kind = ITEM_KIND.TRAIT;
     subType!: TraitSubType;
-    textValue!: string;
-    max!: number | null;
     isNumeric!: boolean;
+    textValue!: string;
+    score?: {
+        value: number;
+        max: number | null;
+    };
     intensity!: TraitIntensity;
     valueDesc!: {
         label: string;
         maxValue: number;
     }[];
     choices!: StrictObject<string>;
-    diceFormula!: string;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineTraitSchema();

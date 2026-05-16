@@ -1,0 +1,37 @@
+{
+  "name": "Candles, Beeswax",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "MW9cp0VIYQUbhN3Z",
+  "system": {
+    "shortcode": "candlesbee",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/candles-beeswax/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Candles of pure beeswax rendered from honeycomb, pale and firm, that burn with a bright steady flame and emit a faint sweet scent. They burn longer than tallow and produce far less smoke, making them the choice of churches, noble households, and merchants who can afford the price. The bishop's altar is lit by beeswax candles; a wealthy widow carries them in a candlestick to her shrine. Commoners hoard tallow; the gentry and the gods burn beeswax.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 24,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "csqutf8WiTRM8oru",
+  "_key": "!items!MW9cp0VIYQUbhN3Z"
+}

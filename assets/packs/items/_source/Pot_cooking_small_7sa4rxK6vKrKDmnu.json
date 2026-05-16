@@ -1,0 +1,38 @@
+{
+  "name": "Pot, cooking, small",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "7sa4rxK6vKrKDmnu",
+  "system": {
+    "shortcode": "potcooking2",
+    "docUrl": "https://heroiclands.org/sohl/containergear/pot-cooking-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A compact iron pot with the same sturdy construction as its larger kin, scaled down to suit a traveler's or small household's needs. Its size makes it practical for carrying in a pack or hanging from a traveling kit, yet substantial enough to boil water or prepare a simple stew for one or two people over a campfire or hearth.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!7sa4rxK6vKrKDmnu"
+}

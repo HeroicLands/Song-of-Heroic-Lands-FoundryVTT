@@ -1,0 +1,59 @@
+{
+  "name": "Quilted Sleeved Tunic",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "1oS8DKc2S1KAEFh4",
+  "system": {
+    "shortcode": "QSTnc",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/quilted-sleeved-tunic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Featuring layers of fabric stitched together, the Quilted Sleeved Tunic offers excellent insulation and comfort. It's suitable for colder climates and provides a bit of extra protection and warmth.</p>\n",
+    "quantity": 1,
+    "weightBase": 9,
+    "valueBase": 200,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Quilted",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!1oS8DKc2S1KAEFh4"
+}

@@ -1,0 +1,59 @@
+{
+  "name": "Leather Tunic",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "qNXhPkHSOYiSXf4B",
+  "system": {
+    "shortcode": "LtTunic",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/leather-tunic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Leather Tunic offers a rugged look with minimal protection. Lightweight and comfortable, it’s suitable for everyday wear or light adventuring, adding a bit of edge to the wearer’s attire.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.1,
+    "valueBase": 296,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!qNXhPkHSOYiSXf4B"
+}

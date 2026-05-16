@@ -1,0 +1,46 @@
+{
+  "name": "Standard Arrow",
+  "type": "projectilegear",
+  "img": "systems/sohl/assets/icons/arrow.svg",
+  "_id": "00sqjj7DAzAVpiwm",
+  "system": {
+    "shortcode": "ArwStd",
+    "docUrl": "https://heroiclands.org/sohl/projectilegear/standard-arrow/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A workaday arrow of ash or birch, fletched with three trimmed goose feathers bound in sinew and pitch, and tipped with a small socketed iron head suitable for deer, game, or a skirmish at middling range. Archers, scouts, and militia keep quivers of these for common work; a fletcher can turn out a bundle in a morning, and a careful shooter will draw a shaft from the carcass and refletch it for another day's shooting.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.25,
+    "valueBase": 0.22,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "subType": "arrow",
+    "impactBase": {
+      "overrideDice": true,
+      "overrideModifier": false,
+      "numDice": 1,
+      "die": 12,
+      "modifier": -1,
+      "aspect": "piercing"
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ADQPHjgKsdWsJhyy",
+  "_key": "!items!00sqjj7DAzAVpiwm"
+}

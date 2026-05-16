@@ -1,0 +1,51 @@
+{
+  "name": "Russet Hat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hat.svg",
+  "_id": "omlaBs9NL0jrxRgL",
+  "system": {
+    "shortcode": "RHat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/russet-hat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Made from coarse wool dyed reddish-brown, the Russet Hat offers warmth and durability. It is practical for colder climates and rougher outdoor environments.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.2,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Skull"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!omlaBs9NL0jrxRgL"
+}

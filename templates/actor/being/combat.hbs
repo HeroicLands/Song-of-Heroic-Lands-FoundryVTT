@@ -36,13 +36,13 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail" data-tooltip="Counterstrike ML">CX</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-index="{{sm.index}}" data-item-id="{{entry.weapon.id}}">
+                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
                     <div class="item-name default-action flexrow">
-                        <h4 data-tooltip="{{sm.mode}}">{{sm.mode}}</h4>
+                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
                     <div class="item-detail">{{sm.length.effective}}</div>
                     <div class="item-detail">{{sm.reach.effective}}</div>
-                    <div class="item-detail">{{sm.strikeAccuracy.effective}}</div>
+                    <div class="item-detail">{{sm.spread.effective}}</div>
                     <div class="item-detail">
                         {{#unless sm.impact.disabled}}
                         {{sm.impact.label}}
@@ -105,9 +105,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail" data-tooltip="Attack ML">Atk</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-index="{{sm.index}}" data-item-id="{{entry.weapon.id}}">
+                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
                     <div class="item-name default-action flexrow">
-                        <h4 data-tooltip="{{sm.mode}}">{{sm.mode}}</h4>
+                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
                     <div class="item-detail">{{sm.draw.effective}}</div>
                     <div class="item-detail">{{sm.draw.effective}}</div>
@@ -160,12 +160,12 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail" data-tooltip="Counterstrike ML">CX</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
-                <li class="item flexrow" data-sm-index="{{sm.index}}" data-item-id="{{entry.item.id}}">
+                <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.item.id}}">
                     <div class="item-name default-action flexrow">
-                        <h4 data-tooltip="{{sm.mode}}">{{sm.mode}}</h4>
+                        <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
                     <div class="item-detail">
-                        {{#if sm.isMelee}}{{sm.strikeAccuracy.effective}}{{/if}}
+                        {{#if sm.isMelee}}{{sm.spread.effective}}{{/if}}
                     </div>
                     <div class="item-detail">
                         {{#unless sm.impact.disabled}}

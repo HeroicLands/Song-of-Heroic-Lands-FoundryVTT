@@ -13,12 +13,18 @@
 
 import type { SohlLogic } from "@src/core/SohlLogic";
 import {
+    ImpactAspects,
     STRIKE_MODE_TYPE,
+    StrikeModeTypes,
     type ImpactAspect,
     type StrikeModeType,
 } from "@src/utils/constants";
 import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
+import { ValueModifier } from "../modifier/ValueModifier";
+
+const { NumberField, StringField, SchemaField, ObjectField, BooleanField } =
+    foundry.data.fields;
 
 /**
  * Base class for all strike modes — a specific way a weapon or combat
@@ -37,14 +43,17 @@ import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
  * penalties, weapon quality bonuses), but mutations are not persisted.
  */
 export abstract class StrikeModeBase {
+    readonly id: string;
     /** The strike mode type discriminator: "melee" or "missile". */
     readonly type: StrikeModeType;
     /** Descriptive name of this mode (e.g., "Cut", "Thrust", "Shoot"). */
-    readonly mode: string;
+    readonly name: string;
     /** Minimum body parts needed to wield the weapon in this mode. */
     readonly minParts: number;
     /** Shortcode of the associated skill (resolved to SkillLogic at runtime). */
     readonly assocSkillCode: string;
+    /** How precisely this mode can target a specific body part. */
+    readonly spread: ValueModifier;
     /** Attack roll mastery level modifier. */
     readonly attack: CombatModifier;
     /** Impact (damage) modifier with dice and aspect. */
@@ -53,19 +62,23 @@ export abstract class StrikeModeBase {
     readonly traits: PlainObject;
     /** The parent Logic class that owns this strike mode. */
     readonly parentLogic: SohlLogic;
-    /** Zero-based index within the parent's strikeModes array. */
-    readonly index: number;
 
-    constructor(
-        data: StrikeModeBase.Data,
-        parentLogic: SohlLogic,
-        index: number,
-    ) {
+    constructor(data: StrikeModeBase.Data, parentLogic: SohlLogic, id: string) {
         this.type = data.type;
-        this.mode = data.mode;
+        this.name = data.name;
         this.minParts = data.minParts;
         this.assocSkillCode = data.assocSkillCode;
+        this.spread = new ValueModifier({}, { parent: parentLogic }).setBase(
+            data.attack.spread ?? 0,
+        );
         this.attack = new CombatModifier({}, { parent: parentLogic });
+        if (data.attack.modifier) {
+            this.attack.add("Attack Modifier", "AtkMod", data.attack.modifier);
+        }
+        if (data.attack.disabled || data.traits?.noAttack) {
+            this.attack.disabledReason =
+                "This strike mode cannot be used for attacking.";
+        }
         this.impact = new ImpactModifier(
             {
                 roll: {
@@ -80,15 +93,16 @@ export abstract class StrikeModeBase {
         );
         this.traits = { ...(data.traits ?? {}) };
         this.parentLogic = parentLogic;
-        this.index = index;
+        this.id = id;
     }
 
     /**
      * The dot-notation path prefix for Foundry `update()` calls targeting
-     * this strike mode's persisted fields, e.g. `"system.strikeModes.2"`.
+     * this strike mode's persisted fields, e.g.
+     * `"system.strikeModes.hJc8S26awwY0ahZj"`.
      */
     get updatePath(): string {
-        return `system.strikeModes.${this.index}`;
+        return `system.strikeModes.${this.id}`;
     }
 
     /** Whether this is a melee strike mode. */
@@ -100,18 +114,78 @@ export abstract class StrikeModeBase {
     get isMissile(): boolean {
         return this.type === STRIKE_MODE_TYPE.MISSILE;
     }
+
+    /**
+     * The base SchemaField definitions shared by all strike-mode types.
+     * Subclasses should call this and merge in their type-specific fields
+     * to produce a SchemaField suitable for use in a TypedSchemaField.
+     */
+    static baseSchemaFields(): foundry.data.fields.DataSchema {
+        return {
+            type: new StringField({
+                required: true,
+                blank: false,
+                choices: StrikeModeTypes,
+            }),
+            name: new StringField({ required: true, blank: false }),
+            minParts: new NumberField({
+                integer: true,
+                min: 1,
+                initial: 1,
+            }),
+            assocSkillCode: new StringField({ blank: false }),
+            attack: new SchemaField({
+                disabled: new BooleanField({ initial: false }),
+                spread: new NumberField({
+                    integer: false,
+                    min: 0,
+                    initial: 0,
+                }),
+                modifier: new NumberField({ integer: true, initial: 0 }),
+            }),
+            impactBase: new SchemaField({
+                numDice: new NumberField({
+                    integer: true,
+                    min: 0,
+                    initial: 1,
+                }),
+                die: new NumberField({
+                    integer: true,
+                    min: 2,
+                    nullable: true,
+                    initial: null,
+                }),
+                modifier: new NumberField({ integer: true, initial: 0 }),
+                aspect: new StringField({
+                    blank: false,
+                    choices: ImpactAspects,
+                }),
+            }),
+            traits: new ObjectField({ initial: {} }),
+        };
+    }
 }
 
 export namespace StrikeModeBase {
     /** Common persisted fields shared by all strike mode types. */
     export interface Data {
         type: StrikeModeType;
-        mode: string;
+        name: string;
         minParts: number;
         assocSkillCode: string;
+        attack: {
+            disabled?: boolean;
+            spread?: number; // Spread is melee-only but we want it on the base Data for validation purposes. --- IGNORE ---
+            modifier?: number;
+        };
         impactBase: {
             numDice: number;
-            die: number;
+            /**
+             * Die size. `null` when the strike mode contributes no dice of
+             * its own (e.g., a bow whose impact dice come from the
+             * projectile). Otherwise an integer ≥ 2.
+             */
+            die: number | null;
             modifier: number;
             aspect: ImpactAspect;
         };

@@ -14,7 +14,6 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
-    SohlItem,
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
@@ -54,6 +53,7 @@ import { MysterySubType } from "@src/utils/constants";
 export class MysteryLogic<
     TData extends MysteryData = MysteryData,
 > extends SohlItemBaseLogic<TData> {
+    level!: ValueModifier;
     charges!: {
         value: ValueModifier;
         max: ValueModifier;
@@ -67,6 +67,15 @@ export class MysteryLogic<
     override initialize(): void {
         super.initialize();
 
+        if (this.data.levelBase !== null) {
+            this.level = new ValueModifier({}, { parent: this }).setBase(
+                this.data.levelBase,
+            );
+        } else {
+            this.level = new ValueModifier({}, { parent: this }).setDisabled(
+                "This mystery doesn't have a level",
+            );
+        }
         if (this.data.charges.max !== null) {
             this.charges = {
                 value: new ValueModifier({}, { parent: this }).setBase(
@@ -102,8 +111,11 @@ export class MysteryLogic<
 export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** The base level of the mystery, or null if not applicable */
+    levelBase: number | null;
     /** Usage tracking: current charges and maximum */
     charges: {
+        usesCharges: boolean;
         value: number;
         max: number;
     };

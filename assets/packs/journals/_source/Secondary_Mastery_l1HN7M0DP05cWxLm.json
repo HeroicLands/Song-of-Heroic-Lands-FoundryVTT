@@ -1,0 +1,35 @@
+{
+  "name": "Secondary Mastery",
+  "pages": [
+    {
+      "_id": "00268f296b785f30",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Characters test only one primary Mastery Level at a time. However, other skills and attributes can indirectly affect the test. This manifests as either a Secondary Modifier or a Secondary Roll.</p>\n<h2>Secondary Modifier</h2>\n<p>A separate skill or attribute can lend a bonus or penalty to the EML of a [[Success Tests|Success Test]]. The modifier is derived from the Index of the secondary skill or attribute:</p>\n<table>\n<thead>\n<tr>\n<th>Index</th>\n<th>Modifier</th>\n<th>Index</th>\n<th>Modifier</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>0</td>\n<td>−25</td>\n<td>6</td>\n<td>+5</td>\n</tr>\n<tr>\n<td>1</td>\n<td>−20</td>\n<td>7</td>\n<td>+10</td>\n</tr>\n<tr>\n<td>2</td>\n<td>−15</td>\n<td>8</td>\n<td>+15</td>\n</tr>\n<tr>\n<td>3</td>\n<td>−10</td>\n<td>9</td>\n<td>+20</td>\n</tr>\n<tr>\n<td>4</td>\n<td>−5</td>\n<td>10</td>\n<td>+25</td>\n</tr>\n<tr>\n<td>5</td>\n<td>0</td>\n<td>per Index beyond</td>\n<td>+5</td>\n</tr>\n</tbody>\n</table>\n<p>When a test calls for more than one Secondary Modifier, the sum of all Secondary Modifiers applies to the EML. The tested skill is displayed first, followed by Secondary Modifier skills in parentheses.</p>\n<h2>Secondary Roll</h2>\n<p>A separate skill or attribute can also lend its Index as the Target Number (TN) in a Secondary Roll (SR). An SR is a d10 roll: a result less than or equal to TN is a Success; greater than TN is a Failure. There are no critical results. A TN of 0 or less is always a failure, and a TN of 10 or more is always a success.</p>\n<p>A Secondary Roll accompanies a Success Test or [[Success_Value_Tests|Success Value test]]. The effect varies by situation—for instance, a successful Endurance SR reduces fatigue, while a crafting SR can improve a Success Value by one. Skills and attributes used as Secondary Rolls are noted in parentheses after any Secondary Modifiers, followed by &quot;SR.&quot;</p>\n<h2>Secondary Mastery Requirement</h2>\n<p>Secondary Mastery is called for sparingly. If a character does not have Mastery Level in a skill called for as a Secondary Modifier, then the test may not be made at all, regardless of whether they have ML in the primary skill.</p>\n<p>This restriction applies to Secondary Modifiers, not Secondary Rolls. The primary Success Test may be attempted even without mastery in a skill called for as a Secondary Roll—but consider whether that determination should require a Failure result.</p>\n<h2>Proxy Secondary Modifier</h2>\n<p>Sometimes one character provides the Secondary Modifier used in another character's test. For instance, making arrows calls for a Fletching (Metalcraft) Success Value test. A smith might provide the arrowheads, and the Metalcraft Secondary Modifier would then derive from the smith's Metalcraft Index, not the fletcher's.</p>\n<h2>Bonuses and Penalties</h2>\n<p>Bonuses and penalties affect only the EML of d100 Success Tests. They do not adjust Secondary Modifiers or Secondary Rolls. Secondary Mastery is based purely on ML Index.</p>\n"
+      },
+      "_key": "!journal.pages!l1HN7M0DP05cWxLm.00268f296b785f30"
+    }
+  ],
+  "folder": "RqKUTBUBN2Y3MHYB",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "l1HN7M0DP05cWxLm",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!l1HN7M0DP05cWxLm"
+}

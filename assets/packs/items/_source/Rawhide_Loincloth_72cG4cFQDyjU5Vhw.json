@@ -1,0 +1,51 @@
+{
+  "name": "Rawhide Loincloth",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/loincloth.svg",
+  "_id": "72cG4cFQDyjU5Vhw",
+  "system": {
+    "shortcode": "RhLoin",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-loincloth/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Rawhide Loincloth is thick and rugged, providing substantial coverage and durability. Ideal for harsh environments, it offers a more protective and sturdy option.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.8,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!72cG4cFQDyjU5Vhw"
+}

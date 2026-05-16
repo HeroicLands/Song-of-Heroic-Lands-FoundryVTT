@@ -1,0 +1,37 @@
+{
+  "name": "Talc, Rough",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "MxZC6ppKpVgcbhW8",
+  "system": {
+    "shortcode": "talcrough",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/talc-rough/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A soft, slippery stone quarried in small chunks and used to reduce friction and absorb moisture. Fullers dust talc on cloth during the fulling mill to ease working; tanners add it to hides to separate the skin from the hair; metalworkers use it as a release agent in casting molds. The rough lump is inexpensive and widely traded, though fine-powdered talc commands a premium.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.06,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7HORJHbbizVSds9r",
+  "_key": "!items!MxZC6ppKpVgcbhW8"
+}

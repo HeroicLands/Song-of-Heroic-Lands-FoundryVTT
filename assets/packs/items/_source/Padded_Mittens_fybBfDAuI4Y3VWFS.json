@@ -1,0 +1,52 @@
+{
+  "name": "Padded Mittens",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/gauntlet.svg",
+  "_id": "fybBfDAuI4Y3VWFS",
+  "system": {
+    "shortcode": "PMitn",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/padded-mittens/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Padded Mittens provide cushioning and warmth, perfect for cold weather or as additional padding beneath other gear. They offer comfort and protection for both combat and daily wear.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.4,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Padded",
+    "locations": {
+      "flexible": [
+        "Left Hand",
+        "Right Hand"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!fybBfDAuI4Y3VWFS"
+}

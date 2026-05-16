@@ -1,0 +1,37 @@
+{
+  "name": "Keys",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Ekmw3aDcd29kkY8a",
+  "system": {
+    "shortcode": "keys",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/keys/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Iron keys, cast and filed to match specific locks, hanging together on a leather thong or iron ring. Merchants, innkeepers, and stewards carry a bundle; a single key is portable and easily lost or stolen, making sets both practical and valuable in locked trade.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!Ekmw3aDcd29kkY8a"
+}

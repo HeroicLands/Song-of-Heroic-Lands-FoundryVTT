@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
@@ -19,9 +19,15 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * subterranean). Each Being can have multiple profiles — one per medium
  * they can move through.
  *
- * Each profile tracks base speeds (per round and per watch) and a set
- * of factors that modify the effective speed (terrain, encumbrance,
- * injuries, etc.).
+ * Each profile tracks base speeds (tactical per combat round, in feet;
+ * strategic per 4-hour watch, in leagues) and a set of factors that
+ * modify the effective speed (terrain, encumbrance, injuries, etc.).
+ *
+ * **Units:** `feetPerRound` is in feet (battle scale, ~5–10 ft per grid).
+ * `leaguesPerWatch` is in leagues (1 league ≈ 3 miles ≈ 4828 m), one
+ * watch = 4 hours, six watches per day. Foundry scenes declare their
+ * own grid units; conversion happens at the scene boundary, not in this
+ * data.
  *
  * **Lifecycle:** Rebuilt from persisted schema data on every preparation
  * cycle. May be mutated during the lifecycle (e.g., encumbrance or injury
@@ -30,31 +36,31 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  */
 export class MovementProfile {
     readonly medium: string;
-    metersPerRound: ValueModifier;
-    metersPerWatch: ValueModifier;
+    feetPerRound: ValueModifier;
+    leaguesPerWatch: ValueModifier;
     disabled: boolean;
     readonly factors: MovementProfile.Factor[];
-    readonly beingLogic: BeingLogic;
+    readonly lineageLogic: LineageLogic;
     /** Zero-based index of this profile within the Being's movementProfiles array. */
     readonly index: number;
 
     constructor(
         data: MovementProfile.Data,
-        beingLogic: BeingLogic,
+        lineageLogic: LineageLogic,
         index: number,
     ) {
         this.medium = data.medium;
-        this.metersPerRound = new ValueModifier(
+        this.feetPerRound = new ValueModifier(
             {},
-            { parent: beingLogic },
-        ).setBase(data.metersPerRound);
-        this.metersPerWatch = new ValueModifier(
+            { parent: lineageLogic },
+        ).setBase(data.feetPerRound);
+        this.leaguesPerWatch = new ValueModifier(
             {},
-            { parent: beingLogic },
-        ).setBase(data.metersPerWatch);
+            { parent: lineageLogic },
+        ).setBase(data.leaguesPerWatch);
         this.disabled = data.disabled;
         this.factors = data.factors.map((f) => ({ ...f }));
-        this.beingLogic = beingLogic;
+        this.lineageLogic = lineageLogic;
         this.index = index;
     }
 
@@ -72,7 +78,7 @@ export class MovementProfile {
      */
     addFactorUpdate(factor: MovementProfile.Factor): PlainObject {
         const canonical =
-            this.beingLogic.data.movementProfiles[this.index].factors;
+            this.lineageLogic.data.movementProfiles[this.index].factors;
         return {
             [`${this.updatePath}.factors`]: [...canonical, factor],
         };
@@ -84,7 +90,7 @@ export class MovementProfile {
      */
     removeFactorUpdate(key: string): PlainObject {
         const canonical =
-            this.beingLogic.data.movementProfiles[this.index].factors;
+            this.lineageLogic.data.movementProfiles[this.index].factors;
         return {
             [`${this.updatePath}.factors`]: canonical.filter(
                 (f) => f.key !== key,
@@ -105,10 +111,10 @@ export class MovementProfile {
      * Sources the current array from the canonical DataModel data.
      */
     static addProfileUpdate(
-        beingLogic: BeingLogic,
+        lineageLogic: LineageLogic,
         profileData: MovementProfile.Data,
     ): PlainObject {
-        const canonical = beingLogic.data.movementProfiles;
+        const canonical = lineageLogic.data.movementProfiles;
         return {
             "system.movementProfiles": [...canonical, profileData],
         };
@@ -119,10 +125,10 @@ export class MovementProfile {
      * Sources the current array from the canonical DataModel data.
      */
     static removeProfileUpdate(
-        beingLogic: BeingLogic,
+        lineageLogic: LineageLogic,
         medium: string,
     ): PlainObject {
-        const canonical = beingLogic.data.movementProfiles;
+        const canonical = lineageLogic.data.movementProfiles;
         return {
             "system.movementProfiles": canonical.filter(
                 (p) => p.medium !== medium,
@@ -143,8 +149,10 @@ export namespace MovementProfile {
     /** Persisted data shape for a movement profile. */
     export interface Data {
         medium: string;
-        metersPerRound: number;
-        metersPerWatch: number;
+        /** Tactical speed in feet per combat round. */
+        feetPerRound: number;
+        /** Strategic speed in leagues per 4-hour watch (1 league ≈ 3 miles). */
+        leaguesPerWatch: number;
         disabled: boolean;
         factors: Factor[];
     }

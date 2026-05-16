@@ -1,0 +1,91 @@
+{
+  "name": "Creating Actors and Items",
+  "pages": [
+    {
+      "_id": "creating-overview",
+      "name": "Overview",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>There are several ways to create actors and items in SoHL. The method you\nchoose depends on whether you're starting from scratch, copying something\nfrom a compendium, or building a complex item with nested components.</p>\n<p>See also: <a href=\"user-guide/quickstart.md\">Quickstart</a>, <a href=\"user-guide/understanding-sheets.md\">Understanding Sheets</a>, <a href=\"user-guide/assemblies.md\">Assemblies</a></p>\n"
+      },
+      "_key": "!journal.pages!66xPvvu5LJ8yx9h6.creating-overview"
+    },
+    {
+      "_id": "creating-actors",
+      "name": "Creating Actors",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<h2>From a Compendium (Recommended)</h2>\n<p>The easiest way to create a new character or creature is to <strong>import from a\ncompendium</strong>:</p>\n<ol>\n<li>Open the <strong>Compendium</strong> tab in the sidebar.</li>\n<li>Open the appropriate compendium pack (e.g., &quot;People &amp; Creatures&quot;).</li>\n<li>Find the actor you want to use as a starting point.</li>\n<li>Drag it into the <strong>Actors</strong> sidebar tab, or right-click and select &quot;Import.&quot;</li>\n<li>The imported actor appears in your world — double-click to open and customize.</li>\n</ol>\n<p>This is strongly recommended for Beings, because a Being requires many nested\nitems (traits, skills, body structure) that are tedious to set up by hand.</p>\n<h2>From the Create Dialog</h2>\n<p>You can also create a blank actor:</p>\n<ol>\n<li>Click the <strong>Create Actor</strong> button at the top of the Actors sidebar tab.</li>\n<li>Choose the actor type (Being, Cohort, Structure, Vehicle).</li>\n<li>Enter a name and click &quot;Create.&quot;</li>\n<li>The new actor opens with no items — you'll need to add everything manually.</li>\n</ol>\n<blockquote>\n<p><strong>Note:</strong> Creating a Being from scratch is not recommended. Use the compendium\ninstead and customize from there.</p>\n</blockquote>\n<h2>By Duplicating</h2>\n<p>Right-click any actor in the sidebar and select <strong>Duplicate</strong> to create an\nidentical copy. This is useful when you need several similar NPCs.</p>\n"
+      },
+      "_key": "!journal.pages!66xPvvu5LJ8yx9h6.creating-actors"
+    },
+    {
+      "_id": "creating-items",
+      "name": "Creating Items",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<h2>World Items</h2>\n<p>World items exist independently in the Items sidebar. They can be dragged\nonto actors to give characters equipment, skills, or other capabilities.</p>\n<ol>\n<li>Click <strong>Create Item</strong> in the Items sidebar tab.</li>\n<li>Choose the item type and enter a name.</li>\n<li>The item's sheet opens for editing.</li>\n</ol>\n<h2>Adding Items to Actors</h2>\n<p>To give an actor an item:</p>\n<ol>\n<li>Open the actor's sheet.</li>\n<li>Drag an item from a compendium, the Items sidebar, or another actor's\nsheet onto the actor's sheet.</li>\n<li>The item is copied onto the actor. Changes to the copy don't affect the\noriginal.</li>\n</ol>\n<p>You can also drag items directly from compendiums without importing them to\nthe world first.</p>\n<h2>Nested Items</h2>\n<p>Some items contain other items inside them:</p>\n<ul>\n<li><strong>Weapon Gear</strong> contains <strong>Strike Modes</strong> (slash, thrust, etc.)</li>\n<li><strong>Armor Gear</strong> contains <strong>Protection</strong> entries (one per body location)</li>\n<li><strong>Container Gear</strong> contains other gear items</li>\n<li><strong>Mystical Devices</strong> contain <strong>Mystical Abilities</strong></li>\n</ul>\n<p>When you drop a complex item (like a weapon from the compendium) onto an\nactor, all its nested items come along automatically.</p>\n<p>To add a nested item to an existing item on an actor, open the parent item's\nsheet and drag the child item onto its <strong>Nested Items</strong> tab.</p>\n"
+      },
+      "_key": "!journal.pages!66xPvvu5LJ8yx9h6.creating-items"
+    },
+    {
+      "_id": "creating-assemblies",
+      "name": "Creating Assemblies",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Assemblies are special containers for complex items with nested components.\nThere are two ways to create them:</p>\n<h2>From the Assemblies Sidebar</h2>\n<ol>\n<li>Open the <strong>Assemblies</strong> tab in the sidebar (look for the box icon).</li>\n<li>Click <strong>Create Assembly</strong>.</li>\n<li>A Create Item dialog appears — choose the item type and name.</li>\n<li>The item is created inside a new Assembly with the same name.</li>\n</ol>\n<h2>From the Items Sidebar</h2>\n<ol>\n<li>Right-click any World Item in the Items sidebar.</li>\n<li>Select <strong>Create Assembly</strong> from the context menu.</li>\n<li>A new Assembly is created containing a copy of that item.</li>\n</ol>\n<p>This is useful when you have a world item that you want to package with\nnested components for easy distribution.</p>\n<p>See <a href=\"user-guide/assemblies.md\">Assemblies</a> for more about how Assemblies work.</p>\n"
+      },
+      "_key": "!journal.pages!66xPvvu5LJ8yx9h6.creating-assemblies"
+    },
+    {
+      "_id": "creating-deleting",
+      "name": "Deleting Items",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>When deleting items, be aware that <strong>items with nested children cannot be\ndeleted</strong>. You must first remove or delete all nested items before the parent\ncan be deleted. This prevents accidentally orphaning items.</p>\n<!-- TODO: Expand with details on bulk operations, folder organization in\n     the sidebar, and import/export workflows -->"
+      },
+      "_key": "!journal.pages!66xPvvu5LJ8yx9h6.creating-deleting"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "66xPvvu5LJ8yx9h6",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!66xPvvu5LJ8yx9h6"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Reindeer",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "qVTXe4cPZFMsXGww",
+  "system": {
+    "shortcode": "hidereinde",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-reindeer/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A northern herder's reindeer hide—salted and dried, with thick hair and a soft grain beneath. Tanners convert it into warm, water-resistant leather prized for arctic cloaks and boot uppers. Nomadic peoples and northern settlements trade these skins seasonally.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.5,
+    "valueBase": 16,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!qVTXe4cPZFMsXGww"
+}

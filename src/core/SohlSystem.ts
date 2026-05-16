@@ -56,7 +56,7 @@ import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
 import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
-import { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
+import { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
@@ -83,8 +83,8 @@ import { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGe
 import { ConcoctionGearSheet } from "@src/document/item/foundry/ConcoctionGearSheet";
 import { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
 import { ContainerGearSheet } from "@src/document/item/foundry/ContainerGearSheet";
-import { InjuryDataModel } from "@src/document/item/foundry/InjuryDataModel";
-import { InjurySheet } from "@src/document/item/foundry/InjurySheet";
+import { TraumaDataModel } from "@src/document/item/foundry/TraumaDataModel";
+import { TraumaSheet } from "@src/document/item/foundry/TraumaSheet";
 import { MiscGearDataModel } from "@src/document/item/foundry/MiscGearDataModel";
 import { MiscGearSheet } from "@src/document/item/foundry/MiscGearSheet";
 import { MysteryDataModel } from "@src/document/item/foundry/MysteryDataModel";
@@ -205,7 +205,7 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueDataModel,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
-    [ITEM_KIND.INJURY]: InjuryDataModel,
+    [ITEM_KIND.TRAUMA]: TraumaDataModel,
     [ITEM_KIND.MISCGEAR]: MiscGearDataModel,
     [ITEM_KIND.MYSTERY]: MysteryDataModel,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityDataModel,
@@ -243,7 +243,7 @@ export const {
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
-    [ITEM_KIND.INJURY]: InjuryLogic,
+    [ITEM_KIND.TRAUMA]: TraumaLogic,
     [ITEM_KIND.MISCGEAR]: MiscGearLogic,
     [ITEM_KIND.MYSTERY]: MysteryLogic,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
@@ -265,7 +265,7 @@ export const {
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
-    [ITEM_KIND.INJURY]: InjurySheet,
+    [ITEM_KIND.TRAUMA]: TraumaSheet,
     [ITEM_KIND.MISCGEAR]: MiscGearSheet,
     [ITEM_KIND.MYSTERY]: MysterySheet,
     [ITEM_KIND.MYSTICALABILITY]: MysticalAbilitySheet,

@@ -5,10 +5,8 @@ import type { BodyLocation } from "@src/domain/body/BodyLocation";
 
 const SKULL_LOC = {
     shortcode: "skull",
-    isFumble: false,
-    isStumble: false,
-    bleedingSevThreshold: 4,
-    amputateModifier: 0,
+    bleedingSusceptibility: "medium",
+    amputability: "none",
     shockValue: 3,
     probWeight: 10,
     protectionBase: { blunt: 3, edged: 3, piercing: 3, fire: 0 },
@@ -16,10 +14,8 @@ const SKULL_LOC = {
 
 const FACE_LOC = {
     shortcode: "face",
-    isFumble: false,
-    isStumble: false,
-    bleedingSevThreshold: 2,
-    amputateModifier: 0,
+    bleedingSusceptibility: "none",
+    amputability: "none",
     shockValue: 2,
     probWeight: 5,
     protectionBase: { blunt: 0, edged: 0, piercing: 0, fire: 0 },
@@ -27,10 +23,8 @@ const FACE_LOC = {
 
 const CHEST_LOC = {
     shortcode: "chest",
-    isFumble: false,
-    isStumble: false,
-    bleedingSevThreshold: 5,
-    amputateModifier: 0,
+    bleedingSusceptibility: "low",
+    amputability: "none",
     shockValue: 4,
     probWeight: 20,
     protectionBase: { blunt: 2, edged: 1, piercing: 1, fire: 0 },
@@ -40,9 +34,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
     parts: [
         {
             shortcode: "head",
-            affectedSkillCodes: [],
-            affectedAttributeCodes: [],
-            affectsMobility: false,
+            zones: [],
             canHoldItem: false,
             heldItemId: null,
             probWeight: 15,
@@ -50,9 +42,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
         },
         {
             shortcode: "thorax",
-            affectedSkillCodes: [],
-            affectedAttributeCodes: [],
-            affectsMobility: false,
+            zones: [],
             canHoldItem: false,
             heldItemId: null,
             probWeight: 30,
@@ -234,9 +224,7 @@ describe("BodyStructure", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const newPart: BodyPart.Data = {
                 shortcode: "larm",
-                affectedSkillCodes: [],
-                affectedAttributeCodes: [],
-                affectsMobility: false,
+                zones: [],
                 canHoldItem: true,
                 heldItemId: null,
                 probWeight: 10,
@@ -271,10 +259,8 @@ describe("BodyStructure", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const newLoc: BodyLocation.Data = {
                 shortcode: "neck",
-                isFumble: false,
-                isStumble: false,
-                bleedingSevThreshold: 3,
-                amputateModifier: 0,
+                bleedingSusceptibility: "high",
+                amputability: "none",
                 shockValue: 4,
                 probWeight: 5,
                 protectionBase: { blunt: 1, edged: 1, piercing: 1, fire: 0 },

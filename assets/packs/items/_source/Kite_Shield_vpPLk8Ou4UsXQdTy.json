@@ -1,0 +1,90 @@
+{
+  "name": "Kite Shield",
+  "type": "weapongear",
+  "img": "systems/sohl/assets/icons/shield.svg",
+  "_id": "vpPLk8Ou4UsXQdTy",
+  "system": {
+    "shortcode": "KiSh",
+    "docUrl": "https://heroiclands.org/sohl/weapongear/kite-shield/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A tall teardrop shield that extends from shoulder to shin, the kite shield favors mounted warriors and skirmishers with its deep coverage. The point hangs below the horse's flank, protecting the rider's leg; the wide upper face deflects sword and lance blows while maintaining mobility on horseback.</p>\n",
+    "quantity": 1,
+    "weightBase": 7,
+    "valueBase": 72,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "encumbrance": 0,
+    "heftBase": 11,
+    "strikeModes": {
+      "bash": {
+        "type": "melee",
+        "name": "Bash",
+        "assocSkillCode": "melee",
+        "minParts": 1,
+        "attack": {
+          "spread": 8,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 6,
+          "modifier": 1,
+          "aspect": "blunt"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 3,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": false,
+          "onlyInClose": false,
+          "shieldMod": 15,
+          "slow": false,
+          "thrust": false,
+          "swung": false,
+          "halfSword": false,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 1,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      }
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "HXiYHvG6igI3Wlmm",
+  "_key": "!items!vpPLk8Ou4UsXQdTy"
+}

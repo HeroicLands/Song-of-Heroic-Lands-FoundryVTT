@@ -1,0 +1,37 @@
+{
+  "name": "Harness, Horse",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "ExTQkjtdmaShnxgT",
+  "system": {
+    "shortcode": "harnesshor",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/harness-horse/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A system of leather straps, brass rings, and iron buckles designed to distribute the pull of a cart or wagon across a horse's shoulders and chest. The traces attach to the vehicle's pole; the collar sits high on the neck and is padded with straw or wool to prevent chafing during long hauls. Teamsters, merchants, and ostlers know a sound harness is worth its weight in leather—a worn strap can snap mid-journey and strand a caravan.</p>\n",
+    "quantity": 1,
+    "weightBase": 8,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "WTIUTjADwAcpyv0H",
+  "_key": "!items!ExTQkjtdmaShnxgT"
+}

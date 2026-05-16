@@ -1,0 +1,37 @@
+{
+  "name": "Pewter",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Vw7e2EAqBhfPtumB",
+  "system": {
+    "shortcode": "pewter",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pewter/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Pewter, a soft alloy of tin and lead, cast into ingots or worked by smiths into vessels and ornaments. The metal is cheaper than silver and easier to work, making it favored for tavern cups, alms bowls, and household goods. Pewterers recycle worn pieces readily, melting them down for new work.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!Vw7e2EAqBhfPtumB"
+}

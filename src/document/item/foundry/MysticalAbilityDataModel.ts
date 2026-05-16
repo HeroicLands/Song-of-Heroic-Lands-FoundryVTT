@@ -37,16 +37,22 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
         assocMysteryCode: new StringField({
             initial: "",
         }),
+        masteryLevelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        improveFlag: new BooleanField({ initial: false }),
         levelBase: new NumberField({
             integer: true,
             initial: 0,
             min: 0,
         }),
         charges: new SchemaField({
+            usesCharges: new BooleanField({ initial: false }),
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
-                nullable: true,
                 initial: 0,
                 min: 0,
             }),
@@ -54,8 +60,7 @@ function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
             // then the mystical ability does not use charges
             max: new NumberField({
                 integer: true,
-                nullable: true,
-                initial: null,
+                initial: 0,
                 min: 0,
             }),
         }),
@@ -81,12 +86,15 @@ export class MysticalAbilityDataModel<
     ];
     static override readonly kind = ITEM_KIND.MYSTICALABILITY;
     subType!: MysticalAbilitySubType;
-    assocSkillCode?: string;
-    assocMysteryCode?: string;
+    assocSkillCode!: string;
+    assocMysteryCode!: string;
+    masteryLevelBase!: number;
+    improveFlag!: boolean;
     levelBase!: number;
     charges!: {
+        usesCharges: boolean;
         value: number;
-        max: number | null;
+        max: number;
     };
 
     static override defineSchema(): foundry.data.fields.DataSchema {

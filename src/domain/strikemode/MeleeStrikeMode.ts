@@ -15,14 +15,16 @@ import type { SohlLogic } from "@src/core/SohlLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import { STRIKE_MODE_TYPE } from "@src/utils/constants";
+
+const { NumberField, StringField, SchemaField, BooleanField } =
+    foundry.data.fields;
 
 /**
  * A melee strike mode — close-combat attack with accuracy, reach, and
  * defense capabilities (block and counterstrike).
  */
 export class MeleeStrikeMode extends StrikeModeBase {
-    /** How precisely this mode can target a specific body part. */
-    readonly strikeAccuracy: ValueModifier;
     /** Length of the weapon in this mode (feet). */
     readonly length: ValueModifier;
     /** Effective melee engagement range (feet). */
@@ -36,24 +38,88 @@ export class MeleeStrikeMode extends StrikeModeBase {
     constructor(
         data: MeleeStrikeMode.Data,
         parentLogic: SohlLogic,
-        index: number,
+        id: string,
     ) {
-        super(data, parentLogic, index);
-        this.strikeAccuracy = new ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.strikeAccuracy);
-        this.length = new ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.lengthBase);
-        this.reach = new ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.lengthBase);
+        super(data, parentLogic, id);
+        this.length = new ValueModifier({}, { parent: parentLogic }).setBase(
+            data.lengthBase,
+        );
+        this.reach = new ValueModifier({}, { parent: parentLogic }).setBase(
+            data.lengthBase,
+        );
         this.defense = {
             block: new CombatModifier({}, { parent: parentLogic }),
             counterstrike: new CombatModifier({}, { parent: parentLogic }),
+        };
+        if (data.defense.block.modifier) {
+            this.defense.block.add(
+                "Block Modifier",
+                "BlkMod",
+                data.defense.block.modifier,
+            );
+        }
+        if (data.defense.counterstrike.modifier) {
+            this.defense.counterstrike.add(
+                "Counterstrike Modifier",
+                "CtrMod",
+                data.defense.counterstrike.modifier,
+            );
+        }
+        if (data.defense.block.disabled || data.traits?.noBlock) {
+            this.defense.block.disabledReason =
+                "This strike mode cannot be used for blocking.";
+        }
+        if (
+            data.defense.counterstrike.disabled ||
+            data.traits?.noCounterstrike
+        ) {
+            this.defense.counterstrike.disabledReason =
+                "This strike mode cannot be used for counterstriking.";
+        }
+    }
+
+    /**
+     * SchemaField definition for melee strike modes — used as one branch
+     * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     */
+    static schemaFields(): foundry.data.fields.DataSchema {
+        return {
+            ...StrikeModeBase.baseSchemaFields(),
+            type: new StringField({
+                required: true,
+                blank: false,
+                choices: [STRIKE_MODE_TYPE.MELEE],
+                initial: STRIKE_MODE_TYPE.MELEE,
+            }),
+            lengthBase: new NumberField({
+                integer: false,
+                min: 0,
+                initial: 0,
+            }),
+            defense: new SchemaField({
+                block: new SchemaField({
+                    disabled: new BooleanField({ initial: false }),
+                    modifier: new NumberField({
+                        integer: true,
+                        initial: 0,
+                    }),
+                    successLevelMod: new NumberField({
+                        integer: true,
+                        initial: 0,
+                    }),
+                }),
+                counterstrike: new SchemaField({
+                    disabled: new BooleanField({ initial: false }),
+                    modifier: new NumberField({
+                        integer: true,
+                        initial: 0,
+                    }),
+                    successLevelMod: new NumberField({
+                        integer: true,
+                        initial: 0,
+                    }),
+                }),
+            }),
         };
     }
 }
@@ -61,7 +127,18 @@ export class MeleeStrikeMode extends StrikeModeBase {
 export namespace MeleeStrikeMode {
     export interface Data extends StrikeModeBase.Data {
         type: "melee";
-        strikeAccuracy: number;
         lengthBase: number;
+        defense: {
+            block: {
+                disabled?: boolean;
+                modifier?: number;
+                successLevelMod?: number;
+            };
+            counterstrike: {
+                disabled?: boolean;
+                modifier?: number;
+                successLevelMod?: number;
+            };
+        };
     }
 }

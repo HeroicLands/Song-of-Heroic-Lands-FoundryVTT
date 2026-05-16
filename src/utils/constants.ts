@@ -13,7 +13,7 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
-import type { InjuryLogic } from "@src/document/item/logic/InjuryLogic";
+import type { TraumaLogic } from "@src/document/item/logic/TraumaLogic";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { Itr } from "@src/utils/Itr";
 import { getContextItem } from "@src/core/FoundryHelpers";
@@ -52,10 +52,12 @@ export const {
     AFFILIATION: "affiliation",
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
+    ATTRIBUTE: "attribute",
     COMBATTECHNIQUE: "combattechnique",
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
-    INJURY: "injury",
+    TRAUMA: "trauma",
+    LINEAGE: "lineage",
     MISCGEAR: "miscgear",
     MYSTERY: "mystery",
     MYSTICALABILITY: "mysticalability",
@@ -116,6 +118,11 @@ export const {
         Image: "systems/sohl/assets/icons/armor.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
+    [ITEM_KIND.ATTRIBUTE]: {
+        IconCssClass: "fas fa-user-gear",
+        Image: "systems/sohl/assets/icons/user-gear.svg",
+        KeyChoices: [] as StrictObject<string>[],
+    },
     [ITEM_KIND.COMBATTECHNIQUE]: {
         IconCssClass: "fas fa-hand-fist",
         Image: "systems/sohl/assets/icons/punch.svg",
@@ -131,9 +138,14 @@ export const {
         Image: "systems/sohl/assets/icons/sack.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.INJURY]: {
+    [ITEM_KIND.TRAUMA]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
+        KeyChoices: [] as StrictObject<string>[],
+    },
+    [ITEM_KIND.LINEAGE]: {
+        IconCssClass: "fas fa-person-limbs-wide",
+        Image: "systems/sohl/assets/icons/body.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MISCGEAR]: {
@@ -304,64 +316,195 @@ export const {
 export type MovementFactorMode =
     (typeof MOVEMENT_FACTOR_MODE)[keyof typeof MOVEMENT_FACTOR_MODE];
 
+/**
+ * Topography — overall landform, capturing both gradient and ruggedness.
+ * Maps to the rulebook trek-movement table's Topography column:
+ *   FLAT,GENTLE → "Flat";  MODERATE → "Rough/Hilly";  STEEP → "Mountainous".
+ * EXTREME and VERTICAL are off-table (rulebook doesn't model them as
+ * traversable terrain).
+ */
 export const {
-    kind: TERRAIN,
-    values: Terrains,
-    isValue: isTerrain,
-    labels: terrainLabels,
-} = defineType("SOHL.Terrain", {
-    GROUND_FIRM: "ground_firm",
-    GROUND_LOOSE: "ground_loose",
-    ROCK: "rock",
-    SCREE: "scree",
-    SAND_FIRM: "sand_firm",
-    SAND_LOOSE: "sand_loose",
-    SALT_FLAT: "salt_flat",
-    GLACIAL_ICE: "glacial_ice",
-    SNOWPACK: "snowpack",
-});
-export type Terrain = (typeof TERRAIN)[keyof typeof TERRAIN];
-
-export const {
-    kind: VEGETATION,
-    values: Vegetations,
-    isValue: isVegetation,
-    labels: vegetationLabels,
-} = defineType("SOHL.Vegetation", {
-    NONE: "none",
-    OPEN: "open",
-    LIGHT: "light",
-    DENSE: "dense",
-    JUNGLE: "jungle",
-});
-export type Vegetation = (typeof VEGETATION)[keyof typeof VEGETATION];
-
-export const {
-    kind: SLOPE,
-    values: Slopes,
-    isValue: isSlope,
-    labels: slopeLabels,
-} = defineType("SOHL.Slope", {
+    kind: TOPOGRAPHY,
+    values: Topographies,
+    isValue: isTopography,
+    labels: topographyLabels,
+} = defineType("SOHL.Topography", {
     FLAT: "flat", // Plains, plateaus, valley floors
     GENTLE: "gentle", // Rolling hills, gradual inclines
-    MODERATE: "moderate", // Noticeable hills, foothills
-    STEEP: "steep", // Mountain paths, escarpments
+    MODERATE: "moderate", // Noticeable hills, foothills (rulebook "Rough/Hilly")
+    STEEP: "steep", // Mountain paths, escarpments (rulebook "Mountainous")
     EXTREME: "extreme", // Very steep terrain; slow and risky
     VERTICAL: "vertical", // Cliffs; walking impossible
 });
-export type Slope = (typeof SLOPE)[keyof typeof SLOPE];
+export type Topography = (typeof TOPOGRAPHY)[keyof typeof TOPOGRAPHY];
 
+/**
+ * Surface cover — the combined ground substrate and vegetation that a
+ * traveler crosses. These are the values listed in the rulebook trek
+ * movement table's Terrain column. Each represents a typical biome
+ * surface type and resolves to a single movement penalty in the default
+ * factor table.
+ */
+export const {
+    kind: SURFACE_COVER,
+    values: SurfaceCovers,
+    isValue: isSurfaceCover,
+    labels: surfaceCoverLabels,
+} = defineType("SOHL.SurfaceCover", {
+    PAVED_ROAD: "paved_road",
+    UNPAVED_ROAD: "unpaved_road",
+    RURAL_TRACK: "rural_track",
+    WILDERNESS_TRAIL: "wilderness_trail",
+    GRASSLAND: "grassland", // rulebook "Cropland · Grassland"
+    WOODLAND: "woodland", // rulebook "Mixed Woodland"
+    HEATH: "heath", // rulebook "Heath · Moor"
+    NEEDLELEAF_FOREST: "needleleaf_forest",
+    MIXED_FOREST: "mixed_forest",
+    COLD_WOODLAND: "cold_woodland",
+    ALPINE: "alpine", // rulebook "Alpine Vegetation"
+    DUNES: "dunes",
+    WETLANDS: "wetlands",
+    BARREN: "barren", // rulebook "Ice · Snow · Rockfield"
+    SALT_FLAT: "salt_flat",
+    RUINS: "ruins",
+    CITY_STREET: "city_street",
+});
+export type SurfaceCover = (typeof SURFACE_COVER)[keyof typeof SURFACE_COVER];
+
+/**
+ * Hydrology — surface water level on terrestrial terrain. Distinct from
+ * the AQUATIC movement medium, which models in-water travel directly.
+ */
 export const {
     kind: HYDROLOGY,
     values: Hydrologies,
     isValue: isHydrology,
     labels: hydrologyLabels,
 } = defineType("SOHL.Hydrology", {
-    DRY: "dry", // No water present
-    SHALLOW: "shallow", // Streams, rocky riverbeds, tidal flats, marsh, flooded fields
+    DRY: "dry", // No surface water
+    DAMP: "damp", // Wet ground, mud, light rain runoff
+    SHALLOW: "shallow", // Streams, fords, marsh, flooded fields (wading)
     DEEP: "deep", // Rivers, lakes, ocean (swimming required)
 });
 export type Hydrology = (typeof HYDROLOGY)[keyof typeof HYDROLOGY];
+
+/**
+ * Bleeding susceptibility — a per-location tier (the rulebook's "shaded
+ * circle") indicating how prone the location is to producing a Bleeder
+ * when injured at S3 or higher.
+ *
+ * Resolution combines tier × severity × weapon aspect via the bleeding
+ * table in `BleedingDefaults.ts`:
+ *
+ *   NONE   — no shaded circle; never produces a Bleeder regardless.
+ *   LOW    — white circle; bleeds at G5 only (any aspect).
+ *   MEDIUM — grey circle;  bleeds at G4 (E or P) or G5 (any).
+ *   HIGH   — black circle; bleeds at S3 (E only), G4 (E or P), or G5 (any).
+ */
+export const {
+    kind: BLEEDING_SUSCEPTIBILITY,
+    values: BleedingSusceptibilities,
+    isValue: isBleedingSusceptibility,
+    labels: bleedingSusceptibilityLabels,
+} = defineType("SOHL.BleedingSusceptibility", {
+    NONE: "none",
+    LOW: "low",
+    MEDIUM: "medium",
+    HIGH: "high",
+});
+export type BleedingSusceptibility =
+    (typeof BLEEDING_SUSCEPTIBILITY)[keyof typeof BLEEDING_SUSCEPTIBILITY];
+
+/**
+ * Amputability — a per-location tier (the rulebook's "shaded triangle")
+ * indicating how prone the location is to severance when struck by a G5
+ * Edge wound. The triangle's shade modifies the Strength test:
+ *
+ *   NONE   — no triangle; the location is not amputable.
+ *   LOW    — white triangle; +20 modifier (least vulnerable).
+ *   MEDIUM — grey triangle;  0 modifier.
+ *   HIGH   — black triangle; −20 modifier (most vulnerable).
+ *
+ * Resolution lives in `AmputationDefaults.ts`.
+ */
+export const {
+    kind: AMPUTABILITY,
+    values: Amputabilities,
+    isValue: isAmputability,
+    labels: amputabilityLabels,
+} = defineType("SOHL.Amputability", {
+    NONE: "none",
+    LOW: "low",
+    MEDIUM: "medium",
+    HIGH: "high",
+});
+export type Amputability =
+    (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
+
+/**
+ * Body zone — abstract functional roles a body part can fulfill. The four
+ * zones cover almost any creature anatomy:
+ *
+ *   VITAL       — control center: brain, sensory organs, vital nerve
+ *                 clusters. Head for vertebrates, cephalothorax for
+ *                 arachnids, ganglia clusters for invertebrates.
+ *   CORE        — power and balance: torso for humans, abdomen for
+ *                 insects, mantle for cephalopods, body for snakes.
+ *   MANIPULATOR — fine work and intentional force: arms, paws, tentacles,
+ *                 trunks, jaws used as bite-weapons.
+ *   LOCOMOTOR   — movement: legs, wings, fins, tentacles in swimming.
+ *
+ * A part may be tagged with multiple zones (e.g., a wolf's front leg is
+ * LOCOMOTOR + light MANIPULATOR; a wolf's head is VITAL + MANIPULATOR
+ * because of bite attacks). Skills and attributes declare which zones
+ * impair them; injury at a part impairs every skill that lists any of
+ * the part's zones.
+ *
+ * Mishap behavior is also zone-driven:
+ *   VITAL injury (Serious) → fumble + stumble check; (Grievous) → both auto.
+ *   CORE injury (Serious) → fumble + stumble check; (Grievous) → both auto.
+ *   MANIPULATOR injury (Serious) → fumble check; (Grievous) → auto fumble.
+ *   LOCOMOTOR injury (Serious) → stumble check; (Grievous) → auto stumble.
+ */
+export const {
+    kind: BODY_ZONE,
+    values: BodyZones,
+    isValue: isBodyZone,
+    labels: bodyZoneLabels,
+} = defineType("SOHL.BodyZone", {
+    VITAL: "vital",
+    CORE: "core",
+    MANIPULATOR: "manipulator",
+    LOCOMOTOR: "locomotor",
+});
+export type BodyZone = (typeof BODY_ZONE)[keyof typeof BODY_ZONE];
+
+/**
+ * Movement factor scope — the dimension along which a movement modifier
+ * applies. Lineages and scenes can attach factors with these scopes to
+ * adjust effective movement speed.
+ *
+ * VEHICLE applies when the moving party is pulling a cart or wagon — the
+ * vehicle's own drag factor is contributed at travel-resolution time and
+ * is not part of the creature's lineage profile.
+ */
+export const {
+    kind: MOVEMENT_FACTOR_SCOPE,
+    values: MovementFactorScopes,
+    isValue: isMovementFactorScope,
+    labels: movementFactorScopeLabels,
+} = defineType("SOHL.MovementFactorScope", {
+    TOPOGRAPHY: "topography",
+    SURFACE_COVER: "surface_cover",
+    HYDROLOGY: "hydrology",
+    ENCUMBRANCE: "encumbrance",
+    INJURY: "injury",
+    WEATHER: "weather",
+    VEHICLE: "vehicle",
+    MISC: "misc",
+});
+export type MovementFactorScope =
+    (typeof MOVEMENT_FACTOR_SCOPE)[keyof typeof MOVEMENT_FACTOR_SCOPE];
 
 export const {
     kind: SEASON,
@@ -1130,7 +1273,6 @@ export const {
     HEAT: "heat",
     STARVATION: "starvation",
     DEHYDRATION: "dehydration",
-    SLEEP_DEPRIVATION: "nosleep",
 });
 export type PrivationCategory =
     (typeof PRIVATION_CATEGORY)[keyof typeof PRIVATION_CATEGORY];
@@ -1285,10 +1427,9 @@ export const {
     LORE: "lore",
     LANGUAGE: "language",
     SCRIPT: "script",
-    RITUAL: "ritual",
+    MYSTICAL: "mystical",
     PHYSICAL: "physical",
     COMBAT: "combat",
-    ESOTERIC: "esoteric",
 });
 export type SkillSubType = (typeof SKILL_SUBTYPE)[keyof typeof SKILL_SUBTYPE];
 
@@ -1315,9 +1456,20 @@ export const {
 } = defineType("SOHL.Trait.SubType", {
     PHYSIQUE: "physique",
     PERSONALITY: "personality",
-    TRANSCENDENT: "transcendent",
 });
 export type TraitSubType = (typeof TRAIT_SUBTYPE)[keyof typeof TRAIT_SUBTYPE];
+
+export const {
+    kind: TRAUMA_SUBTYPE,
+    values: TraumaSubTypes,
+    isValue: isTraumaSubType,
+} = defineType("SOHL.Trauma.SubType", {
+    PHYSICAL: "physical",
+    MENTAL: "mental",
+    SPIRITUAL: "spiritual",
+    SHADOW: "shadow",
+});
+export type TraumaSubType = (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
 
 export const {
     kind: TRAIT_INTENSITY,
@@ -1325,12 +1477,36 @@ export const {
     isValue: isTraitIntensity,
 } = defineType("SOHL.Trait.Intensity", {
     TRAIT: "trait",
+    BENIGN: "benign",
     IMPULSE: "impulse",
     DISORDER: "disorder",
-    ATTRIBUTE: "attribute",
 });
 export type TraitIntensity =
     (typeof TRAIT_INTENSITY)[keyof typeof TRAIT_INTENSITY];
+
+export const {
+    kind: VEHICLE_OCCUPANT_ROLE,
+    values: VehicleOccupantRoles,
+    isValue: isVehicleOccupantRole,
+} = defineType("SOHL.Vehicle.Occupant.Role", {
+    CREW: "crew",
+    PASSENGER: "passenger",
+    DRAFT_CREATURE: "draftCreature",
+});
+export type VehicleOccupantRole =
+    (typeof VEHICLE_OCCUPANT_ROLE)[keyof typeof VEHICLE_OCCUPANT_ROLE];
+
+export const {
+    kind: ACTIVE_EFFECT_SCOPE,
+    values: ActiveEffectScopes,
+    isValue: isActiveEffectScope,
+} = defineType("SOHL.ActiveEffect.Scope", {
+    THIS: "this",
+    ACTOR: "actor",
+    TEST: "test",
+});
+export type ActiveEffectScope =
+    (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
 
 export const {
     kind: TEST_TYPE,
@@ -1489,7 +1665,7 @@ export const {
         iconClass: "fas fa-stethoscope",
         condition: (header: HTMLElement): boolean => {
             const injLogic = getContextItem(header)
-                ?.system as unknown as InjuryLogic;
+                ?.system as unknown as TraumaLogic;
             return injLogic?.data.isTreated;
         },
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
