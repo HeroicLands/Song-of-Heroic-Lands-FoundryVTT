@@ -17,6 +17,7 @@ import type { HTMLString } from "@src/utils/helpers";
 import { SohlDataModel } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
+import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
 import { GearLogic } from "../logic/GearLogic";
 const { HTMLField } = foundry.data.fields;
@@ -120,15 +121,15 @@ export class SohlItem extends Item {
     }
 
     /**
-     * Handle a timed event dispatched by the SoHL event queue.
-     * Override in subclasses to implement item-specific event handling.
-     * @param kind - Event kind identifier
-     * @param time - Scheduled trigger time (world seconds)
-     * @param payload - Optional context data
+     * Handle a trigger dispatched by the SoHL event queue.
+     * Override in subclasses to implement item-specific trigger handling.
+     * @param kind - Subscription kind identifier
+     * @param context - Trigger context (discriminated by `context.name`)
+     * @param payload - Optional context data attached when subscribing
      */
     async handleSohlEvent(
         kind: string,
-        _time: number,
+        _context: SohlTriggerContext,
         _payload?: Record<string, unknown>,
     ): Promise<void> {
         console.warn(

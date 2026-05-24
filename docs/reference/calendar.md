@@ -122,18 +122,18 @@ All three names are valid against any active calendar — see the formatter tabl
 Calendar **display** is one half of the use case; the other is **scheduling work to fire at a future world time**. SoHL provides `sohl.events` for that — see `src/core/SohlEventQueue.ts`. The queue dispatches on the `updateWorldTime` hook (primary GM only). The injury → next-healing-check flow is the canonical example.
 
 ```typescript
-// In a Logic class's finalize() — register the next check
-sohl.events.registerEvent(
+// In a Logic class's finalize() — schedule the next check
+sohl.events.scheduleAt(
     this.item.uuid,
     "healingTest",
     game.time.worldTime + game.settings.get("sohl", "healingSeconds"),
     { level: this.data.levelBase },
 );
 
-// In the document's handleSohlEvent — fire the test, then re-register
+// In the document's handleSohlEvent — fire the test, then re-schedule
 ```
 
-When showing "next healing check at …" in a sheet, read the event's scheduled `time` from `sohl.events` and pass it through `sohl.calendar.format(time, "sohl.default")`.
+When showing "next healing check at …" in a sheet, read the subscription's `fireAt` from `sohl.events.debug()` and pass it through `sohl.calendar.format(fireAt, "sohl.default")`.
 
 ### From a Handlebars template
 

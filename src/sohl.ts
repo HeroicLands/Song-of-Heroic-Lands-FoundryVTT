@@ -18,6 +18,7 @@ import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
+import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
@@ -265,15 +266,11 @@ function applyActiveCalendar(): void {
 function registerSystemHooks() {
     registerCombatTrackerHooks();
 
-    // Process timed events when world time advances.
-    // Only the primary GM processes to prevent duplicate execution.
-    (Hooks as any).on(
-        "updateWorldTime",
-        async (worldTime: number, _delta: number) => {
-            if (!(game as any).user?.isActiveGM) return;
-            await sohl.events.processDueEvents(worldTime);
-        },
-    );
+    // Translate Foundry's built-in lifecycle hooks (updateWorldTime,
+    // combatStart, combatRound, combatTurn, deleteCombat) into SoHL
+    // trigger dispatches. Only the active GM dispatches; non-GM clients
+    // ignore the bridge.
+    wireSohlHookBridge(sohl.events);
 
     // Intercept Cohort drops to offer group vs. individual token placement.
     (Hooks as any).on(

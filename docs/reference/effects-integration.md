@@ -108,3 +108,49 @@ When writing effect code, always use the v14 API. Do not use deprecated v13 patt
 - Keep `type`, schema fields, and metadata stable for pack compatibility.
 - Prefer adding new target/key choices via metadata/constants rather than hardcoding UI-only branches.
 - Ensure new effect behavior remains safe when effects are transferred between item/actor contexts.
+
+## SoHL trigger taxonomy
+
+SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](./event-queue.md)). The trigger names and context shapes are **identical to Foundry's `CONFIG.ActiveEffect.expiryEvents` vocabulary** so that an Active Effect with `duration.expiry: "turnStart"` and a SoHL subscription on `"turnStart"` are responding to the same moment, in the same shape, with the same data.
+
+### Built-in triggers
+
+| Trigger | Context fields (alongside `name`) | Foundry hook driving it |
+| --- | --- | --- |
+| `updateWorldTime` | `worldTime, dt, options?, userId?` | `updateWorldTime` |
+| `combatStart` | `combat` | `combatStart` |
+| `combatEnd` | `combat` | `deleteCombat` |
+| `roundStart` | `combat, round, skipped` | `combatRound` (derived) |
+| `roundEnd` | `combat, round, skipped` | `combatRound` (derived) |
+| `turnStart` | `combat, combatant, turn, round, skipped` | `combatTurn` (derived) |
+| `turnEnd` | `combat, combatant, turn, round, skipped` | `combatTurn` (derived) |
+
+`roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../src/core/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
+
+### Custom triggers
+
+Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foundry's expiry-event registry (so it appears in the effect-config UI) and SoHL's vocabulary:
+
+```typescript
+import { registerSohlTrigger, fireSohlTrigger } from "@src/core/SohlEventTrigger";
+
+registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
+```
+
+Use `fireSohlTrigger(ctx)` to dispatch the trigger — this is the only path that dual-dispatches to both SoHL's queue (`sohl.events.fire`) and Foundry's `ActiveEffect.registry.refresh`, keeping the two systems in sync:
+
+```typescript
+await fireSohlTrigger({ name: "sohlInjuryHealed", injury, actor });
+```
+
+### Single-entry-point rules
+
+To keep the two dispatchers from drifting:
+
+- **Never call `Hooks.on(...)` for trigger dispatch outside [`SohlHookBridge`](../../src/core/SohlHookBridge.ts).**
+- **Never call `ActiveEffect.registry.refresh(...)` for custom triggers outside `fireSohlTrigger`.**
+- **Never call `sohl.events.fire(...)` for custom triggers outside `fireSohlTrigger`** — use `fireSohlTrigger` so both consumers receive the event.
+
+Built-in triggers do **not** go through `fireSohlTrigger`: Foundry's own code already calls `registry.refresh(name, ctx)` next to each hook (`client/helpers/time.mjs`, `client/documents/combat.mjs`), so dual-dispatching the built-ins would expire effects twice. `SohlHookBridge` therefore only calls `sohl.events.fire(...)` for built-ins.
+
+See [Event Queue](./event-queue.md) for the subscription model, cascading dispatch on `updateWorldTime`, and loop protection.

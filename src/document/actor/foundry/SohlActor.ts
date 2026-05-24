@@ -29,6 +29,7 @@ import {
     fvttHookOnError,
     fvttResolveUuidAsync,
 } from "@src/core/FoundryHelpers";
+import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
 /**
@@ -93,15 +94,15 @@ export class SohlActor extends Actor {
     }
 
     /**
-     * Handle a timed event dispatched by the SoHL event queue.
-     * Override in subclasses to implement actor-specific event handling.
-     * @param kind - Event kind identifier
-     * @param time - Scheduled trigger time (world seconds)
-     * @param payload - Optional context data
+     * Handle a trigger dispatched by the SoHL event queue.
+     * Override in subclasses to implement actor-specific trigger handling.
+     * @param kind - Subscription kind identifier
+     * @param context - Trigger context (discriminated by `context.name`)
+     * @param payload - Optional context data attached when subscribing
      */
     async handleSohlEvent(
         kind: string,
-        _time: number,
+        _context: SohlTriggerContext,
         _payload?: Record<string, unknown>,
     ): Promise<void> {
         console.warn(
