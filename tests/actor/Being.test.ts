@@ -4,7 +4,7 @@ describe("BeingLogic", () => {
     describe("properties", () => {
         it.todo("health - is a ValueModifier after initialize");
         it.todo("healingBase - is a ValueModifier after initialize");
-        it.todo("zoneSum - tracks total body zones");
+        it.todo("roleSum - tracks total body roles");
         it.todo("bodyWeight - is a ValueModifier after initialize");
         it.todo("shockState - tracks current shock state");
     });

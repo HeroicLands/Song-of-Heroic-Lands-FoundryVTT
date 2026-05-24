@@ -50,27 +50,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="item-detail">
-                        {{#unless sm.attack.disabled}}
-                        {{sm.attack.effective}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
-                    </div>
-                    <div class="item-detail">
-                        {{#unless sm.defense.block.disabled}}
-                        {{sm.defense.block.effective}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
-                    </div>
-                    <div class="item-detail">
-                        {{#unless sm.defense.counterstrike.disabled}}
-                        {{sm.defense.counterstrike.effective}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
-                    </div>
+                    {{#unless sm.attack.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    {{else}}
+                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    {{/unless}}
+                    {{#unless sm.defense.block.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
+                    {{else}}
+                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    {{/unless}}
+                    {{#unless sm.defense.counterstrike.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
+                    {{else}}
+                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    {{/unless}}
                     <div class="item-controls">
                         <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
@@ -120,13 +114,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="item-detail">
-                        {{#unless sm.attack.disabled}}
-                        {{sm.attack.effective}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
-                    </div>
+                    {{#unless sm.attack.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    {{else}}
+                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    {{/unless}}
                     <div class="item-controls">
                         <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
                     </div>
@@ -174,31 +166,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
                         <i class="fas fa-xmark fa-lg"></i>
                         {{/unless}}
                     </div>
-                    <div class="item-detail">
-                        {{#unless sm.attack.disabled}}
-                        {{sm.attack.effective}}
+                    {{#unless sm.attack.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    {{else}}
+                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    {{/unless}}
+                    {{#if sm.isMelee}}
+                        {{#unless sm.defense.block.disabled}}
+                        <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                         {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
+                        <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
                         {{/unless}}
-                    </div>
-                    <div class="item-detail">
-                        {{#if sm.isMelee}}
-                            {{#unless sm.defense.block.disabled}}
-                            {{sm.defense.block.effective}}
-                            {{else}}
-                            <i class="fas fa-xmark fa-lg"></i>
-                            {{/unless}}
-                        {{/if}}
-                    </div>
-                    <div class="item-detail">
-                        {{#if sm.isMelee}}
-                            {{#unless sm.defense.counterstrike.disabled}}
-                            {{sm.defense.counterstrike.effective}}
-                            {{else}}
-                            <i class="fas fa-xmark fa-lg"></i>
-                            {{/unless}}
-                        {{/if}}
-                    </div>
+                        {{#unless sm.defense.counterstrike.disabled}}
+                        <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
+                        {{else}}
+                        <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                        {{/unless}}
+                    {{else}}
+                        <div class="item-detail"></div>
+                        <div class="item-detail"></div>
+                    {{/if}}
                     <div class="item-controls">
                         <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
                     </div>

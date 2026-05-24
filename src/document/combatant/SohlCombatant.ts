@@ -15,8 +15,20 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlCombat } from "@src/document/combat/SohlCombat";
+import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { getCanvas } from "@src/core/FoundryHelpers";
-import { expandAllyGroups } from "./combatant-logic";
+import {
+    expandAllyGroups,
+    computeMove,
+    chooseInitialDisplayedMedium,
+} from "./combatant-logic";
+import {
+    ITEM_KIND,
+    MOVEMENT_MEDIUM,
+    MovementMedium,
+    MovementMediums,
+} from "@src/utils/constants";
 
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
@@ -105,6 +117,52 @@ export class SohlCombatant<
     }
 
     /**
+     * The computed tactical move for this combatant in the given medium,
+     * accounting for the combatant's situational `moveFactor` scalar.
+     *
+     * Returns `null` when the combatant's actor has no `BeingLogic`
+     * (e.g. a Vehicle, which has no movement model) or when the actor's
+     * base move in this medium is 0.
+     */
+    computedMove(medium: MovementMedium): number | null {
+        const beingLogic = this.actor?.logic as BeingLogic | undefined;
+        const sys = this.system as SohlCombatantDataModel;
+        return computeMove(beingLogic as any, medium, sys.moveFactor ?? 1);
+    }
+
+    /**
+     * The computed move for the medium the combat tracker should display
+     * for this combatant. Tracker rows read this getter.
+     */
+    get displayedMove(): number | null {
+        const sys = this.system as SohlCombatantDataModel;
+        return this.computedMove(sys.displayedMedium);
+    }
+
+    override async _preCreate(
+        data: any,
+        options: any,
+        user: any,
+    ): Promise<boolean | void> {
+        const result = await super._preCreate(data, options, user);
+        if (result === false) return false;
+
+        const userSetMedium = data?.system?.displayedMedium;
+        const lineageItem = (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageDefault = (lineageItem?.logic as LineageLogic | undefined)
+            ?.defaultMoveMedium;
+        const chosen = chooseInitialDisplayedMedium(
+            userSetMedium,
+            lineageDefault,
+        );
+        if (chosen && chosen !== userSetMedium) {
+            (this as any).updateSource({
+                "system.displayedMedium": chosen,
+            });
+        }
+    }
+
+    /**
      * The default dice formula which should be used for initiative for this combatant.
      * @remark
      * The SOHL system uses a different approach to initiative than the default Foundry VTT system.
@@ -153,6 +211,29 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
             required: false,
             initial: false,
         }),
+        /**
+         * A situational multiplier on this combatant's computed move,
+         * editable by the GM during combat to express whatever modifier
+         * they've decided applies right now (run, sprint, encumbrance,
+         * difficult terrain, etc.). Defaults to 1. Lives for the combat
+         * encounter only.
+         */
+        moveFactor: new foundry.data.fields.NumberField({
+            required: false,
+            initial: 1,
+            min: 0,
+            nullable: false,
+        }),
+        /**
+         * Which movement medium's computed move is displayed for this
+         * combatant in the combat tracker. Seeded at creation time from
+         * the actor's lineage `defaultMoveMedium`.
+         */
+        displayedMedium: new foundry.data.fields.StringField({
+            required: true,
+            choices: MovementMediums,
+            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+        }),
     };
 }
 
@@ -170,6 +251,8 @@ export class SohlCombatantDataModel<
         elevation: number;
     };
     didAction!: boolean;
+    moveFactor!: number;
+    displayedMedium!: MovementMedium;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlCombatantDataSchema();

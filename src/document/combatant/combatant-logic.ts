@@ -11,6 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { MovementMedium } from "@src/utils/constants";
+
 /**
  * Expands a set of groups by adding all ally groups (transitively, one level).
  *
@@ -34,4 +36,45 @@ export function expandAllyGroups(
         }
     }
     return result;
+}
+
+/** Minimal contract a combatant's actor logic must satisfy for move computation. */
+export interface BeingLogicMoveView {
+    effectiveBaseMove(medium: MovementMedium): { effective: number };
+}
+
+/**
+ * Compute the effective tactical move for a combatant in the given medium.
+ *
+ * Returns `null` when the actor has no `BeingLogic` (e.g. a vehicle actor)
+ * or when the actor's base move for this medium is 0 (creature cannot move
+ * in this medium). Otherwise returns `effectiveBaseMove(medium) × moveFactor`.
+ */
+export function computeMove(
+    beingLogic: BeingLogicMoveView | undefined | null,
+    medium: MovementMedium,
+    moveFactor: number,
+): number | null {
+    if (!beingLogic || typeof beingLogic.effectiveBaseMove !== "function") {
+        return null;
+    }
+    const base = beingLogic.effectiveBaseMove(medium).effective;
+    if (!base) return null;
+    return base * moveFactor;
+}
+
+/**
+ * Decide which medium a newly created combatant should display in the
+ * combat tracker.
+ *
+ * Precedence: an explicit user-set medium > the actor's lineage default >
+ * nothing (caller keeps the schema default).
+ */
+export function chooseInitialDisplayedMedium(
+    userSetMedium: string | undefined | null,
+    lineageDefault: string | undefined | null,
+): string | null {
+    if (userSetMedium) return userSetMedium;
+    if (lineageDefault) return lineageDefault;
+    return null;
 }

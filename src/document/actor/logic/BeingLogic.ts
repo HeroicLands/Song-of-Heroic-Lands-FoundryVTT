@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
@@ -20,14 +20,15 @@ import {
     SohlActorData,
     SohlActorLogic,
 } from "@src/document/actor/foundry/SohlActor";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
-import { MovementProfile } from "@src/domain/movement/MovementProfile";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { readBaseMove } from "@src/domain/movement/move-helpers";
+import { ITEM_KIND, MovementMedium } from "@src/utils/constants";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
  *
  * A Being is the most detailed actor type in SoHL, representing an individual
- * entity with a full anatomy model (body zones, body parts, body locations),
+ * entity with a full anatomy model (body roles, body parts, body locations),
  * skills, traits, injuries, afflictions, gear, and mystical abilities. Beings
  * are the primary participants in combat, skill tests, and social interactions.
  *
@@ -37,7 +38,7 @@ export class BeingLogic<
     TData extends BeingData = BeingData,
 > extends SohlActorBaseLogic<TData> {
     /**
-     * Overall health state, derived from injury levels across body zones
+     * Overall health state, derived from injury levels across body roles
      *
      * @type {ValueModifier}
      */
@@ -56,10 +57,32 @@ export class BeingLogic<
     shockState!: number;
 
     /**
+     * The effective base move (feet per combat round) for this being in
+     * the given medium, exposed as a `ValueModifier` so additional runtime
+     * modifiers (injury impairment, encumbrance overlays from items, etc.)
+     * can layer on through the standard channel.
+     *
+     * The base is sourced from the actor's `Lineage` item — specifically
+     * `lineage.system.moveBase[medium]`. Foundry has already applied any
+     * Active Effects targeting that persisted path by the time this is
+     * called, so a haste AE multiplying `system.moveBase.terrestrial` × 2
+     * is reflected in the base value transparently.
+     *
+     * Returns a ValueModifier with base 0 if the actor has no lineage or
+     * the lineage has no value for this medium.
+     */
+    effectiveBaseMove(medium: MovementMedium): ValueModifier {
+        const lineageItem = (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
+        const base = readBaseMove(lineageLogic?.moveBase, medium);
+        return new ValueModifier({}, { parent: this }).setBase(base);
+    }
+
+    /**
      * Apply the impact of an attack or effect to this being, calculating the resulting
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
      * this will return the resulting damage and location as an {@link ImpactResult} that can
-     * then be used to apply damage to the being's body zones and parts.
+     * then be used to apply damage to the being's body roles and parts.
      * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
      * @returns The impact result, or null if no impact occurred.
      */
@@ -321,41 +344,6 @@ export class BeingLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        //     class HealthModifier extends CONFIG.SOHL.class.ValueModifier {
-        //         static defineSchema() {
-        //             return foundry.utils.mergeObject(super.defineSchema(), {
-        //                 max: new fields.NumberField({
-        //                     integer: true,
-        //                     nullable: false,
-        //                     initial: 0,
-        //                     min: 0,
-        //                 }),
-        //                 pct: new SohlFunctionField({
-        //                     initial: (thisVM) =>
-        //                         Math.round(
-        //                             (thisVM.effective /
-        //                                 (thisVM.max || Number.EPSILON)) *
-        //                                 100,
-        //                         ),
-        //                 }),
-        //             });
-        //         }
-        //     }
-        //     super.prepareBaseData();
-        //     this.$health = new HealthModifier({}, { parent: this });
-        //     this.$healingBase = new CONFIG.SOHL.class.ValueModifier(
-        //         {},
-        //         { parent: this },
-        //     );
-        //     this.$zoneSum = 0;
-        //     this.$isSetup = true;
-        //     this.$shockState = InjuryItemData.SHOCK.NONE;
-        //     this.$engagedOpponents = new CONFIG.SOHL.class.ValueModifier(
-        //         {},
-        //         { parent: this },
-        //     );
-        //     this.$engagedOpponents.setBase(0);
-        // }
     }
 
     /** @inheritdoc */

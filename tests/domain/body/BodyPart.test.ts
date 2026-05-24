@@ -3,7 +3,7 @@ import { BodyPart } from "@src/domain/body/BodyPart";
 
 const SAMPLE_DATA: BodyPart.Data = {
     shortcode: "larm",
-    zones: [],
+    roles: [],
     canHoldItem: true,
     heldItemId: null,
     probWeight: 20,

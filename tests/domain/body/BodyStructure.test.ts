@@ -34,7 +34,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
     parts: [
         {
             shortcode: "head",
-            zones: [],
+            roles: [],
             canHoldItem: false,
             heldItemId: null,
             probWeight: 15,
@@ -42,7 +42,7 @@ const SAMPLE_DATA: BodyStructure.Data = {
         },
         {
             shortcode: "thorax",
-            zones: [],
+            roles: [],
             canHoldItem: false,
             heldItemId: null,
             probWeight: 30,
@@ -224,7 +224,7 @@ describe("BodyStructure", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const newPart: BodyPart.Data = {
                 shortcode: "larm",
-                zones: [],
+                roles: [],
                 canHoldItem: true,
                 heldItemId: null,
                 probWeight: 10,

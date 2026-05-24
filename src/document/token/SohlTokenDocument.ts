@@ -12,6 +12,7 @@
  */
 
 import { getCanvas } from "@src/core/FoundryHelpers";
+import type { SohlScene } from "@src/document/scene/SohlScene";
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.
@@ -111,12 +112,7 @@ export class SohlTokenDocument extends TokenDocument {
             return 0;
         }
 
-        if (
-            foundry.utils.getProperty(
-                (canvas.scene as any).flags,
-                "sohl.isTotm",
-            )
-        )
+        if ((canvas.scene as unknown as SohlScene | null)?.logic?.isTotm)
             return 0;
 
         const result = getCanvas().grid?.measurePath(
