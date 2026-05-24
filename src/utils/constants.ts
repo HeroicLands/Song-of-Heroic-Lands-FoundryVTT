@@ -620,18 +620,18 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
-    kind: MASTERY_EFFECT_KEYS,
-    values: MasteryEffectKeys,
-    isValue: isMasteryEffectKey,
-    labels: masteryEffectKeyLabels,
-} = defineType(`SOHL.Gear.GEAR_KIND`, {
-    "system._boosts": "MBoost",
-    "mod:system.masteryLevel": "ML",
-    "mod:system.masteryLevel.fate": "Fate",
-    "system.masteryLevel.successLevelMod": "SL",
+    kind: SKILL_EFFECT_KEYS,
+    values: SkillEffectKeys,
+    isValue: isSkillEffectKey,
+    labels: skillEffectKeyLabels,
+} = defineType(`SOHL.Skill.EffectKey`, {
+    BOOSTS: "system._boosts",
+    MASTERY_LEVEL: "mod:system.masteryLevel",
+    FATE: "mod:system.masteryLevel.fate",
+    SUCCESS_LEVEL: "system.masteryLevel.successLevelMod",
 });
 export type EffectKey =
-    (typeof MASTERY_EFFECT_KEYS)[keyof typeof MASTERY_EFFECT_KEYS];
+    (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
 
 /**
  * Constants for the Heal Rate of an Affliction.
