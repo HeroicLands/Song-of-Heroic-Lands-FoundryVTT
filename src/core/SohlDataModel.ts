@@ -28,7 +28,6 @@ import {
     ACTOR_KIND,
     ActorKinds,
     KIND_KEY,
-    SOHL_ACTION_ROLE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlActionScopes,
@@ -75,8 +74,8 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     initial: SOHL_ACTION_SCOPE.SELF,
                 }),
                 executor: new JavaScriptField(),
-                trigger: new JavaScriptField(),
-                visible: new JavaScriptField({ initial: "return true" }),
+                trigger: new JavaScriptField({ initial: "true" }),
+                visible: new JavaScriptField({ initial: "true" }),
                 iconFAClass: new StringField({
                     initial: "fas fa-question-circle",
                 }),
@@ -84,12 +83,17 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                     choices: SohlContextMenuSortGroups,
                     initial: SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT,
                 }),
-                permissions: new SchemaField({
-                    execute: new NumberField({
-                        min: SOHL_ACTION_ROLE.NONE,
-                        max: SOHL_ACTION_ROLE.GAMEMASTER,
-                        initial: SOHL_ACTION_ROLE.OWNER,
-                    }),
+                /**
+                 * Minimum Foundry document-ownership level the current
+                 * user must hold on the action's parent actor to execute
+                 * it. Matches `CONST.DOCUMENT_OWNERSHIP_LEVELS`:
+                 * 0 = NONE, 1 = LIMITED, 2 = OBSERVER, 3 = OWNER. GMs
+                 * always pass via Foundry's `testUserPermission`.
+                 */
+                minActorOwnership: new NumberField({
+                    min: 0,
+                    max: 3,
+                    initial: 3,
                 }),
             }),
             { initial: [] },

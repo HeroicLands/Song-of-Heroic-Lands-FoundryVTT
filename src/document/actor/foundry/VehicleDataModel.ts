@@ -14,9 +14,6 @@
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActor";
 import {
     ACTOR_KIND,
-    MOVEMENT_MEDIUM,
-    MovementFactorModes,
-    MovementMediums,
     VEHICLE_OCCUPANT_ROLE,
     VehicleOccupantRoles,
 } from "@src/utils/constants";
@@ -65,22 +62,6 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
-        /**
-         * Drag factor: a multiplicative penalty applied to the pulling
-         * creature's effective movement speed. Typical values:
-         *   1.00 = no drag (e.g., riding gear, pack saddle)
-         *   0.80 = light cart on good road
-         *   0.60 = wagon on road
-         *   0.40 = wagon off-road
-         *   0.20 = heavy wagon in difficult terrain
-         * Applied at travel-resolution time via TravelContext.vehicleDrag,
-         * not via the vehicle's own movementProfiles.
-         */
-        dragFactor: new NumberField({
-            integer: false,
-            initial: 1,
-            min: 0,
-        }),
         occupants: new ArrayField(
             new SchemaField({
                 actorId: new DocumentIdField({
@@ -99,45 +80,6 @@ function defineVehicleDataSchema(): foundry.data.fields.DataSchema {
             {
                 initial: [],
             },
-        ),
-        movementProfiles: new ArrayField(
-            new SchemaField({
-                medium: new StringField({
-                    required: true,
-                    choices: MovementMediums,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
-                }),
-                /** Tactical speed in feet per combat round. */
-                feetPerRound: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                /** Strategic speed in leagues per 4-hour watch (1 league ≈ 3 miles). */
-                leaguesPerWatch: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                factors: new ArrayField(
-                    new SchemaField({
-                        scope: new StringField({
-                            blank: false,
-                        }),
-                        key: new StringField({
-                            blank: false,
-                        }),
-                        mode: new StringField({
-                            choices: MovementFactorModes,
-                        }),
-                        textValue: new StringField({
-                            blank: false,
-                        }),
-                    }),
-                ),
-                disabled: new BooleanField({ initial: false }),
-            }),
-            { initial: [] },
         ),
     };
 }

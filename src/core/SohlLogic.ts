@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import {
@@ -34,7 +34,7 @@ export const {
     labels: intrinsicActionLabels,
 } = defineType("SOHL.SohlLogic.INTRINSIC_ACTION", {
     POSTFINALIZE: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-gears",
@@ -230,7 +230,7 @@ export abstract class SohlLogic<
             );
             if (
                 defaultAction &&
-                defaultAction.data.subType === ACTION_SUBTYPE.INTRINSIC_ACTION
+                defaultAction.data.subType === ACTION_SUBTYPE.INTRINSIC
             ) {
                 defaultAction.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
                 hasDefault = true;
@@ -258,34 +258,43 @@ export abstract class SohlLogic<
         // }
     }
 
+    /**
+     * Build context-menu entries from this logic's actions.
+     *
+     * The entry's `condition` is a one-liner delegating to the action's
+     * `visible` predicate. Visibility already composes with the action's
+     * `trigger` (so domain preconditions hide the entry), and `execute()`
+     * separately enforces the permission gate for `SCRIPT` actions.
+     * @returns The context-menu entries for this logic's actions.
+     */
     _getContextOptions(): SohlContextMenu.Entry[] {
-        // let result: SohlContextMenu.Entry[] = this.actions.reduce(
-        //     (ary: SohlContextMenu.Entry[], a: SohlAction) => {
-        //         let cond: SohlContextMenu.Condition = a.contextCondition;
-        //         if (isBoolean(cond)) {
-        //             cond = () =>
-        //                 !!(
-        //                     cond ||
-        //                     a.contextGroup !==
-        //                         SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN
-        //                 );
-        //         }
-
-        //         const newAction: SohlContextMenu.Entry =
-        //             new SohlContextMenu.Entry({
-        //                 id: a.title,
-        //                 name: a.title,
-        //                 iconFAClass: a.contextIconClass,
-        //                 condition: cond,
-        //                 group: toSohlContextMenuSortGroup(a.contextGroup),
-        //             });
-        //         ary.push(newAction);
-        //         return ary;
-        //     },
-        //     [],
-        // );
-        // return result;
-        return [];
+        const entries: SohlContextMenu.Entry[] = [];
+        for (const action of this.actions.values()) {
+            const data = action.data;
+            const condition: SohlContextMenu.Condition = (
+                target: HTMLElement,
+            ): boolean => action.visible(target);
+            const callback = (element: HTMLElement) => {
+                const item = SohlContextMenu.resolveItem(element);
+                const actor =
+                    SohlContextMenu.resolveActor(element) ?? item?.actor;
+                const ctx = new SohlActionContext({
+                    speaker: actor?.getSpeaker(),
+                } as any);
+                action.execute(ctx);
+            };
+            entries.push(
+                new SohlContextMenu.Entry({
+                    id: data.title,
+                    name: data.title,
+                    iconFAClass: data.iconFAClass,
+                    condition,
+                    callback,
+                    group: data.group as any,
+                }),
+            );
+        }
+        return entries;
     }
 
     /**

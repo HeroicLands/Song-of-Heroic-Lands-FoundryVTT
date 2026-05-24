@@ -12,26 +12,9 @@
  */
 
 import { SohlActorDataModel } from "@src/document/actor/foundry/SohlActor";
-import {
-    ACTOR_KIND,
-    ImpactAspects,
-    MOVEMENT_MEDIUM,
-    MovementFactorModes,
-    MovementMediums,
-} from "@src/utils/constants";
+import { ACTOR_KIND } from "@src/utils/constants";
 import type { BeingData } from "@src/document/actor/logic/BeingLogic";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import type { BodyStructure } from "@src/domain/body/BodyStructure";
-import type { MovementProfile } from "@src/domain/movement/MovementProfile";
-
-const {
-    StringField,
-    ArrayField,
-    BooleanField,
-    DocumentIdField,
-    NumberField,
-    SchemaField,
-} = foundry.data.fields;
 
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {

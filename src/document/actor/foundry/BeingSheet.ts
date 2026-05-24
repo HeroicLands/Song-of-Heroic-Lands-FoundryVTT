@@ -16,10 +16,20 @@ import {
     SohlActorSheetBase,
 } from "@src/document/actor/foundry/SohlActor";
 import { fvttCallHook, fvttEnrichHTML } from "@src/core/FoundryHelpers";
-import { ITEM_KIND, TRAIT_INTENSITY } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    MOVEMENT_MEDIUM,
+    MovementMedium,
+    TRAIT_INTENSITY,
+} from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import {
+    resolveStrikeModeML,
+    type StrikeModeTestKind,
+} from "@src/document/actor/foundry/combat-actions";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
@@ -222,7 +232,49 @@ export class BeingSheet extends SohlActorSheetBase {
                 dropSelector: null,
             },
         ],
+        actions: {
+            rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
+        },
     };
+
+    /**
+     * Handle clicks on the Atk/Blk/CX cells in the Combat tab. Resolves the
+     * underlying MasteryLevelModifier from the row's data attributes and
+     * runs a success test. Shift-click skips the modifier dialog.
+     */
+    static async _onRollStrikeModeTest(
+        this: BeingSheet,
+        event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const row = target.closest("[data-sm-id]");
+        if (!row) return;
+        const smId = row.getAttribute("data-sm-id");
+        const itemId = row.getAttribute("data-item-id");
+        const testKind = target.getAttribute(
+            "data-test-kind",
+        ) as StrikeModeTestKind | null;
+        if (!smId || !itemId || !testKind) return;
+
+        const actor = this.document;
+        const mlMod = resolveStrikeModeML(actor, itemId, smId, testKind);
+        if (!mlMod) return;
+
+        const item = actor.items.get(itemId);
+        const sm = (item?.logic as any)?.strikeModes?.find(
+            (m: any) => m.id === smId,
+        );
+        if (!item || !sm) return;
+
+        const context = new SohlActionContext({
+            speaker: (actor as any).getSpeaker(),
+            type: `strike-${testKind}`,
+            title: `${item.name} – ${sm.name} (${testKind})`,
+            skipDialog: event.shiftKey,
+        });
+
+        await mlMod.successTest(context);
+    }
 
     /* -------------------------------------------- */
     /*  Part Context Dispatcher                     */
@@ -397,11 +449,34 @@ export class BeingSheet extends SohlActorSheetBase {
 
         const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
 
+        const logic = actor.logic as BeingLogic | undefined;
+        const movement: { medium: MovementMedium; label: string; value: number }[] = [];
+        if (logic?.effectiveBaseMove) {
+            const mediums: MovementMedium[] = [
+                MOVEMENT_MEDIUM.TERRESTRIAL,
+                MOVEMENT_MEDIUM.AQUATIC,
+                MOVEMENT_MEDIUM.AERIAL,
+                MOVEMENT_MEDIUM.BURROWING,
+                MOVEMENT_MEDIUM.ASTRAL,
+            ];
+            for (const medium of mediums) {
+                const value = logic.effectiveBaseMove(medium).effective;
+                if (value > 0) {
+                    movement.push({
+                        medium,
+                        label: `SOHL.MovementMedium.${medium}`,
+                        value,
+                    });
+                }
+            }
+        }
+
         const system = this.document.system as any;
         return Object.assign(context, {
             attributes,
             traitGroups,
             affiliations,
+            movement,
             biographyHTML: await fvttEnrichHTML(system.biography ?? ""),
         });
     }
