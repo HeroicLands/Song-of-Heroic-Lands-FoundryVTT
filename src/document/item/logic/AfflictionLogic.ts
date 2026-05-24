@@ -17,10 +17,23 @@ import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     ACTION_SUBTYPE,
+    AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
     AfflictionSubType,
     AfflictionTransmission,
     defineType,
+    FATIGUE_CATEGORY,
+    FatigueCategoryLabels,
+    FEAR_LEVEL,
+    FearLevelLabels,
+    isFatigueCategory,
+    isFearLevel,
+    isMoraleLevel,
+    isPrivationCategory,
+    MORALE_LEVEL,
+    MoraleLevelLabels,
+    PRIVATION_CATEGORY,
+    PrivationCategoryLabels,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
@@ -29,6 +42,34 @@ import {
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
 import { SohlActionData } from "@src/domain/action/SohlAction";
+
+const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
+    Object.entries(FEAR_LEVEL).map(([k, v]) => [
+        v as number,
+        FearLevelLabels[k as keyof typeof FearLevelLabels],
+    ]),
+);
+
+const MORALE_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
+    Object.entries(MORALE_LEVEL).map(([k, v]) => [
+        v as number,
+        MoraleLevelLabels[k as keyof typeof MoraleLevelLabels],
+    ]),
+);
+
+const FATIGUE_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
+    Object.entries(FATIGUE_CATEGORY).map(([k, v]) => [
+        v as string,
+        FatigueCategoryLabels[k as keyof typeof FatigueCategoryLabels],
+    ]),
+);
+
+const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
+    Object.entries(PRIVATION_CATEGORY).map(([k, v]) => [
+        v as string,
+        PrivationCategoryLabels[k as keyof typeof PrivationCategoryLabels],
+    ]),
+);
 
 /**
  * Logic for the **Affliction** item type — an ongoing condition affecting
@@ -65,6 +106,53 @@ export class AfflictionLogic<
     healingRate!: ValueModifier;
     contagionIndex!: ValueModifier;
     transmission!: AfflictionTransmission;
+
+    /**
+     * Localized qualitative label for the current effective level.
+     *
+     * For `FEAR` and `MORALE` subtypes the level (0–5) maps to a named
+     * severity (Brave, Steady, Afraid/Withdrawing, Terrified/Routed,
+     * Catatonic). Other subtypes return the numeric level as a string.
+     */
+    get levelLabel(): string {
+        const lvl = Math.max(0, Math.round(this.level.effective));
+        if (this.data.subType === AFFLICTION_SUBTYPE.FEAR && isFearLevel(lvl)) {
+            return sohl.i18n.localize(FEAR_LABEL_BY_LEVEL[lvl]);
+        }
+        if (
+            this.data.subType === AFFLICTION_SUBTYPE.MORALE &&
+            isMoraleLevel(lvl)
+        ) {
+            return sohl.i18n.localize(MORALE_LABEL_BY_LEVEL[lvl]);
+        }
+        return String(lvl);
+    }
+
+    /**
+     * Localized qualitative label for the current sub-category.
+     *
+     * For `FATIGUE` and `PRIVATION` subtypes the `category` field is
+     * expected to be one of {@link FATIGUE_CATEGORY} or
+     * {@link PRIVATION_CATEGORY} respectively. Other subtypes return the
+     * raw category string (or an empty string if unset).
+     */
+    get categoryLabel(): string {
+        const cat = this.data.category;
+        if (!cat) return "";
+        if (
+            this.data.subType === AFFLICTION_SUBTYPE.FATIGUE &&
+            isFatigueCategory(cat)
+        ) {
+            return sohl.i18n.localize(FATIGUE_LABEL_BY_CATEGORY[cat]);
+        }
+        if (
+            this.data.subType === AFFLICTION_SUBTYPE.PRIVATION &&
+            isPrivationCategory(cat)
+        ) {
+            return sohl.i18n.localize(PRIVATION_LABEL_BY_CATEGORY[cat]);
+        }
+        return cat;
+    }
 
     get canTransmit(): boolean {
         // TODO - Implement Affliction canTransmit
