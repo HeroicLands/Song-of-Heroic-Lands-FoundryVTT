@@ -18,7 +18,8 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 import { BodyStructure } from "@src/domain/body/BodyStructure";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { MovementProfile } from "@src/domain/movement/MovementProfile";
+import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
+import type { MovementMedium } from "@src/utils/constants";
 
 /**
  * Logic for the **Lineage** item type — membership in an organization
@@ -48,13 +49,25 @@ export class LineageLogic<
      */
     bodyStructure!: BodyStructure;
 
-    /**
-     * Movement profiles for each medium this being can move through.
-     * Constructed from persisted data during {@link initialize}.
-     */
-    movementProfiles!: MovementProfile[];
-
     bodyWeight!: ValueModifier;
+
+    /**
+     * Per-medium base move (feet per combat round) for creatures of this
+     * lineage. A value of 0 means the creature cannot move in that medium.
+     * Active Effects can target individual entries (e.g.
+     * `system.moveBase.terrestrial`) to apply haste, encumbrance, etc.
+     */
+    get moveBase(): MoveBaseDict {
+        return this.data.moveBase;
+    }
+
+    /**
+     * The medium shown by default in the combat tracker for creatures of
+     * this lineage. Seeded onto each new combatant at creation time.
+     */
+    get defaultMoveMedium(): MovementMedium {
+        return this.data.defaultMoveMedium;
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -64,9 +77,6 @@ export class LineageLogic<
     override initialize(): void {
         super.initialize();
         this.bodyStructure = new BodyStructure(this.data.bodyStructure, this);
-        this.movementProfiles = (this.data.movementProfiles ?? []).map(
-            (d, i) => new MovementProfile(d, this, i),
-        );
         this.bodyWeight = new ValueModifier({}, { parent: this }).setBase(
             this.data.bodyWeightBase,
         );
@@ -87,7 +97,8 @@ export interface LineageData<
     TLogic extends SohlItemLogic<LineageData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
     bodyStructure: BodyStructure.Data;
-    movementProfiles: MovementProfile.Data[];
+    moveBase: MoveBaseDict;
+    defaultMoveMedium: MovementMedium;
     encumbranceRate: number;
     bodyWeightBase: number;
 }

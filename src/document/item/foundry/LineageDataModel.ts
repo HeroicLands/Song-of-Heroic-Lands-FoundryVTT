@@ -17,16 +17,16 @@ import {
     LineageData,
 } from "@src/document/item/logic/LineageLogic";
 import { BodyStructure } from "@src/domain/body/BodyStructure";
-import { MovementProfile } from "@src/domain/movement/MovementProfile";
+import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
 import {
     Amputabilities,
     AMPUTABILITY,
     BleedingSusceptibilities,
     BLEEDING_SUSCEPTIBILITY,
-    BodyZones,
+    BodyRoles,
     ITEM_KIND,
     MOVEMENT_MEDIUM,
-    MovementFactorModes,
+    MovementMedium,
     MovementMediums,
 } from "@src/utils/constants";
 const {
@@ -47,18 +47,18 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                     shortcode: new StringField({ blank: false }),
                     name: new StringField({ blank: false }),
                     /**
-                     * Functional zones this part fulfills. Skills and attributes
-                     * declare which zones impair them; injury at this part
+                     * Functional roles this part fulfills. Skills and attributes
+                     * declare which roles impair them; injury at this part
                      * impairs every skill/attribute that lists any of these
-                     * zones. Mishap behavior is also zone-driven: VITAL/CORE
+                     * roles. Mishap behavior is also role-driven: VITAL/CORE
                      * trigger fumble + stumble checks on Serious injury (auto
                      * on Grievous); MANIPULATOR triggers fumble; LOCOMOTOR
-                     * triggers stumble. See BodyZone in constants.
+                     * triggers stumble. See BodyRole in constants.
                      */
-                    zones: new ArrayField(
+                    roles: new ArrayField(
                         new StringField({
                             blank: false,
-                            choices: BodyZones,
+                            choices: BodyRoles,
                         }),
                         { initial: [] },
                     ),
@@ -159,45 +159,49 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                 { initial: [] },
             ),
         }),
-        movementProfiles: new ArrayField(
-            new SchemaField({
-                medium: new StringField({
-                    required: true,
-                    choices: MovementMediums,
-                    initial: MOVEMENT_MEDIUM.TERRESTRIAL,
-                }),
-                /** Tactical speed in feet per combat round. */
-                feetPerRound: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                /** Strategic speed in leagues per 4-hour watch (1 league ≈ 3 miles). */
-                leaguesPerWatch: new NumberField({
-                    integer: true,
-                    min: 0,
-                    initial: 0,
-                }),
-                factors: new ArrayField(
-                    new SchemaField({
-                        scope: new StringField({
-                            blank: false,
-                        }),
-                        key: new StringField({
-                            blank: false,
-                        }),
-                        mode: new StringField({
-                            choices: MovementFactorModes,
-                        }),
-                        textValue: new StringField({
-                            blank: false,
-                        }),
-                    }),
-                ),
-                disabled: new BooleanField({ initial: false }),
+        /**
+         * Per-medium base tactical move in feet per combat round.
+         * A value of 0 means the creature cannot move in that medium.
+         * Active Effects can target individual entries (e.g.
+         * `system.moveBase.terrestrial`) to apply haste, encumbrance, etc.
+         */
+        moveBase: new SchemaField({
+            terrestrial: new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
             }),
-            { initial: [] },
-        ),
+            aquatic: new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            aerial: new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            burrowing: new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+            astral: new NumberField({
+                integer: true,
+                min: 0,
+                initial: 0,
+            }),
+        }),
+        /**
+         * The medium that should be shown in the combat tracker by default
+         * for creatures of this lineage. Seeded onto each new combatant at
+         * combatant creation time.
+         */
+        defaultMoveMedium: new StringField({
+            required: true,
+            choices: MovementMediums,
+            initial: MOVEMENT_MEDIUM.TERRESTRIAL,
+        }),
         /** Represents the number of pounds of gear that equates to 1 unit of encumbrance */
         encumbranceRate: new NumberField({
             integer: false,
@@ -228,7 +232,8 @@ export class LineageDataModel<
     ];
     static override readonly kind = ITEM_KIND.LINEAGE;
     bodyStructure!: BodyStructure.Data;
-    movementProfiles!: MovementProfile.Data[];
+    moveBase!: MoveBaseDict;
+    defaultMoveMedium!: MovementMedium;
     encumbranceRate!: number;
     bodyWeightBase!: number;
 

@@ -15,6 +15,7 @@ import {
     SohlItem,
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
+import { MovementMediums } from "@src/utils/constants";
 
 export class LineageSheet extends SohlItemSheetBase {
     static override PARTS = {
@@ -33,7 +34,10 @@ export class LineageSheet extends SohlItemSheetBase {
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>
     > {
         await super._preparePropertiesContext(context, options);
-        const system = this.document.system as any;
-        return Object.assign(context, {});
+        const movementMediumChoices: Record<string, string> = {};
+        for (const medium of MovementMediums) {
+            movementMediumChoices[medium] = `SOHL.MovementMedium.${medium}`;
+        }
+        return Object.assign(context, { movementMediumChoices });
     }
 }
