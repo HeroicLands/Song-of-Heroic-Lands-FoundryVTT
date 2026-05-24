@@ -168,7 +168,7 @@ function buildAttribute(fm) {
         scoreBase: Number(sohlField(fm, "scoreBase", 0)) || 0,
         valueDesc: parseValueDesc(sohlField(fm, "valueDesc", [])),
         initDiceFormula: sohlField(fm, "initDiceFormula", ""),
-        impairedByZones: sohlField(fm, "impairedByZones", []),
+        impairedByRoles: sohlField(fm, "impairedByRoles", []),
     };
 }
 

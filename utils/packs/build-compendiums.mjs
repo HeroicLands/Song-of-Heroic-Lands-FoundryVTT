@@ -25,7 +25,7 @@ import { compilePack, extractPack } from "@foundryvtt/foundryvtt-cli";
  * `_source/` directory is produced by `npm run packs:export` and consumed
  * directly here — no vault access is needed during compile.
  */
-const SOURCE_PACKS = ["items", "journals"];
+const SOURCE_PACKS = ["items", "journals", "actors"];
 
 /** Root of each pack's committed `_source/` tree. */
 const PACK_SOURCE_DIR = (name) =>

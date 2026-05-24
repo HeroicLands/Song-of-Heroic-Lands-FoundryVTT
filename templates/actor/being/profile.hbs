@@ -79,6 +79,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </fieldset>
     {{/if}}
 
+    {{!-- Movement --}}
+    {{#if movement.length}}
+    <fieldset>
+        <legend>{{localize "SOHL.Being.movement.legend"}}</legend>
+        <ol class="item-list movement">
+            {{#each movement as |row|}}
+            <li class="item flexrow" data-medium="{{row.medium}}">
+                <div class="item-name"><h4>{{localize row.label}}</h4></div>
+                <div class="item-detail">{{row.value}} {{localize "SOHL.Being.movement.unit"}}</div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/if}}
+
     {{!-- Biography --}}
     <fieldset>
         <legend>Biography</legend>

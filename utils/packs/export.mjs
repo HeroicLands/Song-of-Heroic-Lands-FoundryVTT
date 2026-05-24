@@ -32,6 +32,7 @@ import prefix from "loglevel-plugin-prefix";
 
 import { Items } from "./items.mjs";
 import { Journals } from "./journals.mjs";
+import { Actors } from "./actors.mjs";
 import {
     buildStats,
     loadFolders,
@@ -51,6 +52,7 @@ const STATS_VERSION = "0.6.0";
 const PACK_CONFIGS = [
     { name: "items", packClass: Items, documentType: "Item" },
     { name: "journals", packClass: Journals, documentType: "JournalEntry" },
+    { name: "actors", packClass: Actors, documentType: "Actor" },
 ];
 
 log.setLevel("info");
