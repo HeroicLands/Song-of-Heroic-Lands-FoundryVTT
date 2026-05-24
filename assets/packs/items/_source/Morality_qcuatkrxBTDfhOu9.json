@@ -45,7 +45,7 @@
       }
     ],
     "initDiceFormula": "3d6",
-    "impairedByZones": []
+    "impairedByRoles": []
   },
   "effects": [],
   "flags": {},
