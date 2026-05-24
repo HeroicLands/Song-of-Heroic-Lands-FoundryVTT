@@ -112,5 +112,8 @@
         "vite": "^6.2.3",
         "vite-plugin-banner": "^0.8.0",
         "vitest": "^3.1.2"
+    },
+    "dependencies": {
+        "jsep": "^1.4.0"
     }
 }

@@ -110,7 +110,8 @@
             "color": "#094fcb",
             "packs": [
                 "items",
-                "journals"
+                "journals",
+                "actors"
             ]
         }
     ],
@@ -129,6 +130,14 @@
             "name": "journals",
             "system": "sohl",
             "path": "packs/journals",
+            "private": false
+        },
+        {
+            "label": "Actors",
+            "type": "Actor",
+            "name": "actors",
+            "system": "sohl",
+            "path": "packs/actors",
             "private": false
         }
     ],
