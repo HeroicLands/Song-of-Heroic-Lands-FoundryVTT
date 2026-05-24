@@ -20,7 +20,7 @@ import {
     ITEM_METADATA,
     ItemKinds,
 } from "@src/utils/constants";
-import { textToFunction } from "@src/utils/helpers";
+import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 const { StringField, JavaScriptField } = foundry.data.fields;
 
 export class SohlActiveEffect extends ActiveEffect {
@@ -44,11 +44,10 @@ export class SohlActiveEffect extends ActiveEffect {
      * - `"actor"`: the owning actor (the actor of the parent item, or the
      *   parent itself if the parent is an actor).
      * - `"test"`: every embedded item on the owning actor for which the
-     *   `system.test` JavaScript expression returns truthy. The expression is
-     *   evaluated as a function body with a single parameter `doc` bound to
-     *   each candidate item. Returns an empty array when there is no owning
-     *   actor, when `system.test` is blank, or when the expression fails to
-     *   compile.
+     *   `system.test` safe expression evaluates truthy. The expression is
+     *   evaluated with a single variable `item` bound to each candidate
+     *   item. Returns an empty array when there is no owning actor, when
+     *   `system.test` is blank, or when the expression fails to compile.
      *
      * Errors thrown by the test expression for an individual item are caught
      * and logged; that item is skipped and evaluation continues.
@@ -78,30 +77,31 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     /**
-     * Compile `system.test` as `(doc) => unknown` and run it against every
-     * embedded item on the owning actor. See {@link targets} for scope rules.
+     * Compile `system.test` as a safe expression and evaluate it against
+     * every embedded item on the owning actor. See {@link targets} for scope
+     * rules.
+     * @returns The embedded items for which the expression evaluated truthy.
      */
     protected _resolveTestTargets(): SohlItem[] {
         const script = this.system.test;
         if (!script || !this.actor) return [];
 
-        let predicate: (doc: SohlItem) => unknown;
+        let expression: SafeExpression;
         try {
-            predicate = textToFunction(script, ["doc"], {
-                isAsync: false,
-            }) as (doc: SohlItem) => unknown;
+            expression = new SafeExpression(script, STANDARD_HELPERS);
         } catch (err) {
-            sohl.log.warn(
-                "Failed to compile test script on Active Effect:",
-                { test: script, effect: this, error: err },
-            );
+            sohl.log.warn("Failed to compile test script on Active Effect:", {
+                test: script,
+                effect: this,
+                error: err,
+            });
             return [];
         }
 
         const matched: SohlItem[] = [];
         for (const item of this.actor.items.values() as Iterable<SohlItem>) {
             try {
-                if (predicate(item)) matched.push(item);
+                if (expression.evaluate({ item })) matched.push(item);
             } catch (err) {
                 sohl.log.warn(
                     "Test script threw on Active Effect evaluation:",
