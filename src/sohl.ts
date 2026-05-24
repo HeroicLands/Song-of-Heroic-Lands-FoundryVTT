@@ -17,8 +17,7 @@ import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
-import { SohlEncounterConfig } from "@src/document/region-behavior/SohlEncounter";
-import { SohlRegionConfig } from "@src/document/region/SohlRegion";
+import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
@@ -162,7 +161,16 @@ function registerSystemSettings() {
         config: false,
         type: String,
         default: "sohl-default",
-        requiresReload: true,
+        onChange: (value: string): void => {
+            try {
+                SohlSystem.applyCalendar(value);
+            } catch (err) {
+                sohl.log.error(
+                    `Failed to apply calendar "${value}":`,
+                    err,
+                );
+            }
+        },
     });
     game.settings.register("sohl", "importedCalendars", {
         name: "SOHL.Settings.ImportedCalendars.Name",
@@ -255,6 +263,8 @@ function applyActiveCalendar(): void {
 }
 
 function registerSystemHooks() {
+    registerCombatTrackerHooks();
+
     // Process timed events when world time advances.
     // Only the primary GM processes to prevent duplicate execution.
     (Hooks as any).on(
@@ -365,35 +375,6 @@ function registerSystemHooks() {
         },
     );
 
-    Hooks.on(
-        "renderSceneConfig",
-        (app: SceneConfig, element: HTMLElement, data: PlainObject) => {
-            const scene: Scene = app.document;
-            const isTotm =
-                foundry.utils.getProperty(scene.flags, "sohl.isTotm") ?? false;
-            const totmHTML = `<div class="form-group">
-        <label>Theatre of the Mind</label>
-        <input id="sohl-totm" type="checkbox" name="sohlTotm" data-dtype="Boolean" ${isTotm ? "checked" : ""}>
-        <p class="notes">Configure scene for Theatre of the Mind.</p>
-      </div>`;
-            const target: HTMLElement = element.querySelector(
-                "input[name='gridAlpha']",
-            ) as HTMLElement;
-            target
-                ?.closest(".form-group")
-                ?.insertAdjacentHTML("afterend", totmHTML);
-        },
-    );
-
-    Hooks.on("closeSceneConfig", (app: SceneConfig) => {
-        const scene = app.document;
-        const input = app.form?.querySelector<HTMLInputElement>(
-            "input[name='sohlTotm']",
-        );
-        const isTotm = input?.checked ?? false;
-        scene.setFlag("sohl" as any, "isTotm", isTotm);
-    });
-
     (Hooks as any).on(
         "updateCombat",
         async (combat: Combat, changed: DeepPartial<Combat.Source>) => {
@@ -460,22 +441,6 @@ Hooks.once("init", () => {
     CONFIG.Combat.initiative = { formula: "@initiativeRank", decimals: 2 };
     CONFIG.time.roundTime = 5;
     CONFIG.time.turnTime = 0;
-
-    // Register Region sheet
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(
-        RegionDocument as any,
-        "sohl",
-        SohlRegionConfig as any,
-        { makeDefault: true },
-    );
-
-    // Register RegionBehavior encounter sheet
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(
-        RegionBehavior as any,
-        "sohl",
-        SohlEncounterConfig as any,
-        { types: ["sohlencounter"], makeDefault: true },
-    );
 });
 
 // Register ready hook
@@ -652,8 +617,34 @@ function registerHandlebarsHelpers() {
         return new Handlebars.SafeString(element.outerHTML);
     });
 
-    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+    /**
+     * Format a world time (seconds, as in `game.time.worldTime`) using the
+     * active calendar. Safe to call regardless of which calendar (SoHL's or a
+     * module's) is currently installed — the `sohl.*` formatters degrade
+     * gracefully on foreign calendar classes.
+     *
+     * @example
+     * ```hbs
+     * {{displayWorldTime injury.nextHealingCheck}}
+     * {{displayWorldTime t format="sohl.timestamp"}}
+     * {{displayWorldTime t format="sohl.relative" short=true maxTerms=2}}
+     * ```
+     */
     Handlebars.registerHelper("displayWorldTime", function (value, options) {
-        //return new Handlebars.SafeString(sohl.utils.htmlWorldTime(value));
+        if (value === null || value === undefined || value === "") return "";
+        const time = Number(value);
+        if (!Number.isFinite(time)) return "";
+        const calendar = sohl.calendar;
+        if (!calendar) return "";
+        const { format = "sohl.default", ...rest } = options?.hash ?? {};
+        try {
+            return calendar.format(time, format, rest);
+        } catch (err) {
+            sohl.log.warn(
+                `displayWorldTime: formatter "${format}" failed`,
+                err,
+            );
+            return "";
+        }
     });
 }

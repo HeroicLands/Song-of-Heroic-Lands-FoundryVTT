@@ -5,6 +5,12 @@
  * system's runtime expectations without a running Foundry VTT environment.
  */
 
+// Foundry adds paddedString to Number.prototype; replicate it for tests.
+(Number.prototype as any).paddedString = function (this: number, digits: number): string {
+    if (this < 0) return "-" + Math.abs(this).toString().padStart(digits, "0");
+    return this.toString().padStart(digits, "0");
+};
+
 // Minimal SohlLocalize mock
 const i18n = {
     lang: "en",
@@ -88,17 +94,98 @@ const sohlMock = {
         },
     },
     data: {
-        CalendarData: class { constructor(..._args: any[]) {} },
+        // Minimal real CalendarData mock — supports the timeToComponents /
+        // componentsToTime / static formatter contract used by SohlCalendar.
+        // Handles non-leap calendars only (sufficient for SoHL's default config).
+        CalendarData: class {
+            name?: string;
+            description?: string;
+            years?: any;
+            months?: any;
+            days?: any;
+            seasons?: any;
+            constructor(config: any = {}, _options?: any) {
+                Object.assign(this, config);
+            }
+            static defineSchema(): any { return {}; }
+
+            private _secondsPerDay(): number {
+                const d = this.days;
+                return d.secondsPerMinute * d.minutesPerHour * d.hoursPerDay;
+            }
+            private _secondsPerYear(): number {
+                return this.days.daysPerYear * this._secondsPerDay();
+            }
+
+            timeToComponents(time: number = 0): any {
+                const secondsPerDay = this._secondsPerDay();
+                const secondsPerYear = this._secondsPerYear();
+                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerMinute = this.days.secondsPerMinute;
+
+                let year = Math.floor(time / secondsPerYear);
+                let rem = time - year * secondsPerYear;
+                if (rem < 0) { year -= 1; rem += secondsPerYear; }
+                const day = Math.floor(rem / secondsPerDay);
+                rem -= day * secondsPerDay;
+
+                let dayOfMonth = day;
+                let month = 0;
+                for (month = 0; month < this.months.values.length; month++) {
+                    const md = this.months.values[month].days;
+                    if (dayOfMonth < md) break;
+                    dayOfMonth -= md;
+                }
+
+                const totalDays = Math.floor(time / secondsPerDay);
+                const wlen = this.days.values.length;
+                const dayOfWeek = (((totalDays + (this.years?.firstWeekday ?? 0)) % wlen) + wlen) % wlen;
+
+                const hour = Math.floor(rem / secondsPerHour);
+                rem -= hour * secondsPerHour;
+                const minute = Math.floor(rem / secondsPerMinute);
+                const second = rem - minute * secondsPerMinute;
+
+                return { day, dayOfMonth, dayOfWeek, hour, leapYear: false, minute, month, season: undefined, second, year };
+            }
+
+            componentsToTime(c: any): number {
+                const secondsPerDay = this._secondsPerDay();
+                const secondsPerYear = this._secondsPerYear();
+                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerMinute = this.days.secondsPerMinute;
+
+                let time = (c.year ?? 0) * secondsPerYear;
+                if (c.day != null) {
+                    time += c.day * secondsPerDay;
+                } else if (c.month != null && c.dayOfMonth != null) {
+                    let d = c.dayOfMonth;
+                    for (let m = 0; m < c.month; m++) d += this.months.values[m].days;
+                    time += d * secondsPerDay;
+                }
+                time += (c.hour ?? 0) * secondsPerHour;
+                time += (c.minute ?? 0) * secondsPerMinute;
+                time += (c.second ?? 0);
+                return time;
+            }
+        },
         fields: {
-            StringField: class { constructor(_opts?: any) {} },
-            NumberField: class { constructor(_opts?: any) {} },
-            BooleanField: class { constructor(_opts?: any) {} },
-            ArrayField: class { constructor(_inner?: any, _opts?: any) {} },
-            ObjectField: class { constructor(_opts?: any) {} },
-            SchemaField: class { constructor(_schema?: any, _opts?: any) {} },
-            HTMLField: class { constructor(_opts?: any) {} },
-            FilePathField: class { constructor(_opts?: any) {} },
-            DocumentIdField: class { constructor(_opts?: any) {} },
+            StringField: class { constructor(public options: any = {}) {} },
+            NumberField: class { constructor(public options: any = {}) {} },
+            BooleanField: class { constructor(public options: any = {}) {} },
+            ArrayField: class { constructor(public element?: any, public options: any = {}) {} },
+            ObjectField: class { constructor(public options: any = {}) {} },
+            SchemaField: class {
+                fields: any;
+                options: any;
+                constructor(schema: any = {}, options: any = {}) {
+                    this.fields = schema;
+                    this.options = options;
+                }
+            },
+            HTMLField: class { constructor(public options: any = {}) {} },
+            FilePathField: class { constructor(public options: any = {}) {} },
+            DocumentIdField: class { constructor(public options: any = {}) {} },
         },
     },
     abstract: {

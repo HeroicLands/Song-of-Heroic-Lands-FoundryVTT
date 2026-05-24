@@ -251,43 +251,6 @@ export const {
 export type GroupStance = (typeof GROUP_STANCE)[keyof typeof GROUP_STANCE];
 
 export const {
-    kind: BIOME,
-    values: Biomes,
-    isValue: isBiome,
-    labels: biomeLabels,
-} = defineType("SOHL.Biome", {
-    ARCTIC_ICEFIELD: "arctic_icefield",
-    ARCTIC_TUNDRA: "arctic_tundra",
-    SUBARCTIC_TAIGA: "subarctic_taiga",
-    MOUNTAIN_ALPINE: "mountain_alpine",
-    PERMAFROST_SCRUB: "permafrost_scrub",
-    TEMPERATE_GRASSLAND: "temperate_grassland",
-    TEMPERATE_FOREST: "temperate_forest",
-    TEMPERATE_MIXED_WOODLAND: "temperate_mixed_woodland",
-    TEMPERATE_HEATH_MOOR: "temperate_heath_moor",
-    TEMPERATE_WETLANDS: "temperate_wetlands",
-    TEMPERATE_MARSH: "temperate_marsh",
-    TEMPERATE_HILLS: "temperate_hills",
-    TEMPERATE_MOUNTAINS: "temperate_mountains",
-    DESERT_DUNES: "desert_dunes",
-    DESERT_ROCK: "desert_rock",
-    DESERT_SALT_FLAT: "desert_salt_flat",
-    DESERT_SCRUB: "desert_scrub",
-    STEPPE: "steppe",
-    SAVANNA: "savanna",
-    TROPICAL_RAINFOREST: "tropical_rainforest",
-    TROPICAL_SEASONAL_FOREST: "tropical_seasonal_forest",
-    TROPICAL_SAVANNA: "tropical_savanna",
-    TROPICAL_MANGROVE: "tropical_mangrove",
-    COASTAL_BEACH: "coastal_beach",
-    COASTAL_ROCKY_SHORE: "coastal_rocky_shore",
-    COASTAL_WETLAND: "coastal_wetland",
-    CORAL_ISLAND: "coral_island",
-    OPEN_SEA: "open_sea",
-});
-export type Biome = (typeof BIOME)[keyof typeof BIOME];
-
-export const {
     kind: MOVEMENT_MEDIUM,
     values: MovementMediums,
     isValue: isMovementMedium,
@@ -296,97 +259,11 @@ export const {
     TERRESTRIAL: "terrestrial",
     AQUATIC: "aquatic",
     AERIAL: "aerial",
-    SUBTERRANEAN: "subterranean",
+    BURROWING: "burrowing",
+    ASTRAL: "astral",
 });
 export type MovementMedium =
     (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
-
-export const {
-    kind: MOVEMENT_FACTOR_MODE,
-    values: MovementFactorModes,
-    isValue: isMovementFactorMode,
-    labels: movementFactorModeLabels,
-} = defineType("SOHL.MovementFactorMode", {
-    MULTIPLY: "multiply",
-    ADD: "add",
-    FLOOR: "floor",
-    CEILING: "ceiling",
-    OVERRIDE: "override",
-});
-export type MovementFactorMode =
-    (typeof MOVEMENT_FACTOR_MODE)[keyof typeof MOVEMENT_FACTOR_MODE];
-
-/**
- * Topography — overall landform, capturing both gradient and ruggedness.
- * Maps to the rulebook trek-movement table's Topography column:
- *   FLAT,GENTLE → "Flat";  MODERATE → "Rough/Hilly";  STEEP → "Mountainous".
- * EXTREME and VERTICAL are off-table (rulebook doesn't model them as
- * traversable terrain).
- */
-export const {
-    kind: TOPOGRAPHY,
-    values: Topographies,
-    isValue: isTopography,
-    labels: topographyLabels,
-} = defineType("SOHL.Topography", {
-    FLAT: "flat", // Plains, plateaus, valley floors
-    GENTLE: "gentle", // Rolling hills, gradual inclines
-    MODERATE: "moderate", // Noticeable hills, foothills (rulebook "Rough/Hilly")
-    STEEP: "steep", // Mountain paths, escarpments (rulebook "Mountainous")
-    EXTREME: "extreme", // Very steep terrain; slow and risky
-    VERTICAL: "vertical", // Cliffs; walking impossible
-});
-export type Topography = (typeof TOPOGRAPHY)[keyof typeof TOPOGRAPHY];
-
-/**
- * Surface cover — the combined ground substrate and vegetation that a
- * traveler crosses. These are the values listed in the rulebook trek
- * movement table's Terrain column. Each represents a typical biome
- * surface type and resolves to a single movement penalty in the default
- * factor table.
- */
-export const {
-    kind: SURFACE_COVER,
-    values: SurfaceCovers,
-    isValue: isSurfaceCover,
-    labels: surfaceCoverLabels,
-} = defineType("SOHL.SurfaceCover", {
-    PAVED_ROAD: "paved_road",
-    UNPAVED_ROAD: "unpaved_road",
-    RURAL_TRACK: "rural_track",
-    WILDERNESS_TRAIL: "wilderness_trail",
-    GRASSLAND: "grassland", // rulebook "Cropland · Grassland"
-    WOODLAND: "woodland", // rulebook "Mixed Woodland"
-    HEATH: "heath", // rulebook "Heath · Moor"
-    NEEDLELEAF_FOREST: "needleleaf_forest",
-    MIXED_FOREST: "mixed_forest",
-    COLD_WOODLAND: "cold_woodland",
-    ALPINE: "alpine", // rulebook "Alpine Vegetation"
-    DUNES: "dunes",
-    WETLANDS: "wetlands",
-    BARREN: "barren", // rulebook "Ice · Snow · Rockfield"
-    SALT_FLAT: "salt_flat",
-    RUINS: "ruins",
-    CITY_STREET: "city_street",
-});
-export type SurfaceCover = (typeof SURFACE_COVER)[keyof typeof SURFACE_COVER];
-
-/**
- * Hydrology — surface water level on terrestrial terrain. Distinct from
- * the AQUATIC movement medium, which models in-water travel directly.
- */
-export const {
-    kind: HYDROLOGY,
-    values: Hydrologies,
-    isValue: isHydrology,
-    labels: hydrologyLabels,
-} = defineType("SOHL.Hydrology", {
-    DRY: "dry", // No surface water
-    DAMP: "damp", // Wet ground, mud, light rain runoff
-    SHALLOW: "shallow", // Streams, fords, marsh, flooded fields (wading)
-    DEEP: "deep", // Rivers, lakes, ocean (swimming required)
-});
-export type Hydrology = (typeof HYDROLOGY)[keyof typeof HYDROLOGY];
 
 /**
  * Bleeding susceptibility — a per-location tier (the rulebook's "shaded
@@ -438,12 +315,11 @@ export const {
     MEDIUM: "medium",
     HIGH: "high",
 });
-export type Amputability =
-    (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
+export type Amputability = (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
 
 /**
- * Body zone — abstract functional roles a body part can fulfill. The four
- * zones cover almost any creature anatomy:
+ * Body role — abstract functional roles a body part can fulfill. The four
+ * roles cover almost any creature anatomy:
  *
  *   VITAL       — control center: brain, sensory organs, vital nerve
  *                 clusters. Head for vertebrates, cephalothorax for
@@ -454,57 +330,33 @@ export type Amputability =
  *                 trunks, jaws used as bite-weapons.
  *   LOCOMOTOR   — movement: legs, wings, fins, tentacles in swimming.
  *
- * A part may be tagged with multiple zones (e.g., a wolf's front leg is
- * LOCOMOTOR + light MANIPULATOR; a wolf's head is VITAL + MANIPULATOR
- * because of bite attacks). Skills and attributes declare which zones
- * impair them; injury at a part impairs every skill that lists any of
- * the part's zones.
+ * A part may play multiple roles (e.g., a wolf's front leg is LOCOMOTOR +
+ * light MANIPULATOR; a wolf's head is VITAL + MANIPULATOR because of bite
+ * attacks). Skills and attributes declare which roles impair them; injury
+ * at a part impairs every skill that lists any of the part's roles.
  *
- * Mishap behavior is also zone-driven:
+ * Mishap behavior is also role-driven:
  *   VITAL injury (Serious) → fumble + stumble check; (Grievous) → both auto.
  *   CORE injury (Serious) → fumble + stumble check; (Grievous) → both auto.
  *   MANIPULATOR injury (Serious) → fumble check; (Grievous) → auto fumble.
  *   LOCOMOTOR injury (Serious) → stumble check; (Grievous) → auto stumble.
+ *
+ * The lowercase string values are persisted on every lineage and on every
+ * skill/attribute's `impairedByRoles`, so they are the source of truth and
+ * must not be renamed without a data migration.
  */
 export const {
-    kind: BODY_ZONE,
-    values: BodyZones,
-    isValue: isBodyZone,
-    labels: bodyZoneLabels,
-} = defineType("SOHL.BodyZone", {
+    kind: BODY_ROLE,
+    values: BodyRoles,
+    isValue: isBodyRole,
+    labels: bodyRoleLabels,
+} = defineType("SOHL.BodyRole", {
     VITAL: "vital",
     CORE: "core",
     MANIPULATOR: "manipulator",
     LOCOMOTOR: "locomotor",
 });
-export type BodyZone = (typeof BODY_ZONE)[keyof typeof BODY_ZONE];
-
-/**
- * Movement factor scope — the dimension along which a movement modifier
- * applies. Lineages and scenes can attach factors with these scopes to
- * adjust effective movement speed.
- *
- * VEHICLE applies when the moving party is pulling a cart or wagon — the
- * vehicle's own drag factor is contributed at travel-resolution time and
- * is not part of the creature's lineage profile.
- */
-export const {
-    kind: MOVEMENT_FACTOR_SCOPE,
-    values: MovementFactorScopes,
-    isValue: isMovementFactorScope,
-    labels: movementFactorScopeLabels,
-} = defineType("SOHL.MovementFactorScope", {
-    TOPOGRAPHY: "topography",
-    SURFACE_COVER: "surface_cover",
-    HYDROLOGY: "hydrology",
-    ENCUMBRANCE: "encumbrance",
-    INJURY: "injury",
-    WEATHER: "weather",
-    VEHICLE: "vehicle",
-    MISC: "misc",
-});
-export type MovementFactorScope =
-    (typeof MOVEMENT_FACTOR_SCOPE)[keyof typeof MOVEMENT_FACTOR_SCOPE];
+export type BodyRole = (typeof BODY_ROLE)[keyof typeof BODY_ROLE];
 
 export const {
     kind: SEASON,
@@ -518,323 +370,6 @@ export const {
     WINTER: "winter",
 });
 export type Season = (typeof SEASON)[keyof typeof SEASON];
-
-export interface WeatherState {
-    sky: number; // WEATHER_SKY
-    temp: number; // WEATHER_TEMP
-    windDir: number; // WEATHER_WIND_DIR
-    windForce: number; // WEATHER_WIND_FORCE
-    precip: number; // WEATHER_PRECIP
-}
-
-export interface WeatherContext {
-    latDeg: number;
-    season: Season;
-}
-
-export interface BiomeWeatherProfile {
-    tempOffset?: number; // shifts WEATHER_TEMP up/down
-    precipOffset?: number; // shifts WEATHER_PRECIP up/down
-    cloudinessOffset?: number; // shifts WEATHER_SKY up/down
-    storminessOffset?: number; // shifts typical windForce up/down
-
-    /**
-     * Peak-to-mean diurnal temperature amplitude in TEMP bands.
-     * Example: 2–3 for a sandy desert, 0.5–1 for a humid jungle.
-     */
-    diurnalTempAmplitude?: number;
-
-    /**
-     * Extra cooling applied at night (in TEMP bands).
-     * Use this to exaggerate cold nights in e.g. deserts.
-     */
-    diurnalNightBias?: number;
-}
-
-export const DEFAULT_BIOME_WEATHER_PROFILE: StrictObject<BiomeWeatherProfile> =
-    {
-        // arctic / polar
-        [BIOME.ARCTIC_ICEFIELD]: {
-            tempOffset: -2,
-            cloudinessOffset: 0,
-            precipOffset: -1,
-            // Cold, high albedo, often long nights → small but real diurnal swing,
-            // with some pre-dawn cooling when there is an actual night.
-            diurnalTempAmplitude: 0.8,
-            diurnalNightBias: 0.5,
-        },
-        [BIOME.ARCTIC_TUNDRA]: {
-            tempOffset: -2,
-            cloudinessOffset: 0,
-            // Less ice cover than icefields, a bit more exposed ground → slightly
-            // larger diurnal swing than pure ice.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.7,
-        },
-
-        // subarctic / taiga
-        [BIOME.SUBARCTIC_TAIGA]: {
-            tempOffset: -1,
-            cloudinessOffset: +1,
-            precipOffset: +1,
-            // Forest canopy damps extremes; still noticeable night-time cooling.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.5,
-        },
-
-        // mountains & alpine
-        [BIOME.MOUNTAIN_ALPINE]: {
-            tempOffset: -1,
-            storminessOffset: +1,
-            // High, thin air → decent swings; rocks and sparse vegetation lose heat at night.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.8,
-        },
-
-        // deserts (hot & dry)
-        [BIOME.DESERT_DUNES]: {
-            tempOffset: +1,
-            precipOffset: -3,
-            cloudinessOffset: -2,
-            // Classic sandy desert: huge day/night spread, brutal pre-dawn cold.
-            diurnalTempAmplitude: 3.0,
-            diurnalNightBias: 1.5,
-        },
-        [BIOME.DESERT_ROCK]: {
-            tempOffset: +1,
-            precipOffset: -2,
-            cloudinessOffset: -1,
-            // Rock and broken terrain: big swings, slightly less than dunes.
-            diurnalTempAmplitude: 2.5,
-            diurnalNightBias: 1.0,
-        },
-        [BIOME.DESERT_SALT_FLAT]: {
-            tempOffset: +1,
-            precipOffset: -2,
-            cloudinessOffset: -1,
-            // Very exposed, very dry; strong radiative cooling at night.
-            diurnalTempAmplitude: 3.0,
-            diurnalNightBias: 1.5,
-        },
-        [BIOME.DESERT_SCRUB]: {
-            tempOffset: +1,
-            precipOffset: -1,
-            // Semi-arid; still big swings, but moderated by vegetation.
-            diurnalTempAmplitude: 2.0,
-            diurnalNightBias: 1.0,
-        },
-
-        // grasslands / steppe / savanna
-        [BIOME.STEPPE]: {
-            tempOffset: 0,
-            precipOffset: -1,
-            // Open, often dry grassland → good swings, cool pre-dawn.
-            diurnalTempAmplitude: 2.0,
-            diurnalNightBias: 0.7,
-        },
-        [BIOME.SAVANNA]: {
-            tempOffset: +1,
-            precipOffset: 0,
-            // Warm, somewhat humid, open terrain; strong but not desert-level swings.
-            diurnalTempAmplitude: 2.5,
-            diurnalNightBias: 0.8,
-        },
-
-        // wet / tropical
-        [BIOME.TROPICAL_RAINFOREST]: {
-            tempOffset: 0,
-            precipOffset: +2,
-            cloudinessOffset: +2,
-            storminessOffset: +1,
-            // Hot, humid, very cloudy: small diurnal swings, nights still warm.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.2,
-        },
-        [BIOME.TROPICAL_SEASONAL_FOREST]: {
-            tempOffset: 0,
-            precipOffset: +1,
-            cloudinessOffset: +1,
-            // Transitional between rainforest and savanna; moderate swings.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.4,
-        },
-
-        // coastal
-        [BIOME.COASTAL_BEACH]: {
-            storminessOffset: +1,
-            // Water moderates temps → modest swing, mild pre-dawn cooling.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-        [BIOME.COASTAL_ROCKY_SHORE]: {
-            storminessOffset: +1,
-            cloudinessOffset: +1,
-            // Similar to beach, maybe slightly more exposed, but ocean still damps swings.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-        [BIOME.COASTAL_WETLAND]: {
-            precipOffset: +1,
-            cloudinessOffset: +1,
-            // Humid, often cloudy → diurnal swings modest, closer to swamp.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-
-        // open sea / islands
-        [BIOME.CORAL_ISLAND]: {
-            precipOffset: +1,
-            storminessOffset: +1,
-            // Small landmass in warm sea: a bit more swing than open ocean, still muted.
-            diurnalTempAmplitude: 1.2,
-            diurnalNightBias: 0.4,
-        },
-        [BIOME.OPEN_SEA]: {
-            precipOffset: +1,
-            storminessOffset: +2,
-            // Huge thermal inertia: tiny diurnal temp changes, slight pre-dawn bias.
-            diurnalTempAmplitude: 0.5,
-            diurnalNightBias: 0.2,
-        },
-    };
-
-export const {
-    kind: WEATHER,
-    values: Weathers,
-    isValue: isWeather,
-    labels: weatherLabels,
-} = defineType("SOHL.Weather", {
-    CLEAR: "clear",
-    PARTLY_CLOUDY: "partly_cloudy",
-    OVERCAST: "overcast",
-
-    LIGHT_RAIN: "light_rain",
-    MODERATE_RAIN: "moderate_rain",
-    HEAVY_RAIN: "heavy_rain",
-    THUNDERSTORM: "thunderstorm",
-
-    LIGHT_SNOW: "light_snow",
-    MODERATE_SNOW: "moderate_snow",
-    HEAVY_SNOW: "heavy_snow",
-    BLIZZARD: "blizzard",
-
-    FOG_LIGHT: "fog_light",
-    FOG_DENSE: "fog_dense",
-    MIST: "mist",
-
-    WIND_BREEZE: "wind_breeze",
-    WIND_STRONG: "wind_strong",
-    WIND_GALE: "wind_gale",
-    WIND_STORM: "wind_storm",
-
-    HAIL: "hail",
-    SLEET: "sleet",
-    DUST_STORM: "dust_storm",
-    SAND_STORM: "sand_storm",
-
-    EXTREME_HEAT: "extreme_heat",
-    EXTREME_COLD: "extreme_cold",
-});
-export type Weather = (typeof WEATHER)[keyof typeof WEATHER];
-
-export const {
-    kind: WEATHER_SKY,
-    values: WeatherSkies,
-    isValue: isWeatherSky,
-    labels: weatherSkyLabels,
-} = defineType("SOHL.WeatherSky", {
-    CLEAR: 0,
-    MOSTLY_CLEAR: 1,
-    PARTLY_CLOUDY: 2,
-    MOSTLY_CLOUDY: 3,
-    OVERCAST: 4,
-    FOGGY: 5,
-    HAZY: 6,
-    OBSCURED: 7,
-});
-
-export const {
-    kind: WEATHER_TEMP,
-    values: WeatherTemps,
-    isValue: isWeatherTemp,
-    labels: weatherTempLabels,
-} = defineType("SOHL.WeatherTemp", {
-    FRIGID: 0, // <= -15 degrees
-    FREEZING: 1, // <= 0 degrees
-    COLD: 2, // <= 10 degrees
-    COOL: 3, // <= 20 degrees
-    WARM: 4, // <= 30 degrees
-    HOT: 5, // <= 45 degrees
-    FURNACE: 6, // > 45 degrees
-});
-
-export const {
-    kind: WEATHER_WIND_DIR,
-    values: WeatherWindDirs,
-    isValue: isWeatherWindDir,
-    labels: weatherWindDirLabels,
-} = defineType("SOHL.WeatherWindDir", {
-    NORTH: 0,
-    NORTHEAST: 1,
-    EAST: 2,
-    SOUTHEAST: 3,
-    SOUTH: 4,
-    SOUTHWEST: 5,
-    WEST: 6,
-    NORTHWEST: 7,
-});
-
-// for this, use Beaufort scale
-export const {
-    kind: WEATHER_WIND_FORCE,
-    values: WeatherWindForces,
-    isValue: isWeatherWindForce,
-    labels: weatherWindForceLabels,
-} = defineType("SOHL.WeatherWindForce", {
-    CALM: 0,
-    LIGHT_AIR: 1,
-    LIGHT_BREEZE: 2,
-    GENTLE_BREEZE: 3,
-    MODERATE_BREEZE: 4,
-    FRESH_BREEZE: 5,
-    STRONG_BREEZE: 6,
-    NEAR_GALE: 7,
-    GALE: 8,
-    SEVERE_GALE: 9,
-    STORM: 10,
-    VIOLENT_STORM: 11,
-    HURRICANE: 12,
-});
-
-export const {
-    kind: WEATHER_PRECIP,
-    values: WeatherPrecips,
-    isValue: isWeatherPrecip,
-    labels: weatherPrecipLabels,
-} = defineType("SOHL.WeatherPrecip", {
-    NONE: 0, // 0mm per hour; dry
-    MIST: 1, // <= 0.25mm per hour
-    LIGHT: 2, // <= 2.5mm per hour
-    MODERATE: 3, // <= 7.5mm per hour
-    HEAVY: 4, // <= 15mm per hour
-    TORRENTIAL: 5, // <= 30mm per hour
-    EXTREME: 6, // > 30mm per hour
-});
-
-export const {
-    kind: WEATHER_REGIME,
-    values: WeatherRegimes,
-    isValue: isWeatherRegime,
-    labels: weatherRegimeLabels,
-} = defineType("SOHL.WeatherRegime", {
-    FAIR: 0,
-    UNSETTLED: 1,
-    STORMY: 2,
-    HEATWAVE: 3,
-    COLD_SNAP: 4,
-});
-export type WeatherRegime =
-    (typeof WEATHER_REGIME)[keyof typeof WEATHER_REGIME];
 
 export const {
     kind: COHORT_MEMBER_ROLE,
@@ -1172,35 +707,6 @@ export const {
 export type SohlEventRepeat =
     (typeof SOHL_EVENT_REPEAT)[keyof typeof SOHL_EVENT_REPEAT];
 
-export const {
-    kind: SOHL_ACTION_SCOPE,
-    values: SohlActionScopes,
-    isValue: isSohlActionScope,
-} = defineType("SOHL.SohlAction.Scope", {
-    SELF: "self",
-    ITEM: "item",
-    ACTOR: "actor",
-    OTHER: "other",
-});
-export type SohlActionScope =
-    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
-
-export const {
-    kind: SOHL_ACTION_ROLE,
-    values: SohlActionRoles,
-    isValue: isSohlActionRole,
-    labels: SohlActionRoleLabels,
-} = defineType("SOHL.Action.Role", {
-    NONE: 0,
-    PLAYER: 1,
-    TRUSTED: 2,
-    OWNER: 3,
-    ASSISTANT: 4,
-    GAMEMASTER: 5,
-});
-export type SohlActionRole =
-    (typeof SOHL_ACTION_ROLE)[keyof typeof SOHL_ACTION_ROLE];
-
 /**
  * Constants for the Heal Rate of an Affliction.
  */
@@ -1338,11 +844,23 @@ export const {
     isValue: isActionSubType,
     labels: ActionSubTypeLabels,
 } = defineType("SOHL.Action.SubType", {
-    BASIC: "basic",
-    SCRIPT_ACTION: "scriptaction",
-    INTRINSIC_ACTION: "intrinsicaction",
+    INTRINSIC: "intrinsic",
+    SCRIPT: "script",
 });
 export type ActionSubType = (typeof ActionSubTypes)[number];
+
+export const {
+    kind: SOHL_ACTION_SCOPE,
+    values: SohlActionScopes,
+    isValue: isSohlActionScope,
+} = defineType("SOHL.SohlAction.Scope", {
+    SELF: "self",
+    ITEM: "item",
+    ACTOR: "actor",
+    OTHER: "other",
+});
+export type SohlActionScope =
+    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
 
 export const {
     kind: MYSTERY_SUBTYPE,
@@ -1469,7 +987,8 @@ export const {
     SPIRITUAL: "spiritual",
     SHADOW: "shadow",
 });
-export type TraumaSubType = (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
+export type TraumaSubType =
+    (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
 
 export const {
     kind: TRAIT_INTENSITY,
@@ -1517,302 +1036,205 @@ export const {
         id: "setImproveFlag",
         name: "Set Improve Flag",
         iconClass: "fas fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as SkillLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     UNSETIMPROVEFLAG: {
         id: "unsetImproveFlag",
         name: "Unset Improve Flag",
         iconClass: "far fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as SkillLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     IMPROVEWITHSDR: {
         id: "improveWithSDR",
         name: "Improve with SDR",
         iconClass: "fas fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as SkillLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     SUCCESSTEST: {
         id: "successTest",
         name: "Success Test",
         iconClass: "fas fa-person",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     OPPOSEDTESTSTART: {
         id: "opposedTestStart",
         name: "Opposed Test Start",
         iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // const token = cast<SohlActor>(
-            //     cast<Item>(item)?.actor,
-            // )?.getToken();
-            // return token && !item.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     SHOCKTEST: {
         id: "shockTest",
         name: "Shock Test",
         iconClass: "far fa-face-eyes-xmarks",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     STUMBLETEST: {
         id: "stumbleTest",
         name: "Stumble Test",
         iconClass: "far fa-person-falling",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     FUMBLETEST: {
         id: "fumbleTest",
         name: "Fumble Test",
         iconClass: "far fa-ball-pile",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     MORALETEST: {
         id: "moraleTest",
         name: "Morale Test",
         iconClass: "far fa-people-group",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     FEARTEST: {
         id: "fearTest",
         name: "Fear Test",
         iconClass: "far fa-face-scream",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     TRANSMITAFFLICTION: {
         id: "transmitAffliction",
         name: "Transmit Affliction",
         iconClass: "fas fa-head-side-cough",
-        condition: (header: HTMLElement): boolean => {
-            const afflLogic = getContextItem(header)
-                ?.system as unknown as AfflictionLogic;
-            return afflLogic?.canTransmit;
-        },
+        condition: "item.system.canTransmit",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     CONTRACTAFFLICTIONTEST: {
         id: "contractAfflictionTest",
         name: "Contract Affliction Test",
         iconClass: "fas fa-virus",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     COURSETTEST: {
         id: "courseTest",
         name: "Course Test",
         iconClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     FATIGUETEST: {
         id: "fatigueTest",
         name: "Fatigue Test",
         iconClass: "fas fa-face-downcast-sweat",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     TREATMENTTEST: {
         id: "treatmentTest",
         name: "Treatment Test",
         iconClass: "fas fa-staff-snake",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     DIAGNOSISTEST: {
         id: "diagnosisTest",
         name: "Diagnosis Test",
         iconClass: "fas fa-stethoscope",
-        condition: (header: HTMLElement): boolean => {
-            const injLogic = getContextItem(header)
-                ?.system as unknown as TraumaLogic;
-            return injLogic?.data.isTreated;
-        },
+        condition: "item.system.data.isTreated",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {
         id: "healingTest",
         name: "Healing Test",
         iconClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     BLEEDINGSTOPPAGETEST: {
         id: "bleedingStoppageTest",
         name: "Bleeding Stoppage Test",
         iconClass: "fas fa-droplet-slash",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (!item?.system.isBleeding) return false;
-            // const physician = item?.actor?.getSkillByAbbrev("pysn");
-            // return physician && !physician.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     BLOODLOSSADVANCETEST: {
         id: "bloodlossAdvanceTest",
         name: "Bloodloss Advance Test",
         iconClass: "fas fa-droplet",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (!item || !item.system.isBleeding) return false;
-            // const strength = item?.actor?.getTraitByAbbrev("str");
-            // return strength && !strength.system.$masteryLevel?.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     OPPOSEDTESTRESUME: {
         id: "opposedTestResume",
         name: "Opposed Test Resume",
         iconClass: "fas fa-people-arrows",
-        condition: (header: HTMLElement): boolean => false,
+        condition: "false",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
     RESOLVEIMPACT: {
         id: "resolveImpact",
         name: "Resolve Impact",
         iconClass: "fas fa-person-burst",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     BLOCK: {
         id: "blockTest",
         name: "Block Test",
         iconClass: "fas fa-shield",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     COUNTERSTRIKE: {
         id: "counterstrikeTest",
         name: "Counterstrike Test",
         iconClass: "fas fa-circle-half-stroke",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     DODGE: {
         id: "dodgeTest",
         name: "Dodge Test",
         iconClass: "fas fa-person-walking-arrow-loop-left",
-        condition: (header: HTMLElement): boolean => {
-            const item = getContextItem(header);
-            if (!item?.actor?.items) return false;
-            const dodge = Itr.from<SohlItem>(
-                item.actor.items.values() as Iterable<SohlItem>,
-            ).find(
-                (it: SohlItem) =>
-                    it.type === ITEM_KIND.SKILL && it.name === "Dodge",
-            ) as SohlItem | null;
-            return !!(
-                dodge && !(dodge.logic as SkillLogic).masteryLevel.disabled
-            );
-        },
+        // FIXME: original walked actor.items.find for a usable "Dodge" skill;
+        // reduce to "true" until SafeExpression supports collection iteration.
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     IGNORE: {
         id: "ignore",
         name: "Ignore",
         iconClass: "fas fa-ban",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     AUTOCOMBATMELEE: {
         id: "autoCombatMelee",
         name: "Auto Combat Melee",
         iconClass: "fas fa-swords",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     AUTOCOMBATMISSILE: {
         id: "autoCombatMissile",
         name: "Auto Combat Missile",
         iconClass: "fas fa-bow-arrow",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     MISSILEATTACK: {
         id: "missileAttackTest",
         name: "Missile Attack Test",
         iconClass: "fas fa-bow-arrow",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     MELEEATTACK: {
         id: "meleeAttackTest",
         name: "Melee Attack Test",
         iconClass: "fas fa-sword",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<SohlContextMenu.Entry>);

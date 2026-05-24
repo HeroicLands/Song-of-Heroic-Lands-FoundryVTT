@@ -49,7 +49,11 @@ export interface AwaitDialogResult {
 export function fvttMergeObject(
     original: object,
     other: object,
-    _options?: { inplace?: boolean; insertKeys?: boolean; insertValues?: boolean },
+    _options?: {
+        inplace?: boolean;
+        insertKeys?: boolean;
+        insertValues?: boolean;
+    },
 ): object {
     return { ...original, ...other };
 }
@@ -58,21 +62,23 @@ export function fvttMergeObject(
 // Document resolution
 // ---------------------------------------------------------------------------
 
-export function fvttResolveUuid(_uuid: string): any {
-    return null;
+export function fvttResolveUuid(uuid: string): any {
+    return (globalThis as any).fromUuidSync?.(uuid) ?? null;
 }
 
-export async function fvttResolveUuidAsync(_uuid: string): Promise<any> {
-    return null;
+export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
+    return (await (globalThis as any).fromUuid?.(uuid)) ?? null;
 }
-
 
 // ---------------------------------------------------------------------------
 // Dice
 // ---------------------------------------------------------------------------
 
 export async function fvttToFoundryRoll(_simpleRoll: any): Promise<any> {
-    return { total: _simpleRoll?.total ?? 0, result: _simpleRoll?.result ?? "0" };
+    return {
+        total: _simpleRoll?.total ?? 0,
+        result: _simpleRoll?.result ?? "0",
+    };
 }
 
 // ---------------------------------------------------------------------------
@@ -81,18 +87,25 @@ export async function fvttToFoundryRoll(_simpleRoll: any): Promise<any> {
 
 export function fvttCallHook(_name: string, ..._args: unknown[]): void {}
 
-export function fvttCallHookCancel(_name: string, ..._args: unknown[]): boolean {
+export function fvttCallHookCancel(
+    _name: string,
+    ..._args: unknown[]
+): boolean {
     return true;
 }
 
-export function fvttHookOnError(_source: string, _error: Error, _data?: object): void {}
+export function fvttHookOnError(
+    _source: string,
+    _error: Error,
+    _data?: object,
+): void {}
 
 // ---------------------------------------------------------------------------
 // System identity and CONFIG
 // ---------------------------------------------------------------------------
 
 export function fvttIsCurrentUserGM(): boolean {
-    return true;
+    return !!(globalThis as any).game?.user?.isGM;
 }
 
 // ---------------------------------------------------------------------------
@@ -100,7 +113,7 @@ export function fvttIsCurrentUserGM(): boolean {
 // ---------------------------------------------------------------------------
 
 export function fvttWorldTime(): number {
-    return 0;
+    return (globalThis as any).game?.time?.worldTime ?? 0;
 }
 
 export function fvttGetSetting(_module: string, _key: string): unknown {
@@ -108,11 +121,11 @@ export function fvttGetSetting(_module: string, _key: string): unknown {
 }
 
 export function fvttIsActiveGM(): boolean {
-    return true;
+    return !!(globalThis as any).game?.user?.isActiveGM;
 }
 
 export function fvttCurrentUser(): any {
-    return { id: "mockUser", isGM: true, isActiveGM: true };
+    return (globalThis as any).game?.user;
 }
 
 export function fvttGetListFormatter(): Intl.ListFormat {

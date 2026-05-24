@@ -114,13 +114,9 @@ import {
     SohlCombat,
     SohlCombatDataModel,
 } from "@src/document/combat/SohlCombat";
-import { SohlRegion, SohlRegionConfig } from "@src/document/region/SohlRegion";
-import {
-    SohlEncounter,
-    SohlEncounterDataModel,
-    SohlEncounterConfig,
-} from "@src/document/region-behavior/SohlEncounter";
-
+import { SohlScene } from "@src/document/scene/SohlScene";
+import { SohlSceneDataModel } from "@src/document/scene/SohlSceneDataModel";
+import { SohlSceneConfig } from "@src/document/scene/SohlSceneConfig";
 // Utilities
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
@@ -320,9 +316,9 @@ export class SohlSystem {
                 worldCalendarConfig: SOHL_DEFAULT_CALENDAR_CONFIG,
                 worldCalendarClass: SohlCalendarData,
                 formatters: {
-                    timestamp: SohlCalendarData.formatTimestamp,
-                    relative: SohlCalendarData.formatRelativeTime,
-                    default: SohlCalendarData.formatDefault,
+                    "sohl.timestamp": SohlCalendarData.formatTimestamp,
+                    "sohl.relative": SohlCalendarData.formatRelativeTime,
+                    "sohl.default": SohlCalendarData.formatDefault,
                 },
             },
             Actor: {
@@ -423,23 +419,24 @@ export class SohlSystem {
                 },
                 types: ["base", "sohlcombatdata"],
             },
-            Region: {
-                documentClass: SohlRegion,
-                sheetClass: SohlRegionConfig,
-            },
-            RegionBehavior: {
+            Scene: {
+                documentClass: SohlScene,
+                documentSheets: [
+                    {
+                        cls: SohlSceneConfig,
+                        types: ["base"],
+                    },
+                ],
                 dataModels: {
-                    sohlencounter: SohlEncounterDataModel,
-                },
-                sheetClasses: {
-                    sohlencounter: SohlEncounterConfig,
+                    base: SohlSceneDataModel,
                 },
                 typeLabels: {
-                    sohlencounter: "SOHL.Encounter.typeLabel",
+                    base: "Base",
                 },
                 typeIcons: {
-                    sohlencounter: "fa-solid fa-dragon",
+                    base: "fa-duotone fa-map",
                 },
+                types: ["base"],
             },
             Modifier: {
                 ValueModifier: ValueModifier,
@@ -511,7 +508,9 @@ export class SohlSystem {
     }
 
     /**
-     * Apply a registered calendar to CONFIG.time.
+     * Apply a registered calendar to CONFIG.time, and re-initialize
+     * game.time so the change takes effect without a reload. Safe to call
+     * during the `init` hook before game.time exists.
      */
     static applyCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -525,6 +524,7 @@ export class SohlSystem {
         CONFIG.time.worldCalendarConfig = cal.config as any;
         CONFIG.time.worldCalendarClass = (cal.calendarClass ??
             SohlCalendarData) as any;
+        (game as any)?.time?.initializeCalendar?.();
     }
 
     get utils(): typeof utils {
@@ -543,6 +543,16 @@ export class SohlSystem {
 
     get game(): SohlSystem {
         return SohlSystem.getInstance();
+    }
+
+    /**
+     * The currently active world calendar. May be a SohlCalendarData or any
+     * CalendarData subclass installed by another module — code that consumes
+     * this must use only the base CalendarData API (or guard with
+     * `instanceof SohlCalendarData` before reaching for SoHL extensions).
+     */
+    get calendar(): foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents> {
+        return game.time.calendar;
     }
 
     setupSheets(): void {
@@ -572,6 +582,14 @@ export class SohlSystem {
             CONFIG.ActiveEffect.documentClass,
             "sohl",
             SohlActiveEffectSheet,
+            {
+                makeDefault: true,
+            },
+        );
+        foundry.applications.apps.DocumentSheetConfig.registerSheet(
+            CONFIG.Scene.documentClass,
+            "sohl",
+            SohlSceneConfig as any,
             {
                 makeDefault: true,
             },
@@ -639,16 +657,7 @@ export namespace SohlSystem {
         ActiveEffect: DocumentConfig;
         Combatant: DocumentConfig;
         Combat: DocumentConfig;
-        Region: {
-            documentClass: any;
-            sheetClass: any;
-        };
-        RegionBehavior: {
-            dataModels: StrictObject<any>;
-            sheetClasses: StrictObject<any>;
-            typeLabels: StrictObject<string>;
-            typeIcons: StrictObject<string>;
-        };
+        Scene: DocumentConfig;
         Modifier: {
             ValueModifier: Constructor<ValueModifier>;
             CombatModifier: Constructor<CombatModifier>;
