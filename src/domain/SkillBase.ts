@@ -182,6 +182,19 @@ export class SkillBase {
         return Object.values(this._attrs).map((a) => a.logic);
     }
 
+    /**
+     * The attribute shortcodes referenced by this skill base's formula.
+     *
+     * {@link _attrs} is keyed by attribute shortcode (e.g. `"str"`, `"per"`),
+     * so this exposes the resolved set without leaking the internal map. Used
+     * by data-driven `test` expressions to detect which attributes a skill
+     * draws on.
+     * @returns The referenced attribute shortcodes.
+     */
+    get attrShortcodes(): string[] {
+        return Object.keys(this._attrs);
+    }
+
     get value(): number {
         return this._value;
     }
