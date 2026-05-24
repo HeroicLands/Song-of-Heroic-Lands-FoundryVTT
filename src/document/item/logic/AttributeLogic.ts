@@ -95,6 +95,6 @@ export interface AttributeData<
     }[];
     /** Dice formula used for random generation of this attribute's score */
     initDiceFormula: string;
-    /** Body zones whose injury impairs this attribute */
-    impairedByZones: string[];
+    /** Body roles whose injury impairs this attribute */
+    impairedByRoles: string[];
 }

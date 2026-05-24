@@ -28,8 +28,6 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
-import { getContextItem } from "@src/core/FoundryHelpers";
-import { serializeFn } from "@src/utils/helpers";
 
 /**
  * Logic for the **Trauma** item type — an instance of harm to a character.
@@ -55,7 +53,7 @@ import { serializeFn } from "@src/utils/helpers";
  *
  * Trauma contributes to the character's overall {@link BeingLogic.shockState | shock state}
  * and (for physical subtype) interacts with the anatomy model (body
- * zones, body parts, body locations) to determine hit location effects.
+ * roles, body parts, body locations) to determine hit location effects.
  *
  * Trauma supports treatment and healing test actions.
  *
@@ -84,14 +82,12 @@ export class TraumaLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.level = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.levelBase);
-        this.healingRate = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.healingRateBase);
+        this.level = new ValueModifier({}, { parent: this }).setBase(
+            this.data.levelBase,
+        );
+        this.healingRate = new ValueModifier({}, { parent: this }).setBase(
+            this.data.healingRateBase,
+        );
         this.bodyLocation = undefined;
     }
 
@@ -179,27 +175,21 @@ export const {
     labels: IntrinsicActionLabels,
 } = defineType("SOHL.Trauma.INTRINSIC_ACTION", {
     TREATMENTTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Trauma.INTRINSIC_ACTION.treatmenttest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-staff-snake",
         executor: "treatmentTest",
-        visible: serializeFn((header: HTMLElement) => {
-            const item = getContextItem(header);
-            return (item?.system as TraumaData)?.subType === "physical";
-        }),
+        visible: "item.system.subType === 'physical'",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Trauma.INTRINSIC_ACTION.healingtest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-heart-pulse",
         executor: "healingTest",
-        visible: serializeFn((header: HTMLElement) => {
-            const item = getContextItem(header);
-            return (item?.system as TraumaData)?.subType === "physical";
-        }),
+        visible: "item.system.subType === 'physical'",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<Partial<SohlActionData>>);

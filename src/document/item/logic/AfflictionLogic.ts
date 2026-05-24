@@ -24,12 +24,10 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import { getContextItem } from "@src/core/FoundryHelpers";
 import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
-import { serializeFn } from "@src/utils/helpers";
 import { SohlActionData } from "@src/domain/action/SohlAction";
 
 /**
@@ -239,19 +237,16 @@ export const {
     labels: AfflictionIntrinsicActionLabels,
 } = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
     TRANSMITAFFLICTION: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-head-side-cough",
         executor: "transmitAffliction",
-        visible: serializeFn((header: HTMLElement) => {
-            const item = getContextItem(header);
-            return (item?.logic as AfflictionLogic).canTransmit;
-        }),
+        visible: "item.logic.canTransmit",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     CONTRACTAFFLICTIONTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-virus",
@@ -260,28 +255,18 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     COURSETTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-heart-pulse",
         executor: "courseTest",
-        visible: serializeFn((header: HTMLElement) => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isDormant) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        }),
+        // FIXME: original gated on actor's endurance and item.system.isDormant;
+        // reduced to "true" pending a proper implementation.
+        visible: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     FATIGUETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-face-downcast-sweat",
@@ -290,7 +275,7 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     MORALETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "far fa-people-group",
@@ -299,7 +284,7 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     FEARTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "far fa-face-scream",
@@ -308,56 +293,32 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     TREATMENTTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
         scope: SOHL_ACTION_SCOPE.SELF,
         iconFAClass: "fas fa-staff-snake",
         executor: "treatmentTest",
-        visible: serializeFn((header: HTMLElement) => {
-            void header;
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const physician = item?.actor?.getSkillByAbbrev("pysn");
-            // return physician && !physician.system.$masteryLevel.disabled;
-        }),
+        // FIXME: original gated on actor's "pysn" skill and item.system.isBleeding;
+        // reduced to "true" pending a proper implementation.
+        visible: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     DIAGNOSISTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
         iconFAClass: "fas fa-stethoscope",
         executor: "diagnosisTest",
-        visible: serializeFn((header: HTMLElement) => {
-            const item = getContextItem(header);
-            return !!item && !(item.system as TraumaData).isTreated;
-        }),
+        visible: "defined(item) && !item.system.isTreated",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC_ACTION,
+        subType: ACTION_SUBTYPE.INTRINSIC,
         title: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
         iconFAClass: "fas fa-heart-pulse",
         executor: "healingTest",
-        visible: serializeFn((header: HTMLElement) => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     SohlContextMenu._getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        }),
+        // FIXME: original gated on actor's endurance and item.system.isBleeding;
+        // reduced to "true" pending a proper implementation.
+        visible: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<Partial<SohlActionData>>);

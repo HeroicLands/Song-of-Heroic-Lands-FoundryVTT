@@ -16,7 +16,7 @@ import type {
     SkillData,
 } from "@src/document/item/logic/SkillLogic";
 import {
-    BodyZones,
+    BodyRoles,
     SKILL_COMBAT_CATEGORY,
     SkillCombatCategories,
     SkillSubTypes,
@@ -54,13 +54,13 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
             min: 0,
         }),
         /**
-         * Body zones whose injury impairs this skill. The skill is impaired
+         * Body roles whose injury impairs this skill. The skill is impaired
          * if the actor has any unhealed injury at a body part tagged with
-         * any of these zones. Zones: vital, core, manipulator, locomotor.
-         * See BodyZone in constants for semantics.
+         * any of these roles. Roles: vital, core, manipulator, locomotor.
+         * See BodyRole in constants for semantics.
          */
-        impairedByZones: new ArrayField(
-            new StringField({ blank: false, choices: BodyZones }),
+        impairedByRoles: new ArrayField(
+            new StringField({ blank: false, choices: BodyRoles }),
             { initial: [] },
         ),
     };
@@ -88,7 +88,7 @@ export class SkillDataModel<
     combatCategory!: string;
     parentSkillCode!: string;
     initSkillMult!: number;
-    impairedByZones!: string[];
+    impairedByRoles!: string[];
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();

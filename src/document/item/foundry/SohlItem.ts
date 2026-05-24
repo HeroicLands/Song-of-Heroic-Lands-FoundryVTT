@@ -17,6 +17,7 @@ import type { HTMLString } from "@src/utils/helpers";
 import { SohlDataModel } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
+import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
 import { GearLogic } from "../logic/GearLogic";
 const { HTMLField } = foundry.data.fields;
 // TODO: This still uses the deprecated global TextEditor. Should use the
@@ -55,6 +56,49 @@ export class SohlItem extends Item {
      */
     _getContextOptions(): SohlContextMenu.Entry[] {
         return this.logic._getContextOptions();
+    }
+
+    /**
+     * Authoring gate: block non-GM users from adding, removing, or
+     * modifying SCRIPT entries in `system.actionDefs`. SCRIPT actions
+     * run unsandboxed JavaScript, so authorship is restricted to the GM.
+     * INTRINSIC actions and non-actionDefs updates are unaffected.
+     * @param changes - The changes about to be applied.
+     * @param options - Foundry update options.
+     * @param user - The user attempting the update.
+     * @returns `false` to cancel the update, otherwise delegates to super.
+     */
+    async _preUpdate(
+        changes: PlainObject,
+        options: PlainObject,
+        user: User,
+    ): Promise<boolean | void> {
+        const allowed = await super._preUpdate(
+            changes as any,
+            options as any,
+            user as any,
+        );
+        if (allowed === false) return false;
+        const newActionDefs = (changes as any)?.system?.actionDefs;
+        if (newActionDefs !== undefined) {
+            const oldActionDefs = (this.system as any)?.actionDefs;
+            if (
+                !isScriptActionMutationAllowed(
+                    oldActionDefs,
+                    newActionDefs,
+                    user,
+                )
+            ) {
+                sohl.log.warn(
+                    `Refusing actionDefs update on "${this.name}": only the GM may modify SCRIPT action entries.`,
+                    { item: this.id, user: (user as any)?.id },
+                );
+                (globalThis as any).ui?.notifications?.warn?.(
+                    "Only the GM can modify scripted actions on this item.",
+                );
+                return false;
+            }
+        }
     }
 
     /**

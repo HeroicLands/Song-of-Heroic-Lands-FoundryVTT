@@ -15,7 +15,7 @@ import {
     AttributeLogic,
     AttributeData,
 } from "@src/document/item/logic/AttributeLogic";
-import { BodyZones, ITEM_KIND } from "@src/utils/constants";
+import { BodyRoles, ITEM_KIND } from "@src/utils/constants";
 import { SohlItemDataModel } from "./SohlItem";
 const { ArrayField, SchemaField, NumberField, StringField } =
     foundry.data.fields;
@@ -43,14 +43,14 @@ function defineAttributeSchema(): foundry.data.fields.DataSchema {
         ),
         initDiceFormula: new StringField({ initial: "" }),
         /**
-         * Body zones whose injury impairs this attribute. Mirrors the same
-         * field on Skill — see SkillDataModel and BodyZone in constants.
+         * Body roles whose injury impairs this attribute. Mirrors the same
+         * field on Skill — see SkillDataModel and BodyRole in constants.
          * Mental attributes (Will, Reasoning, Empathy, etc.) leave this
          * empty; physical attributes (Strength, Agility, Dexterity, etc.)
-         * list the zones whose injury degrades them.
+         * list the roles whose injury degrades them.
          */
-        impairedByZones: new ArrayField(
-            new StringField({ blank: false, choices: BodyZones }),
+        impairedByRoles: new ArrayField(
+            new StringField({ blank: false, choices: BodyRoles }),
             { initial: [] },
         ),
     };
@@ -78,7 +78,7 @@ export class AttributeDataModel<
         maxValue: number;
     }[];
     initDiceFormula!: string;
-    impairedByZones!: string[];
+    impairedByRoles!: string[];
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAttributeSchema();
