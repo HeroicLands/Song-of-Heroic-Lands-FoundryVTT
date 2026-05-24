@@ -85,7 +85,7 @@ Pure game-mechanics objects live in `src/domain/`:
 | `domain/modifier/` | `ValueModifier` — the core tracked-value primitive. Almost every derived number is a ValueModifier. |
 | `domain/result/` | Test and combat results — the output of skill checks, attacks, defenses. |
 | `domain/body/` | Body structure — anatomy, hit locations, aimed strike resolution. |
-| `domain/movement/` | Movement profiles per medium. |
+| `domain/movement/` | Per-medium base-move lookup (`readBaseMove`). |
 | `domain/action/` | Action definitions — context menu entries and executable logic. |
 | `domain/SkillBase.ts` | Skill base formula computation from traits. |
 

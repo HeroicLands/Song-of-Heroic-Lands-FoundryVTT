@@ -26,7 +26,7 @@ src/
 │   ├── action/                Action definitions (SohlAction)
 │   ├── body/                  Body structure (BodyStructure, BodyPart, BodyLocation)
 │   ├── modifier/              Value tracking (ValueModifier, MasteryLevelModifier, etc.)
-│   ├── movement/              Movement profiles (MovementProfile)
+│   ├── movement/              Move-base helpers (readBaseMove)
 │   ├── result/                Test results (SuccessTestResult, CombatResult, etc.)
 │   └── SkillBase.ts           Skill base formula computation
 │
@@ -39,10 +39,9 @@ src/
 │   │   └── logic/             Logic classes + Data interfaces
 │   ├── effect/                SohlActiveEffect
 │   ├── combat/                SohlCombat
-│   ├── combatant/             SohlCombatant
+│   ├── combatant/             SohlCombatant + combat tracker hooks
 │   ├── token/                 SohlTokenDocument
-│   ├── scene/                 SohlScene
-│   └── region/                SohlRegion
+│   └── scene/                 SohlScene
 │
 ├── utils/                 Shared utilities
 │   ├── constants.ts           Type enums, action definitions, metadata
@@ -78,7 +77,7 @@ Logic classes handle game rules, calculations, and actions — separated from Fo
 
 ### Domain layer
 
-Pure game-mechanics objects in `src/domain/` — modifiers, test results, body structure, movement profiles, skill base computation. These have no Foundry dependency at all and are fully unit-testable.
+Pure game-mechanics objects in `src/domain/` — modifiers, test results, body structure, move-base helpers, skill base computation. These have no Foundry dependency at all and are fully unit-testable.
 
 ### Presentation layer
 
@@ -148,7 +147,7 @@ Game-mechanics value objects in `src/domain/` are rebuilt from persisted data ea
 | `domain/modifier/` | `ValueModifier`, `MasteryLevelModifier`, `ImpactModifier`, `CombatModifier` | Auditable tracked values with base + deltas |
 | `domain/result/` | `SuccessTestResult`, `OpposedTestResult`, `AttackResult`, `DefendResult`, `CombatResult` | Test and combat resolution outcomes |
 | `domain/body/` | `BodyStructure`, `BodyPart`, `BodyLocation` | Anatomical structure with weighted hit location selection |
-| `domain/movement/` | `MovementProfile` | Movement speeds per medium with modifier factors |
+| `domain/movement/` | `readBaseMove` | Per-medium base move lookup used by `BeingLogic.effectiveBaseMove` |
 | `domain/action/` | `SohlAction` | Executable action definitions (context menu entries, chat buttons) |
 | `domain/` | `SkillBase` | Skill base formula computation from traits |
 

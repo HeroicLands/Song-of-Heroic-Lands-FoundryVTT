@@ -184,7 +184,7 @@ npm run test -- tests/domain/modifier/ValueModifier.test.ts
 
 ### 3. Key patterns for mocking
 
-**Domain objects with a `beingLogic` parent** (body structure, movement profiles):
+**Domain objects with a `beingLogic` parent** (e.g. body structure):
 
 ```typescript
 const MOCK_BEING_LOGIC = {

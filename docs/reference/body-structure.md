@@ -18,147 +18,194 @@ audience: Developers and content authors defining creature anatomy.
 
 ## Overview
 
-Every creature (i.e. Being actor) in the game is defined by a body structure — a hierarchical anatomy that determines where blows land, how armor protects, and how injuries impair function. This data drives hit location selection during combat and determines which skills and attributes are affected by injuries to specific parts.
+Every creature (a Being actor) takes its anatomy from a **Lineage** item attached to it. The lineage's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble.
 
-The structure has three parts: a hierarchical set of body parts and body locations, and the adjacency relationships which describe which parts are located next to other parts.
+A body structure has three parts: a list of **body parts**, the **body locations** nested within each part, and an **adjacency graph** describing which parts are next to which. A cross-cutting tag set of **body roles** ties parts to the skills and attributes they affect.
 
-Parts and locations are identified by **shortcodes** (e.g., `head`, `skull`). Display names are localized via `SOHL.BodyPart.<shortcode>` and `SOHL.BodyLocation.<shortcode>` keys in `lang/en.json`.
+## Where the data lives
 
-## Body Parts
+The schema is defined on the Lineage item, not on the Being actor. See [src/document/item/foundry/LineageDataModel.ts](../../src/document/item/foundry/LineageDataModel.ts):
 
-A body part is the primary anatomical division. A standard humanoid has six parts: Head, Right Arm, Left Arm, Torso, Right Leg, and Left Leg. Other creature types have different layouts — a quadruped might have Head, Right Foreleg, Left Foreleg, Torso, Right Hindleg, and Left Hindleg; a dragon might add Neck, Wings, and Tail; a serpent might have just Head, Fore Body, Mid Body, and Hind Body.
+```
+system.bodyStructure
+  ├── parts: BodyPart.Data[]   // each with its locations[]
+  └── adjacent: string[][]      // pairs of part shortcodes
+```
 
-Each body part has several properties:
+At runtime, the data is rebuilt into domain objects in [src/domain/body/](../../src/domain/body/):
 
-**Area.** The body part's targetable surface area, measured in square feet. For a humanoid, the Head is about 1 sq ft, each arm about 2 sq ft, the Torso about 3 sq ft, and each leg about 2 sq ft, for a total body area of roughly 12 sq ft. Larger creatures have proportionally greater area. A bear might total 18 sq ft; a dragon might total 60 or more.
+- `BodyStructure` — the root object; provides hit-location resolution and adjacency queries
+- `BodyPart` — one anatomical division
+- `BodyLocation` — one hit location within a part
 
-**Adjacency.** Each body part is connected to one or more other parts, forming a graph that represents which parts of the body are near each other. In the humanoid layout, the Torso is the central hub: the Head, both Arms, and both Legs all connect to it. A blow aimed at one part that scatters (see Determining Hit Location) can only reach parts that are adjacent on this graph. The adjacency graph varies by creature type — a serpent's parts form a linear chain, while a dragon's branch out from the torso to neck, limbs, wings, and tail.
+Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through `document.update()` survive. To persist, use the `*Update()` helpers on `BodyStructure` (`addPartUpdate`, `removePartUpdate`, `addEdgeUpdate`, `removeEdgeUpdate`).
 
-**Affected Skills and Attributes.** Each body part identifies which skills and attributes are impaired when it sustains injury. Arm parts affect Melee, Archery, Climbing, Legerdemain, and similar skills, as well as Dexterity and Strength. Leg parts affect Acrobatics, Climbing, Riding, and Agility. The Head and Torso affect broad ranges of physical skills and attributes. These lists may differ for non-humanoid creatures.
+## Body parts
 
-**Affects Mobility.** Some body parts, when injured, reduce a character's movement speed. The Head, Torso, and both Leg parts affect mobility; the Arm parts generally do not.
+A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, per [LineageDataModel.ts:44-153](../../src/document/item/foundry/LineageDataModel.ts#L44-L153):
 
-**Can Hold Items.** Whether this part can grip or carry objects. Both arm parts can hold items; the head, torso, and legs cannot. When an injury disables a part that holds an item, the character drops whatever it held.
+| Field | Type | Purpose |
+|---|---|---|
+| `shortcode` | string | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths. |
+| `name` | string | Display name (e.g., `"Head"`). Stored literally; not a localization key. |
+| `roles` | `BodyRole[]` | Functional tags the part fulfills — see [Body Roles](#body-roles). |
+| `combatArea` | number | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection. |
+| `canHoldItem` | boolean | Whether this part can grip an item. Arms typically `true`; others `false`. |
+| `heldItemId` | string \| null | The ID of the item currently held, if any. |
+| `favoredFlag` | boolean | Marks the part as favored (off-hand vs. main-hand semantics). |
+| `locations` | `BodyLocation.Data[]` | The hit locations nested within this part. |
 
-## Body Locations
+A convenience getter `BodyPart.affectsMobility` is `true` when the part has any of the `vital`, `core`, or `locomotor` roles ([src/domain/body/BodyPart.ts:54-61](../../src/domain/body/BodyPart.ts#L54-L61)).
 
-Each body part contains several body locations — specific anatomical areas where a blow might land. The Right Arm part, for example, contains five locations: Right Shoulder, Right Upper Arm, Right Elbow, Right Forearm, and Right Hand. The Head part contains locations for the Skull, each Eye, Nose, Cheeks, Ears, Mouth, Jaw, and Neck.
+## Body locations
 
-Injuries are always recorded against a specific body location. Armor protection is likewise tracked per location — a mail hauberk covers the thorax and abdomen but not the pelvis, while a helm protects the skull but not the neck. Each body location has several properties that govern how damage is resolved there:
+A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, per [LineageDataModel.ts:88-150](../../src/document/item/foundry/LineageDataModel.ts#L88-L150):
 
-**Probability Weight.** A relative value determining how likely this location is to be struck within its parent body part. Larger or more exposed areas (the skull, the thorax, the thigh) have higher weights than smaller ones (an eye, the elbow, the hand).
+| Field | Type | Purpose |
+|---|---|---|
+| `shortcode` | string | Stable identifier (e.g., `skullloc`, `relbloc`). |
+| `name` | string | Display name (e.g., `"Skull"`). Stored literally. |
+| `probWeight` | integer | Relative weight for random hit selection within the parent part. |
+| `shockValue` | integer | Inherent shock inflicted by an injury at this location, regardless of severity. |
+| `bleedingSusceptibility` | tier | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds. |
+| `amputability` | tier | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
+| `protectionBase` | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts). |
 
-**Shock Value.** The inherent shock inflicted when this location is struck, independent of injury severity. The skull and neck carry high shock values (5); the forearm and calf carry low ones (1). Shock contributes to whether the target must make a Shock test to remain conscious and functional.
+Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
 
-**Bleeding Severity Threshold.** The minimum injury level at which a wound to this location begins to bleed. Locations with major blood vessels (the neck, threshold 3; the abdomen, threshold 3) bleed from less severe wounds than locations with minimal vasculature (the hand or foot, threshold 0, meaning they rarely bleed dangerously).
+## Body roles
 
-**Amputate Modifier.** A penalty applied to any attempt to surgically amputate at this location. Joints and extremities (hand at −30, elbow at −20) are easier to amputate than mid-limb locations (upper arm at −20), while some locations (the skull, the torso) cannot be amputated at all (modifier 0, with amputation disallowed by rule).
+A cross-cutting tag set. The four values, defined in [src/utils/constants.ts](../../src/utils/constants.ts) under `BODY_ROLE`:
 
-**Fumble and Stumble.** Certain locations, when struck, can cause the target to lose control of held items or lose footing. All arm locations are marked as fumble locations — a blow to the shoulder, elbow, or hand may cause the character to drop a weapon or tool. All leg locations are marked as stumble locations — a blow to the thigh, knee, or foot may cause the character to fall or stagger.
+| Role | Anatomical examples |
+|---|---|
+| `vital` | Brain, sensory organs, vital nerve clusters. Head for vertebrates; cephalothorax for arachnids; ganglia for invertebrates. |
+| `core` | Power and balance. Torso for humans; abdomen for insects; mantle for cephalopods; body segments for snakes. |
+| `manipulator` | Fine work and intentional force. Arms, paws, tentacles, trunks; jaws used as bite-weapons. |
+| `locomotor` | Movement. Legs, wings, fins; tentacles used for swimming. |
 
-## Standard body part shortcodes
+A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipulator]`; its head `[vital, manipulator]` (bite attacks).
 
-### Humanoid
+**What roles drive:**
 
-| Shortcode | Description    | Area | Locations                                                                                        |
-| --------- | -------------- | ---- | ------------------------------------------------------------------------------------------------ |
-| `head`    | Head           | 1    | Skull, Left Eye, Right Eye, Nose, Left Cheek, Right Cheek, Left Ear, Right Ear, Mouth, Jaw, Neck |
-| `torso`   | Center of Body | 3    | Thorax, Abdomen, Pelvis                                                                          |
-| `larm`    | Left Arm       | 2    | Left Shoulder, Left Upper Arm, Left Elbow, Left Forearm, Left Hand                               |
-| `rarm`    | Right Arm      | 2    | Right Shoulder, Right Upper Arm, Right Elbow, Right Forearm, Right Hand                          |
-| `lleg`    | Left Leg       | 2    | Left Thigh, Left Knee, Left Calf, Left Foot                                                      |
-| `rleg`    | Right Leg      | 2    | Right Thigh, Right Knee, Right Calf, Right Foot                                                  |
-
-### Quadruped (horse, wolf, bear, cattle)
-
-| Shortcode      | Description                   |
-| -------------- | ----------------------------- |
-| `head`         | Head                          |
-| `neck`         | Neck                          |
-| `forequarters` | Forequarters (shoulder/chest) |
-| `barrel`       | Barrel (torso/ribcage)        |
-| `hindquarters` | Hindquarters (hip/rump)       |
-| `lforeleg`     | Left Foreleg                  |
-| `rforeleg`     | Right Foreleg                 |
-| `lhindleg`     | Left Hind Leg                 |
-| `rhindleg`     | Right Hind Leg                |
-| `tail`         | Tail                          |
-
-### Avian (eagle, griffin)
-
-| Shortcode | Description  |
-| --------- | ------------ |
-| `head`    | Head         |
-| `body`    | Body (torso) |
-| `lwing`   | Left Wing    |
-| `rwing`   | Right Wing   |
-| `lleg`    | Left Leg     |
-| `rleg`    | Right Leg    |
-| `tail`    | Tail         |
-
-### Serpentine (snake, wyrm, dragon)
-
-| Shortcode               | Description            |
-| ----------------------- | ---------------------- |
-| `head`                  | Head                   |
-| `neck`                  | Neck                   |
-| `forebody`              | Forebody (front coils) |
-| `midbody`               | Midbody                |
-| `hindbody`              | Hindbody (rear coils)  |
-| `tail`                  | Tail                   |
-| `lwing` / `rwing`       | Wings (dragons)        |
-| `lforeleg` / `rforeleg` | Forelegs (dragons)     |
-| `lhindleg` / `rhindleg` | Hind legs (dragons)    |
-
-### Multi-limbed (spider, insect)
-
-| Shortcode       | Description                               |
-| --------------- | ----------------------------------------- |
-| `cephalothorax` | Cephalothorax                             |
-| `abdomen`       | Abdomen                                   |
-| `lleg` / `rleg` | Legs (use numbered variants for 4+ pairs) |
-
-## Standard body location shortcodes
-
-Locations are nested within parts. A single shortcode (e.g., `skull`) may appear in different creature types' anatomy.
-
-### Head / face locations
-
-`skull`, `face`, `temple`, `crown`, `eye`, `ear`, `nose`, `chin`, `jaw`, `beak`, `muzzle`, `snout`, `fang`, `crest`
-
-### Neck / throat
-
-`throat`, `nape`
-
-### Torso locations
-
-`chest`, `breast`, `ribs`, `upperback`, `belly`, `abdomen`, `loin`, `lowerback`, `groin`, `spine`, `flank`, `underbelly`, `withers`, `rump`
-
-### Arm / wing locations
-
-`shoulder`, `upperarm`, `elbow`, `forearm`, `wrist`, `hand`, `wingspar`, `wingmembrane`
-
-### Leg locations
-
-`hip`, `thigh`, `knee`, `shin`, `calf`, `ankle`, `foot`, `paw`, `talon`, `hoof`, `haunch`, `stifle`, `hock`, `fetlock`, `pastern`
-
-### Tail locations
-
-`tailbase`, `tailtip`, `scales`
+1. **Skill / attribute impairment.** Skills and attributes carry an `impairedByRoles: BodyRole[]` field. When a body part takes an injury, every skill and attribute whose `impairedByRoles` intersects the part's `roles` is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See [src/document/item/foundry/SkillDataModel.ts](../../src/document/item/foundry/SkillDataModel.ts) and [AttributeDataModel.ts](../../src/document/item/foundry/AttributeDataModel.ts).
+2. **Mobility impairment.** `BodyPart.affectsMobility` returns `true` when the part has any of `vital`, `core`, or `locomotor`.
+3. **Mishap checks** (fumble / stumble) on injury severity:
+    - `vital` Serious → fumble + stumble check; Grievous → both auto
+    - `core` Serious → fumble + stumble check; Grievous → both auto
+    - `manipulator` Serious → fumble check; Grievous → auto fumble
+    - `locomotor` Serious → stumble check; Grievous → auto stumble
 
 ## Adjacency
 
-The adjacency graph defines which parts are located next to other parts, and is represented by a tuple partA:partB, indicating that partA and partB are next to each other. The relationship is bi-directional, so if partA is next to partB, then partB is also next to partA. These relationships drive the aimed strike drift algorithm (see [Combat Basics](../user-guide/combat-basics.md)).
+The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:
 
-## Adding new shortcodes
+```json
+"adjacent": [
+    ["headpart", "torsopart"],
+    ["headpart", "rarmpart"],
+    ["torsopart", "rarmpart"],
+    ["torsopart", "rlegpart"]
+]
+```
 
-1. Add the shortcode to the Being actor's `bodyStructure.parts` or `locations` array data.
-2. Add localization keys to `lang/en.json`:
-    - Parts: `"SOHL.BodyPart.<shortcode>": "Display Name"`
-    - Locations: `"SOHL.BodyLocation.<shortcode>": "Display Name"`
-3. Update adjacency as needed.
+Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ([BodyStructure.getRandomPart](../../src/domain/body/BodyStructure.ts#L97-L136)):
 
-# See Also
+1. Roll `1..accuracy`.
+2. If the roll ≤ the current target part's `probWeight`, that part is hit.
+3. Otherwise, reduce remaining accuracy by `probWeight` and drift to a random adjacent part. Repeat.
+4. If the drift reaches a part with no unvisited neighbors, hit that part.
+
+For unaimed attacks (`getRandomPart()` with no target), pure weighted random selection is used, with each part's `combatArea` as its weight.
+
+## Hit-location pipeline
+
+`BodyStructure.getRandomLocation(target?)` is the canonical entry point during attack resolution:
+
+1. `getRandomPart(target?)` selects a part (aimed drift, or pure weighted random).
+2. The selected part's `getRandomLocation()` picks a location within it, weighted by each location's `probWeight`.
+
+For the broader resolution flow (rolls → wound calculation → effects), see [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
+
+## Localization
+
+Two parallel mechanisms exist:
+
+- **Literal `name` fields** on each part and location, baked into the compendium JSON in the active language (`"name": "Skull"`). This is what the system reads at runtime.
+- **`SOHL.BodyPart.<bare-shortcode>` and `SOHL.BodyLocation.<bare-shortcode>` keys** in [lang/en.json](../../lang/en.json). Keys use bare names (`SOHL.BodyPart.head`, `SOHL.BodyLocation.skull`) without the `*part` / `*loc` suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal `name` field on the compendium item is preferred when the item is in hand.
+
+When authoring a new lineage, set the literal `name` field and add the corresponding localization key for the bare shortcode.
+
+## Reference: Human lineage
+
+The only lineage shipped today is **Human** ([assets/packs/items/_source/Human_R0F5737O8cfOraMc.json](../../assets/packs/items/_source/Human_R0F5737O8cfOraMc.json)). Its body structure:
+
+| Part shortcode | Name | Roles | `combatArea` | Can hold |
+|---|---|---|---:|---|
+| `headpart` | Head | `vital` | 1 | no |
+| `torsopart` | Torso | `core` | 4 | no |
+| `larmpart` | Left Arm | `manipulator` | 2 | yes |
+| `rarmpart` | Right Arm | `manipulator` | 2 | yes |
+| `llegpart` | Left Leg | `locomotor` | 3 | no |
+| `rlegpart` | Right Leg | `locomotor` | 3 | no |
+
+Locations:
+
+| Part | Location shortcodes |
+|---|---|
+| `headpart` | `skullloc`, `leyeloc`, `reyeloc`, `noseloc`, `lcheekloc`, `rcheekloc`, `learloc`, `rearloc`, `mouthloc`, `jawloc`, `neckloc` |
+| `torsopart` | `thrxloc`, `abdmnloc`, `plvisloc` |
+| `larmpart` | `lshldloc`, `lupaloc`, `lelbloc`, `lfraloc`, `lhandloc` |
+| `rarmpart` | `rshldloc`, `rupaloc`, `relbloc`, `rfraloc`, `rhandloc` |
+| `llegpart` | `lthghloc`, `lkneeloc`, `lcalfloc`, `lfootloc` |
+| `rlegpart` | `rthghloc`, `rkneeloc`, `rcalfloc`, `rfootloc` |
+
+Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.
+
+## Suggested shortcode conventions for new lineages
+
+Suffix every part shortcode with `part` and every location shortcode with `loc`. Use `l*` / `r*` prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only Human is in the compendium today.
+
+### Quadruped (horse, wolf, bear)
+
+`headpart`, `neckpart`, `forequarterspart`, `barrelpart`, `hindquarterspart`, `lforelegpart`, `rforelegpart`, `lhindlegpart`, `rhindlegpart`, `tailpart`.
+
+### Avian (eagle, griffin)
+
+`headpart`, `bodypart`, `lwingpart`, `rwingpart`, `llegpart`, `rlegpart`, `tailpart`.
+
+### Serpentine (snake, wyrm, dragon)
+
+`headpart`, `neckpart`, `forebodypart`, `midbodypart`, `hindbodypart`, `tailpart`; dragons add `lwingpart` / `rwingpart` and four legs.
+
+### Multi-limbed (spider, insect)
+
+`cephalothoraxpart`, `abdomenpart`; legs numbered for clarity when more than two pairs.
+
+## Adding a body part to a lineage
+
+Use `BodyStructure.addPartUpdate(partData)` to build the update payload:
+
+```typescript
+const update = bodyStructure.addPartUpdate({
+    shortcode: "tailpart",
+    name: "Tail",
+    roles: ["locomotor"],
+    favoredFlag: false,
+    canHoldItem: false,
+    heldItemId: null,
+    combatArea: 1,
+    locations: [/* BodyLocation.Data entries */],
+});
+await lineageItem.update(update);
+```
+
+To wire it into adjacency: `bodyStructure.addEdgeUpdate("tailpart", "hindquarterspart")` returns the update payload to add the edge.
+
+Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocation.<each location>`) belong in [lang/en.json](../../lang/en.json).
+
+## See Also
 
 - [Type Catalog](./type-catalog.md)
-- [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
+- [Combat Resolution Pipeline](./combat-resolution-pipeline.md)
+- [Injuries and Healing](./injuries-healing.md)

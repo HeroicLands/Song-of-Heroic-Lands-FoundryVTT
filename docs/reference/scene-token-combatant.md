@@ -1,6 +1,6 @@
 # Scene, Token, and Combatant Systems
 
-> **Audience:** Developers working with tactical targeting, initiative, encounter metadata, or weather/time simulation.
+> **Audience:** Developers working with tactical targeting, initiative, and combatant state.
 
 See also: [SoHL Architecture (Overview)](../concepts/architecture.md), [Combat Resolution Pipeline](./combat-resolution-pipeline.md).
 
@@ -40,29 +40,22 @@ Primary file:
 
 Helper methods expose and mutate these relations (`addAlly`, `removeAlly`, `addThreatened`, `removeThreatened`, `threatenedBy`).
 
-## Scene encounter/biome data
+### Movement state
 
-Primary files:
+`SohlCombatant` carries two movement-related system fields, both encounter-scoped (created with the combatant, destroyed when removed):
 
-- `src/document/scene/SceneData.ts`
-- `src/document/scene/Encounter.ts`
+- `moveFactor: number` — situational multiplier the GM sets to express run/sprint/encumbrance/terrain. Defaults to 1.
+- `displayedMedium: MovementMedium` — which medium's computed move is shown in the tracker. Seeded at `_preCreate` time from the actor's lineage `defaultMoveMedium`.
 
-Current scene-side structures define:
+`combatant.computedMove(medium)` returns `effectiveBaseMove(medium) × moveFactor` (or `null` when the actor cannot move in that medium). `combatant.displayedMove` is the convenience getter the combat tracker reads.
 
-- terrain-to-biome mappings,
-- per-cell biome/terrain grids,
-- biome encounter definitions,
-- encounter probability and cooldown/count metadata.
+Base-move values live on the actor's Lineage item as a `moveBase: { terrestrial, aquatic, aerial, burrowing, astral }` dict. Active Effects target individual entries (e.g. `system.moveBase.terrestrial`) directly. Nothing else — overland speed, weather, terrain, encumbrance — is modeled by the system.
 
-These files are currently type/interface oriented and function as data contracts for scene systems.
-
-## Calendar and weather
+## Calendar
 
 Primary file:
 
 - `src/core/SohlCalendar.ts`
-
-### Calendar
 
 `SohlCalendarData` extends Foundry calendar data with era metadata and formatting helpers:
 
@@ -75,5 +68,5 @@ Primary file:
 
 - Use token helper methods instead of duplicating target/selection/range logic.
 - Keep initiative semantics aligned with skill-driven design.
-- Treat scene encounter/biome interfaces as shared contracts across tools/scripts.
-- For weather or calendar changes, preserve deterministic data shapes and enum bounds.
+- For overland travel, weather, and terrain effects, leave it to GM narrative — the system does not model these.
+- For calendar changes, preserve deterministic data shapes and enum bounds.

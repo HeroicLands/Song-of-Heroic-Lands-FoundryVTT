@@ -11,6 +11,8 @@ audience: Developers and content authors defining creature anatomy.
 
 # Combat
 
+For the user-facing workflow — how a player drives an attack from clicking the Combat tab through to recording the injury — see [Combat Modes](./combat-modes.md). The two flows (Assisted and Automated) both consume the mechanics described below.
+
 ## Strike Accuracy
 
 Every weapon has a strike accuracy value that represents the area of the body (in square feet) that the weapon can threaten in a single strike. A precise, close-range weapon like a dagger has a low strike accuracy (4), meaning its blow is confined to a small region. A broad-swinging weapon like a broadsword has a higher strike accuracy (6), and a long polearm or flail higher still. The value corresponds directly to the zone die size used in compatible systems (a d4 zone die = strike accuracy 4, a d6 = 6, and so on).

@@ -30,10 +30,13 @@ Choose a path based on your goal:
 - [Type Catalog](reference/type-catalog.md)
 - [Modifier Model](reference/modifier-model.md)
 - [Combat Resolution Pipeline](reference/combat-resolution-pipeline.md)
+- [Combat Modes](reference/combat-modes.md)
 - [Body Structure](reference/body-structure.md)
 - [Effects Integration](reference/effects-integration.md)
 - [Runtime Contracts](reference/runtime-contracts.md)
 - [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
+- [Calendar](reference/calendar.md)
+- [Event Queue](reference/event-queue.md)
 - [Journal Generation Spec](reference/journal-generation-spec.md)
 
 ## Authoring sources
