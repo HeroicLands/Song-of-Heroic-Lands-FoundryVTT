@@ -620,20 +620,6 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
-    kind: BEING_EFFECT_KEY,
-    values: BeingEffectKey,
-    isValue: isBeingEffectKey,
-    labels: BeingEffectKeyLabels,
-} = defineType("SOHL.Being.EffectKey", {
-    ENGOPP: {
-        name: "mod:system.engagedOpponents",
-        shortcode: "EngOpp",
-    },
-} as PlainObject);
-export type SohlBeingEffectKey =
-    (typeof BEING_EFFECT_KEY)[keyof typeof BEING_EFFECT_KEY];
-
-export const {
     kind: MASTERY_EFFECT_KEYS,
     values: MasteryEffectKeys,
     isValue: isMasteryEffectKey,
@@ -646,46 +632,6 @@ export const {
 });
 export type EffectKey =
     (typeof MASTERY_EFFECT_KEYS)[keyof typeof MASTERY_EFFECT_KEYS];
-
-export const {
-    kind: SOHL_EVENT_STATE,
-    values: SohlEventStates,
-    isValue: isSohlEventState,
-    labels: SohlEventStateLabels,
-} = defineType("SOHL.Event.State", {
-    CREATED: "created", // SohlEvent has been created
-    INITIATED: "initiated", // SohlEvent has been initiated
-    ACTIVATED: "activated", // SohlEvent has been activated
-    EXPIRED: "expired", // SohlEvent has expired
-});
-export type SohlEventState =
-    (typeof SOHL_EVENT_STATE)[keyof typeof SOHL_EVENT_STATE];
-
-export const {
-    kind: SOHL_EVENT_TERM,
-    values: SohlEventTerms,
-    isValue: isSohlEventTerm,
-    labels: SohlEventTermLabels,
-} = defineType("SOHL.Event.Term", {
-    DURATION: "duration", // SohlEvent will last for a duration
-    INDEFINITE: "indefinite", // SohlEvent will last indefinitely until manually expired
-    PERMANENT: "permanent", // SohlEvent will last permanently
-});
-export type SohlEventTerm =
-    (typeof SOHL_EVENT_TERM)[keyof typeof SOHL_EVENT_TERM];
-
-export const {
-    kind: SOHL_EVENT_REPEAT,
-    values: SohlEventRepeats,
-    isValue: isSohlEventRepeat,
-    labels: SohlEventRepeatLabels,
-} = defineType("SOHL.Event.Repeat", {
-    NONE: "none", // SohlEvent will not repeat
-    ONCE: "once", // SohlEvent will repeat once
-    REPEATED: "repeated", // SohlEvent will repeat multiple times
-});
-export type SohlEventRepeat =
-    (typeof SOHL_EVENT_REPEAT)[keyof typeof SOHL_EVENT_REPEAT];
 
 /**
  * Constants for the Heal Rate of an Affliction.
