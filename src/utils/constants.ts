@@ -352,19 +352,6 @@ export const {
 export type BodyRole = (typeof BODY_ROLE)[keyof typeof BODY_ROLE];
 
 export const {
-    kind: SEASON,
-    values: Seasons,
-    isValue: isSeason,
-    labels: seasonLabels,
-} = defineType("SOHL.Season", {
-    SPRING: "spring",
-    SUMMER: "summer",
-    AUTUMN: "autumn",
-    WINTER: "winter",
-});
-export type Season = (typeof SEASON)[keyof typeof SEASON];
-
-export const {
     kind: COHORT_MEMBER_ROLE,
     values: CohortMemberRoles,
     isValue: isCohortMemberRole,
