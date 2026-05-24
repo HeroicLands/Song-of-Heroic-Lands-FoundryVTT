@@ -15,7 +15,7 @@ import type { BodyStructure } from "@src/domain/body/BodyStructure";
 import { BodyLocation } from "@src/domain/body/BodyLocation";
 import { weightedRandom } from "@src/domain/body/WeightedRandom";
 import { SohlItem } from "@src/document/item/foundry/SohlItem";
-import { BODY_ZONE } from "@src/utils/constants";
+import { BODY_ROLE } from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
@@ -23,11 +23,11 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * e.g., "Head" (containing Skull, Face), "Left Arm" (containing Upper Arm,
  * Elbow, Forearm, Hand).
  *
- * Each part is tagged with one or more {@link BodyZone}s describing which
+ * Each part is tagged with one or more {@link BodyRole}s describing which
  * functional roles it fulfills (VITAL, CORE, MANIPULATOR, LOCOMOTOR). Skills
- * and attributes declare which zones impair them; injury at a part impairs
- * every skill/attribute that lists any of the part's zones. Mishap behavior
- * (fumble/stumble checks) is also zone-driven; see BodyZone in constants.
+ * and attributes declare which roles impair them; injury at a part impairs
+ * every skill/attribute that lists any of the part's roles. Mishap behavior
+ * (fumble/stumble checks) is also role-driven; see BodyRole in constants.
  *
  * **Lifecycle:** Rebuilt from persisted schema data on every preparation
  * cycle. May be mutated during the lifecycle (e.g., modifiers applied by
@@ -36,7 +36,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  */
 export class BodyPart {
     readonly shortcode: string;
-    readonly zones: string[];
+    readonly roles: string[];
     readonly canHoldItem: boolean;
     readonly heldItem: SohlItem | null;
     readonly probWeight: ValueModifier;
@@ -47,16 +47,16 @@ export class BodyPart {
 
     /**
      * Convenience predicate: this part affects mobility if it carries any
-     * of the mobility-relevant zones (VITAL, CORE, or LOCOMOTOR). Pure
+     * of the mobility-relevant roles (VITAL, CORE, or LOCOMOTOR). Pure
      * MANIPULATOR-tagged parts (arms, hands) don't drop a creature when
      * injured, so their injury doesn't impair mobility.
      */
     get affectsMobility(): boolean {
-        return this.zones.some(
-            (z) =>
-                z === BODY_ZONE.VITAL ||
-                z === BODY_ZONE.CORE ||
-                z === BODY_ZONE.LOCOMOTOR,
+        return this.roles.some(
+            (r) =>
+                r === BODY_ROLE.VITAL ||
+                r === BODY_ROLE.CORE ||
+                r === BODY_ROLE.LOCOMOTOR,
         );
     }
 
@@ -67,7 +67,7 @@ export class BodyPart {
     ) {
         const actor = bodyStructure.lineageLogic.actor;
         this.shortcode = data.shortcode;
-        this.zones = [...data.zones];
+        this.roles = [...data.roles];
         this.canHoldItem = data.canHoldItem;
         this.heldItem =
             data.heldItemId ?
@@ -146,8 +146,8 @@ export namespace BodyPart {
     /** Persisted data shape for a body part. */
     export interface Data {
         shortcode: string;
-        /** Functional zones this part fulfills (BodyZone values). */
-        zones: string[];
+        /** Functional roles this part fulfills (BodyRole values). */
+        roles: string[];
         canHoldItem: boolean;
         heldItemId: string | null;
         probWeight: number;

@@ -248,7 +248,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         const currentId = game.settings.get("sohl", "activeCalendar");
         if (newActiveId !== currentId) {
             await game.settings.set("sohl", "activeCalendar", newActiveId);
-            // requiresReload on the setting triggers Foundry's reload prompt
+            // The setting's onChange invokes SohlSystem.applyCalendar,
+            // which re-initializes game.time on every connected client.
         }
     }
 }

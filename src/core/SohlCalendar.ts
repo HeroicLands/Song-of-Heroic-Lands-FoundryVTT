@@ -136,10 +136,12 @@ export class SohlCalendarData extends foundry.data
             time,
         ) as SohlCalendarComponents;
         if (components.year < 0) {
+            components.beforeEra = true;
             components.eraName = this.era.beforeName;
             components.eraAbbrev = this.era.beforeAbbrev;
             components.eraYear = Math.abs(components.year);
         } else {
+            components.beforeEra = false;
             components.eraName = this.era.name;
             components.eraAbbrev = this.era.abbrev;
             components.eraYear =
@@ -151,57 +153,72 @@ export class SohlCalendarData extends foundry.data
     /**
      * Format time components as a YYYY-MM-DD HH:MM:SS timestamp.
      * @remarks
-     * Example: " 1921-01-01 00:00:00" (note the preceeding space)
-     * (or "-0051-01-01 00:00:00" for year 51 before the era)
+     * SoHL calendar: " 0722-04-15 14:30:00" (leading space for after-era)
+     * or "-0051-04-15 00:00:00" for 51 years before the era.
+     * Foreign calendar: the same shape without the era-sign prefix and
+     * without year-zero adjustment.
      * @param calendar - The calendar to use for formatting
      * @param components - The time components to format
      * @param options - Formatting options (not used)
      * @returns The formatted timestamp
      */
     static override formatTimestamp(
-        calendar: SohlCalendarData,
-        components: SohlCalendarComponents,
+        calendar: foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents>,
+        components: foundry.data.CalendarData.TimeComponents,
         _options: PlainObject = {},
     ): string {
-        // Ensure components are normalized
         components = calendar.timeToComponents(
             calendar.componentsToTime(components),
         );
-        let eraYear = components.year;
-        if (!components.beforeEra) {
-            eraYear += calendar.era.hasYearZero ? 0 : 1;
-        }
-        const yyyy = eraYear.paddedString(4);
-        const month = calendar.months.values[components.month];
+        const month = calendar.months!.values[components.month];
         const mm = month.ordinal.paddedString(2);
         const dd = (components.dayOfMonth + 1).paddedString(2);
         const h = components.hour.paddedString(2);
         const m = components.minute.paddedString(2);
         const s = components.second.paddedString(2);
-        return `${components.beforeEra ? "-" : " "}${yyyy}-${mm}-${dd} ${h}:${m}:${s}`;
+
+        if (calendar instanceof SohlCalendarData) {
+            const sc = components as SohlCalendarComponents;
+            const yyyy = sc.eraYear.paddedString(4);
+            return `${sc.beforeEra ? "-" : " "}${yyyy}-${mm}-${dd} ${h}:${m}:${s}`;
+        }
+
+        const yyyy = components.year.paddedString(4);
+        return `${yyyy}-${mm}-${dd} ${h}:${m}:${s}`;
     }
 
     /**
-     * Format time components using the default formatting rules, e.g.,
-     * "5 Springtide 722CE 14:30:00".
+     * Format time components using the default formatting rules.
+     * @remarks
+     * SoHL calendar: "15 Highsun 722TR 14:30:00".
+     * Foreign calendar: "15 {monthName} {year} 14:30:00" (no era data).
      * @param calendar - The calendar to use for formatting
      * @param components - The time components to format
      * @param options - Formatting options (not used)
      * @returns The formatted timestamp
      */
     static formatDefault(
-        calendar: SohlCalendarData,
-        components: SohlCalendarComponents,
+        calendar: foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents>,
+        components: foundry.data.CalendarData.TimeComponents,
         _options: PlainObject = {},
     ): string {
-        // Ensure components are normalized
         components = calendar.timeToComponents(
             calendar.componentsToTime(components),
         );
+        const dd = components.dayOfMonth + 1;
+        const monthName =
+            calendar.months!.values[components.month]?.name ?? "";
+        const hh = String(components.hour).padStart(2, "0");
+        const mm = String(components.minute).padStart(2, "0");
+        const ss = String(components.second).padStart(2, "0");
 
-        return `${components.dayOfMonth + 1} ${calendar.getMonthName(components.month)} ${components.eraYear}${components.eraAbbrev} ${String(components.hour).padStart(2, "0")}:${String(components.minute).padStart(2, "0")}:${String(
-            components.second,
-        ).padStart(2, "0")}`;
+        if (calendar instanceof SohlCalendarData) {
+            const sc = components as SohlCalendarComponents;
+            return `${dd} ${calendar.getMonthName(sc.month)} ${sc.eraYear}${sc.eraAbbrev} ${hh}:${mm}:${ss}`;
+        }
+
+        const localizedMonth = sohl.i18n.localize(monthName);
+        return `${dd} ${localizedMonth} ${components.year} ${hh}:${mm}:${ss}`;
     }
 
     /**
@@ -221,8 +238,8 @@ export class SohlCalendarData extends foundry.data
      * @returns The formatted timestamp
      */
     static formatRelativeTime(
-        calendar: SohlCalendarData,
-        components: SohlCalendarComponents,
+        calendar: foundry.data.CalendarData<foundry.data.CalendarData.TimeComponents>,
+        components: foundry.data.CalendarData.TimeComponents,
         {
             short = false,
             maxTerms = 0,
@@ -230,7 +247,7 @@ export class SohlCalendarData extends foundry.data
         }: {
             short?: boolean;
             maxTerms?: number;
-            fromComponents?: SohlCalendarComponents;
+            fromComponents?: foundry.data.CalendarData.TimeComponents;
         } = {},
     ): string {
         const fromTime =
@@ -239,9 +256,7 @@ export class SohlCalendarData extends foundry.data
             :   fvttWorldTime();
         let nTime: number = calendar.componentsToTime(components);
         let relTime: number = fromTime - nTime;
-        const nComponents: SohlCalendarComponents = calendar.timeToComponents(
-            Math.abs(relTime),
-        );
+        const nComponents = calendar.timeToComponents(Math.abs(relTime));
         const terms = {
             year: "TIME.Year",
             day: "TIME.Day",
@@ -257,6 +272,7 @@ export class SohlCalendarData extends foundry.data
             ][]
         ).reduce((arr: string[], [k, t]) => {
             const v = Math.round(nComponents[k] as number);
+            if (v < 1) return arr;
             if (short) arr.push(`${v}${sohl.i18n.localize(t + ".abbr")}`);
             else
                 arr.push(
@@ -269,7 +285,7 @@ export class SohlCalendarData extends foundry.data
         const rel =
             short ? parts.join(" ") : fvttGetListFormatter().format(parts);
         return sohl.i18n.format(
-            relTime < 0 ? "TIME.Since" : "SOHL.TIME.Until",
+            relTime < 0 ? "SOHL.TIME.Until" : "TIME.Since",
             { since: rel },
         );
     }

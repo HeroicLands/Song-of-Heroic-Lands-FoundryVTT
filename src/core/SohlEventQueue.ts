@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { fvttIsActiveGM, fvttResolveUuidAsync } from "@src/core/FoundryHelpers";
+import {
+    fvttIsActiveGM,
+    fvttIsCurrentUserGM,
+    fvttResolveUuidAsync,
+} from "@src/core/FoundryHelpers";
 
 /**
  * A single timed event in the queue, uniquely identified by
@@ -56,10 +60,14 @@ export interface SohlTimedEvent {
  *
  * ## Processing Model
  *
- * Only the **primary GM** processes events (checked via
- * `game.user.isActiveGM`). All clients maintain the queue in memory
+ * Only the **primary GM** dispatches events (checked via
+ * `game.user.isActiveGM`). Every GM client maintains the queue in memory
  * (populated during document preparation), so GM handoff is seamless —
  * if the primary GM disconnects, the promoted GM already has the full queue.
+ *
+ * **Non-GM clients are entirely opted out.** `registerEvent`,
+ * `unregisterEvent`, and `processDueEvents` are no-ops when the local user
+ * is not a GM. The in-memory queue on a player client stays empty.
  *
  * When `processDueEvents(worldTime)` is called, the queue repeatedly
  * finds and dispatches the earliest event whose time has passed. This
@@ -129,7 +137,7 @@ export class SohlEventQueue {
     }
 
     /**
-     * Register or overwrite a timed event.
+     * Register or overwrite a timed event. No-op on non-GM clients.
      *
      * If an event with the same `uuid + kind` already exists, its time and
      * payload are silently replaced. This is the expected pattern — documents
@@ -152,6 +160,7 @@ export class SohlEventQueue {
         time: number,
         payload?: Record<string, unknown>,
     ): void {
+        if (!fvttIsCurrentUserGM()) return;
         if (this._processingTime !== null && time <= this._processingTime) {
             console.warn(
                 `SoHL | Event "${kind}" for ${uuid} registered with time ${time} <= current processing time ${this._processingTime}; discarding to prevent infinite loop.`,
@@ -168,11 +177,13 @@ export class SohlEventQueue {
 
     /**
      * Remove a timed event. Safe to call even if no such event exists.
+     * No-op on non-GM clients.
      *
      * @param uuid - UUID of the owning document
      * @param kind - Event kind identifier
      */
     unregisterEvent(uuid: string, kind: string): void {
+        if (!fvttIsCurrentUserGM()) return;
         this._events.delete(this._key(uuid, kind));
     }
 
