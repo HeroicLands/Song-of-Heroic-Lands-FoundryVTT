@@ -15,7 +15,7 @@ import {
     SohlItem,
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
-import { MovementMediums } from "@src/utils/constants";
+import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
 export class LineageSheet extends SohlItemSheetBase {
     static override PARTS = {
@@ -35,8 +35,9 @@ export class LineageSheet extends SohlItemSheetBase {
     > {
         await super._preparePropertiesContext(context, options);
         const movementMediumChoices: Record<string, string> = {};
-        for (const medium of MovementMediums) {
-            movementMediumChoices[medium] = `SOHL.MovementMedium.${medium}`;
+        for (const [key, value] of Object.entries(MOVEMENT_MEDIUM)) {
+            movementMediumChoices[value as string] =
+                movementMediumLabels[key as keyof typeof movementMediumLabels];
         }
         return Object.assign(context, { movementMediumChoices });
     }

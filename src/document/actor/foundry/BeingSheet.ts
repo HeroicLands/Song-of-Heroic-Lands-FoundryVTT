@@ -20,6 +20,7 @@ import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
     MovementMedium,
+    movementMediumLabels,
     TRAIT_INTENSITY,
 } from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -452,19 +453,20 @@ export class BeingSheet extends SohlActorSheetBase {
         const logic = actor.logic as BeingLogic | undefined;
         const movement: { medium: MovementMedium; label: string; value: number }[] = [];
         if (logic?.effectiveBaseMove) {
-            const mediums: MovementMedium[] = [
-                MOVEMENT_MEDIUM.TERRESTRIAL,
-                MOVEMENT_MEDIUM.AQUATIC,
-                MOVEMENT_MEDIUM.AERIAL,
-                MOVEMENT_MEDIUM.BURROWING,
-                MOVEMENT_MEDIUM.ASTRAL,
+            const mediumKeys: (keyof typeof MOVEMENT_MEDIUM)[] = [
+                "TERRESTRIAL",
+                "AQUATIC",
+                "AERIAL",
+                "BURROWING",
+                "ASTRAL",
             ];
-            for (const medium of mediums) {
+            for (const key of mediumKeys) {
+                const medium = MOVEMENT_MEDIUM[key];
                 const value = logic.effectiveBaseMove(medium).effective;
                 if (value > 0) {
                     movement.push({
                         medium,
-                        label: `SOHL.MovementMedium.${medium}`,
+                        label: movementMediumLabels[key],
                         value,
                     });
                 }

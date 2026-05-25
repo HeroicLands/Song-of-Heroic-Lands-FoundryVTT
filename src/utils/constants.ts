@@ -1368,7 +1368,7 @@ export function defineType<const T extends Record<string, unknown>>(
         values.includes(value as KindValue);
 
     const labels = Object.fromEntries(
-        Object.entries(def).map(([k, v]) => [k, `${prefix}.${v}`]),
+        Object.entries(def).map(([k]) => [k, `${prefix}.${k}`]),
     ) as Record<StringKeys, string>;
 
     return {

@@ -41,13 +41,13 @@ describe("defineType", () => {
         expect(isValue(42)).toBe(false);
     });
 
-    it("labels are prefixed correctly", () => {
+    it("labels are prefixed by KEY_NAME (not value)", () => {
         const { labels } = defineType("My.Prefix", {
             ONE: "one",
             TWO: "two",
         });
-        expect(labels.ONE).toBe("My.Prefix.one");
-        expect(labels.TWO).toBe("My.Prefix.two");
+        expect(labels.ONE).toBe("My.Prefix.ONE");
+        expect(labels.TWO).toBe("My.Prefix.TWO");
     });
 });
 

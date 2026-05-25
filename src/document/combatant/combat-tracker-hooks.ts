@@ -12,7 +12,7 @@
  */
 
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
-import { MovementMediums } from "@src/utils/constants";
+import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
 /**
  * Register hooks that enhance the default Foundry combat tracker and
@@ -45,12 +45,20 @@ export function registerCombatTrackerHooks(): void {
                 "SOHL.Combatant.FIELDS.displayedMedium.label",
             ) ?? "Tracker Medium";
 
-            const options = MovementMediums.map((m) => {
-                const localized =
-                    i18n?.localize?.(`SOHL.MovementMedium.${m}`) ?? m;
-                const sel = m === displayedMedium ? " selected" : "";
-                return `<option value="${m}"${sel}>${localized}</option>`;
-            }).join("");
+            const options = (
+                Object.entries(MOVEMENT_MEDIUM) as [string, string][]
+            )
+                .map(([key, value]) => {
+                    const localized =
+                        i18n?.localize?.(
+                            movementMediumLabels[
+                                key as keyof typeof movementMediumLabels
+                            ],
+                        ) ?? value;
+                    const sel = value === displayedMedium ? " selected" : "";
+                    return `<option value="${value}"${sel}>${localized}</option>`;
+                })
+                .join("");
 
             const fieldset = document.createElement("fieldset");
             fieldset.classList.add("sohl-move-fields");
