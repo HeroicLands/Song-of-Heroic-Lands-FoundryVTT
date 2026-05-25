@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Exotic",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "NjlLTxdiiqgzRpOX",
+  "system": {
+    "shortcode": "hideexotic",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-exotic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rare pelts from distant lands—crocodile, ostrich, tiger, or python—brought by spice merchants and adventurers. Tanners and leatherworkers command premium prices for goods finished from such stock, sought by nobles and wealthy collectors. These skins trickle into markets slowly and unpredictably.</p>\n",
+    "quantity": 1,
+    "weightBase": 0,
+    "valueBase": 120,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!NjlLTxdiiqgzRpOX"
+}

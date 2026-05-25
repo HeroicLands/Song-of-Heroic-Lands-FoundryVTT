@@ -1,0 +1,37 @@
+{
+  "name": "Hemlock",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "XiXrJMPZpSmdZrpv",
+  "system": {
+    "shortcode": "hemlock",
+    "docUrl": "https://heroiclands.org/sohl/affliction/hemlock/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Hemlock (Conium maculatum) is a highly toxic plant. All parts of the plant contain toxic alkaloids, but the seeds and root are especially potent.</p>\n<h3>Symptoms</h3>\n<p>Symptoms begin with nervous system disturbances, including trembling, salivation, and dilated pupils.</p>\n<h3>Progression</h3>\n<p>As poisoning progresses, muscle weakness and paralysis set in, starting from the extremities and moving inward. The victim eventually dies from respiratory failure as the diaphragm becomes paralyzed.</p>\n<h3>Treatment</h3>\n<p>Inducing vomiting with emetics, ingesting activated charcoal, and using supportive measures such as garlic and herbal infusions to maintain hydration.</p>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "injested"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!XiXrJMPZpSmdZrpv"
+}

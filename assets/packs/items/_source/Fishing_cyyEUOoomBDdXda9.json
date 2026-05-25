@@ -1,0 +1,35 @@
+{
+  "name": "Fishing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/fishing.svg",
+  "_id": "cyyEUOoomBDdXda9",
+  "system": {
+    "shortcode": "fish",
+    "docUrl": "https://heroiclands.org/sohl/skill/fishing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Fishing is the skill of catching fish and other aquatic creatures using the various techniques common to the character's culture and geography. Whether employing hook and line, net, spear, or bare hands, the Fishing skill governs aptitude across all methods. Success depends heavily on local conditions—the quality of the fishing grounds, water type, weather, and the presence of competing fishers. The catch provides a vital food source, particularly for coastal and riverine communities where agriculture alone cannot sustain the population.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@per, @wil",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!cyyEUOoomBDdXda9"
+}

@@ -1,0 +1,59 @@
+{
+  "name": "Linen Tunic",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "YdLXC8LGyA5fw6v8",
+  "system": {
+    "shortcode": "LTunic",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/linen-tunic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Light and breathable, the Linen Tunic is perfect for warm weather. It offers comfort and ease of movement, making it ideal for casual wear and outdoor activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.6,
+    "valueBase": 23,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!YdLXC8LGyA5fw6v8"
+}

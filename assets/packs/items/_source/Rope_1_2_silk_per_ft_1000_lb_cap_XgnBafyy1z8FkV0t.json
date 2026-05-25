@@ -1,0 +1,37 @@
+{
+  "name": "Rope, ½” silk, per ft (1000 lb cap.)",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "XgnBafyy1z8FkV0t",
+  "system": {
+    "shortcode": "rope12silk",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/rope-1-2-silk-per-ft-1000-lb-cap/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Half-inch rope of woven silk fiber, supple and strong, imported at high cost and prized by climbers and thieves. Thinner and lighter than hemp, it bears triple the load without degradation and knots cleanly; only the wealthy or desperate pay silk prices for ordinary hauling.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.08,
+    "valueBase": 32,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!XgnBafyy1z8FkV0t"
+}

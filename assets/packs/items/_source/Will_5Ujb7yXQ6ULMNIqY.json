@@ -1,0 +1,53 @@
+{
+  "name": "Will",
+  "type": "attribute",
+  "img": "systems/sohl/assets/icons/will.svg",
+  "_id": "5Ujb7yXQ6ULMNIqY",
+  "system": {
+    "shortcode": "wil",
+    "docUrl": "https://heroiclands.org/sohl/attribute/will/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Will is the force of determination and self-mastery—the capacity to hold fast to a chosen course despite hardship, temptation, or fear. It governs whether a person falters when challenged or stands firm. Will is not the same as intelligence or strength; a fool may possess it, and a brilliant coward may lack it. It is the inner iron that separates those who bend from those who break.</p>\n<h3>Submissive</h3>\n<p>Submissive individuals offer little resistance to pressure or persuasion. They are easily swayed by force of personality, by threats, or even by gentle suggestion. They prefer to defer to others' judgment rather than trust their own conviction. Left to decide alone, they often choose the path of least resistance.</p>\n<h3>Indecisive</h3>\n<p>Indecisive folk are troubled by choice and struggle to commit to a course of action. They second-guess themselves constantly, waver between options, and are easily talked out of their own preferences. Under pressure, they freeze or shift toward whatever seems safest in the moment.</p>\n<h3>Average</h3>\n<p>Average persons possess ordinary resolve. They can stick to a modest commitment and endure minor hardship. They are neither easily shaken nor unusually steadfast. They do what they set out to do, most of the time, unless circumstances become very difficult.</p>\n<h3>Resolute</h3>\n<p>Resolute individuals are possessed of genuine determination. Once they have set their mind to something, they do not easily relent. They can endure hardship and disappointment without wavering. Others find them reliable and trustworthy, knowing that their word binds them even when the cost is high.</p>\n<h3>Implacable</h3>\n<p>The implacable person's will is like stone—immovable, absolute, and unwavering. Neither pain nor fear, temptation nor threat can turn them from what they have decided. This can make them admirable—the knight who refuses to yield, the widow who rebuilds after fire—or terrible—the tyrant who cannot conceive of mercy.</p>\n<h3>In Practice</h3>\n<p>When a young person leaves their village seeking fortune and the first season brings poverty, the submissive one returns home at the first suggestion from a friend. The indecisive person wanders between returning and staying, and ends up at someone else's mercy. The average youth endures long enough to find work. The resolute one works through hardship, taking any labor, and in five years has made their name. The implacable one not only endures but transforms hardship into legend.</p>\n",
+    "scoreBase": 0,
+    "valueDesc": [
+      {
+        "label": "Submissive",
+        "maxValue": 4
+      },
+      {
+        "label": "Indecisive",
+        "maxValue": 8
+      },
+      {
+        "label": "Average",
+        "maxValue": 12
+      },
+      {
+        "label": "Resolute",
+        "maxValue": 16
+      },
+      {
+        "label": "Implacable",
+        "maxValue": 999
+      }
+    ],
+    "initDiceFormula": "3d6",
+    "impairedByRoles": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FPitxvL8wCmXynax",
+  "_key": "!items!5Ujb7yXQ6ULMNIqY"
+}

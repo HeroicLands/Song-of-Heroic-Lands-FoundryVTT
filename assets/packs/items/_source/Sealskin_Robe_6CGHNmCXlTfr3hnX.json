@@ -1,0 +1,67 @@
+{
+  "name": "Sealskin Robe",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/robe.svg",
+  "_id": "6CGHNmCXlTfr3hnX",
+  "system": {
+    "shortcode": "SlsRobe",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/sealskin-robe/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Water-resistant and warm, the Sealskin Robe is ideal for harsh, wet, and cold environments. It provides excellent protection against the elements, perfect for seafaring folk or those living in extreme conditions.</p>\n",
+    "quantity": 1,
+    "weightBase": 12.2,
+    "valueBase": 675,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Left Forearm",
+        "Right Forearm",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!6CGHNmCXlTfr3hnX"
+}

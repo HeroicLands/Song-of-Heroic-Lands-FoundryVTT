@@ -1,0 +1,35 @@
+{
+  "name": "Milling",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/water-mill.svg",
+  "_id": "n4lzgjjiF2762IcU",
+  "system": {
+    "shortcode": "mill",
+    "docUrl": "https://heroiclands.org/sohl/skill/milling/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Milling is the craft of processing grain into flour and meal using millstones powered by water, wind, or animal labor. The miller must understand the mechanics of the mill itself, the proper setting and dressing of stones, and the characteristics of different grains to produce flour of consistent quality. Beyond grain processing, the skill encompasses an understanding of the broader milling infrastructure—water rights, dam maintenance, and the storage and transport of both raw grain and finished product.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@per, @str",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!n4lzgjjiF2762IcU"
+}

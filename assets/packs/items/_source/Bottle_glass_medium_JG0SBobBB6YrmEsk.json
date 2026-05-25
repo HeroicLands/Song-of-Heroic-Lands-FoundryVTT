@@ -1,0 +1,38 @@
+{
+  "name": "Bottle, glass, medium",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "JG0SBobBB6YrmEsk",
+  "system": {
+    "shortcode": "bottleglas2",
+    "docUrl": "https://heroiclands.org/sohl/containergear/bottle-glass-medium/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A hand-blown glass bottle of moderate size, greenish and imperfect, stoppered with cork or waxed cloth and typically used by apothecaries and merchants for liquids or fine provisions. Less costly than the largest vessels but still a luxury item, it requires careful transport to avoid breakage. The glass itself has a slight warmth in color and visible swirls from its making.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 4
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!JG0SBobBB6YrmEsk"
+}

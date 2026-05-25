@@ -1,0 +1,35 @@
+{
+  "name": "Dodge",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/dodge.svg",
+  "_id": "NYQ0l87HDML9CIYT",
+  "system": {
+    "shortcode": "dge",
+    "docUrl": "https://heroiclands.org/sohl/skill/dodge/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Dodge represents the instinctive ability to evade incoming attacks in combat by shifting one's body out of the path of a blow or missile. Unlike active parrying with a weapon or shield, dodging relies purely on reflexes, spatial awareness, and the ability to read an opponent's intent. It is a fundamental defensive skill available to all combatants regardless of armament, though it becomes increasingly difficult against skilled or multiple attackers.</p>\n",
+    "subType": "combat",
+    "skillBaseFormula": "@agl, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "EphAMAfFhWBrJxyF",
+  "_key": "!items!NYQ0l87HDML9CIYT"
+}

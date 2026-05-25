@@ -1,0 +1,37 @@
+{
+  "name": "Malaria",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/disease.svg",
+  "_id": "RuyvpAU3VHXfCCgQ",
+  "system": {
+    "shortcode": "malaria",
+    "docUrl": "https://heroiclands.org/sohl/affliction/malaria/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Malaria is a parasitic disease caused by <em>Plasmodium</em> species, transmitted through the bites of infected Anopheles mosquitoes. It presents with cyclical episodes of fever, chills, sweating, headache, nausea, and vomiting. Severe malaria can cause anemia, respiratory distress, cerebral malaria (affecting the brain), multi-organ failure, and death, especially in young children and pregnant women in endemic regions. Prompt medical treatment with antimalarial drugs and preventive measures like mosquito nets and insect repellents are vital for controlling and treating the disease.</p>\n<h3>Symptoms</h3>\n<p>Initial symptoms include high fever, chills, sweats, headaches, nausea, vomiting, and muscle pain, often occurring in cyclical patterns due to the lifecycle of the parasite.</p>\n<h3>Progression</h3>\n<p>Without treatment, malaria can lead to severe complications such as anemia, respiratory distress, cerebral malaria (affecting the brain), multiple organ failure, and death.</p>\n<h3>Treatment</h3>\n<ul>\n<li>\n<p>Artemisia (Sweet Wormwood, source of artemisinin)</p>\n</li>\n<li>\n<p>Cinchona bark (containing quinine)</p>\n</li>\n<li>\n<p>Neem leaves (used to reduce fever and symptoms)</p>\n</li>\n</ul>\n",
+    "subType": "disease",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3lobflzDt8Hk6VrN",
+  "_key": "!items!RuyvpAU3VHXfCCgQ"
+}

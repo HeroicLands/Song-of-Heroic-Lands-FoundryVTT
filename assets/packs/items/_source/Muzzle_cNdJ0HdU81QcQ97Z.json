@@ -1,0 +1,37 @@
+{
+  "name": "Muzzle",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "cNdJ0HdU81QcQ97Z",
+  "system": {
+    "shortcode": "muzzle",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/muzzle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Leather or iron cage fitted over a dog's or beast's snout and secured with straps around the head, preventing the animal from biting or feeding while under control. A well-fitted muzzle allows the creature to breathe and drink but restricts its jaws; a loose one is useless and an ill-fitting one causes sores. Kennel masters, guards, and hunters managing vicious or straying hounds rely on muzzles to prevent bites and mayhem.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.5,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "WTIUTjADwAcpyv0H",
+  "_key": "!items!cNdJ0HdU81QcQ97Z"
+}

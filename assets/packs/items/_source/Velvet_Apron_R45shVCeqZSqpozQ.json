@@ -1,0 +1,55 @@
+{
+  "name": "Velvet Apron",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/apron.svg",
+  "_id": "R45shVCeqZSqpozQ",
+  "system": {
+    "shortcode": "VApn",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/velvet-apron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Velvet Apron exudes elegance and refinement, though it is more for show than practical use. Soft and plush, it’s an ideal accessory for high-status individuals partaking in light duties, adding a regal touch to their attire.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.4,
+    "valueBase": 35,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!R45shVCeqZSqpozQ"
+}

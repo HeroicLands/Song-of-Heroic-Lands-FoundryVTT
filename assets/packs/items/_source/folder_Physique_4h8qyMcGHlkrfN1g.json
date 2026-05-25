@@ -1,0 +1,19 @@
+{
+  "name": "Physique",
+  "sorting": "a",
+  "folder": "3P28S6pewSJWziiQ",
+  "type": "Item",
+  "_id": "4h8qyMcGHlkrfN1g",
+  "sort": 0,
+  "color": "#B22222",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!4h8qyMcGHlkrfN1g"
+}

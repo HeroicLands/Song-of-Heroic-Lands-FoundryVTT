@@ -1,0 +1,38 @@
+{
+  "name": "Lockbox, small",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/chest.svg",
+  "_id": "vZpiMCfNn55xTuiy",
+  "system": {
+    "shortcode": "lockboxsma",
+    "docUrl": "https://heroiclands.org/sohl/containergear/lockbox-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A compact hardwood box banded with iron and fitted with a wardlock mechanism, sized for a merchant or official to carry personal funds, documents, or letters of credit. Smaller and more portable than a full-size strongbox, it remains substantial enough to deter casual theft and secure valuables during a journey or market day. The lockwork is sturdy enough to resist a rough hand but not siege-proof.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 12,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!vZpiMCfNn55xTuiy"
+}

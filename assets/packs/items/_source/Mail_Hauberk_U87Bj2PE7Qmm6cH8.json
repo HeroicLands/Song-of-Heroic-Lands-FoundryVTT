@@ -1,0 +1,61 @@
+{
+  "name": "Mail Hauberk",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/chain-mail.svg",
+  "_id": "U87Bj2PE7Qmm6cH8",
+  "system": {
+    "shortcode": "MHbk",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/mail-hauberk/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Mail Hauberk is a long chainmail shirt providing substantial protection. Its interlinked metal rings offer excellent defense against slashes and thrusts, making it essential for mounted and foot soldiers.</p>\n",
+    "quantity": 1,
+    "weightBase": 28.8,
+    "valueBase": 960,
+    "qualityBase": 0,
+    "durabilityBase": 13,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Mail",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 15
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!U87Bj2PE7Qmm6cH8"
+}

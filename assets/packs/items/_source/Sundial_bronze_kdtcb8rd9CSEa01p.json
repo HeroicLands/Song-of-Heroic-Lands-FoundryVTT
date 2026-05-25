@@ -1,0 +1,37 @@
+{
+  "name": "Sundial, bronze",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "kdtcb8rd9CSEa01p",
+  "system": {
+    "shortcode": "sundialbro",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/sundial-bronze/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A brass-mounted bronze plate incised with hour markings, fitted with a gnomon to cast shadow on the dial. Cast by a metalworker and fitted by a scholar, it marks the hours on clear days when set true to latitude. Military commanders and astronomers prize them; a merchant's caravan uses one to synchronize the march, though clouds render it useless and transport weighs heavy.</p>\n",
+    "quantity": 1,
+    "weightBase": 50,
+    "valueBase": 225,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!kdtcb8rd9CSEa01p"
+}

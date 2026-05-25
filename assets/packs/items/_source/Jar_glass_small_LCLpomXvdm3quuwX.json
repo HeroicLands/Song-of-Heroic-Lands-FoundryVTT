@@ -1,0 +1,38 @@
+{
+  "name": "Jar, glass, small",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "LCLpomXvdm3quuwX",
+  "system": {
+    "shortcode": "jarglasssm",
+    "docUrl": "https://heroiclands.org/sohl/containergear/jar-glass-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small vessel of hand-blown glass with slightly greenish tint and subtle ripples in its walls, fitted with a cork or waxed-cloth stopper. Glass jars are valued for their visibility and inert surface, making them suitable for storing oils, vinegars, inks, and other liquids that might corrode or stain wood or ceramic. The glass itself is fragile—easily broken if dropped or struck—and must be handled with care during travel.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 9,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!LCLpomXvdm3quuwX"
+}

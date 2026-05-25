@@ -1,0 +1,38 @@
+{
+  "name": "Thalassophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "hqeLwTZlyOg7D4tJ",
+  "system": {
+    "shortcode": "thlssphb",
+    "docUrl": "https://heroiclands.org/sohl/trait/thalassophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Thalassophobia is an intense, irrational fear of the sea or large bodies of water. People with thalassophobia may experience a range of symptoms when they think about, see, or are near the ocean or large lakes.</p>\n<h3>Impulse</h3>\n<p>Avoiding trips to the beach, boating, swimming, or any activity that involves the ocean or large lakes. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of vast bodies of water. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about drowning, sea creatures, or being lost at sea.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread and helplessness when near or thinking about the ocean or large bodies of water.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!hqeLwTZlyOg7D4tJ"
+}

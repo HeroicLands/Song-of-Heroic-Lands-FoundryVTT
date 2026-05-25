@@ -1,0 +1,37 @@
+{
+  "name": "Bloodstone, cut",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Y2Itvttlm4Ujnzbc",
+  "system": {
+    "shortcode": "bloodstone",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bloodstone-cut/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A deep green stone flecked or streaked with red spots, cut into a faceted gem by the lapidary's craft. The red markings resemble blood, lending the stone its name and making it favored for seals and signet rings, particularly among military orders and physicians. These stones hold their polish well and are sought by those who wish their rings to carry symbolic weight.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0004,
+    "valueBase": 15,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!Y2Itvttlm4Ujnzbc"
+}

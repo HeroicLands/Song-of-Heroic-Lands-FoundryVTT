@@ -1,0 +1,37 @@
+{
+  "name": "Bowl, pewter",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "saSFEbDWV7aCROzb",
+  "system": {
+    "shortcode": "bowlpewter",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bowl-pewter/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A shallow pewter bowl, cast in a mold and finished by a pewterer's hand, lighter than copper yet durable enough for daily use. Pewter takes a soft gray sheen when polished and does not taint food or drink as some lesser alloys do, making it a favored choice for ale-halls and merchant's tables. The metal softens over time with repeated heating, and dents seldom straighten entirely, but a well-made pewter bowl lasts a generation or more with modest care.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!saSFEbDWV7aCROzb"
+}

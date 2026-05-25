@@ -1,0 +1,37 @@
+{
+  "name": "Pen, metal",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "cBLdB6eXyYmTSXxj",
+  "system": {
+    "shortcode": "penmetal",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pen-metal/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A steel nib, hammered and split, set into a bone or wood handle. Metal pens write a finer, steadier line than quill and resist damage from repeated dipping. They are favored by professional scribes and copyists who work in volume, though they cost more than feather.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!cBLdB6eXyYmTSXxj"
+}

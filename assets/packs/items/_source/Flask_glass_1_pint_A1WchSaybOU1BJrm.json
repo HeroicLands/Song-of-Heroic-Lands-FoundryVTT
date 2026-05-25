@@ -1,0 +1,38 @@
+{
+  "name": "Flask, glass, 1 pint",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "A1WchSaybOU1BJrm",
+  "system": {
+    "shortcode": "flskgls1p",
+    "docUrl": "https://heroiclands.org/sohl/containergear/flask-glass-1pt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small flask of blown glass, greenish and slightly bubbly, stoppered with cork or waxed cloth and used by merchants, scholars, and travelers for carrying wine, ink, or medicinal drafts. Glass vessels are prized for clarity and taste-neutrality but demand careful handling in transit; any substantial fall risks breakage. The flask's hand-blown nature gives it slight irregularities and a warm color.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 1
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!A1WchSaybOU1BJrm"
+}

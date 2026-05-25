@@ -1,0 +1,37 @@
+{
+  "name": "Leash",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "RefnlwRX77QWXxw9",
+  "system": {
+    "shortcode": "leash",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/leash/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A length of rope or leather cord fitted with an iron snap at one end and a loop or ring at the other, used by hunters, ostlers, and townsfolk to lead or secure dogs, goats, and other small beasts. Most leashes are five to six paces long, allowing the animal enough freedom to move but giving the handler control in a crowd or on the road.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "WTIUTjADwAcpyv0H",
+  "_key": "!items!RefnlwRX77QWXxw9"
+}

@@ -1,0 +1,119 @@
+{
+  "name": "Actions",
+  "pages": [
+    {
+      "_id": "598ad433ef7be30e",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>An Action is an executable procedure attached to an actor or nested within\nanother item. Actions represent things a character can actively do — making\na skill test, performing a special maneuver, activating a unique ability,\nor triggering any other defined procedure. Actions provide buttons on the\nactor sheet that players and GMs can click to initiate the procedure,\nstreamlining gameplay by packaging complex rule sequences into a single\nclick.</p>\n<p>Actions are also SoHL's built-in mechanism for house rules and customization\nat the item level. An advanced GM can attach a Script Action to a specific\nactor or item to change how it behaves, without needing to write a Foundry\nmodule or modify system files.</p>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.598ad433ef7be30e"
+    },
+    {
+      "_id": "ba27504dca23e6bf",
+      "name": "Where Actions Appear",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Actions can be attached directly to <strong>Actors</strong> (Beings, Cohorts, Structures,\nVehicles, Assemblies) or <strong>nested inside any Item</strong>. Both are fully supported:</p>\n<ul>\n<li><strong>Directly on an Actor</strong> — the Action belongs to the actor and can\noperate on the actor or any of its items.</li>\n<li><strong>Nested inside an Item</strong> — the Action belongs to that item specifically.\nFor example, a Weapon Gear item might contain an Action for a special\nattack, or a Skill item might include an Action for its standard test.\nThe Action can then target its parent item, the actor that owns it, or\nthe Action itself.</li>\n</ul>\n<p>Actions appear in the UI in two places:</p>\n<ul>\n<li><strong>Actor sheet Actions tab</strong> — all Actions on the actor (both directly\nattached and nested inside items) are listed here as clickable buttons.</li>\n<li><strong>Item sheet Actions section</strong> — when an item has nested Actions, they\nappear inline within that item's own sheet.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.ba27504dca23e6bf"
+    },
+    {
+      "_id": "169285f7a85d7b86",
+      "name": "Action Types",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Every Action has a <strong>Type</strong> (called <code>subType</code> internally) that determines what\nkind of logic it runs.</p>\n<h2>Built-in Actions (Intrinsic)</h2>\n<p>Built-in Actions are part of the system itself. They call a named method on the\nowning item or actor's logic. You cannot change what a built-in action does\nby editing it — they are defined in system code. You will encounter these on\ncompendium items (skills, weapon strike modes, etc.) as the standard test and\nmaneuver buttons.</p>\n<p>You will rarely create intrinsic actions yourself; they are placed by the system\nand compendium packs.</p>\n<h2>Script Actions</h2>\n<p>A Script Action contains a snippet of JavaScript that runs when the action\nis triggered. This is the mechanism for <strong>per-actor and per-item house rules\nand custom procedures</strong> — no module installation required.</p>\n<p>Script actions are powerful but require basic JavaScript knowledge. The code\nruns with access to the actor or item that owns the action, giving you the\nability to read and modify data during execution.</p>\n<h2>Basic Actions</h2>\n<p>A Basic Action is the simplest type. Like Script Actions, it runs JavaScript,\nbut it's intended for straightforward executable expressions rather than\nmulti-line scripts. Use this type when your logic fits in a single expression.</p>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.169285f7a85d7b86"
+    },
+    {
+      "_id": "bfcc261c5a587f8e",
+      "name": "Key Fields",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<table>\n<thead>\n<tr>\n<th>Field</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Name</strong></td>\n<td>What the action is called. Lifecycle-triggered actions must follow a specific naming pattern (see below).</td>\n</tr>\n<tr>\n<td><strong>Type</strong></td>\n<td><code>Intrinsic Action</code>, <code>Script Action</code>, or <code>Basic</code> — determines how the action executes.</td>\n</tr>\n<tr>\n<td><strong>Scope</strong></td>\n<td>What context <code>this</code> refers to when the action runs: <code>Self</code> (the action itself), <code>Item</code> (the owning item), <code>Actor</code> (the owning actor), or <code>Other</code>.</td>\n</tr>\n<tr>\n<td><strong>Executor</strong></td>\n<td>For Script/Basic: the JavaScript code to run. For Intrinsic: the method name on the logic class.</td>\n</tr>\n<tr>\n<td><strong>Trigger</strong></td>\n<td>A JavaScript expression that determines whether the action is currently available. If it evaluates to <code>false</code>, the action button is disabled.</td>\n</tr>\n<tr>\n<td><strong>Visible</strong></td>\n<td>A JavaScript expression (or <code>&quot;true&quot;</code>) controlling whether the action appears in context menus and button lists.</td>\n</tr>\n<tr>\n<td><strong>Async</strong></td>\n<td>Check this if the action code uses <code>async</code>/<code>await</code>.</td>\n</tr>\n<tr>\n<td><strong>Icon</strong></td>\n<td>FontAwesome CSS class for the context menu icon (e.g., <code>fas fa-dice</code>).</td>\n</tr>\n<tr>\n<td><strong>Group</strong></td>\n<td>Where in the context menu the action appears. <code>Essential</code> actions appear first; <code>Hidden</code> actions never appear in menus (lifecycle-only).</td>\n</tr>\n<tr>\n<td><strong>Permission: Execute</strong></td>\n<td>The minimum Foundry user role required to trigger this action.</td>\n</tr>\n</tbody>\n</table>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.bfcc261c5a587f8e"
+    },
+    {
+      "_id": "00e0e56a80bac3a2",
+      "name": "Creating an Action",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ol>\n<li>Open the Actor or Item sheet where you want to add the Action.</li>\n<li>Navigate to the <strong>Actions</strong> tab (on the Actor) or the item's <strong>Actions</strong>\nsection.</li>\n<li>Click <strong>Create Action</strong> (or use the <code>+</code> button).</li>\n<li>Fill in the Name, Type, and Executor fields.</li>\n<li>Set Scope to <code>Item</code> or <code>Actor</code> depending on what the action should operate on.</li>\n<li>Set Visible to <code>&quot;true&quot;</code> if you want it to appear as a button.</li>\n<li>Save.</li>\n</ol>\n<p>The action now appears on the sheet and can be clicked to execute.</p>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.00e0e56a80bac3a2"
+    },
+    {
+      "_id": "5e01618c88757060",
+      "name": "On-Demand vs Lifecycle-Triggered Actions",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Actions can fire in two ways:</p>\n<h2>On-Demand</h2>\n<p>When <strong>Visible</strong> evaluates to <code>true</code> and the user meets the <strong>Permission</strong>\nrequirement, the action appears as a clickable button on the sheet. Clicking\nit executes the action immediately.</p>\n<h2>Lifecycle-Triggered</h2>\n<p>SoHL runs a preparation cycle on actors and items whenever data changes. You\ncan hook an action into this cycle automatically by giving it a name that\nfollows this pattern:</p>\n<pre><code>{itemType}.{shortcode}.post{Phase}\n</code></pre>\n<p>Where:</p>\n<ul>\n<li><code>{itemType}</code> is the item type in lowercase (e.g., <code>skill</code>, <code>mysticalability</code>, <code>weapongear</code>)</li>\n<li><code>{shortcode}</code> is the item's <strong>Shortcode</strong> field value</li>\n<li><code>{phase}</code> is <code>Initialize</code>, <code>Evaluate</code>, or <code>Finalize</code></li>\n</ul>\n<p><strong>Examples:</strong></p>\n<table>\n<thead>\n<tr>\n<th>Action name</th>\n<th>Meaning</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>skill.tactics.postFinalize</code></td>\n<td>Runs after the Tactics skill finishes its finalize phase</td>\n</tr>\n<tr>\n<td><code>mysticalability.curse.postInitialize</code></td>\n<td>Runs after the Curse ability finishes its initialize phase</td>\n</tr>\n<tr>\n<td><code>weapongear.broadsword.postEvaluate</code></td>\n<td>Runs after the Broadsword item finishes its evaluate phase</td>\n</tr>\n</tbody>\n</table>\n<p>Lifecycle-triggered actions run automatically during every data-preparation\ncycle. They do <strong>not</strong> need to be visible — set their <strong>Group</strong> to <code>Hidden</code>\nto keep them out of context menus.</p>\n<h3>Which phase to use?</h3>\n<table>\n<thead>\n<tr>\n<th>Phase</th>\n<th>What it means</th>\n<th>Use for</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>Initialize</code></td>\n<td>Item is being set up; other items may not be ready</td>\n<td>Setting initial values on this item only</td>\n</tr>\n<tr>\n<td><code>Evaluate</code></td>\n<td>All items have been initialized; first-pass calculations</td>\n<td>Computing derived values from multiple items</td>\n</tr>\n<tr>\n<td><code>Finalize</code></td>\n<td>All evaluations complete; final cross-item dependencies</td>\n<td>Final adjustments that depend on other items' evaluated state</td>\n</tr>\n</tbody>\n</table>\n<p>When in doubt, use <code>postFinalize</code> — it runs last and has access to all other\nitems' computed values.</p>\n<h3>Setting up a lifecycle action</h3>\n<ol>\n<li>Find the item you want to modify (e.g., a skill named &quot;Tactics&quot; with\nshortcode <code>tactics</code>).</li>\n<li>Create an Action on the <strong>same actor</strong> (either directly on the actor or\nnested inside the Tactics skill) with name <code>skill.tactics.postFinalize</code>.</li>\n<li>Set <strong>Type</strong> to <code>Script Action</code>.</li>\n<li>Set <strong>Scope</strong> to <code>Item</code>.</li>\n<li>Set <strong>Group</strong> to <code>Hidden</code> (it's lifecycle-only, not a button).</li>\n<li>Write your executor code. The <code>this</code> value is the Tactics skill's logic\nobject when scope is <code>Item</code>.</li>\n<li>Save.</li>\n</ol>\n<p>The action runs automatically after every data-preparation cycle for the\nTactics skill on that actor.</p>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.5e01618c88757060"
+    },
+    {
+      "_id": "action-permissions",
+      "name": "Permissions and Visibility",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<h2>Permission: Execute</h2>\n<p>Controls who can trigger the action. Values:</p>\n<table>\n<thead>\n<tr>\n<th>Level</th>\n<th>Who can execute</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>0 — None</td>\n<td>Anyone (all users including observers)</td>\n</tr>\n<tr>\n<td>1 — Player</td>\n<td>Any player</td>\n</tr>\n<tr>\n<td>2 — Trusted</td>\n<td>Trusted players</td>\n</tr>\n<tr>\n<td>3 — Owner</td>\n<td>Must own this actor/item</td>\n</tr>\n<tr>\n<td>4 — Assistant</td>\n<td>Assistant GMs</td>\n</tr>\n<tr>\n<td>5 — Gamemaster</td>\n<td>GM only</td>\n</tr>\n</tbody>\n</table>\n<h2>Visible</h2>\n<p>A JavaScript expression evaluated at display time. If it returns truthy, the\naction appears in buttons and context menus. If it returns falsy, the action\nis hidden. Set to <code>&quot;true&quot;</code> (the string) to always show it.</p>\n<p>Lifecycle-triggered actions should typically set Visible to <code>&quot;false&quot;</code> or\nGroup to <code>Hidden</code> — they run automatically and do not need to appear as\nbuttons.</p>\n<h2>Group</h2>\n<p>Controls the context menu section:</p>\n<table>\n<thead>\n<tr>\n<th>Group</th>\n<th>Location in menu</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>Essential</code></td>\n<td>Top of the menu; highest priority</td>\n</tr>\n<tr>\n<td><code>General</code></td>\n<td>Standard section</td>\n</tr>\n<tr>\n<td><code>Default</code></td>\n<td>Default sort position</td>\n</tr>\n<tr>\n<td><code>Hidden</code></td>\n<td>Never shown in context menus</td>\n</tr>\n</tbody>\n</table>\n"
+      },
+      "_key": "!journal.pages!P6Ci7ZmssoZMkFYz.action-permissions"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "P6Ci7ZmssoZMkFYz",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!P6Ci7ZmssoZMkFYz"
+}

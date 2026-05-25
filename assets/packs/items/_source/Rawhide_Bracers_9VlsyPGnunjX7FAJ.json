@@ -1,0 +1,52 @@
+{
+  "name": "Rawhide Bracers",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/bracer.svg",
+  "_id": "9VlsyPGnunjX7FAJ",
+  "system": {
+    "shortcode": "RhBrcr",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-bracers/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rawhide Bracers are robust and sturdy, made from thick, untanned leather. They provide significant protection for the forearms, ideal for warriors who foresee close combat and need more durable defense.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.8,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Forearm",
+        "Right Forearm"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!9VlsyPGnunjX7FAJ"
+}

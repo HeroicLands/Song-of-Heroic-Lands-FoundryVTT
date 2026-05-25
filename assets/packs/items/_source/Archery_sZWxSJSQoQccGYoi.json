@@ -1,0 +1,35 @@
+{
+  "name": "Archery",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/longbow.svg",
+  "_id": "sZWxSJSQoQccGYoi",
+  "system": {
+    "shortcode": "archery",
+    "docUrl": "https://heroiclands.org/sohl/skill/archery/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Archery is the discipline of using hand-drawn stringed weapons—primarily bows and crossbows—to strike distant targets. It demands keen eyesight, steady hands, and years of dedicated practice to achieve true proficiency. Crossbows are somewhat more forgiving for untrained users, but mastering either weapon type at range remains a considerable achievement. The skill encompasses not merely aiming and releasing, but understanding windage, elevation, and the characteristics of different projectile types.</p>\n",
+    "subType": "combat",
+    "skillBaseFormula": "@per, @dex",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "melee",
+    "parentSkillCode": "",
+    "initSkillMult": 1
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "EphAMAfFhWBrJxyF",
+  "_key": "!items!sZWxSJSQoQccGYoi"
+}

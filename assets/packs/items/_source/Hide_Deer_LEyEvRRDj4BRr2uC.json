@@ -1,0 +1,37 @@
+{
+  "name": "Hide, Deer",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "LEyEvRRDj4BRr2uC",
+  "system": {
+    "shortcode": "hidedeer",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hide-deer/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A light, supple hide from a hunted deer—salted and dried for the tanner. Leatherworkers favor deer skin for chamois, fine gloves, and soft linings due to its fineness and flex. Tanners soak and scrape the hide to reveal the pale grain beneath the fur.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.5,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!LEyEvRRDj4BRr2uC"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Oats",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "f5GVhbbMOLk9pZZJ",
+  "system": {
+    "shortcode": "oats",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/oats/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A bushel of oats—the staple grain of northern lands—feeds both livestock and humans. Mills grind them into meal or flour; cooks boil them whole into porridge; bakers mix them into bread. A single bushel is bulky but keeps dry for years in cloth or barrel, fundamental to any household's stores.</p>\n",
+    "quantity": 1,
+    "weightBase": 32,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!f5GVhbbMOLk9pZZJ"
+}

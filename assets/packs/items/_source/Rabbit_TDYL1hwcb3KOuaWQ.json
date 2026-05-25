@@ -1,0 +1,37 @@
+{
+  "name": "Rabbit",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "TDYL1hwcb3KOuaWQ",
+  "system": {
+    "shortcode": "rabbit",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/rabbit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rabbit is lean, pale meat from warren-bred or wild-snared animals, favored by hunters and cottagers. The small carcass yields little meat but cooks quickly in a pot with turnips and herbs. Smoked rabbit is prized on campaigns; jerked rabbit strips are chewed like leather, tough but nourishing. The fur is scraped and sold separately to furriers for lining cloaks.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 2.5,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!TDYL1hwcb3KOuaWQ"
+}

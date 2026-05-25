@@ -1,0 +1,37 @@
+{
+  "name": "Hay",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "0LD7qXrTNv53ZTrf",
+  "system": {
+    "shortcode": "hay",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/hay/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Sun-dried grasses bundled tight after the summer cut, hay feeds horses and livestock through winter at every stable and farm. A bushel is bulky but light enough for a cart, and a single load sustains a team of beasts for weeks. Moldy hay is worthless and rots quickly if left damp.</p>\n",
+    "quantity": 1,
+    "weightBase": 60,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!0LD7qXrTNv53ZTrf"
+}

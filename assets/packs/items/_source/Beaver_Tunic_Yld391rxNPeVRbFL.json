@@ -1,0 +1,59 @@
+{
+  "name": "Beaver Tunic",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "Yld391rxNPeVRbFL",
+  "system": {
+    "shortcode": "BvTunic",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/beaver-tunic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Beaver Tunic, made from dense beaver fur, offers exceptional warmth and a touch of luxury. Perfect for cold climates, it combines function and status, providing both comfort and elegance.</p>\n",
+    "quantity": 1,
+    "weightBase": 5.4,
+    "valueBase": 444,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!Yld391rxNPeVRbFL"
+}

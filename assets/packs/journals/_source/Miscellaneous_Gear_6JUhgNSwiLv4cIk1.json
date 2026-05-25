@@ -1,0 +1,63 @@
+{
+  "name": "Miscellaneous Gear",
+  "pages": [
+    {
+      "_id": "42d7e50bca05fbd1",
+      "name": "What Is Miscellaneous Gear?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Miscellaneous Gear is the catch-all category for general equipment that\ndoes not fall into the specialized categories of weapons, armor, containers,\nprojectiles, or concoctions. This includes tools, clothing, rope, torches,\nfood, trade goods, coins, and any other items a character might carry.\nIf an item is not a weapon, armor, container, ammo, or consumable potion,\nit is Misc Gear.</p>\n"
+      },
+      "_key": "!journal.pages!6JUhgNSwiLv4cIk1.42d7e50bca05fbd1"
+    },
+    {
+      "_id": "1b4ab5446d2ab7f6",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Misc Gear appears on the Being sheet's <strong>Gear</strong> tab and can optionally be nested inside a Container Gear item to reflect where the character is carrying it. Misc Gear items are commonly added from compendium packs or created manually to represent ad-hoc possessions.</p>\n"
+      },
+      "_key": "!journal.pages!6JUhgNSwiLv4cIk1.1b4ab5446d2ab7f6"
+    },
+    {
+      "_id": "cc2fffa95b8399b9",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>There are no additional properties beyond the [[Item_Gear|Standard Gear Properties]].</p>\n"
+      },
+      "_key": "!journal.pages!6JUhgNSwiLv4cIk1.cc2fffa95b8399b9"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "6JUhgNSwiLv4cIk1",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!6JUhgNSwiLv4cIk1"
+}

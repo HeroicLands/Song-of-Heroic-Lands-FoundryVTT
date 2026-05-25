@@ -1,0 +1,37 @@
+{
+  "name": "Pipe weed",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/herblore.svg",
+  "_id": "LaLxhFGI7ZKf8ZFk",
+  "system": {
+    "shortcode": "pipewd",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pipe-weed/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Tobacco leaf, dried and shredded, sold by the ounce in a small cloth pouch or loose bundle. Merchants import it from southern lands; soldiers and common people smoke it to ease fatigue and calm nerves during long watches, though excessive use yellows the teeth and mars the breath.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!LaLxhFGI7ZKf8ZFk"
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Beaver Cloak",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/cloak.svg",
+  "_id": "OAbx7Ol3JomP8gsH",
+  "system": {
+    "shortcode": "BvCloak",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/beaver-cloak/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>An excellent choice for cold weather, the Beaver Cloak is made from dense, luxurious beaver fur. It provides exceptional warmth and a touch of opulence, ideal for those in need of both function and high status.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 270,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!OAbx7Ol3JomP8gsH"
+}

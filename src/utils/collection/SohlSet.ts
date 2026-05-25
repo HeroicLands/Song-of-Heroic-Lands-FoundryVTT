@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Itr } from "@utils/Itr";
+import { Itr } from "@src/utils/Itr";
 
 /**
  * @summary A Set-like collection with SoHL tracking and iterable enhancements.

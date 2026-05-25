@@ -1,0 +1,37 @@
+{
+  "name": "Milk, cow",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "f0TCfZaCJNETdg2T",
+  "system": {
+    "shortcode": "milkcow",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/milk-cow/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Fresh cow's milk, drawn into a wooden pail at dawn, is sold by the gallon at market or delivered to townhouses daily. Rich and creamy, it curdles into cheese or butter by afternoon; soured or turned, it becomes whey and curds for cooking. Most milk is consumed within a day or soured intentionally for preservation.</p>\n",
+    "quantity": 1,
+    "weightBase": 8,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!f0TCfZaCJNETdg2T"
+}

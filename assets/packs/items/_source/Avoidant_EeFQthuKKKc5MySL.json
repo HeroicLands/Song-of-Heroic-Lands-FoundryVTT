@@ -1,0 +1,38 @@
+{
+  "name": "Avoidant",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "EeFQthuKKKc5MySL",
+  "system": {
+    "shortcode": "avoidant",
+    "docUrl": "https://heroiclands.org/sohl/trait/avoidant/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Avoidance is characterized by a deep-seated fear of rejection, criticism, or disapproval, leading individuals to avoid social interactions and situations where they might be judged or embarrassed. These individuals often struggle with feelings of inadequacy and are hypersensitive to negative evaluation, which can severely limit their ability to form relationships or pursue opportunities.</p>\n<h3>Impulse</h3>\n<p>The individual may avoid social gatherings, new situations, or activities that involve risk or exposure to judgment. They often feel anxious in social settings and may withdraw from conversations or activities that make them feel vulnerable, though they still maintain some social interactions, albeit with significant anxiety.</p>\n<p><strong>Example:</strong> Emily often declines invitations to social events, fearing that others will judge her or find her boring. At work, she avoids speaking up in meetings, worried that her ideas might be criticized. While she still interacts with close friends, she keeps her circle small and rarely steps out of her comfort zone.</p>\n<h3>Disorder</h3>\n<p>As avoidant tendencies intensify, the individual may become increasingly isolated, avoiding almost all social interactions and opportunities for fear of rejection or failure. They may struggle with low self-esteem and feelings of worthlessness, leading to severe limitations in their personal and professional life. This can result in social withdrawal, depression, and a persistent sense of loneliness and inadequacy.</p>\n<h3>Physical Symptoms</h3>\n<p>Physical symptoms of anxiety, such as sweating, trembling, or a racing heart, when faced with social situations. The individual may also experience fatigue and muscle tension due to chronic stress.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts of self-doubt, such as &quot;I'm not good enough&quot; or &quot;They will reject me.&quot; The individual may also worry excessively about potential embarrassment or failure, replaying past negative experiences and fearing future ones.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of loneliness, sadness, and frustration due to the inability to connect with others. The individual may long for social interaction but feel trapped by their fear of rejection, leading to further withdrawal and isolation.</p>\n<p><strong>Example:</strong> Over time, Emily has withdrawn almost entirely from social life. She avoids all social events, no longer speaks up at work, and has let relationships with friends and family fade. Her fear of rejection is so intense that she prefers to be alone, despite feeling lonely and unhappy. The thought of trying something new or putting herself out there fills her with dread, leaving her stuck in a cycle of isolation and self-doubt.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ECrcBb9CUCMX9JeJ",
+  "_key": "!items!EeFQthuKKKc5MySL"
+}

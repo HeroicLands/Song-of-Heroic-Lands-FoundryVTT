@@ -1,0 +1,35 @@
+{
+  "name": "Opposed Tests",
+  "pages": [
+    {
+      "_id": "ff53263fab854137",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>When two characters act against one another—Stealth versus Awareness, Melee versus Dodge, Eloquence versus Eloquence—both make [[Success Tests]] simultaneously. The character who achieves a positive [[Success Tests#Success Level|success level]] and a higher success level than their opponent is the victor.</p>\n<p>In combat, the two sides are referred to as the <strong>attacker</strong> and the <strong>defender</strong>. In non-combat opposed tests, the character who initiates the contest is the <strong>initiator</strong> and the other is the <strong>respondent</strong>.</p>\n<h2>Victory Degrees</h2>\n<p>Some situations require knowing how decisively one side won. The difference between the two success levels equals the number of <strong>victory degrees</strong>. For example, a Critical Success (level 2) against a Critical Failure (level −1) equals three victory degrees. A Marginal Success (level 1) against a Marginal Failure (level 0) equals one victory degree.</p>\n<p>If both sides fail (MF or CF), there are usually no victory degrees. Unopposed tests similarly produce no victory degrees.</p>\n<p>Since success levels can extend beyond the base −1 to 2 range when rules or modifiers shift them, there is no fixed limit to victory degrees.</p>\n<h2>Ties</h2>\n<p>A tie in an opposed test—both sides achieving the same success level—results in zero victory degrees. This is often a perfectly acceptable outcome, signifying no advantage to either side.</p>\n<h2>Tiebreaks</h2>\n<p>Some rules require tied successes to be broken. In such tiebreaks, a one-degree victory goes to the character who rolled a higher number on the d100 (while still succeeding). If the literal rolls are the same, the victor is whoever has the higher ML—or whoever rolls a higher d10 if ML is also equal.</p>\n"
+      },
+      "_key": "!journal.pages!YByfiRN9BxL5gTHK.ff53263fab854137"
+    }
+  ],
+  "folder": "RqKUTBUBN2Y3MHYB",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "YByfiRN9BxL5gTHK",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!YByfiRN9BxL5gTHK"
+}

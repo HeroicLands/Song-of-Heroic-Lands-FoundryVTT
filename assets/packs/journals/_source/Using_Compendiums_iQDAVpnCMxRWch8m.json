@@ -1,0 +1,77 @@
+{
+  "name": "Using Compendiums",
+  "pages": [
+    {
+      "_id": "compendium-overview",
+      "name": "Overview",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Compendiums are pre-built libraries of actors, items, and journal entries\nthat come with SoHL. They contain ready-to-use characters, creatures,\nequipment, skills, and reference material. Instead of creating everything\nfrom scratch, you import from compendiums and customize.</p>\n<p>See also: <a href=\"user-guide/creating-actors-items.md\">Creating Actors and Items</a>, <a href=\"user-guide/quickstart.md\">Quickstart</a></p>\n"
+      },
+      "_key": "!journal.pages!iQDAVpnCMxRWch8m.compendium-overview"
+    },
+    {
+      "_id": "compendium-packs",
+      "name": "Available Compendium Packs",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>SoHL ships with these compendium packs:</p>\n<h2>People &amp; Creatures</h2>\n<p>Contains pre-built Beings — characters, NPCs, and creatures ready to use.\nEach Being comes fully equipped with traits, skills, body structure, and\nsometimes gear.</p>\n<p><strong>Key entries:</strong></p>\n<ul>\n<li><strong>Basic Folk</strong> — a template human character suitable for duplication and\ncustomization. Start here when creating new player characters.</li>\n</ul>\n<!-- TODO: List other notable entries as they are added to the compendium -->\n<h2>Vehicles &amp; Structures</h2>\n<p>Contains pre-built Vehicle and Structure actors.</p>\n<!-- TODO: List notable entries -->\n<h2>Characteristics</h2>\n<p>Contains items that define character capabilities:</p>\n<ul>\n<li><strong>Traits</strong> — attribute definitions (Strength, Stamina, etc.) and other\ninnate characteristics</li>\n<li><strong>Skills</strong> — the full skill list with base formulas and categories</li>\n<li><strong>Body Structure</strong> — body zones, body parts, and body locations that\ndefine anatomy</li>\n</ul>\n<p>These are typically imported as part of a complete Being, not individually.</p>\n<h2>Possessions</h2>\n<p>Contains gear items:</p>\n<ul>\n<li><strong>Weapons</strong> — swords, axes, bows, and other weaponry with strike modes</li>\n<li><strong>Armor</strong> — protection gear with per-location coverage</li>\n<li><strong>Equipment</strong> — miscellaneous gear, containers, tools, and supplies</li>\n</ul>\n<p>Drag items directly from this compendium onto a character's sheet.</p>\n<h2>Journals</h2>\n<p>Contains reference documentation, including this user guide.</p>\n"
+      },
+      "_key": "!journal.pages!iQDAVpnCMxRWch8m.compendium-packs"
+    },
+    {
+      "_id": "compendium-howto",
+      "name": "How to Use Compendiums",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<h2>Browsing</h2>\n<ol>\n<li>Click the <strong>Compendium</strong> tab in the sidebar.</li>\n<li>Click a compendium pack to open it.</li>\n<li>Browse or search the contents.</li>\n</ol>\n<h2>Importing to Your World</h2>\n<p>There are several ways to get compendium content into your world:</p>\n<p><strong>Drag and drop</strong> (most common):</p>\n<ul>\n<li>Drag an entry from the compendium directly onto the appropriate sidebar\ntab (Actors, Items) or onto an actor's sheet.</li>\n<li>The entry is copied into your world. Changes to your copy don't affect\nthe compendium original.</li>\n</ul>\n<p><strong>Right-click import:</strong></p>\n<ul>\n<li>Right-click an entry in the compendium and select &quot;Import.&quot;</li>\n<li>The entry appears in the appropriate sidebar tab.</li>\n</ul>\n<p><strong>Bulk import:</strong></p>\n<ul>\n<li>In a compendium pack, click the &quot;Import All&quot; button to import everything\nat once. Use this sparingly — it can create a lot of entries.</li>\n</ul>\n<h2>Direct Use (Without Importing)</h2>\n<p>You can drag compendium items directly onto actor sheets without importing\nthem to the world first. This is the most common workflow for adding gear,\nskills, or traits to a character.</p>\n"
+      },
+      "_key": "!journal.pages!iQDAVpnCMxRWch8m.compendium-howto"
+    },
+    {
+      "_id": "compendium-tips",
+      "name": "Tips",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ul>\n<li><strong>Don't modify compendium originals.</strong> Always work with imported copies\nin your world. Compendium content may be updated when SoHL is updated.</li>\n<li><strong>Use Basic Folk as a template.</strong> Import it, duplicate it, and customize\nthe duplicate for each new character.</li>\n<li><strong>Search works.</strong> Use the search bar at the top of an open compendium\nto find specific entries by name.</li>\n</ul>\n<!-- TODO: Document how to create custom compendium packs, how world\n     compendiums differ from system compendiums, and how updates affect\n     existing world copies -->"
+      },
+      "_key": "!journal.pages!iQDAVpnCMxRWch8m.compendium-tips"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "iQDAVpnCMxRWch8m",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!iQDAVpnCMxRWch8m"
+}

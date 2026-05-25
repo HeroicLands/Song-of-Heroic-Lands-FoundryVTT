@@ -1,0 +1,52 @@
+{
+  "name": "Buckram Cowl",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hood.svg",
+  "_id": "NODwhSpUKB9OGWVi",
+  "system": {
+    "shortcode": "BCowl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/buckram-cowl/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Buckram Cowl is stiff and structured, made from coarse cloth stiffened with glue. It offers durability and reliable coverage, suitable for activities requiring a more rigid head and shoulder covering.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.3,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Skull",
+        "Neck"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!NODwhSpUKB9OGWVi"
+}

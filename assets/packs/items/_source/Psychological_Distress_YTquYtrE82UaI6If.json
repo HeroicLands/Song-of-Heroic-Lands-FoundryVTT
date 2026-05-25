@@ -1,0 +1,37 @@
+{
+  "name": "Psychological Distress",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "YTquYtrE82UaI6If",
+  "system": {
+    "shortcode": "psydist",
+    "docUrl": "https://heroiclands.org/sohl/affliction/psychological-distress/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Psychological distress weakness is the bodily cost of sustained psychological strain — grief, terror, prolonged fear, the slow erosion of will under captivity or torture, the cumulative burden of guilt or shame. Where Sleepless captures the cost of forgone rest, Distressed captures the cost of an overburdened spirit. The body bears the strain, and the cost is real even when no visible wound has been taken. 5 fatigue per point of accumulated psyche stress (PSY).</p>\n<h3>Symptoms</h3>\n<p>Tightness in the chest, shallow breathing, broken sleep with or without dreams, suppressed or excessive appetite, slow movement, flat or excessive affect, withdrawal from companions, distractibility, occasional outbursts.</p>\n<h3>Progression</h3>\n<p>Sustained psychological stress without relief erodes the character's mental function and produces lasting damage. Severe stress can develop into specific psychological afflictions — phobias, major disorders, trauma states. A character who has been distressed long enough may not fully return.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Distance from the source of stress where possible</li>\n<li>Time with familiar companions in safe places</li>\n<li>Sleep, even if broken; sleep helps even when grief does not abate</li>\n<li>Honest conversation where the character is willing</li>\n<li>Ritual or spiritual care according to the character's tradition</li>\n</ul>\n<h3>Recovery</h3>\n<p>Weakness fatigue is indefinite, abating only as the underlying source recovers according to its own rules.</p>\n",
+    "subType": "fatigue",
+    "category": "weakness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!YTquYtrE82UaI6If"
+}

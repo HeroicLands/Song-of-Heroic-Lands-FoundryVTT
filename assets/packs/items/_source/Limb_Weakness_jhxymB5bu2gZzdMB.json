@@ -1,0 +1,38 @@
+{
+  "name": "Limb Weakness",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "jhxymB5bu2gZzdMB",
+  "system": {
+    "shortcode": "lmbwknss",
+    "docUrl": "https://heroiclands.org/sohl/trait/limb-weakness/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Limb Weakness is a condition characterized by a partial loss of strength or control in one or more limbs. This weakness can make it difficult to perform everyday tasks and may cause a sense of heaviness or fatigue in the affected limb. Those afflicted must rely on rest, physical therapy, and adaptive strategies to manage their symptoms.</p>\n<h3>Impulse</h3>\n<p>Noticeable weakness in the affected limb(s), leading to difficulty with tasks that require strength or dexterity, such as lifting objects, walking, or gripping. The individual may experience fatigue in the limb more quickly than usual.\n<strong>Example:</strong> Carpenter Geraint finds that his right arm tires quickly while working with his tools. The once simple task of hammering nails now leaves his arm trembling and weak, forcing him to take frequent breaks to recover.</p>\n<h3>Disorder</h3>\n<p>In addition to impulse intensity behaviors: Significant weakness that severely limits the use of the affected limb(s), making it difficult to perform even basic tasks. The individual may struggle with walking, lifting, or holding objects, leading to a reliance on others for assistance.</p>\n<h3>Physical Symptoms</h3>\n<p>Partial loss of movement or strength in the limb, muscle fatigue, and difficulty coordinating movements. The affected limb may feel heavy, unresponsive, or prone to shaking under strain.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Anxiety about losing further strength, fears of becoming fully paralyzed, and concerns about becoming dependent on others for daily tasks. The individual may worry constantly about worsening symptoms and the impact on their livelihood and independence.</p>\n<h3>Emotional Distress</h3>\n<p>Frustration, helplessness, and sadness due to the inability to perform tasks that once came easily. The individual may withdraw from activities they once enjoyed, feeling isolated and fearful of their growing weakness.</p>\n<p><strong>Example:</strong> Lady Eleanor’s left leg has become so weak that she struggles to walk without assistance. Each step feels like a monumental effort, and she often stumbles, fearing that one day she may not be able to rise again. The fear of losing her mobility haunts her, leading her to retreat to her chambers, where she spends her days worrying about the future and mourning the loss of her independence.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!jhxymB5bu2gZzdMB"
+}

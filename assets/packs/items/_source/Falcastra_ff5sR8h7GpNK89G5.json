@@ -1,0 +1,237 @@
+{
+  "name": "Falcastra",
+  "type": "weapongear",
+  "img": "systems/sohl/assets/icons/polearm.svg",
+  "_id": "ff5sR8h7GpNK89G5",
+  "system": {
+    "shortcode": "Falcstra",
+    "docUrl": "https://heroiclands.org/sohl/weapongear/falcastra/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A curved single-edged blade hafted to a long shaft, the falcastra is part sword and part axe in conception. The curve of the steel gathers momentum in the downward stroke, and the reach allows a foot soldier to strike from behind the shield-wall’s front rank. Light enough for a trained warrior, heavy enough to cleave through bone.</p>\n",
+    "quantity": 1,
+    "weightBase": 7,
+    "valueBase": 42,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "encumbrance": 0,
+    "heftBase": 18,
+    "strikeModes": {
+      "impale": {
+        "type": "melee",
+        "name": "Impale",
+        "assocSkillCode": "melee",
+        "minParts": 1,
+        "attack": {
+          "spread": 8,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 8,
+          "modifier": 4,
+          "aspect": "piercing"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 4,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": true,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": true,
+          "halfSword": false,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 7,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      },
+      "shaft": {
+        "type": "melee",
+        "name": "Shaft",
+        "assocSkillCode": "melee",
+        "minParts": 1,
+        "attack": {
+          "spread": 8,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 6,
+          "modifier": 1,
+          "aspect": "blunt"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 3,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": true,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": false,
+          "halfSword": false,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": true,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 7,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      },
+      "halfswordshaft": {
+        "type": "melee",
+        "name": "Half-Sword Shaft",
+        "assocSkillCode": "melee",
+        "minParts": 2,
+        "attack": {
+          "spread": 6,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 6,
+          "modifier": 0,
+          "aspect": "blunt"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 3,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": true,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": false,
+          "halfSword": true,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 7,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      },
+      "halfswordimpale": {
+        "type": "melee",
+        "name": "Half-Sword Impale",
+        "assocSkillCode": "melee",
+        "minParts": 2,
+        "attack": {
+          "spread": 6,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 8,
+          "modifier": 4,
+          "aspect": "piercing"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 4,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": true,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": true,
+          "halfSword": true,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 7,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      }
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "HXiYHvG6igI3Wlmm",
+  "_key": "!items!ff5sR8h7GpNK89G5"
+}

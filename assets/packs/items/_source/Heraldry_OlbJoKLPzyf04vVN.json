@@ -1,0 +1,35 @@
+{
+  "name": "Heraldry",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/heraldry.svg",
+  "_id": "OlbJoKLPzyf04vVN",
+  "system": {
+    "shortcode": "hrld",
+    "docUrl": "https://heroiclands.org/sohl/skill/heraldry/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Heraldry is the study of armorial achievements—coats of arms, crests, badges, and the complex rules governing their design and display. Beyond mere identification of noble houses, a skilled herald can interpret the symbolic elements of a device to reveal details about the lineage, alliances, and history of the associated family or institution. The discipline functions as a form of aristocratic lore, and those who practice it professionally often serve as diplomats and intermediaries among the nobility. Creating heraldic artwork requires the combined application of Heraldry knowledge and Drawing ability.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@rea, @wil",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!OlbJoKLPzyf04vVN"
+}

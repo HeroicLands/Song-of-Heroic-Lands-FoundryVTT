@@ -1,0 +1,37 @@
+{
+  "name": "Hemorrhagic Venom",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "GF1c8zMqVPVGGAhW",
+  "system": {
+    "shortcode": "hmgfvr",
+    "docUrl": "https://heroiclands.org/sohl/affliction/hemorrhagic-venom/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Hemorrhagic venom causes widespread bleeding and disrupts the body's ability to clot blood. These toxins lead to extensive internal and external bleeding due to their effect on blood vessel integrity and platelet function. Initial symptoms include severe pain and swelling at the injection site, rapidly followed by bruising and bleeding from gums, nose, and other mucous membranes. Hemorrhagic venom can lead to hemorrhagic shock, organ failure, and death if not treated promptly. The toxins damage capillaries and blood vessels, causing a loss of blood and plasma, and impair clotting mechanisms, leading to disseminated intravascular coagulation.</p>\n<h3>Symptoms</h3>\n<p>Intense pain, swelling, and bruising at injection site.</p>\n<h3>Progression</h3>\n<p>Systemic bleeding (internal and external), coagulation disorders, severe hypotension, organ failure, and death if untreated.</p>\n<h3>Treatment</h3>\n<ul>\n<li><strong>Dandelion:</strong> Taken as a tea to support liver function.</li>\n<li><strong>Basil:</strong> Applied as a poultice to control bleeding and swelling.</li>\n<li><strong>Shepherd's Purse:</strong> Taken as a tincture to help stop bleeding.</li>\n</ul>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!GF1c8zMqVPVGGAhW"
+}

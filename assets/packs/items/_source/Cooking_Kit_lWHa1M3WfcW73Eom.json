@@ -1,0 +1,37 @@
+{
+  "name": "Cooking Kit",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "lWHa1M3WfcW73Eom",
+  "system": {
+    "shortcode": "cookkit",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cooking-kit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>An oiled-leather satchel holding a cook's essentials: iron pans and pots, wooden spoons and whisks, a long knife for dressing game, a grater, a ladle, and a stirrup-pot hanger. Campaign cooks, hearth-tenders, and traveling merchants assemble such kits for field meals or roadside suppers. A well-kept kit speaks to pride in the craft; the seasoning baked into an iron pan improves with every meal prepared in it.</p>\n",
+    "quantity": 1,
+    "weightBase": 6,
+    "valueBase": 40,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "xniLjmZWYQZkSxyv",
+  "_key": "!items!lWHa1M3WfcW73Eom"
+}

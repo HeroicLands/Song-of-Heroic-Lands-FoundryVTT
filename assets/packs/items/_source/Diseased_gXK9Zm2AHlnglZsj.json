@@ -1,0 +1,37 @@
+{
+  "name": "Diseased",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "gXK9Zm2AHlnglZsj",
+  "system": {
+    "shortcode": "disd",
+    "docUrl": "https://heroiclands.org/sohl/affliction/diseased/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Diseased weakness is the cumulative drag a character carries while sick — distinct from the disease itself, which is treated as its own affliction. Where the disease describes symptoms, progression, and contagion, the weakness it produces is the simple cost of doing anything while ill. 5–10 fatigue per disease the character carries, scaled by severity.</p>\n<h3>Symptoms</h3>\n<p>General malaise, low stamina, easy chilling, sweating without exertion, slowed thought, dulled appetite, broken sleep, listless mood. Specific diseases overlay specific symptoms on top of this baseline.</p>\n<h3>Progression</h3>\n<p>As long as the underlying disease persists, this weakness persists. Worsening disease worsens the weakness; treatment that improves the disease reduces it.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Treat the underlying disease — see the disease's own entry</li>\n<li>Bed rest, warm broth, fluids</li>\n<li>Quarantine where contagion is a concern</li>\n<li>The weakness itself needs no separate treatment; it abates as the disease abates</li>\n</ul>\n<h3>Recovery</h3>\n<p>Weakness fatigue is indefinite, abating only as the underlying source recovers according to its own rules.</p>\n",
+    "subType": "fatigue",
+    "category": "weakness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 1,
+    "levelBase": 1,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!gXK9Zm2AHlnglZsj"
+}

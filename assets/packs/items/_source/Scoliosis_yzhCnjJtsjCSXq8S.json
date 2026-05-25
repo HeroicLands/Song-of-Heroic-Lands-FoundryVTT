@@ -1,0 +1,38 @@
+{
+  "name": "Scoliosis",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "yzhCnjJtsjCSXq8S",
+  "system": {
+    "shortcode": "sclss",
+    "docUrl": "https://heroiclands.org/sohl/trait/scoliosis/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Scoliosis is a condition where the spine curves abnormally to the side, often forming an &quot;S&quot; or &quot;C&quot; shape. This spinal curvature can cause physical discomfort, visible deformity, and, in severe cases, complications with movement, posture, and even breathing. Individuals with scoliosis must manage the condition through physical adaptation and assistance from others.</p>\n<h3>Impulse</h3>\n<p>Mild to moderate curvature of the spine, resulting in a visible asymmetry of the shoulders, hips, or back. The individual may experience occasional discomfort, muscle strain, or stiffness, but can still perform most tasks with minimal difficulty.\n<strong>Example:</strong> Apprentice mason Aldred notices his back aching after long hours of work. His shoulders appear slightly uneven, but the discomfort is manageable with rest and stretching. Though his posture is not perfect, he continues to work efficiently, compensating for the mild curve in his spine.</p>\n<h3>Disorder</h3>\n<p>The spinal curvature becomes more pronounced, leading to significant physical limitations and visible deformity. The individual may struggle with mobility, posture, and balance, experiencing chronic pain and stiffness. Severe cases can affect lung function and overall movement.</p>\n<h3>Physical Symptoms</h3>\n<p>A visibly curved spine, uneven shoulders and hips, chronic back pain, stiffness, difficulty standing for long periods, and restricted movement. In severe cases, the rib cage may press against the lungs, making breathing difficult.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Anxiety about worsening deformity, fear of losing the ability to move freely, and concerns about social judgment or isolation due to the visible nature of the condition.</p>\n<h3>Emotional Distress</h3>\n<p>Frustration, embarrassment, and sadness over the visible changes to their body and the physical limitations scoliosis imposes. The individual may withdraw from social activities due to the discomfort and self-consciousness about their appearance.</p>\n<p><strong>Example:</strong> Lady Eleanor’s once graceful posture is now severely altered by scoliosis. Her spine curves sharply, causing her constant pain and making it difficult to walk or stand for long periods. The visible deformity draws unwanted attention, and she retreats from social gatherings, fearing judgment and struggling to cope with her limited mobility.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "disorder",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!yzhCnjJtsjCSXq8S"
+}

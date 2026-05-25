@@ -1,0 +1,37 @@
+{
+  "name": "Butter",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "fuq6ux6kOcuTcrZP",
+  "system": {
+    "shortcode": "butter",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/butter/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Pale yellow butter churned from cream and gathered into a cloth-wrapped lump or stoppered pot for keeping cool. A dairy-maid or cheesemaker produces butter for household use and trade; it melts into vegetables, enriches bread, and fries meat. Salted butter keeps longer than fresh and is preferred for storage, while unsalted butter is used immediately or spread on bread.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.5,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!fuq6ux6kOcuTcrZP"
+}

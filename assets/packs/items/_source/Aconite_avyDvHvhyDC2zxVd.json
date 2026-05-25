@@ -1,0 +1,37 @@
+{
+  "name": "Aconite",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "avyDvHvhyDC2zxVd",
+  "system": {
+    "shortcode": "aconite",
+    "docUrl": "https://heroiclands.org/sohl/affliction/aconite/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Aconite contains highly potent alkaloids such as aconitine, which are used both for poisoning and applied to arrow tips as a weapon. Aconite can cause severe cardiac and neurological disturbances.</p>\n<h3>Symptoms</h3>\n<p>Symptoms include a burning sensation in the mouth and throat, vomiting, diarrhea, numbness, and muscle weakness.</p>\n<h3>Progression</h3>\n<p>Progression leads to cardiac arrhythmias, respiratory paralysis, and death.</p>\n<h3>Treatment</h3>\n<p>An immediate emetic like mustard powder mixed with water, activated charcoal, and herbal teas (such as ginger or peppermint) to alleviate nausea and support digestion. Keeping the victim warm and calm to counteract shock.</p>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!avyDvHvhyDC2zxVd"
+}

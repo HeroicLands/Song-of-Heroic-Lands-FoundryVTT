@@ -1,0 +1,57 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <fieldset class="moveBase">
+        <legend>{{localize "SOHL.Lineage.moveBase.legend"}}</legend>
+        <p class="hint">{{localize "SOHL.Lineage.moveBase.hint"}}</p>
+        <div class="grid grid-5col">
+            <label>
+                <span>{{localize "SOHL.MovementMedium.TERRESTRIAL"}}</span>
+                <input type="number" min="0" step="1"
+                    name="system.moveBase.terrestrial"
+                    value="{{system.moveBase.terrestrial}}">
+            </label>
+            <label>
+                <span>{{localize "SOHL.MovementMedium.AQUATIC"}}</span>
+                <input type="number" min="0" step="1"
+                    name="system.moveBase.aquatic"
+                    value="{{system.moveBase.aquatic}}">
+            </label>
+            <label>
+                <span>{{localize "SOHL.MovementMedium.AERIAL"}}</span>
+                <input type="number" min="0" step="1"
+                    name="system.moveBase.aerial"
+                    value="{{system.moveBase.aerial}}">
+            </label>
+            <label>
+                <span>{{localize "SOHL.MovementMedium.BURROWING"}}</span>
+                <input type="number" min="0" step="1"
+                    name="system.moveBase.burrowing"
+                    value="{{system.moveBase.burrowing}}">
+            </label>
+            <label>
+                <span>{{localize "SOHL.MovementMedium.ASTRAL"}}</span>
+                <input type="number" min="0" step="1"
+                    name="system.moveBase.astral"
+                    value="{{system.moveBase.astral}}">
+            </label>
+        </div>
+        <label class="defaultMoveMedium">
+            <span>{{localize "SOHL.Lineage.defaultMoveMedium.label"}}</span>
+            <select name="system.defaultMoveMedium">
+                {{selectOptions movementMediumChoices selected=system.defaultMoveMedium localize=true}}
+            </select>
+        </label>
+    </fieldset>
+</section>

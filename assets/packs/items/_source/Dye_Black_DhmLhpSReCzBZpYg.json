@@ -1,0 +1,37 @@
+{
+  "name": "Dye, Black",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/potion.svg",
+  "_id": "DhmLhpSReCzBZpYg",
+  "system": {
+    "shortcode": "dyeblk",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/dye-black/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A fine powder of logwood or iron-tannate mordanted with alum or oak-gall salts, kept in a stoppered earthenware pot. Wool-dyers and linen-workers prize black for mourning cloth and formal wear; it sets fast with a weak acid bath and yields deep, enduring color. Cloth is hand-stirred in the dye-vat over several hours to ensure even saturation.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 36,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7r8WTAO2Ac8SF9tf",
+  "_key": "!items!DhmLhpSReCzBZpYg"
+}

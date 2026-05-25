@@ -1,0 +1,35 @@
+{
+  "name": "Sling",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/sling.svg",
+  "_id": "lR1rlTeStCJvDwTR",
+  "system": {
+    "shortcode": "slng",
+    "docUrl": "https://heroiclands.org/sohl/skill/sling/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Sling is the combat skill of using a sling to hurl stones or lead bullets at distant targets. Though deceptively simple in construction—little more than a leather pouch and two cords—the sling is a surprisingly effective ranged weapon in skilled hands, capable of delivering crushing impacts at considerable distance. Mastery requires extensive practice to develop the precise timing and release that consistent accuracy demands. Slingers can use readily available river stones in a pinch, though purpose-made ammunition yields superior results.</p>\n",
+    "subType": "combat",
+    "skillBaseFormula": "@dex, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "missile",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "EphAMAfFhWBrJxyF",
+  "_key": "!items!lR1rlTeStCJvDwTR"
+}

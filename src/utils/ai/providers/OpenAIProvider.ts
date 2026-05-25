@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { AIAdapter, CompletionOptions } from "@utils/ai/AIAdapter";
+import { AIAdapter, CompletionOptions } from "@src/utils/ai/AIAdapter";
 
 export class OpenAIProvider extends AIAdapter {
     private apiKey: string;

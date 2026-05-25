@@ -1,0 +1,37 @@
+{
+  "name": "Astral Journeying",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "bM068RlsHmI1CKFb",
+  "system": {
+    "shortcode": "astjourn",
+    "docUrl": "https://heroiclands.org/sohl/affliction/astral-journeying/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Astral Journeying fatigue is the weariness of travel in the spirit or astral realm — the deep drain produced by carrying consciousness through the spirit-realm and returning to flesh. The cost is paid at reembodiment, when the spirit reassembles itself in physical form; the longer or more arduous the journey, the heavier the toll. 0–20 fatigue per journey, depending on duration and intensity.</p>\n<h3>Symptoms</h3>\n<p>Disorientation on returning to body, sluggish breath, slow recognition of surroundings, persistent sense of cold that doesn't track the room's temperature, blurred vision, headache. The character feels as if they are wearing a body that does not quite fit them.</p>\n<h3>Progression</h3>\n<p>Severe astral fatigue makes future journeys harder and increases the risk of dissociation or soul-anchor failure on subsequent returns. Travelers who push past their weariness ceiling sometimes do not fully return.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Sit in stillness, in a familiar place</li>\n<li>Eat and drink slowly; warm food is better than cold</li>\n<li>Speak to someone who knows the body — voice helps re-anchor</li>\n<li>Rest fully before attempting another journey</li>\n</ul>\n<h3>Recovery</h3>\n<p>Four hours of rest reduces weariness fatigue by 5; eight hours of sleep reduces it by 15.</p>\n",
+    "subType": "fatigue",
+    "category": "weariness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!bM068RlsHmI1CKFb"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Bucket, leather",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "T6fIlm5nQIn5hdmv",
+  "system": {
+    "shortcode": "bucketleat",
+    "docUrl": "https://heroiclands.org/sohl/containergear/bucket-leather/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A fire-bucket of heavy cowhide, boiled and shaped over a form and then pitched inside and out to hold water. A wooden or iron hoop stitched into the rim keeps the mouth open, and a leather or rope bail lets it be swung from ladder to ladder in a bucket-brigade line. Lighter than a stave-built bucket and far less fragile when dropped, it is stacked flat by the score in town halls, watch-houses, and the yards of any prudent landlord.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 40
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!T6fIlm5nQIn5hdmv"
+}

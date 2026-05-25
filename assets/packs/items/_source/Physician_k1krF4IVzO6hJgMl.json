@@ -1,0 +1,35 @@
+{
+  "name": "Physician",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/caduceus.svg",
+  "_id": "k1krF4IVzO6hJgMl",
+  "system": {
+    "shortcode": "pysn",
+    "docUrl": "https://heroiclands.org/sohl/skill/physician/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Physician encompasses the medical knowledge needed to diagnose illness, treat injuries, perform surgery, and manage the long-term care of the sick and wounded. It is one of the most demanding of the learned professions, requiring both theoretical understanding of the body and practical skill in applying treatments. A physician's effectiveness in treating wounds and diseases depends on both their medical expertise and the quality of available resources. The skill covers battlefield triage as well as the more deliberate practice of a settled healer's craft.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@rea, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 1
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!k1krF4IVzO6hJgMl"
+}

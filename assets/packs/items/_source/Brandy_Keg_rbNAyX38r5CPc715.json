@@ -1,0 +1,37 @@
+{
+  "name": "Brandy, Keg",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/brandy-bottle.svg",
+  "_id": "rbNAyX38r5CPc715",
+  "system": {
+    "shortcode": "brdykeg",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/brandy-keg/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A keg of distilled brandy—the product of wine heated in a copper still until the spirit rises and condenses. Merchants and noble households prize it; a stopper sealed with wax preserves the volatile spirit for months or years in a cellar. Used sparingly, often as medicine.</p>\n",
+    "quantity": 1,
+    "weightBase": 85,
+    "valueBase": 360,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "jLdeIpOIZokm8obv",
+  "_key": "!items!rbNAyX38r5CPc715"
+}

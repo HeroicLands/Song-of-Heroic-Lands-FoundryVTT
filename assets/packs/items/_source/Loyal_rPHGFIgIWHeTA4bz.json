@@ -1,0 +1,38 @@
+{
+  "name": "Loyal",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "rPHGFIgIWHeTA4bz",
+  "system": {
+    "shortcode": "loyal",
+    "docUrl": "https://heroiclands.org/sohl/trait/loyal/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Loyal refers to an individual's steadfast commitment and\ndedication to a person, cause, or group. A loyal person is reliable, supportive, and\noften willing to make sacrifices to uphold their bonds and obligations. They stand\nby those they care about through both good and difficult times. While loyalty is a\nhighly valued trait that strengthens relationships and fosters trust, excessive\nloyalty can sometimes lead to self-sacrifice, the enabling of harmful behavior, or\nan unwillingness to recognize when loyalty is no longer deserved.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Benign Trait:</strong> The individual is dependable and consistently\nsupportive of their friends, family, or allies. Their loyalty builds strong\nrelationships, as they stand by those they care for, offering help and\nprotection when needed. This loyalty is balanced with wisdom, allowing them to\nremain faithful without becoming overly attached to situations that may be\ndamaging.\n<strong>Example:</strong> Sir Gregory has been a loyal knight\nto his lord for many years, serving with honor and dedication. He is always\nthere when his lord needs him, whether in battle or during times of peace. His\nloyalty is not blind, as he is willing to offer honest advice, even when it\nmay be difficult to hear, to protect the lord and the realm.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Impulse Intensity:</strong> The individual becomes more intensely\nfocused on their loyalty, going out of their way to support or defend their\nfriends or cause. They may overlook certain faults or make sacrifices that go\nbeyond what is necessary. While they still maintain a degree of balance, this\nheightened loyalty can lead to stress or a sense of duty that occasionally\ncauses strain in their own life.\n<strong>Example:</strong> Sir Gregory begins to\nprioritize his loyalty to his lord over his own well-being, refusing rest or\ntime with his family to ensure his lord’s protection and success. His peers\nadmire his dedication, but some worry that Gregory is pushing himself too hard\nand may eventually burn out from his relentless commitment.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Disorder Intensity:</strong> As loyalty intensifies, the individual may\nbecome overly devoted, to the point where they are unable to recognize when\ntheir loyalty is misplaced or harmful. They may continue to support a person or\ncause even when it negatively impacts their well-being or the well-being of\nothers. This extreme loyalty can lead to self-sacrifice, blind allegiance, or\nenabling destructive behavior, ultimately harming both the individual and those\naround them.</p>\n<p><strong>Physical Symptoms:</strong> The individual may experience physical\nexhaustion or stress from constantly putting the needs of others before\ntheir own. They may neglect their health or responsibilities as they\novercommit to proving their loyalty.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts of duty and\nobligation, coupled with guilt or anxiety at the thought of failing or\nbetraying someone they are loyal to. The individual may feel compelled to\nremain loyal even when it is no longer reasonable or healthy to do so.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Emotional Distress</h3>\n<p>The individual may feel trapped, conflicted, or resentful as their extreme loyalty begins to take a toll on\ntheir well-being. They may be unable to separate their loyalty from their\nown needs, leading to feelings of helplessness or frustration as they\ncontinue to support someone or something to their own detriment.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Example:</strong> Sir Gregory's loyalty\nhas become so intense that he refuses to see any faults in his lord, even as\nthe lord makes increasingly poor and harmful decisions. Gregory neglects his\nfamily and personal health, working tirelessly to serve his lord’s every\ncommand, even when he knows it may lead to ruin. His friends express\nconcern, but Gregory feels bound by his duty, unwilling to question his\nloyalty or consider abandoning his post, even as it causes his life to\nunravel.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "SpZzOv4eOwtdsMMo",
+  "_key": "!items!rPHGFIgIWHeTA4bz"
+}

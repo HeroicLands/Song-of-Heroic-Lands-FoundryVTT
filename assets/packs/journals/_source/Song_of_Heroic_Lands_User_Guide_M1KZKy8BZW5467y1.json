@@ -1,0 +1,35 @@
+{
+  "name": "Song of Heroic Lands User Guide",
+  "pages": [
+    {
+      "_id": "31da240b14e26c2e",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Welcome to the <em>Song of Heroic Lands</em> system for Foundry VTT.  This system has been designed to be compatible with <a href=\"https://www.kelestia.com/hmk-pdf\"><em>HârnMaster: Roleplaying in the World of Kethira</em></a> (HMK) system by Kelestia Productions, Inc. (https://www.kelestia.com/). You may either use the [[Song_of_Heroic_Lands_Rules|abbreviated SoHL rules]] or you may purchase the HMK book (I heartily recommend that).</p>\n<p>This page is an index to the instructions on how to use this system.</p>\n<p>If you want to just jump in, take a look at the [[SoHL_Quickstart]]</p>\n"
+      },
+      "_key": "!journal.pages!M1KZKy8BZW5467y1.31da240b14e26c2e"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "M1KZKy8BZW5467y1",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!M1KZKy8BZW5467y1"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Ladle, copper",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "AziVH9Mv7xTnjLYb",
+  "system": {
+    "shortcode": "ladlecoppe",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/ladle-copper/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A copper ladle with a long handle and shallow bowl tinned inside, used to dip and serve soup, stew, or other heated liquids from a cauldron or pot. The long handle keeps the cook's hands away from the steam and flame, and the tinning prevents the food from taking on a metallic tang. Such ladles are fixtures in kitchen and camp, hung from a nail or stored with other essential gear, and outlast several generations of use if maintained.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!AziVH9Mv7xTnjLYb"
+}

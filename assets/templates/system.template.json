@@ -19,8 +19,8 @@
         "compatibleMigrationVersion": "0.3.0"
     },
     "compatibility": {
-        "minimum": "13",
-        "verified": "13.346"
+        "minimum": "14.356",
+        "verified": "14.356"
     },
     "scripts": ["sohl.js"],
     "styles": ["css/sohl.css"],
@@ -34,96 +34,69 @@
     "documentTypes": {
         "Actor": {
             "being": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "cohort": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "structure": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "vehicle": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             },
             "assembly": {
-                "htmlFields": ["description", "biography", "textReference"]
+                "htmlFields": ["dossier", "appearance"]
             }
         },
         "Item": {
-            "action": {
-                "htmlFields": ["description", "textReference"]
-            },
             "affiliation": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "affliction": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "armorgear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
-            "bodylocation": {
-                "htmlFields": ["description", "textReference"]
+            "attribute": {
+                "htmlFields": ["notes", "docHtml"]
             },
-            "bodypart": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "bodyzone": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "combattechniquestrikemode": {
-                "htmlFields": ["description", "textReference"]
+            "combattechnique": {
+                "htmlFields": ["notes", "docHtml"]
             },
             "concoctiongear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "containergear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
-            "domain": {
-                "htmlFields": ["description", "textReference"]
+            "trauma": {
+                "htmlFields": ["notes", "docHtml"]
             },
-            "injury": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "meleeweaponstrikemode": {
-                "htmlFields": ["description", "textReference"]
+            "lineage": {
+                "htmlFields": ["notes", "docHtml"]
             },
             "miscgear": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "missileweaponstrikemode": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "movementprofile": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "mystery": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "mysticalability": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "mysticaldevice": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "philosophy": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "projectilegear": {
-                "htmlFields": ["description", "textReference"]
-            },
-            "protection": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "skill": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "trait": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             },
             "weapongear": {
-                "htmlFields": ["description", "textReference"]
+                "htmlFields": ["notes", "docHtml"]
             }
         },
         "ActiveEffect": {
@@ -136,55 +109,19 @@
             "sorting": "m",
             "color": "#094fcb",
             "packs": [
-                "characters",
-                "creatures",
-                "characteristics",
-                "mysteries",
-                "possessions",
+                "items",
                 "journals",
-                "macros"
+                "actors"
             ]
         }
     ],
     "packs": [
         {
-            "label": "Characters",
-            "type": "Actor",
-            "name": "characters",
-            "system": "sohl",
-            "path": "packs/characters",
-            "private": false
-        },
-        {
-            "label": "Creatures",
-            "type": "Actor",
-            "name": "creatures",
-            "system": "sohl",
-            "path": "packs/creatures",
-            "private": false
-        },
-        {
-            "label": "Characteristics",
+            "label": "Items",
             "type": "Item",
-            "name": "characteristics",
+            "name": "items",
             "system": "sohl",
-            "path": "packs/characteristics",
-            "private": false
-        },
-        {
-            "label": "Mysteries",
-            "type": "Item",
-            "name": "mysteries",
-            "system": "sohl",
-            "path": "packs/mysteries",
-            "private": false
-        },
-        {
-            "label": "Possessions",
-            "type": "Item",
-            "name": "possessions",
-            "system": "sohl",
-            "path": "packs/possessions",
+            "path": "packs/items",
             "private": false
         },
         {
@@ -196,11 +133,11 @@
             "private": false
         },
         {
-            "label": "Macros",
-            "type": "Macro",
-            "name": "macros",
+            "label": "Actors",
+            "type": "Actor",
+            "name": "actors",
             "system": "sohl",
-            "path": "packs/macros",
+            "path": "packs/actors",
             "private": false
         }
     ],

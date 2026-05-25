@@ -1,0 +1,38 @@
+{
+  "name": "Neurofibromatosis",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "rzd8p7q9F7zD8M8F",
+  "system": {
+    "shortcode": "neurofib",
+    "docUrl": "https://heroiclands.org/sohl/trait/neurofibromatosis/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Neurofibromatosis is a genetic disorder that causes tumors, known as neurofibromas, to grow along nerves, affecting various parts of the body, including the skin, bones, and nervous system. These tumors, though typically benign, can lead to visible deformities, chronic pain, and significant neurological complications. The visible nature of the tumors often leads to social stigmatization and emotional distress as the individual contends with both physical and social challenges.</p>\n<h3>Impulse</h3>\n<p>The condition begins with the appearance of café-au-lait spots and small, visible neurofibromas, typically causing no pain but raising concerns about appearance and future health issues. While still in the early stages, the visibility of these spots and lumps can lead to social discomfort, with others noticing and reacting to the unusual markings.\n<strong>Example:</strong> Matthew has developed several café-au-lait spots on his arms and back, as well as small neurofibromas that are starting to become noticeable. Though the condition causes him no physical discomfort yet, the curious and sometimes uneasy glances from others in the village make him feel self-conscious. He begins wearing long sleeves even in warm weather to hide the marks.</p>\n<h3>Disorder</h3>\n<p>As the condition worsens, neurofibromas grow larger and more numerous, often disfiguring the skin, face, and limbs. These visible tumors can cause severe social stigma, with the individual facing discrimination, avoidance, or even fear from others. Physical pain and neurological issues such as muscle weakness or numbness add to the difficulties, but the psychological toll of being visibly &quot;different&quot; can be even more damaging. Social isolation, anxiety, and depression often accompany the physical progression of the disease.</p>\n<h3>Physical Symptoms</h3>\n<p>Large, disfiguring neurofibromas on the skin and deeper within the body, often growing in highly visible areas like the face, neck, and limbs. These tumors can lead to chronic pain, deformities, loss of muscle function, numbness, and in severe cases, vision and hearing impairments. Scoliosis or other bone abnormalities may also develop.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Constant fear of being judged or ostracized due to the visible nature of the tumors, anxiety about worsening deformities, and a pervasive sense of dread over the potential for physical deterioration. Worries about becoming socially isolated or unable to find acceptance are common.</p>\n<h3>Emotional Distress</h3>\n<p>Deep frustration, sadness, and helplessness due to the visible disfigurement and the reaction from others. The individual may feel socially rejected, and fear of judgment can lead to withdrawal from social activities. Depression and anxiety are common as the individual struggles to cope with the visible, painful, and progressive nature of the disease.</p>\n<p><strong>Example:</strong> By his teenage years, Matthew’s neurofibromas have grown significantly, covering large parts of his face and neck, drawing stares and whispers wherever he goes. Even old friends have started to avoid him, and strangers sometimes react with visible discomfort or fear. The disfigurement makes Matthew anxious to be seen in public, and the pain from the growing tumors makes it difficult to go about daily life. He has become withdrawn, no longer attending social events or even leaving his home without his family’s encouragement, consumed by feelings of isolation and self-consciousness.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!rzd8p7q9F7zD8M8F"
+}

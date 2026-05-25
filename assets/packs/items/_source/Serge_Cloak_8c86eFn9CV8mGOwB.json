@@ -1,0 +1,56 @@
+{
+  "name": "Serge Cloak",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/cloak.svg",
+  "_id": "8c86eFn9CV8mGOwB",
+  "system": {
+    "shortcode": "SgClk",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/serge-cloak/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Serge Cloak is made from durable twilled fabric, making it both comfortable and resilient. It’s a versatile outer garment that provides good protection and can withstand the wear and tear of daily use.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.7,
+    "valueBase": 40,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!8c86eFn9CV8mGOwB"
+}

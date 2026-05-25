@@ -1,0 +1,37 @@
+{
+  "name": "Horn, Hunting",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "oMxquMAN0nIiaNMO",
+  "system": {
+    "shortcode": "hornhuntin",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/horn-hunting/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A curved horn of ram or bullock, hollowed smooth and often fitted with a simple mouthpiece of horn or bone. Huntsmen blow sharp, clear signals to coordinate parties afield and call hounds during the chase; the piercing blare carries across forest and moorland far better than the human voice. A skilled horn-blower commands a precise repertoire of calls—each signaling different game, rally, or danger.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!oMxquMAN0nIiaNMO"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Fletcher's Kit",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Hm3YqV9ZrNpW8Tku",
+  "system": {
+    "shortcode": "fletchkit",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/fletchers-kit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small wooden case lined with cloth, holding the tools of the fletcher's trade: fine shears for cutting feather vanes, spools of waxed silk and split sinew for binding, a sealed pot of fish glue, a nocking jig of turned boxwood, a shaft plane and gauge for truing the wood, a small whetstone, and a tin of assorted heads for fitting. A skilled fletcher will dress a dozen arrows in an afternoon, each balanced to the bow that will shoot it; a careless one will fletch them crooked and send a hunter home empty-handed.</p>\n<p>Archers, hunters, and foresters carry such kits on any long journey, since a bent or broken shaft is a nightly loss and a bundle of seasoned cane or yew weighs little on the pack. The consumables — glue, silk, feathers, heads — are replaced often, and a fletcher who has been in the field through a long hunt will return with the case empty and the quiver full.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 30,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "xniLjmZWYQZkSxyv",
+  "_key": "!items!Hm3YqV9ZrNpW8Tku"
+}

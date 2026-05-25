@@ -1,0 +1,63 @@
+{
+  "name": "Worsted Coat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "sweAj8dG7Nt3ePZp",
+  "system": {
+    "shortcode": "WCoat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/worsted-coat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Worsted Coat, made from tightly-spun wool, provides comfort and durability. It’s a versatile choice that offers good insulation and reliable protection for various activities and weather conditions.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.6,
+    "valueBase": 154,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Elbow",
+        "Right Elbow",
+        "Left Forearm",
+        "Right Forearm",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!sweAj8dG7Nt3ePZp"
+}

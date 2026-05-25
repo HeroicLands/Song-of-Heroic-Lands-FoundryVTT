@@ -1,0 +1,37 @@
+{
+  "name": "Pan, copper, large",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "cMBf5wA7ao9oiW3C",
+  "system": {
+    "shortcode": "pancopperl",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pan-copper-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A wide, shallow copper pan tinned inside and fitted with a long iron handle, used for frying and sautéing at a cook's hearth. The large size allows the cook to move several portions at once, and the copper conducts heat evenly without scorching. Such pans are expensive enough to be kept in a prosperous household's kitchen, suspended from a rack or returned to its hooks after each meal, and hand-washed rather than scoured.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 12,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!cMBf5wA7ao9oiW3C"
+}

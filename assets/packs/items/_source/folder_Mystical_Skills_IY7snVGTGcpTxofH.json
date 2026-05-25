@@ -1,0 +1,19 @@
+{
+  "name": "Mystical Skills",
+  "sorting": "a",
+  "folder": "oPaj2BHhAX2fvkx6",
+  "type": "Item",
+  "_id": "IY7snVGTGcpTxofH",
+  "sort": 0,
+  "color": "#BA55D3",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!IY7snVGTGcpTxofH"
+}

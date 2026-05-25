@@ -1,0 +1,37 @@
+{
+  "name": "Starving",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/privation.svg",
+  "_id": "yuBrsrrCniSdREeP",
+  "system": {
+    "shortcode": "starv",
+    "docUrl": "https://heroiclands.org/sohl/affliction/starving/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Starvation is the systemic consequence of prolonged calorie deficit, during which the body first consumes stored fat and then dismantles its own muscle and organ tissue for fuel. Unlike dehydration it unfolds over weeks rather than hours, and damage from late-stage starvation persists long after a normal diet is resumed.</p>\n<h3>Symptoms</h3>\n<p>Constant hunger giving way to apathy, profound weakness, sunken cheeks and eyes, prominent ribs and joints, cold extremities, brittle hair, and slow, shallow breathing. The voice grows thin and the skin loosens and bruises easily.</p>\n<h3>Progression</h3>\n<p>Stamina collapses within days. After roughly a fortnight muscle wasting becomes visible; after a month the immune system fails and minor infections become deadly. Cardiac and kidney damage accrue in the final weeks and may be permanent. Death typically follows from heart failure, infection, or hypothermia at greatly reduced body mass.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Reintroduce food gradually — broth and gruel before solid meals, to avoid refeeding shock</li>\n<li>Pair every meal with clean water and a pinch of salt</li>\n<li>Rest in warmth; do not let the patient exert themselves</li>\n<li>Honey and dried fruit for quick energy when available</li>\n</ul>\n",
+    "subType": "privation",
+    "category": "starvation",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 4,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "wz4hXqKLntkdXNue",
+  "_key": "!items!yuBrsrrCniSdREeP"
+}

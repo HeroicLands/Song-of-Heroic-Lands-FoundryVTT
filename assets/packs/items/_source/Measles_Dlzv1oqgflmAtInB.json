@@ -1,0 +1,37 @@
+{
+  "name": "Measles",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/disease.svg",
+  "_id": "Dlzv1oqgflmAtInB",
+  "system": {
+    "shortcode": "measles",
+    "docUrl": "https://heroiclands.org/sohl/affliction/measles/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Measles is a highly contagious viral infection caused by the measles virus. It begins with high fever, cough, runny nose, and red eyes, followed by the appearance of Koplik spots inside the mouth and a red, blotchy rash that starts on the face and spreads to the rest of the body. Complications can include ear infections, severe diarrhea, pneumonia, encephalitis, and death, particularly in young children and immunocompromised individuals. Vaccination with the measles, mumps, and rubella (MMR) vaccine is highly effective in preventing the disease.</p>\n<h3>Symptoms</h3>\n<p>Initial symptoms include high fever, cough, runny nose, and red eyes.</p>\n<h3>Progression</h3>\n<p>These are followed by the appearance of tiny white spots (Koplik spots) inside the mouth and a characteristic red rash that spreads from the face down to the rest of the body. The rash usually subsides in about a week, but complications can include ear infections, severe diarrhea, pneumonia, encephalitis (brain inflammation), and death.</p>\n<h3>Treatment</h3>\n<ul>\n<li>\n<p>Neem leaves (a bath to soothe skin and itching)</p>\n</li>\n<li>\n<p>Calendula (topically to reduce skin inflammation)</p>\n</li>\n<li>\n<p>Echinacea (support immune response)</p>\n</li>\n<li>\n<p>Isolate to prevent transmission.</p>\n</li>\n</ul>\n",
+    "subType": "disease",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "airborne"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3lobflzDt8Hk6VrN",
+  "_key": "!items!Dlzv1oqgflmAtInB"
+}

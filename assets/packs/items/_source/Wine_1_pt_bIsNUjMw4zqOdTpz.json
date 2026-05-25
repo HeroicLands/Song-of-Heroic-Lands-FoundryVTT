@@ -1,0 +1,37 @@
+{
+  "name": "Wine, 1 pt.",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/wine-bottle.svg",
+  "_id": "bIsNUjMw4zqOdTpz",
+  "system": {
+    "shortcode": "winept",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/wine-1-pt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A pint of common wine in a corked bottle. Grape-pressed and fermented in barrel, it is tart and thin compared to aged varietals, yet preferable to ale for merchants, minor nobles, and those with modest coin. Served in taverns of standing.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 2.5,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "jLdeIpOIZokm8obv",
+  "_key": "!items!bIsNUjMw4zqOdTpz"
+}

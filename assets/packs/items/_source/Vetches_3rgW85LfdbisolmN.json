@@ -1,0 +1,37 @@
+{
+  "name": "Vetches",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "3rgW85LfdbisolmN",
+  "system": {
+    "shortcode": "vetches",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/vetches/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Vetches are small legume seeds harvested from spreading vines, dried hard and stored in bulk for winter feeding. Soaked overnight and simmered, they soften into a mild porridge; unseasoned, they provide filling sustenance at minimal cost. Peasants and soldiers rely on vetches; wealthy tables avoid them. The plant also feeds livestock and enriches exhausted soil when plowed under.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!3rgW85LfdbisolmN"
+}

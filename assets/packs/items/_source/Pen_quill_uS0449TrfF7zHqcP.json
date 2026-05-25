@@ -1,0 +1,37 @@
+{
+  "name": "Pen, quill",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "uS0449TrfF7zHqcP",
+  "system": {
+    "shortcode": "penquill",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pen-quill/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A goose or swan primary feather, trimmed and hardened by heat, with the quill split to form a nib. A quill writes soft, flowing strokes and suits parchment well; it dulls quickly and must be recut often. A scribe carries a dozen spare quills and a small knife for resharpening.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.05,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!uS0449TrfF7zHqcP"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Cream",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "t4Gyk3XDqYNh8Unu",
+  "system": {
+    "shortcode": "cream",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cream/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rich, pale cream skimmed from milk and drawn into a wooden pail, thick enough to churn or pour into cooking. A dairy-maid delivers cream fresh each morning; a cook uses it to enrich sauces, dress vegetables, and whip into sweetened custards for noble tables. Fresh cream is highly perishable and kept cool in cellars or shadowed larders, used within a day of skimming.</p>\n",
+    "quantity": 1,
+    "weightBase": 8,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!t4Gyk3XDqYNh8Unu"
+}

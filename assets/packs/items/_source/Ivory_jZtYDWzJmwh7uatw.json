@@ -1,0 +1,37 @@
+{
+  "name": "Ivory",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "jZtYDWzJmwh7uatw",
+  "system": {
+    "shortcode": "ivory",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/ivory/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Ivory, the polished tooth of great beasts, traded in small pieces or worked planks by merchants and carvers. The material is creamy white and accepts fine carving; craftspeople shape it into combs, buttons, gaming pieces, and ornaments for the wealthy. Ivory is bought and sold by weight, prized for its rarity and luster.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 16,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!jZtYDWzJmwh7uatw"
+}

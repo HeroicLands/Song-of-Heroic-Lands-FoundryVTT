@@ -1,0 +1,71 @@
+{
+  "name": "Quilted Cowl",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hood.svg",
+  "_id": "s5ysRe2wp5xf1Jj5",
+  "system": {
+    "shortcode": "QCwl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/quilted-cowl/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Quilted Cowl offers excellent insulation with its layers of fabric sewn together. Suitable for cold weather, it provides both warmth and comfort.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.1,
+    "valueBase": 24,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Quilted",
+    "locations": {
+      "flexible": [
+        "Skull",
+        "Neck"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [
+    {
+      "name": "Anything Using Perception",
+      "type": "sohleffectdata",
+      "_id": "ssQu54Zl97ffHSS8",
+      "system": {
+        "scope": "test",
+        "test": "(item.type === 'skill' && has('per', item.logic.skillBase.attrShortcodes)) || (item.type === 'attribute' && item.system.shortcode === 'per')"
+      },
+      "changes": [
+        {
+          "key": "mod:logic.masteryLevel",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        }
+      ],
+      "_key": "!items.effects!s5ysRe2wp5xf1Jj5.ssQu54Zl97ffHSS8"
+    }
+  ],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!s5ysRe2wp5xf1Jj5"
+}

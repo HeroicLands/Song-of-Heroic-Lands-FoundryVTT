@@ -1,0 +1,63 @@
+{
+  "name": "Gear",
+  "pages": [
+    {
+      "_id": "090805ef19dcacaa",
+      "name": "What is Gear?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Gear are physical items that are carried by the character.  There are a number of different types of gear:</p>\n<ul>\n<li>[[Item_Armorgear|Armor]]</li>\n<li>[[Item_Concoctiongear|Potions, Elixirs, and Concoctions]]</li>\n<li>[[Item_Containergear|Containers]]</li>\n<li>[[Item_Weapongear|Weapons]]</li>\n<li>[[Item_Projectilegear|Projectiles]]</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!6tsL8QgzqOCc6sVQ.090805ef19dcacaa"
+    },
+    {
+      "_id": "5b402290d5e0634a",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Gear belongs to most actor types, including Beings, Structures, Vehicles, etc.. It appears on the actor's <strong>Gear</strong> tab.</p>\n<p>Gear items are typically added from compendium packs that define standard equipment.</p>\n"
+      },
+      "_key": "!journal.pages!6tsL8QgzqOCc6sVQ.5b402290d5e0634a"
+    },
+    {
+      "_id": "9f60e05270f17bc8",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab for all Gear type items:</p>\n<ul>\n<li><strong>Quantity:</strong> The quantity of items. Some items should never have more than Quantity 1: things like Armor, Weapons, and Containers are meant to be unique, and if multiple versions of it are available then separate instances of the gear should be on the actor (such as &quot;Dagger 1&quot;, &quot;Dagger 2&quot;, and &quot;Dagger 3&quot;, rather than &quot;Dagger&quot; with Quantity 3).  This is not true for things like projectiles (arrows, bolts, etc.), Miscellaneous Gear (such as Pence, etc.), or Concoctions, which may have a quantity specified.</li>\n<li><strong>Weight Base:</strong> The weight of a single instance of the item.  The total weight will be calculated as the Weight Base x Quantity.</li>\n<li><strong>Value Base:</strong> The value of a single instance of the item.  The total value will be calculated as the Value Base x Quantity.</li>\n<li><strong>Quality Base:</strong> Quality is a numeric value that represents how much better or worse an item is than a &quot;standard&quot; item of its type.  A Quality of 0 is a totally standard item in all respects.  Positive numbers represent higher quality items, and negative numbers specifiy lower quality items.</li>\n<li><strong>Durability Base:</strong> How durable an item is against damage.  Most metal weapons and armor have a durability between 8-12, glass from 4-6, paper 3-5, granite 15-17, etc.</li>\n<li><strong>Is Carried:</strong> Whether the item is being carried or not.  When carried, the item participates in encumbrance calculations, but it then may also be used.  Items that are not carried remain noted on your character sheet, but it is assumed they have been left on the ground or maybe on a cart or other location.</li>\n<li>**Is Equipped:&quot; Certain items have the ability to be equipped, such as armor and weapons.  An Equipped Armor actively protects the body locations it is meant to protect, and an equipped weapon is ready to be used.  Unequipped weapons and armor that is nevertheless carried might be strapped to the body, slung over the shouldler, or put into a backpack.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!6tsL8QgzqOCc6sVQ.9f60e05270f17bc8"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "6tsL8QgzqOCc6sVQ",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!6tsL8QgzqOCc6sVQ"
+}

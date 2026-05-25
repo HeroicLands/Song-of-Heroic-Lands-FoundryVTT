@@ -1,0 +1,37 @@
+{
+  "name": "Poneratoxin",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "qzCiP0GibDhQ9mcg",
+  "system": {
+    "shortcode": "ponrtxn",
+    "docUrl": "https://heroiclands.org/sohl/affliction/poneratoxin/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Poneratoxin is a powerful neurotoxic peptide. It affects voltage-gated sodium channels in nerve cells, leading to overexcitement of the nerves and excessive pain transmission. A sting delivers this toxin, resulting in an immediate, intense, and prolonged pain that can last up to 24 hours. The pain is often described as one of the most painful insect stings in the world. Though not typically fatal, the venom can cause significant local swelling, redness, and systemic reactions such as nausea, vomiting, and dizziness. The potent effects of poneratoxin make the sting a severe and memorable experience, often used in traditional initiation rites in some cultures.</p>\n<h3>Symptoms</h3>\n<p>Intense, burning pain often described as the most painful of insect stings.</p>\n<h3>Progression</h3>\n<p>Pain can last up to 24 hours, with possible systemic symptoms such as nausea, vomiting, and vertigo (though not typically fatal).</p>\n<h3>Treatment</h3>\n<ul>\n<li><strong>Plantain Leaf:</strong> Chewed and applied to the sting site to draw out toxins and reduce pain.</li>\n<li><strong>Clove Oil:</strong> Applied to numb the area and reduce pain.</li>\n<li><strong>Basil Poultice:</strong> For its anti-inflammatory and pain-relieving properties.</li>\n</ul>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!qzCiP0GibDhQ9mcg"
+}

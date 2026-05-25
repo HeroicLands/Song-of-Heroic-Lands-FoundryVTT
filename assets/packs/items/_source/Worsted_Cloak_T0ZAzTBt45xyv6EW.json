@@ -1,0 +1,56 @@
+{
+  "name": "Worsted Cloak",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/cloak.svg",
+  "_id": "T0ZAzTBt45xyv6EW",
+  "system": {
+    "shortcode": "WClk",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/worsted-cloak/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Worsted Cloak, made from tightly-spun wool fibers, offers both style and durability. It's a practical, versatile choice that provides good insulation and resilience, suitable for a wide range of activities and weather conditions.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.6,
+    "valueBase": 158,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!T0ZAzTBt45xyv6EW"
+}

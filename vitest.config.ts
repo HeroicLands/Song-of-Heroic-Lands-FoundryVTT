@@ -5,12 +5,45 @@ const isTest = process.env.VITEST === "true";
 
 export default defineConfig({
     resolve: {
-        alias: {
-            "@common/foundry-helpers":
-                isTest ?
-                    "/tests/mocks/foundry/core/foundry-helpers.mjs"
-                :   "/src/common/foundry-helpers.mjs",
-        },
+        alias: [
+            // FoundryHelpers must come before the general @src/* alias
+            // so the test mock takes precedence during testing
+            ...(isTest
+                ? [
+                      {
+                          find: "@src/core/FoundryHelpers",
+                          replacement: path.resolve(
+                              __dirname,
+                              "tests/mocks/foundry/core/FoundryHelpers.ts",
+                          ),
+                      },
+                  ]
+                : []),
+            {
+                find: /^@types\/(.*)/,
+                replacement: path.resolve(__dirname, "types/$1"),
+            },
+            {
+                find: /^@src\/(.*)/,
+                replacement: path.resolve(__dirname, "src/$1"),
+            },
+            {
+                find: /^@templates\/(.*)/,
+                replacement: path.resolve(__dirname, "templates/$1"),
+            },
+            {
+                find: /^@assets\/(.*)/,
+                replacement: path.resolve(__dirname, "assets/$1"),
+            },
+            {
+                find: /^@lang\/(.*)/,
+                replacement: path.resolve(__dirname, "lang/$1"),
+            },
+            {
+                find: /^@tests\/(.*)/,
+                replacement: path.resolve(__dirname, "tests/$1"),
+            },
+        ],
     },
     test: {
         globals: true,
@@ -19,20 +52,20 @@ export default defineConfig({
         include: ["tests/**/*.test.ts"],
         coverage: {
             reporter: ["text", "html"],
-        },
-        alias: {
-            "@types/*": path.resolve(__dirname, "types"),
-            "@utils/helpers": path.resolve(__dirname, "src/utils"),
-            "@utils/*": path.resolve(__dirname, "src/utils"),
-            "@foundry": path.resolve(__dirname, "src/foundry"),
-            "@foundry/*": path.resolve(__dirname, "src/foundry"),
-            "@logic": path.resolve(__dirname, "src/logic"),
-            "@logic/*": path.resolve(__dirname, "src/logic"),
-            "@templates/*": path.resolve(__dirname, "templates"),
-            "@assets/*": path.resolve(__dirname, "assets"),
-            "@lang/*": path.resolve(__dirname, "lang"),
-            "@tests/*": path.resolve(__dirname, "tests"),
-            "@sohl-global": path.resolve(__dirname, "types/sohl-global.d.ts"),
+            include: ["src/**/*.ts"],
+            exclude: [
+                // Foundry-dependent code (DataModel, Sheet, Document classes)
+                "src/**/foundry/**",
+                "src/**/SohlDataModel.ts",
+                // Build tooling and dev utilities
+                "src/utils/ai/**",
+                "src/utils/SohlContextMenu.ts",
+                "src/utils/SourceMapResolver.ts",
+                // Entry point and system registration (integration-level)
+                "src/sohl.ts",
+                // Foundry shim (tested via mock swap, not directly)
+                "src/core/FoundryHelpers.ts",
+            ],
         },
     },
 });

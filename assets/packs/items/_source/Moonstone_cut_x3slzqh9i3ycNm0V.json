@@ -1,0 +1,37 @@
+{
+  "name": "Moonstone, cut",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "x3slzqh9i3ycNm0V",
+  "system": {
+    "shortcode": "moonstonec",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/moonstone-cut/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Moonstone, a translucent feldspar gem of pale white or blue-silver hue, cut and polished to reveal its characteristic adularescence. The stone seems to glow from within when turned in the light, an effect prized by jewellers and collectors. These gems are set into rings and pendants, particularly favored by those who mark the lunar calendar.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0004,
+    "valueBase": 30,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!x3slzqh9i3ycNm0V"
+}

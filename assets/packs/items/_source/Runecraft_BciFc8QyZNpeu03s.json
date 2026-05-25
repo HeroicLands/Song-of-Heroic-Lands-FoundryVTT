@@ -1,0 +1,39 @@
+{
+  "name": "Runecraft",
+  "type": "mysticalability",
+  "img": "systems/sohl/assets/icons/runecraft.svg",
+  "_id": "BciFc8QyZNpeu03s",
+  "system": {
+    "shortcode": "Rune",
+    "docUrl": "https://heroiclands.org/sohl/mysticalability/runecraft/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Runecraft is the esoteric art of inscribing, activating, and interpreting magical runes—symbols imbued with arcane power through precise execution and spiritual attunement. Each rune carries specific mystical significance, and the practitioner must understand both the symbolic language and the metaphysical forces channeled through it. Runecraft sits at the intersection of calligraphic precision and mystical sensitivity, requiring a steady hand guided by deep empathic resonance with the unseen world.</p>\n",
+    "subType": "divination",
+    "assocSkillCode": "",
+    "assocMysteryCode": "",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "levelBase": 0,
+    "charges": {
+      "usesCharges": false,
+      "value": 0,
+      "max": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gpLM4ElXNiI1rN7l",
+  "_key": "!items!BciFc8QyZNpeu03s"
+}

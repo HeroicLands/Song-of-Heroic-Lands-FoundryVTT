@@ -1,0 +1,52 @@
+{
+  "name": "Cloth Cowl",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hood.svg",
+  "_id": "OASgkgSf3zqBWhpI",
+  "system": {
+    "shortcode": "CCowl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/cloth-cowl/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A simple, versatile Cloth Cowl made from various softer fabrics offers basic comfort and warmth. It’s suitable for everyday use, perfect for a wide range of casual activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.3,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Skull",
+        "Neck"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!OASgkgSf3zqBWhpI"
+}

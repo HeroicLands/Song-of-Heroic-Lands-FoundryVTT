@@ -1,0 +1,91 @@
+{
+  "name": "Song of Heroic Lands Quickstart",
+  "pages": [
+    {
+      "_id": "b4e635e369ca3c5d",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>This quickstart gets a user from install to first roll with Song of Heroic Lands (SoHL).</p>\n"
+      },
+      "_key": "!journal.pages!sSqTzr1ss9MmduRW.b4e635e369ca3c5d"
+    },
+    {
+      "_id": "e932ff38fe6bf57d",
+      "name": "Install and Enable",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ol>\n<li>Install the SoHL system in Foundry VTT.</li>\n<li>Create a world and select <strong>Song of Heroic Lands</strong> as the game system.</li>\n<li>Launch the world.</li>\n</ol>\n"
+      },
+      "_key": "!journal.pages!sSqTzr1ss9MmduRW.e932ff38fe6bf57d"
+    },
+    {
+      "_id": "618898fbfdeefa52",
+      "name": "Create a First Character",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Generally speaking, you should avoid using the Create Actor dialog for Beings. It will require\nsetting up a number of items by hand, and is very difficult. The suggested mechanism is to\nduplicate an existing Being, and modify it as needed.</p>\n<ol>\n<li>Go into the Beings compendium, and import the &quot;Basic Folk&quot; Being.</li>\n<li>Double-click on the Being to open the character sheet.</li>\n<li>In the header, click on the Basic Folk name and rename to something else.</li>\n<li>Click on the Profile tab.</li>\n<li>For each attribute, click on the edit button to the upper right of the attribute value, and change the value as appropriate.</li>\n<li>Click on the Skills tab.</li>\n<li>For each initial skill, right click on the skill and choose &quot;Edit&quot; from the context menu. Setup the initial Mastery Level value for the skill.</li>\n<li>Click on the Gear tab.</li>\n<li>Open the Weapons compendium, and drag over a broadsword and a roundshield, dropping them onto the character sheet. The items should show up on the Gear tab.</li>\n<li>Click on the Combat tab. Note that there are no weapons showing. Now click on the Gear tab. Click on the shield (&quot;equip&quot;) icon for both the Broadsword and the Roundshield. Go back to the Combat tab. The Roundshield and the Broadsword should now show up under weapons.</li>\n</ol>\n"
+      },
+      "_key": "!journal.pages!sSqTzr1ss9MmduRW.618898fbfdeefa52"
+    },
+    {
+      "_id": "c98f52516630ba0b",
+      "name": "Perform a Skill Roll",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ol>\n<li>In an open character sheet, click on the Skills tab.</li>\n<li>Click on the name of a skill. A Success Test Dialog should appear. Simply press OK to perform the roll. The result should show in the chat window.</li>\n</ol>\n<p>See [[Combat_Basics|Combat Basics]] for round flow and common checks.</p>\n"
+      },
+      "_key": "!journal.pages!sSqTzr1ss9MmduRW.c98f52516630ba0b"
+    },
+    {
+      "_id": "b0560ca5cf0535f5",
+      "name": "See Also",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<ul>\n<li>[[Song_of_Heroic_Lands_Rules|Song of Heroic Lands Rules]]</li>\n<li>[[Song_of_Heroic_Lands_User_Guide|Song of Heroic Lands User Guide]]</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!sSqTzr1ss9MmduRW.b0560ca5cf0535f5"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "sSqTzr1ss9MmduRW",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!sSqTzr1ss9MmduRW"
+}

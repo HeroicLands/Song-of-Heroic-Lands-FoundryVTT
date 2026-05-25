@@ -1,0 +1,35 @@
+{
+  "name": "Legerdemain",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/juggler.svg",
+  "_id": "YDqesb2eObxgrdAj",
+  "system": {
+    "shortcode": "lgdm",
+    "docUrl": "https://heroiclands.org/sohl/skill/legerdemain/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Legerdemain is the highly specialized art of intricate hand-eye coordination—sleight of hand, purse-cutting, juggling, and similar feats of manual dexterity that go beyond what ordinary coordination allows. Where general dexterity covers everyday tasks like catching a thrown object, Legerdemain governs the truly difficult manipulations that require dedicated training. Picking pockets and palming objects pit the practitioner's skill directly against the target's alertness, while entertainment applications such as juggling and magic tricks can serve as social assets. Mastery of one application tends to build facility across the full range of fine manipulations.</p>\n",
+    "subType": "physical",
+    "skillBaseFormula": "@dex, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Yt9THlZ0NT8H6aSK",
+  "_key": "!items!YDqesb2eObxgrdAj"
+}

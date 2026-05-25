@@ -1,0 +1,59 @@
+{
+  "name": "Buckram Leggings",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "yLOvPrlBZ6ebnvjK",
+  "system": {
+    "shortcode": "BLeg",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/buckram-leggings/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Buckram Leggings are stiff and structured, offering durability and a reliable fit. Made from coarse cloth stiffened with glue, they are suitable for activities requiring a more rigid leg covering.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.8,
+    "valueBase": 36,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!yLOvPrlBZ6ebnvjK"
+}

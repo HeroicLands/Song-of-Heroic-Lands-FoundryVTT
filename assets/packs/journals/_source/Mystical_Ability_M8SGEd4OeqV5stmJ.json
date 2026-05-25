@@ -1,0 +1,63 @@
+{
+  "name": "Mystical Ability",
+  "pages": [
+    {
+      "_id": "a886acd02d1ce343",
+      "name": "What Is a Mystical Ability?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Mystical Ability is a specific supernatural power — a spell, prayer, ritual, or other manifestation of mystical power that a character can invoke. Unlike a mystery, it is always something that is performed resulting in a specific effect. Each Mystical Ability defines exactly what happens when it is used: its effects, costs, range, duration, and any requirements for successful use.</p>\n<p>Mystical Abilities fall into one of three broad supernatural categories: <strong>Arcane</strong>, <strong>Divine</strong>, or <strong>Spirit</strong>.</p>\n"
+      },
+      "_key": "!journal.pages!M8SGEd4OeqV5stmJ.a886acd02d1ce343"
+    },
+    {
+      "_id": "43a140141135b667",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Mystical Abilities appear on the Being sheet's <strong>Mystical</strong> tab. A Mystical Ability may reference a skill if it's use involves mastery of some sort.</p>\n"
+      },
+      "_key": "!journal.pages!M8SGEd4OeqV5stmJ.43a140141135b667"
+    },
+    {
+      "_id": "5a44718641da57fc",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>SubType:</strong> The type of Mystical Ability, one of:\n<ul>\n<li><strong>Shamanic Rite:</strong> A shamanic action such as transiting to the spirit world, petitioning a spirit for some power, or performing a rite to share spirit wisdom.</li>\n<li><strong>Spirit Power:</strong> Using a power the spirits have granted to perform some action.</li>\n<li><strong>Benediction:</strong> Use piety to deliver a divine blessing (or curse).</li>\n<li><strong>Divine Incantation:</strong> Perform a ritual to request a divine entity to perform some action.</li>\n<li><strong>Arcane Incantation:</strong> Perform a taught ritual to use the caster's own aura to direct arcane forces for some effect.</li>\n<li><strong>Spirit Incantation:</strong> Perform a taught ritual to request the spirits to perform some action.</li>\n<li><strong>Arcane Talent:</strong> Use innate capacity to direct arcane forces for some effect.</li>\n<li><strong>Spirit Talent:</strong> Use innate capacity to direct spirits to produce an effect.</li>\n<li><strong>Alchemical Action:</strong> Perform taught arcane recipies and rituals to produce an alchemical elixir or effect.</li>\n</ul>\n</li>\n<li><strong>Level:</strong> The difficulty or power tier of the ability.</li>\n<li><strong>Associated Mystery:</strong> Which Mystery is associated with this ability (optional).</li>\n<li><strong>Associated Skill:</strong> Which Skill this mystery draws upon (optional).</li>\n<li><strong>Charges:</strong> If this mystical ability can be used up, this represents the number of charges\n<ul>\n<li><strong>Value:</strong> Current number of charges avaiable</li>\n<li><strong>Max:</strong> Maximum number of charges</li>\n</ul>\n</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!M8SGEd4OeqV5stmJ.5a44718641da57fc"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "M8SGEd4OeqV5stmJ",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!M8SGEd4OeqV5stmJ"
+}

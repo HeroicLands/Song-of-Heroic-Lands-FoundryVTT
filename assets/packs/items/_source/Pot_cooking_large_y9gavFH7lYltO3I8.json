@@ -1,0 +1,38 @@
+{
+  "name": "Pot, cooking, large",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "y9gavFH7lYltO3I8",
+  "system": {
+    "shortcode": "potcooking",
+    "docUrl": "https://heroiclands.org/sohl/containergear/pot-cooking-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A sturdy iron pot with a rounded belly, flat bottom, and wire or riveted handle, designed to hang over a cookfire or sit in the embers. The thick iron distributes heat evenly and can withstand years of use if kept seasoned and dry. Large enough to feed a group or prepare a day's provisions, it is a standard piece of camp and hearth equipment.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.3,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 4
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!y9gavFH7lYltO3I8"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Pen, wood",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "WKa6OKC8Sus17Gcm",
+  "system": {
+    "shortcode": "penwood",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pen-wood/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A stick of hardwood—fruitwood or ash—sharpened to a point and charred at the tip for use with chalk or charcoal. Wood pens suit paper and cloth, leaving a marks fit for draft, sketch, and rough tally. They are cheap and disposable, favored by accountants and builders on site.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!WKa6OKC8Sus17Gcm"
+}

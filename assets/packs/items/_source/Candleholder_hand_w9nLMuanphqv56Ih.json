@@ -1,0 +1,37 @@
+{
+  "name": "Candleholder, hand",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "w9nLMuanphqv56Ih",
+  "system": {
+    "shortcode": "candlehold",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/candleholder-hand/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Iron or brass cast into a shallow cup with a handle, sized to grip in one hand while a single candle burns in the socket. Most hand-holders feature a drip-tray below the cup to catch melting wax and protect clothing. Servants, night-watches, and those moving through dark halls carry hand-holders to light their way; the open flame flickers with movement but the close proximity of hand-holder and face gives good sight of the immediate path.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "csqutf8WiTRM8oru",
+  "_key": "!items!w9nLMuanphqv56Ih"
+}

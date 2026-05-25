@@ -1,0 +1,37 @@
+{
+  "name": "Lock, padlock",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "wQdMErcA1GtMk9MO",
+  "system": {
+    "shortcode": "lockpadloc2",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/lock-padlock/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A portable iron padlock, its U-shaped shackle hinged through a cylindrical body, small enough to hang from a belt or saddle. Merchants use them to secure cargo chests and tent flaps during night camps; the warded mechanism resists casual picking but not a determined thief with proper tools.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 35,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!wQdMErcA1GtMk9MO"
+}

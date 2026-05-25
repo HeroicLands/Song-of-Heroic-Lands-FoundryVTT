@@ -3,7 +3,7 @@
     "changelog": [
         "@changesets/changelog-github",
         {
-            "repo": "toastygm/Song-of-Heroic-Lands-FoundryVTT"
+            "repo": "HeroicLands/Song-of-Heroic-Lands-FoundryVTT"
         }
     ],
     "commit": true,

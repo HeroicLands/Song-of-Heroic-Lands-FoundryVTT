@@ -1,0 +1,96 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab mysteries" data-tab="mysteries">
+    {{!-- Mysteries --}}
+    {{#each mysteryGroups as |mysteries groupName|}}
+    <fieldset>
+        <legend>{{@key}} Mysteries</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Mystery</h3>
+                <div class="item-detail">Bonus</div>
+                <div class="item-detail">Charges</div>
+                <div class="item-detail">Notes</div>
+            </li>
+            {{#each mysteries as |mystery|}}
+            <li class="item flexrow" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
+                <div class="item-name default-action flexrow">
+                    <div class="item-image" style="background-image: url('{{mystery.img}}')"></div>
+                    <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
+                </div>
+                <div class="item-detail">
+                    {{#if mystery.logic.level.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{numberFormat mystery.logic.level.effective sign=true}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">
+                    {{#if mystery.logic.charges.value.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{mystery.logic.charges.value.effective}}{{#if (gt mystery.logic.charges.max.effective 0)}}/{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">{{mystery.system.notes}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/each}}
+
+    {{!-- Mystical Abilities --}}
+    {{#each abilityGroups as |abilities groupName|}}
+    <fieldset>
+        <legend>{{@key}} Mystical Abilities</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Ability</h3>
+                <div class="item-detail">ML</div>
+                <div class="item-detail">Charges</div>
+                <div class="item-detail">Notes</div>
+            </li>
+            {{#each abilities as |ability|}}
+            <li class="item flexrow" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
+                <div class="item-name default-action flexrow">
+                    <div class="item-image" style="background-image: url('{{ability.img}}')"></div>
+                    <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>
+                </div>
+                <div class="item-detail">
+                    {{#if ability.logic.level.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{ability.logic.level.effective}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">
+                    {{#if ability.logic.charges.value.disabled}}
+                    <i class="fas fa-xmark fa-lg"></i>
+                    {{else}}
+                    {{ability.logic.charges.value.effective}}{{#if (gt ability.logic.charges.max.effective 0)}}/{{numberFormat ability.logic.charges.max.effective}}{{/if}}
+                    {{/if}}
+                </div>
+                <div class="item-detail">{{ability.system.notes}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+    {{/each}}
+</section>

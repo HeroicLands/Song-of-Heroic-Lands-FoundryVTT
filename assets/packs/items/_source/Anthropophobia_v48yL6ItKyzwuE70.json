@@ -1,0 +1,38 @@
+{
+  "name": "Anthropophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "v48yL6ItKyzwuE70",
+  "system": {
+    "shortcode": "anthpphb",
+    "docUrl": "https://heroiclands.org/sohl/trait/anthropophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Anthropophobia is an intense, irrational fear of people or society. People with anthropophobia may experience a range of symptoms when they think about, see, or are in social settings.</p>\n<h3>Impulse</h3>\n<p>Avoiding social interactions, gatherings, or public places. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Severe anxiety or panic in social situations, even casual encounters. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about being judged, rejected, or humiliated by others.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread, isolation, and helplessness that can significantly impact daily life and relationships.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!v48yL6ItKyzwuE70"
+}
