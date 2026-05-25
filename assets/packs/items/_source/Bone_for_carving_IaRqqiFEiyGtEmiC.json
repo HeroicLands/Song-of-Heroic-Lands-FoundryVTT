@@ -1,0 +1,37 @@
+{
+  "name": "Bone (for carving)",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "IaRqqiFEiyGtEmiC",
+  "system": {
+    "shortcode": "boneforcar",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bone-for-carving/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Scraps of long bone—ox shank, elk femur, or boar tusk—scraped clean and roughly worked into staves. Bone-carvers, chess makers, comb makers, and flute makers buy these fragments by the pound to trim and finish into their wares. The hardness resists chisels but takes fine detail once seasoned.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0JqxkW5hHZ8XVILm",
+  "_key": "!items!IaRqqiFEiyGtEmiC"
+}

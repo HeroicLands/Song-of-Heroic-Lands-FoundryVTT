@@ -1,0 +1,38 @@
+{
+  "name": "Ichthyophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "IxBD8PWyLjdLbamj",
+  "system": {
+    "shortcode": "ichthyop",
+    "docUrl": "https://heroiclands.org/sohl/trait/ichthyophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Ichthyophobia is an intense, irrational fear of fish. People with ichthyophobia may experience a range of symptoms when they think about, see, or are near fish.</p>\n<h3>Impulse</h3>\n<p>Avoiding swimming, fishing, going to seafood markets, or aquariums. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Overwhelming fear or panic at the sight or thought of fish.\nAbberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about being touched, bitten, or encountered by fish.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread and helplessness when near water where fish might be or when thinking about fish.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!IxBD8PWyLjdLbamj"
+}

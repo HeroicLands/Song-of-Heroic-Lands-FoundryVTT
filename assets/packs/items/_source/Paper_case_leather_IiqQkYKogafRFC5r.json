@@ -1,0 +1,38 @@
+{
+  "name": "Paper case, leather",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "IiqQkYKogafRFC5r",
+  "system": {
+    "shortcode": "papercasel",
+    "docUrl": "https://heroiclands.org/sohl/containergear/paper-case-leather/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A cylindrical leather tube closed at one end with a removable cork or wooden stopper at the other, crafted to carry folded documents and parchment without creasing or tearing. Scribes, messengers, and officials rely on these cases to transport letters, proclamations, or legal papers safely across roads and rivers. The leather is waxed or treated to resist dampness, and the narrow diameter allows the case to fit snugly in a pack or satchel.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.9,
+    "valueBase": 60,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 0.5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!IiqQkYKogafRFC5r"
+}

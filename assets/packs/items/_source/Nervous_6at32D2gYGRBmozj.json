@@ -1,0 +1,38 @@
+{
+  "name": "Nervous",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "6at32D2gYGRBmozj",
+  "system": {
+    "shortcode": "nervous",
+    "docUrl": "https://heroiclands.org/sohl/trait/nervous/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Chronic Nervousness refers to a persistent state of anxiety and\nunease that affects an individual's ability to engage with tasks, people, or\nsituations without experiencing significant worry or self-doubt. Those with chronic\nnervousness are frequently on edge, overthinking potential outcomes, and\nanticipating negative consequences even in relatively low-risk scenarios. While a\ndegree of nervousness can help prepare for challenges, chronic nervousness can lead\nto indecision, avoidance, and a diminished ability to cope with stress.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Benign Trait:</strong> The individual feels nervous regularly but is\nable to manage it, using their heightened sense of caution to carefully plan and\nprepare for potential challenges. Their nervousness makes them vigilant, but\nthey can still function and complete tasks effectively. Others may notice their\nanxious tendencies, but the individual remains capable of handling their\nresponsibilities.\n<strong>Example:</strong> Roland, an apprentice blacksmith, feels nervous before showing his work to his master, constantly worrying if it\nwill meet the standard. However, his nervousness drives him to be thorough, checking his work multiple times. Although he fidgets and feels a knot in his\nstomach, he eventually presents his work and receives praise for his\ndiligence.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Impulse Intensity:</strong> The individual’s nervousness becomes more\npervasive, with worry starting to dominate their thoughts. They feel tense and\nrestless, anticipating problems or negative outcomes even when the situation\ndoesn't warrant such concern. Their anxious energy can cause delays in\ntasks, as they spend extra time preparing for unlikely issues. While still\ncapable of completing tasks, they may appear preoccupied with nervous thoughts, and others may notice that they seem overly worried or cautious.\n<strong>Example:</strong> Roland’s nervousness now\nmanifests as constant worry about what might go wrong. Before every project at\nthe forge, he feels a sense of dread, imagining accidents or errors that could\nhappen. His nerves slow him down as he takes longer than necessary to prepare\nand check everything, even for simple tasks. Though he still manages to\ncomplete his work, Roland’s constant state of worry starts to wear on him and\nthose around him.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Disorder Intensity (Chronic Nervousness):</strong> As chronic\nnervousness intensifies, the individual becomes overwhelmed by fears of being\njudged, making a fool of themselves, or causing a disaster, even when such\noutcomes are improbable. They become preoccupied with how others perceive them, worrying excessively about embarrassing themselves or disappointing those around\nthem. These fears manifest physically, with trembling, sweating, or a racing\nheart, and lead to avoidance of tasks or social interactions. This chronic\ncondition results in emotional exhaustion, isolation, and diminished ability to\nengage in daily life due to a constant fear of doing something wrong or\nembarrassing.</p>\n<p><strong>Physical Symptoms:</strong> The individual may suffer from\ntrembling hands, sweating, heart palpitations, or nausea as their anxiety\nabout how others perceive them takes a toll. They may experience fatigue\nfrom constantly worrying about making mistakes or being judged.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent fears of being ridiculed, making a public mistake, or causing a disaster. The individual may\nconstantly replay scenarios where they imagine embarrassing or catastrophic\noutcomes, even in low-risk situations.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Emotional Distress</h3>\n<p>The individual may feel overwhelmed by\ntheir constant fear of judgment, leading to withdrawal from social\nsituations or tasks that require public interaction. Their chronic worry\nabout being judged or failing leaves them emotionally drained and fearful of\nengaging in normal activities.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Example:</strong> Roland’s chronic nervousness\nnow centers around a fear of making a fool of himself in front of others. He\nis terrified that he will botch a simple task at the forge and become a\nlaughingstock among his peers. He imagines disastrous scenarios, such as\naccidentally starting a fire or breaking an important tool, and becomes\nconvinced that he will ruin his reputation. Even when reassured by his\nmaster, Roland feels paralyzed by the idea that others are watching and\njudging him. His hands shake uncontrollably, and he avoids working in front\nof others, isolating himself and feeling completely overwhelmed by the fear\nof making mistakes.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "SpZzOv4eOwtdsMMo",
+  "_key": "!items!6at32D2gYGRBmozj"
+}

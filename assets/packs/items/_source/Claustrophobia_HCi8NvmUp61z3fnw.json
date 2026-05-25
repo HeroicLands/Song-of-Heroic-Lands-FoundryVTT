@@ -1,0 +1,38 @@
+{
+  "name": "Claustrophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "HCi8NvmUp61z3fnw",
+  "system": {
+    "shortcode": "clstrphb",
+    "docUrl": "https://heroiclands.org/sohl/trait/claustrophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Claustrophobia is an intense, irrational fear of confined spaces. People with claustrophobia may experience a range of symptoms when they think about, see, or are in small or enclosed areas.</p>\n<h3>Impulse</h3>\n<p>Avoiding elevators, tunnels, small rooms, or crowded places. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Overwhelming fear or panic when in tight or crowded spaces.\nAbberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about being trapped or unable to escape.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread, helplessness, and a strong desire to escape when in confined spaces.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!HCi8NvmUp61z3fnw"
+}

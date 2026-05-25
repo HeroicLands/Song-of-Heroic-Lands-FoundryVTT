@@ -1,0 +1,38 @@
+{
+  "name": "Albinism",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "J06diTBIzK1ml5lC",
+  "system": {
+    "shortcode": "albinism",
+    "docUrl": "https://heroiclands.org/sohl/trait/albinism/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Albinism is a condition wherein the body produces little or no pigment in skin, hair, and eyes. The afflicted appear as if wrought from pale parchment—white or nearly white hair, skin of milk without tan or sunburn, eyes of pale blue or pink that catch the light strangely. In a world where strength and labor are bound to the sun's blessing, an albino person stands apart, visibly different in a way that invites both wonder and dread.</p>\n<h3>Benign</h3>\n<p>At its gentlest, albinism is an inconvenience coupled with unusual appearance. The person must take care in bright sunlight, as their skin burns quickly and their eyes are sensitive to glare. They learn to wear wide hats and long sleeves, to work in shade when labor permits. Beyond these practical adaptations, life proceeds much as for any other. In some places, their unusual appearance lends them an air of distinction; priests and scholars note the striking whiteness and speculate about bloodlines or divine touch.</p>\n<p><strong>Example:</strong> A child born with pale skin and white hair, whom some in the village regard with suspicion as bearing a mark of otherworldly influence, while others—particularly those of learned bent—view him as touched by something beyond ordinary nature, neither wholly curse nor wholly blessing.</p>\n<h3>Impulse</h3>\n<p>As the person grows and ventures into larger society, the psychological burden of visible difference begins to press. The albino person cannot blend into a crowd; all eyes turn when they enter a market or a hall. Some regard them with admiration, others with fear or outright revulsion. The person becomes hypervigilant, reading threat into every glance, developing a brittle defiance that masks deep insecurity. They may isolate themselves voluntarily, avoiding public places, wearing increasingly heavy wrappings to hide their appearance. The practical limits of their condition—the sensitivity to sun, the poor eyesight in bright conditions—begin to sharply circumscribe their life.</p>\n<p><strong>Example:</strong> A merchant's daughter whose distinctive appearance draws unwanted attention at every fair, leading her to refuse invitations to social gatherings, earning her a reputation for coldness and mystery that isolates her from peers.</p>\n<h3>Disorder</h3>\n<p>When fear and isolation compound, the albino person may develop a profound persecution complex. They come to believe that every whisper concerns them, that every assembly has gathered to mock or condemn. Some become aggressive, lashing out at supposed slights. Others retreat so completely that they refuse to leave their dwelling even for necessary tasks, becoming prisoners in their own homes. The medical burden—the constant pain of sunburned skin, the strain of navigating a world built for those with better sight—wears at them until despair sets in. Some harbor thoughts of ending their suffering, viewing their existence as a cosmic punishment or a mark of fundamental wrongness.</p>\n<h3>Physical Symptoms</h3>\n<p>Chronically burned and peeling skin in any season where sunlight is unavoidable. The eyes are visibly sensitive to light; the person squints habitually and often appears to be in discomfort in bright conditions. Vision is markedly poor in daylight, improving somewhat in dim light. The hair, being entirely unpigmented, is fine and brittle.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Constant spiralling thoughts about appearance and difference: &quot;Everyone is staring. They think I am cursed. They think I am not human.&quot; Looping self-condemnation and catastrophic thinking about what future awaits someone so marked.</p>\n<h3>Emotional Distress</h3>\n<p>Deep shame and self-loathing coupled with rage at being forced to bear such visible otherness. Despair at the impossibility of escaping notice or judgment. Fear that no one will ever accept them as they truly are.</p>\n<p><strong>Example:</strong> A young woman whose albinism has become so intertwined with her sense of self as a curse that she has withdrawn entirely from society, living in a shuttered chamber and emerging only at night, convinced that her very existence brings misfortune to any who look upon her.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!J06diTBIzK1ml5lC"
+}

@@ -1,0 +1,55 @@
+{
+  "name": "Serge Apron",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/apron.svg",
+  "_id": "h5Iz2lzNMdfzQPhr",
+  "system": {
+    "shortcode": "SgApn",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/serge-apron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Serge Apron is designed for tougher tasks, woven from a durable, diagonal-twilled fabric. This apron can withstand heavy wear and tear while remaining comfortable and functional for labor-intensive activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.2,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!h5Iz2lzNMdfzQPhr"
+}

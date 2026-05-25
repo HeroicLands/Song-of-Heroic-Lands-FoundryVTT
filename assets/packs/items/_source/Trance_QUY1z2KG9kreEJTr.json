@@ -1,0 +1,39 @@
+{
+  "name": "Trance",
+  "type": "mysticalability",
+  "img": "systems/sohl/assets/icons/meditation.svg",
+  "_id": "QUY1z2KG9kreEJTr",
+  "system": {
+    "shortcode": "trnc",
+    "docUrl": "https://heroiclands.org/sohl/mysticalability/trance/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Trance is the esoteric discipline of entering deep meditative states that open the practitioner's consciousness to astral perception and spiritual interaction. Through controlled breathing, focused visualization, and mental discipline, the practitioner temporarily loosens the bond between soul and body, enabling experiences ranging from heightened intuition to out-of-body perception. Trance serves as a gateway to other mystical practices, and the depth of meditative state achieved determines what subtle realms and spiritual forces become accessible.</p>\n",
+    "subType": "spiritaction",
+    "assocSkillCode": "",
+    "assocMysteryCode": "",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "levelBase": 0,
+    "charges": {
+      "usesCharges": false,
+      "value": 0,
+      "max": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gpLM4ElXNiI1rN7l",
+  "_key": "!items!QUY1z2KG9kreEJTr"
+}

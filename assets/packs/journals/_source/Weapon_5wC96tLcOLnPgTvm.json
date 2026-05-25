@@ -1,0 +1,63 @@
+{
+  "name": "Weapon",
+  "pages": [
+    {
+      "_id": "8d09624917e54af3",
+      "name": "What Is a Weapon?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Weapon represents a an offensive device carried by a Being — a sword, axe, bow,\ndagger, staff, or any other instrument of combat. These are separated from natural weapons such as claws and teeth, which are considered [[Item_CombatTechnique|Combat Techniques]]. Each weapon defines the physical object itself, while its Strike Mode items define the specific ways it can be used in combat. A single weapon might have multiple strike modes (for example, a staff could have both a &quot;swing&quot; and a &quot;thrust&quot; melee strike mode).</p>\n"
+      },
+      "_key": "!journal.pages!5wC96tLcOLnPgTvm.8d09624917e54af3"
+    },
+    {
+      "_id": "2097b9bcb9e6ce67",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Weapons appear on the Being sheet's <strong>Gear</strong> and <strong>Combat</strong> tabs. Each Weapon item contains one or more nested Strike Mode items (Melee Weapon Strike Mode or Missile Weapon Strike Mode) that define its attack options. When a character attacks in combat, they select a specific strike mode from one of their weapons.</p>\n<p>Weapon items are typically added from compendium packs.</p>\n"
+      },
+      "_key": "!journal.pages!5wC96tLcOLnPgTvm.2097b9bcb9e6ce67"
+    },
+    {
+      "_id": "e9632ca47fd48168",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for weapons:</p>\n<ul>\n<li><strong>Encumbrance:</strong> If specified, this overrides the encumbrance based on weight when the weapon is equipped.</li>\n<li><strong>Strike Modes</strong> — the Melee and/or Missile Strike Modes that define how the weapon can be used in combat.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!5wC96tLcOLnPgTvm.e9632ca47fd48168"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "5wC96tLcOLnPgTvm",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!5wC96tLcOLnPgTvm"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Attributes",
+  "sorting": "a",
+  "folder": "lTBlwwkZ8D1RuH7T",
+  "type": "Item",
+  "_id": "FPitxvL8wCmXynax",
+  "sort": 0,
+  "color": "#FF8C00",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!FPitxvL8wCmXynax"
+}

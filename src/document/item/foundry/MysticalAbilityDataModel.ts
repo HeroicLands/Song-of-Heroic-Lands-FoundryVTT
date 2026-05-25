@@ -1,0 +1,103 @@
+/*
+ * This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+ * Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+ *
+ * This work is licensed under the GNU General Public License v3.0 (GPLv3).
+ * You may copy, modify, and distribute it under the terms of that license.
+ *
+ * For full terms, see the LICENSE.md file in the project root or visit:
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+import {
+    MysticalAbilityLogic,
+    MysticalAbilityData,
+} from "@src/document/item/logic/MysticalAbilityLogic";
+import {
+    ITEM_KIND,
+    MysticalAbilitySubType,
+    MysticalAbilitySubTypes,
+} from "@src/utils/constants";
+import { SohlItemDataModel } from "./SohlItem";
+const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
+    foundry.data.fields;
+
+function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
+    return {
+        ...SohlItemDataModel.defineSchema(),
+        subType: new StringField({
+            choices: MysticalAbilitySubTypes,
+            required: true,
+        }),
+        assocSkillCode: new StringField({
+            initial: "",
+        }),
+        assocMysteryCode: new StringField({
+            initial: "",
+        }),
+        masteryLevelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        improveFlag: new BooleanField({ initial: false }),
+        levelBase: new NumberField({
+            integer: true,
+            initial: 0,
+            min: 0,
+        }),
+        charges: new SchemaField({
+            usesCharges: new BooleanField({ initial: false }),
+            // Note: if value is null, then there are infinite charges remaining
+            value: new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+            // Note: if max is 0, then there is no maximum, if max is null,
+            // then the mystical ability does not use charges
+            max: new NumberField({
+                integer: true,
+                initial: 0,
+                min: 0,
+            }),
+        }),
+    };
+}
+
+type MysticalAbilityDataSchema = ReturnType<
+    typeof defineMysticalAbilityDataSchema
+>;
+
+export class MysticalAbilityDataModel<
+    TSchema extends foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
+    TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
+        MysticalAbilityLogic<MysticalAbilityData>,
+>
+    extends SohlItemDataModel<TSchema, TLogic>
+    implements MysticalAbilityData<TLogic>
+{
+    static override readonly LOCALIZATION_PREFIXES = [
+        "SOHL.MysticalAbility",
+        "SOHL.MasteryLevel",
+        "SOHL.Item",
+    ];
+    static override readonly kind = ITEM_KIND.MYSTICALABILITY;
+    subType!: MysticalAbilitySubType;
+    assocSkillCode!: string;
+    assocMysteryCode!: string;
+    masteryLevelBase!: number;
+    improveFlag!: boolean;
+    levelBase!: number;
+    charges!: {
+        usesCharges: boolean;
+        value: number;
+        max: number;
+    };
+
+    static override defineSchema(): foundry.data.fields.DataSchema {
+        return defineMysticalAbilityDataSchema();
+    }
+}

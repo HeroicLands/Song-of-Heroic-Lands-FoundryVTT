@@ -1,0 +1,38 @@
+{
+  "name": "Lockbox, large",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/chest.svg",
+  "_id": "3QyfrMVtSJ5TM7Y7",
+  "system": {
+    "shortcode": "lockboxlar",
+    "docUrl": "https://heroiclands.org/sohl/containergear/lockbox-large/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A hardwood chest reinforced with iron bands and fitted with a wardlock mechanism—a sophisticated mechanism that resists tampering and forced entry. Merchants, nobles, and wealthy traders keep coin, documents, and valuables in such boxes, often placing them in a fixed location or transporting them under guard. The substantial weight and complexity of the lock make it a professional-grade security vessel.</p>\n",
+    "quantity": 1,
+    "weightBase": 5,
+    "valueBase": 24,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 20
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!3QyfrMVtSJ5TM7Y7"
+}

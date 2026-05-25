@@ -1,0 +1,37 @@
+{
+  "name": "Tack & Grooming Kit",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Qr3Yk8WnPvLzH5Tb",
+  "system": {
+    "shortcode": "tackkit",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/tack-and-grooming-kit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A leather satchel holding the daily tools of mount care: an iron currycomb, a stiff dandy brush and a soft body brush, a hoof pick on a turned handle, a mane-and-tail comb of carved horn, a sweat scraper, a bridle awl with spare waxed thread, two or three lengths of spare strap leather, a small tin of hoof oil, a bar of saddle soap, and a folded rag. Ostlers, drovers, and any cavalryman who has spent a winter on the road carry such kits; a horse that is curried daily works longer and sounder than one that is not, and a saddle kept oiled outlasts one left to salt-sweat and rain.</p>\n<p>The kit is not the saddle or bridle itself — those are gear the rider carries separately — but the difference between tack that parts in a charge and tack that holds. A cavalry trooper without a brush and an awl is a walking trooper within a month.</p>\n",
+    "quantity": 1,
+    "weightBase": 5,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "xniLjmZWYQZkSxyv",
+  "_key": "!items!Qr3Yk8WnPvLzH5Tb"
+}

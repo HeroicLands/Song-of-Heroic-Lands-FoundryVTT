@@ -1,0 +1,80 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <fieldset>
+        <legend>Gear</legend>
+        <div class="grid grid-3col">
+            {{formField fields.shortcode rootId="armgear-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+            {{formField fields.quantity rootId="armgear-quant" classes="text-field" stacked=true value=system.quantity}}
+            {{formField fields.weightBase rootId="armgear-wt" classes="text-field" stacked=true value=system.weightBase}}
+            {{formField fields.valueBase rootId="armgear-val" classes="text-field" stacked=true value=system.valueBase}}
+            {{formField fields.isCarried rootId="armgear-carried" classes="text-field" stacked=true value=system.isCarried}}
+            {{formField fields.isEquipped rootId="armgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
+            {{formField fields.qualityBase rootId="armgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
+            {{formField fields.durabilityBase rootId="armgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
+        </div>
+    </fieldset>
+
+    <div class="grid grid-3col">
+        {{formField fields.material rootId="armgear-mat" classes="text-field" stacked=true value=system.material}}
+    </div>
+
+    <fieldset>
+        <legend>Body Armor Locations</legend>
+        <div class="flexrow">
+            <a class="add-array-item"
+                data-array="system.locations.flexible"
+                data-unique="true"
+                data-dtype="String"
+                data-default-value=""
+                data-title="Flexible Location"
+                ><i class="fas fa-plus"></i> Add Flexible Location</a>
+        </div>
+        <ol class="grid grid-4col">
+            {{#each locations.flexible}}
+            <li class="armor-location">
+                <span class="name">{{this}}</span>
+                <a class="delete-array-item"
+                    data-array="system.locations.flexible"
+                    data-unique="true"
+                    data-value="{{this}}"
+                    title="Flexible Location"
+                    ><i class="fas fa-trash"></i></a>
+            </li>
+            {{/each}}
+        </ol>
+        <div class="flexrow">
+            <a class="add-array-item"
+                data-array="system.locations.rigid"
+                data-unique="true"
+                data-dtype="String"
+                data-default-value=""
+                data-title="Rigid Location"
+                ><i class="fas fa-plus"></i> Add Rigid Location</a>
+        </div>
+        <ol class="grid grid-4col">
+            {{#each locations.rigid}}
+            <li class="armor-location">
+                <span class="name">{{this}}</span>
+                <a class="delete-array-item"
+                    data-array="system.locations.rigid"
+                    data-unique="true"
+                    data-value="{{this}}"
+                    title="Rigid Location"
+                    ><i class="fas fa-trash"></i></a>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+</section>

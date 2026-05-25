@@ -1,0 +1,35 @@
+{
+  "name": "Masonry",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/masonry.svg",
+  "_id": "kL8SqiGClE8YL98r",
+  "system": {
+    "shortcode": "masn",
+    "docUrl": "https://heroiclands.org/sohl/skill/masonry/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Masonry is the craft of working stone—quarrying, cutting, dressing, and laying it to construct walls, buildings, bridges, and fortifications. It is one of the most physically demanding of the building trades, requiring both brute strength for handling heavy blocks and fine precision for fitting joints and carving details. Master masons are essential for any significant construction project, and the quality of their work determines the structural soundness and longevity of the finished edifice. The skill also encompasses the ability to assess existing stonework for stability and identify potential weaknesses.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @str",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!kL8SqiGClE8YL98r"
+}

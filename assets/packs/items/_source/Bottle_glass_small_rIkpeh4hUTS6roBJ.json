@@ -1,0 +1,38 @@
+{
+  "name": "Bottle, glass, small",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "rIkpeh4hUTS6roBJ",
+  "system": {
+    "shortcode": "bottleglas3",
+    "docUrl": "https://heroiclands.org/sohl/containergear/bottle-glass-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small bottle of hand-blown glass, paler and thinner-walled than its larger counterparts, sealed with a cork or waxed-cloth stopper. Common among apothecaries for tinctures and oils, and occasionally carried by travelers for a flask of wine or medicine. The glass is naturally bubbly and may have slight striations; breakage in transit is an ever-present concern.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 2
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!rIkpeh4hUTS6roBJ"
+}

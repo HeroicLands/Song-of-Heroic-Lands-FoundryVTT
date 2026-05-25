@@ -1,0 +1,28 @@
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+# Folder hierarchy for the "macros" compendium.
+#
+# Each entry declares one folder:
+#   name            (required) display name; must not contain "/"
+#   id              (required) stable 16-char Foundry ID
+#   parentFolderId  (required) id of the parent folder, or "" for top-level
+#   color           (optional) folder color (CSS hex)
+#
+# Sibling folders (same parentFolderId) must have unique names. Cousins
+# (different parents) may share a name; vault frontmatter disambiguates
+# them with paths like "Possessions/Misc" vs "Afflictions/Misc".
+#
+# Vault notes link to folders via `sohl.folder: <path>` in frontmatter,
+# where <path> is a slash-separated path of folder names from the root.
+# Unresolved paths fail the export loudly.
+[]

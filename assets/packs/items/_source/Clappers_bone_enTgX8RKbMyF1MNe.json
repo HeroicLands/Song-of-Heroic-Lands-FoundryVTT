@@ -1,0 +1,37 @@
+{
+  "name": "Clappers, bone",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "enTgX8RKbMyF1MNe",
+  "system": {
+    "shortcode": "clappersbo2",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/clappers-bone/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Twin flat blades of polished bone or hardwood, fastened at the heel by a leather thong or iron pivot, struck together in hand to mark rhythm and accent. Players working bone clappers develop a distinctive rattle; those favoring wooden pairs achieve a sharper, brighter crack. Common at festivals, harvest celebrations, and temple festivals where percussion heightens the festive mood.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.25,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!enTgX8RKbMyF1MNe"
+}

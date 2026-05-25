@@ -1,0 +1,38 @@
+{
+  "name": "Flask, Metal",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "D0Kb41cNZeVeXtge",
+  "system": {
+    "shortcode": "flaskmetal",
+    "docUrl": "https://heroiclands.org/sohl/containergear/flask-metal/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small flask of hammered tinned copper or pewter, shaped for carrying at the belt or in a satchel, stoppered with a cork or wooden plug and sealed with wax or resin. Preferred by soldiers and travelers over glass, as it survives impact and rough camp life without shattering. Used for wine, water, or spirits during long marches and campaigns.</p>\n",
+    "quantity": 1,
+    "weightBase": 0,
+    "valueBase": 5,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 1
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!D0Kb41cNZeVeXtge"
+}

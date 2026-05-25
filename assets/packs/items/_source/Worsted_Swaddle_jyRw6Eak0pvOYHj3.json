@@ -1,0 +1,54 @@
+{
+  "name": "Worsted Swaddle",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "jyRw6Eak0pvOYHj3",
+  "system": {
+    "shortcode": "WSwd",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/worsted-swaddle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Crafted from tightly-spun wool fibers, the Worsted Swaddle offers both warmth and durability. Perfect for cooler climates, it provides excellent insulation and comfort for infants, making it a versatile and practical choice.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.8,
+    "valueBase": 46,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!jyRw6Eak0pvOYHj3"
+}

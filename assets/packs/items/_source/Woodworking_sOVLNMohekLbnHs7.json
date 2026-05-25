@@ -1,0 +1,35 @@
+{
+  "name": "Woodworking",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/woodcraft.svg",
+  "_id": "sOVLNMohekLbnHs7",
+  "system": {
+    "shortcode": "wood",
+    "docUrl": "https://heroiclands.org/sohl/skill/woodworking/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Woodworking is the craft of shaping timber into finished products—furniture, building components, tools, carts, barrels, and decorative carvings. The woodworker must understand the properties of different woods, the techniques of joinery, and the use of a wide array of hand tools from adzes and saws to chisels and planes. The craft ranges from rough carpentry for construction framing to the fine cabinetry and turning that produces objects of beauty and precision. Like other production crafts, the quality of the workshop and its tools significantly affects what the craftsman can achieve.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @str",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!sOVLNMohekLbnHs7"
+}

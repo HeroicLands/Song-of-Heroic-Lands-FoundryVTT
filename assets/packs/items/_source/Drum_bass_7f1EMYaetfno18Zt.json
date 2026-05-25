@@ -1,0 +1,37 @@
+{
+  "name": "Drum, bass",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "7f1EMYaetfno18Zt",
+  "system": {
+    "shortcode": "drumbass",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/drum-bass/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A large cylindrical frame of oak or ash, with two ox-hide heads laced or nailed tight across the top and bottom. Struck with wooden mallets or hard sticks, a bass drum produces a deep, booming thud that carries across a square or battlefield. Armies employ bass drummers to mark marching cadence and signal maneuvers; minstrels use smaller versions to anchor the rhythm of a band.</p>\n",
+    "quantity": 1,
+    "weightBase": 8,
+    "valueBase": 50,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!7f1EMYaetfno18Zt"
+}

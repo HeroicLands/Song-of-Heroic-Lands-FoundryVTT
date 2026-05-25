@@ -11,11 +11,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@common/item/SohlItem";
-import type { GearData } from "@common/item/Gear";
-import type { MasteryLevelData } from "@common/item/MasteryLevel";
-import { ITEM_KIND } from "@utils/constants";
-import { SohlMap } from "@utils/collection/SohlMap";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { GearData } from "@src/document/item/logic/GearLogic";
+import type { MysticalAbilityData } from "@src/document/item/logic/MysticalAbilityLogic";
+import type { SkillData } from "@src/document/item/logic/SkillLogic";
+import type { TraitData } from "@src/document/item/logic/TraitLogic";
+import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
+
+type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
+import { SohlMap } from "@src/utils/collection/SohlMap";
+import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
 
 export type SohlSettingValue =
     | string
@@ -213,68 +218,6 @@ export function maxPrecision(value: number, precision: number = 0): number {
     return +parseFloat(value.toString()).toFixed(precision);
 }
 
-/**
- * Register a value or object in the `sohl` global namespace.
- *
- * If a string path is provided, the value is set at that path.
- * If an object is provided, all flattened key paths are expanded and set.
- *
- * @param pathOrObject - The path string or object map to register.
- * @param value - The value to assign at the given path (only if path is a string).
- * @param descriptor - A property descriptor for the registered value.
- */
-export function registerValue(
-    pathOrObject: string | PlainObject,
-    value?: any,
-    descriptor: PropertyDescriptor = {
-        writable: false,
-        configurable: true,
-        enumerable: false,
-    },
-): void {
-    if (typeof pathOrObject === "string") {
-        foundry.utils.setProperty(sohl, pathOrObject, value);
-    } else if (typeof pathOrObject === "object") {
-        const flattened = foundry.utils.flattenObject(pathOrObject);
-        for (const [path, val] of Object.entries(flattened)) {
-            foundry.utils.setProperty(sohl, path, val);
-        }
-    }
-}
-
-/**
- * Unregister a value from the `sohl` global namespace.
- *
- * @param path - The dot-path string to remove.
- * @returns True if the path was successfully removed.
- */
-export function unregisterValue(path: string): boolean {
-    return foundry.utils.deleteProperty(globalThis.sohl, path);
-}
-
-export async function toHTMLWithTemplate(
-    template: FilePath,
-    data: PlainObject = {},
-): Promise<HTMLString> {
-    const html = await foundry.applications.handlebars.renderTemplate(
-        template,
-        data,
-    );
-    return toSanitizedHTML(html);
-}
-
-export async function toHTMLWithContent(
-    content: HTMLString,
-    data: PlainObject = {},
-): Promise<HTMLString> {
-    const compiled = Handlebars.compile(content);
-    const result = compiled(data, {
-        allowProtoMethodsByDefault: true,
-        allowProtoPropertiesByDefault: true,
-    });
-    return toSanitizedHTML(result);
-}
-
 export function createUniqueName<T extends { name: string }>(
     baseName: string,
     siblings: Map<string, T>,
@@ -428,22 +371,80 @@ const DISALLOWED_KEYWORDS = [
     "globalThis",
     "Function",
     "eval",
-    "new Function",
     "XMLHttpRequest",
     "fetch",
     "require",
     "import",
     "setTimeout",
     "setInterval",
+    "setImmediate",
+    "process",
+    "Worker",
+    "ServiceWorker",
+    "SharedWorker",
+    "WebSocket",
+    "MessageChannel",
+    "BroadcastChannel",
+    "indexedDB",
+    "localStorage",
+    "sessionStorage",
+    "navigator",
+    "location",
+    "parent",
+    "top",
+    "self",
+    "Reflect",
+    "Proxy",
+    "atob",
+    "btoa",
 ] as const;
 
+// Pattern checks complement the keyword list: even with `Function` and `eval`
+// blocked, `({}).constructor.constructor("...")()` reaches the Function
+// constructor without naming it. These patterns block the standard escape
+// vectors via property access on the prototype chain.
+//
+// Patterns are matched against the *original* script rather than the
+// strings-stripped one, because `["constructor"]`/`["__proto__"]` access
+// requires an actual string literal in the bracket position.
+const DISALLOWED_PATTERNS: ReadonlyArray<readonly [RegExp, string]> = [
+    [/\.\s*constructor\b/, ".constructor"],
+    [/\[\s*(['"`])constructor\1\s*\]/, '["constructor"]'],
+    [/\.\s*__proto__\b/, ".__proto__"],
+    [/\[\s*(['"`])__proto__\1\s*\]/, '["__proto__"]'],
+];
+
+const VALID_PARAM = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+
+/**
+ * Strip line/block comments and string literals from a script so the keyword
+ * scan doesn't false-positive on flagged words appearing inside strings or
+ * comments (e.g. `"window-shopping"` or `// uses fetch`). Replacements keep
+ * the original character positions roughly aligned.
+ */
+function stripStringsAndComments(script: string): string {
+    return script
+        .replace(/\/\*[\s\S]*?\*\//g, " ")
+        .replace(/\/\/[^\n]*/g, " ")
+        .replace(/'(?:\\.|[^'\\])*'/g, "''")
+        .replace(/"(?:\\.|[^"\\])*"/g, '""')
+        .replace(/`(?:\\.|[^`\\])*`/g, "``");
+}
+
 function checkScriptSafety(script: string): void {
-    const lowered = script.toLowerCase();
+    const stripped = stripStringsAndComments(script);
     for (const keyword of DISALLOWED_KEYWORDS) {
-        const pattern = new RegExp(`\\b${keyword.toLowerCase()}\\b`, "g");
-        if (pattern.test(lowered)) {
+        const pattern = new RegExp(`\\b${keyword}\\b`);
+        if (pattern.test(stripped)) {
             throw new Error(
                 `Disallowed keyword detected in script: ${keyword}`,
+            );
+        }
+    }
+    for (const [pattern, label] of DISALLOWED_PATTERNS) {
+        if (pattern.test(script)) {
+            throw new Error(
+                `Disallowed pattern detected in script: ${label}`,
             );
         }
     }
@@ -454,14 +455,29 @@ export function textToFunction(
     args: string[],
     { isAsync = false }: { isAsync?: boolean } = {},
 ): AsyncFunction | Function {
-    checkScriptSafety(script);
-    let body = script.trim();
-    if (!/^\s*(return|{|if|for|while|switch|try)\b/.test(body)) {
-        // Looks like a bare expression, not a block — wrap it in return
-        body = `return (${body});`;
+    // Reject anything that isn't a plain identifier so callers cannot smuggle
+    // default-value expressions through the Function-constructor parameter
+    // list (e.g. `args = ["x = sideEffect()"]`, which would execute at call
+    // time).
+    for (const arg of args) {
+        if (!VALID_PARAM.test(arg)) {
+            throw new Error(`Invalid parameter name: ${JSON.stringify(arg)}`);
+        }
     }
-    args.push(`"use strict";\n${body}`);
-    return isAsync ? new AsyncFunction(...args) : new Function(...args);
+    checkScriptSafety(script);
+    const body = script.trim();
+    // For the wrap-in-return heuristic, look at the body with strings and
+    // comments removed so that a leading `// comment\nreturn x;` is still
+    // recognised as a statement block.
+    const bodyForCheck = stripStringsAndComments(body).trim();
+    const compiled = `"use strict";\n${
+        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ?
+            body
+        :   `return (${body});`
+    }`;
+    return isAsync ?
+            new AsyncFunction(...args, compiled)
+        :   new Function(...args, compiled);
 }
 
 const HASH_ALPHABET =
@@ -547,7 +563,7 @@ export function defaultFromJSON(value: unknown): unknown {
             case "URL":
                 return new URL(maybe.href);
             case "ClientDocument":
-                return fromUuidSync(maybe.uuid);
+                return fvttResolveUuid(maybe.uuid);
         }
 
         const result: Record<string, unknown> = {};
@@ -626,19 +642,19 @@ export function defaultToJSON(value: any): JsonValue | undefined {
         } as JsonValue;
     }
 
-    if (Object.hasOwn(value, "documentName")) {
-        return {
-            __type: "ClientDocument",
-            uuid: value.uuid,
-        } as JsonValue;
-    }
-
     if (
         typeof value === "function" ||
         typeof value === "symbol" ||
         value === undefined
     ) {
         return undefined;
+    }
+
+    if (Object.hasOwn(value, "documentName")) {
+        return {
+            __type: "ClientDocument",
+            uuid: value.uuid,
+        } as JsonValue;
     }
 
     if (Array.isArray(value)) {
@@ -659,6 +675,44 @@ export function defaultToJSON(value: any): JsonValue | undefined {
     }
 
     return value;
+}
+
+/**
+ * Serialize an object instance to a plain JSON-safe object.
+ * Strips leading underscores from property names, skips functions,
+ * and includes a `__kind` field for type identification.
+ */
+export function instanceToJSON(instance: object): PlainObject {
+    const result: PlainObject = {};
+    result[KIND_KEY] = (instance.constructor as any).kind;
+
+    for (const key of Object.keys(instance)) {
+        const value = (instance as any)[key];
+        const nkey = key.startsWith("_") ? key.substring(1) : key;
+
+        if (typeof value === "function") {
+            const descriptor = Object.getOwnPropertyDescriptor(instance, key);
+            if (!descriptor || typeof descriptor.value !== "function") continue;
+        }
+
+        result[nkey] = defaultToJSON(value);
+    }
+
+    return result;
+}
+
+/**
+ * Create a deep copy of an object instance by serializing via
+ * {@link instanceToJSON} and reconstructing via the same constructor.
+ */
+export function cloneInstance<T>(
+    instance: object,
+    data: PlainObject = {},
+    options: PlainObject = {},
+): T {
+    const original = instanceToJSON(instance);
+    const newObj = fvttMergeObject(original, data) as PlainObject;
+    return new (instance.constructor as any)(newObj, options) as T;
 }
 
 export function serializeFn(fn: (...args: any[]) => any): string {
@@ -698,7 +752,8 @@ export function serializeFn(fn: (...args: any[]) => any): string {
                 );
             }
             argList = normalizeArrowParams(match[1]);
-            body = match[2].trim();
+            // Expression arrow body needs a return statement
+            body = `return (${match[2].trim()})`;
         }
     }
 
@@ -799,16 +854,10 @@ export function isMasteryItem(
 
 const ItemSubTypeKinds = [
     ITEM_KIND.AFFLICTION,
-    ITEM_KIND.COMBATTECHNIQUESTRIKEMODE,
     ITEM_KIND.CONCOCTIONGEAR,
-    ITEM_KIND.MELEEWEAPONSTRIKEMODE,
-    ITEM_KIND.MISSILEWEAPONSTRIKEMODE,
     ITEM_KIND.MYSTERY,
     ITEM_KIND.MYSTICALABILITY,
-    ITEM_KIND.MYSTICALDEVICE,
-    ITEM_KIND.PHILOSOPHY,
     ITEM_KIND.PROJECTILEGEAR,
-    ITEM_KIND.PROTECTION,
     ITEM_KIND.SKILL,
     ITEM_KIND.TRAIT,
 ] as string[];

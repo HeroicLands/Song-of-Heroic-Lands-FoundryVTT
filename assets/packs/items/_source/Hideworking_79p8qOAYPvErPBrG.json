@@ -1,0 +1,35 @@
+{
+  "name": "Hideworking",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/hidework.svg",
+  "_id": "79p8qOAYPvErPBrG",
+  "system": {
+    "shortcode": "hide",
+    "docUrl": "https://heroiclands.org/sohl/skill/hideworking/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Hideworking covers the processes of curing furs and hides and transforming them into finished leather goods. From tanning raw skins to cutting and stitching them into practical items—bags, belts, boots, saddles, and armor—the craft demands both physical strength and fine attention to detail. Hideworkers also play a key role in producing leather and kurbul armor, making the trade essential to military readiness. The skill encompasses work with both soft leather and the harder rawhide used for more rugged applications.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!79p8qOAYPvErPBrG"
+}

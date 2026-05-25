@@ -1,0 +1,37 @@
+{
+  "name": "Medical Supplies, per IL",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "Pk7YnR3wXqB8TvMz",
+  "system": {
+    "shortcode": "medsupil",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/medical-supplies-per-il/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>An abstracted unit of the everyday consumables a healer needs to treat a wound of one injury level: pre-measured linen bandages, a splint of split willow, a small length of waxed suture thread on a curved needle, a scrap of boiled sponge, a dab of honey or tallow salve in a waxed-paper twist, and a measure of dried yarrow or comfrey for a poultice. Field-surgeons, barber-surgeons, monastery infirmarians, and anyone prudent enough to travel with an aid bag carry a supply by the handful, replenished at any market town.</p>\n<p>A treatment consumes one unit of supplies per injury level being treated — a minor cut is one unit, a grievous chest wound is five. Without supplies, no meaningful treatment can be performed; a physician's hands and training are worthless against a bleeding wound without linen to bind it and thread to close it. The supplies alone are enough for routine treatment; a Surgical Kit is required only for complicated procedures — amputations, deep internal wounds, bone-setting, and the lancing of grave abscesses.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!Pk7YnR3wXqB8TvMz"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Pain",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "PlGkHq29EDZyBXJ7",
+  "system": {
+    "shortcode": "pain",
+    "docUrl": "https://heroiclands.org/sohl/affliction/pain/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Pain weakness is the lingering drag a character carries from unpleasant sensory and emotional experience associated with actual tissue damage — the distress itself, the stiffness, the protective tension in surrounding muscles, the simple unwillingness to use a hurt limb at full strength. Where the wound proper is treated separately, the weakness it produces is the daily cost of moving through it: every action just a little slower, a little more cautious, a little more taxing. 5 fatigue per Injury Level (IL).</p>\n<h3>Symptoms</h3>\n<p>Local discomfort on movement, stiffness in surrounding tissue, slight limp or favoring of the side, reluctance to bear weight, grimace at sudden motion, slowed reaction in the injured part, occasional sharp pain breakthrough.</p>\n<h3>Progression</h3>\n<p>As long as the distress persists, the weakness persists. Severe distress produce severe weakness; minor distress, minor. Improvement of the distress itself reduces the weakness automatically; deterioration increases it. Pain accrues separately for each source of distress or injury; a character carrying multiple sources sums their weakness contributions.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Treat the source of distress itself to relieve distress</li>\n<li>Removal from the source of distress</li>\n<li>Pain-relieving herbs: willow bark, poppy where permitted</li>\n<li>Psychological counseling or compassion</li>\n<li>Splinting and immobilization where appropriate</li>\n<li>Hot compresses for muscle tension; gentle stretching once the acute phase passes</li>\n</ul>\n<h3>Recovery</h3>\n<p>Weakness fatigue is indefinite, abating only as the underlying source recovers according to its own rules.</p>\n",
+    "subType": "fatigue",
+    "category": "weakness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 1,
+    "levelBase": 1,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!PlGkHq29EDZyBXJ7"
+}

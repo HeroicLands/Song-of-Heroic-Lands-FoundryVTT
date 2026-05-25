@@ -1,0 +1,35 @@
+{
+  "name": "Runic",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/scroll-unfurled.svg",
+  "_id": "zhF7K76YOQR30Vfg",
+  "system": {
+    "shortcode": "runic",
+    "docUrl": "https://heroiclands.org/sohl/skill/runic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Runic refers to the ability to read and write in one of the ancient runic scripts—angular alphabets originally designed for carving into stone, wood, and metal. These scripts carry cultural and often sacred significance beyond their purely functional use as writing systems. Literacy in Runic may be essential for deciphering old inscriptions, magical formulae, and the written traditions of cultures that predate the common scripts used in modern correspondence.</p>\n",
+    "subType": "script",
+    "skillBaseFormula": "@rea, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "RgFGiT3LqmNP0uRB",
+  "_key": "!items!zhF7K76YOQR30Vfg"
+}

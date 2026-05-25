@@ -1,0 +1,63 @@
+{
+  "name": "Skill",
+  "pages": [
+    {
+      "_id": "941f5ccc38284639",
+      "name": "What Is a Skill?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Skill represents a learned or practiced ability that a Being possesses. Skills cover everything from combat proficiency (Sword, Shield, Bow) to everyday talents (Riding, Climbing, Awareness) to specialized knowledge (Herblore, Law, Physician). Every meaningful action a character attempts in the game is typically resolved through a skill test.</p>\n"
+      },
+      "_key": "!journal.pages!vcerYC5TUQ1XNznx.941f5ccc38284639"
+    },
+    {
+      "_id": "7e06c375f9cd4aa5",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Skills appear on the Being sheet's <strong>Skills</strong> tab, organized by SubType (such as Combat, Physical, Communication, and so on). Skills are typically added from compendium packs during character creation.</p>\n<p>Each skill is based on one or more trait attributes via a <strong>skill base formula</strong> — for example, a physical skill might derive its base from the average of Strength and Dexterity. This means a character's innate attributes directly influence their starting skill levels.</p>\n"
+      },
+      "_key": "!journal.pages!vcerYC5TUQ1XNznx.7e06c375f9cd4aa5"
+    },
+    {
+      "_id": "ff7022fb5c07ee92",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>SubType:</strong> Type of this skill.  One of:\n<ul>\n<li><strong>Social:</strong></li>\n<li><strong>Craft:</strong></li>\n<li><strong>Physical:</strong></li>\n<li><strong>Lore:</strong></li>\n<li><strong>Nature:</strong></li>\n<li><strong>Combat:</strong></li>\n<li><strong>Language:</strong></li>\n<li><strong>Script:</strong></li>\n<li><strong>Ritual:</strong></li>\n</ul>\n</li>\n<li><strong>Skill Base Formula:</strong> Formula for calculating the skill base from referenced traits.</li>\n<li><strong>Mastery Level Base:</strong> Base mastery level representing training and experience</li>\n<li><strong>Improve Flag:</strong> Whether this item is flagged for mastery improvement via <em>Skill Development Roll</em> (SDR).</li>\n<li><strong>Weapon Group:</strong> Combat category this skill applies to, if any.\n<ul>\n<li><strong>None:</strong> Skill not associated with a weapon.</li>\n<li><strong>All:</strong> Skill associated with all weapon modes.</li>\n<li><strong>Melee:</strong> Skill associated with Melee weapon modes</li>\n<li><strong>Missile:</strong> Skill associated with Missile weapon modes.</li>\n<li><strong>Melee/Missile:</strong> Skill associated with both Melee and Missile weapon modes.</li>\n<li><strong>Unarmed:</strong> Skill associated with unarmed modes.</li>\n<li><strong>Melee/Unarmed:</strong> Skill associated with Melee and Unarmed modes.</li>\n</ul>\n</li>\n<li><strong>Parent Skill Code:</strong> Shortcode of the base skill if this is a specialization.</li>\n<li><strong>Initial Skill Multiplier:</strong> Multiplier applied to skill base when initializing a new character.</li>\n<li></li>\n</ul>\n<!-- TODO: Expand with details on skill tests (success/failure resolution),\n     skill improvement through practice, opening new skills, and how\n     modifiers affect skill rolls -->\n<!-- TODO: Document each field on the Properties tab of this type's sheet:\n     what it means, what values to enter, and how it interacts with other\n     fields and items. Include annotated screenshots. -->"
+      },
+      "_key": "!journal.pages!vcerYC5TUQ1XNznx.ff7022fb5c07ee92"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "vcerYC5TUQ1XNznx",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!vcerYC5TUQ1XNznx"
+}

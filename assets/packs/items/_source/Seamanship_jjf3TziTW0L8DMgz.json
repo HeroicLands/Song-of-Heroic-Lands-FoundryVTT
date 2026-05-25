@@ -1,0 +1,35 @@
+{
+  "name": "Seamanship",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/anchor.svg",
+  "_id": "jjf3TziTW0L8DMgz",
+  "system": {
+    "shortcode": "smsh",
+    "docUrl": "https://heroiclands.org/sohl/skill/seamanship/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Seamanship governs the practical operation of sailing vessels on open water—setting and trimming sails, reading wind and weather, managing crew during maneuvers, and maintaining the ship in seaworthy condition during long voyages. It is the core competency of any mariner and encompasses the accumulated practical knowledge that keeps a vessel on course and afloat in conditions ranging from calm seas to howling gales. Seamanship complements the more specialized skills of Piloting for coastal navigation and Shipwright for vessel construction and repair.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@wil, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!jjf3TziTW0L8DMgz"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Impaired Smell",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "SV76XlXffG8R7WxY",
+  "system": {
+    "shortcode": "impaire2",
+    "docUrl": "https://heroiclands.org/sohl/trait/impaired-smell/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Impaired Smell is a diminished ability to detect and perceive odors, often believed to be a sign of imbalance in the body's humors. Those afflicted may find their sense of smell dulled, reducing their ability to fully experience the world around them.</p>\n<h3>Impulse</h3>\n<p>Difficulty distinguishing or detecting faint odors, leading to a reduced awareness of one’s surroundings. Though bothersome, it may be managed by focusing on other senses or avoiding situations where smell is crucial.\n<strong>Example:</strong> Cook Edric notices that the fragrant herbs in his stew no longer carry the same strength. Though he can still taste the food, the experience is less vivid, and he must rely on his memory and judgment more than his nose.</p>\n<h3>Disorder</h3>\n<p>In addition to impulse intensity behaviors: Significant impairment in detecting even strong odors, leading to challenges in daily life, such as cooking, detecting spoiled food, or recognizing smoke from a fire. This loss can cause serious safety concerns and emotional distress.</p>\n<h3>Physical Symptoms</h3>\n<p>Weakened sense of taste, frequent difficulty detecting odors, and potential weight loss due to a lack of appetite.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Worries about the inability to detect dangerous situations, such as spoiled food or approaching fire, and fears of further sensory decline.</p>\n<h3>Emotional Distress</h3>\n<p>Frustration, sadness, and anxiety over the inability to experience the fullness of life’s scents, such as the smell of fresh bread or blooming flowers. This loss may lead to social withdrawal or a sense of isolation.</p>\n<p><strong>Example:</strong> Brewer Theobald finds that he can no longer distinguish between the rich scents of his ales, leading to a decline in the quality of his brews. As the impairment worsens, Theobald becomes increasingly anxious, fearing that his craft is slipping away from him. The constant worry over missing the smell of smoke or spoiled ingredients causes him great distress, leaving him feeling isolated and vulnerable.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!SV76XlXffG8R7WxY"
+}

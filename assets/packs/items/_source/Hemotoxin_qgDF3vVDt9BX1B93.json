@@ -1,0 +1,37 @@
+{
+  "name": "Hemotoxin",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "qgDF3vVDt9BX1B93",
+  "system": {
+    "shortcode": "hemotxn",
+    "docUrl": "https://heroiclands.org/sohl/affliction/hemotoxin/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Hemotoxins are toxins that destroy red blood cells, disrupt blood clotting, and cause tissue damage. These toxins lead to symptoms including severe pain, swelling, bruising, and internal bleeding. The destructive effect on blood components and tissues can cause complications such as kidney failure and disseminated intravascular coagulation, where blood clots form throughout the bloodstream. Hemotoxins act by breaking down cell membranes and proteins, making the affected area necrotic, and causing extensive damage that requires immediate medical attention.</p>\n<h3>Symptoms</h3>\n<p>Severe pain and swelling at bite site, localized tissue damage.</p>\n<h3>Progression</h3>\n<p>Bleeding disorders (disseminated intravascular coagulation), vomiting, diarrhea, muscle tremors, severe swelling and bruising, systemic symptoms like hypotension, and potential kidney failure.</p>\n<h3>Treatment</h3>\n<ul>\n<li><strong>Garlic:</strong> Applied as a poultice for its antibacterial and anti-inflammatory properties.</li>\n<li><strong>Activated Charcoal:</strong> Ingested to adsorb toxins.</li>\n<li><strong>Herbal Teas:</strong> Made from Echinacea or Goldenseal for immune support.</li>\n<li><strong>Debridement:</strong> Surgical removal of dead tissue.</li>\n<li><strong>Incision and Drainage:</strong> To alleviate pressure and prevent necrosis.</li>\n</ul>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!qgDF3vVDt9BX1B93"
+}

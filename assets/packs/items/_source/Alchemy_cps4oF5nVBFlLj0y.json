@@ -1,0 +1,39 @@
+{
+  "name": "Alchemy",
+  "type": "mysticalability",
+  "img": "systems/sohl/assets/icons/alchemy.svg",
+  "_id": "cps4oF5nVBFlLj0y",
+  "system": {
+    "shortcode": "alch",
+    "docUrl": "https://heroiclands.org/sohl/mysticalability/alchemy/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Alchemy is the esoteric art of analyzing, preparing, and transforming herbal and mineral substances into magical elixirs. Unlike the mundane herbalist who works with natural concoctions alone, the alchemist channels arcane forces to produce effects that transcend ordinary chemistry. This skill is deeply intertwined with astrological timing and the practitioner's spiritual attunement, making it one of the most demanding and secretive of the mystical disciplines.</p>\n",
+    "subType": "alchemy",
+    "assocSkillCode": "",
+    "assocMysteryCode": "",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "levelBase": 0,
+    "charges": {
+      "usesCharges": false,
+      "value": 0,
+      "max": 0
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gpLM4ElXNiI1rN7l",
+  "_key": "!items!cps4oF5nVBFlLj0y"
+}

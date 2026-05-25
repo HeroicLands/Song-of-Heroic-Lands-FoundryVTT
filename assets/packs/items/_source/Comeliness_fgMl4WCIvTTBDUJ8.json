@@ -1,0 +1,53 @@
+{
+  "name": "Comeliness",
+  "type": "attribute",
+  "img": "systems/sohl/assets/icons/charm.svg",
+  "_id": "fgMl4WCIvTTBDUJ8",
+  "system": {
+    "shortcode": "cml",
+    "docUrl": "https://heroiclands.org/sohl/attribute/comeliness/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Comeliness is the degree to which a person's physical form pleases the eye. It is more than mere health or vigor; it encompasses proportion, symmetry, and the indefinable grace that makes others wish to look upon a face or form. In taverns and courts alike, comeliness shapes first impressions and opens doors that plainer folk must knock upon more persistently.</p>\n<h3>Ugly</h3>\n<p>Ugly individuals bear features that instinctively repel. Their visage may be twisted by scar or deformity, their skin blotched or scarred beyond the ordinary marks of living. Others struggle not to look away. Some ugly folk cultivate a fearsome reputation to transform their apparent weakness into strength; others withdraw from scrutiny.</p>\n<h3>Unattractive</h3>\n<p>The unattractive person is unremarkable or vaguely displeasing to view. They lack obvious deformity but possess no particular grace. A crooked nose, narrow eyes, weak chin, or perpetually sour expression leaves them overlooked in crowds. They must rely on wit or skill to compensate for what the eye does not immediately favor.</p>\n<h3>Plain</h3>\n<p>Plain folk are neither remarkable nor off-putting. A miller's daughter, a shepherd lad—they pass through crowds without turning heads, possessing an honesty that avoids both beauty's burdens and ugliness's stigma. They are easy to forget but equally easy to trust.</p>\n<h3>Attractive</h3>\n<p>Attractive people draw the eye and hold it with ease. Their features show good proportion and their bearing suggests health. Others find themselves inclined to listen to their words, to grant them requests, to seek out their company. This favor comes without effort on their part, though it carries its own subtle weight.</p>\n<h3>Striking</h3>\n<p>The striking person is unforgettable. Their beauty—whether of sharp, severe design or soft, luminous quality—stops conversation in halls and creates sudden silences in markets. They become legendary in small towns, objects of gossip and longing. Some are blessed by this; others curse it as a prison that obscures all else about them.</p>\n<h3>In Practice</h3>\n<p>When a young person seeks passage on a merchant vessel, the captain barely glances at the plain applicant and asks for triple the usual fee. The attractive candidate finds the captain already offering a negotiated rate. The striking one is offered passage free—and the captain's hopeful company besides. By nightfall, the plain sailor has found work through tenacity; the attractive one through charm; the striking one has been offered a partnership and three marriage proposals, none of which they asked for.</p>\n",
+    "scoreBase": 0,
+    "valueDesc": [
+      {
+        "label": "Ugly",
+        "maxValue": 4
+      },
+      {
+        "label": "Unattractive",
+        "maxValue": 8
+      },
+      {
+        "label": "Plain",
+        "maxValue": 12
+      },
+      {
+        "label": "Attractive",
+        "maxValue": 16
+      },
+      {
+        "label": "Striking",
+        "maxValue": 999
+      }
+    ],
+    "initDiceFormula": "3d6",
+    "impairedByRoles": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FPitxvL8wCmXynax",
+  "_key": "!items!fgMl4WCIvTTBDUJ8"
+}

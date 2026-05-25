@@ -1,0 +1,37 @@
+{
+  "name": "Keg Wine",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/wine-bottle.svg",
+  "_id": "27zEmQjrMCPj3POo",
+  "system": {
+    "shortcode": "winekeg",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/keg-wine/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A keg of common wine kept in a tavern or merchant's store. Less costly than aged varieties, it is still preferred over ale by those with coin; a publican taps one to serve customers of better stations or to mark feast days.</p>\n",
+    "quantity": 1,
+    "weightBase": 72,
+    "valueBase": 180,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "jLdeIpOIZokm8obv",
+  "_key": "!items!27zEmQjrMCPj3POo"
+}

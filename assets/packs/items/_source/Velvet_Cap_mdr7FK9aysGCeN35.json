@@ -1,0 +1,51 @@
+{
+  "name": "Velvet Cap",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/cap.svg",
+  "_id": "mdr7FK9aysGCeN35",
+  "system": {
+    "shortcode": "VCap",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/velvet-cap/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Velvet Cap provides a touch of luxury with its soft, plush fabric. It is more of a status symbol than practical wear, perfect for formal settings and special occasions.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.2,
+    "valueBase": 14,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Skull"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!mdr7FK9aysGCeN35"
+}

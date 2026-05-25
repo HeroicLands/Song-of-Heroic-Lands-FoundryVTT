@@ -1,0 +1,56 @@
+{
+  "name": "Leather Knee Boots",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leather-boot.svg",
+  "_id": "8xbz25OyvJhPzQtB",
+  "system": {
+    "shortcode": "LtKBoot",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/leather-knee-boots/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Leather Knee Boots, made from lightweight yet durable leather, extend up just past the knee. They offer a mix of style and modest protection, suitable for those needing flexible footwear for active pursuits.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.3,
+    "valueBase": 240,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!8xbz25OyvJhPzQtB"
+}

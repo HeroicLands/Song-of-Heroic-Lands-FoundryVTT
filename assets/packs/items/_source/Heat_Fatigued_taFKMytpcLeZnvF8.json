@@ -1,0 +1,37 @@
+{
+  "name": "Heat-Fatigued",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/privation.svg",
+  "_id": "taFKMytpcLeZnvF8",
+  "system": {
+    "shortcode": "htfat",
+    "docUrl": "https://heroiclands.org/sohl/affliction/heat-fatigued/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Heat fatigue is the earliest stage of heat injury — the body still cooling itself adequately, but at a steadily rising metabolic cost. It is the soldier on the long summer march, the laborer in the noonday quarry, the rider in the desert before noon. Recognized early, it costs nothing more than a halt; ignored, it slides into exhaustion and then heat stroke.</p>\n<h3>Symptoms</h3>\n<p>Flushed skin, profuse sweating, a steady dull headache, mild thirst, irritability, and the urge to slow down. Pulse and breathing are quickened but not yet erratic. Concentration falters but consciousness is unaffected.</p>\n<h3>Progression</h3>\n<p>If exertion continues in the heat without cooling and water, heat fatigue gives way to heat exhaustion within the hour — pulse weakening, nausea, dizziness. The slide from fatigue to true danger is faster than most victims expect.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Stop work, move to shade or a cool place</li>\n<li>Drink water steadily — small amounts often, not a single deep draught</li>\n<li>Loosen heavy clothing and armor; uncover the head</li>\n<li>Resume only when the headache lifts and sweating slows</li>\n</ul>\n",
+    "subType": "privation",
+    "category": "heat",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 5,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "wz4hXqKLntkdXNue",
+  "_key": "!items!taFKMytpcLeZnvF8"
+}

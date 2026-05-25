@@ -1,0 +1,19 @@
+{
+  "name": "Personality",
+  "sorting": "a",
+  "folder": "3P28S6pewSJWziiQ",
+  "type": "Item",
+  "_id": "1zRbsasdeUFmPhPZ",
+  "sort": 0,
+  "color": "#6A1B9A",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!1zRbsasdeUFmPhPZ"
+}

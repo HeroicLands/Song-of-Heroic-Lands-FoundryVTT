@@ -1,0 +1,38 @@
+{
+  "name": "Meticulous",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "vNjUZJ9t3L3Xk5U3",
+  "system": {
+    "shortcode": "mtcls",
+    "docUrl": "https://heroiclands.org/sohl/trait/meticulous/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Meticulous refers to an individual's attention to detail, precision, and thoroughness in their work or tasks. A meticulous person is highly\norganized, careful, and ensures that everything is done correctly, often\ndouble-checking their work to avoid mistakes. While this trait is generally admired\nfor producing high-quality results, excessive meticulousness can lead to\nperfectionism, procrastination, or difficulty completing tasks due to an\noveremphasis on details.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Benign Trait:</strong> The individual demonstrates a strong focus on\ndetail and accuracy, ensuring that their work is completed to a high standard.\nThey are methodical in their approach, taking pride in their carefulness without\nallowing it to delay progress or disrupt their efficiency. Their meticulous\nnature ensures that they consistently produce reliable, high-quality outcomes.\n<strong>Example:</strong> Lady Beatrice is known for her\nmeticulous bookkeeping, ensuring that every coin spent and earned on her\nestate is properly accounted for. Her attention to detail prevents errors and\nkeeps her estate running smoothly. While she takes time to ensure accuracy, Beatrice is also efficient and manages her tasks within reasonable time\nframes.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Impulse Intensity:</strong> The individual becomes more focused on\nperfection and detail, occasionally spending excessive time reviewing their work\nor correcting minor errors. Although their results remain high-quality, this\nheightened attention to detail can cause delays, and they may become frustrated\nwhen things are not perfect. Others may admire their work but find the\nindividual’s process slower or more rigid than necessary.\n<strong>Example:</strong> Lady Beatrice now spends hours\nrevising her estate’s records, double-checking every entry multiple times. She\noften becomes frustrated when something seems out of place, even if it’s a\nminor discrepancy. Her meticulousness ensures accuracy, but her advisors worry\nthat she is dedicating too much time to small details, slowing down important\ndecisions.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Disorder Intensity:</strong> As meticulousness intensifies, the\nindividual may become excessively focused on minute details to the point where\nthey struggle to complete tasks. They may constantly revise their work, fearing\nthat any imperfection could lead to disaster. This obsession with perfection can\nlead to procrastination, inefficiency, and anxiety, as the individual becomes\noverwhelmed by the need for everything to be flawless, preventing them from\nmoving forward.</p>\n<p><strong>Physical Symptoms:</strong> The individual may experience stress, fatigue, or tension from constantly overanalyzing details and feeling\npressure to achieve perfection. The prolonged focus on small tasks may lead\nto physical discomfort, such as headaches or exhaustion.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts about achieving\nabsolute perfection in their work. The individual may worry excessively\nabout small flaws or errors, fearing that any mistake could ruin the entire\ntask. These thoughts can lead to anxiety and difficulty letting go of tasks.</p>\n<ul>\n<li></li>\n</ul>\n<h3>Emotional Distress</h3>\n<p>The individual may feel overwhelmed, frustrated, or anxious due to their inability to finish tasks or move past\nminor imperfections. They may become emotionally distressed when others\ndon’t share their level of attention to detail, leading to tension in\nrelationships or collaborative work.</p>\n<ul>\n<li></li>\n</ul>\n<p><strong>Example:</strong> Lady Beatrice’s\nmeticulousness has become an obsession. She spends days going over the\nestate’s records, rechecking everything repeatedly, convinced that even the\nsmallest mistake could ruin the estate. Her staff grows increasingly\nfrustrated, as Beatrice’s need for perfection delays important decisions and\ncauses anxiety throughout the household. Beatrice feels stressed and\noverwhelmed, but she cannot stop herself from obsessing over every detail, afraid that something vital will be overlooked if she doesn’t maintain\nperfect control.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "SpZzOv4eOwtdsMMo",
+  "_key": "!items!vNjUZJ9t3L3Xk5U3"
+}

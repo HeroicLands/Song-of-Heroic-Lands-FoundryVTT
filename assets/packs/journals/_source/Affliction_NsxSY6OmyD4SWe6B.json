@@ -1,0 +1,63 @@
+{
+  "name": "Affliction",
+  "pages": [
+    {
+      "_id": "79150929dd55f8e0",
+      "name": "What Is an Affliction?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>An Affliction represents an ongoing condition affecting a Being — diseases, poisons, curses, magical maladies, or other persistent effects that have a course and potentially a cure. Unlike injuries (which are specific wounds), afflictions model conditions that progress over time, may be transmitted to others, and require specific treatments to resolve.</p>\n"
+      },
+      "_key": "!journal.pages!NsxSY6OmyD4SWe6B.79150929dd55f8e0"
+    },
+    {
+      "_id": "2d9a80e293a8996f",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Afflictions appear on the <strong>Trauma</strong> tab of the Being sheet and track the condition's progression. Afflictions can be added when a character is exposed to disease, poisoned, cursed, or otherwise affected by a lasting condition. They are typically sourced from compendium packs that define specific diseases and poisons.</p>\n"
+      },
+      "_key": "!journal.pages!NsxSY6OmyD4SWe6B.2d9a80e293a8996f"
+    },
+    {
+      "_id": "6a90a6b996a33a9f",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>SubType:</strong> Represents what type of affliction this is.\n<ul>\n<li><strong>Privation</strong>: Represents lack of something needed for life. Dehydration, Hypothermia, Hyperthermia, Starvation, and such are forms of privation.</li>\n<li><strong>Fatigue</strong>: Windedness, weariness, weakness, and similar conditions.</li>\n<li><strong>Disease</strong>: Physical ailments caused by parasites or similar.</li>\n<li><strong>Infection</strong>: A form of disease that affects wounds specifically.</li>\n<li><strong>Poison/Toxin</strong>: Biological or chemical reactions that impair or kill the host.</li>\n<li><strong>Fear</strong>: Response to a perceived threat.</li>\n<li><strong>Morale</strong>: The level of confidence, enthusiasm, and willingness-to-persist against a difficult circumstance.</li>\n<li><strong>Shadow</strong>: Resistance to the spiritual attack from undead or metaphysically-evil actors.</li>\n<li><strong>Psyche</strong>: Psychological disturbances.</li>\n<li><strong>Aural Shock</strong>: Disturbances and imbalance to the connection to the spirit/soul and Aura</li>\n</ul>\n</li>\n<li><strong>Category:</strong> For some SubTypes, there are different forms.  For example, for Fatigue the different categories are <em>Windedness</em>, <em>Weariness</em>, and <em>Weakness</em>.  Not applicable to all SubTypes.</li>\n<li><strong>Is Dormant:</strong> Whether the affliction is currently present but inactive.</li>\n<li><strong>Is Treated:</strong> Whether the affliction has had treatment applied.</li>\n<li><strong>Diagnosis Bonus Base:</strong> Bonus applied to diagnosis rolls.</li>\n<li><strong>Lavel Base:</strong> Numeric level of severity of the affliction, low numbers are less severe</li>\n<li><strong>Healing Rate Base:</strong> A numeric code from 1-6 indicating how well the affliction heals. 6 is the highest level (meaning the affliction has been defeated) and 0 is the lowest level (patient is dead).  A rate of -1 indicates there is no healing rate.</li>\n<li><strong>Contagion Index Base:</strong> How contagious the affliction is. Values range from 1 to 5; the lower the index, the more contagious the disease.</li>\n<li><strong>Transmission</strong> — how the affliction spreads. Values are:\n<ul>\n<li><strong>None:</strong> Not transmissible.</li>\n<li><strong>Airborne:</strong> Transmits through the air.</li>\n<li><strong>Contact:</strong> Transmits via skin contact.</li>\n<li><strong>Body Fluid:</strong> Transmits when body fluid is transmitted either through an orifice or wound.</li>\n<li><strong>Injested:</strong> Transmits by eating or drinking.</li>\n<li><strong>Proximity:</strong> Transmitted by being near the source. Note that this is different from airborne; for instance, it could represent a force such as electromagnetism or radiation or similar.</li>\n<li><strong>Vector:</strong> Injection via stinger, piercing, cut, or other break to the skin.</li>\n<li><strong>Perception:</strong> Transmitted by simply perceiving the source visually, audibly, or via some other mechanism.</li>\n<li><strong>Arcane:</strong> Transmitted by spell or other arcane mechanism.</li>\n<li><strong>Divine:</strong> Transmitted by divine attunement (such as belonging or not belonging to a particular religion or sect).</li>\n<li><strong>Spirit:</strong> Transmitted via the Aura of one spirit or soul to another.</li>\n</ul>\n</li>\n</ul>\n<!-- TODO: Expand with details on affliction progression mechanics,\n     how transmission checks work, treatment skill tests, and\n     interaction with the injury/healing system -->"
+      },
+      "_key": "!journal.pages!NsxSY6OmyD4SWe6B.6a90a6b996a33a9f"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "NsxSY6OmyD4SWe6B",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!NsxSY6OmyD4SWe6B"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Minor_Traits",
+  "sorting": "a",
+  "folder": "1zRbsasdeUFmPhPZ",
+  "type": "Item",
+  "_id": "SpZzOv4eOwtdsMMo",
+  "sort": 0,
+  "color": "#DAA520",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!SpZzOv4eOwtdsMMo"
+}

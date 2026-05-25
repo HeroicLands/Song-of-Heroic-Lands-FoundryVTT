@@ -1,0 +1,37 @@
+{
+  "name": "Mandrake",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "jbQU6N7jQuWpoU7c",
+  "system": {
+    "shortcode": "mandrk",
+    "docUrl": "https://heroiclands.org/sohl/affliction/mandrake/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Mandrake, known for its psychoactive and toxic properties, is used both medicinally and for poisoning. It contains tropane alkaloids such as hyoscyamine and scopolamine.</p>\n<h3>Symptoms</h3>\n<p>Symptoms include hallucinations, dilation of pupils, dry mouth, rapid heartbeat, and confusion.</p>\n<h3>Progression</h3>\n<p>Large doses cause delirium, seizures, and death due to respiratory failure.</p>\n<h3>Treatment</h3>\n<p>Emesis induced with mustard seed water, activated charcoal, and calming herbal teas with chamomile or valerian to soothe the nervous system and provide supportive care.</p>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "injested"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!jbQU6N7jQuWpoU7c"
+}

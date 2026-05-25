@@ -1,0 +1,19 @@
+{
+  "name": "Combat",
+  "sorting": "a",
+  "folder": "vP5BufUGUOMMlPlB",
+  "type": "Item",
+  "_id": "EphAMAfFhWBrJxyF",
+  "sort": 0,
+  "color": "#C0392B",
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!folders!EphAMAfFhWBrJxyF"
+}

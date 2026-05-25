@@ -1,0 +1,37 @@
+{
+  "name": "Seal, Signature",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "g8zFaknOnkeyOLn8",
+  "system": {
+    "shortcode": "sealsignat",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/seal-signature/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A carved brass or iron seal, fitted to a wooden handle, bearing the owner's name or mark in relief. Pressed into hot sealing wax, it imprints a signature as proof of authority and authenticity. Nobles, merchants, and magistrates commission personal seals to authenticate charters and contracts.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.25,
+    "valueBase": 36,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!g8zFaknOnkeyOLn8"
+}

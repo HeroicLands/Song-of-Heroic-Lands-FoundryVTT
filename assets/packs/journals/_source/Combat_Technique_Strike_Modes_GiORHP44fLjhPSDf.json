@@ -1,0 +1,63 @@
+{
+  "name": "Combat Technique Strike Modes",
+  "pages": [
+    {
+      "_id": "965c7557c7c7658c",
+      "name": "What Is a Combat Technique",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Combat Technique represents a weaponless combat maneuver or mode. These are special fighting techniques, unarmed attacks, grappling moves, or other combat actions that a character can perform without using a weapon.</p>\n<p>In the case of creatures, these often include biting, raking with claws, piercing with stingers, grappling, and even in some cases flinging spikes or quills (missiles).</p>\n"
+      },
+      "_key": "!journal.pages!GiORHP44fLjhPSDf.965c7557c7c7658c"
+    },
+    {
+      "_id": "0252e854837c10ff",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Combat Techniques appear on the Being sheet's <strong>Combat</strong> tab alongside weapons. This allows characters to always have access to combat mechanisms like unarmed strikes, grapples, or special maneuvers even when they have no weapons. Creatures almost exclusively rely on Combat Techniques and almost never use weapons.</p>\n"
+      },
+      "_key": "!journal.pages!GiORHP44fLjhPSDf.0252e854837c10ff"
+    },
+    {
+      "_id": "d2aae2ce7c04382a",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>Group</strong> — the nature of the combat maneuver (unarmed strike,\ngrapple, trip, disarm, etc.).</li>\n<li><strong>Method:</strong> Method of combat, either <strong>Melee</strong> or <strong>Missile</strong>.</li>\n<li><strong>Assoc Skill Code:</strong> Shortcode of the skill which is used for this attack.</li>\n<li><strong>Impact Die:</strong> Type of dice used for calculating impact</li>\n<li><strong>Num Dice:</strong> Number of dice to roll for calculating impact</li>\n<li><strong>Impact Modifier:</strong> Modifier to add to the dice roll for impact</li>\n<li><strong>Aspect:</strong> Either <em>Blunt</em>, <em>Edged</em>, <em>Piercing</em>, or <em>Fire</em>.</li>\n</ul>\n<p>If the type of attack is a melee attack, the following additional properties will appear:</p>\n<ul>\n<li><strong>Strike Accuracy:</strong> Combat attack accuracy of the combat technique</li>\n<li><strong>Length Base</strong> — the length of the combat technique, in feet.</li>\n</ul>\n<p>If the type of attack is a missile attack, the following additional properties will appear:</p>\n<ul>\n<li><strong>Base Range:</strong> Maximum range (in feet) that the missile can be fired using direct-fire rules.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!GiORHP44fLjhPSDf.d2aae2ce7c04382a"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "GiORHP44fLjhPSDf",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!GiORHP44fLjhPSDf"
+}

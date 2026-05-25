@@ -11,27 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlLogic } from "@common/SohlLogic";
-import type { MasteryLevelLogic } from "@common/item/MasteryLevel";
-import type { SohlItem } from "@common/item/SohlItem";
-import type { AfflictionLogic } from "@common/item/Affliction";
-import type { InjuryLogic } from "@common/item/Injury";
-import type { SohlContextMenu } from "@utils/SohlContextMenu";
-import { Itr } from "@utils/Itr";
-
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 export const KIND_KEY: string = "__kind" as const;
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
-
-export const {
-    kind: VARIANT,
-    values: Variants,
-    isValue: isVariant,
-    labels: VariantLabels,
-} = defineType("SOHL.SohlSystem.Variant", {
-    LEGENDARY: "legendary",
-    MYSTYISLE: "mystyisle",
-});
-export type Variant = (typeof VARIANT)[keyof typeof VARIANT];
 
 export const SYMBOL: StrictObject<string> = {
     TIMES: String.fromCharCode(0x00d7),
@@ -60,28 +42,19 @@ export const {
     isValue: isItemKind,
     labels: itemKindLabels,
 } = defineType("TYPES.Item", {
-    ACTION: "action",
     AFFILIATION: "affiliation",
     AFFLICTION: "affliction",
     ARMORGEAR: "armorgear",
-    BODYLOCATION: "bodylocation",
-    BODYPART: "bodypart",
-    BODYZONE: "bodyzone",
-    COMBATTECHNIQUESTRIKEMODE: "combattechniquestrikemode",
+    ATTRIBUTE: "attribute",
+    COMBATTECHNIQUE: "combattechnique",
     CONCOCTIONGEAR: "concoctiongear",
     CONTAINERGEAR: "containergear",
-    DOMAIN: "domain",
-    INJURY: "injury",
-    MELEEWEAPONSTRIKEMODE: "meleeweaponstrikemode",
+    TRAUMA: "trauma",
+    LINEAGE: "lineage",
     MISCGEAR: "miscgear",
-    MISSILEWEAPONSTRIKEMODE: "missileweaponstrikemode",
-    MOVEMENTPROFILE: "movementprofile",
     MYSTERY: "mystery",
     MYSTICALABILITY: "mysticalability",
-    MYSTICALDEVICE: "mysticaldevice",
-    PHILOSOPHY: "philosophy",
     PROJECTILEGEAR: "projectilegear",
-    PROTECTION: "protection",
     SKILL: "skill",
     TRAIT: "trait",
     WEAPONGEAR: "weapongear",
@@ -89,25 +62,19 @@ export const {
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
-    kind: COMBATANT_KIND,
-    values: CombatantKinds,
-    isValue: isCombatantKind,
-    labels: combatantKindLabels,
-} = defineType("TYPES.Combatant", {
-    COMBATANTDATA: "sohlcombatantdata",
+    kind: DOMAIN_FAMILY,
+    values: DomainFamilies,
+    isValue: isDomainFamily,
+    labels: domainFamilyLabels,
+} = defineType("SOHL.Domain.FAMILY", {
+    ARCANE: "arcane", // schools of magic, elements
+    DIVINE: "divine", // deities, divine aspects
+    RELIGION: "religion", // faiths, sects, cults — usually parented to a deity
+    SPIRIT: "spirit", // totems, ancestor spirits
+    ASTRAL: "astral", // birthsigns
+    NATURAL: "natural", // geology, mathematics, biology, etc.
 });
-export type CombatantKind =
-    (typeof COMBATANT_KIND)[keyof typeof COMBATANT_KIND];
-
-export const {
-    kind: EFFECT_KIND,
-    values: EffectKinds,
-    isValue: isEffectKind,
-    labels: effectKindLabels,
-} = defineType("TYPES.Effect", {
-    EFFECTDATA: "sohleffectdata",
-});
-export type EffectKind = (typeof EFFECT_KIND)[keyof typeof EFFECT_KIND];
+export type DomainFamily = (typeof DOMAIN_FAMILY)[keyof typeof DOMAIN_FAMILY];
 
 export const {
     kind: ACTOR_KIND,
@@ -129,11 +96,6 @@ export const {
     isValue: isItemMetadata,
     labels: itemMetadataLabels,
 } = defineType(`SOHL.Item.METADATA`, {
-    [ITEM_KIND.ACTION]: {
-        IconCssClass: "fas fa-gears",
-        Image: "systems/sohl/assets/icons/gears.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.AFFILIATION]: {
         IconCssClass: "fa-duotone fa-people-group",
         Image: "systems/sohl/assets/icons/people-group.svg",
@@ -149,22 +111,12 @@ export const {
         Image: "systems/sohl/assets/icons/armor.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.BODYLOCATION]: {
-        IconCssClass: "fas fa-hand",
-        Image: "systems/sohl/assets/icons/hand.svg",
+    [ITEM_KIND.ATTRIBUTE]: {
+        IconCssClass: "fas fa-user-gear",
+        Image: "systems/sohl/assets/icons/user-gear.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.BODYPART]: {
-        IconCssClass: "fa-duotone fa-skeleton-ribs",
-        Image: "systems/sohl/assets/icons/ribcage.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.BODYZONE]: {
-        IconCssClass: "fa-duotone fa-person",
-        Image: "systems/sohl/assets/icons/person.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.COMBATTECHNIQUESTRIKEMODE]: {
+    [ITEM_KIND.COMBATTECHNIQUE]: {
         IconCssClass: "fas fa-hand-fist",
         Image: "systems/sohl/assets/icons/punch.svg",
         KeyChoices: [] as StrictObject<string>[],
@@ -179,34 +131,19 @@ export const {
         Image: "systems/sohl/assets/icons/sack.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.DOMAIN]: {
-        IconCssClass: "fas fa-sparkle",
-        Image: "systems/sohl/assets/icons/sparkle.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.INJURY]: {
+    [ITEM_KIND.TRAUMA]: {
         IconCssClass: "fas fa-user-injured",
         Image: "systems/sohl/assets/icons/injury.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MELEEWEAPONSTRIKEMODE]: {
-        IconCssClass: "fas fa-sword",
-        Image: "systems/sohl/assets/icons/sword.svg",
+    [ITEM_KIND.LINEAGE]: {
+        IconCssClass: "fas fa-person-limbs-wide",
+        Image: "systems/sohl/assets/icons/body.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MISCGEAR]: {
         IconCssClass: "fas fa-ball-pile",
         Image: "systems/sohl/assets/icons/miscgear.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.MISSILEWEAPONSTRIKEMODE]: {
-        IconCssClass: "fas fa-bow-arrow",
-        Image: "systems/sohl/assets/icons/longbow.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.MOVEMENTPROFILE]: {
-        IconCssClass: "fas fa-walking",
-        Image: "systems/sohl/assets/icons/walk.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.MYSTERY]: {
@@ -219,24 +156,9 @@ export const {
         Image: "systems/sohl/assets/icons/hand-sparkles.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
-    [ITEM_KIND.MYSTICALDEVICE]: {
-        IconCssClass: "fas fa-wand-sparkles",
-        Image: "systems/sohl/assets/icons/magic-wand.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.PHILOSOPHY]: {
-        IconCssClass: "fas fa-arrow",
-        Image: "systems/sohl/assets/icons/sparkle.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
     [ITEM_KIND.PROJECTILEGEAR]: {
         IconCssClass: "fas fa-bow-arrow",
         Image: "systems/sohl/assets/icons/arrow.svg",
-        KeyChoices: [] as StrictObject<string>[],
-    },
-    [ITEM_KIND.PROTECTION]: {
-        IconCssClass: "fas fa-shield",
-        Image: "systems/sohl/assets/icons/shield.svg",
         KeyChoices: [] as StrictObject<string>[],
     },
     [ITEM_KIND.SKILL]: {
@@ -298,70 +220,28 @@ export type ActorMetadata =
     (typeof ACTOR_METADATA)[keyof typeof ACTOR_METADATA];
 
 export const {
-    kind: EFFECT_METADATA,
-    values: EffectMetadatas,
-    isValue: isEffectMetadata,
-    labels: effectMetadataLabels,
-} = defineType(`SOHL.Effect.METADATA`, {
-    [EFFECT_KIND.EFFECTDATA]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-        Sheet: "systems/sohl/templates/effect/effect-sheet.hbs",
-    },
-});
-export type EffectMetadata =
-    (typeof EFFECT_METADATA)[keyof typeof EFFECT_METADATA];
-
-export const EFFECT_IMAGE: string =
-    "systems/sohl/assets/icons/people-group.svg";
-
-export const {
     kind: REACTION,
     values: Reactions,
     isValue: isReaction,
     labels: reactionLabels,
-} = defineType("SOHL.SohlActor.REACTION", {
+} = defineType("SOHL.Actor.REACTION", {
     HOSTILE: "hostile",
     FRIENDLY: "friendly",
     NEUTRAL: "neutral",
 });
+export type Reaction = (typeof REACTION)[keyof typeof REACTION];
 
 export const {
-    kind: BIOME,
-    values: Biomes,
-    isValue: isBiome,
-    labels: biomeLabels,
-} = defineType("SOHL.Biome", {
-    ARCTIC_ICEFIELD: "arctic_icefield",
-    ARCTIC_TUNDRA: "arctic_tundra",
-    SUBARCTIC_TAIGA: "subarctic_taiga",
-    MOUNTAIN_ALPINE: "mountain_alpine",
-    PERMAFROST_SCRUB: "permafrost_scrub",
-    TEMPERATE_GRASSLAND: "temperate_grassland",
-    TEMPERATE_FOREST: "temperate_forest",
-    TEMPERATE_MIXED_WOODLAND: "temperate_mixed_woodland",
-    TEMPERATE_HEATH_MOOR: "temperate_heath_moor",
-    TEMPERATE_WETLANDS: "temperate_wetlands",
-    TEMPERATE_MARSH: "temperate_marsh",
-    TEMPERATE_HILLS: "temperate_hills",
-    TEMPERATE_MOUNTAINS: "temperate_mountains",
-    DESERT_DUNES: "desert_dunes",
-    DESERT_ROCK: "desert_rock",
-    DESERT_SALT_FLAT: "desert_salt_flat",
-    DESERT_SCRUB: "desert_scrub",
-    STEPPE: "steppe",
-    SAVANNA: "savanna",
-    TROPICAL_RAINFOREST: "tropical_rainforest",
-    TROPICAL_SEASONAL_FOREST: "tropical_seasonal_forest",
-    TROPICAL_SAVANNA: "tropical_savanna",
-    TROPICAL_MANGROVE: "tropical_mangrove",
-    COASTAL_BEACH: "coastal_beach",
-    COASTAL_ROCKY_SHORE: "coastal_rocky_shore",
-    COASTAL_WETLAND: "coastal_wetland",
-    CORAL_ISLAND: "coral_island",
-    OPEN_SEA: "open_sea",
+    kind: GROUP_STANCE,
+    values: GroupStances,
+    isValue: isGroupStance,
+    labels: groupStanceLabels,
+} = defineType("SOHL.Actor.GROUP_STANCE", {
+    ENEMY: "enemy",
+    ALLY: "ally",
+    NEUTRAL: "neutral",
 });
-export type Biome = (typeof BIOME)[keyof typeof BIOME];
+export type GroupStance = (typeof GROUP_STANCE)[keyof typeof GROUP_STANCE];
 
 export const {
     kind: MOVEMENT_MEDIUM,
@@ -372,492 +252,117 @@ export const {
     TERRESTRIAL: "terrestrial",
     AQUATIC: "aquatic",
     AERIAL: "aerial",
-    SUBTERRANEAN: "subterranean",
+    BURROWING: "burrowing",
+    ASTRAL: "astral",
 });
 export type MovementMedium =
     (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
 
+/**
+ * Bleeding susceptibility — a per-location tier (the rulebook's "shaded
+ * circle") indicating how prone the location is to producing a Bleeder
+ * when injured at S3 or higher.
+ *
+ * Resolution combines tier × severity × weapon aspect via the bleeding
+ * table in `BleedingDefaults.ts`:
+ *
+ *   NONE   — no shaded circle; never produces a Bleeder regardless.
+ *   LOW    — white circle; bleeds at G5 only (any aspect).
+ *   MEDIUM — grey circle;  bleeds at G4 (E or P) or G5 (any).
+ *   HIGH   — black circle; bleeds at S3 (E only), G4 (E or P), or G5 (any).
+ */
 export const {
-    kind: MOVEMENT_FACTOR_MODE,
-    values: MovementFactorModes,
-    isValue: isMovementFactorMode,
-    labels: movementFactorModeLabels,
-} = defineType("SOHL.MovementFactorMode", {
-    MULTIPLY: 0,
-    ADD: 1,
-    FLOOR: 2,
-    CEILING: 3,
-    OVERRIDE: 4,
-});
-export type MovementFactorMode =
-    (typeof MOVEMENT_FACTOR_MODE)[keyof typeof MOVEMENT_FACTOR_MODE];
-
-export const {
-    kind: TERRAIN,
-    values: Terrains,
-    isValue: isTerrain,
-    labels: terrainLabels,
-} = defineType("SOHL.Terrain", {
-    GROUND_FIRM: "ground_firm",
-    GROUND_LOOSE: "ground_loose",
-    ROCK: "rock",
-    SCREE: "scree",
-    SAND_FIRM: "sand_firm",
-    SAND_LOOSE: "sand_loose",
-    SALT_FLAT: "salt_flat",
-    GLACIAL_ICE: "glacial_ice",
-    SNOWPACK: "snowpack",
-});
-export type Terrain = (typeof TERRAIN)[keyof typeof TERRAIN];
-
-export const {
-    kind: VEGETATION,
-    values: Vegetations,
-    isValue: isVegetation,
-    labels: vegetationLabels,
-} = defineType("SOHL.Vegetation", {
+    kind: BLEEDING_SUSCEPTIBILITY,
+    values: BleedingSusceptibilities,
+    isValue: isBleedingSusceptibility,
+    labels: bleedingSusceptibilityLabels,
+} = defineType("SOHL.BleedingSusceptibility", {
     NONE: "none",
-    OPEN: "open",
-    LIGHT: "light",
-    DENSE: "dense",
-    JUNGLE: "jungle",
+    LOW: "low",
+    MEDIUM: "medium",
+    HIGH: "high",
 });
-export type Vegetation = (typeof VEGETATION)[keyof typeof VEGETATION];
+export type BleedingSusceptibility =
+    (typeof BLEEDING_SUSCEPTIBILITY)[keyof typeof BLEEDING_SUSCEPTIBILITY];
 
+/**
+ * Amputability — a per-location tier (the rulebook's "shaded triangle")
+ * indicating how prone the location is to severance when struck by a G5
+ * Edge wound. The triangle's shade modifies the Strength test:
+ *
+ *   NONE   — no triangle; the location is not amputable.
+ *   LOW    — white triangle; +20 modifier (least vulnerable).
+ *   MEDIUM — grey triangle;  0 modifier.
+ *   HIGH   — black triangle; −20 modifier (most vulnerable).
+ *
+ * Resolution lives in `AmputationDefaults.ts`.
+ */
 export const {
-    kind: SLOPE,
-    values: Slopes,
-    isValue: isSlope,
-    labels: slopeLabels,
-} = defineType("SOHL.Slope", {
-    FLAT: "flat", // Plains, plateaus, valley floors
-    GENTLE: "gentle", // Rolling hills, gradual inclines
-    MODERATE: "moderate", // Noticeable hills, foothills
-    STEEP: "steep", // Mountain paths, escarpments
-    EXTREME: "extreme", // Very steep terrain; slow and risky
-    VERTICAL: "vertical", // Cliffs; walking impossible
+    kind: AMPUTABILITY,
+    values: Amputabilities,
+    isValue: isAmputability,
+    labels: amputabilityLabels,
+} = defineType("SOHL.Amputability", {
+    NONE: "none",
+    LOW: "low",
+    MEDIUM: "medium",
+    HIGH: "high",
 });
-export type Slope = (typeof SLOPE)[keyof typeof SLOPE];
+export type Amputability = (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
 
+/**
+ * Body role — abstract functional roles a body part can fulfill. The four
+ * roles cover almost any creature anatomy:
+ *
+ *   VITAL       — control center: brain, sensory organs, vital nerve
+ *                 clusters. Head for vertebrates, cephalothorax for
+ *                 arachnids, ganglia clusters for invertebrates.
+ *   CORE        — power and balance: torso for humans, abdomen for
+ *                 insects, mantle for cephalopods, body for snakes.
+ *   MANIPULATOR — fine work and intentional force: arms, paws, tentacles,
+ *                 trunks, jaws used as bite-weapons.
+ *   LOCOMOTOR   — movement: legs, wings, fins, tentacles in swimming.
+ *
+ * A part may play multiple roles (e.g., a wolf's front leg is LOCOMOTOR +
+ * light MANIPULATOR; a wolf's head is VITAL + MANIPULATOR because of bite
+ * attacks). Skills and attributes declare which roles impair them; injury
+ * at a part impairs every skill that lists any of the part's roles.
+ *
+ * Mishap behavior is also role-driven:
+ *   VITAL injury (Serious) → fumble + stumble check; (Grievous) → both auto.
+ *   CORE injury (Serious) → fumble + stumble check; (Grievous) → both auto.
+ *   MANIPULATOR injury (Serious) → fumble check; (Grievous) → auto fumble.
+ *   LOCOMOTOR injury (Serious) → stumble check; (Grievous) → auto stumble.
+ *
+ * The lowercase string values are persisted on every lineage and on every
+ * skill/attribute's `impairedByRoles`, so they are the source of truth and
+ * must not be renamed without a data migration.
+ */
 export const {
-    kind: WATER_DEPTH,
-    values: WaterDepths,
-    isValue: isWaterDepth,
-    labels: waterDepthLabels,
-} = defineType("SOHL.WaterDepth", {
-    SHALLOW: "shallow", // Streams, rocky riverbeds, tidal flats, marsh, flooded fields
-    DEEP: "deep", // Rivers, lakes, ocean (swimming required)
+    kind: BODY_ROLE,
+    values: BodyRoles,
+    isValue: isBodyRole,
+    labels: bodyRoleLabels,
+} = defineType("SOHL.BodyRole", {
+    VITAL: "vital",
+    CORE: "core",
+    MANIPULATOR: "manipulator",
+    LOCOMOTOR: "locomotor",
 });
-export type WaterDepth = (typeof WATER_DEPTH)[keyof typeof WATER_DEPTH];
-
-export interface GridLocation {
-    row: number; // Row index in the grid
-    col: number; // Column index in the grid
-}
-
-export interface GridLocationsProfile {
-    gridLocations: GridLocation[]; // List of grid locations that share this profile
-    environment: Partial<GridEnvironmentProfile>; // Environment profile for these grid locations
-}
-
-export interface GridEnvironmentProfile {
-    biome: Biome; // Macro climate/ecology classification used for weather, seasons, and regional defaults
-    terrestrial?: {
-        terrain: Terrain; // Primary ground substrate determining footing, load-bearing, and base movement friction
-        vegetation: Vegetation; // Vegetation density/type affecting obstruction, visibility, and movement resistance
-        slope: Slope; // Local topographic steepness influencing gravity-related movement penalties and mode changes
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    aerial?: {
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    aquatic?: {
-        depth: WaterDepth; // Water body depth classification affecting swimming difficulty and movement mode
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-    subterranean?: {
-        features: StrictObject<string | null>; // Discrete local hazards or notable features that introduce risks, detours, or special rules; tag value of null means removal
-        conditions: StrictObject<string | null>; // Temporary or seasonal states (mud, snow, ice, flood) that modify terrain behavior dynamically; tag value of null means removal
-    };
-}
-
-export interface RouteSegment {
-    gridLocations: GridLocation[]; // List of grid locations that this segment covers
-    class: string; // Classification of the route segment (e.g., trail, road, river)
-    envOverride?: Partial<Omit<GridEnvironmentProfile, "biome">>; // Optional overrides for the environment profile
-}
-
-export interface RouteProfile {
-    id: string; // Unique identifier for the route profile
-    name: string; // Human-readable name for the route profile
-    segments: RouteSegment[]; // Ordered list of route segments composing the full route
-}
-
-export interface SOHLSceneProfile {
-    defaultEnvironment: GridEnvironmentProfile; // Default environment profile for the scene
-    environmentProfiles: GridLocationsProfile[]; // List of environment profiles for the scene
-    routeProfiles: RouteProfile[]; // List of route profiles for the scene
-}
-
-export const {
-    kind: SEASON,
-    values: Seasons,
-    isValue: isSeason,
-    labels: seasonLabels,
-} = defineType("SOHL.Season", {
-    SPRING: "spring",
-    SUMMER: "summer",
-    AUTUMN: "autumn",
-    WINTER: "winter",
-});
-export type Season = (typeof SEASON)[keyof typeof SEASON];
-
-export interface WeatherState {
-    sky: number; // WEATHER_SKY
-    temp: number; // WEATHER_TEMP
-    windDir: number; // WEATHER_WIND_DIR
-    windForce: number; // WEATHER_WIND_FORCE
-    precip: number; // WEATHER_PRECIP
-}
-
-export interface WeatherContext {
-    latDeg: number;
-    season: Season;
-}
-
-export interface BiomeWeatherProfile {
-    tempOffset?: number; // shifts WEATHER_TEMP up/down
-    precipOffset?: number; // shifts WEATHER_PRECIP up/down
-    cloudinessOffset?: number; // shifts WEATHER_SKY up/down
-    storminessOffset?: number; // shifts typical windForce up/down
-
-    /**
-     * Peak-to-mean diurnal temperature amplitude in TEMP bands.
-     * Example: 2–3 for a sandy desert, 0.5–1 for a humid jungle.
-     */
-    diurnalTempAmplitude?: number;
-
-    /**
-     * Extra cooling applied at night (in TEMP bands).
-     * Use this to exaggerate cold nights in e.g. deserts.
-     */
-    diurnalNightBias?: number;
-}
-
-export const DEFAULT_BIOME_WEATHER_PROFILE: StrictObject<BiomeWeatherProfile> =
-    {
-        // arctic / polar
-        [BIOME.ARCTIC_ICEFIELD]: {
-            tempOffset: -2,
-            cloudinessOffset: 0,
-            precipOffset: -1,
-            // Cold, high albedo, often long nights → small but real diurnal swing,
-            // with some pre-dawn cooling when there is an actual night.
-            diurnalTempAmplitude: 0.8,
-            diurnalNightBias: 0.5,
-        },
-        [BIOME.ARCTIC_TUNDRA]: {
-            tempOffset: -2,
-            cloudinessOffset: 0,
-            // Less ice cover than icefields, a bit more exposed ground → slightly
-            // larger diurnal swing than pure ice.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.7,
-        },
-
-        // subarctic / taiga
-        [BIOME.SUBARCTIC_TAIGA]: {
-            tempOffset: -1,
-            cloudinessOffset: +1,
-            precipOffset: +1,
-            // Forest canopy damps extremes; still noticeable night-time cooling.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.5,
-        },
-
-        // mountains & alpine
-        [BIOME.MOUNTAIN_ALPINE]: {
-            tempOffset: -1,
-            storminessOffset: +1,
-            // High, thin air → decent swings; rocks and sparse vegetation lose heat at night.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.8,
-        },
-
-        // deserts (hot & dry)
-        [BIOME.DESERT_DUNES]: {
-            tempOffset: +1,
-            precipOffset: -3,
-            cloudinessOffset: -2,
-            // Classic sandy desert: huge day/night spread, brutal pre-dawn cold.
-            diurnalTempAmplitude: 3.0,
-            diurnalNightBias: 1.5,
-        },
-        [BIOME.DESERT_ROCK]: {
-            tempOffset: +1,
-            precipOffset: -2,
-            cloudinessOffset: -1,
-            // Rock and broken terrain: big swings, slightly less than dunes.
-            diurnalTempAmplitude: 2.5,
-            diurnalNightBias: 1.0,
-        },
-        [BIOME.DESERT_SALT_FLAT]: {
-            tempOffset: +1,
-            precipOffset: -2,
-            cloudinessOffset: -1,
-            // Very exposed, very dry; strong radiative cooling at night.
-            diurnalTempAmplitude: 3.0,
-            diurnalNightBias: 1.5,
-        },
-        [BIOME.DESERT_SCRUB]: {
-            tempOffset: +1,
-            precipOffset: -1,
-            // Semi-arid; still big swings, but moderated by vegetation.
-            diurnalTempAmplitude: 2.0,
-            diurnalNightBias: 1.0,
-        },
-
-        // grasslands / steppe / savanna
-        [BIOME.STEPPE]: {
-            tempOffset: 0,
-            precipOffset: -1,
-            // Open, often dry grassland → good swings, cool pre-dawn.
-            diurnalTempAmplitude: 2.0,
-            diurnalNightBias: 0.7,
-        },
-        [BIOME.SAVANNA]: {
-            tempOffset: +1,
-            precipOffset: 0,
-            // Warm, somewhat humid, open terrain; strong but not desert-level swings.
-            diurnalTempAmplitude: 2.5,
-            diurnalNightBias: 0.8,
-        },
-
-        // wet / tropical
-        [BIOME.TROPICAL_RAINFOREST]: {
-            tempOffset: 0,
-            precipOffset: +2,
-            cloudinessOffset: +2,
-            storminessOffset: +1,
-            // Hot, humid, very cloudy: small diurnal swings, nights still warm.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.2,
-        },
-        [BIOME.TROPICAL_SEASONAL_FOREST]: {
-            tempOffset: 0,
-            precipOffset: +1,
-            cloudinessOffset: +1,
-            // Transitional between rainforest and savanna; moderate swings.
-            diurnalTempAmplitude: 1.5,
-            diurnalNightBias: 0.4,
-        },
-
-        // coastal
-        [BIOME.COASTAL_BEACH]: {
-            storminessOffset: +1,
-            // Water moderates temps → modest swing, mild pre-dawn cooling.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-        [BIOME.COASTAL_ROCKY_SHORE]: {
-            storminessOffset: +1,
-            cloudinessOffset: +1,
-            // Similar to beach, maybe slightly more exposed, but ocean still damps swings.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-        [BIOME.COASTAL_WETLAND]: {
-            precipOffset: +1,
-            cloudinessOffset: +1,
-            // Humid, often cloudy → diurnal swings modest, closer to swamp.
-            diurnalTempAmplitude: 1.0,
-            diurnalNightBias: 0.3,
-        },
-
-        // open sea / islands
-        [BIOME.CORAL_ISLAND]: {
-            precipOffset: +1,
-            storminessOffset: +1,
-            // Small landmass in warm sea: a bit more swing than open ocean, still muted.
-            diurnalTempAmplitude: 1.2,
-            diurnalNightBias: 0.4,
-        },
-        [BIOME.OPEN_SEA]: {
-            precipOffset: +1,
-            storminessOffset: +2,
-            // Huge thermal inertia: tiny diurnal temp changes, slight pre-dawn bias.
-            diurnalTempAmplitude: 0.5,
-            diurnalNightBias: 0.2,
-        },
-    };
-
-export const {
-    kind: WEATHER,
-    values: Weathers,
-    isValue: isWeather,
-    labels: weatherLabels,
-} = defineType("SOHL.Weather", {
-    CLEAR: "clear",
-    PARTLY_CLOUDY: "partly_cloudy",
-    OVERCAST: "overcast",
-
-    LIGHT_RAIN: "light_rain",
-    MODERATE_RAIN: "moderate_rain",
-    HEAVY_RAIN: "heavy_rain",
-    THUNDERSTORM: "thunderstorm",
-
-    LIGHT_SNOW: "light_snow",
-    MODERATE_SNOW: "moderate_snow",
-    HEAVY_SNOW: "heavy_snow",
-    BLIZZARD: "blizzard",
-
-    FOG_LIGHT: "fog_light",
-    FOG_DENSE: "fog_dense",
-    MIST: "mist",
-
-    WIND_BREEZE: "wind_breeze",
-    WIND_STRONG: "wind_strong",
-    WIND_GALE: "wind_gale",
-    WIND_STORM: "wind_storm",
-
-    HAIL: "hail",
-    SLEET: "sleet",
-    DUST_STORM: "dust_storm",
-    SAND_STORM: "sand_storm",
-
-    EXTREME_HEAT: "extreme_heat",
-    EXTREME_COLD: "extreme_cold",
-});
-export type Weather = (typeof WEATHER)[keyof typeof WEATHER];
-
-export const {
-    kind: WEATHER_SKY,
-    values: WeatherSkies,
-    isValue: isWeatherSky,
-    labels: weatherSkyLabels,
-} = defineType("SOHL.WeatherSky", {
-    CLEAR: 0,
-    MOSTLY_CLEAR: 1,
-    PARTLY_CLOUDY: 2,
-    MOSTLY_CLOUDY: 3,
-    OVERCAST: 4,
-    FOGGY: 5,
-    HAZY: 6,
-    OBSCURED: 7,
-});
-
-export const {
-    kind: WEATHER_TEMP,
-    values: WeatherTemps,
-    isValue: isWeatherTemp,
-    labels: weatherTempLabels,
-} = defineType("SOHL.WeatherTemp", {
-    FRIGID: 0, // <= -15 degrees
-    FREEZING: 1, // <= 0 degrees
-    COLD: 2, // <= 10 degrees
-    COOL: 3, // <= 20 degrees
-    WARM: 4, // <= 30 degrees
-    HOT: 5, // <= 45 degrees
-    FURNACE: 6, // > 45 degrees
-});
-
-export const {
-    kind: WEATHER_WIND_DIR,
-    values: WeatherWindDirs,
-    isValue: isWeatherWindDir,
-    labels: weatherWindDirLabels,
-} = defineType("SOHL.WeatherWindDir", {
-    NORTH: 0,
-    NORTHEAST: 1,
-    EAST: 2,
-    SOUTHEAST: 3,
-    SOUTH: 4,
-    SOUTHWEST: 5,
-    WEST: 6,
-    NORTHWEST: 7,
-});
-
-// for this, use Beaufort scale
-export const {
-    kind: WEATHER_WIND_FORCE,
-    values: WeatherWindForces,
-    isValue: isWeatherWindForce,
-    labels: weatherWindForceLabels,
-} = defineType("SOHL.WeatherWindForce", {
-    CALM: 0,
-    LIGHT_AIR: 1,
-    LIGHT_BREEZE: 2,
-    GENTLE_BREEZE: 3,
-    MODERATE_BREEZE: 4,
-    FRESH_BREEZE: 5,
-    STRONG_BREEZE: 6,
-    NEAR_GALE: 7,
-    GALE: 8,
-    SEVERE_GALE: 9,
-    STORM: 10,
-    VIOLENT_STORM: 11,
-    HURRICANE: 12,
-});
-
-export const {
-    kind: WEATHER_PRECIP,
-    values: WeatherPrecips,
-    isValue: isWeatherPrecip,
-    labels: weatherPrecipLabels,
-} = defineType("SOHL.WeatherPrecip", {
-    NONE: 0, // 0mm per hour; dry
-    MIST: 1, // <= 0.25mm per hour
-    LIGHT: 2, // <= 2.5mm per hour
-    MODERATE: 3, // <= 7.5mm per hour
-    HEAVY: 4, // <= 15mm per hour
-    TORRENTIAL: 5, // <= 30mm per hour
-    EXTREME: 6, // > 30mm per hour
-});
-
-export const {
-    kind: WEATHER_REGIME,
-    values: WeatherRegimes,
-    isValue: isWeatherRegime,
-    labels: weatherRegimeLabels,
-} = defineType("SOHL.WeatherRegime", {
-    FAIR: 0,
-    UNSETTLED: 1,
-    STORMY: 2,
-    HEATWAVE: 3,
-    COLD_SNAP: 4,
-});
-export type WeatherRegime =
-    (typeof WEATHER_REGIME)[keyof typeof WEATHER_REGIME];
+export type BodyRole = (typeof BODY_ROLE)[keyof typeof BODY_ROLE];
 
 export const {
     kind: COHORT_MEMBER_ROLE,
     values: CohortMemberRoles,
     isValue: isCohortMemberRole,
     labels: cohortMemberRoleLabels,
-} = defineType("SOHL.Cohort.MEMBER_ROLE", {
+} = defineType("SOHL.Cohort.MemberRole", {
     DIRECTOR: "director",
     MEMBER: "member",
     SUBORDINATE: "subordinate",
 });
 export type CohortMemberRole =
     (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
-
-export const {
-    kind: COMBATANT_METADATA,
-    values: CombatantMetadatas,
-    isValue: isCombatantMetadata,
-    labels: combatantMetadataLabels,
-} = defineType(`SOHL.Combatant.METADATA`, {
-    [COMBATANT_KIND.COMBATANTDATA]: {
-        IconCssClass: "fa-duotone fa-people-group",
-        Image: "systems/sohl/assets/icons/people-group.svg",
-    },
-});
-export type CombatantMetadata =
-    (typeof COMBATANT_METADATA)[keyof typeof COMBATANT_METADATA];
 
 export const {
     kind: GEAR_KIND,
@@ -904,7 +409,7 @@ export const {
     OFFHAND: "OffHnd",
     OUTNUMBERED: "Outn",
     PLAYER: "SitMod",
-    SSMOD: "SSMod",
+    BSMOD: "BSMod",
 });
 export type ValueDeltaInfo =
     (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
@@ -923,13 +428,26 @@ export const {
     values: ValueDeltaOperators,
     isValue: isValueDeltaOperator,
 } = defineType("SOHL.ValueDelta.OPERATOR", {
-    CUSTOM: 0,
-    MULTIPLY: 1,
-    ADD: 2,
-    DOWNGRADE: 3,
-    UPGRADE: 4,
-    OVERRIDE: 5,
+    ADD: "add",
+    MULTIPLY: "multiply",
+    UPGRADE: "upgrade",
+    DOWNGRADE: "downgrade",
+    OVERRIDE: "override",
+    CUSTOM: "custom",
 });
+
+/**
+ * Processing order for delta operators: flat bonuses first, then scaling,
+ * then clamping (min/max), then hard override, then custom escape hatch.
+ */
+export const VALUE_DELTA_OPERATOR_ORDER: readonly string[] = [
+    "add",
+    "multiply",
+    "upgrade",
+    "downgrade",
+    "override",
+    "custom",
+] as const;
 export type ValueDeltaOperator =
     (typeof VALUE_DELTA_OPERATOR)[keyof typeof VALUE_DELTA_OPERATOR];
 export type ValueDeltaValue = string | number;
@@ -1086,7 +604,7 @@ export const {
     kind: SOHL_CONTEXT_MENU_SORT_GROUP,
     values: SohlContextMenuSortGroups,
     isValue: isSohlContextMenuSortGroup,
-} = defineType("SOHL.ContextMenu.SORT_GROUP", {
+} = defineType("SOHL.ContextMenu.SortGroup", {
     DEFAULT: "default",
     ESSENTIAL: "essential",
     GENERAL: "general",
@@ -1102,158 +620,231 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
-    kind: BEING_EFFECT_KEY,
-    values: BeingEffectKey,
-    isValue: isBeingEffectKey,
-    labels: BeingEffectKeyLabels,
-} = defineType("SOHL.Being.EffectKey", {
-    ENGOPP: {
-        name: "mod:system.engagedOpponents",
-        shortcode: "EngOpp",
-    },
-} as PlainObject);
-export type SohlBeingEffectKey =
-    (typeof BEING_EFFECT_KEY)[keyof typeof BEING_EFFECT_KEY];
-
-export const {
-    kind: STRIKE_MODE_EFFECT_KEY,
-    values: StrikeModeEffectKey,
-    isValue: isStrikeModeEffectKey,
-    labels: StrikeModeEffectKeyLabels,
-} = defineType("SOHL.StrikeMode.EffectKey", {
-    IMPACT: {
-        name: "system.logic.impact",
-        shortcode: "Imp",
-    },
-    ATTACK: {
-        name: "system.logic.attack",
-        shortcode: "Atk",
-    },
-    BLOCK: {
-        name: "system.logic.defense.block",
-        shortcode: "Blk",
-    },
-    COUNTERSTRIKE: {
-        name: "system.logic.defense.counterstrike",
-        shortcode: "CXMod",
-    },
-    NOATTACK: {
-        name: "system.logic.traits.noAttack",
-        shortcode: "NoAtk",
-    },
-    NOBLOCK: {
-        name: "system.logic.traits.noBlock",
-        shortcode: "NoBlk",
-    },
-} as StrictObject<SohlLogic.EffectKeyData>);
-export type StrikeModeEffectKey =
-    (typeof STRIKE_MODE_EFFECT_KEY)[keyof typeof STRIKE_MODE_EFFECT_KEY];
-
-export const {
-    kind: MASTERY_EFFECT_KEYS,
-    values: MasteryEffectKeys,
-    isValue: isMasteryEffectKey,
-    labels: masteryEffectKeyLabels,
-} = defineType(`SOHL.Gear.GEAR_KIND`, {
-    "system._boosts": "MBoost",
-    "mod:system.masteryLevel": "ML",
-    "mod:system.masteryLevel.fate": "Fate",
-    "system.masteryLevel.successLevelMod": "SL",
+    kind: ATTRIBUTE_EFFECT_KEY,
+    values: AttributeEffectKeys,
+    isValue: isAttributeEffectKey,
+    labels: attributeEffectKeyLabels,
+} = defineType(`SOHL.Attribute.EffectKey`, {
+    SCORE: "mod:logic.score",
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    FATE: "mod:logic.fateMasteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
 });
-export type EffectKey =
-    (typeof MASTERY_EFFECT_KEYS)[keyof typeof MASTERY_EFFECT_KEYS];
+export type AttributeEffectKey =
+    (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
 
 export const {
-    kind: MELEE_WEAPON_STRIKEMODE_EFFECT_KEY,
-    values: MeleeWeaponStrikeModeEffectKey,
-    isValue: isMeleeWeaponStrikeModeEffectKey,
-    labels: MeleeWeaponStrikeModeEffectKeyLabels,
-} = defineType("SOHL.MeleeWeaponStrikeMode.EffectKey", {
-    ...STRIKE_MODE_EFFECT_KEY,
-    LENGTH: {
-        name: "system.logic.length",
-        shortcode: "Len",
-    },
-    BLOCK: {
-        name: "system.logic.defense.block",
-        shortcode: "Blk",
-    },
-    COUNTERSTRIKE: {
-        name: "system.logic.defense.counterstrike",
-        shortcode: "CX",
-    },
-} as StrictObject<SohlLogic.EffectKeyData>);
-export type MeleeWeaponStrikeModeEffectKey =
-    (typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY)[keyof typeof MELEE_WEAPON_STRIKEMODE_EFFECT_KEY];
-
-export const {
-    kind: SOHL_EVENT_STATE,
-    values: SohlEventStates,
-    isValue: isSohlEventState,
-    labels: SohlEventStateLabels,
-} = defineType("SOHL.Event.State", {
-    CREATED: "created", // SohlEvent has been created
-    INITIATED: "initiated", // SohlEvent has been initiated
-    ACTIVATED: "activated", // SohlEvent has been activated
-    EXPIRED: "expired", // SohlEvent has expired
+    kind: AFFLICTION_EFFECT_KEY,
+    values: AfflictionEffectKeys,
+    isValue: isAfflictionEffectKey,
+    labels: afflictionEffectKeyLabels,
+} = defineType(`SOHL.Affliction.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    HEALING_RATE: "mod:logic.healingRate",
+    CONTAGION_INDEX: "mod:logic.contagionIndex",
+    DIAGNOSIS_BONUS: "mod:logic.diagnosisBonus",
 });
-export type SohlEventState =
-    (typeof SOHL_EVENT_STATE)[keyof typeof SOHL_EVENT_STATE];
+export type AfflictionEffectKey =
+    (typeof AFFLICTION_EFFECT_KEY)[keyof typeof AFFLICTION_EFFECT_KEY];
 
 export const {
-    kind: SOHL_EVENT_TERM,
-    values: SohlEventTerms,
-    isValue: isSohlEventTerm,
-    labels: SohlEventTermLabels,
-} = defineType("SOHL.Event.Term", {
-    DURATION: "duration", // SohlEvent will last for a duration
-    INDEFINITE: "indefinite", // SohlEvent will last indefinitely until manually expired
-    PERMANENT: "permanent", // SohlEvent will last permanently
+    kind: ARMORGEAR_EFFECT_KEY,
+    values: ArmorGearEffectKeys,
+    isValue: isArmorGearEffectKey,
+    labels: armorGearEffectKeyLabels,
+} = defineType(`SOHL.ArmorGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    ENCUMBRANCE: "mod:logic.encumbrance",
+    BLUNT: "mod:logic.protection.blunt",
+    EDGED: "mod:logic.protection.edged",
+    PIERCING: "mod:logic.protection.piercing",
+    FIRE: "mod:logic.protection.fire",
 });
-export type SohlEventTerm =
-    (typeof SOHL_EVENT_TERM)[keyof typeof SOHL_EVENT_TERM];
+export type ArmorGearEffectKey =
+    (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
 
 export const {
-    kind: SOHL_EVENT_REPEAT,
-    values: SohlEventRepeats,
-    isValue: isSohlEventRepeat,
-    labels: SohlEventRepeatLabels,
-} = defineType("SOHL.Event.Repeat", {
-    NONE: "none", // SohlEvent will not repeat
-    ONCE: "once", // SohlEvent will repeat once
-    REPEATED: "repeated", // SohlEvent will repeat multiple times
+    kind: COMBATTECHNIQUE_EFFECT_KEY,
+    values: CombatTechniqueEffectKeys,
+    isValue: isCombatTechniqueEffectKey,
+    labels: combatTechniqueEffectKeyLabels,
+} = defineType(`SOHL.CombatTechnique.EffectKey`, {
+    ATTACK: "mod:logic.strikeMode.attack",
+    IMPACT: "mod:logic.strikeMode.impact",
+    SPREAD: "mod:logic.strikeMode.spread",
 });
-export type SohlEventRepeat =
-    (typeof SOHL_EVENT_REPEAT)[keyof typeof SOHL_EVENT_REPEAT];
+export type CombatTechniqueEffectKey =
+    (typeof COMBATTECHNIQUE_EFFECT_KEY)[keyof typeof COMBATTECHNIQUE_EFFECT_KEY];
 
 export const {
-    kind: SOHL_ACTION_SCOPE,
-    values: SohlActionScopes,
-    isValue: isSohlActionScope,
-} = defineType("SOHL.SohlAction.Scope", {
-    SELF: "self",
-    ITEM: "item",
-    ACTOR: "actor",
-    OTHER: "other",
+    kind: MYSTERY_EFFECT_KEY,
+    values: MysteryEffectKeys,
+    isValue: isMysteryEffectKey,
+    labels: mysteryEffectKeyLabels,
+} = defineType(`SOHL.Mystery.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    CHARGES: "mod:logic.charges.value",
+    MAX_CHARGES: "mod:logic.charges.max",
 });
-export type SohlActionScope =
-    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
+export type MysteryEffectKey =
+    (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
 
 export const {
-    kind: SOHL_ACTION_ROLE,
-    values: SohlActionRoles,
-    isValue: isSohlActionRole,
-    labels: SohlActionRoleLabels,
-} = defineType("SOHL.Action.Role", {
-    NONE: 0,
-    PLAYER: 1,
-    TRUSTED: 2,
-    OWNER: 3,
-    ASSISTANT: 4,
-    GAMEMASTER: 5,
+    kind: MYSTICALABILITY_EFFECT_KEY,
+    values: MysticalAbilityEffectKeys,
+    isValue: isMysticalAbilityEffectKey,
+    labels: mysticalAbilityEffectKeyLabels,
+} = defineType(`SOHL.MysticalAbility.EffectKey`, {
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+    LEVEL: "mod:logic.level",
+    CHARGES: "mod:logic.charges.value",
+    MAX_CHARGES: "mod:logic.charges.max",
 });
-export type SohlActionRole =
-    (typeof SOHL_ACTION_ROLE)[keyof typeof SOHL_ACTION_ROLE];
+export type MysticalAbilityEffectKey =
+    (typeof MYSTICALABILITY_EFFECT_KEY)[keyof typeof MYSTICALABILITY_EFFECT_KEY];
+
+export const {
+    kind: SKILL_EFFECT_KEYS,
+    values: SkillEffectKeys,
+    isValue: isSkillEffectKey,
+    labels: skillEffectKeyLabels,
+} = defineType(`SOHL.Skill.EffectKey`, {
+    BOOSTS: "logic.boosts",
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    FATE: "mod:logic.fateMasteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+});
+export type SkillEffectKey =
+    (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
+
+export const {
+    kind: CONCOCTIONGEAR_EFFECT_KEY,
+    values: ConcoctionGearEffectKeys,
+    isValue: isConcoctionGearEffectKey,
+    labels: concoctionGearEffectKeyLabels,
+} = defineType(`SOHL.ConcoctionGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    STRENGTH: "mod:logic.strength",
+});
+export type ConcoctionGearEffectKey =
+    (typeof CONCOCTIONGEAR_EFFECT_KEY)[keyof typeof CONCOCTIONGEAR_EFFECT_KEY];
+
+export const {
+    kind: CONTAINERGEAR_EFFECT_KEY,
+    values: ContainerGearEffectKeys,
+    isValue: isContainerGearEffectKey,
+    labels: containerGearEffectKeyLabels,
+} = defineType(`SOHL.ContainerGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    MAX_CAPACITY: "mod:logic.maxCapacity",
+});
+export type ContainerGearEffectKey =
+    (typeof CONTAINERGEAR_EFFECT_KEY)[keyof typeof CONTAINERGEAR_EFFECT_KEY];
+
+export const {
+    kind: LINEAGE_EFFECT_KEY,
+    values: LineageEffectKeys,
+    isValue: isLineageEffectKey,
+    labels: lineageEffectKeyLabels,
+} = defineType(`SOHL.Lineage.EffectKey`, {
+    BODY_WEIGHT: "mod:logic.bodyWeight",
+    MOVE_TERRESTRIAL: "mod:logic.move.terrestrial",
+    MOVE_AQUATIC: "mod:logic.move.aquatic",
+    MOVE_AERIAL: "mod:logic.move.aerial",
+    MOVE_BURROWING: "mod:logic.move.burrowing",
+    MOVE_ASTRAL: "mod:logic.move.astral",
+});
+export type LineageEffectKey =
+    (typeof LINEAGE_EFFECT_KEY)[keyof typeof LINEAGE_EFFECT_KEY];
+
+export const {
+    kind: MISCGEAR_EFFECT_KEY,
+    values: MiscGearEffectKeys,
+    isValue: isMiscGearEffectKey,
+    labels: miscGearEffectKeyLabels,
+} = defineType(`SOHL.MiscGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+});
+export type MiscGearEffectKey =
+    (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
+
+export const {
+    kind: PROJECTILEGEAR_EFFECT_KEY,
+    values: ProjectileGearEffectKeys,
+    isValue: isProjectileGearEffectKey,
+    labels: projectileGearEffectKeyLabels,
+} = defineType(`SOHL.ProjectileGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    IMPACT: "mod:logic.impact",
+});
+export type ProjectileGearEffectKey =
+    (typeof PROJECTILEGEAR_EFFECT_KEY)[keyof typeof PROJECTILEGEAR_EFFECT_KEY];
+
+export const {
+    kind: TRAIT_EFFECT_KEY,
+    values: TraitEffectKeys,
+    isValue: isTraitEffectKey,
+    labels: traitEffectKeyLabels,
+} = defineType(`SOHL.Trait.EffectKey`, {
+    SCORE: "mod:logic.score",
+});
+export type TraitEffectKey =
+    (typeof TRAIT_EFFECT_KEY)[keyof typeof TRAIT_EFFECT_KEY];
+
+export const {
+    kind: TRAUMA_EFFECT_KEY,
+    values: TraumaEffectKeys,
+    isValue: isTraumaEffectKey,
+    labels: traumaEffectKeyLabels,
+} = defineType(`SOHL.Trauma.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    HEALING_RATE: "mod:logic.healingRate",
+});
+export type TraumaEffectKey =
+    (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
+
+export const {
+    kind: WEAPONGEAR_EFFECT_KEY,
+    values: WeaponGearEffectKeys,
+    isValue: isWeaponGearEffectKey,
+    labels: weaponGearEffectKeyLabels,
+} = defineType(`SOHL.WeaponGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    ENCUMBRANCE: "mod:logic.encumbrance",
+    // Strike-mode-targeted modifier deltas. The `sm:` prefix dispatches to
+    // each strike mode on the weapon matching change.strikeModePredicate.
+    // Predicate variable: `sm` (the strike mode).
+    SM_ATTACK: "mod:sm:attack",
+    SM_IMPACT: "mod:sm:impact",
+    SM_SPREAD: "mod:sm:spread",
+    SM_LENGTH: "mod:sm:length",
+    SM_REACH: "mod:sm:reach",
+    SM_BASE_RANGE: "mod:sm:baseRange",
+    SM_DRAW: "mod:sm:draw",
+    SM_BLOCK: "mod:sm:defense.block",
+    SM_COUNTERSTRIKE: "mod:sm:defense.counterstrike",
+});
+export type WeaponGearEffectKey =
+    (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
 
 /**
  * Constants for the Heal Rate of an Affliction.
@@ -1269,7 +860,7 @@ export const {
     values: AfflictionSubTypes,
     isValue: isAfflictionSubType,
     labels: AfflictionSubTypeLabels,
-} = defineType("SOHL.Affliction.SUBTYPE", {
+} = defineType("SOHL.Affliction.SubType", {
     PRIVATION: "privation",
     FATIGUE: "fatigue",
     DISEASE: "disease",
@@ -1288,7 +879,7 @@ export const {
     values: AfflictionTransmissions,
     isValue: isAfflictionTransmission,
     labels: AfflictionTransmissionLabels,
-} = defineType("SOHL.Affliction.TRANSMISSION", {
+} = defineType("SOHL.Affliction.Transmission", {
     NONE: "none",
     AIRBORNE: "airborne",
     CONTACT: "contact",
@@ -1327,7 +918,6 @@ export const {
     HEAT: "heat",
     STARVATION: "starvation",
     DEHYDRATION: "dehydration",
-    SLEEP_DEPRIVATION: "nosleep",
 });
 export type PrivationCategory =
     (typeof PRIVATION_CATEGORY)[keyof typeof PRIVATION_CATEGORY];
@@ -1392,59 +982,36 @@ export const {
     values: ActionSubTypes,
     isValue: isActionSubType,
     labels: ActionSubTypeLabels,
-} = defineType("SOHL.Action.SUBTYPE", {
-    BASIC: "basic",
-    SCRIPT_ACTION: "scriptaction",
-    INTRINSIC_ACTION: "intrinsicaction",
+} = defineType("SOHL.Action.SubType", {
+    INTRINSIC: "intrinsic",
+    SCRIPT: "script",
 });
 export type ActionSubType = (typeof ActionSubTypes)[number];
+
+export const {
+    kind: SOHL_ACTION_SCOPE,
+    values: SohlActionScopes,
+    isValue: isSohlActionScope,
+} = defineType("SOHL.SohlAction.Scope", {
+    SELF: "self",
+    ITEM: "item",
+    ACTOR: "actor",
+    OTHER: "other",
+});
+export type SohlActionScope =
+    (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
 
 export const {
     kind: MYSTERY_SUBTYPE,
     values: MysterySubTypes,
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
-    GRACE: "grace",
-    PIETY: "piety",
-    FATE: "fate",
-    FATEBONUS: "fateBonus",
-    FATEPOINTBONUS: "fatePointBonus",
-    BLESSING: "blessing",
-    ANCESTORSPIRITPOWER: "ancestorSpiritPower",
-    TOTEMSPIRITPOWER: "totemSpiritPower",
+    LEVEL: "level",
+    BUFF: "buff",
+    OTHER: "other",
 });
 export type MysterySubType =
     (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
-
-export const {
-    kind: MYSTERY_CATEGORY,
-    values: MysteryCategories,
-    isValue: isMysteryCategory,
-} = defineType("SOHL.Mystery.Category", {
-    DIVINE: "divinedomain",
-    SKILL: "skill",
-    CREATURE: "creature",
-    NONE: "none",
-});
-export type MysteryCategory =
-    (typeof MYSTERY_CATEGORY)[keyof typeof MYSTERY_CATEGORY];
-
-export const {
-    kind: MYSTERY_CATEGORYMAP,
-    values: MysteryCategoryMaps,
-    isValue: isMysteryCategoryMap,
-} = defineType("SOHL.Mystery.CategoryMap", {
-    [MYSTERY_SUBTYPE.GRACE]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.PIETY]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.FATE]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.FATEBONUS]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.FATEPOINTBONUS]: MYSTERY_CATEGORY.NONE,
-    [MYSTERY_SUBTYPE.BLESSING]: MYSTERY_CATEGORY.DIVINE,
-    [MYSTERY_SUBTYPE.ANCESTORSPIRITPOWER]: MYSTERY_CATEGORY.SKILL,
-    [MYSTERY_SUBTYPE.TOTEMSPIRITPOWER]: MYSTERY_CATEGORY.CREATURE,
-});
-export type MysteryCategoryMap =
-    (typeof MYSTERY_CATEGORYMAP)[keyof typeof MYSTERY_CATEGORYMAP];
 
 export const {
     kind: MYSTICALABILITY_SUBTYPE,
@@ -1467,48 +1034,6 @@ export type MysticalAbilitySubType =
     (typeof MYSTICALABILITY_SUBTYPE)[keyof typeof MYSTICALABILITY_SUBTYPE];
 
 export const {
-    kind: MYSTICALABILITY_DEGREE,
-    values: MysticalAbilityDegrees,
-    isValue: isMysticalAbilityDegree,
-} = defineType("SOHL.MysticalAbility.Degree", {
-    PRIMARY: { name: "primary", value: 0 },
-    SECONDARY: { name: "secondary", value: 1 },
-    NEUTRAL: { name: "neutral", value: 2 },
-    TERTIARY: { name: "tertiary", value: 3 },
-    DIAMETRIC: { name: "diametric", value: 4 },
-});
-export type MysticalAbilityDegree =
-    (typeof MYSTICALABILITY_DEGREE)[keyof typeof MYSTICALABILITY_DEGREE];
-
-export const {
-    kind: MYSTICALDEVICE_SUBTYPE,
-    values: MysticalDeviceSubTypes,
-    isValue: isMysticalDeviceSubType,
-} = defineType("SOHL.MysticalDevice.SubType", {
-    ARTIFACT: "artifact",
-    ANCESTOR_TALISMAN: "ancestortalisman",
-    TOTEM_TALISMAN: "totemtalisman",
-    REMNANT: "remnant",
-    RELIC: "relic",
-});
-export type MysticalDeviceSubType =
-    (typeof MYSTICALDEVICE_SUBTYPE)[keyof typeof MYSTICALDEVICE_SUBTYPE];
-
-export const {
-    kind: DOMAIN_SUBTYPE,
-    values: DomainSubTypes,
-    isValue: isDomainSubType,
-} = defineType("SOHL.Domain.SubType", {
-    ARCANE: "arcane",
-    DIVINE: "divine",
-    SPIRIT: "spirit",
-    ASTRAL: "astral",
-    NATURAL: "natural",
-});
-export type DomainSubType =
-    (typeof DOMAIN_SUBTYPE)[keyof typeof DOMAIN_SUBTYPE];
-
-export const {
     kind: PROJECTILEGEAR_SUBTYPE,
     values: ProjectileGearSubTypes,
     isValue: isProjectileGearSubType,
@@ -1524,6 +1049,17 @@ export type ProjectileGearSubType =
     (typeof PROJECTILEGEAR_SUBTYPE)[keyof typeof PROJECTILEGEAR_SUBTYPE];
 
 export const {
+    kind: STRIKE_MODE_TYPE,
+    values: StrikeModeTypes,
+    isValue: isStrikeModeType,
+} = defineType("SOHL.StrikeMode.Type", {
+    MELEE: "melee",
+    MISSILE: "missile",
+});
+export type StrikeModeType =
+    (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
+
+export const {
     kind: SKILL_SUBTYPE,
     values: SkillSubTypes,
     isValue: isSkillSubType,
@@ -1534,10 +1070,9 @@ export const {
     LORE: "lore",
     LANGUAGE: "language",
     SCRIPT: "script",
-    RITUAL: "ritual",
+    MYSTICAL: "mystical",
     PHYSICAL: "physical",
     COMBAT: "combat",
-    ESOTERIC: "esoteric",
 });
 export type SkillSubType = (typeof SKILL_SUBTYPE)[keyof typeof SKILL_SUBTYPE];
 
@@ -1564,9 +1099,21 @@ export const {
 } = defineType("SOHL.Trait.SubType", {
     PHYSIQUE: "physique",
     PERSONALITY: "personality",
-    TRANSCENDENT: "transcendent",
 });
 export type TraitSubType = (typeof TRAIT_SUBTYPE)[keyof typeof TRAIT_SUBTYPE];
+
+export const {
+    kind: TRAUMA_SUBTYPE,
+    values: TraumaSubTypes,
+    isValue: isTraumaSubType,
+} = defineType("SOHL.Trauma.SubType", {
+    PHYSICAL: "physical",
+    MENTAL: "mental",
+    SPIRITUAL: "spiritual",
+    SHADOW: "shadow",
+});
+export type TraumaSubType =
+    (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
 
 export const {
     kind: TRAIT_INTENSITY,
@@ -1574,12 +1121,46 @@ export const {
     isValue: isTraitIntensity,
 } = defineType("SOHL.Trait.Intensity", {
     TRAIT: "trait",
+    BENIGN: "benign",
     IMPULSE: "impulse",
     DISORDER: "disorder",
-    ATTRIBUTE: "attribute",
 });
 export type TraitIntensity =
     (typeof TRAIT_INTENSITY)[keyof typeof TRAIT_INTENSITY];
+
+export const {
+    kind: VEHICLE_OCCUPANT_ROLE,
+    values: VehicleOccupantRoles,
+    isValue: isVehicleOccupantRole,
+} = defineType("SOHL.Vehicle.Occupant.Role", {
+    CREW: "crew",
+    PASSENGER: "passenger",
+    DRAFT_CREATURE: "draftCreature",
+});
+export type VehicleOccupantRole =
+    (typeof VEHICLE_OCCUPANT_ROLE)[keyof typeof VEHICLE_OCCUPANT_ROLE];
+
+export const {
+    kind: ACTIVE_EFFECT_SCOPE,
+    values: ActiveEffectScopes,
+    isValue: isActiveEffectScope,
+} = defineType("SOHL.ActiveEffect.Scope", {
+    THIS: "this",
+    ACTOR: "actor",
+});
+export type ActiveEffectScope =
+    (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
+
+/**
+ * Full set of valid `scope` values on a SohlActiveEffect: the two built-ins
+ * (`"this"`, `"actor"`) plus every registered item kind. Used as the
+ * `choices` for the scope `StringField` so that a scope value of an item
+ * kind (e.g. `"weapongear"`) is validated and the matching `*_EFFECT_KEY`
+ * block can be selected for the changes UI.
+ */
+export function ActiveEffectScopeChoices(): string[] {
+    return [...ActiveEffectScopes, ...ItemKinds];
+}
 
 export const {
     kind: TEST_TYPE,
@@ -1590,310 +1171,213 @@ export const {
         id: "setImproveFlag",
         name: "Set Improve Flag",
         iconClass: "fas fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     UNSETIMPROVEFLAG: {
         id: "unsetImproveFlag",
         name: "Unset Improve Flag",
         iconClass: "far fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     IMPROVEWITHSDR: {
         id: "improveWithSDR",
         name: "Improve with SDR",
         iconClass: "fas fa-star",
-        condition: (header: HTMLElement): boolean => {
-            const mlLogic = getContextItem(header)
-                ?.system as unknown as MasteryLevelLogic;
-            return mlLogic?.canImprove && !mlLogic.data.improveFlag;
-        },
+        condition: "item.system.canImprove && !item.system.data.improveFlag",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     SUCCESSTEST: {
         id: "successTest",
         name: "Success Test",
         iconClass: "fas fa-person",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     OPPOSEDTESTSTART: {
         id: "opposedTestStart",
         name: "Opposed Test Start",
         iconClass: "fas fa-arrow-down-left-and-arrow-up-right-to-center",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // const token = cast<SohlActor>(
-            //     cast<Item>(item)?.actor,
-            // )?.getToken();
-            // return token && !item.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     SHOCKTEST: {
         id: "shockTest",
         name: "Shock Test",
         iconClass: "far fa-face-eyes-xmarks",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     STUMBLETEST: {
         id: "stumbleTest",
         name: "Stumble Test",
         iconClass: "far fa-person-falling",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     FUMBLETEST: {
         id: "fumbleTest",
         name: "Fumble Test",
         iconClass: "far fa-ball-pile",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     MORALETEST: {
         id: "moraleTest",
         name: "Morale Test",
         iconClass: "far fa-people-group",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     FEARTEST: {
         id: "fearTest",
         name: "Fear Test",
         iconClass: "far fa-face-scream",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     TRANSMITAFFLICTION: {
         id: "transmitAffliction",
         name: "Transmit Affliction",
         iconClass: "fas fa-head-side-cough",
-        condition: (header: HTMLElement): boolean => {
-            const afflLogic = getContextItem(header)
-                ?.system as unknown as AfflictionLogic;
-            return afflLogic?.canTransmit;
-        },
+        condition: "item.system.canTransmit",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     CONTRACTAFFLICTIONTEST: {
         id: "contractAfflictionTest",
         name: "Contract Affliction Test",
         iconClass: "fas fa-virus",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     COURSETTEST: {
         id: "courseTest",
         name: "Course Test",
         iconClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     FATIGUETEST: {
         id: "fatigueTest",
         name: "Fatigue Test",
         iconClass: "fas fa-face-downcast-sweat",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     TREATMENTTEST: {
         id: "treatmentTest",
         name: "Treatment Test",
         iconClass: "fas fa-staff-snake",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     DIAGNOSISTEST: {
         id: "diagnosisTest",
         name: "Diagnosis Test",
         iconClass: "fas fa-stethoscope",
-        condition: (header: HTMLElement): boolean => {
-            const injLogic = getContextItem(header)
-                ?.system as unknown as InjuryLogic;
-            return injLogic?.data.isTreated;
-        },
+        condition: "item.system.data.isTreated",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     HEALINGTEST: {
         id: "healingTest",
         name: "Healing Test",
         iconClass: "fas fa-heart-pulse",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (item?.system.isBleeding) return false;
-            // const endurance = item?.actor?.getTraitByAbbrev("end");
-            // return endurance && !endurance.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     BLEEDINGSTOPPAGETEST: {
         id: "bleedingStoppageTest",
         name: "Bleeding Stoppage Test",
         iconClass: "fas fa-droplet-slash",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (!item?.system.isBleeding) return false;
-            // const physician = item?.actor?.getSkillByAbbrev("pysn");
-            // return physician && !physician.system.$masteryLevel.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     BLOODLOSSADVANCETEST: {
         id: "bloodlossAdvanceTest",
         name: "Bloodloss Advance Test",
         iconClass: "fas fa-droplet",
-        condition: (header: HTMLElement): boolean => {
-            // FIXME: This is a temporary fix to allow opposed tests to be
-            // started from the item header. It should be replaced with a
-            // proper implementation that allows opposed tests to be started
-            // from any item in the context menu.
-            return true;
-            // const item = cast<BaseItem>(
-            //     getContextItem(header),
-            // );
-            // if (!item || !item.system.isBleeding) return false;
-            // const strength = item?.actor?.getTraitByAbbrev("str");
-            // return strength && !strength.system.$masteryLevel?.disabled;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     OPPOSEDTESTRESUME: {
         id: "opposedTestResume",
         name: "Opposed Test Resume",
         iconClass: "fas fa-people-arrows",
-        condition: (header: HTMLElement): boolean => false,
+        condition: "false",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
     RESOLVEIMPACT: {
         id: "resolveImpact",
         name: "Resolve Impact",
         iconClass: "fas fa-person-burst",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
     },
     BLOCK: {
         id: "blockTest",
         name: "Block Test",
         iconClass: "fas fa-shield",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     COUNTERSTRIKE: {
         id: "counterstrikeTest",
         name: "Counterstrike Test",
         iconClass: "fas fa-circle-half-stroke",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     DODGE: {
         id: "dodgeTest",
         name: "Dodge Test",
         iconClass: "fas fa-person-walking-arrow-loop-left",
-        condition: (header: HTMLElement): boolean => {
-            const item = getContextItem(header);
-            if (!item?.actor?.items) return false;
-            const dodge = Itr.from(item.actor.items.values()).find(
-                (it) =>
-                    (it as SohlItem).type === ITEM_KIND.SKILL &&
-                    it.name === "Dodge",
-            ) as SohlItem | null;
-            return !!(
-                dodge &&
-                !(dodge.logic as MasteryLevelLogic).masteryLevel.disabled
-            );
-        },
+        // FIXME: original walked actor.items.find for a usable "Dodge" skill;
+        // reduce to "true" until SafeExpression supports collection iteration.
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     IGNORE: {
         id: "ignore",
         name: "Ignore",
         iconClass: "fas fa-ban",
-        condition: (header: HTMLElement): boolean => {
-            return true;
-        },
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     AUTOCOMBATMELEE: {
         id: "autoCombatMelee",
         name: "Auto Combat Melee",
         iconClass: "fas fa-swords",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     AUTOCOMBATMISSILE: {
         id: "autoCombatMissile",
         name: "Auto Combat Missile",
         iconClass: "fas fa-bow-arrow",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     MISSILEATTACK: {
         id: "missileAttackTest",
         name: "Missile Attack Test",
         iconClass: "fas fa-bow-arrow",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
     MELEEATTACK: {
         id: "meleeAttackTest",
         name: "Melee Attack Test",
         iconClass: "fas fa-sword",
-        condition: (header: HTMLElement): boolean => true,
+        condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<SohlContextMenu.Entry>);
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
 
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
-    name: "Default Calendar",
-    description: "The default calendar for Song of Heroic Lands.",
+    name: "Turning Wheel",
+    description: "The Turning Wheel calendar for Song of Heroic Lands.",
     years: {
         yearZero: 720,
         firstWeekday: 0,
@@ -1910,85 +1394,85 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
         values: [
             // Springtide, Spr, Vernal equinox; planting season begins
             {
-                name: "SOHL.CALENDAR.DEFAULT.Springtide",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SpringtideAbbr",
+                name: "SOHL.Calendar.Default.Month.0.label",
+                abbreviation: "SOHL.Calendar.Default.Month.0.abbr",
                 ordinal: 1,
                 days: 30,
             },
             // Blossomreach, Blo, Flowers and bees return
             {
-                name: "SOHL.CALENDAR.DEFAULT.Blossomreach",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.BlossomreachAbbr",
+                name: "SOHL.Calendar.Default.Month.1.label",
+                abbreviation: "SOHL.Calendar.Default.Month.1.abbr",
                 ordinal: 2,
                 days: 30,
             },
             // Greengold, Grn, Young crops rise
             {
-                name: "SOHL.CALENDAR.DEFAULT.Greengold",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.GreengoldAbbr",
+                name: "SOHL.Calendar.Default.Month.2.label",
+                abbreviation: "SOHL.Calendar.Default.Month.2.abbr",
                 ordinal: 3,
                 days: 30,
             },
             // Highsun, Sun, The sun’s zenith; labor in full swing
             {
-                name: "SOHL.CALENDAR.DEFAULT.Highsun",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.HighsunAbbr",
+                name: "SOHL.Calendar.Default.Month.3.label",
+                abbreviation: "SOHL.Calendar.Default.Month.3.abbr",
                 ordinal: 4,
                 days: 30,
             },
             // Midsummer, Mid, Festivals, First fruits
             {
-                name: "SOHL.CALENDAR.DEFAULT.Midsummer",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.MidsummerAbbr",
+                name: "SOHL.Calendar.Default.Month.4.label",
+                abbreviation: "SOHL.Calendar.Default.Month.4.abbr",
                 ordinal: 5,
                 days: 30,
             },
             // Hayfall, Hay, Preparation for harvest
             {
-                name: "SOHL.CALENDAR.DEFAULT.Hayfall",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.HayfallAbbr",
+                name: "SOHL.Calendar.Default.Month.5.label",
+                abbreviation: "SOHL.Calendar.Default.Month.5.abbr",
                 ordinal: 6,
                 days: 30,
             },
             // Reapmoon, Rep, The main harvest
             {
-                name: "SOHL.CALENDAR.DEFAULT.Reapmoon",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ReapmoonAbbr",
+                name: "SOHL.Calendar.Default.Month.6.label",
+                abbreviation: "SOHL.Calendar.Default.Month.6.abbr",
                 ordinal: 7,
                 days: 30,
             },
             // Emberwane, Emb, Smoke in the fields, turning leaves
             {
-                name: "SOHL.CALENDAR.DEFAULT.Emberwane",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.EmberwaneAbbr",
+                name: "SOHL.Calendar.Default.Month.7.label",
+                abbreviation: "SOHL.Calendar.Default.Month.7.abbr",
                 ordinal: 8,
                 days: 30,
             },
             // Fallmere, Fal, Final gathering before cold
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fallmere",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FallmereAbbr",
+                name: "SOHL.Calendar.Default.Month.8.label",
+                abbreviation: "SOHL.Calendar.Default.Month.8.abbr",
                 ordinal: 9,
                 days: 30,
             },
             // Frostwane, Frs, First frosts, fading light, herds brought in
             {
-                name: "SOHL.CALENDAR.DEFAULT.Frostwane",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FrostwaneAbbr",
+                name: "SOHL.Calendar.Default.Month.9.label",
+                abbreviation: "SOHL.Calendar.Default.Month.9.abbr",
                 ordinal: 10,
                 days: 30,
             },
             // Snorest, Sno, Deep winter, Quiet, hearth, mending tools
             {
-                name: "SOHL.CALENDAR.DEFAULT.Snowrest",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SnowrestAbbr",
+                name: "SOHL.Calendar.Default.Month.10.label",
+                abbreviation: "SOHL.Calendar.Default.Month.10.abbr",
                 ordinal: 11,
                 days: 30,
             },
             // Thawrise, Tha, Snows melt, life stirs, hope returns
             {
-                name: "SOHL.CALENDAR.DEFAULT.Thawrise",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ThawriseAbbr",
+                name: "SOHL.Calendar.Default.Month.11.label",
+                abbreviation: "SOHL.Calendar.Default.Month.11.abbr",
                 ordinal: 12,
                 days: 30,
             },
@@ -1997,53 +1481,53 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     days: {
         values: [
             {
-                name: "SOHL.CALENDAR.DEFAULT.Oneday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.OnedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.0.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.0.abbr",
                 ordinal: 1,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Twoday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.TwodayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.1.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.1.abbr",
                 ordinal: 2,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Threeday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.ThreedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.2.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.2.abbr",
                 ordinal: 3,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fourday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FourdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.3.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.3.abbr",
                 ordinal: 4,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Fiveday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.FivedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.4.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.4.abbr",
                 ordinal: 5,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Sixday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SixdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.5.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.5.abbr",
                 ordinal: 6,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Sevenday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.SevendayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.6.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.6.abbr",
                 ordinal: 7,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Eightday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.EightdayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.7.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.7.abbr",
                 ordinal: 8,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Nineday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.NinedayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.8.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.8.abbr",
                 ordinal: 9,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Tenday",
-                abbreviation: "SOHL.CALENDAR.DEFAULT.TendayAbbr",
+                name: "SOHL.Calendar.Default.Weekday.9.label",
+                abbreviation: "SOHL.Calendar.Default.Weekday.9.abbr",
                 ordinal: 10,
             },
         ],
@@ -2055,18 +1539,22 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     seasons: {
         values: [
             {
-                name: "SOHL.CALENDAR.DEFAULT.Spring",
+                name: "SOHL.Calendar.Default.Season.0.label",
                 monthStart: 1,
                 monthEnd: 3,
             },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Summer",
+                name: "SOHL.Calendar.Default.Season.1.label",
                 monthStart: 4,
                 monthEnd: 6,
             },
-            { name: "SOHL.CALENDAR.DEFAULT.Fall", monthStart: 7, monthEnd: 9 },
             {
-                name: "SOHL.CALENDAR.DEFAULT.Winter",
+                name: "SOHL.Calendar.Default.Season.2.label",
+                monthStart: 7,
+                monthEnd: 9,
+            },
+            {
+                name: "SOHL.Calendar.Default.Season.3.label",
                 monthStart: 10,
                 monthEnd: 12,
             },
@@ -2103,7 +1591,7 @@ export function defineType<const T extends Record<string, unknown>>(
         values.includes(value as KindValue);
 
     const labels = Object.fromEntries(
-        Object.entries(def).map(([k, v]) => [k, `${prefix}.${v}`]),
+        Object.entries(def).map(([k]) => [k, `${prefix}.${k}`]),
     ) as Record<StringKeys, string>;
 
     return {
@@ -2113,17 +1601,4 @@ export function defineType<const T extends Record<string, unknown>>(
         labels,
         Type: null as unknown as KindValue,
     };
-}
-
-export function getContextItem(header: HTMLElement): SohlItem | null {
-    const element = header.closest(".item") as HTMLElement;
-    const item =
-        element?.dataset?.effectId && fromUuidSync(element.dataset.itemId);
-    return item && typeof item === "object" ? (item as SohlItem) : null;
-}
-
-export function getContextLogic(element: HTMLElement): any {
-    const found = element.closest(".logic") as any;
-    if (!found) return null;
-    return fromUuidSync(found.dataset.uuid);
 }

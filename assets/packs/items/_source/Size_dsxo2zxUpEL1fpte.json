@@ -1,0 +1,38 @@
+{
+  "name": "Size",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/body-height.svg",
+  "_id": "dsxo2zxUpEL1fpte",
+  "system": {
+    "shortcode": "siz",
+    "docUrl": "https://heroiclands.org/sohl/trait/size/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Size is a categorical measure of a person's or creature's gross physical scale — whether they are diminutive enough to hide in a palm, child-sized, of typical human proportions, towering, or vast beyond the reach of ordinary folk. It affects how much space they occupy, how visible they are, how far they can reach, and how much physical force they can exert.</p>\n<h3>What Shapes It</h3>\n<p>Size is rooted primarily in species and ancestry. A human child is small by nature; an adult human typically falls into the medium category. A Khazár of typical build is small compared to a tall human, though some Khazári tower. A Sinalë is often slight and fine-boned. A giant, if one exists in the world, is huge by definition. Some individuals are outliers within their kind: a Khazári of unusual stature, a human giant or dwarf. Age shapes size — infants begin tiny, growing through childhood toward their adult stature. Nutrition affects final size: a child starved remains smaller than one well-fed, though some of the difference can be made up in adulthood. Illness and hardship stunt growth; prosperity and health allow it to flourish.</p>\n<h3>Interpretation</h3>\n<p>Tiny (under 2 feet): sprites, infants, very young children. Small (2–4 feet): half-grown children, dwarves, halflings. Medium (4–6.5 feet): typical adult humans, Sinalë, many Khazári. Large (6.5–8 feet): very tall humans, large Khazári, many giants. Big (8–12 feet): ogres, large giants. Huge (12–20 feet): dragons, elephant-sized creatures. Colossal and titanic are rarer still. A character of unusual size within their kind — a tiny human, a giant human, a dwarfish Khazár — draws attention and sometimes skepticism or fear.</p>\n<h3>Narrative Uses</h3>\n<p>Size creates immediate physical constraints and possibilities. A tiny character squeezes through windows and crawls through rat-holes; a large one cannot. In combat, size affects reach: a tall warrior with a pike threatens a larger circle. In crowds, a small character disappears while a very large one dominates vision. A character's size shapes how others react: children are often treated as harmless or weak, giants as dangerous or divine. Traveling becomes different at extreme sizes: a huge character cannot stay in a typical inn, cannot ride an ordinary horse, cannot ride in a standard wagon. A character noticeably small or large for their kind carries that mark throughout their life — it may grant them eccentric prestige, or it may mark them as cursed or blessed, depending on the culture's beliefs.</p>\n",
+    "subType": "physique",
+    "textValue": "Medium",
+    "isNumeric": false,
+    "intensity": "trait",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!dsxo2zxUpEL1fpte"
+}

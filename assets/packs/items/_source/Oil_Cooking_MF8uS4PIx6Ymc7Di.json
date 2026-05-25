@@ -1,0 +1,37 @@
+{
+  "name": "Oil, Cooking",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/potion.svg",
+  "_id": "MF8uS4PIx6Ymc7Di",
+  "system": {
+    "shortcode": "oilcook",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/oil-cooking/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rendered vegetable or animal oil, golden and neutral, fills a gallon jug for the kitchen. Cooks fry bread and fish in it; lamps burn it steadily when wick and oil are both good. A jug lasts a household weeks; merchants sell it by measure at markets and ports where olives or seeds are pressed.</p>\n",
+    "quantity": 1,
+    "weightBase": 12,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!MF8uS4PIx6Ymc7Di"
+}

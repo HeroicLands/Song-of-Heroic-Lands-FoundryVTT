@@ -1,0 +1,37 @@
+{
+  "name": "Ink, Green",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/ink.svg",
+  "_id": "BtfHt2gE8gRDewWH",
+  "system": {
+    "shortcode": "inkgrn",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/ink-green/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Green pigment made from verdigris—copper oxide—or boiled woad with iron salts, bound for use on parchment. Green ink marks emphasis and ornamental flourishes in heraldic and legal documents. It is rarer and more delicate than black, fading if exposed to strong sunlight.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 8,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!BtfHt2gE8gRDewWH"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Cup Wine",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/jeweled-chalice.svg",
+  "_id": "cNXsFwdr1l79A8fv",
+  "system": {
+    "shortcode": "winecup",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cup-wine/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A cup of common wine poured and ready. Less refined than aged vintages, it is still preferable to ale for those who can afford it—typically served in taverns of better repute or at the tables of petty merchants and minor gentry.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 1.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "jLdeIpOIZokm8obv",
+  "_key": "!items!cNXsFwdr1l79A8fv"
+}

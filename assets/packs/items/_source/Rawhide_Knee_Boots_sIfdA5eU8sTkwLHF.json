@@ -1,0 +1,56 @@
+{
+  "name": "Rawhide Knee Boots",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leather-boot.svg",
+  "_id": "sIfdA5eU8sTkwLHF",
+  "system": {
+    "shortcode": "RhKBoot",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-knee-boots/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rawhide Knee Boots are thick and rugged, providing excellent leg protection. Ideal for harsh environments or combat scenarios, they offer a durable and reliable option for those needing sturdy footwear.</p>\n",
+    "quantity": 1,
+    "weightBase": 3.8,
+    "valueBase": 120,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!sIfdA5eU8sTkwLHF"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Wax Tablet",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "q5NMKWCl6x6hti9F",
+  "system": {
+    "shortcode": "waxtablet",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/wax-tablet/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A wooden board or pair of hinged boards faced with beeswax, tinted dark for contrast. A scribe uses a blunt stylus to scratch notes, receipts, or tallies into the wax; the marks are erased by smoothing with the stylus handle and warming to restore the surface. Merchants and clerks carry wax tablets for quick reckoning.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!q5NMKWCl6x6hti9F"
+}

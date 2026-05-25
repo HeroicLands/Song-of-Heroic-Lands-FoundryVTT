@@ -1,0 +1,37 @@
+{
+  "name": "Flour, Barley",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "xMAI9TK7aTZyVbKb",
+  "system": {
+    "shortcode": "flourbarle",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/flour-barley/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Fine flour ground from barley grain, earthy and pale, used for baking flatbreads and thickening pottage. A miller produces barley flour as a seasonal product; a baker blends it with wheat or rye for hearty loaves. A cook reaches for barley flour when wheat grows scarce, knowing it produces denser crumb but feeds a household equally well.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!xMAI9TK7aTZyVbKb"
+}

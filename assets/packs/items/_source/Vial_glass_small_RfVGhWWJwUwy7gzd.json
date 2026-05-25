@@ -1,0 +1,38 @@
+{
+  "name": "Vial, glass, small",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "RfVGhWWJwUwy7gzd",
+  "system": {
+    "shortcode": "vialglasss",
+    "docUrl": "https://heroiclands.org/sohl/containergear/vial-glass-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A thumb-sized glass vial with a narrow neck and cork or ground-glass stopper, ideal for carrying a single dose of poison, antidote, expensive oil, or rare tincture. The diminutive size and fragile glass demand careful packing in a protected pocket or leather case, but the sealed design ensures the contents remain potent and unspilled.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 4,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 0.0625
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!RfVGhWWJwUwy7gzd"
+}

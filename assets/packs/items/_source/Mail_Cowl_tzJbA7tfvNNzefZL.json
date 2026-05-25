@@ -1,0 +1,71 @@
+{
+  "name": "Mail Cowl",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hood.svg",
+  "_id": "tzJbA7tfvNNzefZL",
+  "system": {
+    "shortcode": "MCwl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/mail-cowl/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Mail Cowl is made from interlinked metal rings, offering substantial protection for the head and neck. It’s an essential component of combat armor, providing flexibility and defense against slashes.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.7,
+    "valueBase": 90,
+    "qualityBase": 0,
+    "durabilityBase": 13,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Mail",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Neck"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [
+    {
+      "name": "Anything Using Perception",
+      "type": "sohleffectdata",
+      "_id": "xGUOjaeC7UCnZAVn",
+      "system": {
+        "scope": "test",
+        "test": "(item.type === 'skill' && has('per', item.logic.skillBase.attrShortcodes)) || (item.type === 'attribute' && item.system.shortcode === 'per')"
+      },
+      "changes": [
+        {
+          "key": "mod:logic.masteryLevel",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        }
+      ],
+      "_key": "!items.effects!tzJbA7tfvNNzefZL.xGUOjaeC7UCnZAVn"
+    }
+  ],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!tzJbA7tfvNNzefZL"
+}

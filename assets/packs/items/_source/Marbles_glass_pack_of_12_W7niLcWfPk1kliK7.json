@@ -1,0 +1,37 @@
+{
+  "name": "Marbles, glass, pack of 12",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "W7niLcWfPk1kliK7",
+  "system": {
+    "shortcode": "marblesgla",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/marbles-glass-pack-of-12/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A dozen glass spheres, blown and polished smooth, packed in cloth. Children play knucklebones with them; they also serve as ballast in cargo, as gaming tokens, and as crude lenses for observation at a distance.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!W7niLcWfPk1kliK7"
+}

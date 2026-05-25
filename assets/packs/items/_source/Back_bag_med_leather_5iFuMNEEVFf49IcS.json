@@ -1,0 +1,38 @@
+{
+  "name": "Back bag, med, leather",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/sack.svg",
+  "_id": "5iFuMNEEVFf49IcS",
+  "system": {
+    "shortcode": "backbagmed",
+    "docUrl": "https://heroiclands.org/sohl/containergear/back-bag-med-leather/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A moderately sized leather sack, stitched from tanned hide with a reinforced top rim, serving as a middle ground between a small pouch and a full backpack. It hangs from the shoulder or is carried across the back, well-suited to peddlers, traveling scholars, and craftspeople who need to carry tools and wares without excessive burden. The leather gradually takes on character with handling.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 12,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 30
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!5iFuMNEEVFf49IcS"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Chicken Pox",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/disease.svg",
+  "_id": "JRZbKLzCE4lM3PeX",
+  "system": {
+    "shortcode": "chknpox",
+    "docUrl": "https://heroiclands.org/sohl/affliction/chicken-pox/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Chicken pox, caused by the varicella-zoster virus (VZV), is a highly contagious viral infection primarily affecting children. Symptoms start with fever, fatigue, and headache, followed by an itchy rash that turns into fluid-filled blisters, eventually crusting over. The rash usually begins on the face, back, and chest before spreading to the rest of the body. Though usually mild, chickenpox can lead to complications such as bacterial infections of the skin, pneumonia, and encephalitis, particularly in immunocompromised individuals. Immunization with the varicella vaccine has significantly reduced the incidence of chickenpox.</p>\n<h3>Symptoms</h3>\n<p>Initial symptoms are fever, fatigue, and headache, followed by a highly itchy rash that starts as small red spots and progresses to fluid-filled blisters.</p>\n<h3>Progression</h3>\n<p>These blisters eventually burst and form scabs. The rash typically appears in multiple waves, starting on the face, back, and chest before spreading to the rest of the body. Complications can include bacterial infections of the skin, pneumonia, and encephalitis (brain inflammation).</p>\n<h3>Treatment</h3>\n<ul>\n<li>Oatmeal Baths to reduce itching and soothe skin</li>\n<li>Calendula applied topically to reduce inflammation</li>\n<li>Chamomile applied topically or bath infusion to soothe skin</li>\n<li>Supportive care to prevent patient from scratching and secondary infections</li>\n</ul>\n",
+    "subType": "disease",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "airborne"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3lobflzDt8Hk6VrN",
+  "_key": "!items!JRZbKLzCE4lM3PeX"
+}

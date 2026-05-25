@@ -1,0 +1,35 @@
+{
+  "name": "Mathematics",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/mathematics.svg",
+  "_id": "SLWaEQlzVIYj4MhH",
+  "system": {
+    "shortcode": "math",
+    "docUrl": "https://heroiclands.org/sohl/skill/mathematics/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Mathematics encompasses numerical calculation, geometry, and the abstract reasoning required for engineering, navigation, and commerce. While basic counting and arithmetic are common enough, true mathematical proficiency—the ability to solve complex geometric problems, calculate structural loads, or navigate by celestial observation—is the mark of an educated mind. The skill serves as a secondary discipline that enhances the quality of work in many other fields, from Engineering design to Mercantile accounting.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@rea, @cre",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!SLWaEQlzVIYj4MhH"
+}

@@ -1,0 +1,53 @@
+{
+  "name": "Kûrbúl Halfhelm",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/helm.svg",
+  "_id": "nFjmonyMqDP34iGn",
+  "system": {
+    "shortcode": "KHlfHelm",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/kurbul-halfhelm/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Kûrbúl Halfhelm, made from treated leather, covers the top of the head and down to the jawline, offering moderate protection and reduced weight. It is decorated with intricate designs, combining function with a stylish appearance.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 13,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Kûrbúl",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Right Ear",
+        "Left Ear"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!nFjmonyMqDP34iGn"
+}

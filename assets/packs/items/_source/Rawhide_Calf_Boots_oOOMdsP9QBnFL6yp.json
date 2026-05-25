@@ -1,0 +1,54 @@
+{
+  "name": "Rawhide Calf Boots",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leather-boot.svg",
+  "_id": "oOOMdsP9QBnFL6yp",
+  "system": {
+    "shortcode": "RhCBoot",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-calf-boots/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rawhide Calf Boots are rugged and durable, providing excellent protection against environmental hazards. They are heavier but great for those needing sturdy, reliable footwear for tough conditions.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.9,
+    "valueBase": 76,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!oOOMdsP9QBnFL6yp"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Parchment",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "1DyrU43mNCIBilJW",
+  "system": {
+    "shortcode": "parchment",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/parchment/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Sheepskin split, stretched, and scraped to a thin, cream surface, then pounced with chalk and pumice. Parchment holds ink well and lasts centuries if kept dry. Scribes and clerks prefer it for documents of law and record; it is costlier than paper but more durable and fine.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "BYkA5NDQxTXDvsAC",
+  "_key": "!items!1DyrU43mNCIBilJW"
+}

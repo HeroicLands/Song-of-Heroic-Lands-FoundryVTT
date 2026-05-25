@@ -1,0 +1,38 @@
+{
+  "name": "Antisocial",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "9rDT4cqXppp1Lf63",
+  "system": {
+    "shortcode": "antscl",
+    "docUrl": "https://heroiclands.org/sohl/trait/antisocial/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Antisocial refers to an individual’s tendency to avoid or withdraw from social interaction, preferring solitude over company. While antisocial behavior can be benign and reflect a preference for independence or quiet time, it can also intensify into impulsive avoidance of social situations or, in severe cases, a deep disregard for social norms and the well-being of others. This trait can evolve into disorderly behavior, manifesting as a lack of empathy and involvement in harmful or deceitful actions.</p>\n<h3>Benign</h3>\n<p>The individual prefers solitude or small, familiar groups, finding social interactions draining or unappealing. They may enjoy time alone to recharge, but they can still engage in social activities when necessary. Their avoidance of large social settings is a personal preference rather than an issue of anxiety or hostility, and they maintain respectful relationships with others despite their preference for solitude.</p>\n<p><strong>Example:</strong> Maren, a village herbalist, often keeps to herself, enjoying the peace of her herb garden more than the bustling market square. She rarely attends festivals or social events, but when asked for help or advice, she is happy to interact with others. She prefers her quiet, solitary life but remains polite and respected by those in the village.</p>\n<h3>Impulse</h3>\n<p>The individual begins actively avoiding social situations, not out of fear or anxiety, but because they simply don’t care about interacting with others. They may see social interactions as unnecessary or bothersome and begin withdrawing from relationships, finding little value in maintaining connections with people. They lack concern for social obligations or expectations, seeing little reason to invest energy in pleasing others or following social norms. This indifference leads to isolation, as the individual finds it easier to focus on their own needs rather than engage with others.</p>\n<p><strong>Example:</strong> Maren becomes more withdrawn because she feels social interactions are a waste of time. She avoids the market, feeling no need to engage with the villagers or maintain friendships. Maren is indifferent to what others think of her; she no longer cares if people think she’s rude or aloof. She prefers to spend her time alone, working on her herbal remedies, and ignores the growing distance between herself and the community.</p>\n<h3>Disorder</h3>\n<p>At its most extreme, antisocial behavior turns into a disregard for social norms, laws, or the well-being of others. The individual actively engages in harmful, deceitful, or manipulative behavior. They may lie, manipulate, or exploit others for personal gain, showing little to no remorse for their actions. This form of antisocial behavior is often accompanied by a lack of empathy, guilt, or consideration for the harm they cause, leading to fractured relationships, legal troubles, and deep emotional and societal consequences.</p>\n<h3>Physical Symptoms</h3>\n<p>The individual may experience heightened impulsivity, aggression, or restlessness. They may act without consideration of consequences, becoming involved in risky or dangerous activities.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts of manipulating or exploiting others, with little regard for their feelings or well-being. They may focus on how to get what they want at the expense of others, without feeling guilt.</p>\n<h3>Emotional Distress</h3>\n<p>The individual may feel isolated or alienated, but not necessarily distressed by their behavior. However, they may grow frustrated or angry when their actions result in negative consequences for themselves, even if they lack empathy for others.</p>\n<p><strong>Example:</strong> Maren’s antisocial behavior has evolved into a complete disregard for others. She now manipulates villagers into giving her more payment for simple remedies, often lying about the severity of their ailments to take advantage of their trust. When confronted, she shows no remorse, insisting that they deserve what they get for trusting her. Her reputation as a healer is now tarnished, but Maren cares little, focusing only on how to exploit others for her personal gain. The village grows wary of her, but her manipulation and deceit continue, as she no longer cares for the consequences of her actions.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ECrcBb9CUCMX9JeJ",
+  "_key": "!items!9rDT4cqXppp1Lf63"
+}

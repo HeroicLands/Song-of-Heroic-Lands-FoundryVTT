@@ -1,0 +1,77 @@
+{
+  "name": "Afflictions and Injuries",
+  "pages": [
+    {
+      "_id": "conditions-overview",
+      "name": "Overview",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Characters in SoHL can suffer from two types of harm: <strong>injuries</strong> (physical\nwounds from combat or accidents) and <strong>afflictions</strong> (ongoing conditions like\ndiseases, poisons, and curses). Both have their own lifecycle and can\nsignificantly affect a character's capabilities.</p>\n<p>See also: <a href=\"user-guide/item-injury.md\">Injuries</a>, <a href=\"user-guide/item-affliction.md\">Afflictions</a>, <a href=\"user-guide/combat-basics.md\">Combat Basics</a></p>\n"
+      },
+      "_key": "!journal.pages!usEQSnM05guRRXT7.conditions-overview"
+    },
+    {
+      "_id": "conditions-injuries",
+      "name": "Injuries",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>An <strong>injury</strong> represents a specific wound — a sword cut, a broken bone, a\nburn. Injuries are tied to specific <strong>body locations</strong> on the character's\nanatomy model.</p>\n<h2>How Injuries Happen</h2>\n<p>Injuries result from combat (when an attack successfully strikes) or from\nother sources of physical harm. The system determines:</p>\n<ul>\n<li><strong>Where</strong> the injury occurs (which body location)</li>\n<li><strong>How severe</strong> the injury is (injury level)</li>\n<li><strong>What effects</strong> the injury has (penalties, bleeding, etc.)</li>\n</ul>\n<h2>Injury Effects</h2>\n<p>Injuries impose penalties on the character:</p>\n<ul>\n<li><strong>Skill penalties</strong> — injuries reduce effective mastery levels</li>\n<li><strong>Shock</strong> — severe injuries can cause shock, potentially incapacitating\nthe character</li>\n<li><strong>Bleeding</strong> — some injuries cause ongoing blood loss</li>\n</ul>\n<!-- TODO: Document the injury severity levels, how injury penalties are\n     calculated per body location, shock thresholds, and the stumble/fumble\n     mechanics that result from injuries -->\n<h2>Healing</h2>\n<p>Injuries heal over time. The healing process depends on:</p>\n<ul>\n<li>Whether the injury has been <strong>treated</strong> by a physician</li>\n<li>The character's natural healing ability (related to traits)</li>\n<li>Available medical supplies and conditions</li>\n</ul>\n<!-- TODO: Document the healing timeline, treatment skill tests,\n     and how different injury types (cuts vs. fractures) heal differently -->"
+      },
+      "_key": "!journal.pages!usEQSnM05guRRXT7.conditions-injuries"
+    },
+    {
+      "_id": "conditions-afflictions",
+      "name": "Afflictions",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>An <strong>affliction</strong> is an ongoing condition — a disease, poison, curse, or\nother persistent effect. Afflictions have a lifecycle that progresses\nthrough stages.</p>\n<h2>Affliction Lifecycle</h2>\n<p>An affliction progresses through these stages:</p>\n<ol>\n<li><strong>Transmission</strong> — how the affliction spreads (contact, airborne, etc.)</li>\n<li><strong>Contraction</strong> — whether the character actually catches it (resistance test)</li>\n<li><strong>Course</strong> — the affliction's progression over time</li>\n<li><strong>Diagnosis</strong> — identifying what the affliction is</li>\n<li><strong>Treatment</strong> — applying remedies to cure or mitigate it</li>\n<li><strong>Healing</strong> — recovery from the affliction's effects</li>\n</ol>\n<p>Each stage involves skill tests (typically Physician or related skills).</p>\n<!-- TODO: Document the specific mechanics for each lifecycle stage,\n     including which skills are used, difficulty modifiers, and timing.\n     Document how afflictions interact with concoction gear (potions,\n     antidotes, etc.) -->\n<h2>Types of Afflictions</h2>\n<p>Afflictions include:</p>\n<ul>\n<li><strong>Diseases</strong> — infections and illnesses with incubation and progression</li>\n<li><strong>Poisons</strong> — toxins with immediate or delayed effects</li>\n<li><strong>Curses</strong> — supernatural afflictions requiring mystical removal</li>\n</ul>\n<!-- TODO: Document the affliction subtype system and how each subtype\n     differs in its lifecycle mechanics -->"
+      },
+      "_key": "!journal.pages!usEQSnM05guRRXT7.conditions-afflictions"
+    },
+    {
+      "_id": "conditions-managing",
+      "name": "Managing Conditions on the Sheet",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Injuries and afflictions appear on the character's sheet:</p>\n<ul>\n<li><strong>Injuries</strong> are visible in the Combat tab and on the body location\ndisplay</li>\n<li><strong>Afflictions</strong> appear as items on the character</li>\n</ul>\n<p>Right-click an injury or affliction for options to edit, treat, or remove it.</p>\n<!-- TODO: Document the UI workflow for treating injuries, diagnosing\n     afflictions, and tracking healing progress over game time -->"
+      },
+      "_key": "!journal.pages!usEQSnM05guRRXT7.conditions-managing"
+    }
+  ],
+  "folder": "IgwaG8rAUUO9vrtz",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "usEQSnM05guRRXT7",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!usEQSnM05guRRXT7"
+}

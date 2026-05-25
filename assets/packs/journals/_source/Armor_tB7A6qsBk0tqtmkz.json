@@ -1,0 +1,77 @@
+{
+  "name": "Armor",
+  "pages": [
+    {
+      "_id": "be03865dcdbc1c89",
+      "name": "What Is Armor?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Armor represents a wearable piece of protective equipment or normal clothing — a mail\nhauberk, a cloth surcoat, a linen shirt, a leather jerkin, leather sandals, a great helm, a wool dress, greaves, etc. When worn by a Being, armor provides protection at the body locations it covers, reducing the damage from incoming attacks. A single piece of armor can cover multiple body locations, and multiple pieces of armor can be layered for additional defense.</p>\n"
+      },
+      "_key": "!journal.pages!tB7A6qsBk0tqtmkz.be03865dcdbc1c89"
+    },
+    {
+      "_id": "747ad306855dc3ce",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Armor belongs to Beings. It appears on the Being sheet's <strong>Gear</strong> and <strong>Combat</strong> tabs. Each Armor item specifies the protective aspects that define exactly which body locations it covers and how much protection it provides at each one. When armor is equipped, these protective values are factored into combat resolution.</p>\n<p>Armor items are typically added from compendium packs that define standard equipment.</p>\n"
+      },
+      "_key": "!journal.pages!tB7A6qsBk0tqtmkz.747ad306855dc3ce"
+    },
+    {
+      "_id": "44dbb31c7c6fcaab",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>In addition to the [[Item_Gear|Standard Gear Properties]], the following additional properties are defined for armor:</p>\n<ul>\n<li><strong>Material:</strong> The type of material the armor is constructed from (chain, leather, kurbul, cloth, etc.).</li>\n<li><strong>Flexible Locations:</strong> Body locations covered by flexible portions of this armor.</li>\n<li><strong>Rigid Locations:</strong> Body locations covered by rigid portions of this armor (e.g., breastplate).</li>\n<li><strong>Encumbrance:</strong> Specific encumbrance value used when equipped.</li>\n<li><strong>Protection Base:</strong> For the four standard aspects-Blunt, Edged, Piercing, and Fire-the numbers here represent impact that is absorbed by the armor.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!tB7A6qsBk0tqtmkz.44dbb31c7c6fcaab"
+    },
+    {
+      "_id": "ebaa88f5848e02d4",
+      "name": "Encumbrance",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Armor and clothing that is worn (i.e., equipped) does not have any encumbrance, regardless of its weight. This is due to the distribution across the body, which is such that it normally does not cause any movement difficulty when worn. However, if there is a specific encumbrance value, then that is used as the encumbrance of that armor when equipped.</p>\n<p>When not worn but carried (i.e.,  carried but not equipped), the armor does have encumbrance based on its weight.  In this case any encumbrance value is ignored, since the weight determines its encumbrance instead.</p>\n<!-- TODO: Expand with details on how armor layering works, the\n     relationship between armor quality and protection, encumbrance\n     effects, and armor damage/repair mechanics -->"
+      },
+      "_key": "!journal.pages!tB7A6qsBk0tqtmkz.ebaa88f5848e02d4"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "tB7A6qsBk0tqtmkz",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!tB7A6qsBk0tqtmkz"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Afflictions",
+  "pages": [
+    {
+      "_id": "2f96b9cfe10fef3b",
+      "name": "Introduction",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Diseases, curses, poisons, and other ailments.</p>\n<h2>Disease</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;disease&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Poision/Toxin</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;poisontoxin&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Privation</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;privation&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Fatigue</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;fatigue&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Fear</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;fear&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Morale</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;morale&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Infection</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;infection&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Shadow</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;shadow&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Psyche</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;psyche&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n<h2>Aural Shock</h2>\n<pre><code class=\"language-dataview\">TABLE WITHOUT ID link(file.path, name.full) AS &quot;Name&quot;, description AS &quot;Description&quot;\nWHERE type = &quot;affliction&quot; and sohl.subType = &quot;auralshock&quot; and package = &quot;sohl&quot;\nSORT name.full ASC\n</code></pre>\n"
+      },
+      "_key": "!journal.pages!YX8E9Qy0Ysm66VsH.2f96b9cfe10fef3b"
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "YX8E9Qy0Ysm66VsH",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!YX8E9Qy0Ysm66VsH"
+}

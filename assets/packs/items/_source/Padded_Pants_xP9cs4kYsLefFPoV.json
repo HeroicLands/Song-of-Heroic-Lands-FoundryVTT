@@ -1,0 +1,57 @@
+{
+  "name": "Padded Pants",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "xP9cs4kYsLefFPoV",
+  "system": {
+    "shortcode": "PPant",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/padded-pants/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Padded Pants offer cushioning and warmth, ideal for wear under other armor or on their own. They provide comfort and added protection, suitable for both combat and everyday use.</p>\n",
+    "quantity": 1,
+    "weightBase": 3.1,
+    "valueBase": 78,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Padded",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!xP9cs4kYsLefFPoV"
+}

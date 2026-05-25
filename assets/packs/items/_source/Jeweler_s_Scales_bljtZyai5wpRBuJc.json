@@ -1,0 +1,37 @@
+{
+  "name": "Jeweler's Scales",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "bljtZyai5wpRBuJc",
+  "system": {
+    "shortcode": "jewelerssc",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/jewelers-scales/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A brass balance with two shallow pans mounted on a fulcrum, calibrated to weigh precious metal and gems in carats and ounces. Goldsmiths and gem-merchants depend on such scales to price their work and confirm the weight of bullion or cut stones. A well-made jeweler's scale is sensitive to a single grain; fraud is possible but costly—a crooked scale ruins a master's reputation and may draw the lord's justice.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 72,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "xniLjmZWYQZkSxyv",
+  "_key": "!items!bljtZyai5wpRBuJc"
+}

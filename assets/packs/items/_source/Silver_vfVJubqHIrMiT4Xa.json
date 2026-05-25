@@ -1,0 +1,37 @@
+{
+  "name": "Silver",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "vfVJubqHIrMiT4Xa",
+  "system": {
+    "shortcode": "silver",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/silver/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Silver, a precious metal worked into ingots or coined by the mint, prized for both its beauty and practical utility. The metal does not corrode or tarnish easily and accepts fine engraving, making it favored for jewelry, ceremonial vessels, and the common silver pence. Merchants and nobles alike trade silver as a reliable standard of value.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 60,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!vfVJubqHIrMiT4Xa"
+}

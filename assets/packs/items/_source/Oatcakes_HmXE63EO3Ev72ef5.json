@@ -1,0 +1,37 @@
+{
+  "name": "Oatcakes",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "HmXE63EO3Ev72ef5",
+  "system": {
+    "shortcode": "oatcakes",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/oatcakes/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Oatcakes—thin, crisp rounds baked on a griddle—are the traveler's bread, keeping dry for months in a bundled cloth. A dozen cakes weigh little and swell in the belly when soaked in broth or water. Every northern household bakes them in winter; merchants sell them cheap by the bag.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!HmXE63EO3Ev72ef5"
+}

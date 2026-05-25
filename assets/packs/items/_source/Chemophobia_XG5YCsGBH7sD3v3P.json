@@ -1,0 +1,38 @@
+{
+  "name": "Chemophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "XG5YCsGBH7sD3v3P",
+  "system": {
+    "shortcode": "chemophb",
+    "docUrl": "https://heroiclands.org/sohl/trait/chemophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Chemophobia is an intense, irrational fear of chemicals or chemical compounds. People with chemophobia may experience a range of symptoms when they think about, see, or are near chemicals.</p>\n<h3>Impulse</h3>\n<p>Avoiding products with chemicals, such as cleaning supplies, cosmetics, or processed foods. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Overwhelming fear or panic at the thought of chemicals or chemical exposure. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about chemical toxicity or contamination.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread and helplessness, possibly leading to obsessive behaviors aimed at eliminating chemical exposure.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!XG5YCsGBH7sD3v3P"
+}

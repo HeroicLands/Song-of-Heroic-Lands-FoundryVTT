@@ -1,0 +1,38 @@
+{
+  "name": "Arthritis",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "yKKuUXl5wmxFp2d0",
+  "system": {
+    "shortcode": "arthrts",
+    "docUrl": "https://heroiclands.org/sohl/trait/arthritis/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Arthritis is a condition that causes inflammation and stiffness in the joints, leading to pain, swelling, and decreased mobility. It can affect one or more joints, making daily tasks difficult and often worsening over time. Individuals with arthritis must rely on rest, herbal remedies, and lifestyle adjustments to manage their symptoms and maintain their quality of life.</p>\n<h3>Impulse</h3>\n<p>Mild to moderate joint pain, stiffness, and swelling, particularly after periods of rest or during cold weather. The individual may experience discomfort when moving or using the affected joints but can still perform most tasks with some difficulty.</p>\n<p><strong>Example:</strong> Potter Miriam finds her fingers aching and stiff when shaping clay early in the morning. After some stretching and warming of her hands, she can resume her work, though the pain lingers throughout the day, slowing her progress.</p>\n<h3>Disorder</h3>\n<p>The joint inflammation becomes severe, causing chronic pain, significant stiffness, and noticeable swelling. The individual may struggle with basic tasks, such as walking, gripping objects, or lifting items, and their mobility may become limited.</p>\n<h3>Physical Symptoms</h3>\n<p>Persistent joint pain, swelling, stiffness, and reduced range of motion in the affected joints. The joints may feel warm or tender to the touch, and deformities may develop in advanced cases, affecting the individual’s posture or gait.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Constant worries about worsening pain, fear of losing mobility or independence, and anxiety over becoming dependent on others for daily tasks.</p>\n<h3>Emotional Distress</h3>\n<p>Frustration, helplessness, and sadness from the inability to perform routine activities without pain. The individual may experience isolation due to reduced mobility and withdraw from social interactions or physical activities they once enjoyed.</p>\n<p><strong>Example:</strong> Elder Gregory’s knees have become so swollen and painful that he can no longer walk without assistance. Each step sends a jolt of pain through his body, and his once sturdy hands now struggle to grip even the lightest tools. The constant pain and limitations leave Gregory feeling frustrated and dependent on his family for help, leading him to withdraw from the activities he once loved.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!yKKuUXl5wmxFp2d0"
+}

@@ -1,0 +1,75 @@
+{
+  "name": "Plate ¾-Helm",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/crested-helmet.svg",
+  "_id": "rKuSn4P5aQVNWZ5y",
+  "system": {
+    "shortcode": "Pl34Hlm",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/plate-34-helm/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Plate 3/4-Helm is crafted from solid steel and covers the head and most of the face, leaving only a narrow slit for visibility. It is a mainstay for knights and heavily armored warriors, offering maximum protection. The helm is often adorned with simple engravings and a smooth, polished surface that reflects the sun on the battlefield, intimidating foes with its robust appearance.</p>\n",
+    "quantity": 1,
+    "weightBase": 5.3,
+    "valueBase": 140,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Plate",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Nose",
+        "Right Cheek",
+        "Left Cheek",
+        "Right Ear",
+        "Left Ear"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [
+    {
+      "name": "Anything Using Perception",
+      "type": "sohleffectdata",
+      "_id": "eZcoxuHeKwR4Tf9k",
+      "system": {
+        "scope": "test",
+        "test": "(item.type === 'skill' && has('per', item.logic.skillBase.attrShortcodes)) || (item.type === 'attribute' && item.system.shortcode === 'per')"
+      },
+      "changes": [
+        {
+          "key": "mod:logic.masteryLevel",
+          "mode": 2,
+          "value": "-5",
+          "priority": null
+        }
+      ],
+      "_key": "!items.effects!rKuSn4P5aQVNWZ5y.eZcoxuHeKwR4Tf9k"
+    }
+  ],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!rKuSn4P5aQVNWZ5y"
+}

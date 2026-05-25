@@ -1,0 +1,37 @@
+{
+  "name": "Bread, Wheat, loaf",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "jboGvhE0o9vnH1nH",
+  "system": {
+    "shortcode": "breadwheat",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bread-wheat-loaf/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A lighter loaf of wheat bread from the baker's oven, golden-crusted and finer-crumbed than rye. Wheat bread is the choice of wealthier households, merchants, and skilled workers; it commands a higher price and keeps slightly shorter than rye. A traveler buys wheat bread fresh from the baker's stall for eating within a day or two of the road.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.5,
+    "valueBase": 0.5,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!jboGvhE0o9vnH1nH"
+}

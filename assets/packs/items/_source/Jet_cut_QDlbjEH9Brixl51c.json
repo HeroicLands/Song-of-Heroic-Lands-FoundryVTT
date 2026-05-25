@@ -1,0 +1,37 @@
+{
+  "name": "Jet, cut",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "QDlbjEH9Brixl51c",
+  "system": {
+    "shortcode": "jetcut",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/jet-cut/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Jet, a black stone of fossilized wood, polished and faceted by the lapidary into small, lustrous gems. The stone's deep black absorbs light entirely, creating a striking contrast when set against silver or gold. Jet is favored for mourning jewelry and amulets, prized for both its appearance and its historical reach.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0004,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!QDlbjEH9Brixl51c"
+}

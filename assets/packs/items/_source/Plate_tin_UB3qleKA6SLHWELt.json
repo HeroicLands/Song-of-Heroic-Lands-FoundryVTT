@@ -1,0 +1,37 @@
+{
+  "name": "Plate, tin",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "UB3qleKA6SLHWELt",
+  "system": {
+    "shortcode": "platetin",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/plate-tin/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A thin tin plate, stamped from sheet metal and simple in finish, used in soldiers' mess-tents, military camps, and common inns where cheap, serviceable ware is needed in quantity. Tin is soft—it dents and creases easily—and rust eats at its edges over time, but a new tin plate costs little and replacements come readily. Armies march with trunks of them, and they are passed along to scullery maids who scour and stack them back into formation.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!UB3qleKA6SLHWELt"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Law",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/law.svg",
+  "_id": "VsNFbPO46bCVDiMO",
+  "system": {
+    "shortcode": "law",
+    "docUrl": "https://heroiclands.org/sohl/skill/law/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Law represents knowledge of the legal codes, customs, and judicial procedures that govern a character's society. This encompasses a wide range of jurisprudence—clan traditions, feudal obligations, royal statutes, mercantile regulations, and the complex rules of guild-governed towns. Religious law falls under the domain of Ritual rather than this skill. Preparing formal legal documents requires both legal knowledge and literacy, and arguing a case in court draws upon Discourse ability as well. Foreign legal systems carry the same unfamiliarity penalties as other forms of regional knowledge.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@rea, @wil",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!VsNFbPO46bCVDiMO"
+}

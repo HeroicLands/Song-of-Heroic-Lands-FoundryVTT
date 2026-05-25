@@ -1,0 +1,42 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <fieldset>
+        <legend>Gear</legend>
+        <div class="grid grid-3col">
+            {{formField fields.shortcode rootId="projgear-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+            {{formField fields.quantity rootId="projgear-quant" classes="text-field" stacked=true value=system.quantity}}
+            {{formField fields.weightBase rootId="projgear-wt" classes="text-field" stacked=true value=system.weightBase}}
+            {{formField fields.valueBase rootId="projgear-val" classes="text-field" stacked=true value=system.valueBase}}
+            {{formField fields.isCarried rootId="projgear-carried" classes="text-field" stacked=true value=system.isCarried}}
+            {{formField fields.isEquipped rootId="projgear-equipped" classes="text-field" stacked=true value=system.isEquipped}}
+            {{formField fields.qualityBase rootId="projgear-qual" classes="text-field" stacked=true value=system.qualityBase}}
+            {{formField fields.durabilityBase rootId="projgear-dur" classes="text-field" stacked=true value=system.durabilityBase}}
+        </div>
+    </fieldset>
+
+    <div class="grid grid-3col">
+        {{formField fields.shortName rootId="projgear-shortname" classes="text-field" stacked=true value=system.shortName}}
+    </div>
+
+    <fieldset>
+        <legend>Impact</legend>
+        <div class="grid grid-4col">
+            {{formField fields.impactBase.fields.numDice rootId="projgear-imp-numdice" classes="text-field" stacked=true value=system.impactBase.numDice}}
+            {{formField fields.impactBase.fields.die rootId="projgear-imp-die" classes="text-field" stacked=true value=system.impactBase.die}}
+            {{formField fields.impactBase.fields.modifier rootId="projgear-imp-mod" classes="text-field" stacked=true value=system.impactBase.modifier}}
+            {{formField fields.impactBase.fields.aspect rootId="projgear-imp-asp" classes="text-field" stacked=true value=system.impactBase.aspect}}
+        </div>
+    </fieldset>
+</section>

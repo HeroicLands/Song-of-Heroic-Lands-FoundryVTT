@@ -1,0 +1,37 @@
+{
+  "name": "Dye, Saffron Yellow",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/potion.svg",
+  "_id": "sUPuDiVU3t7QliyD",
+  "system": {
+    "shortcode": "dyesfrn",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/dye-saffron-yellow/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Dried and ground crocus stigmas, a luxury dye yielding a brilliant golden yellow that commands noble prices. Saffron is used sparingly for fine silk, ceremonial cloth, and high-born garments; a single pot dyes many lengths. The dye is fast and vivid, though its cost restricts it to the wealthy and to spice-trading centers where the plant is cultivated.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 160,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7r8WTAO2Ac8SF9tf",
+  "_key": "!items!sUPuDiVU3t7QliyD"
+}
