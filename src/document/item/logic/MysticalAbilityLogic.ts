@@ -19,7 +19,6 @@ import {
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
 import { MysticalAbilitySubType } from "@src/utils/constants";
-import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
 import { MysteryLogic } from "./MysteryLogic";
 
 /**

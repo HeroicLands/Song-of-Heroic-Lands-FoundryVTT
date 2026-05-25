@@ -11,10 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    ValueModifier as MasteryLevelModifier,
-    ValueModifier,
-} from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { TraitIntensity, TraitSubType } from "@src/utils/constants";
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 

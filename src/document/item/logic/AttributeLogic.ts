@@ -34,6 +34,7 @@ export class AttributeLogic<
 > extends SohlItemBaseLogic<TData> {
     score!: ValueModifier;
     masteryLevel!: MasteryLevelModifier;
+    fateMasteryLevel!: MasteryLevelModifier;
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
