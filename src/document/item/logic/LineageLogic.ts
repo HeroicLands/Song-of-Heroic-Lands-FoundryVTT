@@ -51,6 +51,14 @@ export class LineageLogic<
 
     bodyWeight!: ValueModifier;
 
+    move!: {
+        terrestrial: ValueModifier;
+        aquatic: ValueModifier;
+        aerial: ValueModifier;
+        burrowing: ValueModifier;
+        astral: ValueModifier;
+    };
+
     /**
      * Per-medium base move (feet per combat round) for creatures of this
      * lineage. A value of 0 means the creature cannot move in that medium.
@@ -80,6 +88,23 @@ export class LineageLogic<
         this.bodyWeight = new ValueModifier({}, { parent: this }).setBase(
             this.data.bodyWeightBase,
         );
+        this.move = {
+            terrestrial: new ValueModifier({}, { parent: this }).setBase(
+                this.data.moveBase.terrestrial,
+            ),
+            aquatic: new ValueModifier({}, { parent: this }).setBase(
+                this.data.moveBase.aquatic,
+            ),
+            aerial: new ValueModifier({}, { parent: this }).setBase(
+                this.data.moveBase.aerial,
+            ),
+            burrowing: new ValueModifier({}, { parent: this }).setBase(
+                this.data.moveBase.burrowing,
+            ),
+            astral: new ValueModifier({}, { parent: this }).setBase(
+                this.data.moveBase.astral,
+            ),
+        };
     }
 
     /** @inheritdoc */

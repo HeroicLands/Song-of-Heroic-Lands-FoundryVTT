@@ -718,8 +718,121 @@ export const {
     FATE: "mod:logic.fateMasteryLevel",
     SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
 });
-export type EffectKey =
+export type SkillEffectKey =
     (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
+
+export const {
+    kind: CONCOCTIONGEAR_EFFECT_KEY,
+    values: ConcoctionGearEffectKeys,
+    isValue: isConcoctionGearEffectKey,
+    labels: concoctionGearEffectKeyLabels,
+} = defineType(`SOHL.ConcoctionGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    STRENGTH: "mod:logic.strength",
+});
+export type ConcoctionGearEffectKey =
+    (typeof CONCOCTIONGEAR_EFFECT_KEY)[keyof typeof CONCOCTIONGEAR_EFFECT_KEY];
+
+export const {
+    kind: CONTAINERGEAR_EFFECT_KEY,
+    values: ContainerGearEffectKeys,
+    isValue: isContainerGearEffectKey,
+    labels: containerGearEffectKeyLabels,
+} = defineType(`SOHL.ContainerGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    MAX_CAPACITY: "mod:logic.maxCapacity",
+});
+export type ContainerGearEffectKey =
+    (typeof CONTAINERGEAR_EFFECT_KEY)[keyof typeof CONTAINERGEAR_EFFECT_KEY];
+
+export const {
+    kind: LINEAGE_EFFECT_KEY,
+    values: LineageEffectKeys,
+    isValue: isLineageEffectKey,
+    labels: lineageEffectKeyLabels,
+} = defineType(`SOHL.Lineage.EffectKey`, {
+    BODY_WEIGHT: "mod:logic.bodyWeight",
+    MOVE_TERRESTRIAL: "mod:logic.move.terrestrial",
+    MOVE_AQUATIC: "mod:logic.move.aquatic",
+    MOVE_AERIAL: "mod:logic.move.aerial",
+    MOVE_BURROWING: "mod:logic.move.burrowing",
+    MOVE_ASTRAL: "mod:logic.move.astral",
+});
+export type LineageEffectKey =
+    (typeof LINEAGE_EFFECT_KEY)[keyof typeof LINEAGE_EFFECT_KEY];
+
+export const {
+    kind: MISCGEAR_EFFECT_KEY,
+    values: MiscGearEffectKeys,
+    isValue: isMiscGearEffectKey,
+    labels: miscGearEffectKeyLabels,
+} = defineType(`SOHL.MiscGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+});
+export type MiscGearEffectKey =
+    (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
+
+export const {
+    kind: PROJECTILEGEAR_EFFECT_KEY,
+    values: ProjectileGearEffectKeys,
+    isValue: isProjectileGearEffectKey,
+    labels: projectileGearEffectKeyLabels,
+} = defineType(`SOHL.ProjectileGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    IMPACT: "mod:logic.impact",
+});
+export type ProjectileGearEffectKey =
+    (typeof PROJECTILEGEAR_EFFECT_KEY)[keyof typeof PROJECTILEGEAR_EFFECT_KEY];
+
+export const {
+    kind: TRAIT_EFFECT_KEY,
+    values: TraitEffectKeys,
+    isValue: isTraitEffectKey,
+    labels: traitEffectKeyLabels,
+} = defineType(`SOHL.Trait.EffectKey`, {
+    SCORE: "mod:logic.score",
+});
+export type TraitEffectKey =
+    (typeof TRAIT_EFFECT_KEY)[keyof typeof TRAIT_EFFECT_KEY];
+
+export const {
+    kind: TRAUMA_EFFECT_KEY,
+    values: TraumaEffectKeys,
+    isValue: isTraumaEffectKey,
+    labels: traumaEffectKeyLabels,
+} = defineType(`SOHL.Trauma.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    HEALING_RATE: "mod:logic.healingRate",
+});
+export type TraumaEffectKey =
+    (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
+
+export const {
+    kind: WEAPONGEAR_EFFECT_KEY,
+    values: WeaponGearEffectKeys,
+    isValue: isWeaponGearEffectKey,
+    labels: weaponGearEffectKeyLabels,
+} = defineType(`SOHL.WeaponGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    ENCUMBRANCE: "mod:logic.encumbrance",
+});
+export type WeaponGearEffectKey =
+    (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
 
 /**
  * Constants for the Heal Rate of an Affliction.

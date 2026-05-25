@@ -12,6 +12,7 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
+import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import { ImpactAspect, ProjectileGearSubType } from "@src/utils/constants";
 
 /**
@@ -32,6 +33,8 @@ import { ImpactAspect, ProjectileGearSubType } from "@src/utils/constants";
 export class ProjectileGearLogic<
     TData extends ProjectileGearData = ProjectileGearData,
 > extends GearLogic<TData> {
+    impact!: ImpactModifier;
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

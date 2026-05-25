@@ -38,6 +38,8 @@ import {
 export class ConcoctionGearLogic<
     TData extends ConcoctionGearData = ConcoctionGearData,
 > extends GearLogic<TData> {
+    strength!: number;
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */

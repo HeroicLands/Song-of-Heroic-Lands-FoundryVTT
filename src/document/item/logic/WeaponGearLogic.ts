@@ -34,6 +34,7 @@ export class WeaponGearLogic<
     strikeModes!: StrikeModeBase[];
     /** Weapon encumbrance. */
     encumbrance!: ValueModifier;
+    heft!: ValueModifier;
 
     /* --------------------------------------------- */
     /* Strike mode update helpers                    */
