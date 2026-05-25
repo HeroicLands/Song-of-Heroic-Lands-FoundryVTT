@@ -95,8 +95,8 @@ export class SkillLogic<
     TData extends SkillData = SkillData,
 > extends SohlItemBaseLogic<TData> {
     parentSkill!: SkillLogic | null;
-    _boosts!: number;
-    _skillBase!: SkillBase;
+    boosts!: number;
+    skillBase!: SkillBase;
     masteryLevel!: MasteryLevelModifier;
     fateMasteryLevel!: MasteryLevelModifier;
 
@@ -241,10 +241,6 @@ export class SkillLogic<
         return 0;
     }
 
-    get boosts(): number {
-        return this._boosts;
-    }
-
     /**
      * Searches through all of the Fate mysteries on the actor, gathering any that
      * are applicable to this skill, and returns them.
@@ -279,10 +275,6 @@ export class SkillLogic<
         return this.skillBase.valid;
     }
 
-    get skillBase() {
-        return this._skillBase;
-    }
-
     get sdrIncr() {
         return 1;
     }
@@ -295,7 +287,7 @@ export class SkillLogic<
     override initialize(): void {
         super.initialize();
         this.parentSkill = null;
-        this._boosts = 0;
+        this.boosts = 0;
         this.masteryLevel = new MasteryLevelModifier(
             {},
             { parent: this },
@@ -339,7 +331,7 @@ export class SkillLogic<
         }
 
         // Calculate Skill Base
-        this._skillBase ||= new SkillBase(this.data.skillBaseFormula, {
+        this.skillBase ||= new SkillBase(this.data.skillBaseFormula, {
             items: Array.from(this.actor?.items.values() || []),
         });
     }

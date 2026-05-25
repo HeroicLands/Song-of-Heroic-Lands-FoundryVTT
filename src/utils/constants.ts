@@ -620,15 +620,103 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
+    kind: ATTRIBUTE_EFFECT_KEY,
+    values: AttributeEffectKeys,
+    isValue: isAttributeEffectKey,
+    labels: attributeEffectKeyLabels,
+} = defineType(`SOHL.Attribute.EffectKey`, {
+    SCORE: "mod:logic.score",
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    FATE: "mod:logic.fateMasteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+});
+export type AttributeEffectKey =
+    (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
+
+export const {
+    kind: AFFLICTION_EFFECT_KEY,
+    values: AfflictionEffectKeys,
+    isValue: isAfflictionEffectKey,
+    labels: afflictionEffectKeyLabels,
+} = defineType(`SOHL.Affliction.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    HEALING_RATE: "mod:logic.healingRate",
+    CONTAGION_INDEX: "mod:logic.contagionIndex",
+    DIAGNOSIS_BONUS: "mod:logic.diagnosisBonus",
+});
+export type AfflictionEffectKey =
+    (typeof AFFLICTION_EFFECT_KEY)[keyof typeof AFFLICTION_EFFECT_KEY];
+
+export const {
+    kind: ARMORGEAR_EFFECT_KEY,
+    values: ArmorGearEffectKeys,
+    isValue: isArmorGearEffectKey,
+    labels: armorGearEffectKeyLabels,
+} = defineType(`SOHL.ArmorGear.EffectKey`, {
+    WEIGHT: "mod:logic.weight",
+    VALUE: "mod:logic.value",
+    QUALITY: "mod:logic.quality",
+    DURABILITY: "mod:logic.durability",
+    ENCUMBRANCE: "mod:logic.encumbrance",
+    BLUNT: "mod:logic.protection.blunt",
+    EDGED: "mod:logic.protection.edged",
+    PIERCING: "mod:logic.protection.piercing",
+    FIRE: "mod:logic.protection.fire",
+});
+export type ArmorGearEffectKey =
+    (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
+
+export const {
+    kind: COMBATTECHNIQUE_EFFECT_KEY,
+    values: CombatTechniqueEffectKeys,
+    isValue: isCombatTechniqueEffectKey,
+    labels: combatTechniqueEffectKeyLabels,
+} = defineType(`SOHL.CombatTechnique.EffectKey`, {
+    ATTACK: "mod:logic.strikeMode.attack",
+    IMPACT: "mod:logic.strikeMode.impact",
+    SPREAD: "mod:logic.strikeMode.spread",
+});
+export type CombatTechniqueEffectKey =
+    (typeof COMBATTECHNIQUE_EFFECT_KEY)[keyof typeof COMBATTECHNIQUE_EFFECT_KEY];
+
+export const {
+    kind: MYSTERY_EFFECT_KEY,
+    values: MysteryEffectKeys,
+    isValue: isMysteryEffectKey,
+    labels: mysteryEffectKeyLabels,
+} = defineType(`SOHL.Mystery.EffectKey`, {
+    LEVEL: "mod:logic.level",
+    CHARGES: "mod:logic.charges.value",
+    MAX_CHARGES: "mod:logic.charges.max",
+});
+export type MysteryEffectKey =
+    (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
+
+export const {
+    kind: MYSTICALABILITY_EFFECT_KEY,
+    values: MysticalAbilityEffectKeys,
+    isValue: isMysticalAbilityEffectKey,
+    labels: mysticalAbilityEffectKeyLabels,
+} = defineType(`SOHL.MysticalAbility.EffectKey`, {
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
+    LEVEL: "mod:logic.level",
+    CHARGES: "mod:logic.charges.value",
+    MAX_CHARGES: "mod:logic.charges.max",
+});
+export type MysticalAbilityEffectKey =
+    (typeof MYSTICALABILITY_EFFECT_KEY)[keyof typeof MYSTICALABILITY_EFFECT_KEY];
+
+export const {
     kind: SKILL_EFFECT_KEYS,
     values: SkillEffectKeys,
     isValue: isSkillEffectKey,
     labels: skillEffectKeyLabels,
 } = defineType(`SOHL.Skill.EffectKey`, {
-    BOOSTS: "system._boosts",
-    MASTERY_LEVEL: "mod:system.masteryLevel",
-    FATE: "mod:system.masteryLevel.fate",
-    SUCCESS_LEVEL: "system.masteryLevel.successLevelMod",
+    BOOSTS: "logic.boosts",
+    MASTERY_LEVEL: "mod:logic.masteryLevel",
+    FATE: "mod:logic.fateMasteryLevel",
+    SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
 });
 export type EffectKey =
     (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
