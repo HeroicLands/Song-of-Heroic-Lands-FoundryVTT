@@ -821,20 +821,6 @@ export type MysticalAbilitySubType =
     (typeof MYSTICALABILITY_SUBTYPE)[keyof typeof MYSTICALABILITY_SUBTYPE];
 
 export const {
-    kind: MYSTICALABILITY_DEGREE,
-    values: MysticalAbilityDegrees,
-    isValue: isMysticalAbilityDegree,
-} = defineType("SOHL.MysticalAbility.Degree", {
-    PRIMARY: { name: "primary", value: 0 },
-    SECONDARY: { name: "secondary", value: 1 },
-    NEUTRAL: { name: "neutral", value: 2 },
-    TERTIARY: { name: "tertiary", value: 3 },
-    DIAMETRIC: { name: "diametric", value: 4 },
-});
-export type MysticalAbilityDegree =
-    (typeof MYSTICALABILITY_DEGREE)[keyof typeof MYSTICALABILITY_DEGREE];
-
-export const {
     kind: PROJECTILEGEAR_SUBTYPE,
     values: ProjectileGearSubTypes,
     isValue: isProjectileGearSubType,
