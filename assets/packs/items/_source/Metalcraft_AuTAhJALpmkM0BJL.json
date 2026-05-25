@@ -1,0 +1,35 @@
+{
+  "name": "Metalcraft",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/metal-bar.svg",
+  "_id": "AuTAhJALpmkM0BJL",
+  "system": {
+    "shortcode": "mtlc",
+    "docUrl": "https://heroiclands.org/sohl/skill/metalcraft/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Metalcraft is the art of the smith—smelting ore, forging metal into useful shapes, and finishing items through tempering, grinding, and polishing. The craft produces everything from common nails and hinges to fine tools, armor components, and the mechanical parts of crossbows and siege engines. A skilled metalsmith works primarily with iron and steel but may also handle bronze, copper, and other alloys. The quality of the workshop and its tools significantly influences what a smith can achieve.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @str",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!AuTAhJALpmkM0BJL"
+}

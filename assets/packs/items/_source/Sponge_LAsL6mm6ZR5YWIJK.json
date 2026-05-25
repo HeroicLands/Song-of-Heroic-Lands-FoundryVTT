@@ -1,0 +1,37 @@
+{
+  "name": "Sponge",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "LAsL6mm6ZR5YWIJK",
+  "system": {
+    "shortcode": "sponge",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/sponge/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A harvested sea sponge, dried and bleached, honeycombed with pores that soak and hold water. Merchants and bathhouse keepers trade them for their lightness and absorbency; a physician uses one to clean wounds, a cook to scour a pot. The finest sponges come from southern waters and command a merchant's price.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.1,
+    "valueBase": 45,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!LAsL6mm6ZR5YWIJK"
+}

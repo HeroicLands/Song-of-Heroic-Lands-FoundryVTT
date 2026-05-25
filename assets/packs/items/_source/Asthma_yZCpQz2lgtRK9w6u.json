@@ -1,0 +1,38 @@
+{
+  "name": "Asthma",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "yZCpQz2lgtRK9w6u",
+  "system": {
+    "shortcode": "asthma",
+    "docUrl": "https://heroiclands.org/sohl/trait/asthma/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Asthma is a chronic condition of the lungs, where the airways become narrowed and inflamed, causing difficulty in breathing. Without modern medicine, those afflicted rely on rest, avoiding known triggers, and natural remedies to manage their symptoms. The condition can be life-threatening during severe attacks.</p>\n<h3>Impulse</h3>\n<p>Shortness of breath, wheezing, and chest tightness, especially during physical activity or exposure to environmental triggers. These symptoms can often be managed by resting and avoiding known triggers.</p>\n<p><strong>Example:</strong> Blacksmith Osric finds himself wheezing and short of breath after working the forge on cold mornings. Though the tightness in his chest is uncomfortable, he knows to step away and rest until his breathing eases.</p>\n<h3>Disorder</h3>\n<p>In addition to impulse intensity behaviors: Severe difficulty breathing, persistent coughing, and frequent asthma attacks, which may lead to life-threatening situations without immediate intervention. The condition significantly impacts daily life, causing anxiety and limiting physical activities.</p>\n<h3>Physical Symptoms</h3>\n<p>Intense wheezing, chronic coughing, severe shortness of breath, chest pain, and fatigue, especially after exposure to triggers or during an attack.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Constant fear of the next asthma attack, worries about suffocating, and anxiety over being away from safe spaces or helpers during an episode.</p>\n<h3>Emotional Distress</h3>\n<p>Profound feelings of vulnerability, fear, and frustration due to the unpredictability of asthma attacks. The condition may lead to social withdrawal and a sense of helplessness, especially during periods of frequent attacks.</p>\n<p><strong>Example:</strong> Farmer Aldwin experiences severe asthma attacks whenever he is exposed to the dust and pollen of the fields. During these attacks, his chest tightens painfully, and he struggles to draw breath, consumed by the terror that he might not survive. The fear of another attack haunts him constantly, leading him to avoid his beloved work and withdraw from community gatherings, leaving him isolated and anxious.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!yZCpQz2lgtRK9w6u"
+}

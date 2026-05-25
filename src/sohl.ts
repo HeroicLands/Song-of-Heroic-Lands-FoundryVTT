@@ -11,194 +11,316 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@common/SohlSpeaker";
-import { SohlSystem } from "@common/SohlSystem";
-import { LegendarySystem } from "@legendary/LegendarySystem";
-import { MistyIsleSystem } from "@mistyisle/MistyIsleSystem";
-import { LOGLEVEL } from "@utils/constants";
-import { AIAdapter } from "@utils/ai/AIAdapter";
+import type { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SohlSystem } from "@src/core/SohlSystem";
+import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
+import { AIAdapter } from "@src/utils/ai/AIAdapter";
+import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
+import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
+import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
+import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
+import { DomainManagerApp } from "@src/apps/DomainManagerApp";
+import { SohlDomains } from "@src/core/SohlDomains";
+import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 
-// Register all system variants
-SohlSystem.registerVariant(LegendarySystem.ID, LegendarySystem.getInstance());
-SohlSystem.registerVariant(MistyIsleSystem.ID, MistyIsleSystem.getInstance());
-
-function setupVariant(): SohlSystem {
-    const variantId = game.settings.get("sohl", "variant");
-    const sohl = SohlSystem.selectVariant(variantId);
+function setupSystem(): SohlSystem {
+    const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
     sohl.setupSheets();
-    console.log(sohl.initMessage);
+    console.log("Song of Heroic Lands | System initialized");
     return sohl;
 }
 
 function registerSystemSettings() {
     game.settings.register("sohl", "systemMigrationVersion", {
-        name: "System Migration Version",
+        name: "SOHL.Settings.systemMigrationVersion.label",
         scope: "world",
         config: false,
         type: String,
         default: "",
     });
-    game.settings.register("sohl", "variant", {
-        name: "Rules Variant",
-        hint: "Which variant of rules to use",
-        scope: "world",
-        config: true,
-        requiresReload: true,
-        default: "legendary",
-        type: String,
-        choices: {
-            legendary: "Legendary",
-            mistyisle: "MistyIsle",
-        },
-    });
     game.settings.register("sohl", "logLevel", {
-        name: "Log Level",
-        hint: "The level of detail to include in logs",
+        name: "SOHL.Settings.logLevel.label",
+        hint: "SOHL.Settings.logLevel.hint",
         scope: "client",
         config: true,
         default: "info",
         type: String,
         choices: {
-            debug: "Debug",
-            info: "Informational",
-            warn: "Warning",
-            error: "Error",
+            debug: "SOHL.Settings.logLevel.CHOICES.debug",
+            info: "SOHL.Settings.logLevel.CHOICES.info",
+            warn: "SOHL.Settings.logLevel.CHOICES.warn",
+            error: "SOHL.Settings.logLevel.CHOICES.error",
+        },
+        onChange: (value: string): void => {
+            sohl.log.setLogThreshold(value);
         },
     });
     game.settings.register("sohl", "showWelcomeDialog", {
-        name: "Show welcome dialog on start",
-        hint: "Display the welcome dialog box when the user logs in.",
+        name: "SOHL.Settings.showWelcomeDialog.label",
+        hint: "SOHL.Settings.showWelcomeDialog.hint",
         scope: "client",
         config: true,
         type: Boolean,
         default: true,
     });
-    game.settings.register("sohl", "showAssemblies", {
-        name: "Show Assemblies in Actors Tab",
-        hint: "If enabled, shows all Assembly actors you own.",
-        scope: "client",
-        config: true,
-        type: Boolean,
-        default: false,
-    });
     game.settings.register("sohl", "combatAudio", {
-        name: "Combat sounds",
-        hint: "Enable combat flavor sounds",
-        scope: "world",
+        name: "SOHL.Settings.combatAudio.label",
+        hint: "SOHL.Settings.combatAudio.hint",
+        scope: "client",
         config: true,
         type: Boolean,
         default: true,
     });
     game.settings.register("sohl", "recordTrauma", {
-        name: "Record trauma automatically",
-        hint: "Automatically add physical and mental afflictions and injuries",
-        scope: "world",
+        name: "SOHL.Settings.recordTrauma.label",
+        hint: "SOHL.Settings.recordTrauma.hint",
+        scope: "client",
         config: true,
         default: "enable",
         type: String,
         choices: {
-            enable: "Record trauma automatically",
-            disable: "Don't record trauma automatically",
-            ask: "Prompt user on each injury or affliction",
+            enable: "SOHL.Settings.recordTrauma.Choices.Enable",
+            disable: "SOHL.Settings.recordTrauma.Choices.Disable",
+            ask: "SOHL.Settings.recordTrauma.Choices.Ask",
         },
     });
     game.settings.register("sohl", "healingSeconds", {
-        name: "Seconds between healing checks",
-        hint: "Number of seconds between healing checks. Set to 0 to disable.",
+        name: "SOHL.Settings.healingSeconds.label",
+        hint: "SOHL.Settings.healingSeconds.hint",
         scope: "world",
         config: true,
         type: Number,
         default: 432000, // 5 days
     });
     game.settings.register("sohl", "optionProjectileTracking", {
-        name: "Track Projectile/Missile Quantity",
-        hint: "Reduce projectile/missile quantity when used; disallow missile attack when quantity is zero",
+        name: "SOHL.Settings.optionProjectileTracking.label",
+        hint: "SOHL.Settings.optionProjectileTracking.hint",
         scope: "world",
         config: true,
         type: Boolean,
         default: false,
     });
     game.settings.register("sohl", "optionFate", {
-        name: "Fate: Use fate rules",
+        name: "SOHL.Settings.optionFate.label",
+        hint: "SOHL.Settings.optionFate.hint",
         scope: "world",
         config: true,
         default: "enable",
         type: String,
         choices: {
-            none: "Fate rules disabled",
-            pconly: "Fate rules only apply to PCs",
-            everyone: "Fate rules apply to all animate actors",
+            none: "SOHL.Settings.optionFate.None",
+            pconly: "SOHL.Settings.optionFate.PCOnly",
+            everyone: "SOHL.Settings.optionFate.Everyone",
         },
     });
     game.settings.register("sohl", "optionGearDamage", {
-        name: "Gear Damage",
-        hint: "Enable combat rule that allows gear (weapons and armor) to be damaged or destroyed on successful block",
+        name: "SOHL.Settings.optionGearDamage.label",
+        hint: "SOHL.Settings.optionGearDamage.hint",
         scope: "world",
         config: true,
         type: Boolean,
         default: false,
     });
     game.settings.register("sohl", "tacticalDistanceUnit", {
-        name: "Tactical Distance Unit",
-        hint: "The unit used for measuring distance in tactical situations.",
+        name: "SOHL.Settings.tacticalDistanceUnit.label",
+        hint: "SOHL.Settings.tacticalDistanceUnit.hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            meter: "Meter",
-            foot: "Foot", // 0.3048 meters
-            yard: "Yard", // 0.9144 meters
-            cubit: "Cubit", // 0.4572 meters
+            meter: "SOHL.Settings.tacticalDistanceUnit.CHOICES.meter", // 1 meter
+            foot: "SOHL.Settings.tacticalDistanceUnit.CHOICES.foot", // 0.3048 meters
+            yard: "SOHL.Settings.tacticalDistanceUnit.CHOICES.yard", // 0.9144 meters
+            cubit: "SOHL.Settings.tacticalDistanceUnit.CHOICES.cubit", // 0.4572 meters
         },
         default: "meter",
     });
     game.settings.register("sohl", "trekDistanceUnit", {
-        name: "Trek Distance Unit",
-        hint: "The unit used for measuring distance outside tactical situations (such as trekking).",
+        name: "SOHL.Settings.trekDistanceUnit.label",
+        hint: "SOHL.Settings.trekDistanceUnit.hint",
         scope: "world",
         config: true,
         type: String,
         choices: {
-            kilometer: "Kilometer", // 1000 meters
-            mile: "Mile", // 1609.344 meters
-            nauticalMile: "Nautical Mile", // 1852 meters
-            league: "League", // 4828.032 meters
-            li: "LI", // Chinese miles; 500 meters
-            parsang: "Parsang", // 5500 meters
+            kilometer: "SOHL.Settings.trekDistanceUnit.CHOICES.kilometer", // 1000 meters
+            mile: "SOHL.Settings.trekDistanceUnit.CHOICES.mile", // 1609.344 meters
+            nauticalMile: "SOHL.Settings.trekDistanceUnit.CHOICES.nauticalMile", // 1852 meters
+            league: "SOHL.Settings.trekDistanceUnit.CHOICES.league", // 4828.032 meters
+            li: "SOHL.Settings.trekDistanceUnit.CHOICES.li", // Chinese miles; 500 meters
+            parsang: "SOHL.Settings.trekDistanceUnit.CHOICES.parsang", // 5500 meters
         },
         default: "kilometer",
     });
-    // game.settings.register("sohl", "biomeSpeedFactors", {
-    //     name: "Biome Speed Factors",
-    //     hint: "Multipliers for base movement speed by biome. 1.0 = normal speed.",
-    //     scope: "world",
-    //     config: true,
-    //     type: Array,
-    //     default: DEFAULT_BIOME_SPEED_FACTORS,
-    // });
-    game.settings.register("sohl", "logThreshold", {
-        name: "Log Level Threshold",
+
+    // Calendar settings
+    game.settings.register("sohl", "activeCalendar", {
+        name: "SOHL.Settings.Calendar.Name",
+        hint: "SOHL.Settings.Calendar.Hint",
         scope: "world",
-        config: true,
-        default: "info",
+        config: false,
         type: String,
-        choices: {
-            debug: "Debug",
-            info: "Informational",
-            warn: "Warning",
-            error: "Error",
-        },
+        default: "sohl-default",
         onChange: (value: string): void => {
-            sohl.log.setLogThreshold(value);
+            try {
+                SohlSystem.applyCalendar(value);
+            } catch (err) {
+                sohl.log.error(
+                    `Failed to apply calendar "${value}":`,
+                    err,
+                );
+            }
         },
+    });
+    game.settings.register("sohl", "importedCalendars", {
+        name: "SOHL.Settings.ImportedCalendars.Name",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+    });
+    game.settings.registerMenu("sohl", "calendarConfig", {
+        name: "SOHL.Settings.CalendarConfig.Name",
+        label: "SOHL.Settings.CalendarConfig.Label",
+        hint: "SOHL.Settings.CalendarConfig.Hint",
+        icon: "fa-solid fa-calendar",
+        type: CalendarSettingsMenu as any,
+        restricted: true,
+    });
+
+    // Domain registry settings
+    game.settings.register("sohl", "domains", {
+        name: "SOHL.Settings.domains.label",
+        hint: "SOHL.Settings.domains.hint",
+        scope: "world",
+        config: false,
+        type: Object,
+        default: {},
+        requiresReload: false,
+    });
+    game.settings.registerMenu("sohl", "domainsMenu", {
+        name: "SOHL.Settings.domainsMenu.name",
+        label: "SOHL.Settings.domainsMenu.label",
+        hint: "SOHL.Settings.domainsMenu.hint",
+        icon: "fa-solid fa-circle-nodes",
+        type: DomainManagerApp as any,
+        restricted: true,
     });
 }
 
 /**
- * Register startup hooks
+ * Seed the world domain registry with system built-ins. Only fills in
+ * shortcodes that are not already present, so any GM-saved overrides win
+ * on subsequent world loads. Idempotent and safe to call once per session.
  */
+let __builtinDomainsSeeded = false;
+function registerBuiltinDomains(): void {
+    if (__builtinDomainsSeeded) return;
+    __builtinDomainsSeeded = true;
+    const existing = SohlDomains.getAll();
+    const missing = BUILTIN_DOMAINS.filter(
+        (entry) => !(entry.shortcode in existing),
+    );
+    if (missing.length === 0) return;
+    void SohlDomains.register(missing, "sohl").catch((err) => {
+        sohl.log.error(
+            "SoHL | Failed to register built-in domains",
+            err,
+        );
+    });
+}
+
+/**
+ * Rehydrate imported calendars from the world setting into the registry.
+ */
+function rehydrateCalendars(): void {
+    const imported = game.settings.get("sohl", "importedCalendars") as Record<
+        string,
+        any
+    >;
+    for (const [id, reg] of Object.entries(imported)) {
+        SohlSystem.registerCalendar(id, {
+            ...reg,
+            builtin: false,
+        });
+    }
+}
+
+/**
+ * Apply the active calendar from settings to CONFIG.time.
+ */
+function applyActiveCalendar(): void {
+    const activeId = game.settings.get("sohl", "activeCalendar") as string;
+    const cal = SohlSystem.getCalendar(activeId);
+    if (cal) {
+        SohlSystem.applyCalendar(activeId);
+    } else {
+        console.warn(
+            `SoHL | Calendar "${activeId}" not found, falling back to default`,
+        );
+        SohlSystem.applyCalendar("sohl-default");
+    }
+}
+
 function registerSystemHooks() {
+    registerCombatTrackerHooks();
+
+    // Translate Foundry's built-in lifecycle hooks (updateWorldTime,
+    // combatStart, combatRound, combatTurn, deleteCombat) into SoHL
+    // trigger dispatches. Only the active GM dispatches; non-GM clients
+    // ignore the bridge.
+    wireSohlHookBridge(sohl.events);
+
+    // Intercept Cohort drops to offer group vs. individual token placement.
+    (Hooks as any).on(
+        "dropCanvasData",
+        (_canvas: any, data: any, _event: any) => {
+            if (data.type !== "Actor") return true;
+            const actor =
+                (Actor as any).implementation.fromDropData?.(data) ??
+                game.actors?.get(data.id);
+            if (!actor || actor.type !== ACTOR_KIND.COHORT) return true;
+            if (!actor.isOwner) return false; // silently cancel for non-owners
+
+            // Cancel default token creation — we'll handle it in the dialog
+            CohortDataModel.handleCohortDrop(actor, data).catch((err: any) =>
+                console.error("SoHL | Cohort drop error:", err),
+            );
+            return false;
+        },
+    );
+
+    // Add "Expand Cohort" button to TokenHUD for Cohort tokens.
+    (Hooks as any).on("renderTokenHUD", (hud: any, element: HTMLElement) => {
+        const actor = hud.actor;
+        if (!actor || actor.type !== ACTOR_KIND.COHORT) return;
+        if (!actor.isOwner) return;
+
+        const leftCol = element.querySelector(".col.left");
+        if (!leftCol) return;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.classList.add("control-icon");
+        btn.dataset.tooltip = game.i18n.localize("SOHL.Cohort.HUD.expand");
+        btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
+        btn.addEventListener("click", async (ev: Event) => {
+            ev.preventDefault();
+            const token = hud.document;
+            const x = token.x;
+            const y = token.y;
+            const elevation = token.elevation ?? 0;
+
+            // Delete the group token first
+            await token.delete();
+
+            // Spawn individual members at that location
+            await CohortDataModel.spawnCohortMembers(actor, x, y, elevation);
+        });
+        leftCol.appendChild(btn);
+    });
+
     Hooks.on(
         "chatMessage",
         (
@@ -250,40 +372,39 @@ function registerSystemHooks() {
         },
     );
 
-    Hooks.on(
-        "renderSceneConfig",
-        (app: SceneConfig, element: HTMLElement, data: PlainObject) => {
-            const scene: Scene = app.document;
-            const isTotm =
-                foundry.utils.getProperty(scene.flags, "sohl.isTotm") ?? false;
-            const totmHTML = `<div class="form-group">
-        <label>Theatre of the Mind</label>
-        <input id="sohl-totm" type="checkbox" name="sohlTotm" data-dtype="Boolean" ${isTotm ? "checked" : ""}>
-        <p class="notes">Configure scene for Theatre of the Mind.</p>
-      </div>`;
-            const target: HTMLElement = element.querySelector(
-                "input[name='gridAlpha']",
-            ) as HTMLElement;
-            target
-                ?.closest(".form-group")
-                ?.insertAdjacentHTML("afterend", totmHTML);
+    (Hooks as any).on(
+        "updateCombat",
+        async (combat: Combat, changed: DeepPartial<Combat.Source>) => {
+            if (changed.turn === undefined && changed.round === undefined)
+                return;
+
+            const combatant = combat.combatant as SohlCombatant | null;
+            if (!combatant?.token) return;
+
+            const token = combatant.token as any;
+            const center = token.object?.center ?? token.center;
+            if (!center) return;
+
+            const updateData = {
+                system: {
+                    initialLocation: {
+                        x: center.x,
+                        y: center.y,
+                        elevation: token.elevation ?? 0,
+                    },
+                    didAction: false,
+                },
+            } satisfies DeepPartial<
+                SohlCombatant["_source"]
+            > as Combatant.UpdateData;
+            await combatant.update(updateData);
         },
     );
-
-    Hooks.on("closeSceneConfig", (app: SceneConfig) => {
-        const scene = app.document;
-        const input = app.form?.querySelector<HTMLInputElement>(
-            "input[name='sohlTotm']",
-        );
-        const isTotm = input?.checked ?? false;
-        scene.setFlag("sohl" as any, "isTotm", isTotm);
-    });
 }
 
 // Register init hook
 Hooks.once("init", () => {
-    const initMessage = `Initializing the Song of Heroic Lands Game System
-===========================================================
+    const initMessage = `===========================================================
  _____                            __
 /  ___|                          / _|
 \\ \`--.  ___  _ __   __ _    ___ | |_
@@ -303,7 +424,12 @@ Hooks.once("init", () => {
     console.log(`SoHL | ${initMessage}`);
 
     registerSystemSettings();
-    globalThis.sohl = setupVariant();
+
+    globalThis.sohl = setupSystem();
+
+    registerBuiltinDomains();
+    rehydrateCalendars();
+    applyActiveCalendar();
     sohl.log.setLogThreshold(
         (game as any).settings.get("sohl", "logLevel") || LOGLEVEL.INFO,
     );
@@ -315,7 +441,7 @@ Hooks.once("init", () => {
 });
 
 // Register ready hook
-Hooks.once("ready", async () => {
+Hooks.once("ready", () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
 });
@@ -441,13 +567,49 @@ function registerHandlebarsHelpers() {
         return ary.join(",");
     });
 
-    Handlebars.registerHelper("injurySeverity", function (val) {
-        return "NA"; // TODO: Remove this line when CONFIG.Item.dataModels.injury is available
-        // if (val <= 0) return "NA";
-        // return val <= 5 ?
-        //         (CONFIG.Item.dataModels.injury)?.injuryLevels[val]
-        //     :   `G${val}`;
-    });
+    /**
+     * True when the ActiveEffect changes-row should expose the
+     * `strikeModePredicate` input: scope is `"weapongear"` AND the change
+     * key matches `^(mod:)?sm:`. Used by the effect-config sheet to
+     * conditionally render the predicate row.
+     */
+    Handlebars.registerHelper(
+        "isSmKey",
+        function (scope: unknown, key: unknown) {
+            return scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""));
+        },
+    );
+
+    /**
+     * Format a trauma severity level for display, dispatching on subType.
+     *   - physical: 0 → "NA", 1 → "M1", 2 → "S2", 3 → "S3", 4 → "G4",
+     *               5 → "G5", >5 → "G{val}".
+     *   - mental:   0 → "—", N → "PSY {N}".
+     *   - spiritual: 0 → "—", N → "AS {N}".
+     *   - shadow:   0 → "—", N → "SL {N}".
+     * Unknown subType falls back to the bare number.
+     */
+    Handlebars.registerHelper(
+        "injurySeverity",
+        function (val: unknown, subType: unknown) {
+            const n = Number(val) || 0;
+            switch (subType) {
+                case "physical":
+                    if (n <= 0) return "NA";
+                    return n <= 5 ?
+                            ["NA", "M1", "S2", "S3", "G4", "G5"][n]
+                        :   `G${n}`;
+                case "mental":
+                    return n <= 0 ? "—" : `PSY ${n}`;
+                case "spiritual":
+                    return n <= 0 ? "—" : `AS ${n}`;
+                case "shadow":
+                    return n <= 0 ? "—" : `SL ${n}`;
+                default:
+                    return String(n);
+            }
+        },
+    );
 
     Handlebars.registerHelper("object", function ({ hash }) {
         return hash;
@@ -465,8 +627,34 @@ function registerHandlebarsHelpers() {
         return new Handlebars.SafeString(element.outerHTML);
     });
 
-    // biome-ignore lint/correctness/noUnusedVariables: <explanation>
+    /**
+     * Format a world time (seconds, as in `game.time.worldTime`) using the
+     * active calendar. Safe to call regardless of which calendar (SoHL's or a
+     * module's) is currently installed — the `sohl.*` formatters degrade
+     * gracefully on foreign calendar classes.
+     *
+     * @example
+     * ```hbs
+     * {{displayWorldTime injury.nextHealingCheck}}
+     * {{displayWorldTime t format="sohl.timestamp"}}
+     * {{displayWorldTime t format="sohl.relative" short=true maxTerms=2}}
+     * ```
+     */
     Handlebars.registerHelper("displayWorldTime", function (value, options) {
-        //return new Handlebars.SafeString(sohl.utils.htmlWorldTime(value));
+        if (value === null || value === undefined || value === "") return "";
+        const time = Number(value);
+        if (!Number.isFinite(time)) return "";
+        const calendar = sohl.calendar;
+        if (!calendar) return "";
+        const { format = "sohl.default", ...rest } = options?.hash ?? {};
+        try {
+            return calendar.format(time, format, rest);
+        } catch (err) {
+            sohl.log.warn(
+                `displayWorldTime: formatter "${format}" failed`,
+                err,
+            );
+            return "";
+        }
     });
 }

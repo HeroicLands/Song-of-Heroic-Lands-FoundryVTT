@@ -1,0 +1,37 @@
+{
+  "name": "Stone, Marble",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "c5lO1CSxA3cewcXg",
+  "system": {
+    "shortcode": "stonemarbl",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/stone-marble/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A banded metamorphic stone quarried and squared for the finest construction. Marble is costly, hard, and beautiful—favored for altars, memorials, and noble halls where durability and grandeur speak of wealth and piety. A quarryman's crew may spend weeks wresting a single block from the seam; it is dressed smooth by hand-chisels and sold by the cubic foot to magnates and temples.</p>\n",
+    "quantity": 1,
+    "weightBase": 400,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7HORJHbbizVSds9r",
+  "_key": "!items!c5lO1CSxA3cewcXg"
+}

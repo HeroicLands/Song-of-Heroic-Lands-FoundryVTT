@@ -1,0 +1,54 @@
+{
+  "name": "Silk Swaddle",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "QODYMRoNIoH1Yf0U",
+  "system": {
+    "shortcode": "SlkSwd",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/silk-swaddle/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Silk Swaddle is the epitome of luxury for infants, providing a soft and lightweight fabric that’s perfect for special occasions. Though it offers less warmth and durability, its smooth texture makes it ideal for formal events where appearance is key.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 171,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!QODYMRoNIoH1Yf0U"
+}

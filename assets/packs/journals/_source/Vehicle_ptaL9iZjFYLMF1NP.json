@@ -1,0 +1,77 @@
+{
+  "name": "Vehicle",
+  "pages": [
+    {
+      "_id": "cf68ae310cc1d97a",
+      "name": "What Is a Vehicle?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Vehicle represents a movable platform — a wagon, ship, boat, or similar\nconveyance. Vehicles can carry passengers, cargo, and equipment. They have\ntheir own protection ratings and can sustain damage.</p>\n<p>See also: <a href=\"user-guide/actor-structure.md\">Structures</a></p>\n"
+      },
+      "_key": "!journal.pages!ptaL9iZjFYLMF1NP.cf68ae310cc1d97a"
+    },
+    {
+      "_id": "0fb25a9a4d6e73fa",
+      "name": "When to Use a Vehicle",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Use a Vehicle when:</p>\n<ul>\n<li>You need a ship, wagon, cart, or other transport</li>\n<li>The conveyance has game-mechanical properties (capacity, speed, protection)</li>\n<li>You want to track damage to the vehicle separately from its passengers</li>\n<li>Cargo and equipment need to be managed as part of the vehicle</li>\n</ul>\n<p>For fixed locations (buildings, walls), use a Structure instead.</p>\n"
+      },
+      "_key": "!journal.pages!ptaL9iZjFYLMF1NP.0fb25a9a4d6e73fa"
+    },
+    {
+      "_id": "36fa7a0bdfe57491",
+      "name": "What a Vehicle Contains",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Vehicle can hold:</p>\n<ul>\n<li><strong>Protection</strong> — hull or body protection ratings</li>\n<li><strong>Injuries</strong> — damage records</li>\n<li><strong>Gear</strong> — cargo, equipment, and stores</li>\n<li><strong>Movement Profiles</strong> — speed and terrain capabilities</li>\n<li><strong>Affiliations</strong> — ownership</li>\n<li><strong>Actions</strong> — vehicle-specific procedures</li>\n<li><strong>Effects</strong> — active effects</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!ptaL9iZjFYLMF1NP.36fa7a0bdfe57491"
+    },
+    {
+      "_id": "cc1277bca2e3c8e3",
+      "name": "The Vehicle Sheet",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>The Vehicle sheet has these tabs:</p>\n<ul>\n<li><strong>Facade</strong> — image and description</li>\n<li><strong>Gear</strong> — cargo and equipment</li>\n<li><strong>Actions</strong> — available actions</li>\n<li><strong>Effects</strong> — active effects</li>\n</ul>\n<!-- TODO: Expand with details on vehicle movement, crew requirements,\n     passenger capacity, vehicle combat, and boarding actions -->\n<!-- TODO: Document each field on the Properties tab of this type's sheet:\n     what it means, what values to enter, and how it interacts with other\n     fields and items. Include annotated screenshots. -->"
+      },
+      "_key": "!journal.pages!ptaL9iZjFYLMF1NP.cc1277bca2e3c8e3"
+    }
+  ],
+  "folder": "sYK1BozT9xFcinXK",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "ptaL9iZjFYLMF1NP",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!ptaL9iZjFYLMF1NP"
+}

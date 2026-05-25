@@ -1,0 +1,38 @@
+{
+  "name": "Jar, ointment, medium",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "9lcA7DMJSsq46mBb",
+  "system": {
+    "shortcode": "jarointmen2",
+    "docUrl": "https://heroiclands.org/sohl/containergear/jar-ointment-medium/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A modestly sized ceramic ointment vessel with a wide mouth and a press-in wooden or waxed lid, suitable for creams, tinctures, and salves of moderate quantity. Smaller than its larger cousin but still practical for an apothecary's shelves or a healer's traveling kit, it balances capacity with portability.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.7,
+    "valueBase": 1.5,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 0.125
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!9lcA7DMJSsq46mBb"
+}

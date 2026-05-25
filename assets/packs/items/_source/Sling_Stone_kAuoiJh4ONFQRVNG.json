@@ -1,0 +1,46 @@
+{
+  "name": "Sling Stone",
+  "type": "projectilegear",
+  "img": "systems/sohl/assets/icons/stones.svg",
+  "_id": "kAuoiJh4ONFQRVNG",
+  "system": {
+    "shortcode": "SSton",
+    "docUrl": "https://heroiclands.org/sohl/projectilegear/sling-stone/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A river-rounded pebble or a palm-sized biscuit of kiln-fired clay, chosen for balance and a smooth, regular shape that flies true from the cradle of a sling. Shepherds, slingers, and skirmishing militia gather them by the handful from streambeds and pouches before battle, since spent stones are rarely worth retrieving. A well-cast stone cracks skulls and breaks the legs of a running hound.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.16,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "subType": "bullet",
+    "impactBase": {
+      "overrideDice": true,
+      "overrideModifier": false,
+      "numDice": 1,
+      "die": 10,
+      "modifier": -1,
+      "aspect": "blunt"
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ADQPHjgKsdWsJhyy",
+  "_key": "!items!kAuoiJh4ONFQRVNG"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Deafness",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "dhEbirI3YbhROtB5",
+  "system": {
+    "shortcode": "deafness",
+    "docUrl": "https://heroiclands.org/sohl/trait/deafness/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Deafness is the complete loss of the ability to hear, leaving an individual unable to perceive any sounds. Without the ability to hear, the afflicted person must rely entirely on visual cues, gestures, and written communication to interact with the world.</p>\n<h3>Disorder</h3>\n<p>The absence of hearing, making verbal communication impossible without alternative methods such as sign language or written notes. The individual must adapt to a life without auditory cues, relying on sight and touch to understand their environment and communicate with others.</p>\n<h3>Physical Symptoms</h3>\n<p>Complete inability to detect any sound, including voices, environmental noises, or alarms. This can lead to increased vulnerability, as the individual cannot hear warnings or calls for attention.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent fears of missing critical information or danger, anxiety about being unable to communicate effectively, and concerns about becoming socially isolated due to the inability to engage in conversations.</p>\n<h3>Emotional Distress</h3>\n<p>Profound feelings of isolation, frustration, and helplessness stemming from the loss of a primary sense. The individual may experience deep sadness or depression, particularly as they adjust to the challenges of living in a silent world, often feeling disconnected from those around them and from the sounds of life they once knew.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "disorder",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!dhEbirI3YbhROtB5"
+}

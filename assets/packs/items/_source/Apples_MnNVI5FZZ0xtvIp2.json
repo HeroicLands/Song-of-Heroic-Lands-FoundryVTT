@@ -1,0 +1,37 @@
+{
+  "name": "Apples",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "MnNVI5FZZ0xtvIp2",
+  "system": {
+    "shortcode": "apples",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/apples/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Firm-fleshed orchard fruit, crisp when fresh and remaining edible well into winter when stored in cool root cellars. A traveler carries apples for their nutrition and long keeping; they soften to eat during a march, or are sliced and dried for trail fare. The fruit's bright acidity makes them useful in cooking, preserving, and turning to cider.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!MnNVI5FZZ0xtvIp2"
+}

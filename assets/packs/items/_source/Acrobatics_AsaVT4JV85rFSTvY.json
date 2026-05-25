@@ -1,0 +1,35 @@
+{
+  "name": "Acrobatics",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/acrobatics.svg",
+  "_id": "AsaVT4JV85rFSTvY",
+  "system": {
+    "shortcode": "acro",
+    "docUrl": "https://heroiclands.org/sohl/skill/acrobatics/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Acrobatics governs feats of physical coordination that go well beyond ordinary movement—walking narrow beams, vaulting obstacles, performing somersaults and backflips, and maintaining balance on precarious surfaces. It demands considerable training and natural agility, and serves as a measure of gymnastic ability in both practical and performative contexts. A skilled acrobat can turn a perilous crossing into routine passage and can recover from stumbles that would send others sprawling.</p>\n",
+    "subType": "physical",
+    "skillBaseFormula": "@agl, @end",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Yt9THlZ0NT8H6aSK",
+  "_key": "!items!AsaVT4JV85rFSTvY"
+}

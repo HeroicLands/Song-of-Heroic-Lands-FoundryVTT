@@ -1,0 +1,38 @@
+{
+  "name": "Cooking pot, copper",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/cookery.svg",
+  "_id": "Ug377r0buDH4Tx1i",
+  "system": {
+    "shortcode": "cookingpot",
+    "docUrl": "https://heroiclands.org/sohl/containergear/cooking-pot-copper/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A tinned-copper pot with a fitted lid and iron handle, used in kitchens for simmering and reducing sauces without metallic taste. Lighter and more conductive than iron, it is favored by wealthy households and professional cooks, though more fragile and costly to repair. The tin coating requires care to prevent damage from acidic foods, and verdigris can form on the exterior if left wet.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 6,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 16
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!Ug377r0buDH4Tx1i"
+}

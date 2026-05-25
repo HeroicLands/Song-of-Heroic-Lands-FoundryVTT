@@ -1,0 +1,57 @@
+{
+  "name": "Linen Trousers",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leggings.svg",
+  "_id": "34c3qjUvU7GpqMLC",
+  "system": {
+    "shortcode": "LTrsr",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/linen-trousers/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Light and breathable, Linen Trousers are ideal for warm weather. They provide comfort and ease of movement, making them suitable for casual wear or light-duty activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!34c3qjUvU7GpqMLC"
+}

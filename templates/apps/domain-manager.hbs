@@ -1,0 +1,58 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="domain-manager">
+    <header class="domain-manager-toolbar">
+        <button type="button" data-action="addDomain">
+            <i class="fa-solid fa-plus"></i>
+            {{localize "SOHL.DomainManager.add"}}
+        </button>
+    </header>
+
+    {{#if isEmpty}}
+    <p class="empty">{{localize "SOHL.DomainManager.empty"}}</p>
+    {{else}}
+        {{#each groups}}
+        <fieldset class="domain-family">
+            <legend>{{localize this.familyLabel}} <span class="count">({{this.entries.length}})</span></legend>
+            <ul class="domain-list">
+                {{#each this.entries}}
+                <li class="domain-row" data-shortcode="{{this.shortcode}}">
+                    <span class="domain-icon">
+                        {{#if this.img}}
+                        <img src="{{this.img}}" alt="" />
+                        {{else}}
+                        <i class="{{this.iconFAClass}}"></i>
+                        {{/if}}
+                    </span>
+                    <span class="domain-label">{{this.label}}</span>
+                    <code class="domain-shortcode">{{this.shortcode}}</code>
+                    <span class="domain-source source-{{this.source}}">
+                        {{this.source}}{{#if this.isOverride}} <i class="fa-solid fa-arrows-rotate" data-tooltip="{{localize "SOHL.DomainManager.overridden"}}"></i>{{/if}}
+                    </span>
+                    <span class="domain-actions">
+                        <button type="button" data-action="editDomain" data-shortcode="{{this.shortcode}}" data-tooltip="{{localize "SOHL.DomainManager.edit"}}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" data-action="deleteDomain" data-shortcode="{{this.shortcode}}"
+                            {{#unless this.canDelete}}disabled data-tooltip="{{localize "SOHL.DomainManager.cannotDelete"}}"{{else}}data-tooltip="{{localize "SOHL.DomainManager.delete"}}"{{/unless}}>
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </span>
+                </li>
+                {{/each}}
+            </ul>
+        </fieldset>
+        {{/each}}
+    {{/if}}
+</section>

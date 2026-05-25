@@ -1,0 +1,52 @@
+{
+  "name": "Rawhide Shoes",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/shoe.svg",
+  "_id": "60eXCKPwcOPZTzZi",
+  "system": {
+    "shortcode": "RhShoe",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-shoes/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Rawhide Shoes are thick and rugged, providing substantial protection and durability. Ideal for tough environments, they offer reliable footwear for those needing sturdy and dependable shoes.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.5,
+    "valueBase": 35,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!60eXCKPwcOPZTzZi"
+}

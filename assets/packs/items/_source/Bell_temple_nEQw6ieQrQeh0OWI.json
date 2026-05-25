@@ -1,0 +1,37 @@
+{
+  "name": "Bell, temple",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "nEQw6ieQrQeh0OWI",
+  "system": {
+    "shortcode": "belltemple",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bell-temple/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A substantial bronze casting hung from a wooden frame, its deep-toned voice carries across a temple courtyard and audible well beyond the sanctuary walls. Rung by acolytes and temple servants to mark devotion hours and summon the faithful to worship, a large bell signals the rhythm of religious life to the whole quarter. The resonance lingers long after the clapper strikes, creating a solemn, reverberant call.</p>\n",
+    "quantity": 1,
+    "weightBase": 50,
+    "valueBase": 200,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!nEQw6ieQrQeh0OWI"
+}

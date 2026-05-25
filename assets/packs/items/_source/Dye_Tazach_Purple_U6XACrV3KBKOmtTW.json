@@ -1,0 +1,37 @@
+{
+  "name": "Dye, Tazach Purple",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/potion.svg",
+  "_id": "U6XACrV3KBKOmtTW",
+  "system": {
+    "shortcode": "dyetzch",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/dye-tazach-purple/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A rare and costly purple from crushed murex shellfish or Tazach lichen, mordanted and ground to powder. Only princes and the highest-born wear true purple cloth; a small pot of this dye is worth the annual wages of a skilled craftsman. The color does not fade in sunlight and is a mark of rank, authority, and wealth across the known lands.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 200,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7r8WTAO2Ac8SF9tf",
+  "_key": "!items!U6XACrV3KBKOmtTW"
+}

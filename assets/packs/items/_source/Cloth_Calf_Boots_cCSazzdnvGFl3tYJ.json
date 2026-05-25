@@ -1,0 +1,54 @@
+{
+  "name": "Cloth Calf Boots",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/leather-boot.svg",
+  "_id": "cCSazzdnvGFl3tYJ",
+  "system": {
+    "shortcode": "CCBoot",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/cloth-calf-boots/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Cloth Calf Boots are light and breathable, made from various fabrics. They offer minimal protection but are extremely comfortable, ideal for casual wear or non-combat activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.2,
+    "valueBase": 38,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Calf",
+        "Right Calf",
+        "Left Foot",
+        "Right Foot"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!cCSazzdnvGFl3tYJ"
+}

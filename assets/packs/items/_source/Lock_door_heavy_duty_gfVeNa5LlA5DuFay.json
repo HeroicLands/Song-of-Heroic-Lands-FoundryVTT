@@ -1,0 +1,37 @@
+{
+  "name": "Lock, door, heavy-duty",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "gfVeNa5LlA5DuFay",
+  "system": {
+    "shortcode": "lockdoorhe",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/lock-door-heavy-duty/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A heavy iron deadbolt, its mechanism hardened and triple-warded to resist picking, fitted into a reinforced keeper plate. Used to secure vault doors, strongrooms, and the gates of fortified manors—too massive for casual removal but replaceable should the door itself fail.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 30,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!gfVeNa5LlA5DuFay"
+}

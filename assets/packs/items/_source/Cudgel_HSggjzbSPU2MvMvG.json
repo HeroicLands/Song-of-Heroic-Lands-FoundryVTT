@@ -1,0 +1,139 @@
+{
+  "name": "Cudgel",
+  "type": "weapongear",
+  "img": "systems/sohl/assets/icons/club.svg",
+  "_id": "HSggjzbSPU2MvMvG",
+  "system": {
+    "shortcode": "Cdgl",
+    "docUrl": "https://heroiclands.org/sohl/weapongear/cudgel/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A short, thick-headed bludgeon, often weighted with lead or iron bands driven into its wooden core, the cudgel is favored for close-quarters fighting. Shorter and heavier than a club, it trades reach for concentrated force, and fits easily in a clenched fist or at the belt. Common in the hands of sell-swords, tavern-brawlers, and men who prefer no pretense of civility.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 12,
+    "qualityBase": 0,
+    "durabilityBase": 9,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "encumbrance": 0,
+    "heftBase": 11,
+    "strikeModes": {
+      "crush": {
+        "type": "melee",
+        "name": "Crush",
+        "assocSkillCode": "melee",
+        "minParts": 1,
+        "attack": {
+          "spread": 6,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 6,
+          "modifier": 1,
+          "aspect": "blunt"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 3,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": false,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": true,
+          "halfSword": false,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": false,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 4,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      },
+      "pommel": {
+        "type": "melee",
+        "name": "Pommel",
+        "assocSkillCode": "melee",
+        "minParts": 1,
+        "attack": {
+          "spread": 4,
+          "modifier": 0
+        },
+        "impactBase": {
+          "numDice": 1,
+          "die": 6,
+          "modifier": 0,
+          "aspect": "blunt"
+        },
+        "traits": {
+          "meleeMod": 0,
+          "blockSLMod": 0,
+          "durabilityMod": 0,
+          "cxSLMod": 0,
+          "oppDef": 0,
+          "impTA": 3,
+          "AR": 0,
+          "noAttack": false,
+          "noBlock": false,
+          "entangle": false,
+          "envelop": false,
+          "couched": false,
+          "long": false,
+          "onlyInClose": false,
+          "shieldMod": 0,
+          "slow": false,
+          "thrust": false,
+          "swung": false,
+          "halfSword": false,
+          "bleed": false,
+          "twoHndLen": 0,
+          "shaft": false,
+          "pommel": true,
+          "noStrMod": false,
+          "halfImpact": false,
+          "lowAim": false
+        },
+        "lengthBase": 4,
+        "defense": {
+          "blockMod": 0,
+          "counterstrikeMod": 0
+        }
+      }
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "HXiYHvG6igI3Wlmm",
+  "_key": "!items!HSggjzbSPU2MvMvG"
+}

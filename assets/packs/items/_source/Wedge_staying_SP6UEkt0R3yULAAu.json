@@ -1,0 +1,37 @@
+{
+  "name": "Wedge, staying",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "SP6UEkt0R3yULAAu",
+  "system": {
+    "shortcode": "wedgestayi",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/wedge-staying/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small wooden or bone wedge, tapered and smooth, driven under a tent pole or wagon wheel to hold it fast and prevent slipping. Light and pocketable, a soldier or carpenter carries a handful; they vanish with time and weather but replace easily. Common among soldiers, scaffolders, and anyone who needs a cargo or shelter to stay put.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 225,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!SP6UEkt0R3yULAAu"
+}

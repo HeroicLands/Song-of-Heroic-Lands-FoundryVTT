@@ -1,0 +1,35 @@
+{
+  "name": "Lockcraft",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/lock.svg",
+  "_id": "NPPfr5uMfRCDsch3",
+  "system": {
+    "shortcode": "lock",
+    "docUrl": "https://heroiclands.org/sohl/skill/lockcraft/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Lockcraft is the craft of designing, constructing, and defeating mechanical locking mechanisms. A locksmith understands the internal workings of locks and can fashion new ones from metal components, while also possessing the complementary ability to pick or bypass existing locks. The skill is valued by both honest tradespeople who secure buildings and strongboxes and by those of more dubious intent who need to open them without a key. Complex locks demand both fine manual dexterity and an understanding of the mechanical principles involved.</p>\n",
+    "subType": "craft",
+    "skillBaseFormula": "@dex, @per",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gqRvjlrWbuCwGy3N",
+  "_key": "!items!NPPfr5uMfRCDsch3"
+}

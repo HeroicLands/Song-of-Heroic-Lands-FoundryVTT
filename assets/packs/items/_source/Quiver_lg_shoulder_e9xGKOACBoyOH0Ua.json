@@ -1,0 +1,38 @@
+{
+  "name": "Quiver, lg (shoulder)",
+  "type": "containergear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "e9xGKOACBoyOH0Ua",
+  "system": {
+    "shortcode": "quiverlgsh",
+    "docUrl": "https://heroiclands.org/sohl/containergear/quiver-lg-shoulder/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A leather-wrapped wooden tube fitted with a leather strap for wearing across the back or shoulder, designed to keep arrows upright and accessible during a hunt or battle. The rigid frame prevents the arrows from breaking or tangling, and the open top allows quick draw without fumbling for individual shafts. A soldier or serious hunter carries one for sustained archery.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "maxCapacityBase": 2.5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "dl8lJ729W1mFlDvt",
+  "_key": "!items!e9xGKOACBoyOH0Ua"
+}

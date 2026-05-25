@@ -1,0 +1,38 @@
+{
+  "name": "Inquisitive",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "yae4KF1QWQNb3Mxd",
+  "system": {
+    "shortcode": "inqstv",
+    "docUrl": "https://heroiclands.org/sohl/trait/inquisitive/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Inquisitive refers to an individual's natural curiosity and desire to seek out knowledge, ask questions, and explore new ideas or experiences. An inquisitive person is often eager to learn, driven by a strong interest in understanding the world around them. While curiosity is generally seen as a positive and valuable trait, leading to intellectual growth and problem-solving, an excessive focus on questioning can become intrusive or overwhelming to others, especially if it leads to a disregard for boundaries or an inability to focus on practical matters.</p>\n<h3>Benign</h3>\n<p>The individual shows a healthy curiosity, often asking thoughtful questions and seeking out new information. They enjoy learning and are eager to explore different ideas or perspectives, enriching their understanding of the world. Their inquisitiveness fosters creativity, intellectual engagement, and meaningful discussions, all while maintaining respect for others' boundaries.\n<strong>Example:</strong> Lord Alistair has always been fascinated by the natural world. He spends hours asking scholars and explorers about their discoveries, eager to expand his knowledge of geography and science. His questions are thoughtful and respectful, making him a valuable conversationalist at court.</p>\n<h3>Impulse</h3>\n<p>The individual's curiosity intensifies, leading them to frequently ask questions or seek out information, even in situations where it may not be appropriate. They may struggle to focus on one topic, constantly jumping from one curiosity to the next, and may overwhelm others with their persistent questioning. Although their inquisitiveness is still largely positive, it can sometimes come across as intrusive or overbearing.\n<strong>Example:</strong> Lord Alistair’s curiosity has grown to the point where he interrupts conversations with endless questions, eager to know every detail about even the smallest matters. His advisors begin to feel frustrated, as they find it hard to complete tasks without being bombarded with inquiries. Alistair often switches between topics quickly, making it difficult for his advisors to keep up.</p>\n<h3>Disorder</h3>\n<p>As inquisitiveness intensifies further, the individual may become obsessive in their pursuit of knowledge, constantly questioning everything around them. They may disregard personal boundaries or social etiquette in their relentless need to learn or understand. This excessive curiosity can lead to strained relationships, as others feel overwhelmed or alienated by the individual's incessant inquiries. The individual may also struggle to focus on practical tasks, becoming so consumed by their quest for answers that they neglect their responsibilities.</p>\n<h3>Physical Symptoms</h3>\n<p>The individual may experience mental exhaustion or stress due to their constant questioning and inability to settle on a single answer. They may also have difficulty focusing, as their mind is always jumping to the next question or area of interest.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts about needing to know more, driven by an insatiable curiosity. The individual may feel anxious or frustrated if they do not have all the answers, leading them to push boundaries or ignore social cues in their pursuit of knowledge.</p>\n<h3>Emotional Distress</h3>\n<p>The individual may feel restless, dissatisfied, or frustrated when they cannot immediately satisfy their curiosity. Their constant need for information or answers can strain relationships, as others may feel bombarded or annoyed by the endless stream of questions.</p>\n<p><strong>Example:</strong> Lord Alistair’s curiosity has grown into an obsession. He constantly interrupts important meetings with irrelevant questions, delving into topics that have no bearing on the issue at hand. His advisors and guests have begun avoiding him, finding his endless inquiries exhausting and disruptive. Alistair often disregards personal boundaries, probing into sensitive topics without considering others' discomfort. His relentless need to know more leaves him mentally exhausted, yet he continues to seek out answers, unable to stop his overwhelming curiosity.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "SpZzOv4eOwtdsMMo",
+  "_key": "!items!yae4KF1QWQNb3Mxd"
+}

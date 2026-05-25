@@ -1,0 +1,51 @@
+{
+  "name": "Cloth Loincloth",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/loincloth.svg",
+  "_id": "lBpr00sx1aovgJ2G",
+  "system": {
+    "shortcode": "CLoin",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/cloth-loincloth/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Cloth Loincloth, made from various soft fabrics, offers basic coverage and comfort. It is suitable for casual wear or light-duty tasks, providing minimal protection.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.8,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!lBpr00sx1aovgJ2G"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Beeswax",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "bkAvIciquAXZ2m8K",
+  "system": {
+    "shortcode": "bswax",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/beeswax/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A pressed cake of beeswax, pale honey-colored and smooth. Beeswax is rendered from honeycomb and widely sought for waterproofing leather, caulking wooden seams, making fine candles, and treating linen. It holds its shape in warm climates and is favored by craftsmen for protecting wool and canvas from damp.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!bkAvIciquAXZ2m8K"
+}

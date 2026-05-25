@@ -1,0 +1,52 @@
+{
+  "name": "Scale Gauntlets",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/gauntlet.svg",
+  "_id": "ZLhl80C3v18V8bou",
+  "system": {
+    "shortcode": "SGntl",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/scale-gauntlets/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Scale Gauntlets consist of overlapping metal scales sewn onto a fabric or leather backing. They provide excellent protection and flexibility, suitable for various combat scenarios.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.8,
+    "valueBase": 50,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Scale",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Left Hand",
+        "Right Hand"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 1.67
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!ZLhl80C3v18V8bou"
+}

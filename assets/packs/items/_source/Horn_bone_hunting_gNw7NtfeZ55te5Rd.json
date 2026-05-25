@@ -1,0 +1,37 @@
+{
+  "name": "Horn, bone, hunting",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "gNw7NtfeZ55te5Rd",
+  "system": {
+    "shortcode": "hornbonehu",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/horn-bone-hunting/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A simple hunting horn fashioned from a large bone—typically deer antler or boar tusk—carved into a tapered tube and stoppered at the narrow end. Less refined than a horn proper, the bone horn produces a higher, more shrill note. Shepherds and common huntsmen favor them for their low cost and portability; a competent player can shape signals clear enough to direct a hunting pack across broken country.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 9,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!gNw7NtfeZ55te5Rd"
+}

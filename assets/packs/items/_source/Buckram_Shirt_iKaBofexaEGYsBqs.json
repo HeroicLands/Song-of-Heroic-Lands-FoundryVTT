@@ -1,0 +1,56 @@
+{
+  "name": "Buckram Shirt",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/shirt.svg",
+  "_id": "iKaBofexaEGYsBqs",
+  "system": {
+    "shortcode": "BShirt",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/buckram-shirt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Buckram Shirt is stiff and structured, crafted from coarse cloth stiffened with glue. It offers durability and a reliable fit, suitable for tasks requiring a more rigid garment.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.7,
+    "valueBase": 33,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!iKaBofexaEGYsBqs"
+}

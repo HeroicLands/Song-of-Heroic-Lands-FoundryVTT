@@ -4,6 +4,12 @@
 # dotenv environment variables file
 /.env
 /.env.test
+/.env.local
+
+# AI
+/.claude/
+CLAUDE.md
+AI.md
 
 # Visual Studio
 /.vscode/

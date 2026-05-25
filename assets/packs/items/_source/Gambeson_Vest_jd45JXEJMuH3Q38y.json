@@ -1,0 +1,52 @@
+{
+  "name": "Gambeson Vest",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/vest.svg",
+  "_id": "jd45JXEJMuH3Q38y",
+  "system": {
+    "shortcode": "GVest",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/gambeson-vest/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Gambeson Vest provides padded protection, often worn under armor or as standalone defense. It offers excellent insulation and cushioning, making it perfect for both combat and daily use.</p>\n",
+    "quantity": 1,
+    "weightBase": 7.3,
+    "valueBase": 208,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Gambeson",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Thorax",
+        "Abdomen"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!jd45JXEJMuH3Q38y"
+}

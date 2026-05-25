@@ -1,0 +1,35 @@
+{
+  "name": "Swimming",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/swimming.svg",
+  "_id": "U1qbcjqVcFyiyaDe",
+  "system": {
+    "shortcode": "swim",
+    "docUrl": "https://heroiclands.org/sohl/skill/swimming/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Swimming governs the ability to move through water under one's own power, whether crossing a river, surviving a shipwreck, or diving beneath the surface. Proficiency ranges from the desperate flailing of someone who can barely stay afloat to the confident strokes of an experienced swimmer who can cover long distances in rough conditions. Encumbrance from armor and equipment dramatically affects swimming ability, and even strong swimmers can be overwhelmed by powerful currents or exhaustion.</p>\n",
+    "subType": "physical",
+    "skillBaseFormula": "@agl, @end",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 1
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Yt9THlZ0NT8H6aSK",
+  "_key": "!items!U1qbcjqVcFyiyaDe"
+}

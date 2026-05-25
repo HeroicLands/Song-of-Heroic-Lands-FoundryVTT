@@ -1,0 +1,37 @@
+{
+  "name": "Scallions",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "cQqvNuSYmw0Fs75w",
+  "system": {
+    "shortcode": "scallions",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/scallions/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Scallions are young onions with tender green tops and bulbs, harvested before full size and tied in bundles. Fresh scallions are chopped raw into salads or cooked with stews; the entire plant is edible. Dried scallions are crumbled into winter broths and keep for months, adding pungent onion flavor without the bulk of full-grown bulbs. Gardeners and cooks favor them as an early spring crop.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!cQqvNuSYmw0Fs75w"
+}

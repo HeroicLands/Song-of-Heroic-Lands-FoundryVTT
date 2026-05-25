@@ -1,0 +1,37 @@
+{
+  "name": "Pie, Fruit",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "j4ehsKlfCGyqEOEI",
+  "system": {
+    "shortcode": "piefruit2",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/pie-fruit/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small fruit pie, slightly cooled or freshly baked, makes a quick breakfast or reeve's payment for a morning's work. The filling—apple, plum, or berry—rests beneath a thin pastry crust, just sweet enough to relieve hunger. Such pies spoil within a day or two and are best bought warm from the baker's counter.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 0.75,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!j4ehsKlfCGyqEOEI"
+}

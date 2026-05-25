@@ -1,0 +1,61 @@
+{
+  "name": "Padded Surcoat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "eIvSqeeeWUSThk7A",
+  "system": {
+    "shortcode": "PScoat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/padded-surcoat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Padded Surcoat offers warmth and cushioning, perfect for cold weather or as additional under-armor padding. Providing both comfort and protection, it's suitable for a variety of activities.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.3,
+    "valueBase": 108,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Padded",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!eIvSqeeeWUSThk7A"
+}

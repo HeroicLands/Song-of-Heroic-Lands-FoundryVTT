@@ -1,0 +1,37 @@
+{
+  "name": "Horn, fanfare",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "5Tsd9HlgwAyQGfIy",
+  "system": {
+    "shortcode": "hornfanfar",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/horn-fanfare/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A curved brass or bronze horn with a flared bell, crafted for court heralds and royal processions. The fanfare horn produces a bright, triumphant blare suitable for announcing dignitaries and military advances; sometimes tipped with silver or fitted with decorative banners. The voice is bold and commanding, carrying across a wide space and demanding immediate attention.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 120,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!5Tsd9HlgwAyQGfIy"
+}

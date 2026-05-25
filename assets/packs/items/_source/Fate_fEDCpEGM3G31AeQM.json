@@ -1,0 +1,39 @@
+{
+  "name": "Fate",
+  "type": "mysticalability",
+  "img": "systems/sohl/assets/icons/fate.svg",
+  "_id": "fEDCpEGM3G31AeQM",
+  "system": {
+    "shortcode": "fate",
+    "docUrl": "https://heroiclands.org/sohl/mysticalability/fate/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "",
+    "subType": "spiritaction",
+    "assocSkillCode": "",
+    "assocMysteryCode": "",
+    "masteryLevelBase": 50,
+    "improveFlag": false,
+    "levelBase": 0,
+    "charges": {
+      "usesCharges": true,
+      "value": 5,
+      "max": 5
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gpLM4ElXNiI1rN7l",
+  "_key": "!items!fEDCpEGM3G31AeQM"
+}

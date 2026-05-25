@@ -1,0 +1,65 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab members" data-tab="members">
+    {{!-- Leader and Movement Rep --}}
+    {{#if leaderName}}
+    <div class="cohort-info flexrow">
+        <span class="label">Leader:</span>
+        <span class="value">{{leaderName}}</span>
+    </div>
+    {{/if}}
+    {{#if moveRepName}}
+    <div class="cohort-info flexrow">
+        <span class="label">Movement Rep:</span>
+        <span class="value">{{moveRepName}}</span>
+    </div>
+    {{/if}}
+
+    {{!-- Member List --}}
+    <fieldset>
+        <legend>Members</legend>
+        <ol class="item-list">
+            <li class="items-header flexrow">
+                <h3 class="item-name">Name</h3>
+                <div class="item-detail">Shortcode</div>
+                <div class="item-detail">Role</div>
+            </li>
+            {{#each members as |member|}}
+            <li class="item flexrow" data-item-id="{{member.id}}" data-item-name="{{member.name}}">
+                <div class="item-name default-action flexrow">
+                    <h4 data-tooltip="{{member.name}}">{{member.name}}</h4>
+                </div>
+                <div class="item-detail">{{member.shortcode}}</div>
+                <div class="item-detail">{{member.role}}</div>
+                <div class="item-controls">
+                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                </div>
+            </li>
+            {{/each}}
+        </ol>
+    </fieldset>
+</section>

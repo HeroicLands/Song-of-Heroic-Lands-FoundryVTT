@@ -1,0 +1,35 @@
+{
+  "name": "Climbing",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/climbing.svg",
+  "_id": "4FAPvWAKNoRPbdtz",
+  "system": {
+    "shortcode": "clmb",
+    "docUrl": "https://heroiclands.org/sohl/skill/climbing/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Climbing covers the ability to scale vertical or near-vertical surfaces, from scrambling up a tree or low wall to ascending sheer cliff faces using only natural handholds. Easy climbs are resolved quickly as part of normal movement, while more demanding ascents require sustained effort and careful technique. Factors such as the angle of incline, availability of holds, and surface conditions all affect the difficulty. Falls from height carry serious risk of injury, making this a skill where failure can be catastrophic.</p>\n",
+    "subType": "physical",
+    "skillBaseFormula": "@agl, @dex",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 3
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Yt9THlZ0NT8H6aSK",
+  "_key": "!items!4FAPvWAKNoRPbdtz"
+}

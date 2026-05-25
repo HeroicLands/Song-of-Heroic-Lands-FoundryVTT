@@ -1,0 +1,40 @@
+# This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+# Copyright (c) 2024-2026 Tom Rodriguez ("Toasty") — <toasty@heroiclands.com>
+#
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
+# International License (CC BY-SA 4.0). You are free to share and adapt this
+# material for any purpose, even commercially, under the terms of that license.
+#
+# For full terms, see the LICENSE.md file in the project root or visit:
+# https://creativecommons.org/licenses/by-sa/4.0/
+#
+# SPDX-License-Identifier: CC-BY-SA-4.0
+
+# Folder hierarchy for the "journals" compendium.
+#
+# Each entry declares one folder:
+#   name            (required) display name
+#   id              (required) stable 16-char Foundry ID
+#   parentFolderId  (required) id of the parent folder, or "" for top-level
+#   color           (optional) folder color (CSS hex)
+#
+# Sibling folders (same parentFolderId) must have unique names.
+#
+# Vault notes link to folders via `sohl.folder: <id>` in frontmatter,
+# where <id> is the target folder's id from this file. Unknown ids fail
+# the compile loudly.
+
+- name: Rules
+  id: RqKUTBUBN2Y3MHYB
+  parentFolderId: ""
+  color: '#d35400'
+- name: User Guide
+  id: IgwaG8rAUUO9vrtz
+  parentFolderId: ""
+  color: '#0000ff'
+- name: Actors
+  id: sYK1BozT9xFcinXK
+  parentFolderId: IgwaG8rAUUO9vrtz
+- name: Items
+  id: QtOgPodi8X6gDWL0
+  parentFolderId: IgwaG8rAUUO9vrtz

@@ -1,0 +1,38 @@
+{
+  "name": "Energetic",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "LnA2TAcjTPtZSDCd",
+  "system": {
+    "shortcode": "enrgtc",
+    "docUrl": "https://heroiclands.org/sohl/trait/energetic/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Energetic refers to an individual's naturally high level of physical and mental vitality. Energetic people are often active, enthusiastic, and driven, bringing a sense of dynamism to their tasks and interactions. Their high energy levels allow them to engage with multiple activities without tiring easily. However, excessive energy can sometimes lead to impulsiveness, difficulty focusing, or overcommitment to tasks, leaving the individual feeling overwhelmed or burned out.</p>\n<h3>Benign</h3>\n<p>The individual has a lively, active demeanor and is able to tackle multiple tasks with enthusiasm. Their energy motivates those around them and allows them to remain productive without becoming overextended. They balance their high energy with moments of rest, ensuring they stay efficient and focused.</p>\n<p><strong>Example:</strong> Lady Eleanor is constantly on the move, organizing events, overseeing her household, and finding time for her hobbies. Her energy is contagious, encouraging her staff and friends to keep up with her pace. She manages her duties without losing focus or overworking herself, making her both efficient and inspiring to those around her.</p>\n<h3>Impulse</h3>\n<p>The individual becomes more driven by their energy, often taking on too many tasks at once or moving quickly from one activity to another. While still effective, they may find it difficult to slow down or take breaks, causing minor stress or disorganization. Others may struggle to keep up with their pace, and they may occasionally overcommit themselves.</p>\n<p><strong>Example:</strong> Lady Eleanor now takes on so many projects that her advisors struggle to keep up. She moves from one task to another, eager to keep everything running smoothly but often neglects to take a break or prioritize her commitments. Although her energy remains a positive influence, some of her plans begin to overlap, causing mild confusion among her staff.</p>\n<h3>Disorder</h3>\n<p>As energy intensifies, the individual may become hyperactive, unable to control their drive to stay constantly active, leading to burnout, disorganization, or stress. They may overcommit, leaving tasks unfinished or jumping impulsively from one activity to another without proper planning. Their inability to rest or slow down can lead to exhaustion, strained relationships, or decreased productivity as their energy becomes overwhelming rather than constructive.</p>\n<h3>Physical Symptoms</h3>\n<p>The individual may experience fatigue, muscle tension, or stress from constant motion. They may struggle to sleep or relax due to their hyperactive energy levels, leading to physical exhaustion despite their desire to stay active.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent thoughts about needing to stay active or productive, feeling restless or anxious when not engaged in tasks. The individual may struggle with slowing down or delegating responsibilities, fearing that inactivity means falling behind.</p>\n<h3>Emotional Distress</h3>\n<p>The individual may feel overwhelmed by their own energy, frustrated by their inability to rest or manage their workload effectively. Their constant activity can lead to feelings of being overburdened, leaving them emotionally drained or dissatisfied with their accomplishments.</p>\n<p><strong>Example:</strong> Lady Eleanor’s energy has become so intense that she exhibits hyperactive behavior, constantly adding new tasks to her agenda and leaving many unfinished as she moves rapidly from one project to the next. Her staff feels overwhelmed by her pace, and Eleanor herself feels frustrated, as her relentless drive leaves her physically and mentally drained. Despite her exhaustion, she cannot bring herself to stop, fearing that if she slows down, she’ll lose her edge or fall behind on her duties.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "benign",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ECrcBb9CUCMX9JeJ",
+  "_key": "!items!LnA2TAcjTPtZSDCd"
+}

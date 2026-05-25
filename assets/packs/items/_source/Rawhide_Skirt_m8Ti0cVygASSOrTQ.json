@@ -1,0 +1,57 @@
+{
+  "name": "Rawhide Skirt",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/skirt.svg",
+  "_id": "m8Ti0cVygASSOrTQ",
+  "system": {
+    "shortcode": "RhSkirt",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/rawhide-skirt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Rawhide Skirt is thick and rugged, offering substantial protection and durability. Ideal for harsh environments, it provides a sturdy and reliable garment for those needing extra toughness.</p>\n",
+    "quantity": 1,
+    "weightBase": 4,
+    "valueBase": 65,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!m8Ti0cVygASSOrTQ"
+}

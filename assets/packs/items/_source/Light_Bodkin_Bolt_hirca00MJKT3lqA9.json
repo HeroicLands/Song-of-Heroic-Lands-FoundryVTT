@@ -1,0 +1,46 @@
+{
+  "name": "Light Bodkin Bolt",
+  "type": "projectilegear",
+  "img": "systems/sohl/assets/icons/arrow.svg",
+  "_id": "hirca00MJKT3lqA9",
+  "system": {
+    "shortcode": "BltLBod",
+    "docUrl": "https://heroiclands.org/sohl/projectilegear/light-bodkin-bolt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A light, narrow-shafted crossbow quarrel ending in a small square-sectioned iron spike, socketed and pitched into the wood. The slender head pierces light mail and leather at close range, and the reduced weight lets the bolt travel flatter than a standard quarrel. Hunters and skirmish-crossbowmen carry them for unarmoured foes and lightly-clad raiders.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.125,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "subType": "bolt",
+    "impactBase": {
+      "overrideDice": true,
+      "overrideModifier": false,
+      "numDice": 1,
+      "die": 8,
+      "modifier": -1,
+      "aspect": "piercing"
+    }
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ADQPHjgKsdWsJhyy",
+  "_key": "!items!hirca00MJKT3lqA9"
+}

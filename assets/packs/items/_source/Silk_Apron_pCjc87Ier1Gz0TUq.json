@@ -1,0 +1,55 @@
+{
+  "name": "Silk Apron",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/apron.svg",
+  "_id": "pCjc87Ier1Gz0TUq",
+  "system": {
+    "shortcode": "SlkApn",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/silk-apron/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A Silk Apron offers a touch of luxury to mundane tasks. While not particularly durable, its soft, smooth texture is perfect for formal settings or lightweight activities where appearance matters more than ruggedness.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.2,
+    "valueBase": 90,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!pCjc87Ier1Gz0TUq"
+}

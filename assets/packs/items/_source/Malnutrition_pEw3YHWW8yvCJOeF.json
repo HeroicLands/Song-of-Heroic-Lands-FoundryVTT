@@ -1,0 +1,37 @@
+{
+  "name": "Malnutrition",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "pEw3YHWW8yvCJOeF",
+  "system": {
+    "shortcode": "mlntxn",
+    "docUrl": "https://heroiclands.org/sohl/affliction/malnutrition/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Malnutrition is the long-tail bodily cost of insufficient or unbalanced nourishment — distinct from the privation Malnourished, which is the active deficit, this is the depleted body that carries it. Where the privation describes what is currently lacking, the weakness describes what has already been lost: muscle, immune function, healing capacity, simple reserve. 5–10 fatigue per ongoing malnutrition instance.</p>\n<h3>Symptoms</h3>\n<p>Thin frame, prominent bones, slow wound healing, frequent minor illness, persistent low energy, brittle hair and nails, easy bruising, slow mental sharpness, sensitivity to cold beyond what conditions warrant.</p>\n<h3>Progression</h3>\n<p>As long as malnutrition continues, wasting continues — and even after diet improves, the body takes weeks to months to rebuild what was lost. Severe wasting produces permanent reductions in physical capacity.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Restore the diet — variety more than quantity</li>\n<li>Protein, fats, minerals, vitamins; bone broth and organ meats for slow nourishment</li>\n<li>Avoid pushing the body back to old work until reserves are rebuilt</li>\n<li>Patience — wasting recovers no faster than the body can rebuild tissue</li>\n</ul>\n<h3>Recovery</h3>\n<p>Weakness fatigue is indefinite, abating only as the underlying source recovers according to its own rules.</p>\n",
+    "subType": "fatigue",
+    "category": "weakness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 1,
+    "levelBase": 1,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!pEw3YHWW8yvCJOeF"
+}

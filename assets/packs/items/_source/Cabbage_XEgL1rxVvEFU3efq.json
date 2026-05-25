@@ -1,0 +1,37 @@
+{
+  "name": "Cabbage",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "XEgL1rxVvEFU3efq",
+  "system": {
+    "shortcode": "cabbage",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cabbage/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A dense, pale-leafed head of cabbage from the garden or market stall, sweet and tender when fresh, soured and pickled for winter. Cooks slice and boil cabbage into pottage, braise it with salt and fat, or salt it heavily for fermentation. A winter larder holds pickled cabbage; fresh heads last weeks in a cool cellar and travel well packed in straw.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.5,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!XEgL1rxVvEFU3efq"
+}

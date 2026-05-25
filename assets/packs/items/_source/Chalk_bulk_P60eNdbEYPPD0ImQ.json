@@ -1,0 +1,37 @@
+{
+  "name": "Chalk, bulk",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "P60eNdbEYPPD0ImQ",
+  "system": {
+    "shortcode": "chalkbulk",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/chalk-bulk/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A quarried block of soft, porous chalk dug from ancient seabeds, sold by the cubic foot and left unworked for the quarryman's craft. Chalk is prized by masons for interior plaster, by scribes for pouncing, and by shepherds for marking sheep. It is soft enough to be broken by hand and light enough to carry; larger quantities serve as building filler beneath stone facings.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1,
+    "qualityBase": 0,
+    "durabilityBase": 1,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7HORJHbbizVSds9r",
+  "_key": "!items!P60eNdbEYPPD0ImQ"
+}

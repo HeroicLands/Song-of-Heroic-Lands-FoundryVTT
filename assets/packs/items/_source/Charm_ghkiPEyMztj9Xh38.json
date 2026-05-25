@@ -1,0 +1,35 @@
+{
+  "name": "Charm",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/charm.svg",
+  "_id": "ghkiPEyMztj9Xh38",
+  "system": {
+    "shortcode": "chrm",
+    "docUrl": "https://heroiclands.org/sohl/skill/charm/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Charm represents the art of emotional persuasion—winning others over through personal magnetism, warmth, and an appeal to their feelings rather than their reason. It draws heavily on physical attractiveness and the ability to read another person's mood, making it as much about intuition as technique. A charming individual can coax cooperation, defuse hostility, or entice agreement from those who might otherwise refuse. However, targets may resist through sheer force of will or see through the seduction by discerning its underlying motive.</p>\n",
+    "subType": "social",
+    "skillBaseFormula": "@cml, @emp",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 3
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "JBr2U30FsJTs8F3l",
+  "_key": "!items!ghkiPEyMztj9Xh38"
+}

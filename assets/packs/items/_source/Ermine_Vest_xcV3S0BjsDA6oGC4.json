@@ -1,0 +1,52 @@
+{
+  "name": "Ermine Vest",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/vest.svg",
+  "_id": "xcV3S0BjsDA6oGC4",
+  "system": {
+    "shortcode": "EVest",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/ermine-vest/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Made from soft white ermine fur, the Ermine Vest signifies high status and wealth. It provides excellent insulation and a plush texture, ideal for elite individuals needing both warmth and a show of prestige.</p>\n",
+    "quantity": 1,
+    "weightBase": 2.2,
+    "valueBase": 576,
+    "qualityBase": 0,
+    "durabilityBase": 7,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Leather",
+    "locations": {
+      "flexible": [
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!xcV3S0BjsDA6oGC4"
+}

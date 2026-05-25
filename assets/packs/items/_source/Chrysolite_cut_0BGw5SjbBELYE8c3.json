@@ -1,0 +1,37 @@
+{
+  "name": "Chrysolite, cut",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "0BGw5SjbBELYE8c3",
+  "system": {
+    "shortcode": "chrysolite",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/chrysolite-cut/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Chrysolite, a rare gem of pale yellow-green or olive hue, faceted by skilled lapidaries into brilliant stones. The stone's transparency and warm glow make it prized for noble rings and temple ornaments. Merchants who deal in fine gems guard chrysolite carefully, as each piece commands attention from wealthy collectors and clergy.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0004,
+    "valueBase": 500,
+    "qualityBase": 0,
+    "durabilityBase": 2,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!0BGw5SjbBELYE8c3"
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Blindness",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/user-gear.svg",
+  "_id": "DfcJ3iO8c66JLAGq",
+  "system": {
+    "shortcode": "blndnss",
+    "docUrl": "https://heroiclands.org/sohl/trait/blindness/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Total Blindness is the complete loss of sight, leaving an individual unable to perceive light, shapes, or any visual stimuli. Without vision, those afflicted must rely entirely on their other senses and the assistance of others to navigate the world and perform daily tasks.</p>\n<h3>Disorder</h3>\n<p>The absence of sight, making independent movement and task completion nearly impossible without assistance. The individual must adapt to a life without visual cues, relying on touch, hearing, and smell to interact with their environment.</p>\n<h3>Physical Symptoms</h3>\n<p>Inability to see, leading to complete reliance on other senses. Increased risk of injury due to the inability to detect obstacles, hazards, or changes in the environment.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent fears of vulnerability, anxiety about navigating the world without sight, and concerns about becoming entirely dependent on others for basic needs and safety.</p>\n<h3>Emotional Distress</h3>\n<p>Profound feelings of isolation, helplessness, and frustration due to the loss of independence. The individual may experience deep sadness or depression as they mourn the loss of their sight and the life they once knew, often withdrawing from social interactions and becoming reliant on close companions for support and guidance.</p>\n",
+    "subType": "physique",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "disorder",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "4h8qyMcGHlkrfN1g",
+  "_key": "!items!DfcJ3iO8c66JLAGq"
+}

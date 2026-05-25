@@ -1,0 +1,37 @@
+{
+  "name": "Horsemeat",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "z77pnj5FPFNgMlWb",
+  "system": {
+    "shortcode": "horsemeat",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/horsemeat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Lean horse meat, dressed from spent beasts or battle casualties, feeds soldiers and peasants when other flesh is scarce. It is tougher than mutton and benefits from slow stewing or smoking to render it palatable. Common folk and mercenaries view it pragmatically; nobility often shun it as poor breeding.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!z77pnj5FPFNgMlWb"
+}

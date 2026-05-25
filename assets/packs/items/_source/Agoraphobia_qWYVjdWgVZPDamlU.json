@@ -1,0 +1,38 @@
+{
+  "name": "Agoraphobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "qWYVjdWgVZPDamlU",
+  "system": {
+    "shortcode": "agorphb",
+    "docUrl": "https://heroiclands.org/sohl/trait/agoraphobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Agoraphobia is an intense, irrational fear of open or crowded spaces where escape might be difficult. People with agoraphobia may experience a range of symptoms when they are in settings such as markets, public transportation, or wide-open areas.</p>\n<h3>Impulse</h3>\n<p>Avoidance of public spaces and transportation, sometimes leading to the person staying homebound. Abberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Severe anxiety or panic attacks in crowded or open spaces. Abberance (ABE) increases by 3 (instead of 1) from the source of fear.</p>\n<h3>Physical Symptoms</h3>\n<p>This includes rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent fears of being trapped, losing control, or having a panic attack in public.</p>\n<h3>Emotional Distress</h3>\n<p>The constant worry creates a cycle of fear and avoidance, severely impacting social and professional life.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!qWYVjdWgVZPDamlU"
+}

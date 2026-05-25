@@ -1,0 +1,53 @@
+{
+  "name": "Dexterity",
+  "type": "attribute",
+  "img": "systems/sohl/assets/icons/juggler.svg",
+  "_id": "EXXJU3HJnvd9MatX",
+  "system": {
+    "shortcode": "dex",
+    "docUrl": "https://heroiclands.org/sohl/attribute/dexterity/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Dexterity measures the coordination between hand and eye, the steadiness of grip, and the reflexive quickness with which a person's limbs respond to intention. It is the difference between a fletcher who can split a quill lengthwise without shaking and one whose hands betray every tremor. High dexterity enables feats of precision; low dexterity makes clumsy havoc of delicate work.</p>\n<h3>Uncoordinated</h3>\n<p>The uncoordinated person's hands and eyes seem to work at cross purposes. A cup held firmly in one hand slips while they reach with the other. They drop things easily, mis-aim, and find detailed work exhausting. Their clumsiness is not mere carelessness; their very nerves refuse to obey with precision.</p>\n<h3>Awkward</h3>\n<p>Awkward individuals lack the grace of smooth coordination. They manage the tasks of daily life, but slowly and with effort. They are the ones who catch their foot on the stairs, who knock over a cup while reaching for bread, whose handwriting wavers and whose stitches are uneven.</p>\n<h3>Average</h3>\n<p>Average folk possess steady hands suited to ordinary work. They can stitch a seam, pen a fair line, and move through a crowded room without upending tables. They are capable and unremarkable, and most labor falls comfortably within their grasp.</p>\n<h3>Deft</h3>\n<p>Deft hands move with quiet precision. A deft scribe's letters are uniform and beautiful; a deft surgeon's cuts are clean and sure. They do not waste motion and seem to know where their fingers are without looking. Work that others find trying comes almost naturally to them.</p>\n<h3>Adroit</h3>\n<p>The adroit person possesses extraordinary hand-to-eye coordination. Their fingers seem to know what they need to do before conscious thought catches up. They juggle, they pick locks, they weave without studying their loom, and their hands move as though independent instruments of skill.</p>\n<h3>In Practice</h3>\n<p>When a master weaponsmith asks an apprentice to file the edge of a blade, the uncoordinated one leaves gouges and must begin again. The awkward youth files roughly, and the blade must be filed anew by someone with steadier hands. The average apprentice does adequate work. The deft one produces a honed edge that catches the light evenly. The adroit smith files with such economy of motion and sureness that the blade is ready for tempering in half the time it takes an ordinary craftsperson.</p>\n",
+    "scoreBase": 0,
+    "valueDesc": [
+      {
+        "label": "Uncoordinated",
+        "maxValue": 4
+      },
+      {
+        "label": "Awkward",
+        "maxValue": 8
+      },
+      {
+        "label": "Average",
+        "maxValue": 12
+      },
+      {
+        "label": "Deft",
+        "maxValue": 16
+      },
+      {
+        "label": "Adroit",
+        "maxValue": 999
+      }
+    ],
+    "initDiceFormula": "3d6",
+    "impairedByRoles": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FPitxvL8wCmXynax",
+  "_key": "!items!EXXJU3HJnvd9MatX"
+}

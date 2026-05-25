@@ -1,0 +1,37 @@
+{
+  "name": "Flute, wooden",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "t9gG2m7qEziltdxx",
+  "system": {
+    "shortcode": "flutewoode",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/flute-wooden/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A turned fruitwood pipe—typically ash, cherry, or hazel—with a carved fipple and a half-dozen finger holes drilled to allow the player to sound a range of notes. The warm, sweet voice suits folk melody and pastoral settings; many village children learn on simple wooden flutes. The wood is soft and prone to splitting if left unprotected in damp weather.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.5,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 4,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!t9gG2m7qEziltdxx"
+}

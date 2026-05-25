@@ -1,0 +1,37 @@
+{
+  "name": "Lute",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "mKjbHgB1cPHF9aoZ",
+  "system": {
+    "shortcode": "lute",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/lute/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A pear-shaped stringed instrument with a pegged neck and a curved wooden body of spruce or maple, strung with gut strings arranged in paired courses. Minstrels favor the lute for its warm, intimate voice and portability; the player holds the instrument in the lap or on the shoulder, plucking the strings with the fingers or a small plectrum. The lute's melancholic, mellow tone suits courtly love-ballads and intricate fingered music.</p>\n",
+    "quantity": 1,
+    "weightBase": 3,
+    "valueBase": 200,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!mKjbHgB1cPHF9aoZ"
+}

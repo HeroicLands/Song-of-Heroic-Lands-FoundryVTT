@@ -1,0 +1,37 @@
+{
+  "name": "Cnidarian Toxin",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/poison-bottle.svg",
+  "_id": "dK0hw4BkUWAi5KiK",
+  "system": {
+    "shortcode": "cndntxn",
+    "docUrl": "https://heroiclands.org/sohl/affliction/cnidarian-toxin/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Cnidarian toxins, found in creatures like jellyfish, are delivered through specialized cells called cnidocytes. These cells contain nematocysts, which release toxins upon contact with the skin, causing immediate, excruciating pain, welts, and sometimes systemic symptoms like nausea, vomiting, difficulty breathing, muscle spasms, and cardiovascular collapse in severe cases. Some varieties are highly potent and can cause death within minutes due to its cardiotoxic properties, leading to cardiac arrest. The toxins act by targeting the nervous system and dermal tissues, often resulting in severe inflammatory responses and potential necrosis at the site of contact.</p>\n<h3>Vector of Transmission</h3>\n<p>Contact with tentacles of Jellyfish and other aquatic species</p>\n<h3>Symptoms</h3>\n<p>Intense pain, burning, red or purplish welts.</p>\n<h3>Progression</h3>\n<p>Nausea, vomiting, difficulty breathing, muscle spasms, cardiovascular collapse in severe cases (especially box jellyfish).</p>\n<h3>Treatment</h3>\n<ul>\n<li><strong>Vinegar Rinse:</strong> To neutralize toxins (especially important for box jellyfish stings).</li>\n<li><strong>Baking Soda Paste:</strong> Applied to soothe skin irritation and pain.</li>\n<li><strong>Papaya:</strong> Applied topically to breakdown toxins and reduce pain.</li>\n<li>Removal of tentacles using tweezers, followed by submersion in hot water to alleviate pain.</li>\n</ul>\n",
+    "subType": "poisontoxin",
+    "category": "",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 0,
+    "levelBase": 1,
+    "healingRateBase": 3,
+    "contagionIndexBase": 3,
+    "transmission": "vector"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ONXsqZAIZr2qzxTb",
+  "_key": "!items!dK0hw4BkUWAi5KiK"
+}

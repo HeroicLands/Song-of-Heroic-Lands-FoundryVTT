@@ -1,0 +1,78 @@
+{
+  "name": "Plate Great Helm",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/visored-helm.svg",
+  "_id": "3IC8ydK0Ky7v7lY6",
+  "system": {
+    "shortcode": "PlGtHlm",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/plate-great-helm/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Plate Great Helm is a fully enclosed steel helmet, offering maximum protection for the head and face. It is a mainstay for knights, designed to deflect blows and withstand the rigors of battle, though it sacrifices visibility and comfort.</p>\n",
+    "quantity": 1,
+    "weightBase": 6.8,
+    "valueBase": 180,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Plate",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Skull",
+        "Nose",
+        "Right Cheek",
+        "Left Cheek",
+        "Right Ear",
+        "Left Ear",
+        "Mouth",
+        "Jaw",
+        "Neck"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 1.67
+  },
+  "effects": [
+    {
+      "name": "Anything Using Perception",
+      "type": "sohleffectdata",
+      "_id": "SB4mcvbVVO5Dhtlg",
+      "system": {
+        "scope": "test",
+        "test": "(item.type === 'skill' && has('per', item.logic.skillBase.attrShortcodes)) || (item.type === 'attribute' && item.system.shortcode === 'per')"
+      },
+      "changes": [
+        {
+          "key": "mod:logic.masteryLevel",
+          "mode": 2,
+          "value": "-10",
+          "priority": null
+        }
+      ],
+      "_key": "!items.effects!3IC8ydK0Ky7v7lY6.SB4mcvbVVO5Dhtlg"
+    }
+  ],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!3IC8ydK0Ky7v7lY6"
+}

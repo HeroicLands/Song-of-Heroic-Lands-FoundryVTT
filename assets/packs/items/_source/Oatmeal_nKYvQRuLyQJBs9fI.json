@@ -1,0 +1,37 @@
+{
+  "name": "Oatmeal",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "nKYvQRuLyQJBs9fI",
+  "system": {
+    "shortcode": "oatmeal",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/oatmeal/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Coarse oatmeal, ground from hulled oats, boils into thick, sustaining porridge. A bowl of oatmeal fills the belly cheaply; it stores dry indefinitely and requires only hot water and salt. Northern and upland folk eat it daily; soldiers and merchants carry small bags for quick, warming meals.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 0.25,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!nKYvQRuLyQJBs9fI"
+}

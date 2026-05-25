@@ -1,0 +1,37 @@
+{
+  "name": "Mutton",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "CrlGGgHeHq91RYHB",
+  "system": {
+    "shortcode": "mutton",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/mutton/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Mutton—the meat of an aging sheep—is darker and stronger than lamb, best used in stews or heavily seasoned. A butcher quarters it and hangs it to age; it smokes and salts well for journeys. Common folk and soldiers depend on it; the flavor suits hearty broths and long-cooked dishes.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 2,
+    "qualityBase": 0,
+    "durabilityBase": 0,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "cHM58zOI1EcSG3cP",
+  "_key": "!items!CrlGGgHeHq91RYHB"
+}

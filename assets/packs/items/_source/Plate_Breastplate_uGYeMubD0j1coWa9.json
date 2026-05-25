@@ -1,0 +1,52 @@
+{
+  "name": "Plate Breastplate",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/breastplate.svg",
+  "_id": "uGYeMubD0j1coWa9",
+  "system": {
+    "shortcode": "PlBreast",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/plate-breastplate/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Made from solid steel, the Plate Breastplate provides maximum torso protection. It’s the cornerstone of knightly armor, designed to deflect blows and prevent penetration from weapons, though it sacrifices mobility for defense.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.5,
+    "valueBase": 240,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Plate",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Thorax",
+        "Abdomen"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 5
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!uGYeMubD0j1coWa9"
+}

@@ -1,0 +1,51 @@
+{
+  "name": "Velvet Hat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/hat.svg",
+  "_id": "8EKReqqK3hGSqGD5",
+  "system": {
+    "shortcode": "VHat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/velvet-hat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Soft and plush, the Velvet Hat exudes luxury. While not particularly durable, its rich texture and appearance make it perfect for formal settings and high-status individuals.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.3,
+    "valueBase": 53,
+    "qualityBase": 0,
+    "durabilityBase": 10,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Skull"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!8EKReqqK3hGSqGD5"
+}

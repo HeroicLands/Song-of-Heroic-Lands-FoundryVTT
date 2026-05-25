@@ -1,0 +1,60 @@
+{
+  "name": "Quilted Longshirt",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/shirt.svg",
+  "_id": "9gYCxdff46CNNtnS",
+  "system": {
+    "shortcode": "QLgSht",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/quilted-longshirt/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>The Quilted Longshirt, made with layers of fabric sewn together, offers excellent insulation and comfort. It’s suitable for colder climates, providing both warmth and a bit of extra protection.</p>\n",
+    "quantity": 1,
+    "weightBase": 6.6,
+    "valueBase": 150,
+    "qualityBase": 0,
+    "durabilityBase": 11,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Quilted",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Left Upper Arm",
+        "Right Upper Arm",
+        "Left Forearm",
+        "Right Forearm",
+        "Left Elbow",
+        "Right Elbow",
+        "Thorax",
+        "Abdomen"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!9gYCxdff46CNNtnS"
+}

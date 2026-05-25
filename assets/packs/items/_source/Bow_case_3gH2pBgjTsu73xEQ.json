@@ -1,0 +1,37 @@
+{
+  "name": "Bow case",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "3gH2pBgjTsu73xEQ",
+  "system": {
+    "shortcode": "bowcase",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/bow-case/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A tubular leather case reinforced with ash staves and sewn seams, fitted with a shoulder strap or attachment rings. Bow cases are crafted by leatherworkers to protect a finished bow from weather, splinters, and damage during travel or storage. Archers and hunters carry their bows in these to keep them secure across weeks of hard riding, and to prevent the bowstave from warping in rain or dry air.</p>\n",
+    "quantity": 1,
+    "weightBase": 4.75,
+    "valueBase": 18,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!3gH2pBgjTsu73xEQ"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Animalcraft",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/animalcraft.svg",
+  "_id": "K1sBrJikLWiQIjjB",
+  "system": {
+    "shortcode": "anmcft",
+    "docUrl": "https://heroiclands.org/sohl/skill/animalcraft/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Animalcraft covers the full range of activities involved in domesticating, breeding, caring for, and handling animals. This includes driving carts and wagons, training beasts to respond to commands under stress, and assessing an animal's health and temperament. While some practitioners specialize in particular species, the skill broadly applies to all domesticated creatures common to a culture—horses, dogs, livestock, and fowl alike. Skilled animal handlers can also provide basic veterinary care and prepare animals for service in war or labor.</p>\n",
+    "subType": "nature",
+    "skillBaseFormula": "@emp, @wil",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "N5ozne3RRF0qSEdF",
+  "_key": "!items!K1sBrJikLWiQIjjB"
+}

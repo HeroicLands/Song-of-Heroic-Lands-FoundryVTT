@@ -1,0 +1,37 @@
+{
+  "name": "Spikes",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "6tjqf0mjXm40eMvo",
+  "system": {
+    "shortcode": "spikes",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/spikes/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Iron spikes are forged by the smith and bundled by the dozen, each foot-long and tapering to a point. Climbers hammer them into cracks to anchor ropes; soldiers plant them to break a horse charge; a builder uses them to spike boards together before driving nails. Most carry a pack or two in their kit—cheap, heavy, and always useful.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 1.25,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!6tjqf0mjXm40eMvo"
+}

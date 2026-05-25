@@ -1,0 +1,52 @@
+{
+  "name": "Kûrbúl Kneecops",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/knee-pad.svg",
+  "_id": "rxgBlijzGyuCLVnT",
+  "system": {
+    "shortcode": "KKnee",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/kurbul-kneecops/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Kûrbúl Kneecops, made from specially treated leather, offer moderate protection for the knees. They are decorated with intricate designs and provide both function and visual appeal for those needing lightweight knee armor.</p>\n",
+    "quantity": 1,
+    "weightBase": 1.1,
+    "valueBase": 15,
+    "qualityBase": 0,
+    "durabilityBase": 13,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Kûrbúl",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Left Knee",
+        "Right Knee"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!rxgBlijzGyuCLVnT"
+}

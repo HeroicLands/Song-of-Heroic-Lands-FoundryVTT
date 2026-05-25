@@ -1,0 +1,52 @@
+{
+  "name": "Kûrbúl Coudes",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/elbow-pad.svg",
+  "_id": "2hObspgnPFY2W0zS",
+  "system": {
+    "shortcode": "KCou",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/kurbul-coudes/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Kûrbúl Coudes are treated leather elbow guards offering moderate protection and flexibility. Decorated with intricate patterns, they provide both function and visual appeal for those in need of lightweight elbow protection.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.8,
+    "valueBase": 10,
+    "qualityBase": 0,
+    "durabilityBase": 13,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Kûrbúl",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Left Elbow",
+        "Right Elbow"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 1.67
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!2hObspgnPFY2W0zS"
+}

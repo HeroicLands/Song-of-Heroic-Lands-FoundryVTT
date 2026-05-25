@@ -1,0 +1,61 @@
+{
+  "name": "Homespun Surcoat",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/tunic.svg",
+  "_id": "KO2z2lfxO4XDeDgQ",
+  "system": {
+    "shortcode": "HsScoat",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/homespun-surcoat/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A simple, practical Homespun Surcoat made from homemade fabric, providing basic comfort and coverage. Suitable for everyday wear by common folk, it’s an effective and no-frills outer garment.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.7,
+    "valueBase": 16,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Cloth",
+    "locations": {
+      "flexible": [
+        "Left Shoulder",
+        "Right Shoulder",
+        "Thorax",
+        "Abdomen",
+        "Pelvis",
+        "Left Thigh",
+        "Right Thigh",
+        "Left Knee",
+        "Right Knee",
+        "Left Calf",
+        "Right Calf"
+      ],
+      "rigid": []
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "gaC79vNjSo6VO6Ym",
+  "_key": "!items!KO2z2lfxO4XDeDgQ"
+}

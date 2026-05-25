@@ -1,0 +1,63 @@
+{
+  "name": "Mystery",
+  "pages": [
+    {
+      "_id": "73a29a40c169cede",
+      "name": "What Is a Mystery?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Mystery represents a supernatural condition or aspect of the Being. It represents what the Being &quot;is&quot; rather than what they can &quot;do&quot;.  Fate points, piety, blessings, and other similar conditions are all mysteries.</p>\n"
+      },
+      "_key": "!journal.pages!9iQzeBgORsCLKlYw.73a29a40c169cede"
+    },
+    {
+      "_id": "ee006d96a4b21e08",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Mysteries appear on the Being sheet's <strong>Mystical</strong> tab.</p>\n"
+      },
+      "_key": "!journal.pages!9iQzeBgORsCLKlYw.ee006d96a4b21e08"
+    },
+    {
+      "_id": "2dea602c536bfaea",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>SubType:</strong></li>\n<li><strong>Domain:</strong> Name of the domain to which this mystery applies (e.g., fate, grace, piety, etc.).</li>\n<li><strong>Level:</strong> Power level of this mystery, if applicable</li>\n<li><strong>Charges:</strong> If this mystery can be used up, this represents the number of charges\n<ul>\n<li><strong>Value:</strong> Current number of charges avaiable</li>\n<li><strong>Max:</strong> Maximum number of charges</li>\n</ul>\n</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!9iQzeBgORsCLKlYw.2dea602c536bfaea"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "9iQzeBgORsCLKlYw",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!9iQzeBgORsCLKlYw"
+}

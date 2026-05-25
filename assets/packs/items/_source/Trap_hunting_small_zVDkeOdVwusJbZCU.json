@@ -1,0 +1,37 @@
+{
+  "name": "Trap, hunting, small",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "zVDkeOdVwusJbZCU",
+  "system": {
+    "shortcode": "traphuntin2",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/trap-hunting-small/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A compact iron gin-trap, forged for rabbit and hare, its spring-jaw closing on legs or neck. Lighter than the large trap, a hunter or trapper sets a dozen of them along a warren or woodland path. Most catch their game; when the snare is reset, a skilled woodsman can make a living from the fur and meat.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 30,
+    "qualityBase": 0,
+    "durabilityBase": 8,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!zVDkeOdVwusJbZCU"
+}

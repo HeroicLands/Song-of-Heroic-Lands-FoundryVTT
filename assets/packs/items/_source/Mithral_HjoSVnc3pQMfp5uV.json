@@ -1,0 +1,37 @@
+{
+  "name": "Mithral",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "HjoSVnc3pQMfp5uV",
+  "system": {
+    "shortcode": "mithral",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/mithral/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Mithral, a rare silvery metal harder than steel, smelted and worked by master smiths into ingots and ornamental pieces. The material's ethereal sheen and legendary durability make it the most prized of all metals, sought by weaponcrafters and the crown alike. Only the wealthiest treasuries and greatest nobles can afford mithral in any quantity.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.0625,
+    "valueBase": 7500,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "3YyFU1QkTs2yFq5t",
+  "_key": "!items!HjoSVnc3pQMfp5uV"
+}

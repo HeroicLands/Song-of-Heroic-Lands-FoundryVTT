@@ -11,16 +11,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@common/item/SohlItem";
-import { HTMLString, toHTMLString } from "@utils/helpers";
+import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import { HTMLString, toHTMLString } from "@src/utils/helpers";
 import {
-    getContextItem,
+    ITEM_KIND,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     SohlContextMenuSortGroup,
-} from "@utils/constants";
+} from "@src/utils/constants";
+import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
+import type { SohlAction } from "@src/domain/action/SohlAction";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 
-export class SohlContextMenu extends (foundry.applications as any).ux
-    .ContextMenu {
+export class SohlContextMenu
+    extends (foundry.applications as any).ux.ContextMenu
+{
     declare readonly implementation: typeof SohlContextMenu;
 
     constructor(
@@ -29,38 +35,144 @@ export class SohlContextMenu extends (foundry.applications as any).ux
         menuItems: SohlContextMenu.Entry[],
         options: SohlContextMenu.Options = {},
     ) {
-        const mItems = menuItems.map((it: SohlContextMenu.Entry) => {
-            const newItem: SohlContextMenu.Entry = new SohlContextMenu.Entry({
-                id: it.id,
-                name: it.name,
-                group: it.group as SohlContextMenuSortGroup,
-                callback: it.callback,
-                functionName: it.functionName,
-                condition:
-                    typeof it.condition === "function" ?
-                        it.condition
-                    :   (_target: HTMLElement) => !!it.condition,
-            });
-            if (!it.callback) {
-                if (it.functionName) {
-                    newItem.callback = (target: HTMLElement) => {
-                        const item = getContextItem(target);
-                        if (item) {
-                            item.logic.execute({
-                                element: target,
-                                async: true,
-                            });
-                        }
-                    };
-                } else {
+        // Compile each entry's string `condition` into a function and wire up
+        // a default callback when only `functionName` is provided. The result
+        // is the shape Foundry's ContextMenu base class expects (condition
+        // and callback both functions).
+        const compiled = menuItems.map((it: SohlContextMenu.Entry) => {
+            const conditionFn = SohlContextMenu.compileCondition(
+                it.condition,
+                it.name,
+            );
+            let callback = it.callback;
+            if (!callback) {
+                if (!it.functionName) {
                     throw new Error(
-                        `Context menu item "${name}" does not have a callback function.`,
+                        `Context menu item "${it.name}" does not have a callback function.`,
                     );
                 }
+                const functionName = it.functionName;
+                callback = (target: HTMLElement) => {
+                    const item = getContextItem(target);
+                    const ctx = new SohlActionContext({
+                        speaker: item?.actor?.getSpeaker(),
+                    });
+                    const logic = item?.logic as any;
+                    const fn = logic?.[functionName];
+                    if (typeof fn === "function") {
+                        fn.call(logic, ctx);
+                    } else {
+                        sohl.log.warn(
+                            `Function "${functionName}" not found on logic for context menu item "${it.name}".`,
+                        );
+                    }
+                };
             }
+            return { ...it, condition: conditionFn, callback };
         });
-        options.jQuery = options.jQuery || false;
-        super(container as any, selector, menuItems as any, options);
+        super(container as any, selector, compiled as any, options);
+    }
+
+    /**
+     * Compile a context-menu `condition` into a predicate suitable for
+     * Foundry's ContextMenu base class. Function-form conditions are
+     * passed through unchanged; string-form conditions are evaluated as
+     * SafeExpressions. Parse errors and evaluation errors on the string
+     * form are caught and logged; the entry is treated as hidden
+     * (predicate returns `false`) rather than allowed to bubble.
+     * @param source The condition source (string SafeExpression or a
+     *   ready-made predicate function).
+     * @param entryName The owning entry's display name, used in log output.
+     * @returns A predicate that evaluates the condition against a target.
+     */
+    static compileCondition(
+        source: SohlContextMenu.Condition,
+        entryName: string,
+    ): (target: HTMLElement) => boolean {
+        if (typeof source === "function") return source;
+        let expression: SafeExpression;
+        try {
+            expression = new SafeExpression(source, STANDARD_HELPERS);
+        } catch (err) {
+            sohl.log.warn(
+                "Failed to compile context menu condition; entry will be hidden:",
+                { entry: entryName, condition: source, error: err },
+            );
+            return () => false;
+        }
+        return (target: HTMLElement): boolean => {
+            try {
+                return !!expression.evaluate(
+                    SohlContextMenu.makeConditionContext(target),
+                );
+            } catch (err) {
+                sohl.log.warn(
+                    "Context menu condition threw; entry will be hidden:",
+                    {
+                        entry: entryName,
+                        condition: source,
+                        target,
+                        error: err,
+                    },
+                );
+                return false;
+            }
+        };
+    }
+
+    /**
+     * Build the lazy evaluation context for a context-menu condition.
+     *
+     * - `target` is always the HTMLElement the menu was triggered on.
+     * - `item` is the nearest ancestor row's `data-item-id` resolved on the
+     *   owning actor (or `undefined` if not found).
+     * - `actor` is the nearest ancestor row's `data-actor-id` (or
+     *   `undefined`).
+     *
+     * `item` and `actor` are getters, so the DOM walk and lookup happen only
+     * when the condition actually references them.
+     * @param target The HTMLElement the context menu was opened on.
+     * @returns A context object with `target`, `item`, and `actor` bindings.
+     */
+    static makeConditionContext(target: HTMLElement): Record<string, unknown> {
+        return {
+            target,
+            get item(): SohlItem | undefined {
+                return SohlContextMenu.resolveItem(target);
+            },
+            get actor(): SohlActor | undefined {
+                return SohlContextMenu.resolveActor(target);
+            },
+        };
+    }
+
+    /**
+     * Resolve the SohlItem indicated by the closest `[data-item-id]`
+     * ancestor of `target`. Lookup goes through the resolved actor's
+     * embedded items so it works whether or not the sheet uses UUIDs.
+     * @param target The HTMLElement the context menu was opened on.
+     * @returns The resolved item, or `undefined`.
+     */
+    static resolveItem(target: HTMLElement): SohlItem | undefined {
+        const row = target.closest("[data-item-id]") as HTMLElement | null;
+        const itemId = row?.dataset?.itemId;
+        if (!itemId) return undefined;
+        const actor = SohlContextMenu.resolveActor(target);
+        return actor?.items.get(itemId) as SohlItem | undefined;
+    }
+
+    /**
+     * Resolve the SohlActor indicated by the closest `[data-actor-id]`
+     * ancestor of `target`.
+     * @param target The HTMLElement the context menu was opened on.
+     * @returns The resolved actor, or `undefined`.
+     */
+    static resolveActor(target: HTMLElement): SohlActor | undefined {
+        const row = target.closest("[data-actor-id]") as HTMLElement | null;
+        const actorId = row?.dataset?.actorId;
+        if (!actorId) return undefined;
+        const actor = fvttGetActor(actorId);
+        return actor ? (actor as SohlActor) : undefined;
     }
 
     // _getContextEffect(header: HTMLElement): SohlActiveEffectProxy | null {
@@ -162,7 +274,22 @@ export namespace SohlContextMenu {
      */
     export type Callback = (target: HTMLElement) => unknown;
 
-    export type Condition = boolean | ((target: HTMLElement) => boolean);
+    /**
+     * A context-menu predicate. Two forms are accepted:
+     *
+     * - **string** — evaluated as a SafeExpression (see
+     *   {@link SafeExpression}) against a context with `target` (the
+     *   triggering HTMLElement) plus lazy `item` and `actor` getters
+     *   resolved from the nearest `data-item-id` / `data-actor-id`
+     *   ancestor. Examples: `"true"`, `"item.system.canTransmit"`,
+     *   `"defined(item) && item.type === 'skill'"`. This is the form
+     *   stored in document data.
+     * - **function** — a `(target) => boolean` predicate, passed through
+     *   unchanged. Used for entries built programmatically (e.g. from a
+     *   `SohlAction`'s trigger), where the predicate needs to close over
+     *   runtime state that a SafeExpression source can't reference.
+     */
+    export type Condition = string | ((target: HTMLElement) => boolean);
 
     /**
      * Options passed during rendering the context menu.
@@ -208,7 +335,8 @@ export namespace SohlContextMenu {
         callback?: Callback;
 
         /**
-         * A function to call or boolean value to determine if this entry appears in the menu.
+         * Safe-expression source determining whether this entry appears in
+         * the menu. See {@link Condition}.
          */
         condition: Condition;
 
@@ -230,7 +358,7 @@ export namespace SohlContextMenu {
          * @param data.icon The HTML Icon element for the entry.
          * @param data.iconFAClass The Font-Awesome CSS class for the entry.
          * @param data.functionName The function name to call when the entry is clicked.
-         * @param data.condition A function or boolean to determine if the entry should be shown.
+         * @param data.condition The safe-expression source determining whether the entry is shown.
          * @param data.callback The callback function to call when the entry is clicked.
          * @param data.group The group to which the entry belongs.
          */

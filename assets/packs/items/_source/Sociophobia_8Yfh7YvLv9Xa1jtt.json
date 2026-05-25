@@ -1,0 +1,38 @@
+{
+  "name": "Sociophobia",
+  "type": "trait",
+  "img": "systems/sohl/assets/icons/dread.svg",
+  "_id": "8Yfh7YvLv9Xa1jtt",
+  "system": {
+    "shortcode": "sociophb",
+    "docUrl": "https://heroiclands.org/sohl/trait/sociophobia/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Sociophobia, also known as social phobia or social anxiety disorder, is an intense, irrational fear of social situations. People with sociophobia may experience a range of symptoms when they think about, see, or are in social settings.</p>\n<h3>Impulse</h3>\n<p>Avoiding social gatherings, meetings, public speaking, or any interaction that could lead to perceived judgment.\nAbberance (ABE) increases by 1 from the source of fear.</p>\n<h3>Disorder</h3>\n<p>In addition to trait intensity behaviors: Overwhelming fear or panic in social environments, especially where interactions are expected. Abberance (ABE) increases by 3 (instead of</p>\n<ol>\n<li>from the source of fear.</li>\n</ol>\n<h3>Physical Symptoms</h3>\n<p>Rapid heartbeat, sweating, trembling, shortness of breath, nausea, or dizziness.</p>\n<h3>Intrusive Thoughts</h3>\n<p>Persistent and distressing thoughts about being judged, embarrassed, or rejected in social settings.</p>\n<h3>Emotional Distress</h3>\n<p>Deep feelings of dread, isolation, and helplessness when social interaction is unavoidable.</p>\n",
+    "subType": "personality",
+    "textValue": "",
+    "isNumeric": false,
+    "intensity": "impulse",
+    "valueDesc": [],
+    "score": {
+      "value": 0,
+      "max": 0
+    },
+    "choices": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "0eAg97lKuZbhIoZW",
+  "_key": "!items!8Yfh7YvLv9Xa1jtt"
+}

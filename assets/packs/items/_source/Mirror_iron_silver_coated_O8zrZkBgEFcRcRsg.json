@@ -1,0 +1,37 @@
+{
+  "name": "Mirror, iron, silver-coated",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "O8zrZkBgEFcRcRsg",
+  "system": {
+    "shortcode": "mirroriron",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/mirror-iron-silver-coated/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A flat iron mirror backed and edged with hammered silver, its surface mirror-bright and harder-wearing than bronze. Noble ladies favor them for their superior reflection; soldiers and scouts value the sturdier construction for field use.</p>\n",
+    "quantity": 1,
+    "weightBase": 2,
+    "valueBase": 20,
+    "qualityBase": 0,
+    "durabilityBase": 5,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FSPVI1eObGEpMVck",
+  "_key": "!items!O8zrZkBgEFcRcRsg"
+}

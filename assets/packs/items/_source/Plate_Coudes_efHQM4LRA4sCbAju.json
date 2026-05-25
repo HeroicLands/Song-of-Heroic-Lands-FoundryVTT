@@ -1,0 +1,52 @@
+{
+  "name": "Plate Coudes",
+  "type": "armorgear",
+  "img": "systems/sohl/assets/icons/elbow-pad.svg",
+  "_id": "efHQM4LRA4sCbAju",
+  "system": {
+    "shortcode": "PlCou",
+    "docUrl": "https://heroiclands.org/sohl/armorgear/plate-coudes/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Made from solid steel, Plate Coudes offer maximum elbow protection. They are essential components of knightly armor, designed to deflect and withstand powerful strikes while ensuring the joint remains mobile.</p>\n",
+    "quantity": 1,
+    "weightBase": 0.8,
+    "valueBase": 40,
+    "qualityBase": 0,
+    "durabilityBase": 14,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false,
+    "material": "Plate",
+    "locations": {
+      "flexible": [],
+      "rigid": [
+        "Left Elbow",
+        "Right Elbow"
+      ]
+    },
+    "protectionBase": {
+      "blunt": 4,
+      "edged": 8,
+      "piercing": 5,
+      "fire": 5
+    },
+    "encumbrance": 1.67
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "M4nHcUWOatfVGuh3",
+  "_key": "!items!efHQM4LRA4sCbAju"
+}

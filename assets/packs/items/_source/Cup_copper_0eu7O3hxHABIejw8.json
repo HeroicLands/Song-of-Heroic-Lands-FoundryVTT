@@ -1,0 +1,37 @@
+{
+  "name": "Cup, copper",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "0eu7O3hxHABIejw8",
+  "system": {
+    "shortcode": "cupcopper",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/cup-copper/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A small, straight-sided drinking cup of copper tinned inside, hand-hammered and riveted by a coppersmith. The tinning prevents the metal from flavoring ale or water, and the copper holds warmth well, prized for mulled wine or heated mead. Such cups are common among merchants and soldiers, durable enough to survive years of camp life and rough handling.</p>\n",
+    "quantity": 1,
+    "weightBase": 0,
+    "valueBase": 3,
+    "qualityBase": 0,
+    "durabilityBase": 3,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "7TT0OzoIoEn40zfs",
+  "_key": "!items!0eu7O3hxHABIejw8"
+}

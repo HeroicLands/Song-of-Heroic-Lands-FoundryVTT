@@ -1,0 +1,35 @@
+{
+  "name": "Engineering",
+  "type": "skill",
+  "img": "systems/sohl/assets/icons/engineering.svg",
+  "_id": "Fip584W95bPFEJUp",
+  "system": {
+    "shortcode": "eng",
+    "docUrl": "https://heroiclands.org/sohl/skill/engineering/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Engineering is the knowledge of designing buildings, fortifications, siege engines, mills, mines, and other large-scale constructions. The engineer produces plans that guide the actual builders, who execute the work using appropriate craft skills like Masonry and Woodworking. Complex projects require a formal design phase where the engineer's calculations determine the soundness and efficiency of the resulting structure. Mathematical ability significantly enhances the quality of engineering designs, while flawed calculations can compromise the entire construction effort.</p>\n",
+    "subType": "lore",
+    "skillBaseFormula": "@rea, @cre",
+    "masteryLevelBase": 0,
+    "improveFlag": false,
+    "combatCategory": "none",
+    "parentSkillCode": "",
+    "initSkillMult": 0
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "QlkEHXbk2EXlRiMM",
+  "_key": "!items!Fip584W95bPFEJUp"
+}

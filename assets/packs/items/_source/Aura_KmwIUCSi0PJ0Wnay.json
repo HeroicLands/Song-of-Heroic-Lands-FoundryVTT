@@ -1,0 +1,53 @@
+{
+  "name": "Aura",
+  "type": "attribute",
+  "img": "systems/sohl/assets/icons/aura.svg",
+  "_id": "KmwIUCSi0PJ0Wnay",
+  "system": {
+    "shortcode": "aur",
+    "docUrl": "https://heroiclands.org/sohl/attribute/aura/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Aura measures the depth and power of a person's soul—their fundamental presence in the world. Some individuals seem to carry an invisible weight, a thickness of being that others sense even without knowing why. Aura is particularly relevant to those touched by the Arcane, but even common folk may possess a deep or shallow aura. It shapes whether others feel drawn to or repelled by a person's presence, and it underlies all connexions to the forces of magic and fate.</p>\n<h3>Mundane</h3>\n<p>Mundane individuals seem thin and insubstantial in presence. They pass through the world leaving little impression. Arcane practitioners feel nothing from them, and even ordinary folk forget them easily. They do not seem to matter much, as though they are only half-present in the world.</p>\n<h3>Shallow</h3>\n<p>Shallow auras are those of ordinary, unremarkable folk. There is presence, but not much of it. Others notice them in the moment of interaction but forget them readily. They possess little natural authority and attract no particular attention from those sensitive to the Arcane.</p>\n<h3>Average</h3>\n<p>Average auras are precisely that—the norm for most living people. Such individuals are present and real without being memorable. They carry their own weight but nothing remarkable. They are invisible neither to Arcane perception nor memorable to casual encounter.</p>\n<h3>Deep</h3>\n<p>Deep auras suggest persons of considerable presence. Others feel it instinctively—a thickness of being, a quality of realness and importance. Such individuals command attention without demanding it, and those with Arcane sensitivity perceive them vividly. The world seems to respond to them.</p>\n<h3>Profound</h3>\n<p>Profound auras are rare—found only in persons whose souls seem to touch the very foundations of being. These individuals are unforgettable; they seem to belong to something larger than themselves. The Arcane sings in their presence, and common folk sense without understanding that they are in the presence of something significant.</p>\n<h3>In Practice</h3>\n<p>When a stranger enters a tavern, no one marks the mundane aura at all. The shallow-aured visitor is greeted perfunctorily and forgotten by morning. The average new arrival is made welcome as a normal guest. The deep-aured stranger draws eyes and conversation turns toward them naturally. The profound-aured figure may enter silently, yet the entire tavern grows quiet and attentive, as though the world itself had drawn breath to listen.</p>\n",
+    "scoreBase": 0,
+    "valueDesc": [
+      {
+        "label": "Mundane",
+        "maxValue": 4
+      },
+      {
+        "label": "Shallow",
+        "maxValue": 8
+      },
+      {
+        "label": "Average",
+        "maxValue": 12
+      },
+      {
+        "label": "Deep",
+        "maxValue": 16
+      },
+      {
+        "label": "Profound",
+        "maxValue": 999
+      }
+    ],
+    "initDiceFormula": "3d6",
+    "impairedByRoles": []
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "FPitxvL8wCmXynax",
+  "_key": "!items!KmwIUCSi0PJ0Wnay"
+}

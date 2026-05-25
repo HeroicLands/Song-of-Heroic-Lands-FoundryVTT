@@ -1,0 +1,37 @@
+{
+  "name": "Horn, musical",
+  "type": "miscgear",
+  "img": "systems/sohl/assets/icons/miscgear.svg",
+  "_id": "jEI57tTNLSxJHjYi",
+  "system": {
+    "shortcode": "hornmusica",
+    "docUrl": "https://heroiclands.org/sohl/miscgear/horn-musical/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>A carefully crafted horn of polished ox or ram, shaped for musical rather than utilitarian use, with a mellower voice than a hunting horn. Minstrels and court musicians employ musical horns in ensembles, where the warm, sonorous tone blends well with strings and woodwinds. Skilled players control pitch and tone by adjusting embouchure and the position of their hand in the bell.</p>\n",
+    "quantity": 1,
+    "weightBase": 1,
+    "valueBase": 72,
+    "qualityBase": 0,
+    "durabilityBase": 6,
+    "sharedWithCohortIds": [],
+    "containerId": null,
+    "isCarried": true,
+    "isEquipped": false
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "ncTaRcZt0RFYz0Gq",
+  "_key": "!items!jEI57tTNLSxJHjYi"
+}

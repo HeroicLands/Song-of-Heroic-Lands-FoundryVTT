@@ -1,0 +1,63 @@
+{
+  "name": "Trait",
+  "pages": [
+    {
+      "_id": "78f7847de781953c",
+      "name": "What Is a Trait?",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>A Trait represents characteristic of a Being (with the exception of attributes, which are tracked in [[Attributes]]) — something about who or what they are. Traits cover physical like missing limbs or scars and psyche like phobias or psychoses.</p>\n"
+      },
+      "_key": "!journal.pages!ch3ArYAzbLP2UnfT.78f7847de781953c"
+    },
+    {
+      "_id": "3f3c130a54638aa6",
+      "name": "Where It Appears",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Traits appear on the Being sheet's <strong>Profile</strong> tab.</p>\n"
+      },
+      "_key": "!journal.pages!ch3ArYAzbLP2UnfT.3f3c130a54638aa6"
+    },
+    {
+      "_id": "0b285fa5ed491b30",
+      "name": "Additional Properties",
+      "type": "text",
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Along with the [[Item_Base|Standard Item Properties]], the following properties also appear in the <strong>Properties</strong> tab:</p>\n<ul>\n<li><strong>SubType:</strong> Traid category (&quot;Physical&quot;, &quot;Personality&quot;, &quot;Transcendant&quot;)</li>\n<li><strong>Intensity</strong> — The impact or severity of the trait:\n<ul>\n<li><strong>Trait:</strong> Simply a characteristic of the character, but no compulsion.</li>\n<li><strong>Impulse:</strong> A minor compulsion, observable after some time interacting with the Being, but which does not generally affect the daily process of living.</li>\n<li><strong>Disorder:</strong> A major compulsion, observable after a brief time interacting with the Being, that generally affects the daily process of living.</li>\n</ul>\n</li>\n<li><strong>Is Numeric:</strong> If the value of this trait is numeric or not.</li>\n<li><strong>Score:</strong> If numeric, the score will be displayed\n<ul>\n<li><strong>Value:</strong> The numeric value of the score</li>\n<li><strong>Max:</strong> The maximum value of the score; 0 indicates no maximum</li>\n</ul>\n</li>\n<li><strong>Text Value:</strong> Textual Value of the trait, only shown if non-numeric.</li>\n<li><strong>init Dice Formula:</strong> If numeric, The dice formula that is used when a new being is created.  If empty, the existing value will be kept.</li>\n<li><strong>Choices:</strong> If not numeric, the set of values this field can contain. If none are specified, the field is free-form and any value may be supplied.</li>\n<li><strong>Value Descriptions</strong> — If numeric, this is a table of descriptions for various trait values.</li>\n</ul>\n"
+      },
+      "_key": "!journal.pages!ch3ArYAzbLP2UnfT.0b285fa5ed491b30"
+    }
+  ],
+  "folder": "QtOgPodi8X6gDWL0",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_id": "ch3ArYAzbLP2UnfT",
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "_key": "!journal!ch3ArYAzbLP2UnfT"
+}

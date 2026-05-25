@@ -1,0 +1,37 @@
+{
+  "name": "Infected",
+  "type": "affliction",
+  "img": "systems/sohl/assets/icons/fatigue.svg",
+  "_id": "1qPbpqlUbYDWGyNP",
+  "system": {
+    "shortcode": "infect",
+    "docUrl": "https://heroiclands.org/sohl/affliction/infected/",
+    "actionDefs": [],
+    "notes": "",
+    "docHtml": "<p>Infection weakness is the systemic cost of a wound or injury gone septic. Where disease arises from a contagious agent, infection arises in tissue already damaged — a wound that did not close cleanly, a burn that turned foul, a surgery that introduced contamination. The weakness compounds with the underlying injury, and the two together kill far more often than either alone. 5–10 fatigue per infection.</p>\n<h3>Symptoms</h3>\n<p>Local heat, swelling, and pus at the site of infection; systemic fever, sweats, chills, malaise; lymphatic tenderness; foul smell from the wound; rising pulse; eventually confusion as septicemia develops.</p>\n<h3>Progression</h3>\n<p>Untreated infection progresses to sepsis, which is rapidly fatal. Even survived infections leave lasting weakness while the body clears them, and severely scarred wounds may produce permanent reduction in capacity.</p>\n<h3>Treatment</h3>\n<ul>\n<li>Open and clean the wound; remove dead tissue if necessary</li>\n<li>Antiseptic poultices: honey, garlic, willow, vinegar — by herbal tradition</li>\n<li>Heat applied to draw the wound; warm compresses</li>\n<li>Bed rest, fluids, a skilled physician where available</li>\n</ul>\n<h3>Recovery</h3>\n<p>Weakness fatigue is indefinite, abating only as the underlying source recovers according to its own rules.</p>\n",
+    "subType": "fatigue",
+    "category": "weakness",
+    "isDormant": false,
+    "isTreated": false,
+    "diagnosisBonusBase": 1,
+    "levelBase": 1,
+    "healingRateBase": 1,
+    "contagionIndexBase": 0,
+    "transmission": "none"
+  },
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "systemId": "sohl",
+    "systemVersion": "0.6.0",
+    "coreVersion": "14",
+    "createdTime": 0,
+    "modifiedTime": 0,
+    "lastModifiedBy": "sohlbuilder00000"
+  },
+  "ownership": {
+    "default": 0
+  },
+  "folder": "Y22wv8plMCfPXYBT",
+  "_key": "!items!1qPbpqlUbYDWGyNP"
+}
