@@ -12,6 +12,7 @@
  */
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";
@@ -103,8 +104,101 @@ export class SohlItem extends Item {
         }
     }
 
-    // TODO: This needs to be implemented to apply active effects on items
-    applyActiveEffects(phase: string): void {}
+    /**
+     * Set of phases for which `applyActiveEffects` has already run in the
+     * current data-preparation cycle. Cleared at the top of the actor's
+     * `prepareBaseData()`. Mirrors Foundry's `Actor#_completedActiveEffectPhases`.
+     */
+    _completedActiveEffectPhases?: Set<string>;
+
+    /**
+     * Effects living elsewhere whose `targets` include this item. Walks
+     * sibling items and the owning actor. Phaseless; the caller filters by
+     * `change.phase` when iterating changes.
+     */
+    transferredActiveEffects(): SohlActiveEffect[] {
+        const out: SohlActiveEffect[] = [];
+        const actor = this.actor;
+        if (!actor) return out;
+
+        for (const sibling of actor.items.values() as Iterable<SohlItem>) {
+            if (sibling === this) continue;
+            for (const effect of sibling.effects.values() as Iterable<SohlActiveEffect>) {
+                if (effect.targets.includes(this)) out.push(effect);
+            }
+        }
+        for (const effect of actor.effects.values() as Iterable<SohlActiveEffect>) {
+            if (effect.targets.includes(this)) out.push(effect);
+        }
+        return out;
+    }
+
+    /**
+     * All effects applicable to this item: own self-targeting effects plus
+     * those transferred from siblings / the actor via scope. Mirrors the
+     * shape of Foundry's `Actor#allApplicableEffects` generator so the same
+     * dispatch loop can consume both.
+     */
+    *allApplicableEffects(): Generator<SohlActiveEffect> {
+        for (const effect of this.effects.values() as Iterable<SohlActiveEffect>) {
+            if (effect.targets.includes(this)) yield effect;
+        }
+        for (const effect of this.transferredActiveEffects()) yield effect;
+    }
+
+    /**
+     * Walk `allApplicableEffects()`, filter changes by `phase`, sort by
+     * priority, and dispatch each to the static `applyChange` path
+     * (which routes through `SohlActiveEffect._applyChangeUnguided` for
+     * SoHL-prefixed keys). Mirrors Foundry's `Actor#applyActiveEffects`.
+     */
+    applyActiveEffects(phase: string): void {
+        const AEClass = foundry.documents.ActiveEffect as any;
+        if (typeof phase !== "string") return;
+        if (!(phase in (AEClass.CHANGE_PHASES ?? {}))) {
+            sohl.log.warn(
+                `Unknown phase "${phase}" passed to SohlItem.applyActiveEffects`,
+            );
+            return;
+        }
+        this._completedActiveEffectPhases ??= new Set<string>();
+        if (this._completedActiveEffectPhases.has(phase)) return;
+        this._completedActiveEffectPhases.add(phase);
+
+        interface Pending {
+            effect: SohlActiveEffect;
+            change: any;
+        }
+        const pending: Pending[] = [];
+
+        for (const effect of this.allApplicableEffects()) {
+            if (!(effect as any).active) continue;
+            const effectChanges =
+                ((effect as any).system?.changes as any[]) ?? [];
+            for (const change of effectChanges) {
+                if (!change.key || change.phase !== phase) continue;
+                pending.push({ effect, change });
+            }
+        }
+        pending.sort(
+            (a, b) =>
+                ((a.change.priority as number) ?? 0) -
+                ((b.change.priority as number) ?? 0),
+        );
+
+        for (const { effect, change } of pending) {
+            try {
+                const copy = foundry.utils.deepClone(change);
+                (copy as any).effect = effect;
+                (effect.constructor as any).applyChange(this, copy, {});
+            } catch (err) {
+                sohl.log.warn(
+                    `Effect "${(effect as any).name}" change "${change.key}" failed on ${this.uuid}:`,
+                    err,
+                );
+            }
+        }
+    }
 
     /**
      * Helper method to handle chat card button clicks.

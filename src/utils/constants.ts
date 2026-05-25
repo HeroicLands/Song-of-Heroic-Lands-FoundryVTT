@@ -830,6 +830,18 @@ export const {
     QUALITY: "mod:logic.quality",
     DURABILITY: "mod:logic.durability",
     ENCUMBRANCE: "mod:logic.encumbrance",
+    // Strike-mode-targeted modifier deltas. The `sm:` prefix dispatches to
+    // each strike mode on the weapon matching change.strikeModePredicate.
+    // Predicate variable: `sm` (the strike mode).
+    SM_ATTACK: "mod:sm:attack",
+    SM_IMPACT: "mod:sm:impact",
+    SM_SPREAD: "mod:sm:spread",
+    SM_LENGTH: "mod:sm:length",
+    SM_REACH: "mod:sm:reach",
+    SM_BASE_RANGE: "mod:sm:baseRange",
+    SM_DRAW: "mod:sm:draw",
+    SM_BLOCK: "mod:sm:defense.block",
+    SM_COUNTERSTRIKE: "mod:sm:defense.counterstrike",
 });
 export type WeaponGearEffectKey =
     (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
@@ -1135,10 +1147,20 @@ export const {
 } = defineType("SOHL.ActiveEffect.Scope", {
     THIS: "this",
     ACTOR: "actor",
-    TEST: "test",
 });
 export type ActiveEffectScope =
     (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
+
+/**
+ * Full set of valid `scope` values on a SohlActiveEffect: the two built-ins
+ * (`"this"`, `"actor"`) plus every registered item kind. Used as the
+ * `choices` for the scope `StringField` so that a scope value of an item
+ * kind (e.g. `"weapongear"`) is validated and the matching `*_EFFECT_KEY`
+ * block can be selected for the changes UI.
+ */
+export function ActiveEffectScopeChoices(): string[] {
+    return [...ActiveEffectScopes, ...ItemKinds];
+}
 
 export const {
     kind: TEST_TYPE,

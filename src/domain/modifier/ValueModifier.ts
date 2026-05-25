@@ -284,16 +284,14 @@ export class ValueModifier {
         op: ValueDeltaOperator = VALUE_DELTA_OPERATOR.ADD,
         data: PlainObject = {},
     ): this {
-        // TODO: Name prefix mismatch — _oper validates "SOHL.MOD." but ValueDelta
-        // constructor requires "SOHL.INFO.". These are mutually exclusive, so
-        // add()/multiply()/set()/floor()/ceiling() cannot currently create deltas.
-        // Align the prefix conventions before using the modifier API.
         if (!isValueDeltaOperator(op)) {
             throw new TypeError("op is not valid");
         } else if (
-            !(typeof name === "string" && name.startsWith("SOHL.MOD."))
+            !(typeof name === "string" && name.startsWith("SOHL.INFO."))
         ) {
-            throw new TypeError("name is not valid");
+            throw new TypeError(
+                "name is not valid; must start with SOHL.INFO.",
+            );
         } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }

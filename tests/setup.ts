@@ -203,6 +203,11 @@ const sohlMock = {
             },
             ContextMenu: class { constructor(..._args: any[]) {} },
         },
+        sheets: {
+            ActiveEffectConfig: class {
+                constructor(..._args: any[]) {}
+            },
+        },
     },
     documents: {
         ChatMessage: {
@@ -270,6 +275,33 @@ const sohlMock = {
 
 (globalThis as any).fromUuid = async (_uuid: string) => null;
 (globalThis as any).fromUuidSync = (_uuid: string) => null;
+(globalThis as any).ActiveEffect = class {
+    parent?: any;
+    constructor(data: any = {}, context: any = {}) {
+        Object.assign(this, data);
+        this.parent = context?.parent;
+    }
+    static _applyChangeUnguided(_t: any, _c: any, _ch: any, _o?: any): any {
+        return undefined;
+    }
+};
+(globalThis as any).Item = class {
+    parent?: any;
+    constructor(data: any = {}, context: any = {}) {
+        Object.assign(this, data);
+        this.parent = context?.parent;
+    }
+};
+(globalThis as any).Actor = class {
+    items: any = new Map();
+    effects: any = new Map();
+    constructor(data: any = {}, _context: any = {}) {
+        Object.assign(this, data);
+    }
+    prepareBaseData() {}
+    prepareEmbeddedData() {}
+    prepareDerivedData() {}
+};
 (globalThis as any).TokenDocument = class {
     constructor(_data?: any, _context?: any) {}
 };

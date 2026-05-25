@@ -26,39 +26,81 @@ See also: [Modifier Model](./modifier-model.md), [Extension Points](../how-to/ex
 - Current lifecycle methods (`initialize/evaluate/finalize`) are no-op defaults.
 - Data model schema includes targeting metadata fields (`targetType`, `targetName`) used by SoHL's extended targeting model.
 
-## SoHL extended targeting model
+## SoHL targeting model
 
 Foundry's baseline ActiveEffect model operates on the embedded owner document. SoHL extends this so an Active Effect can target:
 
 - the embedding document itself,
 - the owning actor,
-- or other embedded items on the same actor.
+- or every item of a given kind on the same actor (optionally narrowed by a SafeExpression predicate).
 
-This behavior is driven by two effect fields:
+This behavior is driven by two fields on `SohlActiveEffectDataModel`:
 
-- `targetType`
-    - `"this"` → apply changes to the document where the effect is embedded.
-    - `"actor"` → apply changes to the owning actor data model.
-    - `<itemType>` (for example `skill`, `trait`, `weapongear`, etc.) → apply to matching items of that item document type on the same actor.
-- `targetName`
-    - used for item-type targeting,
-    - interpreted as a regular expression,
-    - matched against candidate item shortcodes (items with matching type and shortcode are affected).
+- `scope`
+    - `"this"` → apply changes to the document where the effect is embedded (item or actor).
+    - `"actor"` → apply changes to the owning actor.
+    - `<itemKind>` (e.g. `"skill"`, `"trait"`, `"weapongear"`, etc.) → apply to every item of that kind on the owning actor, filtered by the `test` predicate. **Scope determines the EFFECT_KEY namespace shown in the changes UI**, so the set of available keys is always known ahead of time.
+- `test`
+    - Optional SafeExpression. When `scope` is an item-kind, this predicate narrows the matched items. Variable binding: `item`. Empty `test` matches every item of that kind.
 
-This is the key mechanism that enables cross-item and item-to-actor effect propagation.
+`SohlActiveEffect.targets` returns the resolved set of target documents; `SohlActiveEffect.allApplicableEffects()` (on both `SohlItem` and `SohlActor`) composes own self-targeting effects with effects living elsewhere that target this document (the inbound "pull" side, surfaced via `transferredActiveEffects()`).
+
+## Dispatch lifecycle
+
+SoHL has `transfer: false` for all effects — Foundry's automatic transfer-to-actor is off. Instead, scope-driven targeting routes each effect to the right document at the right time:
+
+- **Actor-owned effects** flow through Foundry's standard `Actor#applyActiveEffects(phase)`, which now consumes SoHL's overridden `allApplicableEffects()`. The actor receives effects scoped `"this"`/`"actor"` from itself plus effects scoped to it from any owned item.
+- **Item-owned effects** are SoHL-driven via `SohlItem#applyActiveEffects(phase)`, called from `SohlActor.prepareEmbeddedData` between Phase I (`initialize`) and Phase II (`evaluate`) for each item. Each item receives effects scoped `"this"` from itself plus effects scoped to it from siblings/actor.
+
+`phase` is the standard Foundry change `phase` field on each change entry. Foundry fires `"initial"` after embedded documents and `"final"` after `prepareData`; SoHL fires `"initial"` for items between their own init and evaluate. Authors target a slot by setting `change.phase` accordingly.
+
+## Change-key prefix system
+
+A change `key` may carry one of three composable SoHL prefixes:
+
+| Prefix | Semantics |
+|---|---|
+| `mod:<path>` | Push a `ValueDelta` onto the `ValueModifier` at `<path>` on the target document (paths are doc-rooted, e.g. `mod:logic.score` resolves to `targetDoc.logic.score`). The `change.type` (`add`, `multiply`, `override`, `upgrade`, `downgrade`, `custom`) maps to the corresponding `VALUE_DELTA_OPERATOR`. |
+| `sm:<path>` | For each strike mode on the target weapon matching `change.strikeModePredicate`, set `<path>` on the strike mode (raw assignment). WeaponGear targets only. |
+| `mod:sm:<path>` | Composes the above: for each matching strike mode, push a `ValueDelta` onto the `ValueModifier` at `<path>` on that strike mode. |
+
+Standard `system.*` keys fall through to Foundry's stock change application unchanged.
+
+### Strike-mode predicate (`strikeModePredicate`)
+
+A SoHL extension on the per-change schema, only consulted when the key matches `^(mod:)?sm:`. It's an optional SafeExpression whose variable `sm` binds to each strike mode candidate. Empty predicate matches every strike mode on the weapon. A predicate that throws on one strike mode skips that strike mode only.
+
+```jsonc
+// Example: "Honed Edge" — +1 attack and +1 impact on all cutting strike modes
+{
+  "name": "Honed Edge",
+  "transfer": false,
+  "system": {
+    "scope": "this",
+    "test": "",
+    "changes": [
+      { "key": "mod:sm:attack", "type": "add", "value": "1", "phase": "initial",
+        "strikeModePredicate": "sm.traits.cutting === true" },
+      { "key": "mod:sm:impact", "type": "add", "value": "1", "phase": "initial",
+        "strikeModePredicate": "sm.traits.cutting === true" }
+    ]
+  }
+}
+```
+
+All SoHL-prefix dispatch happens in `SohlActiveEffect._applyChangeUnguided` (static), so the same logic handles both actor-driven and item-driven application paths.
 
 ## Sheet integration
 
-`SohlActiveEffectConfig` defines effect sheet parts and prepares per-tab context:
+`SohlActiveEffectSheet` defines effect sheet parts and prepares per-tab context:
 
-- `details` tab: target type choices (`this`, `actor`, and item types)
+- `details` tab: scope choices (`this`, `actor`, and every registered item kind), plus the `test` predicate textarea.
 - `changes` tab:
-    - localized mode labels from `CONST.ACTIVE_EFFECT_MODES`
-    - key choices resolved from item metadata when available
+    - localized type labels from `ActiveEffect.CHANGE_TYPES` (v14)
+    - key choices resolved from the EFFECT_KEY namespace selected by `scope`
+    - a conditional `strikeModePredicate` row, shown only when `scope === "weapongear"` and the change key starts with `sm:` or `mod:sm:` (helper: `isSmKey`)
 
-The `details` UI is where `targetType`/`targetName` are authored for cross-document targeting behavior.
-
-Templates are under `templates/effects/*`.
+Templates: [templates/effects/details.hbs](../../templates/effects/details.hbs), [templates/effects/changes.hbs](../../templates/effects/changes.hbs).
 
 ## Actor/item sheet context exposure
 

@@ -11,6 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
@@ -170,10 +171,42 @@ export class SohlActor extends Actor {
         super.prepareBaseData();
         this._speaker = undefined;
         this._lifecycleActionsCache = new Map<string, SohlItem>();
+        // Reset each embedded item's effect-phase tracker for the new prep
+        // cycle (mirrors Foundry's Actor#_clearData() handling on itself).
+        this.items?.forEach((i) =>
+            (i as any)._completedActiveEffectPhases?.clear?.(),
+        );
         if (fvttCallHookCancel(`sohl.actor.${this.type}.preInitialize`, this)) {
             this.logic.initialize();
         }
         fvttCallHook(`sohl.actor.${this.type}.postInitialize`, this);
+    }
+
+    /**
+     * Effects living on owned items whose `targets` include this actor.
+     * Phaseless; the caller filters by `change.phase` when iterating changes.
+     */
+    transferredActiveEffects(): SohlActiveEffect[] {
+        const out: SohlActiveEffect[] = [];
+        for (const item of this.items.values() as Iterable<SohlItem>) {
+            for (const effect of item.effects.values() as Iterable<SohlActiveEffect>) {
+                if (effect.targets.includes(this)) out.push(effect);
+            }
+        }
+        return out;
+    }
+
+    /**
+     * All effects applicable to this actor: own effects whose `targets`
+     * include this actor (scope `"this"` or `"actor"`), plus item-owned
+     * effects whose scope targets this actor. Replaces Foundry's
+     * transfer-flag-driven generator with scope-driven inclusion.
+     */
+    override *allApplicableEffects(): Generator<SohlActiveEffect> {
+        for (const effect of this.effects.values() as Iterable<SohlActiveEffect>) {
+            if (effect.targets.includes(this)) yield effect;
+        }
+        for (const effect of this.transferredActiveEffects()) yield effect;
     }
 
     prepareEmbeddedData(): void {
