@@ -14,6 +14,7 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { HTMLString } from "@src/utils/helpers";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlDataModel } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
@@ -102,13 +103,44 @@ export class SohlItem extends Item {
         }
     }
 
+    // TODO: This needs to be implemented to apply active effects on items
+    applyActiveEffects(phase: string): void {}
+
     /**
      * Helper method to handle chat card button clicks.
      * @param btn The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
-        // TODO: Handle chat card button clicks here
-        console.log("Button clicked:", btn);
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        const context = new SohlActionContext({
+            speaker: this.logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            ...btn.dataset,
+        });
+        const action =
+            this.logic.actions.get(actionName) ??
+            [...this.logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (this.logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(this.logic, context);
+        } else {
+            sohl.log.warn(
+                `Chat card action "${actionName}" not found on item "${this.name}".`,
+            );
+        }
     }
 
     /**

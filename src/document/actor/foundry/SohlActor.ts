@@ -194,6 +194,9 @@ export class SohlActor extends Actor {
          *
          * The hooks here are per item type, not per individual item, and are
          * passed in the specific item being processed and context.
+         *
+         * NOTE: The implication here is that the normal prepare* methods on items
+         * must not be overriden; they are not used for the item lifecycle.
          */
 
         // Phase I: Initialize all embedded items
@@ -207,6 +210,11 @@ export class SohlActor extends Actor {
                 const postInitialize = item.logic.actions.get("postInitialize");
                 postInitialize?.execute(ctx);
             }
+        });
+
+        // Evaluate all Active Effects on the items
+        this.items.forEach((item) => {
+            item.applyActiveEffects("initial");
         });
 
         // Phase II: Evaluate all embedded items
