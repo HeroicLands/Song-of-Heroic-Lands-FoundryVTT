@@ -390,11 +390,13 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Status effects: check which ones are active
         const statuses = (actor as any).statuses ?? new Set<string>();
+        // Keys are the Foundry/SoHL status ids surfaced by the template as
+        // `data-status-id` toggles, so each must match a registered status
+        // (Foundry's id is `stun`, not `stunned`).
         const statusEffects = {
-            auralShock: statuses.has("auralShock"),
             sleep: statuses.has("sleep"),
             prone: statuses.has("prone"),
-            stunned: statuses.has("stunned"),
+            stun: statuses.has("stun"),
             incapacitated: statuses.has("incapacitated"),
             unconscious: statuses.has("unconscious"),
             dead: statuses.has("dead"),

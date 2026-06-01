@@ -14,12 +14,13 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { SohlCombat } from "@src/document/combat/SohlCombat";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { getCanvas } from "@src/core/FoundryHelpers";
 import {
-    expandAllyGroups,
+    areCombatantsEnemies,
+    isThreatening,
+    THREAT_NEGATING_STATUSES,
     computeMove,
     chooseInitialDisplayedMedium,
 } from "./combatant-logic";
@@ -38,40 +39,90 @@ export class SohlCombatant<
     }
 
     /**
-     * An array of combatants which are considered allies of this combatant.
+     * The id of this combatant's `CombatantGroup`, or `null` when ungrouped.
+     *
+     * @remarks
+     * `_source.group` is the canonical stored id. Core's `_prepareGroup()`
+     * reassigns the derived `this.group` to the resolved `CombatantGroup`
+     * document when it resolves, but leaves it as the raw id (or null)
+     * otherwise — so reading `_source` avoids that heterogeneity.
+     */
+    get groupId(): string | null {
+        const src = (this as any)._source?.group;
+        if (typeof src === "string" && src) return src;
+        const g = (this as any).group;
+        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
+        if (typeof g === "string" && g) return g;
+        return null;
+    }
+
+    /**
+     * An array of combatants which are considered allies of this combatant:
+     * the other combatants sharing this one's (non-null) `CombatantGroup`.
+     * The inverse of {@link isEnemyOf}.
      */
     get allies(): SohlCombatant[] {
         if (!this.combat) return [];
-        const combatData = this.combat.system as SohlCombatantDataModel;
+        if (!this.groupId) return [];
 
-        const myGroups = new Set(combatData.groups);
-        if (!myGroups.size) return [];
-        const combat = this.combat as SohlCombat;
+        return this.combat.combatants.contents.filter(
+            (combatant: SohlCombatant) =>
+                combatant !== this && !this.isEnemyOf(combatant),
+        ) as SohlCombatant[];
+    }
 
-        const expandedGroups = expandAllyGroups(myGroups, (group) =>
-            combat.allyGroups(group),
+    /**
+     * Pure relational predicate: two combatants are enemies iff they belong to
+     * different `CombatantGroup`s. A combatant is never its own enemy, and an
+     * absent group on either side is treated defensively as enemy.
+     *
+     * Reads only already-loaded combatant fields — no Foundry API calls.
+     */
+    isEnemyOf(other: SohlCombatant): boolean {
+        return areCombatantsEnemies(
+            this.groupId,
+            other.groupId,
+            other === this,
         );
-
-        // A combatant is an ally if they share any group with me (including through allied groups)
-        return combat.combatants.contents.filter((combatant: SohlCombatant) => {
-            if (combatant === this) return false;
-
-            const otherGroups = combatData.groups;
-            return otherGroups.some((group: string) =>
-                expandedGroups.has(group),
-            );
-        }) as SohlCombatant[];
     }
 
     /**
      * An array of combatants which are currently threatening this combatant.
-     * The rules determining whether an opponent is threatening are specific to
-     * each variation. This is useful for various combat mechanics, such as
-     * determining if a combatant is outnumbered or can be attacked in melee.
+     * A combatant `c` threatens this one iff it is an enemy that is not
+     * defeated, not incapacitated (see {@link THREAT_NEGATING_STATUSES}),
+     * not hidden, and within weapon reach. This is useful for various combat
+     * mechanics, such as determining if a combatant is outnumbered or can be
+     * attacked in melee.
      */
     get threatenedBy(): SohlCombatant[] {
-        // TODO: Implement calculation of threatenedBy based on reactions
-        return [];
+        if (!this.combat) return [];
+
+        return this.combat.combatants.contents.filter((c: SohlCombatant) => {
+            if (c === this) return false;
+            const statuses: Set<string> =
+                (c.actor as any)?.statuses ?? new Set<string>();
+            return isThreatening({
+                isEnemy: this.isEnemyOf(c),
+                isDefeated: c.isDefeated,
+                isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
+                    statuses.has(s),
+                ),
+                isHidden: !!(c.token as any)?.hidden,
+                reaches: c.reaches(this),
+            });
+        }) as SohlCombatant[];
+    }
+
+    /**
+     * Whether this combatant is within weapon reach of `other`.
+     *
+     * @remarks
+     * The one allowed seam in the combat-groups work: reach determination is
+     * out of scope and tracked separately on the roadmap.
+     */
+    reaches(_other: SohlCombatant): boolean {
+        // TODO(reach): real implementation pending — see roadmap.
+        return true;
     }
 
     /**
@@ -189,12 +240,6 @@ export class SohlCombatant<
 
 function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
     return {
-        groups: new foundry.data.fields.ArrayField(
-            new foundry.data.fields.StringField({ blank: false }),
-            {
-                initial: [],
-            },
-        ),
         startLocation: new foundry.data.fields.ObjectField({
             initial: {
                 x: 0,
@@ -244,7 +289,6 @@ export class SohlCombatantDataModel<
 > extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
     static readonly kind = "sohlcombatantdata";
-    groups!: string[];
     startLocation!: {
         x: number;
         y: number;

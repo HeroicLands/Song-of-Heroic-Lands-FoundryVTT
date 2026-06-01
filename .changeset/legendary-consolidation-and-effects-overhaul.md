@@ -15,6 +15,12 @@ Consolidation onto Legendary, scene/lifecycle modernization, and a ground-up Act
 ## Scene & combat system
 
 - **`SohlScene` replaces `SohlRegion`/`SohlEncounter`/region-behavior.** New `SohlSceneDataModel`, `SohlSceneConfig`, `SohlSceneLogic` along with combat-tracker hooks (`combat-tracker-hooks.ts`) that inject `moveFactor` / `displayedMedium` fields and computed move display per tracker row.
+- **Combat group allegiance on Foundry-native `CombatantGroup`.** Adopts v14's `CombatantGroup` as the single source of truth for combat allegiance under one invariant: two combatants are enemies iff they belong to different groups. Replaces the unused custom `groups[]` / `groupStances` faction-matrix system (discharges roadmap **T2-4**).
+  - New `tokenDocument.flags.sohl.defaultCombatGroup` (free-form string, default `"Opponents"`) with a "Default Combat Group" field injected into both the Token and Prototype Token config sheets (`combat-group-hooks.ts`).
+  - Combatants are auto-seeded into a `CombatantGroup` on creation (`SohlCombat#_onCreateDescendantDocuments`, batch-aware, case-insensitive find-or-create).
+  - `SohlCombatant.isEnemyOf()`, a reworked `allies` getter (same group = ally), and a real `threatenedBy` getter: an enemy threatens unless it is defeated, incapacitated (`unconscious`/`sleep`/`stun`/`restrain`/`paralysis`/`frozen` — `THREAT_NEGATING_STATUSES`), hidden, or out of reach. Weapon reach is a documented placeholder (`reaches()` returns `true`) pending a separate roadmap item.
+  - **Status registration fix:** `SohlSystem` now spreads Foundry's default `statusEffects` (dead, unconscious, sleep, stun, prone, restrain, paralysis, frozen, …) alongside the custom `incapacitated`/`vanquished` entries. Previously the config array replaced the defaults wholesale (because `mergeObject` overwrites arrays), leaving combat conditions like `stun`/`prone` unrepresentable at runtime.
+  - A "Move to Group…" combat-tracker context-menu entry and a per-row group-name label (display only — no group-based turn ordering).
 - **`move-helpers`** replaces `MovementFactorDefaults` / `MovementProfile` — a single source of truth for medium-aware movement math.
 - **Lineage** moved up to the top-level item path; new `lineage-properties` sheet part and per-medium movement bindings.
 - **Domain registry** (`SohlDomains` / `builtinDomains`) added as a cross-cutting registry for cohorts, beings, and assemblies.
@@ -96,6 +102,7 @@ The previous `"test"` scope is retired (it conflated scope with filter). Scope d
 - `defineType` labels keyed by `${prefix}.${KEY_NAME}` instead of `${prefix}.${value}`. Any module/world that read `someTypeLabels.SOME_KEY` and looked up the resulting string in a custom lang pack will need updated lang entries.
 - Variant system removed; `MistyIsle`/`Lgnd*` namespaces gone.
 - `SohlRegion` / `SohlEncounter` / region-behavior removed; replaced by `SohlScene`.
+- Custom combat-group system removed in favor of Foundry-native `CombatantGroup`: the `SohlCombatant` `groups: string[]` field, the `SohlCombat` `groupStances` field and stance methods (`setGroupStance`/`allyGroups`/`enemyGroups`/`removeGroup`/`getGroupStances`), the `GROUP_STANCE` constant, and `combatant-logic#expandAllyGroups` / `combat-logic` stance helpers are gone. Allegiance is now expressed purely by group membership.
 - `SohlEventQueue` API replaced (`registerEvent`/`unregisterEvent`/`processDueEvents` → `subscribe`/`unsubscribe`/`scheduleAt`/`fire`).
 - `SohlItem.handleSohlEvent` / `SohlActor.handleSohlEvent` signature changed from `(kind, time, payload?)` to `(kind, context, payload?)` with a typed trigger context.
 - `MovementFactorDefaults` / `MovementProfile` replaced by `move-helpers`.

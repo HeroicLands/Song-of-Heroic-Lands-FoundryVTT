@@ -11,71 +11,79 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GROUP_STANCE, GroupStance } from "@src/utils/constants";
+/** The default combat group name used when a token carries no override. */
+export const DEFAULT_COMBAT_GROUP = "Opponents";
 
-/**
- * Returns the stance map for a specific group, or an empty object if the group
- * has no recorded stances.
- */
-export function getGroupStancesForGroup(
-    groupStances: Record<string, Record<string, GroupStance>>,
-    group: string,
-): Record<string, GroupStance> {
-    return groupStances[group] ?? {};
+/** A newly created combatant awaiting group assignment. */
+export interface SeedingCombatant {
+    id: string;
+    /** True if the combatant already belongs to a group (skip it). */
+    hasGroup: boolean;
+    /** The group name requested via the token flag (may be empty/undefined). */
+    desiredName: string | null | undefined;
+}
+
+/** An existing {@link CombatantGroup} on the combat. */
+export interface ExistingGroup {
+    id: string;
+    name: string;
+}
+
+/** The plan produced by {@link resolveGroupSeeding}. */
+export interface GroupSeedingPlan {
+    /** Distinct group names to create, in first-seen order, exactly as typed. */
+    groupsToCreate: string[];
+    /** The group name each ungrouped combatant resolves to. */
+    assignments: { combatantId: string; groupName: string }[];
 }
 
 /**
- * Returns the names of groups that have an ALLY stance toward the given group.
+ * Compute, without touching Foundry, how a batch of newly created combatants
+ * should be seeded into {@link CombatantGroup}s.
+ *
+ * For each combatant lacking a group, the desired name (falling back to
+ * {@link DEFAULT_COMBAT_GROUP} when blank) is matched case-insensitively
+ * against existing groups and against names already queued for creation. A
+ * distinct new name is queued for creation exactly once — never N racing
+ * creates for the same group. Each assignment resolves to the canonical
+ * stored name (the existing group's name, or the first-seen casing for a new
+ * one) so the caller can map name → id after creation.
+ *
+ * Does not mutate its inputs.
  */
-export function allyGroups(
-    groupStances: Record<string, Record<string, GroupStance>>,
-    group: string,
-): string[] {
-    const stances = groupStances[group] ?? {};
-    return Object.entries(stances)
-        .filter(([, stance]) => stance === GROUP_STANCE.ALLY)
-        .map(([targetGroup]) => targetGroup);
-}
+export function resolveGroupSeeding(
+    newCombatants: SeedingCombatant[],
+    existingGroups: ExistingGroup[],
+): GroupSeedingPlan {
+    // lower-cased name -> canonical name, seeded with existing groups.
+    const canonicalByLower = new Map<string, string>();
+    for (const group of existingGroups) {
+        canonicalByLower.set(group.name.toLowerCase(), group.name);
+    }
 
-/**
- * Returns the names of groups that have an ENEMY stance toward the given group.
- */
-export function enemyGroups(
-    groupStances: Record<string, Record<string, GroupStance>>,
-    group: string,
-): string[] {
-    const stances = groupStances[group] ?? {};
-    return Object.entries(stances)
-        .filter(([, stance]) => stance === GROUP_STANCE.ENEMY)
-        .map(([targetGroup]) => targetGroup);
-}
+    const existingLower = new Set(canonicalByLower.keys());
+    const groupsToCreate: string[] = [];
+    const assignments: { combatantId: string; groupName: string }[] = [];
 
-/**
- * Returns a new groupStances object with the specified stance added or updated.
- * Does not mutate the input.
- */
-export function withGroupStanceSet(
-    groupStances: Record<string, Record<string, GroupStance>>,
-    group: string,
-    targetGroup: string,
-    stance: GroupStance,
-): Record<string, Record<string, GroupStance>> {
-    const existing = groupStances[group] ?? {};
-    return {
-        ...groupStances,
-        [group]: { ...existing, [targetGroup]: stance },
-    };
-}
+    for (const combatant of newCombatants) {
+        if (combatant.hasGroup) continue;
 
-/**
- * Returns a new groupStances object with the specified group removed.
- * Does not mutate the input.
- */
-export function withGroupRemoved(
-    groupStances: Record<string, Record<string, GroupStance>>,
-    group: string,
-): Record<string, Record<string, GroupStance>> {
-    const result = { ...groupStances };
-    delete result[group];
-    return result;
+        const name = combatant.desiredName?.trim()
+            ? combatant.desiredName.trim()
+            : DEFAULT_COMBAT_GROUP;
+        const lower = name.toLowerCase();
+
+        let canonical = canonicalByLower.get(lower);
+        if (canonical === undefined) {
+            canonical = name;
+            canonicalByLower.set(lower, canonical);
+        }
+        if (!existingLower.has(lower) && !groupsToCreate.includes(canonical)) {
+            groupsToCreate.push(canonical);
+        }
+
+        assignments.push({ combatantId: combatant.id, groupName: canonical });
+    }
+
+    return { groupsToCreate, assignments };
 }

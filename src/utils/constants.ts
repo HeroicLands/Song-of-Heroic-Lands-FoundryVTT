@@ -232,18 +232,6 @@ export const {
 export type Reaction = (typeof REACTION)[keyof typeof REACTION];
 
 export const {
-    kind: GROUP_STANCE,
-    values: GroupStances,
-    isValue: isGroupStance,
-    labels: groupStanceLabels,
-} = defineType("SOHL.Actor.GROUP_STANCE", {
-    ENEMY: "enemy",
-    ALLY: "ally",
-    NEUTRAL: "neutral",
-});
-export type GroupStance = (typeof GROUP_STANCE)[keyof typeof GROUP_STANCE];
-
-export const {
     kind: MOVEMENT_MEDIUM,
     values: MovementMediums,
     isValue: isMovementMedium,
