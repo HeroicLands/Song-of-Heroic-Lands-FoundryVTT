@@ -31,10 +31,8 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <input name="name" type="text" value="{{actorName}}" placeholder="{{localize 'Name'}}" />
         </h1>
         <div class="status-effects">
-            {{#each statusEffects as |active id|}}
-            <a class="toggle-status-effect {{#if active}}active{{/if}}" data-status-id="{{@key}}" data-tooltip="{{@key}}">
-                <i class="fas fa-circle"></i>
-            </a>
+            {{#each statusEffects}}
+            <a class="toggle-status-effect {{#if this.active}}active{{/if}}" data-status-id="{{this.id}}" data-tooltip="{{this.label}}">{{this.abbr}}</a>
             {{/each}}
         </div>
     </div>

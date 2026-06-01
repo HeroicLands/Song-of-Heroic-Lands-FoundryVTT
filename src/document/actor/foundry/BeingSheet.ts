@@ -388,19 +388,19 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        // Status effects: check which ones are active
+        // Status effects shown in the header. `id` must match a registered
+        // status (Foundry's id is `stun`, not `stunned`); `abbr` is the short
+        // label rendered, `label` is the tooltip.
         const statuses = (actor as any).statuses ?? new Set<string>();
-        // Keys are the Foundry/SoHL status ids surfaced by the template as
-        // `data-status-id` toggles, so each must match a registered status
-        // (Foundry's id is `stun`, not `stunned`).
-        const statusEffects = {
-            sleep: statuses.has("sleep"),
-            prone: statuses.has("prone"),
-            stun: statuses.has("stun"),
-            incapacitated: statuses.has("incapacitated"),
-            unconscious: statuses.has("unconscious"),
-            dead: statuses.has("dead"),
-        };
+        const statusEffects = [
+            { id: "sleep", abbr: "SLP", label: "Sleep" },
+            { id: "prone", abbr: "PRN", label: "Prone" },
+            { id: "stun", abbr: "STN", label: "Stun" },
+            { id: "auralShock", abbr: "ASHK", label: "Aural Shock" },
+            { id: "incapacitated", abbr: "INC", label: "Incapacitated" },
+            { id: "unconscious", abbr: "UNC", label: "Unconscious" },
+            { id: "dead", abbr: "DED", label: "Dead" },
+        ].map((s) => ({ ...s, active: statuses.has(s.id) }));
 
         return Object.assign(context, {
             actorName: actor.name,

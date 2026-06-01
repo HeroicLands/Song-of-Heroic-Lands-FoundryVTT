@@ -310,6 +310,11 @@ export class SohlSystem {
                     name: "vanquished",
                     img: "systems/sohl/assets/icons/surrender.svg",
                 },
+                {
+                    id: "auralShock",
+                    name: "Aural Shock",
+                    img: "systems/sohl/assets/icons/shock.svg",
+                },
             ],
 
             specialStatusEffects: {
