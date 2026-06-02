@@ -20,7 +20,6 @@ import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
-import { actorLineageReach } from "@src/document/item/logic/lineage-reach";
 
 const { StringField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
@@ -72,32 +71,13 @@ export class CombatTechniqueDataModel<
     }
 
     /**
-     * Construct a domain-layer strike mode instance from the persisted
-     * `strikeMode` payload. The instance carries the runtime ValueModifier /
-     * CombatModifier / ImpactModifier wrappers and is what gameplay code
-     * should interact with.
-     *
-     * Constructed fresh each call; do not persist mutations to the returned
-     * object — they are not written back through this accessor.
+     * The domain-layer strike mode instance — carrying the runtime
+     * ValueModifier / CombatModifier / ImpactModifier wrappers — that
+     * gameplay code should interact with. Built and evaluated by
+     * {@link CombatTechniqueLogic} during the lifecycle (so its reach
+     * reflects the wielder's lineage), not constructed fresh here.
      */
     get strikeModeInstance(): StrikeModeBase {
-        const id = this.parent?.id ?? "";
-        if (this.strikeMode.type === STRIKE_MODE_TYPE.MELEE) {
-            const sm = new MeleeStrikeMode(
-                this.strikeMode as MeleeStrikeMode.Data,
-                this.logic as any,
-                id,
-            );
-            // The instance is built fresh per access (no evaluate lifecycle),
-            // so compute reach here. A non-Being owner (or none) has no
-            // lineage, so reach falls back to length only.
-            sm.evaluate(actorLineageReach((this.parent as any)?.actor));
-            return sm;
-        }
-        return new MissileStrikeMode(
-            this.strikeMode as MissileStrikeMode.Data,
-            this.logic as any,
-            id,
-        );
+        return (this.logic as CombatTechniqueLogic).strikeMode;
     }
 }

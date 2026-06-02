@@ -25,12 +25,14 @@ const { NumberField, StringField, SchemaField, BooleanField } =
  * defense capabilities (block and counterstrike).
  */
 export class MeleeStrikeMode extends StrikeModeBase {
-    /** Length of the weapon in this mode (feet). */
-    readonly length: ValueModifier;
-    /** Effective melee engagement range (feet). */
-    readonly reach: ValueModifier;
+    /**
+     * Effective melee engagement range (feet). Seeded from the weapon's
+     * `lengthBase`; the wielder's lineage reach is added on top during the
+     * owning logic's evaluate phase (see `WeaponGearLogic`/`CombatTechniqueLogic`).
+     */
+    reach: ValueModifier;
     /** Defense modifiers for block and counterstrike. */
-    readonly defense: {
+    defense: {
         block: CombatModifier;
         counterstrike: CombatModifier;
     };
@@ -41,12 +43,11 @@ export class MeleeStrikeMode extends StrikeModeBase {
         id: string,
     ) {
         super(data, parentLogic, id);
-        this.length = new ValueModifier({}, { parent: parentLogic }).setBase(
+        // Reach is seeded from the weapon's length; the wielder's lineage
+        // reach is layered on during the owning logic's evaluate phase.
+        this.reach = new ValueModifier({}, { parent: parentLogic }).setBase(
             data.lengthBase,
         );
-        // Reach is computed during evaluate() from the wielder's lineage
-        // reach plus this mode's effective length; it starts at base 0.
-        this.reach = new ValueModifier({}, { parent: parentLogic });
         this.defense = {
             block: new CombatModifier({}, { parent: parentLogic }),
             counterstrike: new CombatModifier({}, { parent: parentLogic }),
@@ -76,23 +77,6 @@ export class MeleeStrikeMode extends StrikeModeBase {
             this.defense.counterstrike.disabledReason =
                 "This strike mode cannot be used for counterstriking.";
         }
-    }
-
-    /**
-     * Recompute this mode's reach during the evaluate phase: the wielder's
-     * lineage effective reach becomes the base, and the (already-evaluated)
-     * effective weapon length is layered on as a delta. Any `sm:reach`
-     * effect deltas applied earlier in the lifecycle are preserved.
-     *
-     * Idempotent — re-evaluating replaces the length delta rather than
-     * accumulating it.
-     *
-     * @param lineageReach - The wielder's lineage effective reach (feet);
-     *   see {@link actorLineageReach}.
-     */
-    evaluate(lineageReach: number): void {
-        this.reach.setBase(lineageReach);
-        this.reach.add("SOHL.INFO.Length", "Len", this.length.effective);
     }
 
     /**
