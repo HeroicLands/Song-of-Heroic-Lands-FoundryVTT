@@ -20,6 +20,7 @@ import { SohlItemDataModel } from "@src/document/item/foundry/SohlItem";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import { actorLineageReach } from "@src/document/item/logic/lineage-reach";
 
 const { StringField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
@@ -82,11 +83,16 @@ export class CombatTechniqueDataModel<
     get strikeModeInstance(): StrikeModeBase {
         const id = this.parent?.id ?? "";
         if (this.strikeMode.type === STRIKE_MODE_TYPE.MELEE) {
-            return new MeleeStrikeMode(
+            const sm = new MeleeStrikeMode(
                 this.strikeMode as MeleeStrikeMode.Data,
                 this.logic as any,
                 id,
             );
+            // The instance is built fresh per access (no evaluate lifecycle),
+            // so compute reach here. A non-Being owner (or none) has no
+            // lineage, so reach falls back to length only.
+            sm.evaluate(actorLineageReach((this.parent as any)?.actor));
+            return sm;
         }
         return new MissileStrikeMode(
             this.strikeMode as MissileStrikeMode.Data,

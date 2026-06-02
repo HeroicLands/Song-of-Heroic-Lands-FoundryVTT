@@ -214,6 +214,17 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
             initial: 0,
             min: 0,
         }),
+        /**
+         * Base melee reach (feet) for creatures of this lineage, reflecting
+         * body size. Medium creatures (e.g. humans) are 0; larger creatures
+         * are positive. Combined with a melee strike mode's effective length
+         * to produce that mode's actual reach. Active Effects can target
+         * `system.reachBase` to model size-changing effects.
+         */
+        reachBase: new NumberField({
+            integer: false,
+            initial: 0,
+        }),
     };
 }
 
@@ -236,6 +247,7 @@ export class LineageDataModel<
     defaultMoveMedium!: MovementMedium;
     encumbranceRate!: number;
     bodyWeightBase!: number;
+    reachBase!: number;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineLineageDataSchema();

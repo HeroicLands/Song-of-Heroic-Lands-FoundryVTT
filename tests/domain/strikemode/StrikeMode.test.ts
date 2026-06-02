@@ -53,7 +53,8 @@ describe("MeleeStrikeMode", () => {
         expect(sm.assocSkillCode).toBe("swd");
         expect(sm.spread.base).toBe(10);
         expect(sm.length.base).toBe(5);
-        expect(sm.reach.base).toBe(5);
+        // reach is computed during evaluate(), not at construction.
+        expect(sm.reach.base).toBe(0);
         expect(sm.attack).toBeDefined();
         expect(sm.impact).toBeDefined();
         expect(sm.defense.block).toBeDefined();
@@ -103,6 +104,42 @@ describe("MeleeStrikeMode", () => {
         };
         const sm = new MeleeStrikeMode(data, MOCK_LOGIC, MELEE_ID);
         expect(sm.spread.base).toBe(0);
+    });
+
+    describe("evaluate(lineageReach)", () => {
+        it("sets the reach base to the wielder's lineage effective reach", () => {
+            const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
+            sm.evaluate(2);
+            expect(sm.reach.base).toBe(2);
+        });
+
+        it("adds the effective length on top of the lineage reach", () => {
+            // lengthBase 5, medium creature (reach 0) => reach 5
+            const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
+            sm.evaluate(0);
+            expect(sm.reach.effective).toBe(5);
+
+            // large creature (reach 2) => reach 7
+            const sm2 = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
+            sm2.evaluate(2);
+            expect(sm2.reach.effective).toBe(7);
+        });
+
+        it("reflects modifiers applied to length (e.g. from an effect)", () => {
+            const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
+            // Simulate a `sm:length` effect adding +3 to the weapon length.
+            sm.length.add("SOHL.INFO.test", "TST", 3);
+            expect(sm.length.effective).toBe(8);
+            sm.evaluate(2);
+            expect(sm.reach.effective).toBe(10); // 2 (reach) + 8 (length)
+        });
+
+        it("is idempotent — re-evaluating does not double-count length", () => {
+            const sm = new MeleeStrikeMode(MELEE_DATA, MOCK_LOGIC, MELEE_ID);
+            sm.evaluate(2);
+            sm.evaluate(2);
+            expect(sm.reach.effective).toBe(7); // not 12
+        });
     });
 });
 

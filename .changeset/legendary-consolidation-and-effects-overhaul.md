@@ -24,6 +24,7 @@ Consolidation onto Legendary, scene/lifecycle modernization, and a ground-up Act
   - A "Move to Group…" combat-tracker context-menu entry and a per-row group-name label (display only — no group-based turn ordering).
 - **`move-helpers`** replaces `MovementFactorDefaults` / `MovementProfile` — a single source of truth for medium-aware movement math.
 - **Lineage** moved up to the top-level item path; new `lineage-properties` sheet part and per-medium movement bindings.
+- **Size-based melee reach.** Lineage gains a `reachBase` field (feet; medium creatures = 0) surfaced as a `reach` ValueModifier on `LineageLogic`. Each melee strike mode now computes its reach during the evaluate phase as the wielder's lineage effective reach plus the mode's effective length (`MeleeStrikeMode#evaluate`, driven from `WeaponGearLogic.evaluate` and `CombatTechniqueDataModel.strikeModeInstance`). The Foundry-free `actorLineageReach` helper lives in `lineage-reach.ts`. Lineage is a Being-only concept: a non-Being (or absent) lineage is a silent no-op (reach falls back to length), while a Being that lacks a lineage logs a warning in `BeingLogic.finalize` (it cannot move, wield weapons, etc., and should be treated as unusable).
 - **Domain registry** (`SohlDomains` / `builtinDomains`) added as a cross-cutting registry for cohorts, beings, and assemblies.
 
 ## ActiveEffect system (largest single change)

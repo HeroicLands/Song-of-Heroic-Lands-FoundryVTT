@@ -17,6 +17,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import { actorLineageReach } from "@src/document/item/logic/lineage-reach";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -110,6 +111,14 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        // Reach for each melee mode = wielder's lineage reach + the mode's
+        // effective length (which has its own modifiers applied by now).
+        // A non-Being wielder (or none) has no lineage, so reach falls back
+        // to length alone — see actorLineageReach.
+        const lineageReach = actorLineageReach(this.actor);
+        for (const sm of this.strikeModes) {
+            if (sm instanceof MeleeStrikeMode) sm.evaluate(lineageReach);
+        }
     }
 
     /** @inheritdoc */

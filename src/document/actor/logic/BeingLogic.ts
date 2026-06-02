@@ -354,6 +354,20 @@ export class BeingLogic<
     /** @inheritdoc */
     override finalize(): void {
         super.finalize();
+
+        // A being really has to have a lineage — it supplies body structure,
+        // movement, weight, and reach. Lacking one is not a hard error (we do
+        // not throw), but the being cannot participate in most being actions
+        // (it cannot wield weapons, move, etc.) and should be treated as
+        // unusable. Surface that as a warning so it gets noticed and fixed.
+        const hasLineage = !!(this.actor?.itemTypes as any)?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
+        if (!hasLineage) {
+            sohl.log.warn(
+                `Being "${this.actor?.name ?? "?"}" has no Lineage item; it cannot participate in most being actions (movement, weapons, reach, etc.) and should be considered unusable until a Lineage is added.`,
+            );
+        }
     }
 }
 
