@@ -24,6 +24,11 @@ import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import type { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
+import {
+    aggregateArmor,
+    type ArmorLayer,
+} from "@src/domain/body/ArmorAggregation";
 import {
     computeActorReach,
     type MeleeReachOption,
@@ -417,6 +422,41 @@ export class BeingLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        this.aggregateArmorProtection();
+    }
+
+    /**
+     * Fold every worn ArmorGear's protection onto the lineage body locations
+     * it covers, so each location knows its summed armor, whether it is rigid,
+     * and the list of covering materials. Runs after `super.evaluate()` so the
+     * armor items' protection modifiers are already prepared. No-op when the
+     * being has no lineage (hence no body structure).
+     */
+    private aggregateArmorProtection(): void {
+        const itemTypes = (this.actor as any)?.itemTypes ?? {};
+        const bodyStructure = (
+            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
+        )?.bodyStructure;
+        if (!bodyStructure) return;
+
+        const layers: ArmorLayer[] = [];
+        for (const armor of itemTypes[ITEM_KIND.ARMORGEAR] ?? []) {
+            const logic = armor.logic as ArmorGearLogic | undefined;
+            if (!logic) continue;
+            layers.push({
+                material: (logic.data as any).material ?? "",
+                protection: {
+                    blunt: logic.protection.blunt.effective,
+                    edged: logic.protection.edged.effective,
+                    piercing: logic.protection.piercing.effective,
+                    fire: logic.protection.fire.effective,
+                },
+                flexibleLocations: (logic.data as any).locations?.flexible ?? [],
+                rigidLocations: (logic.data as any).locations?.rigid ?? [],
+            });
+        }
+
+        aggregateArmor(bodyStructure, layers);
     }
 
     /** @inheritdoc */

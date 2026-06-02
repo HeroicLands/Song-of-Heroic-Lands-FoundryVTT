@@ -118,6 +118,16 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
                                 initial: 0,
                                 min: 0,
                             }),
+                            /**
+                             * A Serious injury here forces a stumble roll; a
+                             * Grievous injury stumbles automatically.
+                             */
+                            isStumble: new BooleanField({ initial: false }),
+                            /**
+                             * A Serious injury here forces a fumble roll; a
+                             * Grievous injury fumbles automatically.
+                             */
+                            isFumble: new BooleanField({ initial: false }),
                             probWeight: new NumberField({
                                 integer: true,
                                 initial: 0,

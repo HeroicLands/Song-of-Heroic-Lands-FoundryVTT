@@ -16,6 +16,7 @@ import { SohlSystem } from "@src/core/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
 import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
@@ -341,7 +342,7 @@ function registerSystemHooks() {
                     ev.target as HTMLElement
                 )?.closest("button");
                 if (btn?.closest(".card-buttons")) {
-                    const docUuid = btn.dataset.docUuid;
+                    const docUuid = resolveChatCardHandlerUuid(btn.dataset);
                     if (docUuid) {
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
@@ -356,7 +357,9 @@ function registerSystemHooks() {
                     const edit: HTMLElement | null = (
                         ev.target as HTMLElement
                     )?.closest("a.edit-action");
-                    const docUuid = edit?.dataset.docUuid;
+                    const docUuid = edit?.dataset
+                        ? resolveChatCardHandlerUuid(edit.dataset)
+                        : null;
                     if (docUuid) {
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
