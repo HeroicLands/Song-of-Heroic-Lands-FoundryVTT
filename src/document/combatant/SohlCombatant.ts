@@ -114,15 +114,46 @@ export class SohlCombatant<
     }
 
     /**
-     * Whether this combatant is within weapon reach of `other`.
+     * This combatant's melee reach (feet): the reach of its actor — the
+     * greatest reach among the actor's currently available melee strike
+     * modes. 0 when the actor is absent or is not a Being.
+     */
+    get reach(): number {
+        return (this.actor?.logic as BeingLogic | undefined)?.reach ?? 0;
+    }
+
+    /**
+     * The point used to measure distance to/from this combatant — its token
+     * center (with elevation), or `null` when no placed token is available.
+     */
+    private get measurePoint():
+        | { x: number; y: number; elevation: number }
+        | null {
+        const token = this.token as any;
+        const center = token?.object?.center ?? token?.center;
+        if (!center) return null;
+        return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
+    }
+
+    /**
+     * Whether this combatant's melee reach extends to `other` — i.e. the
+     * center-to-center grid distance between the two combatants' tokens is
+     * within this combatant's {@link reach}. Returns `false` when either
+     * token position is unavailable.
      *
      * @remarks
-     * The one allowed seam in the combat-groups work: reach determination is
-     * out of scope and tracked separately on the roadmap.
+     * Distance is measured center-to-center *by design*: a large creature's
+     * body size is folded into its lineage `reachBase` (a dragon has a large
+     * reach), so a big token's reach already accounts for the distance from
+     * its center to an adjacent target. Do not "fix" this to edge-to-edge.
      */
-    reaches(_other: SohlCombatant): boolean {
-        // TODO(reach): real implementation pending — see roadmap.
-        return true;
+    reaches(other: SohlCombatant): boolean {
+        const from = this.measurePoint;
+        const to = other.measurePoint;
+        if (!from || !to) return false;
+        const result = getCanvas().grid?.measurePath([from, to], {});
+        const distance = result?.distance ?? Infinity;
+        return distance <= this.reach;
     }
 
     /**

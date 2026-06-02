@@ -217,9 +217,12 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
         /**
          * Base melee reach (feet) for creatures of this lineage, reflecting
          * body size. Medium creatures (e.g. humans) are 0; larger creatures
-         * are positive. Combined with a melee strike mode's effective length
-         * to produce that mode's actual reach. Active Effects can target
-         * `system.reachBase` to model size-changing effects.
+         * (e.g. a dragon with a large token) are positive — this is how token
+         * size is accounted for in melee reach, since combat distance is
+         * measured center-to-center (see `SohlCombatant.reaches`). Combined
+         * with a melee strike mode's effective length to produce that mode's
+         * actual reach. Active Effects can target `system.reachBase` to model
+         * size-changing effects.
          */
         reachBase: new NumberField({
             integer: false,

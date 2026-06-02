@@ -21,6 +21,13 @@ import {
     SohlActorLogic,
 } from "@src/document/actor/foundry/SohlActor";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
+import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
+import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
+import {
+    computeActorReach,
+    type MeleeReachOption,
+} from "@src/document/actor/logic/reach-helpers";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
 import { ITEM_KIND, MovementMedium } from "@src/utils/constants";
 
@@ -76,6 +83,67 @@ export class BeingLogic<
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
         const base = readBaseMove(lineageLogic?.moveBase, medium);
         return new ValueModifier({}, { parent: this }).setBase(base);
+    }
+
+    /**
+     * The being's melee reach (feet): the greatest reach among its currently
+     * *available* melee strike modes.
+     *
+     * - **Combat techniques** are intrinsic and always available — every
+     *   melee technique mode counts.
+     * - A **weapon's** melee mode counts only when the weapon is currently
+     *   held in at least the mode's `minParts` limbs (a body part that
+     *   `canHoldItem`).
+     *
+     * Returns 0 when no melee mode is available (e.g. an unarmed being with
+     * no combat techniques). Reads each strike mode's already-evaluated
+     * `reach`, so it should be read after item preparation.
+     */
+    get reach(): number {
+        const actor = this.actor;
+        if (!actor) return 0;
+        const itemTypes = (actor as any).itemTypes ?? {};
+
+        const bodyStructure = (
+            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
+        )?.bodyStructure;
+
+        const options: MeleeReachOption[] = [];
+
+        // Combat techniques: intrinsic, always available.
+        for (const ct of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
+            const sm = (ct.logic as CombatTechniqueLogic | undefined)
+                ?.strikeMode;
+            if (sm instanceof MeleeStrikeMode) {
+                options.push({
+                    reach: sm.reach.effective,
+                    minParts: sm.minParts,
+                    heldLimbs: null,
+                });
+            }
+        }
+
+        // Weapons: a melee mode is available only if the weapon is held in at
+        // least `minParts` limbs.
+        for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+            const heldLimbs =
+                bodyStructure?.parts.filter(
+                    (p) => p.canHoldItem && p.heldItem?.id === weapon.id,
+                ).length ?? 0;
+            const strikeModes =
+                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ?? [];
+            for (const sm of strikeModes) {
+                if (sm instanceof MeleeStrikeMode) {
+                    options.push({
+                        reach: sm.reach.effective,
+                        minParts: sm.minParts,
+                        heldLimbs,
+                    });
+                }
+            }
+        }
+
+        return computeActorReach(options);
     }
 
     /**
