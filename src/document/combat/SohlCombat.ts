@@ -11,62 +11,94 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { GroupStance } from "@src/utils/constants";
+import { fvttIsActiveGM } from "@src/core/FoundryHelpers";
+import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import {
-    getGroupStancesForGroup,
-    allyGroups as allyGroupsLogic,
-    enemyGroups as enemyGroupsLogic,
-    withGroupStanceSet,
-    withGroupRemoved,
+    type ExistingGroup,
+    type SeedingCombatant,
+    resolveGroupSeeding,
 } from "./combat-logic";
 
 export class SohlCombat<
     SubType extends Combat.SubType = Combat.SubType,
 > extends Combat<SubType> {
-    getGroupStances(group: string): StrictObject<GroupStance> {
-        const combatData = this.system as SohlCombatDataModel;
-        return getGroupStancesForGroup(combatData.groupStances, group);
-    }
-
-    async setGroupStance(
-        group: string,
-        targetGroup: string,
-        stance: GroupStance,
-    ) {
-        const combatData = this.system as SohlCombatDataModel;
-        const groupStances = withGroupStanceSet(
-            combatData.groupStances,
-            group,
-            targetGroup,
-            stance,
+    /**
+     * After combatants are created, seed each ungrouped one into a
+     * `CombatantGroup` derived from its token's `sohl.defaultCombatGroup`
+     * flag (defaulting to `"Opponents"`). Batch-aware: several combatants
+     * created in one operation that want the same new group share a single
+     * group create. Only the active GM performs the authoritative writes.
+     */
+    override _onCreateDescendantDocuments(
+        parent: any,
+        collection: string,
+        documents: any[],
+        data: any,
+        options: any,
+        userId: string,
+    ): void {
+        (super._onCreateDescendantDocuments as any)(
+            parent,
+            collection,
+            documents,
+            data,
+            options,
+            userId,
         );
-        return await this.update({ system: { groupStances } } as Combat.UpdateData);
+        if (collection !== "combatants") return;
+        if (!fvttIsActiveGM()) return;
+        void this.#seedCombatantGroups(documents as SohlCombatant[]);
     }
 
-    async removeGroup(group: string): Promise<void> {
-        const combatData = this.system as SohlCombatDataModel;
-        const groupStances = withGroupRemoved(combatData.groupStances, group);
-        await this.update({ system: { groupStances } } as Combat.UpdateData);
-    }
+    async #seedCombatantGroups(combatants: SohlCombatant[]): Promise<void> {
+        const newCombatants: SeedingCombatant[] = combatants.map((c) => ({
+            id: c.id!,
+            hasGroup: !!c.groupId,
+            desiredName:
+                ((c.token as any)?.getFlag?.("sohl", "defaultCombatGroup") as
+                    | string
+                    | undefined) ?? null,
+        }));
 
-    allyGroups(group: string): string[] {
-        const combatData = this.system as SohlCombatDataModel;
-        return allyGroupsLogic(combatData.groupStances, group);
-    }
+        const existingGroups: ExistingGroup[] = (
+            this.groups.contents as any[]
+        ).map((g) => ({ id: g.id, name: g.name }));
 
-    enemyGroups(group: string): string[] {
-        const combatData = this.system as SohlCombatDataModel;
-        return enemyGroupsLogic(combatData.groupStances, group);
+        const plan = resolveGroupSeeding(newCombatants, existingGroups);
+        if (!plan.assignments.length) return;
+
+        let created: any[] = [];
+        if (plan.groupsToCreate.length) {
+            created = (await this.createEmbeddedDocuments(
+                "CombatantGroup",
+                plan.groupsToCreate.map((name) => ({ name })),
+            )) as any[];
+        }
+
+        // Case-insensitive name -> id map from existing + freshly created groups.
+        const idByLower = new Map<string, string>();
+        for (const g of this.groups.contents as any[]) {
+            idByLower.set(g.name.toLowerCase(), g.id);
+        }
+        for (const g of created) {
+            idByLower.set(g.name.toLowerCase(), g.id);
+        }
+
+        const updates = plan.assignments
+            .map((a) => {
+                const groupId = idByLower.get(a.groupName.toLowerCase());
+                return groupId ? { _id: a.combatantId, group: groupId } : null;
+            })
+            .filter((u): u is { _id: string; group: string } => u !== null);
+
+        if (updates.length) {
+            await this.updateEmbeddedDocuments("Combatant", updates as any[]);
+        }
     }
 }
 
 function defineSohlCombatDataSchema(): foundry.data.fields.DataSchema {
-    return {
-        groupStances: new foundry.data.fields.ObjectField({
-            required: false,
-            default: {},
-        }),
-    };
+    return {};
 }
 
 type SohlCombatDataSchema = ReturnType<typeof defineSohlCombatDataSchema>;
@@ -77,7 +109,6 @@ export class SohlCombatDataModel<
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combat"];
     static readonly kind = "sohlcombatdata";
 
-    groupStances!: StrictObject<StrictObject<GroupStance>>;
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlCombatDataSchema();
     }

@@ -24,13 +24,13 @@ const { NumberField, StringField } = foundry.data.fields;
  */
 export class MissileStrikeMode extends StrikeModeBase {
     /** What ammunition this mode uses ("none" if the weapon itself is thrown). */
-    readonly projectileType: string;
+    projectileType: string;
     /** Maximum volley multiplier for rapid fire. */
-    readonly maxVolleyMult: number;
+    maxVolleyMult: number;
     /** Base range before modifiers (feet). */
-    readonly baseRange: ValueModifier;
+    baseRange: ValueModifier;
     /** Draw/reload time before firing. */
-    readonly draw: ValueModifier;
+    draw: ValueModifier;
 
     constructor(
         data: MissileStrikeMode.Data,

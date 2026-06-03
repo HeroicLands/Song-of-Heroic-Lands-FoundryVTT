@@ -21,7 +21,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     {{!-- Injuries --}}
     <fieldset>
-        <legend>Injuries</legend>
+        <legend>
+            Injuries
+            {{#if editable}}
+            <a class="item-control" data-action="addInjury" data-tooltip="Add Injury">
+                <i class="fas fa-plus"></i>
+            </a>
+            {{/if}}
+        </legend>
         <ol class="item-list">
             <li class="items-header flexrow">
                 <h3 class="item-name">Injury</h3>

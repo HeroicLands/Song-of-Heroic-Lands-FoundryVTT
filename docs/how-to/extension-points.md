@@ -136,6 +136,27 @@ See [Effects Integration](../reference/effects-integration.md).
 
 **Safe extension:** Add new templates rather than overloading existing ones. Keep template context objects stable and well-documented.
 
+### Chat-card button dispatch contract
+
+Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed
+by the `renderChatMessageHTML` hook in `sohl.ts`. The handler document is
+resolved from the clicked element's dataset by
+`resolveChatCardHandlerUuid(dataset)` (`src/document/chat/chat-card-dispatch.ts`),
+which normalizes the differing attribute conventions across cards with this
+precedence:
+
+1. `data-doc-uuid` (standard-test, fate, edit-action cards)
+2. `data-handler-uuid` (damage, injury, attack-result cards)
+3. `data-handler-actor-uuid` (attack-card defender responder)
+4. `data-action-handler-uuid` (opposed-request / opposed-result cards)
+
+The resolved document's `onChatCardButton(btn)` (or `onChatCardEditAction`) is
+invoked. `SohlActor.onChatCardButton` switches on `btn.dataset.action`; today it
+handles `createInjury` (opens the assisted Add Injury dialog, or resolves with
+no dialog when the payload carries aim data). When adding a new card button,
+emit one of the dataset attributes above and add an `action` case rather than
+introducing a new attribute name.
+
 ## 6) Localization
 
 - `lang/en.json`

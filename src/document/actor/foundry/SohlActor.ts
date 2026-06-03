@@ -29,7 +29,23 @@ import {
     fvttCallHookCancel,
     fvttHookOnError,
     fvttResolveUuidAsync,
+    inputDialog,
+    type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
+import { toFilePath } from "@src/utils/helpers";
+import { IMPACT_ASPECT } from "@src/utils/constants";
+import { resolveInjury } from "@src/domain/body/InjuryResolution";
+import {
+    parseInjuryRequest,
+    isAutomatedRequest,
+    readInjuryDialogForm,
+    buildInjuryCardData,
+    resolveAutomatedInjury,
+    getActorBodyStructure,
+    createTraumaFromInjury,
+    type InjuryDialogForm,
+} from "@src/document/actor/foundry/injury-actions";
+import type { ResolvedInjury } from "@src/domain/body/InjuryResolution";
 import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
 const { HTMLField, StringField, FilePathField } = foundry.data.fields;
 
@@ -81,8 +97,147 @@ export class SohlActor extends Actor {
      * @param btn The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
-        // TODO: Handle chat card button clicks here
-        console.log("Button clicked:", btn);
+        const action = btn.dataset.action;
+        switch (action) {
+            case "createInjury":
+                await this._onCreateInjury(btn);
+                break;
+            default:
+                sohl.log.warn(
+                    `SoHL | ${this.name} (Actor) received unhandled chat-card action "${action ?? ""}"`,
+                );
+        }
+    }
+
+    /**
+     * Resolve and post an injury from a chat-card `createInjury` click. The
+     * forward-carried `data-test-result-json` discriminates the two modes:
+     * an automated request (aimed `targetPart` + `accuracy`) resolves with no
+     * player input; an assisted request opens the Add Injury dialog so the GM
+     * can pick the location and tune armor reduction.
+     */
+    private async _onCreateInjury(btn: HTMLElement): Promise<void> {
+        const body = getActorBodyStructure(this);
+        if (!body) {
+            sohl.log.uiWarn(
+                `${this.name} has no Lineage body structure; cannot resolve an injury.`,
+            );
+            return;
+        }
+
+        const req = parseInjuryRequest(btn.dataset.testResultJson);
+        if (!req) {
+            sohl.log.warn(
+                `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
+            );
+            return;
+        }
+
+        // Automated: aim was forwarded, so resolve and record with no dialog.
+        if (isAutomatedRequest(req)) {
+            const injury = resolveAutomatedInjury(req, body);
+            await this._postInjury(injury, injury.level >= 1);
+            if (injury.level >= 1) await createTraumaFromInjury(this, injury);
+            return;
+        }
+
+        // Assisted: let the player confirm location, aspect, impact, and armor.
+        await this.addInjuryViaDialog({
+            location: req.location ?? "",
+            aspect: req.aspect,
+            impact: req.impact,
+            armorReduction: req.armorReduction ?? 0,
+            extraBleedRisk: !!req.extraBleedRisk,
+        });
+    }
+
+    /**
+     * Open the Add Injury dialog, resolve the player's input into an injury,
+     * post the injury card, and (when requested) record the Trauma. Shared by
+     * the assisted-combat `createInjury` flow and the character sheet's manual
+     * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
+     * yields a blank manual-entry dialog.
+     */
+    async addInjuryViaDialog(prefill: {
+        location?: string;
+        aspect?: string;
+        impact?: number;
+        armorReduction?: number;
+        extraBleedRisk?: boolean;
+    } = {}): Promise<void> {
+        const body = getActorBodyStructure(this);
+        if (!body) {
+            sohl.log.uiWarn(
+                `${this.name} has no Lineage body structure; cannot add an injury.`,
+            );
+            return;
+        }
+
+        const dialogData = {
+            hitLocations: body
+                .getAllLocations()
+                .map((l) => ({ code: l.shortcode, name: l.name })),
+            aspectChoices: Object.values(IMPACT_ASPECT),
+            location: prefill.location ?? "",
+            aspect: prefill.aspect ?? "",
+            impactVal: prefill.impact ?? 0,
+            armorReduction: prefill.armorReduction ?? 0,
+            extraBleedRisk: !!prefill.extraBleedRisk,
+            addToCharSheet: true,
+            askRecordInjury: true,
+        };
+
+        const result = await inputDialog({
+            title: `${this.name}: Add Injury`,
+            template: toFilePath(
+                "systems/sohl/templates/dialog/injury-dialog.hbs",
+            ),
+            data: dialogData,
+            callback: ((
+                _event: PointerEvent | SubmitEvent,
+                button: HTMLButtonElement,
+            ): Promise<InjuryDialogForm | null> => {
+                const form = button.querySelector("form");
+                if (!form) return Promise.resolve(null);
+                const fd = new FormDataExtended(form);
+                return Promise.resolve(readInjuryDialogForm(fd.object));
+            }) as DialogButtonCallback,
+            rejectClose: false,
+        });
+        if (!result) return;
+
+        const form = result as InjuryDialogForm;
+        const location = body
+            .getAllLocations()
+            .find((l) => l.shortcode === form.locationCode);
+        const injury = resolveInjury({
+            impact: form.impact,
+            aspect: form.aspect,
+            body,
+            location,
+            armorReduction: form.armorReduction,
+            extraBleedRisk: form.extraBleedRisk,
+        });
+        await this._postInjury(injury, form.addToCharSheet);
+        if (form.addToCharSheet && injury.level >= 1)
+            await createTraumaFromInjury(this, injury);
+    }
+
+    /** Post an `injury-card` to chat for a resolved injury on this actor. */
+    private async _postInjury(
+        injury: ResolvedInjury,
+        addToCharSheet: boolean,
+    ): Promise<void> {
+        const data = buildInjuryCardData(injury, {
+            actorId: this.id,
+            handlerActorUuid: this.uuid,
+            name: this.name ?? "",
+            addToCharSheet,
+        });
+        await this.getSpeaker().toChat(
+            toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
+            data,
+        );
     }
 
     /**

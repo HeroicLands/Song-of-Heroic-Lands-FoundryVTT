@@ -33,18 +33,46 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  */
 export class BodyLocation {
     readonly shortcode: string;
+    /** Display name of this location (falls back to the shortcode). */
+    readonly name: string;
     /** Bleeding tier — see BleedingSusceptibility in constants. */
     readonly bleedingSusceptibility: string;
     /** Amputability tier — see Amputability in constants. */
     readonly amputability: string;
+    /**
+     * Whether a Serious-or-worse injury here can cause a stumble. A Serious
+     * injury requires a stumble roll; a Grievous injury stumbles automatically.
+     */
+    readonly isStumble: boolean;
+    /**
+     * Whether a Serious-or-worse injury here can cause a fumble. A Serious
+     * injury requires a fumble roll; a Grievous injury fumbles automatically.
+     */
+    readonly isFumble: boolean;
     readonly shockValue: ValueModifier;
     readonly probWeight: ValueModifier;
+    /** Natural (intrinsic) protection per aspect, before worn armor. */
     readonly protectionBase: {
         blunt: ValueModifier;
         edged: ValueModifier;
         piercing: ValueModifier;
         fire: ValueModifier;
     };
+    /**
+     * Worn-armor protection per aspect, summed across every ArmorGear covering
+     * this location during the lifecycle. Reset and recomputed each cycle by
+     * the armor-aggregation step; zero before aggregation runs.
+     */
+    armorProtection: {
+        blunt: number;
+        edged: number;
+        piercing: number;
+        fire: number;
+    };
+    /** True once any *rigid* armor covers this location (drives glancing blows). */
+    isRigid: boolean;
+    /** Comma-joined list of armor materials covering this location, e.g. "Cloth, Mail". */
+    armorType: string;
     readonly bodyPart: BodyPart;
     /** Zero-based index of this location within {@link BodyPart.locations}. */
     readonly index: number;
@@ -53,8 +81,14 @@ export class BodyLocation {
         const lineageLogic = bodyPart.bodyStructure.lineageLogic;
 
         this.shortcode = data.shortcode;
+        this.name = data.name || data.shortcode;
         this.bleedingSusceptibility = data.bleedingSusceptibility;
         this.amputability = data.amputability;
+        this.isStumble = data.isStumble ?? false;
+        this.isFumble = data.isFumble ?? false;
+        this.armorProtection = { blunt: 0, edged: 0, piercing: 0, fire: 0 };
+        this.isRigid = false;
+        this.armorType = "";
         this.shockValue = new ValueModifier(
             {},
             { parent: lineageLogic },
@@ -95,10 +129,16 @@ export namespace BodyLocation {
     /** Persisted data shape for a body location. */
     export interface Data {
         shortcode: string;
+        /** Display name of the location. */
+        name?: string;
         /** Bleeding tier (BleedingSusceptibility value). */
         bleedingSusceptibility: string;
         /** Amputability tier (Amputability value). */
         amputability: string;
+        /** Whether a serious/grievous injury here can cause a stumble. */
+        isStumble?: boolean;
+        /** Whether a serious/grievous injury here can cause a fumble. */
+        isFumble?: boolean;
         /** Base shock value for injuries to this location (subject to modifiers) */
         shockValue: number;
         /** Weight used in random hit location selection */

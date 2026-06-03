@@ -12,8 +12,11 @@
  */
 
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
 
 /**
  * Logic for the **Combat Technique** item type — a specialized combat
@@ -34,6 +37,9 @@ import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 export class CombatTechniqueLogic<
     TData extends CombatTechniqueData = CombatTechniqueData,
 > extends SohlItemBaseLogic<TData> {
+    /** The runtime strike-mode instance, built from persisted data. */
+    strikeMode!: StrikeModeBase;
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -41,11 +47,28 @@ export class CombatTechniqueLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
+        const d = this.data.strikeMode;
+        this.strikeMode =
+            d.type === STRIKE_MODE_TYPE.MELEE ?
+                new MeleeStrikeMode(d as MeleeStrikeMode.Data, this, this.id)
+            :   new MissileStrikeMode(
+                    d as MissileStrikeMode.Data,
+                    this,
+                    this.id,
+                );
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        // A melee technique's reach is its base length plus the wielder's
+        // lineage reach (0 for a non-Being or no lineage).
+        if (this.strikeMode instanceof MeleeStrikeMode) {
+            const lineageReach =
+                ((this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
+                    ?.logic as LineageLogic | undefined)?.reach.effective ?? 0;
+            this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
+        }
     }
 
     /** @inheritdoc */
