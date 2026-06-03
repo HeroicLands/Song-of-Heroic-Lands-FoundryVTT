@@ -28,9 +28,14 @@ import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import {
     resolveStrikeModeML,
+    resolveStrikeModeImpact,
+    buildDamageCardData,
     type StrikeModeTestKind,
 } from "@src/document/actor/foundry/combat-actions";
 import { SohlActionContext } from "@src/core/SohlActionContext";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { toFilePath } from "@src/utils/helpers";
+import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
@@ -235,6 +240,7 @@ export class BeingSheet extends SohlActorSheetBase {
         ],
         actions: {
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
+            rollStrikeModeImpact: BeingSheet._onRollStrikeModeImpact,
             addInjury: BeingSheet._onAddInjury,
         },
     };
@@ -288,6 +294,65 @@ export class BeingSheet extends SohlActorSheetBase {
         });
 
         await mlMod.successTest(context);
+    }
+
+    /**
+     * Handle clicks on the Impact cell in the Combat tab. Rolls the strike
+     * mode's impact dice and posts a damage card. When a single token is
+     * targeted, the card offers a Calculate Injury button carrying the rolled
+     * impact and aspect, opening the assisted Add Injury flow on the target.
+     */
+    static async _onRollStrikeModeImpact(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const row = target.closest("[data-sm-id]");
+        if (!row) return;
+        const smId = row.getAttribute("data-sm-id");
+        const itemId = row.getAttribute("data-item-id");
+        if (!smId || !itemId) return;
+
+        const actor = this.document;
+        const impactMod = resolveStrikeModeImpact(actor, itemId, smId);
+        if (!impactMod) return;
+
+        const item = actor.items.get(itemId);
+        const sm = (item?.logic as any)?.strikeModes?.find(
+            (m: any) => m.id === smId,
+        );
+        if (!item || !sm) return;
+
+        // Roll the impact fresh from the formula so repeated clicks re-roll.
+        const roll = SimpleRoll.fromFormula(impactMod.diceFormula);
+        roll.roll();
+
+        const targetTokens = SohlTokenDocument.getTargetedTokens(true);
+        const targetToken = targetTokens?.[0];
+        const targetActorUuid = (targetToken?.actor as any)?.uuid as
+            | string
+            | undefined;
+
+        const data = buildDamageCardData({
+            title: `${item.name} – ${sm.name}`,
+            actorId: actor.id,
+            sourceActorUuid: actor.uuid,
+            impactLabel: impactMod.label,
+            rollResult: roll.result,
+            impact: roll.total,
+            aspect: impactMod.aspectType,
+            target:
+                targetToken && targetActorUuid ?
+                    { name: targetToken.name ?? "", actorUuid: targetActorUuid }
+                :   null,
+        });
+
+        await (actor as any)
+            .getSpeaker()
+            .toChat(
+                toFilePath("systems/sohl/templates/chat/damage-card.hbs"),
+                data,
+            );
     }
 
     /* -------------------------------------------- */

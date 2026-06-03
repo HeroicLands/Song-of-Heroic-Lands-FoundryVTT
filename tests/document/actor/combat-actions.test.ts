@@ -6,7 +6,12 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { resolveStrikeModeML } from "@src/document/actor/foundry/combat-actions";
+import {
+    resolveStrikeModeML,
+    resolveStrikeModeImpact,
+    buildDamageCardData,
+} from "@src/document/actor/foundry/combat-actions";
+import { IMPACT_ASPECT } from "@src/utils/constants";
 
 function makeActor(items: any[]): any {
     return {
@@ -124,5 +129,74 @@ describe("resolveStrikeModeML", () => {
         expect(resolveStrikeModeML(actor, "wp1", "m2", "attack")).toBe(
             (m2 as any).attack,
         );
+    });
+});
+
+const impactMode = (id: string, impact: any) => ({ id, impact });
+
+describe("resolveStrikeModeImpact", () => {
+    it("returns the impact modifier for a live strike mode", () => {
+        const impact = { disabled: "" };
+        const actor = makeActor([
+            makeWeaponWithModes("wp1", [impactMode("sm1", impact)]),
+        ]);
+        expect(resolveStrikeModeImpact(actor, "wp1", "sm1")).toBe(impact);
+    });
+
+    it("returns null when the impact modifier is disabled", () => {
+        const impact = { disabled: "SOHL.ImpactModifier.DISABLED" };
+        const actor = makeActor([
+            makeWeaponWithModes("wp1", [impactMode("sm1", impact)]),
+        ]);
+        expect(resolveStrikeModeImpact(actor, "wp1", "sm1")).toBeNull();
+    });
+
+    it("returns null when the item, strike mode, or impact is missing", () => {
+        expect(resolveStrikeModeImpact(makeActor([]), "wp1", "sm1")).toBeNull();
+        const actor = makeActor([
+            makeWeaponWithModes("wp1", [{ id: "sm1" }]),
+        ]);
+        expect(resolveStrikeModeImpact(actor, "wp1", "sm1")).toBeNull();
+        expect(resolveStrikeModeImpact(actor, "wp1", "nope")).toBeNull();
+    });
+});
+
+describe("buildDamageCardData", () => {
+    const base = {
+        title: "Broadsword – Cut",
+        actorId: "atk1",
+        sourceActorUuid: "Actor.atk1",
+        impactLabel: "2d6+3e",
+        rollResult: "[3, 5] + 3",
+        impact: 11,
+        aspect: IMPACT_ASPECT.EDGED,
+    };
+
+    it("serializes only impact + aspect into the injury request (assisted)", () => {
+        const data = buildDamageCardData({
+            ...base,
+            target: { name: "Goblin", actorUuid: "Actor.def1" },
+        });
+        expect(data).toMatchObject({
+            title: "Broadsword – Cut",
+            impactLabel: "2d6+3e",
+            rollResult: "[3, 5] + 3",
+            impact: 11,
+            aspect: IMPACT_ASPECT.EDGED,
+            hasTarget: true,
+            targetName: "Goblin",
+            handlerUuid: "Actor.def1",
+        });
+        expect(JSON.parse(data.testResultJson as string)).toEqual({
+            impact: 11,
+            aspect: IMPACT_ASPECT.EDGED,
+        });
+    });
+
+    it("omits target wiring when nothing is targeted", () => {
+        const data = buildDamageCardData({ ...base, target: null });
+        expect(data.hasTarget).toBe(false);
+        expect(data.handlerUuid).toBe("");
+        expect(data.targetName).toBe("");
     });
 });
