@@ -14,6 +14,16 @@
 import { AttackResult } from "@src/domain/result/AttackResult";
 import { DefendResult } from "@src/domain/result/DefendResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
+import { TEST_TYPE } from "@src/utils/constants";
+
+/** Which combatant a derived result (Tactical Advantages, weapon-break) falls to. */
+export type CombatSide = "attacker" | "defender" | "none";
+
+/** Tactical Advantages awarded by an exchange, and to whom. */
+export interface TacticalAdvantages {
+    side: CombatSide;
+    count: number;
+}
 
 /**
  * The full result of a **combat exchange** — an {@link OpposedTestResult}
@@ -41,19 +51,46 @@ import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
  * pre-defense damage, and the target's armor/body location protection
  * to produce an {@link ImpactResult} with the actual injury.
  *
+ * ## Resolution model
+ *
+ * Outcomes are keyed off the **victory score** `VS = attacker.normSuccessLevel
+ * − defender.normSuccessLevel` (range −3..+3 on the −1/0/1/2 success scale).
+ * This is deliberately the raw level difference, not the inherited
+ * {@link OpposedTestResult.sourceWins}/{@link OpposedTestResult.isTied}
+ * getters — those carve out a "both failed" case, whereas the SoHL combat
+ * tables resolve every exchange by relative margin (a less-bad failure can
+ * still beat a worse one).
+ *
+ * Per-defense outcome (who lands the blow):
+ *
+ * | Defense       | Attacker delivers            | Defender delivers           |
+ * |---------------|------------------------------|-----------------------------|
+ * | Block         | `VS >= 0` (tie → also rolls defender weapon-break) | never |
+ * | Counterstrike | `VS >= 0`                    | whenever the defender succeeds |
+ * | Dodge         | `VS > 0`, or tie with the dodge roll lower than the attack roll | never |
+ * | Ignore        | the attack itself succeeds (no defender contest) | never |
+ *
+ * **Tactical Advantages** (display-only for now): the winner of a `|VS| >= 2`
+ * exchange earns `|VS| − 1` TAs (attacker on `VS >= 2`, defender on
+ * `VS <= -2`).
+ *
  * ## Specialized resolution methods
  *
- * - {@link calcMeleeCombatResult} — melee-specific opposed evaluation
- * - {@link calcDodgeCombatResult} — dodge-specific opposed evaluation
- * - {@link opposedTestEvaluate} — general opposed outcome computation
- *
- * (These methods are currently stubs pending full implementation.)
+ * - {@link opposedTestEvaluate} — dispatches by defense type and sets margin/TAs
+ * - {@link calcMeleeCombatResult} — Block / Counterstrike / Ignore evaluation
+ * - {@link calcDodgeCombatResult} — Dodge evaluation
  */
 export class CombatResult extends OpposedTestResult {
     /** The result of the attack test in this combat. */
     attackResult: AttackResult;
     /** The result of the defense test in this combat. */
     defendResult: DefendResult;
+    /** Victory score: `attacker.normSuccessLevel − defender.normSuccessLevel`. */
+    margin: number;
+    /** Tactical Advantages awarded by the exchange (display-only). */
+    tacticalAdvantages: TacticalAdvantages;
+    /** Whose weapon must roll for breakage as a result of the exchange. */
+    weaponBreakCheck: CombatSide;
 
     constructor(
         data: Partial<CombatResult.Data>,
@@ -67,155 +104,97 @@ export class CombatResult extends OpposedTestResult {
         super(data, options);
         this.attackResult = data.attackResult;
         this.defendResult = data.defendResult;
+        this.margin = 0;
+        this.tacticalAdvantages = { side: "none", count: 0 };
+        this.weaponBreakCheck = "none";
     }
 
-    calcMeleeCombatResult(opposedTestResult: OpposedTestResult) {
-        // if (!opposedTestResult.targetTestResult) {
-        //     throw new Error(
-        //         "opposedTestResult.targetTestResult is not defined",
-        //     );
-        // }
-        // const attacker = opposedTestResult.sourceTestResult;
-        // const defender = opposedTestResult.targetTestResult;
-        // if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-        //     this.mishaps.add(Mishap.FUMBLE_TEST);
-        // }
-        // if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-        //     this.mishaps.add(Mishap.STUMBLE_TEST);
-        // }
-        // this.deliversImpact = false;
-        // if (this.testType === CombatTestResult.TestType.IGNOREDEFENSE.id) {
-        //     this.mishaps.delete(Mishap.STUMBLE_TEST);
-        // }
-        // switch (this.testType) {
-        //     case CombatTestResult.TestType.IGNOREDEFENSE.id:
-        //         if (
-        //             attacker.successLevel >=
-        //             SuccessTestResult.SuccessLevel.MARGINAL_FAILURE
-        //         ) {
-        //             opposedTestResult.winner(OpposedTestResult.tieBreak.SOURCE);
-        //             attacker.deliversImpact = true;
-        //         }
-        //         break;
-        //     case CombatTestResult.TestType.BLOCKDEFENSE.id:
-        //         if (opposedTestResult.sourceWins) {
-        //             attacker.deliversImpact = true;
-        //         } else {
-        //             if (opposedTestResult.isTied)
-        //                 opposedTestResult.winner(
-        //                     OpposedTestResult.TIE_BREAK.TARGET,
-        //                 );
-        //         }
-        //         break;
-        //     case CombatTestResult.TestType.CXDEFENSE.id:
-        //         if (defender.mlMod.has("CXBoth"))
-        //             if (opposedTestResult.isTied) {
-        //                 if (defender.mlMod.has("CXBoth")) {
-        //                     opposedTestResult.breakTies(true);
-        //                     if (opposedTestResult.targetWins)
-        //                         defender.deliversImpact = true;
-        //                 } else {
-        //                     opposedTestResult.winner(
-        //                         OpposedTestResult.TIE_BREAK.SOURCE,
-        //                     );
-        //                 }
-        //                 attacker.deliversImpact = true;
-        //             } else if (opposedTestResult.sourceWins) {
-        //                 attacker.deliversImpact = true;
-        //             } else {
-        //                 defender.deliversImpact = true;
-        //             }
-        //         break;
-        // }
+    /**
+     * Evaluate both sides, then resolve the opposed combat outcome.
+     */
+    override async evaluate(): Promise<boolean> {
+        const allowed = await super.evaluate();
+        if (allowed) this.opposedTestEvaluate();
+        return allowed;
     }
 
-    calcDodgeCombatResult(opposedTestResult: OpposedTestResult) {
-        // const attacker = opposedTestResult.sourceTestResult;
-        // const defender = opposedTestResult.targetTestResult;
-        // attacker.deliversImpact = false;
-        // attacker.testFumble =
-        //     attacker.isCritical &&
-        //     !attacker.isSuccess &&
-        //     attacker.lastDigit === 0;
-        // attacker.testStumble =
-        //     attacker.isCritical &&
-        //     !attacker.isSuccess &&
-        //     attacker.lastDigit === 5;
-        // defender.deliversImpact = false;
-        // defender.testFumble = false;
-        // defender.testStumble = defender.isCritical && !defender.isSuccess;
-        // if (opposedTestResult.sourceWins) {
-        //     attacker.deliversImpact = true;
-        // }
+    /**
+     * Resolve the exchange: compute the margin and Tactical Advantages, then
+     * dispatch to the defense-specific calculator to set `deliversImpact` on
+     * each side. Idempotent — safe to call again after a re-evaluation.
+     */
+    opposedTestEvaluate(): void {
+        this.attackResult.deliversImpact = false;
+        this.defendResult.deliversImpact = false;
+        this.weaponBreakCheck = "none";
+        this.margin =
+            this.attackResult.normSuccessLevel -
+            this.defendResult.normSuccessLevel;
+        this.tacticalAdvantages = CombatResult.tacticalAdvantagesFor(
+            this.margin,
+        );
+
+        if (this.defendResult.testType === TEST_TYPE.DODGE.id) {
+            this.calcDodgeCombatResult();
+        } else {
+            this.calcMeleeCombatResult();
+        }
     }
 
-    opposedTestEvaluate(opposedTestResult: OpposedTestResult) {
-        // super.opposedTestEvaluate(opposedTestResult);
-        // if (opposedTestResult.targetTestResult === this) {
-        //     if (
-        //         [
-        //             CombatTestResult.TEST_TYPE.BLOCKDEFENSE,
-        //             CombatTestResult.TEST_TYPE.CXDEFENSE,
-        //             CombatTestResult.TEST_TYPE.IGNOREDEFENSE,
-        //         ].includes(opposedTestResult.testType.type)
-        //     ) {
-        //         this.calcMeleeCombatResult(opposedTestResult);
-        //     } else if (
-        //         this.testType.type === CombatTestResult.TEST_TYPE.DODGEDEFENSE
-        //     ) {
-        //         this.calcDodgeCombatResult(opposedTestResult);
-        //     }
-        // }
-        // return;
+    /** Award `|VS| − 1` Tactical Advantages to the side that won by 2+. */
+    static tacticalAdvantagesFor(vs: number): TacticalAdvantages {
+        if (vs >= 2) return { side: "attacker", count: vs - 1 };
+        if (vs <= -2) return { side: "defender", count: -(vs + 1) };
+        return { side: "none", count: 0 };
     }
 
-    async testDialog(
-        data = {},
-        callback: (thisArg: any, formData: any) => void,
-    ) {
-        // foundry.utils.mergeObject(
-        //     data,
-        //     {
-        //         impactMod: this.impactMod,
-        //         impactSituationalModifier: this.situationalModifier,
-        //         deliversImpact: this.deliversImpact,
-        //         testFumble: this.testFumble,
-        //         testStumble: this.testStumble,
-        //         weaponBreak: this.weaponBreak,
-        //     },
-        //     { overwrite: false },
-        // );
-        // return await super.testDialog(data, (thisArg, formData) => {
-        //     const formImpactSituationalModifier =
-        //         Number.parseInt(formData.impactSituationalModifier, 10) || 0;
-        //     if (thisArg.impactMod && formImpactSituationalModifier) {
-        //         thisArg.impactMod.add(
-        //             sohl.MOD.PLAYER,
-        //             formImpactSituationalModifier,
-        //         );
-        //         thisArg.impactSituationalModifier =
-        //             formImpactSituationalModifier;
-        //     }
-        //     if (callback) callback(this, formData);
-        // });
+    /**
+     * Resolve a Block, Counterstrike, or Ignore exchange, setting
+     * `deliversImpact` on the attacker (and, for Counterstrike, the defender).
+     * Per-side fumble/stumble mishaps are already set by each result's own
+     * `evaluate()`; this only decides who lands a blow.
+     */
+    calcMeleeCombatResult(): void {
+        const vs = this.margin;
+        const type = this.defendResult.testType;
+
+        if (type === TEST_TYPE.IGNORE.id) {
+            // No defense contest — the blow lands if the attack itself hits.
+            this.attackResult.deliversImpact = this.attackResult.isSuccess;
+            return;
+        }
+
+        if (type === TEST_TYPE.COUNTERSTRIKE.id) {
+            // The attacker connects on a tie or better; the defender's
+            // counterstrike connects whenever its own roll succeeds, so both
+            // blows can land in the same exchange.
+            this.attackResult.deliversImpact = vs >= 0;
+            this.defendResult.deliversImpact = this.defendResult.isSuccess;
+            return;
+        }
+
+        // Block: the attack lands on a tie or better; a tie additionally forces
+        // the defender to roll for weapon (shield) breakage.
+        this.attackResult.deliversImpact = vs >= 0;
+        if (vs === 0) this.weaponBreakCheck = "defender";
     }
 
-    async toChat(data = {}) {
-        // return super.toChat(
-        //     foundry.utils.mergeObject(
-        //         data,
-        //         {
-        //             impactSituationalModifier: this.situationalModifier,
-        //             impactMod: this.impactMod,
-        //             deliversImpact: this.deliversImpact,
-        //             testFumble: this.testFumble,
-        //             testStumble: this.testStumble,
-        //             weaponBreak: this.weaponBreak,
-        //         },
-        //         { overwrite: false },
-        //     ),
-        // );
+    /**
+     * Resolve a Dodge exchange. A dodge never deals damage; the attack lands
+     * when it out-margins the dodge, and on a tie when the dodge roll is lower
+     * than the attack roll (a lower successful roll is the weaker result).
+     */
+    calcDodgeCombatResult(): void {
+        const vs = this.margin;
+        if (vs > 0) {
+            this.attackResult.deliversImpact = true;
+        } else if (vs === 0) {
+            const dodgeRoll = this.defendResult.roll?.total ?? 0;
+            const attackRoll = this.attackResult.roll?.total ?? 0;
+            this.attackResult.deliversImpact = dodgeRoll < attackRoll;
+        }
     }
+
 }
 
 export namespace CombatResult {
