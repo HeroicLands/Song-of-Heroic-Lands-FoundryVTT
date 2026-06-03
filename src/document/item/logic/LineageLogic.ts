@@ -51,6 +51,14 @@ export class LineageLogic<
 
     bodyWeight!: ValueModifier;
 
+    /**
+     * The creature's base melee reach (feet), exposed as a `ValueModifier`
+     * so runtime modifiers (size-changing effects, etc.) can layer on. The
+     * base is sourced from `system.reachBase`. Combined with a melee strike
+     * mode's effective length to produce that mode's actual reach.
+     */
+    reach!: ValueModifier;
+
     move!: {
         terrestrial: ValueModifier;
         aquatic: ValueModifier;
@@ -87,6 +95,9 @@ export class LineageLogic<
         this.bodyStructure = new BodyStructure(this.data.bodyStructure, this);
         this.bodyWeight = new ValueModifier({}, { parent: this }).setBase(
             this.data.bodyWeightBase,
+        );
+        this.reach = new ValueModifier({}, { parent: this }).setBase(
+            this.data.reachBase,
         );
         this.move = {
             terrestrial: new ValueModifier({}, { parent: this }).setBase(
@@ -126,4 +137,5 @@ export interface LineageData<
     defaultMoveMedium: MovementMedium;
     encumbranceRate: number;
     bodyWeightBase: number;
+    reachBase: number;
 }

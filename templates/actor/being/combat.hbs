@@ -43,13 +43,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail">{{sm.length.effective}}</div>
                     <div class="item-detail">{{sm.reach.effective}}</div>
                     <div class="item-detail">{{sm.spread.effective}}</div>
-                    <div class="item-detail">
-                        {{#unless sm.impact.disabled}}
+                    {{#unless sm.impact.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
                     </div>
+                    {{else}}
+                    <div class="item-detail">
+                        <i class="fas fa-xmark fa-lg"></i>
+                    </div>
+                    {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
@@ -107,13 +109,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail">{{sm.draw.effective}}</div>
                     <div class="item-detail">{{sm.baseRange.effective}}</div>
                     <div class="item-detail">{{sm.maxVolleyMult}}</div>
-                    <div class="item-detail">
-                        {{#unless sm.impact.disabled}}
+                    {{#unless sm.impact.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
                     </div>
+                    {{else}}
+                    <div class="item-detail">
+                        <i class="fas fa-xmark fa-lg"></i>
+                    </div>
+                    {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
@@ -159,13 +163,15 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail">
                         {{#if sm.isMelee}}{{sm.spread.effective}}{{/if}}
                     </div>
-                    <div class="item-detail">
-                        {{#unless sm.impact.disabled}}
+                    {{#unless sm.impact.disabled}}
+                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
-                        {{else}}
-                        <i class="fas fa-xmark fa-lg"></i>
-                        {{/unless}}
                     </div>
+                    {{else}}
+                    <div class="item-detail">
+                        <i class="fas fa-xmark fa-lg"></i>
+                    </div>
+                    {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}

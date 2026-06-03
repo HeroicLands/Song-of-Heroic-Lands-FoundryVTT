@@ -25,12 +25,14 @@ const { NumberField, StringField, SchemaField, BooleanField } =
  * defense capabilities (block and counterstrike).
  */
 export class MeleeStrikeMode extends StrikeModeBase {
-    /** Length of the weapon in this mode (feet). */
-    readonly length: ValueModifier;
-    /** Effective melee engagement range (feet). */
-    readonly reach: ValueModifier;
+    /**
+     * Effective melee engagement range (feet). Seeded from the weapon's
+     * `lengthBase`; the wielder's lineage reach is added on top during the
+     * owning logic's evaluate phase (see `WeaponGearLogic`/`CombatTechniqueLogic`).
+     */
+    reach: ValueModifier;
     /** Defense modifiers for block and counterstrike. */
-    readonly defense: {
+    defense: {
         block: CombatModifier;
         counterstrike: CombatModifier;
     };
@@ -41,9 +43,8 @@ export class MeleeStrikeMode extends StrikeModeBase {
         id: string,
     ) {
         super(data, parentLogic, id);
-        this.length = new ValueModifier({}, { parent: parentLogic }).setBase(
-            data.lengthBase,
-        );
+        // Reach is seeded from the weapon's length; the wielder's lineage
+        // reach is layered on during the owning logic's evaluate phase.
         this.reach = new ValueModifier({}, { parent: parentLogic }).setBase(
             data.lengthBase,
         );

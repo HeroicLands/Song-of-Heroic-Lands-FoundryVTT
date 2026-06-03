@@ -292,7 +292,14 @@ export class SohlSystem {
     > = new SohlMap<string, SohlSystem.CalendarRegistration>();
     get CONFIG(): SohlSystem.Config {
         return {
+            // `mergeObject` replaces arrays wholesale, so we must spread
+            // Foundry's default statuses (dead, unconscious, sleep, stun,
+            // prone, restrain, paralysis, frozen, …) here — otherwise they
+            // would be wiped out, leaving combat conditions unrepresentable.
             statusEffects: [
+                ...((((globalThis as any).CONFIG?.statusEffects ?? []) as any[]).map(
+                    (e) => ({ ...e }),
+                )),
                 {
                     id: "incapacitated",
                     name: "incapacitated",
@@ -302,6 +309,11 @@ export class SohlSystem {
                     id: "vanquished",
                     name: "vanquished",
                     img: "systems/sohl/assets/icons/surrender.svg",
+                },
+                {
+                    id: "auralShock",
+                    name: "Aural Shock",
+                    img: "systems/sohl/assets/icons/shock.svg",
                 },
             ],
 
