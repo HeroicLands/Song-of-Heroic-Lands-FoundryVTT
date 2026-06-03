@@ -104,6 +104,7 @@ The previous `"test"` scope is retired (it conflated scope with filter). Scope d
 - `docs/reference/effects-integration.md` rewritten for the new scope model, dispatch lifecycle, and prefix system.
 - `docs/reference/event-queue.md` rewritten for the generalized trigger model.
 - `docs/concepts/architecture.md`, `lifecycle-model.md`, extension docs and various other reference pages updated or added.
+- `docs/reference/combat-resolution-pipeline.md` updated for the implemented `CombatResult` resolution (VS-based per-defense table, Tactical Advantages, weapon-break) and the injury-resolution stage; `docs/how-to/extension-points.md` gains the chat-card button dispatch contract. New `docs/user/` guides (`README.md`, `combat.md`: running an assisted attack and recording an injury), registered in the docs hub.
 - Test files extended with parallel coverage (~8.8k LOC across 59 test files, e.g., `SafeExpression`, `helpers`, `SohlMap`, `SohlArray`, `constants`, `move-helpers`).
 
 ## Breaking changes (no migration; no live worlds)
