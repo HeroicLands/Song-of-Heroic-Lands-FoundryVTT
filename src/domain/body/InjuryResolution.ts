@@ -17,6 +17,7 @@ import type { BodyStructure } from "@src/domain/body/BodyStructure";
 import type { TraumaData } from "@src/document/item/logic/TraumaLogic";
 import {
     INJURY_LEVELS,
+    IMPACT_ASPECT,
     TRAUMA_SUBTYPE,
     type ImpactAspect,
 } from "@src/utils/constants";
@@ -48,12 +49,19 @@ export interface InjuryInput {
     accuracy?: number;
     /** Explicit hit location override (assisted dialog / GM call). */
     location?: BodyLocation;
-    /** Explicit armor reduction override (assisted dialog). When omitted,
-     *  the location's natural protection for the aspect is used. */
+    /** Override the total protection at the location. When omitted, the value
+     *  is derived from the location's natural protection plus worn armor for
+     *  the aspect. */
+    armorValue?: number;
+    /** Manual reduction applied to the armor value (assisted dialog), e.g. for
+     *  armor-defeating effects. Defaults to 0. */
     armorReduction?: number;
     /** Force the wound to bleed regardless of the bleeding table. */
     extraBleedRisk?: boolean;
 }
+
+/** Whether a flagged stumble/fumble is required, automatic, or not in play. */
+export type StumbleFumble = "none" | "roll" | "auto";
 
 /** The fully resolved outcome of a blow landing on a body location. */
 export interface ResolvedInjury {
@@ -61,9 +69,13 @@ export interface ResolvedInjury {
     location: BodyLocation;
     /** Weapon damage aspect of the wound. */
     aspect: ImpactAspect;
-    /** Armor value subtracted from impact for this aspect/location. */
+    /** Total protection at the location for this aspect (natural + worn armor). */
+    armorValue: number;
+    /** Manual reduction applied to {@link armorValue}. */
     armorReduction: number;
-    /** `max(0, impact - armorReduction)`. */
+    /** Comma-joined armor materials covering the location (from the location). */
+    armorType: string;
+    /** `max(0, impact - max(0, armorValue - armorReduction))`. */
     effectiveImpact: number;
     /** Numeric injury level 0–5 (0 = no injury). */
     level: number;
@@ -71,6 +83,22 @@ export interface ResolvedInjury {
     levelCode: string;
     /** Whether the wound is a Bleeder. */
     isBleeder: boolean;
+    /**
+     * A glancing blow: an edged/piercing strike of effective impact 1–4 against
+     * a rigid location, which produces no Minor injury (level 0) but adds an
+     * Injury Shock point and a +10 Shock Roll bonus.
+     */
+    isGlancingBlow: boolean;
+    /** Shock Index = location shock value + injury level (+1 if glancing). */
+    shockIndex: number;
+    /** Whether a Shock Roll is warranted (only meaningful once index > 4). */
+    needsShockRoll: boolean;
+    /** Bonus added to the Shock Roll (+10 for a glancing blow, else 0). */
+    shockRollBonus: number;
+    /** Stumble disposition at the struck location. */
+    stumble: StumbleFumble;
+    /** Fumble disposition at the struck location. */
+    fumble: StumbleFumble;
     /** Whether the wound can trigger an amputation test. */
     canAmputate: boolean;
     /** Strength-test modifier for the amputation check, or `null` if N/A. */
@@ -119,31 +147,73 @@ function resolveLocation(input: InjuryInput): BodyLocation {
  */
 export function resolveInjury(input: InjuryInput): ResolvedInjury {
     const location = resolveLocation(input);
-    const armorReduction =
-        input.armorReduction ?? location.protectionBase[input.aspect].effective;
-    const effectiveImpact = Math.max(0, input.impact - armorReduction);
-    const level = injuryLevelFromImpact(effectiveImpact);
+    const aspect = input.aspect;
+
+    // Total protection: an explicit override wins; otherwise natural protection
+    // for the aspect plus any worn armor aggregated onto the location.
+    const armorValue =
+        input.armorValue ??
+        location.protectionBase[aspect].effective +
+            location.armorProtection[aspect];
+    const armorReduction = input.armorReduction ?? 0;
+    const effectiveProtection = Math.max(0, armorValue - armorReduction);
+    const effectiveImpact = Math.max(0, input.impact - effectiveProtection);
+
+    // Glancing blow is judged on the pre-glancing injury level: an edged or
+    // piercing strike that would deal a Minor (effective impact 1–4) against a
+    // rigid location glances off instead, producing no injury.
+    let level = injuryLevelFromImpact(effectiveImpact);
+    const isGlancingBlow =
+        (aspect === IMPACT_ASPECT.EDGED || aspect === IMPACT_ASPECT.PIERCING) &&
+        effectiveImpact >= 1 &&
+        effectiveImpact <= 4 &&
+        location.isRigid;
+    if (isGlancingBlow) level = 0;
     const levelCode = INJURY_LEVELS[level];
+
+    // Shock Index drives the Shock Roll; a glancing blow adds one Injury Shock
+    // point. An index of 4 or less can never produce a Shock State.
+    const shockIndex =
+        location.shockValue.effective + level + (isGlancingBlow ? 1 : 0);
+    const needsShockRoll = shockIndex > 4;
+    const shockRollBonus = isGlancingBlow ? 10 : 0;
+
+    // Stumble/fumble apply only at flagged locations: a roll for Serious
+    // injuries, automatic for Grievous, nothing for Minor or no injury.
+    const disposition = (flagged: boolean): StumbleFumble => {
+        if (!flagged) return "none";
+        if (level === 2 || level === 3) return "roll";
+        if (level >= 4) return "auto";
+        return "none";
+    };
 
     // Bleeding and amputation are only defined for S3+ wounds; the bleeding
     // table has no entries for M1/S2.
     const severity: InjurySeverity | null =
         level >= 3 ? (levelCode as InjurySeverity) : null;
     const tableBleeder = severity
-        ? isBleeder(location.bleedingSusceptibility, severity, input.aspect)
+        ? isBleeder(location.bleedingSusceptibility, severity, aspect)
         : false;
     const amputates = severity
-        ? canAmputate(location.amputability, severity, input.aspect)
+        ? canAmputate(location.amputability, severity, aspect)
         : false;
 
     return {
         location,
-        aspect: input.aspect,
+        aspect,
+        armorValue,
         armorReduction,
+        armorType: location.armorType,
         effectiveImpact,
         level,
         levelCode,
         isBleeder: level >= 1 && (tableBleeder || !!input.extraBleedRisk),
+        isGlancingBlow,
+        shockIndex,
+        needsShockRoll,
+        shockRollBonus,
+        stumble: disposition(location.isStumble),
+        fumble: disposition(location.isFumble),
         canAmputate: amputates,
         amputationModifier: amputates
             ? amputationModifier(location.amputability)
