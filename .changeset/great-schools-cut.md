@@ -1,0 +1,27 @@
+---
+"sohl": minor
+---
+
+Automated combat resolution
+
+Implements the **Automated** combat mode described in
+`docs/reference/combat-modes.md`: a single attack → defend → resolve → injury
+chain walked through chat cards with minimal player input. Builds on the
+assisted pipeline and the `CombatResult` resolution engine.
+
+- **Attack initiation** — rolling an attack while a combat is active with a
+  single target posts an attack card (range/reach gated, with a keybinding to
+  launch an automated attack) instead of a bare success card.
+- **Defender response** — the attack card's Block / Counterstrike / Dodge /
+  Ignore buttons each roll the defense, assemble the `CombatResult`, and post
+  the combined outcome (margin, Tactical Advantages, weapon-break note).
+- **Injury** — the combat-result card forwards the full aim payload so the
+  wound resolves with no dialog, reusing the existing injury pipeline.
+
+<!--
+Living entry: expand each bullet with concrete specifics as Phases 5–6 land —
+e.g. the pure helpers added to combat-actions.ts (canReachTarget,
+buildAttackCardData, buildCombatResultInputs), the new combat-result-card.hbs,
+the autoCombatAttack keybinding id, and any TEST_TYPE wiring. Keep it accurate
+to what actually ships before release consumes it.
+-->
