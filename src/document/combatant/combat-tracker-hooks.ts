@@ -12,6 +12,7 @@
  */
 
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { registerCombatGroupHooks } from "@src/document/combatant/combat-group-hooks";
 import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
 /**
@@ -23,6 +24,8 @@ import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
  * the system continues to work across Foundry version updates.
  */
 export function registerCombatTrackerHooks(): void {
+    registerCombatGroupHooks();
+
     (Hooks as any).on(
         "renderCombatantConfig",
         (app: any, html: HTMLElement) => {
@@ -98,6 +101,26 @@ export function registerCombatTrackerHooks(): void {
                     | SohlCombatant
                     | undefined;
                 if (!combatant) continue;
+
+                // Group-name label (display only — no row grouping).
+                if (!row.querySelector(".sohl-group-chip")) {
+                    const groupName = combatant.groupId
+                        ? combat.groups?.get?.(combatant.groupId)?.name
+                        : undefined;
+                    if (groupName) {
+                        const groupChip = document.createElement("span");
+                        groupChip.classList.add("sohl-group-chip");
+                        groupChip.title = "Combat group";
+                        groupChip.textContent = groupName;
+                        const nameEl = row.querySelector(".token-name");
+                        if (nameEl) {
+                            nameEl.appendChild(groupChip);
+                        } else {
+                            row.appendChild(groupChip);
+                        }
+                    }
+                }
+
                 const move = combatant.displayedMove;
                 if (move === null || move === undefined) continue;
                 if (row.querySelector(".sohl-move-chip")) continue;

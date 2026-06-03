@@ -81,6 +81,11 @@ export class ImpactModifier extends ValueModifier {
         );
     }
 
+    /** The damage aspect (blunt/edged/piercing/fire) this impact delivers. */
+    get aspectType(): ImpactAspect {
+        return this.aspect;
+    }
+
     get die(): number {
         return this.roll?.dieFaces || 0;
     }

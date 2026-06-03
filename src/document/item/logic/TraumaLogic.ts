@@ -19,6 +19,7 @@ import {
     ACTION_SUBTYPE,
     defineType,
     ImpactAspect,
+    INJURY_LEVELS,
     ITEM_KIND,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -166,7 +167,13 @@ export const UNTREATED = {
     newInj: -1,
 } as const;
 
-export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"];
+/**
+ * Re-exported from `constants.ts` for back-compat with existing import
+ * sites. The canonical definition lives in constants so the Foundry-free
+ * domain layer (e.g. injury resolution) can consume it without importing
+ * this Foundry-coupled module.
+ */
+export { INJURY_LEVELS };
 
 export const {
     kind: INTRINSIC_ACTION,

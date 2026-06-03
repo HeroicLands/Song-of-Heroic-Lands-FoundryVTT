@@ -11,65 +11,18 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
 <div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
         <h3 class="title">{{bodyZoneName}} Injury</h3>
         <h4 class="subtitle">{{name}}</h4>
     </header>
 
-    {{#unless isRandom}}
-    <div class="card-content notice-body">
-        <span>Location Not Random!</span>
-    </div>
-    {{/unless}}
-
-    <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">Zone Die Formula:</span>
-            <span class="value">{{zoneDieFormula}}</span>
-        </div>
-    </div>
-
-    <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">Zone:</span>
-            {{#if outsideZone}}
-            <span class="value failure-text">None ({{zoneNum}})</span>
-            {{else}}
-            <span class="value">{{bodyZoneName}} ({{zoneNum}})</span>
-            {{/if}}
-        </div>
-        {{#if outsideZone}}
-        <div>
-            <span class="note failure-text"
-                >Hit outside allowed zones<br />Max zone {{maxZones}}, hit zone
-                {{zoneNum}}<br />No effect</span
-            >
-        </div>
-        {{/if}}
-    </div>
-
-    {{#unless outsideZone}}
     <div class="card-content center">
         <div class="flexrow">
             <span class="label">Body Part:</span>
             <span class="value">{{bodyPartName}}</span>
         </div>
     </div>
-    {{/unless}}
 
     <div class="card-content center">
         <div class="flexrow">
@@ -94,7 +47,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <div class="card-content center">
         <div class="flexrow">
             <span class="label">Armor Layers (prot):</span>
-            <span class="value">{{armorType}} ({{armorValue}})</span>
+            <span class="value">{{#if armorType}}{{armorType}}{{else}}None{{/if}} ({{armorValue}})</span>
         </div>
     </div>
 
@@ -113,7 +66,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
             >
         </div>
     </div>
-    {{/if}} {{#unless isInjured}}
+    {{/if}}
+
+    {{#unless isInjured}}
     <div class="card-content center">
         <div class="flexrow">
             <span class="label">Injury Level:</span>
@@ -127,57 +82,87 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <span class="value failure-text">{{injuryLevelText}}</span>
         </div>
     </div>
+    {{/unless}}
 
+    {{#if needsShockRoll}}
     <div class="card-content center">
         <div class="flexrow">
             <span class="label">Shock Index:</span>
             <span class="value">{{shockIndex}}</span>
         </div>
         <div class="flexrow">
-            {{#if (gt shockIndex 4)}}
             <span class="note failure-text">Make a Shock roll!</span>
-            {{else}}
+        </div>
+        {{#if shockRollBonus}}
+        <div class="flexrow">
+            <span class="note">+{{shockRollBonus}} to the Shock roll (glancing blow).</span>
+        </div>
+        {{/if}}
+    </div>
+    {{else}}
+    <div class="card-content center">
+        <div class="flexrow">
+            <span class="label">Shock Index:</span>
+            <span class="value">{{shockIndex}}</span>
+        </div>
+        <div class="flexrow">
             <span class="note">Shock roll not needed</span>
-            {{/if}}
         </div>
     </div>
+    {{/unless}}
 
     {{#if isBleeder}}
     <div class="card-content center">
-        <span class="note">NOTE: Injury is a bleeder</span>
+        <span class="note failure-text">NOTE: Injury is a bleeder</span>
     </div>
-    {{/if}} {{#if isFumble}}
+    {{/if}}
+
+    {{#unless (eq fumble "none")}}
     <div class="card-content center">
-        <span class="note failure-text">Grevious Mishap: Fumbles</span>
+        {{#if (eq fumble "auto")}}
+        <span class="note failure-text">Grievous Mishap: Fumbles (automatic)</span>
+        {{else}}
+        <span class="note failure-text">Mishap: roll to avoid a Fumble</span>
+        {{/if}}
     </div>
-    {{/if}} {{#if isStumble}}
+    {{/unless}}
+
+    {{#unless (eq stumble "none")}}
     <div class="card-content center">
-        <span class="note failure-text">Grevious Mishap: Stumbles</span>
+        {{#if (eq stumble "auto")}}
+        <span class="note failure-text">Grievous Mishap: Stumbles (automatic)</span>
+        {{else}}
+        <span class="note failure-text">Mishap: roll to avoid a Stumble</span>
+        {{/if}}
     </div>
-    {{/if}} {{#if isAmputate}}
+    {{/unless}}
+
+    {{#if canAmputate}}
     <div class="card-content center">
         <span class="note failure-text"
             >NOTE: Perform Strength test<br />
-            {{#if amputateModifier}} with a -{{amputateModifier}} penalty<br />
+            {{#if amputationModifier}} with a {{amputationModifier}} modifier<br />
             {{/if}} to determine if limb is amputated<br />
             (you will have to make this roll manually).</span
         >
     </div>
-    {{/if}} {{#if addToCharSheet}}
+    {{/if}}
+
+    {{#if addToCharSheet}}
     <div class="card-content center">
         <span>Injury recorded on character sheet</span>
     </div>
     {{/if}}
 
     <div class="card-buttons">
-        {{#if (gt shockIndex 4)}}
+        {{#if needsShockRoll}}
         <button
             data-action="shock"
             data-handler-uuid="{{handlerActorUuid}}"
-            data-shock-index="{{shockIndex}}">
+            data-shock-index="{{shockIndex}}"
+            data-shock-bonus="{{shockRollBonus}}">
             Shock Roll
         </button>
         {{/if}}
     </div>
-    {{/unless}}
 </div>

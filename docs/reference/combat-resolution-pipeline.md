@@ -148,13 +148,52 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 | `attackResult` | `AttackResult` | The attacker's result |
 | `defendResult` | `DefendResult` | The defender's result |
 
-**Determines:**
+| `margin`             | `number`            | Victory score `VS` (see below)    |
+| `tacticalAdvantages` | `{ side, count }`   | TAs awarded by the exchange       |
+| `weaponBreakCheck`   | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
 
-- Whether attacker or defender wins (via inherited opposed resolution).
-- The margin of victory (success level difference).
-- Combined mishaps from both sides.
+**Determines** (via `opposedTestEvaluate()`, which dispatches to
+`calcMeleeCombatResult()` for Block/Counterstrike/Ignore or
+`calcDodgeCombatResult()` for Dodge):
 
-**Does NOT determine:** Final damage — that is computed by the impact resolution stage using the CombatResult margin, the attack's pre-defense damage, and the target's armor/body location protection.
+- Who lands a blow — sets `deliversImpact` on the attacker and, for a
+  Counterstrike, the defender.
+- The **victory score** `VS = attacker.normSuccessLevel − defender.normSuccessLevel`.
+  This is the **raw level difference**, deliberately *not* the inherited
+  `sourceWins`/`isTied` getters — those carve out a "both failed" case, whereas
+  the SoHL combat tables resolve every exchange by relative margin (a less-bad
+  failure still beats a worse one).
+- Tactical Advantages and the weapon-break check (display-only for now).
+
+Per-defense outcome:
+
+| Defense       | Attacker delivers | Defender delivers | Notes |
+|---------------|-------------------|-------------------|-------|
+| Block         | `VS >= 0`         | never             | tie also sets `weaponBreakCheck = "defender"` |
+| Counterstrike | `VS >= 0`         | when its own roll succeeds | both blows may land |
+| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never | |
+| Ignore        | the attack itself succeeds | never | no defender contest |
+
+Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
+(attacker on `VS >= 2`, defender on `VS <= -2`).
+
+**Does NOT determine:** Final damage — that is computed by the impact resolution
+stage (`src/domain/body/InjuryResolution.ts`) using the attack's pre-defense
+damage, the aspect, and the target's armor/body-location protection.
+
+### Injury resolution
+
+The impact stage is a Foundry-free module, shared by both combat modes and the
+manual Add Injury flow:
+
+- `resolveInjury(input)` — picks the hit location (explicit override, aimed
+  `targetPart` + `accuracy`, or weighted random), subtracts the effective
+  protection (`armorValue − armorReduction`, floored at 0), maps the effective
+  impact to a level (≤0 none · 1–4 M1 · 5–9 S2 · 10–14 S3 · 15–19 G4 · 20+ G5),
+  and derives the Shock Index, glancing blow, stumble/fumble, bleeding, and
+  amputation. Armor value is the location's natural protection plus any worn
+  armor folded on by `aggregateArmor()` during the lifecycle.
+- `buildTraumaData(injury)` — the `system.*` shape for a new Trauma item.
 
 ## Chat card templates
 
@@ -165,7 +204,8 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 | `opposed-result-card.hbs`  | OpposedTestResult (phase 2) | Final opposed outcome            |
 | `attack-card.hbs`          | AttackResult                | Attack-specific display          |
 | `attack-result-card.hbs`   | AttackResult                | Attack outcome details           |
-| `damage-card.hbs`          | ImpactResult                | Damage display                   |
+| `damage-card.hbs`          | `buildDamageCardData`       | Rolled impact + Calculate Injury button |
+| `injury-card.hbs`          | `buildInjuryCardData`       | Resolved injury (level, shock, mishaps) |
 
 ## Extension guidance
 

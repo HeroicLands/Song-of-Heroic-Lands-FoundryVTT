@@ -43,25 +43,25 @@ const { NumberField, StringField, SchemaField, ObjectField, BooleanField } =
  * penalties, weapon quality bonuses), but mutations are not persisted.
  */
 export abstract class StrikeModeBase {
-    readonly id: string;
+    id: string;
     /** The strike mode type discriminator: "melee" or "missile". */
-    readonly type: StrikeModeType;
+    type: StrikeModeType;
     /** Descriptive name of this mode (e.g., "Cut", "Thrust", "Shoot"). */
-    readonly name: string;
+    name: string;
     /** Minimum body parts needed to wield the weapon in this mode. */
-    readonly minParts: number;
+    minParts: number;
     /** Shortcode of the associated skill (resolved to SkillLogic at runtime). */
-    readonly assocSkillCode: string;
+    assocSkillCode: string;
     /** How precisely this mode can target a specific body part. */
-    readonly spread: ValueModifier;
+    spread: ValueModifier;
     /** Attack roll mastery level modifier. */
-    readonly attack: CombatModifier;
+    attack: CombatModifier;
     /** Impact (damage) modifier with dice and aspect. */
-    readonly impact: ImpactModifier;
+    impact: ImpactModifier;
     /** Miscellaneous traits/flags for this strike mode. */
-    readonly traits: PlainObject;
+    traits: PlainObject;
     /** The parent Logic class that owns this strike mode. */
-    readonly parentLogic: SohlLogic;
+    parentLogic: SohlLogic;
 
     constructor(data: StrikeModeBase.Data, parentLogic: SohlLogic, id: string) {
         this.type = data.type;

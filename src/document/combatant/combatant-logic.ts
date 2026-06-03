@@ -14,28 +14,70 @@
 import type { MovementMedium } from "@src/utils/constants";
 
 /**
- * Expands a set of groups by adding all ally groups (transitively, one level).
+ * Pure relational predicate behind {@link SohlCombatant.isEnemyOf}.
  *
- * Iterates each group in `myGroups` and calls `allyGroupsFn` to discover allies.
- * Newly discovered ally groups are added to the result set. Groups that are
- * already in the set are not re-processed, preventing infinite loops from
- * mutual alliances.
+ * Under the SoHL combat invariant, two combatants are enemies iff they belong
+ * to different {@link CombatantGroup}s. A combatant is never its own enemy.
+ * Absent grouping (a `null`/`undefined` group id on either side) is treated
+ * defensively as enemy.
  *
- * @param myGroups - The initial set of group names (not mutated).
- * @param allyGroupsFn - A function that returns ally group names for a given group.
- * @returns A new Set containing all original groups plus their ally groups.
+ * @param thisGroupId - The group id of the subject combatant.
+ * @param otherGroupId - The group id of the other combatant.
+ * @param isSelf - True when both ids refer to the same combatant.
+ * @returns True if the two combatants are enemies.
  */
-export function expandAllyGroups(
-    myGroups: Set<string>,
-    allyGroupsFn: (group: string) => string[],
-): Set<string> {
-    const result = new Set(myGroups);
-    for (const group of myGroups) {
-        for (const allyGroup of allyGroupsFn(group)) {
-            result.add(allyGroup);
-        }
+export function areCombatantsEnemies(
+    thisGroupId: string | null | undefined,
+    otherGroupId: string | null | undefined,
+    isSelf: boolean,
+): boolean {
+    if (isSelf) return false;
+    if (thisGroupId && otherGroupId && thisGroupId === otherGroupId) {
+        return false;
     }
-    return result;
+    return true;
+}
+
+/**
+ * Foundry status-effect ids that incapacitate a combatant enough that it no
+ * longer threatens its enemies. Uses Foundry's canonical ids (note `stun`,
+ * not `stunned`). `dead`/defeat is handled separately via the DEFEATED
+ * special status effect (`combatant.isDefeated`).
+ */
+export const THREAT_NEGATING_STATUSES = [
+    "unconscious",
+    "sleep",
+    "stun",
+    "restrain",
+    "paralysis",
+    "frozen",
+] as const;
+
+/** The condition view consumed by {@link isThreatening}. */
+export interface ThreatView {
+    /** The candidate threatens the subject's allegiance (different group). */
+    isEnemy: boolean;
+    isDefeated: boolean;
+    /** The candidate carries a {@link THREAT_NEGATING_STATUSES} status. */
+    isIncapacitated: boolean;
+    isHidden: boolean;
+    /** The candidate is within weapon reach of the subject. */
+    reaches: boolean;
+}
+
+/**
+ * Pure predicate behind {@link SohlCombatant.threatenedBy}: a candidate
+ * combatant threatens the subject iff it is an enemy that is alive,
+ * conscious, capable, visible, and within reach.
+ */
+export function isThreatening(view: ThreatView): boolean {
+    return (
+        view.isEnemy &&
+        !view.isDefeated &&
+        !view.isIncapacitated &&
+        !view.isHidden &&
+        view.reaches
+    );
 }
 
 /** Minimal contract a combatant's actor logic must satisfy for move computation. */

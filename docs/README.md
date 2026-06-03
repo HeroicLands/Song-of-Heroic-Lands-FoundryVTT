@@ -39,6 +39,11 @@ Choose a path based on your goal:
 - [Event Queue](reference/event-queue.md)
 - [Journal Generation Spec](reference/journal-generation-spec.md)
 
+## User guides
+
+- [User Guide index](user/README.md)
+- [Combat & Injuries](user/combat.md)
+
 ## Authoring sources
 
 - [Developer docs index](dev/README.md)

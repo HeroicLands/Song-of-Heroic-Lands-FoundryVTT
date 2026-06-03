@@ -232,18 +232,6 @@ export const {
 export type Reaction = (typeof REACTION)[keyof typeof REACTION];
 
 export const {
-    kind: GROUP_STANCE,
-    values: GroupStances,
-    isValue: isGroupStance,
-    labels: groupStanceLabels,
-} = defineType("SOHL.Actor.GROUP_STANCE", {
-    ENEMY: "enemy",
-    ALLY: "ally",
-    NEUTRAL: "neutral",
-});
-export type GroupStance = (typeof GROUP_STANCE)[keyof typeof GROUP_STANCE];
-
-export const {
     kind: MOVEMENT_MEDIUM,
     values: MovementMediums,
     isValue: isMovementMedium,
@@ -1114,6 +1102,15 @@ export const {
 });
 export type TraumaSubType =
     (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
+
+/**
+ * Injury severity levels, indexed by numeric level: `INJURY_LEVELS[0]` is
+ * `"NA"` (no injury), then `M1` (1), `S2` (2), `S3` (3), `G4` (4), `G5` (5).
+ * The leading letter is the severity band (Minor / Serious / Grievous) and
+ * the digit is the level. Effective impact maps to a level via the bands in
+ * the injury-resolution pipeline.
+ */
+export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"] as const;
 
 export const {
     kind: TRAIT_INTENSITY,

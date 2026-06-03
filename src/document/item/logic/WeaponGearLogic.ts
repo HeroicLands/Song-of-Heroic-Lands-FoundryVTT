@@ -12,11 +12,12 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { STRIKE_MODE_TYPE } from "@src/utils/constants";
+import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
+import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -110,6 +111,17 @@ export class WeaponGearLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
+        // A melee mode's reach is its weapon length (the reach base) plus the
+        // wielder's lineage reach. A non-Being wielder (or none) has no
+        // lineage, so reach stays at length alone.
+        const lineageReach =
+            ((this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
+                ?.logic as LineageLogic | undefined)?.reach.effective ?? 0;
+        for (const sm of this.strikeModes) {
+            if (sm instanceof MeleeStrikeMode) {
+                sm.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
+            }
+        }
     }
 
     /** @inheritdoc */
