@@ -235,8 +235,21 @@ export class BeingSheet extends SohlActorSheetBase {
         ],
         actions: {
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
+            addInjury: BeingSheet._onAddInjury,
         },
     };
+
+    /**
+     * Handle the "Add Injury" button on the Trauma tab: open the Add Injury
+     * dialog for manual entry of a wound on this being.
+     */
+    static async _onAddInjury(
+        this: BeingSheet,
+        _event: PointerEvent,
+        _target: HTMLElement,
+    ): Promise<void> {
+        await (this.document as any).addInjuryViaDialog();
+    }
 
     /**
      * Handle clicks on the Atk/Blk/CX cells in the Combat tab. Resolves the
