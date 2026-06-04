@@ -25,6 +25,11 @@ assisted pipeline and the `CombatResult` resolution engine.
   gating above. Backed by the pure `selectActorTokens` / `selectActorCombatant`
   helpers and non-throwing `getActiveScene()` / `getActiveCombat()` Foundry
   helpers.
+- **Available strike modes** — `BeingLogic.availableStrikeModes` lists the
+  strike modes a being can currently use: every combat technique's mode plus
+  each weapon mode held in at least its required number of limbs. Backed by the
+  pure `selectAvailableStrikeModes` helper; feeds the defenses a target may
+  offer in an automated exchange.
 
 <!--
 Living entry: expand each bullet with concrete specifics as Phases 5–6 land —

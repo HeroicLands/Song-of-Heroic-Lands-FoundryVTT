@@ -34,6 +34,11 @@ import {
     type MeleeReachOption,
 } from "@src/document/actor/logic/reach-helpers";
 import {
+    selectAvailableStrikeModes,
+    type StrikeModeCandidate,
+} from "@src/document/actor/logic/strike-mode-helpers";
+import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
+import {
     selectActorTokens,
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
@@ -156,6 +161,61 @@ export class BeingLogic<
         }
 
         return computeActorReach(options);
+    }
+
+    /**
+     * The strike modes currently available to this being:
+     *
+     * - every combat technique's strike mode (intrinsic, always available), and
+     * - each weapon strike mode whose weapon is held in at least the mode's
+     *   `minParts` limbs.
+     *
+     * Reads each strike mode's already-prepared data, so it should be read
+     * after item preparation. Returns an empty array when no mode is available.
+     */
+    get availableStrikeModes(): StrikeModeBase[] {
+        const actor = this.actor;
+        if (!actor) return [];
+        const itemTypes = (actor as any).itemTypes ?? {};
+
+        const bodyStructure = (
+            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
+        )?.bodyStructure;
+
+        const candidates: StrikeModeCandidate<StrikeModeBase>[] = [];
+
+        // Combat techniques: intrinsic, always available.
+        for (const ct of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
+            const sm = (ct.logic as CombatTechniqueLogic | undefined)
+                ?.strikeMode;
+            if (sm) {
+                candidates.push({
+                    strikeMode: sm,
+                    minParts: sm.minParts,
+                    heldLimbs: null,
+                });
+            }
+        }
+
+        // Weapons: a strike mode is available only if the weapon is held in at
+        // least that mode's `minParts` limbs.
+        for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+            const heldLimbs =
+                bodyStructure?.parts.filter(
+                    (p) => p.canHoldItem && p.heldItem?.id === weapon.id,
+                ).length ?? 0;
+            const strikeModes =
+                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ?? [];
+            for (const sm of strikeModes) {
+                candidates.push({
+                    strikeMode: sm,
+                    minParts: sm.minParts,
+                    heldLimbs,
+                });
+            }
+        }
+
+        return selectAvailableStrikeModes(candidates);
     }
 
     /**
