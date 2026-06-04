@@ -16,7 +16,15 @@ import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ITEM_KIND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    STRIKE_MODE_TYPE,
+} from "@src/utils/constants";
+import { SohlActionData } from "@src/domain/action/SohlAction";
 
 /**
  * Logic for the **Combat Technique** item type — a specialized combat
@@ -65,8 +73,10 @@ export class CombatTechniqueLogic<
         // lineage reach (0 for a non-Being or no lineage).
         if (this.strikeMode instanceof MeleeStrikeMode) {
             const lineageReach =
-                ((this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
-                    ?.logic as LineageLogic | undefined)?.reach.effective ?? 0;
+                (
+                    (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
+                        ?.logic as LineageLogic | undefined
+                )?.reach.effective ?? 0;
             this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
         }
     }
@@ -92,3 +102,44 @@ export interface CombatTechniqueData<
      */
     strikeMode: MeleeStrikeMode.Data | MissileStrikeMode.Data;
 }
+
+/**
+ * The intrinsic actions available to CombatTechnique items.
+ * This structure should correspond to the methods on the
+ * CombatTechniqueLogic class that can be invoked as intrinsic actions.
+ */
+export const {
+    kind: COMBATTECHNIQUE_INTRINSIC_ACTION,
+    values: CombatTechniqueIntrinsicActions,
+    isValue: isCombatTechniqueIntrinsicAction,
+    labels: CombatTechniqueIntrinsicActionLabels,
+} = defineType("SOHL.CombatTechnique.ACTION", {
+    AUTOMATEDCOMBATSTART: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.CombatTechnique.ACTION.automatedCombatStart",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-swords",
+        executor: "automatedCombatStart",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    AUTOMATEDBLOCKRESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.CombatTechnique.ACTION.automatedBlockResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-shield",
+        executor: "automatedBlockResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+
+    AUTOMATEDCOUNTERSTRIKERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.CombatTechnique.ACTION.automatedCounterstrikeResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-circle-half-stroke",
+        executor: "automatedCounterstrikeResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+} as StrictObject<Partial<SohlActionData>>);

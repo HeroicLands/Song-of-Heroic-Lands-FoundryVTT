@@ -43,7 +43,15 @@ import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
-import { ITEM_KIND, MovementMedium } from "@src/utils/constants";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ITEM_KIND,
+    MovementMedium,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlActionData } from "@src/domain/action/SohlAction";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
@@ -93,7 +101,9 @@ export class BeingLogic<
      * the lineage has no value for this medium.
      */
     effectiveBaseMove(medium: MovementMedium): ValueModifier {
-        const lineageItem = (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageItem = (this.actor?.itemTypes as any)?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
         const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
         const base = readBaseMove(lineageLogic?.moveBase, medium);
         return new ValueModifier({}, { parent: this }).setBase(base);
@@ -142,7 +152,8 @@ export class BeingLogic<
         for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
             const heldLimbs = bodyStructure?.limbsHolding(weapon.id) ?? 0;
             const strikeModes =
-                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ?? [];
+                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ??
+                [];
             for (const sm of strikeModes) {
                 if (sm instanceof MeleeStrikeMode) {
                     options.push({
@@ -219,9 +230,10 @@ export class BeingLogic<
         const sceneTokens = [
             ...((scene.tokens ?? []) as Iterable<SohlTokenDocument>),
         ];
-        const embedded = (actor as any).isToken
-            ? ((actor as any).token as SohlTokenDocument | null)
-            : null;
+        const embedded =
+            (actor as any).isToken ?
+                ((actor as any).token as SohlTokenDocument | null)
+            :   null;
         if (!embedded && !actor.id) return [];
 
         return selectActorTokens(sceneTokens, actor.id ?? "", embedded ?? null);
@@ -426,12 +438,16 @@ export class BeingLogic<
     }
 
     /**
-     * Select the appropriate item to use for the opposed test, then delegate processing
-     * of the opposed request to that item.
+     * Present a dialog asking the player to Select the appropriate item to use
+     * for the opposed test, then delegate processing of the opposed request to that item.
      *
-     * @param {object} options
-     * @param {string} [options.sourceTestResult]
-     * @param {number} [options.testType]
+     * @remarks
+     * One of `opposedTestResult` or `sourceTestResult` must be supplied in `context.scope`:
+     * - `opposedTestResult` is the prior test result that is being retried
+     * - `sourceTestResult` is the result of the test that initiated the opposed test
+     *
+     * @param [context.scope.opposedTestResult] (A prior test result that is being retried.
+     * @param [context.scope.sourceTestResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
      * @returns {OpposedTestResult} result of the test
      */
     async opposedTestResume(context: SohlActionContext): Promise<void> {
@@ -508,6 +524,86 @@ export class BeingLogic<
         return;
     }
 
+    /**
+     * Present a dialog asking the player to select the appropriate strike mode
+     * to use to begin automated combat, then delegate processing of the combat start to
+     * the selected strike mode's item.
+     */
+    async automatedCombatStart(context: SohlActionContext): Promise<void> {}
+
+    /**
+     * Present a dialog asking the player to select a strike mode to block with to resume
+     * the automated combat.
+     *
+     * @remarks
+     * Any strike mode that has the noBlock trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noBlock trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the block resume to that
+     * strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.combatResult] (A prior test result that is being retried.
+     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     */
+    async automatedBlockResume(context: SohlActionContext): Promise<void> {}
+
+    /**
+     * Resumes automated combat using the Dodge skill. Rolls dodge test and completes processing
+     * of the automated resume (including chat card output). If dodge fails, presents button on
+     * chat card allowing the defender to calculate impact.
+     *
+     * @remarks
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.combatResult] (A prior test result that is being retried.
+     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     */
+    async automatedDodgeResume(context: SohlActionContext): Promise<void> {}
+
+    /**
+     * Present a dialog asking the player to select a strike mode to use for the counterstrike
+     * defense. The default should be the most recently used attack or counterstrike mode.
+     *
+     * @remarks
+     * Any strike mode that has the noAttack trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noAttack trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the counterstrike
+     * resume to that strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.combatResult] (A prior test result that is being retried.
+     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     */
+    async automatedCounterstrikeResume(
+        context: SohlActionContext,
+    ): Promise<void> {}
+
+    /**
+     * Perform the Ignore defense. Completes processing of the automated resume (including
+     * chat card output). If the defense results in a hit, presents button on chat card
+     * allowing the defender to calculate impact.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.combatResult] (A prior test result that is being retried.
+     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     */
+    async automatedIgnoreResume(context: SohlActionContext): Promise<void> {}
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -549,7 +645,8 @@ export class BeingLogic<
                     piercing: logic.protection.piercing.effective,
                     fire: logic.protection.fire.effective,
                 },
-                flexibleLocations: (logic.data as any).locations?.flexible ?? [],
+                flexibleLocations:
+                    (logic.data as any).locations?.flexible ?? [],
                 rigidLocations: (logic.data as any).locations?.rigid ?? [],
             });
         }
@@ -580,3 +677,134 @@ export class BeingLogic<
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
+
+/**
+ * The intrinsic actions available to Being actors.
+ * This structure should correspond to the methods on the
+ * Being class that can be invoked as intrinsic actions.
+ */
+export const {
+    kind: BEING_INTRINSIC_ACTION,
+    values: BeingIntrinsicActions,
+    isValue: isBeingIntrinsicAction,
+    labels: BeingIntrinsicActionLabels,
+} = defineType("SOHL.Being.ACTION", {
+    SHOCKTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.shocktest",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "far fa-face-eyes-xmarks",
+        executor: "shockTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+    },
+    STUMBLETEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.stumbleTest",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "far fa-person-falling",
+        executor: "stumbleTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    FUMBLETEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.fumbleTest",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "far fa-ball-pile",
+        executor: "fumbleTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    MORALETEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.moraleTest",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "far fa-people-group",
+        executor: "moraleTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    FEARTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.fearTest",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "far fa-face-scream",
+        executor: "fearTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    CALCIMPACT: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.calcImpact",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-person-burst",
+        executor: "calcImpact",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    CONTRACTAFFLICTIONTEST: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.contractAfflictionTEST",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-virus",
+        executor: "contractAfflictionTest",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    OPPOSEDTESTRESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.opposedTestResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-people-arrows",
+        executor: "opposedTestResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+    AUTOMATEDCOMBATSTART: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.automatedCombatStart",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-swords",
+        executor: "automatedCombatStart",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    AUTOMATEDBLOCKRESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.automatedBlockResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-shield",
+        executor: "automatedBlockResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+
+    AUTOMATEDCOUNTERSTRIKERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.automatedCounterstrikeResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-circle-half-stroke",
+        executor: "automatedCounterstrikeResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+    AUTOMATEDDODGERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.automatedDodgeResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-person-walking-arrow-loop-left",
+        executor: "automatedDodgeResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+    AUTOMATEDIGNORERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.Being.ACTION.automatedIgnoreResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-ban",
+        executor: "automatedIgnoreResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+} as StrictObject<Partial<SohlActionData>>);

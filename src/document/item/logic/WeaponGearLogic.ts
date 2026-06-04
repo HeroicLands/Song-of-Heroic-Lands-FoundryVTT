@@ -12,12 +12,20 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ITEM_KIND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    STRIKE_MODE_TYPE,
+} from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { SohlActionData } from "@src/domain/action/SohlAction";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -115,8 +123,10 @@ export class WeaponGearLogic<
         // wielder's lineage reach. A non-Being wielder (or none) has no
         // lineage, so reach stays at length alone.
         const lineageReach =
-            ((this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
-                ?.logic as LineageLogic | undefined)?.reach.effective ?? 0;
+            (
+                (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
+                    ?.logic as LineageLogic | undefined
+            )?.reach.effective ?? 0;
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
                 sm.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
@@ -140,3 +150,44 @@ export interface WeaponGearData<
     /** Persisted strike modes, keyed by Foundry-style id. */
     strikeModes: StrictObject<StrikeModeBase.Data>;
 }
+
+/**
+ * The intrinsic actions available to WeaponGear items.
+ * This structure should correspond to the methods on the
+ * WeaponGearLogic class that can be invoked as intrinsic actions.
+ */
+export const {
+    kind: WEAPONGEAR_INTRINSIC_ACTION,
+    values: WeaponGearIntrinsicActions,
+    isValue: isWeaponGearIntrinsicAction,
+    labels: WeaponGearIntrinsicActionLabels,
+} = defineType("SOHL.WeaponGear.ACTION", {
+    AUTOMATEDCOMBATSTART: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedCombatStart",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-swords",
+        executor: "automatedCombatStart",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    AUTOMATEDBLOCKRESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedBlockResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-shield",
+        executor: "automatedBlockResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+
+    AUTOMATEDCOUNTERSTRIKERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedCounterstrikeResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-circle-half-stroke",
+        executor: "automatedCounterstrikeResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+} as StrictObject<Partial<SohlActionData>>);
