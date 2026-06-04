@@ -44,3 +44,30 @@ export function selectActorTokens<T extends TokenActorRef>(
     }
     return sceneTokens.filter((t) => t.actorLink && t.actorId === actorId);
 }
+
+/** The Combatant field the combatant selector reads. */
+export interface CombatantTokenRef {
+    /** The id of the token this combatant represents, if any. */
+    tokenId: string | null;
+}
+
+/**
+ * The first combatant whose token is one of an actor's tokens.
+ *
+ * Scans `combatants` in order and returns the first whose `tokenId` is in
+ * `tokenIds`, or `null` when none match. Combatants with a `null` tokenId are
+ * skipped.
+ *
+ * @param combatants The combat's combatants, in turn order.
+ * @param tokenIds The ids of the actor's tokens (see {@link selectActorTokens}).
+ * @returns The first matching combatant, or `null`.
+ */
+export function selectActorCombatant<T extends CombatantTokenRef>(
+    combatants: readonly T[],
+    tokenIds: ReadonlySet<string>,
+): T | null {
+    for (const c of combatants) {
+        if (c.tokenId !== null && tokenIds.has(c.tokenId)) return c;
+    }
+    return null;
+}

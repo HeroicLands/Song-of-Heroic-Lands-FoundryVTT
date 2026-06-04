@@ -482,6 +482,15 @@ export function getActiveScene(): Scene | null {
     return (game.scenes?.active as Scene | undefined) ?? null;
 }
 
+/**
+ * The currently active combat encounter (`game.combat`), or `null` when the
+ * game is unavailable or no combat is active. Never throws.
+ */
+export function getActiveCombat(): Combat | null {
+    if (!(game instanceof foundry.Game)) return null;
+    return (game.combat as Combat | undefined) ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Pack / compendium helpers
 // ---------------------------------------------------------------------------

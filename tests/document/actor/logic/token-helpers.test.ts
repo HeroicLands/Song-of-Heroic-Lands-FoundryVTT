@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
     selectActorTokens,
+    selectActorCombatant,
     type TokenActorRef,
+    type CombatantTokenRef,
 } from "@src/document/actor/logic/token-helpers";
 
 /** A minimal scene-token stand-in carrying the fields the selector reads. */
@@ -63,5 +65,56 @@ describe("selectActorTokens", () => {
         it("returns empty for an empty scene", () => {
             expect(selectActorTokens([], "a1", null)).toEqual([]);
         });
+    });
+});
+
+/** A minimal combatant stand-in carrying the field the selector reads. */
+const combatant = (
+    tokenId: string | null,
+): CombatantTokenRef & { tag: string } => ({
+    tokenId,
+    tag: tokenId ?? "none",
+});
+
+describe("selectActorCombatant", () => {
+    it("returns the combatant whose tokenId is one of the actor's tokens", () => {
+        const target = combatant("t2");
+        const combatants = [combatant("t1"), target, combatant("t3")];
+        const result = selectActorCombatant(
+            combatants,
+            new Set(["t2", "t9"]),
+        );
+        expect(result).toBe(target);
+    });
+
+    it("returns the first match when several combatants qualify", () => {
+        const first = combatant("t2");
+        const second = combatant("t3");
+        const combatants = [combatant("t1"), first, second];
+        const result = selectActorCombatant(
+            combatants,
+            new Set(["t2", "t3"]),
+        );
+        expect(result).toBe(first);
+    });
+
+    it("returns null when no combatant matches", () => {
+        const combatants = [combatant("t1"), combatant("t2")];
+        expect(selectActorCombatant(combatants, new Set(["t9"]))).toBeNull();
+    });
+
+    it("ignores combatants with a null tokenId", () => {
+        const target = combatant("t2");
+        const combatants = [combatant(null), target];
+        expect(selectActorCombatant(combatants, new Set(["t2"]))).toBe(target);
+    });
+
+    it("returns null for an empty token set", () => {
+        const combatants = [combatant("t1")];
+        expect(selectActorCombatant(combatants, new Set())).toBeNull();
+    });
+
+    it("returns null for no combatants", () => {
+        expect(selectActorCombatant([], new Set(["t1"]))).toBeNull();
     });
 });

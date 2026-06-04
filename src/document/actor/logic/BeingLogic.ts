@@ -33,9 +33,13 @@ import {
     computeActorReach,
     type MeleeReachOption,
 } from "@src/document/actor/logic/reach-helpers";
-import { selectActorTokens } from "@src/document/actor/logic/token-helpers";
-import { getActiveScene } from "@src/core/FoundryHelpers";
+import {
+    selectActorTokens,
+    selectActorCombatant,
+} from "@src/document/actor/logic/token-helpers";
+import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
 import { ITEM_KIND, MovementMedium } from "@src/utils/constants";
 
@@ -180,6 +184,28 @@ export class BeingLogic<
         if (!embedded && !actor.id) return [];
 
         return selectActorTokens(sceneTokens, actor.id ?? "", embedded ?? null);
+    }
+
+    /**
+     * This being's combatant in the active combat encounter.
+     *
+     * Returns the first combatant of `game.combat` whose token is one of this
+     * being's {@link tokens} on the active scene, or `null` when there is no
+     * active combat or no such combatant.
+     */
+    get combatant(): SohlCombatant | null {
+        const combat = getActiveCombat();
+        if (!combat) return null;
+
+        const tokenIds = new Set(
+            this.tokens.map((t) => t.id).filter((id): id is string => !!id),
+        );
+        if (tokenIds.size === 0) return null;
+
+        return selectActorCombatant(
+            combat.combatants.contents as SohlCombatant[],
+            tokenIds,
+        );
     }
 
     /**
