@@ -17,6 +17,11 @@ assisted pipeline and the `CombatResult` resolution engine.
   the combined outcome (margin, Tactical Advantages, weapon-break note).
 - **Injury** — the combat-result card forwards the full aim payload so the
   wound resolves with no dialog, reusing the existing injury pipeline.
+- **Token resolution** — `BeingLogic.tokens` returns an actor's tokens on the
+  world's active scene (the embedded token for a synthetic actor, or every
+  linked token for a world actor), underpinning the range/reach gating above.
+  Backed by the pure `selectActorTokens` helper and a non-throwing
+  `getActiveScene()` Foundry helper.
 
 <!--
 Living entry: expand each bullet with concrete specifics as Phases 5–6 land —

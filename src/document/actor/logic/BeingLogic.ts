@@ -33,6 +33,9 @@ import {
     computeActorReach,
     type MeleeReachOption,
 } from "@src/document/actor/logic/reach-helpers";
+import { selectActorTokens } from "@src/document/actor/logic/token-helpers";
+import { getActiveScene } from "@src/core/FoundryHelpers";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
 import { ITEM_KIND, MovementMedium } from "@src/utils/constants";
 
@@ -149,6 +152,34 @@ export class BeingLogic<
         }
 
         return computeActorReach(options);
+    }
+
+    /**
+     * This being's tokens on the world's active scene.
+     *
+     * - For a **synthetic** (token) actor, this is the single token the actor
+     *   is embedded in, provided that token lives on the active scene.
+     * - For a **world** (linked) actor, this is every linked token on the
+     *   active scene that represents this actor.
+     *
+     * Returns an empty array when there is no active scene or no matching token.
+     */
+    get tokens(): SohlTokenDocument[] {
+        const actor = this.actor;
+        if (!actor) return [];
+
+        const scene = getActiveScene();
+        if (!scene) return [];
+
+        const sceneTokens = [
+            ...((scene.tokens ?? []) as Iterable<SohlTokenDocument>),
+        ];
+        const embedded = (actor as any).isToken
+            ? ((actor as any).token as SohlTokenDocument | null)
+            : null;
+        if (!embedded && !actor.id) return [];
+
+        return selectActorTokens(sceneTokens, actor.id ?? "", embedded ?? null);
     }
 
     /**
