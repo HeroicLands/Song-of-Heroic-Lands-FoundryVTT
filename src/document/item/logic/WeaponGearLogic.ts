@@ -26,6 +26,8 @@ import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import type { CombatResult } from "@src/domain/result/CombatResult";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -93,6 +95,65 @@ export class WeaponGearLogic<
         }
         return update;
     }
+
+    /* --------------------------------------------- */
+    /* Combat Intrinsic Actions                            */
+    /* --------------------------------------------- */
+
+    /**
+     * Present a dialog asking the player to select the appropriate strike mode
+     * to use to begin automated combat, then delegate processing of the combat start to
+     * the selected strike mode's item.
+     */
+    async automatedCombatStart(
+        context: SohlActionContext<EmptyObject>,
+    ): Promise<void> {}
+
+    /**
+     * Present a dialog asking the player to select a strike mode to block with to resume
+     * the automated combat.
+     *
+     * @remarks
+     * Any strike mode that has the noBlock trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noBlock trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the block resume to that
+     * strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
+     */
+    async automatedBlockResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
+
+    /**
+     * Present a dialog asking the player to select a strike mode to use for the counterstrike
+     * defense. The default should be the most recently used attack or counterstrike mode.
+     *
+     * @remarks
+     * Any strike mode that has the noAttack trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noAttack trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the counterstrike
+     * resume to that strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
+     */
+    async automatedCounterstrikeResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

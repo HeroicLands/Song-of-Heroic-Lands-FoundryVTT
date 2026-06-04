@@ -14,7 +14,9 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { CombatResult } from "@src/domain/result/CombatResult";
 import {
     SohlActorBaseLogic,
     SohlActorData,
@@ -269,7 +271,9 @@ export class BeingLogic<
      * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
      * @returns The impact result, or null if no impact occurred.
      */
-    async calcImpact(context: SohlActionContext): Promise<ImpactResult | null> {
+    async calcImpact(
+        context: SohlActionContext<CombatResult.ContextScope>,
+    ): Promise<ImpactResult | null> {
         // let { impactResult, itemId } = options;
         // if (!(impactResult instanceof ImpactResult)) {
         //     if (!itemId) {
@@ -293,7 +297,7 @@ export class BeingLogic<
     }
 
     async shockTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // let { testResult } = options;
         // if (!testResult) {
@@ -317,7 +321,7 @@ export class BeingLogic<
     }
 
     async stumbleTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // if (!options.testResult) {
         //     const agility = this.actor.getItem("agl", { types: ["trait"] });
@@ -344,7 +348,7 @@ export class BeingLogic<
     }
 
     async fumbleTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // if (!options.testResult) {
         //     const dexterity = this.actor.getItem("dex", { types: ["trait"] });
@@ -373,7 +377,7 @@ export class BeingLogic<
     }
 
     async moraleTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
@@ -394,7 +398,7 @@ export class BeingLogic<
     }
 
     async fearTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // if (!options.testResult) {
         //     const initSkill = this.actor.getItem("init", { types: ["skill"] });
@@ -415,7 +419,7 @@ export class BeingLogic<
     }
 
     async contractAfflictionTest(
-        context: SohlActionContext,
+        context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
         // let { afflictionObj } = options;
         // if (!options.testResult) {
@@ -442,20 +446,23 @@ export class BeingLogic<
      * for the opposed test, then delegate processing of the opposed request to that item.
      *
      * @remarks
-     * One of `opposedTestResult` or `sourceTestResult` must be supplied in `context.scope`:
-     * - `opposedTestResult` is the prior test result that is being retried
-     * - `sourceTestResult` is the result of the test that initiated the opposed test
+     * One of `priorTestResult` or `sourceSuccessTestResult` must be supplied in `context.scope`:
+     * - `priorTestResult` is the prior opposed test result that is being retried
+     * - `sourceSuccessTestResult` is the result of the test that initiated the opposed test
      *
-     * @param [context.scope.opposedTestResult] (A prior test result that is being retried.
-     * @param [context.scope.sourceTestResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
-     * @returns {OpposedTestResult} result of the test
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.sourceSuccessTestResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
      */
-    async opposedTestResume(context: SohlActionContext): Promise<void> {
-        // let { opposedTestResult } = options;
-        // if (!opposedTestResult) {
-        //     throw new Error("Must supply opposedTestResult");
-        // }
-        // const sourceItem = opposedTestResult.sourceTestResult.item;
+    async opposedTestResume(
+        context: SohlActionContext<Partial<OpposedTestResult.ContextScope>>,
+    ): Promise<void> {
+        const { priorTestResult, sourceSuccessTestResult } = context.scope;
+        if (!priorTestResult && !sourceSuccessTestResult) {
+            throw new Error(
+                "opposedTestResume requires priorTestResult or sourceSuccessTestResult in scope.",
+            );
+        }
+        // const sourceItem = priorTestResult.sourceTestResult.item;
         // const skill = await Utility.getOpposedItem({
         //     actor: this.parent,
         //     label: _l(
@@ -529,7 +536,9 @@ export class BeingLogic<
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
      */
-    async automatedCombatStart(context: SohlActionContext): Promise<void> {}
+    async automatedCombatStart(
+        context: SohlActionContext<EmptyObject>,
+    ): Promise<void> {}
 
     /**
      * Present a dialog asking the player to select a strike mode to block with to resume
@@ -547,10 +556,12 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
-     * @param [context.scope.combatResult] (A prior test result that is being retried.
-     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
-    async automatedBlockResume(context: SohlActionContext): Promise<void> {}
+    async automatedBlockResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
 
     /**
      * Resumes automated combat using the Dodge skill. Rolls dodge test and completes processing
@@ -562,10 +573,12 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
-     * @param [context.scope.combatResult] (A prior test result that is being retried.
-     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
-    async automatedDodgeResume(context: SohlActionContext): Promise<void> {}
+    async automatedDodgeResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
 
     /**
      * Present a dialog asking the player to select a strike mode to use for the counterstrike
@@ -583,11 +596,11 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
-     * @param [context.scope.combatResult] (A prior test result that is being retried.
-     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
     async automatedCounterstrikeResume(
-        context: SohlActionContext,
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
 
     /**
@@ -599,10 +612,12 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
-     * @param [context.scope.combatResult] (A prior test result that is being retried.
-     * @param [context.scope.attackResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
-    async automatedIgnoreResume(context: SohlActionContext): Promise<void> {}
+    async automatedIgnoreResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

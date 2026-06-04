@@ -452,7 +452,7 @@ export class MasteryLevelModifier extends ValueModifier {
         }
 
         let opposedTestResult: OpposedTestResult = scope.priorTestResult;
-        const successTestContext = context.clone<SohlActionContext>();
+        const successTestContext = context.clone();
 
         if (!opposedTestResult.targetTestResult) {
             successTestContext.scope = {

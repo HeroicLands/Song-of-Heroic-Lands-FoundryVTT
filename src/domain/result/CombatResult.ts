@@ -194,7 +194,6 @@ export class CombatResult extends OpposedTestResult {
             this.attackResult.deliversImpact = dodgeRoll < attackRoll;
         }
     }
-
 }
 
 export namespace CombatResult {
@@ -206,6 +205,7 @@ export namespace CombatResult {
     export interface Options extends OpposedTestResult.Options {}
 
     export interface ContextScope {
-        priorTestResult: CombatResult | null;
+        priorTestResult: CombatResult;
+        attackResult: AttackResult;
     }
 }
