@@ -27,8 +27,10 @@ assisted pipeline and the `CombatResult` resolution engine.
   helpers.
 - **Available strike modes** — `BeingLogic.availableStrikeModes` lists the
   strike modes a being can currently use: every combat technique's mode plus
-  each weapon mode held in at least its required number of limbs. Backed by the
-  pure `selectAvailableStrikeModes` helper; feeds the defenses a target may
+  each weapon mode held in at least its required number of limbs. The
+  availability rule lives in the domain (`computeAvailableStrikeModes`, atop a
+  new `BodyStructure.limbsHolding` query shared with the reach getter); the
+  accessor only gathers the actor's items. Feeds the defenses a target may
   offer in an automated exchange.
 
 <!--

@@ -33,10 +33,7 @@ import {
     computeActorReach,
     type MeleeReachOption,
 } from "@src/document/actor/logic/reach-helpers";
-import {
-    selectAvailableStrikeModes,
-    type StrikeModeCandidate,
-} from "@src/document/actor/logic/strike-mode-helpers";
+import { computeAvailableStrikeModes } from "@src/document/actor/logic/strike-mode-helpers";
 import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import {
     selectActorTokens,
@@ -143,10 +140,7 @@ export class BeingLogic<
         // Weapons: a melee mode is available only if the weapon is held in at
         // least `minParts` limbs.
         for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-            const heldLimbs =
-                bodyStructure?.parts.filter(
-                    (p) => p.canHoldItem && p.heldItem?.id === weapon.id,
-                ).length ?? 0;
+            const heldLimbs = bodyStructure?.limbsHolding(weapon.id) ?? 0;
             const strikeModes =
                 (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ?? [];
             for (const sm of strikeModes) {
@@ -182,40 +176,27 @@ export class BeingLogic<
             itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
         )?.bodyStructure;
 
-        const candidates: StrikeModeCandidate<StrikeModeBase>[] = [];
-
-        // Combat techniques: intrinsic, always available.
+        const techniqueModes: StrikeModeBase[] = [];
         for (const ct of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
             const sm = (ct.logic as CombatTechniqueLogic | undefined)
                 ?.strikeMode;
-            if (sm) {
-                candidates.push({
-                    strikeMode: sm,
-                    minParts: sm.minParts,
-                    heldLimbs: null,
-                });
-            }
+            if (sm) techniqueModes.push(sm);
         }
 
-        // Weapons: a strike mode is available only if the weapon is held in at
-        // least that mode's `minParts` limbs.
-        for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-            const heldLimbs =
-                bodyStructure?.parts.filter(
-                    (p) => p.canHoldItem && p.heldItem?.id === weapon.id,
-                ).length ?? 0;
-            const strikeModes =
-                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ?? [];
-            for (const sm of strikeModes) {
-                candidates.push({
-                    strikeMode: sm,
-                    minParts: sm.minParts,
-                    heldLimbs,
-                });
-            }
-        }
+        const weapons = (itemTypes[ITEM_KIND.WEAPONGEAR] ?? []).map(
+            (weapon: any) => ({
+                id: weapon.id as string,
+                strikeModes:
+                    (weapon.logic as WeaponGearLogic | undefined)
+                        ?.strikeModes ?? [],
+            }),
+        );
 
-        return selectAvailableStrikeModes(candidates);
+        return computeAvailableStrikeModes(
+            bodyStructure,
+            techniqueModes,
+            weapons,
+        );
     }
 
     /**

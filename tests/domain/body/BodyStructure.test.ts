@@ -79,6 +79,82 @@ describe("BodyStructure", () => {
         });
     });
 
+    describe("limbsHolding", () => {
+        // Two hands grip "sword1"; the mouth references it too but cannot hold
+        // items; the head holds nothing.
+        const HOLDING_DATA: BodyStructure.Data = {
+            parts: [
+                {
+                    shortcode: "rightHand",
+                    roles: [],
+                    canHoldItem: true,
+                    heldItemId: "sword1",
+                    probWeight: 5,
+                    locations: [],
+                },
+                {
+                    shortcode: "leftHand",
+                    roles: [],
+                    canHoldItem: true,
+                    heldItemId: "sword1",
+                    probWeight: 5,
+                    locations: [],
+                },
+                {
+                    shortcode: "mouth",
+                    roles: [],
+                    canHoldItem: false,
+                    heldItemId: "sword1",
+                    probWeight: 1,
+                    locations: [],
+                },
+                {
+                    shortcode: "head",
+                    roles: [],
+                    canHoldItem: false,
+                    heldItemId: null,
+                    probWeight: 15,
+                    locations: [],
+                },
+            ],
+            adjacent: [],
+        };
+
+        // Mock being-logic whose actor resolves heldItemId -> a stub item.
+        const logicResolving = (ids: string[]) =>
+            ({
+                actor: {
+                    items: {
+                        get: (id: string) =>
+                            ids.includes(id) ? { id } : null,
+                    },
+                },
+                data: { bodyStructure: HOLDING_DATA },
+            }) as any;
+
+        it("counts item-holding limbs whose held item matches", () => {
+            const body = new BodyStructure(
+                HOLDING_DATA,
+                logicResolving(["sword1"]),
+            );
+            // Both hands; the mouth is excluded (canHoldItem === false).
+            expect(body.limbsHolding("sword1")).toBe(2);
+        });
+
+        it("returns 0 when no holdable limb grips the item", () => {
+            const body = new BodyStructure(
+                HOLDING_DATA,
+                logicResolving(["sword1"]),
+            );
+            expect(body.limbsHolding("axe9")).toBe(0);
+        });
+
+        it("returns 0 when nothing is held at all", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            expect(body.limbsHolding("sword1")).toBe(0);
+        });
+    });
+
     describe("getPart", () => {
         it("finds a part by name", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);

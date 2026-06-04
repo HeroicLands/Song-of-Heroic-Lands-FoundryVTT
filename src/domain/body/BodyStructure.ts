@@ -78,6 +78,19 @@ export class BodyStructure {
     }
 
     /**
+     * The number of item-holding limbs currently gripping the item with the
+     * given id. A limb counts only if it both {@link BodyPart.canHoldItem | can
+     * hold an item} and holds that specific item. Used to decide whether a
+     * held weapon's strike modes are available (a mode needs at least its
+     * `minParts` limbs).
+     */
+    limbsHolding(itemId: string): number {
+        return this.parts.filter(
+            (p) => p.canHoldItem && p.heldItem?.id === itemId,
+        ).length;
+    }
+
+    /**
      * Select a random body part.
      *
      * Without parameters, uses pure weighted random selection across all parts.
