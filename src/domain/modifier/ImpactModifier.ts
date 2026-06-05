@@ -12,6 +12,7 @@
  */
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { registerKind } from "@src/utils/kindRegistry";
 import {
     IMPACT_ASPECT,
     IMPACT_ASPECT_CHAR,
@@ -129,3 +130,5 @@ export namespace ImpactModifier {
 
     export interface Options extends ValueModifier.Options {}
 }
+
+registerKind(ImpactModifier.Kind, ImpactModifier);

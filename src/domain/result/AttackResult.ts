@@ -12,6 +12,7 @@
  */
 
 import { ImpactResult } from "@src/domain/result/ImpactResult";
+import { registerKind } from "@src/utils/kindRegistry";
 import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
 
 /**
@@ -145,3 +146,5 @@ export namespace AttackResult {
         priorTestResult: AttackResult | null;
     }
 }
+
+registerKind(AttackResult.Kind, AttackResult);

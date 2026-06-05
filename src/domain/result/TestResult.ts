@@ -76,7 +76,7 @@ export abstract class TestResult {
     }
 
     get parent(): SohlLogic {
-        return this.parent;
+        return this._parent;
     }
 
     async evaluate() {

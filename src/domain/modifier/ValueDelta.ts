@@ -12,6 +12,7 @@
  */
 
 import { instanceToJSON } from "@src/utils/helpers";
+import { registerKind } from "@src/utils/kindRegistry";
 import {
     VALUE_DELTA_OPERATOR,
     ValueDeltaOperator,
@@ -133,3 +134,5 @@ export namespace ValueDelta {
         new (data: Data): T;
     }
 }
+
+registerKind(ValueDelta.Kind, ValueDelta);

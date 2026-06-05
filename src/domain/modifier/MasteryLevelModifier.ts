@@ -12,6 +12,7 @@
  */
 
 import { DialogButtonCallback, inputDialog } from "@src/core/FoundryHelpers";
+import { registerKind } from "@src/utils/kindRegistry";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
@@ -508,3 +509,5 @@ export namespace MasteryLevelModifier {
 
     export interface Options extends ValueModifier.Options {}
 }
+
+registerKind(MasteryLevelModifier.Kind, MasteryLevelModifier);

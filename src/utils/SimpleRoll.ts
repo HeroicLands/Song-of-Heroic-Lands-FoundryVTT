@@ -12,6 +12,7 @@
  */
 
 import { instanceToJSON } from "@src/utils/helpers";
+import { registerKind } from "@src/utils/kindRegistry";
 
 /**
  * A Foundry-free dice primitive for structured `NdM+K` rolls.
@@ -167,6 +168,8 @@ export class SimpleRoll {
 }
 
 export namespace SimpleRoll {
+    export const Kind = "SimpleRoll";
+
     export interface Data {
         numDice: number;
         dieFaces: number;
@@ -174,3 +177,5 @@ export namespace SimpleRoll {
         rolls: number[];
     }
 }
+
+registerKind(SimpleRoll.Kind, SimpleRoll);

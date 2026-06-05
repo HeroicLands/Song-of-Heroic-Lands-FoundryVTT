@@ -12,6 +12,7 @@
  */
 
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -534,3 +535,5 @@ function handleLimitedDescription(
 
     return result;
 }
+
+registerKind(SuccessTestResult.Kind, SuccessTestResult);
