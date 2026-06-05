@@ -14,6 +14,7 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { instanceToJSON, cloneInstance } from "@src/utils/helpers";
+import { registerKind } from "@src/utils/kindRegistry";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 
 export class SohlActionContext<S extends UnknownObject = UnknownObject> {
@@ -95,6 +96,8 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
 }
 
 export namespace SohlActionContext {
+    export const Kind = "SohlActionContext";
+
     export interface Data<S extends UnknownObject = UnknownObject> {
         speaker?: SohlSpeaker | Partial<SohlSpeaker.Data>;
         target?:
@@ -109,3 +112,5 @@ export namespace SohlActionContext {
         scope?: S;
     }
 }
+
+registerKind(SohlActionContext.Kind, SohlActionContext);

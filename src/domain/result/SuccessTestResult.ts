@@ -115,7 +115,12 @@ export class SuccessTestResult extends TestResult {
                 new MasteryLevelModifier({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
-        this._successLevel = MARGINAL_FAILURE;
+        // Restore a previously-evaluated success level so a result can cross to
+        // another client as a read-only snapshot (e.g. the attacker's
+        // AttackResult shown on the defender's card). A fresh test leaves this
+        // at MARGINAL_FAILURE and computes it in evaluate(); a re-test on the
+        // owning client re-evaluates and overwrites it regardless.
+        this._successLevel = data.successLevel ?? MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
             data.masteryLevelModifier ??

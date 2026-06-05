@@ -1,4 +1,23 @@
-import { describe, it } from "vitest";
+import { describe, it, expect } from "vitest";
+import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { instanceFromJSON } from "@src/utils/helpers";
+
+describe("SohlSpeaker serialization round-trip", () => {
+    it("tags its toJSON with the kind so it can be revived", () => {
+        const json = new SohlSpeaker({ alias: "Char1" }).toJSON() as any;
+        expect(json.__kind).toBe("SohlSpeaker");
+        expect(json.alias).toBe("Char1");
+    });
+
+    it("rehydrates as a live SohlSpeaker via the kind registry", () => {
+        const sp = new SohlSpeaker({ alias: "Char1" });
+        const revived = instanceFromJSON<SohlSpeaker>(
+            JSON.stringify(sp.toJSON()),
+        );
+        expect(revived).toBeInstanceOf(SohlSpeaker);
+        expect(revived.name).toBe("Char1");
+    });
+});
 
 describe("SohlSpeaker", () => {
     describe("constructor", () => {

@@ -756,17 +756,41 @@ export function instanceToJSON(instance: object): PlainObject {
 }
 
 /**
- * Create a deep copy of an object instance by serializing via
- * {@link instanceToJSON} and reconstructing via the same constructor.
+ * Create a deep copy of an object instance by serializing it and reviving it
+ * through {@link defaultFromJSON}.
+ *
+ * Reviving (rather than handing the raw serialized JSON to the constructor) is
+ * what makes the copy faithful: nested registered instances, `Set`/`Map`
+ * fields, and modifier `ValueDelta`s come back as live objects instead of inert
+ * plain data. Registered classes (see {@link registerKind}) are reconstructed
+ * to their concrete type by `defaultFromJSON`; an unregistered top-level type
+ * still has its children revived and is rebuilt via its own constructor.
+ *
+ * The owning logic (`parent`) defaults to the source's own parent, so
+ * `modifier.clone()` reuses the same owner. `data` overrides are merged before
+ * reviving.
  */
 export function cloneInstance<T>(
     instance: object,
     data: PlainObject = {},
     options: PlainObject = {},
 ): T {
-    const original = instanceToJSON(instance);
-    const newObj = fvttMergeObject(original, data) as PlainObject;
-    return new (instance.constructor as any)(newObj, options) as T;
+    // Prefer a custom toJSON (e.g. SohlSpeaker serializes documents as ids);
+    // fall back to reflective serialization.
+    const json =
+        typeof (instance as any).toJSON === "function" ?
+            (instance as any).toJSON()
+        :   instanceToJSON(instance);
+    const merged = fvttMergeObject(json, data) as PlainObject;
+    const parent = (options as any).parent ?? (instance as any).parent;
+    const revived = defaultFromJSON(merged, { parent });
+    if (revived instanceof (instance.constructor as any)) {
+        return revived as T;
+    }
+    return new (instance.constructor as any)(revived, {
+        ...options,
+        parent,
+    }) as T;
 }
 
 export function serializeFn(fn: (...args: any[]) => any): string {

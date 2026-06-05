@@ -261,3 +261,52 @@ describe("opposedTestEvaluate dispatch", () => {
         expect(cr.weaponBreakCheck).toBe("defender"); // melee/block tie behavior
     });
 });
+
+describe("evaluate — snapshot attacker, evaluate only the defender", () => {
+    function evaluatable(opts: {
+        level: number;
+        testType?: string;
+        evalReturn?: boolean;
+    }): any {
+        const side = makeSide(opts);
+        side.evaluated = false;
+        side.evaluate = async () => {
+            side.evaluated = true;
+            return opts.evalReturn ?? true;
+        };
+        return side;
+    }
+
+    it("evaluates the defender locally and reads the attacker as a snapshot", async () => {
+        const atk = evaluatable({ level: 1 });
+        const def = evaluatable({ level: 0, testType: TEST_TYPE.BLOCK.id });
+        const cr = makeCombat(atk, def);
+
+        const ok = await cr.evaluate();
+
+        // The attacker's AttackResult is a pre-evaluated snapshot from the
+        // attacker's client; re-evaluating it would hit the attacker's
+        // ownership gate on the defender's machine.
+        expect(atk.evaluated).toBe(false);
+        expect(def.evaluated).toBe(true);
+        expect(ok).toBe(true);
+        // Resolution ran, using the attacker's snapshot success level.
+        expect(cr.margin).toBe(atk.normSuccessLevel - def.normSuccessLevel);
+    });
+
+    it("returns false and skips resolution when the defense evaluation fails", async () => {
+        const atk = evaluatable({ level: 1 });
+        const def = evaluatable({
+            level: 0,
+            testType: TEST_TYPE.BLOCK.id,
+            evalReturn: false,
+        });
+        const cr = makeCombat(atk, def);
+
+        const ok = await cr.evaluate();
+
+        expect(ok).toBe(false);
+        expect(atk.evaluated).toBe(false);
+        expect(cr.margin).toBe(0); // opposedTestEvaluate never ran
+    });
+});

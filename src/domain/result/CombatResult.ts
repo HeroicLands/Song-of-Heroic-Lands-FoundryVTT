@@ -110,10 +110,18 @@ export class CombatResult extends OpposedTestResult {
     }
 
     /**
-     * Evaluate both sides, then resolve the opposed combat outcome.
+     * Evaluate the defender's side locally, then resolve the opposed combat
+     * outcome.
+     *
+     * Unlike the inherited {@link OpposedTestResult.evaluate}, this does NOT
+     * evaluate the attacker's side. The `attackResult` arrives as a read-only
+     * snapshot already evaluated on the attacker's client; re-evaluating it
+     * here would trip the attacker's `_speaker.isOwner` gate on the defender's
+     * machine. Only `defendResult` (owned by the local user) is evaluated; the
+     * attacker's outcome is read as-is by {@link opposedTestEvaluate}.
      */
     override async evaluate(): Promise<boolean> {
-        const allowed = await super.evaluate();
+        const allowed = await this.defendResult.evaluate();
         if (allowed) this.opposedTestEvaluate();
         return allowed;
     }

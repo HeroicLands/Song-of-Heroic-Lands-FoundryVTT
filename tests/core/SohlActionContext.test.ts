@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { instanceToJSON, instanceFromJSON } from "@src/utils/helpers";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 
 function createSpeaker(): SohlSpeaker {
@@ -159,6 +160,25 @@ describe("SohlActionContext", () => {
         it("returns null when speaker has no token", () => {
             const ctx = new SohlActionContext({ speaker: createSpeaker() });
             expect(ctx.token).toBeNull();
+        });
+    });
+
+    describe("serialization round-trip", () => {
+        it("rehydrates as a live SohlActionContext with a live speaker", () => {
+            const ctx = new SohlActionContext({
+                speaker: createSpeaker(),
+                type: "strike",
+                scope: { situationalModifier: 4 },
+            });
+
+            const revived = instanceFromJSON<SohlActionContext>(
+                JSON.stringify(instanceToJSON(ctx)),
+            );
+
+            expect(revived).toBeInstanceOf(SohlActionContext);
+            expect(revived.speaker).toBeInstanceOf(SohlSpeaker);
+            expect(revived.type).toBe("strike");
+            expect(revived.scope).toHaveProperty("situationalModifier", 4);
         });
     });
 });

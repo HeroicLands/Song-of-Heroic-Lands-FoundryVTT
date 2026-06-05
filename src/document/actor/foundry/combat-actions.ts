@@ -14,6 +14,10 @@
 import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import type { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import type { ImpactAspect } from "@src/utils/constants";
+import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import { AttackResult } from "@src/domain/result/AttackResult";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 export type StrikeModeTestKind = "attack" | "block" | "counterstrike";
 
@@ -78,6 +82,97 @@ export function resolveStrikeModeImpact(
     const impact = sm.impact as ImpactModifier | undefined;
     if (!impact || impact.disabled) return null;
     return impact;
+}
+
+/** A fresh, rolled d100. */
+function rollAttackDie(): SimpleRoll {
+    const roll = new SimpleRoll({
+        numDice: 1,
+        dieFaces: 100,
+        modifier: 0,
+        rolls: [],
+    });
+    roll.roll();
+    return roll;
+}
+
+/** Inputs for {@link buildAttackResult}. */
+export interface BuildAttackInput {
+    /** The strike mode's attack mastery-level modifier (see {@link resolveStrikeModeML}). */
+    attackML: MasteryLevelModifier;
+    /** The strike mode's impact modifier (see {@link resolveStrikeModeImpact}). */
+    impact: ImpactModifier;
+    /** Logic that owns the resulting AttackResult and its cloned modifiers (the attacker). */
+    parent: SohlLogic;
+    /** The attacker's token, recorded on the result. */
+    token: SohlTokenDocument | null;
+    /** Test type id, e.g. `TEST_TYPE.AUTOCOMBATMELEE.id`. */
+    testType: string;
+    /** Defense options offered to the target (block/dodge/counterstrike/ignore). */
+    allowedDefenses: Iterable<string>;
+    /** Player-entered situational modifier, recorded for audit/display. */
+    situationalModifier?: number;
+    /** Pre-rolled d100 (tests); defaults to a fresh random roll. */
+    roll?: SimpleRoll;
+}
+
+/**
+ * Assemble an {@link AttackResult} from a strike mode's resolved attack and
+ * impact modifiers. Pure and Foundry-free: it clones the modifiers (so the
+ * result is independent of — and serializable without — the live strike mode)
+ * and rolls a fresh d100 unless one is supplied.
+ *
+ * The result is *not* yet evaluated; the caller runs `evaluate()` (on the
+ * attacker's client, which owns the speaker) before posting the attack card.
+ */
+export function buildAttackResult(input: BuildAttackInput): AttackResult {
+    // Clone so the result is independent of (and serializable without) the live
+    // strike mode. `clone()` round-trips through the kind registry, faithfully
+    // reviving nested ValueDeltas and rebuilding the concrete subclass.
+    const masteryLevelModifier = input.attackML.clone<MasteryLevelModifier>(
+        {},
+        { parent: input.parent },
+    );
+    const impactModifier = input.impact.clone<ImpactModifier>(
+        {},
+        { parent: input.parent },
+    );
+    return new AttackResult(
+        {
+            roll: input.roll ?? rollAttackDie(),
+            masteryLevelModifier,
+            impactModifier,
+            token: input.token ?? undefined,
+            testType: input.testType,
+            allowedDefenses: new Set(input.allowedDefenses),
+            situationalModifier: input.situationalModifier ?? 0,
+        } as Partial<AttackResult.Data>,
+        { parent: input.parent },
+    );
+}
+
+/**
+ * Resolve the single legal target of an automated attack. The attacker must
+ * have exactly one token targeted, and that token must be in the active
+ * combat. Throws (with a user-facing message) otherwise.
+ *
+ * Pure: `targeted` is the current target list and `isInCombat` reports combat
+ * membership, so the rule is unit-testable without canvas/combat globals.
+ */
+export function resolveAttackTarget<T>(
+    targeted: T[],
+    isInCombat: (token: T) => boolean,
+): T {
+    if (targeted.length !== 1) {
+        throw new Error(
+            "An automated attack requires exactly one target token.",
+        );
+    }
+    const target = targeted[0];
+    if (!isInCombat(target)) {
+        throw new Error("The target must be in the current combat.");
+    }
+    return target;
 }
 
 /** A targeted token reduced to the data the damage card needs. */

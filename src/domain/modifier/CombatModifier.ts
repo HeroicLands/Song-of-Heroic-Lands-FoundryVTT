@@ -12,6 +12,7 @@
  */
 
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import { registerKind } from "@src/utils/kindRegistry";
 
 /**
  * A {@link MasteryLevelModifier} specialized for combat resolution — attack
@@ -55,3 +56,5 @@ export namespace CombatModifier {
 
     export interface Options extends MasteryLevelModifier.Options {}
 }
+
+registerKind(CombatModifier.Kind, CombatModifier);

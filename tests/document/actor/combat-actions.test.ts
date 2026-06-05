@@ -10,8 +10,21 @@ import {
     resolveStrikeModeML,
     resolveStrikeModeImpact,
     buildDamageCardData,
+    buildAttackResult,
+    resolveAttackTarget,
 } from "@src/document/actor/foundry/combat-actions";
-import { IMPACT_ASPECT } from "@src/utils/constants";
+import { IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
+import { AttackResult } from "@src/domain/result/AttackResult";
+import { CombatModifier } from "@src/domain/modifier/CombatModifier";
+import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
+
+const attackerParent = {
+    data: { kind: "weapongear" },
+    name: "Broadsword",
+    label: "Broadsword",
+    item: { logic: { availableFate: [] } },
+} as any;
 
 function makeActor(items: any[]): any {
     return {
@@ -198,5 +211,99 @@ describe("buildDamageCardData", () => {
         expect(data.hasTarget).toBe(false);
         expect(data.handlerUuid).toBe("");
         expect(data.targetName).toBe("");
+    });
+});
+
+describe("buildAttackResult", () => {
+    function makeAttackML(base: number): CombatModifier {
+        return new CombatModifier({ baseValue: base } as any, {
+            parent: attackerParent,
+        });
+    }
+    function makeImpact(): ImpactModifier {
+        return new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+    }
+
+    it("assembles an AttackResult from the strike-mode attack ML and impact", () => {
+        const attackML = makeAttackML(54);
+        const impact = makeImpact();
+        const roll = new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] });
+
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            allowedDefenses: ["block", "dodge", "counterstrike", "ignore"],
+            roll,
+        });
+
+        expect(ar).toBeInstanceOf(AttackResult);
+        expect(ar.testType).toBe(TEST_TYPE.AUTOCOMBATMELEE.id);
+        expect(ar.roll.total).toBe(44);
+        expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
+        expect(ar.impactModifier.die).toBe(6);
+        expect(ar.impactModifier.numDice).toBe(2);
+        expect([...ar.allowedDefenses].sort()).toEqual([
+            "block",
+            "counterstrike",
+            "dodge",
+            "ignore",
+        ]);
+    });
+
+    it("clones the modifiers so mutating the result does not touch the strike mode", () => {
+        const attackML = makeAttackML(54);
+        const impact = makeImpact();
+
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            allowedDefenses: ["dodge"],
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [1] }),
+        });
+
+        expect(ar.masteryLevelModifier).not.toBe(attackML);
+        expect(ar.impactModifier).not.toBe(impact);
+        // Independent: mutating the result's modifier leaves the source alone.
+        ar.masteryLevelModifier.successLevelMod = 3;
+        expect(attackML.successLevelMod).toBe(0);
+        expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
+    });
+});
+
+describe("resolveAttackTarget", () => {
+    const inCombat = (_t: any) => true;
+    const notInCombat = (_t: any) => false;
+
+    it("returns the single targeted token when it is in combat", () => {
+        const t = { id: "t1" };
+        expect(resolveAttackTarget([t], inCombat)).toBe(t);
+    });
+
+    it("throws when nothing is targeted", () => {
+        expect(() => resolveAttackTarget([], inCombat)).toThrow(/one target/i);
+    });
+
+    it("throws when more than one token is targeted", () => {
+        expect(() =>
+            resolveAttackTarget([{ id: "a" }, { id: "b" }], inCombat),
+        ).toThrow(/one target/i);
+    });
+
+    it("throws when the target is not in combat", () => {
+        expect(() => resolveAttackTarget([{ id: "t1" }], notInCombat)).toThrow(
+            /combat/i,
+        );
     });
 });

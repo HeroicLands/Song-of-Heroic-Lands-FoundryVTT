@@ -19,7 +19,11 @@ import { ValueDelta } from "@src/domain/modifier/ValueDelta";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { AttackResult } from "@src/domain/result/AttackResult";
-import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
+import {
+    VALUE_DELTA_OPERATOR,
+    MARGINAL_SUCCESS,
+    CRITICAL_SUCCESS,
+} from "@src/utils/constants";
 
 /** A parent logic stub sufficient for result/modifier construction. */
 const parent = {
@@ -115,6 +119,65 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             );
             expect(revived.masteryLevelModifier.constrainedEffective).toBe(45);
             expect(revived.mishaps).toBeInstanceOf(Set);
+        });
+    });
+
+    describe("snapshot (evaluated outcome survives the trip)", () => {
+        it("restores successLevel on rehydrate without re-evaluating", () => {
+            // Simulate a result the attacker has already evaluated.
+            const r = new SuccessTestResult(
+                {
+                    roll: new SimpleRoll({
+                        numDice: 1,
+                        dieFaces: 100,
+                        rolls: [5],
+                    }),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 50 } as any,
+                        { parent },
+                    ),
+                } as any,
+                { parent },
+            );
+            (r as any)._successLevel = CRITICAL_SUCCESS;
+            expect(r.successLevel).toBe(CRITICAL_SUCCESS);
+
+            const revived = instanceFromJSON<SuccessTestResult>(
+                toAttr(r),
+                parent,
+            );
+
+            // The defender reads the attacker's outcome as-is; it must NOT
+            // reset to MARGINAL_FAILURE the way a fresh test would.
+            expect(revived.successLevel).toBe(CRITICAL_SUCCESS);
+        });
+
+        it("a snapshot AttackResult keeps its success level and deliversImpact", () => {
+            const a = new AttackResult(
+                {
+                    roll: new SimpleRoll({
+                        numDice: 1,
+                        dieFaces: 100,
+                        rolls: [30],
+                    }),
+                    masteryLevelModifier: new MasteryLevelModifier(
+                        { baseValue: 50 } as any,
+                        { parent },
+                    ),
+                    impactModifier: new ImpactModifier(
+                        { roll: { numDice: 2, dieFaces: 6 }, aspect: "edged" } as any,
+                        { parent },
+                    ),
+                    deliversImpact: true,
+                } as any,
+                { parent },
+            );
+            (a as any)._successLevel = MARGINAL_SUCCESS;
+
+            const revived = instanceFromJSON<AttackResult>(toAttr(a), parent);
+
+            expect(revived.successLevel).toBe(MARGINAL_SUCCESS);
+            expect(revived.deliversImpact).toBe(true);
         });
     });
 
