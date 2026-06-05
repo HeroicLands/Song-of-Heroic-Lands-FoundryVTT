@@ -111,13 +111,56 @@ came back as inert plain objects). `AttackResult` never had a `clone` at all.
   independent copy); round-trip tests in `SohlActionContext.test.ts` and
   `SohlSpeaker.test.ts`.
 
-### 3e. `SohlActionContext` generic (commit `e8ea13d`)
-`SohlActionContext<S extends UnknownObject = UnknownObject>` with `scope: S` as
-an explicit field (was a `...rest` capture that double-nested a `scope:` key and
-broke clone round-trips). Default stays `UnknownObject` (widest accurate type);
-`EmptyObject` is the explicit "takes no scope" opt-in; `Partial<…ContextScope>`
-for typed scope. `BeingLogic.opposedTestResume` typed + guarded against the
-existing `OpposedTestResult.ContextScope`.
+### 3e. `SohlActionContext` generic + scope typing (commit `e8ea13d`)
+This was the **pre-automated-combat work** in the session. `SohlActionContext`
+became `SohlActionContext<S extends UnknownObject = UnknownObject>` with
+`scope: S` as an **explicit named field** (was a `...rest` capture).
+
+**The bug that drove it (two manifestations, both fixed):**
+1. Callers passing a `scope: {...}` key (`SkillLogic`, `MasteryLevelModifier`)
+   had it swallowed by the `...rest` and re-nested as `scope.scope` — silently
+   lost, since read sites spread `context.scope` flat.
+2. `toJSON` emits a `scope` key; feeding it back through the rest-capture
+   constructor re-nested it, so `clone()` corrupted scope on every round-trip.
+   The explicit named field fixes both.
+
+**Migration:** `SohlItem.onChatCardButton` changed `...btn.dataset` →
+`scope: { ...btn.dataset }` (the one site relying on the old flat-via-rest
+behavior); `MasteryLevelModifier` dropped its `clone<SohlActionContext>()` cast.
+The lost-scope call sites were inert (redundant-with-defaults or fed dead code),
+so the fix was behavior-preserving.
+
+**Typing convention chosen:**
+- **Default `UnknownObject`** — "scope unspecified / heterogeneous." The plumbing
+  (`ActionExecutorFn`, `execute()`) carries every action's context, so the
+  honest default is the *weakest accurate* statement, not "empty."
+- **`SohlActionContext<EmptyObject>`** — explicit "takes no scope." Applied to the
+  `automated*` resume stubs: `automatedCombatStart`, `automatedBlockResume`,
+  `automatedDodgeResume`, `automatedCounterstrikeResume`, `automatedIgnoreResume`.
+  (`EmptyObject = Record<string, never>` — a global alias; satisfies the
+  `extends UnknownObject` constraint where a bare `interface`/`{}` would not.)
+- **`SohlActionContext<Partial<…ContextScope>>`** — typed scope. `BeingLogic.opposedTestResume`
+  uses `Partial<OpposedTestResult.ContextScope>` (fields `priorTestResult` /
+  `sourceSuccessTestResult`), with a runtime guard requiring at least one. Its
+  JSDoc was corrected to match (field names + removed a stale `@returns`).
+
+**Design rationale (kept here because it won't survive in the code):**
+- **Stays a class, not an interface** — the constructor enforces invariants an
+  interface can't: validation (speaker required → throws), coercion (target
+  `Token|Actor|TokenDocument` → normalized `TokenDocument`; plain speaker data →
+  `SohlSpeaker`), derived getters (`character`, `token`), and behavior
+  (`clone`/`toJSON`). It's a value object with invariants, not a data bag.
+- **Generic param, not subclasses** — dispatch is polymorphic *by data*: the
+  action system matches the `type` **string** to an action and hands every
+  executor the base type. A subclass buys nothing at that boundary (the executor
+  still downcasts), so inheritance would just relocate the cast. A generic types
+  the existing `…ContextScope` interfaces at the container instead.
+- Constraint gotcha: a bare `interface` does **not** satisfy
+  `S extends Record<string, unknown>`; use a `type` alias / `Partial<Interface>`
+  / `Record<string, never>`. Construction sites get the real type-checking
+  payoff; consumption stays structurally typed to avoid generic-variance friction
+  with the bound-executor registry (which binds via `as any`, so narrowing a
+  method param is safe but the dispatcher passes the base type).
 
 ---
 
