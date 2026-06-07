@@ -555,6 +555,51 @@ export type SohlSpeakerSound =
     (typeof SOHL_SPEAKER_SOUND)[keyof typeof SOHL_SPEAKER_SOUND];
 
 export const {
+    kind: STATUS_EFFECT,
+    values: StatusEffects,
+    isValue: isStatusEffect,
+} = defineType("SOHL.StatusEffect", {
+    DEAD: "dead",
+    UNCONSCIOUS: "unconscious",
+    SLEEP: "sleep",
+    STUN: "stun",
+    PRONE: "prone",
+    RESTRAINED: "restrain",
+    PARALYZED: "paralysis",
+    FLYING: "fly",
+    BLIND: "blind",
+    DEAF: "deaf",
+    EVADING: "evade",
+    SILENCED: "silence",
+    FEARFUL: "fear",
+    BURNING: "burning",
+    FROZEN: "frozen",
+    SHOCKED: "shock",
+    CORRODED: "corrode",
+    BLEEDING: "bleeding",
+    DISEASED: "disease",
+    POISONED: "poison",
+    CURSED: "curse",
+    REGENERATING: "regen",
+    DEGENERATING: "degen",
+    HOVERING: "hover",
+    BURROWING: "burrow",
+    UPGRADING: "upgrade",
+    DOWNGRADING: "downgrade",
+    TARGETED: "target",
+    VISIBLE: "eye",
+    BLESSED: "bless",
+    FIRE_SHIELD: "fireShield",
+    COLD_SHIELD: "coldShield",
+    MAGIC_SHIELD: "magicShield",
+    HOLY_SHIELD: "holyShield",
+    INCAPACITATED: "incapacitated",
+    VANQUISHED: "vanquished",
+    AURAL_SHOCK: "auralshock",
+});
+export type StatusEffect = (typeof STATUS_EFFECT)[keyof typeof STATUS_EFFECT];
+
+export const {
     kind: OPPOSED_TEST_RESULT_TIEBREAK,
     values: OpposedTestResultTieBreaks,
     isValue: isOpposedTestResultTieBreak,
@@ -1157,7 +1202,6 @@ export const {
 });
 export type SkillCode = (typeof SKILL_CODE)[keyof typeof SKILL_CODE];
 
-
 export const {
     kind: ATTRIBUTE_CODE,
     values: AttributeCodes,
@@ -1178,7 +1222,8 @@ export const {
     VOICE: "voi",
     WILL: "wil",
 });
-export type AttributeCode = (typeof ATTRIBUTE_CODE)[keyof typeof ATTRIBUTE_CODE];
+export type AttributeCode =
+    (typeof ATTRIBUTE_CODE)[keyof typeof ATTRIBUTE_CODE];
 
 export const {
     kind: AFFLICTION_CODE,
@@ -1251,7 +1296,8 @@ export const {
     TYPHOID_FEVER: "typhfvr",
     WASP_VENOM: "waspvnm",
 });
-export type AfflictionCode = (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
+export type AfflictionCode =
+    (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
 
 export const {
     kind: TRAIT_CODE,
