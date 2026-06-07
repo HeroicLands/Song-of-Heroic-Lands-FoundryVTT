@@ -71,7 +71,7 @@ export class CohortDataModel<
     moveRepName!: string;
     members!: { shortcode: string; name: string; role: string }[];
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCohortDataSchema();
     }
 

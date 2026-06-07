@@ -14,7 +14,7 @@
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
 
 export class StructureSheet extends SohlActorSheetBase {
-    static DEFAULT_OPTIONS: PlainObject = {
+    static override DEFAULT_OPTIONS: PlainObject = {
         id: "structure-sheet",
         tag: "form",
         position: { width: 900, height: 640 },
@@ -33,7 +33,7 @@ export class StructureSheet extends SohlActorSheetBase {
         effects: { template: "systems/sohl/templates/actor/parts/effects.hbs" },
     } as const;
 
-    static TABS = {
+    static override TABS = {
         primary: {
             initial: "facade",
             tabs: [

@@ -354,7 +354,7 @@ export class SohlActor extends Actor {
      */
     setupIntrinsicActions(context: SohlActionContext): void {}
 
-    prepareBaseData(): void {
+    override prepareBaseData(): void {
         super.prepareBaseData();
         this._speaker = undefined;
         this._lifecycleActionsCache = new Map<string, SohlItem>();
@@ -460,7 +460,7 @@ export class SohlActor extends Actor {
         });
     }
 
-    prepareDerivedData(): void {
+    override prepareDerivedData(): void {
         super.prepareDerivedData();
         const ctx = this._getContext();
         if (
@@ -517,7 +517,7 @@ export class SohlActor extends Actor {
     //     // Function body here
     // }
 
-    async _preCreate(
+    override async _preCreate(
         createData: PlainObject,
         options: PlainObject,
         user: User,
@@ -588,7 +588,7 @@ export class SohlActor extends Actor {
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
-    async _preUpdate(
+    override async _preUpdate(
         changes: PlainObject,
         options: PlainObject,
         user: User,
@@ -621,7 +621,7 @@ export class SohlActor extends Actor {
         }
     }
 
-    _onCreate(data: PlainObject, options: any, userId: string) {
+    override _onCreate(data: PlainObject, options: any, userId: string) {
         // Call base implementation dynamically to avoid TypeScript override signature noise
         const __sohl_base = Object.getPrototypeOf(SohlActor.prototype) as any;
         __sohl_base._onCreate.call(
@@ -758,7 +758,7 @@ const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
 >(foundry.applications.api.DocumentSheetV2<SohlActor>);
 
 export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
-    get document(): SohlActor {
+    override get document(): SohlActor {
         return super.document as SohlActor;
     }
 
@@ -766,7 +766,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         return (this.document as any).actor;
     }
 
-    _configureRenderOptions(
+    override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -775,7 +775,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         options.parts = ["header", "tabs", "facade"];
     }
 
-    async _prepareContext(
+    override async _prepareContext(
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>

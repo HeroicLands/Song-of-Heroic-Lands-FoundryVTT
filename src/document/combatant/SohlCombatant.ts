@@ -40,7 +40,7 @@ export interface StrikeModeRef {
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
-    get actor(): SohlActor | null {
+    override get actor(): SohlActor | null {
         return super.actor as SohlActor | null;
     }
 
