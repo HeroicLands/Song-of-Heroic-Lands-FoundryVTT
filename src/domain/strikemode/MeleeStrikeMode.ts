@@ -70,10 +70,10 @@ export class MeleeStrikeMode extends StrikeModeBase {
             this.defense.block.disabledReason =
                 "This strike mode cannot be used for blocking.";
         }
-        if (
-            data.defense.counterstrike.disabled ||
-            data.traits?.noCounterstrike
-        ) {
+        // A counterstrike is an attack made in response, so `noAttack` disables it
+        // (there is no separate `noCounterstrike` trait); it can also be disabled
+        // on its own via `defense.counterstrike.disabled`.
+        if (data.defense.counterstrike.disabled || data.traits?.noAttack) {
             this.defense.counterstrike.disabledReason =
                 "This strike mode cannot be used for counterstriking.";
         }

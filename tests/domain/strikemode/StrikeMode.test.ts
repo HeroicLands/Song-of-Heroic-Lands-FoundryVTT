@@ -84,8 +84,8 @@ describe("MeleeStrikeMode", () => {
         expect(sm.defense.block.disabledReason).toBeTruthy();
     });
 
-    it("noCounterstrike trait disables the counterstrike defense", () => {
-        const data = { ...MELEE_DATA, traits: { noCounterstrike: true } };
+    it("noAttack trait also disables the counterstrike defense (a counterstrike is an attack)", () => {
+        const data = { ...MELEE_DATA, traits: { noAttack: true } };
         const sm = new MeleeStrikeMode(data, MOCK_LOGIC, MELEE_ID);
         expect(sm.defense.counterstrike.disabledReason).toBeTruthy();
     });
