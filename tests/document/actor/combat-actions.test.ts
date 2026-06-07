@@ -9,6 +9,7 @@ import { describe, it, expect } from "vitest";
 import {
     resolveStrikeModeML,
     resolveStrikeModeImpact,
+    resolveSkillMasteryLevel,
     buildDamageCardData,
     buildAttackResult,
     buildAttackCardData,
@@ -176,6 +177,30 @@ describe("resolveStrikeModeImpact", () => {
         ]);
         expect(resolveStrikeModeImpact(actor, "wp1", "sm1")).toBeNull();
         expect(resolveStrikeModeImpact(actor, "wp1", "nope")).toBeNull();
+    });
+});
+
+describe("resolveSkillMasteryLevel", () => {
+    const dodgeML = Symbol("dodge-ml");
+    const actor = {
+        itemTypes: {
+            skill: [
+                { system: { shortcode: "shk" }, logic: { masteryLevel: {} } },
+                {
+                    system: { shortcode: "dge" },
+                    logic: { masteryLevel: dodgeML },
+                },
+            ],
+        },
+    } as any;
+
+    it("returns the mastery level of the skill with the given shortcode", () => {
+        expect(resolveSkillMasteryLevel(actor, "dge")).toBe(dodgeML);
+    });
+
+    it("returns null when no skill has that shortcode", () => {
+        expect(resolveSkillMasteryLevel(actor, "nope")).toBeNull();
+        expect(resolveSkillMasteryLevel({} as any, "dge")).toBeNull();
     });
 });
 

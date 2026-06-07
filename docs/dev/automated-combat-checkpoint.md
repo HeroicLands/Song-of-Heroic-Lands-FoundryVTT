@@ -266,9 +266,11 @@ Resume actions on `BeingLogic` (stubs exist):
   of the ignore** — it is a defender responsibility even though the "defense" is
   to do nothing. This means the current defender-centric `CombatResult.evaluate()`
   override is **correct as-is and stays** — no special-casing for Ignore.
-- **Dodge** (no dialog), **Block** (strike-mode-select dialog), **Counterstrike**
-  (a *second attack*, not a defense → two `AttackResult`s, two cards, injury
-  button gated per target).
+- **Dodge** — **IMPLEMENTED (see §13).** No dialog; the defender rolls their
+  Dodge skill.
+- **Block** (strike-mode-select dialog), **Counterstrike** (a *second attack*,
+  not a defense → the defender slot is an `AttackResult`; injury button gated per
+  target) — still to do.
 
 ### Injury pipeline
 `Calculate <Token> Injury` button → location, armor reduction, effective impact,
@@ -561,3 +563,28 @@ now passed through unvalidated** (they are display / identity labels, not
 localization keys). Note: the **situational modifier** is, by convention, just
 the delta whose shortcode is `VALUE_DELTA_ID.PLAYER` (`"SitMod"`) — a separate
 `situationalModifier` property is optional, not required.
+
+---
+
+## 13. Dodge defense resume (2026-06-06)
+
+Second defender vertical; reuses the Ignore infrastructure (§12). Unlike Ignore,
+the defender actually **rolls** a Dodge test.
+
+- **`resolveSkillMasteryLevel(actor, shortcode)`** (new pure helper in
+  `combat-actions.ts`, tested): finds the actor's `type: "skill"` item whose
+  `system.shortcode` matches and returns its `logic.masteryLevel`. The shortcode
+  is static / non-localized.
+- **`SKILL_CODE`** (new `defineType` in `constants.ts`): well-known skill
+  shortcodes — `DODGE = "dge"`, `INITIATIVE = "init"` — so code keys off a
+  constant, not a magic string.
+- **`BeingLogic.automatedDodgeResume`**: rehydrate the attacker snapshot → build a
+  **rolling** `DefendResult(DODGE)` from a clone of the Dodge skill's
+  `masteryLevel` → `CombatResult` → `await combatResult.evaluate()` (rolls the
+  dodge on the defender's client, then resolves) → post the combat-result card.
+- **Refactor:** Ignore + Dodge now share `BeingLogic` privates
+  `_rehydrateAttackResult`, `_buildCombatResult`, `_postCombatResultCard`. Ignore
+  uses `opposedTestEvaluate()` (no defender roll); Dodge uses `evaluate()`.
+
+Dodge tie-break (attack lands when the dodge roll is lower than the attack roll)
+is already encoded in `CombatResult.attackerLandsBlow` (§11).

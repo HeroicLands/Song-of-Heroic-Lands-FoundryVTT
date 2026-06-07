@@ -70,6 +70,26 @@ export function resolveStrikeModeML(
 }
 
 /**
+ * Resolve the {@link MasteryLevelModifier} of an actor's **skill** identified by
+ * its (static, non-localized) `system.shortcode` — e.g. `"dge"` for Dodge.
+ *
+ * Pure and Foundry-free. Used by the defender's automated-combat resumes (Dodge,
+ * …) to roll against the right skill. Returns `null` when the actor has no skill
+ * with that shortcode.
+ *
+ * @param actor     Anything exposing `itemTypes.skill` (a SohlActor at runtime).
+ * @param shortcode The skill's `system.shortcode` (e.g. `"dge"`).
+ */
+export function resolveSkillMasteryLevel(
+    actor: { itemTypes?: { skill?: any[] } },
+    shortcode: string,
+): MasteryLevelModifier | null {
+    const skills = actor.itemTypes?.skill ?? [];
+    const skill = skills.find((s: any) => s?.system?.shortcode === shortcode);
+    return (skill?.logic?.masteryLevel as MasteryLevelModifier) ?? null;
+}
+
+/**
  * Resolve the {@link ImpactModifier} for a given strike mode on an actor.
  *
  * Pure function — does not touch the DOM or Foundry globals — so it can be

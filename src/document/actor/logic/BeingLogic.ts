@@ -44,7 +44,11 @@ import {
 } from "@src/document/actor/logic/token-helpers";
 import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
 import { startAutomatedAttackFromActor } from "@src/document/actor/foundry/automated-combat";
-import { buildCombatCardData } from "@src/document/actor/foundry/combat-actions";
+import {
+    buildCombatCardData,
+    resolveSkillMasteryLevel,
+} from "@src/document/actor/foundry/combat-actions";
+import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
@@ -54,6 +58,7 @@ import {
     defineType,
     ITEM_KIND,
     MovementMedium,
+    SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TEST_TYPE,
@@ -567,7 +572,51 @@ export class BeingLogic<
      */
     async automatedDodgeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        const attackResult = this._rehydrateAttackResult(context);
+        if (!attackResult) return;
+
+        // Dodge rolls the defender's Dodge skill; no dialog.
+        const dodgeML = resolveSkillMasteryLevel(
+            this.actor as any,
+            SKILL_CODE.DODGE,
+        );
+        if (!dodgeML) {
+            sohl.log.uiWarn(
+                `${this.actor?.name} has no Dodge skill to defend with.`,
+            );
+            return;
+        }
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.DODGE.id,
+                // Clone so the defense's situational delta doesn't mutate the
+                // live skill modifier.
+                masteryLevelModifier: dodgeML.clone<MasteryLevelModifier>(
+                    {},
+                    { parent: this },
+                ),
+                situationalModifier: 0,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+        const combatResult = this._buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        // evaluate() rolls the dodge on the defender's client, then resolves the
+        // opposed outcome (the attacker side is read as a snapshot).
+        await combatResult.evaluate();
+        await this._postCombatResultCard(
+            combatResult,
+            attackResult,
+            "Dodge",
+            context,
+        );
+    }
 
     /**
      * Present a dialog asking the player to select a strike mode to use for the counterstrike
@@ -607,20 +656,11 @@ export class BeingLogic<
     async automatedIgnoreResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {
-        // The Ignore button lives on the defender's card, so this runs on the
-        // defender's client. The attacker's evaluated AttackResult arrives as a
-        // serialized snapshot in the button's dataset (`data-attack-result-json`).
-        const scope = (context.scope ?? {}) as any;
-        const json = scope.attackResultJson;
-        if (!json) {
-            sohl.log.warn(
-                `${this.actor?.name}: Ignore resume had no attack result to resolve.`,
-            );
-            return;
-        }
-        const attackResult = instanceFromJSON<AttackResult>(json, this);
+        const attackResult = this._rehydrateAttackResult(context);
+        if (!attackResult) return;
 
-        // Ignore = no defensive contest: a non-rolling placeholder.
+        // Ignore = no defensive contest: a non-rolling placeholder. Resolve
+        // directly (no defender roll) via opposedTestEvaluate.
         const defendResult = new DefendResult(
             {
                 testType: TEST_TYPE.IGNORE.id,
@@ -630,8 +670,46 @@ export class BeingLogic<
             } as any,
             { parent: this },
         );
+        const combatResult = this._buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        combatResult.opposedTestEvaluate();
+        await this._postCombatResultCard(
+            combatResult,
+            attackResult,
+            "Ignore",
+            context,
+        );
+    }
 
-        const combatResult = new CombatResult(
+    /**
+     * Rehydrate the attacker's evaluated `AttackResult` snapshot from the defense
+     * button's dataset (`data-attack-result-json` → `scope.attackResultJson`).
+     * Returns `null` (with a warning) when absent. Parent is this defender's
+     * logic, per the snapshot-on-defender model.
+     */
+    private _rehydrateAttackResult(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): AttackResult | null {
+        const json = (context.scope as any)?.attackResultJson;
+        if (!json) {
+            sohl.log.warn(
+                `${this.actor?.name}: automated-combat resume had no attack result to resolve.`,
+            );
+            return null;
+        }
+        return instanceFromJSON<AttackResult>(json, this);
+    }
+
+    /** Compose the `CombatResult` for a resolved exchange (attacker snapshot + defender response). */
+    private _buildCombatResult(
+        attackResult: AttackResult,
+        defendResult: AttackResult | DefendResult,
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): CombatResult {
+        return new CombatResult(
             {
                 attackResult,
                 defendResult,
@@ -641,12 +719,19 @@ export class BeingLogic<
             } as any,
             { parent: this },
         );
-        combatResult.opposedTestEvaluate();
+    }
 
+    /**
+     * Post the combat-result card as the defender. A landing blow carries a
+     * "Calculate <Token> Injury" button. Suppressed when `context.noChat`.
+     */
+    private async _postCombatResultCard(
+        combatResult: CombatResult,
+        attackResult: AttackResult,
+        defenseLabel: string,
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
         if (context.noChat) return;
-
-        // The defender authors the combat-result card. If the unopposed attack
-        // lands, it carries a "Calculate <defender> Injury" button.
         const cardData = buildCombatCardData({
             combatResult,
             title: "Attack Result",
@@ -654,7 +739,7 @@ export class BeingLogic<
             attackerName: attackResult.speaker?.name ?? "",
             defenderName: this.actor?.name ?? "",
             attackWeapon: attackResult.title ?? "",
-            defenseLabel: "Ignore",
+            defenseLabel,
             attackTarget:
                 this.actor ?
                     { name: this.actor.name ?? "", actorUuid: this.actor.uuid }
