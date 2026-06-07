@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts", "types/index.d.ts", "build/docbundle/index.ts"],
+    "exclude": [
+        "build/docs",
+        "build/generated",
+        "build/stage",
+        "build/tmp",
+        "tests/**/*.ts",
+        "**/*.test.ts"
+    ]
+}

@@ -49,15 +49,20 @@ const sortedGroups = Object.entries(groups).sort(([a], [b]) =>
     a.localeCompare(b),
 );
 
+const outDir = path.dirname(outputFile);
 let exports = [];
 
 for (const [group, files] of sortedGroups) {
     exports.push(`\n// === ${group.toUpperCase()} ===`);
     for (const file of files.sort()) {
-        //const relativePath = path
-        //.relative("build/docs-api", file)
-        //  .replace(/\\/g, "/");
-        exports.push(`export * from "${file.replace(/\.ts$/, "")}";`);
+        // Emit specifiers relative to the bundle's own location so TypeDoc
+        // resolves them without needing a tsconfig baseUrl.
+        let specifier = path
+            .relative(outDir, path.resolve(file))
+            .replace(/\\/g, "/")
+            .replace(/\.ts$/, "");
+        if (!specifier.startsWith(".")) specifier = `./${specifier}`;
+        exports.push(`export * from "${specifier}";`);
     }
 }
 
