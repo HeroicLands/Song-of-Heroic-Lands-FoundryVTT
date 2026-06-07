@@ -268,9 +268,10 @@ Resume actions on `BeingLogic` (stubs exist):
   override is **correct as-is and stays** — no special-casing for Ignore.
 - **Dodge** — **IMPLEMENTED (see §13).** No dialog; the defender rolls their
   Dodge skill.
-- **Block** (strike-mode-select dialog), **Counterstrike** (a *second attack*,
-  not a defense → the defender slot is an `AttackResult`; injury button gated per
-  target) — still to do.
+- **Block** — **IMPLEMENTED (see §14).** Strike-mode-select dialog (bypassable);
+  rolls the chosen mode's `defense.block`.
+- **Counterstrike** (a *second attack*, not a defense → the defender slot is an
+  `AttackResult`; injury button gated per target) — still to do.
 
 ### Injury pipeline
 `Calculate <Token> Injury` button → location, armor reduction, effective impact,
@@ -588,3 +589,60 @@ the defender actually **rolls** a Dodge test.
 
 Dodge tie-break (attack lands when the dodge roll is lower than the attack roll)
 is already encoded in `CombatResult.attackerLandsBlow` (§11).
+
+---
+
+## 14. Block defense resume (2026-06-06)
+
+Third defender vertical. Like Dodge (defender rolls), but it adds a strike-mode
+select dialog and rolls the chosen mode's block modifier instead of a skill.
+
+- **`collectBlockableStrikeModes(actor)`** (new pure helper in `combat-actions.ts`,
+  tested): gathers melee modes across the actor's weapons + combat techniques
+  whose `defense.block` exists and isn't disabled (not `noBlock`); returns
+  `{ itemId, smId, itemName, label, ml }` (the live block modifier).
+- **`showDefenseDialog(title, selectLabel, choices)`** (new glue in
+  `automated-combat.ts`): a select + Additional Modifier dialog, side-effect-free
+  → `{ key, situationalModifier } | null`.
+- **`BeingLogic.automatedBlockResume`**: rehydrate snapshot → list blockable
+  modes → `resolveActionInput` (dialog, or `scope.itemId`+`strikeModeId`+
+  `situationalModifier` when `skipDialog`) → build a rolling `DefendResult(BLOCK)`
+  from a clone of the chosen block modifier → `CombatResult.evaluate()` → post
+  the card with `defenseLabel = "Block w/ <itemName>"`.
+- Block's tie weapon-break check is already in `CombatResult.opposedTestEvaluate`
+  (§11): a tie sets `weaponBreakCheck = "defender"`.
+
+Defenders done: **Ignore (§12), Dodge (§13), Block (§14).** Remaining:
+**Counterstrike** — defender slot is an `AttackResult` (model in place, §11); the
+attack-card Counterstrike button would resolve to a second attack with its own
+impact + injury button.
+
+---
+
+## 15. Missile range / accuracy foundations + injury auto-resolution (2026-06-06)
+
+Pure, tested primitives in `combat-actions.ts` (for the upcoming attack-flow
+restructure):
+- **`collectAttackableStrikeModes(actor, distanceFeet)`** — attackable modes by
+  range: melee limited by `reach.effective`, missile by `baseRange.effective`
+  (beyond base range = volley = excluded — automated combat does not support
+  volley). Empty ⇒ target out of range of every mode.
+- **`classifyMissileRange(distance, baseRange)`** — `≤ baseRange/2` = point blank
+  (accuracy 6, impact +2); `≤ baseRange` = direct (accuracy 8); beyond =
+  `direct:false` (volley).
+- **`indexOfBestMastery(entries, ml)`** — the "best chance" default (highest
+  effective ML).
+
+Accuracy now travels to injury resolution, completing **aim auto-threading**:
+- `AttackResult.accuracy` and `ImpactResult.accuracy` added (melee = strike
+  mode `spread`; missile = 6/8). `buildAttackResult` / `CombatResult.rollImpact`
+  forward it.
+- `buildCombatCardData`'s injury button now emits `targetPart` + `accuracy` when
+  the blow was aimed, so `createInjury` resolves the hit location **automatically**
+  (falls back to the assisted dialog when unaimed).
+
+Still to wire (next): the attacker flow restructure (resolve target + distance →
+range-filtered mode list → out-of-range short-circuit → point-blank impact/accuracy
+→ melee accuracy = spread → recent/best default), `SohlCombatantDataModel`
+persistence of last attack/block mode, Block defaults, and the user-facing
+"volley unsupported" doc note.

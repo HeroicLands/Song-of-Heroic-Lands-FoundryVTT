@@ -17,6 +17,7 @@ import {
     ATTACK_MISHAP,
     CRITICAL_FAILURE,
     DEFEND_MISHAP,
+    ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
     TEST_TYPE,
@@ -24,6 +25,7 @@ import {
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { AttackResult } from "@src/domain/result/AttackResult";
 import type { CombatResult } from "@src/domain/result/CombatResult";
 import type { ImpactResult } from "@src/domain/result/ImpactResult";
@@ -89,6 +91,157 @@ export function resolveSkillMasteryLevel(
     return (skill?.logic?.masteryLevel as MasteryLevelModifier) ?? null;
 }
 
+/** A defender strike mode usable for a Block, with its (live) block modifier. */
+export interface BlockableStrikeMode {
+    /** Id of the owning item (weapon or combat technique). */
+    itemId: string;
+    /** Id of the strike mode within that item. */
+    smId: string;
+    /** The owning item's display name (e.g. "Round Shield"). */
+    itemName: string;
+    /** Dialog label, e.g. "Round Shield — Block". */
+    label: string;
+    /** The strike mode's block mastery-level modifier (live, not cloned). */
+    ml: MasteryLevelModifier;
+}
+
+/**
+ * Gather every strike mode the actor can **block** with — across weapons and
+ * combat techniques — i.e. melee modes whose `defense.block` is present and not
+ * disabled (not `noBlock`). Pure and Foundry-free; used to populate the Block
+ * dialog and to resolve the chosen mode's block modifier.
+ */
+export function collectBlockableStrikeModes(actor: {
+    itemTypes?: any;
+}): BlockableStrikeMode[] {
+    const out: BlockableStrikeMode[] = [];
+    const itemTypes = actor.itemTypes ?? {};
+    const consider = (item: any, sm: any) => {
+        const block = sm?.defense?.block as MasteryLevelModifier | undefined;
+        if (block && !(block as any).disabled) {
+            out.push({
+                itemId: item.id,
+                smId: sm.id,
+                itemName: item.name,
+                label: `${item.name} — ${sm.name}`,
+                ml: block,
+            });
+        }
+    };
+    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+        for (const sm of item.logic?.strikeModes ?? []) consider(item, sm);
+    }
+    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
+        const sm = item.logic?.strikeMode;
+        if (sm) consider(item, sm);
+    }
+    return out;
+}
+
+/** A strike mode usable to attack the current target, with its owning item. */
+export interface AttackableStrikeMode {
+    /** Id of the owning item (weapon or combat technique). */
+    itemId: string;
+    /** Id of the strike mode within that item. */
+    smId: string;
+    /** The owning item's display name. */
+    itemName: string;
+    /** The strike mode (carries `.attack`, `.impact`, `.isMissile`, range/reach). */
+    strikeMode: StrikeModeBase;
+}
+
+/**
+ * Gather every strike mode the actor can attack the target with at
+ * `distanceFeet`, across weapons and combat techniques. Pure and Foundry-free.
+ *
+ * Range is the gate (in addition to `noAttack`):
+ * - **melee** modes are limited by the mode's **reach** (`reach.effective`),
+ * - **missile** modes are limited by **base range** (`baseRange.effective`) —
+ *   beyond base range is a volley (area attack), which automated combat does
+ *   not support, so those modes are excluded entirely.
+ *
+ * An empty result means the target is out of range of every mode.
+ */
+export function collectAttackableStrikeModes(
+    actor: { itemTypes?: any },
+    distanceFeet: number,
+): AttackableStrikeMode[] {
+    const out: AttackableStrikeMode[] = [];
+    const itemTypes = actor.itemTypes ?? {};
+    const consider = (item: any, sm: any) => {
+        if (!sm || sm.attack?.disabled) return;
+        const inRange =
+            sm.isMissile ?
+                distanceFeet <= (sm.baseRange?.effective ?? 0)
+            :   distanceFeet <= (sm.reach?.effective ?? 0);
+        if (!inRange) return;
+        out.push({
+            itemId: item.id,
+            smId: sm.id,
+            itemName: item.name,
+            strikeMode: sm as StrikeModeBase,
+        });
+    };
+    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+        for (const sm of item.logic?.strikeModes ?? []) consider(item, sm);
+    }
+    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
+        consider(item, item.logic?.strikeMode);
+    }
+    return out;
+}
+
+/** The range band of a missile **direct** shot (see {@link classifyMissileRange}). */
+export interface MissileRangeBand {
+    /** Within base range — a supported direct shot (else a volley, unsupported). */
+    direct: boolean;
+    /** Within half base range. */
+    pointBlank: boolean;
+    /** Hit-location scatter accuracy: 6 at point blank, else 8. */
+    accuracy: number;
+    /** Impact range bonus: +2 at point blank, else 0. */
+    impactRangeBonus: number;
+}
+
+/**
+ * Classify a missile **direct** shot by distance vs base range (feet):
+ * `≤ baseRange/2` is point blank (accuracy 6, impact +2); `≤ baseRange` is a
+ * normal direct shot (accuracy 8, no bonus); beyond is a volley (`direct:false`,
+ * unsupported by automated combat). Pure.
+ */
+export function classifyMissileRange(
+    distanceFeet: number,
+    baseRangeFeet: number,
+): MissileRangeBand {
+    const pointBlank = distanceFeet <= baseRangeFeet / 2;
+    return {
+        direct: distanceFeet <= baseRangeFeet,
+        pointBlank,
+        accuracy: pointBlank ? 6 : 8,
+        impactRangeBonus: pointBlank ? 2 : 0,
+    };
+}
+
+/**
+ * Index of the entry with the highest effective mastery level (the "best
+ * chance" default), or -1 for an empty list. Pure.
+ */
+export function indexOfBestMastery<T>(
+    entries: T[],
+    ml: (entry: T) => number,
+): number {
+    let best = -1;
+    let bestVal = -Infinity;
+    entries.forEach((e, i) => {
+        const v = ml(e);
+        if (v > bestVal) {
+            bestVal = v;
+            best = i;
+        }
+    });
+    return best;
+}
+
 /**
  * Resolve the {@link ImpactModifier} for a given strike mode on an actor.
  *
@@ -141,6 +294,8 @@ export interface BuildAttackInput {
     testType: string;
     /** The targeted body part shortcode, stored on the result for the cards + injury. */
     aimBodyPartCode?: string;
+    /** Strike accuracy for injury hit-location scatter (melee `spread`; missile 6/8). */
+    accuracy?: number;
     /** Display label for the attack (weapon/strike-mode name), stored as the result's title. */
     title?: string;
     /** Pre-rolled d100 (tests); defaults to a fresh random roll. */
@@ -176,6 +331,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
             token: input.token ?? undefined,
             testType: input.testType,
             aimBodyPartCode: input.aimBodyPartCode ?? "",
+            accuracy: input.accuracy ?? 0,
             title: input.title ?? "",
         } as Partial<AttackResult.Data>,
         { parent: input.parent },
@@ -381,12 +537,20 @@ function injuryButton(
     target: CombatCardTarget | null | undefined,
 ): { handlerUuid: string; targetName: string; testResultJson: string } | null {
     if (!impact || !target) return null;
+    // When the blow was aimed, forward `targetPart` + `accuracy` so the
+    // `createInjury` handler resolves the hit location automatically; otherwise
+    // omit them and the handler opens the assisted Add Injury dialog.
+    const aim =
+        impact.aimBodyPartCode ?
+            { targetPart: impact.aimBodyPartCode, accuracy: impact.accuracy }
+        :   {};
     return {
         handlerUuid: target.actorUuid,
         targetName: target.name,
         testResultJson: JSON.stringify({
             impact: impact.total,
             aspect: impact.aspect,
+            ...aim,
         }),
     };
 }

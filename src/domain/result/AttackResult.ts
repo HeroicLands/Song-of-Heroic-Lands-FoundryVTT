@@ -40,6 +40,12 @@ import { ImpactModifier } from "../modifier/ImpactModifier";
 export class AttackResult extends SuccessTestResult {
     impact: ImpactModifier;
     aimBodyPartCode: string;
+    /**
+     * Strike accuracy governing hit-location scatter from {@link aimBodyPartCode}
+     * during injury resolution. Melee uses the strike mode's `spread`; missile
+     * uses 6 (point blank) or 8 (normal direct).
+     */
+    accuracy: number;
 
     constructor(
         data: Partial<AttackResult.Data> = {},
@@ -48,6 +54,7 @@ export class AttackResult extends SuccessTestResult {
         super(data, options);
         this.impact = data.impact ?? new ImpactModifier();
         this.aimBodyPartCode = data.aimBodyPartCode ?? "";
+        this.accuracy = data.accuracy ?? 0;
     }
 
     async evaluate(): Promise<boolean> {
@@ -130,6 +137,8 @@ export namespace AttackResult {
         impact: ImpactModifier;
         /** The body part shortcode targeted by this attack, if any */
         aimBodyPartCode: string;
+        /** Strike accuracy for hit-location scatter (melee `spread`; missile 6/8). */
+        accuracy: number;
     }
 
     export interface Options extends SuccessTestResult.Options {}

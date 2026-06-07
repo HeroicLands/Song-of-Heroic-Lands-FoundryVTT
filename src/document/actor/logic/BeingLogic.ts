@@ -43,12 +43,17 @@ import {
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
 import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
-import { startAutomatedAttackFromActor } from "@src/document/actor/foundry/automated-combat";
+import {
+    startAutomatedAttackFromActor,
+    showDefenseDialog,
+} from "@src/document/actor/foundry/automated-combat";
 import {
     buildCombatCardData,
     resolveSkillMasteryLevel,
+    collectBlockableStrikeModes,
 } from "@src/document/actor/foundry/combat-actions";
 import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import { resolveActionInput } from "@src/utils/actionInput";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
@@ -555,7 +560,78 @@ export class BeingLogic<
      */
     async automatedBlockResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        const attackResult = this._rehydrateAttackResult(context);
+        if (!attackResult) return;
+
+        const entries = collectBlockableStrikeModes(this.actor as any);
+        if (!entries.length) {
+            sohl.log.uiWarn(
+                `${this.actor?.name} has no strike mode able to block.`,
+            );
+            return;
+        }
+        const choices: Record<string, string> = {};
+        entries.forEach((e, i) => {
+            choices[String(i)] = e.label;
+        });
+
+        // Pick the blocking strike mode + Additional Modifier (dialog, or from
+        // scope when skipDialog: `itemId` + `strikeModeId` + `situationalModifier`).
+        const input = await resolveActionInput<{
+            key: string;
+            situationalModifier: number;
+        }>(context, {
+            fromScope: (s) => {
+                const idx = entries.findIndex(
+                    (e) => e.itemId === s.itemId && e.smId === s.strikeModeId,
+                );
+                return {
+                    key: idx >= 0 ? String(idx) : "0",
+                    situationalModifier:
+                        Number.parseInt(String(s.situationalModifier), 10) || 0,
+                };
+            },
+            dialog: () =>
+                showDefenseDialog(
+                    `${this.actor?.name} — Select Block`,
+                    "Block with:",
+                    choices,
+                ),
+        });
+        if (!input) return;
+        const entry = entries[Number(input.key)];
+        if (!entry) return;
+
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.BLOCK.id,
+                // Clone so the defense's situational delta doesn't mutate the
+                // strike mode's live block modifier.
+                masteryLevelModifier: entry.ml.clone<MasteryLevelModifier>(
+                    {},
+                    { parent: this },
+                ),
+                situationalModifier: input.situationalModifier,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+        const combatResult = this._buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        // evaluate() rolls the block on the defender's client, then resolves.
+        await combatResult.evaluate();
+        await this._postCombatResultCard(
+            combatResult,
+            attackResult,
+            `Block w/ ${entry.itemName}`,
+            context,
+        );
+    }
 
     /**
      * Resumes automated combat using the Dodge skill. Rolls dodge test and completes processing

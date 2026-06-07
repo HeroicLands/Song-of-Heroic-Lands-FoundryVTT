@@ -10,6 +10,10 @@ import {
     resolveStrikeModeML,
     resolveStrikeModeImpact,
     resolveSkillMasteryLevel,
+    collectBlockableStrikeModes,
+    collectAttackableStrikeModes,
+    classifyMissileRange,
+    indexOfBestMastery,
     buildDamageCardData,
     buildAttackResult,
     buildAttackCardData,
@@ -201,6 +205,150 @@ describe("resolveSkillMasteryLevel", () => {
     it("returns null when no skill has that shortcode", () => {
         expect(resolveSkillMasteryLevel(actor, "nope")).toBeNull();
         expect(resolveSkillMasteryLevel({} as any, "dge")).toBeNull();
+    });
+});
+
+describe("collectBlockableStrikeModes", () => {
+    const blkMod = { disabled: "" };
+    const noBlk = { disabled: "SOHL.INFO.disabled" };
+    const actor = {
+        itemTypes: {
+            weapongear: [
+                {
+                    id: "shield",
+                    name: "Round Shield",
+                    logic: {
+                        strikeModes: [
+                            {
+                                id: "b1",
+                                name: "Block",
+                                defense: { block: blkMod },
+                            },
+                        ],
+                    },
+                },
+                {
+                    id: "bow",
+                    name: "Bow",
+                    // missile mode: no defense → not blockable
+                    logic: { strikeModes: [{ id: "shoot", name: "Shoot" }] },
+                },
+            ],
+            combattechnique: [
+                {
+                    id: "ct",
+                    name: "Brawling",
+                    logic: {
+                        strikeMode: {
+                            id: "ct",
+                            name: "Punch",
+                            defense: { block: noBlk }, // noBlock → excluded
+                        },
+                    },
+                },
+            ],
+        },
+    } as any;
+
+    it("lists only melee modes with an enabled block", () => {
+        const entries = collectBlockableStrikeModes(actor);
+        expect(entries).toHaveLength(1);
+        expect(entries[0]).toMatchObject({
+            itemId: "shield",
+            smId: "b1",
+            itemName: "Round Shield",
+            label: "Round Shield — Block",
+        });
+        expect(entries[0].ml).toBe(blkMod);
+    });
+
+    it("returns [] when nothing can block", () => {
+        expect(collectBlockableStrikeModes({} as any)).toEqual([]);
+    });
+});
+
+describe("collectAttackableStrikeModes", () => {
+    const melee = (id: string, reach: number) => ({
+        id,
+        name: id,
+        attack: { disabled: "" },
+        isMissile: false,
+        reach: { effective: reach },
+    });
+    const missile = (id: string, baseRange: number) => ({
+        id,
+        name: id,
+        attack: { disabled: "" },
+        isMissile: true,
+        baseRange: { effective: baseRange },
+    });
+    const actor = {
+        itemTypes: {
+            weapongear: [
+                { id: "sword", name: "Sword", logic: { strikeModes: [melee("swing", 5)] } },
+                { id: "bow", name: "Bow", logic: { strikeModes: [missile("shoot", 50)] } },
+            ],
+            combattechnique: [
+                { id: "ct", name: "Brawl", logic: { strikeMode: melee("punch", 4) } },
+            ],
+        },
+    } as any;
+
+    it("includes melee in reach + missile within base range", () => {
+        // distance 4: swing (reach 5), punch (reach 4), shoot (range 50) all in.
+        const ids = collectAttackableStrikeModes(actor, 4).map((e) => e.smId).sort();
+        expect(ids).toEqual(["punch", "shoot", "swing"].sort());
+    });
+
+    it("drops melee out of reach (missile still in base range)", () => {
+        const ids = collectAttackableStrikeModes(actor, 30).map((e) => e.smId);
+        expect(ids).toEqual(["shoot"]);
+    });
+
+    it("returns [] when the target is out of range of every mode (volley excluded)", () => {
+        expect(collectAttackableStrikeModes(actor, 100)).toEqual([]);
+    });
+
+    it("excludes noAttack modes", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "w",
+                        name: "W",
+                        logic: {
+                            strikeModes: [
+                                { id: "x", name: "x", attack: { disabled: "no" }, isMissile: false, reach: { effective: 5 } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        } as any;
+        expect(collectAttackableStrikeModes(a, 1)).toEqual([]);
+    });
+});
+
+describe("classifyMissileRange", () => {
+    it("point blank at <= half base range: accuracy 6, impact +2", () => {
+        const r = classifyMissileRange(20, 40);
+        expect(r).toEqual({ direct: true, pointBlank: true, accuracy: 6, impactRangeBonus: 2 });
+    });
+    it("normal direct within base range: accuracy 8, no bonus", () => {
+        const r = classifyMissileRange(30, 40);
+        expect(r).toEqual({ direct: true, pointBlank: false, accuracy: 8, impactRangeBonus: 0 });
+    });
+    it("beyond base range is a volley (not direct)", () => {
+        expect(classifyMissileRange(50, 40).direct).toBe(false);
+    });
+});
+
+describe("indexOfBestMastery", () => {
+    it("returns the index of the highest mastery level", () => {
+        expect(indexOfBestMastery([{ ml: 3 }, { ml: 9 }, { ml: 5 }], (e) => e.ml)).toBe(1);
+    });
+    it("returns -1 for an empty list", () => {
+        expect(indexOfBestMastery([], (e: any) => e.ml)).toBe(-1);
     });
 });
 

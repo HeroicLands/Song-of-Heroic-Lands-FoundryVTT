@@ -179,6 +179,43 @@ function pickChoice(
 }
 
 /**
+ * Show a defense dialog with a strike-mode select **and** an Additional Modifier
+ * field; resolve to `{ key, situationalModifier }` or `null` if dismissed.
+ * Side-effect-free. Used by Block (and any other defense that picks a mode plus a
+ * modifier).
+ */
+export function showDefenseDialog(
+    title: string,
+    selectLabel: string,
+    choices: Record<string, string>,
+): Promise<{ key: string; situationalModifier: number } | null> {
+    const defaultKey = Object.keys(choices)[0] ?? "";
+    return inputDialog({
+        title,
+        content: toHTMLString(
+            `<form>` +
+                `<div class="form-group"><label>${selectLabel}</label>` +
+                `<select name="choice">${renderOptions(choices, defaultKey)}</select></div>` +
+                `<div class="form-group"><label>Additional Modifier:</label>` +
+                `<input type="number" name="situationalModifier" value="0" /></div>` +
+                `</form>`,
+        ),
+        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
+            const form = button.querySelector("form");
+            if (!form) return Promise.resolve(null);
+            const fd = new FormDataExtended(form);
+            const f = fd.object as PlainObject;
+            return Promise.resolve({
+                key: String(f.choice ?? defaultKey),
+                situationalModifier:
+                    Number.parseInt(String(f.situationalModifier), 10) || 0,
+            });
+        }) as DialogButtonCallback,
+        rejectClose: false,
+    }) as Promise<{ key: string; situationalModifier: number } | null>;
+}
+
+/**
  * Collect every attackable strike mode across the actor's weapons and combat
  * techniques (for the actor-level entry). Modes whose attack is disabled
  * (e.g. the `noAttack` trait) are filtered out.
