@@ -80,18 +80,6 @@ jobs:
               run: |
                   npm run build:pack-release
 
-            - name: Build API Documentation
-              run: |
-                  npm run build:html
-
-            - name: Deploy API docs to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: build/stage/docs
-                  publish_branch: gh-pages
-                  cname: api.heroiclands.org
-
             - name: Read Changelog
               id: changelog
               run: |

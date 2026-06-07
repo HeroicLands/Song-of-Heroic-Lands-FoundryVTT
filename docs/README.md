@@ -24,6 +24,7 @@ Choose a path based on your goal:
 - [Actions](how-to/actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
+- [API Docs Hosting (api.heroiclands.org)](how-to/api-docs-hosting.md)
 
 ## Reference
 
