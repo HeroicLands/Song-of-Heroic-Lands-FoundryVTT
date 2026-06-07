@@ -33,7 +33,7 @@ import {
  *
  * - **Assisted** (Add Injury dialog) supplies an explicit `location` and/or
  *   `armorReduction` entered by the player.
- * - **Automated** carries `targetPart` + `accuracy` forward from the attack,
+ * - **Automated** carries `targetPart` + `spread` forward from the attack,
  *   letting the hit location be rolled here with no player input.
  */
 export interface InjuryInput {
@@ -43,10 +43,10 @@ export interface InjuryInput {
     aspect: ImpactAspect;
     /** The target's anatomy, used to resolve the hit location. */
     body: BodyStructure;
-    /** Aimed body part; with `accuracy`, drives weighted/drift selection. */
+    /** Aimed body part; with `spread`, drives weighted/drift selection. */
     targetPart?: BodyPart;
-    /** Strike accuracy governing scatter from `targetPart`. */
-    accuracy?: number;
+    /** Strike spread governing scatter from `targetPart`. */
+    spread?: number;
     /** Explicit hit location override (assisted dialog / GM call). */
     location?: BodyLocation;
     /** Override the total protection at the location. When omitted, the value
@@ -123,14 +123,14 @@ export function injuryLevelFromImpact(effectiveImpact: number): number {
 
 /**
  * Resolve the hit location: an explicit override wins; otherwise an aimed
- * (targetPart + accuracy) roll; otherwise a pure weighted random selection.
+ * (targetPart + spread) roll; otherwise a pure weighted random selection.
  */
 function resolveLocation(input: InjuryInput): BodyLocation {
     if (input.location) return input.location;
-    if (input.targetPart && input.accuracy != null) {
+    if (input.targetPart && input.spread != null) {
         return input.body.getRandomLocation({
             targetPart: input.targetPart,
-            accuracy: input.accuracy,
+            spread: input.spread,
         });
     }
     return input.body.getRandomLocation();

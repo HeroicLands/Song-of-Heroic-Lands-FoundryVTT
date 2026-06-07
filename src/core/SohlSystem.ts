@@ -135,6 +135,7 @@ import {
     defineType,
     DefinedType,
     SOHL_DEFAULT_CALENDAR_CONFIG,
+    STATUS_EFFECT,
 } from "@src/utils/constants";
 
 export type ActorDMMap = Record<
@@ -297,28 +298,40 @@ export class SohlSystem {
             // prone, restrain, paralysis, frozen, …) here — otherwise they
             // would be wiped out, leaving combat conditions unrepresentable.
             statusEffects: [
-                ...((((globalThis as any).CONFIG?.statusEffects ?? []) as any[]).map(
-                    (e) => ({ ...e }),
-                )),
+                ...(
+                    ((globalThis as any).CONFIG?.statusEffects ?? []) as any[]
+                ).map((e) => ({ ...e })),
                 {
-                    id: "incapacitated",
-                    name: "incapacitated",
+                    id: STATUS_EFFECT.INCAPACITATED,
+                    name: "Incapacitated",
                     img: "systems/sohl/assets/icons/knockout.svg",
                 },
                 {
-                    id: "vanquished",
-                    name: "vanquished",
+                    id: STATUS_EFFECT.VANQUISHED,
+                    name: "Vanquished",
                     img: "systems/sohl/assets/icons/surrender.svg",
                 },
                 {
-                    id: "auralShock",
+                    id: STATUS_EFFECT.AURAL_SHOCK,
                     name: "Aural Shock",
                     img: "systems/sohl/assets/icons/shock.svg",
+                },
+                {
+                    id: STATUS_EFFECT.EVADING,
+                    name: "Evading",
+                    img: "systems/sohl/assets/icons/evade.svg",
                 },
             ],
 
             specialStatusEffects: {
-                DEFEATED: "vanquished",
+                /* These are the predefined foundry special statuses:
+                 * INVISIBLE: "invisible",
+                 * BLIND: "blind",
+                 * BURROW: "burrow",
+                 * HOVER: "hover",
+                 * FLY: "fly"
+                 */
+                DEFEATED: STATUS_EFFECT.VANQUISHED,
             },
 
             controlIcons: {

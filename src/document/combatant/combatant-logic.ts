@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { MovementMedium } from "@src/utils/constants";
+import { STATUS_EFFECT, type MovementMedium } from "@src/utils/constants";
 
 /**
  * Pure relational predicate behind {@link SohlCombatant.isEnemyOf}.
@@ -45,12 +45,12 @@ export function areCombatantsEnemies(
  * special status effect (`combatant.isDefeated`).
  */
 export const THREAT_NEGATING_STATUSES = [
-    "unconscious",
-    "sleep",
-    "stun",
-    "restrain",
-    "paralysis",
-    "frozen",
+    STATUS_EFFECT.UNCONSCIOUS,
+    STATUS_EFFECT.SLEEP,
+    STATUS_EFFECT.STUN,
+    STATUS_EFFECT.RESTRAINED,
+    STATUS_EFFECT.PARALYZED,
+    STATUS_EFFECT.FROZEN,
 ] as const;
 
 /** The condition view consumed by {@link isThreatening}. */

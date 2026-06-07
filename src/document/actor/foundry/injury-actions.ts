@@ -27,7 +27,7 @@ import {
 /**
  * The forward-carried payload of a chat-card `createInjury` button
  * (`data-test-result-json`). Both combat modes serialize an injury request
- * here; the presence of {@link InjuryRequest.targetPart} + `accuracy`
+ * here; the presence of {@link InjuryRequest.targetPart} + `spread`
  * discriminates an automated request (resolve with no dialog) from an
  * assisted one (open the Add Injury dialog).
  */
@@ -38,8 +38,8 @@ export interface InjuryRequest {
     aspect: ImpactAspect;
     /** Aimed body-part shortcode (automated combat only). */
     targetPart?: string;
-    /** Strike accuracy governing scatter (automated combat only). */
-    accuracy?: number;
+    /** Strike spread governing scatter (automated combat only). */
+    spread?: number;
     /** Explicit hit-location shortcode override. */
     location?: string;
     /** Manual armor reduction. */
@@ -96,8 +96,8 @@ export function parseInjuryRequest(json: unknown): InjuryRequest | null {
     };
     if (typeof raw.targetPart === "string" && raw.targetPart)
         req.targetPart = raw.targetPart;
-    if (raw.accuracy != null && Number.isFinite(Number(raw.accuracy)))
-        req.accuracy = Number(raw.accuracy);
+    if (raw.spread != null && Number.isFinite(Number(raw.spread)))
+        req.spread = Number(raw.spread);
     if (typeof raw.location === "string" && raw.location)
         req.location = raw.location;
     if (raw.armorReduction != null)
@@ -108,11 +108,11 @@ export function parseInjuryRequest(json: unknown): InjuryRequest | null {
 
 /**
  * Whether an injury request should be resolved automatically (no dialog).
- * Automated combat forwards both an aimed `targetPart` and an `accuracy`,
+ * Automated combat forwards both an aimed `targetPart` and an `spread`,
  * letting the hit location be rolled with no player input.
  */
 export function isAutomatedRequest(req: InjuryRequest): boolean {
-    return !!req.targetPart && req.accuracy != null;
+    return !!req.targetPart && req.spread != null;
 }
 
 /**
@@ -181,7 +181,7 @@ export function buildInjuryCardData(
 
 /**
  * Resolve an automated {@link InjuryRequest} against a body structure with no
- * player input: the aimed `targetPart` + `accuracy` roll the hit location, and
+ * player input: the aimed `targetPart` + `spread` roll the hit location, and
  * an explicit `location` shortcode (if present) overrides it. Pure and
  * Foundry-free.
  */
@@ -200,7 +200,7 @@ export function resolveAutomatedInjury(
         aspect: req.aspect,
         body,
         targetPart,
-        accuracy: req.accuracy,
+        spread: req.spread,
         location,
         armorReduction: req.armorReduction,
         extraBleedRisk: req.extraBleedRisk,

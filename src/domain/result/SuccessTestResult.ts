@@ -12,6 +12,7 @@
  */
 
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import { registerKind } from "@src/utils/kindRegistry";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -77,8 +78,7 @@ import {
  *
  * ## Subclasses
  *
- * - {@link ImpactResult} — adds damage dice and impact aspect
- * - {@link AttackResult} — attacker's roll with allowed defenses
+ * - {@link AttackResult} — attacker's roll, with impact dice and aim
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
 export class SuccessTestResult extends TestResult {
@@ -114,7 +114,12 @@ export class SuccessTestResult extends TestResult {
                 new MasteryLevelModifier({}, { parent: this.parent });
         this.resultText = data.resultText ?? "";
         this.resultDesc = data.resultDesc ?? "";
-        this._successLevel = MARGINAL_FAILURE;
+        // Restore a previously-evaluated success level so a result can cross to
+        // another client as a read-only snapshot (e.g. the attacker's
+        // AttackResult shown on the defender's card). A fresh test leaves this
+        // at MARGINAL_FAILURE and computes it in evaluate(); a re-test on the
+        // owning client re-evaluates and overwrites it regardless.
+        this._successLevel = data.successLevel ?? MARGINAL_FAILURE;
         this._token = data.token ?? null;
         this._masteryLevelModifier =
             data.masteryLevelModifier ??
@@ -534,3 +539,5 @@ function handleLimitedDescription(
 
     return result;
 }
+
+registerKind(SuccessTestResult.Kind, SuccessTestResult);

@@ -17,6 +17,7 @@ import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
+import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
 import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
 import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
@@ -337,6 +338,10 @@ function registerSystemHooks() {
     Hooks.on(
         "renderChatMessageHTML",
         (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
+            // Per-client gating: show defender-response buttons only to the
+            // defender's owner, and only the defenses they're capable of.
+            gateAutomatedDefenseButtons(element);
+
             element.addEventListener("click", (ev) => {
                 const btn: HTMLButtonElement | null = (
                     ev.target as HTMLElement

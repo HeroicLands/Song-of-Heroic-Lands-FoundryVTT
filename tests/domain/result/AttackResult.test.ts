@@ -1,10 +1,8 @@
 describe("AttackResult", () => {
     describe("constructor", () => {
-        it.todo("creates instance extending ImpactResult with default values");
-        it.todo("initializes situationalModifier to 0 by default");
-        it.todo("initializes allowedDefenses as empty Set by default");
-        it.todo("initializes damage to 0 by default");
-        it.todo("initializes modifiers as empty Map by default");
+        it.todo("creates instance extending SuccessTestResult with default values");
+        it.todo("initializes impact to a default ImpactModifier");
+        it.todo("initializes aimBodyPartCode to empty string by default");
         it.todo("throws when no parent is provided");
     });
 
@@ -14,8 +12,8 @@ describe("AttackResult", () => {
         it.todo("adds STUMBLE_TEST mishap for melee critical failure with lastDigit 5");
         it.todo("adds FUMBLE_TEST mishap for missile critical failure with lastDigit 0");
         it.todo("adds MISSILE_MISFIRE mishap for missile critical failure with lastDigit 5");
-        it.todo("sets deliversImpact to true on success");
-        it.todo("sets deliversImpact to false on failure");
+        it.todo("disables impact on a self-miss");
+        it.todo("does not roll impact (that happens when the blow lands)");
     });
 
     describe("testDialog()", () => {
@@ -24,6 +22,6 @@ describe("AttackResult", () => {
     });
 
     describe("toChat()", () => {
-        it.todo("includes impact modifier and delivers impact in chat data");
+        it.todo("includes the impact modifier in chat data");
     });
 });

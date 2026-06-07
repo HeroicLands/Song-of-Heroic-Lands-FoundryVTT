@@ -16,28 +16,17 @@ describe("ValueDelta", () => {
             expect(delta.value).toBe("5");
         });
 
-        it("throws when shortcode is missing", () => {
-            expect(
-                () =>
-                    new ValueDelta({
-                        name: "SOHL.INFO.test",
-                        shortcode: "",
-                        op: VALUE_DELTA_OPERATOR.ADD,
-                        value: "5",
-                    }),
-            ).toThrow("ValueDelta requires an shortcode");
-        });
-
-        it("throws when name does not start with SOHL.INFO.", () => {
-            expect(
-                () =>
-                    new ValueDelta({
-                        name: "BadPrefix.test",
-                        shortcode: "TST",
-                        op: VALUE_DELTA_OPERATOR.ADD,
-                        value: "5",
-                    }),
-            ).toThrow("ValueDelta name must start with SOHL.INFO.");
+        it("passes name and shortcode through without validation", () => {
+            // name / shortcode are display / identity labels, not validated
+            // localization keys — any value (incl. other namespaces) is kept.
+            const delta = new ValueDelta({
+                name: "SOHL.ValueDelta.INFO.SitMod",
+                shortcode: "SitMod",
+                op: VALUE_DELTA_OPERATOR.ADD,
+                value: "5",
+            });
+            expect(delta.name).toBe("SOHL.ValueDelta.INFO.SitMod");
+            expect(delta.shortcode).toBe("SitMod");
         });
 
         it("throws when value is non-numeric for non-CUSTOM operator", () => {
