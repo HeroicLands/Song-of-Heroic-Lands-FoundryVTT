@@ -1,9 +1,9 @@
-name: Create Version + Changelog PR (master only)
+name: Create Version + Changelog PR (main only)
 
 on:
     pull_request:
         branches:
-            - master
+            - main
 
 jobs:
     version:

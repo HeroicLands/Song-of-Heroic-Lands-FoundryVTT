@@ -3,7 +3,7 @@ name: Version and Release
 on:
     push:
         branches:
-            - master
+            - main
 
 permissions:
     contents: write
@@ -97,7 +97,10 @@ jobs:
               run: |
                   {
                     echo 'body<<EOF'
-                    tail -n +2 CHANGELOG.md
+                    # Emit only the latest version's section: everything between the
+                    # first "## " heading and the next "## " heading, excluding the
+                    # version header line itself (the release title already shows it).
+                    awk '/^## /{c++; if (c>=2) exit; next} c==1{print}' CHANGELOG.md
                     echo 'EOF'
                   } >> "$GITHUB_OUTPUT"
 
