@@ -62,6 +62,17 @@ Deleting the branch is enough:
 
 The cleanup job only acts on **branch** deletions, never tags — so released versions persist even if you later delete their tags. It also refuses to remove the reserved `main` and `latest` directories. To remove a published directory by hand, delete it from the `gh-pages` branch directly and push.
 
+## Cloudflare cache purge
+
+`api.heroiclands.org` is fronted by Cloudflare. When the record is proxied, Cloudflare caches the docs, so a fresh publish would otherwise stay hidden behind stale cache until the TTL expires. After every successful publish, the workflow calls the Cloudflare API to purge the cache so new docs appear immediately.
+
+This requires two repository secrets (**Settings → Secrets and variables → Actions**); the purge step skips cleanly if either is missing, so the workflow still succeeds before they are configured:
+
+- `CLOUDFLARE_ZONE_ID` — the Zone ID for `heroiclands.org` (Cloudflare dashboard → the domain → **Overview**, right-hand sidebar).
+- `CLOUDFLARE_PURGE_TOKEN` — an API token scoped to **Zone → Cache Purge → Purge** for that zone (Cloudflare → **My Profile → API Tokens → Create Token**).
+
+The purge uses `purge_everything`, which clears the **entire `heroiclands.org` zone** — including the main site — not just the `api.` host. That is harmless (cache simply rebuilds on the next request) but broader than necessary. Host-scoped purges (`hosts: ["api.heroiclands.org"]`) and prefix purges are Cloudflare **Enterprise**-only; on lower plans, `purge_everything` is the reliable choice. The cleanup job (branch deletion) does not purge — removed branch pages fall out of cache on their own TTL.
+
 ## Operational notes
 
 - **Pages source must stay on the `gh-pages` branch.** The multi-version layout depends on branch-based publishing; do not switch the Pages source to "GitHub Actions" (the artifact method replaces the whole site on each deploy and cannot accumulate paths).
