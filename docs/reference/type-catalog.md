@@ -1,6 +1,6 @@
 # SoHL Type Catalog
 
-See also: [Documentation Hub](../README.md), [Architecture Overview](./architecture.md)
+See also: [Documentation Hub](../README.md), [Architecture Overview](../concepts/architecture.md)
 
 This document is an index of the primary SoHL Actor and Item types, plus their most common interactions.
 

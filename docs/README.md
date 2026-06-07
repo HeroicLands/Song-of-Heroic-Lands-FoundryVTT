@@ -42,21 +42,6 @@ Contracts, catalogs, and specifications.
 - [Scene, Token, and Combatant Systems](reference/scene-token-combatant.md)
 - [Calendar](reference/calendar.md)
 - [Event Queue](reference/event-queue.md)
-- [Journal Generation Spec](reference/journal-generation-spec.md)
-
-### Game mechanics (rules as implemented)
-
-How specific HârnMaster-style mechanics are realized in code. The player-facing
-version of these rules lives on the project site; these pages cover the
-implementation. _(Scope under review — some may become thin pointers to the
-rules site.)_
-
-- [Combat (strike spread & hit location)](reference/combat.md)
-- [Combat Modes (assisted vs. automated)](reference/combat-modes.md)
-- [Success Tests](reference/success-tests.md)
-- [Success Value Tests](reference/success-value-test.md)
-- [Secondary Modifier Roll](reference/secondary-modifier-roll.md)
-- [Injuries & Healing](reference/injuries-healing.md)
 
 ## Contributing
 
@@ -64,14 +49,6 @@ Maintainer and project-meta documentation.
 
 - [API Docs Hosting (api.heroiclands.org)](contributing/api-docs-hosting.md)
 - [API Documentation Plan](contributing/api-documentation-plan.md)
-
-## In-Foundry help (journal source)
-
-The in-system journal compendium is generated from Markdown under `docs/user/`
-by `npm run docs:journals`. Edit those files to change Foundry's built-in help.
-
-- [User Docs Source](user/README.md)
-- [Journal Generation Spec](reference/journal-generation-spec.md)
 
 ## Player & GM rules (external)
 

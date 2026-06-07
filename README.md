@@ -23,7 +23,6 @@ Whether you’re delving into political intrigue, navigating treacherous wildern
 ## Documentation
 
 - Developer & API documentation hub: [docs/README.md](docs/README.md)
-- In-Foundry help source (journal packs): [docs/user/README.md](docs/user/README.md)
 - Player & GM rules and guides: [heroiclands.org](https://heroiclands.org/projects/sohl/)
 
 ## Copyright
