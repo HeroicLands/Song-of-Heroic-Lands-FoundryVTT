@@ -376,7 +376,6 @@ export const {
     NOMSLDEF: "NoMslDef",
     NOMODIFIERNODIE: "NMND",
     NOBLOCK: "NoBlk",
-    NOCOUNTERSTRIKE: "NoCX",
     NOCHARGES: "NoChrg",
     NOUSECHARGES: "NoUseChrg",
     NOHEALRATE: "NoHeal",
