@@ -11,19 +11,6 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-{{!--
-This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
-Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
-
-Licensed under the GNU General Public License v3.0 (GPLv3).
-You may copy, modify, and distribute this file under the terms of that license.
-
-See LICENSE.md in the project root or:
-https://www.gnu.org/licenses/gpl-3.0.html
-
-SPDX-License-Identifier: GPL-3.0-or-later
---}}
-
 <div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header flexcol">
         <h3 class="title">{{title}}</h3>
@@ -189,80 +176,29 @@ SPDX-License-Identifier: GPL-3.0-or-later
             next round</span
         >
     </div>
-    {{/if}} {{#if (or atkImpactJson defImpactJson numAtkTA numDefTA
-    isAtkStumbleTest isDefStumbleTest isAtkFumbleTest isDefFumbleTest)}}
+    {{/if}} {{#if (or hasAttackInjury hasDefendInjury)}}
+    {{!--
+        Injury buttons route to the target actor's `createInjury` handler, which
+        opens the assisted Add Injury dialog from the forwarded { impact, aspect }.
+        (Stumble/Fumble/Tactical-Advantage follow-up buttons are deferred to a
+        later slice; the card still surfaces those as text above.)
+    --}}
     <div class="card-buttons">
-        {{#if isAtkStumbleTest}}
+        {{#if hasAttackInjury}}
         <button
-            id="attacker-stumble"
-            data-action="stumble"
-            data-handler-uuid="{{atkHandlerUuid}}">
-            {{attacker}} Stumble Test
+            id="attacker-injury"
+            data-action="createInjury"
+            data-handler-uuid="{{attackInjuryHandlerUuid}}"
+            data-test-result-json="{{attackInjuryJson}}">
+            Calculate {{attackInjuryTargetName}} Injury
         </button>
-        {{/if}} {{#if isDefStumbleTest}}
+        {{/if}} {{#if hasDefendInjury}}
         <button
-            id="defender-stumble"
-            data-action="stumble"
-            data-handler-uuid="{{defHandlerUuid}}">
-            {{defender}} Stumble Test
-        </button>
-        {{/if}} {{#if isAtkFumbleTest}}
-        <button
-            id="attacker-fumble"
-            data-action="fumble"
-            data-handler-uuid="{{atkHandlerUuid}}">
-            {{attacker}} Fumble Test
-        </button>
-        {{/if}} {{#if isDefFumbleTest}}
-        <button
-            id="defender-fumble"
-            data-action="fumble"
-            data-handler-uuid="{{defHandlerUuid}}">
-            {{defender}} Fumble Test
-        </button>
-        {{/if}} {{#if atkImpactJson}}
-        <button
-            id="attacker-damage"
-            data-action="damage"
-            data-handler-uuid="{{atkHandlerUuid}}"
-            data-weapon-name="{{attackWeapon}}"
-            data-impact-obj="{{atkImpactJson}}"
-            data-zone-die-formula="{{atkZoneDieFormula}}"
-            data-def-token-uuid="{{defTokenUuid}}"
-            data-is-projectile="{{isProjectile}}"
-            data-body-location="{{bodyLocation}}">
-            Calculate {{defender}} Damage
-        </button>
-        {{/if}} {{#if defImpactJson}}
-        <button
-            id="defender-damage"
-            data-action="damage"
-            data-handler-uuid="{{defHandlerUuid}}"
-            data-weapon-name="{{defendWeapon}}"
-            data-impact-obj="{{defImpactJson}}"
-            data-zone-die-formula="{{defZoneDieFormula}}"
-            data-def-token-uuid="{{atkTokenUuid}}"
-            data-is-projectile="{{isProjectile}}"
-            data-body-location="{{bodyLocation}}">
-            Calculate {{attacker}} Damage
-        </button>
-        {{/if}} {{#if numAtkTA}}
-        <button
-            id="attacker-ta-attack"
-            data-action="ta-attack"
-            data-handler-uuid="{{atkHandlerUuid}}"
-            data-atk-token-uuid="{{atkTokenUuid}}"
-            data-def-token-uuid="{{defTokenUuid}}">
-            Attacker TA Attack
-        </button>
-        {{/if}} {{#if numDefTA}}
-        <button
-            id="defender-ta-attack"
-            data-action="ta-attack"
-            data-handler-uuid="{{defHandlerUuid}}"
-            data-atk-token-uuid="{{defTokenUuid}}"
-            data-def-token-uuid="{{atkTokenUuid}}">
-            Defender TA Attack
+            id="defender-injury"
+            data-action="createInjury"
+            data-handler-uuid="{{defendInjuryHandlerUuid}}"
+            data-test-result-json="{{defendInjuryJson}}">
+            Calculate {{defendInjuryTargetName}} Injury
         </button>
         {{/if}}
     </div>

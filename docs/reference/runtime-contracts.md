@@ -33,8 +33,7 @@ Primary file: `src/core/SohlSystem.ts`
 |------------|---------------|-------------|
 | `CONFIG.SuccessTestResult` | `SuccessTestResult` | Single test result |
 | `CONFIG.OpposedTestResult` | `OpposedTestResult` | Opposed test result |
-| `CONFIG.ImpactResult` | `ImpactResult` | Impact/damage result |
-| `CONFIG.AttackResult` | `AttackResult` | Attack resolution |
+| `CONFIG.AttackResult` | `AttackResult` | Attack resolution (carries impact + aim) |
 | `CONFIG.DefendResult` | `DefendResult` | Defense resolution |
 | `CONFIG.CombatResult` | `CombatResult` | Full combat outcome |
 

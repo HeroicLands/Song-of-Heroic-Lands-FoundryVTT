@@ -212,7 +212,7 @@ export class SohlItem extends Item {
             speaker: this.logic.speaker,
             type: actionName,
             title: btn.textContent?.trim() ?? actionName,
-            ...btn.dataset,
+            scope: { ...btn.dataset },
         });
         const action =
             this.logic.actions.get(actionName) ??

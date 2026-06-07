@@ -8,30 +8,51 @@
 import { describe, it, expect } from "vitest";
 import { CombatResult } from "@src/domain/result/CombatResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
-import { TEST_TYPE } from "@src/utils/constants";
+import { AttackResult } from "@src/domain/result/AttackResult";
+import { ImpactResult } from "@src/domain/result/ImpactResult";
+import { IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
 
 // Success-level scale: critical failure -1, marginal failure 0,
 // marginal success 1, critical success 2.
 
 /**
  * Build a minimal stand-in for an Attack/Defend result. Carries the fields the
- * CombatResult calculators read (normSuccessLevel, isSuccess, testType, roll)
- * and a mutable deliversImpact the calculators write.
+ * CombatResult resolution reads: normSuccessLevel, isSuccess, testType, roll.
+ * (Who lands a blow is derived by CombatResult getters, not written onto the
+ * side.)
+ *
+ * - `asAttack` sets the prototype to `AttackResult` so `instanceof AttackResult`
+ *   holds — how CombatResult recognises a Counterstrike (and the attacker side).
+ * - `withImpact` attaches a rollable impact + parent/speaker so CombatResult can
+ *   produce an `ImpactResult` for a landing side.
  */
 function makeSide(opts: {
     level: number; // normSuccessLevel
     testType?: string;
     rollTotal?: number;
+    asAttack?: boolean;
+    withImpact?: boolean;
 }): any {
-    return {
+    const side: any = {
         normSuccessLevel: opts.level,
         isSuccess: opts.level >= 1,
         isCritical: opts.level === 2 || opts.level === -1,
         testType: opts.testType,
         roll: { total: opts.rollTotal ?? 50 },
-        deliversImpact: false,
         mishaps: new Set<string>(),
     };
+    if (opts.withImpact) {
+        // Duck-typed ImpactModifier (CombatResult only reads diceFormula +
+        // aspectType) plus the fields ImpactResult's constructor needs.
+        side.impact = { diceFormula: "1d6+2", aspectType: IMPACT_ASPECT.EDGED };
+        side.aimBodyPartCode = "head";
+        side.title = "Broadsword";
+        side.parent = { item: {} };
+        side.speaker = {};
+    }
+    // Own data props above shadow the prototype's getters on read.
+    if (opts.asAttack) Object.setPrototypeOf(side, AttackResult.prototype);
+    return side;
 }
 
 function makeCombat(attacker: any, defender: any): CombatResult {
@@ -112,27 +133,27 @@ describe("calcMeleeCombatResult — Block", () => {
 
     it("lands the attack when the attacker out-margins the block", () => {
         const cr = block(2, 0); // VS 2
-        expect(cr.attackResult.deliversImpact).toBe(true);
-        expect(cr.defendResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.defenderLandsBlow).toBe(false);
         expect(cr.weaponBreakCheck).toBe("none");
         expect(cr.tacticalAdvantages).toEqual({ side: "attacker", count: 1 });
     });
 
     it("lands the attack on a tie and forces a defender weapon-break roll", () => {
         const cr = block(1, 1); // VS 0
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
         expect(cr.weaponBreakCheck).toBe("defender");
     });
 
     it("stops the attack when the block wins", () => {
         const cr = block(0, 1); // VS -1
-        expect(cr.attackResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.weaponBreakCheck).toBe("none");
     });
 
     it("awards the defender Tactical Advantages on a decisive block", () => {
         const cr = block(-1, 1); // VS -2
-        expect(cr.attackResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
         expect(cr.tacticalAdvantages).toEqual({ side: "defender", count: 1 });
     });
 });
@@ -141,7 +162,12 @@ describe("calcMeleeCombatResult — Counterstrike", () => {
     const cx = (atk: number, def: number) => {
         const cr = makeCombat(
             makeSide({ level: atk }),
-            makeSide({ level: def, testType: TEST_TYPE.COUNTERSTRIKE.id }),
+            // A counterstrike's response is itself an AttackResult.
+            makeSide({
+                level: def,
+                testType: TEST_TYPE.COUNTERSTRIKE.id,
+                asAttack: true,
+            }),
         );
         cr.opposedTestEvaluate();
         return cr;
@@ -149,26 +175,26 @@ describe("calcMeleeCombatResult — Counterstrike", () => {
 
     it("lands the attacker on a tie or better", () => {
         const cr = cx(1, 1); // VS 0
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
     });
 
     it("lands the defender whenever its own roll succeeds (both can hit)", () => {
         const cr = cx(2, 1); // attacker CS, defender MS
-        expect(cr.attackResult.deliversImpact).toBe(true);
-        expect(cr.defendResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.defenderLandsBlow).toBe(true);
     });
 
     it("lands only the defender when the attack fails", () => {
         const cr = cx(-1, 1); // VS -2, defender succeeds
-        expect(cr.attackResult.deliversImpact).toBe(false);
-        expect(cr.defendResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.defenderLandsBlow).toBe(true);
         expect(cr.tacticalAdvantages).toEqual({ side: "defender", count: 1 });
     });
 
     it("lands neither when the attack fails and the defender also fails", () => {
         const cr = cx(-1, 0); // VS -1, defender marginal failure
-        expect(cr.attackResult.deliversImpact).toBe(false);
-        expect(cr.defendResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.defenderLandsBlow).toBe(false);
     });
 });
 
@@ -184,17 +210,17 @@ describe("calcMeleeCombatResult — Ignore", () => {
 
     it("lands the attack when it succeeds (no defense contest)", () => {
         const cr = ignore(1);
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
     });
 
     it("does not land when the unopposed attack itself fails", () => {
         const cr = ignore(0); // marginal failure
-        expect(cr.attackResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
     });
 
     it("awards the attacker a Tactical Advantage on a critical hit", () => {
         const cr = ignore(2);
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
         expect(cr.tacticalAdvantages).toEqual({ side: "attacker", count: 1 });
     });
 });
@@ -220,23 +246,23 @@ describe("calcDodgeCombatResult — Dodge", () => {
 
     it("lands the attack when it out-margins the dodge", () => {
         const cr = dodge(2, 0); // VS 2
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
     });
 
     it("on a tie, lands the attack when the dodge roll is lower than the attack roll", () => {
         const cr = dodge(1, 1, 70, 40); // tie; dodge 40 < attack 70 -> lands
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
     });
 
     it("on a tie, misses when the dodge roll is not lower than the attack roll", () => {
         const cr = dodge(1, 1, 40, 70); // tie; dodge 70 not < attack 40 -> miss
-        expect(cr.attackResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
     });
 
     it("never deals defender damage and misses when the dodge wins", () => {
         const cr = dodge(0, 1); // VS -1
-        expect(cr.attackResult.deliversImpact).toBe(false);
-        expect(cr.defendResult.deliversImpact).toBe(false);
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.defenderLandsBlow).toBe(false);
     });
 });
 
@@ -248,7 +274,7 @@ describe("opposedTestEvaluate dispatch", () => {
         );
         cr.opposedTestEvaluate();
         // Dodge-specific tie rule applied (roll comparison), not the melee rule.
-        expect(cr.attackResult.deliversImpact).toBe(true);
+        expect(cr.attackerLandsBlow).toBe(true);
         expect(cr.margin).toBe(0);
     });
 
@@ -259,5 +285,93 @@ describe("opposedTestEvaluate dispatch", () => {
         );
         cr.opposedTestEvaluate();
         expect(cr.weaponBreakCheck).toBe("defender"); // melee/block tie behavior
+    });
+});
+
+describe("impact rolled on the blow landing", () => {
+    it("produces an attacker ImpactResult when the attack lands", () => {
+        const cr = makeCombat(
+            makeSide({ level: 1, withImpact: true }),
+            makeSide({ level: 0, testType: TEST_TYPE.BLOCK.id }),
+        );
+        cr.opposedTestEvaluate();
+        expect(cr.attackerLandsBlow).toBe(true);
+        expect(cr.attackerImpact).toBeInstanceOf(ImpactResult);
+        expect(cr.attackerImpact!.aspect).toBe(IMPACT_ASPECT.EDGED);
+        expect(cr.defenderImpact).toBeUndefined();
+    });
+
+    it("produces no ImpactResult when the attack does not land", () => {
+        const cr = makeCombat(
+            makeSide({ level: 0, withImpact: true }),
+            makeSide({ level: 1, testType: TEST_TYPE.BLOCK.id }),
+        );
+        cr.opposedTestEvaluate();
+        expect(cr.attackerLandsBlow).toBe(false);
+        expect(cr.attackerImpact).toBeUndefined();
+    });
+
+    it("produces a defender ImpactResult on a landing counterstrike", () => {
+        const cr = makeCombat(
+            makeSide({ level: 0 }),
+            makeSide({
+                level: 1,
+                testType: TEST_TYPE.COUNTERSTRIKE.id,
+                asAttack: true,
+                withImpact: true,
+            }),
+        );
+        cr.opposedTestEvaluate();
+        expect(cr.defenderLandsBlow).toBe(true);
+        expect(cr.defenderImpact).toBeInstanceOf(ImpactResult);
+    });
+});
+
+describe("evaluate — snapshot attacker, evaluate only the defender", () => {
+    function evaluatable(opts: {
+        level: number;
+        testType?: string;
+        evalReturn?: boolean;
+    }): any {
+        const side = makeSide(opts);
+        side.evaluated = false;
+        side.evaluate = async () => {
+            side.evaluated = true;
+            return opts.evalReturn ?? true;
+        };
+        return side;
+    }
+
+    it("evaluates the defender locally and reads the attacker as a snapshot", async () => {
+        const atk = evaluatable({ level: 1 });
+        const def = evaluatable({ level: 0, testType: TEST_TYPE.BLOCK.id });
+        const cr = makeCombat(atk, def);
+
+        const ok = await cr.evaluate();
+
+        // The attacker's AttackResult is a pre-evaluated snapshot from the
+        // attacker's client; re-evaluating it would hit the attacker's
+        // ownership gate on the defender's machine.
+        expect(atk.evaluated).toBe(false);
+        expect(def.evaluated).toBe(true);
+        expect(ok).toBe(true);
+        // Resolution ran, using the attacker's snapshot success level.
+        expect(cr.margin).toBe(atk.normSuccessLevel - def.normSuccessLevel);
+    });
+
+    it("returns false and skips resolution when the defense evaluation fails", async () => {
+        const atk = evaluatable({ level: 1 });
+        const def = evaluatable({
+            level: 0,
+            testType: TEST_TYPE.BLOCK.id,
+            evalReturn: false,
+        });
+        const cr = makeCombat(atk, def);
+
+        const ok = await cr.evaluate();
+
+        expect(ok).toBe(false);
+        expect(atk.evaluated).toBe(false);
+        expect(cr.margin).toBe(0); // opposedTestEvaluate never ran
     });
 });

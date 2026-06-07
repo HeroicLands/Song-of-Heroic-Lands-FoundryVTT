@@ -13,6 +13,7 @@
 
 import { AttackResult } from "@src/domain/result/AttackResult";
 import { DefendResult } from "@src/domain/result/DefendResult";
+import { ImpactResult } from "@src/domain/result/ImpactResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import { TEST_TYPE } from "@src/utils/constants";
 
@@ -47,9 +48,9 @@ export interface TacticalAdvantages {
  * ## What CombatResult does NOT determine
  *
  * The **final damage** is computed separately by the impact resolution
- * stage, which takes the CombatResult's margin, the AttackResult's
- * pre-defense damage, and the target's armor/body location protection
- * to produce an {@link ImpactResult} with the actual injury.
+ * stage, which takes the CombatResult's margin, the AttackResult's impact
+ * dice, and the target's armor/body location protection to produce the
+ * actual injury.
  *
  * ## Resolution model
  *
@@ -76,21 +77,36 @@ export interface TacticalAdvantages {
  *
  * ## Specialized resolution methods
  *
- * - {@link opposedTestEvaluate} — dispatches by defense type and sets margin/TAs
- * - {@link calcMeleeCombatResult} — Block / Counterstrike / Ignore evaluation
- * - {@link calcDodgeCombatResult} — Dodge evaluation
+ * - {@link opposedTestEvaluate} — computes margin, Tactical Advantages, and the
+ *   weapon-break check.
+ * - {@link attackerLandsBlow} / {@link defenderLandsBlow} — derive who connects
+ *   (and thus whose impact may be calculated) from the resolved exchange.
  */
 export class CombatResult extends OpposedTestResult {
     /** The result of the attack test in this combat. */
     attackResult: AttackResult;
-    /** The result of the defense test in this combat. */
-    defendResult: DefendResult;
+    /**
+     * The defender's response. Its **class** encodes the kind of defense:
+     * - a {@link DefendResult} for Block / Dodge (and a non-rolling
+     *   `DefendResult(IGNORE)` placeholder for Ignore — the defender takes no
+     *   part), or
+     * - an {@link AttackResult} for a **Counterstrike** — mechanically a second
+     *   attack ("offense is the best defense"), so it carries its own impact.
+     */
+    defendResult: AttackResult | DefendResult;
     /** Victory score: `attacker.normSuccessLevel − defender.normSuccessLevel`. */
     margin: number;
     /** Tactical Advantages awarded by the exchange (display-only). */
     tacticalAdvantages: TacticalAdvantages;
     /** Whose weapon must roll for breakage as a result of the exchange. */
     weaponBreakCheck: CombatSide;
+    /** Impact rolled for the attacker, when it lands a blow (else `undefined`). */
+    attackerImpact?: ImpactResult;
+    /**
+     * Impact rolled for the defender, when it lands a blow — only possible on a
+     * Counterstrike (else `undefined`).
+     */
+    defenderImpact?: ImpactResult;
 
     constructor(
         data: Partial<CombatResult.Data>,
@@ -110,22 +126,29 @@ export class CombatResult extends OpposedTestResult {
     }
 
     /**
-     * Evaluate both sides, then resolve the opposed combat outcome.
+     * Evaluate the defender's side locally, then resolve the opposed combat
+     * outcome.
+     *
+     * Unlike the inherited {@link OpposedTestResult.evaluate}, this does NOT
+     * evaluate the attacker's side. The `attackResult` arrives as a read-only
+     * snapshot already evaluated on the attacker's client; re-evaluating it
+     * here would trip the attacker's `_speaker.isOwner` gate on the defender's
+     * machine. Only `defendResult` (owned by the local user) is evaluated; the
+     * attacker's outcome is read as-is by {@link opposedTestEvaluate}.
      */
     override async evaluate(): Promise<boolean> {
-        const allowed = await super.evaluate();
+        const allowed = await this.defendResult.evaluate();
         if (allowed) this.opposedTestEvaluate();
         return allowed;
     }
 
     /**
-     * Resolve the exchange: compute the margin and Tactical Advantages, then
-     * dispatch to the defense-specific calculator to set `deliversImpact` on
-     * each side. Idempotent — safe to call again after a re-evaluation.
+     * Resolve the exchange: compute the margin, Tactical Advantages, and the
+     * weapon-break check. Who lands a blow is derived on demand by
+     * {@link attackerLandsBlow}/{@link defenderLandsBlow}. Idempotent — safe to
+     * call again after a re-evaluation.
      */
     opposedTestEvaluate(): void {
-        this.attackResult.deliversImpact = false;
-        this.defendResult.deliversImpact = false;
         this.weaponBreakCheck = "none";
         this.margin =
             this.attackResult.normSuccessLevel -
@@ -134,11 +157,44 @@ export class CombatResult extends OpposedTestResult {
             this.margin,
         );
 
-        if (this.defendResult.testType === TEST_TYPE.DODGE.id) {
-            this.calcDodgeCombatResult();
-        } else {
-            this.calcMeleeCombatResult();
+        // Block forces the defender to roll for weapon (shield) breakage on a
+        // tie; no other defense has a weapon-break side effect.
+        if (
+            this.defendResult.testType === TEST_TYPE.BLOCK.id &&
+            this.margin === 0
+        ) {
+            this.weaponBreakCheck = "defender";
         }
+
+        // Roll the impact for each side that lands a blow (this is *when* impact
+        // is rolled). Guarded on the side carrying an impact formula — a
+        // DefendResult (block/dodge/ignore) has none.
+        this.attackerImpact =
+            this.attackerLandsBlow && this.attackResult.impact ?
+                this.rollImpact(this.attackResult)
+            :   undefined;
+        this.defenderImpact =
+            (
+                this.defenderLandsBlow &&
+                this.defendResult instanceof AttackResult &&
+                this.defendResult.impact
+            ) ?
+                this.rollImpact(this.defendResult)
+            :   undefined;
+    }
+
+    /** Build (and roll) an {@link ImpactResult} from a landing attack. */
+    private rollImpact(ar: AttackResult): ImpactResult {
+        return new ImpactResult(
+            {
+                speaker: ar.speaker,
+                impactModifier: ar.impact,
+                aimBodyPartCode: ar.aimBodyPartCode,
+                spread: ar.spread,
+                source: ar.title,
+            },
+            { parent: ar.parent },
+        );
     }
 
     /** Award `|VS| − 1` Tactical Advantages to the side that won by 2+. */
@@ -149,63 +205,59 @@ export class CombatResult extends OpposedTestResult {
     }
 
     /**
-     * Resolve a Block, Counterstrike, or Ignore exchange, setting
-     * `deliversImpact` on the attacker (and, for Counterstrike, the defender).
-     * Per-side fumble/stumble mishaps are already set by each result's own
-     * `evaluate()`; this only decides who lands a blow.
+     * Whether the **attacker** lands a blow — i.e. connects, so its impact may
+     * then be calculated. Derived from the resolved exchange. Note a landed
+     * blow can still be fully absorbed by armor downstream, so this means
+     * "connected", not "dealt damage".
+     *
+     * - **Counterstrike** (defender side is an {@link AttackResult}): the attack
+     *   ties or wins (`margin >= 0`).
+     * - **Ignore:** the unopposed attack simply has to succeed.
+     * - **Dodge:** the attack out-margins the dodge, or ties with a lower dodge
+     *   roll than the attack roll (a lower successful roll is the weaker result).
+     * - **Block:** the attack ties or wins (`margin >= 0`).
      */
-    calcMeleeCombatResult(): void {
+    get attackerLandsBlow(): boolean {
         const vs = this.margin;
+        // Counterstrike — the defender's response is itself an attack.
+        if (this.defendResult instanceof AttackResult) return vs >= 0;
+
         const type = this.defendResult.testType;
-
-        if (type === TEST_TYPE.IGNORE.id) {
-            // No defense contest — the blow lands if the attack itself hits.
-            this.attackResult.deliversImpact = this.attackResult.isSuccess;
-            return;
+        if (type === TEST_TYPE.IGNORE.id) return this.attackResult.isSuccess;
+        if (type === TEST_TYPE.DODGE.id) {
+            if (vs > 0) return true;
+            if (vs < 0) return false;
+            const dodgeRoll = this.defendResult.roll?.total ?? 0;
+            const attackRoll = this.attackResult.roll?.total ?? 0;
+            return dodgeRoll < attackRoll;
         }
-
-        if (type === TEST_TYPE.COUNTERSTRIKE.id) {
-            // The attacker connects on a tie or better; the defender's
-            // counterstrike connects whenever its own roll succeeds, so both
-            // blows can land in the same exchange.
-            this.attackResult.deliversImpact = vs >= 0;
-            this.defendResult.deliversImpact = this.defendResult.isSuccess;
-            return;
-        }
-
-        // Block: the attack lands on a tie or better; a tie additionally forces
-        // the defender to roll for weapon (shield) breakage.
-        this.attackResult.deliversImpact = vs >= 0;
-        if (vs === 0) this.weaponBreakCheck = "defender";
+        // Block.
+        return vs >= 0;
     }
 
     /**
-     * Resolve a Dodge exchange. A dodge never deals damage; the attack lands
-     * when it out-margins the dodge, and on a tie when the dodge roll is lower
-     * than the attack roll (a lower successful roll is the weaker result).
+     * Whether the **defender** lands a blow. Only a counterstrike lets the
+     * defender strike back (its response is an {@link AttackResult}), and only
+     * when its own roll succeeds — so both sides can land in the same exchange.
      */
-    calcDodgeCombatResult(): void {
-        const vs = this.margin;
-        if (vs > 0) {
-            this.attackResult.deliversImpact = true;
-        } else if (vs === 0) {
-            const dodgeRoll = this.defendResult.roll?.total ?? 0;
-            const attackRoll = this.attackResult.roll?.total ?? 0;
-            this.attackResult.deliversImpact = dodgeRoll < attackRoll;
-        }
+    get defenderLandsBlow(): boolean {
+        return (
+            this.defendResult instanceof AttackResult &&
+            this.defendResult.isSuccess
+        );
     }
-
 }
 
 export namespace CombatResult {
     export interface Data extends OpposedTestResult.Data {
         attackResult: AttackResult;
-        defendResult: DefendResult;
+        defendResult: AttackResult | DefendResult;
     }
 
     export interface Options extends OpposedTestResult.Options {}
 
     export interface ContextScope {
-        priorTestResult: CombatResult | null;
+        priorTestResult: CombatResult;
+        attackResult: AttackResult;
     }
 }

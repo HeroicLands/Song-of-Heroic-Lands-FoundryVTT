@@ -52,7 +52,7 @@ import type { SohlActionContext } from "@src/core/SohlActionContext";
 declare global {
     // Common types
     type PlainObject = Record<string, any>;
-    type UnknownObject = Record<string, unknown>;
+    type UnknownObject = object;
     type EmptyObject = Record<string, never>;
     type AnyObject = object;
     type StrictObject<T> = Record<string, T>;

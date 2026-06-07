@@ -12,6 +12,7 @@
  */
 
 import { instanceToJSON } from "@src/utils/helpers";
+import { registerKind } from "@src/utils/kindRegistry";
 import {
     VALUE_DELTA_OPERATOR,
     ValueDeltaOperator,
@@ -44,12 +45,8 @@ export class ValueDelta {
         const { name, shortcode, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
-        if (!shortcode) {
-            throw new Error("ValueDelta requires an shortcode");
-        }
-
-        if (!name?.startsWith("SOHL.INFO."))
-            throw new Error("ValueDelta name must start with SOHL.INFO.");
+        // `name` / `shortcode` are passed through as-is (display / identity
+        // labels, not validated localization keys).
         this.name = name;
         this.shortcode = shortcode;
         this.op = op;
@@ -133,3 +130,5 @@ export namespace ValueDelta {
         new (data: Data): T;
     }
 }
+
+registerKind(ValueDelta.Kind, ValueDelta);

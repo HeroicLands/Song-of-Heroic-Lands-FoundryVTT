@@ -9,9 +9,37 @@ import { describe, it, expect } from "vitest";
 import {
     resolveStrikeModeML,
     resolveStrikeModeImpact,
+    resolveSkillMasteryLevel,
+    collectBlockableStrikeModes,
+    collectAttackableStrikeModes,
+    hasMeleeAttackStrikeMode,
+    firstStatusIn,
+    hasAnyStatus,
+    ATTACK_BLOCKING_STATUSES,
+    DEFENSE_DISABLING_STATUSES,
+    classifyMissileRange,
+    indexOfBestMastery,
     buildDamageCardData,
+    buildAttackResult,
+    buildAttackCardData,
+    buildCombatCardData,
+    resolveTargetCombatant,
 } from "@src/document/actor/foundry/combat-actions";
-import { IMPACT_ASPECT } from "@src/utils/constants";
+import { IMPACT_ASPECT, MARGINAL_SUCCESS, TEST_TYPE } from "@src/utils/constants";
+import { AttackResult } from "@src/domain/result/AttackResult";
+import { DefendResult } from "@src/domain/result/DefendResult";
+import { CombatResult } from "@src/domain/result/CombatResult";
+import { CombatModifier } from "@src/domain/modifier/CombatModifier";
+import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { instanceFromJSON } from "@src/utils/helpers";
+
+const attackerParent = {
+    data: { kind: "weapongear" },
+    name: "Broadsword",
+    label: "Broadsword",
+    item: { logic: { availableFate: [] } },
+} as any;
 
 function makeActor(items: any[]): any {
     return {
@@ -161,6 +189,292 @@ describe("resolveStrikeModeImpact", () => {
     });
 });
 
+describe("resolveSkillMasteryLevel", () => {
+    const dodgeML = Symbol("dodge-ml");
+    const actor = {
+        itemTypes: {
+            skill: [
+                { system: { shortcode: "shk" }, logic: { masteryLevel: {} } },
+                {
+                    system: { shortcode: "dge" },
+                    logic: { masteryLevel: dodgeML },
+                },
+            ],
+        },
+    } as any;
+
+    it("returns the mastery level of the skill with the given shortcode", () => {
+        expect(resolveSkillMasteryLevel(actor, "dge")).toBe(dodgeML);
+    });
+
+    it("returns null when no skill has that shortcode", () => {
+        expect(resolveSkillMasteryLevel(actor, "nope")).toBeNull();
+        expect(resolveSkillMasteryLevel({} as any, "dge")).toBeNull();
+    });
+});
+
+describe("collectBlockableStrikeModes", () => {
+    const blkMod = { disabled: "" };
+    const noBlk = { disabled: "SOHL.INFO.disabled" };
+    const actor = {
+        itemTypes: {
+            weapongear: [
+                {
+                    id: "shield",
+                    name: "Round Shield",
+                    logic: {
+                        strikeModes: [
+                            {
+                                id: "b1",
+                                name: "Block",
+                                defense: { block: blkMod },
+                            },
+                        ],
+                    },
+                },
+                {
+                    id: "bow",
+                    name: "Bow",
+                    // missile mode: no defense → not blockable
+                    logic: { strikeModes: [{ id: "shoot", name: "Shoot" }] },
+                },
+            ],
+            combattechnique: [
+                {
+                    id: "ct",
+                    name: "Brawling",
+                    logic: {
+                        strikeMode: {
+                            id: "ct",
+                            name: "Punch",
+                            defense: { block: noBlk }, // noBlock → excluded
+                        },
+                    },
+                },
+            ],
+        },
+    } as any;
+
+    it("lists only melee modes with an enabled block", () => {
+        const entries = collectBlockableStrikeModes(actor);
+        expect(entries).toHaveLength(1);
+        expect(entries[0]).toMatchObject({
+            itemId: "shield",
+            smId: "b1",
+            itemName: "Round Shield",
+            label: "Round Shield — Block",
+        });
+        expect(entries[0].ml).toBe(blkMod);
+    });
+
+    it("returns [] when nothing can block", () => {
+        expect(collectBlockableStrikeModes({} as any)).toEqual([]);
+    });
+});
+
+describe("collectAttackableStrikeModes", () => {
+    const melee = (id: string, reach: number) => ({
+        id,
+        name: id,
+        attack: { disabled: "" },
+        isMissile: false,
+        reach: { effective: reach },
+    });
+    const missile = (id: string, baseRange: number) => ({
+        id,
+        name: id,
+        attack: { disabled: "" },
+        isMissile: true,
+        baseRange: { effective: baseRange },
+    });
+    const actor = {
+        itemTypes: {
+            weapongear: [
+                { id: "sword", name: "Sword", logic: { strikeModes: [melee("swing", 5)] } },
+                { id: "bow", name: "Bow", logic: { strikeModes: [missile("shoot", 50)] } },
+            ],
+            combattechnique: [
+                { id: "ct", name: "Brawl", logic: { strikeMode: melee("punch", 4) } },
+            ],
+        },
+    } as any;
+
+    it("includes melee in reach + missile within base range", () => {
+        // distance 4: swing (reach 5), punch (reach 4), shoot (range 50) all in.
+        const ids = collectAttackableStrikeModes(actor, 4).map((e) => e.smId).sort();
+        expect(ids).toEqual(["punch", "shoot", "swing"].sort());
+    });
+
+    it("drops melee out of reach (missile still in base range)", () => {
+        const ids = collectAttackableStrikeModes(actor, 30).map((e) => e.smId);
+        expect(ids).toEqual(["shoot"]);
+    });
+
+    it("returns [] when the target is out of range of every mode (volley excluded)", () => {
+        expect(collectAttackableStrikeModes(actor, 100)).toEqual([]);
+    });
+
+    it("excludes noAttack modes", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "w",
+                        name: "W",
+                        logic: {
+                            strikeModes: [
+                                { id: "x", name: "x", attack: { disabled: "no" }, isMissile: false, reach: { effective: 5 } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        } as any;
+        expect(collectAttackableStrikeModes(a, 1)).toEqual([]);
+    });
+});
+
+describe("hasMeleeAttackStrikeMode", () => {
+    const mode = (over: any) => ({
+        id: "m",
+        name: "m",
+        attack: { disabled: "" },
+        isMissile: false,
+        isMelee: true,
+        ...over,
+    });
+
+    it("true when a usable melee attack mode exists", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    { id: "w", name: "W", logic: { strikeModes: [mode({})] } },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+    });
+
+    it("true via a combat technique's melee mode", () => {
+        const a = {
+            itemTypes: {
+                combattechnique: [
+                    { id: "ct", name: "Brawl", logic: { strikeMode: mode({}) } },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+    });
+
+    it("false when the only modes are missile (no melee counterstrike)", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "bow",
+                        name: "Bow",
+                        logic: { strikeModes: [mode({ isMelee: false, isMissile: true })] },
+                    },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+    });
+
+    it("false when the melee mode is noAttack (attack disabled)", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "w",
+                        name: "W",
+                        logic: { strikeModes: [mode({ attack: { disabled: "no" } })] },
+                    },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+    });
+
+    it("false for an actor with no items", () => {
+        expect(hasMeleeAttackStrikeMode({} as any)).toBe(false);
+    });
+});
+
+describe("combat status invariants", () => {
+    it("firstStatusIn returns the first forbidden status present (Set or array)", () => {
+        expect(firstStatusIn(new Set(["fly", "frozen"]), ["frozen"])).toBe(
+            "frozen",
+        );
+        expect(firstStatusIn(["prone", "sleep"], ["dead", "sleep"])).toBe(
+            "sleep",
+        );
+    });
+
+    it("firstStatusIn returns null when none are present", () => {
+        expect(firstStatusIn(new Set(["prone"]), ["dead", "frozen"])).toBeNull();
+        expect(firstStatusIn([], ["dead"])).toBeNull();
+    });
+
+    it("hasAnyStatus mirrors firstStatusIn as a boolean", () => {
+        expect(hasAnyStatus(["sleep"], DEFENSE_DISABLING_STATUSES)).toBe(true);
+        expect(hasAnyStatus(["prone"], DEFENSE_DISABLING_STATUSES)).toBe(false);
+    });
+
+    it("ATTACK_BLOCKING_STATUSES covers the attacker invariant (incl. DEFEATED=vanquished)", () => {
+        for (const s of [
+            "dead",
+            "vanquished",
+            "unconscious",
+            "sleep",
+            "restrain",
+            "paralysis",
+            "frozen",
+            "incapacitated",
+        ]) {
+            expect(ATTACK_BLOCKING_STATUSES).toContain(s);
+        }
+    });
+
+    it("DEFENSE_DISABLING_STATUSES is the IGNORE-only set (no DEAD, no DEFEATED)", () => {
+        expect([...DEFENSE_DISABLING_STATUSES].sort()).toEqual(
+            [
+                "unconscious",
+                "sleep",
+                "restrain",
+                "paralysis",
+                "frozen",
+                "incapacitated",
+            ].sort(),
+        );
+        expect(DEFENSE_DISABLING_STATUSES).not.toContain("dead");
+        expect(DEFENSE_DISABLING_STATUSES).not.toContain("vanquished");
+    });
+});
+
+describe("classifyMissileRange", () => {
+    it("point blank at <= half base range: spread 6, impact +2", () => {
+        const r = classifyMissileRange(20, 40);
+        expect(r).toEqual({ direct: true, pointBlank: true, spread: 6, impactRangeBonus: 2 });
+    });
+    it("normal direct within base range: spread 8, no bonus", () => {
+        const r = classifyMissileRange(30, 40);
+        expect(r).toEqual({ direct: true, pointBlank: false, spread: 8, impactRangeBonus: 0 });
+    });
+    it("beyond base range is a volley (not direct)", () => {
+        expect(classifyMissileRange(50, 40).direct).toBe(false);
+    });
+});
+
+describe("indexOfBestMastery", () => {
+    it("returns the index of the highest mastery level", () => {
+        expect(indexOfBestMastery([{ ml: 3 }, { ml: 9 }, { ml: 5 }], (e) => e.ml)).toBe(1);
+    });
+    it("returns -1 for an empty list", () => {
+        expect(indexOfBestMastery([], (e: any) => e.ml)).toBe(-1);
+    });
+});
+
 describe("buildDamageCardData", () => {
     const base = {
         title: "Broadsword – Cut",
@@ -198,5 +512,265 @@ describe("buildDamageCardData", () => {
         expect(data.hasTarget).toBe(false);
         expect(data.handlerUuid).toBe("");
         expect(data.targetName).toBe("");
+    });
+});
+
+describe("buildAttackResult", () => {
+    function makeAttackML(base: number): CombatModifier {
+        return new CombatModifier({ baseValue: base } as any, {
+            parent: attackerParent,
+        });
+    }
+    function makeImpact(): ImpactModifier {
+        return new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+    }
+
+    it("assembles an AttackResult from the strike-mode attack ML and impact", () => {
+        const attackML = makeAttackML(54);
+        const impact = makeImpact();
+        const roll = new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] });
+
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode: "head",
+            roll,
+        });
+
+        expect(ar).toBeInstanceOf(AttackResult);
+        expect(ar.testType).toBe(TEST_TYPE.AUTOCOMBATMELEE.id);
+        expect(ar.roll.total).toBe(44);
+        expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
+        expect(ar.impact.die).toBe(6);
+        expect(ar.impact.numDice).toBe(2);
+        expect(ar.aimBodyPartCode).toBe("head");
+    });
+
+    it("clones the modifiers so mutating the result does not touch the strike mode", () => {
+        const attackML = makeAttackML(54);
+        const impact = makeImpact();
+
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [1] }),
+        });
+
+        expect(ar.masteryLevelModifier).not.toBe(attackML);
+        expect(ar.impact).not.toBe(impact);
+        // Independent: mutating the result's modifier leaves the source alone.
+        ar.masteryLevelModifier.successLevelMod = 3;
+        expect(attackML.successLevelMod).toBe(0);
+        expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
+    });
+});
+
+describe("buildAttackCardData", () => {
+    function makeAttack(aimBodyPartCode = "mid"): AttackResult {
+        const attackML = new CombatModifier({ baseValue: 54 } as any, {
+            parent: attackerParent,
+        });
+        const impact = new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+        return buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode,
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] }),
+        });
+    }
+
+    it("surfaces the attacker's choices and resolved AML (transparency)", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "Broadsword Melee Attack",
+            attackerName: "Char1",
+            actorId: "atk1",
+            aimLabel: "Mid",
+            target: { name: "Char2", actorUuid: "Actor.def1" },
+        });
+        expect(data).toMatchObject({
+            title: "Broadsword Melee Attack",
+            attackerName: "Char1",
+            defenderName: "Char2",
+            handlerActorUuid: "Actor.def1",
+            hasTarget: true,
+            aim: "mid",
+            aimLabel: "Mid",
+            aspect: IMPACT_ASPECT.EDGED,
+            aml: 54,
+            hasDodge: true,
+            hasBlock: true,
+            hasCounterstrike: true,
+            hasIgnore: true,
+        });
+    });
+
+    it("always emits all four defense buttons (render-time gating handles capability)", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "t",
+            attackerName: "a",
+            actorId: null,
+            aimLabel: "Mid",
+            target: null,
+        });
+        expect(data.hasDodge).toBe(true);
+        expect(data.hasIgnore).toBe(true);
+        expect(data.hasBlock).toBe(true);
+        expect(data.hasCounterstrike).toBe(true);
+        expect(data.hasTarget).toBe(false);
+        expect(data.handlerActorUuid).toBe("");
+    });
+
+    it("embeds the AttackResult so the defender's client can rehydrate it", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "t",
+            attackerName: "a",
+            actorId: null,
+            aimLabel: "Mid",
+            target: null,
+        });
+        // The defender's client rehydrates with its own logic as the parent.
+        const revived = instanceFromJSON<AttackResult>(
+            JSON.stringify(data.attackResultData),
+            attackerParent,
+        );
+        expect(revived).toBeInstanceOf(AttackResult);
+        expect(revived.roll.total).toBe(44);
+        expect(revived.masteryLevelModifier.constrainedEffective).toBe(54);
+        expect(revived.aimBodyPartCode).toBe("mid");
+        expect(revived.impact.numDice).toBe(2);
+    });
+});
+
+describe("resolveTargetCombatant", () => {
+    // Map a token to its combatant: tokens whose id starts with "c" are
+    // combatants (returning a stand-in combatant), others are not.
+    const toCombatant = (t: { id: string }) =>
+        t.id.startsWith("c") ? { id: `combatant-${t.id}` } : null;
+
+    it("returns the combatant of the single targeted combatant token", () => {
+        expect(resolveTargetCombatant([{ id: "c1" }], toCombatant)).toEqual({
+            id: "combatant-c1",
+        });
+    });
+
+    it("ignores targeted tokens that are not combatants", () => {
+        // Two tokens targeted, but only one is a combatant → unambiguous.
+        expect(
+            resolveTargetCombatant([{ id: "x1" }, { id: "c2" }], toCombatant),
+        ).toEqual({ id: "combatant-c2" });
+    });
+
+    it("throws when no targeted token is a combatant", () => {
+        expect(() =>
+            resolveTargetCombatant([{ id: "x1" }, { id: "x2" }], toCombatant),
+        ).toThrow(/exactly one combatant/i);
+    });
+
+    it("throws when nothing is targeted", () => {
+        expect(() => resolveTargetCombatant([], toCombatant)).toThrow(
+            /exactly one combatant/i,
+        );
+    });
+
+    it("throws when more than one targeted token is a combatant", () => {
+        expect(() =>
+            resolveTargetCombatant([{ id: "c1" }, { id: "c2" }], toCombatant),
+        ).toThrow(/exactly one combatant/i);
+    });
+});
+
+describe("buildCombatCardData — Ignore", () => {
+    function makeIgnoreCombat(): CombatResult {
+        const attackML = new CombatModifier({ baseValue: 54 } as any, {
+            parent: attackerParent,
+        });
+        const impact = new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode: "mid",
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] }),
+        });
+        // The attacker's result crosses as an already-evaluated snapshot.
+        (ar as any)._successLevel = MARGINAL_SUCCESS;
+        const def = new DefendResult(
+            { testType: TEST_TYPE.IGNORE.id, situationalModifier: 0 } as any,
+            { parent: attackerParent },
+        );
+        const cr = new CombatResult(
+            {
+                attackResult: ar,
+                defendResult: def,
+                sourceTestResult: ar,
+                targetTestResult: def,
+                speaker: ar.speaker,
+            } as any,
+            { parent: attackerParent },
+        );
+        cr.opposedTestEvaluate();
+        return cr;
+    }
+
+    it("dashes the defender column and offers the injury button on a hit", () => {
+        const cr = makeIgnoreCombat();
+        const data = buildCombatCardData({
+            combatResult: cr,
+            title: "Attack Result",
+            actorId: "def1",
+            attackerName: "Char1",
+            defenderName: "Char2",
+            attackWeapon: "Broadsword",
+            defenseLabel: "Ignore",
+            attackTarget: { name: "Char2", actorUuid: "Actor.def" },
+        });
+        // Ignore: defender did not contest → its column is empty (template dashes it).
+        expect(data.defense).toBe("Ignore");
+        expect(data.effDML).toBe("");
+        expect(data.defenseRoll).toBe("");
+        // Attacker side is populated.
+        expect(data.effAML).toBe(54);
+        expect(data.attackRoll).toBe(44);
+        // The unopposed attack succeeded (roll 44 <= AML 54) → it lands.
+        expect(data.hasAttackHit).toBe(true);
+        expect(data.hasAttackInjury).toBe(true);
+        expect(data.attackInjuryHandlerUuid).toBe("Actor.def");
+        const inj = JSON.parse(data.attackInjuryJson as string);
+        expect(inj.aspect).toBe(IMPACT_ASPECT.EDGED);
+        expect(typeof inj.impact).toBe("number");
+        // No defender impact in an Ignore exchange.
+        expect(data.hasDefendInjury).toBe(false);
     });
 });

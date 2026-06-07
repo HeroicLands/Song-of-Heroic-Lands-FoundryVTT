@@ -286,26 +286,43 @@ describe("ValueModifier", () => {
     });
 
     describe("toJSON()", () => {
-        // Note: toJSON/clone crash because defaultToJSON in helpers.ts calls
-        // Object.hasOwn(value, "documentName") without guarding against
-        // null/undefined values (e.g. customFunction field).
-        it.todo(
-            "returns a plain object representation (blocked by defaultToJSON null-safety bug)",
-        );
+        it("returns a plain object without the parent back-reference", () => {
+            const vm = createVM({ baseValue: 45 });
+            const json = vm.toJSON();
+            expect(typeof json).toBe("object");
+            expect(json).not.toHaveProperty("parent");
+            expect(json.baseValue).toBe(45);
+        });
     });
 
     describe("clone()", () => {
-        it.todo(
-            "creates a copy of the ValueModifier (blocked by defaultToJSON null-safety bug)",
-        );
+        it("creates an independent copy that recomputes from revived deltas", () => {
+            const vm = createVM({ baseValue: 45 });
+            pushDelta(vm, "TST", VALUE_DELTA_OPERATOR.ADD, 20);
+            expect(vm.effective).toBe(65);
+
+            const copy = vm.clone<ValueModifier>();
+
+            expect(copy).toBeInstanceOf(ValueModifier);
+            expect(copy).not.toBe(vm);
+            // Deltas were revived as live ValueDeltas, so effective recomputes.
+            expect(copy.effective).toBe(65);
+            expect(copy.deltas[0]).not.toBe(vm.deltas[0]);
+
+            // Independent: changing the copy does not touch the source.
+            pushDelta(copy, "TST2", VALUE_DELTA_OPERATOR.ADD, 10);
+            expect(copy.effective).toBe(75);
+            expect(vm.effective).toBe(65);
+        });
     });
 
     describe("_oper validation", () => {
-        it("throws when name does not start with SOHL.MOD.", () => {
-            const vm = createVM();
-            expect(() => vm.add("bad.name", "TST", 5)).toThrow(
-                "name is not valid",
-            );
+        it("passes any name/shortcode through without validation", () => {
+            // name / shortcode are display / identity labels, not validated
+            // localization keys — any value is accepted and the delta applies.
+            const vm = createVM({ baseValue: 10 });
+            expect(() => vm.add("bad.name", "TST", 5)).not.toThrow();
+            expect(vm.effective).toBe(15);
         });
     });
 

@@ -12,12 +12,23 @@
  */
 
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
-import { ITEM_KIND, STRIKE_MODE_TYPE } from "@src/utils/constants";
+import {
+    ACTION_SUBTYPE,
+    defineType,
+    ITEM_KIND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    STRIKE_MODE_TYPE,
+} from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
+import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import type { CombatResult } from "@src/domain/result/CombatResult";
+import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -87,6 +98,67 @@ export class WeaponGearLogic<
     }
 
     /* --------------------------------------------- */
+    /* Combat Intrinsic Actions                            */
+    /* --------------------------------------------- */
+
+    /**
+     * Present a dialog asking the player to select the appropriate strike mode
+     * to use to begin automated combat, then delegate processing of the combat start to
+     * the selected strike mode's item.
+     */
+    async automatedCombatStart(
+        context: SohlActionContext<EmptyObject>,
+    ): Promise<void> {
+        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
+    }
+
+    /**
+     * Present a dialog asking the player to select a strike mode to block with to resume
+     * the automated combat.
+     *
+     * @remarks
+     * Any strike mode that has the noBlock trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noBlock trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the block resume to that
+     * strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
+     */
+    async automatedBlockResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
+
+    /**
+     * Present a dialog asking the player to select a strike mode to use for the counterstrike
+     * defense. The default should be the most recently used attack or counterstrike mode.
+     *
+     * @remarks
+     * Any strike mode that has the noAttack trait should be filtered out of the choices.
+     * The default value of the choices should be the most recently used strike mode that
+     * does not have the noAttack trait. Otherwise, there is no default value.
+     *
+     * Once a strike mode is selected, delegate processing of the counterstrike
+     * resume to that strike mode's item.
+     *
+     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
+     * - `combatResult` is the prior automated resume result that is being reassessed
+     * - `attackResult` is the result of the automated attack that initiated the automated resume
+     *
+     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
+     * @param [context.scope.attackResult] The test result that initiated the opposed test
+     */
+    async automatedCounterstrikeResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {}
+
+    /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
 
@@ -115,8 +187,10 @@ export class WeaponGearLogic<
         // wielder's lineage reach. A non-Being wielder (or none) has no
         // lineage, so reach stays at length alone.
         const lineageReach =
-            ((this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
-                ?.logic as LineageLogic | undefined)?.reach.effective ?? 0;
+            (
+                (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
+                    ?.logic as LineageLogic | undefined
+            )?.reach.effective ?? 0;
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
                 sm.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
@@ -140,3 +214,44 @@ export interface WeaponGearData<
     /** Persisted strike modes, keyed by Foundry-style id. */
     strikeModes: StrictObject<StrikeModeBase.Data>;
 }
+
+/**
+ * The intrinsic actions available to WeaponGear items.
+ * This structure should correspond to the methods on the
+ * WeaponGearLogic class that can be invoked as intrinsic actions.
+ */
+export const {
+    kind: WEAPONGEAR_INTRINSIC_ACTION,
+    values: WeaponGearIntrinsicActions,
+    isValue: isWeaponGearIntrinsicAction,
+    labels: WeaponGearIntrinsicActionLabels,
+} = defineType("SOHL.WeaponGear.ACTION", {
+    AUTOMATEDCOMBATSTART: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedCombatStart",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-swords",
+        executor: "automatedCombatStart",
+        visible: "true",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+    },
+    AUTOMATEDBLOCKRESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedBlockResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-shield",
+        executor: "automatedBlockResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+
+    AUTOMATEDCOUNTERSTRIKERESUME: {
+        subType: ACTION_SUBTYPE.INTRINSIC,
+        title: "SOHL.WeaponGear.ACTION.automatedCounterstrikeResume",
+        scope: SOHL_ACTION_SCOPE.SELF,
+        iconFAClass: "fas fa-circle-half-stroke",
+        executor: "automatedCounterstrikeResume",
+        visible: "false",
+        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    },
+} as StrictObject<Partial<SohlActionData>>);

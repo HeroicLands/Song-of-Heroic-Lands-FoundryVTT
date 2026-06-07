@@ -11,135 +11,88 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
+{{!--
+    Automated-combat attack card (spoken by the attacker).
+
+    Transparency-by-design: the attacker's Aim and Aspect choices and the
+    resolved Attack Mastery Level are shown so every player can verify the
+    parameters of the attack.
+
+    The whole evaluated AttackResult is embedded (kind-stamped) in each defense
+    button's `data-attack-result-json`, serialized with the registered `toJSON`
+    helper. The defender's client rehydrates it with `instanceFromJSON`. The Aim
+    is carried separately in `data-aim` so it survives to the defense resume and
+    the injury card. The defense buttons dispatch to the defender's actor (via
+    `data-handler-actor-uuid`) so the chosen defense resolves on the defender's
+    client.
+--}}
 <div class="hmk chat-card item-card" data-actor-id="{{actorId}}">
     <header class="card-header">
         <h3 class="title">{{title}}</h3>
-        <h4 class="subtitle">{{attackToken.name}} vs. {{defendToken.name}}</h4>
+        <h4 class="subtitle">{{attackerName}} vs. {{defenderName}}</h4>
     </header>
-
-    {{#if notes}}
-    <div class="card-note">
-        <span>{{notes}}</span>
-    </div>
-    {{/if}}
-    
-    {{#if isMissile}}
-    <div class="card-content">
-        <span class="label">Missile:</span>
-        <span class="value">{{missile}}</span>
-    </div>
-
-        {{#if projectile}}
-        <div class="card-content">
-            <span class="label">Projectile:</span>
-            <span class="value">{{projectile}}</span>
-        </div>
-        {{/if}}
-    
-    {{/if}}
-
-    <div class="card-content center">
-        <div class="flexrow">
-            <span class="label">Zone Die + Start:</span>
-            <span class="value">d{{strikeMode.system.zoneDie}} + {{zoneStart}}</span>
-        </div>
-    </div>
-
-    <div class="card-content">
-        <label>Impact Modifiers</label>
-        <div class="adjustment">
-            <div class="flexrow">
-                <span class="label adj-name">Adjustment</span>
-                <span class="label adj-value">Value</span>
-            </div>
-            {{#each impactMods}}
-            <div class="flexrow">
-                <span class="adj-name">{{this.name}}</span>
-                <span class="adj-value"
-                    >{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span
-                >
-            </div>
-            {{/each}}
-        </div>
-    </div>
 
     <div class="grid grid-2col">
         <div class="card-content">
-            <span class="label">Distance:</span>
-            <span class="value">{{distance}}ft</span>
+            <span class="label">Aim:</span>
+            <span class="value">{{aimLabel}}</span>
         </div>
 
         <div class="card-content">
-            <span class="label">Impact:</span>
-            <span class="value">{{impact.label}}</span>
+            <span class="label">Aspect:</span>
+            <span class="value">{{aspect}}</span>
         </div>
     </div>
 
-    <div class="card-content">
-        <label>Attack Modifiers</label>
-        {{{aml.toHtml}}}
+    <div class="card-content center">
+        <span class="label">AML:</span>
+        <span class="value">{{aml}}</span>
     </div>
 
-    {{#if successLevelMod}}
-    <div class="card-content flex-group-center">
-        <span class="label">Success Level Modifier:</span>
-        <span class="value">{{successLevelMod}}</span>
-    </div>
-    {{/if}}
-    
     {{#if (or hasDodge hasCounterstrike hasBlock hasIgnore)}}
     <div class="card-buttons">
         <div class="grid grid-2col mingap">
             {{#if hasDodge}}
             <button
                 id="dodge-button"
-                data-action="dodgeResume"
-                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
-                data-atk-token-uuid="{{attackToken.uuid}}"
-                data-def-token-uuid="{{defendToken.uuid}}"
-                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
-                data-attack-obj-json="{{jsonStringify attackMods}}"
-                data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-action="automatedDodgeResume"
+                data-handler-actor-uuid="{{handlerActorUuid}}"
+                data-aim="{{aim}}"
+                data-attack-result-json="{{toJSON attackResultData}}"
+            >
                 Dodge
             </button>
-            {{/if}} {{#if hasCounterstrike}}
+            {{/if}}
+            {{#if hasCounterstrike}}
             <button
                 id="counterstrike-button"
-                data-action="counterstrikeResume"
-                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
-                data-atk-token-uuid="{{attackToken.uuid}}"
-                data-def-token-uuid="{{defendToken.uuid}}"
-                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
-                data-attack-obj-json="{{jsonStringify attackMods}}"
-                data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-action="automatedCounterstrikeResume"
+                data-handler-actor-uuid="{{handlerActorUuid}}"
+                data-aim="{{aim}}"
+                data-attack-result-json="{{toJSON attackResultData}}"
+            >
                 Counterstrike
             </button>
-            {{/if}} {{#if hasBlock}}
+            {{/if}}
+            {{#if hasBlock}}
             <button
                 id="block-button"
-                data-action="blockResume"
-                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
-                data-atk-token-uuid="{{attackToken.uuid}}"
-                data-def-token-uuid="{{defendToken.uuid}}"
-                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
-                data-attack-obj-json="{{jsonStringify attackMods}}"
-                data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-action="automatedBlockResume"
+                data-handler-actor-uuid="{{handlerActorUuid}}"
+                data-aim="{{aim}}"
+                data-attack-result-json="{{toJSON attackResultData}}"
+            >
                 Block
             </button>
-            {{/if}} {{#if hasIgnore}}
+            {{/if}}
+            {{#if hasIgnore}}
             <button
                 id="ignore-button"
-                data-action="ignoreResume"
-                data-handler-actor-uuid="{{targetToken.actor.uuid}}"
-                data-atk-token-uuid="{{attackToken.uuid}}"
-                data-def-token-uuid="{{defendToken.uuid}}"
-                data-atk-strike-mode-uuid="{{strikeMode.uuid}}"
-                data-attack-obj-json="{{jsonStringify attackMods}}"
-                data-impact-obj-json="{{jsonStringify impactMods}}"
-                data-zone-start="{{zoneStart}}"
+                data-action="automatedIgnoreResume"
+                data-handler-actor-uuid="{{handlerActorUuid}}"
+                data-aim="{{aim}}"
+                data-attack-result-json="{{toJSON attackResultData}}"
+            >
                 Ignore
             </button>
             {{/if}}

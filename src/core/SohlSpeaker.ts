@@ -15,7 +15,9 @@ import {
     SOHL_SPEAKER_ROLL_MODE,
     SOHL_SPEAKER_STYLE,
     SohlSpeakerRollMode,
+    KIND_KEY,
 } from "@src/utils/constants";
+import { registerKind } from "@src/utils/kindRegistry";
 import { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
@@ -115,6 +117,7 @@ export class SohlSpeaker {
 
     toJSON(): JsonValue {
         return {
+            [KIND_KEY]: SohlSpeaker.Kind,
             token: this.token?.id ?? "",
             actor: this.actor?.id ?? "",
             scene: this.scene?.id ?? "",
@@ -222,6 +225,8 @@ export class SohlSpeaker {
 }
 
 export namespace SohlSpeaker {
+    export const Kind = "SohlSpeaker";
+
     export interface ChatOptions {
         flavor: string;
         sound: string;
@@ -235,3 +240,5 @@ export namespace SohlSpeaker {
         user: string;
     }
 }
+
+registerKind(SohlSpeaker.Kind, SohlSpeaker);

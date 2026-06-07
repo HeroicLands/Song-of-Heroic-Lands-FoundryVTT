@@ -81,7 +81,7 @@ describe("parseInjuryRequest", () => {
                 impact: 9,
                 aspect: "piercing",
                 targetPart: "head",
-                accuracy: 5,
+                spread: 5,
                 location: "skull",
                 armorReduction: 2,
                 extraBleedRisk: true,
@@ -91,7 +91,7 @@ describe("parseInjuryRequest", () => {
             impact: 9,
             aspect: IMPACT_ASPECT.PIERCING,
             targetPart: "head",
-            accuracy: 5,
+            spread: 5,
             location: "skull",
             armorReduction: 2,
             extraBleedRisk: true,
@@ -107,13 +107,13 @@ describe("parseInjuryRequest", () => {
 });
 
 describe("isAutomatedRequest", () => {
-    it("is automated only when both targetPart and accuracy are present", () => {
+    it("is automated only when both targetPart and spread are present", () => {
         expect(
             isAutomatedRequest({
                 impact: 1,
                 aspect: IMPACT_ASPECT.EDGED,
                 targetPart: "head",
-                accuracy: 0,
+                spread: 0,
             }),
         ).toBe(true);
         expect(
@@ -163,19 +163,19 @@ describe("readInjuryDialogForm", () => {
 });
 
 describe("resolveAutomatedInjury", () => {
-    it("rolls the aimed location via targetPart + accuracy", () => {
+    it("rolls the aimed location via targetPart + spread", () => {
         const body = makeBody();
         const skull = body.getAllLocations().find((l) => l.shortcode === "skull")!;
         const spy = vi
             .spyOn(body, "getRandomLocation")
             .mockReturnValue(skull);
         const injury = resolveAutomatedInjury(
-            { impact: 8, aspect: IMPACT_ASPECT.EDGED, targetPart: "head", accuracy: 6 },
+            { impact: 8, aspect: IMPACT_ASPECT.EDGED, targetPart: "head", spread: 6 },
             body,
         );
         expect(spy).toHaveBeenCalledWith({
             targetPart: body.getPartByCode("head"),
-            accuracy: 6,
+            spread: 6,
         });
         expect(injury.location.shortcode).toBe("skull");
     });
@@ -188,7 +188,7 @@ describe("resolveAutomatedInjury", () => {
                 impact: 20,
                 aspect: IMPACT_ASPECT.EDGED,
                 targetPart: "head",
-                accuracy: 6,
+                spread: 6,
                 location: "neck",
             },
             body,
