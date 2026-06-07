@@ -1,7 +1,9 @@
 {
-    "entryPoints": ["src/sohl.ts"],
-    "entryPointStrategy": "expand",
-    "tsconfig": "./tsconfig.json",
+    "entryPoints": [
+        "build/docbundle/index.ts"
+    ],
+    "entryPointStrategy": "resolve",
+    "tsconfig": "./tsconfig.docs.json",
     "out": "build/stage/docs",
     "plugin": [
         "typedoc-github-theme",
@@ -14,5 +16,7 @@
     "includeVersion": true,
     "readme": "README.md",
     "name": "Song of Heroic Lands API",
-    "exclude": []
+    "exclude": [],
+    "skipErrorChecking": true,
+    "excludeProtected": true
 }
