@@ -57,7 +57,7 @@ export class AttackResult extends SuccessTestResult {
         this.spread = data.spread ?? 0;
     }
 
-    async evaluate(): Promise<boolean> {
+    override async evaluate(): Promise<boolean> {
         const allowed = await super.evaluate();
         if (!allowed) return false;
 
@@ -90,7 +90,7 @@ export class AttackResult extends SuccessTestResult {
         return true;
     }
 
-    async testDialog(
+    override async testDialog(
         data: PlainObject = {},
         callback: (formData: StrictObject<string | number>) => void,
     ): Promise<any> {
@@ -121,7 +121,7 @@ export class AttackResult extends SuccessTestResult {
         );
     }
 
-    async toChat(data = {}) {
+    override async toChat(data = {}) {
         return super.toChat({
             ...data,
             impact: this.impact,
