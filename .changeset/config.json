@@ -1,13 +1,8 @@
 {
     "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
-    "changelog": [
-        "@changesets/changelog-github",
-        {
-            "repo": "HeroicLands/Song-of-Heroic-Lands-FoundryVTT"
-        }
-    ],
+    "changelog": "@changesets/changelog-git",
     "commit": true,
-    "baseBranch": "master",
+    "baseBranch": "main",
     "updateInternalDependencies": "patch",
     "ignore": []
 }

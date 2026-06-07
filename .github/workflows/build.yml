@@ -1,13 +1,13 @@
-name: Build and Test (non-master)
+name: Build and Test (non-main)
 
 on:
     push:
         branches-ignore:
-            - master
+            - main
             - gh-pages
     pull_request:
         branches-ignore:
-            - master
+            - main
             - gh-pages
 
 jobs:
