@@ -184,7 +184,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             {{/if}}
         {{/if}}
 
-        {{#if (or combatResult.attacker.testStumble combatResult.attacker.testFumble combatResult.attacker.deliversImpact combatResult.defender.testStumble combatResult.defender.testFumble combatResult.defender.deliversImpact)}}
+        {{#if (or combatResult.attacker.testStumble combatResult.attacker.testFumble combatResult.attackerLandsBlow combatResult.defender.testStumble combatResult.defender.testFumble combatResult.defenderLandsBlow)}}
         <div class="card-buttons">
             {{#if combatResult.attacker.testStumble}}
             <button
@@ -218,20 +218,18 @@ SPDX-License-Identifier: GPL-3.0-or-later
             </button>
             {{/if}}
 
-            {{#if combatResult.attacker.deliversImpact}}
+            {{#if combatResult.attackerLandsBlow}}
             <button
                 data-action="calcImpact"
                 data-action-handler-uuid="{{targetTestResult.token.actor.uuid}}"
-                data-impact-result-json="{{sourceImpactResultJson}}"
                 ><i class="fas fa-bullseye-arrow"></i> Calculate {{targetTestResult.token.name}} Impact
             </button>
             {{/if}}
 
-            {{#if combatResult.defender.deliversImpact}}
+            {{#if combatResult.defenderLandsBlow}}
             <button
                 data-action="calcImpact"
                 data-action-handler-uuid="{{sourceTestResult.token.actor.uuid}}"
-                data-impact-result-json="{{targetImpactResultJson}}"
                 ><i class="fas fa-bullseye-arrow"></i> Calculate {{sourceTestResult.token.name}} Impact
             </button>
             {{/if}}

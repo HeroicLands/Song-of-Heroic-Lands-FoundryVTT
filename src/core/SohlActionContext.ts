@@ -14,18 +14,19 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { instanceToJSON, cloneInstance } from "@src/utils/helpers";
+import { registerKind } from "@src/utils/kindRegistry";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 
-export class SohlActionContext {
+export class SohlActionContext<S extends UnknownObject = UnknownObject> {
     speaker: SohlSpeaker;
     target: SohlTokenDocument | null;
     skipDialog: boolean;
     noChat: boolean;
     type: string;
     title: string;
-    scope: UnknownObject;
+    scope: S;
 
-    constructor(data: Partial<SohlActionContext.Data> = {}) {
+    constructor(data: SohlActionContext.Data<S> = {}) {
         const {
             speaker,
             target = null,
@@ -33,7 +34,7 @@ export class SohlActionContext {
             noChat = false,
             type = "",
             title = "",
-            ...scope
+            scope = {} as S,
         } = data;
 
         if (!speaker) {
@@ -78,8 +79,11 @@ export class SohlActionContext {
         return instanceToJSON(this);
     }
 
-    clone<T>(data: PlainObject = {}, options: PlainObject = {}): T {
-        return cloneInstance<T>(this, data, options);
+    clone(
+        data: PlainObject = {},
+        options: PlainObject = {},
+    ): SohlActionContext<S> {
+        return cloneInstance<SohlActionContext<S>>(this, data, options);
     }
 
     get character(): SohlActor | null {
@@ -92,18 +96,21 @@ export class SohlActionContext {
 }
 
 export namespace SohlActionContext {
-    export interface Data {
-        speaker: SohlSpeaker | Partial<SohlSpeaker.Data>;
-        target:
+    export const Kind = "SohlActionContext";
+
+    export interface Data<S extends UnknownObject = UnknownObject> {
+        speaker?: SohlSpeaker | Partial<SohlSpeaker.Data>;
+        target?:
             | SohlActor
             | SohlTokenDocument
             | foundry.canvas.placeables.Token
             | null;
-        userId: DocumentId;
-        skipDialog: boolean;
-        noChat: boolean;
-        type: string;
-        title: string;
-        scope: UnknownObject;
+        skipDialog?: boolean;
+        noChat?: boolean;
+        type?: string;
+        title?: string;
+        scope?: S;
     }
 }
+
+registerKind(SohlActionContext.Kind, SohlActionContext);

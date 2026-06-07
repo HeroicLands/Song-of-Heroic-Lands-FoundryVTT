@@ -286,15 +286,11 @@ export class ValueModifier {
     ): this {
         if (!isValueDeltaOperator(op)) {
             throw new TypeError("op is not valid");
-        } else if (
-            !(typeof name === "string" && name.startsWith("SOHL.INFO."))
-        ) {
-            throw new TypeError(
-                "name is not valid; must start with SOHL.INFO.",
-            );
         } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }
+        // `name` / `shortcode` are passed through as-is — they are display /
+        // identity labels, not validated localization keys.
 
         shortcode ||= data.shortcode;
 

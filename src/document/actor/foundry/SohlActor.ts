@@ -97,22 +97,54 @@ export class SohlActor extends Actor {
      * @param btn The button element that was clicked.
      */
     async onChatCardButton(btn: HTMLElement): Promise<void> {
-        const action = btn.dataset.action;
-        switch (action) {
-            case "createInjury":
-                await this._onCreateInjury(btn);
-                break;
-            default:
-                sohl.log.warn(
-                    `SoHL | ${this.name} (Actor) received unhandled chat-card action "${action ?? ""}"`,
-                );
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        // `createInjury` is handled directly (it posts an injury rather than
+        // running an intrinsic action).
+        if (actionName === "createInjury") {
+            await this._onCreateInjury(btn);
+            return;
+        }
+
+        // Otherwise dispatch generically to the actor's logic — the same shape
+        // SohlItem uses — so defender chat-card actions (e.g. the automated
+        // combat defenses) reach their intrinsic-action methods. The button's
+        // dataset becomes the action's `scope`.
+        const context = new SohlActionContext({
+            speaker: this.logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            scope: { ...btn.dataset },
+        });
+
+        const action =
+            this.logic.actions.get(actionName) ??
+            [...this.logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (this.logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(this.logic, context);
+        } else {
+            sohl.log.warn(
+                `SoHL | ${this.name} (Actor) received unhandled chat-card action "${actionName}".`,
+            );
         }
     }
 
     /**
      * Resolve and post an injury from a chat-card `createInjury` click. The
      * forward-carried `data-test-result-json` discriminates the two modes:
-     * an automated request (aimed `targetPart` + `accuracy`) resolves with no
+     * an automated request (aimed `targetPart` + `spread`) resolves with no
      * player input; an assisted request opens the Add Injury dialog so the GM
      * can pick the location and tune armor reduction.
      */
@@ -127,7 +159,7 @@ export class SohlActor extends Actor {
 
         const req = parseInjuryRequest(btn.dataset.testResultJson);
         if (!req) {
-            sohl.log.warn(
+            sohl.log.uiWarn(
                 `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
             );
             return;

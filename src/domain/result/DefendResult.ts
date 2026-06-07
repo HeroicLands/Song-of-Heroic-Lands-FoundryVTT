@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@src/domain/result/ImpactResult";
-import { DEFEND_MISHAP, TEST_TYPE } from "@src/utils/constants";
+import { DEFEND_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import { SuccessTestResult } from "./SuccessTestResult";
 
 /**
- * The defender's side of a combat exchange — an {@link ImpactResult} with
+ * The defender's side of a combat exchange — a {@link SuccessTestResult} with
  * defense-specific data.
  *
  * ## Key properties
@@ -31,37 +31,38 @@ import { DEFEND_MISHAP, TEST_TYPE } from "@src/utils/constants";
  * is then compared against the {@link AttackResult} in the containing
  * {@link CombatResult} to determine the final outcome.
  */
-export class DefendResult extends ImpactResult {
-    situationalModifier: number;
-
+export class DefendResult extends SuccessTestResult {
     constructor(
         data: Partial<DefendResult.Data> = {},
         options: Partial<DefendResult.Options> = {},
     ) {
         super(data, options);
-        this.situationalModifier = data.situationalModifier ?? 0;
+        this.masteryLevelModifier.add(
+            VALUE_DELTA_ID.PLAYER,
+            data.situationalModifier,
+        );
     }
 
     async evaluate(): Promise<boolean> {
         const allowed = await super.evaluate();
         if (!allowed) return false;
 
-        if (
-            this.testType === TEST_TYPE.BLOCK.id ||
-            this.testType === TEST_TYPE.COUNTERSTRIKE.id
-        ) {
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(DEFEND_MISHAP.FUMBLE_TEST);
+        if (!this.isSuccess) {
+            if (
+                this.testType === TEST_TYPE.BLOCK.id ||
+                this.testType === TEST_TYPE.COUNTERSTRIKE.id
+            ) {
+                if (this.isCritical && this.lastDigit === 0) {
+                    this.mishaps.add(DEFEND_MISHAP.FUMBLE_TEST);
+                }
+                if (this.isCritical && this.lastDigit === 5) {
+                    this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
+                }
+            } else if (this.testType === TEST_TYPE.DODGE.id) {
+                if (this.isCritical && !this.isSuccess) {
+                    this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
+                }
             }
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
-            }
-            this.deliversImpact = false;
-        } else if (this.testType === TEST_TYPE.DODGE.id) {
-            if (this.isCritical && !this.isSuccess) {
-                this.mishaps.add(DEFEND_MISHAP.STUMBLE_TEST);
-            }
-            this.deliversImpact = false;
         }
         return true;
     }
@@ -70,11 +71,11 @@ export class DefendResult extends ImpactResult {
 export namespace DefendResult {
     export const Kind: string = "DefendResult";
 
-    export interface Data extends ImpactResult.Data {
+    export interface Data extends SuccessTestResult.Data {
         situationalModifier: number;
     }
 
-    export interface Options extends ImpactResult.Options {}
+    export interface Options extends SuccessTestResult.Options {}
 
     export interface ContextScope {
         priorTestResult: DefendResult | null;

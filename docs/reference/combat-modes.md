@@ -37,7 +37,7 @@ The character's **Combat tab** has one row per melee strike mode (and one per ra
 
 **Impact.** If the combined attack/defense outcome means the strike connects, click the impact formula in the **Impact** column. The system rolls the damage with modifiers applied and posts the resulting impact value to chat.
 
-**Injury.** If impact is positive, the defender clicks **Add Injury** on their Trauma tab and fills in the form: impact value, weapon aspect, the targeted body part, accuracy, and optionally the specific location (if the GM called one). The system resolves armor reduction, picks a hit location, computes injury level and severity, creates an Injury item on the character sheet, and posts the result to chat.
+**Injury.** If impact is positive, the defender clicks **Add Injury** on their Trauma tab and fills in the form: impact value, weapon aspect, the targeted body part, spread, and optionally the specific location (if the GM called one). The system resolves armor reduction, picks a hit location, computes injury level and severity, creates an Injury item on the character sheet, and posts the result to chat.
 
 These four steps are **independent**. The attack result is just a chat entry — the GM can let the player reroll, declare a miss a hit, hand-wave the impact roll, or anything else. The injury form doesn't even need an attack roll to precede it. If a character falls 30 feet and the GM rules 15 blunt impact, the player can open **Add Injury** directly and fill in the numbers.
 
@@ -51,15 +51,19 @@ Automated combat collapses the four steps into a single chain that the system wa
 
 **Prerequisites.** A Foundry VTT Combat must be started, with every participant having a Combatant and a token on the active scene.
 
-**Starting an exchange.** The current combatant's player targets a single token (Foundry allows multi-targeting, but SoHL warns and aborts on more than one) and initiates with a hotkey or by clicking a strike mode on the Combat tab.
+**Starting an exchange.** Automated combat resolves between **combatants**, not arbitrary tokens — a token that isn't in the current combat cannot be the target. The current combatant's player targets the defender and initiates with a hotkey or by clicking a strike mode on the Combat tab. SoHL looks at the player's targeted tokens and keeps only those that are combatants of the current combat: exactly **one** must remain. If zero or more than one combatant is targeted, SoHL warns that exactly one combatant token must be selected and aborts. (Targeting extra non-combatant tokens is harmless — they're ignored.)
 
-**Choosing the strike.** The player picks the weapon, the strike mode, and the body part to aim at. The system checks weapon range; if out of range, it warns and aborts.
+A few preconditions are checked up front, and the attack aborts with a notification if any fails: the attacker can't act while **incapacitated** (dead, defeated, unconscious, asleep, restrained, paralyzed, frozen), and a **dead** target can't be attacked. See [Automated Combat Invariants](./combat.md#automated-combat-invariants) for the full list.
 
-**Defender response.** A chat message announces the attack. The defender sees four buttons: **Block**, **Counterstrike**, **Dodge**, **Ignore**. They pick one. The system rolls both the attack and defense, resolves the success outcome (including any free Tactical Advantage for the defender), and posts the result. If the attack fails, the exchange ends here.
+**Choosing the strike.** The system offers only the strike modes that can reach the target right now — melee modes within the mode's reach, and missile modes within the weapon's **base range**. The list defaults to the mode you used last (or, failing that, your best chance to hit). If the target is beyond every mode's range, the system warns and aborts. Then the player picks the body part to aim at.
+
+> **Direct fire only.** Automated combat supports **melee** attacks and **missile _direct_** attacks (target within base range). A missile fired beyond base range is a **volley** — an arcing, area-targeted shot that can't aim at a specific person or body location — and is **not supported** by automated combat; resolve volleys in Assisted mode. A direct missile shot at **point-blank** range (within half the base range) is more accurate and hits a little harder.
+
+**Defender response.** A chat message announces the attack. Only the **defender's owner** (and the GM) sees the response buttons — **Block**, **Counterstrike**, **Dodge**, **Ignore** — and only the ones that apply: Block appears only if the defender has a weapon/shield mode that can block, and Counterstrike only if they have a melee attack mode; Dodge and Ignore are always offered. An **incapacitated** defender (unconscious, asleep, restrained, paralyzed, frozen, or otherwise incapacitated) can do nothing but **Ignore** — the other three are disabled. They pick one. The system rolls both the attack and defense, resolves the success outcome (including any free Tactical Advantage for the defender), and posts the result. If the attack fails, the exchange ends here.
 
 **Impact.** If the attack succeeded, the attacker sees an **Impact** button in chat. Clicking it rolls damage and posts the impact value.
 
-**Injury.** The defender then sees a **Calculate Injury** button. Accuracy, target part, and impact have all been carried forward — no form to fill in. One click resolves armor, picks a hit location, computes injury level and severity, creates the Injury item, and posts the result to chat.
+**Injury.** The defender then sees a **Calculate Injury** button. Spread, target part, and impact have all been carried forward — no form to fill in. One click resolves armor, picks a hit location, computes injury level and severity, creates the Injury item, and posts the result to chat.
 
 The exchange is over. Neither player consulted a rulebook; neither typed in a number after the initial weapon/part choice. Every step after that was a single click on a chat-card button.
 
@@ -81,7 +85,7 @@ The exchange is over. Neither player consulted a rulebook; neither typed in a nu
 
 ## See also
 
-- [Combat](./combat.md) — the underlying mechanics (strike accuracy, hit location determination)
+- [Combat](./combat.md) — the underlying mechanics (strike spread, hit location determination)
 - [Body Structure](./body-structure.md) — anatomy that drives hit location and injury effects
 - [Injuries and Healing](./injuries-healing.md) — what happens after the injury lands
 - [Combat Resolution Pipeline](./combat-resolution-pipeline.md) — the internal pipeline that drives both modes (developer-facing)

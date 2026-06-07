@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { instanceToJSON, instanceFromJSON } from "@src/utils/helpers";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 
 function createSpeaker(): SohlSpeaker {
     return new SohlSpeaker({ alias: "Test Speaker" });
@@ -66,12 +68,38 @@ describe("SohlActionContext", () => {
             expect(ctx.title).toBe("Test Title");
         });
 
-        it("captures extra properties as scope", () => {
+        it("stores scope passed via the scope key, flat (not nested)", () => {
+            const ctx = new SohlActionContext({
+                speaker: createSpeaker(),
+                scope: { situationalModifier: 5 },
+            });
+            expect(ctx.scope).toHaveProperty("situationalModifier", 5);
+            // Regression: the scope key must not be re-wrapped as scope.scope.
+            expect(ctx.scope).not.toHaveProperty("scope");
+        });
+
+        it("defaults scope to an empty object", () => {
+            const ctx = new SohlActionContext({ speaker: createSpeaker() });
+            expect(ctx.scope).toEqual({});
+        });
+
+        it("does not absorb unknown top-level keys into scope", () => {
             const ctx = new SohlActionContext({
                 speaker: createSpeaker(),
                 situationalModifier: 5,
             } as any);
-            expect(ctx.scope).toHaveProperty("situationalModifier", 5);
+            expect(ctx.scope).not.toHaveProperty("situationalModifier");
+        });
+
+        it("carries a typed scope generic", () => {
+            const ctx = new SohlActionContext<
+                Partial<SuccessTestResult.ContextScope>
+            >({
+                speaker: createSpeaker(),
+                scope: { situationalModifier: 3 },
+            });
+            const mod: number | undefined = ctx.scope.situationalModifier;
+            expect(mod).toBe(3);
         });
 
         it.todo("resolves Token placeable to its document");
@@ -97,7 +125,28 @@ describe("SohlActionContext", () => {
     });
 
     describe("clone", () => {
-        it.todo("returns a new instance with merged data via cloneInstance");
+        it("returns a new, independent instance", () => {
+            const ctx = new SohlActionContext({
+                speaker: createSpeaker(),
+                type: "orig",
+            });
+            const copy = ctx.clone();
+            expect(copy).toBeInstanceOf(SohlActionContext);
+            expect(copy).not.toBe(ctx);
+            expect(copy.type).toBe("orig");
+        });
+
+        it("preserves scope flat across a clone round-trip", () => {
+            const ctx = new SohlActionContext({
+                speaker: createSpeaker(),
+                scope: { situationalModifier: 7 },
+            });
+            const copy = ctx.clone();
+            // Regression: toJSON emits a scope key; reconstructing must not
+            // re-nest it as scope.scope.
+            expect(copy.scope).toHaveProperty("situationalModifier", 7);
+            expect(copy.scope).not.toHaveProperty("scope");
+        });
     });
 
     describe("character", () => {
@@ -111,6 +160,25 @@ describe("SohlActionContext", () => {
         it("returns null when speaker has no token", () => {
             const ctx = new SohlActionContext({ speaker: createSpeaker() });
             expect(ctx.token).toBeNull();
+        });
+    });
+
+    describe("serialization round-trip", () => {
+        it("rehydrates as a live SohlActionContext with a live speaker", () => {
+            const ctx = new SohlActionContext({
+                speaker: createSpeaker(),
+                type: "strike",
+                scope: { situationalModifier: 4 },
+            });
+
+            const revived = instanceFromJSON<SohlActionContext>(
+                JSON.stringify(instanceToJSON(ctx)),
+            );
+
+            expect(revived).toBeInstanceOf(SohlActionContext);
+            expect(revived.speaker).toBeInstanceOf(SohlSpeaker);
+            expect(revived.type).toBe("strike");
+            expect(revived.scope).toHaveProperty("situationalModifier", 4);
         });
     });
 });

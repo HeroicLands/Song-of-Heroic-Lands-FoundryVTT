@@ -21,6 +21,7 @@ import {
     MOVEMENT_MEDIUM,
     MovementMedium,
     movementMediumLabels,
+    STATUS_EFFECT,
     TRAIT_INTENSITY,
 } from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -471,13 +472,13 @@ export class BeingSheet extends SohlActorSheetBase {
         // label rendered, `label` is the tooltip.
         const statuses = (actor as any).statuses ?? new Set<string>();
         const statusEffects = [
-            { id: "sleep", abbr: "SLP", label: "Sleep" },
-            { id: "prone", abbr: "PRN", label: "Prone" },
-            { id: "stun", abbr: "STN", label: "Stun" },
-            { id: "auralShock", abbr: "ASHK", label: "Aural Shock" },
-            { id: "incapacitated", abbr: "INC", label: "Incapacitated" },
-            { id: "unconscious", abbr: "UNC", label: "Unconscious" },
-            { id: "dead", abbr: "DED", label: "Dead" },
+            { id: STATUS_EFFECT.SLEEP, abbr: "SLP", label: "Sleep" },
+            { id: STATUS_EFFECT.PRONE, abbr: "PRN", label: "Prone" },
+            { id: STATUS_EFFECT.STUN, abbr: "STN", label: "Stun" },
+            { id: STATUS_EFFECT.AURAL_SHOCK, abbr: "ASHK", label: "Aural Shock" },
+            { id: STATUS_EFFECT.INCAPACITATED, abbr: "INC", label: "Incapacitated" },
+            { id: STATUS_EFFECT.UNCONSCIOUS, abbr: "UNC", label: "Unconscious" },
+            { id: STATUS_EFFECT.DEAD, abbr: "DED", label: "Dead" },
         ].map((s) => ({ ...s, active: statuses.has(s.id) }));
 
         return Object.assign(context, {
@@ -531,7 +532,11 @@ export class BeingSheet extends SohlActorSheetBase {
         const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
 
         const logic = actor.logic as BeingLogic | undefined;
-        const movement: { medium: MovementMedium; label: string; value: number }[] = [];
+        const movement: {
+            medium: MovementMedium;
+            label: string;
+            value: number;
+        }[] = [];
         if (logic?.effectiveBaseMove) {
             const mediumKeys: (keyof typeof MOVEMENT_MEDIUM)[] = [
                 "TERRESTRIAL",

@@ -28,9 +28,8 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
  * ```
  * TestResult (abstract)
  * ├── SuccessTestResult — d100 roll-under mastery level test
- * │   └── ImpactResult — adds damage dice and aspect
- * │       ├── AttackResult — attacker's roll with allowed defenses
- * │       └── DefendResult — defender's roll with situational modifiers
+ * │   ├── AttackResult — attacker's roll, with impact dice and aim
+ * │   └── DefendResult — defender's roll with situational modifiers
  * └── OpposedTestResult — two competing SuccessTestResults
  *     └── CombatResult — attack vs. defense with full combat resolution
  * ```
@@ -76,7 +75,7 @@ export abstract class TestResult {
     }
 
     get parent(): SohlLogic {
-        return this.parent;
+        return this._parent;
     }
 
     async evaluate() {

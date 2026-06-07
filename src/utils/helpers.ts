@@ -21,6 +21,10 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
+import {
+    getKindForCtor,
+    getCtorForKind,
+} from "@src/utils/kindRegistry";
 
 export type SohlSettingValue =
     | string
@@ -512,7 +516,10 @@ export function hashToId(input: string): string {
     return out;
 }
 
-export function defaultFromJSON(value: unknown): unknown {
+export function defaultFromJSON(
+    value: unknown,
+    ctx?: { parent?: unknown },
+): unknown {
     if (typeof value === "string") {
         if (value.startsWith("__bigint__:")) {
             return BigInt(value.slice("__bigint__:".length));
@@ -530,7 +537,7 @@ export function defaultFromJSON(value: unknown): unknown {
     }
 
     if (Array.isArray(value)) {
-        return value.map(defaultFromJSON);
+        return value.map((v) => defaultFromJSON(v, ctx));
     }
 
     if (typeof value === "object" && value !== null) {
@@ -541,18 +548,20 @@ export function defaultFromJSON(value: unknown): unknown {
                 return new SohlMap(
                     maybe.entries.map(([k, v]: [any, any]) => [
                         k,
-                        defaultFromJSON(v),
+                        defaultFromJSON(v, ctx),
                     ]),
                 );
             case "Map":
                 return new Map(
                     maybe.entries.map(([k, v]: [any, any]) => [
                         k,
-                        defaultFromJSON(v),
+                        defaultFromJSON(v, ctx),
                     ]),
                 );
             case "Set":
-                return new Set(maybe.values.map(defaultFromJSON));
+                return new Set(
+                    maybe.values.map((v: unknown) => defaultFromJSON(v, ctx)),
+                );
             case "RegExp":
                 return new RegExp(maybe.pattern, maybe.flags);
             case "Error":
@@ -566,14 +575,51 @@ export function defaultFromJSON(value: unknown): unknown {
                 return fvttResolveUuid(maybe.uuid);
         }
 
+        // Revive a registered domain-class instance. Children are revived
+        // first (bottom-up) so the constructor receives live nested instances
+        // (e.g. a SuccessTestResult's `roll` is already a SimpleRoll). The
+        // owning logic is re-supplied via `ctx.parent`, not from the payload.
+        const kind = maybe[KIND_KEY];
+        if (typeof kind === "string") {
+            const Ctor = getCtorForKind(kind);
+            if (Ctor) {
+                const data: Record<string, unknown> = {};
+                for (const [key, val] of Object.entries(maybe)) {
+                    if (key === KIND_KEY) continue;
+                    data[key] = defaultFromJSON(val, ctx);
+                }
+                return new Ctor(data, { parent: ctx?.parent });
+            }
+        }
+
         const result: Record<string, unknown> = {};
         for (const [key, val] of Object.entries(maybe)) {
-            result[key] = defaultFromJSON(val);
+            result[key] = defaultFromJSON(val, ctx);
         }
         return result;
     }
 
     return value;
+}
+
+/**
+ * Reconstruct a live class instance from its serialized form — the inverse of
+ * {@link instanceToJSON} followed by `JSON.stringify`. Accepts either the JSON
+ * string or the already-parsed object. Nested registered instances are revived
+ * bottom-up; the owning {@link SohlLogic} is supplied via `parent` (every
+ * modifier/result requires one) rather than carried in the payload.
+ *
+ * @typeParam T - The expected reconstructed type.
+ * @param data - The serialized instance (JSON string or parsed object).
+ * @param parent - The logic to own the reconstructed instance and its nested
+ *   modifiers/results.
+ */
+export function instanceFromJSON<T>(
+    data: PlainObject | string,
+    parent?: unknown,
+): T {
+    const parsed = typeof data === "string" ? JSON.parse(data) : data;
+    return defaultFromJSON(parsed, { parent }) as T;
 }
 
 export function defaultToJSON(value: any): JsonValue | undefined {
@@ -684,9 +730,17 @@ export function defaultToJSON(value: any): JsonValue | undefined {
  */
 export function instanceToJSON(instance: object): PlainObject {
     const result: PlainObject = {};
-    result[KIND_KEY] = (instance.constructor as any).kind;
+    result[KIND_KEY] =
+        getKindForCtor(instance.constructor) ??
+        (instance.constructor as any).kind;
 
     for (const key of Object.keys(instance)) {
+        // The `_parent` back-reference (e.g. ValueModifier/TestResult -> owning
+        // SohlLogic) is transient and re-supplied via `options.parent` on
+        // reconstruction. Serializing it bloats the payload and can recurse
+        // through the logic graph, so it is never emitted.
+        if (key === "_parent") continue;
+
         const value = (instance as any)[key];
         const nkey = key.startsWith("_") ? key.substring(1) : key;
 
@@ -702,17 +756,41 @@ export function instanceToJSON(instance: object): PlainObject {
 }
 
 /**
- * Create a deep copy of an object instance by serializing via
- * {@link instanceToJSON} and reconstructing via the same constructor.
+ * Create a deep copy of an object instance by serializing it and reviving it
+ * through {@link defaultFromJSON}.
+ *
+ * Reviving (rather than handing the raw serialized JSON to the constructor) is
+ * what makes the copy faithful: nested registered instances, `Set`/`Map`
+ * fields, and modifier `ValueDelta`s come back as live objects instead of inert
+ * plain data. Registered classes (see {@link registerKind}) are reconstructed
+ * to their concrete type by `defaultFromJSON`; an unregistered top-level type
+ * still has its children revived and is rebuilt via its own constructor.
+ *
+ * The owning logic (`parent`) defaults to the source's own parent, so
+ * `modifier.clone()` reuses the same owner. `data` overrides are merged before
+ * reviving.
  */
 export function cloneInstance<T>(
     instance: object,
     data: PlainObject = {},
     options: PlainObject = {},
 ): T {
-    const original = instanceToJSON(instance);
-    const newObj = fvttMergeObject(original, data) as PlainObject;
-    return new (instance.constructor as any)(newObj, options) as T;
+    // Prefer a custom toJSON (e.g. SohlSpeaker serializes documents as ids);
+    // fall back to reflective serialization.
+    const json =
+        typeof (instance as any).toJSON === "function" ?
+            (instance as any).toJSON()
+        :   instanceToJSON(instance);
+    const merged = fvttMergeObject(json, data) as PlainObject;
+    const parent = (options as any).parent ?? (instance as any).parent;
+    const revived = defaultFromJSON(merged, { parent });
+    if (revived instanceof (instance.constructor as any)) {
+        return revived as T;
+    }
+    return new (instance.constructor as any)(revived, {
+        ...options,
+        parent,
+    }) as T;
 }
 
 export function serializeFn(fn: (...args: any[]) => any): string {

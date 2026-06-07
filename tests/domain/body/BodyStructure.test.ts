@@ -79,6 +79,82 @@ describe("BodyStructure", () => {
         });
     });
 
+    describe("limbsHolding", () => {
+        // Two hands grip "sword1"; the mouth references it too but cannot hold
+        // items; the head holds nothing.
+        const HOLDING_DATA: BodyStructure.Data = {
+            parts: [
+                {
+                    shortcode: "rightHand",
+                    roles: [],
+                    canHoldItem: true,
+                    heldItemId: "sword1",
+                    probWeight: 5,
+                    locations: [],
+                },
+                {
+                    shortcode: "leftHand",
+                    roles: [],
+                    canHoldItem: true,
+                    heldItemId: "sword1",
+                    probWeight: 5,
+                    locations: [],
+                },
+                {
+                    shortcode: "mouth",
+                    roles: [],
+                    canHoldItem: false,
+                    heldItemId: "sword1",
+                    probWeight: 1,
+                    locations: [],
+                },
+                {
+                    shortcode: "head",
+                    roles: [],
+                    canHoldItem: false,
+                    heldItemId: null,
+                    probWeight: 15,
+                    locations: [],
+                },
+            ],
+            adjacent: [],
+        };
+
+        // Mock being-logic whose actor resolves heldItemId -> a stub item.
+        const logicResolving = (ids: string[]) =>
+            ({
+                actor: {
+                    items: {
+                        get: (id: string) =>
+                            ids.includes(id) ? { id } : null,
+                    },
+                },
+                data: { bodyStructure: HOLDING_DATA },
+            }) as any;
+
+        it("counts item-holding limbs whose held item matches", () => {
+            const body = new BodyStructure(
+                HOLDING_DATA,
+                logicResolving(["sword1"]),
+            );
+            // Both hands; the mouth is excluded (canHoldItem === false).
+            expect(body.limbsHolding("sword1")).toBe(2);
+        });
+
+        it("returns 0 when no holdable limb grips the item", () => {
+            const body = new BodyStructure(
+                HOLDING_DATA,
+                logicResolving(["sword1"]),
+            );
+            expect(body.limbsHolding("axe9")).toBe(0);
+        });
+
+        it("returns 0 when nothing is held at all", () => {
+            const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
+            expect(body.limbsHolding("sword1")).toBe(0);
+        });
+    });
+
     describe("getPart", () => {
         it("finds a part by name", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
@@ -127,20 +203,20 @@ describe("BodyStructure", () => {
             expect(body.parts).toContain(part);
         });
 
-        it("returns the target part when accuracy is very high", () => {
+        it("returns the target part when spread is very high", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            // Head has probWeight 15. With accuracy 1000, roll 1..1000
+            // Head has probWeight 15. With spread 1000, roll 1..1000
             // will almost always be <= 15... but it's random.
             // Use a statistical approach: over many tries, most should hit Head.
             let headCount = 0;
             for (let i = 0; i < 100; i++) {
                 const part = body.getRandomPart({
                     targetPart: body.getPartByCode("head")!,
-                    accuracy: 1000,
+                    spread: 1000,
                 });
                 if (part.shortcode === "head") headCount++;
             }
-            // With accuracy 1000 and probWeight 15, chance of hit is 15/1000 = 1.5%
+            // With spread 1000 and probWeight 15, chance of hit is 15/1000 = 1.5%
             // So most will drift to adjacent. This is expected behavior.
             expect(headCount).toBeGreaterThanOrEqual(0);
         });
@@ -150,34 +226,34 @@ describe("BodyStructure", () => {
             for (let i = 0; i < 100; i++) {
                 const part = body.getRandomPart({
                     targetPart: body.getPartByCode("head")!,
-                    accuracy: 50,
+                    spread: 50,
                 });
                 expect(body.parts).toContain(part);
             }
         });
 
-        it("with accuracy equal to probWeight, always hits target", () => {
+        it("with spread equal to probWeight, always hits target", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
-            // Head has probWeight 15. With accuracy 15, roll is 1..15,
+            // Head has probWeight 15. With spread 15, roll is 1..15,
             // which is always <= 15, so it always hits.
             for (let i = 0; i < 50; i++) {
                 const part = body.getRandomPart({
                     targetPart: body.getPartByCode("head")!,
-                    accuracy: 15,
+                    spread: 15,
                 });
                 expect(part.shortcode).toBe("head");
             }
         });
 
-        it("drifts to adjacent parts when accuracy exceeds probWeight", () => {
+        it("drifts to adjacent parts when spread exceeds probWeight", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             // Head (probWeight 15), adjacent to Thorax (probWeight 30).
-            // With accuracy 100, many rolls will miss Head and drift to Thorax.
+            // With spread 100, many rolls will miss Head and drift to Thorax.
             let thoraxCount = 0;
             for (let i = 0; i < 200; i++) {
                 const part = body.getRandomPart({
                     targetPart: body.getPartByCode("head")!,
-                    accuracy: 100,
+                    spread: 100,
                 });
                 if (part.shortcode === "thorax") thoraxCount++;
             }

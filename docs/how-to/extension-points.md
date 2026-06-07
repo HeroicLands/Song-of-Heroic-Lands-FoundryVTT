@@ -157,6 +157,18 @@ no dialog when the payload carries aim data). When adding a new card button,
 emit one of the dataset attributes above and add an `action` case rather than
 introducing a new attribute name.
 
+### Cross-actor effects (the acknowledge-button pattern)
+
+Enforce **[actor state sovereignty](../concepts/architecture.md#actor-state-sovereignty)**: an actor mutates only itself. To make one actor affect another, **never reach into the target** — instead:
+
+1. **Resolve the source side on the source.** Roll the attack / spell / effect test against the source's own modifiers and mutate only the source.
+2. **Emit a target-addressed button.** Post a chat card whose button carries the *target* actor's uuid in `data-handler-actor-uuid` (or `data-handler-uuid`) and an `action`. The label must make the consequence unmistakable ("Acknowledge you fall asleep").
+3. **Apply on the target's client.** In the target's `onChatCardButton` `action` case, run any required test first (e.g. a resistance roll), then mutate **this** actor.
+
+Render-time gating makes the button appear only to the responding actor's owner (the GM owns all). `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`) is the reference: it removes a button whose `data-handler-actor-uuid` actor the current user does not own (`actor.isOwner`). Reuse this gating for any new target-addressed button.
+
+**Working examples already in the tree:** automated-combat defense buttons (resolve on the *defender's* client) and the `createInjury` / "Calculate Injury" button (the *target* wounds itself). Model new mechanics — spells, conditions, knockback, afflictions — on these; do not add a code path where the source writes the target's state.
+
 ## 6) Localization
 
 - `lang/en.json`

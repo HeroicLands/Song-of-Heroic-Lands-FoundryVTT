@@ -470,6 +470,27 @@ export function getCurrentScene(): Scene {
     return canvas.scene;
 }
 
+/**
+ * The world's currently **active** scene (the one flagged active in the scene
+ * navigation), or `null` when the game is unavailable or no scene is active.
+ *
+ * Unlike {@link getCurrentScene} (the scene presently shown on the canvas),
+ * this returns `game.scenes.active` and never throws.
+ */
+export function getActiveScene(): Scene | null {
+    if (!(game instanceof foundry.Game)) return null;
+    return (game.scenes?.active as Scene | undefined) ?? null;
+}
+
+/**
+ * The currently active combat encounter (`game.combat`), or `null` when the
+ * game is unavailable or no combat is active. Never throws.
+ */
+export function getActiveCombat(): Combat | null {
+    if (!(game instanceof foundry.Game)) return null;
+    return (game.combat as Combat | undefined) ?? null;
+}
+
 // ---------------------------------------------------------------------------
 // Pack / compendium helpers
 // ---------------------------------------------------------------------------
