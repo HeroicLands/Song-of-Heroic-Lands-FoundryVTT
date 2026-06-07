@@ -20,6 +20,7 @@ import {
     ITEM_KIND,
     MARGINAL_FAILURE,
     MARGINAL_SUCCESS,
+    STATUS_EFFECT,
     TEST_TYPE,
     type ImpactAspect,
 } from "@src/utils/constants";
@@ -36,6 +37,55 @@ export type StrikeModeTestKind = "attack" | "block" | "counterstrike";
 
 interface ActorLike {
     items: { get: (id: string) => any };
+}
+
+/**
+ * Status effects that bar a combatant from **initiating** an automated attack
+ * (invariant: the attacker must have none of these). `DEFEATED` is Foundry's
+ * special status, registered here as `vanquished`.
+ */
+export const ATTACK_BLOCKING_STATUSES: readonly string[] = [
+    STATUS_EFFECT.DEAD,
+    STATUS_EFFECT.VANQUISHED,
+    STATUS_EFFECT.UNCONSCIOUS,
+    STATUS_EFFECT.SLEEP,
+    STATUS_EFFECT.RESTRAINED,
+    STATUS_EFFECT.PARALYZED,
+    STATUS_EFFECT.FROZEN,
+    STATUS_EFFECT.INCAPACITATED,
+];
+
+/**
+ * Status effects that reduce a **defender** to the IGNORE-only response — every
+ * active defense (Dodge / Block / Counterstrike) is disabled. A `DEAD` defender
+ * is additionally barred as an attack target up front (it never reaches the
+ * defense stage), but is kept here so the gating still degrades gracefully.
+ */
+export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
+    STATUS_EFFECT.DEAD,
+    STATUS_EFFECT.UNCONSCIOUS,
+    STATUS_EFFECT.SLEEP,
+    STATUS_EFFECT.RESTRAINED,
+    STATUS_EFFECT.PARALYZED,
+    STATUS_EFFECT.FROZEN,
+    STATUS_EFFECT.INCAPACITATED,
+];
+
+/** The first id in `forbidden` present in `statuses`, or `null`. Pure. */
+export function firstStatusIn(
+    statuses: Iterable<string>,
+    forbidden: readonly string[],
+): string | null {
+    const set = statuses instanceof Set ? statuses : new Set(statuses);
+    return forbidden.find((s) => set.has(s)) ?? null;
+}
+
+/** Whether any id in `forbidden` is present in `statuses`. Pure. */
+export function hasAnyStatus(
+    statuses: Iterable<string>,
+    forbidden: readonly string[],
+): boolean {
+    return firstStatusIn(statuses, forbidden) !== null;
 }
 
 /**

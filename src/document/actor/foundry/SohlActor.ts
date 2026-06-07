@@ -159,7 +159,7 @@ export class SohlActor extends Actor {
 
         const req = parseInjuryRequest(btn.dataset.testResultJson);
         if (!req) {
-            sohl.log.warn(
+            sohl.log.uiWarn(
                 `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
             );
             return;

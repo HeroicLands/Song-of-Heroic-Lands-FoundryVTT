@@ -951,7 +951,7 @@ export class BeingLogic<
     ): AttackResult | null {
         const json = (context.scope as any)?.attackResultJson;
         if (!json) {
-            sohl.log.warn(
+            sohl.log.uiWarn(
                 `${this.actor?.name}: automated-combat resume had no attack result to resolve.`,
             );
             return null;

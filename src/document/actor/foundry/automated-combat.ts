@@ -24,11 +24,18 @@ import {
     collectAttackableStrikeModes,
     classifyMissileRange,
     indexOfBestMastery,
+    firstStatusIn,
+    ATTACK_BLOCKING_STATUSES,
     type AttackableStrikeMode,
 } from "@src/document/actor/foundry/combat-actions";
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
 import { resolveActionInput } from "@src/utils/actionInput";
-import { ITEM_KIND, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    ITEM_KIND,
+    STATUS_EFFECT,
+    TEST_TYPE,
+    VALUE_DELTA_ID,
+} from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
@@ -106,6 +113,19 @@ export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
 }
 
 /**
+ * A combatant's active status-effect ids, treating Foundry's DEFEATED special
+ * status as the `vanquished` status so the combat invariants can test it
+ * uniformly alongside the actor's own statuses.
+ */
+function combatantStatuses(combatant: SohlCombatant): Set<string> {
+    const ids = new Set<string>(
+        ((combatant.actor as any)?.statuses ?? []) as Iterable<string>,
+    );
+    if ((combatant as any).isDefeated) ids.add(STATUS_EFFECT.VANQUISHED);
+    return ids;
+}
+
+/**
  * Resolve the attacker's token, the **target combatant** (and its token), and
  * the center-to-center distance between them. Returns `null` (with a UI warning)
  * when the attacker has no token, there is no active combat, or the target rule
@@ -131,6 +151,17 @@ function resolveAttackContext(
     if (!attacker) {
         sohl.log.uiWarn(
             "The attacker is not a combatant in the current combat.",
+        );
+        return null;
+    }
+    // Invariant: the attacker must not be incapacitated/dead/defeated.
+    const attackerStatus = firstStatusIn(
+        combatantStatuses(attacker),
+        ATTACK_BLOCKING_STATUSES,
+    );
+    if (attackerStatus) {
+        sohl.log.uiWarn(
+            `${attackerToken.name ?? "The attacker"} cannot make an automated attack while ${attackerStatus}.`,
         );
         return null;
     }
@@ -165,6 +196,13 @@ function resolveAttackContext(
     const targetToken = target.token as SohlTokenDocument | null;
     if (!targetToken) {
         sohl.log.uiWarn("The target combatant has no token on the canvas.");
+        return null;
+    }
+    // Invariant: a dead defender cannot be the target of an automated attack.
+    if (firstStatusIn(combatantStatuses(target), [STATUS_EFFECT.DEAD])) {
+        sohl.log.uiWarn(
+            `${targetToken.name ?? "The target"} is dead and cannot be attacked.`,
+        );
         return null;
     }
     const distanceFeet =

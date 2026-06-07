@@ -811,3 +811,37 @@ source-agnostic injury pipeline, none of which have combatants.
   actor/token signatures. No behavior change.
 
 Build (types → 889 tests → bundle) + docs pass.
+
+## 21. Automated-combat invariants + message-channel taxonomy (2026-06-07)
+
+Enforced the automated-combat preconditions, checked as early as possible and
+aborting immediately on violation. Documented authoritatively in
+[`combat.md` → Automated Combat Invariants](../reference/combat.md#automated-combat-invariants),
+referenced from `combat-modes.md` (player) and `combat-resolution-pipeline.md` (dev).
+
+- **Pure policy + predicates** (`combat-actions.ts`): `ATTACK_BLOCKING_STATUSES`
+  (dead/defeated/unconscious/sleep/restrain/paralysis/frozen/incapacitated;
+  DEFEATED = the `vanquished` special status) and `DEFENSE_DISABLING_STATUSES`
+  (the IGNORE-only set: same minus DEFEATED) + `firstStatusIn` / `hasAnyStatus`.
+  Unit-tested.
+- **Attacker/target invariants** (`resolveAttackContext`): both must be combatants
+  in the same active combat (already enforced); attacker must not carry an
+  `ATTACK_BLOCKING_STATUSES` status; target must not be `DEAD`. `combatantStatuses`
+  helper folds `combatant.isDefeated` into the status set as `vanquished`.
+- **Incapacitated defender → Ignore only** (`gateAutomatedDefenseButtons`):
+  render-time removal of Dodge/Block/Counterstrike when the defender carries a
+  `DEFENSE_DISABLING_STATUSES` status.
+
+**Message-channel taxonomy (project rule).** Three channels:
+1. **In-world game events/results → chat card** (`speaker.toChat`): attack /
+   result / injury cards. Visible to all as the shared record.
+2. **Client/player errors → UI notification + console** (`sohl.log.uiWarn` /
+   `uiInfo` / `uiError`, which write both): validation and "you can't do that"
+   messages relevant only to the acting player (out of range, no strike modes,
+   attacker incapacitated, target dead, missing button payload). Fixed two prior
+   console-only player-facing logs (`_rehydrateAttackResult`, `createInjury` bad
+   payload) to `uiWarn`.
+3. **Developer diagnostics → console only** (`sohl.log.warn`): "should never
+   happen" / data-integrity signals (unhandled chat action, missing Lineage).
+
+Build (types → 894 tests → bundle) + docs pass.

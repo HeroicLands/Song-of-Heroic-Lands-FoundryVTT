@@ -13,6 +13,10 @@ import {
     collectBlockableStrikeModes,
     collectAttackableStrikeModes,
     hasMeleeAttackStrikeMode,
+    firstStatusIn,
+    hasAnyStatus,
+    ATTACK_BLOCKING_STATUSES,
+    DEFENSE_DISABLING_STATUSES,
     classifyMissileRange,
     indexOfBestMastery,
     buildDamageCardData,
@@ -394,6 +398,57 @@ describe("hasMeleeAttackStrikeMode", () => {
 
     it("false for an actor with no items", () => {
         expect(hasMeleeAttackStrikeMode({} as any)).toBe(false);
+    });
+});
+
+describe("combat status invariants", () => {
+    it("firstStatusIn returns the first forbidden status present (Set or array)", () => {
+        expect(firstStatusIn(new Set(["fly", "frozen"]), ["frozen"])).toBe(
+            "frozen",
+        );
+        expect(firstStatusIn(["prone", "sleep"], ["dead", "sleep"])).toBe(
+            "sleep",
+        );
+    });
+
+    it("firstStatusIn returns null when none are present", () => {
+        expect(firstStatusIn(new Set(["prone"]), ["dead", "frozen"])).toBeNull();
+        expect(firstStatusIn([], ["dead"])).toBeNull();
+    });
+
+    it("hasAnyStatus mirrors firstStatusIn as a boolean", () => {
+        expect(hasAnyStatus(["sleep"], DEFENSE_DISABLING_STATUSES)).toBe(true);
+        expect(hasAnyStatus(["prone"], DEFENSE_DISABLING_STATUSES)).toBe(false);
+    });
+
+    it("ATTACK_BLOCKING_STATUSES covers the attacker invariant (incl. DEFEATED=vanquished)", () => {
+        for (const s of [
+            "dead",
+            "vanquished",
+            "unconscious",
+            "sleep",
+            "restrain",
+            "paralysis",
+            "frozen",
+            "incapacitated",
+        ]) {
+            expect(ATTACK_BLOCKING_STATUSES).toContain(s);
+        }
+    });
+
+    it("DEFENSE_DISABLING_STATUSES is the IGNORE-only set (no DEFEATED)", () => {
+        expect([...DEFENSE_DISABLING_STATUSES].sort()).toEqual(
+            [
+                "dead",
+                "unconscious",
+                "sleep",
+                "restrain",
+                "paralysis",
+                "frozen",
+                "incapacitated",
+            ].sort(),
+        );
+        expect(DEFENSE_DISABLING_STATUSES).not.toContain("vanquished");
     });
 });
 

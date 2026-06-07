@@ -48,6 +48,15 @@ A combat exchange flows through these stages:
 
 Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a `SuccessTestResult` directly.
 
+### Automated-combat invariants (enforced before step 1)
+
+Automated combat checks the [Automated Combat Invariants](./combat.md#automated-combat-invariants) up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be dead. Enforcement points:
+
+- **Attacker + target resolution and the attacker/target status checks:** `resolveAttackContext` (`src/document/actor/foundry/automated-combat.ts`), using `ATTACK_BLOCKING_STATUSES` + `firstStatusIn` from `combat-actions.ts`.
+- **Incapacitated defender → Ignore-only:** `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`), using `DEFENSE_DISABLING_STATUSES` + `hasAnyStatus`. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.
+
+The status sets and predicates are pure and unit-tested; the resolution/gating that consumes them is Foundry glue.
+
 ## Result classes in detail
 
 ### TestResult

@@ -14,6 +14,8 @@
 import {
     collectBlockableStrikeModes,
     hasMeleeAttackStrikeMode,
+    hasAnyStatus,
+    DEFENSE_DISABLING_STATUSES,
 } from "@src/document/actor/foundry/combat-actions";
 
 /**
@@ -27,6 +29,9 @@ import {
  *
  * - **Owner gate:** only a user who owns the defender actor (a GM owns all) may
  *   respond — everyone else sees no defense buttons.
+ * - **Incapacitation gate (owner only):** if the defender is dead/unconscious/
+ *   asleep/restrained/paralyzed/frozen/incapacitated, **Ignore is the only viable
+ *   defense** — Dodge / Block / Counterstrike are all removed.
  * - **Capability gate (owner only):** **Block** shows only if the defender has a
  *   non-`noBlock` melee mode; **Counterstrike** only if it has a non-`noAttack`
  *   melee mode. **Dodge** and **Ignore** are always available to the owner.
@@ -57,6 +62,14 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
     if (!defender?.isOwner) {
         // Not the defender's owner: remove every defense button.
         for (const b of [dodge, counter, block, ignore]) b?.remove();
+    } else if (
+        hasAnyStatus(
+            (defender.statuses ?? []) as Iterable<string>,
+            DEFENSE_DISABLING_STATUSES,
+        )
+    ) {
+        // Incapacitated defender: Ignore is the only viable defense.
+        for (const b of [dodge, counter, block]) b?.remove();
     } else {
         // Owner: keep Dodge + Ignore; gate Block + Counterstrike by capability.
         if (block && collectBlockableStrikeModes(defender).length === 0) {

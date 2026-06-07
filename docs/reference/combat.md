@@ -30,3 +30,18 @@ When an attack succeeds, the attacker's d100 roll — the same roll that determi
 **Barely Hit** (success roll > ML − 20 but still a success). The attacker connected, but only just. The blow scatters away from the targeted location. Starting from the body part containing the target, the system distributes the weapon's strike spread across that part and its adjacent parts, weighted by their areas. The body part struck is determined from this distribution, and then a specific location within that part is selected by probability weight. A more precise weapon (lower strike spread) keeps the scatter close to the intended target; a less precise weapon allows it to wander further.
 
 This mechanism scales naturally with skill. A novice with ML 50 has a 20-point solid-hit band (rolls 1–30) and a 20-point barely-hit band (31–50) — roughly equal chances of each. A veteran with ML 80 has a 60-point solid-hit band (1–60) and only a 20-point barely-hit band (61–80). The veteran hits the intended body part three-quarters of the time even without a critical success. A master with ML 95 almost never scatters at all. Higher skill means not just hitting more often, but hitting where you intend.
+
+## Automated Combat Invariants
+
+**Automated** combat (not Assisted) enforces these preconditions. They are checked as early as possible; the moment any is violated the action stops immediately and the acting player is told why (a UI notification, since the failure concerns only the player initiating the attack). Assisted combat imposes none of these — it is entirely GM-adjudicated.
+
+A combat exchange is between **combatants**, so both the attacker and the defender must be combatants in the current active combat (a token that isn't in combat cannot take part). Specifically:
+
+1. **Both must be combatants of the active combat** — the attacker and the (single, targeted) defender.
+2. **Both must be in the *same* combat.**
+3. **The attacker must not be incapacitated.** An attacker carrying any of these status effects cannot initiate an automated attack: **Dead, Defeated, Unconscious, Asleep, Restrained, Paralyzed, Frozen, Incapacitated**.
+4. **The defender must not be Dead.** A dead combatant cannot be the target of an automated attack.
+
+### Incapacitated defenders — Ignore only
+
+If the defender carries any of **Dead, Unconscious, Asleep, Restrained, Paralyzed, Frozen, or Incapacitated**, they cannot mount an active defense: **Ignore is their only available response** — Dodge, Block, and Counterstrike are all disabled. (A *Dead* defender is already excluded as a target by invariant 4, so in practice this covers the other six; it is the natural consequence of being unable to act while still being a valid, living target.)
