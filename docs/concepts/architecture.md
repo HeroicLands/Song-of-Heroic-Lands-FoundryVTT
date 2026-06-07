@@ -4,6 +4,8 @@
 
 See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), [Lifecycle Model](./lifecycle-model.md).
 
+> **New to the codebase? Start here.** Read this page top to bottom for the mental model, then branch out through the [Where to learn more](#where-to-learn-more) index at the end.
+
 ## What SoHL is
 
 Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaster-compatible gameplay with deep automation: actors, items, active effects, combat resolution, chat cards, UI sheets, localization, and compendium content. All code targets Foundry VTT v14+.
@@ -64,6 +66,10 @@ docs/                      Developer documentation
 assets/                    Compendium data, icons, templates
 lang/                      Localization (en.json)
 ```
+
+## How the API reference is organized
+
+The generated [API reference](https://api.heroiclands.org/latest) mirrors this directory layout. Its sidebar groups every public symbol the same way the source is grouped — **Core**, **Documents** (`Actor`, `Item`, `Combat`, `Combatant`, `Chat`, `Effect`, `Scene`, `Token`), **Domain** (`Action`, `Body`, `Modifier`, `Movement`, `Result`, `StrikeMode`, `SkillBase`), **Utility** (`AI`, `Collection`, `Constants`, `Helpers`), and **Applications** — so a folder here maps directly to a navigation group there. Start from the group that matches the area you're working in.
 
 ## Three-layer architecture
 

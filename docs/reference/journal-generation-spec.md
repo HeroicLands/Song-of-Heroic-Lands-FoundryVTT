@@ -1,6 +1,6 @@
 # Journal Generation Spec (Markdown → Foundry Journal Pack)
 
-See also: [Documentation Hub](../README.md), [User Documentation Source](../user/README.md), [Developer Documentation Index](../dev/README.md)
+See also: [Documentation Hub](../README.md), [User Documentation Source](../user/README.md)
 
 > **Goal:** Maintain user documentation in one source (`/docs/user/*.md`) and generate:
 >
