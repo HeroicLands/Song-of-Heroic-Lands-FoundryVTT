@@ -33,7 +33,7 @@ Sheet) see **Documents → Actor** and **Documents → Item** in the API referen
 | Concoction | `concoctiongear` | A consumable alchemical mixture. |
 | Container | `containergear` | Storage for other items. |
 | Trauma | `trauma` | An instance of harm to a character. |
-| Lineage | `lineage` | Membership in an organization or faction. |
+| Lineage | `lineage` | Anatonical and movement properties that define a creature's physical form and capabilities. |
 | Misc Gear | `miscgear` | General-purpose equipment. |
 | Mystery | `mystery` | A passive or charge-based mystical power associated with a character or object. |
 | Mystical Ability | `mysticalability` | An actively invoked supernatural power. |

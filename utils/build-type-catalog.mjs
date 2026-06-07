@@ -74,11 +74,6 @@ function describeLogic(file, className) {
     const firstPara = text.split(/\n\s*\n/)[0].replace(/\s+/g, " ").trim();
     // First sentence only.
     let sentence = (firstPara.match(/^(.*?[.!?])(\s|$)/)?.[1] ?? firstPara).trim();
-    // Drop the boilerplate "Logic for the **X** item/actor type —" lead-in.
-    sentence = sentence.replace(
-        /^Logic for the \*\*[^*]+\*\* (?:item|actor) type\s*[—–-]+\s*/i,
-        "",
-    );
     // Resolve {@link Target | label} / {@link Target} to plain text.
     sentence = sentence.replace(
         /\{@link\s+[^}|]+?\|\s*([^}]+?)\s*\}/g,

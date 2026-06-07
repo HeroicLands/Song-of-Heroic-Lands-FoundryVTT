@@ -19,7 +19,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Assembly** actor type — a hybrid Actor/Item container for
+ * A hybrid Actor/Item container for
  * complex items.
  *
  * An assembly is a group of related items that are treated as a single unit.

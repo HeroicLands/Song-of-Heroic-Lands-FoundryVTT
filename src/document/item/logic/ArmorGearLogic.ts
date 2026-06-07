@@ -16,7 +16,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ImpactAspects } from "@src/utils/constants";
 
 /**
- * Logic for the **Armor Gear** item type — wearable protective equipment.
+ * Wearable protective equipment.
  *
  * Armor Gear represents physical armor worn by a character: chainmail, leather
  * jerkins, plate cuirasses, helmets, shields, and similar protective equipment.

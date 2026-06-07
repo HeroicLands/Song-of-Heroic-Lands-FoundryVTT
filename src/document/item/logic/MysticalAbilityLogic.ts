@@ -22,7 +22,7 @@ import { MysticalAbilitySubType } from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
 
 /**
- * Logic for the **Mystical Ability** item type — an actively invoked
+ * An actively invoked
  * supernatural power.
  *
  * Mystical Abilities represent spells, rites, invocations, and other powers

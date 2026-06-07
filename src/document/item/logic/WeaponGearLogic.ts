@@ -31,7 +31,7 @@ import type { CombatResult } from "@src/domain/result/CombatResult";
 import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
- * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
+ * A weapon that can be wielded in combat.
  *
  * Weapon Gear represents a physical weapon: swords, axes, bows, maces, daggers,
  * and similar. The weapon itself is primarily a container; the actual attack

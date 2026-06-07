@@ -68,7 +68,7 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
 ] as const;
 
 /**
- * Logic for the **Skill** item type — a trained capability with a mastery level.
+ * A trained capability with a mastery level.
  *
  * Skills represent learned abilities that characters use to accomplish tasks:
  * combat techniques, social interactions, crafting, perception, and more.

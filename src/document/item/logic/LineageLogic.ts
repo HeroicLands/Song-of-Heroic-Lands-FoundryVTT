@@ -22,7 +22,7 @@ import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
 import type { MovementMedium } from "@src/utils/constants";
 
 /**
- * Logic for the **Lineage** item type — Anatonical and movement properties
+ * Anatonical and movement properties
  * that define a creature's physical form and capabilities.
  *
  * @typeParam TData - The Lineage data interface.

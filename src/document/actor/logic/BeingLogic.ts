@@ -80,7 +80,7 @@ import { SohlActionData } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 /**
- * Logic for the **Being** actor type — a single person, creature, or NPC.
+ * A single person, creature, or NPC.
  *
  * A Being is the most detailed actor type in SoHL, representing an individual
  * entity with a full anatomy model (body roles, body parts, body locations),
