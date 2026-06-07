@@ -53,7 +53,9 @@ Automated combat collapses the four steps into a single chain that the system wa
 
 **Starting an exchange.** The current combatant's player targets a single token (Foundry allows multi-targeting, but SoHL warns and aborts on more than one) and initiates with a hotkey or by clicking a strike mode on the Combat tab.
 
-**Choosing the strike.** The player picks the weapon, the strike mode, and the body part to aim at. The system checks weapon range; if out of range, it warns and aborts.
+**Choosing the strike.** The system offers only the strike modes that can reach the target right now — melee modes within the mode's reach, and missile modes within the weapon's **base range**. The list defaults to the mode you used last (or, failing that, your best chance to hit). If the target is beyond every mode's range, the system warns and aborts. Then the player picks the body part to aim at.
+
+> **Direct fire only.** Automated combat supports **melee** attacks and **missile _direct_** attacks (target within base range). A missile fired beyond base range is a **volley** — an arcing, area-targeted shot that can't aim at a specific person or body location — and is **not supported** by automated combat; resolve volleys in Assisted mode. A direct missile shot at **point-blank** range (within half the base range) is more accurate and hits a little harder.
 
 **Defender response.** A chat message announces the attack. The defender sees four buttons: **Block**, **Counterstrike**, **Dodge**, **Ignore**. They pick one. The system rolls both the attack and defense, resolves the success outcome (including any free Tactical Advantage for the defender), and posts the result. If the attack fails, the exchange ends here.
 

@@ -31,11 +31,41 @@ import {
     MovementMediums,
 } from "@src/utils/constants";
 
+/** A reference to a specific strike mode on an item: `{ itemId, smId }`. */
+export interface StrikeModeRef {
+    itemId: string;
+    smId: string;
+}
+
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
     get actor(): SohlActor | null {
         return super.actor as SohlActor | null;
+    }
+
+    /** The strike mode last used to attack, or `null` (combat-scoped). */
+    get lastAttackMode(): StrikeModeRef | null {
+        return (this.system as SohlCombatantDataModel).lastAttackMode;
+    }
+
+    /** The strike mode last used to block, or `null` (combat-scoped). */
+    get lastBlockMode(): StrikeModeRef | null {
+        return (this.system as SohlCombatantDataModel).lastBlockMode;
+    }
+
+    /** Remember the strike mode just used to attack (persisted on the combatant). */
+    async recordAttackMode(itemId: string, smId: string): Promise<void> {
+        await this.update({
+            "system.lastAttackMode": { itemId, smId },
+        } as any);
+    }
+
+    /** Remember the strike mode just used to block (persisted on the combatant). */
+    async recordBlockMode(itemId: string, smId: string): Promise<void> {
+        await this.update({
+            "system.lastBlockMode": { itemId, smId },
+        } as any);
     }
 
     /**
@@ -310,6 +340,26 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
             choices: MovementMediums,
             initial: MOVEMENT_MEDIUM.TERRESTRIAL,
         }),
+        /**
+         * The strike mode this combatant most recently used to **attack**
+         * (`{ itemId, smId }`), or `null`. Combatants tend to reuse their last
+         * attack, so this drives the default in the automated-attack mode picker.
+         * Combat-scoped (lives only for the encounter).
+         */
+        lastAttackMode: new foundry.data.fields.ObjectField({
+            required: false,
+            nullable: true,
+            initial: null,
+        }),
+        /**
+         * The strike mode this combatant most recently used to **block**
+         * (`{ itemId, smId }`), or `null` — drives the default in the Block picker.
+         */
+        lastBlockMode: new foundry.data.fields.ObjectField({
+            required: false,
+            nullable: true,
+            initial: null,
+        }),
     };
 }
 
@@ -328,6 +378,8 @@ export class SohlCombatantDataModel<
     didAction!: boolean;
     moveFactor!: number;
     displayedMedium!: MovementMedium;
+    lastAttackMode!: StrikeModeRef | null;
+    lastBlockMode!: StrikeModeRef | null;
 
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlCombatantDataSchema();

@@ -46,11 +46,13 @@ import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
 import {
     startAutomatedAttackFromActor,
     showDefenseDialog,
+    findCombatant,
 } from "@src/document/actor/foundry/automated-combat";
 import {
     buildCombatCardData,
     resolveSkillMasteryLevel,
     collectBlockableStrikeModes,
+    indexOfBestMastery,
 } from "@src/document/actor/foundry/combat-actions";
 import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import { resolveActionInput } from "@src/utils/actionInput";
@@ -576,6 +578,24 @@ export class BeingLogic<
             choices[String(i)] = e.label;
         });
 
+        // Default to the most-recently-used block mode (if still available),
+        // else the best-chance block (highest effective block ML).
+        const combatant =
+            context.token ? findCombatant(context.token) : null;
+        const recent = combatant?.lastBlockMode ?? null;
+        let defaultIdx =
+            recent ?
+                entries.findIndex(
+                    (e) => e.itemId === recent.itemId && e.smId === recent.smId,
+                )
+            :   -1;
+        if (defaultIdx < 0) {
+            defaultIdx = Math.max(
+                0,
+                indexOfBestMastery(entries, (e) => e.ml.constrainedEffective),
+            );
+        }
+
         // Pick the blocking strike mode + Additional Modifier (dialog, or from
         // scope when skipDialog: `itemId` + `strikeModeId` + `situationalModifier`).
         const input = await resolveActionInput<{
@@ -587,7 +607,7 @@ export class BeingLogic<
                     (e) => e.itemId === s.itemId && e.smId === s.strikeModeId,
                 );
                 return {
-                    key: idx >= 0 ? String(idx) : "0",
+                    key: idx >= 0 ? String(idx) : String(defaultIdx),
                     situationalModifier:
                         Number.parseInt(String(s.situationalModifier), 10) || 0,
                 };
@@ -597,6 +617,7 @@ export class BeingLogic<
                     `${this.actor?.name} — Select Block`,
                     "Block with:",
                     choices,
+                    String(defaultIdx),
                 ),
         });
         if (!input) return;
@@ -625,6 +646,8 @@ export class BeingLogic<
         );
         // evaluate() rolls the block on the defender's client, then resolves.
         await combatResult.evaluate();
+        // Remember this block mode so it defaults next time on this combatant.
+        await combatant?.recordBlockMode(entry.itemId, entry.smId);
         await this._postCombatResultCard(
             combatResult,
             attackResult,

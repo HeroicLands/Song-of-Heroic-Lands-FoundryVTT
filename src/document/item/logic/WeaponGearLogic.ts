@@ -109,12 +109,7 @@ export class WeaponGearLogic<
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(
-            this,
-            this.strikeModes,
-            this.item?.name ?? "",
-            context,
-        );
+        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
     }
 
     /**

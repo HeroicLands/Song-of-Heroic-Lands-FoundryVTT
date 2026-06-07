@@ -646,3 +646,38 @@ range-filtered mode list → out-of-range short-circuit → point-blank impact/a
 → melee accuracy = spread → recent/best default), `SohlCombatantDataModel`
 persistence of last attack/block mode, Block defaults, and the user-facing
 "volley unsupported" doc note.
+
+---
+
+## 16. Attack range model, accuracy, defaults + persistence (2026-06-06)
+
+The attack flow now resolves **target + distance first**, then offers only
+in-range modes; missile mechanics and per-combatant defaults are wired.
+
+- **Range-gated mode list** (`collectAttackableStrikeModes`): melee by
+  `reach.effective`, missile by `baseRange.effective`. Volley (beyond base range)
+  is excluded — automated combat does not support it. A wholly out-of-range
+  target short-circuits: "out of range of any strike mode (melee or missile)".
+- **Missile direct mechanics** (`classifyMissileRange`): point-blank
+  (≤ baseRange/2) → accuracy 6 + impact **+2**; normal direct (≤ baseRange) →
+  accuracy 8. Melee accuracy = the strike mode's `spread`. Accuracy rides on
+  `AttackResult`/`ImpactResult` and drives **automatic** injury hit-location
+  resolution (the `createInjury` button now forwards `targetPart` + `accuracy`).
+- **Defaults**: the attack and Block mode pickers default to the
+  **most-recently-used** mode (if still available) else the **best chance**
+  (`indexOfBestMastery`). Persisted on **`SohlCombatantDataModel`**
+  (`lastAttackMode` / `lastBlockMode` = `{ itemId, smId }`); `SohlCombatant`
+  exposes `lastAttackMode`/`lastBlockMode` getters + `recordAttackMode`/
+  `recordBlockMode`. Recorded after each attack/block.
+- **Flow restructure** (`automated-combat.ts`): `resolveAttackContext` (attacker
+  token + target + distance via `SohlTokenDocument.rangeToTarget`) → range gather
+  → `chooseModeAndAttack` (default + dialog/scope) → `startAutomatedAttack`
+  (accuracy/point-blank, build, evaluate, record, post). `startAutomatedAttackFromItem`
+  now takes `(itemLogic, itemName, context)` and filters to that item's in-range
+  modes.
+- **User docs**: `docs/reference/combat-modes.md` "Choosing the strike" now
+  documents the range model, the recent/best default, and that **volley is not
+  supported** (point-blank bonus noted).
+
+All four defenses (Ignore/Dodge/Block/Counterstrike-pending) plus the attacker
+range/accuracy model are in. Build (types → 883 tests → bundle) + docs pass.

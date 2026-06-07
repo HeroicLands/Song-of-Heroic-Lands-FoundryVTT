@@ -21,6 +21,10 @@ import {
     buildAttackResult,
     buildAttackCardData,
     resolveAttackTarget,
+    collectAttackableStrikeModes,
+    classifyMissileRange,
+    indexOfBestMastery,
+    type AttackableStrikeMode,
 } from "@src/document/actor/foundry/combat-actions";
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
 import { resolveActionInput } from "@src/utils/actionInput";
@@ -28,20 +32,25 @@ import { ITEM_KIND, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
 import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 
 /**
  * Orchestration glue for **automated combat** — the attacker's entry flow.
  *
  * This module is the Foundry-facing layer: it drives dialogs and posts the
  * attack chat card. The Foundry-free, unit-tested pieces it composes
- * (`buildAttackResult`, `buildAttackCardData`, `resolveAttackTarget`) live in
- * `combat-actions.ts`; this file keeps them apart from the UI plumbing.
+ * (`buildAttackResult`, `buildAttackCardData`, `collectAttackableStrikeModes`,
+ * `classifyMissileRange`, …) live in `combat-actions.ts`.
  *
  * Every dialog here is **bypassable**: with `context.skipDialog` set, the same
  * inputs are read from `context.scope` instead (see {@link resolveActionInput}).
- * Dialog callbacks are side-effect-free — they only return data — so the two
- * paths converge on one apply site. `context.noChat` suppresses the chat post.
- * Together these let the whole flow run headlessly.
+ * Dialog callbacks are side-effect-free. `context.noChat` suppresses the chat
+ * post. Together these let the whole flow run headlessly.
+ *
+ * Range gates the available modes: melee by reach, missile by base range.
+ * **Volley** (a missile beyond base range) is an area attack with no aim and is
+ * **not supported** — such modes never appear, and a wholly out-of-range target
+ * short-circuits with a warning.
  */
 
 /** The attack dialog's inputs (from the dialog form or from `scope`). */
@@ -52,28 +61,30 @@ interface AttackDialogInput {
     situationalModifier: number;
 }
 
-/** A strike mode paired with the item logic that owns it (for the actor-level picker). */
-interface AttackEntry {
-    /** The owning item's logic (parent of the resulting AttackResult). */
-    logic: SohlLogic;
-    /** The owning item's id (stable key for headless `scope` selection). */
-    itemId: string;
-    /** The strike mode to attack with. */
-    strikeMode: StrikeModeBase;
-    /** The owning item's display name, used in the card title. */
-    itemName: string;
+/** The resolved spatial context of an attack: attacker, target, and distance. */
+interface AttackContext {
+    attackerToken: SohlTokenDocument;
+    targetToken: SohlTokenDocument;
+    /** Center-to-center distance in feet. */
+    distanceFeet: number;
 }
 
 /** Parameters for {@link startAutomatedAttack}. */
 export interface StartAutomatedAttackParams {
     /** Logic that owns the resulting AttackResult and its cloned modifiers. */
     attackerLogic: SohlLogic;
-    /** The attacker's token (must be a real, owned token so `evaluate()` passes its ownership gate). */
+    /** The attacker's token (a real, owned token so `evaluate()` passes its ownership gate). */
     attackerToken: SohlTokenDocument;
     /** The chosen strike mode. */
     strikeMode: StrikeModeBase;
+    /** Id of the item owning the strike mode (for recording the last-used mode). */
+    itemId: string;
     /** The wielding item's display name (card title). */
     weaponName: string;
+    /** The resolved target token. */
+    targetToken: SohlTokenDocument;
+    /** Center-to-center distance to the target, in feet (for missile range). */
+    distanceFeet: number;
     /** The action context — supplies the speaker, `skipDialog`, `noChat`, and `scope`. */
     context: SohlActionContext<any>;
 }
@@ -87,10 +98,47 @@ function tokenInCombat(
     return combat.combatants.some((c: any) => c.tokenId === token.id);
 }
 
+/** The active combat's combatant for `token`, or `null`. */
+export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
+    const combat = getActiveCombat();
+    if (!combat) return null;
+    return (
+        (combat.combatants.find(
+            (c: any) => c.tokenId === token.id,
+        ) as SohlCombatant | undefined) ?? null
+    );
+}
+
 /**
- * Build the Aim select options (a `{ shortcode: label }` map for Foundry's
- * `selectOptions` helper) from the defender's body parts. Empty when the
- * defender has no lineage / body structure.
+ * Resolve the attacker's token, the single targeted in-combat defender, and the
+ * center-to-center distance between them. Returns `null` (with a UI warning)
+ * when the attacker has no token or the target rule isn't met.
+ */
+function resolveAttackContext(
+    actor: any,
+    context: SohlActionContext<any>,
+): AttackContext | null {
+    const attackerToken = resolveAttackerToken(actor, context.token);
+    if (!attackerToken) return null;
+    const combat = getActiveCombat();
+    const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
+    let targetToken: SohlTokenDocument;
+    try {
+        targetToken = resolveAttackTarget(targeted, (t) =>
+            tokenInCombat(combat, t),
+        );
+    } catch (err) {
+        sohl.log.uiWarn((err as Error).message);
+        return null;
+    }
+    const distanceFeet =
+        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
+    return { attackerToken, targetToken, distanceFeet };
+}
+
+/**
+ * Build the Aim select options (a `{ shortcode: label }` map) from the
+ * defender's body parts. Empty when the defender has no lineage / body structure.
  */
 function buildAimChoices(defenderActor: any): Record<string, string> {
     const lineageLogic = defenderActor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0]
@@ -98,8 +146,6 @@ function buildAimChoices(defenderActor: any): Record<string, string> {
     const parts: any[] = lineageLogic?.bodyStructure?.parts ?? [];
     const choices: Record<string, string> = {};
     for (const part of parts) {
-        // BodyPart has no display name of its own; fall back to its first
-        // location's name, then to the shortcode.
         choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;
     }
     return choices;
@@ -123,8 +169,7 @@ function renderOptions(
 
 /**
  * Show the attack dialog (Aim + Additional Modifier) and resolve to the chosen
- * inputs, or `null` if dismissed. Side-effect-free: the callback only reads the
- * form and returns data.
+ * inputs, or `null` if dismissed. Side-effect-free.
  */
 function showAttackDialog(
     title: string,
@@ -151,16 +196,15 @@ function showAttackDialog(
 }
 
 /**
- * Present a single-select dialog and resolve to the chosen key, or `null` if
- * dismissed. Side-effect-free.
+ * Present a single-select dialog (with a preselected `defaultKey`) and resolve to
+ * the chosen key, or `null` if dismissed. Side-effect-free.
  */
 function pickChoice(
     title: string,
     label: string,
     choices: Record<string, string>,
+    defaultKey: string,
 ): Promise<string | null> {
-    const keys = Object.keys(choices);
-    const defaultKey = keys[0] ?? "";
     return inputDialog({
         title,
         content: toHTMLString(
@@ -180,16 +224,15 @@ function pickChoice(
 
 /**
  * Show a defense dialog with a strike-mode select **and** an Additional Modifier
- * field; resolve to `{ key, situationalModifier }` or `null` if dismissed.
- * Side-effect-free. Used by Block (and any other defense that picks a mode plus a
- * modifier).
+ * field, preselecting `defaultKey`; resolve to `{ key, situationalModifier }` or
+ * `null` if dismissed. Side-effect-free. Used by Block.
  */
 export function showDefenseDialog(
     title: string,
     selectLabel: string,
     choices: Record<string, string>,
+    defaultKey: string,
 ): Promise<{ key: string; situationalModifier: number } | null> {
-    const defaultKey = Object.keys(choices)[0] ?? "";
     return inputDialog({
         title,
         content: toHTMLString(
@@ -216,72 +259,88 @@ export function showDefenseDialog(
 }
 
 /**
- * Collect every attackable strike mode across the actor's weapons and combat
- * techniques (for the actor-level entry). Modes whose attack is disabled
- * (e.g. the `noAttack` trait) are filtered out.
+ * The default mode index for a picker: the most-recently-used mode if it is
+ * still available, otherwise the best-chance mode (highest effective ML).
  */
-function collectAttackEntries(actor: any): AttackEntry[] {
-    const out: AttackEntry[] = [];
-    const itemTypes = actor?.itemTypes ?? {};
-    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-        const logic = item.logic as any;
-        for (const sm of (logic?.strikeModes ?? []) as StrikeModeBase[]) {
-            if (!sm.attack.disabled) {
-                out.push({
-                    logic,
-                    itemId: item.id,
-                    strikeMode: sm,
-                    itemName: item.name,
-                });
-            }
-        }
+function defaultModeIndex(
+    modes: AttackableStrikeMode[],
+    recent: { itemId: string; smId: string } | null,
+): number {
+    if (recent) {
+        const idx = modes.findIndex(
+            (m) => m.itemId === recent.itemId && m.smId === recent.smId,
+        );
+        if (idx >= 0) return idx;
     }
-    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-        const logic = item.logic as any;
-        const sm = logic?.strikeMode as StrikeModeBase | undefined;
-        if (sm && !sm.attack.disabled) {
-            out.push({
-                logic,
-                itemId: item.id,
-                strikeMode: sm,
-                itemName: item.name,
-            });
-        }
-    }
-    return out;
+    return Math.max(
+        0,
+        indexOfBestMastery(modes, (m) => m.strikeMode.attack.constrainedEffective),
+    );
 }
 
 /**
- * Run the attacker-side automated-combat flow for a chosen strike mode:
- * resolve the single targeted, in-combat defender → resolve the attack inputs
- * (dialog, or `scope` when `skipDialog`) → assemble and evaluate the
- * {@link AttackResult} on the attacker's client → post the attack card with the
- * serialized result embedded in the defense buttons (unless `noChat`).
+ * Choose a strike mode from the available list (default = recent-or-best;
+ * bypassable via `scope.itemId` + `scope.strikeModeId`) and run the attack.
+ */
+async function chooseModeAndAttack(
+    modes: AttackableStrikeMode[],
+    rc: AttackContext,
+    context: SohlActionContext<any>,
+): Promise<void> {
+    const recent = findCombatant(rc.attackerToken)?.lastAttackMode ?? null;
+    const defaultIdx = defaultModeIndex(modes, recent);
+    const choices: Record<string, string> = {};
+    modes.forEach((m, i) => {
+        choices[String(i)] = `${m.itemName} — ${m.strikeMode.name}`;
+    });
+
+    const pickedKey = await resolveActionInput<string | null>(context, {
+        fromScope: (s) => {
+            const idx = modes.findIndex(
+                (m) => m.itemId === s.itemId && m.smId === s.strikeModeId,
+            );
+            return idx >= 0 ? String(idx) : String(defaultIdx);
+        },
+        dialog: () =>
+            pickChoice(
+                `${rc.attackerToken.name} — Select Attack`,
+                "Strike Mode:",
+                choices,
+                String(defaultIdx),
+            ),
+    });
+    if (pickedKey === null) return;
+    const entry = modes[Number(pickedKey)];
+    if (!entry) return;
+
+    await startAutomatedAttack({
+        attackerLogic: entry.strikeMode.parentLogic,
+        attackerToken: rc.attackerToken,
+        strikeMode: entry.strikeMode,
+        itemId: entry.itemId,
+        weaponName: entry.itemName,
+        targetToken: rc.targetToken,
+        distanceFeet: rc.distanceFeet,
+        context,
+    });
+}
+
+/**
+ * Run the attacker-side flow for a chosen strike mode: resolve attack inputs
+ * (Aim + modifier; dialog or `scope`) → derive accuracy + any point-blank impact
+ * bonus → assemble and evaluate the {@link AttackResult} → record the mode on the
+ * combatant → post the attack card (unless `noChat`).
  */
 export async function startAutomatedAttack(
     p: StartAutomatedAttackParams,
 ): Promise<void> {
     const { context } = p;
+    const sm = p.strikeMode as any;
+    const defenderActor = p.targetToken.actor as any;
 
-    // 1. Resolve the single targeted defender, which must be in the combat.
-    const combat = getActiveCombat();
-    const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
-    let defenderToken: SohlTokenDocument;
-    try {
-        defenderToken = resolveAttackTarget(targeted, (t) =>
-            tokenInCombat(combat, t),
-        );
-    } catch (err) {
-        sohl.log.uiWarn((err as Error).message);
-        return;
-    }
-    const defenderActor = defenderToken.actor as any;
-
-    // 2. Aim choices come from the defender's body parts (echoed on the card).
     const aimChoices = buildAimChoices(defenderActor);
     const defaultAim = Object.keys(aimChoices)[0] ?? "";
 
-    // 3. Attack inputs: from the dialog, or from `scope` when `skipDialog`.
     const input = await resolveActionInput<AttackDialogInput>(context, {
         fromScope: (s) => ({
             aim: String(s.aim ?? defaultAim),
@@ -290,7 +349,7 @@ export async function startAutomatedAttack(
         }),
         dialog: () =>
             showAttackDialog(
-                `${p.attackerToken.name} vs. ${defenderToken.name} Attack with ${p.weaponName}`,
+                `${p.attackerToken.name} vs. ${p.targetToken.name} Attack with ${p.weaponName}`,
                 aimChoices,
                 defaultAim,
             ),
@@ -298,7 +357,27 @@ export async function startAutomatedAttack(
     if (!input) return;
     const { aim, situationalModifier } = input;
 
-    // 4. Assemble + evaluate the attack on the attacker's client (owns the speaker).
+    // Accuracy (for injury hit-location scatter) + any impact range bonus.
+    let accuracy: number;
+    let impactRangeBonus = 0;
+    if (p.strikeMode.isMissile) {
+        const band = classifyMissileRange(
+            p.distanceFeet,
+            sm.baseRange?.effective ?? 0,
+        );
+        if (!band.direct) {
+            // Should not happen (range-filtered upstream), but guard volley.
+            sohl.log.uiWarn(
+                `${p.targetToken.name} is beyond direct range (volley is not supported).`,
+            );
+            return;
+        }
+        accuracy = band.accuracy;
+        impactRangeBonus = band.impactRangeBonus;
+    } else {
+        accuracy = sm.spread?.effective ?? 0;
+    }
+
     const testType =
         p.strikeMode.isMissile ?
             TEST_TYPE.AUTOCOMBATMISSILE.id
@@ -310,6 +389,7 @@ export async function startAutomatedAttack(
         token: p.attackerToken,
         testType,
         aimBodyPartCode: aim,
+        accuracy,
         title: p.weaponName,
     });
     if (situationalModifier) {
@@ -318,10 +398,21 @@ export async function startAutomatedAttack(
             situationalModifier,
         );
     }
+    if (impactRangeBonus) {
+        // Point-blank missile: a flat bonus to the impact formula.
+        attackResult.impact.add(
+            { name: "SOHL.INFO.Range", shortcode: "Range" },
+            impactRangeBonus,
+        );
+    }
     await attackResult.evaluate();
 
-    // 5. Post the attack card (spoken by the attacker). All four defense buttons
-    //    are emitted; per-defender capability gating happens at render time.
+    // Remember this mode so it defaults next time on this combatant.
+    await findCombatant(p.attackerToken)?.recordAttackMode(
+        p.itemId,
+        p.strikeMode.id,
+    );
+
     if (context.noChat) return;
     const cardData = buildAttackCardData({
         attackResult,
@@ -332,7 +423,7 @@ export async function startAutomatedAttack(
         target:
             defenderActor ?
                 {
-                    name: defenderToken.name ?? "",
+                    name: p.targetToken.name ?? "",
                     actorUuid: defenderActor.uuid,
                 }
             :   null,
@@ -363,105 +454,50 @@ export function resolveAttackerToken(
 }
 
 /**
- * Actor-level entry: gather every attackable strike mode across the actor's
- * weapons and combat techniques, choose one (dialog, or `scope.itemId` +
- * `scope.strikeModeId` when `skipDialog`), then run the attack.
+ * Actor-level entry: resolve the target + distance, gather every **in-range**
+ * attackable mode across the actor's weapons and combat techniques, then choose
+ * and run. A wholly out-of-range target short-circuits.
  */
 export async function startAutomatedAttackFromActor(
     actorLogic: SohlLogic,
     context: SohlActionContext<any>,
 ): Promise<void> {
     const actor = actorLogic.actor as any;
-    const attackerToken = resolveAttackerToken(actor, context.token);
-    if (!attackerToken) return;
+    const rc = resolveAttackContext(actor, context);
+    if (!rc) return;
 
-    const entries = collectAttackEntries(actor);
-    if (entries.length === 0) {
-        sohl.log.uiWarn("This actor has no usable attack.");
+    const modes = collectAttackableStrikeModes(actor, rc.distanceFeet);
+    if (modes.length === 0) {
+        sohl.log.uiWarn(
+            `${rc.targetToken.name} is out of range of any strike mode (melee or missile).`,
+        );
         return;
     }
-
-    const choices: Record<string, string> = {};
-    entries.forEach((e, i) => {
-        choices[String(i)] = `${e.itemName} — ${e.strikeMode.name}`;
-    });
-
-    const pickedKey = await resolveActionInput<string | null>(context, {
-        fromScope: (s) => {
-            const idx = entries.findIndex(
-                (e) =>
-                    e.itemId === s.itemId &&
-                    e.strikeMode.id === s.strikeModeId,
-            );
-            return idx >= 0 ? String(idx) : "0";
-        },
-        dialog: () =>
-            pickChoice(
-                `${attackerToken.name} — Select Attack`,
-                "Strike Mode:",
-                choices,
-            ),
-    });
-    if (pickedKey === null) return;
-    const entry = entries[Number(pickedKey)];
-    if (!entry) return;
-
-    await startAutomatedAttack({
-        attackerLogic: entry.logic,
-        attackerToken,
-        strikeMode: entry.strikeMode,
-        weaponName: entry.itemName,
-        context,
-    });
+    await chooseModeAndAttack(modes, rc, context);
 }
 
 /**
- * Item-level entry: run the attack for one item's strike modes. The mode is
- * chosen via dialog when there is more than one; with `skipDialog` it is read
- * from `scope.strikeModeId` (falling back to the first attackable mode).
+ * Item-level entry: resolve the target + distance, then offer only **this
+ * item's** in-range attackable modes. Out-of-range short-circuits.
  */
 export async function startAutomatedAttackFromItem(
     itemLogic: SohlLogic,
-    strikeModes: StrikeModeBase[],
     itemName: string,
     context: SohlActionContext<any>,
 ): Promise<void> {
-    const attackerToken = resolveAttackerToken(
-        itemLogic.actor as any,
-        context.token,
-    );
-    if (!attackerToken) return;
+    const actor = itemLogic.actor as any;
+    const rc = resolveAttackContext(actor, context);
+    if (!rc) return;
 
-    const modes = strikeModes.filter((sm) => !sm.attack.disabled);
+    const itemId = itemLogic.item?.id;
+    const modes = collectAttackableStrikeModes(actor, rc.distanceFeet).filter(
+        (m) => m.itemId === itemId,
+    );
     if (modes.length === 0) {
-        sohl.log.uiWarn(`${itemName} has no usable strike mode.`);
+        sohl.log.uiWarn(
+            `${itemName} has no strike mode in range of ${rc.targetToken.name}.`,
+        );
         return;
     }
-
-    let strikeMode = modes[0];
-    if (modes.length > 1 || context.skipDialog) {
-        const choices: Record<string, string> = {};
-        modes.forEach((m) => {
-            choices[m.id] = m.name;
-        });
-        const pickedId = await resolveActionInput<string | null>(context, {
-            fromScope: (s) => String(s.strikeModeId ?? modes[0].id),
-            dialog: () =>
-                pickChoice(
-                    `${itemName} — Select Strike Mode`,
-                    "Strike Mode:",
-                    choices,
-                ),
-        });
-        if (pickedId === null) return;
-        strikeMode = modes.find((m) => m.id === pickedId) ?? modes[0];
-    }
-
-    await startAutomatedAttack({
-        attackerLogic: itemLogic,
-        attackerToken,
-        strikeMode,
-        weaponName: itemName,
-        context,
-    });
+    await chooseModeAndAttack(modes, rc, context);
 }

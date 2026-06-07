@@ -63,12 +63,7 @@ export class CombatTechniqueLogic<
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(
-            this,
-            [this.strikeMode],
-            this.item?.name ?? "",
-            context,
-        );
+        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
     }
 
     /**
