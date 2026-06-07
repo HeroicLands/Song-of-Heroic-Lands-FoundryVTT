@@ -192,6 +192,22 @@ npm run docs               # Generate TypeDoc
 
 Build output goes to `build/stage/`, which mirrors the Foundry system directory. `system.json` is generated from `assets/templates/system.template.json`.
 
+## Actor state sovereignty
+
+**An actor — together with its token and combatant — is the sole authority over its own state.** An actor's logic or client may mutate only **itself**; it must never write directly to another actor (or another actor's token or combatant).
+
+Any effect one actor would impose on another is mediated by a **chat-message handshake**:
+
+1. The **source** resolves its own side — rolls the attack, the spell-success test, etc. — mutating only itself.
+2. On success it posts a chat card with a button **addressed to the target's owner**, whose label states unambiguously what is being acknowledged or applied.
+3. The **target's owning client** clicks it, runs any required test first (e.g. a resistance roll), and applies the change **to itself**.
+
+Example: a wizard casts Sleep on a victim. The wizard rolls to land the spell; on success the card shows the *victim's* owner a button ("Acknowledge you fall asleep", possibly gated behind a resistance test). The victim's client marks the victim asleep — the wizard never touches the victim's state.
+
+**Why:** Foundry permissions — a client can only reliably update documents it owns — and player accountability: each player (the GM owns all actors) stays in control of, and every cross-actor consequence stays visible in chat for, their own character.
+
+This already underlies automated combat: defense buttons dispatch to the *defender's* client, and the "Calculate Injury" button resolves on the *target's* client. To implement a new cross-actor mechanic, follow [Extension Points → Cross-actor effects](../how-to/extension-points.md#cross-actor-effects-the-acknowledge-button-pattern).
+
 ## Architectural rules
 
 1. **Logic layer stays Foundry-free.** All Foundry API calls go through `FoundryHelpers.ts`.
@@ -201,6 +217,7 @@ Build output goes to `build/stage/`, which mirrors the Foundry system directory.
 5. **Stable localization keys.** Never rename keys in `lang/en.json` — add new ones.
 6. **Small, focused changes.** One feature or fix per PR.
 7. **Complete implementations.** No placeholder stubs.
+8. **Actor state sovereignty.** An actor mutates only itself; cross-actor effects go through a target-addressed chat acknowledge button (see above).
 
 ## Where to learn more
 

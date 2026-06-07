@@ -66,6 +66,7 @@ Primary file:
 
 ## Extension guidance
 
+- A combatant (with its token and actor) mutates only **itself** — see [Actor state sovereignty](../concepts/architecture.md#actor-state-sovereignty). Cross-actor effects go through a target-addressed chat acknowledge button, never a direct write to another combatant/token/actor.
 - Use token helper methods instead of duplicating target/selection/range logic.
 - Keep initiative semantics aligned with skill-driven design.
 - For overland travel, weather, and terrain effects, leave it to GM narrative — the system does not model these.

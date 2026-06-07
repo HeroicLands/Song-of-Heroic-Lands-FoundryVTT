@@ -15,14 +15,25 @@ This guide walks through resolving a melee attack in **Assisted** mode and
 recording the resulting wound. For the difference between Assisted and Automated
 combat, see [Combat Modes](../reference/combat-modes.md).
 
+## How effects reach your character
+
+Nothing that happens to *your* character is applied automatically by someone
+else. When another character would affect you — a wound, a spell, a condition —
+it arrives in chat as a **button on your character**. You (or the GM) click it,
+make any resistance roll it asks for, and the effect is then applied to your
+character. This is true system-wide, not just in combat: an attacker rolls their
+attack, but **you** are the one who records your injury; a wizard rolls their
+spell, but **you** acknowledge and apply its effect. It keeps every consequence
+visible in chat and leaves you in control of your own character.
+
 ## Running an assisted attack
 
 Assisted combat needs nothing but the actor sheets — no scene, tokens, or combat
 tracker.
 
 1. **Open the attacker's sheet → Combat tab.** Each weapon (and combat
-   technique) lists its strike modes with **Acc**, **Impact**, **Atk**, **Blk**,
-   and **CX** columns.
+   technique) lists its strike modes with **Spr** (spread), **Impact**, **Atk**,
+   **Blk**, and **CX** columns.
 2. **Roll the attack.** Click the **Atk** value for the strike mode. Hold
    **Shift** to skip the modifier dialog. The roll lands in chat.
 3. **Roll the defense** (optional). On the defender's sheet, click **Blk** or
