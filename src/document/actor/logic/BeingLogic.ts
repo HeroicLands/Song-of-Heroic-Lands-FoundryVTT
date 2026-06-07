@@ -749,12 +749,12 @@ export class BeingLogic<
         const attackResult = this._rehydrateAttackResult(context);
         if (!attackResult) return;
 
-        // The counterstrike targets the original attacker (read from the attack
-        // snapshot's speaker token); distance is defender → attacker.
-        const rc = resolveCounterstrikeContext(
-            attackResult,
-            context.token ?? null,
-        );
+        // This defender's combatant — for the recent-mode default + persistence.
+        const combatant = context.token ? findCombatant(context.token) : null;
+
+        // The counterstrike targets the original attacker (recovered from the
+        // attack snapshot's speaker token); distance is defender → attacker.
+        const rc = resolveCounterstrikeContext(attackResult, combatant);
         if (!rc) return;
 
         // Counterstrike uses melee attack modes (noAttack-filtered by the
@@ -777,7 +777,6 @@ export class BeingLogic<
 
         // Default: the most-recently-used attack mode (a counterstrike is an
         // attack), else the best-chance attack mode.
-        const combatant = context.token ? findCombatant(context.token) : null;
         const recent = combatant?.lastAttackMode ?? null;
         let defaultIdx =
             recent ?
@@ -824,7 +823,7 @@ export class BeingLogic<
         const sm = entry.strikeMode as any;
 
         // Aim the counterstrike at a body part on the attacker.
-        const aimChoices = buildAimChoices(rc.attackerActor);
+        const aimChoices = buildAimChoices(rc.attacker.actor);
         const defaultAim = Object.keys(aimChoices)[0] ?? "";
         const aim = await resolveActionInput<string | null>(context, {
             fromScope: (s) => String((s as any).aim ?? defaultAim),
@@ -885,10 +884,10 @@ export class BeingLogic<
                 :   null,
             // The counterstrike strikes the original attacker.
             defendTarget:
-                rc.attackerActor ?
+                rc.attacker.actor ?
                     {
-                        name: rc.attackerToken.name ?? "",
-                        actorUuid: rc.attackerActor.uuid,
+                        name: rc.attacker.token?.name ?? "",
+                        actorUuid: rc.attacker.actor.uuid,
                     }
                 :   null,
         });

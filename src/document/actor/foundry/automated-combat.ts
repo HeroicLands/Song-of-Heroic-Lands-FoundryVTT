@@ -29,7 +29,6 @@ import {
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { ITEM_KIND, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
-import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
@@ -62,33 +61,28 @@ interface AttackDialogInput {
     situationalModifier: number;
 }
 
-/** The resolved spatial context of an attack: attacker, target, and distance. */
+/**
+ * The resolved participants of an attack. Automated combat is between
+ * **combatants** — each carries its own token (`.token`) and actor (`.actor`),
+ * and the in-combat invariant is enforced by the type.
+ */
 interface AttackContext {
-    attackerToken: SohlTokenDocument;
-    /** The target combatant (automated combat targets a combatant, not a token). */
-    targetCombatant: SohlCombatant;
-    /** The target combatant's token. */
-    targetToken: SohlTokenDocument;
-    /** Center-to-center distance in feet. */
+    /** The attacking combatant. */
+    attacker: SohlCombatant;
+    /** The target combatant. */
+    target: SohlCombatant;
+    /** Center-to-center distance between their tokens, in feet. */
     distanceFeet: number;
 }
 
 /** Parameters for {@link startAutomatedAttack}. */
 export interface StartAutomatedAttackParams {
-    /** Logic that owns the resulting AttackResult and its cloned modifiers. */
-    attackerLogic: SohlLogic;
-    /** The attacker's token (a real, owned token so `evaluate()` passes its ownership gate). */
-    attackerToken: SohlTokenDocument;
-    /** The chosen strike mode. */
-    strikeMode: StrikeModeBase;
-    /** Id of the item owning the strike mode (for recording the last-used mode). */
-    itemId: string;
-    /** The wielding item's display name (card title). */
-    weaponName: string;
-    /** The resolved target token. */
-    targetToken: SohlTokenDocument;
-    /** Center-to-center distance to the target, in feet (for missile range). */
-    distanceFeet: number;
+    /** The attacking combatant (supplies token, actor, and last-used-mode persistence). */
+    attacker: SohlCombatant;
+    /** The target combatant (supplies token + actor). */
+    target: SohlCombatant;
+    /** The chosen attackable strike mode (carries the owning item's id/name + the mode). */
+    mode: AttackableStrikeMode;
     /** The action context — supplies the speaker, `skipDialog`, `noChat`, and `scope`. */
     context: SohlActionContext<any>;
 }
@@ -133,16 +127,23 @@ function resolveAttackContext(
         sohl.log.uiWarn("Automated combat requires an active combat.");
         return null;
     }
+    const attacker = combatantForToken(combat, attackerToken);
+    if (!attacker) {
+        sohl.log.uiWarn(
+            "The attacker is not a combatant in the current combat.",
+        );
+        return null;
+    }
 
-    let targetCombatant: SohlCombatant | null;
+    let target: SohlCombatant | null;
     const scopeTarget = (context.scope as any)?.targetCombatant;
     if (scopeTarget) {
         // Programmatic / headless: an explicit combatant id wins.
-        targetCombatant =
+        target =
             (combat.combatants.get?.(scopeTarget) as
                 | SohlCombatant
                 | undefined) ?? null;
-        if (!targetCombatant) {
+        if (!target) {
             sohl.log.uiWarn(
                 "The specified target combatant is not in the current combat.",
             );
@@ -152,7 +153,7 @@ function resolveAttackContext(
         // Resolve from the client's targeted tokens, keeping only combatants.
         const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
         try {
-            targetCombatant = resolveTargetCombatant(targeted, (t) =>
+            target = resolveTargetCombatant(targeted, (t) =>
                 combatantForToken(combat, t),
             );
         } catch (err) {
@@ -161,25 +162,20 @@ function resolveAttackContext(
         }
     }
 
-    const targetToken = (targetCombatant as any).token as
-        | SohlTokenDocument
-        | null
-        | undefined;
+    const targetToken = target.token as SohlTokenDocument | null;
     if (!targetToken) {
         sohl.log.uiWarn("The target combatant has no token on the canvas.");
         return null;
     }
     const distanceFeet =
         SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
-    return { attackerToken, targetCombatant, targetToken, distanceFeet };
+    return { attacker, target, distanceFeet };
 }
 
 /** The resolved spatial context of a counterstrike (defender striking back). */
 export interface CounterstrikeContext {
-    /** The original attacker's token — the counterstrike's target. */
-    attackerToken: SohlTokenDocument;
-    /** The original attacker's actor. */
-    attackerActor: any;
+    /** The original attacker's combatant — always the counterstrike's target. */
+    attacker: SohlCombatant;
     /** Center-to-center distance from defender to attacker, in feet. */
     distanceFeet: number;
 }
@@ -188,30 +184,34 @@ export interface CounterstrikeContext {
  * Resolve the counterstrike's spatial context. A counterstrike is itself an
  * attack, but its target is **never** resolved from the client's targeted tokens:
  * the target combatant is **always the original attacker** (the counterstrike
- * strikes back at whoever attacked). The attacker is read from the attack
- * snapshot's speaker token; the distance is measured from the counterstriking
- * defender to them. Returns `null` (with a UI warning) when either token is
- * unavailable on the canvas.
+ * strikes back at whoever attacked). The attacker combatant is recovered from the
+ * attack snapshot's speaker token; the distance is measured from the
+ * counterstriking `defender` to them. Returns `null` (with a UI warning) when
+ * either combatant's token is unavailable or the attacker is no longer in combat.
  */
 export function resolveCounterstrikeContext(
     attackResult: AttackResult,
-    defenderToken: SohlTokenDocument | null,
+    defender: SohlCombatant | null,
 ): CounterstrikeContext | null {
     const attackerToken = attackResult.speaker?.token ?? null;
+    const defenderToken = (defender?.token as SohlTokenDocument | null) ?? null;
     if (!attackerToken || !defenderToken) {
         sohl.log.uiWarn(
             "Counterstrike needs both the attacker's and defender's tokens on the canvas.",
         );
         return null;
     }
+    const attacker = combatantForToken(getActiveCombat(), attackerToken);
+    if (!attacker) {
+        sohl.log.uiWarn(
+            "The attacker is no longer a combatant in the current combat.",
+        );
+        return null;
+    }
     const distanceFeet =
         SohlTokenDocument.rangeToTarget(defenderToken, attackerToken) ??
         Infinity;
-    return {
-        attackerToken,
-        attackerActor: attackerToken.actor,
-        distanceFeet,
-    };
+    return { attacker, distanceFeet };
 }
 
 /**
@@ -365,12 +365,13 @@ async function chooseModeAndAttack(
     rc: AttackContext,
     context: SohlActionContext<any>,
 ): Promise<void> {
-    const recent = findCombatant(rc.attackerToken)?.lastAttackMode ?? null;
+    const recent = rc.attacker.lastAttackMode ?? null;
     const defaultIdx = defaultModeIndex(modes, recent);
     const choices: Record<string, string> = {};
     modes.forEach((m, i) => {
         choices[String(i)] = `${m.itemName} — ${m.strikeMode.name}`;
     });
+    const attackerName = (rc.attacker.token as SohlTokenDocument | null)?.name;
 
     const pickedKey = await resolveActionInput<string | null>(context, {
         fromScope: (s) => {
@@ -381,7 +382,7 @@ async function chooseModeAndAttack(
         },
         dialog: () =>
             pickChoice(
-                `${rc.attackerToken.name} — Select Attack`,
+                `${attackerName} — Select Attack`,
                 "Strike Mode:",
                 choices,
                 String(defaultIdx),
@@ -392,13 +393,9 @@ async function chooseModeAndAttack(
     if (!entry) return;
 
     await startAutomatedAttack({
-        attackerLogic: entry.strikeMode.parentLogic,
-        attackerToken: rc.attackerToken,
-        strikeMode: entry.strikeMode,
-        itemId: entry.itemId,
-        weaponName: entry.itemName,
-        targetToken: rc.targetToken,
-        distanceFeet: rc.distanceFeet,
+        attacker: rc.attacker,
+        target: rc.target,
+        mode: entry,
         context,
     });
 }
@@ -413,8 +410,19 @@ export async function startAutomatedAttack(
     p: StartAutomatedAttackParams,
 ): Promise<void> {
     const { context } = p;
-    const sm = p.strikeMode as any;
-    const defenderActor = p.targetToken.actor as any;
+    const sm = p.mode.strikeMode as any;
+    const attackerToken = p.attacker.token as SohlTokenDocument | null;
+    const targetToken = p.target.token as SohlTokenDocument | null;
+    if (!attackerToken || !targetToken) {
+        sohl.log.uiWarn(
+            "Automated combat requires both combatants to have a token in the scene.",
+        );
+        return;
+    }
+    const defenderActor = p.target.actor as any;
+    const weaponName = p.mode.itemName;
+    const distanceFeet =
+        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
 
     const aimChoices = buildAimChoices(defenderActor);
     const defaultAim = Object.keys(aimChoices)[0] ?? "";
@@ -427,7 +435,7 @@ export async function startAutomatedAttack(
         }),
         dialog: () =>
             showAttackDialog(
-                `${p.attackerToken.name} vs. ${p.targetToken.name} Attack with ${p.weaponName}`,
+                `${attackerToken.name} vs. ${targetToken.name} Attack with ${weaponName}`,
                 aimChoices,
                 defaultAim,
             ),
@@ -438,15 +446,15 @@ export async function startAutomatedAttack(
     // Spread (for injury hit-location scatter) + any impact range bonus.
     let spread: number;
     let impactRangeBonus = 0;
-    if (p.strikeMode.isMissile) {
+    if (sm.isMissile) {
         const band = classifyMissileRange(
-            p.distanceFeet,
+            distanceFeet,
             sm.baseRange?.effective ?? 0,
         );
         if (!band.direct) {
             // Should not happen (range-filtered upstream), but guard volley.
             sohl.log.uiWarn(
-                `${p.targetToken.name} is beyond direct range (volley is not supported).`,
+                `${targetToken.name} is beyond direct range (volley is not supported).`,
             );
             return;
         }
@@ -457,18 +465,18 @@ export async function startAutomatedAttack(
     }
 
     const testType =
-        p.strikeMode.isMissile ?
+        sm.isMissile ?
             TEST_TYPE.AUTOCOMBATMISSILE.id
         :   TEST_TYPE.AUTOCOMBATMELEE.id;
     const attackResult = buildAttackResult({
-        attackML: p.strikeMode.attack,
-        impact: p.strikeMode.impact,
-        parent: p.attackerLogic,
-        token: p.attackerToken,
+        attackML: sm.attack,
+        impact: sm.impact,
+        parent: sm.parentLogic,
+        token: attackerToken,
         testType,
         aimBodyPartCode: aim,
         spread,
-        title: p.weaponName,
+        title: weaponName,
     });
     if (situationalModifier) {
         attackResult.masteryLevelModifier.add(
@@ -486,22 +494,19 @@ export async function startAutomatedAttack(
     await attackResult.evaluate();
 
     // Remember this mode so it defaults next time on this combatant.
-    await findCombatant(p.attackerToken)?.recordAttackMode(
-        p.itemId,
-        p.strikeMode.id,
-    );
+    await p.attacker.recordAttackMode(p.mode.itemId, sm.id);
 
     if (context.noChat) return;
     const cardData = buildAttackCardData({
         attackResult,
-        title: `${p.weaponName} ${p.strikeMode.isMelee ? "Melee" : "Missile"} Attack`,
-        attackerName: p.attackerToken.name ?? "",
-        actorId: p.attackerLogic.actor?.id ?? null,
+        title: `${weaponName} ${sm.isMelee ? "Melee" : "Missile"} Attack`,
+        attackerName: attackerToken.name ?? "",
+        actorId: p.attacker.actor?.id ?? null,
         aimLabel: aimChoices[aim] ?? aim,
         target:
             defenderActor ?
                 {
-                    name: p.targetToken.name ?? "",
+                    name: targetToken.name ?? "",
                     actorUuid: defenderActor.uuid,
                 }
             :   null,
@@ -547,7 +552,7 @@ export async function startAutomatedAttackFromActor(
     const modes = collectAttackableStrikeModes(actor, rc.distanceFeet);
     if (modes.length === 0) {
         sohl.log.uiWarn(
-            `${rc.targetToken.name} is out of range of any strike mode (melee or missile).`,
+            `${(rc.target.token as SohlTokenDocument | null)?.name} is out of range of any strike mode (melee or missile).`,
         );
         return;
     }
@@ -573,7 +578,7 @@ export async function startAutomatedAttackFromItem(
     );
     if (modes.length === 0) {
         sohl.log.uiWarn(
-            `${itemName} has no strike mode in range of ${rc.targetToken.name}.`,
+            `${itemName} has no strike mode in range of ${(rc.target.token as SohlTokenDocument | null)?.name}.`,
         );
         return;
     }

@@ -778,3 +778,36 @@ Build (types → 889 tests → bundle) + docs pass. With this, the attacker side
 functionally complete; remaining open items are injury-card Fumble/Shock buttons,
 display-only Tactical Advantages / weapon-break, the legacy-counterstrike cleanup
 PR, and **in-Foundry verification** of the whole flow.
+
+## 20. Glue API standardized on `SohlCombatant` (2026-06-07)
+
+API-cleanliness pass: automated combat is between **combatants**, so the
+orchestration layer now takes a `SohlCombatant` as the participant currency
+instead of a soup of token + logic + itemId + distance. The combatant carries
+`.token` + `.actor`, so lower layers derive what they need from it.
+
+**Layering rule (made explicit):** a `Combatant` is a Foundry document and a
+combat-only concept, so it lives **only in the glue layer**. The Foundry-free pure
+layer (`combat-actions.ts`, the result classes) stays on actor/token/duck-typed
+shapes — it is unit-tested and shared with assisted combat and the
+source-agnostic injury pipeline, none of which have combatants.
+
+- **`AttackContext`** = `{ attacker, target: SohlCombatant, distanceFeet }` (was
+  `attackerToken` + `targetToken` + `targetCombatant`).
+- **`StartAutomatedAttackParams`** = `{ attacker, target: SohlCombatant, mode:
+  AttackableStrikeMode, context }` (was `attackerLogic` + `attackerToken` +
+  `strikeMode` + `itemId` + `weaponName` + `targetToken` + `distanceFeet`).
+  Everything is now derived: `attackerLogic = mode.strikeMode.parentLogic`,
+  tokens/actor from the combatants, `distanceFeet` recomputed via `rangeToTarget`,
+  persistence via `attacker.recordAttackMode(...)` directly (no more
+  `findCombatant(token)` round-trip).
+- **`resolveAttackContext`** now also resolves+validates the **attacker** as a
+  combatant (was only the target); aborts if the attacker isn't in combat.
+- **`resolveCounterstrikeContext(attackResult, defender: SohlCombatant)`** →
+  `{ attacker: SohlCombatant, distanceFeet }` (was token/actor); the defender is
+  passed as a combatant too.
+- **Unchanged (by design):** every pure helper (`collectAttackableStrikeModes`,
+  `buildAttackResult`, `rangeToTarget`, …) and the whole injury path keep their
+  actor/token signatures. No behavior change.
+
+Build (types → 889 tests → bundle) + docs pass.
