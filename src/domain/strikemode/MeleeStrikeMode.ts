@@ -21,7 +21,7 @@ const { NumberField, StringField, SchemaField, BooleanField } =
     foundry.data.fields;
 
 /**
- * A melee strike mode — close-combat attack with accuracy, reach, and
+ * A melee strike mode — close-combat attack with spread, reach, and
  * defense capabilities (block and counterstrike).
  */
 export class MeleeStrikeMode extends StrikeModeBase {

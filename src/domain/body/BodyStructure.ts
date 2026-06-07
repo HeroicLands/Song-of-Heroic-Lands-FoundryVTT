@@ -95,10 +95,10 @@ export class BodyStructure {
      *
      * Without parameters, uses pure weighted random selection across all parts.
      *
-     * With a `target` parameter, simulates aimed strikes with accuracy drift:
-     * 1. Roll a random number from 1 to `accuracy`.
+     * With a `target` parameter, simulates aimed strikes with spread drift:
+     * 1. Roll a random number from 1 to `spread`.
      * 2. If the roll ≤ the current part's `probWeight`, that part is hit.
-     * 3. Otherwise, reduce `accuracy` by the part's `probWeight`, pick a
+     * 3. Otherwise, reduce `spread` by the part's `probWeight`, pick a
      *    random adjacent part, and repeat from step 2.
      * 4. If the current part has no (unvisited) adjacent parts, fall back
      *    to pure weighted random selection.
@@ -109,32 +109,32 @@ export class BodyStructure {
      */
     getRandomPart(target?: {
         targetPart: BodyPart;
-        accuracy: number;
+        spread: number;
     }): BodyPart {
         if (!target) {
             return weightedRandom(this.parts);
         }
 
         let currentPart = target.targetPart;
-        let remainingAccuracy = target.accuracy;
+        let remainingSpread = target.spread;
         const visited = new Set<string>();
 
         while (true) {
             visited.add(currentPart.shortcode);
 
-            // If accuracy <= probWeight, this part is always hit
-            if (remainingAccuracy <= currentPart.probWeight.effective) {
+            // If spread <= probWeight, this part is always hit
+            if (remainingSpread <= currentPart.probWeight.effective) {
                 return currentPart;
             }
 
-            // Roll 1..remainingAccuracy; hit if roll <= probWeight
-            const roll = Math.ceil(Math.random() * remainingAccuracy);
+            // Roll 1..remainingSpread; hit if roll <= probWeight
+            const roll = Math.ceil(Math.random() * remainingSpread);
             if (roll <= currentPart.probWeight.effective) {
                 return currentPart;
             }
 
-            // Miss — reduce accuracy and drift to an adjacent part
-            remainingAccuracy -= currentPart.probWeight.effective;
+            // Miss — reduce spread and drift to an adjacent part
+            remainingSpread -= currentPart.probWeight.effective;
             const adjacentParts = this.getAdjacentParts(
                 currentPart.shortcode,
             ).filter((p) => !visited.has(p.shortcode));
@@ -155,7 +155,7 @@ export class BodyStructure {
      */
     getRandomLocation(target?: {
         targetPart: BodyPart;
-        accuracy: number;
+        spread: number;
     }): BodyLocation {
         return this.getRandomPart(target).getRandomLocation();
     }

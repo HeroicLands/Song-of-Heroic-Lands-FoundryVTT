@@ -330,13 +330,13 @@ describe("collectAttackableStrikeModes", () => {
 });
 
 describe("classifyMissileRange", () => {
-    it("point blank at <= half base range: accuracy 6, impact +2", () => {
+    it("point blank at <= half base range: spread 6, impact +2", () => {
         const r = classifyMissileRange(20, 40);
-        expect(r).toEqual({ direct: true, pointBlank: true, accuracy: 6, impactRangeBonus: 2 });
+        expect(r).toEqual({ direct: true, pointBlank: true, spread: 6, impactRangeBonus: 2 });
     });
-    it("normal direct within base range: accuracy 8, no bonus", () => {
+    it("normal direct within base range: spread 8, no bonus", () => {
         const r = classifyMissileRange(30, 40);
-        expect(r).toEqual({ direct: true, pointBlank: false, accuracy: 8, impactRangeBonus: 0 });
+        expect(r).toEqual({ direct: true, pointBlank: false, spread: 8, impactRangeBonus: 0 });
     });
     it("beyond base range is a volley (not direct)", () => {
         expect(classifyMissileRange(50, 40).direct).toBe(false);

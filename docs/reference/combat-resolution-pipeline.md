@@ -175,7 +175,7 @@ The impact stage is a Foundry-free module, shared by both combat modes and the
 manual Add Injury flow:
 
 - `resolveInjury(input)` — picks the hit location (explicit override, aimed
-  `targetPart` + `accuracy`, or weighted random), subtracts the effective
+  `targetPart` + `spread`, or weighted random), subtracts the effective
   protection (`armorValue − armorReduction`, floored at 0), maps the effective
   impact to a level (≤0 none · 1–4 M1 · 5–9 S2 · 10–14 S3 · 15–19 G4 · 20+ G5),
   and derives the Shock Index, glancing blow, stumble/fumble, bleeding, and

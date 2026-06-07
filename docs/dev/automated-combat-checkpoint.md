@@ -545,7 +545,7 @@ defender's client → posts the combat-result card with a "Calculate Injury" but
 - **`buildCombatCardData`** (pure, in `combat-actions.ts`, tested): render context
   for `attack-result-card.hbs` from a `CombatResult` — two columns, Ignore dashes
   the Defend column, and a per-landing-side **`createInjury`** button (assisted:
-  `{ impact, aspect }`; aim auto-threading is a follow-up — needs `accuracy` on
+  `{ impact, aspect }`; aim auto-threading is a follow-up — needs `spread` on
   `AttackResult`). The attacker's weapon label rides on `AttackResult.title`
   (set by `buildAttackResult`); the attacker name comes from the rehydrated
   speaker.
@@ -619,7 +619,7 @@ impact + injury button.
 
 ---
 
-## 15. Missile range / accuracy foundations + injury auto-resolution (2026-06-06)
+## 15. Missile range / spread foundations + injury auto-resolution (2026-06-06)
 
 Pure, tested primitives in `combat-actions.ts` (for the upcoming attack-flow
 restructure):
@@ -628,28 +628,28 @@ restructure):
   (beyond base range = volley = excluded — automated combat does not support
   volley). Empty ⇒ target out of range of every mode.
 - **`classifyMissileRange(distance, baseRange)`** — `≤ baseRange/2` = point blank
-  (accuracy 6, impact +2); `≤ baseRange` = direct (accuracy 8); beyond =
+  (spread 6, impact +2); `≤ baseRange` = direct (spread 8); beyond =
   `direct:false` (volley).
 - **`indexOfBestMastery(entries, ml)`** — the "best chance" default (highest
   effective ML).
 
-Accuracy now travels to injury resolution, completing **aim auto-threading**:
-- `AttackResult.accuracy` and `ImpactResult.accuracy` added (melee = strike
+Spread now travels to injury resolution, completing **aim auto-threading**:
+- `AttackResult.spread` and `ImpactResult.spread` added (melee = strike
   mode `spread`; missile = 6/8). `buildAttackResult` / `CombatResult.rollImpact`
   forward it.
-- `buildCombatCardData`'s injury button now emits `targetPart` + `accuracy` when
+- `buildCombatCardData`'s injury button now emits `targetPart` + `spread` when
   the blow was aimed, so `createInjury` resolves the hit location **automatically**
   (falls back to the assisted dialog when unaimed).
 
 Still to wire (next): the attacker flow restructure (resolve target + distance →
-range-filtered mode list → out-of-range short-circuit → point-blank impact/accuracy
-→ melee accuracy = spread → recent/best default), `SohlCombatantDataModel`
+range-filtered mode list → out-of-range short-circuit → point-blank impact/spread
+→ melee spread = spread → recent/best default), `SohlCombatantDataModel`
 persistence of last attack/block mode, Block defaults, and the user-facing
 "volley unsupported" doc note.
 
 ---
 
-## 16. Attack range model, accuracy, defaults + persistence (2026-06-06)
+## 16. Attack range model, spread, defaults + persistence (2026-06-06)
 
 The attack flow now resolves **target + distance first**, then offers only
 in-range modes; missile mechanics and per-combatant defaults are wired.
@@ -659,10 +659,10 @@ in-range modes; missile mechanics and per-combatant defaults are wired.
   is excluded — automated combat does not support it. A wholly out-of-range
   target short-circuits: "out of range of any strike mode (melee or missile)".
 - **Missile direct mechanics** (`classifyMissileRange`): point-blank
-  (≤ baseRange/2) → accuracy 6 + impact **+2**; normal direct (≤ baseRange) →
-  accuracy 8. Melee accuracy = the strike mode's `spread`. Accuracy rides on
+  (≤ baseRange/2) → spread 6 + impact **+2**; normal direct (≤ baseRange) →
+  spread 8. Melee spread = the strike mode's `spread`. Spread rides on
   `AttackResult`/`ImpactResult` and drives **automatic** injury hit-location
-  resolution (the `createInjury` button now forwards `targetPart` + `accuracy`).
+  resolution (the `createInjury` button now forwards `targetPart` + `spread`).
 - **Defaults**: the attack and Block mode pickers default to the
   **most-recently-used** mode (if still available) else the **best chance**
   (`indexOfBestMastery`). Persisted on **`SohlCombatantDataModel`**
@@ -672,7 +672,7 @@ in-range modes; missile mechanics and per-combatant defaults are wired.
 - **Flow restructure** (`automated-combat.ts`): `resolveAttackContext` (attacker
   token + target + distance via `SohlTokenDocument.rangeToTarget`) → range gather
   → `chooseModeAndAttack` (default + dialog/scope) → `startAutomatedAttack`
-  (accuracy/point-blank, build, evaluate, record, post). `startAutomatedAttackFromItem`
+  (spread/point-blank, build, evaluate, record, post). `startAutomatedAttackFromItem`
   now takes `(itemLogic, itemName, context)` and filters to that item's in-range
   modes.
 - **User docs**: `docs/reference/combat-modes.md` "Choosing the strike" now
@@ -680,4 +680,4 @@ in-range modes; missile mechanics and per-combatant defaults are wired.
   supported** (point-blank bonus noted).
 
 All four defenses (Ignore/Dodge/Block/Counterstrike-pending) plus the attacker
-range/accuracy model are in. Build (types → 883 tests → bundle) + docs pass.
+range/spread model are in. Build (types → 883 tests → bundle) + docs pass.

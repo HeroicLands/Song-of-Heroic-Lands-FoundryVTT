@@ -37,7 +37,7 @@ The character's **Combat tab** has one row per melee strike mode (and one per ra
 
 **Impact.** If the combined attack/defense outcome means the strike connects, click the impact formula in the **Impact** column. The system rolls the damage with modifiers applied and posts the resulting impact value to chat.
 
-**Injury.** If impact is positive, the defender clicks **Add Injury** on their Trauma tab and fills in the form: impact value, weapon aspect, the targeted body part, accuracy, and optionally the specific location (if the GM called one). The system resolves armor reduction, picks a hit location, computes injury level and severity, creates an Injury item on the character sheet, and posts the result to chat.
+**Injury.** If impact is positive, the defender clicks **Add Injury** on their Trauma tab and fills in the form: impact value, weapon aspect, the targeted body part, spread, and optionally the specific location (if the GM called one). The system resolves armor reduction, picks a hit location, computes injury level and severity, creates an Injury item on the character sheet, and posts the result to chat.
 
 These four steps are **independent**. The attack result is just a chat entry — the GM can let the player reroll, declare a miss a hit, hand-wave the impact roll, or anything else. The injury form doesn't even need an attack roll to precede it. If a character falls 30 feet and the GM rules 15 blunt impact, the player can open **Add Injury** directly and fill in the numbers.
 
@@ -61,7 +61,7 @@ Automated combat collapses the four steps into a single chain that the system wa
 
 **Impact.** If the attack succeeded, the attacker sees an **Impact** button in chat. Clicking it rolls damage and posts the impact value.
 
-**Injury.** The defender then sees a **Calculate Injury** button. Accuracy, target part, and impact have all been carried forward — no form to fill in. One click resolves armor, picks a hit location, computes injury level and severity, creates the Injury item, and posts the result to chat.
+**Injury.** The defender then sees a **Calculate Injury** button. Spread, target part, and impact have all been carried forward — no form to fill in. One click resolves armor, picks a hit location, computes injury level and severity, creates the Injury item, and posts the result to chat.
 
 The exchange is over. Neither player consulted a rulebook; neither typed in a number after the initial weapon/part choice. Every step after that was a single click on a chat-card button.
 
@@ -83,7 +83,7 @@ The exchange is over. Neither player consulted a rulebook; neither typed in a nu
 
 ## See also
 
-- [Combat](./combat.md) — the underlying mechanics (strike accuracy, hit location determination)
+- [Combat](./combat.md) — the underlying mechanics (strike spread, hit location determination)
 - [Body Structure](./body-structure.md) — anatomy that drives hit location and injury effects
 - [Injuries and Healing](./injuries-healing.md) — what happens after the injury lands
 - [Combat Resolution Pipeline](./combat-resolution-pipeline.md) — the internal pipeline that drives both modes (developer-facing)

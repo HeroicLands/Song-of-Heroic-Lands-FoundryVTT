@@ -197,16 +197,16 @@ export interface MissileRangeBand {
     direct: boolean;
     /** Within half base range. */
     pointBlank: boolean;
-    /** Hit-location scatter accuracy: 6 at point blank, else 8. */
-    accuracy: number;
+    /** Hit-location scatter spread: 6 at point blank, else 8. */
+    spread: number;
     /** Impact range bonus: +2 at point blank, else 0. */
     impactRangeBonus: number;
 }
 
 /**
  * Classify a missile **direct** shot by distance vs base range (feet):
- * `≤ baseRange/2` is point blank (accuracy 6, impact +2); `≤ baseRange` is a
- * normal direct shot (accuracy 8, no bonus); beyond is a volley (`direct:false`,
+ * `≤ baseRange/2` is point blank (spread 6, impact +2); `≤ baseRange` is a
+ * normal direct shot (spread 8, no bonus); beyond is a volley (`direct:false`,
  * unsupported by automated combat). Pure.
  */
 export function classifyMissileRange(
@@ -217,7 +217,7 @@ export function classifyMissileRange(
     return {
         direct: distanceFeet <= baseRangeFeet,
         pointBlank,
-        accuracy: pointBlank ? 6 : 8,
+        spread: pointBlank ? 6 : 8,
         impactRangeBonus: pointBlank ? 2 : 0,
     };
 }
@@ -294,8 +294,8 @@ export interface BuildAttackInput {
     testType: string;
     /** The targeted body part shortcode, stored on the result for the cards + injury. */
     aimBodyPartCode?: string;
-    /** Strike accuracy for injury hit-location scatter (melee `spread`; missile 6/8). */
-    accuracy?: number;
+    /** Strike spread for injury hit-location scatter (melee `spread`; missile 6/8). */
+    spread?: number;
     /** Display label for the attack (weapon/strike-mode name), stored as the result's title. */
     title?: string;
     /** Pre-rolled d100 (tests); defaults to a fresh random roll. */
@@ -331,7 +331,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
             token: input.token ?? undefined,
             testType: input.testType,
             aimBodyPartCode: input.aimBodyPartCode ?? "",
-            accuracy: input.accuracy ?? 0,
+            spread: input.spread ?? 0,
             title: input.title ?? "",
         } as Partial<AttackResult.Data>,
         { parent: input.parent },
@@ -537,12 +537,12 @@ function injuryButton(
     target: CombatCardTarget | null | undefined,
 ): { handlerUuid: string; targetName: string; testResultJson: string } | null {
     if (!impact || !target) return null;
-    // When the blow was aimed, forward `targetPart` + `accuracy` so the
+    // When the blow was aimed, forward `targetPart` + `spread` so the
     // `createInjury` handler resolves the hit location automatically; otherwise
     // omit them and the handler opens the assisted Add Injury dialog.
     const aim =
         impact.aimBodyPartCode ?
-            { targetPart: impact.aimBodyPartCode, accuracy: impact.accuracy }
+            { targetPart: impact.aimBodyPartCode, spread: impact.spread }
         :   {};
     return {
         handlerUuid: target.actorUuid,

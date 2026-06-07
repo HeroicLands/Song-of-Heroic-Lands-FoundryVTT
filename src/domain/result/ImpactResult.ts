@@ -47,11 +47,11 @@ export class ImpactResult extends TestResult {
     /** The targeted body part shortcode, or `""` when unaimed (e.g. a fall). */
     aimBodyPartCode: string;
     /**
-     * Strike accuracy governing hit-location scatter from {@link aimBodyPartCode}.
+     * Strike spread governing hit-location scatter from {@link aimBodyPartCode}.
      * `0` when not aimed. With a non-empty aim it lets injury resolution pick the
      * location automatically (melee `spread`; missile 6/8).
      */
-    accuracy: number;
+    spread: number;
     /** A label for what caused the impact (weapon name, `"fall"`, `"spell"`, …). */
     source: string;
 
@@ -74,7 +74,7 @@ export class ImpactResult extends TestResult {
             this.roll.roll();
         }
         this.aimBodyPartCode = data.aimBodyPartCode ?? "";
-        this.accuracy = data.accuracy ?? 0;
+        this.spread = data.spread ?? 0;
         this.source = data.source ?? "";
     }
 
@@ -96,7 +96,7 @@ export namespace ImpactResult {
         impactModifier: ImpactModifier;
         roll: SimpleRoll;
         aimBodyPartCode: string;
-        accuracy: number;
+        spread: number;
         source: string;
     }
 

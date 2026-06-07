@@ -202,7 +202,7 @@ describe("resolveInjury — armor & effective impact", () => {
 });
 
 describe("resolveInjury — hit location", () => {
-    it("resolves the location via the aimed path when targetPart + accuracy given", () => {
+    it("resolves the location via the aimed path when targetPart + spread given", () => {
         const body = makeBody();
         const target = body.getPartByCode("head")!;
         const spy = vi
@@ -213,9 +213,9 @@ describe("resolveInjury — hit location", () => {
             aspect: IMPACT_ASPECT.EDGED,
             body,
             targetPart: target,
-            accuracy: 6,
+            spread: 6,
         });
-        expect(spy).toHaveBeenCalledWith({ targetPart: target, accuracy: 6 });
+        expect(spy).toHaveBeenCalledWith({ targetPart: target, spread: 6 });
         expect(injury.location.shortcode).toBe("skull");
     });
 

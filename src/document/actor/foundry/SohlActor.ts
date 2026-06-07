@@ -144,7 +144,7 @@ export class SohlActor extends Actor {
     /**
      * Resolve and post an injury from a chat-card `createInjury` click. The
      * forward-carried `data-test-result-json` discriminates the two modes:
-     * an automated request (aimed `targetPart` + `accuracy`) resolves with no
+     * an automated request (aimed `targetPart` + `spread`) resolves with no
      * player input; an assisted request opens the Add Injury dialog so the GM
      * can pick the location and tune armor reduction.
      */

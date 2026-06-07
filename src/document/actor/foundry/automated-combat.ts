@@ -327,7 +327,7 @@ async function chooseModeAndAttack(
 
 /**
  * Run the attacker-side flow for a chosen strike mode: resolve attack inputs
- * (Aim + modifier; dialog or `scope`) → derive accuracy + any point-blank impact
+ * (Aim + modifier; dialog or `scope`) → derive spread + any point-blank impact
  * bonus → assemble and evaluate the {@link AttackResult} → record the mode on the
  * combatant → post the attack card (unless `noChat`).
  */
@@ -357,8 +357,8 @@ export async function startAutomatedAttack(
     if (!input) return;
     const { aim, situationalModifier } = input;
 
-    // Accuracy (for injury hit-location scatter) + any impact range bonus.
-    let accuracy: number;
+    // Spread (for injury hit-location scatter) + any impact range bonus.
+    let spread: number;
     let impactRangeBonus = 0;
     if (p.strikeMode.isMissile) {
         const band = classifyMissileRange(
@@ -372,10 +372,10 @@ export async function startAutomatedAttack(
             );
             return;
         }
-        accuracy = band.accuracy;
+        spread = band.spread;
         impactRangeBonus = band.impactRangeBonus;
     } else {
-        accuracy = sm.spread?.effective ?? 0;
+        spread = sm.spread?.effective ?? 0;
     }
 
     const testType =
@@ -389,7 +389,7 @@ export async function startAutomatedAttack(
         token: p.attackerToken,
         testType,
         aimBodyPartCode: aim,
-        accuracy,
+        spread,
         title: p.weaponName,
     });
     if (situationalModifier) {

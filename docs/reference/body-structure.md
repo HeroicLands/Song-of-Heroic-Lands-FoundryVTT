@@ -5,7 +5,7 @@ aliases:
     - Body Locations
     - Hit Location
     - Anatomy
-    - Strike Accuracy
+    - Strike Spread
 tags:
     - rules
     - core-system
@@ -111,9 +111,9 @@ The adjacency graph defines which parts are next to which, as an array of unorde
 
 Each pair is bidirectional. The adjacency graph drives the **aimed-strike drift algorithm** ([BodyStructure.getRandomPart](../../src/domain/body/BodyStructure.ts#L97-L136)):
 
-1. Roll `1..accuracy`.
+1. Roll `1..spread`.
 2. If the roll ≤ the current target part's `probWeight`, that part is hit.
-3. Otherwise, reduce remaining accuracy by `probWeight` and drift to a random adjacent part. Repeat.
+3. Otherwise, reduce remaining spread by `probWeight` and drift to a random adjacent part. Repeat.
 4. If the drift reaches a part with no unvisited neighbors, hit that part.
 
 For unaimed attacks (`getRandomPart()` with no target), pure weighted random selection is used, with each part's `combatArea` as its weight.
