@@ -60,6 +60,7 @@ jobs:
                   fi
 
             - name: Publish to gh-pages
+              id: publish
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   TARGET_DIR: ${{ steps.meta.outputs.dir }}
@@ -114,12 +115,36 @@ jobs:
                   git add -A
                   if git diff --cached --quiet; then
                       echo "No documentation changes to publish."
+                      echo "pushed=false" >> "$GITHUB_OUTPUT"
                       exit 0
                   fi
                   MSG="docs: publish ${TARGET_DIR}"
                   [ "${IS_RELEASE}" = "true" ] && MSG="${MSG} + latest"
                   git commit -q -m "${MSG}"
                   git push -q origin gh-pages
+                  echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+            - name: Purge Cloudflare cache
+              # Only after an actual publish; skips cleanly if secrets are unset
+              if: steps.publish.outputs.pushed == 'true'
+              env:
+                  CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+                  CF_API_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
+                      echo "Cloudflare secrets not configured; skipping cache purge."
+                      exit 0
+                  fi
+                  echo "Purging Cloudflare cache for zone ${CF_ZONE_ID}…"
+                  resp=$(curl -fsS -X POST \
+                      "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+                      -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                      -H "Content-Type: application/json" \
+                      --data '{"purge_everything":true}')
+                  echo "${resp}"
+                  # Cloudflare returns HTTP 200 with success:false on logical errors
+                  echo "${resp}" | grep -q '"success":true' || { echo "Cloudflare purge failed."; exit 1; }
 
     cleanup:
         # Remove a deleted branch's docs. Tags are left in place (releases persist).
