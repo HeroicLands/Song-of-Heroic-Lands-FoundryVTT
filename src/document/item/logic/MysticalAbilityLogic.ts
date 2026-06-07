@@ -68,7 +68,7 @@ export class MysticalAbilityLogic<
     /* --------------------------------------------- */
 
     /** @inheritdoc */
-    initialize(): void {
+    override initialize(): void {
         super.initialize();
         this.charges = {
             value: new ValueModifier({}, { parent: this }).setBase(
@@ -108,7 +108,7 @@ export class MysticalAbilityLogic<
     }
 
     /** @inheritdoc */
-    evaluate(): void {
+    override evaluate(): void {
         super.evaluate();
 
         if (!this.actor) return;
@@ -124,7 +124,7 @@ export class MysticalAbilityLogic<
     }
 
     /** @inheritdoc */
-    finalize(): void {
+    override finalize(): void {
         super.finalize();
 
         // Now, if we have an associated skill, merge that skill's mastery level into this ability's mastery level.

@@ -141,7 +141,7 @@ export class OpposedTestResult extends TestResult {
         return result;
     }
 
-    async evaluate(): Promise<boolean> {
+    override async evaluate(): Promise<boolean> {
         if (this.sourceTestResult && this.targetTestResult) {
             let allowed = await super.evaluate();
             allowed &&= !!(await this.sourceTestResult.evaluate());

@@ -228,7 +228,7 @@ export namespace SohlDataModel {
         TBase extends foundry.applications.api.DocumentSheetV2.AnyConstructor,
     >(Base: TBase): TBase {
         return class SMix extends HandlebarsApplicationMixin(Base) {
-            static DEFAULT_OPTIONS: PlainObject = {
+            static override DEFAULT_OPTIONS: PlainObject = {
                 classes: ["sohl"],
             };
             _dragDrop: DragDrop[];
@@ -245,7 +245,7 @@ export namespace SohlDataModel {
                 return super.document as TDocument;
             }
 
-            _configureRenderOptions(
+            override _configureRenderOptions(
                 options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
             ): void {
                 super._configureRenderOptions(options);

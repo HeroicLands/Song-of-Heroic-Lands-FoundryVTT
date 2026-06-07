@@ -90,7 +90,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     } as const;
 
-    static TABS = {
+    static override TABS = {
         primary: {
             initial: "facade",
             tabs: [
@@ -217,7 +217,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }),
     ];
 
-    async _onRender(
+    override async _onRender(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<void> {
@@ -360,7 +360,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /*  Part Context Dispatcher                     */
     /* -------------------------------------------- */
 
-    async _preparePartContext(
+    override async _preparePartContext(
         partId: string,
         context: RenderContext,
         options: RenderOptions,
@@ -460,7 +460,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /* -------------------------------------------- */
 
     /** Prepare context for the sheet header: name, image, health, status effects, body parts. */
-    async _prepareHeaderContext(
+    override async _prepareHeaderContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -491,7 +491,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Tabs navigation. */
-    async _prepareTabsContext(
+    override async _prepareTabsContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -499,7 +499,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Facade tab: bio image and description. */
-    async _prepareFacadeContext(
+    override async _prepareFacadeContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
