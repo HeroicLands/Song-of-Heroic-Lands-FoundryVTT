@@ -1,8 +1,13 @@
 {
     "entryPoints": [
-        "build/docbundle/index.ts"
+        "build/docbundle"
     ],
-    "entryPointStrategy": "resolve",
+    "entryPointStrategy": "expand",
+    "navigation": {
+        "includeFolders": true,
+        "includeGroups": false,
+        "includeCategories": false
+    },
     "tsconfig": "./tsconfig.docs.json",
     "out": "build/stage/docs",
     "plugin": [
