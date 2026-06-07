@@ -285,14 +285,14 @@ target's owner + GM (token name in the label). Decided at chat-card render time
 from a target actor/token uuid on the button.
 
 ### Loose ends
-- **`noCounterstrike` / `defense.counterstrike` are LEGACY** (user, 2026-06-05).
-  A counterstrike is purely a normal attack: gated by `noAttack`, resolved with
-  the strike mode's **`attack` ML** (not a separate counterstrike modifier). The
-  `NOCOUNTERSTRIKE: "NoCX"` constant (`constants.ts:379`), the `defense.counterstrike`
-  modifier, and the `data.traits?.noCounterstrike` check (`MeleeStrikeMode.ts:73-79`)
-  are dead/to-be-removed — do **not** wire new automated-combat logic to them.
-  Separate cleanup PR (don't fold into the combat feature; respect "small, focused
-  changes" + "no cosmetic refactors").
+- **Counterstrike modifier — SUPERSEDED decision (user, 2026-06-07; see §22).**
+  An earlier note (2026-06-05) had counterstrike resolve with the strike mode's
+  plain `attack` ML and called `defense.counterstrike` legacy. That was revised:
+  a counterstrike shares the **same skill base** as the attack but carries its
+  **own modifier deltas**, so `defense.counterstrike` is a *legitimate, separate*
+  `CombatModifier` and is **kept**. Only the nonexistent `noCounterstrike` *trait*
+  (and its `NOCOUNTERSTRIKE`/`NoCX` ValueDelta) was removed — a counterstrike is
+  gated by `noAttack`, since it is an attack.
 - Register the remaining result classes (`DefendResult`, `OpposedTestResult`,
   `CombatResult`) when their flows are wired (needed for their round-trip).
 - `SuccessTestResult` rebuilds `_speaker` from its token (ignores `data.speaker`);
@@ -844,5 +844,31 @@ referenced from `combat-modes.md` (player) and `combat-resolution-pipeline.md` (
    payload) to `uiWarn`.
 3. **Developer diagnostics → console only** (`sohl.log.warn`): "should never
    happen" / data-integrity signals (unhandled chat action, missing Lineage).
+
+Build (types → 894 tests → bundle) + docs pass.
+
+## 22. Counterstrike keeps its own modifier (correction, 2026-06-07)
+
+A first cleanup attempt (PR #37) collapsed counterstrike into the plain `attack`
+modifier. The user corrected the model: **attack and counterstrike share the same
+skill base ML, but carry different modifier deltas** — a counterstrike can be at a
+circumstantial disadvantage an attack isn't. Mechanically identical flow (each
+produces an `AttackResult`); the *modifier* differs. So `defense.counterstrike`
+is a legitimate, separate `CombatModifier` and stays.
+
+PR #37 was reset and redone as a much smaller change:
+
+- **Kept** `defense.counterstrike` (modifier, schema, `SM_COUNTERSTRIKE` effect
+  key, `TEST_TYPE.COUNTERSTRIKE`, the assisted **CX** column, and the four
+  counterstrike-defense lang keys).
+- **`MeleeStrikeMode`** — counterstrike is now gated by **`noAttack`** (a
+  counterstrike is an attack) instead of the nonexistent `noCounterstrike` trait;
+  it can still be disabled on its own via `defense.counterstrike.disabled`.
+- **Removed** only the dead `noCounterstrike` trait artifacts: the
+  `VALUE_DELTA_ID.NOCOUNTERSTRIKE` (`"NoCX"`) constant and its two lang keys
+  (`Key.NoCounterstrike`, `ValueDelta.INFO.NoCX`).
+- **`automatedCounterstrikeResume`** — now rolls the strike mode's
+  **`defense.counterstrike`** modifier (not `sm.attack`); the best-chance default
+  ranks by it; modes whose counterstrike is independently disabled are excluded.
 
 Build (types → 894 tests → bundle) + docs pass.

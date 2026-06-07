@@ -757,13 +757,18 @@ export class BeingLogic<
         const rc = resolveCounterstrikeContext(attackResult, combatant);
         if (!rc) return;
 
-        // Counterstrike uses melee attack modes (noAttack-filtered by the
-        // collector) within reach of the attacker. A ranged attacker out of melee
-        // reach yields none → cannot counterstrike.
+        // Counterstrike uses melee modes within reach of the attacker. A mode is
+        // eligible when it can attack (gated by `noAttack`, via the collector) and
+        // its counterstrike modifier is not independently disabled. A ranged
+        // attacker out of melee reach yields none → cannot counterstrike.
         const entries = collectAttackableStrikeModes(
             this.actor as any,
             rc.distanceFeet,
-        ).filter((e) => (e.strikeMode as any).isMelee);
+        ).filter(
+            (e) =>
+                (e.strikeMode as any).isMelee &&
+                !(e.strikeMode as any).defense?.counterstrike?.disabled,
+        );
         if (!entries.length) {
             sohl.log.uiWarn(
                 `${this.actor?.name} has no melee strike mode in reach to counterstrike.`,
@@ -775,8 +780,9 @@ export class BeingLogic<
             choices[String(i)] = `${e.itemName} — ${e.strikeMode.name}`;
         });
 
-        // Default: the most-recently-used attack mode (a counterstrike is an
-        // attack), else the best-chance attack mode.
+        // Default: the most-recently-used attack mode (a counterstrike shares the
+        // attack-mode history), else the best chance — ranked by the
+        // counterstrike modifier, which is what the counterstrike actually rolls.
         const recent = combatant?.lastAttackMode ?? null;
         let defaultIdx =
             recent ?
@@ -789,7 +795,9 @@ export class BeingLogic<
                 0,
                 indexOfBestMastery(
                     entries,
-                    (e) => e.strikeMode.attack.constrainedEffective,
+                    (e) =>
+                        (e.strikeMode as any).defense.counterstrike
+                            .constrainedEffective,
                 ),
             );
         }
@@ -839,9 +847,11 @@ export class BeingLogic<
 
         // The counterstrike is a melee attack by this defender against the
         // attacker — modelled as an AttackResult in the CombatResult's defender
-        // slot (so both sides can land and carry impact).
+        // slot (so both sides can land and carry impact). It rolls the strike
+        // mode's **counterstrike** modifier (same skill base as attack, but its
+        // own deltas) rather than the plain attack modifier.
         const counter = buildAttackResult({
-            attackML: sm.attack,
+            attackML: sm.defense.counterstrike,
             impact: sm.impact,
             parent: this,
             token: context.token ?? null,
