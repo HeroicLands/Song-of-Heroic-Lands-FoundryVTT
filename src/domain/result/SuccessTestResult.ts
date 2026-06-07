@@ -78,8 +78,7 @@ import {
  *
  * ## Subclasses
  *
- * - {@link ImpactResult} — adds damage dice and impact aspect
- * - {@link AttackResult} — attacker's roll with allowed defenses
+ * - {@link AttackResult} — attacker's roll, with impact dice and aim
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
 export class SuccessTestResult extends TestResult {

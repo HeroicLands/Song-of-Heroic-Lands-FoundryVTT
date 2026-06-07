@@ -11,78 +11,75 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ImpactResult } from "@src/domain/result/ImpactResult";
 import { registerKind } from "@src/utils/kindRegistry";
 import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import { SuccessTestResult } from "./SuccessTestResult";
+import { ImpactModifier } from "../modifier/ImpactModifier";
 
 /**
- * The attacker's side of a combat exchange — an {@link ImpactResult} with
- * additional attack-specific data.
+ * The attacker's side of a combat exchange — a {@link SuccessTestResult} with
+ * attack-specific data (the impact formula and the targeted body part).
  *
  * ## Key properties
  *
- * - {@link allowedDefenses} — which defense types (block, counterstrike,
- *   dodge, ignore) the target may use against this attack.
- * - {@link damage} — the **pre-defense** damage value. This is the raw
- *   impact before the target's armor, defenses, and resistances are
- *   applied. Final damage is determined in {@link CombatResult}.
- * - {@link situationalModifier} — player-entered modifier from the
- *   attack dialog.
- * - {@link modifiers} — named modifier map for display/audit.
+ * - {@link impact} — the impact (damage) **formula/capability** for this attack
+ *   (e.g. 2d6+5 edged). It is *not* rolled here: when the blow actually lands,
+ *   {@link CombatResult} produces an `ImpactResult` from this modifier (the
+ *   roll happens then). Final damage is determined downstream by impact
+ *   resolution against the target's armor/body location.
+ * - {@link aimBodyPartCode} — the targeted body part shortcode, carried through
+ *   to the defense resume and the injury card.
  *
  * ## Evaluation
  *
- * {@link evaluate} performs the attack roll, determines success/failure,
- * checks for attack-specific mishaps (weapon break, stumble, fumble,
- * wild swing), and computes the pre-defense damage if the attack hits.
+ * {@link evaluate} performs the attack roll, determines success/failure, and
+ * checks for attack-specific mishaps (stumble, fumble, missile misfire). On a
+ * self-miss it disables {@link impact}; it does not roll impact (that is done
+ * when the blow lands).
  */
-export class AttackResult extends ImpactResult {
-    situationalModifier: number;
-    allowedDefenses: Set<string>;
-    damage: number;
-    modifiers: Map<string, string>;
+export class AttackResult extends SuccessTestResult {
+    impact: ImpactModifier;
+    aimBodyPartCode: string;
 
     constructor(
         data: Partial<AttackResult.Data> = {},
         options: Partial<AttackResult.Options> = {},
     ) {
         super(data, options);
-        this.situationalModifier = data.situationalModifier ?? 0;
-        this.allowedDefenses = new Set(data.allowedDefenses ?? []);
-        this.damage = data.damage ?? 0;
-        this.modifiers = new Map(data.modifiers ?? []);
+        this.impact = data.impact ?? new ImpactModifier();
+        this.aimBodyPartCode = data.aimBodyPartCode ?? "";
     }
 
     async evaluate(): Promise<boolean> {
         const allowed = await super.evaluate();
         if (!allowed) return false;
 
-        if (
-            this.testType === TEST_TYPE.MELEEATTACK.id ||
-            this.testType === TEST_TYPE.AUTOCOMBATMELEE.id
-        ) {
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
+        if (!this.isSuccess) {
+            if (
+                this.testType === TEST_TYPE.MELEEATTACK.id ||
+                this.testType === TEST_TYPE.AUTOCOMBATMELEE.id
+            ) {
+                if (this.isCritical && this.lastDigit === 0) {
+                    this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
+                }
+                if (this.isCritical && this.lastDigit === 5) {
+                    this.mishaps.add(ATTACK_MISHAP.STUMBLE_TEST);
+                }
             }
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(ATTACK_MISHAP.STUMBLE_TEST);
+            if (
+                this.testType === TEST_TYPE.MISSILEATTACK.id ||
+                this.testType === TEST_TYPE.AUTOCOMBATMISSILE.id
+            ) {
+                if (this.isCritical && this.lastDigit === 0) {
+                    this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
+                }
+                if (this.isCritical && this.lastDigit === 5) {
+                    this.mishaps.add(ATTACK_MISHAP.MISSILE_MISFIRE);
+                }
             }
-            this.deliversImpact = false;
-        }
-        if (
-            this.testType === TEST_TYPE.MISSILEATTACK.id ||
-            this.testType === TEST_TYPE.AUTOCOMBATMISSILE.id
-        ) {
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 0) {
-                this.mishaps.add(ATTACK_MISHAP.FUMBLE_TEST);
-            }
-            if (this.isCritical && !this.isSuccess && this.lastDigit === 5) {
-                this.mishaps.add(ATTACK_MISHAP.MISSILE_MISFIRE);
-            }
-            this.deliversImpact = false;
+            this.impact.disabledReason = "Attack missed";
         }
 
-        this.deliversImpact = this.isSuccess;
         return true;
     }
 
@@ -92,9 +89,7 @@ export class AttackResult extends ImpactResult {
     ): Promise<any> {
         const newData = {
             ...data,
-            impactSituationalModifier: this.situationalModifier,
-            impactMod: this.impactModifier,
-            deliversImpact: this.deliversImpact,
+            impact: this.impact,
         };
 
         return await super.testDialog(
@@ -106,12 +101,11 @@ export class AttackResult extends ImpactResult {
                         10,
                     ) || 0;
 
-                if (this.impactModifier && formImpactSituationalModifier) {
-                    this.impactModifier.add(
+                if (this.impact && formImpactSituationalModifier) {
+                    this.impact.add(
                         VALUE_DELTA_ID.PLAYER,
                         formImpactSituationalModifier,
                     );
-                    this.situationalModifier = formImpactSituationalModifier;
                 }
 
                 // Chain the new callback
@@ -123,9 +117,7 @@ export class AttackResult extends ImpactResult {
     async toChat(data = {}) {
         return super.toChat({
             ...data,
-            impactSituationalModifier: this.situationalModifier,
-            impactMod: this.impactModifier,
-            deliversImpact: this.deliversImpact,
+            impact: this.impact,
         });
     }
 }
@@ -133,14 +125,14 @@ export class AttackResult extends ImpactResult {
 export namespace AttackResult {
     export const Kind: string = "AttackResult";
 
-    export interface Data extends ImpactResult.Data {
-        situationalModifier: number;
-        allowedDefenses: Set<string>;
-        damage: number;
-        modifiers: Map<string, string>;
+    export interface Data extends SuccessTestResult.Data {
+        /** The impact (damage) formula/capability for this attack. */
+        impact: ImpactModifier;
+        /** The body part shortcode targeted by this attack, if any */
+        aimBodyPartCode: string;
     }
 
-    export interface Options extends ImpactResult.Options {}
+    export interface Options extends SuccessTestResult.Options {}
 
     export interface ContextScope {
         priorTestResult: AttackResult | null;

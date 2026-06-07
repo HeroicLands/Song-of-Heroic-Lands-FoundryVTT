@@ -28,6 +28,7 @@ import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlActionData } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
+import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
  * Logic for the **Weapon Gear** item type — a weapon that can be wielded in combat.
@@ -107,7 +108,14 @@ export class WeaponGearLogic<
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        await startAutomatedAttackFromItem(
+            this,
+            this.strikeModes,
+            this.item?.name ?? "",
+            context,
+        );
+    }
 
     /**
      * Present a dialog asking the player to select a strike mode to block with to resume

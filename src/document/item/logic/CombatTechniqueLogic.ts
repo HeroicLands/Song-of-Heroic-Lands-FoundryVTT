@@ -27,6 +27,7 @@ import {
 import { SohlActionData } from "@src/domain/action/SohlAction";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
+import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
  * Logic for the **Combat Technique** item type — a specialized combat
@@ -61,7 +62,14 @@ export class CombatTechniqueLogic<
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        await startAutomatedAttackFromItem(
+            this,
+            [this.strikeMode],
+            this.item?.name ?? "",
+            context,
+        );
+    }
 
     /**
      * Present a dialog asking the player to select a strike mode to block with to resume

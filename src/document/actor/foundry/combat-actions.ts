@@ -13,11 +13,22 @@
 
 import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import type { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
-import type { ImpactAspect } from "@src/utils/constants";
+import {
+    ATTACK_MISHAP,
+    CRITICAL_FAILURE,
+    DEFEND_MISHAP,
+    MARGINAL_FAILURE,
+    MARGINAL_SUCCESS,
+    TEST_TYPE,
+    type ImpactAspect,
+} from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { AttackResult } from "@src/domain/result/AttackResult";
+import type { CombatResult } from "@src/domain/result/CombatResult";
+import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { instanceToJSON } from "@src/utils/helpers";
 
 export type StrikeModeTestKind = "attack" | "block" | "counterstrike";
 
@@ -108,10 +119,10 @@ export interface BuildAttackInput {
     token: SohlTokenDocument | null;
     /** Test type id, e.g. `TEST_TYPE.AUTOCOMBATMELEE.id`. */
     testType: string;
-    /** Defense options offered to the target (block/dodge/counterstrike/ignore). */
-    allowedDefenses: Iterable<string>;
-    /** Player-entered situational modifier, recorded for audit/display. */
-    situationalModifier?: number;
+    /** The targeted body part shortcode, stored on the result for the cards + injury. */
+    aimBodyPartCode?: string;
+    /** Display label for the attack (weapon/strike-mode name), stored as the result's title. */
+    title?: string;
     /** Pre-rolled d100 (tests); defaults to a fresh random roll. */
     roll?: SimpleRoll;
 }
@@ -133,7 +144,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
         {},
         { parent: input.parent },
     );
-    const impactModifier = input.impact.clone<ImpactModifier>(
+    const impact = input.impact.clone<ImpactModifier>(
         {},
         { parent: input.parent },
     );
@@ -141,11 +152,11 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
         {
             roll: input.roll ?? rollAttackDie(),
             masteryLevelModifier,
-            impactModifier,
+            impact,
             token: input.token ?? undefined,
             testType: input.testType,
-            allowedDefenses: new Set(input.allowedDefenses),
-            situationalModifier: input.situationalModifier ?? 0,
+            aimBodyPartCode: input.aimBodyPartCode ?? "",
+            title: input.title ?? "",
         } as Partial<AttackResult.Data>,
         { parent: input.parent },
     );
@@ -228,5 +239,213 @@ export function buildDamageCardData(
             impact: input.impact,
             aspect: input.aspect,
         }),
+    };
+}
+
+/** A targeted defender reduced to the data the attack card needs. */
+export interface AttackCardTarget {
+    /** Display name of the defender token (subtitle + injury-button label). */
+    name: string;
+    /**
+     * UUID of the defender token's **actor** — the dispatch handler for the
+     * defense buttons (matched by `resolveChatCardHandlerUuid`'s
+     * `handlerActorUuid` lookup), so the defense resolves on the defender's
+     * client.
+     */
+    actorUuid: string;
+}
+
+/** Inputs for {@link buildAttackCardData}. */
+export interface AttackCardInput {
+    /** The attacker's *evaluated* attack result (drives Aim, Aspect, AML). */
+    attackResult: AttackResult;
+    /** Card title, e.g. "Broadsword Melee Attack". */
+    title: string;
+    /** Display name of the attacking token (subtitle). */
+    attackerName: string;
+    /** The attacker actor's id (for `data-actor-id`). */
+    actorId: string | null;
+    /** Human-readable label for the attack's aim (body part), shown on the card. */
+    aimLabel: string;
+    /** The targeted defender, or `null` if nothing is targeted. */
+    target: AttackCardTarget | null;
+}
+
+/**
+ * Build the render context for `attack-card.hbs` from an **evaluated**
+ * {@link AttackResult}. Pure and Foundry-free.
+ *
+ * Transparency-by-design: the attacker's choices (Aim, Aspect) and the
+ * resolved Attack Mastery Level are surfaced on the card for everyone to see.
+ * The whole `AttackResult` is embedded as `attackResultData` (kind-stamped via
+ * {@link instanceToJSON}); the template serializes it with the registered
+ * `toJSON` Handlebars helper into `data-attack-result-json`, and the defense
+ * resume rehydrates it with `instanceFromJSON`. The aim travels with the result
+ * (`AttackResult.aimBodyPartCode`). All four defense buttons are emitted;
+ * per-defender capability gating (Block/Counterstrike) happens later, at
+ * chat-card render time.
+ */
+export function buildAttackCardData(
+    input: AttackCardInput,
+): Record<string, unknown> {
+    const ar = input.attackResult;
+    return {
+        title: input.title,
+        attackerName: input.attackerName,
+        actorId: input.actorId,
+        defenderName: input.target?.name ?? "",
+        handlerActorUuid: input.target?.actorUuid ?? "",
+        hasTarget: !!input.target,
+        aim: ar.aimBodyPartCode,
+        aimLabel: input.aimLabel,
+        aspect: ar.impact?.aspectType ?? "",
+        aml: ar.masteryLevelModifier?.constrainedEffective ?? 0,
+        // All four defense buttons are emitted; per-defender capability gating
+        // (Block/Counterstrike) happens at chat-card render time.
+        hasDodge: true,
+        hasBlock: true,
+        hasCounterstrike: true,
+        hasIgnore: true,
+        // Kind-stamped plain object; the template emits it via `{{toJSON …}}`.
+        attackResultData: instanceToJSON(ar),
+    };
+}
+
+/** A combatant reduced to what a combat-card injury button needs. */
+export interface CombatCardTarget {
+    /** Display name of the struck token (button label). */
+    name: string;
+    /** UUID of the struck token's actor — the `createInjury` handler. */
+    actorUuid: string;
+}
+
+/** Inputs for {@link buildCombatCardData}. */
+export interface CombatCardInput {
+    /** The resolved combat exchange. */
+    combatResult: CombatResult;
+    /** Card title, e.g. "Attack Result". */
+    title: string;
+    /** The card author's (defender's) actor id, for `data-actor-id`. */
+    actorId: string | null;
+    /** Display name of the attacker. */
+    attackerName: string;
+    /** Display name of the defender. */
+    defenderName: string;
+    /** The attacker's strike-mode / weapon label. */
+    attackWeapon: string;
+    /** The defense label shown in the Defend column (e.g. "Ignore", "Dodge"). */
+    defenseLabel: string;
+    /** Who the attacker's blow strikes (the defender) — for its injury button. */
+    attackTarget: CombatCardTarget | null;
+    /** Who a counterstrike strikes (the attacker) — for its injury button. */
+    defendTarget?: CombatCardTarget | null;
+}
+
+/** Map a numeric success level to its display text. */
+function successLevelText(sl: number): string {
+    if (sl <= CRITICAL_FAILURE) return "Critical Failure";
+    if (sl === MARGINAL_FAILURE) return "Marginal Failure";
+    if (sl === MARGINAL_SUCCESS) return "Marginal Success";
+    return "Critical Success";
+}
+
+/**
+ * Build the assisted-injury button payload for a landing side, or `null` when
+ * the side did not land (no `ImpactResult`) or has no target. Mirrors
+ * {@link buildDamageCardData}: the `createInjury` handler opens the Add Injury
+ * dialog from `{ impact, aspect }` (no aim forwarded yet → assisted, not
+ * automated).
+ */
+function injuryButton(
+    impact: ImpactResult | undefined,
+    target: CombatCardTarget | null | undefined,
+): { handlerUuid: string; targetName: string; testResultJson: string } | null {
+    if (!impact || !target) return null;
+    return {
+        handlerUuid: target.actorUuid,
+        targetName: target.name,
+        testResultJson: JSON.stringify({
+            impact: impact.total,
+            aspect: impact.aspect,
+        }),
+    };
+}
+
+/**
+ * Build the render context for `attack-result-card.hbs` from a resolved
+ * {@link CombatResult}. Pure and Foundry-free.
+ *
+ * Shows the exchange in two columns (Attack | Defend); for **Ignore** the
+ * defender did not contest, so its column is dashed. Each side that lands a
+ * blow gets a "Calculate <Token> Injury" button wired to the `createInjury`
+ * action (assisted). Counterstrike can land both sides at once.
+ */
+export function buildCombatCardData(
+    input: CombatCardInput,
+): Record<string, unknown> {
+    const cr = input.combatResult;
+    const atk = cr.attackResult;
+    const def = cr.defendResult;
+    // Ignore means the defender took no part: its column is dashed.
+    const defenderContested = def?.testType !== TEST_TYPE.IGNORE.id;
+
+    const atkInjury = injuryButton(cr.attackerImpact, input.attackTarget);
+    const defInjury = injuryButton(cr.defenderImpact, input.defendTarget);
+
+    return {
+        actorId: input.actorId,
+        title: input.title,
+        attacker: input.attackerName,
+        defender: input.defenderName,
+        attackWeapon: input.attackWeapon,
+        defense: input.defenseLabel,
+        effAML: atk.masteryLevelModifier?.constrainedEffective ?? 0,
+        effDML:
+            defenderContested ?
+                (def.masteryLevelModifier?.constrainedEffective ?? 0)
+            :   "",
+        attackRoll: atk.roll?.total ?? 0,
+        defenseRoll: defenderContested ? (def.roll?.total ?? 0) : "",
+        atkRollResult: successLevelText(atk.successLevel),
+        atkIsSuccess: atk.isSuccess,
+        atkIsCritical: atk.isCritical,
+        defRollResult: defenderContested ? successLevelText(def.successLevel) : "",
+        defIsSuccess: defenderContested ? def.isSuccess : false,
+        defIsCritical: defenderContested ? def.isCritical : false,
+        resultDesc:
+            cr.attackerLandsBlow ?
+                `${input.attackerName} strikes!`
+            :   "Attack misses.",
+        hasAttackHit: cr.attackerLandsBlow,
+        impactFormula: cr.attackerLandsBlow ? (atk.impact?.label ?? "") : "",
+        numAtkTA:
+            cr.tacticalAdvantages.side === "attacker" ?
+                cr.tacticalAdvantages.count
+            :   0,
+        numDefTA:
+            cr.tacticalAdvantages.side === "defender" ?
+                cr.tacticalAdvantages.count
+            :   0,
+        atkWeaponBroke: cr.weaponBreakCheck === "attacker",
+        defWeaponBroke: cr.weaponBreakCheck === "defender",
+        isAtkFumbleTest: atk.mishaps?.has(ATTACK_MISHAP.FUMBLE_TEST) ?? false,
+        isAtkStumbleTest: atk.mishaps?.has(ATTACK_MISHAP.STUMBLE_TEST) ?? false,
+        isDefFumbleTest:
+            defenderContested ?
+                (def.mishaps?.has(DEFEND_MISHAP.FUMBLE_TEST) ?? false)
+            :   false,
+        isDefStumbleTest:
+            defenderContested ?
+                (def.mishaps?.has(DEFEND_MISHAP.STUMBLE_TEST) ?? false)
+            :   false,
+        // Injury buttons (createInjury, assisted) — one per landing side.
+        hasAttackInjury: !!atkInjury,
+        attackInjuryHandlerUuid: atkInjury?.handlerUuid ?? "",
+        attackInjuryTargetName: atkInjury?.targetName ?? "",
+        attackInjuryJson: atkInjury?.testResultJson ?? "",
+        hasDefendInjury: !!defInjury,
+        defendInjuryHandlerUuid: defInjury?.handlerUuid ?? "",
+        defendInjuryTargetName: defInjury?.targetName ?? "",
+        defendInjuryJson: defInjury?.testResultJson ?? "",
     };
 }

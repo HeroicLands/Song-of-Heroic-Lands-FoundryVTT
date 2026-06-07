@@ -45,12 +45,8 @@ export class ValueDelta {
         const { name, shortcode, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
 
-        if (!shortcode) {
-            throw new Error("ValueDelta requires an shortcode");
-        }
-
-        if (!name?.startsWith("SOHL.INFO."))
-            throw new Error("ValueDelta name must start with SOHL.INFO.");
+        // `name` / `shortcode` are passed through as-is (display / identity
+        // labels, not validated localization keys).
         this.name = name;
         this.shortcode = shortcode;
         this.op = op;

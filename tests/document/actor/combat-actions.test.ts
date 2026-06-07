@@ -11,13 +11,18 @@ import {
     resolveStrikeModeImpact,
     buildDamageCardData,
     buildAttackResult,
+    buildAttackCardData,
+    buildCombatCardData,
     resolveAttackTarget,
 } from "@src/document/actor/foundry/combat-actions";
-import { IMPACT_ASPECT, TEST_TYPE } from "@src/utils/constants";
+import { IMPACT_ASPECT, MARGINAL_SUCCESS, TEST_TYPE } from "@src/utils/constants";
 import { AttackResult } from "@src/domain/result/AttackResult";
+import { DefendResult } from "@src/domain/result/DefendResult";
+import { CombatResult } from "@src/domain/result/CombatResult";
 import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { instanceFromJSON } from "@src/utils/helpers";
 
 const attackerParent = {
     data: { kind: "weapongear" },
@@ -241,7 +246,7 @@ describe("buildAttackResult", () => {
             parent: attackerParent,
             token: null,
             testType: TEST_TYPE.AUTOCOMBATMELEE.id,
-            allowedDefenses: ["block", "dodge", "counterstrike", "ignore"],
+            aimBodyPartCode: "head",
             roll,
         });
 
@@ -249,14 +254,9 @@ describe("buildAttackResult", () => {
         expect(ar.testType).toBe(TEST_TYPE.AUTOCOMBATMELEE.id);
         expect(ar.roll.total).toBe(44);
         expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
-        expect(ar.impactModifier.die).toBe(6);
-        expect(ar.impactModifier.numDice).toBe(2);
-        expect([...ar.allowedDefenses].sort()).toEqual([
-            "block",
-            "counterstrike",
-            "dodge",
-            "ignore",
-        ]);
+        expect(ar.impact.die).toBe(6);
+        expect(ar.impact.numDice).toBe(2);
+        expect(ar.aimBodyPartCode).toBe("head");
     });
 
     it("clones the modifiers so mutating the result does not touch the strike mode", () => {
@@ -269,16 +269,103 @@ describe("buildAttackResult", () => {
             parent: attackerParent,
             token: null,
             testType: TEST_TYPE.AUTOCOMBATMELEE.id,
-            allowedDefenses: ["dodge"],
             roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [1] }),
         });
 
         expect(ar.masteryLevelModifier).not.toBe(attackML);
-        expect(ar.impactModifier).not.toBe(impact);
+        expect(ar.impact).not.toBe(impact);
         // Independent: mutating the result's modifier leaves the source alone.
         ar.masteryLevelModifier.successLevelMod = 3;
         expect(attackML.successLevelMod).toBe(0);
         expect(ar.masteryLevelModifier.constrainedEffective).toBe(54);
+    });
+});
+
+describe("buildAttackCardData", () => {
+    function makeAttack(aimBodyPartCode = "mid"): AttackResult {
+        const attackML = new CombatModifier({ baseValue: 54 } as any, {
+            parent: attackerParent,
+        });
+        const impact = new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+        return buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode,
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] }),
+        });
+    }
+
+    it("surfaces the attacker's choices and resolved AML (transparency)", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "Broadsword Melee Attack",
+            attackerName: "Char1",
+            actorId: "atk1",
+            aimLabel: "Mid",
+            target: { name: "Char2", actorUuid: "Actor.def1" },
+        });
+        expect(data).toMatchObject({
+            title: "Broadsword Melee Attack",
+            attackerName: "Char1",
+            defenderName: "Char2",
+            handlerActorUuid: "Actor.def1",
+            hasTarget: true,
+            aim: "mid",
+            aimLabel: "Mid",
+            aspect: IMPACT_ASPECT.EDGED,
+            aml: 54,
+            hasDodge: true,
+            hasBlock: true,
+            hasCounterstrike: true,
+            hasIgnore: true,
+        });
+    });
+
+    it("always emits all four defense buttons (render-time gating handles capability)", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "t",
+            attackerName: "a",
+            actorId: null,
+            aimLabel: "Mid",
+            target: null,
+        });
+        expect(data.hasDodge).toBe(true);
+        expect(data.hasIgnore).toBe(true);
+        expect(data.hasBlock).toBe(true);
+        expect(data.hasCounterstrike).toBe(true);
+        expect(data.hasTarget).toBe(false);
+        expect(data.handlerActorUuid).toBe("");
+    });
+
+    it("embeds the AttackResult so the defender's client can rehydrate it", () => {
+        const data = buildAttackCardData({
+            attackResult: makeAttack("mid"),
+            title: "t",
+            attackerName: "a",
+            actorId: null,
+            aimLabel: "Mid",
+            target: null,
+        });
+        // The defender's client rehydrates with its own logic as the parent.
+        const revived = instanceFromJSON<AttackResult>(
+            JSON.stringify(data.attackResultData),
+            attackerParent,
+        );
+        expect(revived).toBeInstanceOf(AttackResult);
+        expect(revived.roll.total).toBe(44);
+        expect(revived.masteryLevelModifier.constrainedEffective).toBe(54);
+        expect(revived.aimBodyPartCode).toBe("mid");
+        expect(revived.impact.numDice).toBe(2);
     });
 });
 
@@ -305,5 +392,77 @@ describe("resolveAttackTarget", () => {
         expect(() => resolveAttackTarget([{ id: "t1" }], notInCombat)).toThrow(
             /combat/i,
         );
+    });
+});
+
+describe("buildCombatCardData — Ignore", () => {
+    function makeIgnoreCombat(): CombatResult {
+        const attackML = new CombatModifier({ baseValue: 54 } as any, {
+            parent: attackerParent,
+        });
+        const impact = new ImpactModifier(
+            {
+                roll: { numDice: 2, dieFaces: 6, modifier: 5 },
+                aspect: IMPACT_ASPECT.EDGED,
+            } as any,
+            { parent: attackerParent },
+        );
+        const ar = buildAttackResult({
+            attackML,
+            impact,
+            parent: attackerParent,
+            token: null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode: "mid",
+            roll: new SimpleRoll({ numDice: 1, dieFaces: 100, rolls: [44] }),
+        });
+        // The attacker's result crosses as an already-evaluated snapshot.
+        (ar as any)._successLevel = MARGINAL_SUCCESS;
+        const def = new DefendResult(
+            { testType: TEST_TYPE.IGNORE.id, situationalModifier: 0 } as any,
+            { parent: attackerParent },
+        );
+        const cr = new CombatResult(
+            {
+                attackResult: ar,
+                defendResult: def,
+                sourceTestResult: ar,
+                targetTestResult: def,
+                speaker: ar.speaker,
+            } as any,
+            { parent: attackerParent },
+        );
+        cr.opposedTestEvaluate();
+        return cr;
+    }
+
+    it("dashes the defender column and offers the injury button on a hit", () => {
+        const cr = makeIgnoreCombat();
+        const data = buildCombatCardData({
+            combatResult: cr,
+            title: "Attack Result",
+            actorId: "def1",
+            attackerName: "Char1",
+            defenderName: "Char2",
+            attackWeapon: "Broadsword",
+            defenseLabel: "Ignore",
+            attackTarget: { name: "Char2", actorUuid: "Actor.def" },
+        });
+        // Ignore: defender did not contest → its column is empty (template dashes it).
+        expect(data.defense).toBe("Ignore");
+        expect(data.effDML).toBe("");
+        expect(data.defenseRoll).toBe("");
+        // Attacker side is populated.
+        expect(data.effAML).toBe(54);
+        expect(data.attackRoll).toBe(44);
+        // The unopposed attack succeeded (roll 44 <= AML 54) → it lands.
+        expect(data.hasAttackHit).toBe(true);
+        expect(data.hasAttackInjury).toBe(true);
+        expect(data.attackInjuryHandlerUuid).toBe("Actor.def");
+        const inj = JSON.parse(data.attackInjuryJson as string);
+        expect(inj.aspect).toBe(IMPACT_ASPECT.EDGED);
+        expect(typeof inj.impact).toBe("number");
+        // No defender impact in an Ignore exchange.
+        expect(data.hasDefendInjury).toBe(false);
     });
 });

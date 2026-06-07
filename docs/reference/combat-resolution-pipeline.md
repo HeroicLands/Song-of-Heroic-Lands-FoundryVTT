@@ -18,9 +18,8 @@ audience: SoHL maintainers extending tests, opposed rolls, or combat outcomes.
 ```
 TestResult (abstract)                          src/domain/result/TestResult.ts
 ├── SuccessTestResult                          src/domain/result/SuccessTestResult.ts
-│   └── ImpactResult                           src/domain/result/ImpactResult.ts
-│       ├── AttackResult                       src/domain/result/AttackResult.ts
-│       └── DefendResult                       src/domain/result/DefendResult.ts
+│   ├── AttackResult                           src/domain/result/AttackResult.ts
+│   └── DefendResult                           src/domain/result/DefendResult.ts
 └── OpposedTestResult                          src/domain/result/OpposedTestResult.ts
     └── CombatResult                           src/domain/result/CombatResult.ts
 ```
@@ -105,17 +104,6 @@ Two competing SuccessTestResults compared to determine a winner.
 
 **Chat output:** Renders via `templates/chat/opposed-request-card.hbs` (phase 1) and `templates/chat/opposed-result-card.hbs` (phase 2).
 
-### ImpactResult
-
-Extends SuccessTestResult with damage information.
-
-| Property         | Type             | Description                               |
-| ---------------- | ---------------- | ----------------------------------------- |
-| `impactModifier` | `ImpactModifier` | Damage formula (dice + modifier + aspect) |
-| `deliversImpact` | `boolean`        | Whether this result actually deals damage |
-
-Base class for both AttackResult and DefendResult. The `impactModifier` carries the damage dice (`SimpleRoll`), the ValueModifier (strength bonus, weapon quality, etc.), and the damage aspect (blunt/edged/piercing/fire).
-
 ### AttackResult
 
 The attacker's side of a combat exchange.
@@ -152,12 +140,12 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 | `tacticalAdvantages` | `{ side, count }`   | TAs awarded by the exchange       |
 | `weaponBreakCheck`   | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
 
-**Determines** (via `opposedTestEvaluate()`, which dispatches to
-`calcMeleeCombatResult()` for Block/Counterstrike/Ignore or
-`calcDodgeCombatResult()` for Dodge):
+**Determines** (via `opposedTestEvaluate()`):
 
-- Who lands a blow — sets `deliversImpact` on the attacker and, for a
-  Counterstrike, the defender.
+- Who lands a blow — the derived getters `attackerLandsBlow` /
+  `defenderLandsBlow` (the defender only via Counterstrike). "Lands a blow" means
+  *connected*; the blow may still be fully absorbed by armor during impact
+  resolution, so it does not by itself imply damage.
 - The **victory score** `VS = attacker.normSuccessLevel − defender.normSuccessLevel`.
   This is the **raw level difference**, deliberately *not* the inherited
   `sourceWins`/`isTied` getters — those carve out a "both failed" case, whereas
@@ -210,7 +198,7 @@ manual Add Injury flow:
 ## Extension guidance
 
 - **New test type:** Subclass `SuccessTestResult` if you need custom evaluation logic. Override `evaluate()` and `toChat()`.
-- **New combat mechanic:** Subclass `ImpactResult` for new damage types, or `CombatResult` for new combat exchange patterns.
+- **New combat mechanic:** Extend `AttackResult`/`DefendResult` (or `SuccessTestResult`) for new test types, or `CombatResult` for new combat exchange patterns.
 - **Custom modifiers:** Add deltas to the `MasteryLevelModifier` before `evaluate()` is called — don't modify the result after evaluation.
 - **Keep `evaluate()` deterministic** from input state; avoid hidden side effects.
 - **Keep `toChat()` payloads backward-compatible** for template and macro consumers.

@@ -12,11 +12,12 @@
  */
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { CombatResult } from "@src/domain/result/CombatResult";
+import { CombatResult } from "@src/domain/result/CombatResult";
+import { DefendResult } from "@src/domain/result/DefendResult";
+import type { AttackResult } from "@src/domain/result/AttackResult";
 import {
     SohlActorBaseLogic,
     SohlActorData,
@@ -42,6 +43,9 @@ import {
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
 import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
+import { startAutomatedAttackFromActor } from "@src/document/actor/foundry/automated-combat";
+import { buildCombatCardData } from "@src/document/actor/foundry/combat-actions";
+import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
@@ -52,8 +56,10 @@ import {
     MovementMedium,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    TEST_TYPE,
 } from "@src/utils/constants";
 import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 /**
  * Logic for the **Being** actor type — a single person, creature, or NPC.
@@ -266,33 +272,14 @@ export class BeingLogic<
     /**
      * Apply the impact of an attack or effect to this being, calculating the resulting
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
-     * this will return the resulting damage and location as an {@link ImpactResult} that can
-     * then be used to apply damage to the being's body roles and parts.
+     * this will return the resulting damage and location so it can then be used
+     * to apply damage to the being's body roles and parts.
      * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
      * @returns The impact result, or null if no impact occurred.
      */
     async calcImpact(
         context: SohlActionContext<CombatResult.ContextScope>,
-    ): Promise<ImpactResult | null> {
-        // let { impactResult, itemId } = options;
-        // if (!(impactResult instanceof ImpactResult)) {
-        //     if (!itemId) {
-        //         throw new Error("must provide either impactResult or itemId");
-        //     }
-        //     const item = this.actor.getItem(itemId, {
-        //         types: [
-        //             MeleeWeaponStrikeModeItemData.TYPE_NAME,
-        //             MissileWeaponStrikeModeItemData.TYPE_NAME,
-        //             CombatTechniqueStrikeModeItemData.TYPE_NAME,
-        //         ],
-        //     });
-        //     impactResult = Utility.JSON_reviver({
-        //         thisArg: item.system,
-        //     })("", impactResult);
-        // }
-        // return impactResult.item?.system.execute("calcImpact", {
-        //     impactResult,
-        // });
+    ): Promise<SimpleRoll | null> {
         return null;
     }
 
@@ -538,7 +525,9 @@ export class BeingLogic<
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        await startAutomatedAttackFromActor(this, context);
+    }
 
     /**
      * Present a dialog asking the player to select a strike mode to block with to resume
@@ -617,7 +606,65 @@ export class BeingLogic<
      */
     async automatedIgnoreResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        // The Ignore button lives on the defender's card, so this runs on the
+        // defender's client. The attacker's evaluated AttackResult arrives as a
+        // serialized snapshot in the button's dataset (`data-attack-result-json`).
+        const scope = (context.scope ?? {}) as any;
+        const json = scope.attackResultJson;
+        if (!json) {
+            sohl.log.warn(
+                `${this.actor?.name}: Ignore resume had no attack result to resolve.`,
+            );
+            return;
+        }
+        const attackResult = instanceFromJSON<AttackResult>(json, this);
+
+        // Ignore = no defensive contest: a non-rolling placeholder.
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.IGNORE.id,
+                situationalModifier: 0,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+
+        const combatResult = new CombatResult(
+            {
+                attackResult,
+                defendResult,
+                sourceTestResult: attackResult,
+                targetTestResult: defendResult,
+                speaker: context.speaker,
+            } as any,
+            { parent: this },
+        );
+        combatResult.opposedTestEvaluate();
+
+        if (context.noChat) return;
+
+        // The defender authors the combat-result card. If the unopposed attack
+        // lands, it carries a "Calculate <defender> Injury" button.
+        const cardData = buildCombatCardData({
+            combatResult,
+            title: "Attack Result",
+            actorId: this.actor?.id ?? null,
+            attackerName: attackResult.speaker?.name ?? "",
+            defenderName: this.actor?.name ?? "",
+            attackWeapon: attackResult.title ?? "",
+            defenseLabel: "Ignore",
+            attackTarget:
+                this.actor ?
+                    { name: this.actor.name ?? "", actorUuid: this.actor.uuid }
+                :   null,
+        });
+        await context.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
+            cardData,
+        );
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

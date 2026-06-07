@@ -12,6 +12,7 @@
  */
 
 import { DialogButtonCallback, inputDialog } from "@src/core/FoundryHelpers";
+import { resolveActionInput } from "@src/utils/actionInput";
 import { registerKind } from "@src/utils/kindRegistry";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
@@ -260,66 +261,92 @@ export class MasteryLevelModifier extends ValueModifier {
             throw new Error("Failed to create SuccessTestResult.");
         }
 
-        if (!context.skipDialog) {
-            // Render modal dialog
-            let dlgTemplate: FilePath = toFilePath(
-                "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-            );
-
-            let dialogData: PlainObject = {
-                type: testResult.testType,
-                title: sohl.i18n.format(
-                    "SOHL.MasteryLevelModifier.successTest.dialogTitle",
-                    {
-                        name: testResult.speaker.name,
-                        title: testResult.testType,
-                    },
-                ),
-                mlMod: testResult.masteryLevelModifier,
-                situationalModifier: scope.situationalModifier ?? 0,
-                rollMode: testResult.rollMode,
-                rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
-                    ([k, v]) => ({
-                        group: "CHAT.RollDefault",
-                        value: k,
-                        label: v,
-                    }),
-                ),
-            };
-
-            // Create the dialog window
-            const result: PlainObject | null = await inputDialog({
-                title: sohl.i18n.format(
-                    "SOHL.MasteryLevelModifier.successTest.dialogLabel",
-                ),
-                template: dlgTemplate,
-                data: dialogData,
-                callback: ((
-                    _event: PointerEvent | SubmitEvent,
-                    button: HTMLButtonElement,
-                    _dialog: HTMLDialogElement,
-                ): Promise<any> => {
-                    const form = button.querySelector("form");
-                    if (!form || !testResult) return Promise.resolve(null);
-                    //                    const fd = new (foundry.applications as any).ux.FormDataExtended(
-                    const fd = new FormDataExtended(form);
-                    const formData = fd.object;
-                    if (formData.situationalModifier) {
-                        testResult.masteryLevelModifier.add(
-                            VALUE_DELTA_ID.PLAYER,
-                            formData.situationalModifier,
-                        );
-                    }
-                    testResult.masteryLevelModifier.successLevelMod =
-                        parseInt(String(formData.successLevelMod), 10) || 0;
-                    testResult.rollMode = String(formData.rollMode);
-                    return Promise.resolve(true);
-                }) as DialogButtonCallback,
-                rejectClose: false,
-            });
-
-            if (!result) return null;
+        // Resolve the dialog inputs from a single place: the standard test
+        // dialog, or — when `context.skipDialog` (shift-click / headless) — from
+        // `context.scope`. The dialog callback is side-effect-free (returns
+        // data); the values are applied once, below, for both paths.
+        interface SuccessTestInput {
+            situationalModifier: number;
+            successLevelMod: number;
+            rollMode: string;
         }
+        const dialogInput = await resolveActionInput<SuccessTestInput>(context, {
+            fromScope: (s) => ({
+                situationalModifier: Number(s.situationalModifier) || 0,
+                successLevelMod: Number(s.successLevelMod) || 0,
+                rollMode: String(s.rollMode ?? testResult.rollMode),
+            }),
+            dialog: async () => {
+                const dlgTemplate: FilePath = toFilePath(
+                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
+                );
+                const dialogData: PlainObject = {
+                    type: testResult.testType,
+                    title: sohl.i18n.format(
+                        "SOHL.MasteryLevelModifier.successTest.dialogTitle",
+                        {
+                            name: testResult.speaker.name,
+                            title: testResult.testType,
+                        },
+                    ),
+                    mlMod: testResult.masteryLevelModifier,
+                    situationalModifier: scope.situationalModifier ?? 0,
+                    rollMode: testResult.rollMode,
+                    rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
+                        ([k, v]) => ({
+                            group: "CHAT.RollDefault",
+                            value: k,
+                            label: v,
+                        }),
+                    ),
+                };
+                const result: PlainObject | null = await inputDialog({
+                    title: sohl.i18n.format(
+                        "SOHL.MasteryLevelModifier.successTest.dialogLabel",
+                    ),
+                    template: dlgTemplate,
+                    data: dialogData,
+                    callback: ((
+                        _event: PointerEvent | SubmitEvent,
+                        button: HTMLButtonElement,
+                        _dialog: HTMLDialogElement,
+                    ): Promise<any> => {
+                        const form = button.querySelector("form");
+                        if (!form) return Promise.resolve(null);
+                        const fd = new FormDataExtended(form);
+                        const formData = fd.object;
+                        return Promise.resolve({
+                            situationalModifier:
+                                parseInt(
+                                    String(formData.situationalModifier),
+                                    10,
+                                ) || 0,
+                            successLevelMod:
+                                parseInt(
+                                    String(formData.successLevelMod),
+                                    10,
+                                ) || 0,
+                            rollMode: String(formData.rollMode),
+                        } satisfies SuccessTestInput);
+                    }) as DialogButtonCallback,
+                    rejectClose: false,
+                });
+                return (result as SuccessTestInput | null) ?? null;
+            },
+        });
+
+        // A dismissed dialog cancels the test; a bypass always yields values.
+        if (!dialogInput) return null;
+
+        if (dialogInput.situationalModifier) {
+            testResult.masteryLevelModifier.add(
+                VALUE_DELTA_ID.PLAYER,
+                dialogInput.situationalModifier,
+            );
+        }
+        testResult.masteryLevelModifier.successLevelMod =
+            dialogInput.successLevelMod;
+        testResult.rollMode = dialogInput.rollMode;
 
         let allowed: boolean = await testResult.evaluate();
 

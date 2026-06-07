@@ -152,7 +152,7 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             expect(revived.successLevel).toBe(CRITICAL_SUCCESS);
         });
 
-        it("a snapshot AttackResult keeps its success level and deliversImpact", () => {
+        it("a snapshot AttackResult keeps its evaluated success level", () => {
             const a = new AttackResult(
                 {
                     roll: new SimpleRoll({
@@ -164,11 +164,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         { baseValue: 50 } as any,
                         { parent },
                     ),
-                    impactModifier: new ImpactModifier(
+                    impact: new ImpactModifier(
                         { roll: { numDice: 2, dieFaces: 6 }, aspect: "edged" } as any,
                         { parent },
                     ),
-                    deliversImpact: true,
                 } as any,
                 { parent },
             );
@@ -177,13 +176,12 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             const revived = instanceFromJSON<AttackResult>(toAttr(a), parent);
 
             expect(revived.successLevel).toBe(MARGINAL_SUCCESS);
-            expect(revived.deliversImpact).toBe(true);
         });
     });
 
     describe("AttackResult", () => {
-        it("rehydrates with Set/Map fields and a nested ImpactModifier intact", () => {
-            const impactModifier = new ImpactModifier(
+        it("rehydrates with a nested ImpactModifier and aim intact", () => {
+            const impact = new ImpactModifier(
                 {
                     roll: {
                         numDice: 2,
@@ -206,11 +204,8 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         { baseValue: 50 } as any,
                         { parent },
                     ),
-                    impactModifier,
-                    allowedDefenses: ["block", "dodge"],
-                    modifiers: [["weapon", "broadsword"]],
-                    damage: 5,
-                    situationalModifier: 2,
+                    impact,
+                    aimBodyPartCode: "head",
                 } as any,
                 { parent },
             );
@@ -218,18 +213,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
             const revived = instanceFromJSON<AttackResult>(toAttr(a), parent);
 
             expect(revived).toBeInstanceOf(AttackResult);
-            expect(revived.allowedDefenses).toBeInstanceOf(Set);
-            expect([...revived.allowedDefenses].sort()).toEqual([
-                "block",
-                "dodge",
-            ]);
-            expect(revived.modifiers).toBeInstanceOf(Map);
-            expect(revived.modifiers.get("weapon")).toBe("broadsword");
-            expect(revived.impactModifier).toBeInstanceOf(ImpactModifier);
-            expect(revived.impactModifier.numDice).toBe(2);
-            expect(revived.impactModifier.die).toBe(6);
-            expect(revived.damage).toBe(5);
-            expect(revived.situationalModifier).toBe(2);
+            expect(revived.impact).toBeInstanceOf(ImpactModifier);
+            expect(revived.impact.numDice).toBe(2);
+            expect(revived.impact.die).toBe(6);
+            expect(revived.aimBodyPartCode).toBe("head");
             expect(revived.roll.total).toBe(30);
         });
     });

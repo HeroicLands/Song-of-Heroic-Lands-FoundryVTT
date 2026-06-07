@@ -11,59 +11,88 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import { TestResult } from "@src/domain/result/TestResult";
 import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
-const kImpactResult = Symbol("ImpactResult");
-const kData = Symbol("ImpactResult.Data");
-const kContext = Symbol("ImpactResult.Context");
+import { registerKind } from "@src/utils/kindRegistry";
+import type { ImpactAspect } from "@src/utils/constants";
 
 /**
- * A {@link SuccessTestResult} that carries **impact** (damage) information —
- * dice, modifier, and damage aspect.
+ * The result of computing an **impact** — a rolled quantum of damage to be
+ * applied to a body, independent of what caused it.
  *
- * ImpactResult extends a standard success test with an
- * {@link ImpactModifier} that defines the damage formula (e.g., 2d6+3
- * edged). The {@link deliversImpact} flag indicates whether this result
- * actually deals damage (a miss may produce an ImpactResult with
- * `deliversImpact = false` for display purposes).
+ * `ImpactResult` is deliberately **source-agnostic**: a melee/missile hit, a
+ * fall, a spell, a trap, etc. all produce an `ImpactResult`, which then feeds
+ * the injury-resolution stage (armor → effective impact → injury level). It is
+ * **not** a success test — there is no roll-under-mastery outcome here; it
+ * simply carries the rolled impact dice, the damage aspect, where the blow is
+ * aimed (if anywhere), and a label for its source.
+ *
+ * In automated combat it is produced when a blow lands (see
+ * {@link CombatResult}); the same class is reused for any non-combat damage.
  *
  * ## Position in the pipeline
  *
- * ImpactResult is the base for both {@link AttackResult} (attacker's
- * perspective, with allowed defenses) and {@link DefendResult}
- * (defender's perspective, with situational modifiers). The actual
- * damage dealt is determined later when attack and defense are compared
- * in a {@link CombatResult}.
+ * `<source>` → **`ImpactResult`** (raw impact: roll, total, aspect, aim)
+ * → injury resolution (armor → effective impact → injury level) → injury.
+ *
+ * The total here is **pre-armor**; whether it actually wounds is decided
+ * downstream, where armor may reduce the effective impact to zero.
  */
-export class ImpactResult extends SuccessTestResult {
+export class ImpactResult extends TestResult {
+    /** The impact (damage) formula used: dice + modifier + aspect. */
     impactModifier: ImpactModifier;
-    deliversImpact: boolean;
-    readonly [kImpactResult] = true;
+    /** The rolled impact dice. */
+    roll: SimpleRoll;
+    /** The targeted body part shortcode, or `""` when unaimed (e.g. a fall). */
+    aimBodyPartCode: string;
+    /** A label for what caused the impact (weapon name, `"fall"`, `"spell"`, …). */
+    source: string;
 
     constructor(
         data: Partial<ImpactResult.Data> = {},
         options: Partial<ImpactResult.Options> = {},
     ) {
         super(data, options);
-        this.impactModifier = data.impactModifier ?? new ImpactModifier();
-        this.deliversImpact = data.deliversImpact ?? false;
+        if (!data.impactModifier) {
+            throw new Error("ImpactResult requires an impactModifier");
+        }
+        this.impactModifier = data.impactModifier;
+        // The impact is rolled on creation (the impact has occurred). A
+        // pre-rolled roll may be supplied — by tests, or when reviving a
+        // serialized snapshot — in which case it is not re-rolled.
+        if (data.roll) {
+            this.roll = data.roll;
+        } else {
+            this.roll = SimpleRoll.fromFormula(this.impactModifier.diceFormula);
+            this.roll.roll();
+        }
+        this.aimBodyPartCode = data.aimBodyPartCode ?? "";
+        this.source = data.source ?? "";
+    }
+
+    /** Raw impact total (pre-armor), as rolled. */
+    get total(): number {
+        return this.roll?.total ?? 0;
+    }
+
+    /** The damage aspect (blunt/edged/piercing/fire) of this impact. */
+    get aspect(): ImpactAspect {
+        return this.impactModifier.aspectType;
     }
 }
 
 export namespace ImpactResult {
     export const Kind: string = "ImpactResult";
 
-    export interface Data extends SuccessTestResult.Data {
-        readonly [kData]: true;
+    export interface Data extends TestResult.Data {
         impactModifier: ImpactModifier;
-        deliversImpact: boolean;
         roll: SimpleRoll;
+        aimBodyPartCode: string;
+        source: string;
     }
 
-    export interface Options extends SuccessTestResult.Options {}
-
-    export interface ContextScope {
-        priorTestResult: ImpactResult | null;
-    }
+    export interface Options extends TestResult.Options {}
 }
+
+registerKind(ImpactResult.Kind, ImpactResult);

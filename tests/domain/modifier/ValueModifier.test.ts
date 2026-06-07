@@ -317,11 +317,12 @@ describe("ValueModifier", () => {
     });
 
     describe("_oper validation", () => {
-        it("throws when name does not start with SOHL.MOD.", () => {
-            const vm = createVM();
-            expect(() => vm.add("bad.name", "TST", 5)).toThrow(
-                "name is not valid",
-            );
+        it("passes any name/shortcode through without validation", () => {
+            // name / shortcode are display / identity labels, not validated
+            // localization keys — any value is accepted and the delta applies.
+            const vm = createVM({ baseValue: 10 });
+            expect(() => vm.add("bad.name", "TST", 5)).not.toThrow();
+            expect(vm.effective).toBe(15);
         });
     });
 
