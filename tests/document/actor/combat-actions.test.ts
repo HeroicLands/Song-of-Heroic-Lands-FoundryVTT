@@ -436,10 +436,9 @@ describe("combat status invariants", () => {
         }
     });
 
-    it("DEFENSE_DISABLING_STATUSES is the IGNORE-only set (no DEFEATED)", () => {
+    it("DEFENSE_DISABLING_STATUSES is the IGNORE-only set (no DEAD, no DEFEATED)", () => {
         expect([...DEFENSE_DISABLING_STATUSES].sort()).toEqual(
             [
-                "dead",
                 "unconscious",
                 "sleep",
                 "restrain",
@@ -448,6 +447,7 @@ describe("combat status invariants", () => {
                 "incapacitated",
             ].sort(),
         );
+        expect(DEFENSE_DISABLING_STATUSES).not.toContain("dead");
         expect(DEFENSE_DISABLING_STATUSES).not.toContain("vanquished");
     });
 });

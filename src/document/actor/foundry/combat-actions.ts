@@ -57,12 +57,11 @@ export const ATTACK_BLOCKING_STATUSES: readonly string[] = [
 
 /**
  * Status effects that reduce a **defender** to the IGNORE-only response — every
- * active defense (Dodge / Block / Counterstrike) is disabled. A `DEAD` defender
- * is additionally barred as an attack target up front (it never reaches the
- * defense stage), but is kept here so the gating still degrades gracefully.
+ * active defense (Dodge / Block / Counterstrike) is disabled. `DEAD` is omitted:
+ * a dead combatant is already barred as an attack target up front (invariant 4),
+ * so it never reaches the defense stage.
  */
 export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
-    STATUS_EFFECT.DEAD,
     STATUS_EFFECT.UNCONSCIOUS,
     STATUS_EFFECT.SLEEP,
     STATUS_EFFECT.RESTRAINED,

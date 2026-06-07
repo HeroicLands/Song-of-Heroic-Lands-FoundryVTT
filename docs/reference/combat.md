@@ -44,4 +44,4 @@ A combat exchange is between **combatants**, so both the attacker and the defend
 
 ### Incapacitated defenders — Ignore only
 
-If the defender carries any of **Dead, Unconscious, Asleep, Restrained, Paralyzed, Frozen, or Incapacitated**, they cannot mount an active defense: **Ignore is their only available response** — Dodge, Block, and Counterstrike are all disabled. (A *Dead* defender is already excluded as a target by invariant 4, so in practice this covers the other six; it is the natural consequence of being unable to act while still being a valid, living target.)
+If the defender carries any of **Unconscious, Asleep, Restrained, Paralyzed, Frozen, or Incapacitated**, they cannot mount an active defense: **Ignore is their only available response** — Dodge, Block, and Counterstrike are all disabled. (A *Dead* defender doesn't appear here because invariant 4 already excludes the dead as targets — they never reach the defense stage.)

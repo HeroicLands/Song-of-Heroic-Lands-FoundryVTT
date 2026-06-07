@@ -822,8 +822,9 @@ referenced from `combat-modes.md` (player) and `combat-resolution-pipeline.md` (
 - **Pure policy + predicates** (`combat-actions.ts`): `ATTACK_BLOCKING_STATUSES`
   (dead/defeated/unconscious/sleep/restrain/paralysis/frozen/incapacitated;
   DEFEATED = the `vanquished` special status) and `DEFENSE_DISABLING_STATUSES`
-  (the IGNORE-only set: same minus DEFEATED) + `firstStatusIn` / `hasAnyStatus`.
-  Unit-tested.
+  (the IGNORE-only set: unconscious/sleep/restrain/paralysis/frozen/incapacitated
+  — no DEAD, since invariant 4 already bars dead targets, and no DEFEATED) +
+  `firstStatusIn` / `hasAnyStatus`. Unit-tested.
 - **Attacker/target invariants** (`resolveAttackContext`): both must be combatants
   in the same active combat (already enforced); attacker must not carry an
   `ATTACK_BLOCKING_STATUSES` status; target must not be `DEAD`. `combatantStatuses`
