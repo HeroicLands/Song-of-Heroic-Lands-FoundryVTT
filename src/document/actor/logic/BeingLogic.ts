@@ -47,9 +47,14 @@ import {
     startAutomatedAttackFromActor,
     showDefenseDialog,
     findCombatant,
+    resolveCounterstrikeContext,
+    buildAimChoices,
+    pickChoice,
 } from "@src/document/actor/foundry/automated-combat";
 import {
     buildCombatCardData,
+    buildAttackResult,
+    collectAttackableStrikeModes,
     resolveSkillMasteryLevel,
     collectBlockableStrikeModes,
     indexOfBestMastery,
@@ -69,6 +74,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TEST_TYPE,
+    VALUE_DELTA_ID,
 } from "@src/utils/constants";
 import { SohlActionData } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
@@ -718,27 +724,179 @@ export class BeingLogic<
     }
 
     /**
-     * Present a dialog asking the player to select a strike mode to use for the counterstrike
-     * defense. The default should be the most recently used attack or counterstrike mode.
+     * Resume automated combat with the **Counterstrike** defense — "offense is
+     * the best defense". Unlike Block/Dodge/Ignore, the defender does not roll a
+     * {@link DefendResult}: the counterstrike is itself a second attack (an
+     * {@link AttackResult}) aimed back at the original attacker, so **both** sides
+     * can land in the same exchange. The resolved {@link CombatResult} carries one
+     * "Calculate Injury" button per landing side (the attacker's blow against this
+     * defender, and the counterstrike against the attacker).
      *
-     * @remarks
-     * Any strike mode that has the noAttack trait should be filtered out of the choices.
-     * The default value of the choices should be the most recently used strike mode that
-     * does not have the noAttack trait. Otherwise, there is no default value.
+     * The defender picks a **melee** attack strike mode in reach of the attacker
+     * (the `noAttack` trait excludes a mode; missile modes are never offered — a
+     * counterstrike is a melee reaction, and an out-of-reach attacker yields none)
+     * and a body part to aim at. The default is the most-recently-used attack mode
+     * (a counterstrike *is* an attack), else the best-chance attack mode. Both
+     * choices are bypassable via `scope` (`itemId` + `strikeModeId` +
+     * `situationalModifier`, and `aim`) when `skipDialog` is set.
      *
-     * Once a strike mode is selected, delegate processing of the counterstrike
-     * resume to that strike mode's item.
-     *
-     * One of `combatResult` or `attackResult` must be supplied in `context.scope`:
-     * - `combatResult` is the prior automated resume result that is being reassessed
-     * - `attackResult` is the result of the automated attack that initiated the automated resume
-     *
-     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
-     * @param [context.scope.attackResult] The test result that initiated the opposed test
+     * The attack snapshot arrives in `context.scope.attackResultJson` (set by the
+     * defender's chat-card button); its speaker token identifies the attacker.
      */
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
-    ): Promise<void> {}
+    ): Promise<void> {
+        const attackResult = this._rehydrateAttackResult(context);
+        if (!attackResult) return;
+
+        // The counterstrike targets the original attacker (read from the attack
+        // snapshot's speaker token); distance is defender → attacker.
+        const rc = resolveCounterstrikeContext(
+            attackResult,
+            context.token ?? null,
+        );
+        if (!rc) return;
+
+        // Counterstrike uses melee attack modes (noAttack-filtered by the
+        // collector) within reach of the attacker. A ranged attacker out of melee
+        // reach yields none → cannot counterstrike.
+        const entries = collectAttackableStrikeModes(
+            this.actor as any,
+            rc.distanceFeet,
+        ).filter((e) => (e.strikeMode as any).isMelee);
+        if (!entries.length) {
+            sohl.log.uiWarn(
+                `${this.actor?.name} has no melee strike mode in reach to counterstrike.`,
+            );
+            return;
+        }
+        const choices: Record<string, string> = {};
+        entries.forEach((e, i) => {
+            choices[String(i)] = `${e.itemName} — ${e.strikeMode.name}`;
+        });
+
+        // Default: the most-recently-used attack mode (a counterstrike is an
+        // attack), else the best-chance attack mode.
+        const combatant = context.token ? findCombatant(context.token) : null;
+        const recent = combatant?.lastAttackMode ?? null;
+        let defaultIdx =
+            recent ?
+                entries.findIndex(
+                    (e) => e.itemId === recent.itemId && e.smId === recent.smId,
+                )
+            :   -1;
+        if (defaultIdx < 0) {
+            defaultIdx = Math.max(
+                0,
+                indexOfBestMastery(
+                    entries,
+                    (e) => e.strikeMode.attack.constrainedEffective,
+                ),
+            );
+        }
+
+        // Pick the counterstrike strike mode + Additional Modifier.
+        const modeInput = await resolveActionInput<{
+            key: string;
+            situationalModifier: number;
+        }>(context, {
+            fromScope: (s) => {
+                const idx = entries.findIndex(
+                    (e) => e.itemId === s.itemId && e.smId === s.strikeModeId,
+                );
+                return {
+                    key: idx >= 0 ? String(idx) : String(defaultIdx),
+                    situationalModifier:
+                        Number.parseInt(String(s.situationalModifier), 10) || 0,
+                };
+            },
+            dialog: () =>
+                showDefenseDialog(
+                    `${this.actor?.name} — Select Counterstrike`,
+                    "Counterstrike with:",
+                    choices,
+                    String(defaultIdx),
+                ),
+        });
+        if (!modeInput) return;
+        const entry = entries[Number(modeInput.key)];
+        if (!entry) return;
+        const sm = entry.strikeMode as any;
+
+        // Aim the counterstrike at a body part on the attacker.
+        const aimChoices = buildAimChoices(rc.attackerActor);
+        const defaultAim = Object.keys(aimChoices)[0] ?? "";
+        const aim = await resolveActionInput<string | null>(context, {
+            fromScope: (s) => String((s as any).aim ?? defaultAim),
+            dialog: () =>
+                pickChoice(
+                    `${this.actor?.name} — Aim Counterstrike`,
+                    "Aim at:",
+                    aimChoices,
+                    defaultAim,
+                ),
+        });
+        if (aim === null) return;
+
+        // The counterstrike is a melee attack by this defender against the
+        // attacker — modelled as an AttackResult in the CombatResult's defender
+        // slot (so both sides can land and carry impact).
+        const counter = buildAttackResult({
+            attackML: sm.attack,
+            impact: sm.impact,
+            parent: this,
+            token: context.token ?? null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode: aim,
+            spread: sm.spread?.effective ?? 0,
+            title: entry.itemName,
+        });
+        if (modeInput.situationalModifier) {
+            counter.masteryLevelModifier.add(
+                VALUE_DELTA_ID.PLAYER,
+                modeInput.situationalModifier,
+            );
+        }
+
+        const combatResult = this._buildCombatResult(
+            attackResult,
+            counter,
+            context,
+        );
+        // evaluate() rolls the counterstrike on the defender's client, then
+        // resolves the exchange and rolls each landing side's impact.
+        await combatResult.evaluate();
+        // A counterstrike is an attack — remember it as the last attack mode.
+        await combatant?.recordAttackMode(entry.itemId, entry.smId);
+
+        if (context.noChat) return;
+        const cardData = buildCombatCardData({
+            combatResult,
+            title: "Attack Result",
+            actorId: this.actor?.id ?? null,
+            attackerName: attackResult.speaker?.name ?? "",
+            defenderName: this.actor?.name ?? "",
+            attackWeapon: attackResult.title ?? "",
+            defenseLabel: `Counterstrike w/ ${entry.itemName}`,
+            // The attacker's blow strikes this defender.
+            attackTarget:
+                this.actor ?
+                    { name: this.actor.name ?? "", actorUuid: this.actor.uuid }
+                :   null,
+            // The counterstrike strikes the original attacker.
+            defendTarget:
+                rc.attackerActor ?
+                    {
+                        name: rc.attackerToken.name ?? "",
+                        actorUuid: rc.attackerActor.uuid,
+                    }
+                :   null,
+        });
+        await context.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
+            cardData,
+        );
+    }
 
     /**
      * Perform the Ignore defense. Completes processing of the automated resume (including

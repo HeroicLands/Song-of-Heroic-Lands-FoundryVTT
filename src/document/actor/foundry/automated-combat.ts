@@ -33,6 +33,7 @@ import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { AttackResult } from "@src/domain/result/AttackResult";
 
 /**
  * Orchestration glue for **automated combat** — the attacker's entry flow.
@@ -136,11 +137,48 @@ function resolveAttackContext(
     return { attackerToken, targetToken, distanceFeet };
 }
 
+/** The resolved spatial context of a counterstrike (defender striking back). */
+export interface CounterstrikeContext {
+    /** The original attacker's token — the counterstrike's target. */
+    attackerToken: SohlTokenDocument;
+    /** The original attacker's actor. */
+    attackerActor: any;
+    /** Center-to-center distance from defender to attacker, in feet. */
+    distanceFeet: number;
+}
+
+/**
+ * Resolve the counterstrike's spatial context: the original attacker (the target
+ * of the counterstrike, read from the attack snapshot's speaker token) and the
+ * distance from the counterstriking defender to them. Returns `null` (with a UI
+ * warning) when either token is unavailable on the canvas.
+ */
+export function resolveCounterstrikeContext(
+    attackResult: AttackResult,
+    defenderToken: SohlTokenDocument | null,
+): CounterstrikeContext | null {
+    const attackerToken = attackResult.speaker?.token ?? null;
+    if (!attackerToken || !defenderToken) {
+        sohl.log.uiWarn(
+            "Counterstrike needs both the attacker's and defender's tokens on the canvas.",
+        );
+        return null;
+    }
+    const distanceFeet =
+        SohlTokenDocument.rangeToTarget(defenderToken, attackerToken) ??
+        Infinity;
+    return {
+        attackerToken,
+        attackerActor: attackerToken.actor,
+        distanceFeet,
+    };
+}
+
 /**
  * Build the Aim select options (a `{ shortcode: label }` map) from the
  * defender's body parts. Empty when the defender has no lineage / body structure.
  */
-function buildAimChoices(defenderActor: any): Record<string, string> {
+export function buildAimChoices(defenderActor: any): Record<string, string> {
     const lineageLogic = defenderActor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0]
         ?.logic as any;
     const parts: any[] = lineageLogic?.bodyStructure?.parts ?? [];
@@ -199,7 +237,7 @@ function showAttackDialog(
  * Present a single-select dialog (with a preselected `defaultKey`) and resolve to
  * the chosen key, or `null` if dismissed. Side-effect-free.
  */
-function pickChoice(
+export function pickChoice(
     title: string,
     label: string,
     choices: Record<string, string>,

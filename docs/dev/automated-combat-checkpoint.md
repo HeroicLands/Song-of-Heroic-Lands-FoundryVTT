@@ -681,3 +681,43 @@ in-range modes; missile mechanics and per-combatant defaults are wired.
 
 All four defenses (Ignore/Dodge/Block/Counterstrike-pending) plus the attacker
 range/spread model are in. Build (types → 883 tests → bundle) + docs pass.
+
+## 17. Counterstrike defense resume — fourth and final defender vertical (2026-06-06)
+
+`BeingLogic.automatedCounterstrikeResume` completes the four defenses. Unlike
+Block/Dodge/Ignore, the defender does **not** roll a `DefendResult` — the
+counterstrike *is* a second attack, so the `CombatResult` defender slot is an
+`AttackResult` ("offense is the best defense"). **Both sides can land** in one
+exchange, so the result card carries up to **two** "Calculate Injury" buttons.
+
+- **Melee-only, in reach of the attacker.** Modes come from
+  `collectAttackableStrikeModes(actor, distance)` (already `noAttack`-filtered)
+  then `.filter(isMelee)` — a counterstrike is a melee reaction, and a ranged
+  attacker out of melee reach yields **none** → "no melee strike mode in reach to
+  counterstrike". (Block-style melee restriction, by design.)
+- **Attacker located from the snapshot's speaker.** `SohlSpeaker` serializes the
+  token id and rehydrates it to the live `SohlTokenDocument` (`fvttGetToken`), so
+  on the defender's client `attackResult.speaker.token` **is** the attacker. New
+  glue `resolveCounterstrikeContext(attackResult, defenderToken)` →
+  `{ attackerToken, attackerActor, distanceFeet }` keeps `rangeToTarget` in the
+  Foundry layer.
+- **Default = recent-or-best attack mode.** A counterstrike *is* an attack, so it
+  defaults to (and records into) `lastAttackMode` — not a separate field.
+- **Two dialogs, both bypassable.** `showDefenseDialog` (mode + Additional
+  Modifier) then `pickChoice` (aim, at the **attacker's** body parts via
+  `buildAimChoices(attackerActor)`). `skipDialog` reads `itemId`+`strikeModeId`+
+  `situationalModifier`+`aim` from `scope`.
+- **One card, two injury buttons.** The counterstrike `AttackResult` fills the
+  defender slot; `CombatResult.evaluate()` rolls it and then each landing side's
+  impact (`attackerImpact` if `margin >= 0`, `defenderImpact` if the counterstrike
+  succeeds). `buildCombatCardData` already emits both buttons — `attackTarget`
+  (attacker's blow → this defender) and `defendTarget` (counterstrike → the
+  attacker).
+- **Helpers exported for reuse** (`automated-combat.ts`): `buildAimChoices`,
+  `pickChoice`, `resolveCounterstrikeContext`.
+
+The counterstrike glue is Foundry-dependent (token/distance/dialogs/persistence)
+and not unit-testable; the pure pieces it composes (range gather, best-mastery,
+`CombatResult` resolution) are. **All four defenses are now implemented.** Build
+(types → 883 tests → bundle) + docs pass. Remaining: in-Foundry verification of
+the whole flow.
