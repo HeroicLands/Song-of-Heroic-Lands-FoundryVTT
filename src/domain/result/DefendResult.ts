@@ -43,7 +43,7 @@ export class DefendResult extends SuccessTestResult {
         );
     }
 
-    async evaluate(): Promise<boolean> {
+    override async evaluate(): Promise<boolean> {
         const allowed = await super.evaluate();
         if (!allowed) return false;
 

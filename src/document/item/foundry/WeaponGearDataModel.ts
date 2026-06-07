@@ -53,7 +53,7 @@ export class WeaponGearDataModel<
         return this.strikeModes;
     }
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();
     }
 }

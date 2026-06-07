@@ -90,7 +90,7 @@ export class ProjectileGearDataModel<
         aspect: ImpactAspect;
     };
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineProjectileGearSchema();
     }
 }

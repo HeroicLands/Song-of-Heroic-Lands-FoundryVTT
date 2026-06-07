@@ -73,7 +73,7 @@ export class ImpactModifier extends ValueModifier {
             isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
     }
     // Getter for disabled
-    get disabled(): string {
+    override get disabled(): string {
         return (
             super.disabled ||
             (this.die === 0 && this.effective === 0 ?

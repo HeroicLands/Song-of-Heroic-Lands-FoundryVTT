@@ -327,7 +327,7 @@ export class SuccessTestResult extends TestResult {
         });
     }
 
-    async evaluate() {
+    override async evaluate() {
         let allowed = await super.evaluate();
         if (allowed === false) return false;
         if (!this._speaker.isOwner) {
