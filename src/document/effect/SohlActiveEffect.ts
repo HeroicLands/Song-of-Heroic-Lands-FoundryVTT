@@ -383,14 +383,14 @@ export class SohlActiveEffectDataModel<
         strikeModePredicate?: string;
     }>;
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineActiveEffectDataSchema();
     }
 }
 
 const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
 export class SohlActiveEffectSheet extends BaseAEConfig {
-    static PARTS = {
+    static override PARTS = {
         header: { template: "templates/sheets/active-effect/header.hbs" },
         tabs: { template: "templates/generic/tab-navigation.hbs" },
         details: {
@@ -406,7 +406,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
     };
 
     /** @inheritDoc */
-    async _preparePartContext(
+    override async _preparePartContext(
         partId: string,
         context: PlainObject,
     ): Promise<foundry.applications.api.ApplicationV2.RenderContextOf<this>> {

@@ -71,7 +71,7 @@ export class SohlItem extends Item {
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
-    async _preUpdate(
+    override async _preUpdate(
         changes: PlainObject,
         options: PlainObject,
         user: User,
@@ -266,7 +266,7 @@ export class SohlItem extends Item {
     /**
      * The SohlActor that owns this item, or null if it is unowned.
      */
-    get actor(): SohlActor | null {
+    override get actor(): SohlActor | null {
         return this.parent;
     }
 }
@@ -421,7 +421,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         },
     };
 
-    static TABS = {
+    static override TABS = {
         sheet: {
             navSelector: ".tabs[data-group='sheet']",
             contentSelector: ".content[data-group='sheet']",
@@ -439,7 +439,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         },
     };
 
-    get document(): SohlItem {
+    override get document(): SohlItem {
         return super.document as SohlItem;
     }
 
@@ -451,7 +451,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return this.item.actor;
     }
 
-    _configureRenderOptions(
+    override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -464,7 +464,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options.parts.push("properties", "description", "actions", "effects");
     }
 
-    async _prepareContext(options: RenderOptions): Promise<RenderContext> {
+    override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
