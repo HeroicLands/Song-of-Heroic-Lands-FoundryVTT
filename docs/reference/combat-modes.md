@@ -51,7 +51,7 @@ Automated combat collapses the four steps into a single chain that the system wa
 
 **Prerequisites.** A Foundry VTT Combat must be started, with every participant having a Combatant and a token on the active scene.
 
-**Starting an exchange.** The current combatant's player targets a single token (Foundry allows multi-targeting, but SoHL warns and aborts on more than one) and initiates with a hotkey or by clicking a strike mode on the Combat tab.
+**Starting an exchange.** Automated combat resolves between **combatants**, not arbitrary tokens — a token that isn't in the current combat cannot be the target. The current combatant's player targets the defender and initiates with a hotkey or by clicking a strike mode on the Combat tab. SoHL looks at the player's targeted tokens and keeps only those that are combatants of the current combat: exactly **one** must remain. If zero or more than one combatant is targeted, SoHL warns that exactly one combatant token must be selected and aborts. (Targeting extra non-combatant tokens is harmless — they're ignored.)
 
 **Choosing the strike.** The system offers only the strike modes that can reach the target right now — melee modes within the mode's reach, and missile modes within the weapon's **base range**. The list defaults to the mode you used last (or, failing that, your best chance to hit). If the target is beyond every mode's range, the system warns and aborts. Then the player picks the body part to aim at.
 

@@ -721,3 +721,30 @@ and not unit-testable; the pure pieces it composes (range gather, best-mastery,
 `CombatResult` resolution) are. **All four defenses are now implemented.** Build
 (types → 883 tests → bundle) + docs pass. Remaining: in-Foundry verification of
 the whole flow.
+
+## 18. Targeting is combatant-based, not token-based (2026-06-06)
+
+Automated combat resolves between **combatants**, not arbitrary tokens — every
+combatant has a token, but not every token is a combatant, and a token not in the
+current combat **cannot** be targeted.
+
+- **Pure resolver** renamed `resolveAttackTarget` → **`resolveTargetCombatant`**
+  (`combat-actions.ts`). New semantics: from the client's targeted tokens, map
+  each to its combatant and keep the non-null ones; **exactly one** must remain,
+  else throw *"Automated combat requires exactly one combatant token to be
+  targeted."* Targeting extra non-combatant tokens is now harmless (ignored),
+  rather than an error. Tested (combatant filter: zero / one / many / mixed).
+- **Glue** (`resolveAttackContext`): requires an active combat; resolves the
+  target from **`context.scope.targetCombatant`** (a combatant id) when supplied
+  — the programmatic/headless path — otherwise from targeted tokens via
+  `resolveTargetCombatant` + `combatantForToken`. `AttackContext` now carries
+  `targetCombatant` (+ its `targetToken`). `tokenInCombat` removed; `findCombatant`
+  refactored onto the shared `combatantForToken(combat, token)`.
+- **Counterstrike target is always the attacker.** A counterstrike is an attack,
+  but its target combatant is **never** resolved from targeted tokens — it is
+  always the original attacker (read from the attack snapshot's speaker token; see
+  `resolveCounterstrikeContext`).
+- **Docs**: `combat-modes.md` "Starting an exchange" reframed around combatants
+  (exactly one targeted combatant token; non-combatants ignored).
+
+Build (types → 884 tests → bundle) + docs pass.

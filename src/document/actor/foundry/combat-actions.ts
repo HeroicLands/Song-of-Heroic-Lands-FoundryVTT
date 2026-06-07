@@ -339,27 +339,30 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
 }
 
 /**
- * Resolve the single legal target of an automated attack. The attacker must
- * have exactly one token targeted, and that token must be in the active
- * combat. Throws (with a user-facing message) otherwise.
+ * Resolve the single target **combatant** of an automated attack from the
+ * client's targeted tokens. Automated combat targets a *combatant*, not just a
+ * token: tokens that are not combatants of the current combat are ignored, so a
+ * player may have other (non-combatant) tokens targeted without ambiguity.
+ * Exactly one targeted token must map to a combatant — zero or more than one
+ * throws (with a user-facing message).
  *
- * Pure: `targeted` is the current target list and `isInCombat` reports combat
- * membership, so the rule is unit-testable without canvas/combat globals.
+ * Pure: `targeted` is the current target list and `toCombatant` maps a token to
+ * its combatant (or `null`), so the rule is unit-testable without canvas/combat
+ * globals.
  */
-export function resolveAttackTarget<T>(
-    targeted: T[],
-    isInCombat: (token: T) => boolean,
-): T {
-    if (targeted.length !== 1) {
+export function resolveTargetCombatant<Tok, Comb>(
+    targeted: Tok[],
+    toCombatant: (token: Tok) => Comb | null,
+): Comb {
+    const combatants = targeted
+        .map(toCombatant)
+        .filter((c): c is Comb => c != null);
+    if (combatants.length !== 1) {
         throw new Error(
-            "An automated attack requires exactly one target token.",
+            "Automated combat requires exactly one combatant token to be targeted.",
         );
     }
-    const target = targeted[0];
-    if (!isInCombat(target)) {
-        throw new Error("The target must be in the current combat.");
-    }
-    return target;
+    return combatants[0];
 }
 
 /** A targeted token reduced to the data the damage card needs. */

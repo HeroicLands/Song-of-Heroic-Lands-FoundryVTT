@@ -20,7 +20,7 @@ import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     buildAttackResult,
     buildAttackCardData,
-    resolveAttackTarget,
+    resolveTargetCombatant,
     collectAttackableStrikeModes,
     classifyMissileRange,
     indexOfBestMastery,
@@ -65,6 +65,9 @@ interface AttackDialogInput {
 /** The resolved spatial context of an attack: attacker, target, and distance. */
 interface AttackContext {
     attackerToken: SohlTokenDocument;
+    /** The target combatant (automated combat targets a combatant, not a token). */
+    targetCombatant: SohlCombatant;
+    /** The target combatant's token. */
     targetToken: SohlTokenDocument;
     /** Center-to-center distance in feet. */
     distanceFeet: number;
@@ -90,18 +93,11 @@ export interface StartAutomatedAttackParams {
     context: SohlActionContext<any>;
 }
 
-/** True when `token` is a combatant in the given combat. */
-function tokenInCombat(
+/** The given combat's combatant for `token`, or `null`. */
+function combatantForToken(
     combat: ReturnType<typeof getActiveCombat>,
     token: SohlTokenDocument,
-): boolean {
-    if (!combat) return false;
-    return combat.combatants.some((c: any) => c.tokenId === token.id);
-}
-
-/** The active combat's combatant for `token`, or `null`. */
-export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
-    const combat = getActiveCombat();
+): SohlCombatant | null {
     if (!combat) return null;
     return (
         (combat.combatants.find(
@@ -110,10 +106,21 @@ export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
     );
 }
 
+/** The active combat's combatant for `token`, or `null`. */
+export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
+    return combatantForToken(getActiveCombat(), token);
+}
+
 /**
- * Resolve the attacker's token, the single targeted in-combat defender, and the
- * center-to-center distance between them. Returns `null` (with a UI warning)
- * when the attacker has no token or the target rule isn't met.
+ * Resolve the attacker's token, the **target combatant** (and its token), and
+ * the center-to-center distance between them. Returns `null` (with a UI warning)
+ * when the attacker has no token, there is no active combat, or the target rule
+ * isn't met.
+ *
+ * Automated combat targets a *combatant*, not a token. The target is taken from
+ * `context.scope.targetCombatant` (a combatant id) when supplied; otherwise it
+ * is resolved from the client's targeted tokens — exactly one of which must be a
+ * combatant of the current combat (see {@link resolveTargetCombatant}).
  */
 function resolveAttackContext(
     actor: any,
@@ -122,19 +129,49 @@ function resolveAttackContext(
     const attackerToken = resolveAttackerToken(actor, context.token);
     if (!attackerToken) return null;
     const combat = getActiveCombat();
-    const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
-    let targetToken: SohlTokenDocument;
-    try {
-        targetToken = resolveAttackTarget(targeted, (t) =>
-            tokenInCombat(combat, t),
-        );
-    } catch (err) {
-        sohl.log.uiWarn((err as Error).message);
+    if (!combat) {
+        sohl.log.uiWarn("Automated combat requires an active combat.");
+        return null;
+    }
+
+    let targetCombatant: SohlCombatant | null;
+    const scopeTarget = (context.scope as any)?.targetCombatant;
+    if (scopeTarget) {
+        // Programmatic / headless: an explicit combatant id wins.
+        targetCombatant =
+            (combat.combatants.get?.(scopeTarget) as
+                | SohlCombatant
+                | undefined) ?? null;
+        if (!targetCombatant) {
+            sohl.log.uiWarn(
+                "The specified target combatant is not in the current combat.",
+            );
+            return null;
+        }
+    } else {
+        // Resolve from the client's targeted tokens, keeping only combatants.
+        const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
+        try {
+            targetCombatant = resolveTargetCombatant(targeted, (t) =>
+                combatantForToken(combat, t),
+            );
+        } catch (err) {
+            sohl.log.uiWarn((err as Error).message);
+            return null;
+        }
+    }
+
+    const targetToken = (targetCombatant as any).token as
+        | SohlTokenDocument
+        | null
+        | undefined;
+    if (!targetToken) {
+        sohl.log.uiWarn("The target combatant has no token on the canvas.");
         return null;
     }
     const distanceFeet =
         SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
-    return { attackerToken, targetToken, distanceFeet };
+    return { attackerToken, targetCombatant, targetToken, distanceFeet };
 }
 
 /** The resolved spatial context of a counterstrike (defender striking back). */
@@ -148,10 +185,13 @@ export interface CounterstrikeContext {
 }
 
 /**
- * Resolve the counterstrike's spatial context: the original attacker (the target
- * of the counterstrike, read from the attack snapshot's speaker token) and the
- * distance from the counterstriking defender to them. Returns `null` (with a UI
- * warning) when either token is unavailable on the canvas.
+ * Resolve the counterstrike's spatial context. A counterstrike is itself an
+ * attack, but its target is **never** resolved from the client's targeted tokens:
+ * the target combatant is **always the original attacker** (the counterstrike
+ * strikes back at whoever attacked). The attacker is read from the attack
+ * snapshot's speaker token; the distance is measured from the counterstriking
+ * defender to them. Returns `null` (with a UI warning) when either token is
+ * unavailable on the canvas.
  */
 export function resolveCounterstrikeContext(
     attackResult: AttackResult,

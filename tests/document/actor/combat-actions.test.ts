@@ -18,7 +18,7 @@ import {
     buildAttackResult,
     buildAttackCardData,
     buildCombatCardData,
-    resolveAttackTarget,
+    resolveTargetCombatant,
 } from "@src/document/actor/foundry/combat-actions";
 import { IMPACT_ASPECT, MARGINAL_SUCCESS, TEST_TYPE } from "@src/utils/constants";
 import { AttackResult } from "@src/domain/result/AttackResult";
@@ -542,29 +542,41 @@ describe("buildAttackCardData", () => {
     });
 });
 
-describe("resolveAttackTarget", () => {
-    const inCombat = (_t: any) => true;
-    const notInCombat = (_t: any) => false;
+describe("resolveTargetCombatant", () => {
+    // Map a token to its combatant: tokens whose id starts with "c" are
+    // combatants (returning a stand-in combatant), others are not.
+    const toCombatant = (t: { id: string }) =>
+        t.id.startsWith("c") ? { id: `combatant-${t.id}` } : null;
 
-    it("returns the single targeted token when it is in combat", () => {
-        const t = { id: "t1" };
-        expect(resolveAttackTarget([t], inCombat)).toBe(t);
+    it("returns the combatant of the single targeted combatant token", () => {
+        expect(resolveTargetCombatant([{ id: "c1" }], toCombatant)).toEqual({
+            id: "combatant-c1",
+        });
+    });
+
+    it("ignores targeted tokens that are not combatants", () => {
+        // Two tokens targeted, but only one is a combatant → unambiguous.
+        expect(
+            resolveTargetCombatant([{ id: "x1" }, { id: "c2" }], toCombatant),
+        ).toEqual({ id: "combatant-c2" });
+    });
+
+    it("throws when no targeted token is a combatant", () => {
+        expect(() =>
+            resolveTargetCombatant([{ id: "x1" }, { id: "x2" }], toCombatant),
+        ).toThrow(/exactly one combatant/i);
     });
 
     it("throws when nothing is targeted", () => {
-        expect(() => resolveAttackTarget([], inCombat)).toThrow(/one target/i);
-    });
-
-    it("throws when more than one token is targeted", () => {
-        expect(() =>
-            resolveAttackTarget([{ id: "a" }, { id: "b" }], inCombat),
-        ).toThrow(/one target/i);
-    });
-
-    it("throws when the target is not in combat", () => {
-        expect(() => resolveAttackTarget([{ id: "t1" }], notInCombat)).toThrow(
-            /combat/i,
+        expect(() => resolveTargetCombatant([], toCombatant)).toThrow(
+            /exactly one combatant/i,
         );
+    });
+
+    it("throws when more than one targeted token is a combatant", () => {
+        expect(() =>
+            resolveTargetCombatant([{ id: "c1" }, { id: "c2" }], toCombatant),
+        ).toThrow(/exactly one combatant/i);
     });
 });
 
