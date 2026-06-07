@@ -748,3 +748,33 @@ current combat **cannot** be targeted.
   (exactly one targeted combatant token; non-combatants ignored).
 
 Build (types → 884 tests → bundle) + docs pass.
+
+## 19. Render-time defense-button gating (2026-06-07)
+
+Closes the last attacker-side correctness gap (§5 decision #1). The attack card
+is built once on the attacker's client and still emits **all four** defense
+buttons; which ones a given client may use is decided **at render time**, because
+it is viewer-dependent (ownership) and needs the *defender's* own view of its
+strike modes — an attacker may lack permission to enumerate them.
+
+- **Hook** (`sohl.ts` `renderChatMessageHTML`) calls new glue
+  `gateAutomatedDefenseButtons(element)` (`src/document/chat/chat-card-gating.ts`)
+  before wiring the click listener.
+- **Owner gate:** if the current user does not own the defender actor (resolved
+  from the button's `data-handler-actor-uuid`; a GM owns all), **all** defense
+  buttons are removed.
+- **Capability gate (owner only):** **Block** is removed unless
+  `collectBlockableStrikeModes(defender)` is non-empty; **Counterstrike** is
+  removed unless `hasMeleeAttackStrikeMode(defender)` (new pure helper: a melee,
+  non-`noAttack` mode — range-independent, reach is checked at resume). **Dodge**
+  and **Ignore** always remain for the owner. Emptied `.card-buttons` containers
+  are dropped.
+- **Pure + tested:** `hasMeleeAttackStrikeMode` (combat-actions) has unit tests
+  (melee / technique / missile-only / `noAttack` / no-items). The DOM+ownership
+  gating itself is Foundry glue (untestable; node test env has no DOM).
+- **Docs:** `combat-modes.md` "Defender response" notes owner + capability gating.
+
+Build (types → 889 tests → bundle) + docs pass. With this, the attacker side is
+functionally complete; remaining open items are injury-card Fumble/Shock buttons,
+display-only Tactical Advantages / weapon-break, the legacy-counterstrike cleanup
+PR, and **in-Foundry verification** of the whole flow.

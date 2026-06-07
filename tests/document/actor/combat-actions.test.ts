@@ -12,6 +12,7 @@ import {
     resolveSkillMasteryLevel,
     collectBlockableStrikeModes,
     collectAttackableStrikeModes,
+    hasMeleeAttackStrikeMode,
     classifyMissileRange,
     indexOfBestMastery,
     buildDamageCardData,
@@ -326,6 +327,73 @@ describe("collectAttackableStrikeModes", () => {
             },
         } as any;
         expect(collectAttackableStrikeModes(a, 1)).toEqual([]);
+    });
+});
+
+describe("hasMeleeAttackStrikeMode", () => {
+    const mode = (over: any) => ({
+        id: "m",
+        name: "m",
+        attack: { disabled: "" },
+        isMissile: false,
+        isMelee: true,
+        ...over,
+    });
+
+    it("true when a usable melee attack mode exists", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    { id: "w", name: "W", logic: { strikeModes: [mode({})] } },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+    });
+
+    it("true via a combat technique's melee mode", () => {
+        const a = {
+            itemTypes: {
+                combattechnique: [
+                    { id: "ct", name: "Brawl", logic: { strikeMode: mode({}) } },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+    });
+
+    it("false when the only modes are missile (no melee counterstrike)", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "bow",
+                        name: "Bow",
+                        logic: { strikeModes: [mode({ isMelee: false, isMissile: true })] },
+                    },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+    });
+
+    it("false when the melee mode is noAttack (attack disabled)", () => {
+        const a = {
+            itemTypes: {
+                weapongear: [
+                    {
+                        id: "w",
+                        name: "W",
+                        logic: { strikeModes: [mode({ attack: { disabled: "no" } })] },
+                    },
+                ],
+            },
+        } as any;
+        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+    });
+
+    it("false for an actor with no items", () => {
+        expect(hasMeleeAttackStrikeMode({} as any)).toBe(false);
     });
 });
 

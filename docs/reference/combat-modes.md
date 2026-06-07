@@ -57,7 +57,7 @@ Automated combat collapses the four steps into a single chain that the system wa
 
 > **Direct fire only.** Automated combat supports **melee** attacks and **missile _direct_** attacks (target within base range). A missile fired beyond base range is a **volley** — an arcing, area-targeted shot that can't aim at a specific person or body location — and is **not supported** by automated combat; resolve volleys in Assisted mode. A direct missile shot at **point-blank** range (within half the base range) is more accurate and hits a little harder.
 
-**Defender response.** A chat message announces the attack. The defender sees four buttons: **Block**, **Counterstrike**, **Dodge**, **Ignore**. They pick one. The system rolls both the attack and defense, resolves the success outcome (including any free Tactical Advantage for the defender), and posts the result. If the attack fails, the exchange ends here.
+**Defender response.** A chat message announces the attack. Only the **defender's owner** (and the GM) sees the response buttons — **Block**, **Counterstrike**, **Dodge**, **Ignore** — and only the ones that apply: Block appears only if the defender has a weapon/shield mode that can block, and Counterstrike only if they have a melee attack mode; Dodge and Ignore are always offered. They pick one. The system rolls both the attack and defense, resolves the success outcome (including any free Tactical Advantage for the defender), and posts the result. If the attack fails, the exchange ends here.
 
 **Impact.** If the attack succeeded, the attacker sees an **Impact** button in chat. Clicking it rolls damage and posts the impact value.
 

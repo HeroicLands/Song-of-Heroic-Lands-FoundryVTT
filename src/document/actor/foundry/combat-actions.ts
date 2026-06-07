@@ -191,6 +191,26 @@ export function collectAttackableStrikeModes(
     return out;
 }
 
+/**
+ * Whether the actor has any **melee attack** strike mode it could counterstrike
+ * with — i.e. a melee mode whose `attack` is present and not disabled (not
+ * `noAttack`). Range-independent (reach is checked when the counterstrike is
+ * actually resolved); this is the capability gate for showing the Counterstrike
+ * button. Pure and Foundry-free.
+ */
+export function hasMeleeAttackStrikeMode(actor: { itemTypes?: any }): boolean {
+    const itemTypes = actor.itemTypes ?? {};
+    const usable = (sm: any) => !!sm && !sm.attack?.disabled && !!sm.isMelee;
+    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+        for (const sm of item.logic?.strikeModes ?? [])
+            if (usable(sm)) return true;
+    }
+    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
+        if (usable(item.logic?.strikeMode)) return true;
+    }
+    return false;
+}
+
 /** The range band of a missile **direct** shot (see {@link classifyMissileRange}). */
 export interface MissileRangeBand {
     /** Within base range — a supported direct shot (else a volley, unsupported). */
