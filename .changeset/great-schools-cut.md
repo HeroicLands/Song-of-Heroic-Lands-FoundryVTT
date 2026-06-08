@@ -2,7 +2,7 @@
 "sohl": minor
 ---
 
-Automated combat resolution
+**Automated combat resolution**
 
 Implements the **Automated** combat mode described in
 `docs/reference/combat-modes.md`: a single attack → defend → resolve → injury
