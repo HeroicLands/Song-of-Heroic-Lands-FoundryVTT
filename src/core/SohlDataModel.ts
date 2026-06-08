@@ -15,7 +15,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { SohlActionData } from "@src/domain/action/SohlAction";
+import type { SohlAction } from "@src/domain/action/SohlAction";
 import {
     DialogButtonCallback,
     inputDialog,
@@ -125,7 +125,7 @@ export abstract class SohlDataModel<
     static readonly kind: string = "" as const;
     protected _logic!: TLogic;
     shortcode!: string;
-    actionDefs!: SohlActionData[];
+    actionDefs!: SohlAction.Data[];
 
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         super(data as any, options as any);
@@ -296,7 +296,9 @@ export namespace SohlDataModel {
                     :   this.document.actor || null;
             }
 
-            protected override async _prepareContext(options: any): Promise<PlainObject> {
+            protected override async _prepareContext(
+                options: any,
+            ): Promise<PlainObject> {
                 const data: PlainObject = await super._prepareContext(options);
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
@@ -448,8 +450,7 @@ export namespace SohlDataModel {
             protected static _getContextOptions(
                 doc: SohlDocument,
             ): SohlContextMenu.Entry[] {
-                let result =
-                    doc.getContextOptions() as SohlContextMenu.Entry[];
+                let result = doc.getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
                 result = result.filter(
@@ -692,7 +693,9 @@ export namespace SohlDataModel {
                 if (result) this.render();
             }
 
-            protected async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addChoiceArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.choices || !dataset.array) return;
                 let array: string[] = (
@@ -749,7 +752,9 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            protected async _addAimArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addAimArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.aim || !dataset.array) return;
                 let array: { name: string; probWeightBase: number }[] = (
@@ -817,7 +822,9 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            protected async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addValueDescArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.valueDesc || !dataset.array) return;
                 let array: { label: string; maxValue: number }[] = (
@@ -911,7 +918,9 @@ export namespace SohlDataModel {
                 this.render();
             }
 
-            protected async _deleteArrayItem(event: PointerEvent): Promise<void> {
+            protected async _deleteArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.array) return;
                 await (this as any)._onSubmit(event); // Submit any unsaved changes

@@ -20,6 +20,7 @@ import {
     ACTION_SUBTYPE,
     ActionSubType,
     SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { textToFunction } from "@src/utils/helpers";
 import { fvttCurrentUser } from "@src/core/FoundryHelpers";
@@ -76,8 +77,8 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * @typeParam TData - The Action data interface.
  */
 export class SohlAction {
-    /** The persisted action definition (see {@link SohlActionData}). */
-    data: SohlActionData;
+    /** The persisted action definition (see {@link SohlAction.Data}). */
+    data: SohlAction.Data;
     /** The data model this action was constructed against (its parent). */
     parent: SohlDocument;
     /**
@@ -116,58 +117,78 @@ export class SohlAction {
      *   unknown, or if an INTRINSIC executor names a non-existent method on
      *   the resolved target.
      */
-    constructor(data: SohlActionData, dataModel: SohlDataModel<any, any>) {
-        if (!dataModel) {
-            throw new Error("Data model is required to create a SohlAction.");
+    constructor(
+        data: Partial<SohlAction.Data>,
+        options: Partial<SohlAction.Options>,
+    ) {
+        if (!options?.parent) {
+            throw new Error("Parent Logic is required to create a SohlAction.");
         }
 
         if (!data) {
             throw new Error("Action data is required to create a SohlAction.");
         }
 
-        this.data = data;
-        this.parent = dataModel;
+        this.data = {
+            shortcode: "",
+            subType: ACTION_SUBTYPE.SCRIPT,
+            title: "",
+            isAsync: false,
+            scope: SOHL_ACTION_SCOPE.SELF,
+            executor: "",
+            trigger: "true",
+            visible: "false",
+            iconFAClass: "",
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            minActorOwnership: 0,
+            ...data,
+        };
+        this.parent = options.parent;
         // trigger must be compiled first — visible composes with it.
-        this.trigger = compileTrigger(data.trigger, data.title);
-        this.visible = compileVisibility(data, this.trigger);
+        this.trigger = compileTrigger(data.trigger, this.data.title);
+        this.visible = compileVisibility(this.data, this.trigger);
         if (data.executor) {
             let target: SohlLogic | undefined;
             let func: Function;
 
             switch (data.scope) {
                 case SOHL_ACTION_SCOPE.SELF:
-                    target = dataModel.logic;
+                    target = this.parent;
                     break;
 
                 case SOHL_ACTION_SCOPE.ITEM:
-                    target = (dataModel as any).item?.logic as SohlLogic;
+                    target = this.parent.item?.logic as SohlLogic;
                     break;
 
                 case SOHL_ACTION_SCOPE.ACTOR:
-                    target = (dataModel as any).item?.actor?.logic as SohlLogic;
+                    target = this.parent.actor?.logic as SohlLogic;
                     break;
                 default:
                     throw new Error(`Unknown action scope: ${data.scope}`);
             }
 
-            if (data.subType === ACTION_SUBTYPE.INTRINSIC) {
-                func = (target as any)?.[data.executor ?? ""];
+            if (this.data.subType === ACTION_SUBTYPE.INTRINSIC) {
+                func = (target as any)?.[this.data.executor ?? ""];
                 if (!func || typeof func !== "function") {
                     throw new Error(
-                        `The target of this action does not have a function named "${data.executor ?? ""}".`,
+                        `The target of this action does not have a function named "${this.data.executor ?? ""}".`,
                     );
                 }
 
                 this.executor = func.bind(target);
             } else {
-                func = textToFunction(data.executor ?? "", ["context"], {
-                    isAsync: data.isAsync,
+                func = textToFunction(this.data.executor ?? "", ["context"], {
+                    isAsync: this.data.isAsync,
                 });
                 this.executor = func.bind(target);
             }
         } else {
             this.executor = (ctx: SohlActionContext) => Promise.resolve();
         }
+    }
+
+    get shortcode(): string {
+        return this.data.shortcode;
     }
 
     /**
@@ -245,43 +266,59 @@ export class SohlAction {
     }
 }
 
-/** Persisted definition of an action — the data a {@link SohlAction} is built from. */
-export interface SohlActionData {
-    /** Whether this is an intrinsic or custom action */
-    subType: ActionSubType;
+export namespace SohlAction {
+    /** Persisted definition of an action — the data a {@link SohlAction} is built from. */
+    export interface Data {
+        /** Unique code for this action on a given Logic instance. */
+        shortcode: string;
 
-    /** Display title for this action */
-    title: string;
+        /** Whether this is an intrinsic or custom action */
+        subType: ActionSubType;
 
-    /** Whether this action executes asynchronously */
-    isAsync: boolean;
+        /** Display title for this action */
+        title: string;
 
-    /** Execution context: Self, Parent Item, or Owning Actor */
-    scope: string;
+        /** Whether this action executes asynchronously */
+        isAsync: boolean;
 
-    /** Function name or code that performs the action */
-    executor: string;
+        /** Execution context: Self, Parent Item, or Owning Actor */
+        scope: string;
 
-    /** Predicate determining when this action is available */
-    trigger: string;
+        /** Function name or JS code that performs the action */
+        executor: string;
 
-    /** Controls whether this action appears in the UI */
-    visible: string;
+        /**
+         * SafeExpression determining whether an action may be executed.
+         * Note that this layers with visible; this determines whether
+         * the action can be invoked regardless of whether it is visible
+         * in the UI.
+         */
+        trigger: string;
 
-    /** FontAwesome CSS class for the action's icon */
-    iconFAClass: string;
+        /** SafeExpression determining whether this action appears in the UI */
+        visible: string;
 
-    /** Context menu group for sorting this action */
-    group: string;
+        /** FontAwesome CSS class for the action's icon */
+        iconFAClass: string;
 
-    /**
-     * Minimum Foundry document-ownership level (matching
-     * `CONST.DOCUMENT_OWNERSHIP_LEVELS`) the current user must hold on
-     * the action's parent actor to execute it. GMs always pass.
-     * Only enforced for `SCRIPT` actions; INTRINSIC actions run for any
-     * user (lifecycle calls must work everywhere).
-     */
-    minActorOwnership: number;
+        /** Context menu group for sorting this action */
+        group: string;
+
+        /**
+         * Minimum Foundry document-ownership level (matching
+         * `CONST.DOCUMENT_OWNERSHIP_LEVELS`) the current user must hold on
+         * the action's parent actor to execute it. GMs always pass.
+         * Only enforced for `SCRIPT` actions; INTRINSIC actions run for any
+         * user (lifecycle calls must work everywhere).
+         */
+        minActorOwnership: number;
+    }
+
+    /** Options for a {@link ValueModifier}. */
+    export interface Options {
+        /** The owning Logic (required; becomes {@link SohlAction.parent}). */
+        parent: SohlLogic;
+    }
 }
 
 /**
@@ -313,7 +350,7 @@ export interface SohlActionData {
  * @returns A visibility predicate.
  */
 function compileVisibility(
-    data: SohlActionData,
+    data: SohlAction.Data,
     trigger: ActionTriggerFn,
 ): ActionVisibilityFn {
     const source = data.visible;
@@ -410,7 +447,7 @@ function compileTrigger(
  * @returns Whether the current user is permitted to execute the action.
  */
 export function userMeetsExecutePermission(
-    data: SohlActionData,
+    data: SohlAction.Data,
     actor: SohlActor | undefined | null,
 ): boolean {
     if (!actor) return false;
@@ -434,12 +471,12 @@ export function userMeetsExecutePermission(
  * @returns Whether the mutation is permitted.
  */
 export function isScriptActionMutationAllowed(
-    oldActionDefs: SohlActionData[] | undefined,
-    newActionDefs: SohlActionData[] | undefined,
+    oldActionDefs: SohlAction.Data[] | undefined,
+    newActionDefs: SohlAction.Data[] | undefined,
     user: any,
 ): boolean {
     if (user?.isGM) return true;
-    const pickScripts = (defs: SohlActionData[] | undefined): string =>
+    const pickScripts = (defs: SohlAction.Data[] | undefined): string =>
         JSON.stringify(
             (defs ?? []).filter((a) => a.subType === ACTION_SUBTYPE.SCRIPT),
         );

@@ -25,7 +25,7 @@ import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
 import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
@@ -121,7 +121,11 @@ export class WeaponGearLogic<
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
+        await startAutomatedAttackFromItem(
+            this,
+            this.item?.name ?? "",
+            context,
+        );
     }
 
     /**
@@ -169,6 +173,47 @@ export class WeaponGearLogic<
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...GearLogic.defineIntrinsicActions(),
+            {
+                shortcode: "automatedcombatstart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.ACTION.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-swords",
+                executor: "automatedCombatStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "automatedblockresume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.ACTION.automatedBlockResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-shield",
+                executor: "automatedBlockResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+
+            {
+                shortcode: "automatedcounterstrikeresume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.ACTION.automatedCounterstrikeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-circle-half-stroke",
+                executor: "automatedCounterstrikeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -232,48 +277,3 @@ export interface WeaponGearData<
     /** Persisted strike modes, keyed by Foundry-style id. */
     strikeModes: StrictObject<StrikeModeBase.Data>;
 }
-
-/**
- * The intrinsic actions available to WeaponGear items.
- * This structure should correspond to the methods on the
- * WeaponGearLogic class that can be invoked as intrinsic actions.
- */
-export const {
-    /** Enum-like map of WeaponGear intrinsic action keys to their identifiers. */
-    kind: WEAPONGEAR_INTRINSIC_ACTION,
-    /** Array of all valid WeaponGear intrinsic action identifier values. */
-    values: WeaponGearIntrinsicActions,
-    /** Type guard testing whether a value is a WeaponGear intrinsic action identifier. */
-    isValue: isWeaponGearIntrinsicAction,
-    /** Localized labels for each WeaponGear intrinsic action, keyed by identifier. */
-    labels: WeaponGearIntrinsicActionLabels,
-} = defineType("SOHL.WeaponGear.ACTION", {
-    AUTOMATEDCOMBATSTART: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedCombatStart",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-swords",
-        executor: "automatedCombatStart",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    AUTOMATEDBLOCKRESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedBlockResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-shield",
-        executor: "automatedBlockResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-
-    AUTOMATEDCOUNTERSTRIKERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedCounterstrikeResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-circle-half-stroke",
-        executor: "automatedCounterstrikeResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-} as StrictObject<Partial<SohlActionData>>);

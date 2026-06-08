@@ -76,8 +76,9 @@ import {
     TEST_TYPE,
     VALUE_DELTA_ID,
 } from "@src/utils/constants";
-import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
+import { SohlLogic } from "@src/core/SohlLogic";
 
 /**
  * A single person, creature, or NPC.
@@ -637,8 +638,7 @@ export class BeingLogic<
 
         // Default to the most-recently-used block mode (if still available),
         // else the best-chance block (highest effective block ML).
-        const combatant =
-            context.token ? findCombatant(context.token) : null;
+        const combatant = context.token ? findCombatant(context.token) : null;
         const recent = combatant?.lastBlockMode ?? null;
         let defaultIdx =
             recent ?
@@ -1136,6 +1136,26 @@ export class BeingLogic<
             );
         }
     }
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlActorBaseLogic.defineIntrinsicActions(),
+            // {
+            //     shortcode: "postfinalize",
+            //     subType: ACTION_SUBTYPE.INTRINSIC,
+            //     title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
+            //     scope: SOHL_ACTION_SCOPE.SELF,
+            //     iconFAClass: "fas fa-gears",
+            //     executor: "postfinalize",
+            //     visible: "true",
+            //     group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            // },
+        ];
+    }
 }
 
 /**
@@ -1282,4 +1302,4 @@ export const {
         visible: "false",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
-} as StrictObject<Partial<SohlActionData>>);
+} as StrictObject<Partial<SohlAction.Data>>);

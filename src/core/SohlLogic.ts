@@ -11,9 +11,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 import {
     ACTION_SUBTYPE,
     ActorKinds,
@@ -24,38 +24,9 @@ import {
 import { instanceToJSON } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
-import { SohlActionData, SohlAction } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
-
-/**
- * The intrinsic actions every {@link SohlLogic} provides out of the box (e.g.
- * the post-finalize lifecycle hook). The {@link defineType} call yields the
- * value map (`INTRINSIC_ACTION`), the value list (`IntrinsicActions`), a type
- * guard (`isIntrinsicAction`), and localization labels (`intrinsicActionLabels`).
- */
-export const {
-    /** Map of intrinsic-action id → action definition. */
-    kind: INTRINSIC_ACTION,
-    /** All intrinsic-action ids as an array. */
-    values: IntrinsicActions,
-    /** Type guard for {@link IntrinsicAction}. */
-    isValue: isIntrinsicAction,
-    /** Localization labels keyed by intrinsic-action id. */
-    labels: intrinsicActionLabels,
-} = defineType("SOHL.SohlLogic.INTRINSIC_ACTION", {
-    POSTFINALIZE: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-gears",
-        executor: "postfinalize",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-} as StrictObject<Partial<SohlActionData>>);
-/** Union of the intrinsic-action ids defined in {@link INTRINSIC_ACTION}. */
-export type IntrinsicAction =
-    (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
+import { SohlDataModel } from "./SohlDataModel";
 
 /**
  * Abstract base class for all business logic in the SoHL system.
@@ -104,7 +75,26 @@ export abstract class SohlLogic<
 > {
     private readonly _parent: TData;
     /** Executable actions for this document, keyed by title — context-menu entries, chat-card buttons, and lifecycle hooks. */
-    actions: SohlMap<string, SohlAction>;
+    actions!: SohlMap<string, SohlAction>;
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            {
+                shortcode: "postfinalize",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-gears",
+                executor: "postfinalize",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+        ];
+    }
 
     /**
      * The parent data model this logic is embedded in.
@@ -196,23 +186,6 @@ export abstract class SohlLogic<
         });
     }
 
-    /** Title of the action used as the default context-menu action (`""` = none). Override in subclasses. */
-    get defaultIntrinsicActionName(): string {
-        return "";
-    }
-
-    // get intrinsicActions(): ActionLogic[] {
-    //     const actions = Object.keys(INTRINSIC_ACTION).map((key) => {
-    //         const data = INTRINSIC_ACTION[key];
-    //         data.title ??= intrinsicActionLabels[key];
-    //         return data;
-    //     });
-
-    //     // return actions.map((data) => {
-    //     //     return new ActionLogic(data, { parent: this });
-    //     // });
-    // }
-
     /**
      * @param data - Reserved base data (unused by the base class).
      * @param options - Must provide `options.parent`, the data model this logic
@@ -227,76 +200,23 @@ export abstract class SohlLogic<
             );
         }
         this._parent = options.parent;
+
+        // Initialize all actions, both intrinsic ones and scripts
+        const actns = [
+            ...(this.constructor as any).defineIntrinsicActions(),
+            ...this.data.actionDefs,
+        ].map((data) => new SohlAction(data, { parent: this }));
+
+        // Set the default action based on the parent's settings
+        // and generate a map from the array of actions.
         this.actions = new SohlMap<string, SohlAction>(
-            this.data.actionDefs.map((def: SohlActionData) => [
-                def.title,
-                new SohlAction(def, this.data as any),
-            ]),
+            setDefaultAction(actns).map((act) => [act.shortcode, act]),
         );
     }
 
     /** Serialize this logic to a plain object. */
     toJSON(): PlainObject {
         return instanceToJSON(this);
-    }
-
-    /**
-     * Normalize a list of actions for display: ensure at most one is marked as
-     * the default (demoting extras to "essential"), promote the configured
-     * {@link defaultIntrinsicActionName} when none is marked, and sort the list
-     * by context-menu group.
-     *
-     * @param action - The actions to normalize; sorted and mutated in place.
-     */
-    setDefaultAction(action: SohlAction[]): void {
-        // Ensure there is at most one default, all others set to Essential
-        let hasDefault = false;
-        action.forEach((act) => {
-            const action = act as SohlAction;
-            const isDefault =
-                action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-            if (hasDefault) {
-                if (isDefault) {
-                    action.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
-                }
-            } else {
-                hasDefault ||= isDefault;
-            }
-        });
-
-        // If no default was specified, then make the requested default action the default
-        if (!hasDefault) {
-            const defaultAction = action.find(
-                (act) => act.data.title === this.defaultIntrinsicActionName,
-            );
-            if (
-                defaultAction &&
-                defaultAction.data.subType === ACTION_SUBTYPE.INTRINSIC
-            ) {
-                defaultAction.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-                hasDefault = true;
-            }
-        }
-
-        const collator = new Intl.Collator(sohl.i18n.lang);
-        action.sort((actA: SohlAction, actB: SohlAction) => {
-            const groupA =
-                actA.data.group || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
-            const groupB =
-                actB.data.group || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
-            return collator.compare(groupA, groupB);
-        });
-
-        // If after all that, we still don't have a default action, then
-        // set the first action as the default
-        // const firstAction = events.find(
-        //     (evt) => evt instanceof SohlAction,
-        // ) as SohlAction;
-        // if (!hasDefault && firstAction) {
-        //     firstAction.contextGroup = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
-        //     events = events.filter((evt) => evt.id !== firstAction.id);
-        //     events.unshift(firstAction);
-        // }
     }
 
     /**
@@ -359,23 +279,23 @@ export abstract class SohlLogic<
      *--------------------------------------*/
 
     /**
-     * **Phase 1 — Initialize.**
-     *
      * Set up base state from persisted data: create ValueModifiers, set base
-     * values. Called on every item before any item's
-     * {@link evaluate} runs.
+     * values.
+     *
+     * @remarks
+     * Called on every item before any item's {@link evaluate} runs.
      *
      * **Safe to access:** own persisted data fields (`this.data.*`).
      *
      * **Not safe to access:** sibling items on the same actor — they may not
      * have initialized yet. Cross-item reads belong in {@link evaluate}.
      */
-    abstract initialize(): void;
+    initialize(): void {}
 
     /**
-     * **Phase 2 — Evaluate.**
-     *
      * Compute derived values that depend on sibling items being initialized.
+     *
+     * @remarks
      * Called on every item after ALL items have completed {@link initialize}.
      *
      * **Safe to access:** sibling items' initialized state (e.g., reading
@@ -388,15 +308,60 @@ export abstract class SohlLogic<
     abstract evaluate(): void;
 
     /**
-     * **Phase 3 — Finalize.**
-     *
      * Resolve cross-item dependencies that require all items to have been
-     * evaluated. Called on every item after ALL items have completed
-     * {@link evaluate}.
+     * evaluated.
+     *
+     * @remarks
+     * Called on every item after ALL items have completed {@link evaluate}.
      *
      * **Safe to access:** all sibling items' initialized and evaluated state.
      */
     abstract finalize(): void;
+}
+
+/**
+ * Normalize a list of actions for display: ensure at most one is marked as
+ * the default (demoting extras to "essential"), promote the configured
+ * {@link defaultIntrinsicActionName} when none is marked, and sort the list
+ * by context-menu group.
+ *
+ * @param actions - The actions to normalize; sorted and mutated in place.
+ */
+function setDefaultAction(actions: SohlAction[]): SohlAction[] {
+    // Ensure there is at most one default, all others set to Essential
+    let hasDefault = false;
+    actions.forEach((act) => {
+        const action = act as SohlAction;
+        const isDefault =
+            action.data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        if (hasDefault) {
+            if (isDefault) {
+                action.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL;
+            }
+        } else {
+            hasDefault ||= isDefault;
+        }
+    });
+
+    const collator = new Intl.Collator(sohl.i18n.lang);
+    actions.sort((actA: SohlAction, actB: SohlAction) => {
+        const groupA = actA.data.group || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
+        const groupB = actB.data.group || SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL;
+        return collator.compare(groupA, groupB);
+    });
+
+    // If after all that, we still don't have a default action, then
+    // set the first action as the default
+    const firstAction = actions.at(0);
+    if (!hasDefault && firstAction) {
+        firstAction.data.group = SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT;
+        actions = actions.filter(
+            (act) => act.shortcode !== firstAction.shortcode,
+        );
+        actions.unshift(firstAction);
+    }
+
+    return actions;
 }
 
 /**
@@ -421,5 +386,5 @@ export interface SohlLogicData<
     /** Short identity code for this document. */
     shortcode: string;
     /** Serialized action definitions used to build {@link SohlLogic.actions}. */
-    actionDefs: SohlActionData[];
+    actionDefs: SohlAction.Data[];
 }

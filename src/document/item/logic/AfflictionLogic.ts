@@ -41,7 +41,7 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
-import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(
     Object.entries(FEAR_LEVEL).map(([k, v]) => [
@@ -343,6 +343,110 @@ export class AfflictionLogic<
         throw new Error("Affliction Healing Test Not Implemented");
     }
 
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "transmitaffliction",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-head-side-cough",
+                executor: "transmitAffliction",
+                visible: "item.logic.canTransmit",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "contractafflictiontest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-virus",
+                executor: "contractAfflictionTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "coursetest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-heart-pulse",
+                executor: "courseTest",
+                // FIXME: original gated on actor's endurance and item.system.isDormant;
+                // reduced to "true" pending a proper implementation.
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "fatiguetest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-face-downcast-sweat",
+                executor: "fatigueTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "moraletest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "far fa-people-group",
+                executor: "moraleTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "feartest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "far fa-face-scream",
+                executor: "fearTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "treatmenttest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "fas fa-staff-snake",
+                executor: "treatmentTest",
+                // FIXME: original gated on actor's "pysn" skill and item.system.isBleeding;
+                // reduced to "true" pending a proper implementation.
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "diagnosistest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
+                iconFAClass: "fas fa-stethoscope",
+                executor: "diagnosisTest",
+                visible: "defined(item) && !item.system.isTreated",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "healingtest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
+                iconFAClass: "fas fa-heart-pulse",
+                executor: "healingTest",
+                // FIXME: original gated on actor's endurance and item.system.isBleeding;
+                // reduced to "true" pending a proper implementation.
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -413,105 +517,3 @@ export interface AfflictionData<
     /** How this affliction spreads (Contact, Airborne, etc.) */
     transmission: AfflictionTransmission;
 }
-
-/**
- * The intrinsic actions available to Affliction items.
- * This structure should correspond to the methods on the
- * Affliction class that can be invoked as intrinsic actions.
- */
-export const {
-    /** Map of intrinsic-action keys to their definitions. */
-    kind: AFFLICTION_INTRINSIC_ACTION,
-    /** Array of valid intrinsic-action key values. */
-    values: AfflictionIntrinsicActions,
-    /** Type guard testing whether a value is a valid Affliction intrinsic-action key. */
-    isValue: isAfflictionIntrinsicAction,
-    /** Map of intrinsic-action keys to their localized labels. */
-    labels: AfflictionIntrinsicActionLabels,
-} = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
-    TRANSMITAFFLICTION: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-head-side-cough",
-        executor: "transmitAffliction",
-        visible: "item.logic.canTransmit",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    CONTRACTAFFLICTIONTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-virus",
-        executor: "contractAfflictionTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    COURSETTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-heart-pulse",
-        executor: "courseTest",
-        // FIXME: original gated on actor's endurance and item.system.isDormant;
-        // reduced to "true" pending a proper implementation.
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    FATIGUETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-face-downcast-sweat",
-        executor: "fatigueTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    MORALETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-people-group",
-        executor: "moraleTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    FEARTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-face-scream",
-        executor: "fearTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    TREATMENTTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-staff-snake",
-        executor: "treatmentTest",
-        // FIXME: original gated on actor's "pysn" skill and item.system.isBleeding;
-        // reduced to "true" pending a proper implementation.
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    DIAGNOSISTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
-        iconFAClass: "fas fa-stethoscope",
-        executor: "diagnosisTest",
-        visible: "defined(item) && !item.system.isTreated",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    HEALINGTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
-        iconFAClass: "fas fa-heart-pulse",
-        executor: "healingTest",
-        // FIXME: original gated on actor's endurance and item.system.isBleeding;
-        // reduced to "true" pending a proper implementation.
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-} as StrictObject<Partial<SohlActionData>>);

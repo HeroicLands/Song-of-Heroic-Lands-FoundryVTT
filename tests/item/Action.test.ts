@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     SohlAction,
-    type SohlActionData,
     userMeetsExecutePermission,
     isScriptActionMutationAllowed,
 } from "@src/domain/action/SohlAction";
@@ -24,8 +23,8 @@ function stubActor(allow: boolean): any {
 }
 
 function makeActionData(
-    overrides: Partial<SohlActionData> = {},
-): SohlActionData {
+    overrides: Partial<SohlAction.Data> = {},
+): SohlAction.Data {
     return {
         subType: "intrinsic",
         title: "test-action",
@@ -38,23 +37,33 @@ function makeActionData(
         group: "general",
         minActorOwnership: 3,
         ...overrides,
-    } as SohlActionData;
+    } as SohlAction.Data;
 }
 
-function makeAction(overrides: Partial<SohlActionData> = {}): SohlAction {
-    return new SohlAction(makeActionData(overrides), {} as any);
+/**
+ * Build a stub parent Logic for a {@link SohlAction}. `resolveContext()`
+ * reads `this.parent.parent` to find the owning document, so the optional
+ * `doc` becomes the Logic's backing document.
+ */
+function stubLogic(doc?: any): any {
+    return { parent: doc };
+}
+
+function makeAction(overrides: Partial<SohlAction.Data> = {}): SohlAction {
+    return new SohlAction(makeActionData(overrides), { parent: stubLogic() });
 }
 
 /**
  * Build an action whose `resolveContext()` will surface the given actor
- * — i.e. the data model's parent document mimics a `SohlActor`.
+ * — i.e. the parent Logic's backing document mimics a `SohlActor`.
  */
 function makeActionOnActor(
     actor: any,
-    overrides: Partial<SohlActionData> = {},
+    overrides: Partial<SohlAction.Data> = {},
 ): SohlAction {
-    const dataModel = { parent: actor } as any;
-    return new SohlAction(makeActionData(overrides), dataModel);
+    return new SohlAction(makeActionData(overrides), {
+        parent: stubLogic(actor),
+    });
 }
 
 function mockElement(opts: { itemId?: string } = {}): HTMLElement {
@@ -379,12 +388,12 @@ describe("userMeetsExecutePermission", () => {
 });
 
 describe("isScriptActionMutationAllowed", () => {
-    const intrinsic = (title: string): SohlActionData =>
+    const intrinsic = (title: string): SohlAction.Data =>
         makeActionData({
             title,
             subType: ACTION_SUBTYPE.INTRINSIC,
         });
-    const script = (title: string, body = "1"): SohlActionData =>
+    const script = (title: string, body = "1"): SohlAction.Data =>
         makeActionData({
             title,
             subType: ACTION_SUBTYPE.SCRIPT,
