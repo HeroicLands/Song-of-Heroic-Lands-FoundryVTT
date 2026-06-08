@@ -14,31 +14,73 @@
 import { LOGLEVEL, isLogLevel, LogLevel } from "@src/utils/constants";
 import { SourceMapConsumer } from "source-map";
 
+/**
+ * Resolved information about the call site of a log statement, derived from a
+ * captured stack trace and (when available) the system's source map.
+ * @internal
+ */
 interface LogCallerInfo {
+    /** The calling class name, or `""` if it could not be parsed. */
     className: string;
+    /** The calling method/function name, or `""` if it could not be parsed. */
     methodName: string;
+    /** The full file path parsed from the stack frame. */
     filePath: string;
+    /** The line number of the call site (in the transpiled bundle). */
     line: number;
+    /** The column number of the call site (in the transpiled bundle). */
     column: number;
+    /** A short `Class#method` label for log prefixes. */
     label: string;
+    /** A `(source:line:column)` detail string, source-mapped when possible. */
     labelDetail: string;
 }
 
+/**
+ * Options accepted by {@link SohlLogger.log}. Any extra keys are treated as
+ * interpolation data passed to the localizer.
+ * @internal
+ */
 interface LogOptions {
+    /** Severity at which the message is emitted to the console. */
     logLevel: LogLevel;
+    /** If set, also surface the message as a Foundry UI notification at this level. */
     notifyLevel: LogLevel | null;
+    /** An associated error to report (and chain as `cause`). */
     error: Error;
+    /** Optional explicit location string. */
     location: string;
+    /** When `true`, route errors through Foundry's `Hooks.onError`. */
     useHooks: boolean;
+    /** Additional interpolation values for the localized message. */
     [key: string]: unknown;
 }
 
+/**
+ * Singleton logger for the SoHL system.
+ *
+ * Wraps the console with severity levels ({@link info}, {@link warn},
+ * {@link error}, {@link debug}), threshold filtering, localized and
+ * timestamped message prefixes including the source-mapped call site, optional
+ * Foundry UI notifications (the `ui*` methods), and error chaining via
+ * `Hooks.onError`.
+ */
 export class SohlLogger {
+    /** The lazily-created singleton instance. @internal */
     private static _instance: SohlLogger;
+    /** Loaded source-map consumer used to map stack frames to source positions. @internal */
     private static _sourceMapConsumer: SourceMapConsumer | null;
+    /** Guards against loading the source map more than once. @internal */
     private static _sourceMapLoading: boolean;
+    /** The current minimum severity that will be emitted. @internal */
     private static _threshold: LogLevel; // configurable?
 
+    /**
+     * Private to enforce singleton access via {@link getInstance}. Kicks off
+     * asynchronous source-map loading on first construction.
+     * @param threshold The initial log threshold; defaults to `INFO`.
+     * @internal
+     */
     private constructor(threshold: LogLevel = LOGLEVEL.INFO) {
         const sourceMapUrl = "systems/sohl/sohl.js.map";
 
@@ -50,6 +92,12 @@ export class SohlLogger {
         }
     }
 
+    /**
+     * Fetch and parse the system's source map so log call sites can be mapped
+     * back to original source positions. Failures are logged and ignored.
+     * @param sourceMapUrl URL of the `.js.map` source map to load.
+     * @internal
+     */
     private static async loadSourceMap(sourceMapUrl: string): Promise<void> {
         try {
             const response = await fetch(sourceMapUrl);
@@ -65,6 +113,12 @@ export class SohlLogger {
         }
     }
 
+    /**
+     * Return the shared singleton logger, creating it on first access.
+     * @param threshold The initial threshold used only when first creating the
+     *   instance; defaults to `INFO`.
+     * @returns The {@link SohlLogger} singleton.
+     */
     public static getInstance(threshold: LogLevel = LOGLEVEL.INFO): SohlLogger {
         if (!SohlLogger._instance) {
             SohlLogger._instance = new SohlLogger(threshold);
@@ -72,6 +126,11 @@ export class SohlLogger {
         return SohlLogger._instance;
     }
 
+    /**
+     * Set the minimum severity to emit. Invalid levels are rejected with a
+     * console warning and leave the current threshold unchanged.
+     * @param level The desired log level (or its string value).
+     */
     setLogThreshold(level: LogLevel | string) {
         if (isLogLevel(level)) {
             SohlLogger._threshold = level;
@@ -84,10 +143,17 @@ export class SohlLogger {
         }
     }
 
+    /** The current minimum severity that will be emitted. */
     get logThreshold(): LogLevel {
         return SohlLogger._threshold;
     }
 
+    /**
+     * Whether a message at `level` passes the current threshold.
+     * @param level The severity to test.
+     * @returns `true` if the message should be emitted.
+     * @internal
+     */
     private static shouldLog(level: LogLevel): boolean {
         const levels = [
             LOGLEVEL.DEBUG,
@@ -98,6 +164,16 @@ export class SohlLogger {
         return levels.indexOf(level) >= levels.indexOf(SohlLogger._threshold);
     }
 
+    /**
+     * Map a bundled `(file, line, column)` position to its original source
+     * position using the loaded source map.
+     * @param file The bundled file path.
+     * @param line The line number in the bundle.
+     * @param column The column number in the bundle.
+     * @returns The original `{ source, line, column }`, or `null` if no source
+     *   map is loaded or the position cannot be mapped.
+     * @internal
+     */
     private static mapToOriginalPosition(
         file: string,
         line: number,
@@ -118,6 +194,13 @@ export class SohlLogger {
         return null;
     }
 
+    /**
+     * Inspect the current stack trace to identify the caller of the logging
+     * API (the first frame outside `SohlLogger`) and resolve it, source-mapping
+     * the location when possible.
+     * @returns Parsed {@link LogCallerInfo}; falls back to anonymous/unknown
+     *   placeholders if the frame cannot be parsed.
+     */
     getCallerInfo(): LogCallerInfo {
         const error = new Error();
         const stackLines = error.stack?.split("\n") || [];
@@ -166,6 +249,18 @@ export class SohlLogger {
         return result;
     }
 
+    /**
+     * Core logging routine used by all the convenience methods.
+     *
+     * Localizes and interpolates `message`, builds a level/timestamp/caller
+     * prefix, optionally reports an associated error (directly or via
+     * `Hooks.onError`), then — if the message passes the threshold and a
+     * `notifyLevel` is set — surfaces a Foundry UI notification.
+     * @param message The message key or text (localized and interpolated with
+     *   any extra `options` keys).
+     * @param options Logging options; see {@link LogOptions}. Defaults to an
+     *   `INFO`-level console-only message.
+     */
     log(message: string = "", options: Partial<LogOptions> = {}): void {
         let {
             logLevel = LOGLEVEL.INFO,
@@ -248,22 +343,47 @@ export class SohlLogger {
         }
     }
 
+    /**
+     * Log a message at `INFO` severity.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     info(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.INFO });
     }
 
+    /**
+     * Log a message at `WARN` severity.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     warn(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.WARN });
     }
 
+    /**
+     * Log a message at `ERROR` severity.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     error(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.ERROR });
     }
 
+    /**
+     * Log a message at `DEBUG` severity.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     debug(message: string, data?: PlainObject): void {
         this.log(message, { ...data, logLevel: LOGLEVEL.DEBUG });
     }
 
+    /**
+     * Log at `INFO` severity and also show an `INFO` Foundry UI notification.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     uiInfo(message: string, data?: PlainObject): void {
         this.log(message, {
             ...data,
@@ -272,6 +392,11 @@ export class SohlLogger {
         });
     }
 
+    /**
+     * Log at `WARN` severity and also show a `WARN` Foundry UI notification.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     uiWarn(message: string, data?: PlainObject): void {
         this.log(message, {
             ...data,
@@ -279,6 +404,11 @@ export class SohlLogger {
             notifyLevel: LOGLEVEL.WARN,
         });
     }
+    /**
+     * Log at `ERROR` severity and also show an `ERROR` Foundry UI notification.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     uiError(message: string, data?: PlainObject): void {
         this.log(message, {
             ...data,
@@ -286,6 +416,11 @@ export class SohlLogger {
             notifyLevel: LOGLEVEL.ERROR,
         });
     }
+    /**
+     * Log at `DEBUG` severity and also request a `DEBUG` UI notification.
+     * @param message The message key or text.
+     * @param data Optional interpolation values.
+     */
     uiDebug(message: string, data?: PlainObject): void {
         this.log(message, {
             ...data,
@@ -295,4 +430,5 @@ export class SohlLogger {
     }
 }
 
+/** Shared {@link SohlLogger} singleton for logging throughout the system. */
 export const log = SohlLogger.getInstance();

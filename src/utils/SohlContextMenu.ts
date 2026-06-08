@@ -24,11 +24,38 @@ import type { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 
+/**
+ * SoHL's specialization of Foundry's `ContextMenu` UI control.
+ *
+ * Extends the base context menu to accept {@link SohlContextMenu.Entry}
+ * definitions whose `condition` may be a string {@link SafeExpression}
+ * (compiled to a predicate) and whose `callback` may be omitted in favour of a
+ * named logic method (`functionName`). The constructor normalizes those entries
+ * into the function-based shape Foundry expects, and the class adds custom
+ * positioning ({@link _setPosition}) plus static helpers for resolving the
+ * triggering item/actor from the DOM.
+ */
 export class SohlContextMenu
     extends (foundry.applications as any).ux.ContextMenu
 {
+    /** Back-reference to the concrete implementation class. @internal */
     declare readonly implementation: typeof SohlContextMenu;
 
+    /**
+     * Build a context menu, compiling each entry into the function-based shape
+     * Foundry's base class expects.
+     *
+     * For every entry: the `condition` is compiled via
+     * {@link compileCondition}, and when no explicit `callback` is supplied a
+     * default one is generated that resolves the context item, builds a
+     * {@link SohlActionContext}, and invokes the named `functionName` on the
+     * item's logic object.
+     * @param container The DOM element the menu is bound to.
+     * @param selector CSS selector identifying the rows the menu attaches to.
+     * @param menuItems The SoHL entry definitions to display.
+     * @param options Optional context-menu configuration.
+     * @throws Error if an entry has neither a `callback` nor a `functionName`.
+     */
     constructor(
         container: HTMLElement,
         selector: string,
@@ -185,6 +212,21 @@ export class SohlContextMenu
     //         :   null;
     // }
 
+    /**
+     * Position the rendered menu element relative to the triggering target.
+     *
+     * Appends the menu into the nearest `div.app` container, measures it, and
+     * chooses whether to expand upward or downward based on available space
+     * before setting its final coordinates. Toggles the `expand-up`/
+     * `expand-down` classes and marks the target with the `context` class.
+     * @param element The menu's root DOM element to position.
+     * @param target The element the menu was triggered on.
+     * @param options Render options; must include the originating mouse
+     *   `event` (used to derive cursor coordinates).
+     * @throws Error if no mouse event is supplied or no `div.app` container is
+     *   found.
+     * @internal
+     */
     _setPosition(
         element: HTMLElement,
         target: HTMLElement,
@@ -262,10 +304,15 @@ export namespace SohlContextMenu {
      * Options for configuring the context menu.
      */
     export interface Options {
+        /** DOM event name that triggers the menu (e.g. `"contextmenu"`). */
         eventName?: string;
+        /** Invoked when the menu opens. */
         onOpen?: Callback;
+        /** Invoked when the menu closes. */
         onClose?: Callback;
+        /** When `true`, the menu uses fixed positioning. */
         fixed?: boolean;
+        /** When `true`, the base class operates in jQuery-compatibility mode. */
         jQuery?: boolean;
     }
 
@@ -295,18 +342,32 @@ export namespace SohlContextMenu {
      * Options passed during rendering the context menu.
      */
     export interface RenderOptions {
+        /** The DOM event that triggered the render, if any. */
         event?: Event;
+        /** Whether to animate the menu open/close transition. */
         animate?: boolean;
     }
 
+    /**
+     * The raw data describing a single context-menu entry, before it is
+     * normalized into an {@link Entry} or compiled for Foundry's base class.
+     */
     export interface EntryContext {
+        /** Unique identifier for the entry. */
         id: string;
+        /** Display label for the entry. */
         name: string;
+        /** Pre-built HTML icon markup; mutually optional with `iconFAClass`. */
         icon?: HTMLString;
+        /** Font-Awesome CSS class used to build an icon when `icon` is absent. */
         iconFAClass?: string;
+        /** Name of the logic method to invoke when no explicit `callback` is given. */
         functionName?: string;
+        /** Predicate (string SafeExpression or function) gating visibility. See {@link Condition}. */
         condition: Condition;
+        /** Handler invoked when the entry is clicked; takes precedence over `functionName`. */
         callback?: Callback;
+        /** Sort group the entry belongs to. */
         group: SohlContextMenuSortGroup;
     }
 

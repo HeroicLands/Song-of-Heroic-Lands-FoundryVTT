@@ -11,9 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * A lazy iterator wrapper that adds array-style combinators (`map`, `filter`,
+ * `take`, `reduce`, etc.) over any iterable. Transformations are evaluated
+ * lazily and return new `Itr` instances, so chains do not materialize
+ * intermediate arrays.
+ *
+ * @typeParam T - The element type produced by the iterator.
+ */
 export class Itr<T> implements IterableIterator<T> {
+    /** Underlying source iterator. @internal */
     private _iterator: Iterator<T>;
 
+    /**
+     * @param iterable - The source iterable to wrap.
+     */
     constructor(iterable: Iterable<T>) {
         this._iterator = iterable[Symbol.iterator]();
     }

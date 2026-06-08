@@ -19,18 +19,33 @@ import { Itr } from "@src/utils/Itr";
  * and provides functional transformations with change tracking.
  */
 export class SohlMap<K extends string, V> {
+    /** Backing native `Map` holding the entries. @internal */
     private mapData!: Map<K, V>;
 
+    /**
+     * @param entries - Optional initial `[key, value]` pairs.
+     */
     constructor(entries?: [K, V][]) {
         this.mapData = new Map<K, V>(entries);
     }
 
+    /**
+     * Invoke `callback` once for each entry.
+     *
+     * @param callback - Receives the value, key, and this map.
+     */
     forEach(callback: (value: V, key: K, map: SohlMap<K, V>) => void): void {
         this.mapData.forEach((value, key) => {
             callback(value, key, this);
         });
     }
 
+    /**
+     * Test whether every entry satisfies `predicate`.
+     *
+     * @param predicate - Receives the value, key, and this map.
+     * @returns `true` if all entries pass (vacuously `true` when empty).
+     */
     every(
         predicate: (value: V, key: K, map: SohlMap<K, V>) => boolean,
     ): boolean {
@@ -42,6 +57,12 @@ export class SohlMap<K extends string, V> {
         return true;
     }
 
+    /**
+     * Return the first value whose entry satisfies `predicate`.
+     *
+     * @param predicate - Receives the value, key, and backing map.
+     * @returns The matching value, or `undefined` if none match.
+     */
     find(
         predicate: (value: V, key: K, map: Map<K, V>) => boolean,
     ): V | undefined {
@@ -53,6 +74,12 @@ export class SohlMap<K extends string, V> {
         return undefined;
     }
 
+    /**
+     * Collect all values whose entries satisfy `predicate`.
+     *
+     * @param predicate - Receives the value, key, and backing map.
+     * @returns An array of matching values, in insertion order.
+     */
     filter(predicate: (value: V, key: K, map: Map<K, V>) => boolean): V[] {
         const result: V[] = [];
         for (const [key, value] of this.mapData) {
@@ -63,6 +90,14 @@ export class SohlMap<K extends string, V> {
         return result;
     }
 
+    /**
+     * Reduce all entries to a single accumulated value.
+     *
+     * @typeParam R - The accumulator/result type.
+     * @param reducer - Receives the running accumulator, value, key, and backing map.
+     * @param initialValue - The starting accumulator value.
+     * @returns The final accumulated value.
+     */
     reduce<R>(
         reducer: (accumulator: R, value: V, key: K, map: Map<K, V>) => R,
         initialValue: R,
@@ -74,6 +109,12 @@ export class SohlMap<K extends string, V> {
         return result;
     }
 
+    /**
+     * Test whether at least one entry satisfies `predicate`.
+     *
+     * @param predicate - Receives the value, key, and backing map.
+     * @returns `true` if any entry passes, otherwise `false`.
+     */
     some(predicate: (value: V, key: K, map: Map<K, V>) => boolean): boolean {
         for (const [key, value] of this.mapData) {
             if (predicate(value, key, this.mapData)) {
@@ -322,6 +363,13 @@ export class SohlMap<K extends string, V> {
         return new Itr(this.mapData.entries());
     }
 
+    /**
+     * Serialize the map to a plain JSON object keyed by entry key. Each value is
+     * serialized via its own `toJSON` if present, otherwise via
+     * {@link defaultToJSON}; values that serialize to `undefined` are omitted.
+     *
+     * @returns A JSON-safe object representation of the map.
+     */
     toJSON(): JsonValue {
         const result: JsonValue = {};
         for (const [key, value] of this.mapData.entries()) {
@@ -336,6 +384,14 @@ export class SohlMap<K extends string, V> {
         return result;
     }
 
+    /**
+     * Build a `SohlMap` from a plain object, using each value's `fromData` if it
+     * provides one, otherwise reviving it via {@link defaultFromJSON}.
+     *
+     * @typeParam T - The value type of the resulting map.
+     * @param data - Plain object whose entries become map entries.
+     * @returns A new `SohlMap` keyed by the object's own keys.
+     */
     static fromData<T>(data: PlainObject): SohlMap<string, T> {
         const map = new SohlMap<string, T>();
         for (const [key, value] of Object.entries(data)) {

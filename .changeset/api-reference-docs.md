@@ -68,7 +68,16 @@ in reviewable batches per the API documentation coverage plan.
   DataModel.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
+- **The `utils` layer** (`utils/`, excluding `constants.ts`) — the shared helper
+  classes and functions developers reach for when traversing documents and
+  building actions: `helpers.ts` (type guards, brand types, name/uuid utilities,
+  the `AsyncFunction` compiler), `SimpleRoll`, `SohlMersenneTwister`,
+  `SohlLogger`, `SohlLocalize`, `SohlContextMenu`, `SourceMapResolver`, `Itr`,
+  and `collection/SohlMap` — class summaries, members, parameters/returns, and
+  the meaningful structural members of return shapes and type-guard predicates.
+  The `utils/ai/` agent-plumbing module is tagged `@internal` and excluded from
+  the published API.
 
 The coverage probe reports **0** undocumented symbols across the full in-scope
-set — `domain/result/`, `domain/modifier/`, and `SohlActor` — down from a
-combined ~623.
+set — `domain/`, `core/SohlLogic`, the actor/item Logic classes, `SohlActor`,
+and `utils/` (excluding `constants.ts`).

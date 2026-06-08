@@ -33,6 +33,7 @@ export interface AIExecutionResult {
     preview?: string;
 }
 
+/** @internal */
 export interface AIAgentCommandDefinition {
     type: string;
     description: string;

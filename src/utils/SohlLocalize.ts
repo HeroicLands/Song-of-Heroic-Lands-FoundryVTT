@@ -11,12 +11,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Whether a duration lies in the past, the future, or is the present moment.
+ * Controls the prefix/suffix applied when formatting (e.g. "ago" vs "in").
+ */
 export const TemporalDirection = {
+    /** The duration is in the past (e.g. "2d ago"). */
     PAST: "past",
+    /** The duration is in the future (e.g. "in 2d"). */
     FUTURE: "future",
+    /** The present moment; formats to a localized "Now". */
     NOW: "now",
 } as const;
 
+/** Union of the {@link TemporalDirection} string values. */
 export type TemporalDirection =
     (typeof TemporalDirection)[keyof typeof TemporalDirection];
 
@@ -24,13 +32,21 @@ export type TemporalDirection =
  * A partial duration object compatible with Intl.DurationFormat.
  */
 export interface DurationValue {
+    /** Direction relative to now; defaults to no prefix/suffix when omitted. */
     direction?: TemporalDirection;
+    /** Whole years component. */
     years?: number;
+    /** Whole months component. */
     months?: number;
+    /** Whole weeks component. */
     weeks?: number;
+    /** Whole days component. */
     days?: number;
+    /** Whole hours component. */
     hours?: number;
+    /** Whole minutes component. */
     minutes?: number;
+    /** Whole seconds component. */
     seconds?: number;
 }
 
@@ -40,8 +56,13 @@ export interface DurationValue {
  * relative times, numbers, lists, and message templates.
  */
 export class SohlLocalize {
+    /** The lazily-created singleton instance. @internal */
     private static instance: SohlLocalize;
 
+    /**
+     * Return the shared singleton instance, creating it on first access.
+     * @returns The {@link SohlLocalize} singleton.
+     */
     static getInstance(): SohlLocalize {
         if (!SohlLocalize.instance) {
             SohlLocalize.instance = new SohlLocalize();
@@ -49,6 +70,7 @@ export class SohlLocalize {
         return SohlLocalize.instance;
     }
 
+    /** Private to enforce singleton access via {@link getInstance}. @internal */
     private constructor() {}
 
     /**
@@ -59,6 +81,18 @@ export class SohlLocalize {
         return (game as any).i18n?.lang || "en";
     }
 
+    /**
+     * Normalize a string for comparison or matching.
+     *
+     * With `ascii` enabled, strips combining diacritics (NFD decomposition)
+     * and collapses non-printable/non-ASCII characters to spaces; with
+     * `caseInsensitive` enabled, lowercases the result.
+     * @param str The string to normalize.
+     * @param options Normalization flags; both default to `true`.
+     * @param options.caseInsensitive Lowercase the string when `true`.
+     * @param options.ascii Fold accents and non-ASCII characters when `true`.
+     * @returns The normalized string, or `""` for falsy input.
+     */
     normalizeText(
         str: string,
         options: { caseInsensitive: boolean; ascii: boolean } = {
@@ -436,4 +470,5 @@ export class SohlLocalize {
     }
 }
 
+/** Shared {@link SohlLocalize} singleton for localization throughout the system. */
 export const i18n = SohlLocalize.getInstance();
