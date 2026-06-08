@@ -1,0 +1,177 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>concepts/architecture | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="concepts_architecture.html">concepts/architecture</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="sohl-architecture" class="tsd-anchor"></a><h1 class="tsd-anchor-link">SoHL Architecture<a href="#sohl-architecture" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>Audience:</strong> Developers, contributors, and anyone needing a mental model of the system.</p>
+</blockquote>
+<p>See also: <a href="../media/README.md">Documentation Hub</a>, <a href="how-to_extension-points.html">Extension Points</a>, <a href="concepts_lifecycle-model.html">Lifecycle Model</a>.</p>
+<blockquote>
+<p><strong>New to the codebase? Start here.</strong> Read this page top to bottom for the mental model, then branch out through the <a href="#where-to-learn-more">Where to learn more</a> index at the end.</p>
+</blockquote>
+<a id="what-sohl-is" class="tsd-anchor"></a><h2 class="tsd-anchor-link">What SoHL is<a href="#what-sohl-is" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaster-compatible gameplay with deep automation: actors, items, active effects, combat resolution, chat cards, UI sheets, localization, and compendium content. All code targets Foundry VTT v14+.</p>
+<a id="directory-structure" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Directory structure<a href="#directory-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code><span class="hl-0">src</span><span class="hl-1">/</span><br/><span class="hl-1">├── </span><span class="hl-0">core</span><span class="hl-1">/        </span><span class="hl-0">Foundry</span><span class="hl-1">-</span><span class="hl-0">layer</span><span class="hl-1"> </span><span class="hl-2">foundations</span><span class="hl-1">: </span><span class="hl-0">system</span><span class="hl-1"> </span><span class="hl-0">registration</span><span class="hl-1">, </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">DataModel</span><br/><span class="hl-1">│                </span><span class="hl-0">and</span><span class="hl-1"> </span><span class="hl-0">Logic</span><span class="hl-1"> </span><span class="hl-0">base</span><span class="hl-1"> </span><span class="hl-0">classes</span><span class="hl-1">, </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">FoundryHelpers</span><span class="hl-1"> </span><span class="hl-0">shim</span><span class="hl-1">, </span><span class="hl-0">calendar</span><span class="hl-1">, </span><span class="hl-0">events</span><span class="hl-1">.</span><br/><span class="hl-1">├── </span><span class="hl-0">domain</span><span class="hl-1">/      </span><span class="hl-0">Pure</span><span class="hl-1">, </span><span class="hl-0">Foundry</span><span class="hl-1">-</span><span class="hl-0">free</span><span class="hl-1"> </span><span class="hl-0">game</span><span class="hl-1">-</span><span class="hl-0">mechanics</span><span class="hl-1"> </span><span class="hl-2">objects</span><span class="hl-1">: </span><span class="hl-0">modifiers</span><span class="hl-1">, </span><span class="hl-0">test</span><br/><span class="hl-1">│                </span><span class="hl-0">results</span><span class="hl-1">, </span><span class="hl-0">body</span><span class="hl-1"> </span><span class="hl-0">structure</span><span class="hl-1">, </span><span class="hl-0">actions</span><span class="hl-1">, </span><span class="hl-0">movement</span><span class="hl-1">, </span><span class="hl-0">skill</span><span class="hl-1"> </span><span class="hl-0">base</span><span class="hl-1">.</span><br/><span class="hl-1">├── </span><span class="hl-0">document</span><span class="hl-1">/    </span><span class="hl-0">Foundry</span><span class="hl-1"> </span><span class="hl-0">document</span><span class="hl-1"> </span><span class="hl-0">classes</span><span class="hl-1">, </span><span class="hl-0">grouped</span><span class="hl-1"> </span><span class="hl-0">by</span><span class="hl-1"> </span><span class="hl-2">kind</span><span class="hl-1">:</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">actor</span><span class="hl-1">/       </span><span class="hl-0">actors</span><span class="hl-1"> — </span><span class="hl-0">foundry</span><span class="hl-1">/ </span><span class="hl-0">holds</span><span class="hl-1"> </span><span class="hl-0">DataModel</span><span class="hl-1"> + </span><span class="hl-0">Sheet</span><span class="hl-1">, </span><span class="hl-0">logic</span><span class="hl-1">/ </span><span class="hl-0">holds</span><span class="hl-1"> </span><span class="hl-0">Logic</span><span class="hl-1"> + </span><span class="hl-0">Data</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">item</span><span class="hl-1">/        </span><span class="hl-0">items</span><span class="hl-1">  — </span><span class="hl-0">same</span><span class="hl-1"> </span><span class="hl-0">foundry</span><span class="hl-1">/ + </span><span class="hl-0">logic</span><span class="hl-1">/ </span><span class="hl-0">split</span><br/><span class="hl-1">│   └── </span><span class="hl-0">effect</span><span class="hl-1">/ · </span><span class="hl-0">combat</span><span class="hl-1">/ · </span><span class="hl-0">combatant</span><span class="hl-1">/ · </span><span class="hl-0">token</span><span class="hl-1">/ · </span><span class="hl-0">scene</span><span class="hl-1">/   </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">other</span><span class="hl-1"> </span><span class="hl-0">document</span><span class="hl-1"> </span><span class="hl-0">kinds</span><br/><span class="hl-1">├── </span><span class="hl-0">apps</span><span class="hl-1">/        </span><span class="hl-0">Standalone</span><span class="hl-1"> </span><span class="hl-0">Foundry</span><span class="hl-1"> </span><span class="hl-0">application</span><span class="hl-1"> </span><span class="hl-0">windows</span><span class="hl-1">.</span><br/><span class="hl-1">├── </span><span class="hl-0">utils</span><span class="hl-1">/       </span><span class="hl-0">Shared</span><span class="hl-1"> </span><span class="hl-2">utilities</span><span class="hl-1">: </span><span class="hl-0">constants</span><span class="hl-1">/</span><span class="hl-0">enums</span><span class="hl-1">, </span><span class="hl-0">helpers</span><span class="hl-1">, </span><span class="hl-0">dice</span><span class="hl-1">, </span><span class="hl-0">context</span><span class="hl-1"> </span><span class="hl-0">menus</span><span class="hl-1">, </span><span class="hl-0">logging</span><span class="hl-1">.</span><br/><span class="hl-1">└── </span><span class="hl-0">sohl</span><span class="hl-1">.</span><span class="hl-0">ts</span><span class="hl-1">      </span><span class="hl-0">Entry</span><span class="hl-1"> </span><span class="hl-2">point</span><span class="hl-1">: </span><span class="hl-0">Foundry</span><span class="hl-1"> </span><span class="hl-0">hooks</span><span class="hl-1"> </span><span class="hl-0">and</span><span class="hl-1"> </span><span class="hl-0">system</span><span class="hl-1"> </span><span class="hl-0">registration</span><span class="hl-1">.</span><br/><br/><span class="hl-0">templates</span><span class="hl-1">/       </span><span class="hl-3">Handlebars</span><span class="hl-1"> (.</span><span class="hl-0">hbs</span><span class="hl-1">) </span><span class="hl-2">templates</span><span class="hl-1">: </span><span class="hl-0">actor</span><span class="hl-1">, </span><span class="hl-0">item</span><span class="hl-1">, </span><span class="hl-0">chat</span><span class="hl-1">, </span><span class="hl-0">dialog</span><span class="hl-1">, </span><span class="hl-0">effect</span><span class="hl-1">.</span><br/><span class="hl-0">tests</span><span class="hl-1">/           </span><span class="hl-0">Vitest</span><span class="hl-1"> </span><span class="hl-3">suite</span><span class="hl-1"> (</span><span class="hl-0">mirrors</span><span class="hl-1"> </span><span class="hl-0">src</span><span class="hl-1">/).</span><br/><span class="hl-0">docs</span><span class="hl-1">/            </span><span class="hl-0">Developer</span><span class="hl-1"> &amp; </span><span class="hl-4">API</span><span class="hl-1"> </span><span class="hl-0">documentation</span><span class="hl-1">.</span><br/><span class="hl-0">assets</span><span class="hl-1">/          </span><span class="hl-0">Compendium</span><span class="hl-1"> </span><span class="hl-0">data</span><span class="hl-1">, </span><span class="hl-0">icons</span><span class="hl-1">, </span><span class="hl-0">templates</span><span class="hl-1">.</span><br/><span class="hl-0">lang</span><span class="hl-1">/            </span><span class="hl-3">Localization</span><span class="hl-1"> (</span><span class="hl-0">en</span><span class="hl-1">.</span><span class="hl-0">json</span><span class="hl-1">).</span>
+</code><button>Copy</button></pre>
+
+<p>This map stays at the <strong>directory level</strong> on purpose. Directories are stable; the specific files inside them get added, renamed, and moved between <code>foundry/</code> and <code>logic/</code>. For the actual classes in any folder, consult the API reference, whose navigation mirrors this layout (see next section) and is regenerated from source on every build.</p>
+<a id="how-the-api-reference-is-organized" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How the API reference is organized<a href="#how-the-api-reference-is-organized" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The generated <a href="https://api.heroiclands.org/latest">API reference</a> mirrors this directory layout. Its sidebar groups every public symbol the same way the source is grouped — <strong>Core</strong>, <strong>Documents</strong> (<code>Actor</code>, <code>Item</code>, <code>Combat</code>, <code>Combatant</code>, <code>Chat</code>, <code>Effect</code>, <code>Scene</code>, <code>Token</code>), <strong>Domain</strong> (<code>Action</code>, <code>Body</code>, <code>Modifier</code>, <code>Movement</code>, <code>Result</code>, <code>StrikeMode</code>, <code>SkillBase</code>), <strong>Utility</strong> (<code>AI</code>, <code>Collection</code>, <code>Constants</code>, <code>Helpers</code>), and <strong>Applications</strong> — so a folder here maps directly to a navigation group there. Start from the group that matches the area you're working in.</p>
+<a id="three-layer-architecture" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Three-layer architecture<a href="#three-layer-architecture" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="foundry-layer" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Foundry layer<a href="#foundry-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Document classes (<code>SohlActor</code>, <code>SohlItem</code>, <code>SohlActiveEffect</code>) handle Foundry VTT integration: persistence, data preparation lifecycle, sheet rendering, and document operations. These live in <code>src/document/*/foundry/</code> and <code>src/core/</code>.</p>
+<a id="logic-layer" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Logic layer<a href="#logic-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Logic classes handle game rules, calculations, and actions — separated from Foundry persistence. They live in <code>src/document/*/logic/</code> and must <strong>never</strong> import Foundry globals directly. All Foundry API access goes through <code>src/core/FoundryHelpers.ts</code>, which is mock-swapped during testing.</p>
+<a id="domain-layer" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Domain layer<a href="#domain-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Pure game-mechanics objects in <code>src/domain/</code> — modifiers, test results, body structure, move-base helpers, skill base computation. These have no Foundry dependency at all and are fully unit-testable.</p>
+<a id="presentation-layer" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Presentation layer<a href="#presentation-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Sheet classes and Handlebars templates (<code>.hbs</code>) handle UI. Sheets extend <code>SohlActorSheetBase</code> or <code>SohlItemSheetBase</code>. Chat cards use templates in <code>templates/chat/</code>.</p>
+<a id="three-class-pattern" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Three-class pattern<a href="#three-class-pattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Every actor and item type is split into three classes across two directories:</p>
+<ol>
+<li>
+<p><strong>Logic class</strong> (e.g., <code>SkillLogic</code> in <code>item/logic/SkillLogic.ts</code>) — business logic, calculations, actions. Participates in the phase-batched lifecycle: <code>initialize()</code> → <code>evaluate()</code> → <code>finalize()</code>. Also contains the Data interface.</p>
+</li>
+<li>
+<p><strong>DataModel class</strong> (e.g., <code>SkillDataModel</code> in <code>item/foundry/SkillDataModel.ts</code>) — extends Foundry <code>TypeDataModel</code>, defines the persisted schema via <code>defineSchema()</code>.</p>
+</li>
+<li>
+<p><strong>Sheet class</strong> (e.g., <code>SkillSheet</code> in <code>item/foundry/SkillSheet.ts</code>) — UI presentation, extends the appropriate sheet base class.</p>
+</li>
+</ol>
+<p>The <code>logic/</code> directory contains code that can run and be tested without Foundry VTT. The <code>foundry/</code> directory contains code that depends on the Foundry runtime.</p>
+<a id="document-types" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Document types<a href="#document-types" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>SoHL defines several <strong>actor</strong> and <strong>item</strong> types, each following the three-class pattern above. The exact set drifts as types are added or renamed, so this page does not enumerate them — consult the authoritative sources instead:</p>
+<ul>
+<li><code>ACTOR_KIND</code> and <code>ITEM_KIND</code> in <code>src/utils/constants.ts</code> — the canonical set of type codes.</li>
+<li><a href="reference_type-catalog.html">Type Catalog</a> — what each type is and how they interact.</li>
+<li>The API reference — every type's classes, under <strong>Documents → Actor</strong> and <strong>Documents → Item</strong>.</li>
+</ul>
+<p>In short: <strong>actors</strong> model the entities in the world — individual beings and creatures, groups, structures, vehicles, and item-container assemblies. <strong>Items</strong> model the capabilities and possessions an actor carries — skills, traits, gear, afflictions and injuries, combat techniques, and mystical abilities.</p>
+<a id="phase-batched-lifecycle" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Phase-batched lifecycle<a href="#phase-batched-lifecycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Foundry VTT processes each embedded item fully before moving to the next, so sibling items cannot depend on each other. SoHL overrides <code>prepareEmbeddedData()</code> to run three <strong>phase-batched</strong> passes across all items with barriers between them:</p>
+<ol>
+<li><strong>initialize</strong> — set up base state from persisted data. Cannot read sibling items.</li>
+<li><strong>evaluate</strong> — compute derived values using sibling items' initialized state.</li>
+<li><strong>finalize</strong> — resolve cross-item dependencies requiring evaluated state.</li>
+</ol>
+<p>See <a href="concepts_lifecycle-model.html">Lifecycle Model</a> for the full rationale and rules.</p>
+<a id="domain-objects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Domain objects<a href="#domain-objects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Game-mechanics value objects in <code>src/domain/</code> are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain/modifier/</code></td>
+<td>Auditable tracked values built from a base plus ordered deltas.</td>
+</tr>
+<tr>
+<td><code>domain/result/</code></td>
+<td>Test and combat resolution outcomes.</td>
+</tr>
+<tr>
+<td><code>domain/body/</code></td>
+<td>Anatomical structure with weighted hit-location selection.</td>
+</tr>
+<tr>
+<td><code>domain/movement/</code></td>
+<td>Per-medium base-move lookup.</td>
+</tr>
+<tr>
+<td><code>domain/action/</code></td>
+<td>Executable action definitions (context-menu entries, chat buttons).</td>
+</tr>
+<tr>
+<td><code>domain/</code> (top level)</td>
+<td>Skill-base formula computation.</td>
+</tr>
+</tbody>
+</table>
+<p>For the classes in each area, see <strong>Domain</strong> in the API reference, and <a href="reference_modifier-model.html">Modifier Model</a>, <a href="reference_combat-resolution-pipeline.html">Combat Resolution Pipeline</a>, and <a href="reference_body-structure.html">Body Structure</a>.</p>
+<a id="active-effects" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Active Effects<a href="#active-effects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>SohlActiveEffect</code> extends Foundry's ActiveEffect with an extended targeting model:</p>
+<ul>
+<li><code>targetType</code>: <code>this</code> (self), <code>actor</code> (owning actor), or <code>&lt;itemType&gt;</code> (other items on actor)</li>
+<li><code>targetName</code>: regex pattern matched against item shortcodes</li>
+</ul>
+<p>See <a href="reference_effects-integration.html">Effects Integration</a>.</p>
+<a id="extension-mechanisms" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extension mechanisms<a href="#extension-mechanisms" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>SoHL provides two levels of extension for customizing behavior without modifying core source:</p>
+<ol>
+<li>
+<p><strong>Modules via lifecycle hooks</strong> — Foundry modules listen for hooks emitted at each lifecycle phase to augment behavior broadly across items or actors. See <a href="how-to_lifecycle-hooks.html">Lifecycle Hooks</a>.</p>
+</li>
+<li>
+<p><strong>Action items</strong> — document-attached executable logic for per-item overrides. See <a href="how-to_actions.html">Actions</a>.</p>
+</li>
+</ol>
+<a id="foundryhelpers-shim" class="tsd-anchor"></a><h2 class="tsd-anchor-link">FoundryHelpers shim<a href="#foundryhelpers-shim" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>src/core/FoundryHelpers.ts</code> wraps all Foundry VTT globals (<code>game</code>, <code>canvas</code>, <code>Hooks</code>, <code>Roll</code>, etc.) behind a stable API. During testing, vitest swaps it for a mock. Logic classes must import from FoundryHelpers, never from Foundry directly.</p>
+<p>Shim exports use the <code>fvtt</code> prefix (e.g., <code>fvttGetSetting</code>, <code>fvttCallHook</code>). Functions that don't wrap globals (e.g., <code>inputDialog</code>, <code>getContextItem</code>) use plain names.</p>
+<p>For UI notifications, use <code>sohl.log.uiWarn</code> / <code>sohl.log.uiError</code> (SohlLogger), not the shim.</p>
+<a id="build-system" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Build system<a href="#build-system" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="bash"><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">build</span><span class="hl-1">              </span><span class="hl-6"># Full pipeline: types → test → bundle</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">build:types</span><span class="hl-1">        </span><span class="hl-6"># TypeScript compilation only</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">build:code</span><span class="hl-1">         </span><span class="hl-6"># Vite bundle</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">build:css</span><span class="hl-1">          </span><span class="hl-6"># Sass compilation</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">test</span><span class="hl-1">               </span><span class="hl-6"># Vitest</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">push:qa</span><span class="hl-1">            </span><span class="hl-6"># Sync to QA Foundry instance</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">docs</span><span class="hl-1">               </span><span class="hl-6"># Generate TypeDoc</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Build output goes to <code>build/stage/</code>, which mirrors the Foundry system directory. <code>system.json</code> is generated from <code>assets/templates/system.template.json</code>.</p>
+<a id="actor-state-sovereignty" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Actor state sovereignty<a href="#actor-state-sovereignty" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>An actor — together with its token and combatant — is the sole authority over its own state.</strong> An actor's logic or client may mutate only <strong>itself</strong>; it must never write directly to another actor (or another actor's token or combatant).</p>
+<p>Any effect one actor would impose on another is mediated by a <strong>chat-message handshake</strong>:</p>
+<ol>
+<li>The <strong>source</strong> resolves its own side — rolls the attack, the spell-success test, etc. — mutating only itself.</li>
+<li>On success it posts a chat card with a button <strong>addressed to the target's owner</strong>, whose label states unambiguously what is being acknowledged or applied.</li>
+<li>The <strong>target's owning client</strong> clicks it, runs any required test first (e.g. a resistance roll), and applies the change <strong>to itself</strong>.</li>
+</ol>
+<p>Example: a wizard casts Sleep on a victim. The wizard rolls to land the spell; on success the card shows the <em>victim's</em> owner a button (&quot;Acknowledge you fall asleep&quot;, possibly gated behind a resistance test). The victim's client marks the victim asleep — the wizard never touches the victim's state.</p>
+<p><strong>Why:</strong> Foundry permissions — a client can only reliably update documents it owns — and player accountability: each player (the GM owns all actors) stays in control of, and every cross-actor consequence stays visible in chat for, their own character.</p>
+<p>This already underlies automated combat: defense buttons dispatch to the <em>defender's</em> client, and the &quot;Calculate Injury&quot; button resolves on the <em>target's</em> client. To implement a new cross-actor mechanic, follow <a href="how-to_extension-points.html#cross-actor-effects-the-acknowledge-button-pattern">Extension Points → Cross-actor effects</a>.</p>
+<a id="architectural-rules" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Architectural rules<a href="#architectural-rules" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ol>
+<li><strong>Logic layer stays Foundry-free.</strong> All Foundry API calls go through <code>FoundryHelpers.ts</code>.</li>
+<li><strong>Extension over rewrites.</strong> Use hooks and action items, not source modifications.</li>
+<li><strong>Backwards compatibility.</strong> Never rename data fields without a migration strategy.</li>
+<li><strong>No global search-and-replace.</strong> Cross-cutting changes must be scoped and validated.</li>
+<li><strong>Stable localization keys.</strong> Never rename keys in <code>lang/en.json</code> — add new ones.</li>
+<li><strong>Small, focused changes.</strong> One feature or fix per PR.</li>
+<li><strong>Complete implementations.</strong> No placeholder stubs.</li>
+<li><strong>Actor state sovereignty.</strong> An actor mutates only itself; cross-actor effects go through a target-addressed chat acknowledge button (see above).</li>
+</ol>
+<a id="where-to-learn-more" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Where to learn more<a href="#where-to-learn-more" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Document</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lifecycle phases</td>
+<td><a href="concepts_lifecycle-model.html">Lifecycle Model</a></td>
+</tr>
+<tr>
+<td>Extending SoHL</td>
+<td><a href="how-to_extension-points.html">Extension Points</a></td>
+</tr>
+<tr>
+<td>Lifecycle hooks</td>
+<td><a href="how-to_lifecycle-hooks.html">Lifecycle Hooks</a></td>
+</tr>
+<tr>
+<td>Action items</td>
+<td><a href="how-to_actions.html">Actions</a></td>
+</tr>
+<tr>
+<td>Combat resolution</td>
+<td><a href="reference_combat-resolution-pipeline.html">Combat Resolution Pipeline</a></td>
+</tr>
+<tr>
+<td>Modifier system</td>
+<td><a href="reference_modifier-model.html">Modifier Model</a></td>
+</tr>
+<tr>
+<td>Body anatomy</td>
+<td><a href="reference_body-structure.html">Body Structure</a></td>
+</tr>
+<tr>
+<td>Active effects</td>
+<td><a href="reference_effects-integration.html">Effects Integration</a></td>
+</tr>
+<tr>
+<td>Testing</td>
+<td><a href="how-to_testing.html">Testing Guide</a></td>
+</tr>
+<tr>
+<td>Type catalog</td>
+<td><a href="reference_type-catalog.html">Type Catalog</a></td>
+</tr>
+<tr>
+<td>Runtime contracts</td>
+<td><a href="reference_runtime-contracts.html">Runtime Contracts</a></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#sohl-architecture"><span>SoHL <wbr/>Architecture</span></a><ul><li><a href="#what-sohl-is"><span>What <wbr/>SoHL is</span></a></li><li><a href="#directory-structure"><span>Directory structure</span></a></li><li><a href="#how-the-api-reference-is-organized"><span>How the API reference is organized</span></a></li><li><a href="#three-layer-architecture"><span>Three-<wbr/>layer architecture</span></a></li><li><ul><li><a href="#foundry-layer"><span>Foundry layer</span></a></li><li><a href="#logic-layer"><span>Logic layer</span></a></li><li><a href="#domain-layer"><span>Domain layer</span></a></li><li><a href="#presentation-layer"><span>Presentation layer</span></a></li></ul></li><li><a href="#three-class-pattern"><span>Three-<wbr/>class pattern</span></a></li><li><a href="#document-types"><span>Document types</span></a></li><li><a href="#phase-batched-lifecycle"><span>Phase-<wbr/>batched lifecycle</span></a></li><li><a href="#domain-objects"><span>Domain objects</span></a></li><li><a href="#active-effects"><span>Active <wbr/>Effects</span></a></li><li><a href="#extension-mechanisms"><span>Extension mechanisms</span></a></li><li><a href="#foundryhelpers-shim"><span>Foundry<wbr/>Helpers shim</span></a></li><li><a href="#build-system"><span>Build system</span></a></li><li><a href="#actor-state-sovereignty"><span>Actor state sovereignty</span></a></li><li><a href="#architectural-rules"><span>Architectural rules</span></a></li><li><a href="#where-to-learn-more"><span>Where to learn more</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

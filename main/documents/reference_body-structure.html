@@ -1,0 +1,287 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>reference/body-structure | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="reference_body-structure.html">reference/body-structure</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="body-structure" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Body Structure<a href="#body-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><a id="overview" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Overview<a href="#overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Every creature (a Being actor) takes its anatomy from a <strong>Lineage</strong> item attached to it. The lineage's body structure determines where blows land, how armor protects, which skills and attributes are impaired by injury, and whether a hit makes the target fumble a weapon or stumble.</p>
+<p>A body structure has three parts: a list of <strong>body parts</strong>, the <strong>body locations</strong> nested within each part, and an <strong>adjacency graph</strong> describing which parts are next to which. A cross-cutting tag set of <strong>body roles</strong> ties parts to the skills and attributes they affect.</p>
+<a id="where-the-data-lives" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Where the data lives<a href="#where-the-data-lives" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The schema is defined on the Lineage item, not on the Being actor. See <a href="../media/LineageDataModel.ts">src/document/item/foundry/LineageDataModel.ts</a>:</p>
+<pre><code><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">bodyStructure</span><br/><span class="hl-1">  ├── </span><span class="hl-2">parts</span><span class="hl-1">: </span><span class="hl-0">BodyPart</span><span class="hl-1">.</span><span class="hl-0">Data</span><span class="hl-1">[]   </span><span class="hl-6">// each with its locations[]</span><br/><span class="hl-1">  └── </span><span class="hl-2">adjacent</span><span class="hl-1">: </span><span class="hl-0">string</span><span class="hl-1">[][]      </span><span class="hl-6">// pairs of part shortcodes</span>
+</code><button>Copy</button></pre>
+
+<p>At runtime, the data is rebuilt into domain objects in <a href="../../src/domain/body/">src/domain/body/</a>:</p>
+<ul>
+<li><code>BodyStructure</code> — the root object; provides hit-location resolution and adjacency queries</li>
+<li><code>BodyPart</code> — one anatomical division</li>
+<li><code>BodyLocation</code> — one hit location within a part</li>
+</ul>
+<p>Domain objects are reconstructed on every preparation cycle. Active effects may mutate them in-flight (e.g., adding protection modifiers), but only changes written through <code>document.update()</code> survive. To persist, use the <code>*Update()</code> helpers on <code>BodyStructure</code> (<code>addPartUpdate</code>, <code>removePartUpdate</code>, <code>addEdgeUpdate</code>, <code>removeEdgeUpdate</code>).</p>
+<a id="body-parts" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Body parts<a href="#body-parts" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, per <a href="../media/LineageDataModel.ts#L44-L153">LineageDataModel.ts:44-153</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shortcode</code></td>
+<td>string</td>
+<td>Stable identifier (e.g., <code>headpart</code>). Used in adjacency lookups and update paths.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Display name (e.g., <code>&quot;Head&quot;</code>). Stored literally; not a localization key.</td>
+</tr>
+<tr>
+<td><code>roles</code></td>
+<td><code>BodyRole[]</code></td>
+<td>Functional tags the part fulfills — see <a href="#body-roles">Body Roles</a>.</td>
+</tr>
+<tr>
+<td><code>combatArea</code></td>
+<td>number</td>
+<td>Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection.</td>
+</tr>
+<tr>
+<td><code>canHoldItem</code></td>
+<td>boolean</td>
+<td>Whether this part can grip an item. Arms typically <code>true</code>; others <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>heldItemId</code></td>
+<td>string | null</td>
+<td>The ID of the item currently held, if any.</td>
+</tr>
+<tr>
+<td><code>favoredFlag</code></td>
+<td>boolean</td>
+<td>Marks the part as favored (off-hand vs. main-hand semantics).</td>
+</tr>
+<tr>
+<td><code>locations</code></td>
+<td><code>BodyLocation.Data[]</code></td>
+<td>The hit locations nested within this part.</td>
+</tr>
+</tbody>
+</table>
+<p>A convenience getter <code>BodyPart.affectsMobility</code> is <code>true</code> when the part has any of the <code>vital</code>, <code>core</code>, or <code>locomotor</code> roles (<a href="../media/BodyPart.ts#L54-L61">src/domain/body/BodyPart.ts:54-61</a>).</p>
+<a id="body-locations" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Body locations<a href="#body-locations" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, per <a href="../media/LineageDataModel.ts#L88-L150">LineageDataModel.ts:88-150</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shortcode</code></td>
+<td>string</td>
+<td>Stable identifier (e.g., <code>skullloc</code>, <code>relbloc</code>).</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Display name (e.g., <code>&quot;Skull&quot;</code>). Stored literally.</td>
+</tr>
+<tr>
+<td><code>probWeight</code></td>
+<td>integer</td>
+<td>Relative weight for random hit selection within the parent part.</td>
+</tr>
+<tr>
+<td><code>shockValue</code></td>
+<td>integer</td>
+<td>Inherent shock inflicted by an injury at this location, regardless of severity.</td>
+</tr>
+<tr>
+<td><code>bleedingSusceptibility</code></td>
+<td>tier</td>
+<td><code>none</code> / <code>low</code> / <code>medium</code> / <code>high</code>. Combined with injury severity and weapon aspect by <code>BleedingDefaults</code> to decide whether a wound bleeds.</td>
+</tr>
+<tr>
+<td><code>amputability</code></td>
+<td>tier</td>
+<td><code>none</code> / <code>low</code> / <code>medium</code> / <code>high</code>. Drives the Strength-test modifier when a G5 Edge injury would amputate; see <code>AmputationDefaults</code>. <code>none</code> means amputation is disallowed at this location.</td>
+</tr>
+<tr>
+<td><code>protectionBase</code></td>
+<td><code>{blunt, edged, piercing, fire}</code></td>
+<td>Natural armor values per <a href="../media/constants.ts"><code>ImpactAspect</code></a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).</p>
+<a id="body-roles" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Body roles<a href="#body-roles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A cross-cutting tag set. The four values, defined in <a href="../media/constants.ts">src/utils/constants.ts</a> under <code>BODY_ROLE</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Anatomical examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vital</code></td>
+<td>Brain, sensory organs, vital nerve clusters. Head for vertebrates; cephalothorax for arachnids; ganglia for invertebrates.</td>
+</tr>
+<tr>
+<td><code>core</code></td>
+<td>Power and balance. Torso for humans; abdomen for insects; mantle for cephalopods; body segments for snakes.</td>
+</tr>
+<tr>
+<td><code>manipulator</code></td>
+<td>Fine work and intentional force. Arms, paws, tentacles, trunks; jaws used as bite-weapons.</td>
+</tr>
+<tr>
+<td><code>locomotor</code></td>
+<td>Movement. Legs, wings, fins; tentacles used for swimming.</td>
+</tr>
+</tbody>
+</table>
+<p>A part may carry multiple roles. A wolf's foreleg might be <code>[locomotor, manipulator]</code>; its head <code>[vital, manipulator]</code> (bite attacks).</p>
+<p><strong>What roles drive:</strong></p>
+<ol>
+<li><strong>Skill / attribute impairment.</strong> Skills and attributes carry an <code>impairedByRoles: BodyRole[]</code> field. When a body part takes an injury, every skill and attribute whose <code>impairedByRoles</code> intersects the part's <code>roles</code> is impaired. Mental attributes leave the list empty; physical ones list the relevant roles. See <a href="../media/SkillDataModel.ts">src/document/item/foundry/SkillDataModel.ts</a> and <a href="../media/AttributeDataModel.ts">AttributeDataModel.ts</a>.</li>
+<li><strong>Mobility impairment.</strong> <code>BodyPart.affectsMobility</code> returns <code>true</code> when the part has any of <code>vital</code>, <code>core</code>, or <code>locomotor</code>.</li>
+<li><strong>Mishap checks</strong> (fumble / stumble) on injury severity:
+<ul>
+<li><code>vital</code> Serious → fumble + stumble check; Grievous → both auto</li>
+<li><code>core</code> Serious → fumble + stumble check; Grievous → both auto</li>
+<li><code>manipulator</code> Serious → fumble check; Grievous → auto fumble</li>
+<li><code>locomotor</code> Serious → stumble check; Grievous → auto stumble</li>
+</ul>
+</li>
+</ol>
+<a id="adjacency" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Adjacency<a href="#adjacency" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The adjacency graph defines which parts are next to which, as an array of unordered pairs of part shortcodes:</p>
+<pre><code class="json"><span class="hl-5">&quot;adjacent&quot;</span><span class="hl-1">: [</span><br/><span class="hl-1">    [</span><span class="hl-5">&quot;headpart&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;torsopart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-5">&quot;headpart&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;rarmpart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-5">&quot;torsopart&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;rarmpart&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    [</span><span class="hl-5">&quot;torsopart&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;rlegpart&quot;</span><span class="hl-1">]</span><br/><span class="hl-1">]</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Each pair is bidirectional. The adjacency graph drives the <strong>aimed-strike drift algorithm</strong> (<a href="../media/BodyStructure.ts#L97-L136">BodyStructure.getRandomPart</a>):</p>
+<ol>
+<li>Roll <code>1..spread</code>.</li>
+<li>If the roll ≤ the current target part's <code>probWeight</code>, that part is hit.</li>
+<li>Otherwise, reduce remaining spread by <code>probWeight</code> and drift to a random adjacent part. Repeat.</li>
+<li>If the drift reaches a part with no unvisited neighbors, hit that part.</li>
+</ol>
+<p>For unaimed attacks (<code>getRandomPart()</code> with no target), pure weighted random selection is used, with each part's <code>combatArea</code> as its weight.</p>
+<a id="hit-location-pipeline" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Hit-location pipeline<a href="#hit-location-pipeline" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><code>BodyStructure.getRandomLocation(target?)</code> is the canonical entry point during attack resolution:</p>
+<ol>
+<li><code>getRandomPart(target?)</code> selects a part (aimed drift, or pure weighted random).</li>
+<li>The selected part's <code>getRandomLocation()</code> picks a location within it, weighted by each location's <code>probWeight</code>.</li>
+</ol>
+<p>For the broader resolution flow (rolls → wound calculation → effects), see <a href="reference_combat-resolution-pipeline.html">Combat Resolution Pipeline</a>.</p>
+<a id="localization" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Localization<a href="#localization" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Two parallel mechanisms exist:</p>
+<ul>
+<li><strong>Literal <code>name</code> fields</strong> on each part and location, baked into the compendium JSON in the active language (<code>&quot;name&quot;: &quot;Skull&quot;</code>). This is what the system reads at runtime.</li>
+<li><strong><code>SOHL.BodyPart.&lt;bare-shortcode&gt;</code> and <code>SOHL.BodyLocation.&lt;bare-shortcode&gt;</code> keys</strong> in <a href="../media/en.json">lang/en.json</a>. Keys use bare names (<code>SOHL.BodyPart.head</code>, <code>SOHL.BodyLocation.skull</code>) without the <code>*part</code> / <code>*loc</code> suffix. These keys are used by UI affordances that need to render a label from a shortcode alone; the literal <code>name</code> field on the compendium item is preferred when the item is in hand.</li>
+</ul>
+<p>When authoring a new lineage, set the literal <code>name</code> field and add the corresponding localization key for the bare shortcode.</p>
+<a id="reference-human-lineage" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Reference: Human lineage<a href="#reference-human-lineage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The only lineage shipped today is <strong>Human</strong> (<a href="../../assets/packs/items/_source/Human_R0F5737O8cfOraMc.json">assets/packs/items/_source/Human_R0F5737O8cfOraMc.json</a>). Its body structure:</p>
+<table>
+<thead>
+<tr>
+<th>Part shortcode</th>
+<th>Name</th>
+<th>Roles</th>
+<th style="text-align:right"><code>combatArea</code></th>
+<th>Can hold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>headpart</code></td>
+<td>Head</td>
+<td><code>vital</code></td>
+<td style="text-align:right">1</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>torsopart</code></td>
+<td>Torso</td>
+<td><code>core</code></td>
+<td style="text-align:right">4</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>larmpart</code></td>
+<td>Left Arm</td>
+<td><code>manipulator</code></td>
+<td style="text-align:right">2</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>rarmpart</code></td>
+<td>Right Arm</td>
+<td><code>manipulator</code></td>
+<td style="text-align:right">2</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>llegpart</code></td>
+<td>Left Leg</td>
+<td><code>locomotor</code></td>
+<td style="text-align:right">3</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>rlegpart</code></td>
+<td>Right Leg</td>
+<td><code>locomotor</code></td>
+<td style="text-align:right">3</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>Locations:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Location shortcodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>headpart</code></td>
+<td><code>skullloc</code>, <code>leyeloc</code>, <code>reyeloc</code>, <code>noseloc</code>, <code>lcheekloc</code>, <code>rcheekloc</code>, <code>learloc</code>, <code>rearloc</code>, <code>mouthloc</code>, <code>jawloc</code>, <code>neckloc</code></td>
+</tr>
+<tr>
+<td><code>torsopart</code></td>
+<td><code>thrxloc</code>, <code>abdmnloc</code>, <code>plvisloc</code></td>
+</tr>
+<tr>
+<td><code>larmpart</code></td>
+<td><code>lshldloc</code>, <code>lupaloc</code>, <code>lelbloc</code>, <code>lfraloc</code>, <code>lhandloc</code></td>
+</tr>
+<tr>
+<td><code>rarmpart</code></td>
+<td><code>rshldloc</code>, <code>rupaloc</code>, <code>relbloc</code>, <code>rfraloc</code>, <code>rhandloc</code></td>
+</tr>
+<tr>
+<td><code>llegpart</code></td>
+<td><code>lthghloc</code>, <code>lkneeloc</code>, <code>lcalfloc</code>, <code>lfootloc</code></td>
+</tr>
+<tr>
+<td><code>rlegpart</code></td>
+<td><code>rthghloc</code>, <code>rkneeloc</code>, <code>rcalfloc</code>, <code>rfootloc</code></td>
+</tr>
+</tbody>
+</table>
+<p>Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.</p>
+<a id="suggested-shortcode-conventions-for-new-lineages" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Suggested shortcode conventions for new lineages<a href="#suggested-shortcode-conventions-for-new-lineages" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Suffix every part shortcode with <code>part</code> and every location shortcode with <code>loc</code>. Use <code>l*</code> / <code>r*</code> prefixes for left/right pairs. Beyond that, the suggestions below are conventions, not shipped data — only Human is in the compendium today.</p>
+<a id="quadruped-horse-wolf-bear" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Quadruped (horse, wolf, bear)<a href="#quadruped-horse-wolf-bear" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>headpart</code>, <code>neckpart</code>, <code>forequarterspart</code>, <code>barrelpart</code>, <code>hindquarterspart</code>, <code>lforelegpart</code>, <code>rforelegpart</code>, <code>lhindlegpart</code>, <code>rhindlegpart</code>, <code>tailpart</code>.</p>
+<a id="avian-eagle-griffin" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Avian (eagle, griffin)<a href="#avian-eagle-griffin" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>headpart</code>, <code>bodypart</code>, <code>lwingpart</code>, <code>rwingpart</code>, <code>llegpart</code>, <code>rlegpart</code>, <code>tailpart</code>.</p>
+<a id="serpentine-snake-wyrm-dragon" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Serpentine (snake, wyrm, dragon)<a href="#serpentine-snake-wyrm-dragon" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>headpart</code>, <code>neckpart</code>, <code>forebodypart</code>, <code>midbodypart</code>, <code>hindbodypart</code>, <code>tailpart</code>; dragons add <code>lwingpart</code> / <code>rwingpart</code> and four legs.</p>
+<a id="multi-limbed-spider-insect" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Multi-limbed (spider, insect)<a href="#multi-limbed-spider-insect" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>cephalothoraxpart</code>, <code>abdomenpart</code>; legs numbered for clarity when more than two pairs.</p>
+<a id="adding-a-body-part-to-a-lineage" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Adding a body part to a lineage<a href="#adding-a-body-part-to-a-lineage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Use <code>BodyStructure.addPartUpdate(partData)</code> to build the update payload:</p>
+<pre><code class="typescript"><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-4">update</span><span class="hl-1"> = </span><span class="hl-0">bodyStructure</span><span class="hl-1">.</span><span class="hl-3">addPartUpdate</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-0">shortcode:</span><span class="hl-1"> </span><span class="hl-5">&quot;tailpart&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">name:</span><span class="hl-1"> </span><span class="hl-5">&quot;Tail&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">roles:</span><span class="hl-1"> [</span><span class="hl-5">&quot;locomotor&quot;</span><span class="hl-1">],</span><br/><span class="hl-1">    </span><span class="hl-0">favoredFlag:</span><span class="hl-1"> </span><span class="hl-8">false</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">canHoldItem:</span><span class="hl-1"> </span><span class="hl-8">false</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">heldItemId:</span><span class="hl-1"> </span><span class="hl-8">null</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">combatArea:</span><span class="hl-1"> </span><span class="hl-7">1</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-0">locations:</span><span class="hl-1"> [</span><span class="hl-6">/* BodyLocation.Data entries */</span><span class="hl-1">],</span><br/><span class="hl-1">});</span><br/><span class="hl-10">await</span><span class="hl-1"> </span><span class="hl-0">lineageItem</span><span class="hl-1">.</span><span class="hl-3">update</span><span class="hl-1">(</span><span class="hl-0">update</span><span class="hl-1">);</span>
+</code><button type="button">Copy</button></pre>
+
+<p>To wire it into adjacency: <code>bodyStructure.addEdgeUpdate(&quot;tailpart&quot;, &quot;hindquarterspart&quot;)</code> returns the update payload to add the edge.</p>
+<p>Localization keys for the bare shortcode (<code>SOHL.BodyPart.tail</code>, <code>SOHL.BodyLocation.&lt;each location&gt;</code>) belong in <a href="../media/en.json">lang/en.json</a>.</p>
+<a id="see-also" class="tsd-anchor"></a><h2 class="tsd-anchor-link">See Also<a href="#see-also" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><a href="reference_type-catalog.html">Type Catalog</a></li>
+<li><a href="reference_combat-resolution-pipeline.html">Combat Resolution Pipeline</a></li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#body-structure"><span>Body <wbr/>Structure</span></a><ul><li><a href="#overview"><span>Overview</span></a></li><li><a href="#where-the-data-lives"><span>Where the data lives</span></a></li><li><a href="#body-parts"><span>Body parts</span></a></li><li><a href="#body-locations"><span>Body locations</span></a></li><li><a href="#body-roles"><span>Body roles</span></a></li><li><a href="#adjacency"><span>Adjacency</span></a></li><li><a href="#hit-location-pipeline"><span>Hit-<wbr/>location pipeline</span></a></li><li><a href="#localization"><span>Localization</span></a></li><li><a href="#reference-human-lineage"><span>Reference: <wbr/>Human lineage</span></a></li><li><a href="#suggested-shortcode-conventions-for-new-lineages"><span>Suggested shortcode conventions for new lineages</span></a></li><li><ul><li><a href="#quadruped-horse-wolf-bear"><span>Quadruped (horse, wolf, bear)</span></a></li><li><a href="#avian-eagle-griffin"><span>Avian (eagle, griffin)</span></a></li><li><a href="#serpentine-snake-wyrm-dragon"><span>Serpentine (snake, wyrm, dragon)</span></a></li><li><a href="#multi-limbed-spider-insect"><span>Multi-<wbr/>limbed (spider, insect)</span></a></li></ul></li><li><a href="#adding-a-body-part-to-a-lineage"><span>Adding a body part to a lineage</span></a></li><li><a href="#see-also"><span>See <wbr/>Also</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
