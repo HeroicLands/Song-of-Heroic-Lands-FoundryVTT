@@ -77,7 +77,18 @@ in reviewable batches per the API documentation coverage plan.
   the meaningful structural members of return shapes and type-guard predicates.
   The `utils/ai/` agent-plumbing module is tagged `@internal` and excluded from
   the published API.
+- **The `sohl.*` runtime surface** — the global `sohl` object is a `SohlSystem`
+  singleton, so its public surface is now documented: the `SohlSystem` class
+  (the `CONFIG` registry getter — documented lightly — plus `i18n`, `log`,
+  `events`, `utils`, `constants`, `game`, `calendar`, `setupSheets`, and the
+  calendar-registry statics), the `SohlSystem.Config` namespace and its
+  per-document-type registration blocks, and the actor/item DataModel / Logic /
+  sheet registry barrel exports. The world calendar (`SohlCalendarData`,
+  `SohlCalendarComponents`) and the event-trigger taxonomy (`SohlEventQueue`
+  was already documented; `SohlTriggerContext` is now covered) round out
+  `sohl.calendar` and `sohl.events`.
 
 The coverage probe reports **0** undocumented symbols across the full in-scope
-set — `domain/`, `core/SohlLogic`, the actor/item Logic classes, `SohlActor`,
-and `utils/` (excluding `constants.ts`).
+set — `domain/`, `core/SohlLogic`, `core/SohlSystem`, `core/SohlCalendar`, the
+event system, the actor/item Logic classes, `SohlActor`, and `utils/`
+(excluding `constants.ts`).
