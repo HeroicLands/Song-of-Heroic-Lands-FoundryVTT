@@ -1,0 +1,330 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>reference/combat-resolution-pipeline | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="reference_combat-resolution-pipeline.html">reference/combat-resolution-pipeline</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="combat-resolution-pipeline" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Combat Resolution Pipeline<a href="#combat-resolution-pipeline" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>Audience:</strong></p>
+</blockquote>
+<a id="class-hierarchy" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Class hierarchy<a href="#class-hierarchy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code><span class="hl-3">TestResult</span><span class="hl-1"> (</span><span class="hl-0">abstract</span><span class="hl-1">)                          </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">TestResult</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-1">├── </span><span class="hl-0">SuccessTestResult</span><span class="hl-1">                          </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">SuccessTestResult</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-1">│   ├── </span><span class="hl-0">AttackResult</span><span class="hl-1">                           </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">AttackResult</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-1">│   └── </span><span class="hl-0">DefendResult</span><span class="hl-1">                           </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">DefendResult</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-1">└── </span><span class="hl-0">OpposedTestResult</span><span class="hl-1">                          </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">OpposedTestResult</span><span class="hl-1">.</span><span class="hl-0">ts</span><br/><span class="hl-1">    └── </span><span class="hl-0">CombatResult</span><span class="hl-1">                           </span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">domain</span><span class="hl-1">/</span><span class="hl-0">result</span><span class="hl-1">/</span><span class="hl-0">CombatResult</span><span class="hl-1">.</span><span class="hl-0">ts</span>
+</code><button>Copy</button></pre>
+
+<a id="pipeline-overview" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Pipeline overview<a href="#pipeline-overview" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>A combat exchange flows through these stages:</p>
+<pre><code><span class="hl-7">1.</span><span class="hl-1"> </span><span class="hl-0">Attacker</span><span class="hl-1"> </span><span class="hl-0">selects</span><span class="hl-1"> </span><span class="hl-0">strike</span><span class="hl-1"> </span><span class="hl-0">mode</span><br/><span class="hl-1">       ↓</span><br/><span class="hl-7">2.</span><span class="hl-1"> </span><span class="hl-0">MasteryLevelModifier</span><span class="hl-1">.</span><span class="hl-3">successTest</span><span class="hl-1">() → </span><span class="hl-0">AttackResult</span><br/><span class="hl-1">   (</span><span class="hl-0">d100</span><span class="hl-1"> </span><span class="hl-0">roll</span><span class="hl-1">, </span><span class="hl-0">success</span><span class="hl-1"> </span><span class="hl-0">level</span><span class="hl-1">, </span><span class="hl-0">pre</span><span class="hl-1">-</span><span class="hl-0">defense</span><span class="hl-1"> </span><span class="hl-0">damage</span><span class="hl-1">, </span><span class="hl-0">allowed</span><span class="hl-1"> </span><span class="hl-0">defenses</span><span class="hl-1">)</span><br/><span class="hl-1">       ↓</span><br/><span class="hl-7">3.</span><span class="hl-1"> </span><span class="hl-0">Defender</span><span class="hl-1"> </span><span class="hl-0">chooses</span><span class="hl-1"> </span><span class="hl-0">defense</span><span class="hl-1"> </span><span class="hl-3">type</span><span class="hl-1"> (</span><span class="hl-0">block</span><span class="hl-1">, </span><span class="hl-0">counterstrike</span><span class="hl-1">, </span><span class="hl-0">dodge</span><span class="hl-1">, </span><span class="hl-0">ignore</span><span class="hl-1">)</span><br/><span class="hl-1">       ↓</span><br/><span class="hl-7">4.</span><span class="hl-1"> </span><span class="hl-0">MasteryLevelModifier</span><span class="hl-1">.</span><span class="hl-3">successTest</span><span class="hl-1">() → </span><span class="hl-0">DefendResult</span><br/><span class="hl-1">   (</span><span class="hl-0">d100</span><span class="hl-1"> </span><span class="hl-0">roll</span><span class="hl-1">, </span><span class="hl-0">success</span><span class="hl-1"> </span><span class="hl-0">level</span><span class="hl-1">, </span><span class="hl-0">defense</span><span class="hl-1">-</span><span class="hl-0">specific</span><span class="hl-1"> </span><span class="hl-0">mishaps</span><span class="hl-1">)</span><br/><span class="hl-1">       ↓</span><br/><span class="hl-7">5.</span><span class="hl-1"> </span><span class="hl-0">CombatResult</span><span class="hl-1"> </span><span class="hl-0">compares</span><span class="hl-1"> </span><span class="hl-0">attack</span><span class="hl-1"> </span><span class="hl-0">vs</span><span class="hl-1">. </span><span class="hl-3">defense</span><span class="hl-1"> (</span><span class="hl-0">opposed</span><span class="hl-1"> </span><span class="hl-0">test</span><span class="hl-1"> </span><span class="hl-0">resolution</span><span class="hl-1">)</span><br/><span class="hl-1">   (</span><span class="hl-0">winner</span><span class="hl-1">, </span><span class="hl-0">margin</span><span class="hl-1">, </span><span class="hl-0">combined</span><span class="hl-1"> </span><span class="hl-0">mishaps</span><span class="hl-1">)</span><br/><span class="hl-1">       ↓</span><br/><span class="hl-7">6.</span><span class="hl-1"> </span><span class="hl-0">Impact</span><span class="hl-1"> </span><span class="hl-2">resolution</span><span class="hl-1">: </span><span class="hl-0">margin</span><span class="hl-1"> + </span><span class="hl-0">pre</span><span class="hl-1">-</span><span class="hl-0">defense</span><span class="hl-1"> </span><span class="hl-0">damage</span><span class="hl-1"> + </span><span class="hl-0">armor</span><span class="hl-1"> → </span><span class="hl-0">final</span><span class="hl-1"> </span><span class="hl-0">injury</span><br/><span class="hl-1">   (</span><span class="hl-0">hit</span><span class="hl-1"> </span><span class="hl-0">location</span><span class="hl-1"> </span><span class="hl-0">via</span><span class="hl-1"> </span><span class="hl-0">BodyStructure</span><span class="hl-1">, </span><span class="hl-0">protection</span><span class="hl-1"> </span><span class="hl-0">per</span><span class="hl-1"> </span><span class="hl-0">ImpactAspect</span><span class="hl-1">)</span>
+</code><button>Copy</button></pre>
+
+<p>Non-combat tests (skill checks, trait tests) use steps 1-2 only, producing a <code>SuccessTestResult</code> directly.</p>
+<a id="automated-combat-invariants-enforced-before-step-1" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Automated-combat invariants (enforced before step 1)<a href="#automated-combat-invariants-enforced-before-step-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Automated combat checks the <a href="./combat.md#automated-combat-invariants">Automated Combat Invariants</a> up front and aborts (with a player-facing UI notification) on any violation — both participants must be combatants in the same active combat, the attacker must not be incapacitated/defeated/dead, and the target must not be dead. Enforcement points:</p>
+<ul>
+<li><strong>Attacker + target resolution and the attacker/target status checks:</strong> <code>resolveAttackContext</code> (<code>src/document/actor/foundry/automated-combat.ts</code>), using <code>ATTACK_BLOCKING_STATUSES</code> + <code>firstStatusIn</code> from <code>combat-actions.ts</code>.</li>
+<li><strong>Incapacitated defender → Ignore-only:</strong> <code>gateAutomatedDefenseButtons</code> (<code>src/document/chat/chat-card-gating.ts</code>), using <code>DEFENSE_DISABLING_STATUSES</code> + <code>hasAnyStatus</code>. Render-time gating removes Dodge/Block/Counterstrike for an incapacitated defender, leaving Ignore.</li>
+</ul>
+<p>The status sets and predicates are pure and unit-tested; the resolution/gating that consumes them is Foundry glue.</p>
+<a id="result-classes-in-detail" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Result classes in detail<a href="#result-classes-in-detail" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="testresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">TestResult<a href="#testresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Abstract base. Holds speaker identity, title, description, and the parent Logic reference. Defines the <code>evaluate()</code> contract.</p>
+<ul>
+<li>Created by test methods on modifiers or logic classes.</li>
+<li><code>evaluate()</code> resolves the outcome — returns <code>true</code> if the result should be displayed.</li>
+<li>Results are <strong>transient</strong> — not persisted to the database.</li>
+</ul>
+<a id="successtestresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">SuccessTestResult<a href="#successtestresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The standard d100 roll-under mastery level test.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>roll</code></td>
+<td><code>SimpleRoll</code></td>
+<td>The d100 roll</td>
+</tr>
+<tr>
+<td><code>masteryLevelModifier</code></td>
+<td><code>MasteryLevelModifier</code></td>
+<td>The ML modifier used for this test</td>
+</tr>
+<tr>
+<td><code>successLevel</code></td>
+<td><code>number</code></td>
+<td>How far above/below the target (positive = success)</td>
+</tr>
+<tr>
+<td><code>isSuccess</code></td>
+<td><code>boolean</code></td>
+<td>Whether the test passed</td>
+</tr>
+<tr>
+<td><code>isCritical</code></td>
+<td><code>boolean</code></td>
+<td>Whether a critical result occurred (last-digit match)</td>
+</tr>
+<tr>
+<td><code>mishaps</code></td>
+<td><code>Set&lt;string&gt;</code></td>
+<td>Fumble/stumble flags from critical failures</td>
+</tr>
+<tr>
+<td><code>movement</code></td>
+<td><code>SuccessTestResultMovement</code></td>
+<td>Tactical movement state after the test</td>
+</tr>
+<tr>
+<td><code>resultText</code> / <code>resultDesc</code></td>
+<td><code>string</code></td>
+<td>Descriptive output for chat display</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Evaluation flow:</strong></p>
+<ol>
+<li>Roll 1d100 (or reuse prior roll for fate).</li>
+<li>Success level = constrained ML − roll.</li>
+<li>Check critical success/failure against last-digit lists.</li>
+<li>Compute success stars from description table.</li>
+<li>Populate result text for chat.</li>
+</ol>
+<p><strong>Chat output:</strong> Renders via <code>templates/chat/standard-test-card.hbs</code>.</p>
+<p><strong>Prior test results:</strong> When <code>context.scope.priorTestResult</code> is provided, the dialog redisplays for modifier adjustment but reuses the prior roll. This supports fate mechanics.</p>
+<a id="opposedtestresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">OpposedTestResult<a href="#opposedtestresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Two competing SuccessTestResults compared to determine a winner.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sourceTestResult</code></td>
+<td><code>SuccessTestResult</code></td>
+<td>Initiating actor's test</td>
+</tr>
+<tr>
+<td><code>targetTestResult</code></td>
+<td><code>SuccessTestResult</code></td>
+<td>Responding actor's test</td>
+</tr>
+<tr>
+<td><code>tieBreak</code></td>
+<td><code>number</code></td>
+<td>Tie-breaking policy</td>
+</tr>
+<tr>
+<td><code>sourceWins</code> / <code>targetWins</code></td>
+<td><code>boolean</code></td>
+<td>Outcome flags</td>
+</tr>
+<tr>
+<td><code>isTied</code> / <code>bothFail</code></td>
+<td><code>boolean</code></td>
+<td>Edge case flags</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two-phase execution:</strong></p>
+<ol>
+<li><code>opposedTestStart()</code> — source rolls, result posted to chat with &quot;respond&quot; button.</li>
+<li><code>opposedTestResume()</code> — target rolls, opposed outcome evaluated and posted.</li>
+</ol>
+<p><strong>Chat output:</strong> Renders via <code>templates/chat/opposed-request-card.hbs</code> (phase 1) and <code>templates/chat/opposed-result-card.hbs</code> (phase 2).</p>
+<a id="attackresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">AttackResult<a href="#attackresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The attacker's side of a combat exchange.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>allowedDefenses</code></td>
+<td><code>Set&lt;string&gt;</code></td>
+<td>Defense types the target may use</td>
+</tr>
+<tr>
+<td><code>damage</code></td>
+<td><code>number</code></td>
+<td>Pre-defense damage value</td>
+</tr>
+<tr>
+<td><code>situationalModifier</code></td>
+<td><code>number</code></td>
+<td>Player-entered attack modifier</td>
+</tr>
+<tr>
+<td><code>modifiers</code></td>
+<td><code>Map&lt;string, string&gt;</code></td>
+<td>Named modifier map for audit</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Evaluation:</strong> Rolls the attack, checks for attack-specific mishaps (weapon break, stumble, fumble, wild swing), and computes pre-defense damage.</p>
+<a id="defendresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">DefendResult<a href="#defendresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The defender's side of a combat exchange.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>situationalModifier</code></td>
+<td><code>number</code></td>
+<td>Player-entered defense modifier</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Evaluation:</strong> Rolls the defense (block, counterstrike, or dodge), checks for defense-specific mishaps (shield break, stumble, fumble).</p>
+<a id="combatresult" class="tsd-anchor"></a><h3 class="tsd-anchor-link">CombatResult<a href="#combatresult" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The full combat exchange — composes AttackResult + DefendResult via opposed test resolution.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attackResult</code></td>
+<td><code>AttackResult</code></td>
+<td>The attacker's result</td>
+</tr>
+<tr>
+<td><code>defendResult</code></td>
+<td><code>DefendResult</code></td>
+<td>The defender's result</td>
+</tr>
+</tbody>
+</table>
+<p>| <code>margin</code>             | <code>number</code>            | Victory score <code>VS</code> (see below)    |
+| <code>tacticalAdvantages</code> | <code>{ side, count }</code>   | TAs awarded by the exchange       |
+| <code>weaponBreakCheck</code>   | <code>&quot;attacker&quot; \| &quot;defender&quot; \| &quot;none&quot;</code> | Whose weapon must roll for breakage |</p>
+<p><strong>Determines</strong> (via <code>opposedTestEvaluate()</code>):</p>
+<ul>
+<li>Who lands a blow — the derived getters <code>attackerLandsBlow</code> /
+<code>defenderLandsBlow</code> (the defender only via Counterstrike). &quot;Lands a blow&quot; means
+<em>connected</em>; the blow may still be fully absorbed by armor during impact
+resolution, so it does not by itself imply damage.</li>
+<li>The <strong>victory score</strong> <code>VS = attacker.normSuccessLevel − defender.normSuccessLevel</code>.
+This is the <strong>raw level difference</strong>, deliberately <em>not</em> the inherited
+<code>sourceWins</code>/<code>isTied</code> getters — those carve out a &quot;both failed&quot; case, whereas
+the SoHL combat tables resolve every exchange by relative margin (a less-bad
+failure still beats a worse one).</li>
+<li>Tactical Advantages and the weapon-break check (display-only for now).</li>
+</ul>
+<p>Per-defense outcome:</p>
+<table>
+<thead>
+<tr>
+<th>Defense</th>
+<th>Attacker delivers</th>
+<th>Defender delivers</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Block</td>
+<td><code>VS &gt;= 0</code></td>
+<td>never</td>
+<td>tie also sets <code>weaponBreakCheck = &quot;defender&quot;</code></td>
+</tr>
+<tr>
+<td>Counterstrike</td>
+<td><code>VS &gt;= 0</code></td>
+<td>when its own roll succeeds</td>
+<td>both blows may land</td>
+</tr>
+<tr>
+<td>Dodge</td>
+<td><code>VS &gt; 0</code>, or tie with a lower dodge roll than attack roll</td>
+<td>never</td>
+<td></td>
+</tr>
+<tr>
+<td>Ignore</td>
+<td>the attack itself succeeds</td>
+<td>never</td>
+<td>no defender contest</td>
+</tr>
+</tbody>
+</table>
+<p>Tactical Advantages: the winner of a <code>|VS| &gt;= 2</code> exchange earns <code>|VS| − 1</code> TAs
+(attacker on <code>VS &gt;= 2</code>, defender on <code>VS &lt;= -2</code>).</p>
+<p><strong>Does NOT determine:</strong> Final damage — that is computed by the impact resolution
+stage (<code>src/domain/body/InjuryResolution.ts</code>) using the attack's pre-defense
+damage, the aspect, and the target's armor/body-location protection.</p>
+<a id="injury-resolution" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Injury resolution<a href="#injury-resolution" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>The impact stage is a Foundry-free module, shared by both combat modes and the
+manual Add Injury flow:</p>
+<ul>
+<li><code>resolveInjury(input)</code> — picks the hit location (explicit override, aimed
+<code>targetPart</code> + <code>spread</code>, or weighted random), subtracts the effective
+protection (<code>armorValue − armorReduction</code>, floored at 0), maps the effective
+impact to a level (≤0 none · 1–4 M1 · 5–9 S2 · 10–14 S3 · 15–19 G4 · 20+ G5),
+and derives the Shock Index, glancing blow, stumble/fumble, bleeding, and
+amputation. Armor value is the location's natural protection plus any worn
+armor folded on by <code>aggregateArmor()</code> during the lifecycle.</li>
+<li><code>buildTraumaData(injury)</code> — the <code>system.*</code> shape for a new Trauma item.</li>
+</ul>
+<a id="chat-card-templates" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Chat card templates<a href="#chat-card-templates" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Template</th>
+<th>Used by</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>standard-test-card.hbs</code></td>
+<td>SuccessTestResult</td>
+<td>Standard test outcome</td>
+</tr>
+<tr>
+<td><code>opposed-request-card.hbs</code></td>
+<td>OpposedTestResult (phase 1)</td>
+<td>&quot;Respond to opposed test&quot; prompt</td>
+</tr>
+<tr>
+<td><code>opposed-result-card.hbs</code></td>
+<td>OpposedTestResult (phase 2)</td>
+<td>Final opposed outcome</td>
+</tr>
+<tr>
+<td><code>attack-card.hbs</code></td>
+<td>AttackResult</td>
+<td>Attack-specific display</td>
+</tr>
+<tr>
+<td><code>attack-result-card.hbs</code></td>
+<td>AttackResult</td>
+<td>Attack outcome details</td>
+</tr>
+<tr>
+<td><code>damage-card.hbs</code></td>
+<td><code>buildDamageCardData</code></td>
+<td>Rolled impact + Calculate Injury button</td>
+</tr>
+<tr>
+<td><code>injury-card.hbs</code></td>
+<td><code>buildInjuryCardData</code></td>
+<td>Resolved injury (level, shock, mishaps)</td>
+</tr>
+</tbody>
+</table>
+<a id="extension-guidance" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Extension guidance<a href="#extension-guidance" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>New test type:</strong> Subclass <code>SuccessTestResult</code> if you need custom evaluation logic. Override <code>evaluate()</code> and <code>toChat()</code>.</li>
+<li><strong>New combat mechanic:</strong> Extend <code>AttackResult</code>/<code>DefendResult</code> (or <code>SuccessTestResult</code>) for new test types, or <code>CombatResult</code> for new combat exchange patterns.</li>
+<li><strong>Custom modifiers:</strong> Add deltas to the <code>MasteryLevelModifier</code> before <code>evaluate()</code> is called — don't modify the result after evaluation.</li>
+<li><strong>Keep <code>evaluate()</code> deterministic</strong> from input state; avoid hidden side effects.</li>
+<li><strong>Keep <code>toChat()</code> payloads backward-compatible</strong> for template and macro consumers.</li>
+</ul>
+<a id="see-also" class="tsd-anchor"></a><h1 class="tsd-anchor-link">See Also<a href="#see-also" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><ul>
+<li><a href="how-to_extension-points.html">Extension Points</a></li>
+<li><a href="reference_modifier-model.html">Modifier Model</a></li>
+<li><a href="reference_body-structure.html">Body Structure</a>.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#combat-resolution-pipeline"><span>Combat <wbr/>Resolution <wbr/>Pipeline</span></a><ul><li><a href="#class-hierarchy"><span>Class hierarchy</span></a></li><li><a href="#pipeline-overview"><span>Pipeline overview</span></a></li><li><ul><li><a href="#automated-combat-invariants-enforced-before-step-1"><span>Automated-<wbr/>combat invariants (enforced before step 1)</span></a></li></ul></li><li><a href="#result-classes-in-detail"><span>Result classes in detail</span></a></li><li><ul><li><a href="#testresult"><span>Test<wbr/>Result</span></a></li><li><a href="#successtestresult"><span>Success<wbr/>Test<wbr/>Result</span></a></li><li><a href="#opposedtestresult"><span>Opposed<wbr/>Test<wbr/>Result</span></a></li><li><a href="#attackresult"><span>Attack<wbr/>Result</span></a></li><li><a href="#defendresult"><span>Defend<wbr/>Result</span></a></li><li><a href="#combatresult"><span>Combat<wbr/>Result</span></a></li><li><a href="#injury-resolution"><span>Injury resolution</span></a></li></ul></li><li><a href="#chat-card-templates"><span>Chat card templates</span></a></li><li><a href="#extension-guidance"><span>Extension guidance</span></a></li></ul><a href="#see-also"><span>See <wbr/>Also</span></a></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

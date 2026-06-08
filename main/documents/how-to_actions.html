@@ -1,0 +1,252 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>how-to/actions | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="how-to_actions.html">how-to/actions</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="action-items-per-actor-and-per-item-logic" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Action Items (Per-Actor and Per-Item Logic)<a href="#action-items-per-actor-and-per-item-logic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>Audience:</strong> Developers implementing new action types or working with the Action API. For user-facing documentation on creating and using Actions, see the in-game user guide entry <strong>Actions</strong> (journal: User Guide → Actions).</p>
+</blockquote>
+<p>See also: <a href="how-to_lifecycle-hooks.html">Lifecycle Hooks</a>, <a href="how-to_extension-points.html">Extension Points</a>, <a href="how-to_house-rules-cookbook.html">House Rules Cookbook</a>.</p>
+<p><strong>You are here</strong></p>
+<ul>
+<li>This page covers <strong>Action items</strong>: document-attached executable logic tightly bound to a specific Actor or Item.</li>
+<li>For broad type-level logic that runs across all items of a type, use <a href="how-to_lifecycle-hooks.html">Lifecycle Hooks</a> instead.</li>
+</ul>
+<a id="what-is-an-action-item" class="tsd-anchor"></a><h2 class="tsd-anchor-link">What is an Action item?<a href="#what-is-an-action-item" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>An Action item (<code>ITEM_KIND.ACTION</code>) is a standard SoHL item that can be embedded on any Actor or Item. It carries executable logic that can fire:</p>
+<ul>
+<li><strong>On demand</strong> — appearing as a context menu entry on the parent document's sheet.</li>
+<li><strong>During lifecycle</strong> — automatically triggered at a specific lifecycle phase for a specific item type and shortcode.</li>
+</ul>
+<p>Actions are conceptually similar to Macros bound to a specific Actor or Item, but they use a different underlying mechanism and integrate with SoHL's lifecycle, permissions, and data model.</p>
+<p>Because Actions are embedded on specific documents, they only affect those documents — not all actors or items of that type globally.</p>
+<a id="action-fields" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Action fields<a href="#action-fields" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subType</code></td>
+<td><code>ActionSubType</code></td>
+<td>One of <code>BASIC</code>, <code>INTRINSIC_ACTION</code>, <code>SCRIPT_ACTION</code></td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td><code>string</code></td>
+<td>Execution context: <code>SELF</code>, <code>ITEM</code>, <code>ACTOR</code>, or <code>OTHER</code></td>
+</tr>
+<tr>
+<td><code>executor</code></td>
+<td><code>string</code></td>
+<td>Method name (intrinsic) or JavaScript code (script)</td>
+</tr>
+<tr>
+<td><code>trigger</code></td>
+<td><code>string</code></td>
+<td>JavaScript expression evaluated to determine availability</td>
+</tr>
+<tr>
+<td><code>visible</code></td>
+<td><code>string</code></td>
+<td><code>&quot;true&quot;</code> or JavaScript expression controlling context menu visibility</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Display label</td>
+</tr>
+<tr>
+<td><code>isAsync</code></td>
+<td><code>boolean</code></td>
+<td>Whether the action executes asynchronously</td>
+</tr>
+<tr>
+<td><code>iconFAClass</code></td>
+<td><code>string</code></td>
+<td>FontAwesome CSS class for context menu icon</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td><code>string</code></td>
+<td>Context menu sort group (see below)</td>
+</tr>
+<tr>
+<td><code>permissions.execute</code></td>
+<td><code>number</code></td>
+<td>Minimum Foundry user role required to execute</td>
+</tr>
+</tbody>
+</table>
+<a id="subtype-values" class="tsd-anchor"></a><h3 class="tsd-anchor-link">subType values<a href="#subtype-values" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
+<li><strong><code>BASIC</code></strong> — simplest form; executor and trigger are evaluated as plain JavaScript expressions.</li>
+<li><strong><code>INTRINSIC_ACTION</code></strong> — executor is the name of a method on the parent document's logic class. Used for first-class actions defined in code.</li>
+<li><strong><code>SCRIPT_ACTION</code></strong> — executor is a JavaScript code string, evaluated at runtime. Useful for GM-configured custom behaviors without writing a module.</li>
+</ul>
+<a id="scope-values" class="tsd-anchor"></a><h3 class="tsd-anchor-link">scope values<a href="#scope-values" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Determines what <code>this</code> context is provided when the executor runs:</p>
+<ul>
+<li><strong><code>SELF</code></strong> — the Action item's own logic instance.</li>
+<li><strong><code>ITEM</code></strong> — the item that owns this Action.</li>
+<li><strong><code>ACTOR</code></strong> — the actor that owns this Action (or the actor that owns the item).</li>
+<li><strong><code>OTHER</code></strong> — caller-supplied context object passed in the <code>SohlActionContext</code>.</li>
+</ul>
+<a id="group-values" class="tsd-anchor"></a><h3 class="tsd-anchor-link">group values<a href="#group-values" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Controls where the action appears in context menus:</p>
+<ul>
+<li><code>ESSENTIAL</code> — top of the menu, always visible</li>
+<li><code>GENERAL</code> — standard section</li>
+<li><code>DEFAULT</code> — default sort position</li>
+<li><code>HIDDEN</code> — never shown in context menus (lifecycle-only or internal use)</li>
+</ul>
+<a id="permissionsexecute" class="tsd-anchor"></a><h3 class="tsd-anchor-link">permissions.execute<a href="#permissionsexecute" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Minimum Foundry user role required to execute the action:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>None (all users)</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Player</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Trusted Player</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>Owner (must own the document)</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>Assistant GM</td>
+</tr>
+<tr>
+<td><code>5</code></td>
+<td>Gamemaster</td>
+</tr>
+</tbody>
+</table>
+<a id="how-actions-are-executed" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How actions are executed<a href="#how-actions-are-executed" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="on-demand-context-menu" class="tsd-anchor"></a><h3 class="tsd-anchor-link">On-demand (context menu)<a href="#on-demand-context-menu" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Actions embedded on an Actor or Item appear in the context menu on that document's sheet when:</p>
+<ul>
+<li><code>visible</code> evaluates to truthy, and</li>
+<li>the current user meets the <code>permissions.execute</code> role requirement.</li>
+</ul>
+<p>The user invokes the action directly from the sheet UI.</p>
+<a id="lifecycle-triggered-actions" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Lifecycle-triggered actions<a href="#lifecycle-triggered-actions" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>During each SoHL lifecycle phase (<code>initialize</code>, <code>evaluate</code>, <code>finalize</code>), <code>SohlActor.prepareEmbeddedData()</code> discovers and automatically executes Action items whose names match the pattern:</p>
+<pre><code><span class="hl-1">{</span><span class="hl-0">itemType</span><span class="hl-1">}.{</span><span class="hl-0">shortcode</span><span class="hl-1">}.</span><span class="hl-0">post</span><span class="hl-1">{</span><span class="hl-0">Phase</span><span class="hl-1">}</span>
+</code><button>Copy</button></pre>
+
+<p>For example:</p>
+<ul>
+<li><code>mysticalability.curse.postInitialize</code> — fires after the <code>curse</code> mystical ability completes <code>initialize()</code>.</li>
+<li><code>skill.001.postFinalize</code> — fires after the skill with shortcode <code>001</code> completes <code>finalize()</code>.</li>
+<li><code>weapongear.broadsword.postEvaluate</code> — fires after the <code>broadsword</code> weapon gear completes <code>evaluate()</code>.</li>
+</ul>
+<p>The matching is:</p>
+<ol>
+<li><code>{itemType}</code> — the item's Foundry type string (e.g., <code>&quot;skill&quot;</code>, <code>&quot;mysticalability&quot;</code>).</li>
+<li><code>{shortcode}</code> — the item's <code>system.shortcode</code> value.</li>
+<li><code>post{Phase}</code> — <code>postInitialize</code>, <code>postEvaluate</code>, or <code>postFinalize</code>.</li>
+</ol>
+<p>Lifecycle-triggered actions run <strong>inside</strong> the phase barriers, after the matching item completes its logic phase method but before the actor advances to the next phase.</p>
+<a id="the-sohlactioncontext" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The SohlActionContext<a href="#the-sohlactioncontext" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Both on-demand and lifecycle execution receive a <code>SohlActionContext</code> object:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>speaker</code></td>
+<td><code>SohlSpeaker</code></td>
+<td>Who initiated the action (user/actor identity)</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td><code>SohlTokenDocument | null</code></td>
+<td>Targeted token, if any</td>
+</tr>
+<tr>
+<td><code>skipDialog</code></td>
+<td><code>boolean</code></td>
+<td>If true, skip any confirmation dialogs</td>
+</tr>
+<tr>
+<td><code>noChat</code></td>
+<td><code>boolean</code></td>
+<td>If true, suppress chat output</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Action type identifier</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Display title for the execution context</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td><code>object</code></td>
+<td>Arbitrary additional data supplied by the caller</td>
+</tr>
+</tbody>
+</table>
+<a id="practical-examples" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Practical examples<a href="#practical-examples" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="recipe-lifecycle-triggered-action-on-a-specific-item" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Recipe: lifecycle-triggered action on a specific item<a href="#recipe-lifecycle-triggered-action-on-a-specific-item" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Goal: run custom logic after a <code>skill</code> with shortcode <code>tactics</code> completes its <code>finalize()</code> phase.</p>
+<ol>
+<li>Open the <code>Tactics</code> skill item on the actor.</li>
+<li>Create an embedded Action item with:
+<ul>
+<li><strong>Name:</strong> <code>skill.tactics.postFinalize</code></li>
+<li><strong>subType:</strong> <code>SCRIPT_ACTION</code></li>
+<li><strong>scope:</strong> <code>ITEM</code></li>
+<li><strong>executor:</strong> your JavaScript logic (e.g., adjust a modifier on the skill)</li>
+<li><strong>group:</strong> <code>HIDDEN</code> (lifecycle-only, not shown in context menus)</li>
+</ul>
+</li>
+<li>Save. The executor runs automatically during each data-preparation cycle.</li>
+</ol>
+<pre><code class="js"><span class="hl-6">// Example executor for scope=ITEM (this = the Tactics skill&#39;s logic)</span><br/><span class="hl-8">const</span><span class="hl-1"> </span><span class="hl-4">masteryLevel</span><span class="hl-1"> = </span><span class="hl-8">this</span><span class="hl-1">.</span><span class="hl-0">item</span><span class="hl-1">.</span><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">masteryLevel</span><span class="hl-1">;</span><br/><span class="hl-10">if</span><span class="hl-1"> (</span><span class="hl-0">masteryLevel</span><span class="hl-1"> &gt;= </span><span class="hl-7">80</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-8">this</span><span class="hl-1">.</span><span class="hl-0">item</span><span class="hl-1">.</span><span class="hl-0">system</span><span class="hl-1">.</span><span class="hl-0">someModifier</span><span class="hl-1">.</span><span class="hl-3">add</span><span class="hl-1">(</span><span class="hl-5">&quot;tactics-bonus&quot;</span><span class="hl-1">, </span><span class="hl-7">5</span><span class="hl-1">);</span><br/><span class="hl-1">}</span>
+</code><button type="button">Copy</button></pre>
+
+<a id="recipe-on-demand-action-on-an-actor" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Recipe: on-demand action on an actor<a href="#recipe-on-demand-action-on-an-actor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Goal: add a &quot;Calculate Encumbrance&quot; action to a Being actor.</p>
+<ol>
+<li>Embed an Action item on the actor with:
+<ul>
+<li><strong>Name:</strong> <code>Calculate Encumbrance</code> (any descriptive name)</li>
+<li><strong>subType:</strong> <code>SCRIPT_ACTION</code></li>
+<li><strong>scope:</strong> <code>ACTOR</code></li>
+<li><strong>visible:</strong> <code>&quot;true&quot;</code></li>
+<li><strong>group:</strong> <code>GENERAL</code></li>
+<li><strong>permissions.execute:</strong> <code>3</code> (owner)</li>
+</ul>
+</li>
+<li>The action appears in the actor's context menu for owners.</li>
+</ol>
+<a id="when-to-use-actions-vs-other-mechanisms" class="tsd-anchor"></a><h2 class="tsd-anchor-link">When to use Actions vs other mechanisms<a href="#when-to-use-actions-vs-other-mechanisms" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Action item</strong></td>
+<td>You need to affect one specific item or actor by name/shortcode</td>
+</tr>
+<tr>
+<td><strong>Lifecycle Hook</strong></td>
+<td>You need to affect all items of a given type (e.g., all skills)</td>
+</tr>
+</tbody>
+</table>
+<p>Actions are the narrowest, easiest scope. Prefer them over hooks when the behavior change is isolated to one item.</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#action-items-per-actor-and-per-item-logic"><span>Action <wbr/>Items (<wbr/>Per-<wbr/>Actor and <wbr/>Per-<wbr/>Item <wbr/>Logic)</span></a><ul><li><a href="#what-is-an-action-item"><span>What is an <wbr/>Action item?</span></a></li><li><a href="#action-fields"><span>Action fields</span></a></li><li><ul><li><a href="#subtype-values"><span>sub<wbr/>Type values</span></a></li><li><a href="#scope-values"><span>scope values</span></a></li><li><a href="#group-values"><span>group values</span></a></li><li><a href="#permissionsexecute"><span>permissions.execute</span></a></li></ul></li><li><a href="#how-actions-are-executed"><span>How actions are executed</span></a></li><li><ul><li><a href="#on-demand-context-menu"><span>On-<wbr/>demand (context menu)</span></a></li><li><a href="#lifecycle-triggered-actions"><span>Lifecycle-<wbr/>triggered actions</span></a></li><li><a href="#the-sohlactioncontext"><span>The <wbr/>Sohl<wbr/>Action<wbr/>Context</span></a></li></ul></li><li><a href="#practical-examples"><span>Practical examples</span></a></li><li><ul><li><a href="#recipe-lifecycle-triggered-action-on-a-specific-item"><span>Recipe: lifecycle-<wbr/>triggered action on a specific item</span></a></li><li><a href="#recipe-on-demand-action-on-an-actor"><span>Recipe: on-<wbr/>demand action on an actor</span></a></li></ul></li><li><a href="#when-to-use-actions-vs-other-mechanisms"><span>When to use <wbr/>Actions vs other mechanisms</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

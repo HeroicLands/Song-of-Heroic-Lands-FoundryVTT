@@ -1,0 +1,144 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>contributing/api-documentation-plan | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="contributing_api-documentation-plan.html">contributing/api-documentation-plan</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="api-documentation-coverage-plan--result-modifier-and-sohlactor" class="tsd-anchor"></a><h1 class="tsd-anchor-link">API Documentation Coverage Plan — Result, Modifier, and SohlActor<a href="#api-documentation-coverage-plan--result-modifier-and-sohlactor" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><p>Working plan for adding TSDoc coverage to a high-value subset of the public API so external developers (people writing code <em>against</em> SoHL, not SoHL maintainers) get complete, accurate reference docs.</p>
+<p><code>excludeNotDocumented</code> stays <strong>off</strong> for the entire effort — usable API must remain visible while coverage is incomplete. Turning it on is explicitly out of scope here and is a later decision once coverage is high.</p>
+<a id="scope" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Scope<a href="#scope" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Twelve in-scope files (the combat result types, the modifier types, and the actor document), plus one file triaged to <code>@internal</code>. The &quot;undocumented&quot; column is TypeDoc's own <code>validation.notDocumented</code> count per file — the real surface (methods, properties, accessors, and type members), and the number each batch drives to zero.</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>File</th>
+<th style="text-align:right">undocumented</th>
+<th>priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modifier</td>
+<td><code>domain/modifier/ValueModifier.ts</code></td>
+<td style="text-align:right">141</td>
+<td><strong>severe</strong></td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/SuccessTestResult.ts</code></td>
+<td style="text-align:right">135</td>
+<td><strong>severe</strong></td>
+</tr>
+<tr>
+<td>Actor</td>
+<td><code>document/actor/foundry/SohlActor.ts</code></td>
+<td style="text-align:right">108</td>
+<td><strong>large</strong></td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/TestResult.ts</code></td>
+<td style="text-align:right">84</td>
+<td>high (base class)</td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/OpposedTestResult.ts</code></td>
+<td style="text-align:right">47</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Modifier</td>
+<td><code>domain/modifier/MasteryLevelModifier.ts</code></td>
+<td style="text-align:right">45</td>
+<td>high</td>
+</tr>
+<tr>
+<td>Modifier</td>
+<td><code>domain/modifier/ImpactModifier.ts</code></td>
+<td style="text-align:right">11</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/AttackResult.ts</code></td>
+<td style="text-align:right">10</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/CombatResult.ts</code></td>
+<td style="text-align:right">9</td>
+<td>low (extend)</td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/ImpactResult.ts</code></td>
+<td style="text-align:right">8</td>
+<td>low (extend)</td>
+</tr>
+<tr>
+<td>Result</td>
+<td><code>domain/result/DefendResult.ts</code></td>
+<td style="text-align:right">7</td>
+<td>medium</td>
+</tr>
+<tr>
+<td>Modifier</td>
+<td><code>domain/modifier/CombatModifier.ts</code></td>
+<td style="text-align:right">3</td>
+<td>low</td>
+</tr>
+</tbody>
+</table>
+<p>Triaged out (not public API): <code>utils/ai/AIExecutionResult.ts</code> → add an <code>@internal</code> tag so it drops from the docs and the backlog rather than receiving fabricated public docs.</p>
+<p><strong>In-scope total: 623 undocumented symbols</strong> (result 300, modifier 200, SohlActor 108). Note <code>TestResult</code> is a base type, so documenting it also benefits its subclasses — worth doing early. (For reference, the whole codebase reports 4,282, of which ~1,811 are noise from TypeDoc expanding anonymous config-object literals — <code>DEFAULT_OPTIONS.__type.*</code> — in <code>apps/</code>; the in-scope files have none of that inflation, so their counts are all real API.) <em>Re-measured 2026-06-07 and unchanged from the original baseline — adding the <code>override</code> markers did not affect the undocumented counts.</em></p>
+<a id="principles" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Principles<a href="#principles" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li><strong>House style.</strong> Match the existing TSDoc conventions already in the codebase: <code>@param</code>, <code>@returns</code>, <code>@remarks</code>, <code>@typeParam</code>, <code>@throws</code>, <code>@example</code>. Normalize the one stray singular <code>@return</code> to <code>@returns</code> when encountered.</li>
+<li><strong>Accuracy over filler.</strong> Read the implementation (and its tests) before documenting. A confidently wrong comment is worse than none for a consumer who will trust it. Where intent is genuinely unclear, flag it for Tom with a <code>// TODO(doc):</code> note rather than guessing.</li>
+<li><strong>Public vs internal triage.</strong> For each undocumented exported symbol, decide <em>public</em> (document it) or <em>internal</em> (tag <code>@internal</code>). Internal-but-exported plumbing should be tagged, not described.</li>
+<li><strong>Comments only — no logic changes.</strong> This effort adds/extends doc comments. It must not touch runtime behavior, signatures, or data fields. Preserve existing docs; extend rather than rewrite.</li>
+<li><strong>Type-level <code>@remarks</code>.</strong> Each class/type gets a short <code>@remarks</code> explaining its role and where it sits in the lifecycle / who consumes it, not just a one-line summary.</li>
+<li><strong>Cross-links.</strong> Use <code>{@link}</code> between related types (e.g. <code>CombatResult</code> ↔ <code>AttackResult</code> ↔ <code>DefendResult</code>). Resolving some of the existing 236 unresolved-link warnings is a welcome side effect.</li>
+</ul>
+<a id="override-methods" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Override methods<a href="#override-methods" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>The <code>override</code> keyword is <strong>already in place</strong> across the codebase and enforced by <code>noImplicitOverride</code> (now enabled in <code>tsconfig.json</code>). There is no <code>override</code> work left in this effort — it is purely comments-only. The remaining guidance is only about how to <em>document</em> overrides:</p>
+<ul>
+<li><strong>Inherit the documentation.</strong> For a pure override that does not change the contract, <strong>leave no doc comment</strong> — TypeDoc automatically inherits the superclass's documentation, and (verified) such a member is <em>not</em> flagged by <code>validation.notDocumented</code>. So inheriting satisfies the coverage metric without writing anything redundant.</li>
+<li><strong>Prefer implicit inheritance over <code>{@inheritDoc}</code>.</strong> The explicit <code>{@inheritDoc Target}</code> tag resolves fragilely across files (it emits &quot;Failed to find … to inherit&quot; warnings when the reference path is off). Default to no comment; only reach for the tag if a specific case needs it.</li>
+<li><strong>Document only genuine overriding behavior.</strong> When an override <em>changes or extends</em> the base contract (different return semantics, added side effects, narrowed/widened behavior), write a doc comment describing <em>only what differs</em> from the base. In that case the comment is the override-specific documentation, not a restatement of the inherited contract.</li>
+</ul>
+<a id="phases" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Phases<a href="#phases" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Each phase is an independently reviewable batch. Pilot first to lock voice and the public/internal line before scaling.</p>
+<p><strong>Phase 0 — Pilot (calibration).</strong> <code>CombatResult.ts</code> + <code>AttackResult.ts</code>. Both are already partly documented, so this extends rather than invents and lets Tom react to style/depth on a small surface. Stop and review before continuing.</p>
+<p><strong>Phase 1 — Remaining Result types.</strong> <code>SuccessTestResult.ts</code> (largest gap, do first), then <code>OpposedTestResult.ts</code>, <code>TestResult.ts</code>, <code>DefendResult.ts</code>, <code>ImpactResult.ts</code>.</p>
+<p><strong>Phase 2 — Modifier types.</strong> <code>ValueModifier.ts</code> (largest gap), then <code>MasteryLevelModifier.ts</code>, <code>ImpactModifier.ts</code>, <code>CombatModifier.ts</code>.</p>
+<p><strong>Phase 3 — <code>SohlActor.ts</code>.</strong> Largest single file (97 members); split into sub-batches by concern (e.g. lifecycle/prepare methods, computed getters, chat-card handlers, embedded-document hooks) so each diff stays reviewable.</p>
+<p>Also in Phase 0 or 1: tag <code>AIExecutionResult.ts</code> <code>@internal</code>.</p>
+<a id="per-batch-workflow" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Per-batch workflow<a href="#per-batch-workflow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ol>
+<li>Read the target file and its test(s) to confirm behavior.</li>
+<li>Leave pure overrides undocumented so they inherit the base doc (the <code>override</code> keyword is already present and enforced); document only overrides that change the contract.</li>
+<li>Add/extend TSDoc on the remaining public members; tag clearly-internal exports <code>@internal</code>.</li>
+<li><code>npm run build:types</code> — confirms nothing broke (and, with <code>noImplicitOverride</code> on, that any newly added overriding members carry the keyword).</li>
+<li><code>npm run docs:prepare &amp;&amp; npm run docs:html</code> — confirm the file's classes render with descriptions and members.</li>
+<li>Re-run the coverage probe (below) and confirm the count for the touched files trends toward 0.</li>
+<li>Tom reviews the batch diff; fold corrections back before moving on.</li>
+</ol>
+<a id="verification--tracking" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Verification &amp; tracking<a href="#verification--tracking" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>
+<p><strong>Coverage metric.</strong> Undocumented-symbol count from TypeDoc validation (note the warning text is &quot;does not have any documentation&quot;, and the file appears in a &quot;defined in ./src/...&quot; clause):</p>
+<pre><code class="bash"><span class="hl-3">npx</span><span class="hl-1"> </span><span class="hl-5">typedoc</span><span class="hl-1"> </span><span class="hl-8">--options</span><span class="hl-1"> </span><span class="hl-5">typedoc-html.json</span><span class="hl-1"> </span><span class="hl-8">--validation.notDocumented</span><span class="hl-1"> </span><span class="hl-12">\</span><br/><span class="hl-1">  </span><span class="hl-8">--out</span><span class="hl-1"> </span><span class="hl-5">/tmp/docs-val</span><span class="hl-1"> &gt; </span><span class="hl-5">/tmp/val.log</span><span class="hl-1"> 2&gt;&amp;1</span><br/><span class="hl-3">grep</span><span class="hl-1"> </span><span class="hl-5">&quot;does not have any documentation&quot;</span><span class="hl-1"> </span><span class="hl-5">/tmp/val.log</span><span class="hl-1"> </span><span class="hl-12">\</span><br/><span class="hl-1">  | </span><span class="hl-3">grep</span><span class="hl-1"> </span><span class="hl-8">-E</span><span class="hl-1"> </span><span class="hl-5">&#39;src/domain/result/|src/domain/modifier/|src/document/actor/foundry/SohlActor\.ts&#39;</span><span class="hl-1"> </span><span class="hl-12">\</span><br/><span class="hl-1">  | </span><span class="hl-3">grep</span><span class="hl-1"> </span><span class="hl-8">-v</span><span class="hl-1"> </span><span class="hl-5">&#39;__type&#39;</span><span class="hl-1"> | </span><span class="hl-3">wc</span><span class="hl-1"> </span><span class="hl-8">-l</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Baseline: <strong>623</strong> (re-measured 2026-06-07; unchanged). Target: <strong>0</strong> for the twelve in-scope files. (<code>--excludeProtected</code> is already set in the config, so the probe inherits it.)</p>
+</li>
+<li>
+<p><strong>Build stays green.</strong> <code>npm run build:types</code> and <code>npm run test</code> must pass after every batch.</p>
+</li>
+<li>
+<p><strong>Rendered spot-check.</strong> Open the generated class pages for the batch and confirm summaries, params, and returns read correctly.</p>
+</li>
+<li>
+<p><code>excludeNotDocumented</code> remains <strong>off</strong> throughout.</p>
+</li>
+</ul>
+<a id="definition-of-done" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Definition of done<a href="#definition-of-done" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>Every public member in the twelve in-scope files has accurate TSDoc with <code>@param</code>/<code>@returns</code>/<code>@throws</code> as applicable.</li>
+<li>Each in-scope class page renders a class-level <code>@remarks</code> plus documented members.</li>
+<li><code>AIExecutionResult.ts</code> is tagged <code>@internal</code> and absent from the docs.</li>
+<li>The <code>notDocumented</code> validation count for the in-scope files is 0.</li>
+<li>Tom has reviewed each phase's diff.</li>
+</ul>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#api-documentation-coverage-plan--result-modifier-and-sohlactor"><span>API <wbr/>Documentation <wbr/>Coverage <wbr/>Plan — <wbr/>Result, <wbr/>Modifier, and <wbr/>Sohl<wbr/>Actor</span></a><ul><li><a href="#scope"><span>Scope</span></a></li><li><a href="#principles"><span>Principles</span></a></li><li><a href="#override-methods"><span>Override methods</span></a></li><li><a href="#phases"><span>Phases</span></a></li><li><a href="#per-batch-workflow"><span>Per-<wbr/>batch workflow</span></a></li><li><a href="#verification--tracking"><span>Verification &amp; tracking</span></a></li><li><a href="#definition-of-done"><span>Definition of done</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

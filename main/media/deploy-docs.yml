@@ -1,0 +1,183 @@
+name: Deploy API Docs to GitHub Pages
+
+on:
+    # Auto-publish the bleeding-edge docs under /main
+    push:
+        branches: [main]
+    # Manually publish ANY branch under /<branch-slug>: pick the branch in the
+    # "Run workflow" dropdown — github.ref_name follows your selection.
+    workflow_dispatch:
+    # Publish a released version under /<tag> and mirror it to /latest
+    release:
+        types: [published]
+    # Remove a branch's docs subdirectory when the branch is deleted
+    delete:
+
+# Need write access to push the built docs onto the gh-pages branch
+permissions:
+    contents: write
+
+# Serialize all publishes/cleanups so runs never race on the gh-pages branch
+concurrency:
+    group: gh-pages-deploy
+    cancel-in-progress: false
+
+jobs:
+    deploy:
+        # Everything except branch/tag deletions
+        if: github.event_name != 'delete'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build API documentation
+              run: |
+                  npm run docs:prepare
+                  npm run docs:html
+
+            - name: Determine target directory
+              id: meta
+              run: |
+                  if [ "${{ github.event_name }}" = "release" ]; then
+                      # Tags are published verbatim (e.g. v0.7.0) and mirrored to /latest
+                      echo "dir=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+                      echo "is_release=true" >> "$GITHUB_OUTPUT"
+                  else
+                      # Branch docs live under the branch name, with "/" slugified to "-"
+                      REF="${{ github.ref_name }}"
+                      echo "dir=${REF//\//-}" >> "$GITHUB_OUTPUT"
+                      echo "is_release=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Publish to gh-pages
+              id: publish
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  TARGET_DIR: ${{ steps.meta.outputs.dir }}
+                  IS_RELEASE: ${{ steps.meta.outputs.is_release }}
+              run: |
+                  set -euo pipefail
+                  REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+                  # Clone the existing gh-pages branch, or seed a fresh orphan if absent
+                  if git clone --depth 1 --branch gh-pages "${REPO_URL}" gh-pages 2>/dev/null; then
+                      cd gh-pages
+                  else
+                      mkdir gh-pages && cd gh-pages
+                      git init -q
+                      git remote add origin "${REPO_URL}"
+                      git checkout -q --orphan gh-pages
+                  fi
+
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  # Replace just this ref's directory (clean, no stale files)
+                  rm -rf "${TARGET_DIR}"
+                  mkdir -p "${TARGET_DIR}"
+                  cp -R "${GITHUB_WORKSPACE}/build/stage/docs/." "${TARGET_DIR}/"
+
+                  # On a release, mirror the same build into /latest
+                  if [ "${IS_RELEASE}" = "true" ]; then
+                      rm -rf latest
+                      mkdir -p latest
+                      cp -R "${GITHUB_WORKSPACE}/build/stage/docs/." latest/
+                  fi
+
+                  # Root files: custom domain, Jekyll opt-out, redirect to /latest
+                  echo "api.heroiclands.org" > CNAME
+                  touch .nojekyll
+                  cat > index.html <<'HTML'
+                  <!doctype html>
+                  <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta http-equiv="refresh" content="0; url=./latest/">
+                      <link rel="canonical" href="https://api.heroiclands.org/latest/">
+                      <title>Song of Heroic Lands API</title>
+                    </head>
+                    <body>
+                      <p><a href="./latest/">Redirecting to the latest API documentation…</a></p>
+                    </body>
+                  </html>
+                  HTML
+
+                  git add -A
+                  if git diff --cached --quiet; then
+                      echo "No documentation changes to publish."
+                      echo "pushed=false" >> "$GITHUB_OUTPUT"
+                      exit 0
+                  fi
+                  MSG="docs: publish ${TARGET_DIR}"
+                  [ "${IS_RELEASE}" = "true" ] && MSG="${MSG} + latest"
+                  git commit -q -m "${MSG}"
+                  git push -q origin gh-pages
+                  echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+            - name: Purge Cloudflare cache
+              # Only after an actual publish; skips cleanly if secrets are unset
+              if: steps.publish.outputs.pushed == 'true'
+              env:
+                  CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+                  CF_API_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  if [ -z "${CF_ZONE_ID}" ] || [ -z "${CF_API_TOKEN}" ]; then
+                      echo "Cloudflare secrets not configured; skipping cache purge."
+                      exit 0
+                  fi
+                  echo "Purging Cloudflare cache for zone ${CF_ZONE_ID}…"
+                  resp=$(curl -fsS -X POST \
+                      "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+                      -H "Authorization: Bearer ${CF_API_TOKEN}" \
+                      -H "Content-Type: application/json" \
+                      --data '{"purge_everything":true}')
+                  echo "${resp}"
+                  # Cloudflare returns HTTP 200 with success:false on logical errors
+                  echo "${resp}" | grep -q '"success":true' || { echo "Cloudflare purge failed."; exit 1; }
+
+    cleanup:
+        # Remove a deleted branch's docs. Tags are left in place (releases persist).
+        if: github.event_name == 'delete' && github.event.ref_type == 'branch'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Remove branch docs from gh-pages
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  DELETED_REF: ${{ github.event.ref }}
+              run: |
+                  set -euo pipefail
+                  SLUG="${DELETED_REF//\//-}"
+
+                  # Never touch protected/reserved directories
+                  case "${SLUG}" in
+                      main|latest|"") echo "Refusing to remove reserved dir '${SLUG}'."; exit 0 ;;
+                  esac
+
+                  REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+                  if ! git clone --depth 1 --branch gh-pages "${REPO_URL}" gh-pages 2>/dev/null; then
+                      echo "No gh-pages branch; nothing to clean up."
+                      exit 0
+                  fi
+                  cd gh-pages
+
+                  if [ ! -d "${SLUG}" ]; then
+                      echo "No docs directory '${SLUG}' to remove."
+                      exit 0
+                  fi
+
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git rm -rq "${SLUG}"
+                  git commit -q -m "docs: remove ${SLUG} (branch deleted)"
+                  git push -q origin gh-pages

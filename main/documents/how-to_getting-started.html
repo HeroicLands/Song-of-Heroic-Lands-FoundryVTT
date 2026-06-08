@@ -1,0 +1,179 @@
+<!DOCTYPE html><html class="default" lang="en" data-base=".."><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>how-to/getting-started | Song of Heroic Lands API - v0.6.0</title><meta name="description" content="Documentation for Song of Heroic Lands API"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><script async src="../assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><div class="table-cell" id="tsd-search"><div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div><div class="field"><div id="tsd-toolbar-links"></div></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">Song of Heroic Lands API - v0.6.0</a></div><div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb"><li><a href="../modules.html">Song of Heroic Lands API</a></li><li><a href="how-to_getting-started.html">how-to/getting-started</a></li></ul></div><div class="tsd-panel tsd-typography"><a id="getting-started-new-developer-guide" class="tsd-anchor"></a><h1 class="tsd-anchor-link">Getting Started (New Developer Guide)<a href="#getting-started-new-developer-guide" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1><blockquote>
+<p><strong>Audience:</strong> Someone who just cloned the repo and wants to understand the codebase.</p>
+</blockquote>
+<p>See also: <a href="concepts_architecture.html">Architecture Overview</a>, <a href="how-to_extension-points.html">Extension Points</a>.</p>
+<a id="prerequisites" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Prerequisites<a href="#prerequisites" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
+<li>Node.js (LTS)</li>
+<li>Git</li>
+<li>A local Foundry VTT v14+ installation (for testing in-browser)</li>
+</ul>
+<a id="setup" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Setup<a href="#setup" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code class="bash"><span class="hl-3">git</span><span class="hl-1"> </span><span class="hl-5">clone</span><span class="hl-1"> &lt;</span><span class="hl-5">repo-ur</span><span class="hl-1">l&gt;</span><br/><span class="hl-3">cd</span><span class="hl-1"> </span><span class="hl-5">Song-of-Heroic-Lands-FoundryVTT</span><br/><span class="hl-3">cp</span><span class="hl-1"> </span><span class="hl-5">.env.local.example</span><span class="hl-1"> </span><span class="hl-5">.env.local</span><br/><span class="hl-6"># Edit .env.local to set FOUNDRYVTT_DEV_DATA, FOUNDRYVTT_QA_DATA, etc.</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">ci</span><br/><span class="hl-3">npm</span><span class="hl-1"> </span><span class="hl-5">run</span><span class="hl-1"> </span><span class="hl-5">build</span>
+</code><button type="button">Copy</button></pre>
+
+<p>If the build succeeds, you're ready. If tests fail, check <code>tests/setup.ts</code> — it configures the mock Foundry environment.</p>
+<a id="key-commands" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Key commands<a href="#key-commands" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npm run build</code></td>
+<td>Full pipeline: types → test → bundle</td>
+</tr>
+<tr>
+<td><code>npm run build:types</code></td>
+<td>TypeScript compilation only (fast check)</td>
+</tr>
+<tr>
+<td><code>npm run test</code></td>
+<td>Run vitest</td>
+</tr>
+<tr>
+<td><code>npm run test:watch</code></td>
+<td>Watch mode</td>
+</tr>
+<tr>
+<td><code>npm run push:qa</code></td>
+<td>Sync build to QA Foundry instance</td>
+</tr>
+<tr>
+<td><code>npm run docs</code></td>
+<td>Generate TypeDoc</td>
+</tr>
+</tbody>
+</table>
+<a id="how-to-read-the-codebase" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How to read the codebase<a href="#how-to-read-the-codebase" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="start-here" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Start here<a href="#start-here" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ol>
+<li><strong><a href="concepts_architecture.html">Architecture Overview</a></strong> — the mental model. Read this first.</li>
+<li><strong><a href="../media/SohlLogic.ts">src/core/SohlLogic.ts</a></strong> — the abstract base for all Logic classes. The class-level JSDoc explains the phase-batched lifecycle.</li>
+<li><strong>Pick one item type</strong> and trace through its three classes:
+<ul>
+<li>Logic: <code>src/document/item/logic/SkillLogic.ts</code> (business rules)</li>
+<li>DataModel: <code>src/document/item/foundry/SkillDataModel.ts</code> (persisted schema)</li>
+<li>Sheet: <code>src/document/item/foundry/SkillSheet.ts</code> (UI)</li>
+</ul>
+</li>
+</ol>
+<a id="the-three-class-pattern" class="tsd-anchor"></a><h3 class="tsd-anchor-link">The three-class pattern<a href="#the-three-class-pattern" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Every actor and item type follows the same split:</p>
+<pre><code><span class="hl-0">Logic</span><span class="hl-1"> </span><span class="hl-8">class</span><span class="hl-1"> (</span><span class="hl-9">in</span><span class="hl-1"> </span><span class="hl-9">logic</span><span class="hl-1">/)     — </span><span class="hl-9">game</span><span class="hl-1"> </span><span class="hl-9">rules</span><span class="hl-1">, </span><span class="hl-9">calculations</span><span class="hl-1">, </span><span class="hl-9">lifecycle</span><span class="hl-1"> </span><span class="hl-9">methods</span><br/><span class="hl-9">DataModel</span><span class="hl-1"> </span><span class="hl-9">class</span><span class="hl-1"> (</span><span class="hl-9">in</span><span class="hl-1"> </span><span class="hl-9">foundry</span><span class="hl-1">/) — </span><span class="hl-9">Foundry</span><span class="hl-1"> </span><span class="hl-9">schema</span><span class="hl-1">, </span><span class="hl-9">persisted</span><span class="hl-1"> </span><span class="hl-9">fields</span><br/><span class="hl-9">Sheet</span><span class="hl-1"> </span><span class="hl-9">class</span><span class="hl-1"> (</span><span class="hl-9">in</span><span class="hl-1"> </span><span class="hl-9">foundry</span><span class="hl-1">/)     — </span><span class="hl-9">UI</span><span class="hl-1"> </span><span class="hl-9">presentation</span>
+</code><button>Copy</button></pre>
+
+<p>Logic classes are Foundry-free and unit-testable. DataModel and Sheet classes depend on the Foundry runtime.</p>
+<a id="data-flow" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Data flow<a href="#data-flow" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><pre><code><span class="hl-0">Persisted</span><span class="hl-1"> </span><span class="hl-3">data</span><span class="hl-1"> (</span><span class="hl-0">DataModel</span><span class="hl-1"> </span><span class="hl-0">schema</span><span class="hl-1">)</span><br/><span class="hl-1">    ↓ </span><span class="hl-0">prepareBaseData</span><br/><span class="hl-0">Actor</span><span class="hl-1"> </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">initialize</span><span class="hl-1">()</span><br/><span class="hl-1">    ↓ </span><span class="hl-3">prepareEmbeddedData</span><span class="hl-1"> (</span><span class="hl-0">overridden</span><span class="hl-1">)</span><br/><span class="hl-0">All</span><span class="hl-1"> </span><span class="hl-2">items</span><span class="hl-1">: </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">initialize</span><span class="hl-1">()  ← </span><span class="hl-0">phase</span><span class="hl-1"> </span><span class="hl-7">1</span><br/><span class="hl-0">All</span><span class="hl-1"> </span><span class="hl-2">items</span><span class="hl-1">: </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">evaluate</span><span class="hl-1">()    ← </span><span class="hl-0">phase</span><span class="hl-1"> </span><span class="hl-7">2</span><span class="hl-1"> (</span><span class="hl-0">can</span><span class="hl-1"> </span><span class="hl-0">read</span><span class="hl-1"> </span><span class="hl-0">sibling</span><span class="hl-1"> </span><span class="hl-0">items</span><span class="hl-1">)</span><br/><span class="hl-0">All</span><span class="hl-1"> </span><span class="hl-2">items</span><span class="hl-1">: </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">finalize</span><span class="hl-1">()    ← </span><span class="hl-0">phase</span><span class="hl-1"> </span><span class="hl-7">3</span><span class="hl-1"> (</span><span class="hl-0">can</span><span class="hl-1"> </span><span class="hl-0">read</span><span class="hl-1"> </span><span class="hl-0">evaluated</span><span class="hl-1"> </span><span class="hl-0">state</span><span class="hl-1">)</span><br/><span class="hl-1">    ↓ </span><span class="hl-0">prepareDerivedData</span><br/><span class="hl-0">Actor</span><span class="hl-1"> </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">evaluate</span><span class="hl-1">()</span><br/><span class="hl-0">Actor</span><span class="hl-1"> </span><span class="hl-0">logic</span><span class="hl-1">.</span><span class="hl-3">finalize</span><span class="hl-1">()</span><br/><span class="hl-1">    ↓</span><br/><span class="hl-0">Sheet</span><span class="hl-1"> </span><span class="hl-0">reads</span><span class="hl-1"> </span><span class="hl-0">logic</span><span class="hl-1"> </span><span class="hl-0">properties</span><span class="hl-1"> </span><span class="hl-0">for</span><span class="hl-1"> </span><span class="hl-0">rendering</span>
+</code><button>Copy</button></pre>
+
+<p>See <a href="concepts_lifecycle-model.html">Lifecycle Model</a> for why this ordering matters.</p>
+<a id="domain-objects" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Domain objects<a href="#domain-objects" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Pure game-mechanics objects live in <code>src/domain/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>What's there</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain/modifier/</code></td>
+<td><code>ValueModifier</code> — the core tracked-value primitive. Almost every derived number is a ValueModifier.</td>
+</tr>
+<tr>
+<td><code>domain/result/</code></td>
+<td>Test and combat results — the output of skill checks, attacks, defenses.</td>
+</tr>
+<tr>
+<td><code>domain/body/</code></td>
+<td>Body structure — anatomy, hit locations, aimed strike resolution.</td>
+</tr>
+<tr>
+<td><code>domain/movement/</code></td>
+<td>Per-medium base-move lookup (<code>readBaseMove</code>).</td>
+</tr>
+<tr>
+<td><code>domain/action/</code></td>
+<td>Action definitions — context menu entries and executable logic.</td>
+</tr>
+<tr>
+<td><code>domain/SkillBase.ts</code></td>
+<td>Skill base formula computation from traits.</td>
+</tr>
+</tbody>
+</table>
+<p>These are rebuilt from persisted data each preparation cycle and may be mutated during the lifecycle, but mutations are not persisted.</p>
+<a id="foundryhelpers-shim" class="tsd-anchor"></a><h3 class="tsd-anchor-link">FoundryHelpers shim<a href="#foundryhelpers-shim" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p><code>src/core/FoundryHelpers.ts</code> wraps all Foundry globals. Logic classes import from it (e.g., <code>import { fvttGetSetting } from &quot;@src/core/FoundryHelpers&quot;</code>). During testing, vitest swaps it for a mock at <code>tests/mocks/foundry/core/FoundryHelpers.ts</code>.</p>
+<p>Exports that wrap Foundry globals use the <code>fvtt</code> prefix. Functions that don't (e.g., <code>inputDialog</code>, <code>getContextItem</code>) use plain names.</p>
+<p>For UI notifications, use <code>sohl.log.uiWarn</code> / <code>sohl.log.uiError</code>, not the shim.</p>
+<a id="how-to-make-a-change" class="tsd-anchor"></a><h2 class="tsd-anchor-link">How to make a change<a href="#how-to-make-a-change" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><a id="bug-fix-or-small-feature" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Bug fix or small feature<a href="#bug-fix-or-small-feature" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ol>
+<li>Read the relevant Logic class and its tests.</li>
+<li>Write a failing test first (TDD).</li>
+<li>Make the minimal code change.</li>
+<li>Run <code>npm run build:types &amp;&amp; npm run test</code>.</li>
+<li>Update JSDoc if you changed public API.</li>
+</ol>
+<a id="new-item-type" class="tsd-anchor"></a><h3 class="tsd-anchor-link">New item type<a href="#new-item-type" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>See <a href="how-to_extension-points.html#2-actor-and-item-type-extension">Extension Points — Item type extension</a> for the full checklist.</p>
+<a id="adding-a-domain-object" class="tsd-anchor"></a><h3 class="tsd-anchor-link">Adding a domain object<a href="#adding-a-domain-object" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Follow the pattern in <code>src/domain/body/</code>:</p>
+<ol>
+<li>Create the class with a <code>Data</code> interface for the persisted shape.</li>
+<li>Construct it during <code>initialize()</code> from DataModel data.</li>
+<li>Add <code>updatePath</code> and array helper methods if it wraps persisted arrays.</li>
+<li>Write tests in <code>tests/domain/</code>.</li>
+</ol>
+<a id="testing" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Testing<a href="#testing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>Tests use vitest with a Node environment — no Foundry VTT running.</p>
+<ul>
+<li>Logic classes are tested by providing mock parent objects.</li>
+<li>Domain objects (modifiers, results, body structure) are tested directly.</li>
+<li>Foundry globals are shimmed via the <code>FoundryHelpers</code> mock.</li>
+</ul>
+<p>See <a href="how-to_testing.html">Testing Guide</a> for the full setup.</p>
+<a id="documentation-structure" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Documentation structure<a href="#documentation-structure" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><pre><code><span class="hl-0">docs</span><span class="hl-1">/</span><br/><span class="hl-1">├── </span><span class="hl-0">concepts</span><span class="hl-1">/     </span><span class="hl-0">Architecture</span><span class="hl-1">, </span><span class="hl-0">lifecycle</span><span class="hl-1"> </span><span class="hl-0">model</span><span class="hl-1">, </span><span class="hl-0">assembly</span><span class="hl-1"> </span><span class="hl-0">design</span><br/><span class="hl-1">├── </span><span class="hl-0">how</span><span class="hl-1">-</span><span class="hl-0">to</span><span class="hl-1">/       </span><span class="hl-0">Extension</span><span class="hl-1"> </span><span class="hl-0">points</span><span class="hl-1">, </span><span class="hl-0">hooks</span><span class="hl-1">, </span><span class="hl-0">actions</span><span class="hl-1">, </span><span class="hl-0">testing</span><span class="hl-1">, </span><span class="hl-8">this</span><span class="hl-1"> </span><span class="hl-0">guide</span><br/><span class="hl-1">├── </span><span class="hl-0">reference</span><span class="hl-1">/    </span><span class="hl-0">Type</span><span class="hl-1"> </span><span class="hl-0">catalog</span><span class="hl-1">, </span><span class="hl-0">modifier</span><span class="hl-1"> </span><span class="hl-0">model</span><span class="hl-1">, </span><span class="hl-0">combat</span><span class="hl-1"> </span><span class="hl-0">pipeline</span><span class="hl-1">, </span><span class="hl-0">body</span><span class="hl-1"> </span><span class="hl-0">structure</span><span class="hl-1">,</span><br/><span class="hl-1">│                 </span><span class="hl-0">effects</span><span class="hl-1"> </span><span class="hl-0">integration</span><span class="hl-1">, </span><span class="hl-0">runtime</span><span class="hl-1"> </span><span class="hl-0">contracts</span><br/><span class="hl-1">└── </span><span class="hl-0">dev</span><span class="hl-1">/          </span><span class="hl-0">Developer</span><span class="hl-1"> </span><span class="hl-0">docs</span><span class="hl-1"> </span><span class="hl-0">index</span>
+</code><button>Copy</button></pre>
+
+<p>User guide source: <code>assets/packs/journals/data/user-guide/*.md</code> — compiled into Foundry journal entries during build.</p>
+<a id="where-to-find-things" class="tsd-anchor"></a><h2 class="tsd-anchor-link">Where to find things<a href="#where-to-find-things" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><table>
+<thead>
+<tr>
+<th>I want to...</th>
+<th>Look at...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Understand the architecture</td>
+<td><a href="concepts_architecture.html">Architecture</a></td>
+</tr>
+<tr>
+<td>See all actor/item types</td>
+<td><a href="reference_type-catalog.html">Type Catalog</a></td>
+</tr>
+<tr>
+<td>Understand how values are tracked</td>
+<td><a href="reference_modifier-model.html">Modifier Model</a></td>
+</tr>
+<tr>
+<td>Understand combat resolution</td>
+<td><a href="reference_combat-resolution-pipeline.html">Combat Pipeline</a></td>
+</tr>
+<tr>
+<td>Understand hit locations</td>
+<td><a href="reference_body-structure.html">Body Structure</a></td>
+</tr>
+<tr>
+<td>Add house rules via module</td>
+<td><a href="how-to_lifecycle-hooks.html">Lifecycle Hooks</a></td>
+</tr>
+<tr>
+<td>Add per-item behavior</td>
+<td><a href="how-to_actions.html">Actions</a></td>
+</tr>
+<tr>
+<td>Write tests</td>
+<td><a href="how-to_testing.html">Testing</a></td>
+</tr>
+<tr>
+<td>Understand active effects</td>
+<td><a href="reference_effects-integration.html">Effects Integration</a></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="../assets/icons.svg#icon-chevronDown"></use></svg>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#getting-started-new-developer-guide"><span>Getting <wbr/>Started (<wbr/>New <wbr/>Developer <wbr/>Guide)</span></a><ul><li><a href="#prerequisites"><span>Prerequisites</span></a></li><li><a href="#setup"><span>Setup</span></a></li><li><a href="#key-commands"><span>Key commands</span></a></li><li><a href="#how-to-read-the-codebase"><span>How to read the codebase</span></a></li><li><ul><li><a href="#start-here"><span>Start here</span></a></li><li><a href="#the-three-class-pattern"><span>The three-<wbr/>class pattern</span></a></li><li><a href="#data-flow"><span>Data flow</span></a></li><li><a href="#domain-objects"><span>Domain objects</span></a></li><li><a href="#foundryhelpers-shim"><span>Foundry<wbr/>Helpers shim</span></a></li></ul></li><li><a href="#how-to-make-a-change"><span>How to make a change</span></a></li><li><ul><li><a href="#bug-fix-or-small-feature"><span>Bug fix or small feature</span></a></li><li><a href="#new-item-type"><span>New item type</span></a></li><li><a href="#adding-a-domain-object"><span>Adding a domain object</span></a></li></ul></li><li><a href="#testing"><span>Testing</span></a></li><li><a href="#documentation-structure"><span>Documentation structure</span></a></li><li><a href="#where-to-find-things"><span>Where to find things</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="../modules.html">Song of Heroic Lands API - v0.6.0</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
