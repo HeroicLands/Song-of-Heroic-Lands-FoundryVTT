@@ -18,6 +18,7 @@ import type { SkillData } from "@src/document/item/logic/SkillLogic";
 import type { TraitData } from "@src/document/item/logic/TraitLogic";
 import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 
+/** System data of an item whose proficiency is tracked as a mastery level. */
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
@@ -26,6 +27,10 @@ import {
     getCtorForKind,
 } from "@src/utils/kindRegistry";
 
+/**
+ * A value permitted in a SoHL world/client setting: a JSON-like scalar
+ * (string, number, boolean, bigint, null, or undefined) or an array thereof.
+ */
 export type SohlSettingValue =
     | string
     | number
@@ -123,6 +128,15 @@ export function romanize(num: number): string {
     return Array(+digits.join("") + 1).join("M") + roman;
 }
 
+/**
+ * Iterate an array sequentially, awaiting an async callback for each element
+ * before moving to the next (unlike `Array.prototype.forEach`, which does not
+ * await).
+ *
+ * @typeParam T - The element type of the array.
+ * @param array - The array to iterate.
+ * @param callback - Async callback invoked with each item, its index, and the array.
+ */
 export async function asyncForEach<T>(
     array: T[],
     callback: (item: T, index: number, array: T[]) => Promise<void>,
@@ -152,6 +166,14 @@ export function createHash16(str: string): string {
     return id;
 }
 
+/**
+ * Build a choices map suitable for select inputs, mapping each value to a
+ * localization key formed by prefixing it with `locPrefix`.
+ *
+ * @param values - Object whose values are the choice keys.
+ * @param locPrefix - Localization-key prefix prepended (with a `.`) to each value.
+ * @returns An object mapping each value to `"{locPrefix}.{value}"`.
+ */
 export function getChoicesMap(
     values: StrictObject<string>,
     locPrefix: string,
@@ -161,12 +183,27 @@ export function getChoicesMap(
     );
 }
 
+/**
+ * Sort strings in place using a locale-aware collator for the active SoHL UI
+ * language.
+ *
+ * @param ary - The strings to sort.
+ * @returns The same array, sorted in place.
+ */
 export function sortStrings(...ary: string[]): string[] {
     const collator = new Intl.Collator(sohl.i18n.lang);
     ary.sort((a, b) => collator.compare(a, b));
     return ary;
 }
 
+/**
+ * Chain multiple iterables into a single generator, yielding all elements of
+ * each in order.
+ *
+ * @typeParam T - The element type.
+ * @param iterators - The iterables to concatenate.
+ * @returns A generator yielding every element of every input iterable in sequence.
+ */
 export function* combine<T>(...iterators: Iterable<T>[]): Generator<T> {
     for (let it of iterators) yield* it;
 }
@@ -222,7 +259,22 @@ export function maxPrecision(value: number, precision: number = 0): number {
     return +parseFloat(value.toString()).toFixed(precision);
 }
 
-export function createUniqueName<T extends { name: string }>(
+/**
+ * Produce a name that is unique among a set of siblings, appending a
+ * parenthesized counter (e.g. `"Sword (2)"`) when `baseName` collides.
+ *
+ * @typeParam T - The sibling type, which must expose a `name` string.
+ * @param baseName - The desired name.
+ * @param siblings - Existing items whose `name` values are considered taken.
+ * @returns A name not present among the siblings.
+ * @throws Error if `baseName` is empty.
+ */
+export function createUniqueName<
+    T extends {
+        /** The base name to make unique. */
+        name: string;
+    },
+>(
     baseName: string,
     siblings: Map<string, T>,
 ): string {
@@ -237,70 +289,111 @@ export function createUniqueName<T extends { name: string }>(
     return name;
 }
 
+/** Error thrown when a value fails HTML validation. */
 export class InvalidHtmlError extends Error {
+    /**
+     * @param message - Description of the validation failure.
+     */
     constructor(message: string) {
         super(message);
         this.name = "InvalidHtmlError";
     }
 }
 
+/** Type guard narrowing `value` to `string`. */
 export function isString(value: unknown): value is string {
     return typeof value === "string";
 }
 
+/** Type guard narrowing `value` to a non-`NaN` `number`. */
 export function isNumber(value: unknown): value is number {
     return typeof value === "number" && !Number.isNaN(value);
 }
 
+/** Type guard narrowing `value` to `boolean`. */
 export function isBoolean(value: unknown): value is boolean {
     return typeof value === "boolean";
 }
 
+/** Type guard narrowing `value` to a callable `Function`. */
 export function isFunction(value: unknown): value is Function {
     return typeof value === "function";
 }
 
+/** Type guard narrowing `value` to a non-null `object`. */
 export function isObject(value: unknown): value is object {
     return typeof value === "object" && value !== null;
 }
 
+/** Type guard narrowing `value` to `undefined`. */
 export function isUndefined(value: unknown): value is undefined {
     return typeof value === "undefined";
 }
 
+/** Type guard narrowing `value` to `null`. */
 export function isNull(value: unknown): value is null {
     return value === null;
 }
 
+/** Type guard narrowing `value` to `symbol`. */
 export function isSymbol(value: unknown): value is symbol {
     return typeof value === "symbol";
 }
 
+/** Type guard narrowing `value` to `bigint`. */
 export function isBigInt(value: unknown): value is bigint {
     return typeof value === "bigint";
 }
 
+/** Signature of an async function produced by {@link AsyncFunction}. */
 type AsyncFunctionType = (...args: any[]) => Promise<any>;
 
+/**
+ * The `AsyncFunction` constructor (not exposed as a global), obtained from the
+ * prototype of an async function. Used to compile async function bodies from
+ * source strings.
+ */
 export const AsyncFunction = Object.getPrototypeOf(async function () {})
-    .constructor as new (...args: string[]) => AsyncFunctionType;
+    .constructor as {
+    /** Compile an async function from parameter names plus a body string. */
+    new (...args: string[]): AsyncFunctionType;
+};
 
-export type FilePath = string & { __brand: "FilePath" };
+/** Branded string type representing a validated filesystem path. */
+export type FilePath = string & {
+    /** Nominal brand marker; never present at runtime. */
+    __brand: "FilePath";
+};
 
+/** Regular expression accepting common file-path forms (POSIX, Windows, `file://`). */
 export const FILE_PATH_REGEX =
     /^(file:\/\/\/?|[a-zA-Z]:[\\/]|[\\/])?[^<>:"|?*\n\r]+(?:[\\/][^<>:"|?*\n\r]+)*$/;
 
+/** Type guard narrowing `value` to a {@link FilePath} via {@link FILE_PATH_REGEX}. */
 export function isFilePath(value: string): value is FilePath {
     return FILE_PATH_REGEX.test(value);
 }
 
+/**
+ * Assert that `value` is a valid file path and brand it as {@link FilePath}.
+ *
+ * @throws Error if `value` does not match {@link FILE_PATH_REGEX}.
+ */
 export function toFilePath(value: string): FilePath {
     if (!isFilePath(value)) throw new Error("Invalid file path format");
     return value as FilePath;
 }
 
-export type HTMLString = string & { __brand: "HTMLString" };
+/** Branded string type representing a string validated as HTML markup. */
+export type HTMLString = string & {
+    /** Nominal brand marker; never present at runtime. */
+    __brand: "HTMLString";
+};
 
+/**
+ * Type guard narrowing `value` to {@link HTMLString}. Returns `true` only if
+ * `value` is a string that, when parsed, contains at least one element node.
+ */
 export function isHTMLString(value: unknown): value is HTMLString {
     if (typeof value !== "string") return false;
 
@@ -317,14 +410,25 @@ export function isHTMLString(value: unknown): value is HTMLString {
     }
 }
 
+/**
+ * Assert that `value` is valid HTML markup and brand it as {@link HTMLString}.
+ *
+ * @throws Error if `value` is not recognized as HTML by {@link isHTMLString}.
+ */
 export function toHTMLString(value: string): HTMLString {
     if (!isHTMLString(value)) throw new Error("Invalid HTML string format");
     return value as HTMLString;
 }
 
 /**
- * Converts a string or HTMLString into a sanitized HTMLString.
- * If the input is plain text, wraps it in a specified HTML element (default: <p>).
+ * Convert a string or {@link HTMLString} into a sanitized {@link HTMLString}.
+ * Plain text is wrapped in the given element; markup is parsed and stripped of
+ * disallowed tags (`script`, `iframe`, etc.), `on*` event-handler attributes,
+ * and `javascript:` attribute values.
+ *
+ * @param value - Plain text or HTML markup to sanitize.
+ * @param wrapperTag - Element used to wrap plain text input (default `"p"`).
+ * @returns The sanitized HTML markup.
  */
 export function toSanitizedHTML(
     value: string | HTMLString,
@@ -435,6 +539,13 @@ function stripStringsAndComments(script: string): string {
         .replace(/`(?:\\.|[^`\\])*`/g, "``");
 }
 
+/**
+ * Validate a script source against the disallowed-keyword and disallowed-pattern
+ * lists, throwing if any sandbox-escape vector is detected.
+ *
+ * @throws Error if a disallowed keyword or pattern is present.
+ * @internal
+ */
 function checkScriptSafety(script: string): void {
     const stripped = stripStringsAndComments(script);
     for (const keyword of DISALLOWED_KEYWORDS) {
@@ -454,6 +565,23 @@ function checkScriptSafety(script: string): void {
     }
 }
 
+/**
+ * Compile a string of script source into a live (optionally async) function,
+ * after validating its parameters and rejecting unsafe constructs.
+ *
+ * @remarks
+ * Parameter names must be plain identifiers (so default-value expressions cannot
+ * be smuggled in), and the body is screened by {@link checkScriptSafety}. A body
+ * that does not begin with a statement keyword is wrapped in `return (...)` so
+ * expression bodies work; the function always runs in strict mode.
+ *
+ * @param script - The function body (or single expression) source.
+ * @param args - Parameter names; each must be a valid identifier.
+ * @param options - Options.
+ * @param options.isAsync - Compile as an async function when `true`.
+ * @returns The compiled `Function` (or async function).
+ * @throws Error if a parameter name is invalid or the script fails the safety check.
+ */
 export function textToFunction(
     script: string,
     args: string[],
@@ -516,6 +644,23 @@ export function hashToId(input: string): string {
     return out;
 }
 
+/**
+ * Recursively revive a JSON-decoded value into live runtime objects — the
+ * inverse of {@link defaultToJSON}.
+ *
+ * @remarks
+ * Handles the encoding tags produced by {@link defaultToJSON}: `__bigint__:`,
+ * `__date__:`, `__url__:`, and `__func__:` string prefixes, and `__type`-tagged
+ * objects for `SohlMap`/`Map`/`Set`/`RegExp`/`Error`/`URL`/`ClientDocument`.
+ * Objects carrying a registered-kind marker ({@link KIND_KEY}) are reconstructed
+ * to their concrete class via {@link getCtorForKind}, with children revived
+ * bottom-up and the owning logic supplied through `ctx.parent`.
+ *
+ * @param value - The parsed JSON value to revive.
+ * @param ctx - Reconstruction context; `ctx.parent` becomes the owning logic for
+ *   any revived registered instances.
+ * @returns The revived value.
+ */
 export function defaultFromJSON(
     value: unknown,
     ctx?: { parent?: unknown },
@@ -622,6 +767,21 @@ export function instanceFromJSON<T>(
     return defaultFromJSON(parsed, { parent }) as T;
 }
 
+/**
+ * Recursively convert an arbitrary value into a JSON-safe representation that
+ * {@link defaultFromJSON} can faithfully revive.
+ *
+ * @remarks
+ * Scalars pass through; `bigint`, `Date`, `URL`, `SohlMap`, `Map`, `Set`,
+ * `RegExp`, and `Error` are encoded with tagged forms. Foundry documents (those
+ * with a `documentName`) are reduced to a `ClientDocument` reference by UUID.
+ * Functions, symbols, and `undefined` are dropped (return `undefined`). Objects
+ * with a `toJSON` method delegate to it; other objects are serialized key by key
+ * (omitting keys whose values serialize to `undefined`).
+ *
+ * @param value - The value to serialize.
+ * @returns A JSON-safe value, or `undefined` if the value is non-serializable.
+ */
 export function defaultToJSON(value: any): JsonValue | undefined {
     if (
         value === null ||
@@ -793,6 +953,19 @@ export function cloneInstance<T>(
     }) as T;
 }
 
+/**
+ * Serialize a function into the portable `"__func__:[args]body"` string consumed
+ * by {@link deserializeFn}.
+ *
+ * @remarks
+ * Supports standard function declarations and arrow functions with either block
+ * or expression bodies; expression-body arrows are wrapped in a `return`.
+ * Closures over variables are not captured — only the source text is preserved.
+ *
+ * @param fn - The function to serialize.
+ * @returns The serialized function string.
+ * @throws Error if the function's source form is unsupported.
+ */
 export function serializeFn(fn: (...args: any[]) => any): string {
     function normalizeArrowParams(paramSrc: string): string {
         const s = paramSrc.trim();
@@ -871,25 +1044,42 @@ export function deserializeFn(serialized: string): (...args: any[]) => any {
     }
 }
 
+/** Type guard narrowing `value` to a Foundry {@link DocumentId} (16 alphanumeric chars). */
 export function isDocumentId(value: unknown): value is DocumentId {
     return typeof value === "string" && /^[a-zA-Z0-9]{16}$/.test(value);
 }
 
+/**
+ * Assert that `value` is a valid Foundry document id and brand it as {@link DocumentId}.
+ *
+ * @throws TypeError if `value` is not a 16-character alphanumeric id.
+ */
 export function toDocumentId(value: string): DocumentId {
     if (!isDocumentId(value))
         throw new TypeError(`Invalid FoundryID: ${value}`);
     return value as DocumentId;
 }
 
-export type DocumentUuid = string & { __brand: "DocumentUuid" };
+/** Branded string type representing a validated Foundry document UUID. */
+export type DocumentUuid = string & {
+    /** Nominal brand marker; never present at runtime. */
+    __brand: "DocumentUuid";
+};
 
+/** Matches a world (`Type.id`) or compendium (`Compendium.pack.Type.id`) document UUID. */
 const uuidRegex =
     /^(?:[A-Z][a-zA-Z]+)\.[a-zA-Z0-9]{16}$|^Compendium\.[a-z0-9-_]+\.[A-Z][a-zA-Z]+\.[a-zA-Z0-9]{16}$/;
 
+/** Type guard narrowing `value` to a {@link DocumentUuid}. */
 export function isDocumentUuid(value: unknown): value is DocumentUuid {
     return typeof value === "string" && uuidRegex.test(value);
 }
 
+/**
+ * Assert that `value` is a valid document UUID and brand it as {@link DocumentUuid}.
+ *
+ * @throws TypeError if `value` does not match the document-UUID format.
+ */
 export function toDocumentUuid(value: string): DocumentUuid {
     if (!isDocumentUuid(value)) {
         throw new TypeError(`Invalid DocumentUuid: "${value}"`);
@@ -897,6 +1087,14 @@ export function toDocumentUuid(value: string): DocumentUuid {
     return value as DocumentUuid;
 }
 
+/**
+ * Identity helper that returns the constructor unchanged while preserving its
+ * type — used to obtain the base class in mixin/extension chains.
+ *
+ * @typeParam T - The constructor type.
+ * @param ctor - The constructor to pass through.
+ * @returns `ctor` unchanged.
+ */
 export function baseClassOf<T extends abstract new (...args: any) => any>(
     ctor: T,
 ): T {
@@ -912,9 +1110,17 @@ const GearKinds = [
     ITEM_KIND.WEAPONGEAR,
 ] as string[];
 
+/**
+ * Type guard narrowing a {@link SohlItem} to one of the gear item kinds (armor,
+ * concoction, container, misc, projectile, or weapon), exposing its
+ * {@link GearData} system data.
+ */
 export function isGearItem(
     item: SohlItem,
-): item is SohlItem & { system: GearData } {
+): item is SohlItem & {
+    /** Narrowed {@link GearData} system data. */
+    system: GearData;
+} {
     return GearKinds.includes(item.type);
 }
 
@@ -924,9 +1130,16 @@ const MasteryLevelKinds = [
     ITEM_KIND.TRAIT,
 ] as string[];
 
+/**
+ * Type guard narrowing a {@link SohlItem} to a mastery-level item (mystical
+ * ability, skill, or trait), exposing its {@link MasteryLevelData} system data.
+ */
 export function isMasteryItem(
     item: SohlItem,
-): item is SohlItem & { system: MasteryLevelData } {
+): item is SohlItem & {
+    /** Narrowed {@link MasteryLevelData} system data. */
+    system: MasteryLevelData;
+} {
     return MasteryLevelKinds.includes(item.type);
 }
 
@@ -940,22 +1153,49 @@ const ItemSubTypeKinds = [
     ITEM_KIND.TRAIT,
 ] as string[];
 
+/**
+ * Type guard narrowing a {@link SohlItem} to one of the item kinds that carries a
+ * `subType` field, optionally requiring a specific sub-type value.
+ *
+ * @param item - The item to test.
+ * @param subType - When given, the item's `system.subType` must equal this value.
+ */
 export function isItemWithSubType(
     item: SohlItem,
     subType?: string,
-): item is SohlItem & { system: { subType: string } } {
+): item is SohlItem & {
+    /** Narrowed system data carrying a sub-type discriminator. */
+    system: {
+        /** The item's sub-type value. */
+        subType: string;
+    };
+} {
     return (
         ItemSubTypeKinds.includes(item.type) &&
         (!subType || (item.system as any).subType === subType)
     );
 }
 
+/**
+ * Compute the secondary attribute modifier for a given index, where each step
+ * above the baseline of 5 adds +5 (and an index of 0 or below yields -25).
+ *
+ * @param index - The attribute index (truncated to an integer).
+ * @returns The corresponding ±5-stepped modifier.
+ */
 export function secondaryModifier(index: number): number {
     if (index <= 0) return -25;
     index = Math.trunc(index);
     return (index - 5) * 5;
 }
 
+/**
+ * Compute an attribute index from a score, i.e. the score divided by ten and
+ * truncated (clamped to 0 for non-positive scores).
+ *
+ * @param value - The attribute score.
+ * @returns The derived index.
+ */
 export function index(value: number): number {
     if (value <= 0) return 0;
     return Math.trunc(value / 10);

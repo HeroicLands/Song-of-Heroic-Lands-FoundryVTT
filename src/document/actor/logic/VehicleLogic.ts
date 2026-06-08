@@ -59,6 +59,12 @@ export class VehicleLogic<
     }
 }
 
+/**
+ * Persisted data model for a {@link VehicleLogic | Vehicle} actor.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `vehicle` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "vehicle"`. The backing DataModel implements this interface.
+ */
 export interface VehicleData<
     TLogic extends SohlActorLogic<VehicleData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {

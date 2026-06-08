@@ -48,6 +48,7 @@ type CombatTechniqueSchema = ReturnType<typeof defineCombatTechniqueSchema>;
  * stored. Use {@link strikeModeInstance} to obtain a fully constructed
  * `StrikeModeBase` (i.e. {@link MeleeStrikeMode} or {@link MissileStrikeMode})
  * with the runtime modifier wrappers attached.
+ * @internal
  */
 export class CombatTechniqueDataModel<
     TSchema extends foundry.data.fields.DataSchema = CombatTechniqueSchema,

@@ -11,11 +11,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * A lazy iterator wrapper that adds array-style combinators (`map`, `filter`,
+ * `take`, `reduce`, etc.) over any iterable. Transformations are evaluated
+ * lazily and return new `Itr` instances, so chains do not materialize
+ * intermediate arrays.
+ *
+ * @typeParam T - The element type produced by the iterator.
+ */
 export class Itr<T> implements IterableIterator<T> {
-    private _iterator: Iterator<T>;
+    /** Underlying source iterator. @internal */
+    private iterator: Iterator<T>;
 
+    /**
+     * @param iterable - The source iterable to wrap.
+     */
     constructor(iterable: Iterable<T>) {
-        this._iterator = iterable[Symbol.iterator]();
+        this.iterator = iterable[Symbol.iterator]();
     }
 
     /**
@@ -29,10 +41,10 @@ export class Itr<T> implements IterableIterator<T> {
      * Default iterator to enable `for...of` usage.
      */
     *[Symbol.iterator](): IterableIterator<T> {
-        let result = this._iterator.next();
+        let result = this.iterator.next();
         while (!result.done) {
             yield result.value;
-            result = this._iterator.next();
+            result = this.iterator.next();
         }
     }
 
@@ -40,7 +52,7 @@ export class Itr<T> implements IterableIterator<T> {
      * Return the next element in the iterator.
      */
     next(...args: [] | [undefined]): IteratorResult<T> {
-        return this._iterator.next(...args);
+        return this.iterator.next(...args);
     }
 
     /**

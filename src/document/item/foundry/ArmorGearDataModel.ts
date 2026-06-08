@@ -40,6 +40,7 @@ function defineArmorGearSchema(): foundry.data.fields.DataSchema {
 
 type ArmorGearDataSchema = ReturnType<typeof defineArmorGearSchema>;
 
+/** @internal */
 export class ArmorGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ArmorGearDataSchema,
     TLogic extends ArmorGearLogic<ArmorGearData> =

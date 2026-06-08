@@ -33,6 +33,7 @@ import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { instanceToJSON } from "@src/utils/helpers";
 
+/** Which strike-mode test a combat action resolves: attack, block, or counterstrike. */
 export type StrikeModeTestKind = "attack" | "block" | "counterstrike";
 
 interface ActorLike {

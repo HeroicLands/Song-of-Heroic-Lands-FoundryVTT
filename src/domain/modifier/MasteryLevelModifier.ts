@@ -174,16 +174,29 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
  * the test dialog). Rebuilt each preparation cycle like all ValueModifiers.
  */
 export class MasteryLevelModifier extends ValueModifier {
+    /** Lower clamp on the effective mastery level — the roll-under target can't go below this. */
     minTarget: number;
+    /** Upper clamp on the effective mastery level — the roll-under target can't exceed this. */
     maxTarget: number;
+    /** Flat offset applied to the success level after the roll (e.g. a fate bonus). */
     successLevelMod: number;
+    /** Roll last-digits that make a failure critical (e.g. `[0]`). */
     critFailureDigits: number[];
+    /** Roll last-digits that make a success critical (e.g. `[5]`). */
     critSuccessDigits: number[];
+    /** Description table mapping success levels to labels and star ratings for chat output. */
     testDescTable: SuccessTestResult.LimitedDescription[];
+    /** Success-value table mapping success levels to graded results for value-producing tests. */
     svTable: SuccessTestResult.LimitedDescription[];
+    /** Identifier for the kind of test (used in dialogs and chat). */
     type: string;
+    /** Display title for the test. */
     title: string;
 
+    /**
+     * The effective mastery level clamped to [{@link minTarget},
+     * {@link maxTarget}] — the actual roll-under target a success test uses.
+     */
     get constrainedEffective(): number {
         return Math.min(
             this.maxTarget,
@@ -191,6 +204,12 @@ export class MasteryLevelModifier extends ValueModifier {
         );
     }
 
+    /**
+     * @param data - Test data; targets default to unbounded, crit-digit lists to
+     *   empty, and the description/value tables to the standard ones.
+     * @param options - Must provide `options.parent` (base {@link ValueModifier}).
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<MasteryLevelModifier.Data> = {},
         options: Partial<MasteryLevelModifier.Options> = {},
@@ -356,6 +375,17 @@ export class MasteryLevelModifier extends ValueModifier {
         return allowed ? testResult : false;
     }
 
+    /**
+     * Perform a **success value** test — a success test whose outcome is graded
+     * into a quality/quantity result (a "success value") via {@link svTable},
+     * rather than reported as a simple pass/fail.
+     *
+     * @param context - The action context for the test.
+     * @returns The evaluated {@link SuccessTestResult}, `null` if cancelled, or
+     *   `false` on error.
+     */
+    // TODO(doc): the locally-built success-value scope (svTable / targetValueFunc)
+    // is not currently passed into successTest — confirm the intended wiring.
     async successValueTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null | false> {
@@ -469,6 +499,22 @@ export class MasteryLevelModifier extends ValueModifier {
         return result;
     }
 
+    /**
+     * Complete an opposed test by rolling the **target's** side and evaluating
+     * the contest.
+     *
+     * @remarks
+     * If the target hasn't rolled yet, its success test is performed and stored
+     * on the opposed result; if it already has (a GM editing a prior result),
+     * both sides' dialogs are re-shown. The opposed outcome is then evaluated
+     * and posted to chat unless `context.noChat` is set.
+     *
+     * @param context - The action context; must carry the in-progress opposed
+     *   result in `scope.priorTestResult` (from {@link opposedTestStart}).
+     * @returns The evaluated {@link OpposedTestResult}, `false` if a side's test
+     *   was cancelled or failed, or `null`.
+     * @throws If `scope.priorTestResult` is missing.
+     */
     async opposedTestResume(
         context: SohlActionContext,
     ): Promise<OpposedTestResult | false | null> {
@@ -520,17 +566,28 @@ export class MasteryLevelModifier extends ValueModifier {
 }
 
 export namespace MasteryLevelModifier {
+    /** Registry key identifying this modifier kind for serialization. */
     export const Kind: string = "MasteryLevelModifier";
 
+    /** Construction data for a {@link MasteryLevelModifier}. */
     export interface Data extends ValueModifier.Data {
+        /** Lower clamp on the effective mastery level. */
         minTarget: number;
+        /** Upper clamp on the effective mastery level. */
         maxTarget: number;
+        /** Flat success-level offset applied after the roll. */
         successLevelMod: number;
+        /** Roll last-digits that make a failure critical. */
         critFailureDigits: number[];
+        /** Roll last-digits that make a success critical. */
         critSuccessDigits: number[];
+        /** Description table for chat output. */
         testDescTable: SuccessTestResult.LimitedDescription[];
+        /** Success-value table for value-producing tests. */
         svTable: SuccessTestResult.LimitedDescription[];
+        /** Identifier for the kind of test. */
         type: string;
+        /** Display title for the test. */
         title: string;
     }
 

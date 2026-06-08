@@ -37,9 +37,11 @@ const {
     PAUSE_GAME: "pauseGame",
     RESUME_GAME: "resumeGame",
 });
+/** @internal */
 export type PlannedAction =
     (typeof PLANNED_ACTION)[keyof typeof PLANNED_ACTION];
 
+/** @internal */
 export interface AIPlannedAction {
     /** The type of action to be performed */
     type: PlannedAction;

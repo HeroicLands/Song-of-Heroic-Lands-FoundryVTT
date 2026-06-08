@@ -54,6 +54,7 @@ type CohortDataSchema = ReturnType<typeof defineCohortDataSchema>;
 
 /**
  * The Foundry VTT data model for the Cohort actor.
+ * @internal
  */
 export class CohortDataModel<
     TSchema extends foundry.data.fields.DataSchema = CohortDataSchema,

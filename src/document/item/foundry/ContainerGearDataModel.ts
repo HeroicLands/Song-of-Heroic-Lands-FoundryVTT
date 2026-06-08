@@ -32,6 +32,7 @@ function defineContainerGearSchema(): foundry.data.fields.DataSchema {
 
 type ContainerGearSchema = ReturnType<typeof defineContainerGearSchema>;
 
+/** @internal */
 export class ContainerGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ContainerGearSchema,
     TLogic extends ContainerGearLogic<ContainerGearData> =

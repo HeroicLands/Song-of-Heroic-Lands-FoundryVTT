@@ -42,6 +42,8 @@ interface RenderGroup {
  * actions. System and module entries can be edited (override) but not
  * deleted; only entries with `source === "world"` may be removed through
  * the UI.
+ *
+ * @internal Foundry settings-app UI binding; not part of the public API.
  */
 export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.applications.api.ApplicationV2) {
     static override DEFAULT_OPTIONS = {
@@ -73,7 +75,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         },
     };
 
-    override async _prepareContext(_options: any): Promise<any> {
+    protected override async _prepareContext(_options: any): Promise<any> {
         const all = SohlDomains.getAll();
         const grouped = new Map<DomainFamily, RenderRow[]>();
         for (const family of DomainFamilies) {
@@ -130,12 +132,12 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * with `world.` so GM-created entries can never collide with system
      * or module shortcodes.
      */
-    static async _onAddDomain(
+    protected static async _onAddDomain(
         this: DomainManagerApp,
         _event: Event,
         _target: HTMLElement,
     ): Promise<void> {
-        const result = await DomainManagerApp._promptForEntry({
+        const result = await DomainManagerApp.promptForEntry({
             isNew: true,
         });
         if (!result) return;
@@ -148,7 +150,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * entries can be edited; the resulting save creates a `world.`
      * override (because we cannot mutate system defaults persistently).
      */
-    static async _onEditDomain(
+    protected static async _onEditDomain(
         this: DomainManagerApp,
         _event: Event,
         target: HTMLElement,
@@ -159,7 +161,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         if (!shortcode) return;
         const existing = SohlDomains.get(shortcode);
         if (!existing) return;
-        const result = await DomainManagerApp._promptForEntry({
+        const result = await DomainManagerApp.promptForEntry({
             isNew: false,
             existing,
         });
@@ -173,7 +175,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * is disabled in the template for non-world entries; this is a
      * defensive second guard.
      */
-    static async _onDeleteDomain(
+    protected static async _onDeleteDomain(
         this: DomainManagerApp,
         _event: Event,
         target: HTMLElement,
@@ -207,7 +209,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * Build a small DialogV2 form for adding or editing an entry. Returns
      * the resulting `DomainEntry` or `null` if the user cancels.
      */
-    private static async _promptForEntry(opts: {
+    private static async promptForEntry(opts: {
         isNew: boolean;
         existing?: DomainEntry;
     }): Promise<DomainEntry | null> {

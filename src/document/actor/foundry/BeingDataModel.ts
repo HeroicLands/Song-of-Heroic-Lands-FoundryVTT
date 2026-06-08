@@ -26,6 +26,7 @@ type BeingDataSchema = ReturnType<typeof defineBeingDataSchema>;
 
 /**
  * The Foundry VTT data model for the Being actor.
+ * @internal
  */
 export class BeingDataModel<
     TSchema extends foundry.data.fields.DataSchema = BeingDataSchema,

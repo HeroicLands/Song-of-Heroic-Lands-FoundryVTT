@@ -69,6 +69,17 @@ Every actor and item type is split into three classes across two directories:
 
 The `logic/` directory contains code that can run and be tested without Foundry VTT. The `foundry/` directory contains code that depends on the Foundry runtime.
 
+### Accessing a document's data and logic
+
+At runtime, `document.system` is the **DataModel** instance and `document.logic` (≡ `document.system.logic`) is the **Logic**. The DataModel implements the type's `*Data` interface, so the persisted fields are the same object whichever way you reach them.
+
+For typed, documented access, prefer **`document.logic.data`**. `SohlLogic.data` returns the `*Data` interface — e.g. `skillItem.logic.data` is typed `SkillData` — so editors autocomplete the fields and the API reference links straight to the shape. `document.system` holds the identical object but is typed as the Foundry-internal DataModel class (excluded from the API docs).
+
+- `actor.logic.data.foo` — fully typed via the public `*Data` interface (**recommended**).
+- `actor.system.foo` — the same value, but typed as the internal DataModel.
+
+So to discover what's available on a document, read its `*Data` interface (the shape of `system` / `logic.data`) and its Logic class (computed properties, intrinsic actions). The DataModel and Sheet classes are Foundry binding and are intentionally absent from the API docs.
+
 ## Document types
 
 SoHL defines several **actor** and **item** types, each following the three-class pattern above. The exact set drifts as types are added or renamed, so this page does not enumerate them — consult the authoritative sources instead:

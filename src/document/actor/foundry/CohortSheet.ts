@@ -13,6 +13,7 @@
 
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
 
+/** @internal */
 export class CohortSheet extends SohlActorSheetBase {
     static override DEFAULT_OPTIONS: PlainObject = {
         id: "cohort-sheet",

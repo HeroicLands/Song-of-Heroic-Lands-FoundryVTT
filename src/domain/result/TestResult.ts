@@ -52,6 +52,12 @@ export abstract class TestResult {
     protected _description: string;
     protected readonly _parent: SohlLogic;
 
+    /**
+     * @param data - Common result data (speaker, name, title, description); all
+     *   fields are optional and defaulted.
+     * @param options - Must provide `options.parent`, the initiating Logic.
+     * @throws If `options.parent` is missing.
+     */
     constructor(
         data: Partial<TestResult.Data>,
         options: Partial<TestResult.Options> = {},
@@ -66,49 +72,78 @@ export abstract class TestResult {
         this._description = data.description ?? "";
     }
 
+    /**
+     * Serialize this result to a plain, persistable object. Results are not
+     * stored in the database, but this is used to pass a result between clients
+     * (e.g. embedding an evaluated {@link AttackResult} in a chat card so the
+     * defender's client can reconstruct it).
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
 
+    /** Human-readable description shown on the result's chat card. */
     get description(): string {
         return this._description;
     }
 
+    /** The Logic that initiated the test — the result's owner and context. */
     get parent(): SohlLogic {
         return this._parent;
     }
 
+    /**
+     * Resolve the test outcome. The base implementation is a no-op that returns
+     * `true`; subclasses override it to roll dice, compute success levels, and
+     * apply mishaps.
+     *
+     * @returns `true` if the result should be displayed (e.g. posted to chat);
+     *   `false` if the test was cancelled or is not allowed to proceed.
+     */
     async evaluate() {
         return true;
     }
 
+    /** Internal identifier for this result (distinct from the display title). */
     get name(): string {
         return this._name;
     }
 
+    /** Title shown at the top of the result's chat card. */
     get title(): string {
         return this._title;
     }
 
+    /** Speaker identity (actor/token/user) used when posting this result to chat. */
     get speaker(): SohlSpeaker {
         return this._speaker;
     }
 }
 
 export namespace TestResult {
+    /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "TestResult";
 
+    /** Numeric sentinel for a successful outcome. */
     export const SUCCESS = 1;
+    /** Numeric sentinel for a failed outcome. */
     export const FAILURE = 0;
 
+    /** Construction data common to every {@link TestResult}. */
     export interface Data {
+        /** Speaker identity for the result's chat card. */
         speaker: SohlSpeaker;
+        /** Internal identifier for the result. */
         name: string;
+        /** Title shown on the chat card. */
         title: string;
+        /** Human-readable description shown on the chat card. */
         description: string;
     }
 
+    /** Options common to every {@link TestResult}. */
     export interface Options {
+        /** The Logic initiating the test (required; becomes {@link TestResult.parent}). */
         parent: SohlLogic;
     }
 }

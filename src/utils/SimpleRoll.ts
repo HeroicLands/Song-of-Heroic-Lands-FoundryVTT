@@ -25,11 +25,21 @@ import { registerKind } from "@src/utils/kindRegistry";
  * `toFoundryRoll()` shim in `FoundryHelpers.ts`.
  */
 export class SimpleRoll {
+    /** Number of dice to roll (the `N` in `NdM+K`). */
     numDice: number;
+    /** Number of faces per die (the `M` in `NdM+K`). */
     dieFaces: number;
+    /** Flat modifier added to the dice total (the `K` in `NdM+K`). */
     modifier: number;
+    /** The individual die results; empty until {@link roll} or {@link setRolls} is called. */
     rolls: number[];
 
+    /**
+     * Construct a roll from partial data; any omitted field defaults to `0`
+     * (or `[]` for `rolls`).
+     * @param data Partial roll definition (`numDice`, `dieFaces`, `modifier`,
+     *   `rolls`).
+     */
     constructor(data: Partial<SimpleRoll.Data> = {}) {
         this.numDice = data.numDice ?? 0;
         this.dieFaces = data.dieFaces ?? 0;
@@ -37,6 +47,10 @@ export class SimpleRoll {
         this.rolls = data.rolls ?? [];
     }
 
+    /**
+     * Serialize the roll to a plain JSON object.
+     * @returns A plain-object snapshot of this roll's fields.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
@@ -141,6 +155,16 @@ export class SimpleRoll {
         return parts.join("") || "0";
     }
 
+    /**
+     * Parse a dice formula string into an unrolled {@link SimpleRoll}.
+     *
+     * Accepts forms like `"2d6+3"`, `"1d100"`, `"d20"` (implicit one die),
+     * `"-2"` (modifier only), with optional whitespace around the modifier
+     * sign.
+     * @param formula The dice formula to parse.
+     * @returns A new {@link SimpleRoll} with no dice rolled yet.
+     * @throws Error if `formula` does not match the `NdM+K` grammar.
+     */
     static fromFormula(formula: string): SimpleRoll {
         const match = formula
             .trim()
@@ -168,12 +192,18 @@ export class SimpleRoll {
 }
 
 export namespace SimpleRoll {
+    /** Kind discriminator under which {@link SimpleRoll} is registered in the kind registry. */
     export const Kind = "SimpleRoll";
 
+    /** The serializable shape of a {@link SimpleRoll}. */
     export interface Data {
+        /** Number of dice (the `N` in `NdM+K`). */
         numDice: number;
+        /** Faces per die (the `M` in `NdM+K`). */
         dieFaces: number;
+        /** Flat modifier (the `K` in `NdM+K`). */
         modifier: number;
+        /** Individual die results, if already rolled. */
         rolls: number[];
     }
 }

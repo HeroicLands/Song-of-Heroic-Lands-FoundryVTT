@@ -94,12 +94,48 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
 export class SkillLogic<
     TData extends SkillData = SkillData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * The parent (base) skill this skill specializes, resolved during
+     * {@link evaluate} from {@link SkillData.parentSkillCode}, or `null` if
+     * this skill has no parent.
+     */
     parentSkill!: SkillLogic | null;
+
+    /**
+     * The number of mastery-level boosts applied to this skill. Each boost
+     * raises the base mastery level by an amount that diminishes at higher
+     * levels (see {@link calcMasteryBoost}).
+     */
     boosts!: number;
+
+    /**
+     * The skill base, a {@link SkillBase} parsed from
+     * {@link SkillData.skillBaseFormula} and resolved against the actor's
+     * traits.
+     */
     skillBase!: SkillBase;
+
+    /**
+     * The mastery level as a {@link MasteryLevelModifier}, seeded from
+     * {@link SkillData.masteryLevelBase}.
+     */
     masteryLevel!: MasteryLevelModifier;
+
+    /**
+     * The fate mastery level as a {@link MasteryLevelModifier}, used to resolve
+     * {@link fateTest | fate tests}. Seeded from the actor's Aura attribute and
+     * the `optionFate` setting; disabled when fate does not apply.
+     */
     fateMasteryLevel!: MasteryLevelModifier;
 
+    /**
+     * Performs a fate test for this skill, consuming a charge from an
+     * applicable Fate mystery on success.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns Resolves once the test and any charge consumption complete. No-op
+     *   when {@link fateMasteryLevel} is disabled or no charged fate item is found.
+     */
     async fateTest(context: SohlActionContext): Promise<void> {
         if (this.fateMasteryLevel.disabled) return;
 
@@ -136,6 +172,15 @@ export class SkillLogic<
         }
     }
 
+    /**
+     * Attempts to improve the skill via a Skill Development Roll (SDR): rolls
+     * `1d100 + skillBase` against the current base mastery level, and on a
+     * success raises {@link SkillData.masteryLevelBase} by {@link sdrIncr}. The
+     * outcome is posted to chat regardless.
+     *
+     * @param context - The action context whose speaker receives the chat card.
+     * @returns Resolves once the roll is evaluated and the chat card is posted.
+     */
     async improveWithSDR(context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
         const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase.value}`);
@@ -217,7 +262,7 @@ export class SkillLogic<
             | undefined;
         if (!rollFormula) return;
 
-        const sb = this.skillBaseForRoll;
+        const sb = this._skillBaseForRoll;
         const resolved = rollFormula.replace(/\bsb\b/gi, String(sb));
         const roll = SimpleRoll.fromFormula(resolved);
         roll.roll();
@@ -233,10 +278,14 @@ export class SkillLogic<
      * Override in subclasses to provide a different value (e.g., traits
      * always return 0).
      */
-    protected get skillBaseForRoll(): number {
+    protected get _skillBaseForRoll(): number {
         return this.skillBase?.value ?? 0;
     }
 
+    /**
+     * The magic modifier applied to this skill's fate mastery level. The base
+     * implementation returns 0; subclasses may override to contribute a bonus.
+     */
     get magicMod(): number {
         return 0;
     }
@@ -264,6 +313,10 @@ export class SkillLogic<
         return result;
     }
 
+    /**
+     * Whether the skill may be improved: true when the current user is a GM or
+     * owns the item and the mastery level is not disabled.
+     */
     get canImprove() {
         return (
             (fvttIsCurrentUserGM() || this.item?.isOwner) &&
@@ -271,10 +324,12 @@ export class SkillLogic<
         );
     }
 
+    /** Whether the skill is valid, i.e. its {@link skillBase} resolved successfully. */
     get valid() {
         return this.skillBase.valid;
     }
 
+    /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
     get sdrIncr() {
         return 1;
     }
@@ -412,6 +467,9 @@ function calcMasteryBoost(ml: number): number {
     else return 3;
 }
 
+/**
+ * @remarks The shape of `system` on a `skill` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "skill"`. The backing DataModel implements this interface.
+ */
 export interface SkillData<
     TLogic extends SkillLogic<SkillData> = SkillLogic<any>,
 > extends SohlItemData<TLogic> {
