@@ -18,7 +18,7 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 /**
- * Logic for the **Affiliation** item type — membership in an organization
+ * Membership in an organization
  * or faction.
  *
  * Affiliations represent a character's social and political ties: guild

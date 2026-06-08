@@ -16,7 +16,7 @@ import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 
 /**
- * Logic for the **Attribute** item type — an innate characteristic.
+ * An innate characteristic.
  *
  * Attributes represent intrinsic properties of a character that are not learned
  * through training: physical attributes (Strength, Stamina, Dexterity),

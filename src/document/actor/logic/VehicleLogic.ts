@@ -19,7 +19,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Vehicle** actor type — a movable inanimate conveyance.
+ * A movable inanimate conveyance.
  *
  * A Vehicle represents a wagon, ship, cart, or any mobile platform that can
  * hold both **occupants** and embedded **items** (cargo, equipment, etc.).

@@ -72,7 +72,7 @@ const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
 );
 
 /**
- * Logic for the **Affliction** item type — an ongoing condition affecting
+ * An ongoing condition affecting
  * a character.
  *
  * Afflictions represent diseases, poisons, curses, madness, and other
