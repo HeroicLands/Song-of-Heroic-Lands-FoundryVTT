@@ -11,6 +11,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * A {@link foundry.data.fields.StringField} that validates its value is a
+ * well-formed URL.
+ */
 export class URLField extends foundry.data.fields.StringField {
     protected static override get _defaults(): foundry.data.fields.StringField.Options<unknown> {
         return foundry.utils.mergeObject(super._defaults, {

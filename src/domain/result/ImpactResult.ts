@@ -55,6 +55,16 @@ export class ImpactResult extends TestResult {
     /** A label for what caused the impact (weapon name, `"fall"`, `"spell"`, …). */
     source: string;
 
+    /**
+     * Rolls the impact on construction (the impact has occurred). A pre-rolled
+     * `data.roll` may be supplied — by tests, or when reviving a serialized
+     * snapshot — in which case it is reused rather than re-rolled.
+     *
+     * @param data - Impact data; `impactModifier` is required.
+     * @param options - Result options; `options.parent` is required (base
+     *   {@link TestResult}).
+     * @throws If `impactModifier` is missing, or if no `parent` is provided.
+     */
     constructor(
         data: Partial<ImpactResult.Data> = {},
         options: Partial<ImpactResult.Options> = {},
@@ -90,13 +100,20 @@ export class ImpactResult extends TestResult {
 }
 
 export namespace ImpactResult {
+    /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "ImpactResult";
 
+    /** Construction data for an {@link ImpactResult}. */
     export interface Data extends TestResult.Data {
+        /** The impact (damage) formula: dice + modifier + aspect. Required. */
         impactModifier: ImpactModifier;
+        /** A pre-rolled impact roll (omit to roll on construction). */
         roll: SimpleRoll;
+        /** The targeted body part shortcode, or `""` when unaimed. */
         aimBodyPartCode: string;
+        /** Strike spread for hit-location scatter (`0` when unaimed). */
         spread: number;
+        /** A label for what caused the impact (weapon name, "fall", "spell", …). */
         source: string;
     }
 

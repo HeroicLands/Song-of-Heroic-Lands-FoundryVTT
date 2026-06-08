@@ -33,6 +33,7 @@ type StructureDataSchema = ReturnType<typeof defineStructureDataSchema>;
 
 /**
  * The Foundry VTT data model for the Structure actor.
+ * @internal
  */
 export class StructureDataModel<
     TSchema extends foundry.data.fields.DataSchema = StructureDataSchema,
@@ -45,7 +46,7 @@ export class StructureDataModel<
     ];
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineStructureDataSchema();
     }
 }

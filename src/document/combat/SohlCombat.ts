@@ -19,6 +19,11 @@ import {
     resolveGroupSeeding,
 } from "./combat-logic";
 
+/**
+ * SoHL's Combat document. Seeds newly created combatants into
+ * {@link CombatantGroup}s (see {@link resolveGroupSeeding}) and drives the
+ * system's combat lifecycle.
+ */
 export class SohlCombat<
     SubType extends Combat.SubType = Combat.SubType,
 > extends Combat<SubType> {
@@ -29,7 +34,7 @@ export class SohlCombat<
      * created in one operation that want the same new group share a single
      * group create. Only the active GM performs the authoritative writes.
      */
-    override _onCreateDescendantDocuments(
+    protected override _onCreateDescendantDocuments(
         parent: any,
         collection: string,
         documents: any[],
@@ -47,10 +52,12 @@ export class SohlCombat<
         );
         if (collection !== "combatants") return;
         if (!fvttIsActiveGM()) return;
-        void this.#seedCombatantGroups(documents as SohlCombatant[]);
+        void this.seedCombatantGroups(documents as SohlCombatant[]);
     }
 
-    async #seedCombatantGroups(combatants: SohlCombatant[]): Promise<void> {
+    private async seedCombatantGroups(
+        combatants: SohlCombatant[],
+    ): Promise<void> {
         const newCombatants: SeedingCombatant[] = combatants.map((c) => ({
             id: c.id!,
             hasGroup: !!c.groupId,
@@ -103,6 +110,7 @@ function defineSohlCombatDataSchema(): foundry.data.fields.DataSchema {
 
 type SohlCombatDataSchema = ReturnType<typeof defineSohlCombatDataSchema>;
 
+/** @internal */
 export class SohlCombatDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlCombat> {

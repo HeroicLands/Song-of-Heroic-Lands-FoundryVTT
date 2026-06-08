@@ -18,8 +18,7 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 /**
- * Logic for the **Affiliation** item type — membership in an organization
- * or faction.
+ * Membership in an organization or faction.
  *
  * Affiliations represent a character's social and political ties: guild
  * membership, noble house allegiance, religious order, military unit, or
@@ -58,6 +57,12 @@ export class AffiliationLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link AffiliationLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `affiliation` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "affiliation"`. The backing DataModel implements this interface.
+ */
 export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {

@@ -17,6 +17,7 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
 
+/** @internal */
 export class LineageSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
@@ -27,7 +28,7 @@ export class LineageSheet extends SohlItemSheetBase {
         },
     };
 
-    protected async _preparePropertiesContext(
+    protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<

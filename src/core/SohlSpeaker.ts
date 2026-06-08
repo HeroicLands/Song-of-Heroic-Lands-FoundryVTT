@@ -37,13 +37,45 @@ import {
     fvttToFoundryRoll,
 } from "@src/core/FoundryHelpers";
 
+/**
+ * Identifies who is speaking/acting and renders that voice to chat.
+ *
+ * A `SohlSpeaker` resolves a loose set of identifiers (token, actor, scene,
+ * user ids, or an explicit alias) into the concrete documents an action needs,
+ * and knows how to emit chat messages attributed to that speaker. Every
+ * {@link SohlActionContext} holds one as its `speaker`, so it is the backbone
+ * of action output: results, dialogs, and roll cards are all posted through a
+ * speaker.
+ *
+ * Resolution rules applied at construction:
+ *
+ * - **token** is looked up on the active canvas; its `actor` becomes the
+ *   speaker's actor when present;
+ * - **actor** is resolved directly only if a token did not already supply one;
+ * - **user** defaults to the current user when not given;
+ * - **rollMode** defaults to the core `rollMode` setting, then to the system
+ *   default;
+ * - **name** is the first available of: explicit `alias`, token name, actor
+ *   name, the user's assigned character name, the user name, or
+ *   `"Unknown Speaker"`.
+ *
+ * Use {@link toChat} to post a message — it accepts either inline HTML or a
+ * template path and applies the speaker's roll mode automatically.
+ */
 export class SohlSpeaker {
-    _speaker!: SohlSpeaker.Data;
+    /** @internal Cached Foundry speaker-data used when building messages. */
+    protected _speaker!: SohlSpeaker.Data;
+    /** The roll mode applied to messages this speaker posts. */
     readonly rollMode: string;
+    /** The resolved token, or `null`. */
     readonly token: SohlTokenDocument | null;
+    /** The resolved actor (from the token or directly), or `null`. */
     readonly actor: SohlActor | null;
+    /** The resolved scene, or `null`. */
     readonly scene: Scene | null;
+    /** The display name/alias used for attribution. */
     readonly name: string;
+    /** The resolved user (defaults to the current user), or `null`. */
     readonly user: User | null;
 
     /**
@@ -95,6 +127,7 @@ export class SohlSpeaker {
         }
     }
 
+    /** Build Foundry's `ChatMessage` speaker data from this speaker. */
     getChatMessageSpeaker(): foundry.documents.ChatMessage.SpeakerData {
         return {
             alias: this.name,
@@ -104,6 +137,7 @@ export class SohlSpeaker {
         };
     }
 
+    /** Whether the current user owns the speaker's token (or actor). */
     get isOwner() {
         if (this.token) {
             return this.token.isOwner;
@@ -115,6 +149,7 @@ export class SohlSpeaker {
         return false;
     }
 
+    /** Serialize to a plain object of resolved ids plus alias and roll mode. */
     toJSON(): JsonValue {
         return {
             [KIND_KEY]: SohlSpeaker.Kind,
@@ -127,6 +162,18 @@ export class SohlSpeaker {
         };
     }
 
+    /**
+     * Post a chat message attributed to this speaker.
+     *
+     * The `input` is dispatched by type: a {@link FilePath} is rendered as a
+     * Handlebars template, while an {@link HTMLString} is used as inline
+     * content. The speaker's roll mode is applied automatically.
+     *
+     * @param input - A template path or inline HTML content.
+     * @param data - Render data / message data.
+     * @param options - Chat options (flavor, sound, rolls, style, user).
+     * @returns The created `ChatMessage`, or `undefined` if none was created.
+     */
     toChat(
         input: HTMLString | FilePath,
         data?: PlainObject,
@@ -188,12 +235,11 @@ export class SohlSpeaker {
 
     /**
      * Prepares chat message data.
-     * @param {PlainObject} [data={}] - The data for the message.
-     * @param {ChatOptions} [options={ style: SohlSpeaker.STYLE.OTHER }] - The options for the message.
-     * @returns {PlainObject} The prepared message data.
-     * @private
+     * @param data - The data for the message.
+     * @param options - The options for the message.
+     * @returns The prepared message data.
      */
-    async _prepareChat(
+    protected async _prepareChat(
         data: PlainObject = {},
         options: Partial<SohlSpeaker.ChatOptions> = {
             style: SOHL_SPEAKER_STYLE.OTHER,
@@ -225,18 +271,32 @@ export class SohlSpeaker {
 }
 
 export namespace SohlSpeaker {
+    /** Kind tag used by the kind registry and serialization. */
     export const Kind = "SohlSpeaker";
 
+    /** Options accepted by {@link SohlSpeaker.toChat} for a chat message. */
     export interface ChatOptions {
+        /** Message flavor text. */
         flavor: string;
+        /** Sound to play when the message posts. */
         sound: string;
+        /** Rolls to attach to the message. */
         rolls: SimpleRoll[];
+        /** Chat-card style (whisper, roll, OOC, etc.). */
         style: SohlSpeakerStyle;
+        /** Id of the user the message is posted as. */
         user: string;
     }
 
+    /**
+     * Constructor input for {@link SohlSpeaker}: Foundry's speaker ids plus a
+     * roll mode and user. Any subset may be supplied; unspecified pieces are
+     * resolved from context at construction.
+     */
     export interface Data extends foundry.documents.ChatMessage.SpeakerData {
+        /** Roll mode to apply to messages from this speaker. */
         rollMode: SohlSpeakerRollMode;
+        /** Id of the acting user. */
         user: string;
     }
 }

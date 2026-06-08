@@ -22,7 +22,9 @@ export type CombatSide = "attacker" | "defender" | "none";
 
 /** Tactical Advantages awarded by an exchange, and to whom. */
 export interface TacticalAdvantages {
+    /** Which combatant the Tactical Advantages are awarded to. */
     side: CombatSide;
+    /** How many Tactical Advantages were earned (`|VS| − 1` for the winner). */
     count: number;
 }
 
@@ -108,6 +110,16 @@ export class CombatResult extends OpposedTestResult {
      */
     defenderImpact?: ImpactResult;
 
+    /**
+     * @param data - Must include both
+     *   {@link CombatResult.Data.attackResult | attackResult} and
+     *   {@link CombatResult.Data.defendResult | defendResult}; the remaining
+     *   {@link OpposedTestResult.Data} fields are optional.
+     * @param options - Result options; `options.parent` (the initiating Logic)
+     *   is required by the base {@link TestResult} constructor.
+     * @throws If `attackResult` or `defendResult` is missing, or if no `parent`
+     *   is provided.
+     */
     constructor(
         data: Partial<CombatResult.Data>,
         options: Partial<CombatResult.Options> = {},
@@ -249,15 +261,25 @@ export class CombatResult extends OpposedTestResult {
 }
 
 export namespace CombatResult {
+    /** Construction data for a {@link CombatResult}. */
     export interface Data extends OpposedTestResult.Data {
+        /** The attacker's evaluated {@link AttackResult}. */
         attackResult: AttackResult;
+        /**
+         * The defender's response — a {@link DefendResult} for block/dodge/ignore,
+         * or an {@link AttackResult} for a counterstrike.
+         */
         defendResult: AttackResult | DefendResult;
     }
 
+    /** Options for a {@link CombatResult}; see {@link OpposedTestResult.Options}. */
     export interface Options extends OpposedTestResult.Options {}
 
+    /** Scope passed to actions that resume from a prior combat exchange. */
     export interface ContextScope {
+        /** The {@link CombatResult} being resumed. */
         priorTestResult: CombatResult;
+        /** The originating attack of that exchange. */
         attackResult: AttackResult;
     }
 }

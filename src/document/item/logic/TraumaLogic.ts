@@ -31,7 +31,7 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 /**
- * Logic for the **Trauma** item type — an instance of harm to a character.
+ * An instance of harm to a character.
  *
  * Trauma represents wounds and damage sustained by a character. The
  * {@link TraumaData.subType | subType} discriminates the trauma's nature:
@@ -63,9 +63,15 @@ import {
 export class TraumaLogic<
     TData extends TraumaData = TraumaData,
 > extends SohlItemBaseLogic<TData> {
-    /** Trauma severity level (M1=1, S2=2, S3=3, G4=4, G5=5). */
+    /**
+     * Trauma severity level (M1=1, S2=2, S3=3, G4=4, G5=5), as a
+     * {@link ValueModifier}, seeded from {@link TraumaData.levelBase}.
+     */
     level!: ValueModifier;
-    /** Healing rate — how quickly the wound heals. */
+    /**
+     * How quickly the wound heals, as a {@link ValueModifier}, seeded from
+     * {@link TraumaData.healingRateBase}.
+     */
     healingRate!: ValueModifier;
     /**
      * The {@link BodyLocation} on the actor's Lineage that this trauma
@@ -123,6 +129,12 @@ export class TraumaLogic<
     }
 }
 
+/**
+ * Persisted data model for a {@link TraumaLogic | Trauma} item.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `trauma` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "trauma"`. The backing DataModel implements this interface.
+ */
 export interface TraumaData<
     TLogic extends TraumaLogic<TraumaData> = TraumaLogic<any>,
 > extends SohlItemData<TLogic> {
@@ -146,24 +158,46 @@ export interface TraumaData<
     bodyLocationCode: string;
 }
 
+/**
+ * The shock states a character can be in, ordered by increasing severity.
+ */
 export const {
+    /** Map of shock-state keys to their numeric severity values. */
     kind: SHOCK,
+    /** Array of valid shock-state numeric values. */
     values: Shock,
+    /** Type guard testing whether a value is a valid shock state. */
     isValue: isShock,
 } = defineType("SOHL.Trauma.SHOCK", {
+    /** No shock — the character is unaffected. */
     NONE: 0,
+    /** Stunned — briefly impaired. */
     STUNNED: 1,
+    /** Incapacitated — unable to act. */
     INCAPACITATED: 2,
+    /** Unconscious. */
     UNCONCIOUS: 3,
+    /** Killed. */
     KILLED: 4,
 });
+/** Union of valid shock-state values. */
 export type Shock = (typeof SHOCK)[keyof typeof SHOCK];
 
+/**
+ * Default wound-state values applied to an untreated trauma: an elevated
+ * healing rate (`hr`), exposure to infection (`infect`), and the bleeding /
+ * impairment / new-injury baselines.
+ */
 export const UNTREATED = {
+    /** Healing rate for an untreated wound. */
     hr: 4,
+    /** Whether an untreated wound is exposed to infection. */
     infect: true,
+    /** Whether an untreated wound is bleeding by default. */
     bleed: false,
+    /** Whether an untreated wound is impairing by default. */
     impair: false,
+    /** New-injury baseline for an untreated wound (`-1` = none). */
     newInj: -1,
 } as const;
 
@@ -175,10 +209,18 @@ export const UNTREATED = {
  */
 export { INJURY_LEVELS };
 
+/**
+ * The intrinsic actions available to Trauma items, corresponding to the
+ * test methods that can be invoked on the Trauma logic.
+ */
 export const {
+    /** Map of intrinsic-action keys to their definitions. */
     kind: INTRINSIC_ACTION,
+    /** Array of valid intrinsic-action key values. */
     values: IntrinsicActions,
+    /** Type guard testing whether a value is a valid Trauma intrinsic-action key. */
     isValue: isIntrinsicAction,
+    /** Map of intrinsic-action keys to their localized labels. */
     labels: IntrinsicActionLabels,
 } = defineType("SOHL.Trauma.INTRINSIC_ACTION", {
     TREATMENTTEST: {
@@ -200,5 +242,6 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<Partial<SohlActionData>>);
+/** Union of valid Trauma intrinsic-action key values. */
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];

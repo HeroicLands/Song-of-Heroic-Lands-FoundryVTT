@@ -44,7 +44,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Cohort** actor type — a group of individuals acting as a unit.
+ * A group of individuals acting as a unit.
  *
  * A Cohort represents multiple actors treated as a single entity for movement,
  * combat, and other mechanics. Examples include a party of adventurers, a squad
@@ -85,14 +85,25 @@ export class CohortLogic<
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a member. */
+    /**
+     * Build an `update()` payload that appends a member to {@link CohortData.members}.
+     *
+     * @param member - The member entry to add.
+     * @returns An update payload (does not itself persist the change).
+     */
     addMemberUpdate(member: CohortData["members"][number]): PlainObject {
         return {
             "system.members": [...this.data.members, member],
         };
     }
 
-    /** Build an `update()` payload that removes a member by name. */
+    /**
+     * Build an `update()` payload that removes the member with the given name
+     * from {@link CohortData.members}.
+     *
+     * @param name - The unique name of the member to remove.
+     * @returns An update payload (does not itself persist the change).
+     */
     removeMemberUpdate(name: string): PlainObject {
         return {
             "system.members": this.data.members.filter(
@@ -121,6 +132,12 @@ export class CohortLogic<
     }
 }
 
+/**
+ * Persisted data model for a {@link CohortLogic | Cohort} actor.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `cohort` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "cohort"`. The backing DataModel implements this interface.
+ */
 export interface CohortData<
     TLogic extends SohlActorLogic<CohortData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {
@@ -130,8 +147,11 @@ export interface CohortData<
     moveRepName: string;
     /** The individuals that make up this cohort */
     members: {
+        /** Shortcode of the world actor that defines this member's capabilities. */
         shortcode: string;
+        /** Unique display name for this member within the cohort. */
         name: string;
+        /** This member's role within the cohort (e.g. leader, follower). */
         role: string;
     }[];
 }

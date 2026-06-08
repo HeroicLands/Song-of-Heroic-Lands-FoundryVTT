@@ -19,8 +19,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Assembly** actor type — a hybrid Actor/Item container for
- * complex items.
+ * A hybrid Actor/Item container for complex items.
  *
  * An assembly is a group of related items that are treated as a single unit.
  * It is generally used to group physical items, such as a suit of armor
@@ -51,6 +50,13 @@ export class AssemblyLogic<
     }
 }
 
+/**
+ * Persisted data model for an {@link AssemblyLogic | Assembly} actor. Carries
+ * no fields of its own beyond the common {@link SohlActorData} base.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `assembly` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "assembly"`. The backing DataModel implements this interface.
+ */
 export interface AssemblyData<
     TLogic extends SohlActorLogic<AssemblyData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}

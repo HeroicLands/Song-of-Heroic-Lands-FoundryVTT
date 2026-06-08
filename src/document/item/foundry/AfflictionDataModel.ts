@@ -66,6 +66,7 @@ function defineAfflictionSchema(): foundry.data.fields.DataSchema {
 
 type AfflictionDataSchema = ReturnType<typeof defineAfflictionSchema>;
 
+/** @internal */
 export class AfflictionDataModel<
     TSchema extends foundry.data.fields.DataSchema = AfflictionDataSchema,
     TLogic extends AfflictionLogic<AfflictionData> =

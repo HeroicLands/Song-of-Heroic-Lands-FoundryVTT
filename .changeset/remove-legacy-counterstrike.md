@@ -2,7 +2,7 @@
 "sohl": minor
 ---
 
-Gate counterstrike by `noAttack`; remove the dead `noCounterstrike` trait
+**Remove legacy counterstrike behavior**
 
 A counterstrike shares the **same skill base mastery level** as a normal attack
 but carries its **own modifier deltas** (it can be at a circumstantial
@@ -21,6 +21,8 @@ it *is* an attack.
   rolls the strike mode's `defense.counterstrike` modifier (not its `attack`
   modifier); the best-chance default ranks by it, and modes whose counterstrike
   is independently disabled are excluded.
+
+Gate counterstrike by `noAttack`; remove the dead `noCounterstrike` trait
 
 The `defense.counterstrike` modifier, the `SM_COUNTERSTRIKE` ActiveEffect key,
 `TEST_TYPE.COUNTERSTRIKE`, and the assisted **CX** column are all retained.

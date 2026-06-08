@@ -48,7 +48,7 @@ function addDelta(m: { deltas: ValueDelta[] }, value: number): void {
             value: String(value),
         }),
     );
-    (m as any)._dirty = true;
+    (m as any).dirty = true;
 }
 
 describe("result round-trip (serialize -> string -> rehydrate)", () => {

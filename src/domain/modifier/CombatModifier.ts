@@ -41,6 +41,12 @@ import { registerKind } from "@src/utils/kindRegistry";
  * tactical advantages, and other combat-specific effects.
  */
 export class CombatModifier extends MasteryLevelModifier {
+    /**
+     * @param data - Combat-modifier data (same shape as
+     *   {@link MasteryLevelModifier.Data}).
+     * @param options - Must provide `options.parent`.
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<CombatModifier.Data> = {},
         options: Partial<CombatModifier.Options> = {},
@@ -50,10 +56,13 @@ export class CombatModifier extends MasteryLevelModifier {
 }
 
 export namespace CombatModifier {
+    /** Registry key identifying this modifier kind for serialization. */
     export const Kind: string = "CombatModifier";
 
+    /** Construction data for a {@link CombatModifier} (identical to {@link MasteryLevelModifier.Data}). */
     export interface Data extends MasteryLevelModifier.Data {}
 
+    /** Options for a {@link CombatModifier} (identical to {@link MasteryLevelModifier.Options}). */
     export interface Options extends MasteryLevelModifier.Options {}
 }
 

@@ -54,6 +54,7 @@ type CohortDataSchema = ReturnType<typeof defineCohortDataSchema>;
 
 /**
  * The Foundry VTT data model for the Cohort actor.
+ * @internal
  */
 export class CohortDataModel<
     TSchema extends foundry.data.fields.DataSchema = CohortDataSchema,
@@ -71,7 +72,7 @@ export class CohortDataModel<
     moveRepName!: string;
     members!: { shortcode: string; name: string; role: string }[];
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCohortDataSchema();
     }
 

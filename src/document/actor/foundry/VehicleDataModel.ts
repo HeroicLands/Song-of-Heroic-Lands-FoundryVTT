@@ -88,6 +88,7 @@ type VehicleDataSchema = ReturnType<typeof defineVehicleDataSchema>;
 
 /**
  * The Foundry VTT data model for the Vehicle actor.
+ * @internal
  */
 export class VehicleDataModel<
     TSchema extends foundry.data.fields.DataSchema = VehicleDataSchema,
@@ -100,7 +101,7 @@ export class VehicleDataModel<
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: string[];
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineVehicleDataSchema();
     }
 }

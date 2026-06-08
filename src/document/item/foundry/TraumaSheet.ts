@@ -16,6 +16,7 @@ import {
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
 
+/** @internal */
 export class TraumaSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
@@ -26,7 +27,7 @@ export class TraumaSheet extends SohlItemSheetBase {
         },
     };
 
-    protected async _preparePropertiesContext(
+    protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<

@@ -53,6 +53,7 @@ function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
 
 type TraumaDataSchema = ReturnType<typeof defineTraumaDataSchema>;
 
+/** @internal */
 export class TraumaDataModel<
     TSchema extends foundry.data.fields.DataSchema = TraumaDataSchema,
     TLogic extends TraumaLogic<TraumaData> = TraumaLogic<TraumaData>,

@@ -72,8 +72,7 @@ const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
 );
 
 /**
- * Logic for the **Affliction** item type — an ongoing condition affecting
- * a character.
+ * An ongoing condition affecting a character.
  *
  * Afflictions represent diseases, poisons, curses, madness, and other
  * persistent conditions that impair a character over time. Each affliction
@@ -99,12 +98,36 @@ const PRIVATION_LABEL_BY_CATEGORY: Record<string, string> = Object.fromEntries(
 export class AfflictionLogic<
     TData extends AfflictionData = AfflictionData,
 > extends SohlItemBaseLogic<TData> {
+    /** Whether the affliction is currently inactive (but possibly still contagious). */
     isDormant!: boolean;
+    /** Whether medical treatment has been applied. */
     isTreated!: boolean;
+    /**
+     * Bonus to treatment tests earned from a successful diagnosis, as a
+     * {@link ValueModifier}, seeded from {@link AfflictionData.diagnosisBonusBase}.
+     */
     diagnosisBonus!: ValueModifier;
+    /**
+     * Effective severity of the affliction, as a {@link ValueModifier}, seeded
+     * from {@link AfflictionData.levelBase}.
+     */
     level!: ValueModifier;
+    /**
+     * Rate of natural recovery, as a {@link ValueModifier}, seeded from
+     * {@link AfflictionData.healingRateBase}. A base of `-1` disables the
+     * modifier, indicating the affliction does not heal naturally.
+     */
     healingRate!: ValueModifier;
+    /**
+     * Risk of transmitting this affliction to others, as a {@link ValueModifier},
+     * seeded from {@link AfflictionData.contagionIndexBase}.
+     */
     contagionIndex!: ValueModifier;
+    /**
+     * Mode by which this affliction spreads, copied from
+     * {@link AfflictionData.transmission}; defaults to
+     * {@link AFFLICTION_TRANSMISSION | NONE}.
+     */
     transmission!: AfflictionTransmission;
 
     /**
@@ -154,31 +177,63 @@ export class AfflictionLogic<
         return cat;
     }
 
+    /**
+     * Whether this affliction can currently be transmitted to another actor.
+     *
+     * @remarks Not yet implemented; always returns `true`.
+     */
     get canTransmit(): boolean {
         // TODO - Implement Affliction canTransmit
         return true;
     }
 
+    /**
+     * Whether an actor can currently contract this affliction.
+     *
+     * @remarks Not yet implemented; always returns `true`.
+     */
     get canContract(): boolean {
         // TODO - Implement Affliction canContract
         return true;
     }
 
+    /**
+     * Whether this affliction has a progressive course (i.e. can worsen or
+     * improve over time via course tests).
+     *
+     * @remarks Not yet implemented; always returns `true`.
+     */
     get hasCourse(): boolean {
         // TODO - Implement Affliction hasCourse
         return true;
     }
 
+    /**
+     * Whether this affliction can currently be treated.
+     *
+     * @remarks Not yet implemented; always returns `true`.
+     */
     get canTreat(): boolean {
         // TODO - Implement Affliction canTreat
         return true;
     }
 
+    /**
+     * Whether this affliction can currently be healed.
+     *
+     * @remarks Not yet implemented; always returns `true`.
+     */
     get canHeal(): boolean {
         // TODO - Implement Affliction canHeal
         return true;
     }
 
+    /**
+     * Attempt to transmit this affliction from its bearer to another actor.
+     *
+     * @param context - The action context for the transmission.
+     * @remarks Not yet implemented; currently only logs a warning.
+     */
     async transmit(context: SohlActionContext): Promise<void> {
         const {
             type = `affliction-${(this.item as any)?.name}-transmit`,
@@ -188,6 +243,14 @@ export class AfflictionLogic<
         sohl.log.warn("Affliction Transmit Not Implemented");
     }
 
+    /**
+     * Roll the test that determines whether an exposed actor contracts this
+     * affliction.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @throws Always — not yet implemented.
+     */
     async contractTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
@@ -200,6 +263,14 @@ export class AfflictionLogic<
         throw new Error("Affliction Contract Test Not Implemented");
     }
 
+    /**
+     * Roll the test that advances the affliction's course, determining whether
+     * it worsens, holds, or improves over a time interval.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @throws Always — not yet implemented.
+     */
     async courseTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
@@ -212,6 +283,14 @@ export class AfflictionLogic<
         throw new Error("Affliction Course Test Not Implemented");
     }
 
+    /**
+     * Roll the diagnosis test, which (on success) identifies the affliction and
+     * grants a {@link diagnosisBonus} toward subsequent treatment.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @throws Always — not yet implemented.
+     */
     async diagnosisTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
@@ -224,6 +303,14 @@ export class AfflictionLogic<
         throw new Error("Affliction Diagnosis Test Not Implemented");
     }
 
+    /**
+     * Roll the treatment test, applying medical care to the affliction (and
+     * marking it {@link isTreated} on success).
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @throws Always — not yet implemented.
+     */
     async treatmentTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
@@ -236,6 +323,14 @@ export class AfflictionLogic<
         throw new Error("Affliction Treatment Test Not Implemented");
     }
 
+    /**
+     * Roll the healing test, which resolves natural recovery from the affliction
+     * over a time interval.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @throws Always — not yet implemented.
+     */
     async healingTest(
         context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
@@ -290,6 +385,12 @@ export class AfflictionLogic<
     }
 }
 
+/**
+ * Persisted data model for an {@link AfflictionLogic | Affliction} item.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `affliction` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "affliction"`. The backing DataModel implements this interface.
+ */
 export interface AfflictionData<
     TLogic extends AfflictionLogic<AfflictionData> = AfflictionLogic<any>,
 > extends SohlItemData<TLogic> {
@@ -319,9 +420,13 @@ export interface AfflictionData<
  * Affliction class that can be invoked as intrinsic actions.
  */
 export const {
+    /** Map of intrinsic-action keys to their definitions. */
     kind: AFFLICTION_INTRINSIC_ACTION,
+    /** Array of valid intrinsic-action key values. */
     values: AfflictionIntrinsicActions,
+    /** Type guard testing whether a value is a valid Affliction intrinsic-action key. */
     isValue: isAfflictionIntrinsicAction,
+    /** Map of intrinsic-action keys to their localized labels. */
     labels: AfflictionIntrinsicActionLabels,
 } = defineType("SOHL.Affliction.INTRINSIC_ACTION", {
     TRANSMITAFFLICTION: {

@@ -53,6 +53,7 @@ function defineGearDataSchema(): foundry.data.fields.DataSchema {
 
 type GearDataSchema = ReturnType<typeof defineGearDataSchema>;
 
+/** @internal */
 export abstract class GearDataModel<
     TSchema extends foundry.data.fields.DataSchema = GearDataSchema,
     TLogic extends GearLogic<GearData> = GearLogic<GearData>,

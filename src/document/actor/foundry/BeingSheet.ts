@@ -42,6 +42,7 @@ type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
+/** @internal */
 export class BeingSheet extends SohlActorSheetBase {
     static PARTS = {
         header: {
@@ -90,7 +91,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     } as const;
 
-    static TABS = {
+    static override TABS = {
         primary: {
             initial: "facade",
             tabs: [
@@ -152,7 +153,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     };
 
-    override _configureRenderOptions(
+    protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -217,7 +218,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }),
     ];
 
-    async _onRender(
+    protected override async _onRender(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<void> {
@@ -250,7 +251,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * Handle the "Add Injury" button on the Trauma tab: open the Add Injury
      * dialog for manual entry of a wound on this being.
      */
-    static async _onAddInjury(
+    protected static async _onAddInjury(
         this: BeingSheet,
         _event: PointerEvent,
         _target: HTMLElement,
@@ -263,7 +264,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * underlying MasteryLevelModifier from the row's data attributes and
      * runs a success test. Shift-click skips the modifier dialog.
      */
-    static async _onRollStrikeModeTest(
+    protected static async _onRollStrikeModeTest(
         this: BeingSheet,
         event: PointerEvent,
         target: HTMLElement,
@@ -303,7 +304,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * targeted, the card offers a Calculate Injury button carrying the rolled
      * impact and aspect, opening the assisted Add Injury flow on the target.
      */
-    static async _onRollStrikeModeImpact(
+    protected static async _onRollStrikeModeImpact(
         this: BeingSheet,
         _event: PointerEvent,
         target: HTMLElement,
@@ -360,7 +361,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /*  Part Context Dispatcher                     */
     /* -------------------------------------------- */
 
-    async _preparePartContext(
+    protected override async _preparePartContext(
         partId: string,
         context: RenderContext,
         options: RenderOptions,
@@ -460,7 +461,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /* -------------------------------------------- */
 
     /** Prepare context for the sheet header: name, image, health, status effects, body parts. */
-    async _prepareHeaderContext(
+    protected override async _prepareHeaderContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -491,7 +492,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Tabs navigation. */
-    async _prepareTabsContext(
+    protected override async _prepareTabsContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -499,7 +500,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Facade tab: bio image and description. */
-    async _prepareFacadeContext(
+    protected override async _prepareFacadeContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -511,7 +512,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Profile tab: attributes, traits, affiliations, biography. */
-    async _prepareProfileContext(
+    protected async _prepareProfileContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -569,7 +570,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Skills tab: skills grouped by subType. */
-    async _prepareSkillsContext(
+    protected async _prepareSkillsContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -595,7 +596,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * Prepare context for the Combat tab: weapons with strike modes,
      * combat techniques, and the full body anatomy structure.
      */
-    async _prepareCombatContext(
+    protected async _prepareCombatContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -642,7 +643,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Trauma tab: traumas and afflictions. */
-    async _prepareTraumaContext(
+    protected async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -669,7 +670,7 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Prepare context for the Mysteries tab: mysteries, mystical abilities.
      */
-    async _prepareMysteriesContext(
+    protected async _prepareMysteriesContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -701,7 +702,7 @@ export class BeingSheet extends SohlActorSheetBase {
      * Prepare context for the Gear tab: containers with nested items
      * and encumbrance totals.
      */
-    async _prepareGearContext(
+    protected async _prepareGearContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -759,7 +760,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Actions tab: actor-level actions. */
-    async _prepareActionsContext(
+    protected async _prepareActionsContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {
@@ -768,7 +769,7 @@ export class BeingSheet extends SohlActorSheetBase {
     }
 
     /** Prepare context for the Effects tab: own and transferred effects. */
-    async _prepareEffectsContext(
+    protected async _prepareEffectsContext(
         context: RenderContext,
         _options: RenderOptions,
     ): Promise<RenderContext> {

@@ -30,6 +30,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
 
 type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 
+/** @internal */
 export class WeaponGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
     TLogic extends WeaponGearLogic<WeaponGearData> =
@@ -53,7 +54,7 @@ export class WeaponGearDataModel<
         return this.strikeModes;
     }
 
-    static defineSchema(): foundry.data.fields.DataSchema {
+    static override defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();
     }
 }

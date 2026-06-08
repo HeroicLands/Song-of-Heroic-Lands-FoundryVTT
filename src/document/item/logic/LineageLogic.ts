@@ -22,20 +22,14 @@ import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
 import type { MovementMedium } from "@src/utils/constants";
 
 /**
- * Logic for the **Lineage** item type — membership in an organization
- * or faction.
+ * Anatomical and movement template for a being's lineage (species / heritage).
  *
- * Lineages represent a character's social and political ties: guild
- * membership, noble house allegiance, religious order, military unit, or
- * any other organizational relationship. Each affiliation tracks:
- *
- * - **society** — The name of the organization
- * - **office** — A specific position held (e.g., "Captain," "Acolyte")
- * - **title** — A formal title granted (e.g., "Sir," "Elder")
- * - **level** — Rank or standing within the organization
- *
- * Lineages are lightweight identity records with no complex calculations.
- * They can be attached to Beings, Cohorts, Structures, or Vehicles.
+ * A Lineage defines the physical baseline shared by creatures of a kind: the
+ * {@link BodyStructure | body structure} (body parts, hit locations, and
+ * adjacency), base body weight, melee reach, and per-medium movement rates.
+ * The Logic exposes these as {@link ValueModifier}s — seeded from the data's
+ * `*Base` fields — so runtime effects (size changes, haste, encumbrance) can
+ * layer on.
  *
  * @typeParam TData - The Lineage data interface.
  */
@@ -49,6 +43,10 @@ export class LineageLogic<
      */
     bodyStructure!: BodyStructure;
 
+    /**
+     * The being's body weight as a {@link ValueModifier}, seeded from
+     * {@link LineageData.bodyWeightBase}.
+     */
     bodyWeight!: ValueModifier;
 
     /**
@@ -59,11 +57,21 @@ export class LineageLogic<
      */
     reach!: ValueModifier;
 
+    /**
+     * Per-medium effective move, each a {@link ValueModifier} seeded from the
+     * corresponding entry of {@link LineageData.moveBase}, so runtime modifiers
+     * (haste, encumbrance, etc.) can layer on.
+     */
     move!: {
+        /** Movement over land. */
         terrestrial: ValueModifier;
+        /** Movement through water. */
         aquatic: ValueModifier;
+        /** Movement through the air. */
         aerial: ValueModifier;
+        /** Movement through earth. */
         burrowing: ValueModifier;
+        /** Movement on the astral plane. */
         astral: ValueModifier;
     };
 
@@ -129,13 +137,22 @@ export class LineageLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `lineage` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "lineage"`. The backing DataModel implements this interface.
+ */
 export interface LineageData<
     TLogic extends SohlItemLogic<LineageData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {
+    /** Persisted anatomical structure (body parts, hit locations, adjacency). */
     bodyStructure: BodyStructure.Data;
+    /** Per-medium base move (feet per combat round); 0 means the medium is unavailable. */
     moveBase: MoveBaseDict;
+    /** The medium shown by default in the combat tracker for this lineage. */
     defaultMoveMedium: MovementMedium;
+    /** Rate at which carried weight contributes to encumbrance. */
     encumbranceRate: number;
+    /** Base body weight for beings of this lineage. */
     bodyWeightBase: number;
+    /** Base melee reach (feet) for beings of this lineage. */
     reachBase: number;
 }

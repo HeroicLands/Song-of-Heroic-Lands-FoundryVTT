@@ -20,8 +20,8 @@ import {
 import { MysterySubType } from "@src/utils/constants";
 
 /**
- * Logic for the **Mystery** item type — a passive or charge-based mystical
- * power associated with a character or object.
+ * A passive or charge-based mystical power associated with a character or
+ * object.
  *
  * Mysteries represent supernatural gifts, blessings, and connections that
  * influence a character's capabilities. Unlike {@link MysticalAbilityLogic | Mystical Abilities}
@@ -53,9 +53,25 @@ import { MysterySubType } from "@src/utils/constants";
 export class MysteryLogic<
     TData extends MysteryData = MysteryData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * The mystery's level as a {@link ValueModifier}, seeded from
+     * {@link MysteryData.levelBase}. Disabled when the mystery has no level.
+     */
     level!: ValueModifier;
+
+    /** The mystery's charge tracking, present only when it uses charges. */
     charges!: {
+        /**
+         * Current charges as a {@link ValueModifier}, seeded from
+         * {@link MysteryData.charges | charges.value}. Disabled when charges
+         * are not used.
+         */
         value: ValueModifier;
+        /**
+         * Maximum charges as a {@link ValueModifier}, seeded from
+         * {@link MysteryData.charges | charges.max}. Disabled when charges are
+         * not used.
+         */
         max: ValueModifier;
     };
 
@@ -108,6 +124,9 @@ export class MysteryLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `mystery` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "mystery"`. The backing DataModel implements this interface.
+ */
 export interface MysteryData<
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<any>,
 > extends SohlItemData<TLogic> {
@@ -115,8 +134,11 @@ export interface MysteryData<
     levelBase: number | null;
     /** Usage tracking: current charges and maximum */
     charges: {
+        /** Whether this mystery consumes charges when used. */
         usesCharges: boolean;
+        /** Current number of charges remaining. */
         value: number;
+        /** Maximum number of charges; −1 indicates infinite uses. */
         max: number;
     };
 }

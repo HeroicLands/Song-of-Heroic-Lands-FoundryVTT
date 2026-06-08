@@ -1,6 +1,6 @@
 # API Docs Hosting (api.heroiclands.org)
 
-See also: [Getting Started](./getting-started.md), [Testing](./testing.md)
+See also: [Getting Started](../how-to/getting-started.md), [Testing](../how-to/testing.md)
 
 The TypeDoc API reference is published to **https://api.heroiclands.org** by the [`deploy-docs.yml`](../../.github/workflows/deploy-docs.yml) workflow. The site hosts **multiple versions side by side**, one per git ref (branch or tag), so you can read the docs for `main`, for any tagged release, or for a feature branch you're previewing — all at once, each under its own path.
 

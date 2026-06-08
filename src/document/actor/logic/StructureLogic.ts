@@ -19,7 +19,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Structure** actor type — a fixed installation or location.
+ * A fixed installation or location.
  *
  * A Structure represents a building, fortification, bridge, ship hull, or any
  * other immovable (or semi-permanent) physical entity that can be targeted,
@@ -56,6 +56,13 @@ export class StructureLogic<
     }
 }
 
+/**
+ * Persisted data model for a {@link StructureLogic | Structure} actor. Carries
+ * no fields of its own beyond the common {@link SohlActorData} base.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `structure` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "structure"`. The backing DataModel implements this interface.
+ */
 export interface StructureData<
     TLogic extends SohlActorLogic<StructureData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}

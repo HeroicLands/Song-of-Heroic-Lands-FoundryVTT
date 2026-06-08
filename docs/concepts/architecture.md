@@ -4,6 +4,8 @@
 
 See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), [Lifecycle Model](./lifecycle-model.md).
 
+> **New to the codebase? Start here.** Read this page top to bottom for the mental model, then branch out through the [Where to learn more](#where-to-learn-more) index at the end.
+
 ## What SoHL is
 
 Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaster-compatible gameplay with deep automation: actors, items, active effects, combat resolution, chat cards, UI sheets, localization, and compendium content. All code targets Foundry VTT v14+.
@@ -12,58 +14,30 @@ Song of Heroic Lands (SoHL) is a Foundry VTT game system implementing HârnMaste
 
 ```
 src/
-├── core/                  Foundry-layer foundations
-│   ├── FoundryHelpers.ts      Foundry API shim (mock-swapped in tests)
-│   ├── SohlSystem.ts          Central registry and CONFIG
-│   ├── SohlDataModel.ts       Abstract base for all DataModels
-│   ├── SohlLogic.ts           Abstract base for all Logic classes
-│   ├── SohlCalendar.ts        Game world calendar
-│   ├── SohlSpeaker.ts         Chat message identity
-│   ├── SohlActionContext.ts   Context passed to action execution
-│   └── SohlEventQueue.ts     Timed event scheduling
-│
-├── domain/                Pure game-mechanics objects (no Foundry deps)
-│   ├── action/                Action definitions (SohlAction)
-│   ├── body/                  Body structure (BodyStructure, BodyPart, BodyLocation)
-│   ├── modifier/              Value tracking (ValueModifier, MasteryLevelModifier, etc.)
-│   ├── movement/              Move-base helpers (readBaseMove)
-│   ├── result/                Test results (SuccessTestResult, CombatResult, etc.)
-│   └── SkillBase.ts           Skill base formula computation
-│
-├── document/              Foundry document classes
-│   ├── actor/
-│   │   ├── foundry/           DataModel + Sheet classes (BeingDataModel, BeingSheet, etc.)
-│   │   └── logic/             Logic classes + Data interfaces (BeingLogic, CohortLogic, etc.)
-│   ├── item/
-│   │   ├── foundry/           DataModel + Sheet classes
-│   │   └── logic/             Logic classes + Data interfaces
-│   ├── effect/                SohlActiveEffect
-│   ├── combat/                SohlCombat
-│   ├── combatant/             SohlCombatant + combat tracker hooks
-│   ├── token/                 SohlTokenDocument
-│   └── scene/                 SohlScene
-│
-├── utils/                 Shared utilities
-│   ├── constants.ts           Type enums, action definitions, metadata
-│   ├── helpers.ts             Pure utility functions
-│   ├── SimpleRoll.ts          Foundry-free dice primitive
-│   ├── SohlContextMenu.ts    Context menu integration
-│   └── SohlLogger.ts         Logging
-│
-├── sohl.ts                Entry point (Foundry hooks, system registration)
-│
-templates/                 Handlebars templates (.hbs only)
-├── actor/                     Actor sheets
-├── item/                      Item sheets
-├── chat/                      Chat card templates
-├── dialog/                    Dialog templates
-└── effect/                    Effect config templates
+├── core/        Foundry-layer foundations: system registration, the DataModel
+│                and Logic base classes, the FoundryHelpers shim, calendar, events.
+├── domain/      Pure, Foundry-free game-mechanics objects: modifiers, test
+│                results, body structure, actions, movement, skill base.
+├── document/    Foundry document classes, grouped by kind:
+│   ├── actor/       actors — foundry/ holds DataModel + Sheet, logic/ holds Logic + Data
+│   ├── item/        items  — same foundry/ + logic/ split
+│   └── effect/ · combat/ · combatant/ · token/ · scene/   the other document kinds
+├── apps/        Standalone Foundry application windows.
+├── utils/       Shared utilities: constants/enums, helpers, dice, context menus, logging.
+└── sohl.ts      Entry point: Foundry hooks and system registration.
 
-tests/                     Vitest test suite (mirrors src/ structure)
-docs/                      Developer documentation
-assets/                    Compendium data, icons, templates
-lang/                      Localization (en.json)
+templates/       Handlebars (.hbs) templates: actor, item, chat, dialog, effect.
+tests/           Vitest suite (mirrors src/).
+docs/            Developer & API documentation.
+assets/          Compendium data, icons, templates.
+lang/            Localization (en.json).
 ```
+
+This map stays at the **directory level** on purpose. Directories are stable; the specific files inside them get added, renamed, and moved between `foundry/` and `logic/`. For the actual classes in any folder, consult the API reference, whose navigation mirrors this layout (see next section) and is regenerated from source on every build.
+
+## How the API reference is organized
+
+The generated [API reference](https://api.heroiclands.org/latest) mirrors this directory layout. Its sidebar groups every public symbol the same way the source is grouped — **Core**, **Documents** (`Actor`, `Item`, `Combat`, `Combatant`, `Chat`, `Effect`, `Scene`, `Token`), **Domain** (`Action`, `Body`, `Modifier`, `Movement`, `Result`, `StrikeMode`, `SkillBase`), **Utility** (`AI`, `Collection`, `Constants`, `Helpers`), and **Applications** — so a folder here maps directly to a navigation group there. Start from the group that matches the area you're working in.
 
 ## Three-layer architecture
 
@@ -95,38 +69,26 @@ Every actor and item type is split into three classes across two directories:
 
 The `logic/` directory contains code that can run and be tested without Foundry VTT. The `foundry/` directory contains code that depends on the Foundry runtime.
 
+### Accessing a document's data and logic
+
+At runtime, `document.system` is the **DataModel** instance and `document.logic` (≡ `document.system.logic`) is the **Logic**. The DataModel implements the type's `*Data` interface, so the persisted fields are the same object whichever way you reach them.
+
+For typed, documented access, prefer **`document.logic.data`**. `SohlLogic.data` returns the `*Data` interface — e.g. `skillItem.logic.data` is typed `SkillData` — so editors autocomplete the fields and the API reference links straight to the shape. `document.system` holds the identical object but is typed as the Foundry-internal DataModel class (excluded from the API docs).
+
+- `actor.logic.data.foo` — fully typed via the public `*Data` interface (**recommended**).
+- `actor.system.foo` — the same value, but typed as the internal DataModel.
+
+So to discover what's available on a document, read its `*Data` interface (the shape of `system` / `logic.data`) and its Logic class (computed properties, intrinsic actions). The DataModel and Sheet classes are Foundry binding and are intentionally absent from the API docs.
+
 ## Document types
 
-### Actors (5)
+SoHL defines several **actor** and **item** types, each following the three-class pattern above. The exact set drifts as types are added or renamed, so this page does not enumerate them — consult the authoritative sources instead:
 
-| Type | Class | Description |
-|------|-------|-------------|
-| `being` | `BeingLogic` | Individual person or creature with full anatomy, skills, and gear |
-| `cohort` | `CohortLogic` | Group of actors acting as a unit |
-| `structure` | `StructureLogic` | Fixed installation or building |
-| `vehicle` | `VehicleLogic` | Movable platform (wagon, ship) |
-| `assembly` | `AssemblyLogic` | Item container for grouping related items |
+- `ACTOR_KIND` and `ITEM_KIND` in `src/utils/constants.ts` — the canonical set of type codes.
+- [Type Catalog](../reference/type-catalog.md) — what each type is and how they interact.
+- The API reference — every type's classes, under **Documents → Actor** and **Documents → Item**.
 
-### Items (14)
-
-| Type | Class | Description |
-|------|-------|-------------|
-| `skill` | `SkillLogic` | Trained capability with mastery level |
-| `trait` | `TraitLogic` | Innate characteristic or attribute |
-| `affliction` | `AfflictionLogic` | Ongoing condition (disease, poison, curse) |
-| `injury` | `InjuryLogic` | Specific harm instance (wound/trauma) |
-| `affiliation` | `AffiliationLogic` | Faction or group membership |
-| `armorgear` | `ArmorGearLogic` | Wearable protection |
-| `weapongear` | `WeaponGearLogic` | Weapon with strike modes |
-| `miscgear` | `MiscGearLogic` | General equipment |
-| `containergear` | `ContainerGearLogic` | Inventory container |
-| `concoctiongear` | `ConcoctionGearLogic` | Consumable mixture |
-| `projectilegear` | `ProjectileGearLogic` | Ammunition |
-| `combattechnique` | `CombatTechniqueLogic` | Combat maneuver with strike modes |
-| `mystery` | `MysteryLogic` | Mystical concept grouping abilities |
-| `mysticalability` | `MysticalAbilityLogic` | Specific magical power or spell |
-
-All type constants are defined in `src/utils/constants.ts` via `ACTOR_KIND` and `ITEM_KIND` enums. See the [Type Catalog](../reference/type-catalog.md) for full details.
+In short: **actors** model the entities in the world — individual beings and creatures, groups, structures, vehicles, and item-container assemblies. **Items** model the capabilities and possessions an actor carries — skills, traits, gear, afflictions and injuries, combat techniques, and mystical abilities.
 
 ## Phase-batched lifecycle
 
@@ -142,16 +104,16 @@ See [Lifecycle Model](./lifecycle-model.md) for the full rationale and rules.
 
 Game-mechanics value objects in `src/domain/` are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.
 
-| Directory | Key classes | Purpose |
-|-----------|-------------|---------|
-| `domain/modifier/` | `ValueModifier`, `MasteryLevelModifier`, `ImpactModifier`, `CombatModifier` | Auditable tracked values with base + deltas |
-| `domain/result/` | `SuccessTestResult`, `OpposedTestResult`, `AttackResult`, `DefendResult`, `CombatResult` | Test and combat resolution outcomes |
-| `domain/body/` | `BodyStructure`, `BodyPart`, `BodyLocation` | Anatomical structure with weighted hit location selection |
-| `domain/movement/` | `readBaseMove` | Per-medium base move lookup used by `BeingLogic.effectiveBaseMove` |
-| `domain/action/` | `SohlAction` | Executable action definitions (context menu entries, chat buttons) |
-| `domain/` | `SkillBase` | Skill base formula computation from traits |
+| Directory | Purpose |
+|-----------|---------|
+| `domain/modifier/` | Auditable tracked values built from a base plus ordered deltas. |
+| `domain/result/` | Test and combat resolution outcomes. |
+| `domain/body/` | Anatomical structure with weighted hit-location selection. |
+| `domain/movement/` | Per-medium base-move lookup. |
+| `domain/action/` | Executable action definitions (context-menu entries, chat buttons). |
+| `domain/` (top level) | Skill-base formula computation. |
 
-See [Modifier Model](../reference/modifier-model.md), [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md), [Body Structure](../reference/body-structure.md).
+For the classes in each area, see **Domain** in the API reference, and [Modifier Model](../reference/modifier-model.md), [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md), and [Body Structure](../reference/body-structure.md).
 
 ## Active Effects
 

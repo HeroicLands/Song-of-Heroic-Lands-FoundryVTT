@@ -66,23 +66,23 @@ describe("SkillBase", () => {
     describe("_parseFormula", () => {
         it("parses @attr references as attr:name entries", () => {
             const sb = createSkillBase("@str, @int");
-            expect(sb._parseFormula).toEqual(["attr:str", "attr:int"]);
+            expect((sb as any)._parseFormula).toEqual(["attr:str", "attr:int"]);
         });
 
         it("rejects lone @ sign as invalid", () => {
             const sb = createSkillBase("@");
-            expect(sb._parseFormula).toBeNull();
+            expect((sb as any)._parseFormula).toBeNull();
         });
 
         it("parses numeric modifiers and accumulates them", () => {
             const sb = createSkillBase("@str, @int, 5");
-            expect(sb._parseFormula).toEqual(["attr:str", "attr:int", "5"]);
+            expect((sb as any)._parseFormula).toEqual(["attr:str", "attr:int", "5"]);
         });
 
         it("accumulates multiple numeric modifiers", () => {
             const sb = createSkillBase("@str, @int, 3, 2");
             // First modifier: 3, second: 3+2=5
-            expect(sb._parseFormula).toEqual([
+            expect((sb as any)._parseFormula).toEqual([
                 "attr:str",
                 "attr:int",
                 "3",
@@ -92,17 +92,17 @@ describe("SkillBase", () => {
 
         it("rejects non-numeric non-attribute non-birthsign tokens", () => {
             const sb = createSkillBase("@str, abc, @int");
-            expect(sb._parseFormula).toBeNull();
+            expect((sb as any)._parseFormula).toBeNull();
         });
 
         it("returns null for completely empty formula", () => {
             const sb = createSkillBase("");
-            expect(sb._parseFormula).toBeNull();
+            expect((sb as any)._parseFormula).toBeNull();
         });
 
         it("handles mixed formula with attributes and modifiers", () => {
             const sb = createSkillBase("@str, @int, @sta, 5");
-            expect(sb._parseFormula).toEqual([
+            expect((sb as any)._parseFormula).toEqual([
                 "attr:str",
                 "attr:int",
                 "attr:sta",
@@ -115,7 +115,7 @@ describe("SkillBase", () => {
         it("returns true when parsedFormula has entries", () => {
             const sb = createSkillBase("@str, @int");
             // Force parse
-            sb._parsedFormula = sb._parseFormula;
+            (sb as any)._parsedFormula = (sb as any)._parseFormula;
             expect(sb.valid).toBe(true);
         });
 
@@ -128,7 +128,7 @@ describe("SkillBase", () => {
     describe("_calcValue", () => {
         it("returns 0 when formula is invalid", () => {
             const sb = createSkillBase("");
-            expect(sb._calcValue()).toBe(0);
+            expect((sb as any)._calcValue()).toBe(0);
         });
 
         it("averages two attribute scores", () => {

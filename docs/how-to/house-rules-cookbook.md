@@ -89,6 +89,6 @@ Result: the same module can be installed everywhere, activated per world, and ex
 
 ## Related docs
 
-- [Action Items — User Guide](../../assets/packs/journals/data/user-guide/actions.md) — full field-by-field reference on creating and configuring Action items
+- [Actions](./actions.md) — full field-by-field reference on creating and configuring Action items
 - [Lifecycle Hooks (Developer Guide)](./lifecycle-hooks.md) — complete hook name reference for module authors
 - [Extension Points (Developer Guide)](./extension-points.md)

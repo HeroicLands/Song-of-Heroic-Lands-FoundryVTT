@@ -33,14 +33,20 @@ import {
 
 /** A reference to a specific strike mode on an item: `{ itemId, smId }`. */
 export interface StrikeModeRef {
+    /** Id of the item carrying the strike mode. */
     itemId: string;
+    /** Id of the strike mode on that item. */
     smId: string;
 }
 
+/**
+ * SoHL's Combatant document. Adds strike-mode memory (last attack/block) and
+ * threat queries on top of Foundry's combatant.
+ */
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
-    get actor(): SohlActor | null {
+    override get actor(): SohlActor | null {
         return super.actor as SohlActor | null;
     }
 
@@ -156,9 +162,11 @@ export class SohlCombatant<
      * The point used to measure distance to/from this combatant — its token
      * center (with elevation), or `null` when no placed token is available.
      */
-    private get measurePoint():
-        | { x: number; y: number; elevation: number }
-        | null {
+    private get measurePoint(): {
+        x: number;
+        y: number;
+        elevation: number;
+    } | null {
         const token = this.token as any;
         const center = token?.object?.center ?? token?.center;
         if (!center) return null;
@@ -251,7 +259,7 @@ export class SohlCombatant<
         return this.computedMove(sys.displayedMedium);
     }
 
-    override async _preCreate(
+    protected override async _preCreate(
         data: any,
         options: any,
         user: any,
@@ -260,7 +268,9 @@ export class SohlCombatant<
         if (result === false) return false;
 
         const userSetMedium = data?.system?.displayedMedium;
-        const lineageItem = (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageItem = (this.actor?.itemTypes as any)?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
         const lineageDefault = (lineageItem?.logic as LineageLogic | undefined)
             ?.defaultMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
@@ -284,7 +294,7 @@ export class SohlCombatant<
      *
      * @returns The initiative formula to use for this combatant.
      */
-    override _getInitiativeFormula(): string {
+    protected override _getInitiativeFormula(): string {
         if (this.actor) {
             const init = this.actor.itemTypes.skill.find(
                 (s) => (s.system as any).shortcode === "init",
@@ -365,6 +375,7 @@ function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
 
 type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 
+/** @internal */
 export class SohlCombatantDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant> {

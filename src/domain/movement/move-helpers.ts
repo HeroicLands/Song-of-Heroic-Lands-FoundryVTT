@@ -18,10 +18,18 @@ import type { MovementMedium } from "@src/utils/constants";
  * the creature cannot move in that medium.
  */
 export interface MoveBaseDict {
+    /** Base move on land, in feet per round (0 = cannot move on land). */
     terrestrial: number;
+    /** Base move in/through water, in feet per round (0 = cannot swim). */
     aquatic: number;
+    /** Base move while flying, in feet per round (0 = cannot fly). */
     aerial: number;
+    /** Base move while burrowing, in feet per round (0 = cannot burrow). */
     burrowing: number;
+    /**
+     * Base move on the astral plane, in feet per round (0 = cannot move
+     * astrally).
+     */
     astral: number;
 }
 
@@ -32,6 +40,10 @@ export interface MoveBaseDict {
  *
  * The caller is responsible for wrapping the returned number in whatever
  * envelope is appropriate (e.g. a `ValueModifier`).
+ * @param moveBase - The per-medium base-move dict, or `undefined`/`null`.
+ * @param medium - The movement medium to look up (key of
+ *   {@link MoveBaseDict}).
+ * @returns The base move in feet per round, or 0 when unavailable.
  */
 export function readBaseMove(
     moveBase: MoveBaseDict | undefined | null,

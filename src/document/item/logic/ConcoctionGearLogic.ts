@@ -18,7 +18,7 @@ import {
 } from "@src/utils/constants";
 
 /**
- * Logic for the **Concoction Gear** item type — a consumable alchemical mixture.
+ * A consumable alchemical mixture.
  *
  * Concoction Gear represents potions, poisons, salves, elixirs, and other
  * prepared substances that produce effects when consumed, applied, or
@@ -38,6 +38,10 @@ import {
 export class ConcoctionGearLogic<
     TData extends ConcoctionGearData = ConcoctionGearData,
 > extends GearLogic<TData> {
+    /**
+     * Numeric effectiveness rating of the concoction, mirrored from
+     * {@link ConcoctionGearData.strength}.
+     */
     strength!: number;
 
     /* --------------------------------------------- */
@@ -60,6 +64,12 @@ export class ConcoctionGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link ConcoctionGearLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `concoctiongear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "concoctiongear"`. The backing DataModel implements this interface.
+ */
 export interface ConcoctionGearData<
     TLogic extends ConcoctionGearLogic<ConcoctionGearData> =
         ConcoctionGearLogic<any>,

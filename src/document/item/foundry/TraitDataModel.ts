@@ -76,6 +76,7 @@ function defineTraitSchema(): foundry.data.fields.DataSchema {
 
 type TraitSchema = ReturnType<typeof defineTraitSchema>;
 
+/** @internal */
 export class TraitDataModel<
     TSchema extends foundry.data.fields.DataSchema = TraitSchema,
     TLogic extends TraitLogic<TraitData> = TraitLogic<TraitData>,

@@ -14,8 +14,9 @@
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
 import type { AssemblyLogic } from "@src/document/actor/logic/AssemblyLogic";
 
+/** @internal */
 export class AssemblySheet extends SohlActorSheetBase {
-    static DEFAULT_OPTIONS: PlainObject = {
+    static override DEFAULT_OPTIONS: PlainObject = {
         id: "assembly-sheet",
         tag: "form",
         position: { width: 900, height: 640 },
@@ -46,7 +47,7 @@ export class AssemblySheet extends SohlActorSheetBase {
         },
     } as const;
 
-    static TABS = {
+    static override TABS = {
         primary: {
             initial: "facade",
             tabs: [

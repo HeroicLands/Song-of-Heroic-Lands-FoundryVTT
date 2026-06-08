@@ -35,12 +35,19 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * on the next cycle.
  */
 export class BodyPart {
+    /** Unique part identifier within the body structure (e.g. `"larm"`). */
     readonly shortcode: string;
+    /** Functional roles this part fulfills; see BodyRole in constants. */
     readonly roles: string[];
+    /** Whether this part is a limb capable of gripping an item. */
     readonly canHoldItem: boolean;
+    /** The item currently held by this part, resolved from `heldItemId`, or null. */
     readonly heldItem: SohlItem | null;
+    /** Selection weight for this part in random hit-location rolls. */
     readonly probWeight: ValueModifier;
+    /** Hit locations contained within this part. */
     readonly locations: BodyLocation[];
+    /** Back-reference to the owning {@link BodyStructure}. */
     readonly bodyStructure: BodyStructure;
     /** Zero-based index of this part within {@link BodyStructure.parts}. */
     readonly index: number;
@@ -60,6 +67,11 @@ export class BodyPart {
         );
     }
 
+    /**
+     * @param data Persisted part data.
+     * @param bodyStructure Owning body structure (supplies actor and lineage logic).
+     * @param index Zero-based position within {@link BodyStructure.parts}.
+     */
     constructor(
         data: BodyPart.Data,
         bodyStructure: BodyStructure,
@@ -145,12 +157,17 @@ export class BodyPart {
 export namespace BodyPart {
     /** Persisted data shape for a body part. */
     export interface Data {
+        /** Unique part identifier within the body structure. */
         shortcode: string;
         /** Functional roles this part fulfills (BodyRole values). */
         roles: string[];
+        /** Whether this part can grip a held item. */
         canHoldItem: boolean;
+        /** Id of the item this part is holding, or null if empty. */
         heldItemId: string | null;
+        /** Base selection weight for random hit-location rolls. */
         probWeight: number;
+        /** Persisted hit locations within this part. */
         locations: BodyLocation.Data[];
     }
 }
