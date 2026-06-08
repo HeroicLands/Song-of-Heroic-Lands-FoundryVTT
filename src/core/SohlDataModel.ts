@@ -420,7 +420,7 @@ export namespace SohlDataModel {
                 if (doc) {
                     const uiContext = (foundry as any).ui.context;
                     if (uiContext) {
-                        uiContext.menuItems = doc._getContextOptions();
+                        uiContext.menuItems = doc.getContextOptions();
                     }
                 }
                 return [];
@@ -434,7 +434,7 @@ export namespace SohlDataModel {
                 const uiContext = (foundry as any).ui.context;
                 if (uiContext) {
                     uiContext.menuItems =
-                        effect ? effect._getContextOptions(effect) : [];
+                        effect ? effect.getContextOptions(effect) : [];
                 }
             }
 
@@ -449,7 +449,7 @@ export namespace SohlDataModel {
                 doc: SohlDocument,
             ): SohlContextMenu.Entry[] {
                 let result =
-                    doc._getContextOptions() as SohlContextMenu.Entry[];
+                    doc.getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
                 result = result.filter(

@@ -156,9 +156,11 @@ export class SohlCombatant<
      * The point used to measure distance to/from this combatant — its token
      * center (with elevation), or `null` when no placed token is available.
      */
-    private get measurePoint():
-        | { x: number; y: number; elevation: number }
-        | null {
+    private get measurePoint(): {
+        x: number;
+        y: number;
+        elevation: number;
+    } | null {
         const token = this.token as any;
         const center = token?.object?.center ?? token?.center;
         if (!center) return null;
@@ -251,7 +253,7 @@ export class SohlCombatant<
         return this.computedMove(sys.displayedMedium);
     }
 
-    override async _preCreate(
+    protected override async _preCreate(
         data: any,
         options: any,
         user: any,
@@ -260,7 +262,9 @@ export class SohlCombatant<
         if (result === false) return false;
 
         const userSetMedium = data?.system?.displayedMedium;
-        const lineageItem = (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const lineageItem = (this.actor?.itemTypes as any)?.[
+            ITEM_KIND.LINEAGE
+        ]?.[0];
         const lineageDefault = (lineageItem?.logic as LineageLogic | undefined)
             ?.defaultMoveMedium;
         const chosen = chooseInitialDisplayedMedium(
@@ -284,7 +288,7 @@ export class SohlCombatant<
      *
      * @returns The initiative formula to use for this combatant.
      */
-    override _getInitiativeFormula(): string {
+    protected override _getInitiativeFormula(): string {
         if (this.actor) {
             const init = this.actor.itemTypes.skill.find(
                 (s) => (s.system as any).shortcode === "init",

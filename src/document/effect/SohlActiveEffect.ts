@@ -147,7 +147,7 @@ export class SohlActiveEffect extends ActiveEffect {
      * `sm:` keys are only meaningful on `WEAPONGEAR` documents; on other
      * target types the change is silently skipped.
      */
-    static _applyChangeUnguided(
+    protected static _applyChangeUnguided(
         targetDoc: any,
         change: any,
         changes: Record<string, unknown>,
@@ -184,15 +184,25 @@ export class SohlActiveEffect extends ActiveEffect {
      * @param doc The SohlItem document to get context options for.
      * @returns The context menu options for the specified SohlItem document.
      */
-    static _getContextOptions(doc: SohlActiveEffect): SohlContextMenu.Entry[] {
-        return doc._getContextOptions();
+    protected static _getContextOptions(
+        doc: SohlActiveEffect,
+    ): SohlContextMenu.Entry[] {
+        return doc.getContextOptions();
     }
 
     /**
-     * Get the context menu options for this item.
-     * @returns The context menu options for this item.
+     * The context-menu options — the actions currently available — for this
+     * Active Effect.
+     *
+     * @remarks
+     * One entry per action whose `visible` predicate currently passes (an
+     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
+     * are additionally permission-gated when executed. Use this to discover
+     * which actions can be performed on the effect.
+     *
+     * @returns The available context-menu entries.
      */
-    _getContextOptions(): SohlContextMenu.Entry[] {
+    getContextOptions(): SohlContextMenu.Entry[] {
         return [];
     }
 }
@@ -204,13 +214,20 @@ export class SohlActiveEffect extends ActiveEffect {
  */
 function changeTypeToOperator(type: string): string {
     switch (type) {
-        case "add":       return VALUE_DELTA_OPERATOR.ADD;
-        case "multiply":  return VALUE_DELTA_OPERATOR.MULTIPLY;
-        case "override":  return VALUE_DELTA_OPERATOR.OVERRIDE;
-        case "upgrade":   return VALUE_DELTA_OPERATOR.UPGRADE;
-        case "downgrade": return VALUE_DELTA_OPERATOR.DOWNGRADE;
-        case "custom":    return VALUE_DELTA_OPERATOR.CUSTOM;
-        default:          return VALUE_DELTA_OPERATOR.ADD;
+        case "add":
+            return VALUE_DELTA_OPERATOR.ADD;
+        case "multiply":
+            return VALUE_DELTA_OPERATOR.MULTIPLY;
+        case "override":
+            return VALUE_DELTA_OPERATOR.OVERRIDE;
+        case "upgrade":
+            return VALUE_DELTA_OPERATOR.UPGRADE;
+        case "downgrade":
+            return VALUE_DELTA_OPERATOR.DOWNGRADE;
+        case "custom":
+            return VALUE_DELTA_OPERATOR.CUSTOM;
+        default:
+            return VALUE_DELTA_OPERATOR.ADD;
     }
 }
 
@@ -429,8 +446,8 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 } else {
                     partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] =
                         sohl.i18n.format("EFFECT.ThisItem", {
-                            itemType:
-                                (document.parent?.system as any)?.typeLabel,
+                            itemType: (document.parent?.system as any)
+                                ?.typeLabel,
                         });
                     partContext.targetTypes[ACTIVE_EFFECT_SCOPE.ACTOR] =
                         sohl.i18n.localize("EFFECT.Actor");

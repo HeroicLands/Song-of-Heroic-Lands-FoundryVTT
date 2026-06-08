@@ -84,16 +84,26 @@ export class SohlActor extends Actor {
      * @param doc The SohlItem document to get context options for.
      * @returns The context menu options for the specified SohlItem document.
      */
-    static _getContextOptions(doc: SohlActor): SohlContextMenu.Entry[] {
-        return doc._getContextOptions();
+    protected static _getContextOptions(
+        doc: SohlActor,
+    ): SohlContextMenu.Entry[] {
+        return doc.getContextOptions();
     }
 
     /**
-     * Get the context menu options for this item.
-     * @returns The context menu options for this item.
+     * The context-menu options — the actions currently available — for this
+     * actor.
+     *
+     * @remarks
+     * One entry per action whose `visible` predicate currently passes (an
+     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
+     * are additionally permission-gated when executed. Use this to discover
+     * which actions can be performed on the actor.
+     *
+     * @returns The available context-menu entries.
      */
-    _getContextOptions(): SohlContextMenu.Entry[] {
-        return this.logic._getContextOptions();
+    getContextOptions(): SohlContextMenu.Entry[] {
+        return this.logic.getContextOptions();
     }
 
     /**
@@ -570,7 +580,7 @@ export class SohlActor extends Actor {
      *
      * @returns `false` to veto creation, otherwise `true`.
      */
-    override async _preCreate(
+    protected override async _preCreate(
         createData: PlainObject,
         options: PlainObject,
         user: User,
@@ -641,7 +651,7 @@ export class SohlActor extends Actor {
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
-    override async _preUpdate(
+    protected override async _preUpdate(
         changes: PlainObject,
         options: PlainObject,
         user: User,
@@ -675,7 +685,11 @@ export class SohlActor extends Actor {
     }
 
     /** Post-creation hook; delegates to Foundry's base `_onCreate`. */
-    override _onCreate(data: PlainObject, options: any, userId: string) {
+    protected override _onCreate(
+        data: PlainObject,
+        options: any,
+        userId: string,
+    ) {
         // Call base implementation dynamically to avoid TypeScript override signature noise
         const __sohl_base = Object.getPrototypeOf(SohlActor.prototype) as any;
         __sohl_base._onCreate.call(

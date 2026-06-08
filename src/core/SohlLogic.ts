@@ -300,15 +300,18 @@ export abstract class SohlLogic<
     }
 
     /**
-     * Build context-menu entries from this logic's actions.
+     * The context-menu options — the actions currently available — for this
+     * logic's document.
      *
-     * The entry's `condition` is a one-liner delegating to the action's
-     * `visible` predicate. Visibility already composes with the action's
-     * `trigger` (so domain preconditions hide the entry), and `execute()`
-     * separately enforces the permission gate for `SCRIPT` actions.
-     * @returns The context-menu entries for this logic's actions.
+     * @remarks
+     * One entry per action whose `visible` predicate currently passes (an
+     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
+     * are additionally permission-gated when executed. Use this to discover
+     * which actions can be performed on the document.
+     *
+     * @returns The available context-menu entries.
      */
-    _getContextOptions(): SohlContextMenu.Entry[] {
+    getContextOptions(): SohlContextMenu.Entry[] {
         const entries: SohlContextMenu.Entry[] = [];
         for (const action of this.actions.values()) {
             const data = action.data;
