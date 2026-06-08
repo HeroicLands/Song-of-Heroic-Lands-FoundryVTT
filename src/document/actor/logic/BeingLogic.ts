@@ -80,7 +80,7 @@ import { SohlActionData } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 
 /**
- * Logic for the **Being** actor type — a single person, creature, or NPC.
+ * A single person, creature, or NPC.
  *
  * A Being is the most detailed actor type in SoHL, representing an individual
  * entity with a full anatomy model (body roles, body parts, body locations),
@@ -301,6 +301,15 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the being's shock test (Shock skill), used to resist losing
+     * consciousness or capability after taking injury. The resulting success
+     * level feeds the being's shock modifier.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async shockTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -325,6 +334,14 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the being's stumble test, used to keep its footing. Tests the better
+     * of the being's Agility trait and Acrobatics skill.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async stumbleTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -352,6 +369,15 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the being's fumble test, used to avoid dropping or mishandling an
+     * item. Tests the better of the being's Dexterity trait and Legerdemain
+     * skill.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async fumbleTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -381,6 +407,14 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the being's morale test, used to resist breaking, fleeing, or
+     * surrendering under pressure. Tests the being's Initiative skill.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async moraleTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -402,6 +436,14 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the being's fear test, used to resist a frightening stimulus. Tests
+     * the being's Initiative skill.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async fearTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -423,6 +465,15 @@ export class BeingLogic<
         return null;
     }
 
+    /**
+     * Roll the test that determines whether this being contracts an affliction
+     * it has been exposed to. The candidate affliction is supplied through the
+     * action context.
+     *
+     * @param context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; currently returns `null`.
+     */
     async contractAfflictionTest(
         context: SohlActionContext<EmptyObject>,
     ): Promise<SuccessTestResult | null> {
@@ -1087,6 +1138,12 @@ export class BeingLogic<
     }
 }
 
+/**
+ * Persisted data model for a {@link BeingLogic | Being} actor. Carries no
+ * fields of its own beyond the common {@link SohlActorData} base.
+ *
+ * @typeParam TLogic - The logic class bound to this data.
+ */
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
@@ -1097,9 +1154,13 @@ export interface BeingData<
  * Being class that can be invoked as intrinsic actions.
  */
 export const {
+    /** Map of intrinsic-action keys to their definitions. */
     kind: BEING_INTRINSIC_ACTION,
+    /** Array of valid intrinsic-action key values. */
     values: BeingIntrinsicActions,
+    /** Type guard testing whether a value is a valid Being intrinsic-action key. */
     isValue: isBeingIntrinsicAction,
+    /** Map of intrinsic-action keys to their localized labels. */
     labels: BeingIntrinsicActionLabels,
 } = defineType("SOHL.Being.ACTION", {
     SHOCKTEST: {

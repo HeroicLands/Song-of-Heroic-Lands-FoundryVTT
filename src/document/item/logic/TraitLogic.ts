@@ -16,8 +16,7 @@ import { TraitIntensity, TraitSubType } from "@src/utils/constants";
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 
 /**
- * Logic for the **Trait** item type — an innate characteristic, advantage,
- * or drawback.
+ * An innate characteristic, advantage, or drawback.
  *
  * Traits represent intrinsic properties of a character that are not learned
  * through training: physical attributes (Strength, Stamina, Dexterity),
@@ -45,6 +44,10 @@ import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 export class TraitLogic<
     TData extends TraitData = TraitData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * The trait's numeric score as a {@link ValueModifier}, seeded from
+     * {@link TraitData.score | score.value}. Disabled for non-numeric traits.
+     */
     score!: ValueModifier;
 
     /* --------------------------------------------- */
@@ -107,6 +110,7 @@ export interface TraitData<
     isNumeric: boolean;
     /** Numeric value for this trait, or null if not applicable */
     score?: {
+        /** The trait's numeric value. */
         value: number;
         /** Optional upper limit for this trait's value, or null for no limit */
         max: number | null;
@@ -115,7 +119,9 @@ export interface TraitData<
     intensity: TraitIntensity;
     /** Labels mapping numeric value ranges to descriptive names */
     valueDesc: {
+        /** Descriptive label for values up to {@link maxValue}. */
         label: string;
+        /** Upper bound (inclusive) of the value range this label covers. */
         maxValue: number;
     }[];
     /** Predefined selection options for this trait */

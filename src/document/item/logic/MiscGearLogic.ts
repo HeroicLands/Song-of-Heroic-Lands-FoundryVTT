@@ -14,7 +14,7 @@
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 
 /**
- * Logic for the **Misc Gear** item type — general-purpose equipment.
+ * General-purpose equipment.
  *
  * Misc Gear is the catch-all category for physical items that don't fit into
  * more specific gear types: tools, torches, rope, rations, clothing, jewelry,
@@ -46,6 +46,14 @@ export class MiscGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link MiscGearLogic}.
+ *
+ * Misc Gear adds no fields of its own; it carries only the inherited
+ * {@link GearData} properties.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ */
 export interface MiscGearData<
     TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<any>,
 > extends GearData<TLogic> {}

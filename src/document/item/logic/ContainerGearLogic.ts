@@ -15,7 +15,7 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
- * Logic for the **Container Gear** item type — storage for other items.
+ * Storage for other items.
  *
  * Container Gear represents backpacks, saddlebags, chests, belt pouches, cargo
  * holds, and other receptacles that hold gear items. Containers track a
@@ -32,7 +32,10 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 export class ContainerGearLogic<
     TData extends ContainerGearData = ContainerGearData,
 > extends GearLogic<TData> {
-    /** Maximum capacity of this container. */
+    /**
+     * Maximum capacity of this container as a {@link ValueModifier}, seeded from
+     * {@link ContainerGearData.maxCapacityBase}.
+     */
     maxCapacity!: ValueModifier;
 
     /* --------------------------------------------- */
@@ -59,6 +62,11 @@ export class ContainerGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link ContainerGearLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ */
 export interface ContainerGearData<
     TLogic extends ContainerGearLogic<ContainerGearData> =
         ContainerGearLogic<any>,

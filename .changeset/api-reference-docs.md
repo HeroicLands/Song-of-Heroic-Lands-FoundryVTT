@@ -37,6 +37,15 @@ in reviewable batches per the API documentation coverage plan.
   collection and context-menu/default-action helpers, the phase-batched
   lifecycle methods, the intrinsic-action exports, and the `SohlLogicData`
   interface. Documenting the base cascades to every subclass's inherited members.
+- **All actor and item Logic classes** (`document/actor/logic/*` and
+  `document/item/logic/*`) — every Logic class and its `*Data` interface: class
+  summaries, the data interfaces and all their members (including nested
+  object-literal fields), synthesized properties (documented in terms of the
+  data field they derive from — e.g. a `ValueModifier` seeded from a `*Base`
+  number, or a resolved logic object from a shortcode), getters, constructors,
+  and the intrinsic-action / test methods where the business logic lives. The
+  inherited lifecycle methods (`initialize`/`evaluate`/`finalize`) are
+  deliberately left to inherit their base-class documentation.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 

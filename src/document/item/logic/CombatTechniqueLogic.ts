@@ -30,8 +30,8 @@ import type { CombatResult } from "@src/domain/result/CombatResult";
 import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
- * Logic for the **Combat Technique** item type — a specialized combat
- * maneuver or fighting style not tied to a specific weapon.
+ * A specialized combat maneuver or fighting style not tied to a specific
+ * weapon.
  *
  * Combat techniques represent trained maneuvers: grappling, disarming,
  * tripping, shield bashing, unarmed strikes, and other specialized
@@ -155,8 +155,10 @@ export interface CombatTechniqueData<
     TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
         CombatTechniqueLogic<any>,
 > extends SohlItemData<TLogic> {
-    // The combat technique's grouping, such as "Karate", "Pugalistics", etc. Used to
-    // group related techniques together.
+    /**
+     * The combat technique's grouping, such as "Karate", "Pugalistics", etc.
+     * Used to group related techniques together.
+     */
     group: string;
 
     /**
@@ -173,9 +175,13 @@ export interface CombatTechniqueData<
  * CombatTechniqueLogic class that can be invoked as intrinsic actions.
  */
 export const {
+    /** Enum of intrinsic action keys for CombatTechnique items. */
     kind: COMBATTECHNIQUE_INTRINSIC_ACTION,
+    /** The intrinsic action definitions keyed by action key. */
     values: CombatTechniqueIntrinsicActions,
+    /** Type guard testing whether a value is a CombatTechnique intrinsic action key. */
     isValue: isCombatTechniqueIntrinsicAction,
+    /** Localized labels for the CombatTechnique intrinsic actions. */
     labels: CombatTechniqueIntrinsicActionLabels,
 } = defineType("SOHL.CombatTechnique.ACTION", {
     AUTOMATEDCOMBATSTART: {
