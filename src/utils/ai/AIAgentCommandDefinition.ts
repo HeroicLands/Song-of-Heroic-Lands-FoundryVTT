@@ -14,6 +14,11 @@
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { JSONSchema7 } from "json-schema";
 
+/**
+ * Result of an AI agent command execution.
+ *
+ * @internal Internal AI plumbing — not part of the public SoHL API.
+ */
 export interface AIExecutionResult {
     /** Human-readable summary of what happened */
     message: string;
