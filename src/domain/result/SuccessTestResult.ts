@@ -82,7 +82,9 @@ import {
  * - {@link DefendResult} — defender's roll with situational modifiers
  */
 export class SuccessTestResult extends TestResult {
+    /** Short result label resolved from the description table, shown on the chat card. */
     resultText: string;
+    /** Longer result description resolved from the description table, shown on the chat card. */
     resultDesc: string;
     private _successLevel: number;
     protected _token: SohlTokenDocument | null;
@@ -94,10 +96,21 @@ export class SuccessTestResult extends TestResult {
     protected _mishaps: Set<string>;
     protected _canFate: boolean;
     protected _item: SohlItem;
+    /** Foundry roll mode (public / private GM / blind / self) used when posting to chat. */
     rollMode: string;
     protected _targetValueFunc: (successLevel: number) => number;
     protected _successStarTable: SuccessTestResult.LimitedDescription[];
 
+    /**
+     * @param data - Test data; all fields are optional and defaulted. When
+     *   `options.testResult` is supplied, its serialized state is merged in
+     *   first, so a result can be reconstructed from a prior one (e.g. an
+     *   evaluated snapshot crossing clients).
+     * @param options - Result options; `options.parent` is required (base
+     *   {@link TestResult}). `options.testResult`, `options.mlMod`, and
+     *   `options.chatSpeaker` seed the corresponding fields when present.
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<SuccessTestResult.Data> = {},
         options: Partial<SuccessTestResult.Options> = {},
@@ -151,10 +164,22 @@ export class SuccessTestResult extends TestResult {
         this._targetValueFunc = data.targetValueFunc || ((sl: number) => sl);
     }
 
+    /**
+     * The test's target value — `targetValueFunc(successLevel)`. For a plain
+     * success test this is just the success level; success-value tests map it to
+     * a quality/quantity outcome used to index the
+     * {@link SuccessTestResult.LimitedDescription | description table}.
+     */
     get targetValue(): number {
         return this._targetValueFunc(this.successLevel);
     }
 
+    /**
+     * Success level clamped to the four-point scale: critical failure (−1),
+     * marginal failure (0), marginal success (1), or critical success (2). The
+     * raw internal level (which `successLevelMod` can push beyond this range) is
+     * normalized here.
+     */
     get successLevel(): number {
         const level = this._successLevel;
         if (level <= CRITICAL_FAILURE) {
@@ -168,35 +193,53 @@ export class SuccessTestResult extends TestResult {
         }
     }
 
+    /** The token this test is associated with, if any. */
     get token(): SohlTokenDocument | null {
         return this._token;
     }
 
+    /**
+     * The mastery-level modifier rolled against; its
+     * {@link MasteryLevelModifier.constrainedEffective | constrainedEffective}
+     * value is the roll-under target for this test.
+     */
     get masteryLevelModifier(): MasteryLevelModifier {
         return this._masteryLevelModifier;
     }
 
+    /** Number of success "stars" (quality grade) resolved from the description table in {@link evaluate}. */
     get successStars(): number {
         return this._successStars;
     }
 
+    /** Which kind of test this is — a {@link TEST_TYPE} id (e.g. success test, attack, block). */
     get testType(): TestType {
         return this._testType;
     }
 
+    /**
+     * The d100 {@link SimpleRoll}. May be pre-seeded before {@link evaluate}
+     * (e.g. for fate or a deterministic outcome).
+     */
     get roll(): SimpleRoll {
         return this._roll;
     }
 
+    /** Tactical movement state recorded for this test (stationary, etc.). */
     get movement(): SuccessTestResultMovement {
         return this._movement;
     }
 
+    /** Set of mishap codes flagged for this result (e.g. fumble, stumble); lazily initialized. */
     get mishaps(): Set<string> {
         if (!this._mishaps) this._mishaps = new Set<string>();
         return this._mishaps;
     }
 
+    /**
+     * Context-menu responses available as follow-ups to this result — e.g.
+     * resuming an opposed test when this is the opening roll.
+     */
     get availResponses() {
         const result: SohlContextMenu.Entry[] = [];
         if (this.testType === TEST_TYPE.OPPOSEDTESTSTART.id) {
@@ -206,6 +249,11 @@ export class SuccessTestResult extends TestResult {
         return result;
     }
 
+    /**
+     * Success level normalized to the canonical four-point scale (−1/0/1/2) from
+     * {@link isSuccess} and {@link isCritical}. Opposed and combat resolution
+     * compare two results by this value.
+     */
     get normSuccessLevel() {
         let result;
         if (this.isSuccess) {
@@ -224,10 +272,12 @@ export class SuccessTestResult extends TestResult {
         return result;
     }
 
+    /** The ones digit of the roll total, tested against the modifier's critical digit lists. */
     get lastDigit() {
         return (this.roll?.total ?? 0) % 10;
     }
 
+    /** Whether the effective mastery level was constrained (capped) below its raw effective value. */
     get isCapped() {
         return this.masteryLevelModifier ?
                 this.masteryLevelModifier.effective !==
@@ -235,6 +285,7 @@ export class SuccessTestResult extends TestResult {
             :   false;
     }
 
+    /** Whether criticals are possible — i.e. the modifier defines any critical success or failure digits. */
     get critAllowed() {
         return !!(
             this.masteryLevelModifier?.critSuccessDigits.length ||
@@ -242,6 +293,7 @@ export class SuccessTestResult extends TestResult {
         );
     }
 
+    /** Whether this result is a critical (success or failure). Always `false` when {@link critAllowed} is `false`. */
     get isCritical() {
         return (
             this.critAllowed &&
@@ -250,14 +302,30 @@ export class SuccessTestResult extends TestResult {
         );
     }
 
+    /** Whether the test succeeded (success level at marginal success or better). */
     get isSuccess() {
         return this.successLevel >= MARGINAL_SUCCESS;
     }
 
+    /** Whether fate may be spent to re-roll — true only if the item has available fate and the test permits it. */
     get canFate() {
         return this._canFate;
     }
 
+    /**
+     * Open the pre-roll dialog and fold its inputs into this result.
+     *
+     * @remarks
+     * The dialog collects a situational modifier and a success-level modifier
+     * (both applied to {@link masteryLevelModifier}), the {@link rollMode}, and
+     * movement/mishap options. After the user submits, the supplied `callback`
+     * is chained with the form data. This does not roll — call {@link evaluate}
+     * afterward.
+     *
+     * @param data - Extra template data merged into the dialog.
+     * @param callback - Invoked with the submitted form data once the dialog
+     *   inputs have been applied.
+     */
     async testDialog(
         data: PlainObject = {},
         callback: (formData: StrictObject<string | number>) => void,
@@ -327,6 +395,23 @@ export class SuccessTestResult extends TestResult {
         });
     }
 
+    /**
+     * Roll the d100 and resolve the outcome against the modifier's
+     * {@link MasteryLevelModifier.constrainedEffective | constrained effective}
+     * mastery level (roll-under: rolling at or below it succeeds).
+     *
+     * @remarks
+     * Sets the success level from the roll, promoting it to a critical when the
+     * last digit appears in the modifier's critical-success/-failure digit
+     * lists. It then applies `successLevelMod` and — when criticals are
+     * disallowed — clamps the level to marginal failure/success, selects the
+     * localized description, and resolves the success-star count from the
+     * description table.
+     *
+     * @returns `false` if the base evaluation disallows the result, or if the
+     *   current user does not own the speaker (it cannot roll on their behalf);
+     *   otherwise `true`.
+     */
     override async evaluate() {
         let allowed = await super.evaluate();
         if (allowed === false) return false;
@@ -409,6 +494,13 @@ export class SuccessTestResult extends TestResult {
         return allowed;
     }
 
+    /**
+     * Render this result with the standard test chat card
+     * (`templates/chat/standard-test-card.hbs`) and post it via the
+     * {@link speaker}, attaching the Foundry roll and the dice sound.
+     *
+     * @param data - Extra template data merged into the card.
+     */
     async toChat(data: PlainObject = {}): Promise<void> {
         let chatData = fvttMergeObject(this.toJSON() as PlainObject, {
             ...data,
@@ -432,15 +524,27 @@ export class SuccessTestResult extends TestResult {
 }
 
 export namespace SuccessTestResult {
+    /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "SuccessTestResult";
 
+    /** Construction options for a {@link SuccessTestResult}. */
     export interface Options {
+        /** A prior result whose serialized state seeds this one (reconstruct/clone). */
         testResult: SuccessTestResult;
+        /** Speaker to use for chat output, overriding the token-derived default. */
         chatSpeaker: SohlSpeaker;
+        /** The mastery-level modifier to test against. */
         mlMod: MasteryLevelModifier;
+        /** When `true`, skip the pre-roll {@link SuccessTestResult.testDialog | dialog}. */
         skipDialog: boolean;
     }
 
+    /**
+     * Preset {@link SimpleRoll.Data} that force each canonical outcome (a
+     * guaranteed critical failure, marginal failure, critical success, or
+     * marginal success). Used to seed deterministic rolls — e.g. the default
+     * unevaluated roll and fate presets.
+     */
     export const StandardRollData: StrictObject<SimpleRoll.Data> = {
         CRITICAL_FAILURE: {
             numDice: 1,
@@ -468,38 +572,71 @@ export namespace SuccessTestResult {
         },
     } as const;
 
+    /** Construction data for a {@link SuccessTestResult}. */
     export interface Data extends TestResult.Data {
+        /** Short result label (see {@link SuccessTestResult.resultText}). */
         resultText: string;
+        /** Longer result description (see {@link SuccessTestResult.resultDesc}). */
         resultDesc: string;
+        /** A previously-evaluated success level to restore (e.g. a cross-client snapshot). */
         successLevel: number;
+        /** The token the test is associated with. */
         token: SohlTokenDocument;
+        /** The mastery-level modifier to test against. */
         masteryLevelModifier: MasteryLevelModifier;
+        /** Pre-computed success-star count. */
         successStars: number;
+        /** The description table used to resolve {@link SuccessTestResult.resultText | text} and stars. */
         successStarTable: LimitedDescription[];
+        /** Foundry roll mode for chat output. */
         rollMode: SohlSpeakerRollMode;
+        /** Which kind of test this is (a {@link TEST_TYPE} id). */
         testType: TestType;
+        /** A pre-seeded d100 roll (omit to roll fresh in {@link SuccessTestResult.evaluate}). */
         roll: SimpleRoll;
+        /** Tactical movement state for the test. */
         movement: SuccessTestResultMovement;
+        /** Mishap codes to seed (e.g. fumble, stumble). */
         mishaps: string[];
+        /** Whether fate may be spent on this test. */
         canFate: boolean;
+        /** Maps a success level to the test's target value (identity for a plain success test). */
         targetValueFunc: (sl: number) => number;
     }
 
     export interface Options extends TestResult.Options {}
 
+    /** Scope passed to actions that resume a prior success test. */
     export interface ContextScope {
+        /** The success test being resumed. */
         priorTestResult: SuccessTestResult;
+        /** A situational modifier to apply to the mastery level. */
         situationalModifier: number;
+        /** Maps a success level to the test's target value. */
         targetValueFunc: (sl: number) => number;
+        /** The description table used to resolve result text and stars. */
         successStarTable: LimitedDescription[];
     }
 
+    /**
+     * A row in a success-value description table: maps a test's
+     * {@link SuccessTestResult.targetValue | target value} (optionally filtered
+     * by the roll's last digit) to a label, description, success flag, and a
+     * numeric result/quality. Each text/numeric field may be a literal or a
+     * function computed from the chat data.
+     */
     export interface LimitedDescription {
+        /** Upper bound (inclusive) of target values this row matches. */
         maxValue: number;
+        /** Roll last-digits this row applies to; an empty list matches any. */
         lastDigits: number[];
+        /** Result label, or a function computing it from the chat data. */
         label: string | ((chatData: PlainObject) => string);
+        /** Result description, or a function computing it from the chat data. */
         description: string | ((chatData: PlainObject) => string);
+        /** Whether this row represents a success. */
         success: boolean;
+        /** Numeric result/quality (e.g. star count), or a function computing it. */
         result: number | ((chatData: PlainObject) => number);
     }
 }

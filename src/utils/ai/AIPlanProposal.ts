@@ -24,8 +24,10 @@ const {
     REJECTED: "rejected",
     REVISED: "revised",
 });
+/** @internal */
 export type AIPlanStatus = (typeof AI_PLAN_STATUS)[keyof typeof AI_PLAN_STATUS];
 
+/** @internal */
 export interface AIPlanProposal {
     /** A human-readable summary of what the AI intends to do */
     summary: string;

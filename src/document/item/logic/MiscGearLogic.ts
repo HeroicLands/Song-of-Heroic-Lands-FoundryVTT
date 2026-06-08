@@ -46,6 +46,15 @@ export class MiscGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link MiscGearLogic}.
+ *
+ * Misc Gear adds no fields of its own; it carries only the inherited
+ * {@link GearData} properties.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `miscgear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "miscgear"`. The backing DataModel implements this interface.
+ */
 export interface MiscGearData<
     TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<any>,
 > extends GearData<TLogic> {}

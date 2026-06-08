@@ -33,10 +33,28 @@ export class MeleeStrikeMode extends StrikeModeBase {
     reach: ValueModifier;
     /** Defense modifiers for block and counterstrike. */
     defense: {
+        /** Block-defense mastery-level modifier. */
         block: CombatModifier;
+        /** Counterstrike-defense modifier (a responding attack). */
         counterstrike: CombatModifier;
     };
 
+    /**
+     * Rebuilds a melee strike mode, adding reach and defense modifiers on top
+     * of the base attack/impact setup.
+     *
+     * Derives {@link reach} from {@link MeleeStrikeMode.Data.lengthBase | data.lengthBase}
+     * and the {@link defense} block/counterstrike modifiers from
+     * {@link MeleeStrikeMode.Data.defense | data.defense} (seeded as `"BlkMod"`
+     * and `"CtrMod"` deltas). Block is disabled by `defense.block.disabled` or
+     * the `noBlock` trait; counterstrike is disabled by
+     * `defense.counterstrike.disabled` or the `noAttack` trait (a counterstrike
+     * is itself an attack, so there is no separate `noCounterstrike` trait).
+     *
+     * @param data - Persisted melee strike-mode fields (see {@link MeleeStrikeMode.Data}).
+     * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
+     * @param id - This strike mode's key within the parent's `strikeModes` map.
+     */
     constructor(
         data: MeleeStrikeMode.Data,
         parentLogic: SohlLogic,
@@ -126,18 +144,30 @@ export class MeleeStrikeMode extends StrikeModeBase {
 }
 
 export namespace MeleeStrikeMode {
+    /** Persisted fields for a melee strike mode (extends {@link StrikeModeBase.Data}). */
     export interface Data extends StrikeModeBase.Data {
+        /** Discriminator fixing this as a melee mode. */
         type: "melee";
+        /** Weapon length (feet) seeding {@link MeleeStrikeMode.reach} before lineage reach is added. */
         lengthBase: number;
+        /** Block and counterstrike defense configuration. */
         defense: {
+            /** Block (defensive parry) configuration. */
             block: {
+                /** When `true`, the mode cannot be used to block. */
                 disabled?: boolean;
+                /** Flat block mastery-level modifier seeded as the `"BlkMod"` delta. */
                 modifier?: number;
+                /** Adjustment applied to the block test's success level. */
                 successLevelMod?: number;
             };
+            /** Counterstrike (defend-and-attack) configuration. */
             counterstrike: {
+                /** When `true`, the mode cannot be used to counterstrike. */
                 disabled?: boolean;
+                /** Flat counterstrike mastery-level modifier seeded as the `"CtrMod"` delta. */
                 modifier?: number;
+                /** Adjustment applied to the counterstrike test's success level. */
                 successLevelMod?: number;
             };
         };

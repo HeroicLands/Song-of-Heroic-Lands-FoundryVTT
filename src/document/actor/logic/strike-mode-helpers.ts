@@ -43,7 +43,12 @@ export function isStrikeModeAvailable(
  * {@link isStrikeModeAvailable}), preserving input order. Each mode's required
  * limb count is read from its own `minParts`.
  */
-export function selectAvailableStrikeModes<T extends { minParts: number }>(
+export function selectAvailableStrikeModes<
+    T extends {
+        /** Minimum limbs required to wield this mode. */
+        minParts: number;
+    },
+>(
     candidates: readonly StrikeModeCandidate<T>[],
 ): T[] {
     return candidates
@@ -67,7 +72,12 @@ export function selectAvailableStrikeModes<T extends { minParts: number }>(
  * @param weapons The combatant's weapons, each with its id and strike modes.
  * @returns The available strike modes, technique modes first, in input order.
  */
-export function computeAvailableStrikeModes<T extends { minParts: number }>(
+export function computeAvailableStrikeModes<
+    T extends {
+        /** Minimum limbs required to wield this mode. */
+        minParts: number;
+    },
+>(
     bodyStructure: BodyStructure | undefined,
     techniqueModes: readonly T[],
     weapons: readonly { id: string; strikeModes: readonly T[] }[],

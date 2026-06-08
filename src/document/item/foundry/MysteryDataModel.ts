@@ -49,6 +49,7 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
 
 type MysteryDataSchema = ReturnType<typeof defineMysterySchema>;
 
+/** @internal */
 export class MysteryDataModel<
     TSchema extends foundry.data.fields.DataSchema = MysteryDataSchema,
     TLogic extends MysteryLogic<MysteryData> = MysteryLogic<MysteryData>,

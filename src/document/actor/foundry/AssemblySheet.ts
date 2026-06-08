@@ -14,6 +14,7 @@
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
 import type { AssemblyLogic } from "@src/document/actor/logic/AssemblyLogic";
 
+/** @internal */
 export class AssemblySheet extends SohlActorSheetBase {
     static override DEFAULT_OPTIONS: PlainObject = {
         id: "assembly-sheet",

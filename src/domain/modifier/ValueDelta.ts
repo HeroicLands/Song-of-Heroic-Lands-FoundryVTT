@@ -22,25 +22,47 @@ import {
 const kValueDelta = Symbol("ValueDelta");
 
 /**
- * Represents a single change (delta) applied to a numeric value.
+ * A single change (delta) applied to a {@link ValueModifier} — an operator plus
+ * a value, tagged with source labels for auditability.
+ *
+ * @remarks
+ * The {@link op} selects how {@link apply} combines this delta with a running
+ * value (add, multiply, floor, ceiling, override, or custom). Boolean-like
+ * values (`"true"` / `"false"`) are supported for flag-style modifiers; every
+ * other operator requires a numeric value.
  */
 export class ValueDelta {
+    /** Human-readable name of the delta's source, for display. */
     name: string;
+    /** Short identity code for the delta's source (used to find or replace it). */
     shortcode: string;
+    /** The operator selecting how this delta combines with the running value. */
     op: ValueDeltaOperator;
+    /** The delta's value as a string — numeric, or `"true"`/`"false"` for flags. */
     value: string;
+    /**
+     * Brand used by {@link ValueDelta.isA} to identify instances.
+     * @internal
+     */
     readonly [kValueDelta] = true;
 
+    /** Type guard: whether `obj` is a {@link ValueDelta} (brand check). */
     static isA(obj: unknown): obj is ValueDelta {
         return typeof obj === "object" && obj !== null && kValueDelta in obj;
     }
 
+    /** The {@link value} as a number — `"true"`→1, `"false"`→0, otherwise the parsed number (0 if NaN). */
     get numValue(): number {
         if (this.value === "true") return 1;
         else if (this.value === "false") return 0;
         else return Number(this.value) || 0;
     }
 
+    /**
+     * @param data - The delta fields (see {@link ValueDelta.Data}); `value` is
+     *   normalized to a string.
+     * @throws TypeError if a non-`CUSTOM` operator is given a non-numeric value.
+     */
     constructor(data: PlainObject = {}) {
         const { name, shortcode, op, value } = data as ValueDelta.Data;
         const strValue = String(value);
@@ -68,14 +90,17 @@ export class ValueDelta {
         }
     }
 
+    /** Serialize this delta to a plain object. */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
 
     /**
-     * Apply this delta to a numeric base value.
-     * @param {number} base
-     * @returns {number}
+     * Apply this delta to a base value according to its {@link op}.
+     *
+     * @param base - The running value to modify.
+     * @returns The resulting value.
+     * @throws TypeError if {@link op} is not a valid operator.
      */
     apply(base: number): number {
         if (isValueDeltaOperator(this.op)) {
@@ -116,16 +141,22 @@ export class ValueDelta {
 }
 
 export namespace ValueDelta {
+    /** Registry key identifying this kind for serialization. */
     export const Kind = "ValueDelta";
 
+    /** Construction data for a {@link ValueDelta}. */
     export interface Data {
+        /** Human-readable name of the delta's source. */
         name: string;
+        /** Short identity code for the delta's source. */
         shortcode: string;
+        /** The operator selecting how the delta combines with the value. */
         op: ValueDeltaOperator;
+        /** The delta's value (numeric, or a boolean flag). */
         value: ValueDeltaValue;
     }
 
-    // Constructor type for ValueDelta and its subclasses
+    /** Constructor signature for {@link ValueDelta} and its subclasses. */
     export interface Constructor<T extends ValueDelta = ValueDelta> {
         new (data: Data): T;
     }

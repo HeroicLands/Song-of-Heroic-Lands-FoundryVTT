@@ -39,8 +39,7 @@
         "docs/reference/scene-token-combatant.md",
         "docs/reference/calendar.md",
         "docs/reference/event-queue.md",
-        "docs/contributing/api-docs-hosting.md",
-        "docs/contributing/api-documentation-plan.md"
+        "docs/contributing/api-docs-hosting.md"
     ],
     "name": "Song of Heroic Lands API",
     "exclude": [],

@@ -15,6 +15,7 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { AIExecutionResult } from "@src/utils/ai/AIExecutionResult";
 import { toHTMLString } from "@src/utils/helpers";
 
+/** @internal */
 export interface CompletionOptions {
     model?: string;
     temperature?: number;
@@ -22,6 +23,7 @@ export interface CompletionOptions {
     systemPrompt?: string;
 }
 
+/** @internal */
 export abstract class AIAdapter {
     static AI_MESSAGE = new RegExp(`^\s*(?:sage|ai)\s+`, "i");
 

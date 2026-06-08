@@ -71,6 +71,7 @@ type MysticalAbilityDataSchema = ReturnType<
     typeof defineMysticalAbilityDataSchema
 >;
 
+/** @internal */
 export class MysticalAbilityDataModel<
     TSchema extends foundry.data.fields.DataSchema = MysticalAbilityDataSchema,
     TLogic extends MysticalAbilityLogic<MysticalAbilityData> =

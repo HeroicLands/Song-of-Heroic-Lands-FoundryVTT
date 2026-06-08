@@ -16,6 +16,7 @@ export const DEFAULT_COMBAT_GROUP = "Opponents";
 
 /** A newly created combatant awaiting group assignment. */
 export interface SeedingCombatant {
+    /** The combatant's id. */
     id: string;
     /** True if the combatant already belongs to a group (skip it). */
     hasGroup: boolean;
@@ -25,7 +26,9 @@ export interface SeedingCombatant {
 
 /** An existing {@link CombatantGroup} on the combat. */
 export interface ExistingGroup {
+    /** The group's id. */
     id: string;
+    /** The group's display name. */
     name: string;
 }
 
@@ -34,7 +37,12 @@ export interface GroupSeedingPlan {
     /** Distinct group names to create, in first-seen order, exactly as typed. */
     groupsToCreate: string[];
     /** The group name each ungrouped combatant resolves to. */
-    assignments: { combatantId: string; groupName: string }[];
+    assignments: {
+        /** The combatant being assigned. */
+        combatantId: string;
+        /** The group name it is assigned to. */
+        groupName: string;
+    }[];
 }
 
 /**

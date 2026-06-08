@@ -31,10 +31,12 @@ export class SohlSceneLogic {
         this._data = data;
     }
 
+    /** The backing {@link SohlSceneDataModel} (the scene's `system`). */
     get data(): SohlSceneDataModel {
         return this._data;
     }
 
+    /** The owning {@link SohlScene}, or `null` if unattached. */
     get scene(): SohlScene | null {
         return (this._data.parent ?? null) as SohlScene | null;
     }

@@ -72,14 +72,24 @@ import {
  */
 export class ValueModifier {
     private _shortcode!: string;
-    private _dirty: boolean;
+    private dirty: boolean;
     private _effective!: number;
     private _parent: SohlLogic;
+    /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
     disabledReason!: string;
+    /** The base value before deltas (undefined until set; treated as 0 by {@link base}). */
     baseValue?: number;
+    /** Handler invoked by a `CUSTOM` delta to compute a value, when one is used. */
     customFunction?: Function;
+    /** The list of {@link ValueDelta} modifiers applied on top of the base. */
     deltas!: ValueDelta[];
 
+    /**
+     * @param data - Initial state; `baseValue`, `deltas`, `disabledReason`, and
+     *   `customFunction` are all optional.
+     * @param options - Must provide `options.parent`, the owning Logic.
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<ValueModifier.Data> = {},
         options?: Partial<ValueModifier.Options>,
@@ -92,21 +102,30 @@ export class ValueModifier {
         this.baseValue = data.baseValue ?? undefined;
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
-        this._dirty = true;
+        this.dirty = true;
         this._apply();
     }
 
+    /** Serialize this modifier (base, deltas, disabled state) to a plain object. */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
 
+    /**
+     * Create a deep copy of this modifier, optionally overriding fields.
+     *
+     * @typeParam T - The concrete modifier type returned.
+     * @param data - Field overrides applied to the clone.
+     * @param options - Clone options (e.g. a new `parent`).
+     * @returns The cloned modifier.
+     */
     clone<T>(data: PlainObject = {}, options: PlainObject = {}): T {
         return cloneInstance<T>(this, data, options);
     }
 
     protected _apply(): void {
-        if (!this._dirty) return;
-        this._dirty = false;
+        if (!this.dirty) return;
+        this.dirty = false;
         if (this.disabled) {
             this._effective = 0;
         } else {
@@ -210,32 +229,48 @@ export class ValueModifier {
         this._calcAbbrev();
     }
 
+    /** The Logic that owns this modifier. */
     get parent(): SohlLogic {
         return this._parent;
     }
 
+    /**
+     * The computed effective value — the base with all deltas applied (always 0
+     * when {@link disabled}). Recomputed lazily on access.
+     */
     get effective(): number {
         this._apply();
         return this._effective;
     }
 
+    /** The deltas' net contribution to the value — `effective − base`. */
     get modifier(): number {
         return this.effective - (this.base || 0);
     }
 
+    /**
+     * A compact, human-readable summary of the applied deltas (e.g.
+     * `STR +2, ARM ×2`), or the disabled marker when {@link disabled}.
+     */
     get shortcode(): string {
         this._apply();
         return this._shortcode;
     }
 
+    /** A coarse index derived from the base value (`base / 10`, truncated). */
     get index(): number {
         return Math.trunc((this.baseValue || 0) / 10);
     }
 
+    /** The disabled reason, or `""` when enabled. A non-empty value forces {@link effective} to 0. */
     get disabled(): string {
         return this.disabledReason ?? "";
     }
 
+    /**
+     * Disable with a reason string, or toggle via a boolean (passing `true`
+     * applies a default reason; `false` clears it).
+     */
     set disabled(reason: string | boolean) {
         if (typeof reason === "string") {
             this.disabledReason = reason;
@@ -243,41 +278,59 @@ export class ValueModifier {
             if (!reason) this.disabledReason = "";
             else this.disabledReason = "SOHL.DELTAINFO.DISABLED";
         }
-        this._dirty = true;
+        this.dirty = true;
     }
 
+    /** Chainable form of the {@link disabled} setter. */
     setDisabled(reason: string | boolean): this {
         this.disabled = reason;
         return this;
     }
 
+    /** The base value (0 when unset). */
     get base(): number {
         return this.baseValue ?? 0;
     }
 
+    /**
+     * Set the base value.
+     *
+     * @param value - A number, or `undefined` to clear the base.
+     * @returns `this`, for chaining.
+     * @throws TypeError if `value` is neither numeric nor `undefined`.
+     */
     setBase(value: unknown): this {
         if (typeof value === "number" || typeof value === "undefined") {
             this.baseValue = value;
         } else {
             throw new TypeError("value must be numeric or undefined");
         }
-        this._dirty = true;
+        this.dirty = true;
         return this;
     }
 
+    /** Setter form of {@link setBase}. */
     set base(value: unknown) {
         this.setBase(value);
     }
 
+    /** Whether a base value has been explicitly set. */
     get hasBase(): boolean {
         return this.baseValue !== undefined;
     }
 
+    /** Whether no deltas have been applied. */
     get empty(): boolean {
         return !this.deltas.length;
     }
 
-    _oper(
+    /**
+     * Core delta-mutation routine shared by {@link add}, {@link multiply},
+     * {@link set}, {@link floor}, and {@link ceiling}.
+     *
+     * @internal
+     */
+    protected _oper(
         name: string,
         shortcode: string = "",
         value: string | number = 0,
@@ -313,29 +366,54 @@ export class ValueModifier {
             this.deltas.push(new ValueDelta({ name, shortcode, op, value }));
         }
 
-        this._dirty = true;
+        this.dirty = true;
         return this;
     }
 
+    /**
+     * Find the delta with the given shortcode.
+     *
+     * @returns The matching {@link ValueDelta}, or `undefined`.
+     * @throws TypeError if `shortcode` is not a string.
+     */
     get(shortcode: string): ValueDelta | undefined {
         if (typeof shortcode !== "string")
             throw new TypeError("shortcode is not a string");
         return this.deltas.find((m) => m.shortcode === shortcode);
     }
 
+    /**
+     * Whether a delta with the given shortcode is present.
+     *
+     * @throws TypeError if `shortcode` is not a string.
+     */
     has(shortcode: string): boolean {
         if (typeof shortcode !== "string")
             throw new TypeError("shortcode is not a string");
         return this.deltas.some((m) => m.shortcode === shortcode) || false;
     }
 
+    /**
+     * Remove the delta with the given shortcode, if present.
+     *
+     * @throws TypeError if `shortcode` is not a string.
+     */
     delete(shortcode: string): void {
         if (typeof shortcode !== "string")
             throw new TypeError("shortcode is not a string");
         this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
-        this._dirty = true;
+        this.dirty = true;
     }
 
+    /**
+     * Add an additive (`+value`) delta.
+     *
+     * @remarks
+     * Accepts either `(name, shortcode, value, data?)` or
+     * `({ name, shortcode }, value, data?)`. A new delta replaces any existing
+     * one with the same shortcode.
+     * @returns `this`, for chaining.
+     */
     add(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
@@ -352,6 +430,13 @@ export class ValueModifier {
         );
     }
 
+    /**
+     * Fold another modifier into this one.
+     *
+     * @param other - The modifier to merge from.
+     * @param options - When `includeBase` is set, adopt `other`'s base value.
+     * @returns `this`, for chaining.
+     */
     addVM(
         other: ValueModifier,
         { includeBase }: { includeBase?: boolean } = {},
@@ -360,6 +445,12 @@ export class ValueModifier {
         return this;
     }
 
+    /**
+     * Add a multiplicative (`×value`) delta. Same argument forms as
+     * {@link add}.
+     *
+     * @returns `this`, for chaining.
+     */
     multiply(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
@@ -376,8 +467,13 @@ export class ValueModifier {
         );
     }
     /**
-     * Sets the value to a specific number, overriding all other modifiers.
-     * @param args - The arguments can be an object with name and shortcode, followed by value and optional data.
+     * Add an `OVERRIDE` delta that replaces the value, ignoring all other
+     * modifiers. Same argument forms as {@link add}.
+     *
+     * @remarks
+     * An override to a non-zero value discards other deltas; an override to zero
+     * is sticky — once set, further modifications are ignored.
+     * @returns `this`, for chaining.
      */
     set(...args: any[]): this {
         let name, shortcode, value, data;
@@ -395,6 +491,12 @@ export class ValueModifier {
         );
     }
 
+    /**
+     * Add an `UPGRADE` (floor / minimum) delta: the effective value cannot drop
+     * below `value`. Same argument forms as {@link add}.
+     *
+     * @returns `this`, for chaining.
+     */
     floor(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
@@ -411,6 +513,12 @@ export class ValueModifier {
         );
     }
 
+    /**
+     * Add a `DOWNGRADE` (ceiling / maximum) delta: the effective value cannot
+     * exceed `value`. Same argument forms as {@link add}.
+     *
+     * @returns `this`, for chaining.
+     */
     ceiling(...args: any[]): this {
         let name, shortcode, value, data;
         if (typeof args[0] === "object") {
@@ -433,6 +541,7 @@ export class ValueModifier {
         );
     }
 
+    /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; empty when disabled. */
     get chatHtml(): string {
         function getValue(delta: ValueDelta): string {
             switch (delta.op) {
@@ -477,7 +586,12 @@ export class ValueModifier {
         return fragHtml;
     }
 
-    _calcAbbrev(): void {
+    /**
+     * Recompute the {@link shortcode} summary string from the current deltas.
+     *
+     * @internal
+     */
+    protected _calcAbbrev(): void {
         this._shortcode = "";
         if (this.disabled) {
             this._shortcode = VALUE_DELTA_INFO.DISABLED;
@@ -519,16 +633,24 @@ export class ValueModifier {
 }
 
 export namespace ValueModifier {
+    /** Registry key identifying this modifier kind for serialization. */
     export const Kind: string = "ValueModifier";
 
+    /** Construction data for a {@link ValueModifier}. */
     export interface Data {
+        /** Reason the value is disabled; `""` (or falsy) means enabled. */
         disabledReason: string;
+        /** The base value before deltas (`null` to leave unset). */
         baseValue: number | null;
+        /** Handler for a `CUSTOM` delta (`null` if unused). */
         customFunction: Function | null;
+        /** The deltas applied on top of the base. */
         deltas: ValueDelta[];
     }
 
+    /** Options for a {@link ValueModifier}. */
     export interface Options {
+        /** The owning Logic (required; becomes {@link ValueModifier.parent}). */
         parent: SohlLogic;
     }
 }

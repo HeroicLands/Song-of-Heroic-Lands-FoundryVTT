@@ -44,8 +44,15 @@ export class WeaponGearLogic<
 > extends GearLogic<TData> {
     /** Strike mode domain objects, constructed from persisted data. */
     strikeModes!: StrikeModeBase[];
-    /** Weapon encumbrance. */
+    /**
+     * Weapon encumbrance as a {@link ValueModifier}, seeded from
+     * {@link WeaponGearData.encumbrance}.
+     */
     encumbrance!: ValueModifier;
+    /**
+     * Weapon heft as a {@link ValueModifier}, seeded from
+     * {@link WeaponGearData.heftBase}.
+     */
     heft!: ValueModifier;
 
     /* --------------------------------------------- */
@@ -57,6 +64,7 @@ export class WeaponGearLogic<
      *
      * @param strikeMode - The strike mode data to add.
      * @param id - Optional id; a fresh `randomID()` is generated when omitted.
+     * @returns An `update()` payload writing the strike mode under `system.strikeModes.<id>`.
      * @throws If a strike mode with the same id already exists on this weapon.
      */
     addStrikeModeUpdate(
@@ -74,6 +82,9 @@ export class WeaponGearLogic<
     /**
      * Build an `update()` payload that removes a strike mode by id, using
      * Foundry's `-=` deletion key syntax for object fields.
+     *
+     * @param id - The id of the strike mode to remove.
+     * @returns An `update()` payload deleting `system.strikeModes.<id>`.
      */
     removeStrikeModeUpdate(id: string): PlainObject {
         return { [`system.strikeModes.-=${id}`]: null };
@@ -85,6 +96,7 @@ export class WeaponGearLogic<
      *
      * @param id - The id of the strike mode to update.
      * @param partial - The fields to change on that strike mode.
+     * @returns An `update()` payload writing each changed field under `system.strikeModes.<id>`.
      */
     updateStrikeModeUpdate(
         id: string,
@@ -204,6 +216,12 @@ export class WeaponGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link WeaponGearLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `weapongear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "weapongear"`. The backing DataModel implements this interface.
+ */
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
 > extends GearData<TLogic> {
@@ -221,9 +239,13 @@ export interface WeaponGearData<
  * WeaponGearLogic class that can be invoked as intrinsic actions.
  */
 export const {
+    /** Enum-like map of WeaponGear intrinsic action keys to their identifiers. */
     kind: WEAPONGEAR_INTRINSIC_ACTION,
+    /** Array of all valid WeaponGear intrinsic action identifier values. */
     values: WeaponGearIntrinsicActions,
+    /** Type guard testing whether a value is a WeaponGear intrinsic action identifier. */
     isValue: isWeaponGearIntrinsicAction,
+    /** Localized labels for each WeaponGear intrinsic action, keyed by identifier. */
     labels: WeaponGearIntrinsicActionLabels,
 } = defineType("SOHL.WeaponGear.ACTION", {
     AUTOMATEDCOMBATSTART: {

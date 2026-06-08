@@ -68,6 +68,7 @@ function defineSkillSchema(): foundry.data.fields.DataSchema {
 
 type SkillSchema = ReturnType<typeof defineSkillSchema>;
 
+/** @internal */
 export class SkillDataModel<
     TSchema extends foundry.data.fields.DataSchema = SkillSchema,
     TLogic extends SkillLogic<SkillData> = SkillLogic<SkillData>,

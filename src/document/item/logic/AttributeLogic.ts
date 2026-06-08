@@ -32,15 +32,31 @@ import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier"
 export class AttributeLogic<
     TData extends AttributeData = AttributeData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * The attribute's score as a {@link ValueModifier}, seeded from
+     * {@link AttributeData.scoreBase}.
+     */
     score!: ValueModifier;
+    /**
+     * Mastery level derived from this attribute, as a {@link MasteryLevelModifier}.
+     * Its base is set in {@link AttributeLogic.finalize | finalize} to the
+     * effective {@link AttributeLogic.score | score} multiplied by five.
+     */
     masteryLevel!: MasteryLevelModifier;
+    /** Fate-adjusted mastery level for this attribute, as a {@link MasteryLevelModifier}. */
     fateMasteryLevel!: MasteryLevelModifier;
 
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a value description entry. */
+    /**
+     * Build an `update()` payload that adds a value description entry to
+     * {@link AttributeData.valueDesc}.
+     *
+     * @param entry - The label/maxValue pair to append.
+     * @returns An `update()` payload writing the extended `system.valueDesc` array.
+     */
     addValueDescUpdate(entry: {
         label: string;
         maxValue: number;
@@ -50,7 +66,13 @@ export class AttributeLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a value description by label. */
+    /**
+     * Build an `update()` payload that removes a value description from
+     * {@link AttributeData.valueDesc} by its label.
+     *
+     * @param label - The label of the entry to remove.
+     * @returns An `update()` payload writing `system.valueDesc` with the matching entry filtered out.
+     */
     removeValueDescUpdate(label: string): PlainObject {
         return {
             "system.valueDesc": this.data.valueDesc.filter(
@@ -84,6 +106,12 @@ export class AttributeLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link AttributeLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `attribute` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "attribute"`. The backing DataModel implements this interface.
+ */
 export interface AttributeData<
     TLogic extends AttributeLogic<AttributeData> = AttributeLogic<any>,
 > extends SohlItemData<TLogic> {
@@ -91,7 +119,9 @@ export interface AttributeData<
     scoreBase: number;
     /** Labels mapping score ranges to descriptive names */
     valueDesc: {
+        /** Descriptive name for this score band. */
         label: string;
+        /** Highest score (inclusive) covered by this band. */
         maxValue: number;
     }[];
     /** Dice formula used for random generation of this attribute's score */

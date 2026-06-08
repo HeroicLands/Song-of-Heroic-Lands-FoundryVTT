@@ -22,8 +22,7 @@ import { MysticalAbilitySubType } from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
 
 /**
- * An actively invoked
- * supernatural power.
+ * An actively invoked supernatural power.
  *
  * Mystical Abilities represent spells, rites, invocations, and other powers
  * that a character actively uses. Unlike {@link MysteryLogic | Mysteries}
@@ -54,12 +53,45 @@ import { MysteryLogic } from "./MysteryLogic";
 export class MysticalAbilityLogic<
     TData extends MysticalAbilityData = MysticalAbilityData,
 > extends SohlItemBaseLogic<TData> {
+    /**
+     * The associated skill (a {@link SkillLogic}) resolved during
+     * {@link evaluate} from {@link MysticalAbilityData.assocSkillCode}, or
+     * `undefined` if the ability uses its own mastery level.
+     */
     assocSkill?: SkillLogic;
+
+    /**
+     * The associated mystery (a {@link MysteryLogic}) resolved during
+     * {@link evaluate} from {@link MysticalAbilityData.assocMysteryCode}, which
+     * determines this ability's mystical tradition.
+     */
     assocMystery?: MysteryLogic;
+
+    /**
+     * The mastery level as a {@link ValueModifier}. Seeded from
+     * {@link MysticalAbilityData.masteryLevelBase} when there is no associated
+     * skill; otherwise left empty until {@link finalize} merges in the
+     * {@link assocSkill}'s mastery level.
+     */
     masteryLevel!: ValueModifier;
+
+    /**
+     * The ability's power level as a {@link ValueModifier}, seeded from
+     * {@link MysticalAbilityData.levelBase}.
+     */
     level!: ValueModifier;
+
+    /** The ability's charge tracking. */
     charges!: {
+        /**
+         * Current charges as a {@link ValueModifier}, seeded from
+         * {@link MysticalAbilityData.charges | charges.value}.
+         */
         value: ValueModifier;
+        /**
+         * Maximum charges as a {@link ValueModifier}, seeded from
+         * {@link MysticalAbilityData.charges | charges.max}.
+         */
         max: ValueModifier;
     };
 
@@ -136,6 +168,9 @@ export class MysticalAbilityLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `mysticalability` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "mysticalability"`. The backing DataModel implements this interface.
+ */
 export interface MysticalAbilityData<
     TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
         MysticalAbilityLogic<any>,
@@ -154,8 +189,11 @@ export interface MysticalAbilityData<
     improveFlag: boolean;
     /** Usage tracking: current charges and maximum */
     charges: {
+        /** Whether this ability consumes charges when used. */
         usesCharges: boolean;
+        /** Current number of charges remaining. */
         value: number;
+        /** Maximum number of charges. */
         max: number;
     };
 }

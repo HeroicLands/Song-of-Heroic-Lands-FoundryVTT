@@ -30,6 +30,7 @@ function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
 
 type WeaponGearSchema = ReturnType<typeof defineWeaponGearSchema>;
 
+/** @internal */
 export class WeaponGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = WeaponGearSchema,
     TLogic extends WeaponGearLogic<WeaponGearData> =

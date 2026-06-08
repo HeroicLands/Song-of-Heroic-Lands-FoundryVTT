@@ -32,6 +32,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * are recomputed on the next cycle.
  */
 export class BodyLocation {
+    /** Unique location identifier within its body part. */
     readonly shortcode: string;
     /** Display name of this location (falls back to the shortcode). */
     readonly name: string;
@@ -49,13 +50,19 @@ export class BodyLocation {
      * injury requires a fumble roll; a Grievous injury fumbles automatically.
      */
     readonly isFumble: boolean;
+    /** Base shock contribution this location adds to the Shock Index when wounded. */
     readonly shockValue: ValueModifier;
+    /** Selection weight for this location in random hit-location rolls within its part. */
     readonly probWeight: ValueModifier;
     /** Natural (intrinsic) protection per aspect, before worn armor. */
     readonly protectionBase: {
+        /** Natural protection against blunt impact. */
         blunt: ValueModifier;
+        /** Natural protection against edged impact. */
         edged: ValueModifier;
+        /** Natural protection against piercing impact. */
         piercing: ValueModifier;
+        /** Natural protection against fire impact. */
         fire: ValueModifier;
     };
     /**
@@ -64,19 +71,29 @@ export class BodyLocation {
      * the armor-aggregation step; zero before aggregation runs.
      */
     armorProtection: {
+        /** Worn-armor protection against blunt impact. */
         blunt: number;
+        /** Worn-armor protection against edged impact. */
         edged: number;
+        /** Worn-armor protection against piercing impact. */
         piercing: number;
+        /** Worn-armor protection against fire impact. */
         fire: number;
     };
     /** True once any *rigid* armor covers this location (drives glancing blows). */
     isRigid: boolean;
     /** Comma-joined list of armor materials covering this location, e.g. "Cloth, Mail". */
     armorType: string;
+    /** Back-reference to the owning {@link BodyPart}. */
     readonly bodyPart: BodyPart;
     /** Zero-based index of this location within {@link BodyPart.locations}. */
     readonly index: number;
 
+    /**
+     * @param data Persisted location data.
+     * @param bodyPart Owning body part (supplies the lineage logic parent).
+     * @param index Zero-based position within {@link BodyPart.locations}.
+     */
     constructor(data: BodyLocation.Data, bodyPart: BodyPart, index: number) {
         const lineageLogic = bodyPart.bodyStructure.lineageLogic;
 
@@ -128,6 +145,7 @@ export class BodyLocation {
 export namespace BodyLocation {
     /** Persisted data shape for a body location. */
     export interface Data {
+        /** Unique location identifier within its part. */
         shortcode: string;
         /** Display name of the location. */
         name?: string;
@@ -145,9 +163,13 @@ export namespace BodyLocation {
         probWeight: number;
         /** Base protection values for different impact aspects */
         protectionBase: {
+            /** Base protection against blunt impact. */
             blunt: number;
+            /** Base protection against edged impact. */
             edged: number;
+            /** Base protection against piercing impact. */
             piercing: number;
+            /** Base protection against fire impact. */
             fire: number;
         };
     }

@@ -16,6 +16,7 @@ import {
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
 
+/** @internal */
 export class TraumaSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,

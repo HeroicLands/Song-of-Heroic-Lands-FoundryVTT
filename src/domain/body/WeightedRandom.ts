@@ -20,7 +20,12 @@ import { ValueModifier } from "../modifier/ValueModifier";
  *
  * @throws {Error} If the array is empty or all weights are zero.
  */
-export function weightedRandom<T extends { probWeight: ValueModifier }>(
+export function weightedRandom<
+    T extends {
+        /** Relative selection weight (its effective value is used). */
+        probWeight: ValueModifier;
+    },
+>(
     items: T[],
 ): T {
     const totalWeight = items.reduce(

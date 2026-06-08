@@ -144,7 +144,12 @@ export class SohlDomains {
      */
     static getChoices(
         family?: DomainFamily,
-    ): Array<{ shortcode: string; label: string }> {
+    ): Array<{
+        /** The domain entry's shortcode. */
+        shortcode: string;
+        /** The domain entry's display label. */
+        label: string;
+    }> {
         const store = readStore();
         const entries = family
             ? SohlDomains.getByFamily(family)

@@ -13,11 +13,16 @@
 
 import { SourceMapConsumer, RawSourceMap } from "source-map";
 
-/** Cache parsed maps so we don’t reload */
+/** Cache of parsed source-map consumers keyed by map URL, to avoid refetching. @internal */
 const sourceMapCache = new Map<string, SourceMapConsumer>();
 
 /**
- * Loads a source map and returns its consumer.
+ * Fetch and parse the source map at `mapUrl`, returning a cached consumer when
+ * available.
+ *
+ * @param mapUrl - URL of the `.map` file to load.
+ * @returns A {@link SourceMapConsumer}, or `null` if loading or parsing failed.
+ * @internal
  */
 async function getSourceMapConsumer(
     mapUrl: string,
@@ -37,16 +42,28 @@ async function getSourceMapConsumer(
 }
 
 /**
- * Resolves a position in a minified file back to original source.
+ * Resolve a position in a built/minified file back to its original source
+ * location, using the sibling `.map` file (assumed to live at
+ * `"{sourceFile}.map"`).
+ *
+ * @param sourceFile - URL of the built file the position refers to.
+ * @param line - 1-based line number in the built file.
+ * @param column - 0-based column number in the built file.
+ * @returns The original `{ source, line, column, name? }`, or `null` if the map
+ *   could not be loaded or the position has no original mapping.
  */
 export async function mapToOriginalPosition(
     sourceFile: string,
     line: number,
     column: number,
 ): Promise<{
+    /** Path of the original source file. */
     source: string;
+    /** 1-based line number in the original source. */
     line: number;
+    /** 0-based column number in the original source. */
     column: number;
+    /** Original symbol name at the position, if known. */
     name?: string;
 } | null> {
     const mapUrl = `${sourceFile}.map`; // assumes maps are next to built files

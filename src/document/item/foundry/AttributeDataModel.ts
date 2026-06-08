@@ -58,6 +58,7 @@ function defineAttributeSchema(): foundry.data.fields.DataSchema {
 
 type AttributeSchema = ReturnType<typeof defineAttributeSchema>;
 
+/** @internal */
 export class AttributeDataModel<
     TSchema extends foundry.data.fields.DataSchema = AttributeSchema,
     TLogic extends AttributeLogic<AttributeData> =

@@ -68,7 +68,6 @@ maps directly to a group here:
 ### Contributing — maintainer and project-meta
 
 - [API Docs Hosting](contributing/api-docs-hosting.md)
-- [API Documentation Plan](contributing/api-documentation-plan.md)
 
 ---
 
