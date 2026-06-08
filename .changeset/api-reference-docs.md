@@ -87,8 +87,15 @@ in reviewable batches per the API documentation coverage plan.
   `SohlCalendarComponents`) and the event-trigger taxonomy (`SohlEventQueue`
   was already documented; `SohlTriggerContext` is now covered) round out
   `sohl.calendar` and `sohl.events`.
+- **The action-execution context** — `SohlActionContext` (the context every
+  intrinsic action receives: `speaker`, `target`, `skipDialog`/`noChat`,
+  `type`/`title`, the generic `scope` payload, plus `toJSON`/`clone` and the
+  `character`/`token` accessors) and `SohlSpeaker` (who is acting and how its
+  voice is rendered to chat: identifier resolution, `toChat`,
+  `getChatMessageSpeaker`, `isOwner`, and the `ChatOptions`/`Data` namespace
+  types). Underscore-prefixed internal helpers are tagged `@internal`.
 
 The coverage probe reports **0** undocumented symbols across the full in-scope
-set — `domain/`, `core/SohlLogic`, `core/SohlSystem`, `core/SohlCalendar`, the
-event system, the actor/item Logic classes, `SohlActor`, and `utils/`
-(excluding `constants.ts`).
+set — `domain/`, `core/SohlLogic`, `core/SohlSystem`, `core/SohlCalendar`,
+`core/SohlActionContext`, `core/SohlSpeaker`, the event system, the actor/item
+Logic classes, `SohlActor`, and `utils/` (excluding `constants.ts`).
