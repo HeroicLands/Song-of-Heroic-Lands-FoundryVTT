@@ -12,9 +12,12 @@
  */
 
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+/** Persisted property key that records a data model's discriminator kind. */
 export const KIND_KEY: string = "__kind" as const;
+/** Persisted property key that records a data model's schema version. */
 export const SCHEMA_VERSION_KEY: string = "__schemaVer" as const;
 
+/** Unicode glyphs used in formatted output (×, ≥, ≤, ∞, ★, ☆). */
 export const SYMBOL: StrictObject<string> = {
     TIMES: String.fromCharCode(0x00d7),
     GREATERTHANOREQUAL: String.fromCodePoint(0x2265),
@@ -25,8 +28,11 @@ export const SYMBOL: StrictObject<string> = {
 };
 
 export const {
+    /** Map of log-level key → value. */
     kind: LOGLEVEL,
+    /** All log-level values, as an array. */
     values: LogLevels,
+    /** Type guard for log-level values. */
     isValue: isLogLevel,
 } = defineType("SOHL.Logger.LogLevel", {
     DEBUG: "debug",
@@ -34,12 +40,17 @@ export const {
     WARN: "warn",
     ERROR: "error",
 });
+/** Union of all log-level values. */
 export type LogLevel = (typeof LOGLEVEL)[keyof typeof LOGLEVEL];
 
 export const {
+    /** Map of item-kind key → value. */
     kind: ITEM_KIND,
+    /** All item-kind values, as an array. */
     values: ItemKinds,
+    /** Type guard for item-kind values. */
     isValue: isItemKind,
+    /** Localization keys per item kind. */
     labels: itemKindLabels,
 } = defineType("TYPES.Item", {
     AFFILIATION: "affiliation",
@@ -59,12 +70,17 @@ export const {
     TRAIT: "trait",
     WEAPONGEAR: "weapongear",
 });
+/** Union of all item-kind values. */
 export type ItemKind = (typeof ITEM_KIND)[keyof typeof ITEM_KIND];
 
 export const {
+    /** Map of domain-family key → value. */
     kind: DOMAIN_FAMILY,
+    /** All domain-family values, as an array. */
     values: DomainFamilies,
+    /** Type guard for domain-family values. */
     isValue: isDomainFamily,
+    /** Localization keys per domain family. */
     labels: domainFamilyLabels,
 } = defineType("SOHL.Domain.FAMILY", {
     ARCANE: "arcane", // schools of magic, elements
@@ -74,12 +90,17 @@ export const {
     ASTRAL: "astral", // birthsigns
     NATURAL: "natural", // geology, mathematics, biology, etc.
 });
+/** Union of all domain-family values. */
 export type DomainFamily = (typeof DOMAIN_FAMILY)[keyof typeof DOMAIN_FAMILY];
 
 export const {
+    /** Map of actor-kind key → value. */
     kind: ACTOR_KIND,
+    /** All actor-kind values, as an array. */
     values: ActorKinds,
+    /** Type guard for actor-kind values. */
     isValue: isActorKind,
+    /** Localization keys per actor kind. */
     labels: actorKindLabels,
 } = defineType("TYPES.Actor", {
     BEING: "being",
@@ -88,12 +109,17 @@ export const {
     STRUCTURE: "structure",
     VEHICLE: "vehicle",
 });
+/** Union of all actor-kind values. */
 export type ActorKind = (typeof ACTOR_KIND)[keyof typeof ACTOR_KIND];
 
 export const {
+    /** Map of item kind → display metadata (icon, image, key choices). */
     kind: ITEM_METADATA,
+    /** All item-metadata entries, as an array. */
     values: ItemMetadatas,
+    /** Type guard for item-metadata entries. */
     isValue: isItemMetadata,
+    /** Localization keys per item-metadata entry. */
     labels: itemMetadataLabels,
 } = defineType(`SOHL.Item.METADATA`, {
     [ITEM_KIND.AFFILIATION]: {
@@ -177,6 +203,7 @@ export const {
         KeyChoices: [] as StrictObject<string>[],
     },
 });
+/** Union of all item-metadata entries. */
 export type ItemMetadata = (typeof ITEM_METADATA)[keyof typeof ITEM_METADATA];
 
 // Compile-time check: ensure every ItemKind has an ITEM_METADATA entry.
@@ -185,9 +212,13 @@ const _ensureItemMetadataCoversAllKinds: Record<ItemKind, unknown> =
     ITEM_METADATA;
 
 export const {
+    /** Map of actor kind → display metadata (icon, image, key choices). */
     kind: ACTOR_METADATA,
+    /** All actor-metadata entries, as an array. */
     values: ActorMetadatas,
+    /** Type guard for actor-metadata entries. */
     isValue: isActorMetadata,
+    /** Localization keys per actor-metadata entry. */
     labels: actorMetadataLabels,
 } = defineType(`SOHL.Actor.METADATA`, {
     [ACTOR_KIND.BEING]: {
@@ -216,25 +247,35 @@ export const {
         KeyChoices: [] as StrictObject<string>[],
     },
 });
+/** Union of all actor-metadata entries. */
 export type ActorMetadata =
     (typeof ACTOR_METADATA)[keyof typeof ACTOR_METADATA];
 
 export const {
+    /** Map of reaction key → value. */
     kind: REACTION,
+    /** All reaction values, as an array. */
     values: Reactions,
+    /** Type guard for reaction values. */
     isValue: isReaction,
+    /** Localization keys per reaction. */
     labels: reactionLabels,
 } = defineType("SOHL.Actor.REACTION", {
     HOSTILE: "hostile",
     FRIENDLY: "friendly",
     NEUTRAL: "neutral",
 });
+/** Union of all reaction values. */
 export type Reaction = (typeof REACTION)[keyof typeof REACTION];
 
 export const {
+    /** Map of movement-medium key → value. */
     kind: MOVEMENT_MEDIUM,
+    /** All movement-medium values, as an array. */
     values: MovementMediums,
+    /** Type guard for movement-medium values. */
     isValue: isMovementMedium,
+    /** Localization keys per movement medium. */
     labels: movementMediumLabels,
 } = defineType("SOHL.MovementMedium", {
     TERRESTRIAL: "terrestrial",
@@ -243,6 +284,7 @@ export const {
     BURROWING: "burrowing",
     ASTRAL: "astral",
 });
+/** Union of all movement-medium values. */
 export type MovementMedium =
     (typeof MOVEMENT_MEDIUM)[keyof typeof MOVEMENT_MEDIUM];
 
@@ -260,9 +302,13 @@ export type MovementMedium =
  *   HIGH   — black circle; bleeds at S3 (E only), G4 (E or P), or G5 (any).
  */
 export const {
+    /** Map of bleeding-susceptibility key → value. */
     kind: BLEEDING_SUSCEPTIBILITY,
+    /** All bleeding-susceptibility values, as an array. */
     values: BleedingSusceptibilities,
+    /** Type guard for bleeding-susceptibility values. */
     isValue: isBleedingSusceptibility,
+    /** Localization keys per bleeding-susceptibility tier. */
     labels: bleedingSusceptibilityLabels,
 } = defineType("SOHL.BleedingSusceptibility", {
     NONE: "none",
@@ -270,6 +316,7 @@ export const {
     MEDIUM: "medium",
     HIGH: "high",
 });
+/** Union of all bleeding-susceptibility values. */
 export type BleedingSusceptibility =
     (typeof BLEEDING_SUSCEPTIBILITY)[keyof typeof BLEEDING_SUSCEPTIBILITY];
 
@@ -286,9 +333,13 @@ export type BleedingSusceptibility =
  * Resolution lives in `AmputationDefaults.ts`.
  */
 export const {
+    /** Map of amputability key → value. */
     kind: AMPUTABILITY,
+    /** All amputability values, as an array. */
     values: Amputabilities,
+    /** Type guard for amputability values. */
     isValue: isAmputability,
+    /** Localization keys per amputability tier. */
     labels: amputabilityLabels,
 } = defineType("SOHL.Amputability", {
     NONE: "none",
@@ -296,6 +347,7 @@ export const {
     MEDIUM: "medium",
     HIGH: "high",
 });
+/** Union of all amputability values. */
 export type Amputability = (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
 
 /**
@@ -327,9 +379,13 @@ export type Amputability = (typeof AMPUTABILITY)[keyof typeof AMPUTABILITY];
  * must not be renamed without a data migration.
  */
 export const {
+    /** Map of body-role key → value. */
     kind: BODY_ROLE,
+    /** All body-role values, as an array. */
     values: BodyRoles,
+    /** Type guard for body-role values. */
     isValue: isBodyRole,
+    /** Localization keys per body role. */
     labels: bodyRoleLabels,
 } = defineType("SOHL.BodyRole", {
     VITAL: "vital",
@@ -337,25 +393,35 @@ export const {
     MANIPULATOR: "manipulator",
     LOCOMOTOR: "locomotor",
 });
+/** Union of all body-role values. */
 export type BodyRole = (typeof BODY_ROLE)[keyof typeof BODY_ROLE];
 
 export const {
+    /** Map of cohort-member-role key → value. */
     kind: COHORT_MEMBER_ROLE,
+    /** All cohort-member-role values, as an array. */
     values: CohortMemberRoles,
+    /** Type guard for cohort-member-role values. */
     isValue: isCohortMemberRole,
+    /** Localization keys per cohort member role. */
     labels: cohortMemberRoleLabels,
 } = defineType("SOHL.Cohort.MemberRole", {
     DIRECTOR: "director",
     MEMBER: "member",
     SUBORDINATE: "subordinate",
 });
+/** Union of all cohort-member-role values. */
 export type CohortMemberRole =
     (typeof COHORT_MEMBER_ROLE)[keyof typeof COHORT_MEMBER_ROLE];
 
 export const {
+    /** Map of gear-kind key → value. */
     kind: GEAR_KIND,
+    /** All gear-kind values, as an array. */
     values: GearKinds,
+    /** Type guard for gear-kind values. */
     isValue: isGearKind,
+    /** Localization keys per gear kind. */
     labels: gearKindLabels,
 } = defineType(`SOHL.Gear.GEAR_KIND`, {
     ARMOR: "armorgear",
@@ -365,11 +431,15 @@ export const {
     CONTAINER: "containergear",
     MISC: "miscgear",
 });
+/** Union of all gear-kind values. */
 export type GearKind = (typeof GEAR_KIND)[keyof typeof GEAR_KIND];
 
 export const {
+    /** Map of value-delta info-flag key → shortcode. */
     kind: VALUE_DELTA_INFO,
+    /** All value-delta info-flag shortcodes, as an array. */
     values: ValueDeltaInfos,
+    /** Type guard for value-delta info-flag shortcodes. */
     isValue: isValueDeltaInfo,
 } = defineType("SOHL.ValueDelta.INFO", {
     DISABLED: "Dsbl",
@@ -398,8 +468,10 @@ export const {
     PLAYER: "SitMod",
     BSMOD: "BSMod",
 });
+/** Union of all value-delta info-flag shortcodes. */
 export type ValueDeltaInfo =
     (typeof VALUE_DELTA_INFO)[keyof typeof VALUE_DELTA_INFO];
+/** Map of value-delta info shortcode → its localization name and shortcode. */
 export const VALUE_DELTA_ID: StrictObject<{ name: string; shortcode: string }> =
     ValueDeltaInfos.reduce(
         (acc, val: string) => {
@@ -411,8 +483,11 @@ export const VALUE_DELTA_ID: StrictObject<{ name: string; shortcode: string }> =
     );
 
 export const {
+    /** Map of value-delta operator key → value. */
     kind: VALUE_DELTA_OPERATOR,
+    /** All value-delta operator values, as an array. */
     values: ValueDeltaOperators,
+    /** Type guard for value-delta operator values. */
     isValue: isValueDeltaOperator,
 } = defineType("SOHL.ValueDelta.OPERATOR", {
     ADD: "add",
@@ -435,9 +510,16 @@ export const VALUE_DELTA_OPERATOR_ORDER: readonly string[] = [
     "override",
     "custom",
 ] as const;
+/** Union of all value-delta operator values. */
 export type ValueDeltaOperator =
     (typeof VALUE_DELTA_OPERATOR)[keyof typeof VALUE_DELTA_OPERATOR];
+/** A value a delta may carry: a number or a boolean-as-string. */
 export type ValueDeltaValue = string | number;
+/**
+ * Type guard for {@link ValueDeltaValue}.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a number or the string `"true"`/`"false"`.
+ */
 export function isValueDeltaValue(value: unknown): value is ValueDeltaValue {
     return (
         typeof value === "number" ||
@@ -446,8 +528,11 @@ export function isValueDeltaValue(value: unknown): value is ValueDeltaValue {
 }
 
 export const {
+    /** Map of tactical-advantage key → value. */
     kind: TACTICAL_ADVANTAGES,
+    /** All tactical-advantage values, as an array. */
     values: tacticalAdvantages,
+    /** Type guard for tactical-advantage values. */
     isValue: isTacticalAdvantage,
 } = defineType("SOHL.AttackResult.TacticalAdvantage", {
     IMPACT: "impact",
@@ -455,28 +540,41 @@ export const {
     ACTION: "action",
     SETUP: "setup",
 });
+/** Union of all tactical-advantage values. */
 export type TacticalAdvantage =
     (typeof TACTICAL_ADVANTAGES)[keyof typeof TACTICAL_ADVANTAGES];
 
+/** Success-test outcome tier, as a signed integer level. */
 export type SuccessLevel = number;
+/** Critical-failure success level (−1). */
 export const CRITICAL_FAILURE: SuccessLevel = -1;
+/** Marginal-failure success level (0). */
 export const MARGINAL_FAILURE: SuccessLevel = 0;
+/** Marginal-success success level (1). */
 export const MARGINAL_SUCCESS: SuccessLevel = 1;
+/** Critical-success success level (2). */
 export const CRITICAL_SUCCESS: SuccessLevel = 2;
 
 export const {
+    /** Map of success-test mishap key → value. */
     kind: SUCCESS_TEST_RESULT_MISHAP,
+    /** All success-test mishap values, as an array. */
     values: SuccessTestResultMishaps,
+    /** Type guard for success-test mishap values. */
     isValue: isSuccessTestResultMishap,
 } = defineType("SOHL.SuccessTestResult.Mishap", {
     MISFIRE: "misfire",
 });
+/** Union of all success-test mishap values. */
 export type SuccessTestResultMishap =
     (typeof SUCCESS_TEST_RESULT_MISHAP)[keyof typeof SUCCESS_TEST_RESULT_MISHAP];
 
 export const {
+    /** Map of attack-mishap key → value. */
     kind: ATTACK_MISHAP,
+    /** All attack-mishap values, as an array. */
     values: AttackMishaps,
+    /** Type guard for attack-mishap values. */
     isValue: isAttackMishap,
 } = defineType("SOHL.AttackResult.Mishap", {
     STUMBLE_TEST: "stumbletest",
@@ -486,11 +584,15 @@ export const {
     WEAPON_BREAK: "weaponBreak",
     MISSILE_MISFIRE: "missileMisfire",
 });
+/** Union of all attack-mishap values. */
 export type AttackMishap = (typeof ATTACK_MISHAP)[keyof typeof ATTACK_MISHAP];
 
 export const {
+    /** Map of defend-mishap key → value. */
     kind: DEFEND_MISHAP,
+    /** All defend-mishap values, as an array. */
     values: DefendResultMishaps,
+    /** Type guard for defend-mishap values. */
     isValue: isDefendResultMishap,
 } = defineType("SOHL.DefendResult.DefendMishap", {
     STUMBLE_TEST: "stumbletest",
@@ -499,23 +601,31 @@ export const {
     FUMBLE: "fumble",
     WEAPON_BREAK: "weaponBreak",
 });
+/** Union of all defend-mishap values. */
 export type DefendResultMishap =
     (typeof DEFEND_MISHAP)[keyof typeof DEFEND_MISHAP];
 
 export const {
+    /** Map of success-test movement key → value. */
     kind: SUCCESS_TEST_RESULT_MOVEMENT,
+    /** All success-test movement values, as an array. */
     values: SuccessTestResultMovements,
+    /** Type guard for success-test movement values. */
     isValue: isSuccessTestResultMovement,
 } = defineType("SOHL.SuccessTestResult.Movement", {
     STATIONARY: "stationary",
     MOVING: "moving",
 });
+/** Union of all success-test movement values. */
 export type SuccessTestResultMovement =
     (typeof SUCCESS_TEST_RESULT_MOVEMENT)[keyof typeof SUCCESS_TEST_RESULT_MOVEMENT];
 
 export const {
+    /** Map of speaker roll-mode key → value. */
     kind: SOHL_SPEAKER_ROLL_MODE,
+    /** All speaker roll-mode values, as an array. */
     values: SohlSpeakerRollModes,
+    /** Type guard for speaker roll-mode values. */
     isValue: isSohlSpeakerRollMode,
 } = defineType("SOHL.SohlSpeaker.ROLL_MODE", {
     SYSTEM: "roll",
@@ -524,12 +634,16 @@ export const {
     BLIND: "blindroll",
     PRIVATE: "gmroll",
 });
+/** Union of all speaker roll-mode values. */
 export type SohlSpeakerRollMode =
     (typeof SOHL_SPEAKER_ROLL_MODE)[keyof typeof SOHL_SPEAKER_ROLL_MODE];
 
 export const {
+    /** Map of speaker chat-style key → value. */
     kind: SOHL_SPEAKER_STYLE,
+    /** All speaker chat-style values, as an array. */
     values: SohlSpeakerStyles,
+    /** Type guard for speaker chat-style values. */
     isValue: isSohlSpeakerStyle,
 } = defineType("SOHL.SohlSpeaker.STYLE", {
     OTHER: 0,
@@ -537,12 +651,16 @@ export const {
     IN_CHARACTER: 2,
     EMOTE: 3,
 });
+/** Union of all speaker chat-style values. */
 export type SohlSpeakerStyle =
     (typeof SOHL_SPEAKER_STYLE)[keyof typeof SOHL_SPEAKER_STYLE];
 
 export const {
+    /** Map of speaker sound key → audio file path. */
     kind: SOHL_SPEAKER_SOUND,
+    /** All speaker sound paths, as an array. */
     values: SohlSpeakerSounds,
+    /** Type guard for speaker sound paths. */
     isValue: isSohlSpeakerSound,
 } = defineType("SOHL.SohlSpeaker.SOUND", {
     DICE: "sounds/dice.wav",
@@ -550,12 +668,16 @@ export const {
     NOTIFICATION: "sounds/notify.wav",
     COMBAT: "sounds/drums.wav",
 });
+/** Union of all speaker sound paths. */
 export type SohlSpeakerSound =
     (typeof SOHL_SPEAKER_SOUND)[keyof typeof SOHL_SPEAKER_SOUND];
 
 export const {
+    /** Map of status-effect key → value. */
     kind: STATUS_EFFECT,
+    /** All status-effect values, as an array. */
     values: StatusEffects,
+    /** Type guard for status-effect values. */
     isValue: isStatusEffect,
 } = defineType("SOHL.StatusEffect", {
     DEAD: "dead",
@@ -596,23 +718,31 @@ export const {
     VANQUISHED: "vanquished",
     AURAL_SHOCK: "auralshock",
 });
+/** Union of all status-effect values. */
 export type StatusEffect = (typeof STATUS_EFFECT)[keyof typeof STATUS_EFFECT];
 
 export const {
+    /** Map of opposed-test tie-break key → value. */
     kind: OPPOSED_TEST_RESULT_TIEBREAK,
+    /** All opposed-test tie-break values, as an array. */
     values: OpposedTestResultTieBreaks,
+    /** Type guard for opposed-test tie-break values. */
     isValue: isOpposedTestResultTieBreak,
 } = defineType("SOHL.OpposedTestResult.TieBreak", {
     SOURCE: 1,
     NONE: 0,
     TARGET: -1,
 });
+/** Union of all opposed-test tie-break values. */
 export type OpposedTestResultTieBreak =
     (typeof OPPOSED_TEST_RESULT_TIEBREAK)[keyof typeof OPPOSED_TEST_RESULT_TIEBREAK];
 
 export const {
+    /** Map of impact-aspect key → value. */
     kind: IMPACT_ASPECT,
+    /** All impact-aspect values, as an array. */
     values: ImpactAspects,
+    /** Type guard for impact-aspect values. */
     isValue: isImpactAspect,
 } = defineType("SOHL.ImpactModifier.Aspect", {
     BLUNT: "blunt",
@@ -620,8 +750,10 @@ export const {
     PIERCING: "piercing",
     FIRE: "fire",
 });
+/** Union of all impact-aspect values. */
 export type ImpactAspect = (typeof IMPACT_ASPECT)[keyof typeof IMPACT_ASPECT];
 
+/** Single-character abbreviation for each impact aspect (b/e/p/f). */
 export const IMPACT_ASPECT_CHAR: Record<ImpactAspect, string> = {
     [IMPACT_ASPECT.BLUNT]: "b",
     [IMPACT_ASPECT.EDGED]: "e",
@@ -633,8 +765,11 @@ export const IMPACT_ASPECT_CHAR: Record<ImpactAspect, string> = {
  * Constants for context menu groups.
  */
 export const {
+    /** Map of context-menu sort-group key → value. */
     kind: SOHL_CONTEXT_MENU_SORT_GROUP,
+    /** All context-menu sort-group values, as an array. */
     values: SohlContextMenuSortGroups,
+    /** Type guard for context-menu sort-group values. */
     isValue: isSohlContextMenuSortGroup,
 } = defineType("SOHL.ContextMenu.SortGroup", {
     DEFAULT: "default",
@@ -642,8 +777,14 @@ export const {
     GENERAL: "general",
     HIDDEN: "hidden",
 });
+/** Union of all context-menu sort-group values. */
 export type SohlContextMenuSortGroup =
     (typeof SOHL_CONTEXT_MENU_SORT_GROUP)[keyof typeof SOHL_CONTEXT_MENU_SORT_GROUP];
+/**
+ * Coerce an arbitrary string to a valid context-menu sort group.
+ * @param group - The candidate sort-group string.
+ * @returns The matching sort group, or `DEFAULT` if unrecognized.
+ */
 export function toSohlContextMenuSortGroup(
     group: string,
 ): SohlContextMenuSortGroup {
@@ -652,9 +793,13 @@ export function toSohlContextMenuSortGroup(
 }
 
 export const {
+    /** Map of attribute effect-key name → change path. */
     kind: ATTRIBUTE_EFFECT_KEY,
+    /** All attribute effect-key change paths, as an array. */
     values: AttributeEffectKeys,
+    /** Type guard for attribute effect-key change paths. */
     isValue: isAttributeEffectKey,
+    /** Localization keys per attribute effect key. */
     labels: attributeEffectKeyLabels,
 } = defineType(`SOHL.Attribute.EffectKey`, {
     SCORE: "mod:logic.score",
@@ -662,13 +807,18 @@ export const {
     FATE: "mod:logic.fateMasteryLevel",
     SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
 });
+/** Union of all attribute effect-key change paths. */
 export type AttributeEffectKey =
     (typeof ATTRIBUTE_EFFECT_KEY)[keyof typeof ATTRIBUTE_EFFECT_KEY];
 
 export const {
+    /** Map of affliction effect-key name → change path. */
     kind: AFFLICTION_EFFECT_KEY,
+    /** All affliction effect-key change paths, as an array. */
     values: AfflictionEffectKeys,
+    /** Type guard for affliction effect-key change paths. */
     isValue: isAfflictionEffectKey,
+    /** Localization keys per affliction effect key. */
     labels: afflictionEffectKeyLabels,
 } = defineType(`SOHL.Affliction.EffectKey`, {
     LEVEL: "mod:logic.level",
@@ -676,13 +826,18 @@ export const {
     CONTAGION_INDEX: "mod:logic.contagionIndex",
     DIAGNOSIS_BONUS: "mod:logic.diagnosisBonus",
 });
+/** Union of all affliction effect-key change paths. */
 export type AfflictionEffectKey =
     (typeof AFFLICTION_EFFECT_KEY)[keyof typeof AFFLICTION_EFFECT_KEY];
 
 export const {
+    /** Map of armor-gear effect-key name → change path. */
     kind: ARMORGEAR_EFFECT_KEY,
+    /** All armor-gear effect-key change paths, as an array. */
     values: ArmorGearEffectKeys,
+    /** Type guard for armor-gear effect-key change paths. */
     isValue: isArmorGearEffectKey,
+    /** Localization keys per armor-gear effect key. */
     labels: armorGearEffectKeyLabels,
 } = defineType(`SOHL.ArmorGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -695,39 +850,54 @@ export const {
     PIERCING: "mod:logic.protection.piercing",
     FIRE: "mod:logic.protection.fire",
 });
+/** Union of all armor-gear effect-key change paths. */
 export type ArmorGearEffectKey =
     (typeof ARMORGEAR_EFFECT_KEY)[keyof typeof ARMORGEAR_EFFECT_KEY];
 
 export const {
+    /** Map of combat-technique effect-key name → change path. */
     kind: COMBATTECHNIQUE_EFFECT_KEY,
+    /** All combat-technique effect-key change paths, as an array. */
     values: CombatTechniqueEffectKeys,
+    /** Type guard for combat-technique effect-key change paths. */
     isValue: isCombatTechniqueEffectKey,
+    /** Localization keys per combat-technique effect key. */
     labels: combatTechniqueEffectKeyLabels,
 } = defineType(`SOHL.CombatTechnique.EffectKey`, {
     ATTACK: "mod:logic.strikeMode.attack",
     IMPACT: "mod:logic.strikeMode.impact",
     SPREAD: "mod:logic.strikeMode.spread",
 });
+/** Union of all combat-technique effect-key change paths. */
 export type CombatTechniqueEffectKey =
     (typeof COMBATTECHNIQUE_EFFECT_KEY)[keyof typeof COMBATTECHNIQUE_EFFECT_KEY];
 
 export const {
+    /** Map of mystery effect-key name → change path. */
     kind: MYSTERY_EFFECT_KEY,
+    /** All mystery effect-key change paths, as an array. */
     values: MysteryEffectKeys,
+    /** Type guard for mystery effect-key change paths. */
     isValue: isMysteryEffectKey,
+    /** Localization keys per mystery effect key. */
     labels: mysteryEffectKeyLabels,
 } = defineType(`SOHL.Mystery.EffectKey`, {
     LEVEL: "mod:logic.level",
     CHARGES: "mod:logic.charges.value",
     MAX_CHARGES: "mod:logic.charges.max",
 });
+/** Union of all mystery effect-key change paths. */
 export type MysteryEffectKey =
     (typeof MYSTERY_EFFECT_KEY)[keyof typeof MYSTERY_EFFECT_KEY];
 
 export const {
+    /** Map of mystical-ability effect-key name → change path. */
     kind: MYSTICALABILITY_EFFECT_KEY,
+    /** All mystical-ability effect-key change paths, as an array. */
     values: MysticalAbilityEffectKeys,
+    /** Type guard for mystical-ability effect-key change paths. */
     isValue: isMysticalAbilityEffectKey,
+    /** Localization keys per mystical-ability effect key. */
     labels: mysticalAbilityEffectKeyLabels,
 } = defineType(`SOHL.MysticalAbility.EffectKey`, {
     MASTERY_LEVEL: "mod:logic.masteryLevel",
@@ -736,13 +906,18 @@ export const {
     CHARGES: "mod:logic.charges.value",
     MAX_CHARGES: "mod:logic.charges.max",
 });
+/** Union of all mystical-ability effect-key change paths. */
 export type MysticalAbilityEffectKey =
     (typeof MYSTICALABILITY_EFFECT_KEY)[keyof typeof MYSTICALABILITY_EFFECT_KEY];
 
 export const {
+    /** Map of skill effect-key name → change path. */
     kind: SKILL_EFFECT_KEYS,
+    /** All skill effect-key change paths, as an array. */
     values: SkillEffectKeys,
+    /** Type guard for skill effect-key change paths. */
     isValue: isSkillEffectKey,
+    /** Localization keys per skill effect key. */
     labels: skillEffectKeyLabels,
 } = defineType(`SOHL.Skill.EffectKey`, {
     BOOSTS: "logic.boosts",
@@ -750,13 +925,18 @@ export const {
     FATE: "mod:logic.fateMasteryLevel",
     SUCCESS_LEVEL: "logic.masteryLevel.successLevelMod",
 });
+/** Union of all skill effect-key change paths. */
 export type SkillEffectKey =
     (typeof SKILL_EFFECT_KEYS)[keyof typeof SKILL_EFFECT_KEYS];
 
 export const {
+    /** Map of concoction-gear effect-key name → change path. */
     kind: CONCOCTIONGEAR_EFFECT_KEY,
+    /** All concoction-gear effect-key change paths, as an array. */
     values: ConcoctionGearEffectKeys,
+    /** Type guard for concoction-gear effect-key change paths. */
     isValue: isConcoctionGearEffectKey,
+    /** Localization keys per concoction-gear effect key. */
     labels: concoctionGearEffectKeyLabels,
 } = defineType(`SOHL.ConcoctionGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -765,13 +945,18 @@ export const {
     DURABILITY: "mod:logic.durability",
     STRENGTH: "mod:logic.strength",
 });
+/** Union of all concoction-gear effect-key change paths. */
 export type ConcoctionGearEffectKey =
     (typeof CONCOCTIONGEAR_EFFECT_KEY)[keyof typeof CONCOCTIONGEAR_EFFECT_KEY];
 
 export const {
+    /** Map of container-gear effect-key name → change path. */
     kind: CONTAINERGEAR_EFFECT_KEY,
+    /** All container-gear effect-key change paths, as an array. */
     values: ContainerGearEffectKeys,
+    /** Type guard for container-gear effect-key change paths. */
     isValue: isContainerGearEffectKey,
+    /** Localization keys per container-gear effect key. */
     labels: containerGearEffectKeyLabels,
 } = defineType(`SOHL.ContainerGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -780,13 +965,18 @@ export const {
     DURABILITY: "mod:logic.durability",
     MAX_CAPACITY: "mod:logic.maxCapacity",
 });
+/** Union of all container-gear effect-key change paths. */
 export type ContainerGearEffectKey =
     (typeof CONTAINERGEAR_EFFECT_KEY)[keyof typeof CONTAINERGEAR_EFFECT_KEY];
 
 export const {
+    /** Map of lineage effect-key name → change path. */
     kind: LINEAGE_EFFECT_KEY,
+    /** All lineage effect-key change paths, as an array. */
     values: LineageEffectKeys,
+    /** Type guard for lineage effect-key change paths. */
     isValue: isLineageEffectKey,
+    /** Localization keys per lineage effect key. */
     labels: lineageEffectKeyLabels,
 } = defineType(`SOHL.Lineage.EffectKey`, {
     BODY_WEIGHT: "mod:logic.bodyWeight",
@@ -796,13 +986,18 @@ export const {
     MOVE_BURROWING: "mod:logic.move.burrowing",
     MOVE_ASTRAL: "mod:logic.move.astral",
 });
+/** Union of all lineage effect-key change paths. */
 export type LineageEffectKey =
     (typeof LINEAGE_EFFECT_KEY)[keyof typeof LINEAGE_EFFECT_KEY];
 
 export const {
+    /** Map of misc-gear effect-key name → change path. */
     kind: MISCGEAR_EFFECT_KEY,
+    /** All misc-gear effect-key change paths, as an array. */
     values: MiscGearEffectKeys,
+    /** Type guard for misc-gear effect-key change paths. */
     isValue: isMiscGearEffectKey,
+    /** Localization keys per misc-gear effect key. */
     labels: miscGearEffectKeyLabels,
 } = defineType(`SOHL.MiscGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -810,13 +1005,18 @@ export const {
     QUALITY: "mod:logic.quality",
     DURABILITY: "mod:logic.durability",
 });
+/** Union of all misc-gear effect-key change paths. */
 export type MiscGearEffectKey =
     (typeof MISCGEAR_EFFECT_KEY)[keyof typeof MISCGEAR_EFFECT_KEY];
 
 export const {
+    /** Map of projectile-gear effect-key name → change path. */
     kind: PROJECTILEGEAR_EFFECT_KEY,
+    /** All projectile-gear effect-key change paths, as an array. */
     values: ProjectileGearEffectKeys,
+    /** Type guard for projectile-gear effect-key change paths. */
     isValue: isProjectileGearEffectKey,
+    /** Localization keys per projectile-gear effect key. */
     labels: projectileGearEffectKeyLabels,
 } = defineType(`SOHL.ProjectileGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -825,36 +1025,51 @@ export const {
     DURABILITY: "mod:logic.durability",
     IMPACT: "mod:logic.impact",
 });
+/** Union of all projectile-gear effect-key change paths. */
 export type ProjectileGearEffectKey =
     (typeof PROJECTILEGEAR_EFFECT_KEY)[keyof typeof PROJECTILEGEAR_EFFECT_KEY];
 
 export const {
+    /** Map of trait effect-key name → change path. */
     kind: TRAIT_EFFECT_KEY,
+    /** All trait effect-key change paths, as an array. */
     values: TraitEffectKeys,
+    /** Type guard for trait effect-key change paths. */
     isValue: isTraitEffectKey,
+    /** Localization keys per trait effect key. */
     labels: traitEffectKeyLabels,
 } = defineType(`SOHL.Trait.EffectKey`, {
     SCORE: "mod:logic.score",
 });
+/** Union of all trait effect-key change paths. */
 export type TraitEffectKey =
     (typeof TRAIT_EFFECT_KEY)[keyof typeof TRAIT_EFFECT_KEY];
 
 export const {
+    /** Map of trauma effect-key name → change path. */
     kind: TRAUMA_EFFECT_KEY,
+    /** All trauma effect-key change paths, as an array. */
     values: TraumaEffectKeys,
+    /** Type guard for trauma effect-key change paths. */
     isValue: isTraumaEffectKey,
+    /** Localization keys per trauma effect key. */
     labels: traumaEffectKeyLabels,
 } = defineType(`SOHL.Trauma.EffectKey`, {
     LEVEL: "mod:logic.level",
     HEALING_RATE: "mod:logic.healingRate",
 });
+/** Union of all trauma effect-key change paths. */
 export type TraumaEffectKey =
     (typeof TRAUMA_EFFECT_KEY)[keyof typeof TRAUMA_EFFECT_KEY];
 
 export const {
+    /** Map of weapon-gear effect-key name → change path. */
     kind: WEAPONGEAR_EFFECT_KEY,
+    /** All weapon-gear effect-key change paths, as an array. */
     values: WeaponGearEffectKeys,
+    /** Type guard for weapon-gear effect-key change paths. */
     isValue: isWeaponGearEffectKey,
+    /** Localization keys per weapon-gear effect key. */
     labels: weaponGearEffectKeyLabels,
 } = defineType(`SOHL.WeaponGear.EffectKey`, {
     WEIGHT: "mod:logic.weight",
@@ -875,6 +1090,7 @@ export const {
     SM_BLOCK: "mod:sm:defense.block",
     SM_COUNTERSTRIKE: "mod:sm:defense.counterstrike",
 });
+/** Union of all weapon-gear effect-key change paths. */
 export type WeaponGearEffectKey =
     (typeof WEAPONGEAR_EFFECT_KEY)[keyof typeof WEAPONGEAR_EFFECT_KEY];
 
@@ -888,9 +1104,13 @@ export const AfflictionHealRate: StrictObject<number> = {
 } as const;
 
 export const {
+    /** Map of affliction-subtype key → value. */
     kind: AFFLICTION_SUBTYPE,
+    /** All affliction-subtype values, as an array. */
     values: AfflictionSubTypes,
+    /** Type guard for affliction-subtype values. */
     isValue: isAfflictionSubType,
+    /** Localization keys per affliction subtype. */
     labels: AfflictionSubTypeLabels,
 } = defineType("SOHL.Affliction.SubType", {
     PRIVATION: "privation",
@@ -904,12 +1124,17 @@ export const {
     PSYCHE: "psyche",
     AURALSHOCK: "auralshock",
 });
+/** Union of all affliction-subtype values. */
 export type AfflictionSubType = (typeof AfflictionSubTypes)[number];
 
 export const {
+    /** Map of affliction-transmission key → value. */
     kind: AFFLICTION_TRANSMISSION,
+    /** All affliction-transmission values, as an array. */
     values: AfflictionTransmissions,
+    /** Type guard for affliction-transmission values. */
     isValue: isAfflictionTransmission,
+    /** Localization keys per affliction transmission mode. */
     labels: AfflictionTransmissionLabels,
 } = defineType("SOHL.Affliction.Transmission", {
     NONE: "none",
@@ -924,25 +1149,35 @@ export const {
     DIVINE: "divine",
     SPIRIT: "spirit",
 });
+/** Union of all affliction-transmission values. */
 export type AfflictionTransmission = (typeof AfflictionTransmissions)[number];
 
 export const {
+    /** Map of fatigue-category key → value. */
     kind: FATIGUE_CATEGORY,
+    /** All fatigue-category values, as an array. */
     values: FatigueCategories,
+    /** Type guard for fatigue-category values. */
     isValue: isFatigueCategory,
+    /** Localization keys per fatigue category. */
     labels: FatigueCategoryLabels,
 } = defineType("SOHL.Affliction.FATIGUE_CATEGORY", {
     WINDEDNESS: "windedness",
     WEARINESS: "weariness",
     WEAKNESS: "weakness",
 });
+/** Union of all fatigue-category values. */
 export type FatigueCategory =
     (typeof FATIGUE_CATEGORY)[keyof typeof FATIGUE_CATEGORY];
 
 export const {
+    /** Map of privation-category key → value. */
     kind: PRIVATION_CATEGORY,
+    /** All privation-category values, as an array. */
     values: PrivationCategories,
+    /** Type guard for privation-category values. */
     isValue: isPrivationCategory,
+    /** Localization keys per privation category. */
     labels: PrivationCategoryLabels,
 } = defineType("SOHL.Affliction.PRIVATION_CATEGORY", {
     ASPHIXIA: "asphixia",
@@ -951,13 +1186,18 @@ export const {
     STARVATION: "starvation",
     DEHYDRATION: "dehydration",
 });
+/** Union of all privation-category values. */
 export type PrivationCategory =
     (typeof PRIVATION_CATEGORY)[keyof typeof PRIVATION_CATEGORY];
 
 export const {
+    /** Map of fear-level key → numeric value. */
     kind: FEAR_LEVEL,
+    /** All fear-level numeric values, as an array. */
     values: FearLevels,
+    /** Type guard for fear-level values. */
     isValue: isFearLevel,
+    /** Localization keys per fear level. */
     labels: FearLevelLabels,
 } = defineType("SOHL.Affliction.FEAR_LEVEL", {
     NONE: 0,
@@ -967,12 +1207,17 @@ export const {
     TERRIFIED: 4,
     CATATONIC: 5,
 });
+/** Union of all fear-level values. */
 export type FearLevel = (typeof FEAR_LEVEL)[keyof typeof FEAR_LEVEL];
 
 export const {
+    /** Map of morale-level key → numeric value. */
     kind: MORALE_LEVEL,
+    /** All morale-level numeric values, as an array. */
     values: MoraleLevels,
+    /** Type guard for morale-level values. */
     isValue: isMoraleLevel,
+    /** Localization keys per morale level. */
     labels: MoraleLevelLabels,
 } = defineType("SOHL.Affliction.MORALE_LEVEL", {
     NONE: 0,
@@ -982,23 +1227,31 @@ export const {
     ROUTED: 4,
     CATATONIC: 5,
 });
+/** Union of all morale-level values. */
 export type MoraleLevel = (typeof MORALE_LEVEL)[keyof typeof MORALE_LEVEL];
 
 export const {
+    /** Map of concoction-gear subtype key → value. */
     kind: CONCOCTIONGEAR_SUBTYPE,
+    /** All concoction-gear subtype values, as an array. */
     values: ConcoctionGearSubTypes,
+    /** Type guard for concoction-gear subtype values. */
     isValue: isConcoctionGearSubType,
 } = defineType("SOHL.ConcoctionGear.SubType", {
     MUNDANE: "mundane",
     EXOTIC: "exotic",
     ELIXIR: "elixir",
 });
+/** Union of all concoction-gear subtype values. */
 export type ConcoctionGearSubType =
     (typeof CONCOCTIONGEAR_SUBTYPE)[keyof typeof CONCOCTIONGEAR_SUBTYPE];
 
 export const {
+    /** Map of concoction-gear potency key → value. */
     kind: CONCOCTIONGEAR_POTENCY,
+    /** All concoction-gear potency values, as an array. */
     values: ConcoctionGearPotencies,
+    /** Type guard for concoction-gear potency values. */
     isValue: isConcoctionGearPotency,
 } = defineType("SOHL.ConcoctionGear.Potency", {
     NOT_APPLICABLE: "na",
@@ -1006,23 +1259,32 @@ export const {
     STRONG: "strong",
     GREAT: "great",
 });
+/** Union of all concoction-gear potency values. */
 export type ConcoctionGearPotency =
     (typeof CONCOCTIONGEAR_POTENCY)[keyof typeof CONCOCTIONGEAR_POTENCY];
 
 export const {
+    /** Map of action-subtype key → value. */
     kind: ACTION_SUBTYPE,
+    /** All action-subtype values, as an array. */
     values: ActionSubTypes,
+    /** Type guard for action-subtype values. */
     isValue: isActionSubType,
+    /** Localization keys per action subtype. */
     labels: ActionSubTypeLabels,
 } = defineType("SOHL.Action.SubType", {
     INTRINSIC: "intrinsic",
     SCRIPT: "script",
 });
+/** Union of all action-subtype values. */
 export type ActionSubType = (typeof ActionSubTypes)[number];
 
 export const {
+    /** Map of action-scope key → value. */
     kind: SOHL_ACTION_SCOPE,
+    /** All action-scope values, as an array. */
     values: SohlActionScopes,
+    /** Type guard for action-scope values. */
     isValue: isSohlActionScope,
 } = defineType("SOHL.SohlAction.Scope", {
     SELF: "self",
@@ -1030,24 +1292,32 @@ export const {
     ACTOR: "actor",
     OTHER: "other",
 });
+/** Union of all action-scope values. */
 export type SohlActionScope =
     (typeof SOHL_ACTION_SCOPE)[keyof typeof SOHL_ACTION_SCOPE];
 
 export const {
+    /** Map of mystery-subtype key → value. */
     kind: MYSTERY_SUBTYPE,
+    /** All mystery-subtype values, as an array. */
     values: MysterySubTypes,
+    /** Type guard for mystery-subtype values. */
     isValue: isMysterySubType,
 } = defineType("SOHL.Mystery.SubType", {
     LEVEL: "level",
     BUFF: "buff",
     OTHER: "other",
 });
+/** Union of all mystery-subtype values. */
 export type MysterySubType =
     (typeof MYSTERY_SUBTYPE)[keyof typeof MYSTERY_SUBTYPE];
 
 export const {
+    /** Map of mystical-ability subtype key → value. */
     kind: MYSTICALABILITY_SUBTYPE,
+    /** All mystical-ability subtype values, as an array. */
     values: MysticalAbilitySubTypes,
+    /** Type guard for mystical-ability subtype values. */
     isValue: isMysticalAbilitySubType,
 } = defineType("SOHL.MysticalAbility.SubType", {
     SHAMANICRITE: "shamanicrite",
@@ -1062,12 +1332,16 @@ export const {
     ALCHEMY: "alchemy",
     DIVINATION: "divination",
 });
+/** Union of all mystical-ability subtype values. */
 export type MysticalAbilitySubType =
     (typeof MYSTICALABILITY_SUBTYPE)[keyof typeof MYSTICALABILITY_SUBTYPE];
 
 export const {
+    /** Map of projectile-gear subtype key → value. */
     kind: PROJECTILEGEAR_SUBTYPE,
+    /** All projectile-gear subtype values, as an array. */
     values: ProjectileGearSubTypes,
+    /** Type guard for projectile-gear subtype values. */
     isValue: isProjectileGearSubType,
 } = defineType("SOHL.ProjectileGear.SubType", {
     NONE: "none",
@@ -1077,23 +1351,31 @@ export const {
     DART: "dart",
     OTHER: "other",
 });
+/** Union of all projectile-gear subtype values. */
 export type ProjectileGearSubType =
     (typeof PROJECTILEGEAR_SUBTYPE)[keyof typeof PROJECTILEGEAR_SUBTYPE];
 
 export const {
+    /** Map of strike-mode-type key → value. */
     kind: STRIKE_MODE_TYPE,
+    /** All strike-mode-type values, as an array. */
     values: StrikeModeTypes,
+    /** Type guard for strike-mode-type values. */
     isValue: isStrikeModeType,
 } = defineType("SOHL.StrikeMode.Type", {
     MELEE: "melee",
     MISSILE: "missile",
 });
+/** Union of all strike-mode-type values. */
 export type StrikeModeType =
     (typeof STRIKE_MODE_TYPE)[keyof typeof STRIKE_MODE_TYPE];
 
 export const {
+    /** Map of skill-subtype key → value. */
     kind: SKILL_SUBTYPE,
+    /** All skill-subtype values, as an array. */
     values: SkillSubTypes,
+    /** Type guard for skill-subtype values. */
     isValue: isSkillSubType,
 } = defineType("SOHL.Skill.SubType", {
     SOCIAL: "social",
@@ -1106,11 +1388,15 @@ export const {
     PHYSICAL: "physical",
     COMBAT: "combat",
 });
+/** Union of all skill-subtype values. */
 export type SkillSubType = (typeof SKILL_SUBTYPE)[keyof typeof SKILL_SUBTYPE];
 
 export const {
+    /** Map of skill-combat-category key → value. */
     kind: SKILL_COMBAT_CATEGORY,
+    /** All skill-combat-category values, as an array. */
     values: SkillCombatCategories,
+    /** Type guard for skill-combat-category values. */
     isValue: isSkillCombatCategory,
 } = defineType("SOHL.Skill.Combat", {
     NONE: "none",
@@ -1121,6 +1407,7 @@ export const {
     MANEUVER: "maneuver",
     MELEEMANEUVER: "meleemaneuver",
 });
+/** Union of all skill-combat-category values. */
 export type SkillCombatCategory =
     (typeof SKILL_COMBAT_CATEGORY)[keyof typeof SKILL_COMBAT_CATEGORY];
 
@@ -1130,8 +1417,11 @@ export type SkillCombatCategory =
  * specific skill on an actor keys off these instead of a magic string.
  */
 export const {
+    /** Map of skill-code key → shortcode. */
     kind: SKILL_CODE,
+    /** All skill shortcodes, as an array. */
     values: SkillCodes,
+    /** Type guard for skill shortcodes. */
     isValue: isSkillCode,
 } = defineType("SOHL.Skill.CODE", {
     ACROBATICS: "acro",
@@ -1199,11 +1489,15 @@ export const {
     WEAPONCRAFT: "wpnc",
     WOODWORKING: "wood",
 });
+/** Union of all skill shortcodes. */
 export type SkillCode = (typeof SKILL_CODE)[keyof typeof SKILL_CODE];
 
 export const {
+    /** Map of attribute-code key → shortcode. */
     kind: ATTRIBUTE_CODE,
+    /** All attribute shortcodes, as an array. */
     values: AttributeCodes,
+    /** Type guard for attribute shortcodes. */
     isValue: isAttributeCode,
 } = defineType("SOHL.Attribute.CODE", {
     AGILITY: "agl",
@@ -1221,12 +1515,16 @@ export const {
     VOICE: "voi",
     WILL: "wil",
 });
+/** Union of all attribute shortcodes. */
 export type AttributeCode =
     (typeof ATTRIBUTE_CODE)[keyof typeof ATTRIBUTE_CODE];
 
 export const {
+    /** Map of affliction-code key → shortcode. */
     kind: AFFLICTION_CODE,
+    /** All affliction shortcodes, as an array. */
     values: AfflictionCodes,
+    /** Type guard for affliction shortcodes. */
     isValue: isAfflictionCode,
 } = defineType("SOHL.Affliction.CODE", {
     ACONITE: "aconite",
@@ -1295,12 +1593,16 @@ export const {
     TYPHOID_FEVER: "typhfvr",
     WASP_VENOM: "waspvnm",
 });
+/** Union of all affliction shortcodes. */
 export type AfflictionCode =
     (typeof AFFLICTION_CODE)[keyof typeof AFFLICTION_CODE];
 
 export const {
+    /** Map of trait-code key → shortcode. */
     kind: TRAIT_CODE,
+    /** All trait shortcodes, as an array. */
     values: TraitCodes,
+    /** Type guard for trait shortcodes. */
     isValue: isTraitCode,
 } = defineType("SOHL.Trait.CODE", {
     ABSENT_MINDED: "absntmd",
@@ -1512,21 +1814,29 @@ export const {
     XENOPHOBIA: "xenophb",
     ZOOPHOBIA: "zoophb",
 });
+/** Union of all trait shortcodes. */
 export type TraitCode = (typeof TRAIT_CODE)[keyof typeof TRAIT_CODE];
 
 export const {
+    /** Map of trait-subtype key → value. */
     kind: TRAIT_SUBTYPE,
+    /** All trait-subtype values, as an array. */
     values: TraitSubTypes,
+    /** Type guard for trait-subtype values. */
     isValue: isTraitSubType,
 } = defineType("SOHL.Trait.SubType", {
     PHYSIQUE: "physique",
     PERSONALITY: "personality",
 });
+/** Union of all trait-subtype values. */
 export type TraitSubType = (typeof TRAIT_SUBTYPE)[keyof typeof TRAIT_SUBTYPE];
 
 export const {
+    /** Map of trauma-subtype key → value. */
     kind: TRAUMA_SUBTYPE,
+    /** All trauma-subtype values, as an array. */
     values: TraumaSubTypes,
+    /** Type guard for trauma-subtype values. */
     isValue: isTraumaSubType,
 } = defineType("SOHL.Trauma.SubType", {
     PHYSICAL: "physical",
@@ -1534,6 +1844,7 @@ export const {
     SPIRITUAL: "spiritual",
     SHADOW: "shadow",
 });
+/** Union of all trauma-subtype values. */
 export type TraumaSubType =
     (typeof TRAUMA_SUBTYPE)[keyof typeof TRAUMA_SUBTYPE];
 
@@ -1547,8 +1858,11 @@ export type TraumaSubType =
 export const INJURY_LEVELS = ["NA", "M1", "S2", "S3", "G4", "G5"] as const;
 
 export const {
+    /** Map of trait-intensity key → value. */
     kind: TRAIT_INTENSITY,
+    /** All trait-intensity values, as an array. */
     values: TraitIntensities,
+    /** Type guard for trait-intensity values. */
     isValue: isTraitIntensity,
 } = defineType("SOHL.Trait.Intensity", {
     TRAIT: "trait",
@@ -1556,29 +1870,38 @@ export const {
     IMPULSE: "impulse",
     DISORDER: "disorder",
 });
+/** Union of all trait-intensity values. */
 export type TraitIntensity =
     (typeof TRAIT_INTENSITY)[keyof typeof TRAIT_INTENSITY];
 
 export const {
+    /** Map of vehicle-occupant-role key → value. */
     kind: VEHICLE_OCCUPANT_ROLE,
+    /** All vehicle-occupant-role values, as an array. */
     values: VehicleOccupantRoles,
+    /** Type guard for vehicle-occupant-role values. */
     isValue: isVehicleOccupantRole,
 } = defineType("SOHL.Vehicle.Occupant.Role", {
     CREW: "crew",
     PASSENGER: "passenger",
     DRAFT_CREATURE: "draftCreature",
 });
+/** Union of all vehicle-occupant-role values. */
 export type VehicleOccupantRole =
     (typeof VEHICLE_OCCUPANT_ROLE)[keyof typeof VEHICLE_OCCUPANT_ROLE];
 
 export const {
+    /** Map of active-effect-scope key → value. */
     kind: ACTIVE_EFFECT_SCOPE,
+    /** All active-effect-scope values, as an array. */
     values: ActiveEffectScopes,
+    /** Type guard for active-effect-scope values. */
     isValue: isActiveEffectScope,
 } = defineType("SOHL.ActiveEffect.Scope", {
     THIS: "this",
     ACTOR: "actor",
 });
+/** Union of all active-effect-scope values. */
 export type ActiveEffectScope =
     (typeof ACTIVE_EFFECT_SCOPE)[keyof typeof ACTIVE_EFFECT_SCOPE];
 
@@ -1594,8 +1917,11 @@ export function ActiveEffectScopeChoices(): string[] {
 }
 
 export const {
+    /** Map of test-type key → context-menu entry descriptor. */
     kind: TEST_TYPE,
+    /** All test-type entry descriptors, as an array. */
     values: TestTypes,
+    /** Type guard for test-type entry descriptors. */
     isValue: isTestType,
 } = defineType("SOHL.SuccessTestResult.TestType", {
     SETIMPROVEFLAG: {
@@ -1804,8 +2130,10 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
     },
 } as StrictObject<SohlContextMenu.Entry>);
+/** Union of all test-type `id` strings. */
 export type TestType = (typeof TEST_TYPE)[keyof typeof TEST_TYPE]["id"];
 
+/** Default "Turning Wheel" calendar configuration for the SoHL world. */
 export const SOHL_DEFAULT_CALENDAR_CONFIG = {
     name: "Turning Wheel",
     description: "The Turning Wheel calendar for Song of Heroic Lands.",
@@ -1999,16 +2327,77 @@ export const SOHL_DEFAULT_CALENDAR_CONFIG = {
  * ============================================================
  */
 
+/**
+ * The bundle produced by {@link defineType} for a closed set of named values
+ * (an "enum-like"). Callers destructure the pieces they need.
+ *
+ * @typeParam KMap - The literal key → value map the type is built from.
+ */
 export interface DefinedType<KMap extends Record<string, unknown>> {
+    /** The original key → value map, preserved verbatim (the "enum object"). */
     kind: KMap;
+    /** Every value in {@link kind}, as an array (handy for iteration/choices). */
     values: Array<KMap[keyof KMap]>;
+    /** Type guard: narrows an unknown to one of {@link kind}'s values. */
     isValue: (v: unknown) => v is KMap[keyof KMap];
+    /** Localization keys per entry: each key mapped to `` `${prefix}.${key}` ``. */
     labels: Record<string, string>;
+    /**
+     * Phantom value (always `null` at runtime) whose *type* is the value union.
+     * Use `typeof X.Type` to name the union in type positions — never read it
+     * at runtime.
+     */
     Type: KMap[keyof KMap];
 }
 
 /**
- * Defines a type with a prefix and its associated values.
+ * Build an enum-like value set from a plain key → value map, together with the
+ * helpers needed to use it: the value array, a runtime type guard, and a table
+ * of localization keys. This is the foundation almost every SoHL constant set
+ * is declared with, so understanding it explains the shape of `ACTOR_KIND`,
+ * `ITEM_KIND`, `VALUE_DELTA_OPERATOR`, and the rest.
+ *
+ * The typical pattern is to immediately destructure the result, giving the map,
+ * its values, its guard, and its labels each a conventional name, and then to
+ * derive the value-union type with `(typeof KIND)[keyof typeof KIND]`:
+ *
+ * @example
+ * ```ts
+ * export const {
+ *     kind: ACTOR_KIND,        // { BEING: "being", ASSEMBLY: "assembly", ... }
+ *     values: ActorKinds,      // ["being", "assembly", ...]
+ *     isValue: isActorKind,    // (v) => v is "being" | "assembly" | ...
+ *     labels: actorKindLabels, // { BEING: "TYPES.Actor.BEING", ... }
+ * } = defineType("TYPES.Actor", {
+ *     BEING: "being",
+ *     ASSEMBLY: "assembly",
+ *     COHORT: "cohort",
+ *     STRUCTURE: "structure",
+ *     VEHICLE: "vehicle",
+ * });
+ *
+ * // The value-union type, named from the kind map:
+ * export type ActorKind = (typeof ACTOR_KIND)[keyof typeof ACTOR_KIND];
+ * //   => "being" | "assembly" | "cohort" | "structure" | "vehicle"
+ *
+ * isActorKind("being"); // true
+ * isActorKind("dragon"); // false
+ * actorKindLabels.BEING; // "TYPES.Actor.BEING" (feed to the localizer)
+ * ```
+ *
+ * @remarks
+ * - The `const` type parameter preserves the literal keys and values, so the
+ *   value union is exact (not widened to `string`).
+ * - `labels` produces *localization keys*, not display text — resolve them
+ *   through {@link SohlLocalize} when rendering.
+ * - The returned `Type` member is a compile-time-only phantom; prefer the
+ *   `(typeof KIND)[keyof typeof KIND]` form shown above for naming the union.
+ *
+ * @typeParam T - The literal key → value map; inferred from `def`.
+ * @param prefix - Localization-key prefix joined to each entry key with a `.`
+ *   to form {@link DefinedType.labels} (e.g. `"TYPES.Actor"`).
+ * @param def - The key → value map defining the set.
+ * @returns A {@link DefinedType} bundle: `{ kind, values, isValue, labels, Type }`.
  */
 export function defineType<const T extends Record<string, unknown>>(
     prefix: string,

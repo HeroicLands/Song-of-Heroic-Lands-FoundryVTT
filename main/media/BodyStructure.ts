@@ -35,10 +35,22 @@ import { weightedRandom } from "@src/domain/body/WeightedRandom";
  * (via form submission or `document.update()`).
  */
 export class BodyStructure {
+    /** All body parts, in persisted order; index matches {@link BodyPart.index}. */
     readonly parts: BodyPart[];
+    /**
+     * Bidirectional adjacency matrix: a list of `[partCodeA, partCodeB]` pairs,
+     * each meaning those two parts are adjacent. Drives drift in
+     * {@link getRandomPart} and queries via {@link getAdjacentParts} / {@link hasEdge}.
+     */
     readonly adjacent: string[][];
+    /** Owning lineage logic; the source of the canonical persisted DataModel and actor. */
     readonly lineageLogic: LineageLogic;
 
+    /**
+     * @param data Persisted body-structure data (parts and adjacency pairs).
+     * @param lineageLogic Owning lineage logic, used to resolve held items and
+     *   the canonical DataModel for `update()` payloads.
+     */
     constructor(data: BodyStructure.Data, lineageLogic: LineageLogic) {
         this.lineageLogic = lineageLogic;
         this.parts = data.parts.map((d, i) => new BodyPart(d, this, i));
@@ -232,7 +244,9 @@ export class BodyStructure {
 export namespace BodyStructure {
     /** Persisted data shape for a complete body structure. */
     export interface Data {
+        /** Persisted body parts, in order. */
         parts: BodyPart.Data[];
+        /** Bidirectional adjacency pairs of part shortcodes. */
         adjacent: string[][];
     }
 }
