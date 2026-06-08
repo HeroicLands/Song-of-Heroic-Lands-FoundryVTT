@@ -31,6 +31,12 @@ in reviewable batches per the API documentation coverage plan.
   `prepareDerivedData`), creation hooks (`_preCreate`, `_onCreate`,
   `createUniqueName`), the `SohlActorLogic` / `SohlActorData` interfaces, the
   `SohlActorDataModel` base, and the `SohlActorSheetBase` render/context hooks.
+- **The `SohlLogic` core base** (`core/SohlLogic.ts`) — the abstract logic base
+  every actor/item logic class extends: the document accessors
+  (`id`/`name`/`type`/`item`/`actor`/`speaker`/`label`), the `actions`
+  collection and context-menu/default-action helpers, the phase-batched
+  lifecycle methods, the intrinsic-action exports, and the `SohlLogicData`
+  interface. Documenting the base cascades to every subclass's inherited members.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 
