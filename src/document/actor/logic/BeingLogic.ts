@@ -1143,6 +1143,7 @@ export class BeingLogic<
  * fields of its own beyond the common {@link SohlActorData} base.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `being` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "being"`. The backing DataModel implements this interface.
  */
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,

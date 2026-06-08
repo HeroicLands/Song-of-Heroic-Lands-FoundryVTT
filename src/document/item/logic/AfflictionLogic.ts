@@ -389,6 +389,7 @@ export class AfflictionLogic<
  * Persisted data model for an {@link AfflictionLogic | Affliction} item.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `affliction` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "affliction"`. The backing DataModel implements this interface.
  */
 export interface AfflictionData<
     TLogic extends AfflictionLogic<AfflictionData> = AfflictionLogic<any>,

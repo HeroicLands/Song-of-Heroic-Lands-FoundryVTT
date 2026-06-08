@@ -125,6 +125,9 @@ export class ArmorGearLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `armorgear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "armorgear"`. The backing DataModel implements this interface.
+ */
 export interface ArmorGearData<
     TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<any>,
 > extends GearData<TLogic> {

@@ -467,6 +467,9 @@ function calcMasteryBoost(ml: number): number {
     else return 3;
 }
 
+/**
+ * @remarks The shape of `system` on a `skill` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "skill"`. The backing DataModel implements this interface.
+ */
 export interface SkillData<
     TLogic extends SkillLogic<SkillData> = SkillLogic<any>,
 > extends SohlItemData<TLogic> {

@@ -63,6 +63,7 @@ export class ProjectileGearLogic<
  * Persisted data backing {@link ProjectileGearLogic}.
  *
  * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `projectilegear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "projectilegear"`. The backing DataModel implements this interface.
  */
 export interface ProjectileGearData<
     TLogic extends ProjectileGearLogic<ProjectileGearData> =

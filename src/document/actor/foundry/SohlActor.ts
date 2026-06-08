@@ -722,6 +722,7 @@ export interface SohlActorLogic<
 
 /**
  * An interface representing the common data structure for all Actor types in the SoHL system.
+ * @remarks The base shape of `system` on every SoHL actor; each concrete actor type's `*Data` extends it.
  */
 export interface SohlActorData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,

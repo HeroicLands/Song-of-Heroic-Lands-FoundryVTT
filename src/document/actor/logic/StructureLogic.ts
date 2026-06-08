@@ -61,6 +61,7 @@ export class StructureLogic<
  * no fields of its own beyond the common {@link SohlActorData} base.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `structure` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "structure"`. The backing DataModel implements this interface.
  */
 export interface StructureData<
     TLogic extends SohlActorLogic<StructureData> = SohlActorLogic<any>,

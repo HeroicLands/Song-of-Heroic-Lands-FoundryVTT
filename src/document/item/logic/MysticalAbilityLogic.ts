@@ -168,6 +168,9 @@ export class MysticalAbilityLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `mysticalability` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "mysticalability"`. The backing DataModel implements this interface.
+ */
 export interface MysticalAbilityData<
     TLogic extends MysticalAbilityLogic<MysticalAbilityData> =
         MysticalAbilityLogic<any>,

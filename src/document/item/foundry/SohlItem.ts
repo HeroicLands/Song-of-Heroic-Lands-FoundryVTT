@@ -275,6 +275,9 @@ export interface SohlItemLogic<
     TData extends SohlLogicData<SohlItem>,
 > extends SohlLogic<TData> {}
 
+/**
+ * @remarks The base shape of `system` on every SoHL item; each concrete item type's `*Data` extends it.
+ */
 export interface SohlItemData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > extends SohlLogicData<SohlItem, TLogic> {

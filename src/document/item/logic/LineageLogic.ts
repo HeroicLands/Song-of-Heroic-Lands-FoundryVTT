@@ -137,6 +137,9 @@ export class LineageLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `lineage` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "lineage"`. The backing DataModel implements this interface.
+ */
 export interface LineageData<
     TLogic extends SohlItemLogic<LineageData> = SohlItemLogic<any>,
 > extends SohlItemData<TLogic> {

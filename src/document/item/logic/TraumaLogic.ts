@@ -133,6 +133,7 @@ export class TraumaLogic<
  * Persisted data model for a {@link TraumaLogic | Trauma} item.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `trauma` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "trauma"`. The backing DataModel implements this interface.
  */
 export interface TraumaData<
     TLogic extends TraumaLogic<TraumaData> = TraumaLogic<any>,

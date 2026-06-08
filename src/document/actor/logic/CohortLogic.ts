@@ -136,6 +136,7 @@ export class CohortLogic<
  * Persisted data model for a {@link CohortLogic | Cohort} actor.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `cohort` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "cohort"`. The backing DataModel implements this interface.
  */
 export interface CohortData<
     TLogic extends SohlActorLogic<CohortData> = SohlActorLogic<any>,

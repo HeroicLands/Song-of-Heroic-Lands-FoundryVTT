@@ -55,6 +55,7 @@ export class AssemblyLogic<
  * no fields of its own beyond the common {@link SohlActorData} base.
  *
  * @typeParam TLogic - The logic class bound to this data.
+ * @remarks The shape of `system` on a `assembly` actor — i.e. `actor.system` (equivalently `actor.logic.data`) when `actor.type === "assembly"`. The backing DataModel implements this interface.
  */
 export interface AssemblyData<
     TLogic extends SohlActorLogic<AssemblyData> = SohlActorLogic<any>,

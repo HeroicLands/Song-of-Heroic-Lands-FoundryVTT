@@ -52,6 +52,12 @@ in reviewable batches per the API documentation coverage plan.
   supported extension surface is hooks, action items, and the Logic / domain
   classes — not the Foundry persistence/UI binding. The data *shape* remains
   documented through the public `*Data` interfaces.
+- **Documented the data-access pattern** — every `*Data` interface is marked as
+  the shape of `system` for its document type, and the architecture overview
+  explains that `document.logic.data` (typed as the `*Data` interface) is the
+  recommended, fully-typed path to a document's fields — equivalent to
+  `document.system`, which is the same object but typed as the now-internal
+  DataModel.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 

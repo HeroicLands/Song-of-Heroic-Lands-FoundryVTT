@@ -151,6 +151,9 @@ export class CombatTechniqueLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `combattechnique` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "combattechnique"`. The backing DataModel implements this interface.
+ */
 export interface CombatTechniqueData<
     TLogic extends CombatTechniqueLogic<CombatTechniqueData> =
         CombatTechniqueLogic<any>,

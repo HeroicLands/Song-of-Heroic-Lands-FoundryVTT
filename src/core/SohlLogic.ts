@@ -403,6 +403,7 @@ export abstract class SohlLogic<
  * {@link SohlActorData}, {@link GearData}) ultimately extends this.
  * The corresponding {@link SohlDataModel} class implements it via
  * Foundry's schema system.
+ * @remarks The base shape of every document's `system` data, reachable as `document.system` and (typed as the interface) `document.logic.data`.
  */
 export interface SohlLogicData<
     TParent extends SohlDocument = SohlDocument,

@@ -99,6 +99,9 @@ export class TraitLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `trait` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "trait"`. The backing DataModel implements this interface.
+ */
 export interface TraitData<
     TLogic extends TraitLogic<TraitData> = TraitLogic<any>,
 > extends SohlItemData<TLogic> {

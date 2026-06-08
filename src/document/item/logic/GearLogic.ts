@@ -130,6 +130,9 @@ export abstract class GearLogic<
     }
 }
 
+/**
+ * @remarks The base shape shared by all gear `system` data; the concrete gear types extend it.
+ */
 export interface GearData<
     TLogic extends GearLogic<GearData> = GearLogic<any>,
 > extends SohlItemData<TLogic> {

@@ -110,6 +110,7 @@ export class AttributeLogic<
  * Persisted data backing {@link AttributeLogic}.
  *
  * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `attribute` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "attribute"`. The backing DataModel implements this interface.
  */
 export interface AttributeData<
     TLogic extends AttributeLogic<AttributeData> = AttributeLogic<any>,

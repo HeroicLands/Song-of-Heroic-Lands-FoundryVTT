@@ -61,6 +61,7 @@ export class AffiliationLogic<
  * Persisted data backing {@link AffiliationLogic}.
  *
  * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `affiliation` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "affiliation"`. The backing DataModel implements this interface.
  */
 export interface AffiliationData<
     TLogic extends SohlItemLogic<AffiliationData> = SohlItemLogic<any>,

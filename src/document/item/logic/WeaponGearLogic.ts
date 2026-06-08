@@ -220,6 +220,7 @@ export class WeaponGearLogic<
  * Persisted data backing {@link WeaponGearLogic}.
  *
  * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `weapongear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "weapongear"`. The backing DataModel implements this interface.
  */
 export interface WeaponGearData<
     TLogic extends WeaponGearLogic<WeaponGearData> = WeaponGearLogic<any>,
