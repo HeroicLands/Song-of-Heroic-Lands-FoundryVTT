@@ -25,7 +25,7 @@ Twelve in-scope files (the combat result types, the modifier types, and the acto
 
 Triaged out (not public API): `utils/ai/AIExecutionResult.ts` → add an `@internal` tag so it drops from the docs and the backlog rather than receiving fabricated public docs.
 
-**In-scope total: ~623 undocumented symbols** (result 300, modifier 200, SohlActor 108). Note `TestResult` is a base type, so documenting it also benefits its subclasses — worth doing early. (For reference, the whole codebase reports ~4,279, but ~1,811 of those are noise from TypeDoc expanding anonymous config-object literals — `DEFAULT_OPTIONS.__type.*` — in `apps/`; the in-scope files have none of that inflation, so their counts are all real API.)
+**In-scope total: 623 undocumented symbols** (result 300, modifier 200, SohlActor 108). Note `TestResult` is a base type, so documenting it also benefits its subclasses — worth doing early. (For reference, the whole codebase reports 4,282, of which ~1,811 are noise from TypeDoc expanding anonymous config-object literals — `DEFAULT_OPTIONS.__type.*` — in `apps/`; the in-scope files have none of that inflation, so their counts are all real API.) _Re-measured 2026-06-07 and unchanged from the original baseline — adding the `override` markers did not affect the undocumented counts._
 
 ## Principles
 
@@ -34,17 +34,15 @@ Triaged out (not public API): `utils/ai/AIExecutionResult.ts` → add an `@inter
 - **Public vs internal triage.** For each undocumented exported symbol, decide _public_ (document it) or _internal_ (tag `@internal`). Internal-but-exported plumbing should be tagged, not described.
 - **Comments only — no logic changes.** This effort adds/extends doc comments. It must not touch runtime behavior, signatures, or data fields. Preserve existing docs; extend rather than rewrite.
 - **Type-level `@remarks`.** Each class/type gets a short `@remarks` explaining its role and where it sits in the lifecycle / who consumes it, not just a one-line summary.
-- **Cross-links.** Use `{@link}` between related types (e.g. `CombatResult` ↔ `AttackResult` ↔ `DefendResult`). Resolving some of the existing 284 unresolved-link warnings is a welcome side effect.
+- **Cross-links.** Use `{@link}` between related types (e.g. `CombatResult` ↔ `AttackResult` ↔ `DefendResult`). Resolving some of the existing 236 unresolved-link warnings is a welcome side effect.
 
 ## Override methods
 
-Methods that merely override a superclass member get special handling — both a small code change and a documentation shortcut:
+The `override` keyword is **already in place** across the codebase and enforced by `noImplicitOverride` (now enabled in `tsconfig.json`). There is no `override` work left in this effort — it is purely comments-only. The remaining guidance is only about how to _document_ overrides:
 
-- **Add the `override` keyword.** Any method that overrides a superclass method must be modified to carry the `override` modifier. This is the one deliberate _code_ change in this effort (everything else is comments-only); it is non-behavioral — purely a compile-time correctness marker. `noImplicitOverride` is not currently enabled and most in-scope files have zero `override` usages, so this applies broadly. Verify with `npm run build:types` after each file: TypeScript errors if `override` is placed on a method that doesn't actually override anything (TS4113), which usefully catches mistakes.
 - **Inherit the documentation.** For a pure override that does not change the contract, **leave no doc comment** — TypeDoc automatically inherits the superclass's documentation, and (verified) such a member is _not_ flagged by `validation.notDocumented`. So inheriting satisfies the coverage metric without writing anything redundant.
 - **Prefer implicit inheritance over `{@inheritDoc}`.** The explicit `{@inheritDoc Target}` tag resolves fragilely across files (it emits "Failed to find … to inherit" warnings when the reference path is off). Default to no comment; only reach for the tag if a specific case needs it.
 - **Document only genuine overriding behavior.** When an override _changes or extends_ the base contract (different return semantics, added side effects, narrowed/widened behavior), write a doc comment describing _only what differs_ from the base. In that case the comment is the override-specific documentation, not a restatement of the inherited contract.
-- **Optional follow-up (out of scope):** once overrides are consistently marked, consider enabling `noImplicitOverride` in `tsconfig.json` to enforce the keyword going forward.
 
 ## Phases
 
@@ -63,9 +61,9 @@ Also in Phase 0 or 1: tag `AIExecutionResult.ts` `@internal`.
 ## Per-batch workflow
 
 1. Read the target file and its test(s) to confirm behavior.
-2. Identify methods that override a superclass member; add the `override` keyword and leave them undocumented so they inherit (unless the override changes the contract — then document only the difference).
+2. Leave pure overrides undocumented so they inherit the base doc (the `override` keyword is already present and enforced); document only overrides that change the contract.
 3. Add/extend TSDoc on the remaining public members; tag clearly-internal exports `@internal`.
-4. `npm run build:types` — confirms nothing broke and validates the new `override` markers (TS errors on a bogus `override`).
+4. `npm run build:types` — confirms nothing broke (and, with `noImplicitOverride` on, that any newly added overriding members carry the keyword).
 5. `npm run docs:prepare && npm run docs:html` — confirm the file's classes render with descriptions and members.
 6. Re-run the coverage probe (below) and confirm the count for the touched files trends toward 0.
 7. Tom reviews the batch diff; fold corrections back before moving on.
@@ -82,7 +80,7 @@ Also in Phase 0 or 1: tag `AIExecutionResult.ts` `@internal`.
     | grep -v '__type' | wc -l
   ```
 
-  Baseline: **623**. Target: **0** for the twelve in-scope files. (`--excludeProtected` is already set in the config, so the probe inherits it.)
+  Baseline: **623** (re-measured 2026-06-07; unchanged). Target: **0** for the twelve in-scope files. (`--excludeProtected` is already set in the config, so the probe inherits it.)
 - **Build stays green.** `npm run build:types` and `npm run test` must pass after every batch.
 - **Rendered spot-check.** Open the generated class pages for the batch and confirm summaries, params, and returns read correctly.
 - `excludeNotDocumented` remains **off** throughout.
