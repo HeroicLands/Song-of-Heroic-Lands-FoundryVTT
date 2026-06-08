@@ -208,4 +208,3 @@ Localization keys for the bare shortcode (`SOHL.BodyPart.tail`, `SOHL.BodyLocati
 
 - [Type Catalog](./type-catalog.md)
 - [Combat Resolution Pipeline](./combat-resolution-pipeline.md)
-- [Injuries and Healing](./injuries-healing.md)

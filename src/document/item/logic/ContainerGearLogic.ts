@@ -15,7 +15,7 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 
 /**
- * Logic for the **Container Gear** item type — storage for other items.
+ * Storage for other items.
  *
  * Container Gear represents backpacks, saddlebags, chests, belt pouches, cargo
  * holds, and other receptacles that hold gear items. Containers track a

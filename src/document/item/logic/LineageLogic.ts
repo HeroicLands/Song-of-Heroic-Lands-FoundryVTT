@@ -22,20 +22,8 @@ import type { MoveBaseDict } from "@src/domain/movement/move-helpers";
 import type { MovementMedium } from "@src/utils/constants";
 
 /**
- * Logic for the **Lineage** item type — membership in an organization
- * or faction.
- *
- * Lineages represent a character's social and political ties: guild
- * membership, noble house allegiance, religious order, military unit, or
- * any other organizational relationship. Each affiliation tracks:
- *
- * - **society** — The name of the organization
- * - **office** — A specific position held (e.g., "Captain," "Acolyte")
- * - **title** — A formal title granted (e.g., "Sir," "Elder")
- * - **level** — Rank or standing within the organization
- *
- * Lineages are lightweight identity records with no complex calculations.
- * They can be attached to Beings, Cohorts, Structures, or Vehicles.
+ * Anatomical and movement properties
+ * that define a creature's physical form and capabilities.
  *
  * @typeParam TData - The Lineage data interface.
  */
@@ -49,6 +37,9 @@ export class LineageLogic<
      */
     bodyStructure!: BodyStructure;
 
+    /**
+     * The creature's body weight, not including carried or worn items
+     */
     bodyWeight!: ValueModifier;
 
     /**

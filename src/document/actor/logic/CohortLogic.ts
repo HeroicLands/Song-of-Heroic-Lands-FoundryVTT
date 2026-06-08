@@ -44,7 +44,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Cohort** actor type — a group of individuals acting as a unit.
+ * A group of individuals acting as a unit.
  *
  * A Cohort represents multiple actors treated as a single entity for movement,
  * combat, and other mechanics. Examples include a party of adventurers, a squad

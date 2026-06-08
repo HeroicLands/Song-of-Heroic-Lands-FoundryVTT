@@ -2,7 +2,7 @@
 
 How SoHL displays in-world dates without depending on a calendar module, and how the system coexists with modules that manage calendars.
 
-See also: [Lifecycle Hooks](../how-to/lifecycle-hooks.md), [Extension Points](../how-to/extension-points.md), [Injuries and Healing](./injuries-healing.md).
+See also: [Lifecycle Hooks](../how-to/lifecycle-hooks.md), [Extension Points](../how-to/extension-points.md).
 
 ## Why native calendar support
 
