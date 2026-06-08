@@ -14,7 +14,7 @@
 import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 
 /**
- * Logic for the **Misc Gear** item type — general-purpose equipment.
+ * General-purpose equipment.
  *
  * Misc Gear is the catch-all category for physical items that don't fit into
  * more specific gear types: tools, torches, rope, rations, clothing, jewelry,

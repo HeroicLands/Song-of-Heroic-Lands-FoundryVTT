@@ -20,7 +20,7 @@ import {
 import { MysterySubType } from "@src/utils/constants";
 
 /**
- * Logic for the **Mystery** item type — a passive or charge-based mystical
+ * A passive or charge-based mystical
  * power associated with a character or object.
  *
  * Mysteries represent supernatural gifts, blessings, and connections that

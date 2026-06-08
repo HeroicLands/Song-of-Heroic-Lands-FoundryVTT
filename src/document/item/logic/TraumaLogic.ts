@@ -31,7 +31,7 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 /**
- * Logic for the **Trauma** item type — an instance of harm to a character.
+ * An instance of harm to a character.
  *
  * Trauma represents wounds and damage sustained by a character. The
  * {@link TraumaData.subType | subType} discriminates the trauma's nature:

@@ -30,7 +30,7 @@ import type { CombatResult } from "@src/domain/result/CombatResult";
 import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
 
 /**
- * Logic for the **Combat Technique** item type — a specialized combat
+ * A specialized combat
  * maneuver or fighting style not tied to a specific weapon.
  *
  * Combat techniques represent trained maneuvers: grappling, disarming,

@@ -16,7 +16,7 @@ import { TraitIntensity, TraitSubType } from "@src/utils/constants";
 import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 
 /**
- * Logic for the **Trait** item type — an innate characteristic, advantage,
+ * An innate characteristic, advantage,
  * or drawback.
  *
  * Traits represent intrinsic properties of a character that are not learned

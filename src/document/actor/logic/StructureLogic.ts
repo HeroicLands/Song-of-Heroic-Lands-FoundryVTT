@@ -19,7 +19,7 @@ import {
 } from "@src/document/actor/foundry/SohlActor";
 
 /**
- * Logic for the **Structure** actor type — a fixed installation or location.
+ * A fixed installation or location.
  *
  * A Structure represents a building, fortification, bridge, ship hull, or any
  * other immovable (or semi-permanent) physical entity that can be targeted,
