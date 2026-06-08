@@ -62,6 +62,8 @@
         "docs:bundle": "node utils/build-docs-entry.mjs",
         "docs:html": "typedoc --options typedoc-html.json",
         "docs:md": "typedoc --options typedoc-markdown.json",
+        "docs:coverage": "run-s docs:prepare docs:coverage:check",
+        "docs:coverage:check": "node utils/docs-coverage.mjs",
         "docs:serve": "http-server build/stage/docs -o -c-1",
         "predocs:watch": "run-s docs:prepare docs:html",
         "docs:watch": "run-p \"docs:html -- --watch\" docs:serve",

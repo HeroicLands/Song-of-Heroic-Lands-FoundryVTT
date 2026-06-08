@@ -111,8 +111,21 @@ in reviewable batches per the API documentation coverage plan.
   `CalendarSettingsMenu` are Foundry `ApplicationV2` bindings, not part of the
   hook-based extension surface, so they are excluded from the published API
   (same treatment as the sheets and DataModels).
+- **`constants.ts` top-level tables + `defineType`** — every top-level exported
+  enum/table, value union, and helper in `constants.ts` now carries a concise
+  one-line description (`ACTOR_KIND`, `ITEM_KIND`, `TRAIT_CODE`, `SKILL_CODE`,
+  `VALUE_DELTA_OPERATOR`, the `*_METADATA`/`*_EFFECT_KEY`/`*_SUBTYPE` groups,
+  …). `defineType` — the foundation nearly every constant set is declared with —
+  and its `DefinedType` result are documented in depth (with `@typeParam`,
+  `@example`, and `@remarks`). The thousands of self-describing individual
+  members of those tables are intentionally **not** documented per-member; that
+  reference data lives in CLAUDE.md and the player rules site.
+- **A documentation-coverage gate** (`npm run docs:coverage`,
+  `utils/docs-coverage.mjs`) runs the TypeDoc `notDocumented` validation and
+  fails on any undocumented symbol outside `constants.ts`, so the "fully
+  documented" state is now enforceable rather than manually checked.
 
-The coverage probe reports **0** undocumented symbols across the entire in-scope
-API — every `domain/`, `core/`, `document/`, and `utils/` symbol (excluding
-`constants.ts`, which is intentionally deferred). The only remaining
-undocumented symbols are in `constants.ts`.
+The coverage gate reports **0** undocumented symbols across the entire in-scope
+API — every `domain/`, `core/`, `document/`, and `utils/` symbol. Only the
+member-level entries of the `constants.ts` lookup tables are deliberately
+excluded.
