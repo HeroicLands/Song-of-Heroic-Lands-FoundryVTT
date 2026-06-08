@@ -63,6 +63,12 @@ export class ImpactModifier extends ValueModifier {
     private roll: SimpleRoll | null;
     private aspect: ImpactAspect;
 
+    /**
+     * @param data - Impact data; `roll` (the dice) and `aspect` are optional —
+     *   aspect defaults to blunt.
+     * @param options - Must provide `options.parent` (base {@link ValueModifier}).
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<ImpactModifier.Data> = {},
         options: Partial<ImpactModifier.Options> = {},
@@ -72,7 +78,12 @@ export class ImpactModifier extends ValueModifier {
         this.aspect =
             isImpactAspect(data.aspect) ? data.aspect : IMPACT_ASPECT.BLUNT;
     }
-    // Getter for disabled
+
+    /**
+     * Beyond the inherited disabled reason, an impact is disabled automatically
+     * when it would deal no damage — both the dice and the effective modifier
+     * are zero.
+     */
     override get disabled(): string {
         return (
             super.disabled ||
@@ -87,15 +98,17 @@ export class ImpactModifier extends ValueModifier {
         return this.aspect;
     }
 
+    /** Number of faces on the impact die (0 when there are no dice). */
     get die(): number {
         return this.roll?.dieFaces || 0;
     }
 
+    /** Number of impact dice (0 when none). */
     get numDice(): number {
         return this.roll?.numDice || 0;
     }
 
-    // Getter for dice formula
+    /** The impact as a formula string, e.g. `"2d6+3"` (or `"0"` when empty). */
     get diceFormula(): string {
         if (!this.numDice && !this.effective) return "0";
         const result =
@@ -107,12 +120,17 @@ export class ImpactModifier extends ValueModifier {
         return result;
     }
 
-    // Getter for label
+    /** The {@link diceFormula} with the aspect suffix appended, e.g. `"2d6+3e"` for edged. */
     get label(): string {
         return `${this.diceFormula}${IMPACT_ASPECT_CHAR[this.aspect]}`;
     }
 
-    // Evaluate method
+    /**
+     * Roll the impact (dice plus effective modifier) once and return the total.
+     *
+     * @returns The total impact. If already rolled, the existing total is
+     *   returned rather than re-rolling.
+     */
     evaluate(): number {
         if (this.roll) return this.roll.total;
         this.roll = SimpleRoll.fromFormula(this.diceFormula);
@@ -121,10 +139,14 @@ export class ImpactModifier extends ValueModifier {
 }
 
 export namespace ImpactModifier {
+    /** Registry key identifying this modifier kind for serialization. */
     export const Kind = "ImpactModifier";
 
+    /** Construction data for an {@link ImpactModifier}. */
     export interface Data extends ValueModifier.Data {
+        /** Pre-rolled or seed dice for the impact. */
         roll: SimpleRoll;
+        /** The damage aspect (blunt/edged/piercing/fire); defaults to blunt. */
         aspect: ImpactAspect;
     }
 

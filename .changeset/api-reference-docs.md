@@ -18,8 +18,15 @@ in reviewable batches per the API documentation coverage plan.
   opposed-resolution getters, the `evaluate` / `testDialog` / `toChat` overrides
   (each documenting only what it adds over the base), and the `Data` / `Options`
   / `ContextScope` / `LimitedDescription` namespace types.
+- **All modifier types (`domain/modifier/`)** — complete coverage of
+  `ValueModifier` (the base + deltas model: operators, inspection/mutation
+  methods, disabled state, chat rendering), `MasteryLevelModifier` (target
+  clamping, critical digits, success-level offset, and the success /
+  success-value / opposed test methods), `ImpactModifier` (dice, aspect,
+  formula, evaluation), `CombatModifier`, and the `ValueDelta` building block —
+  including their namespace types. Internal plumbing is tagged `@internal`.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 
 The coverage probe reports **0** undocumented symbols across `domain/result/`
-(down from 300).
+and `domain/modifier/` (down from 300 and 200 respectively).
