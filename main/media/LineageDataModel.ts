@@ -243,6 +243,7 @@ function defineLineageDataSchema(): foundry.data.fields.DataSchema {
 
 type SohlLineageDataSchema = ReturnType<typeof defineLineageDataSchema>;
 
+/** @internal */
 export class LineageDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlLineageDataSchema,
     TLogic extends LineageLogic<LineageData> = LineageLogic<LineageData>,

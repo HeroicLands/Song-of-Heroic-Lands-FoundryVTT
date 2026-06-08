@@ -48,7 +48,6 @@ Contracts, catalogs, and specifications.
 Maintainer and project-meta documentation.
 
 - [API Docs Hosting (api.heroiclands.org)](contributing/api-docs-hosting.md)
-- [API Documentation Plan](contributing/api-documentation-plan.md)
 
 ## Player & GM rules (external)
 

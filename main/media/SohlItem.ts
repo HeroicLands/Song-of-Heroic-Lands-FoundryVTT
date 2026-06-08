@@ -34,6 +34,17 @@ type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 // SohlItemData (interface), SohlItemBaseLogic (base class), SohlItemDataModel (base DataModel),
 // and SohlItemSheetBase (base Sheet). Should be split into separate files following the
 // logic/foundry pattern used by all concrete item types.
+/**
+ * Base class for all Item documents in the SoHL system — affiliations,
+ * afflictions, gear (armor, weapons, containers, misc, projectiles,
+ * concoctions), combat techniques, mysteries, mystical abilities, skills,
+ * traits, and traumas.
+ *
+ * Like {@link SohlActor}, the typed game-rules surface lives on the item's
+ * logic object: prefer `item.logic` (equivalently `item.system.logic`) and the
+ * typed `item.logic.data` ({@link SohlItemData}) over reaching into
+ * `item.system` directly.
+ */
 export class SohlItem extends Item {
     /**
      * Get the logic object for this item.
@@ -49,16 +60,26 @@ export class SohlItem extends Item {
      * @param doc The SohlItem document to get context options for.
      * @returns The context menu options for the specified SohlItem document.
      */
-    static _getContextOptions(doc: SohlItem): SohlContextMenu.Entry[] {
-        return doc._getContextOptions();
+    protected static _getContextOptions(
+        doc: SohlItem,
+    ): SohlContextMenu.Entry[] {
+        return doc.getContextOptions();
     }
 
     /**
-     * Get the context menu options for this item.
-     * @returns The context menu options for this item.
+     * The context-menu options — the actions currently available — for this
+     * item.
+     *
+     * @remarks
+     * One entry per action whose `visible` predicate currently passes (an
+     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
+     * are additionally permission-gated when executed. Use this to discover
+     * which actions can be performed on the item.
+     *
+     * @returns The available context-menu entries.
      */
-    _getContextOptions(): SohlContextMenu.Entry[] {
-        return this.logic._getContextOptions();
+    getContextOptions(): SohlContextMenu.Entry[] {
+        return this.logic.getContextOptions();
     }
 
     /**
@@ -71,7 +92,7 @@ export class SohlItem extends Item {
      * @param user - The user attempting the update.
      * @returns `false` to cancel the update, otherwise delegates to super.
      */
-    override async _preUpdate(
+    protected override async _preUpdate(
         changes: PlainObject,
         options: PlainObject,
         user: User,
@@ -109,7 +130,7 @@ export class SohlItem extends Item {
      * current data-preparation cycle. Cleared at the top of the actor's
      * `prepareBaseData()`. Mirrors Foundry's `Actor#_completedActiveEffectPhases`.
      */
-    _completedActiveEffectPhases?: Set<string>;
+    protected _completedActiveEffectPhases?: Set<string>;
 
     /**
      * Effects living elsewhere whose `targets` include this item. Walks
@@ -275,12 +296,22 @@ export interface SohlItemLogic<
     TData extends SohlLogicData<SohlItem>,
 > extends SohlLogic<TData> {}
 
+/**
+ * @remarks The base shape of `system` on every SoHL item; each concrete item type's `*Data` extends it.
+ */
 export interface SohlItemData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > extends SohlLogicData<SohlItem, TLogic> {
+    /** The owning {@link SohlItem}. */
     get item(): SohlItem;
+    /**
+     * The item's display label; with `withName`, includes the item's name, and
+     * with `withSubType`, includes its sub-type.
+     */
     label(options?: { withName: boolean; withSubType: boolean }): string;
+    /** Rich-text GM/player notes for the item. */
     notes: HTMLString;
+    /** Rich-text description shown on the item's sheet and chat cards. */
     docHtml: HTMLString;
 }
 
@@ -316,6 +347,7 @@ type SohlItemDataSchema = ReturnType<typeof defineSohlItemDataSchema>;
  * a structured data model for items in the "Song of Heroic Lands" system. It
  * encapsulates logic and behavior associated with items, offering a schema
  * definition and initialization logic.
+ * @internal
  */
 export abstract class SohlItemDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlItemDataSchema,
@@ -393,6 +425,7 @@ const SohlItemSheetBase_Base = SohlDataModel.SheetMixin<
     typeof foundry.applications.api.DocumentSheetV2<SohlItem>
 >(foundry.applications.api.DocumentSheetV2<SohlItem>);
 
+/** @internal */
 export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     static PARTS = {
         header: {
@@ -451,7 +484,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return this.item.actor;
     }
 
-    override _configureRenderOptions(
+    protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -464,7 +497,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options.parts.push("properties", "description", "actions", "effects");
     }
 
-    override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
+    protected override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
@@ -474,7 +507,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return context;
     }
 
-    async _preparePartContext(
+    protected async _preparePartContext(
         partId: string,
         context: RenderContext,
         options: RenderOptions,

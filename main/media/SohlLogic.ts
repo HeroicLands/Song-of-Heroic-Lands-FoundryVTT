@@ -27,10 +27,20 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlActionData, SohlAction } from "@src/domain/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
 
+/**
+ * The intrinsic actions every {@link SohlLogic} provides out of the box (e.g.
+ * the post-finalize lifecycle hook). The {@link defineType} call yields the
+ * value map (`INTRINSIC_ACTION`), the value list (`IntrinsicActions`), a type
+ * guard (`isIntrinsicAction`), and localization labels (`intrinsicActionLabels`).
+ */
 export const {
+    /** Map of intrinsic-action id → action definition. */
     kind: INTRINSIC_ACTION,
+    /** All intrinsic-action ids as an array. */
     values: IntrinsicActions,
+    /** Type guard for {@link IntrinsicAction}. */
     isValue: isIntrinsicAction,
+    /** Localization labels keyed by intrinsic-action id. */
     labels: intrinsicActionLabels,
 } = defineType("SOHL.SohlLogic.INTRINSIC_ACTION", {
     POSTFINALIZE: {
@@ -43,6 +53,7 @@ export const {
         group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
     },
 } as StrictObject<Partial<SohlActionData>>);
+/** Union of the intrinsic-action ids defined in {@link INTRINSIC_ACTION}. */
 export type IntrinsicAction =
     (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];
 
@@ -92,6 +103,7 @@ export abstract class SohlLogic<
     TData extends SohlLogicData<any> = SohlLogicData<any>,
 > {
     private readonly _parent: TData;
+    /** Executable actions for this document, keyed by title — context-menu entries, chat-card buttons, and lifecycle hooks. */
     actions: SohlMap<string, SohlAction>;
 
     /**
@@ -109,18 +121,26 @@ export abstract class SohlLogic<
         return this.parent;
     }
 
+    /** The owning document's id. */
     get id(): DocumentId {
         return this.parent.parent.id;
     }
 
+    /** The owning document's name. */
     get name(): string {
         return this.parent.parent.name;
     }
 
+    /** The owning document's type (its actor or item kind). */
     get type(): string {
         return this.parent.parent.type;
     }
 
+    /**
+     * The owning {@link SohlItem}.
+     *
+     * @throws If this logic is not embedded in an item.
+     */
     get item(): SohlItem {
         if ("item" in this.parent) {
             return this.parent.item as SohlItem;
@@ -129,6 +149,7 @@ export abstract class SohlLogic<
         }
     }
 
+    /** The owning {@link SohlActor} — the item's actor when this logic is on an item — or `null`. */
     get actor(): SohlActor | null {
         if ("actor" in this.parent) {
             return this.parent.actor as SohlActor;
@@ -137,6 +158,7 @@ export abstract class SohlLogic<
         }
     }
 
+    /** A {@link SohlSpeaker} for the owning actor/item (a blank speaker if neither resolves). */
     get speaker(): SohlSpeaker {
         return (
             this.actor?.getSpeaker() ??
@@ -145,6 +167,7 @@ export abstract class SohlLogic<
         );
     }
 
+    /** Localized type (and sub-type, when present) label for the owning document. */
     get typeLabel(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
@@ -160,6 +183,7 @@ export abstract class SohlLogic<
         }
     }
 
+    /** Localized display label combining the {@link typeLabel} and the document's name. */
     get label(): string {
         const dataModel = this.parent as any;
         const type = dataModel.parent.type;
@@ -172,6 +196,7 @@ export abstract class SohlLogic<
         });
     }
 
+    /** Title of the action used as the default context-menu action (`""` = none). Override in subclasses. */
     get defaultIntrinsicActionName(): string {
         return "";
     }
@@ -188,6 +213,13 @@ export abstract class SohlLogic<
     //     // });
     // }
 
+    /**
+     * @param data - Reserved base data (unused by the base class).
+     * @param options - Must provide `options.parent`, the data model this logic
+     *   is embedded in; the parent's `actionDefs` are used to build
+     *   {@link actions}.
+     * @throws If no `parent` is provided.
+     */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!options.parent) {
             throw new Error(
@@ -203,10 +235,19 @@ export abstract class SohlLogic<
         );
     }
 
+    /** Serialize this logic to a plain object. */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
 
+    /**
+     * Normalize a list of actions for display: ensure at most one is marked as
+     * the default (demoting extras to "essential"), promote the configured
+     * {@link defaultIntrinsicActionName} when none is marked, and sort the list
+     * by context-menu group.
+     *
+     * @param action - The actions to normalize; sorted and mutated in place.
+     */
     setDefaultAction(action: SohlAction[]): void {
         // Ensure there is at most one default, all others set to Essential
         let hasDefault = false;
@@ -259,15 +300,18 @@ export abstract class SohlLogic<
     }
 
     /**
-     * Build context-menu entries from this logic's actions.
+     * The context-menu options — the actions currently available — for this
+     * logic's document.
      *
-     * The entry's `condition` is a one-liner delegating to the action's
-     * `visible` predicate. Visibility already composes with the action's
-     * `trigger` (so domain preconditions hide the entry), and `execute()`
-     * separately enforces the permission gate for `SCRIPT` actions.
-     * @returns The context-menu entries for this logic's actions.
+     * @remarks
+     * One entry per action whose `visible` predicate currently passes (an
+     * action's `trigger` / domain preconditions can hide it); `SCRIPT` actions
+     * are additionally permission-gated when executed. Use this to discover
+     * which actions can be performed on the document.
+     *
+     * @returns The available context-menu entries.
      */
-    _getContextOptions(): SohlContextMenu.Entry[] {
+    getContextOptions(): SohlContextMenu.Entry[] {
         const entries: SohlContextMenu.Entry[] = [];
         for (const action of this.actions.values()) {
             const data = action.data;
@@ -362,14 +406,20 @@ export abstract class SohlLogic<
  * {@link SohlActorData}, {@link GearData}) ultimately extends this.
  * The corresponding {@link SohlDataModel} class implements it via
  * Foundry's schema system.
+ * @remarks The base shape of every document's `system` data, reachable as `document.system` and (typed as the interface) `document.logic.data`.
  */
 export interface SohlLogicData<
     TParent extends SohlDocument = SohlDocument,
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > {
+    /** The Foundry document (actor or item) this data belongs to, or `null`. */
     parent: TParent | null;
+    /** The logic instance built from this data. */
     logic: TLogic;
+    /** The document kind (its actor or item type id). */
     kind: string;
+    /** Short identity code for this document. */
     shortcode: string;
+    /** Serialized action definitions used to build {@link SohlLogic.actions}. */
     actionDefs: SohlActionData[];
 }
