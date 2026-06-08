@@ -38,7 +38,13 @@ import { ImpactModifier } from "../modifier/ImpactModifier";
  * when the blow lands).
  */
 export class AttackResult extends SuccessTestResult {
+    /**
+     * The impact (damage) **formula/capability** for this attack, e.g. 2d6+5
+     * edged. Not rolled here — {@link CombatResult} produces an `ImpactResult`
+     * from it only when the blow lands. {@link evaluate} disables it on a miss.
+     */
     impact: ImpactModifier;
+    /** Shortcode of the body part this attack aims at (empty if unaimed). */
     aimBodyPartCode: string;
     /**
      * Strike spread governing hit-location scatter from {@link aimBodyPartCode}
@@ -47,6 +53,13 @@ export class AttackResult extends SuccessTestResult {
      */
     spread: number;
 
+    /**
+     * @param data - Attack data; `impact`, `aimBodyPartCode`, and `spread`
+     *   default to an empty {@link ImpactModifier}, `""`, and `0` respectively.
+     * @param options - Result options; `options.parent` is required by the base
+     *   {@link TestResult} constructor.
+     * @throws If no `parent` is provided.
+     */
     constructor(
         data: Partial<AttackResult.Data> = {},
         options: Partial<AttackResult.Options> = {},
@@ -57,6 +70,20 @@ export class AttackResult extends SuccessTestResult {
         this.spread = data.spread ?? 0;
     }
 
+    /**
+     * Roll the attack and apply attack-specific outcomes on top of the base
+     * {@link SuccessTestResult.evaluate}.
+     *
+     * @remarks
+     * On a failed roll this flags mishaps from a critical failure — for melee,
+     * fumble (last digit 0) or stumble (last digit 5); for missile, fumble
+     * (0) or misfire (5) — and disables {@link impact} ("Attack missed").
+     * Impact is never rolled here; that happens in {@link CombatResult} when the
+     * blow lands.
+     *
+     * @returns `false` if the base evaluation disallows the result; otherwise
+     *   `true`.
+     */
     override async evaluate(): Promise<boolean> {
         const allowed = await super.evaluate();
         if (!allowed) return false;
@@ -90,6 +117,15 @@ export class AttackResult extends SuccessTestResult {
         return true;
     }
 
+    /**
+     * Extend the base test dialog with an **impact situational modifier**: the
+     * value entered in the dialog is added to {@link impact} (as a `PLAYER`
+     * delta) before the supplied `callback` is chained.
+     *
+     * @param data - Base dialog data; this override injects {@link impact}.
+     * @param callback - Invoked with the submitted form data after the impact
+     *   modifier is applied.
+     */
     override async testDialog(
         data: PlainObject = {},
         callback: (formData: StrictObject<string | number>) => void,
@@ -121,6 +157,7 @@ export class AttackResult extends SuccessTestResult {
         );
     }
 
+    /** Include this attack's {@link impact} modifier in the chat-card data. */
     override async toChat(data = {}) {
         return super.toChat({
             ...data,
@@ -130,8 +167,10 @@ export class AttackResult extends SuccessTestResult {
 }
 
 export namespace AttackResult {
+    /** Registry key identifying this result kind for serialization. */
     export const Kind: string = "AttackResult";
 
+    /** Construction data for an {@link AttackResult}. */
     export interface Data extends SuccessTestResult.Data {
         /** The impact (damage) formula/capability for this attack. */
         impact: ImpactModifier;
@@ -141,9 +180,12 @@ export namespace AttackResult {
         spread: number;
     }
 
+    /** Options for an {@link AttackResult}; see {@link SuccessTestResult.Options}. */
     export interface Options extends SuccessTestResult.Options {}
 
+    /** Scope passed to actions that resume from a prior attack. */
     export interface ContextScope {
+        /** The originating attack, or `null` if none. */
         priorTestResult: AttackResult | null;
     }
 }
