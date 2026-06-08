@@ -19,6 +19,11 @@ import {
     resolveGroupSeeding,
 } from "./combat-logic";
 
+/**
+ * SoHL's Combat document. Seeds newly created combatants into
+ * {@link CombatantGroup}s (see {@link resolveGroupSeeding}) and drives the
+ * system's combat lifecycle.
+ */
 export class SohlCombat<
     SubType extends Combat.SubType = Combat.SubType,
 > extends Combat<SubType> {

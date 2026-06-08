@@ -95,8 +95,24 @@ in reviewable batches per the API documentation coverage plan.
   `getChatMessageSpeaker`, `isOwner`, and the `ChatOptions`/`Data` namespace
   types). Underscore-prefixed internal helpers are kept out of the public API
   (`_prepareChat` is `protected`; the `_speaker` cache field is `@internal`).
+- **The `SohlItem` document** — the item document class plus the base
+  `SohlItemData` members (`item`, `label`, `notes`, `docHtml`) whose docs
+  cascade to every concrete item type's `*Data` interface, completing the
+  actor/item document pair alongside `SohlActor`.
+- **The `FoundryHelpers` isolation layer** — the supported wrappers the codebase
+  routes Foundry API calls through (e.g. `getGame`/`getCanvas`/`getCurrentUser`/
+  `getCurrentScene`, the HTML/template renderers, and the dialog config types
+  `DialogConfig`/`DialogButton`/`AwaitDialogResult` and their callbacks).
+- **Combat/scene document + logic stragglers** — `SohlCombat`, `SohlCombatant`
+  (+ `StrikeModeRef`), `SohlActiveEffect`, `SohlSceneLogic`, the combat/combatant
+  logic view interfaces, the strike-mode helpers, `SohlDomains.getChoices`,
+  `URLField`, and `StrikeModeTestKind`.
+- **The settings-menu UIs are marked `@internal`** — `DomainManagerApp` and
+  `CalendarSettingsMenu` are Foundry `ApplicationV2` bindings, not part of the
+  hook-based extension surface, so they are excluded from the published API
+  (same treatment as the sheets and DataModels).
 
-The coverage probe reports **0** undocumented symbols across the full in-scope
-set — `domain/`, `core/SohlLogic`, `core/SohlSystem`, `core/SohlCalendar`,
-`core/SohlActionContext`, `core/SohlSpeaker`, the event system, the actor/item
-Logic classes, `SohlActor`, and `utils/` (excluding `constants.ts`).
+The coverage probe reports **0** undocumented symbols across the entire in-scope
+API — every `domain/`, `core/`, `document/`, and `utils/` symbol (excluding
+`constants.ts`, which is intentionally deferred). The only remaining
+undocumented symbols are in `constants.ts`.

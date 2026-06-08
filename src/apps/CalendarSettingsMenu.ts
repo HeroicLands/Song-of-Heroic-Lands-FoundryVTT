@@ -26,6 +26,8 @@ const CalendarSettingsMenu_Base: any =
  * - A dropdown to select the active calendar from all registered calendars
  * - A FilePicker to import a new calendar from a JSON file
  * - A list of imported (non-builtin) calendars with delete buttons
+ *
+ * @internal Foundry settings-menu UI binding; not part of the public API.
  */
 export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof foundry.applications.api.ApplicationV2) {
     static override DEFAULT_OPTIONS = {

@@ -36,13 +36,19 @@ const {
     AnyField,
 } = foundry.data.fields;
 
+/**
+ * SoHL's Active Effect document. Resolves its owning item/actor and applies
+ * effect changes through the system's modifier pipeline.
+ */
 export class SohlActiveEffect extends ActiveEffect {
+    /** The owning {@link SohlItem} when the effect is on an item, else `null`. */
     get item(): SohlItem | null {
         return ItemKinds.includes(this.parent?.type as any) ?
                 (this.parent as SohlItem)
             :   null;
     }
 
+    /** The owning {@link SohlActor} (the item's actor, or the actor parent). */
     get actor(): SohlActor {
         return (this.item?.actor || this.parent) as unknown as SohlActor;
     }

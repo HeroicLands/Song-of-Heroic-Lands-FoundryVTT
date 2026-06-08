@@ -34,6 +34,17 @@ type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 // SohlItemData (interface), SohlItemBaseLogic (base class), SohlItemDataModel (base DataModel),
 // and SohlItemSheetBase (base Sheet). Should be split into separate files following the
 // logic/foundry pattern used by all concrete item types.
+/**
+ * Base class for all Item documents in the SoHL system — affiliations,
+ * afflictions, gear (armor, weapons, containers, misc, projectiles,
+ * concoctions), combat techniques, mysteries, mystical abilities, skills,
+ * traits, and traumas.
+ *
+ * Like {@link SohlActor}, the typed game-rules surface lives on the item's
+ * logic object: prefer `item.logic` (equivalently `item.system.logic`) and the
+ * typed `item.logic.data` ({@link SohlItemData}) over reaching into
+ * `item.system` directly.
+ */
 export class SohlItem extends Item {
     /**
      * Get the logic object for this item.
@@ -291,9 +302,16 @@ export interface SohlItemLogic<
 export interface SohlItemData<
     TLogic extends SohlLogic<any> = SohlLogic<any>,
 > extends SohlLogicData<SohlItem, TLogic> {
+    /** The owning {@link SohlItem}. */
     get item(): SohlItem;
+    /**
+     * The item's display label; with `withName`, includes the item's name, and
+     * with `withSubType`, includes its sub-type.
+     */
     label(options?: { withName: boolean; withSubType: boolean }): string;
+    /** Rich-text GM/player notes for the item. */
     notes: HTMLString;
+    /** Rich-text description shown on the item's sheet and chat cards. */
     docHtml: HTMLString;
 }
 

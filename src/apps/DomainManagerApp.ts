@@ -42,6 +42,8 @@ interface RenderGroup {
  * actions. System and module entries can be edited (override) but not
  * deleted; only entries with `source === "world"` may be removed through
  * the UI.
+ *
+ * @internal Foundry settings-app UI binding; not part of the public API.
  */
 export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.applications.api.ApplicationV2) {
     static override DEFAULT_OPTIONS = {

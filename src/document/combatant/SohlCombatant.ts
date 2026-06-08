@@ -33,10 +33,16 @@ import {
 
 /** A reference to a specific strike mode on an item: `{ itemId, smId }`. */
 export interface StrikeModeRef {
+    /** Id of the item carrying the strike mode. */
     itemId: string;
+    /** Id of the strike mode on that item. */
     smId: string;
 }
 
+/**
+ * SoHL's Combatant document. Adds strike-mode memory (last attack/block) and
+ * threat queries on top of Foundry's combatant.
+ */
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
