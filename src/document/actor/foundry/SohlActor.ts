@@ -117,7 +117,7 @@ export class SohlActor extends Actor {
         // `createInjury` is handled directly (it posts an injury rather than
         // running an intrinsic action).
         if (actionName === "createInjury") {
-            await this._onCreateInjury(btn);
+            await this.onCreateInjury(btn);
             return;
         }
 
@@ -162,7 +162,7 @@ export class SohlActor extends Actor {
      * player input; an assisted request opens the Add Injury dialog so the GM
      * can pick the location and tune armor reduction.
      */
-    protected async _onCreateInjury(btn: HTMLElement): Promise<void> {
+    private async onCreateInjury(btn: HTMLElement): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -182,7 +182,7 @@ export class SohlActor extends Actor {
         // Automated: aim was forwarded, so resolve and record with no dialog.
         if (isAutomatedRequest(req)) {
             const injury = resolveAutomatedInjury(req, body);
-            await this._postInjury(injury, injury.level >= 1);
+            await this.postInjury(injury, injury.level >= 1);
             if (injury.level >= 1) await createTraumaFromInjury(this, injury);
             return;
         }
@@ -264,13 +264,13 @@ export class SohlActor extends Actor {
             armorReduction: form.armorReduction,
             extraBleedRisk: form.extraBleedRisk,
         });
-        await this._postInjury(injury, form.addToCharSheet);
+        await this.postInjury(injury, form.addToCharSheet);
         if (form.addToCharSheet && injury.level >= 1)
             await createTraumaFromInjury(this, injury);
     }
 
     /** Post an `injury-card` to chat for a resolved injury on this actor. */
-    protected async _postInjury(
+    private async postInjury(
         injury: ResolvedInjury,
         addToCharSheet: boolean,
     ): Promise<void> {

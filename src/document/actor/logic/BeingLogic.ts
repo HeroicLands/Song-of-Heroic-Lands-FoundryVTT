@@ -620,7 +620,7 @@ export class BeingLogic<
     async automatedBlockResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {
-        const attackResult = this._rehydrateAttackResult(context);
+        const attackResult = this.rehydrateAttackResult(context);
         if (!attackResult) return;
 
         const entries = collectBlockableStrikeModes(this.actor as any);
@@ -696,7 +696,7 @@ export class BeingLogic<
             } as any,
             { parent: this },
         );
-        const combatResult = this._buildCombatResult(
+        const combatResult = this.buildCombatResult(
             attackResult,
             defendResult,
             context,
@@ -705,7 +705,7 @@ export class BeingLogic<
         await combatResult.evaluate();
         // Remember this block mode so it defaults next time on this combatant.
         await combatant?.recordBlockMode(entry.itemId, entry.smId);
-        await this._postCombatResultCard(
+        await this.postCombatResultCard(
             combatResult,
             attackResult,
             `Block w/ ${entry.itemName}`,
@@ -729,7 +729,7 @@ export class BeingLogic<
     async automatedDodgeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {
-        const attackResult = this._rehydrateAttackResult(context);
+        const attackResult = this.rehydrateAttackResult(context);
         if (!attackResult) return;
 
         // Dodge rolls the defender's Dodge skill; no dialog.
@@ -758,7 +758,7 @@ export class BeingLogic<
             } as any,
             { parent: this },
         );
-        const combatResult = this._buildCombatResult(
+        const combatResult = this.buildCombatResult(
             attackResult,
             defendResult,
             context,
@@ -766,7 +766,7 @@ export class BeingLogic<
         // evaluate() rolls the dodge on the defender's client, then resolves the
         // opposed outcome (the attacker side is read as a snapshot).
         await combatResult.evaluate();
-        await this._postCombatResultCard(
+        await this.postCombatResultCard(
             combatResult,
             attackResult,
             "Dodge",
@@ -797,7 +797,7 @@ export class BeingLogic<
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {
-        const attackResult = this._rehydrateAttackResult(context);
+        const attackResult = this.rehydrateAttackResult(context);
         if (!attackResult) return;
 
         // This defender's combatant — for the recent-mode default + persistence.
@@ -918,7 +918,7 @@ export class BeingLogic<
             );
         }
 
-        const combatResult = this._buildCombatResult(
+        const combatResult = this.buildCombatResult(
             attackResult,
             counter,
             context,
@@ -973,7 +973,7 @@ export class BeingLogic<
     async automatedIgnoreResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {
-        const attackResult = this._rehydrateAttackResult(context);
+        const attackResult = this.rehydrateAttackResult(context);
         if (!attackResult) return;
 
         // Ignore = no defensive contest: a non-rolling placeholder. Resolve
@@ -987,13 +987,13 @@ export class BeingLogic<
             } as any,
             { parent: this },
         );
-        const combatResult = this._buildCombatResult(
+        const combatResult = this.buildCombatResult(
             attackResult,
             defendResult,
             context,
         );
         combatResult.opposedTestEvaluate();
-        await this._postCombatResultCard(
+        await this.postCombatResultCard(
             combatResult,
             attackResult,
             "Ignore",
@@ -1007,7 +1007,7 @@ export class BeingLogic<
      * Returns `null` (with a warning) when absent. Parent is this defender's
      * logic, per the snapshot-on-defender model.
      */
-    protected _rehydrateAttackResult(
+    private rehydrateAttackResult(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): AttackResult | null {
         const json = (context.scope as any)?.attackResultJson;
@@ -1021,7 +1021,7 @@ export class BeingLogic<
     }
 
     /** Compose the `CombatResult` for a resolved exchange (attacker snapshot + defender response). */
-    protected _buildCombatResult(
+    private buildCombatResult(
         attackResult: AttackResult,
         defendResult: AttackResult | DefendResult,
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
@@ -1042,7 +1042,7 @@ export class BeingLogic<
      * Post the combat-result card as the defender. A landing blow carries a
      * "Calculate <Token> Injury" button. Suppressed when `context.noChat`.
      */
-    protected async _postCombatResultCard(
+    private async postCombatResultCard(
         combatResult: CombatResult,
         attackResult: AttackResult,
         defenseLabel: string,

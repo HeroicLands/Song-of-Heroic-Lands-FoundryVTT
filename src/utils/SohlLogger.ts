@@ -67,13 +67,13 @@ interface LogOptions {
  */
 export class SohlLogger {
     /** The lazily-created singleton instance. @internal */
-    protected static _instance: SohlLogger;
+    private static instance: SohlLogger;
     /** Loaded source-map consumer used to map stack frames to source positions. @internal */
-    protected static _sourceMapConsumer: SourceMapConsumer | null;
+    private static sourceMapConsumer: SourceMapConsumer | null;
     /** Guards against loading the source map more than once. @internal */
-    protected static _sourceMapLoading: boolean;
+    private static sourceMapLoading: boolean;
     /** The current minimum severity that will be emitted. @internal */
-    protected static _threshold: LogLevel; // configurable?
+    private static threshold: LogLevel; // configurable?
 
     /**
      * Private to enforce singleton access via {@link getInstance}. Kicks off
@@ -84,10 +84,10 @@ export class SohlLogger {
     private constructor(threshold: LogLevel = LOGLEVEL.INFO) {
         const sourceMapUrl = "systems/sohl/sohl.js.map";
 
-        SohlLogger._threshold = threshold;
-        SohlLogger._sourceMapConsumer = null;
-        if (!SohlLogger._sourceMapLoading) {
-            SohlLogger._sourceMapLoading = true;
+        SohlLogger.threshold = threshold;
+        SohlLogger.sourceMapConsumer = null;
+        if (!SohlLogger.sourceMapLoading) {
+            SohlLogger.sourceMapLoading = true;
             void SohlLogger.loadSourceMap(sourceMapUrl);
         }
     }
@@ -105,7 +105,7 @@ export class SohlLogger {
                 throw new Error(`Failed to load source map ${sourceMapUrl}`);
 
             const rawMap = await response.json();
-            SohlLogger._sourceMapConsumer = await new SourceMapConsumer(rawMap);
+            SohlLogger.sourceMapConsumer = await new SourceMapConsumer(rawMap);
 
             console.info("✅ Source map loaded for SohlLogger.");
         } catch (error) {
@@ -120,10 +120,10 @@ export class SohlLogger {
      * @returns The {@link SohlLogger} singleton.
      */
     public static getInstance(threshold: LogLevel = LOGLEVEL.INFO): SohlLogger {
-        if (!SohlLogger._instance) {
-            SohlLogger._instance = new SohlLogger(threshold);
+        if (!SohlLogger.instance) {
+            SohlLogger.instance = new SohlLogger(threshold);
         }
-        return SohlLogger._instance;
+        return SohlLogger.instance;
     }
 
     /**
@@ -133,7 +133,7 @@ export class SohlLogger {
      */
     setLogThreshold(level: LogLevel | string) {
         if (isLogLevel(level)) {
-            SohlLogger._threshold = level;
+            SohlLogger.threshold = level;
         } else {
             console.warn(
                 `⚠️ Invalid log level "${level}". Valid levels are: ${Object.values(
@@ -145,7 +145,7 @@ export class SohlLogger {
 
     /** The current minimum severity that will be emitted. */
     get logThreshold(): LogLevel {
-        return SohlLogger._threshold;
+        return SohlLogger.threshold;
     }
 
     /**
@@ -161,7 +161,7 @@ export class SohlLogger {
             LOGLEVEL.WARN,
             LOGLEVEL.ERROR,
         ];
-        return levels.indexOf(level) >= levels.indexOf(SohlLogger._threshold);
+        return levels.indexOf(level) >= levels.indexOf(SohlLogger.threshold);
     }
 
     /**
@@ -179,8 +179,8 @@ export class SohlLogger {
         line: number,
         column: number,
     ): { source: string; line: number; column: number } | null {
-        if (!SohlLogger._sourceMapConsumer) return null;
-        const pos = SohlLogger._sourceMapConsumer.originalPositionFor({
+        if (!SohlLogger.sourceMapConsumer) return null;
+        const pos = SohlLogger.sourceMapConsumer.originalPositionFor({
             line,
             column,
         });

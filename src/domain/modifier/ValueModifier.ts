@@ -71,10 +71,10 @@ import {
  * {@link delete} to inspect or remove specific deltas by shortcode.
  */
 export class ValueModifier {
-    protected _shortcode!: string;
-    protected _dirty: boolean;
-    protected _effective!: number;
-    protected _parent: SohlLogic;
+    private _shortcode!: string;
+    private dirty: boolean;
+    private _effective!: number;
+    private _parent: SohlLogic;
     /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
     disabledReason!: string;
     /** The base value before deltas (undefined until set; treated as 0 by {@link base}). */
@@ -102,7 +102,7 @@ export class ValueModifier {
         this.baseValue = data.baseValue ?? undefined;
         this.customFunction = data.customFunction ?? undefined;
         this.deltas = data.deltas ?? [];
-        this._dirty = true;
+        this.dirty = true;
         this._apply();
     }
 
@@ -124,8 +124,8 @@ export class ValueModifier {
     }
 
     protected _apply(): void {
-        if (!this._dirty) return;
-        this._dirty = false;
+        if (!this.dirty) return;
+        this.dirty = false;
         if (this.disabled) {
             this._effective = 0;
         } else {
@@ -278,7 +278,7 @@ export class ValueModifier {
             if (!reason) this.disabledReason = "";
             else this.disabledReason = "SOHL.DELTAINFO.DISABLED";
         }
-        this._dirty = true;
+        this.dirty = true;
     }
 
     /** Chainable form of the {@link disabled} setter. */
@@ -305,7 +305,7 @@ export class ValueModifier {
         } else {
             throw new TypeError("value must be numeric or undefined");
         }
-        this._dirty = true;
+        this.dirty = true;
         return this;
     }
 
@@ -366,7 +366,7 @@ export class ValueModifier {
             this.deltas.push(new ValueDelta({ name, shortcode, op, value }));
         }
 
-        this._dirty = true;
+        this.dirty = true;
         return this;
     }
 
@@ -402,7 +402,7 @@ export class ValueModifier {
         if (typeof shortcode !== "string")
             throw new TypeError("shortcode is not a string");
         this.deltas = this.deltas.filter((m) => m.shortcode !== shortcode);
-        this._dirty = true;
+        this.dirty = true;
     }
 
     /**

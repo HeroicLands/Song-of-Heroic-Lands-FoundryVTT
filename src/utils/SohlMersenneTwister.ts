@@ -41,7 +41,7 @@ export class SohlMersenneTwister {
     /** Index of the next word to consume from {@link mt}. @internal */
     private mti = SohlMersenneTwister.N + 1;
     /** The most recently applied seed. @internal */
-    protected _seed: number;
+    private _seed: number;
 
     /**
      * Create a generator initialized from a seed.
@@ -213,7 +213,7 @@ export class SohlMersenneTwister {
     }
 
     /** The process-wide singleton instance, if created. @internal */
-    protected static _instance: SohlMersenneTwister | null = null;
+    private static instance: SohlMersenneTwister | null = null;
 
     /**
      * Return the shared singleton generator, creating one seeded from the
@@ -221,9 +221,9 @@ export class SohlMersenneTwister {
      * @returns The singleton {@link SohlMersenneTwister}.
      */
     static getInstance(): SohlMersenneTwister {
-        if (!this._instance)
-            this._instance = new SohlMersenneTwister(Date.now());
-        return this._instance;
+        if (!this.instance)
+            this.instance = new SohlMersenneTwister(Date.now());
+        return this.instance;
     }
 
     /**
@@ -232,7 +232,7 @@ export class SohlMersenneTwister {
      * @param seed The 32-bit integer seed.
      */
     static setSeed(seed: number): void {
-        this._instance = new SohlMersenneTwister(seed);
+        this.instance = new SohlMersenneTwister(seed);
     }
 
     /**
@@ -241,12 +241,12 @@ export class SohlMersenneTwister {
      * @param mock The generator to install as the singleton.
      */
     static useMock(mock: SohlMersenneTwister): void {
-        this._instance = mock;
+        this.instance = mock;
     }
 
     /** Clear the singleton so the next access creates a fresh, timestamp-seeded instance. */
     static reset(): void {
-        this._instance = null;
+        this.instance = null;
     }
 
     /**

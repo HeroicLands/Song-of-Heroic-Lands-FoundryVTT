@@ -251,7 +251,7 @@ function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
         vm.deltas = vm.deltas.filter((d) => d.shortcode !== shortcode);
         vm.deltas.push(delta);
         // Mark the modifier dirty so the next `effective` access recomputes.
-        (vm as any)._dirty = true;
+        (vm as any).dirty = true;
     } catch (err) {
         sohl.log.warn("ActiveEffect delta construction failed:", {
             effect: effectName,

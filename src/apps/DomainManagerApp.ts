@@ -135,7 +135,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         _event: Event,
         _target: HTMLElement,
     ): Promise<void> {
-        const result = await DomainManagerApp._promptForEntry({
+        const result = await DomainManagerApp.promptForEntry({
             isNew: true,
         });
         if (!result) return;
@@ -159,7 +159,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         if (!shortcode) return;
         const existing = SohlDomains.get(shortcode);
         if (!existing) return;
-        const result = await DomainManagerApp._promptForEntry({
+        const result = await DomainManagerApp.promptForEntry({
             isNew: false,
             existing,
         });
@@ -207,7 +207,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * Build a small DialogV2 form for adding or editing an entry. Returns
      * the resulting `DomainEntry` or `null` if the user cancels.
      */
-    protected static async _promptForEntry(opts: {
+    private static async promptForEntry(opts: {
         isNew: boolean;
         existing?: DomainEntry;
     }): Promise<DomainEntry | null> {

@@ -44,7 +44,7 @@ export class SohlSceneDataModel<
 
     isTotm!: boolean;
 
-    protected _logic?: SohlSceneLogic;
+    private _logic?: SohlSceneLogic;
 
     get logic(): SohlSceneLogic {
         if (!this._logic) {

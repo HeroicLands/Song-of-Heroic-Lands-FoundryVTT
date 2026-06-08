@@ -21,13 +21,13 @@
  */
 export class Itr<T> implements IterableIterator<T> {
     /** Underlying source iterator. @internal */
-    protected _iterator: Iterator<T>;
+    private iterator: Iterator<T>;
 
     /**
      * @param iterable - The source iterable to wrap.
      */
     constructor(iterable: Iterable<T>) {
-        this._iterator = iterable[Symbol.iterator]();
+        this.iterator = iterable[Symbol.iterator]();
     }
 
     /**
@@ -41,10 +41,10 @@ export class Itr<T> implements IterableIterator<T> {
      * Default iterator to enable `for...of` usage.
      */
     *[Symbol.iterator](): IterableIterator<T> {
-        let result = this._iterator.next();
+        let result = this.iterator.next();
         while (!result.done) {
             yield result.value;
-            result = this._iterator.next();
+            result = this.iterator.next();
         }
     }
 
@@ -52,7 +52,7 @@ export class Itr<T> implements IterableIterator<T> {
      * Return the next element in the iterator.
      */
     next(...args: [] | [undefined]): IteratorResult<T> {
-        return this._iterator.next(...args);
+        return this.iterator.next(...args);
     }
 
     /**

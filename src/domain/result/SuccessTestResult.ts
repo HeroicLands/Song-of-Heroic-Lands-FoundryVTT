@@ -86,7 +86,7 @@ export class SuccessTestResult extends TestResult {
     resultText: string;
     /** Longer result description resolved from the description table, shown on the chat card. */
     resultDesc: string;
-    protected _successLevel: number;
+    private _successLevel: number;
     protected _token: SohlTokenDocument | null;
     protected _masteryLevelModifier: MasteryLevelModifier;
     protected _successStars: number;

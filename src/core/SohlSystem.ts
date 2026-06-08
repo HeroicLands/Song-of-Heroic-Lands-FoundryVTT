@@ -306,14 +306,14 @@ export const {
  * data models, results, and modifiers.
  */
 export class SohlSystem {
-    protected static _instance: SohlSystem | null = null;
+    private static instance: SohlSystem | null = null;
 
     /** Return the singleton instance, creating it on first call. */
     static getInstance(): SohlSystem {
-        if (!this._instance) {
-            this._instance = new SohlSystem();
+        if (!this.instance) {
+            this.instance = new SohlSystem();
         }
-        return this._instance;
+        return this.instance;
     }
 
     protected static _calendars: SohlMap<

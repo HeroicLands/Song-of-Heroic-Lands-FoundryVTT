@@ -102,7 +102,7 @@ export type IntrinsicAction =
 export abstract class SohlLogic<
     TData extends SohlLogicData<any> = SohlLogicData<any>,
 > {
-    protected readonly _parent: TData;
+    private readonly _parent: TData;
     /** Executable actions for this document, keyed by title — context-menu entries, chat-card buttons, and lifecycle hooks. */
     actions: SohlMap<string, SohlAction>;
 
