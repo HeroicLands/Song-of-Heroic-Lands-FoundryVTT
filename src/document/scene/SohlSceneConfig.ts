@@ -11,7 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-const FoundrySceneConfig: any = (foundry as any).applications.sheets.SceneConfig;
+const FoundrySceneConfig: any = (foundry as any).applications.sheets
+    .SceneConfig;
 
 /**
  * Build a PARTS map that injects the SoHL tab between `misc` and `footer`.
@@ -57,6 +58,8 @@ function buildTabs(): Record<string, any> {
  *
  * The TotM checkbox writes directly to `system.isTotm` via the normal
  * ApplicationV2 form-submit path; no custom submit handling is needed.
+ *
+ * @internal
  */
 export class SohlSceneConfig extends FoundrySceneConfig {
     static PARTS = buildParts();

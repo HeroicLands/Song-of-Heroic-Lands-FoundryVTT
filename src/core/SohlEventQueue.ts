@@ -179,15 +179,15 @@ const MAX_TRIGGER_DEPTH = 16;
  * ```
  */
 export class SohlEventQueue {
-    private _subs: Map<string, SohlSubscription> = new Map();
+    private subs: Map<string, SohlSubscription> = new Map();
 
     /** During an updateWorldTime dispatch, the fireAt of the current event. */
-    private _processingFireAt: number | null = null;
+    private processingFireAt: number | null = null;
 
     /** Per-trigger reentrancy depth for the loop-protection backstop. */
-    private _depthByTrigger: Map<string, number> = new Map();
+    private depthByTrigger: Map<string, number> = new Map();
 
-    private _key(uuid: string, kind: string): string {
+    private key(uuid: string, kind: string): string {
         return `${uuid}::${kind}`;
     }
 
@@ -203,16 +203,16 @@ export class SohlEventQueue {
     subscribe(sub: SohlSubscription): void {
         if (!fvttIsCurrentUserGM()) return;
         if (
-            this._processingFireAt !== null &&
+            this.processingFireAt !== null &&
             sub.fireAt !== undefined &&
-            sub.fireAt <= this._processingFireAt
+            sub.fireAt <= this.processingFireAt
         ) {
             console.warn(
-                `SoHL | Subscription "${sub.kind}" for ${sub.uuid} subscribed with fireAt ${sub.fireAt} <= current processing fireAt ${this._processingFireAt}; discarding to prevent infinite loop.`,
+                `SoHL | Subscription "${sub.kind}" for ${sub.uuid} subscribed with fireAt ${sub.fireAt} <= current processing fireAt ${this.processingFireAt}; discarding to prevent infinite loop.`,
             );
             return;
         }
-        this._subs.set(this._key(sub.uuid, sub.kind), { ...sub });
+        this.subs.set(this.key(sub.uuid, sub.kind), { ...sub });
     }
 
     /**
@@ -242,7 +242,7 @@ export class SohlEventQueue {
     /** Remove a subscription. No-op on non-GM and when absent. */
     unsubscribe(uuid: string, kind: string): void {
         if (!fvttIsCurrentUserGM()) return;
-        this._subs.delete(this._key(uuid, kind));
+        this.subs.delete(this.key(uuid, kind));
     }
 
     /**
@@ -256,28 +256,28 @@ export class SohlEventQueue {
     async fire(ctx: SohlTriggerContext): Promise<void> {
         if (!fvttIsActiveGM()) return;
 
-        const depth = (this._depthByTrigger.get(ctx.name) ?? 0) + 1;
+        const depth = (this.depthByTrigger.get(ctx.name) ?? 0) + 1;
         if (depth > MAX_TRIGGER_DEPTH) {
             console.error(
                 `SoHL | Reentrant fire("${ctx.name}") exceeded depth ${MAX_TRIGGER_DEPTH}; aborting to prevent infinite loop.`,
             );
             return;
         }
-        this._depthByTrigger.set(ctx.name, depth);
+        this.depthByTrigger.set(ctx.name, depth);
 
         try {
             if (ctx.name === "updateWorldTime") {
-                await this._fireWorldTime(ctx as any);
+                await this.fireWorldTime(ctx as any);
             } else {
-                await this._fireDiscrete(ctx);
+                await this.fireDiscrete(ctx);
             }
         } finally {
-            if (depth <= 1) this._depthByTrigger.delete(ctx.name);
-            else this._depthByTrigger.set(ctx.name, depth - 1);
+            if (depth <= 1) this.depthByTrigger.delete(ctx.name);
+            else this.depthByTrigger.set(ctx.name, depth - 1);
         }
     }
 
-    private async _fireWorldTime(ctx: {
+    private async fireWorldTime(ctx: {
         name: "updateWorldTime";
         worldTime: number;
         dt: number;
@@ -297,7 +297,7 @@ export class SohlEventQueue {
             let nextKey: string | undefined;
             let nextFireAt = Number.POSITIVE_INFINITY;
 
-            for (const [key, sub] of this._subs) {
+            for (const [key, sub] of this.subs) {
                 if (sub.triggerName !== "updateWorldTime") continue;
                 if (dispatched.has(sub)) continue;
                 if (sub.fireAt !== undefined && sub.fireAt > worldTime)
@@ -331,23 +331,23 @@ export class SohlEventQueue {
             if (!next || !nextKey) break;
 
             dispatched.add(next);
-            if (next.oneShot) this._subs.delete(nextKey);
+            if (next.oneShot) this.subs.delete(nextKey);
 
-            this._processingFireAt = next.fireAt ?? null;
+            this.processingFireAt = next.fireAt ?? null;
             try {
-                await this._dispatchOne(next, ctx);
+                await this.dispatchOne(next, ctx);
             } finally {
-                this._processingFireAt = null;
+                this.processingFireAt = null;
             }
         }
     }
 
-    private async _fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
+    private async fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
         // Snapshot matching subscriptions at start; non-time triggers do
         // not cascade. Subscriptions added mid-dispatch wait for the next
         // fire(...) invocation.
         const snapshot: SohlSubscription[] = [];
-        for (const sub of this._subs.values()) {
+        for (const sub of this.subs.values()) {
             if (sub.triggerName === ctx.name) snapshot.push(sub);
         }
 
@@ -365,12 +365,12 @@ export class SohlEventQueue {
                 }
                 if (!pass) continue;
             }
-            if (sub.oneShot) this._subs.delete(this._key(sub.uuid, sub.kind));
-            await this._dispatchOne(sub, ctx);
+            if (sub.oneShot) this.subs.delete(this.key(sub.uuid, sub.kind));
+            await this.dispatchOne(sub, ctx);
         }
     }
 
-    private async _dispatchOne(
+    private async dispatchOne(
         sub: SohlSubscription,
         ctx: SohlTriggerContext,
     ): Promise<void> {
@@ -394,7 +394,7 @@ export class SohlEventQueue {
 
     /** Number of subscriptions currently in the queue. */
     get size(): number {
-        return this._subs.size;
+        return this.subs.size;
     }
 
     /**
@@ -402,7 +402,7 @@ export class SohlEventQueue {
      * `(triggerName, fireAt, kind)` for stable inspection.
      */
     debug(): SohlSubscription[] {
-        return Array.from(this._subs.values())
+        return Array.from(this.subs.values())
             .map((s) => ({ ...s }))
             .sort((a, b) => {
                 if (a.triggerName !== b.triggerName)
@@ -416,6 +416,6 @@ export class SohlEventQueue {
 
     /** Remove all subscriptions. */
     clear(): void {
-        this._subs.clear();
+        this.subs.clear();
     }
 }

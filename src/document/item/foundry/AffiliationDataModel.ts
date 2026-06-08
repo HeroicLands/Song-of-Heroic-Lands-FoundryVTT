@@ -41,6 +41,7 @@ function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
 
 type SohlAffiliationDataSchema = ReturnType<typeof defineAffiliationDataSchema>;
 
+/** @internal */
 export class AffiliationDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlAffiliationDataSchema,
     TLogic extends AffiliationLogic<AffiliationData> =

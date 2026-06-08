@@ -32,7 +32,10 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 export class ContainerGearLogic<
     TData extends ContainerGearData = ContainerGearData,
 > extends GearLogic<TData> {
-    /** Maximum capacity of this container. */
+    /**
+     * Maximum capacity of this container as a {@link ValueModifier}, seeded from
+     * {@link ContainerGearData.maxCapacityBase}.
+     */
     maxCapacity!: ValueModifier;
 
     /* --------------------------------------------- */
@@ -59,6 +62,12 @@ export class ContainerGearLogic<
     }
 }
 
+/**
+ * Persisted data backing {@link ContainerGearLogic}.
+ *
+ * @typeParam TLogic - The logic class that consumes this data.
+ * @remarks The shape of `system` on a `containergear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "containergear"`. The backing DataModel implements this interface.
+ */
 export interface ContainerGearData<
     TLogic extends ContainerGearLogic<ContainerGearData> =
         ContainerGearLogic<any>,

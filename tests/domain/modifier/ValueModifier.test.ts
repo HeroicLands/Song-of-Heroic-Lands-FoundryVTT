@@ -29,7 +29,7 @@ function pushDelta(
         }),
     );
     // Mark dirty so _apply recalculates on next access
-    (vm as any)._dirty = true;
+    (vm as any).dirty = true;
 }
 
 describe("ValueModifier", () => {

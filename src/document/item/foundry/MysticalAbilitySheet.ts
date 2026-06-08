@@ -16,6 +16,7 @@ import {
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
 
+/** @internal */
 export class MysticalAbilitySheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,

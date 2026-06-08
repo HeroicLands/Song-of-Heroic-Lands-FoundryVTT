@@ -348,7 +348,12 @@ export function showDefenseDialog(
     selectLabel: string,
     choices: Record<string, string>,
     defaultKey: string,
-): Promise<{ key: string; situationalModifier: number } | null> {
+): Promise<{
+    /** The selected choice key (e.g. the chosen strike mode). */
+    key: string;
+    /** The player-entered situational modifier. */
+    situationalModifier: number;
+} | null> {
     return inputDialog({
         title,
         content: toHTMLString(

@@ -31,51 +31,100 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 // Dialog types
 // ---------------------------------------------------------------------------
 
+/**
+ * Handler invoked when a {@link DialogButton} is clicked.
+ *
+ * @param event - The pointer or submit event that triggered the button.
+ * @param button - The clicked button element.
+ * @param dialog - The host dialog element.
+ * @returns A promise resolving to the value the dialog should yield.
+ */
 export type DialogButtonCallback = (
     event: PointerEvent | SubmitEvent,
     button: HTMLButtonElement,
     dialog: HTMLDialogElement,
 ) => Promise<any>;
 
+/** Definition of a single button rendered in a dialog. */
 export interface DialogButton {
+    /** Unique action identifier returned when this button is selected. */
     action: string;
+    /** Human-readable label shown on the button. */
     label: string;
+    /** Icon (e.g. a Font Awesome class) displayed on the button. */
     icon: string;
+    /** CSS class(es) applied to the button. */
     class: string;
+    /** Whether this button is the default (activated on Enter). */
     default?: boolean;
+    /** Handler invoked when the button is clicked. */
     callback: DialogButtonCallback;
 }
 
+/**
+ * Handler invoked after a dialog's content is rendered.
+ *
+ * @param event - The render event.
+ * @param dialogElement - The rendered dialog element.
+ */
 export type DialogRenderCallback = (
     event: Event,
     dialogElement: HTMLDialogElement,
 ) => Promise<void>;
 
+/**
+ * Handler invoked when a dialog is closed.
+ *
+ * @param event - The close event.
+ * @param dialog - The dialog instance being closed.
+ */
 export type DialogCloseCallback = (
     event: Event,
     dialog: Record<string, any>,
 ) => Promise<void>;
 
+/**
+ * Handler invoked when a dialog is submitted.
+ *
+ * @param result - The value produced by the dialog's selected action.
+ */
 export type DialogSubmitCallback = (result: any) => Promise<void>;
 
+/** Configuration options shared by the dialog helper functions in this module. */
 export interface DialogConfig {
+    /** Path to a Handlebars template rendered for the dialog body. Takes precedence over {@link DialogConfig.content}. */
     template?: FilePath;
+    /** Title displayed in the dialog window header. */
     title?: string;
+    /** Inline HTML used as the dialog body when no {@link DialogConfig.template} is given. */
     content?: HTMLString;
+    /** Data passed to the template or inline content during rendering. */
     data?: PlainObject;
+    /** Whether the dialog blocks interaction with the rest of the UI. */
     modal?: boolean;
+    /** Whether dismissing the dialog rejects the promise instead of resolving to `null`. */
     rejectClose?: boolean;
+    /** Handler invoked after the dialog content is rendered. */
     render?: DialogRenderCallback;
+    /** Handler invoked when the dialog is closed. */
     close?: DialogCloseCallback;
+    /** Handler invoked when the dialog is submitted. */
     submit?: DialogSubmitCallback;
+    /** Overrides for the OK button (used by {@link okDialog}). */
     ok?: Partial<DialogButton>;
+    /** Overrides for the Yes button (used by {@link yesNoDialog}). */
     yes?: Partial<DialogButton>;
+    /** Overrides for the No button (used by {@link yesNoDialog}). */
     no?: Partial<DialogButton>;
+    /** Custom set of buttons (used by {@link awaitDialog}). */
     buttons?: Partial<DialogButton>[];
 }
 
+/** Result returned from an awaited dialog interaction. */
 export interface AwaitDialogResult {
+    /** The value produced by the selected button's callback. */
     value: any;
+    /** The action identifier of the selected button. */
     action: string;
 }
 
@@ -258,6 +307,14 @@ export async function fvttEnrichHTML(content: string): Promise<string> {
 // Template rendering
 // ---------------------------------------------------------------------------
 
+/**
+ * Render a Handlebars template file to sanitized HTML using Foundry's
+ * template renderer.
+ *
+ * @param template - Path to the Handlebars template to render.
+ * @param data - Context data supplied to the template.
+ * @returns The rendered, sanitized HTML.
+ */
 export async function toHTMLWithTemplate(
     template: FilePath,
     data: PlainObject = {},
@@ -269,6 +326,13 @@ export async function toHTMLWithTemplate(
     return toSanitizedHTML(html);
 }
 
+/**
+ * Compile and render inline Handlebars content to sanitized HTML.
+ *
+ * @param content - Inline Handlebars source to compile and render.
+ * @param data - Context data supplied to the compiled template.
+ * @returns The rendered, sanitized HTML.
+ */
 export async function toHTMLWithContent(
     content: HTMLString,
     data: PlainObject = {},
@@ -396,11 +460,25 @@ export function unregisterSheet(
  * If token is specified, tries to use token (and will allow it regardless
  * if user is GM), otherwise returned token will be the combatant whose
  * turn it currently is.
+ *
+ * @param token - An optional token to use; if the user is a GM or
+ *   `forceAllow` is set it is used directly, otherwise it must match the
+ *   current combatant.
+ * @param forceAllow - When `true`, accept the supplied `token` even if the
+ *   current user is not a GM.
+ * @returns An object containing the resolved `token` and its `actor`, or
+ *   `null` if no valid combatant could be determined (a UI warning is
+ *   surfaced in that case).
  */
 export function getTokenInCombat(
     token: any = null,
     forceAllow = false,
-): { token: any; actor: any } | null {
+): {
+    /** The token of the current combatant. */
+    token: any;
+    /** The actor associated with the resolved token. */
+    actor: any;
+} | null {
     if (token && ((game as any).user?.isGM || forceAllow)) {
         return { token, actor: token.actor };
     }
@@ -442,6 +520,12 @@ export function getTokenInCombat(
     return { token, actor: combatant.actor };
 }
 
+/**
+ * Get the active Foundry canvas.
+ *
+ * @returns The current {@link foundry.canvas.Canvas} instance.
+ * @throws If the canvas is not available.
+ */
 export function getCanvas(): foundry.canvas.Canvas {
     if (!(canvas instanceof foundry.canvas.Canvas)) {
         throw new Error("Canvas is not available");
@@ -449,6 +533,12 @@ export function getCanvas(): foundry.canvas.Canvas {
     return canvas;
 }
 
+/**
+ * Get the active Foundry game instance.
+ *
+ * @returns The current {@link foundry.Game} instance.
+ * @throws If the game is not available.
+ */
 export function getGame(): foundry.Game {
     if (!(game instanceof foundry.Game)) {
         throw new Error("Game is not available");
@@ -456,6 +546,12 @@ export function getGame(): foundry.Game {
     return game;
 }
 
+/**
+ * Get the current user.
+ *
+ * @returns The current {@link User}.
+ * @throws If the user is not available.
+ */
 export function getCurrentUser(): User {
     if (!(game.user instanceof User)) {
         throw new Error("User is not available");
@@ -463,6 +559,14 @@ export function getCurrentUser(): User {
     return game.user;
 }
 
+/**
+ * Get the scene currently shown on the canvas.
+ *
+ * @returns The current {@link Scene}.
+ * @throws If no scene is available on the canvas.
+ * @remarks Unlike {@link getActiveScene}, this returns the scene presently
+ *   displayed on the canvas rather than the world's active scene.
+ */
 export function getCurrentScene(): Scene {
     if (!(canvas.scene instanceof Scene)) {
         throw new Error("Scene is not available");

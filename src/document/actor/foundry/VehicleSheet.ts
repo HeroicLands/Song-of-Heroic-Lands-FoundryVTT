@@ -13,6 +13,7 @@
 
 import { SohlActorSheetBase } from "@src/document/actor/foundry/SohlActor";
 
+/** @internal */
 export class VehicleSheet extends SohlActorSheetBase {
     static override DEFAULT_OPTIONS: PlainObject = {
         id: "vehicle-sheet",

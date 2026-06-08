@@ -42,10 +42,15 @@ import { fvttGetActor } from "@src/core/FoundryHelpers";
 export abstract class GearLogic<
     TData extends GearData = GearData,
 > extends SohlItemBaseLogic<TData> {
+    /** Physical weight as a `ValueModifier`, seeded from {@link GearData.weightBase}. */
     weight!: ValueModifier;
+    /** Monetary value as a `ValueModifier`, seeded from {@link GearData.valueBase}. */
     value!: ValueModifier;
+    /** Craftsmanship quality as a `ValueModifier`, seeded from {@link GearData.qualityBase}. */
     quality!: ValueModifier;
+    /** Structural integrity as a `ValueModifier`, seeded from {@link GearData.durabilityBase}. */
     durability!: ValueModifier;
+    /** The containing item's logic, resolved from {@link GearData.containerId}, or `null` when not in a container. */
     containedIn!: GearLogic | null;
 
     /**
@@ -125,6 +130,9 @@ export abstract class GearLogic<
     }
 }
 
+/**
+ * @remarks The base shape shared by all gear `system` data; the concrete gear types extend it.
+ */
 export interface GearData<
     TLogic extends GearLogic<GearData> = GearLogic<any>,
 > extends SohlItemData<TLogic> {

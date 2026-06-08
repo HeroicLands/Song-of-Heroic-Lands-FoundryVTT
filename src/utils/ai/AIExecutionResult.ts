@@ -11,6 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Result of an AI agent command execution.
+ *
+ * @internal Internal AI plumbing — not part of the public SoHL API.
+ */
 export interface AIExecutionResult {
     /**
      * A human-readable message describing the result of the command.

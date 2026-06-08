@@ -60,33 +60,83 @@ export const SOHL_BUILTIN_TRIGGERS: readonly SohlBuiltinTriggerName[] = [
  */
 export type SohlTriggerContext =
     | {
+          /** Trigger discriminant. */
           name: "updateWorldTime";
+          /** New world time, in seconds. */
           worldTime: number;
+          /** Signed delta from the previous world time, in seconds. */
           dt: number;
+          /** Foundry's update options for the world-time change. */
           options?: object;
+          /** ID of the user who advanced the clock. */
           userId?: string;
       }
-    | { name: "combatStart"; combat: any }
-    | { name: "combatEnd"; combat: any }
-    | { name: "roundStart"; combat: any; round: number; skipped: boolean }
-    | { name: "roundEnd"; combat: any; round: number; skipped: boolean }
     | {
+          /** Trigger discriminant. */
+          name: "combatStart";
+          /** The combat that started. */
+          combat: any;
+      }
+    | {
+          /** Trigger discriminant. */
+          name: "combatEnd";
+          /** The combat that ended. */
+          combat: any;
+      }
+    | {
+          /** Trigger discriminant. */
+          name: "roundStart";
+          /** The active combat. */
+          combat: any;
+          /** The round number that started. */
+          round: number;
+          /** Whether the round change was skipped (no dispatch needed). */
+          skipped: boolean;
+      }
+    | {
+          /** Trigger discriminant. */
+          name: "roundEnd";
+          /** The active combat. */
+          combat: any;
+          /** The round number that ended. */
+          round: number;
+          /** Whether the round change was skipped (no dispatch needed). */
+          skipped: boolean;
+      }
+    | {
+          /** Trigger discriminant. */
           name: "turnStart";
+          /** The active combat. */
           combat: any;
+          /** The combatant whose turn started. */
           combatant: any;
+          /** The turn index that started. */
           turn: number;
+          /** The current round number. */
           round: number;
+          /** Whether the turn change was skipped (no dispatch needed). */
           skipped: boolean;
       }
     | {
+          /** Trigger discriminant. */
           name: "turnEnd";
+          /** The active combat. */
           combat: any;
+          /** The combatant whose turn ended. */
           combatant: any;
+          /** The turn index that ended. */
           turn: number;
+          /** The current round number. */
           round: number;
+          /** Whether the turn change was skipped (no dispatch needed). */
           skipped: boolean;
       }
-    | { name: string; [key: string]: unknown };
+    | {
+          /** Custom trigger identifier. */
+          name: string;
+          /** Arbitrary custom context payload. */
+          [key: string]: unknown;
+      };
 
 /**
  * Register a custom trigger name with Foundry's expiry-event registry.

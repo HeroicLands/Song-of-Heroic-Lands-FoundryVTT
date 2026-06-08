@@ -47,6 +47,7 @@ function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
 
 type ConcoctionGearSchema = ReturnType<typeof defineConcoctionGearSchema>;
 
+/** @internal */
 export class ConcoctionGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ConcoctionGearSchema,
     TLogic extends ConcoctionGearLogic<ConcoctionGearData> =

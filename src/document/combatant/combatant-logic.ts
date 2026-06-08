@@ -57,9 +57,11 @@ export const THREAT_NEGATING_STATUSES = [
 export interface ThreatView {
     /** The candidate threatens the subject's allegiance (different group). */
     isEnemy: boolean;
+    /** The candidate is defeated (DEFEATED special status). */
     isDefeated: boolean;
     /** The candidate carries a {@link THREAT_NEGATING_STATUSES} status. */
     isIncapacitated: boolean;
+    /** The candidate is hidden from the subject. */
     isHidden: boolean;
     /** The candidate is within weapon reach of the subject. */
     reaches: boolean;
@@ -82,7 +84,16 @@ export function isThreatening(view: ThreatView): boolean {
 
 /** Minimal contract a combatant's actor logic must satisfy for move computation. */
 export interface BeingLogicMoveView {
-    effectiveBaseMove(medium: MovementMedium): { effective: number };
+    /**
+     * The actor's base move for a given medium.
+     *
+     * @param medium - The movement medium (e.g. ground, swimming, flying).
+     * @returns An object whose `effective` is the base move rate.
+     */
+    effectiveBaseMove(medium: MovementMedium): {
+        /** The effective base move rate for the medium. */
+        effective: number;
+    };
 }
 
 /**

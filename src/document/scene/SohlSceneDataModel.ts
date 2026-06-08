@@ -31,10 +31,14 @@ type SohlSceneDataSchema = ReturnType<typeof defineSohlSceneDataSchema>;
  * The single data model registered for the Foundry `Scene` document in the
  * SoHL system. Scene has no user-facing subtypes, so this is the only model
  * and lives under the `base` type.
+ * @internal
  */
 export class SohlSceneDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlSceneDataSchema,
-> extends foundry.abstract.TypeDataModel<TSchema, SohlScene & foundry.abstract.Document.Any> {
+> extends foundry.abstract.TypeDataModel<
+    TSchema,
+    SohlScene & foundry.abstract.Document.Any
+> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Scene"];
     static readonly kind = "sohlscenedata";
 

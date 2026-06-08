@@ -101,6 +101,7 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
+/** @internal */
 export abstract class SohlDataModel<
     TSchema extends foundry.data.fields.DataSchema,
     TDocument extends SohlDocument,
@@ -122,7 +123,7 @@ export abstract class SohlDataModel<
      */
     static override readonly LOCALIZATION_PREFIXES: string[];
     static readonly kind: string = "" as const;
-    _logic!: TLogic;
+    protected _logic!: TLogic;
     shortcode!: string;
     actionDefs!: SohlActionData[];
 
@@ -204,6 +205,7 @@ export abstract class SohlDataModel<
     }
 }
 
+/** @internal */
 export namespace SohlDataModel {
     export type Any = SohlDataModel<SohlDocument, any>;
 
@@ -231,7 +233,7 @@ export namespace SohlDataModel {
             static override DEFAULT_OPTIONS: PlainObject = {
                 classes: ["sohl"],
             };
-            _dragDrop: DragDrop[];
+            protected _dragDrop: DragDrop[];
 
             constructor(document: TDocument, options: PlainObject = {}) {
                 // The HandlebarsApplicationMixin constructor typing is incompatible with
@@ -245,13 +247,13 @@ export namespace SohlDataModel {
                 return super.document as TDocument;
             }
 
-            override _configureRenderOptions(
+            protected override _configureRenderOptions(
                 options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
             ): void {
                 super._configureRenderOptions(options);
             }
 
-            _createDragDropHandlers(): DragDrop[] {
+            protected _createDragDropHandlers(): DragDrop[] {
                 return (
                     (this.options as any).dragDrop?.map((d: PlainObject) => {
                         d.permissions = {
@@ -275,7 +277,7 @@ export namespace SohlDataModel {
              * @param selector       The candidate HTML selector for dragging
              * @returns Can the current user drag this selector?
              */
-            _canDragStart(selector: string): boolean {
+            protected _canDragStart(selector: string): boolean {
                 return this.isEditable;
             }
 
@@ -284,7 +286,7 @@ export namespace SohlDataModel {
              * @param selector       The candidate HTML selector for the drop target
              * @returns  Can the current user drop on this selector?
              */
-            _canDragDrop(selector: string): boolean {
+            protected _canDragDrop(selector: string): boolean {
                 return this.isEditable;
             }
 
@@ -294,7 +296,7 @@ export namespace SohlDataModel {
                     :   this.document.actor || null;
             }
 
-            override async _prepareContext(options: any): Promise<PlainObject> {
+            protected override async _prepareContext(options: any): Promise<PlainObject> {
                 const data: PlainObject = await super._prepareContext(options);
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
@@ -333,7 +335,7 @@ export namespace SohlDataModel {
              * @param {ApplicationRenderContext} context      Prepared context data
              * @param {RenderOptions} options                 Provided render options
              */
-            override async _onRender(
+            protected override async _onRender(
                 context: PlainObject,
                 options: PlainObject,
             ): Promise<void> {
@@ -341,7 +343,7 @@ export namespace SohlDataModel {
                 this._dragDrop.forEach((d: DragDrop) => d.bind(this.element));
             }
 
-            _onSearchFilter(
+            protected _onSearchFilter(
                 event: KeyboardEvent,
                 query: string,
                 rgx: RegExp,
@@ -378,7 +380,7 @@ export namespace SohlDataModel {
                 }
             }
 
-            _contextMenu(element: HTMLElement): void {
+            protected _contextMenu(element: HTMLElement): void {
                 new SohlContextMenu(element, ".item", [], {
                     onOpen: this._onItemContextMenuOpen.bind(this),
                 });
@@ -395,7 +397,7 @@ export namespace SohlDataModel {
                 });
             }
 
-            _onItemContextMenuOpen(
+            protected _onItemContextMenuOpen(
                 element: HTMLElement,
             ): SohlContextMenu.Entry[] {
                 const anyDoc = this.document as any;
@@ -418,13 +420,13 @@ export namespace SohlDataModel {
                 if (doc) {
                     const uiContext = (foundry as any).ui.context;
                     if (uiContext) {
-                        uiContext.menuItems = doc._getContextOptions();
+                        uiContext.menuItems = doc.getContextOptions();
                     }
                 }
                 return [];
             }
 
-            _onEffectContextMenuOpen(element: HTMLElement): void {
+            protected _onEffectContextMenuOpen(element: HTMLElement): void {
                 let ele = element.closest("[data-effect-id]") as HTMLElement;
                 if (!ele) return;
                 const effectId = ele.dataset.effectId;
@@ -432,7 +434,7 @@ export namespace SohlDataModel {
                 const uiContext = (foundry as any).ui.context;
                 if (uiContext) {
                     uiContext.menuItems =
-                        effect ? effect._getContextOptions(effect) : [];
+                        effect ? effect.getContextOptions(effect) : [];
                 }
             }
 
@@ -443,11 +445,11 @@ export namespace SohlDataModel {
              * @param {*} doc
              * @returns {*}
              */
-            static _getContextOptions(
+            protected static _getContextOptions(
                 doc: SohlDocument,
             ): SohlContextMenu.Entry[] {
                 let result =
-                    doc._getContextOptions() as SohlContextMenu.Entry[];
+                    doc.getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
                 result = result.filter(
@@ -465,7 +467,7 @@ export namespace SohlDataModel {
                 return result;
             }
 
-            static _onEffectToggle(
+            protected static _onEffectToggle(
                 event: PointerEvent,
                 target: HTMLElement,
             ): void {
@@ -477,7 +479,7 @@ export namespace SohlDataModel {
                 effect?.toggleEnabledState();
             }
 
-            async _onEffectCreate(): Promise<void> {
+            protected async _onEffectCreate(): Promise<void> {
                 const createEffect = (this.document as any)
                     .createEffect as Function;
                 if (!createEffect) {
@@ -510,7 +512,7 @@ export namespace SohlDataModel {
              * Callback actions which occur at the beginning of a drag start workflow.
              * @param event       The originating DragEvent
              */
-            _onDragStart(event: DragEvent): void {
+            protected _onDragStart(event: DragEvent): void {
                 const li = event.currentTarget as HTMLElement;
                 if ("link" in li?.dataset) return;
 
@@ -544,13 +546,13 @@ export namespace SohlDataModel {
              * Callback actions which occur when a dragged element is over a drop target.
              * @param event       The originating DragEvent
              */
-            _onDragOver(event: DragEvent): void {}
+            protected _onDragOver(event: DragEvent): void {}
 
             /**
              * Callback actions which occur when a dragged element is dropped on a target.
              * @param event       The originating DragEvent
              */
-            async _onDrop(event: DragEvent): Promise<void> {
+            protected async _onDrop(event: DragEvent): Promise<void> {
                 const data = JSON.parse(
                     event.dataTransfer?.getData("text/plain") || "{}",
                 );
@@ -576,12 +578,12 @@ export namespace SohlDataModel {
                 }
             }
 
-            async _onDropActiveEffect(
+            protected async _onDropActiveEffect(
                 event: DragEvent,
                 droppedEffect: SohlActiveEffect,
             ): Promise<void> {}
 
-            async _onDropActor(
+            protected async _onDropActor(
                 _event: DragEvent,
                 droppedActor: SohlActor,
             ): Promise<void> {
@@ -599,17 +601,17 @@ export namespace SohlDataModel {
                 if (sourceItems.length === 0) return;
             }
 
-            async _onDropFolder(
+            protected async _onDropFolder(
                 event: DragEvent,
                 droppedFolder: Folder,
             ): Promise<void> {}
 
-            async _onDropItem(
+            protected async _onDropItem(
                 event: DragEvent,
                 droppedItem: SohlItem,
             ): Promise<void> {}
 
-            async _addPrimitiveArrayItem(
+            protected async _addPrimitiveArrayItem(
                 event: PointerEvent,
                 { allowDuplicates = false } = {},
             ): Promise<void> {
@@ -690,7 +692,7 @@ export namespace SohlDataModel {
                 if (result) this.render();
             }
 
-            async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.choices || !dataset.array) return;
                 let array: string[] = (
@@ -747,7 +749,7 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            async _addAimArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addAimArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.aim || !dataset.array) return;
                 let array: { name: string; probWeightBase: number }[] = (
@@ -815,7 +817,7 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.valueDesc || !dataset.array) return;
                 let array: { label: string; maxValue: number }[] = (
@@ -889,7 +891,7 @@ export namespace SohlDataModel {
                 this.render();
             }
 
-            async _addArrayItem(event: PointerEvent): Promise<void> {
+            protected async _addArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 await (this as any)._onSubmit(event); // Submit any unsaved changes
 
@@ -909,7 +911,7 @@ export namespace SohlDataModel {
                 this.render();
             }
 
-            async _deleteArrayItem(event: PointerEvent): Promise<void> {
+            protected async _deleteArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.array) return;
                 await (this as any)._onSubmit(event); // Submit any unsaved changes
@@ -924,7 +926,7 @@ export namespace SohlDataModel {
                 if (result) this.render();
             }
 
-            async _addObjectKey(event: PointerEvent): Promise<void> {
+            protected async _addObjectKey(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.object) return;
                 if (!dataset.title) dataset.title = "Add Key";

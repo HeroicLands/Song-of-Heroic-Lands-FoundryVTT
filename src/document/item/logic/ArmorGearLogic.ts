@@ -30,14 +30,20 @@ import { ImpactAspects } from "@src/utils/constants";
 export class ArmorGearLogic<
     TData extends ArmorGearData = ArmorGearData,
 > extends GearLogic<TData> {
+    /** Per-aspect damage reduction as `ValueModifier`s, seeded from {@link ArmorGearData.protectionBase}. */
     protection!: {
+        /** Protection against blunt impact. */
         blunt: ValueModifier;
+        /** Protection against edged impact. */
         edged: ValueModifier;
+        /** Protection against piercing impact. */
         piercing: ValueModifier;
+        /** Protection against fire/heat impact. */
         fire: ValueModifier;
     };
-    /** Armor encumbrance penalty. */
+    /** Armor encumbrance penalty as a `ValueModifier`, seeded from {@link ArmorGearData.encumbrance}. */
     encumbrance!: ValueModifier;
+    /** Active-effect-driven armor traits, keyed by trait code. */
     traits!: StrictObject<string>;
 
     /* --------------------------------------------- */
@@ -119,6 +125,9 @@ export class ArmorGearLogic<
     }
 }
 
+/**
+ * @remarks The shape of `system` on a `armorgear` item — i.e. `item.system` (equivalently `item.logic.data`) when `item.type === "armorgear"`. The backing DataModel implements this interface.
+ */
 export interface ArmorGearData<
     TLogic extends ArmorGearLogic<ArmorGearData> = ArmorGearLogic<any>,
 > extends GearData<TLogic> {
@@ -126,14 +135,20 @@ export interface ArmorGearData<
     material: string;
     /** Body locations covered, split by flexible and rigid coverage */
     locations: {
+        /** Body-location shortcodes with flexible coverage. */
         flexible: string[];
+        /** Body-location shortcodes with rigid coverage. */
         rigid: string[];
     };
     /** Base damage reduction per impact aspect */
     protectionBase: {
+        /** Base protection against blunt impact. */
         blunt: number;
+        /** Base protection against edged impact. */
         edged: number;
+        /** Base protection against piercing impact. */
         piercing: number;
+        /** Base protection against fire/heat impact. */
         fire: number;
     };
     /** Encumbrance value of the armor */
