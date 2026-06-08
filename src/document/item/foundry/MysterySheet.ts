@@ -16,6 +16,7 @@ import {
     SohlItemSheetBase,
 } from "@src/document/item/foundry/SohlItem";
 
+/** @internal */
 export class MysterySheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,

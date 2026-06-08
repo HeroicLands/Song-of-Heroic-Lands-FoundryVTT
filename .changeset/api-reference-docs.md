@@ -46,6 +46,12 @@ in reviewable batches per the API documentation coverage plan.
   and the intrinsic-action / test methods where the business logic lives. The
   inherited lifecycle methods (`initialize`/`evaluate`/`finalize`) are
   deliberately left to inherit their base-class documentation.
+- **The Foundry binding layer is marked `@internal`** — every DataModel and
+  Sheet class (concrete and base, plus core `SohlDataModel` and its
+  `SheetMixin`) is tagged `@internal` and excluded from the published API. The
+  supported extension surface is hooks, action items, and the Logic / domain
+  classes — not the Foundry persistence/UI binding. The data *shape* remains
+  documented through the public `*Data` interfaces.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 

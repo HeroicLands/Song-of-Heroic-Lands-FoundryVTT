@@ -367,6 +367,7 @@ type SohlActiveEffectDataSchema = ReturnType<
     typeof defineActiveEffectDataSchema
 >;
 
+/** @internal */
 export class SohlActiveEffectDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlActiveEffectDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlActiveEffect> {
@@ -389,6 +390,7 @@ export class SohlActiveEffectDataModel<
 }
 
 const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
+/** @internal */
 export class SohlActiveEffectSheet extends BaseAEConfig {
     static override PARTS = {
         header: { template: "templates/sheets/active-effect/header.hbs" },

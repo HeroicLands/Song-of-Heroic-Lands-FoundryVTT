@@ -65,6 +65,7 @@ function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
 
 type ProjectileGearDataSchema = ReturnType<typeof defineProjectileGearSchema>;
 
+/** @internal */
 export class ProjectileGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = ProjectileGearDataSchema,
     TLogic extends ProjectileGearLogic<ProjectileGearData> =

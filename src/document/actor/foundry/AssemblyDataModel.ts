@@ -30,6 +30,7 @@ type AssemblyDataSchema = ReturnType<typeof defineAssemblyDataSchema>;
  * Assemblies have no schema fields beyond those inherited from
  * {@link SohlActorDataModel}. The canonical item is derived at runtime
  * from the embedded items collection.
+ * @internal
  */
 export class AssemblyDataModel<
     TSchema extends foundry.data.fields.DataSchema = AssemblyDataSchema,

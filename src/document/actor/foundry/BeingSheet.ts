@@ -42,6 +42,7 @@ type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
+/** @internal */
 export class BeingSheet extends SohlActorSheetBase {
     static PARTS = {
         header: {

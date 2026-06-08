@@ -316,6 +316,7 @@ type SohlItemDataSchema = ReturnType<typeof defineSohlItemDataSchema>;
  * a structured data model for items in the "Song of Heroic Lands" system. It
  * encapsulates logic and behavior associated with items, offering a schema
  * definition and initialization logic.
+ * @internal
  */
 export abstract class SohlItemDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlItemDataSchema,
@@ -393,6 +394,7 @@ const SohlItemSheetBase_Base = SohlDataModel.SheetMixin<
     typeof foundry.applications.api.DocumentSheetV2<SohlItem>
 >(foundry.applications.api.DocumentSheetV2<SohlItem>);
 
+/** @internal */
 export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     static PARTS = {
         header: {

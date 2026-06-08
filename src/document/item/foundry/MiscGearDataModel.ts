@@ -26,6 +26,7 @@ function defineMiscGearSchema(): foundry.data.fields.DataSchema {
 
 type MiscGearSchema = ReturnType<typeof defineMiscGearSchema>;
 
+/** @internal */
 export class MiscGearDataModel<
     TSchema extends foundry.data.fields.DataSchema = MiscGearSchema,
     TLogic extends MiscGearLogic<MiscGearData> = MiscGearLogic<MiscGearData>,

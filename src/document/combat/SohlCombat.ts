@@ -103,6 +103,7 @@ function defineSohlCombatDataSchema(): foundry.data.fields.DataSchema {
 
 type SohlCombatDataSchema = ReturnType<typeof defineSohlCombatDataSchema>;
 
+/** @internal */
 export class SohlCombatDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatDataSchema,
 > extends foundry.abstract.TypeDataModel<TSchema, SohlCombat> {

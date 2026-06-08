@@ -101,6 +101,7 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     };
 }
 
+/** @internal */
 export abstract class SohlDataModel<
     TSchema extends foundry.data.fields.DataSchema,
     TDocument extends SohlDocument,
@@ -204,6 +205,7 @@ export abstract class SohlDataModel<
     }
 }
 
+/** @internal */
 export namespace SohlDataModel {
     export type Any = SohlDataModel<SohlDocument, any>;
 

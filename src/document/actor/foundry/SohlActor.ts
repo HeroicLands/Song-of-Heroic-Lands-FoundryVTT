@@ -773,6 +773,7 @@ type SohlActorDataSchema = ReturnType<typeof defineSohlActorDataSchema>;
  *
  * @typeParam TSchema - The Foundry data schema for this model.
  * @typeParam TLogic - The actor logic type this data drives.
+ * @internal
  */
 export abstract class SohlActorDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlActorDataSchema,
@@ -846,6 +847,7 @@ const SohlActorSheetBase_Base = SohlDataModel.SheetMixin<
  * Base application sheet for all actor types. Provides the shared render parts
  * (header, tabs, facade), the per-part context hooks, and list filtering.
  * Concrete actor sheets extend this and override the `_prepare*Context` hooks.
+ * @internal
  */
 export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     /** The {@link SohlActor} this sheet renders (narrowed from the base type). */
