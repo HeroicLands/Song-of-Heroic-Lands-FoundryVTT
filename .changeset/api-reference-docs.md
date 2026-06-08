@@ -25,8 +25,15 @@ in reviewable batches per the API documentation coverage plan.
   success-value / opposed test methods), `ImpactModifier` (dice, aspect,
   formula, evaluation), `CombatModifier`, and the `ValueDelta` building block —
   including their namespace types. Internal plumbing is tagged `@internal`.
+- **The `SohlActor` document module** (`document/actor/foundry/SohlActor.ts`) —
+  the actor document's lifecycle and data-preparation overrides
+  (`prepareBaseData`, `prepareEmbeddedData`'s phase-batched lifecycle,
+  `prepareDerivedData`), creation hooks (`_preCreate`, `_onCreate`,
+  `createUniqueName`), the `SohlActorLogic` / `SohlActorData` interfaces, the
+  `SohlActorDataModel` base, and the `SohlActorSheetBase` render/context hooks.
 - The internal `AIExecutionResult` interfaces are tagged `@internal` so they no
   longer appear in the published API.
 
-The coverage probe reports **0** undocumented symbols across `domain/result/`
-and `domain/modifier/` (down from 300 and 200 respectively).
+The coverage probe reports **0** undocumented symbols across the full in-scope
+set — `domain/result/`, `domain/modifier/`, and `SohlActor` — down from a
+combined ~623.
