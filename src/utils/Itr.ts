@@ -21,7 +21,7 @@
  */
 export class Itr<T> implements IterableIterator<T> {
     /** Underlying source iterator. @internal */
-    private _iterator: Iterator<T>;
+    protected _iterator: Iterator<T>;
 
     /**
      * @param iterable - The source iterable to wrap.

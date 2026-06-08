@@ -64,7 +64,7 @@ import {
  */
 export class SohlSpeaker {
     /** @internal Cached Foundry speaker-data used when building messages. */
-    _speaker!: SohlSpeaker.Data;
+    protected _speaker!: SohlSpeaker.Data;
     /** The roll mode applied to messages this speaker posts. */
     readonly rollMode: string;
     /** The resolved token, or `null`. */

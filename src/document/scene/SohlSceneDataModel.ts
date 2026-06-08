@@ -35,13 +35,16 @@ type SohlSceneDataSchema = ReturnType<typeof defineSohlSceneDataSchema>;
  */
 export class SohlSceneDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlSceneDataSchema,
-> extends foundry.abstract.TypeDataModel<TSchema, SohlScene & foundry.abstract.Document.Any> {
+> extends foundry.abstract.TypeDataModel<
+    TSchema,
+    SohlScene & foundry.abstract.Document.Any
+> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Scene"];
     static readonly kind = "sohlscenedata";
 
     isTotm!: boolean;
 
-    private _logic?: SohlSceneLogic;
+    protected _logic?: SohlSceneLogic;
 
     get logic(): SohlSceneLogic {
         if (!this._logic) {

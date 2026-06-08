@@ -425,7 +425,7 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
     };
 
     /** @inheritDoc */
-    override async _preparePartContext(
+    protected override async _preparePartContext(
         partId: string,
         context: PlainObject,
     ): Promise<foundry.applications.api.ApplicationV2.RenderContextOf<this>> {

@@ -179,15 +179,15 @@ const MAX_TRIGGER_DEPTH = 16;
  * ```
  */
 export class SohlEventQueue {
-    private _subs: Map<string, SohlSubscription> = new Map();
+    protected _subs: Map<string, SohlSubscription> = new Map();
 
     /** During an updateWorldTime dispatch, the fireAt of the current event. */
-    private _processingFireAt: number | null = null;
+    protected _processingFireAt: number | null = null;
 
     /** Per-trigger reentrancy depth for the loop-protection backstop. */
-    private _depthByTrigger: Map<string, number> = new Map();
+    protected _depthByTrigger: Map<string, number> = new Map();
 
-    private _key(uuid: string, kind: string): string {
+    protected _key(uuid: string, kind: string): string {
         return `${uuid}::${kind}`;
     }
 
@@ -277,7 +277,7 @@ export class SohlEventQueue {
         }
     }
 
-    private async _fireWorldTime(ctx: {
+    protected async _fireWorldTime(ctx: {
         name: "updateWorldTime";
         worldTime: number;
         dt: number;
@@ -342,7 +342,7 @@ export class SohlEventQueue {
         }
     }
 
-    private async _fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
+    protected async _fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
         // Snapshot matching subscriptions at start; non-time triggers do
         // not cascade. Subscriptions added mid-dispatch wait for the next
         // fire(...) invocation.
@@ -370,7 +370,7 @@ export class SohlEventQueue {
         }
     }
 
-    private async _dispatchOne(
+    protected async _dispatchOne(
         sub: SohlSubscription,
         ctx: SohlTriggerContext,
     ): Promise<void> {

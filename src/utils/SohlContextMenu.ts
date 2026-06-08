@@ -227,7 +227,7 @@ export class SohlContextMenu
      *   found.
      * @internal
      */
-    _setPosition(
+    protected _setPosition(
         element: HTMLElement,
         target: HTMLElement,
         options?: PlainObject,

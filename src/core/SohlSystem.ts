@@ -306,7 +306,7 @@ export const {
  * data models, results, and modifiers.
  */
 export class SohlSystem {
-    private static _instance: SohlSystem | null = null;
+    protected static _instance: SohlSystem | null = null;
 
     /** Return the singleton instance, creating it on first call. */
     static getInstance(): SohlSystem {

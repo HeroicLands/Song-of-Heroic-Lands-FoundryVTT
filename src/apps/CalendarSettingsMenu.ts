@@ -59,7 +59,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         },
     };
 
-    override async _prepareContext(options: any): Promise<any> {
+    protected override async _prepareContext(options: any): Promise<any> {
         const activeId = game.settings.get("sohl", "activeCalendar") as string;
         const calendars: { id: string; label: string; active: boolean }[] = [];
         for (const [id, reg] of SohlSystem.calendars.entries()) {
@@ -99,7 +99,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
      * Handle the import calendar action. Opens a FilePicker for JSON files,
      * validates the selected file, and registers it as a new calendar.
      */
-    static async _onImportCalendar(
+    protected static async _onImportCalendar(
         this: CalendarSettingsMenu,
         _event: Event,
         _target: HTMLElement,
@@ -182,7 +182,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
     /**
      * Handle deleting an imported calendar.
      */
-    static async _onDeleteCalendar(
+    protected static async _onDeleteCalendar(
         this: CalendarSettingsMenu,
         _event: Event,
         target: HTMLElement,
@@ -235,7 +235,7 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
     /**
      * Handle form submission — save the active calendar selection.
      */
-    override async _onSubmitForm(
+    protected override async _onSubmitForm(
         _formConfig: any,
         event: Event,
     ): Promise<void> {

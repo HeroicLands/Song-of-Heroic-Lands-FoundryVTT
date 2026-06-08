@@ -162,7 +162,7 @@ export class SohlActor extends Actor {
      * player input; an assisted request opens the Add Injury dialog so the GM
      * can pick the location and tune armor reduction.
      */
-    private async _onCreateInjury(btn: HTMLElement): Promise<void> {
+    protected async _onCreateInjury(btn: HTMLElement): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -270,7 +270,7 @@ export class SohlActor extends Actor {
     }
 
     /** Post an `injury-card` to chat for a resolved injury on this actor. */
-    private async _postInjury(
+    protected async _postInjury(
         injury: ResolvedInjury,
         addToCharSheet: boolean,
     ): Promise<void> {
@@ -876,7 +876,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /** Register the actor sheet's render parts: `header`, `tabs`, and `facade`. */
-    override _configureRenderOptions(
+    protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -886,7 +886,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /** Build the render context shared across all sheet parts. */
-    override async _prepareContext(
+    protected override async _prepareContext(
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
@@ -908,7 +908,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param context - The in-progress render context.
      * @param options - Foundry render options.
      */
-    async _preparePartContext(
+    protected async _preparePartContext(
         partId: string,
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -942,7 +942,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /** Build the `header` part's render context. Override in subclasses; the base returns it unchanged. */
-    async _prepareHeaderContext(
+    protected async _prepareHeaderContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
@@ -952,7 +952,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /** Build the `tabs` part's render context. Override in subclasses; the base returns it unchanged. */
-    async _prepareTabsContext(
+    protected async _prepareTabsContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
@@ -962,7 +962,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
     }
 
     /** Build the `facade` part's render context. Override in subclasses; the base returns it unchanged. */
-    async _prepareFacadeContext(
+    protected async _prepareFacadeContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<

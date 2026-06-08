@@ -119,7 +119,7 @@ export class SohlItem extends Item {
      * current data-preparation cycle. Cleared at the top of the actor's
      * `prepareBaseData()`. Mirrors Foundry's `Actor#_completedActiveEffectPhases`.
      */
-    _completedActiveEffectPhases?: Set<string>;
+    protected _completedActiveEffectPhases?: Set<string>;
 
     /**
      * Effects living elsewhere whose `targets` include this item. Walks
@@ -466,7 +466,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return this.item.actor;
     }
 
-    override _configureRenderOptions(
+    protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
         super._configureRenderOptions(options);
@@ -479,7 +479,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options.parts.push("properties", "description", "actions", "effects");
     }
 
-    override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
+    protected override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here
@@ -489,7 +489,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return context;
     }
 
-    async _preparePartContext(
+    protected async _preparePartContext(
         partId: string,
         context: RenderContext,
         options: RenderOptions,

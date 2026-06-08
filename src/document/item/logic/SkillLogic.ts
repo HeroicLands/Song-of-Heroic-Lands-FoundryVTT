@@ -262,7 +262,7 @@ export class SkillLogic<
             | undefined;
         if (!rollFormula) return;
 
-        const sb = this.skillBaseForRoll;
+        const sb = this._skillBaseForRoll;
         const resolved = rollFormula.replace(/\bsb\b/gi, String(sb));
         const roll = SimpleRoll.fromFormula(resolved);
         roll.roll();
@@ -278,7 +278,7 @@ export class SkillLogic<
      * Override in subclasses to provide a different value (e.g., traits
      * always return 0).
      */
-    protected get skillBaseForRoll(): number {
+    protected get _skillBaseForRoll(): number {
         return this.skillBase?.value ?? 0;
     }
 

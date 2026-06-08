@@ -196,7 +196,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns Formatted string like "2y 3m 4d"
      */
-    static _formatDurationEn(value: DurationValue): string {
+    protected static _formatDurationEn(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}y`);
@@ -221,7 +221,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2v 3kk 4pv"
      */
-    static _formatDurationFi(value: DurationValue): string {
+    protected static _formatDurationFi(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}v`);
@@ -246,7 +246,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2J 3M 4T"
      */
-    static _formatDurationDe(value: DurationValue): string {
+    protected static _formatDurationDe(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}J`);
@@ -271,7 +271,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2år 3mån 4v"
      */
-    static _formatDurationSv(value: DurationValue): string {
+    protected static _formatDurationSv(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}å`);
@@ -296,7 +296,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2a 3mo 4j"
      */
-    static _formatDurationFr(value: DurationValue): string {
+    protected static _formatDurationFr(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}a`);
@@ -321,7 +321,7 @@ export class SohlLocalize {
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2a 3m 4s"
      */
-    static _formatDurationEs(value: DurationValue): string {
+    protected static _formatDurationEs(value: DurationValue): string {
         if (value?.direction !== TemporalDirection.NOW) {
             const parts = [];
             if (value.years) parts.push(`${value.years}a`);

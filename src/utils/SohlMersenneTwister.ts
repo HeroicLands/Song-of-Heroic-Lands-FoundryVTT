@@ -41,7 +41,7 @@ export class SohlMersenneTwister {
     /** Index of the next word to consume from {@link mt}. @internal */
     private mti = SohlMersenneTwister.N + 1;
     /** The most recently applied seed. @internal */
-    private _seed: number;
+    protected _seed: number;
 
     /**
      * Create a generator initialized from a seed.
@@ -213,7 +213,7 @@ export class SohlMersenneTwister {
     }
 
     /** The process-wide singleton instance, if created. @internal */
-    private static _instance: SohlMersenneTwister | null = null;
+    protected static _instance: SohlMersenneTwister | null = null;
 
     /**
      * Return the shared singleton generator, creating one seeded from the

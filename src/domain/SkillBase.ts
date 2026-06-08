@@ -81,7 +81,7 @@ export class SkillBase {
      * Populated by {@link setAttributes}.
      * @internal
      */
-    _attrs: StrictObject<{
+    protected _attrs: StrictObject<{
         name: string;
         value: number;
         logic: AttributeLogic;
@@ -90,26 +90,26 @@ export class SkillBase {
      * The raw formula string, or `null` when no formula was supplied.
      * @internal
      */
-    _formula: string | null;
+    protected _formula: string | null;
     /**
      * The character's birthsign tokens (the birthsign item's hyphen-split
      * `textValue`), used to match `bs:` terms in the formula.
      * @internal
      */
-    _birthsigns: string[];
+    protected _birthsigns: string[];
     /**
      * The tokenized formula (e.g. `["attr:str", "bs:hirin:2", "5"]`), or
      * `null` when the formula is absent or invalid. Produced by
      * {@link _parseFormula}.
      * @internal
      */
-    _parsedFormula: string[] | null;
+    protected _parsedFormula: string[] | null;
     /**
      * The most recently computed skill base value. Recalculated by
      * {@link setAttributes} via {@link _calcValue}.
      * @internal
      */
-    _value: number;
+    protected _value: number;
 
     /**
      * Builds a skill base from a formula and, optionally, the actor's items.
@@ -293,7 +293,7 @@ export class SkillBase {
      * @returns {object[]} A parsed skill base formula
      * @internal
      */
-    get _parseFormula(): string[] | null {
+    protected get _parseFormula(): string[] | null {
         const parseResult: string[] = [];
         let modifier = 0;
 
@@ -373,7 +373,7 @@ export class SkillBase {
      * @returns A number representing the calculated skill base
      * @internal
      */
-    _calcValue(): number {
+    protected _calcValue(): number {
         if (!this.valid) return 0;
         let attrScores: number[] = [];
         let bsBonus: number = Number.MIN_SAFE_INTEGER;

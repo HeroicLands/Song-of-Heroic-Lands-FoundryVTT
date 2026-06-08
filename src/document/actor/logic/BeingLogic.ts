@@ -1007,7 +1007,7 @@ export class BeingLogic<
      * Returns `null` (with a warning) when absent. Parent is this defender's
      * logic, per the snapshot-on-defender model.
      */
-    private _rehydrateAttackResult(
+    protected _rehydrateAttackResult(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): AttackResult | null {
         const json = (context.scope as any)?.attackResultJson;
@@ -1021,7 +1021,7 @@ export class BeingLogic<
     }
 
     /** Compose the `CombatResult` for a resolved exchange (attacker snapshot + defender response). */
-    private _buildCombatResult(
+    protected _buildCombatResult(
         attackResult: AttackResult,
         defendResult: AttackResult | DefendResult,
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
@@ -1042,7 +1042,7 @@ export class BeingLogic<
      * Post the combat-result card as the defender. A landing blow carries a
      * "Calculate <Token> Injury" button. Suppressed when `context.noChat`.
      */
-    private async _postCombatResultCard(
+    protected async _postCombatResultCard(
         combatResult: CombatResult,
         attackResult: AttackResult,
         defenseLabel: string,

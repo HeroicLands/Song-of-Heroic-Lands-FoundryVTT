@@ -71,10 +71,10 @@ import {
  * {@link delete} to inspect or remove specific deltas by shortcode.
  */
 export class ValueModifier {
-    private _shortcode!: string;
-    private _dirty: boolean;
-    private _effective!: number;
-    private _parent: SohlLogic;
+    protected _shortcode!: string;
+    protected _dirty: boolean;
+    protected _effective!: number;
+    protected _parent: SohlLogic;
     /** Reason the value is disabled; empty string means enabled. See {@link disabled}. */
     disabledReason!: string;
     /** The base value before deltas (undefined until set; treated as 0 by {@link base}). */
@@ -330,7 +330,7 @@ export class ValueModifier {
      *
      * @internal
      */
-    _oper(
+    protected _oper(
         name: string,
         shortcode: string = "",
         value: string | number = 0,
@@ -591,7 +591,7 @@ export class ValueModifier {
      *
      * @internal
      */
-    _calcAbbrev(): void {
+    protected _calcAbbrev(): void {
         this._shortcode = "";
         if (this.disabled) {
             this._shortcode = VALUE_DELTA_INFO.DISABLED;

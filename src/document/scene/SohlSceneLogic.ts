@@ -25,7 +25,7 @@ import type { SohlScene } from "@src/document/scene/SohlScene";
  * than a {@link import("@src/core/SohlLogic").SohlLogic} subclass.
  */
 export class SohlSceneLogic {
-    private readonly _data: SohlSceneDataModel;
+    protected readonly _data: SohlSceneDataModel;
 
     constructor(data: SohlSceneDataModel) {
         this._data = data;

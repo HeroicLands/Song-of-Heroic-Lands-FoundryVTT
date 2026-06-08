@@ -67,13 +67,13 @@ interface LogOptions {
  */
 export class SohlLogger {
     /** The lazily-created singleton instance. @internal */
-    private static _instance: SohlLogger;
+    protected static _instance: SohlLogger;
     /** Loaded source-map consumer used to map stack frames to source positions. @internal */
-    private static _sourceMapConsumer: SourceMapConsumer | null;
+    protected static _sourceMapConsumer: SourceMapConsumer | null;
     /** Guards against loading the source map more than once. @internal */
-    private static _sourceMapLoading: boolean;
+    protected static _sourceMapLoading: boolean;
     /** The current minimum severity that will be emitted. @internal */
-    private static _threshold: LogLevel; // configurable?
+    protected static _threshold: LogLevel; // configurable?
 
     /**
      * Private to enforce singleton access via {@link getInstance}. Kicks off
