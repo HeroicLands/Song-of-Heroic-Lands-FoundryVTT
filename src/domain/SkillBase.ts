@@ -74,16 +74,58 @@ import { ITEM_KIND } from "@src/utils/constants";
  *   by the formula
  */
 export class SkillBase {
+    /**
+     * Resolved attribute references, keyed by attribute shortcode. Each
+     * entry records the owning item's display `name`, the (possibly
+     * multiplied) attribute `value`, and the backing {@link AttributeLogic}.
+     * Populated by {@link setAttributes}.
+     * @internal
+     */
     _attrs: StrictObject<{
         name: string;
         value: number;
         logic: AttributeLogic;
     }>;
+    /**
+     * The raw formula string, or `null` when no formula was supplied.
+     * @internal
+     */
     _formula: string | null;
+    /**
+     * The character's birthsign tokens (the birthsign item's hyphen-split
+     * `textValue`), used to match `bs:` terms in the formula.
+     * @internal
+     */
     _birthsigns: string[];
+    /**
+     * The tokenized formula (e.g. `["attr:str", "bs:hirin:2", "5"]`), or
+     * `null` when the formula is absent or invalid. Produced by
+     * {@link _parseFormula}.
+     * @internal
+     */
     _parsedFormula: string[] | null;
+    /**
+     * The most recently computed skill base value. Recalculated by
+     * {@link setAttributes} via {@link _calcValue}.
+     * @internal
+     */
     _value: number;
 
+    /**
+     * Builds a skill base from a formula and, optionally, the actor's items.
+     *
+     * Parses {@link formula} immediately and, when `options.items` are given,
+     * resolves attribute references and computes {@link value}. Birthsign
+     * tokens are extracted from `options.birthsign` for `bs:` term matching.
+     * @param formula - The skill base formula string (see class docs for
+     *   syntax). An empty/falsy value yields an inactive skill base.
+     * @param options - Optional inputs.
+     * @param options.items - The actor's items; attribute items among them
+     *   are used to resolve `@attr` references. Must be iterable.
+     * @param options.birthsign - The character's birthsign item, whose
+     *   `textValue` supplies the birthsign tokens.
+     * @throws If `options.items` is provided but is not iterable.
+     */
     constructor(
         formula: string,
         options: { items?: SohlItem[]; birthsign?: SohlItem } = {},
@@ -109,6 +151,18 @@ export class SkillBase {
         }
     }
 
+    /**
+     * Resolves the formula's `@attr` references against the supplied items
+     * and recomputes {@link value}.
+     *
+     * Filters `items` to attribute items, matches each `attr:` term by
+     * shortcode, multiplies the attribute's effective score by any per-term
+     * multiplier, and stores the result in {@link _attrs}. Then recomputes
+     * the skill base via {@link _calcValue} (0 when there is no formula).
+     * @param items - Candidate items; non-attribute items are ignored.
+     * @throws If a matched attribute's effective score is not an integer, or
+     *   if a term's multiplier is present but not a number.
+     */
     setAttributes(items: SohlItem[] = []): void {
         const attributes: SohlItem[] = [];
         for (const it of items) {
@@ -162,22 +216,40 @@ export class SkillBase {
         this._value = this.formula ? this._calcValue() : 0;
     }
 
+    /**
+     * Whether the formula parsed into at least one usable term.
+     * @returns `true` when {@link parsedFormula} is non-empty.
+     */
     get valid(): boolean {
         return !!this.parsedFormula?.length;
     }
 
+    /**
+     * The raw skill base formula string, or `null` when none was supplied.
+     */
     get formula(): string | null {
         return this._formula;
     }
 
+    /**
+     * The tokenized formula terms (see {@link _parseFormula}), or `null`
+     * when the formula is absent or failed to parse.
+     */
     get parsedFormula(): string[] | null {
         return this._parsedFormula;
     }
 
+    /**
+     * The character's birthsign tokens used to match `bs:` formula terms.
+     */
     get birthsigns(): string[] {
         return this._birthsigns;
     }
 
+    /**
+     * The {@link AttributeLogic} instances resolved from the formula's
+     * `@attr` references (derived from {@link _attrs}).
+     */
     get attributes(): AttributeLogic[] {
         return Object.values(this._attrs).map((a) => a.logic);
     }
@@ -195,6 +267,10 @@ export class SkillBase {
         return Object.keys(this._attrs);
     }
 
+    /**
+     * The computed skill base number (averaged attributes plus birthsign and
+     * flat modifiers, clamped to ≥ 0). See {@link _calcValue}.
+     */
     get value(): number {
         return this._value;
     }
@@ -215,6 +291,7 @@ export class SkillBase {
      * A valid formula must have exactly 2 or more attributes, everything else is optional.
      *
      * @returns {object[]} A parsed skill base formula
+     * @internal
      */
     get _parseFormula(): string[] | null {
         const parseResult: string[] = [];
@@ -294,6 +371,7 @@ export class SkillBase {
      * Calculates a skill base value.
      *
      * @returns A number representing the calculated skill base
+     * @internal
      */
     _calcValue(): number {
         if (!this.valid) return 0;

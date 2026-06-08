@@ -22,14 +22,24 @@ import type { BodyStructure } from "@src/domain/body/BodyStructure";
 export interface ArmorLayer {
     /** Display material, e.g. "Mail" — used to build the location's armorType. */
     material: string;
-    /** Protection this layer adds per aspect. */
-    protection: { blunt: number; edged: number; piercing: number; fire: number };
+    /** Protection this layer adds per aspect (blunt, edged, piercing, fire). */
+    protection: {
+        /** Protection against blunt impact. */
+        blunt: number;
+        /** Protection against edged impact. */
+        edged: number;
+        /** Protection against piercing impact. */
+        piercing: number;
+        /** Protection against fire/heat impact. */
+        fire: number;
+    };
     /** Shortcodes of locations this layer covers flexibly. */
     flexibleLocations: string[];
     /** Shortcodes of locations this layer covers rigidly. */
     rigidLocations: string[];
 }
 
+/** The impact aspects iterated when summing per-aspect armor protection. @internal */
 const ASPECTS = ["blunt", "edged", "piercing", "fire"] as const;
 
 /**

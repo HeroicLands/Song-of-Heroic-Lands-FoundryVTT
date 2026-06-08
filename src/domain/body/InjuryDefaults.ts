@@ -42,10 +42,18 @@ export type InjurySeverity = "S3" | "G4" | "G5";
  * ImpactAspect values. An empty Set or a missing key means "never a
  * Bleeder for this combination."
  */
+/** Short alias for the EDGED aspect, used to build the bleeding table. @internal */
 const E = IMPACT_ASPECT.EDGED;
+/** Short alias for the PIERCING aspect, used to build the bleeding table. @internal */
 const P = IMPACT_ASPECT.PIERCING;
+/** Short alias for the BLUNT aspect, used to build the bleeding table. @internal */
 const B = IMPACT_ASPECT.BLUNT;
 
+/**
+ * Bleeding lookup table: for each {@link BleedingSusceptibility}, the set of
+ * impact aspects that cause bleeding at each serious/grievous injury severity.
+ * Consulted by {@link isBleeder}.
+ */
 export const BLEEDING_TABLE: Record<
     BleedingSusceptibility,
     Record<InjurySeverity, ReadonlySet<ImpactAspect>>

@@ -25,6 +25,14 @@ in reviewable batches per the API documentation coverage plan.
   success-value / opposed test methods), `ImpactModifier` (dice, aspect,
   formula, evaluation), `CombatModifier`, and the `ValueDelta` building block —
   including their namespace types. Internal plumbing is tagged `@internal`.
+- **The rest of the Domain layer** — the anatomy/hit-location model
+  (`BodyStructure`, `BodyPart`, `BodyLocation`, armor aggregation, injury
+  resolution, weighted hit-location selection), the strike-mode combat types
+  (`StrikeModeBase`/`MeleeStrikeMode`/`MissileStrikeMode`: reach, attack,
+  impact, block/counterstrike), the `SohlAction` action system, the per-medium
+  movement helpers, and the `SkillBase` formula — classes, exported functions,
+  and namespace/`Data` interfaces. With this, the entire `domain/` layer is
+  documented.
 - **The `SohlActor` document module** (`document/actor/foundry/SohlActor.ts`) —
   the actor document's lifecycle and data-preparation overrides
   (`prepareBaseData`, `prepareEmbeddedData`'s phase-batched lifecycle,

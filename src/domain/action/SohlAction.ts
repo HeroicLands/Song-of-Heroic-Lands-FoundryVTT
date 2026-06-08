@@ -26,8 +26,25 @@ import { fvttCurrentUser } from "@src/core/FoundryHelpers";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
 
+/**
+ * Predicate deciding whether an action is currently available. Invoked
+ * programmatically with the owning `item` and `actor`; returns `true` when
+ * the action may run/appear. Compiled from `data.trigger` by
+ * {@link compileTrigger}.
+ */
 export type ActionTriggerFn = (item?: SohlItem, actor?: SohlActor) => boolean;
+/**
+ * Predicate deciding whether an action's UI entry (e.g. a context-menu
+ * item) is shown for a given DOM element. Compiled from `data.visible` by
+ * {@link compileVisibility}, composing the visibility source with execute
+ * permission and {@link ActionTriggerFn}.
+ */
 export type ActionVisibilityFn = (element: HTMLElement) => boolean;
+/**
+ * The callable that performs an action, given a {@link SohlActionContext}.
+ * For INTRINSIC actions this is a bound logic method; for SCRIPT actions it
+ * is compiled from the action's executor source.
+ */
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
 
 /**
@@ -59,12 +76,46 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * @typeParam TData - The Action data interface.
  */
 export class SohlAction {
+    /** The persisted action definition (see {@link SohlActionData}). */
     data: SohlActionData;
+    /** The data model this action was constructed against (its parent). */
     parent: SohlDocument;
+    /**
+     * The callable that performs the action. For INTRINSIC actions, the
+     * named method on the scoped target logic, bound to that target; for
+     * SCRIPT actions, the compiled executor source. A no-op resolving to
+     * `undefined` when no executor is defined. See {@link ActionExecutorFn}.
+     */
     executor: ActionExecutorFn;
+    /**
+     * Availability predicate compiled from `data.trigger`; gates
+     * {@link execute} and composes into {@link visible}. See
+     * {@link ActionTriggerFn}.
+     */
     trigger: ActionTriggerFn;
+    /**
+     * UI-visibility predicate compiled from `data.visible`, composed with
+     * execute permission and {@link trigger}. See {@link ActionVisibilityFn}.
+     */
     visible: ActionVisibilityFn;
 
+    /**
+     * Builds an action, compiling its trigger and visibility predicates and
+     * resolving its executor.
+     *
+     * The executor is resolved against the target logic selected by
+     * `data.scope` (SELF → this data model's logic, ITEM → the parent item's
+     * logic, ACTOR → the owning actor's logic). For INTRINSIC actions the
+     * executor is the named method on that target (bound to it); for other
+     * subtypes it is compiled from `data.executor` source. When no executor
+     * is supplied, a no-op resolving to `undefined` is used.
+     * @param data - The action definition.
+     * @param dataModel - The data model the action belongs to; supplies the
+     *   logic targets used to bind the executor.
+     * @throws If `dataModel` or `data` is missing, if `data.scope` is
+     *   unknown, or if an INTRINSIC executor names a non-existent method on
+     *   the resolved target.
+     */
     constructor(data: SohlActionData, dataModel: SohlDataModel<any, any>) {
         if (!dataModel) {
             throw new Error("Data model is required to create a SohlAction.");
@@ -194,6 +245,7 @@ export class SohlAction {
     }
 }
 
+/** Persisted definition of an action — the data a {@link SohlAction} is built from. */
 export interface SohlActionData {
     /** Whether this is an intrinsic or custom action */
     subType: ActionSubType;

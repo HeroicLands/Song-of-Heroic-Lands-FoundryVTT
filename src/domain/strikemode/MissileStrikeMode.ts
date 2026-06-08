@@ -32,6 +32,18 @@ export class MissileStrikeMode extends StrikeModeBase {
     /** Draw/reload time before firing. */
     draw: ValueModifier;
 
+    /**
+     * Rebuilds a missile strike mode, adding ranged-specific fields on top of
+     * the base attack/impact setup.
+     *
+     * Copies {@link projectileType} and {@link maxVolleyMult} directly, and
+     * derives {@link baseRange} from {@link MissileStrikeMode.Data.baseRangeBase | data.baseRangeBase}
+     * and {@link draw} from {@link MissileStrikeMode.Data.drawBase | data.drawBase}.
+     *
+     * @param data - Persisted missile strike-mode fields (see {@link MissileStrikeMode.Data}).
+     * @param parentLogic - The owning Logic instance, used as the modifiers' parent.
+     * @param id - This strike mode's key within the parent's `strikeModes` map.
+     */
     constructor(
         data: MissileStrikeMode.Data,
         parentLogic: SohlLogic,
@@ -88,11 +100,17 @@ export class MissileStrikeMode extends StrikeModeBase {
 }
 
 export namespace MissileStrikeMode {
+    /** Persisted fields for a missile strike mode (extends {@link StrikeModeBase.Data}). */
     export interface Data extends StrikeModeBase.Data {
+        /** Discriminator fixing this as a missile mode. */
         type: "missile";
+        /** Ammunition type consumed, or `"none"` when the weapon itself is thrown. */
         projectileType: string;
+        /** Maximum volley multiplier permitted when firing rapidly. */
         maxVolleyMult: number;
+        /** Base range (feet) seeding {@link MissileStrikeMode.baseRange} before modifiers. */
         baseRangeBase: number;
+        /** Base draw/reload time seeding {@link MissileStrikeMode.draw} before modifiers. */
         drawBase: number;
     }
 }
