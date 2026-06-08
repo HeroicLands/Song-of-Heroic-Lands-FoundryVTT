@@ -93,7 +93,8 @@ in reviewable batches per the API documentation coverage plan.
   `character`/`token` accessors) and `SohlSpeaker` (who is acting and how its
   voice is rendered to chat: identifier resolution, `toChat`,
   `getChatMessageSpeaker`, `isOwner`, and the `ChatOptions`/`Data` namespace
-  types). Underscore-prefixed internal helpers are tagged `@internal`.
+  types). Underscore-prefixed internal helpers are kept out of the public API
+  (`_prepareChat` is `protected`; the `_speaker` cache field is `@internal`).
 
 The coverage probe reports **0** undocumented symbols across the full in-scope
 set — `domain/`, `core/SohlLogic`, `core/SohlSystem`, `core/SohlCalendar`,

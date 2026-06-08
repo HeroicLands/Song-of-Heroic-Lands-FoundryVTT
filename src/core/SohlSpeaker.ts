@@ -238,9 +238,8 @@ export class SohlSpeaker {
      * @param data - The data for the message.
      * @param options - The options for the message.
      * @returns The prepared message data.
-     * @internal
      */
-    async _prepareChat(
+    protected async _prepareChat(
         data: PlainObject = {},
         options: Partial<SohlSpeaker.ChatOptions> = {
             style: SOHL_SPEAKER_STYLE.OTHER,
