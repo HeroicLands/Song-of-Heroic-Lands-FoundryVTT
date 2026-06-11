@@ -124,8 +124,3 @@ in reviewable batches per the API documentation coverage plan.
   `utils/docs-coverage.mjs`) runs the TypeDoc `notDocumented` validation and
   fails on any undocumented symbol outside `constants.ts`, so the "fully
   documented" state is now enforceable rather than manually checked.
-
-The coverage gate reports **0** undocumented symbols across the entire in-scope
-API — every `domain/`, `core/`, `document/`, and `utils/` symbol. Only the
-member-level entries of the `constants.ts` lookup tables are deliberately
-excluded.
