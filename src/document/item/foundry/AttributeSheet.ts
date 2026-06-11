@@ -27,6 +27,12 @@ export class TraitSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Adds trait-specific fields to the properties tab context.
+     * @param context - The render context to augment.
+     * @param options - Sheet render options.
+     * @returns The context extended with trait properties.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

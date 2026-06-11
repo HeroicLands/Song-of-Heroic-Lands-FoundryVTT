@@ -31,21 +31,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="item-detail">
                     {{#if mystery.logic.level.disabled}}
-                    <i class="fas fa-xmark fa-lg"></i>
+                    <i class="sohl-xmark"></i>
                     {{else}}
                     {{numberFormat mystery.logic.level.effective sign=true}}
                     {{/if}}
                 </div>
                 <div class="item-detail">
                     {{#if mystery.logic.charges.value.disabled}}
-                    <i class="fas fa-xmark fa-lg"></i>
+                    <i class="sohl-xmark"></i>
                     {{else}}
                     {{mystery.logic.charges.value.effective}}{{#if (gt mystery.logic.charges.max.effective 0)}}/{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
                     {{/if}}
                 </div>
                 <div class="item-detail">{{mystery.system.notes}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}
@@ -72,21 +72,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 </div>
                 <div class="item-detail">
                     {{#if ability.logic.level.disabled}}
-                    <i class="fas fa-xmark fa-lg"></i>
+                    <i class="sohl-xmark"></i>
                     {{else}}
                     {{ability.logic.level.effective}}
                     {{/if}}
                 </div>
                 <div class="item-detail">
                     {{#if ability.logic.charges.value.disabled}}
-                    <i class="fas fa-xmark fa-lg"></i>
+                    <i class="sohl-xmark"></i>
                     {{else}}
                     {{ability.logic.charges.value.effective}}{{#if (gt ability.logic.charges.max.effective 0)}}/{{numberFormat ability.logic.charges.max.effective}}{{/if}}
                     {{/if}}
                 </div>
                 <div class="item-detail">{{ability.system.notes}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}

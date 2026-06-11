@@ -20,7 +20,9 @@ import {
 import { ValueDelta } from "@src/domain/modifier/ValueDelta";
 import {
     SYMBOL,
+    VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
+    type ValueDeltaInfo,
     VALUE_DELTA_OPERATOR,
     VALUE_DELTA_OPERATOR_ORDER,
     ValueDeltaOperator,
@@ -85,6 +87,8 @@ export class ValueModifier {
     deltas!: ValueDelta[];
 
     /**
+     * Construct a modifier from optional initial state and apply it.
+     *
      * @param data - Initial state; `baseValue`, `deltas`, `disabledReason`, and
      *   `customFunction` are all optional.
      * @param options - Must provide `options.parent`, the owning Logic.
@@ -106,7 +110,11 @@ export class ValueModifier {
         this._apply();
     }
 
-    /** Serialize this modifier (base, deltas, disabled state) to a plain object. */
+    /**
+     * Serialize this modifier (base, deltas, disabled state) to a plain object.
+     *
+     * @returns The plain-object representation.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
@@ -123,6 +131,12 @@ export class ValueModifier {
         return cloneInstance<T>(this, data, options);
     }
 
+    /**
+     * Recompute the effective value and abbreviation from the base and
+     * deltas, but only when {@link dirty}. Called lazily by the value getters.
+     *
+     * @internal
+     */
     protected _apply(): void {
         if (!this.dirty) return;
         this.dirty = false;
@@ -281,7 +295,13 @@ export class ValueModifier {
         this.dirty = true;
     }
 
-    /** Chainable form of the {@link disabled} setter. */
+    /**
+     * Chainable form of the {@link disabled} setter.
+     *
+     * @param reason - A reason string, or a boolean (`true` applies a default
+     *   reason; `false` clears it).
+     * @returns `this`, for chaining.
+     */
     setDisabled(reason: string | boolean): this {
         this.disabled = reason;
         return this;
@@ -328,6 +348,14 @@ export class ValueModifier {
      * Core delta-mutation routine shared by {@link add}, {@link multiply},
      * {@link set}, {@link floor}, and {@link ceiling}.
      *
+     * @param name - The delta's display name (a localization key).
+     * @param shortcode - The delta's identity shortcode; a new delta replaces
+     *   any existing one with the same shortcode.
+     * @param value - The delta's value.
+     * @param op - The operator to apply (defaults to `ADD`).
+     * @param data - Extra delta data; supplies a fallback `shortcode` when one
+     *   is not given.
+     * @returns `this`, for chaining.
      * @internal
      */
     protected _oper(
@@ -342,8 +370,10 @@ export class ValueModifier {
         } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }
-        // `name` / `shortcode` are passed through as-is — they are display /
-        // identity labels, not validated localization keys.
+        // `name` / `shortcode` arrive already resolved by the public
+        // operators: the `(shortcode, value)` form validates the shortcode
+        // against the registry, while the `(name, shortcode, value)` form
+        // passes both through as-is for ad-hoc deltas.
 
         shortcode ||= data.shortcode;
 
@@ -373,6 +403,7 @@ export class ValueModifier {
     /**
      * Find the delta with the given shortcode.
      *
+     * @param shortcode - The delta shortcode to look up.
      * @returns The matching {@link ValueDelta}, or `undefined`.
      * @throws TypeError if `shortcode` is not a string.
      */
@@ -385,6 +416,8 @@ export class ValueModifier {
     /**
      * Whether a delta with the given shortcode is present.
      *
+     * @param shortcode - The delta shortcode to test for.
+     * @returns `true` if a matching delta exists.
      * @throws TypeError if `shortcode` is not a string.
      */
     has(shortcode: string): boolean {
@@ -396,6 +429,7 @@ export class ValueModifier {
     /**
      * Remove the delta with the given shortcode, if present.
      *
+     * @param shortcode - The delta shortcode to remove.
      * @throws TypeError if `shortcode` is not a string.
      */
     delete(shortcode: string): void {
@@ -406,35 +440,74 @@ export class ValueModifier {
     }
 
     /**
-     * Add an additive (`+value`) delta.
+     * Resolve operator arguments into a `{ name, shortcode, value }` triple.
+     *
+     * Two call forms, dispatched by argument count:
+     *
+     * - **`(shortcode, value)`** — the convenience form. `shortcode` must be
+     *   a registered {@link VALUE_DELTA_INFO} value; its display name is
+     *   resolved from {@link VALUE_DELTA_ID}. Throws when the shortcode is
+     *   not registered — use the three-argument form for ad-hoc deltas.
+     * - **`(name, shortcode, value)`** — the explicit form. `name` and
+     *   `shortcode` are used verbatim, with no registry lookup or validation.
+     *
+     * @param args - The operator arguments, in either of the two forms above.
+     * @returns The resolved `{ name, shortcode, value }` triple.
+     * @internal
+     */
+    private _resolveDeltaArgs(args: unknown[]): {
+        name: string;
+        shortcode: string;
+        value: number;
+    } {
+        if (args.length <= 2) {
+            const shortcode = args[0] as string;
+            const info = VALUE_DELTA_ID[shortcode];
+            if (!info) {
+                throw new Error(
+                    `ValueModifier: unknown value-delta shortcode "${shortcode}". ` +
+                        `Pass a registered VALUE_DELTA_INFO shortcode, or use the ` +
+                        `(name, shortcode, value) form for an ad-hoc delta.`,
+                );
+            }
+            return {
+                name: info.name,
+                shortcode: info.shortcode,
+                value: args[1] as number,
+            };
+        }
+        return {
+            name: args[0] as string,
+            shortcode: args[1] as string,
+            value: args[2] as number,
+        };
+    }
+
+    /**
+     * Add an additive (`+value`) delta. A new delta replaces any existing one
+     * with the same shortcode.
      *
      * @remarks
-     * Accepts either `(name, shortcode, value, data?)` or
-     * `({ name, shortcode }, value, data?)`. A new delta replaces any existing
-     * one with the same shortcode.
+     * Two forms: `(shortcode, value)` resolves the display name from the
+     * {@link VALUE_DELTA_INFO} registry (and throws on an unknown shortcode);
+     * `(name, shortcode, value)` supplies both explicitly for ad-hoc deltas.
      * @returns `this`, for chaining.
      */
-    add(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.ADD,
-            data,
-        );
+    add(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
+    add(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
+    add(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.ADD);
     }
 
     /**
      * Fold another modifier into this one.
      *
      * @param other - The modifier to merge from.
-     * @param options - When `includeBase` is set, adopt `other`'s base value.
+     * @param options - Merge options.
+     * @param options.includeBase - When set, adopt `other`'s base value.
      * @returns `this`, for chaining.
      */
     addVM(
@@ -451,21 +524,20 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    multiply(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
+    multiply(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
+    multiply(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
+    multiply(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.MULTIPLY,
-            data,
         );
     }
+
     /**
      * Add an `OVERRIDE` delta that replaces the value, ignoring all other
      * modifiers. Same argument forms as {@link add}.
@@ -475,19 +547,17 @@ export class ValueModifier {
      * is sticky — once set, further modifications are ignored.
      * @returns `this`, for chaining.
      */
-    set(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
+    set(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
+    set(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
+    set(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.OVERRIDE,
-            data,
         );
     }
 
@@ -497,20 +567,13 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    floor(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.UPGRADE,
-            data,
-        );
+    floor(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
+    floor(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
+    floor(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.UPGRADE);
     }
 
     /**
@@ -519,30 +582,28 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    ceiling(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            name = args[0].name;
-            shortcode = args[0].shortcode;
-            value = args[1];
-            data = args[2] || {};
-        } else {
-            name = args[0];
-            shortcode = args[1];
-            value = args[2];
-            data = args[3] || {};
-        }
+    ceiling(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
+    ceiling(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
+    ceiling(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.DOWNGRADE,
-            data,
         );
     }
 
     /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; empty when disabled. */
     get chatHtml(): string {
+        /**
+         * Format a single delta's adjustment for display (e.g. `+2`, `×2`).
+         *
+         * @param delta - The delta to format.
+         * @returns The formatted adjustment string.
+         */
         function getValue(delta: ValueDelta): string {
             switch (delta.op) {
                 case VALUE_DELTA_OPERATOR.ADD:

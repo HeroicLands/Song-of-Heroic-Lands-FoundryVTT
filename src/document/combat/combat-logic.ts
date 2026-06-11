@@ -24,7 +24,7 @@ export interface SeedingCombatant {
     desiredName: string | null | undefined;
 }
 
-/** An existing {@link CombatantGroup} on the combat. */
+/** An existing `CombatantGroup` on the combat. */
 export interface ExistingGroup {
     /** The group's id. */
     id: string;
@@ -47,7 +47,7 @@ export interface GroupSeedingPlan {
 
 /**
  * Compute, without touching Foundry, how a batch of newly created combatants
- * should be seeded into {@link CombatantGroup}s.
+ * should be seeded into `CombatantGroup`s.
  *
  * For each combatant lacking a group, the desired name (falling back to
  * {@link DEFAULT_COMBAT_GROUP} when blank) is matched case-insensitively
@@ -58,6 +58,10 @@ export interface GroupSeedingPlan {
  * one) so the caller can map name → id after creation.
  *
  * Does not mutate its inputs.
+ *
+ * @param newCombatants - The newly created combatants to seed into groups.
+ * @param existingGroups - The combatant groups that already exist.
+ * @returns The plan describing which groups to create and how to assign combatants.
  */
 export function resolveGroupSeeding(
     newCombatants: SeedingCombatant[],
@@ -76,9 +80,10 @@ export function resolveGroupSeeding(
     for (const combatant of newCombatants) {
         if (combatant.hasGroup) continue;
 
-        const name = combatant.desiredName?.trim()
-            ? combatant.desiredName.trim()
-            : DEFAULT_COMBAT_GROUP;
+        const name =
+            combatant.desiredName?.trim() ?
+                combatant.desiredName.trim()
+            :   DEFAULT_COMBAT_GROUP;
         const lower = name.toLowerCase();
 
         let canonical = canonicalByLower.get(lower);

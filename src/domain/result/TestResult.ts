@@ -53,6 +53,9 @@ export abstract class TestResult {
     protected readonly _parent: SohlLogic;
 
     /**
+     * Construct a test result, capturing the speaker and display metadata and
+     * binding it to the initiating Logic.
+     *
      * @param data - Common result data (speaker, name, title, description); all
      *   fields are optional and defaulted.
      * @param options - Must provide `options.parent`, the initiating Logic.
@@ -77,6 +80,8 @@ export abstract class TestResult {
      * stored in the database, but this is used to pass a result between clients
      * (e.g. embedding an evaluated {@link AttackResult} in a chat card so the
      * defender's client can reconstruct it).
+     *
+     * @returns A plain object representation of this result.
      */
     toJSON(): PlainObject {
         return instanceToJSON(this);

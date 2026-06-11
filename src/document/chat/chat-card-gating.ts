@@ -16,7 +16,7 @@ import {
     hasMeleeAttackStrikeMode,
     hasAnyStatus,
     DEFENSE_DISABLING_STATUSES,
-} from "@src/document/actor/foundry/combat-actions";
+} from "@src/document/actor/logic/combat-actions";
 
 /**
  * Render-time gating for an attack card's defender-response buttons.
@@ -56,8 +56,7 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
 
     const uuid = (dodge ?? counter ?? block ?? ignore)?.dataset
         .handlerActorUuid;
-    const defender =
-        uuid ? (foundry.utils.fromUuidSync(uuid) as any) : null;
+    const defender = uuid ? (foundry.utils.fromUuidSync(uuid) as any) : null;
 
     if (!defender?.isOwner) {
         // Not the defender's owner: remove every defense button.

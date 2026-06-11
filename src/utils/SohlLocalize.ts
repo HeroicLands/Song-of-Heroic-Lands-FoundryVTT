@@ -61,7 +61,7 @@ export class SohlLocalize {
 
     /**
      * Return the shared singleton instance, creating it on first access.
-     * @returns The {@link SohlLocalize} singleton.
+     * @returns The `SohlLocalize` singleton.
      */
     static getInstance(): SohlLocalize {
         if (!SohlLocalize.instance) {
@@ -116,6 +116,9 @@ export class SohlLocalize {
      * Locale-aware string comparison.
      * @param {string} first - The first string to compare.
      * @param {string} second - The second string to compare.
+     * @param options - Normalization flags applied to both strings; both default to `false`.
+     * @param options.caseInsensitive - Lowercase both strings before comparing when `true`.
+     * @param options.ascii - Fold accents and non-ASCII characters before comparing when `true`.
      * @returns {number} A negative number if first < second, 0 if equal, positive if first > second.
      */
     compare(
@@ -217,7 +220,7 @@ export class SohlLocalize {
     }
 
     /**
-     * @summary Format a duration object into a combat string in Finnish.
+     * Format a duration object into a compact string in Finnish.
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2v 3kk 4pv"
      */
@@ -242,7 +245,7 @@ export class SohlLocalize {
     }
 
     /**
-     * @summary Format a duration object into a combat string in German.
+     * Format a duration object into a compact string in German.
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2J 3M 4T"
      */
@@ -267,7 +270,7 @@ export class SohlLocalize {
     }
 
     /**
-     * @summary Format a duration object into a combat string in Swedish.
+     * Format a duration object into a compact string in Swedish.
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2år 3mån 4v"
      */
@@ -292,7 +295,7 @@ export class SohlLocalize {
     }
 
     /**
-     * @summary Format a duration object into a combat string in French.
+     * Format a duration object into a compact string in French.
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2a 3mo 4j"
      */
@@ -317,7 +320,7 @@ export class SohlLocalize {
     }
 
     /**
-     * @summary Format a duration object into a combat string in Spanish.
+     * Format a duration object into a compact string in Spanish.
      * @param {DurationValue} value - Duration components.
      * @returns {string} Formatted string like "2a 3m 4s"
      */
@@ -470,5 +473,5 @@ export class SohlLocalize {
     }
 }
 
-/** Shared {@link SohlLocalize} singleton for localization throughout the system. */
+/** Shared `SohlLocalize` singleton for localization throughout the system. */
 export const i18n = SohlLocalize.getInstance();

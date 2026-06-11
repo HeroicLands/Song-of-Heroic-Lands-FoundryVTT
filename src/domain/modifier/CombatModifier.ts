@@ -42,6 +42,7 @@ import { registerKind } from "@src/utils/kindRegistry";
  */
 export class CombatModifier extends MasteryLevelModifier {
     /**
+     * Constructs a combat modifier, delegating to the mastery-level base.
      * @param data - Combat-modifier data (same shape as
      *   {@link MasteryLevelModifier.Data}).
      * @param options - Must provide `options.parent`.

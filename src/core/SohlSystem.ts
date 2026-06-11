@@ -138,7 +138,7 @@ import {
     STATUS_EFFECT,
 } from "@src/utils/constants";
 
-/** Map of actor kind → its {@link SohlDataModel} constructor. */
+/** Map of actor kind → its `SohlDataModel` constructor. */
 export type ActorDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlActor, any>>
@@ -205,7 +205,7 @@ export const {
     [ACTOR_KIND.VEHICLE]: VehicleSheet as any,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
-/** Map of item kind → its {@link SohlDataModel} constructor. */
+/** Map of item kind → its `SohlDataModel` constructor. */
 export type ItemDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlItem, any>>
@@ -308,7 +308,11 @@ export const {
 export class SohlSystem {
     private static instance: SohlSystem | null = null;
 
-    /** Return the singleton instance, creating it on first call. */
+    /**
+     * Return the singleton instance, creating it on first call.
+     *
+     * @returns The shared {@link SohlSystem} instance.
+     */
     static getInstance(): SohlSystem {
         if (!this.instance) {
             this.instance = new SohlSystem();
@@ -442,8 +446,8 @@ export class SohlSystem {
                     sohleffectdata: "SOHL.SohlActiveEffect.sohleffectdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-aura",
-                    sohleffectdata: "fa-duotone fa-people-group",
+                    base: "sohl-aura",
+                    sohleffectdata: "sohl-aura",
                 },
                 types: ["base", "sohleffectdata"],
             },
@@ -458,8 +462,8 @@ export class SohlSystem {
                     sohlcombatantdata: "SOHL.SohlCombatant.combatantdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-user-helmet-safety",
-                    sohlcombatantdata: "fa-duotone fa-people-group",
+                    base: "sohl-swordman",
+                    sohlcombatantdata: "sohl-swordman",
                 },
                 types: ["base", "sohlcombatantdata"],
             },
@@ -474,8 +478,8 @@ export class SohlSystem {
                     sohlcombatdata: "SOHL.SohlCombat.combatdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-shield-halved",
-                    sohlcombatdata: "fa-duotone fa-people-group",
+                    base: "sohl-sword-clash",
+                    sohlcombatdata: "sohl-sword-clash",
                 },
                 types: ["base", "sohlcombatdata"],
             },
@@ -494,7 +498,7 @@ export class SohlSystem {
                     base: "Base",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-map",
+                    base: "sohl-map",
                 },
                 types: ["base"],
             },
@@ -537,6 +541,9 @@ export class SohlSystem {
     /**
      * Register a calendar configuration. Overwrites any existing registration
      * with the same ID.
+     *
+     * @param id - The unique identifier for the calendar.
+     * @param registration - The calendar registration to store.
      */
     static registerCalendar(
         id: string,
@@ -547,6 +554,8 @@ export class SohlSystem {
 
     /**
      * Remove a calendar registration. Throws if the calendar is builtin.
+     *
+     * @param id - The identifier of the calendar to remove.
      */
     static unregisterCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -559,6 +568,9 @@ export class SohlSystem {
 
     /**
      * Get a registered calendar by ID.
+     *
+     * @param id - The identifier of the calendar to retrieve.
+     * @returns The matching calendar registration, or `undefined` if none.
      */
     static getCalendar(
         id: string,
@@ -577,6 +589,8 @@ export class SohlSystem {
      * Apply a registered calendar to CONFIG.time, and re-initialize
      * game.time so the change takes effect without a reload. Safe to call
      * during the `init` hook before game.time exists.
+     *
+     * @param id - The identifier of the registered calendar to apply.
      */
     static applyCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -603,6 +617,11 @@ export class SohlSystem {
         return (this.constructor as any).constants;
     }
 
+    /**
+     * Constructs the system singleton, wiring up the localization, logging,
+     * and event-queue services. Use {@link getInstance} rather than calling
+     * this directly.
+     */
     protected constructor() {
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();

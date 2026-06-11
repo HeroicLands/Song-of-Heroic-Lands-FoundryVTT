@@ -52,6 +52,9 @@ const ASPECTS = ["blunt", "edged", "piercing", "fire"] as const;
  * Pure and Foundry-free (mutates the supplied {@link BodyStructure}'s location
  * objects, which are rebuilt each cycle). Idempotent: any prior aggregation
  * state on the locations is reset before applying the given layers.
+ *
+ * @param body - Body structure whose locations receive the aggregated armor.
+ * @param layers - Worn armor layers to apply across the covered locations.
  */
 export function aggregateArmor(
     body: BodyStructure,
@@ -81,7 +84,9 @@ export function aggregateArmor(
             }
             if (rigid.has(code)) loc.isRigid = true;
             loc.armorType =
-                loc.armorType ? `${loc.armorType}, ${layer.material}` : layer.material;
+                loc.armorType ?
+                    `${loc.armorType}, ${layer.material}`
+                :   layer.material;
         }
     }
 }

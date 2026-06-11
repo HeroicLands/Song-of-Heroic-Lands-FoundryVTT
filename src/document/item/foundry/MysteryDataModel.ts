@@ -19,6 +19,11 @@ import {
 import { ITEM_KIND } from "@src/utils/constants";
 const { SchemaField, NumberField, BooleanField } = foundry.data.fields;
 
+/**
+ * Builds the data schema for the Mystery item, extending the base item schema
+ * with a level and an optional charges tracker.
+ * @returns The Foundry data schema for the mystery.
+ */
 function defineMysterySchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -69,6 +74,10 @@ export class MysteryDataModel<
         max: number;
     };
 
+    /**
+     * Returns the Foundry data schema for the mystery item.
+     * @returns The mystery data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMysterySchema();
     }

@@ -37,7 +37,7 @@ export interface DomainEntry {
     label: string;
     /** The family this entry belongs to. */
     family: DomainFamily;
-    /** Font Awesome CSS class for the icon, e.g. `"fas fa-fire"`. */
+    /** CSS class for the icon, e.g. `"sohl-fire"`. */
     iconFAClass: string;
     /** Path to a PNG/WEBP image for the entry, or an empty string. */
     img: string;
@@ -72,10 +72,18 @@ interface SettingsAPI {
     set(module: string, key: string, value: unknown): Promise<unknown>;
 }
 
+/**
+ * The Foundry settings API used to read and write the domain store.
+ * @returns The `game.settings` object typed as {@link SettingsAPI}.
+ */
 function settings(): SettingsAPI {
     return (game as any).settings as SettingsAPI;
 }
 
+/**
+ * Read the stored domain registry, returning a defensive shallow copy.
+ * @returns The current domain store, or an empty object if none is stored.
+ */
 function readStore(): DomainStore {
     const raw = settings().get(SETTING_MODULE, SETTING_KEY);
     if (!raw || typeof raw !== "object") return {};
@@ -84,10 +92,19 @@ function readStore(): DomainStore {
     return { ...(raw as DomainStore) };
 }
 
+/**
+ * Persist the domain registry to the world setting.
+ * @param store - The domain store to write.
+ */
 async function writeStore(store: DomainStore): Promise<void> {
     await settings().set(SETTING_MODULE, SETTING_KEY, store);
 }
 
+/**
+ * The default `source` tag for entries that omit one: `"sohl"` during system
+ * seeding (before ready) and `"world"` for GM-driven writes (after ready).
+ * @returns `"sohl"` if the system is not yet ready, otherwise `"world"`.
+ */
 function defaultSource(): string {
     // During the system `init` hook, sohl.ready is false; after `ready`
     // it flips to true. We use that to distinguish system seeding from
@@ -108,6 +125,7 @@ export class SohlDomains {
      * Return all registered entries keyed by shortcode. The returned
      * object is frozen; callers cannot mutate the registry by writing to
      * it.
+     * @returns A frozen copy of the domain store keyed by shortcode.
      */
     static getAll(): Readonly<DomainStore> {
         return Object.freeze({ ...readStore() });
@@ -116,6 +134,8 @@ export class SohlDomains {
     /**
      * Return a single entry by shortcode, or `undefined` if it is not
      * registered.
+     * @param shortcode - The shortcode of the entry to look up.
+     * @returns A copy of the matching entry, or `undefined` if not registered.
      */
     static get(shortcode: string): DomainEntry | undefined {
         const store = readStore();
@@ -126,6 +146,8 @@ export class SohlDomains {
     /**
      * Return all entries belonging to the given family, sorted by
      * {@link DomainEntry.sort} and then alphabetically by label.
+     * @param family - The domain family to filter by.
+     * @returns The matching entries, sorted by sort order then label.
      */
     static getByFamily(family: DomainFamily): DomainEntry[] {
         const store = readStore();
@@ -141,22 +163,23 @@ export class SohlDomains {
     /**
      * Return entries shaped as `{ shortcode, label }` pairs suitable for
      * populating a `<select>` dropdown. Optionally filter by family.
+     * @param family - Optional domain family to filter the choices by.
+     * @returns The `{ shortcode, label }` pairs, sorted by sort order then label.
      */
-    static getChoices(
-        family?: DomainFamily,
-    ): Array<{
+    static getChoices(family?: DomainFamily): Array<{
         /** The domain entry's shortcode. */
         shortcode: string;
         /** The domain entry's display label. */
         label: string;
     }> {
         const store = readStore();
-        const entries = family
-            ? SohlDomains.getByFamily(family)
-            : Object.values(store).sort((a, b) => {
-                  if (a.sort !== b.sort) return a.sort - b.sort;
-                  return a.label.localeCompare(b.label);
-              });
+        const entries =
+            family ?
+                SohlDomains.getByFamily(family)
+            :   Object.values(store).sort((a, b) => {
+                    if (a.sort !== b.sort) return a.sort - b.sort;
+                    return a.label.localeCompare(b.label);
+                });
         return entries.map((e) => ({
             shortcode: e.shortcode,
             label: e.label,
@@ -171,6 +194,8 @@ export class SohlDomains {
      * Entries with no `source` field are tagged with the explicit
      * `source` argument if given, otherwise with `"sohl"` during the
      * `init` hook or `"world"` after `ready`.
+     * @param entries - A single entry or array of entries to register.
+     * @param source - Optional source tag applied to entries lacking one.
      */
     static async register(
         entries: DomainEntry | DomainEntry[],
@@ -193,6 +218,7 @@ export class SohlDomains {
      * Remove an entry by shortcode. Only entries with `source === "world"`
      * may be removed; attempts to remove a system or module entry throw.
      * Removing a missing shortcode is a no-op.
+     * @param shortcode - The shortcode of the entry to remove.
      */
     static async remove(shortcode: string): Promise<void> {
         const store = readStore();

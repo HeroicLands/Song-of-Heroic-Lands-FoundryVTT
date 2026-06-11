@@ -35,8 +35,8 @@ export abstract class AIAdapter {
     abstract simulateOutcome(description: string): Promise<string>;
 
     /**
-     * @summary Handle a ChatBot message.
-     * @description
+     * Handle a ChatBot message.
+     *
      * This function determines whether a message is being sent to a ChatBot and
      * if so routes the message to the ChatBot hander.
      *
@@ -50,7 +50,9 @@ export abstract class AIAdapter {
      *
      * @param chatLog   The ChatLog application instance.
      * @param message   Text of the message being posted.
-     * @param chatData  The chat data object containing the speaker and user
+     * @param chatData  The chat data object containing the speaker and user.
+     * @param chatData.speaker  The speaker data for the message, if any.
+     * @param chatData.user  The id of the user posting the message, or `null`.
      * @returns `false` to prevent the message from continuing to parse.
      */
     static chatMessage(
@@ -75,6 +77,13 @@ export abstract class AIAdapter {
         }
     }
 
+    /**
+     * Route an AI chat command to the adapter and post its reply to chat.
+     *
+     * @param speaker - The speaker that issued the command.
+     * @param message - The command text, with the routing prefix already stripped.
+     * @param user - The user that issued the command, or `null` if unknown.
+     */
     static handleAIChatCommand(
         speaker: SohlSpeaker,
         message: string,

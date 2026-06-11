@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DEFEND_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    DEFEND_MISHAP,
+    TEST_TYPE,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
 
 /**
@@ -20,7 +24,7 @@ import { SuccessTestResult } from "./SuccessTestResult";
  *
  * ## Key properties
  *
- * - {@link situationalModifier} — player-entered modifier from the
+ * - `situationalModifier` — player-entered modifier from the
  *   defense dialog.
  *
  * ## Evaluation
@@ -33,6 +37,9 @@ import { SuccessTestResult } from "./SuccessTestResult";
  */
 export class DefendResult extends SuccessTestResult {
     /**
+     * Build a defense result, folding any player-entered situational modifier
+     * into the mastery level as a `PLAYER` delta.
+     *
      * @param data - Defense data; `data.situationalModifier` (the player-entered
      *   defense modifier) is added to the {@link masteryLevelModifier} as a
      *   `PLAYER` delta.
@@ -45,10 +52,12 @@ export class DefendResult extends SuccessTestResult {
         options: Partial<DefendResult.Options> = {},
     ) {
         super(data, options);
-        this.masteryLevelModifier.add(
-            VALUE_DELTA_ID.PLAYER,
-            data.situationalModifier,
-        );
+        if (data.situationalModifier) {
+            this.masteryLevelModifier.add(
+                VALUE_DELTA_INFO.PLAYER,
+                data.situationalModifier,
+            );
+        }
     }
 
     /**

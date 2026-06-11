@@ -11,29 +11,36 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import { HTMLString, toHTMLString } from "@src/utils/helpers";
 import {
-    ITEM_KIND,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-    SohlContextMenuSortGroup,
-} from "@src/utils/constants";
-import { fvttGetActor, getContextItem } from "@src/core/FoundryHelpers";
-import type { SohlAction } from "@src/domain/action/SohlAction";
-import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
+    ContextMenuEntry,
+    type ContextMenuEntryContext,
+    type ContextMenuCallback,
+    type ContextMenuCondition,
+    compileCondition,
+    makeConditionContext,
+    makeLogicMethodCallback,
+    resolveContextActor,
+    resolveContextItem,
+} from "@src/utils/ContextMenuEntry";
 
 /**
  * SoHL's specialization of Foundry's `ContextMenu` UI control.
  *
  * Extends the base context menu to accept {@link SohlContextMenu.Entry}
- * definitions whose `condition` may be a string {@link SafeExpression}
+ * definitions whose `condition` may be a string SafeExpression
  * (compiled to a predicate) and whose `callback` may be omitted in favour of a
  * named logic method (`functionName`). The constructor normalizes those entries
  * into the function-based shape Foundry expects, and the class adds custom
- * positioning ({@link _setPosition}) plus static helpers for resolving the
+ * positioning (`_setPosition`) plus static helpers for resolving the
  * triggering item/actor from the DOM.
+ *
+ * @remarks
+ * The Foundry-free entry shape, condition compilation, and DOM resolution
+ * helpers live in `import` so the logic layer can
+ * use them without loading this Foundry-coupled UI class. The static helpers
+ * and namespace members here delegate to (and re-export) that module.
  */
 export class SohlContextMenu
     extends (foundry.applications as any).ux.ContextMenu
@@ -48,7 +55,7 @@ export class SohlContextMenu
      * For every entry: the `condition` is compiled via
      * {@link compileCondition}, and when no explicit `callback` is supplied a
      * default one is generated that resolves the context item, builds a
-     * {@link SohlActionContext}, and invokes the named `functionName` on the
+     * SohlActionContext, and invokes the named `functionName` on the
      * item's logic object.
      * @param container The DOM element the menu is bound to.
      * @param selector CSS selector identifying the rows the menu attaches to.
@@ -67,10 +74,7 @@ export class SohlContextMenu
         // is the shape Foundry's ContextMenu base class expects (condition
         // and callback both functions).
         const compiled = menuItems.map((it: SohlContextMenu.Entry) => {
-            const conditionFn = SohlContextMenu.compileCondition(
-                it.condition,
-                it.name,
-            );
+            const conditionFn = compileCondition(it.condition, it.name);
             let callback = it.callback;
             if (!callback) {
                 if (!it.functionName) {
@@ -78,22 +82,7 @@ export class SohlContextMenu
                         `Context menu item "${it.name}" does not have a callback function.`,
                     );
                 }
-                const functionName = it.functionName;
-                callback = (target: HTMLElement) => {
-                    const item = getContextItem(target);
-                    const ctx = new SohlActionContext({
-                        speaker: item?.actor?.getSpeaker(),
-                    });
-                    const logic = item?.logic as any;
-                    const fn = logic?.[functionName];
-                    if (typeof fn === "function") {
-                        fn.call(logic, ctx);
-                    } else {
-                        sohl.log.warn(
-                            `Function "${functionName}" not found on logic for context menu item "${it.name}".`,
-                        );
-                    }
-                };
+                callback = makeLogicMethodCallback(it.functionName, it.name);
             }
             return { ...it, condition: conditionFn, callback };
         });
@@ -102,115 +91,50 @@ export class SohlContextMenu
 
     /**
      * Compile a context-menu `condition` into a predicate suitable for
-     * Foundry's ContextMenu base class. Function-form conditions are
-     * passed through unchanged; string-form conditions are evaluated as
-     * SafeExpressions. Parse errors and evaluation errors on the string
-     * form are caught and logged; the entry is treated as hidden
-     * (predicate returns `false`) rather than allowed to bubble.
-     * @param source The condition source (string SafeExpression or a
-     *   ready-made predicate function).
-     * @param entryName The owning entry's display name, used in log output.
-     * @returns A predicate that evaluates the condition against a target.
+     * Foundry's ContextMenu base class.
+     * @see {@link compileCondition}
+     * @param source - The condition source to compile.
+     * @param entryName - The entry name, used for error reporting.
+     * @returns A predicate evaluating the condition against a target element.
      */
     static compileCondition(
         source: SohlContextMenu.Condition,
         entryName: string,
     ): (target: HTMLElement) => boolean {
-        if (typeof source === "function") return source;
-        let expression: SafeExpression;
-        try {
-            expression = new SafeExpression(source, STANDARD_HELPERS);
-        } catch (err) {
-            sohl.log.warn(
-                "Failed to compile context menu condition; entry will be hidden:",
-                { entry: entryName, condition: source, error: err },
-            );
-            return () => false;
-        }
-        return (target: HTMLElement): boolean => {
-            try {
-                return !!expression.evaluate(
-                    SohlContextMenu.makeConditionContext(target),
-                );
-            } catch (err) {
-                sohl.log.warn(
-                    "Context menu condition threw; entry will be hidden:",
-                    {
-                        entry: entryName,
-                        condition: source,
-                        target,
-                        error: err,
-                    },
-                );
-                return false;
-            }
-        };
+        return compileCondition(source, entryName);
     }
 
     /**
      * Build the lazy evaluation context for a context-menu condition.
-     *
-     * - `target` is always the HTMLElement the menu was triggered on.
-     * - `item` is the nearest ancestor row's `data-item-id` resolved on the
-     *   owning actor (or `undefined` if not found).
-     * - `actor` is the nearest ancestor row's `data-actor-id` (or
-     *   `undefined`).
-     *
-     * `item` and `actor` are getters, so the DOM walk and lookup happen only
-     * when the condition actually references them.
-     * @param target The HTMLElement the context menu was opened on.
-     * @returns A context object with `target`, `item`, and `actor` bindings.
+     * @see {@link makeConditionContext}
+     * @param target - The element the context menu was opened on.
+     * @returns The evaluation context exposed to the condition.
      */
     static makeConditionContext(target: HTMLElement): Record<string, unknown> {
-        return {
-            target,
-            get item(): SohlItem | undefined {
-                return SohlContextMenu.resolveItem(target);
-            },
-            get actor(): SohlActor | undefined {
-                return SohlContextMenu.resolveActor(target);
-            },
-        };
+        return makeConditionContext(target);
     }
 
     /**
      * Resolve the SohlItem indicated by the closest `[data-item-id]`
-     * ancestor of `target`. Lookup goes through the resolved actor's
-     * embedded items so it works whether or not the sheet uses UUIDs.
-     * @param target The HTMLElement the context menu was opened on.
-     * @returns The resolved item, or `undefined`.
+     * ancestor of `target`.
+     * @see {@link resolveContextItem}
+     * @param target - The element the context menu was opened on.
+     * @returns The resolved item, or `undefined` if none is found.
      */
     static resolveItem(target: HTMLElement): SohlItem | undefined {
-        const row = target.closest("[data-item-id]") as HTMLElement | null;
-        const itemId = row?.dataset?.itemId;
-        if (!itemId) return undefined;
-        const actor = SohlContextMenu.resolveActor(target);
-        return actor?.items.get(itemId) as SohlItem | undefined;
+        return resolveContextItem(target);
     }
 
     /**
      * Resolve the SohlActor indicated by the closest `[data-actor-id]`
      * ancestor of `target`.
-     * @param target The HTMLElement the context menu was opened on.
-     * @returns The resolved actor, or `undefined`.
+     * @see {@link resolveContextActor}
+     * @param target - The element the context menu was opened on.
+     * @returns The resolved actor, or `undefined` if none is found.
      */
     static resolveActor(target: HTMLElement): SohlActor | undefined {
-        const row = target.closest("[data-actor-id]") as HTMLElement | null;
-        const actorId = row?.dataset?.actorId;
-        if (!actorId) return undefined;
-        const actor = fvttGetActor(actorId);
-        return actor ? (actor as SohlActor) : undefined;
+        return resolveContextActor(target);
     }
-
-    // _getContextEffect(header: HTMLElement): SohlActiveEffectProxy | null {
-    //     const element = header.closest(".effect") as HTMLElement;
-    //     const item =
-    //         element?.dataset?.effectId &&
-    //         foundryHelpers.fromUuidSync(element.dataset.effectId);
-    //     return item && typeof item === "object" ?
-    //             (item as SohlItem)
-    //         :   null;
-    // }
 
     /**
      * Position the rendered menu element relative to the triggering target.
@@ -318,25 +242,15 @@ export namespace SohlContextMenu {
 
     /**
      * Callback type for context menu open/close events.
+     * @see {@link ContextMenuCallback}
      */
-    export type Callback = (target: HTMLElement) => unknown;
+    export type Callback = ContextMenuCallback;
 
     /**
-     * A context-menu predicate. Two forms are accepted:
-     *
-     * - **string** — evaluated as a SafeExpression (see
-     *   {@link SafeExpression}) against a context with `target` (the
-     *   triggering HTMLElement) plus lazy `item` and `actor` getters
-     *   resolved from the nearest `data-item-id` / `data-actor-id`
-     *   ancestor. Examples: `"true"`, `"item.system.canTransmit"`,
-     *   `"defined(item) && item.type === 'skill'"`. This is the form
-     *   stored in document data.
-     * - **function** — a `(target) => boolean` predicate, passed through
-     *   unchanged. Used for entries built programmatically (e.g. from a
-     *   `SohlAction`'s trigger), where the predicate needs to close over
-     *   runtime state that a SafeExpression source can't reference.
+     * A context-menu predicate (string SafeExpression or function).
+     * @see {@link ContextMenuCondition}
      */
-    export type Condition = string | ((target: HTMLElement) => boolean);
+    export type Condition = ContextMenuCondition;
 
     /**
      * Options passed during rendering the context menu.
@@ -349,108 +263,15 @@ export namespace SohlContextMenu {
     }
 
     /**
-     * The raw data describing a single context-menu entry, before it is
-     * normalized into an {@link Entry} or compiled for Foundry's base class.
+     * The raw data describing a single context-menu entry.
+     * @see {@link ContextMenuEntryContext}
      */
-    export interface EntryContext {
-        /** Unique identifier for the entry. */
-        id: string;
-        /** Display label for the entry. */
-        name: string;
-        /** Pre-built HTML icon markup; mutually optional with `iconFAClass`. */
-        icon?: HTMLString;
-        /** Font-Awesome CSS class used to build an icon when `icon` is absent. */
-        iconFAClass?: string;
-        /** Name of the logic method to invoke when no explicit `callback` is given. */
-        functionName?: string;
-        /** Predicate (string SafeExpression or function) gating visibility. See {@link Condition}. */
-        condition: Condition;
-        /** Handler invoked when the entry is clicked; takes precedence over `functionName`. */
-        callback?: Callback;
-        /** Sort group the entry belongs to. */
-        group: SohlContextMenuSortGroup;
-    }
+    export type EntryContext = ContextMenuEntryContext;
 
     /**
      * Represents an entry in the context menu.
+     * @see {@link ContextMenuEntry}
      */
-    export class Entry {
-        /**
-         * The context menu entry label.
-         */
-        name: string;
-
-        /**
-         * HTML icon element for the menu item.
-         */
-        icon?: HTMLString;
-
-        /**
-         * Context menu group.
-         */
-        group: string;
-
-        /**
-         * The function to call when the menu item is clicked.
-         */
-        callback?: Callback;
-
-        /**
-         * Safe-expression source determining whether this entry appears in
-         * the menu. See {@link Condition}.
-         */
-        condition: Condition;
-
-        /**
-         * The context menu entry identifier.
-         */
-        id: string;
-
-        /**
-         * The function name to call when the entry is clicked.
-         */
-        functionName?: string;
-
-        /**
-         * Creates an instance of the context menu entry.
-         * @param data The data for the context menu entry.
-         * @param data.id The unique identifier for the entry.
-         * @param data.name The name of the entry.
-         * @param data.icon The HTML Icon element for the entry.
-         * @param data.iconFAClass The Font-Awesome CSS class for the entry.
-         * @param data.functionName The function name to call when the entry is clicked.
-         * @param data.condition The safe-expression source determining whether the entry is shown.
-         * @param data.callback The callback function to call when the entry is clicked.
-         * @param data.group The group to which the entry belongs.
-         */
-        constructor(data: SohlContextMenu.EntryContext) {
-            if (!(data.icon || data.iconFAClass)) {
-                throw new Error("Either icon or iconFAClass must be provided.");
-            }
-            if (!(data.callback || data.functionName)) {
-                throw new Error(
-                    "Either callback or functionName must be provided.",
-                );
-            }
-            this.id = data.id;
-            this.name = data.name;
-            this.icon =
-                data.icon ||
-                toHTMLString(
-                    `<i class="${data.iconFAClass}${data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
-                );
-            this.condition = data.condition;
-            this.callback =
-                data.callback ||
-                ((element: HTMLElement) => {
-                    const a = SohlContextMenu._getContextLogic(element);
-                    if (!a) return;
-                    a.execute({
-                        element,
-                        async: true,
-                    });
-                });
-            this.group = data.group;
-        }
-    }
+    export const Entry = ContextMenuEntry;
+    export type Entry = ContextMenuEntry;
 }

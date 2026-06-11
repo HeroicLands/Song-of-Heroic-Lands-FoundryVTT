@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
@@ -24,10 +24,10 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
     STRIKE_MODE_TYPE,
 } from "@src/utils/constants";
-import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
-import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
+import { startAutomatedAttackFromItem } from "@src/document/actor/logic/automated-combat";
 
 /**
  * A specialized combat maneuver or fighting style not tied to a specific
@@ -59,11 +59,17 @@ export class CombatTechniqueLogic<
      * Present a dialog asking the player to select the appropriate strike mode
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
+     *
+     * @param context - Action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
+        await startAutomatedAttackFromItem(
+            this,
+            this.item?.name ?? "",
+            context,
+        );
     }
 
     /**
@@ -82,6 +88,7 @@ export class CombatTechniqueLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -105,12 +112,53 @@ export class CombatTechniqueLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "automatedCombatStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.Action.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sword",
+                executor: "automatedCombatStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "automatedBlockResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.Action.automatedBlockResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sheild-reflect",
+                executor: "automatedBlockResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedCounterstrikeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.CombatTechnique.Action.automatedCounterstrikeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "automatedCounterstrikeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -171,48 +219,3 @@ export interface CombatTechniqueData<
      */
     strikeMode: MeleeStrikeMode.Data | MissileStrikeMode.Data;
 }
-
-/**
- * The intrinsic actions available to CombatTechnique items.
- * This structure should correspond to the methods on the
- * CombatTechniqueLogic class that can be invoked as intrinsic actions.
- */
-export const {
-    /** Enum of intrinsic action keys for CombatTechnique items. */
-    kind: COMBATTECHNIQUE_INTRINSIC_ACTION,
-    /** The intrinsic action definitions keyed by action key. */
-    values: CombatTechniqueIntrinsicActions,
-    /** Type guard testing whether a value is a CombatTechnique intrinsic action key. */
-    isValue: isCombatTechniqueIntrinsicAction,
-    /** Localized labels for the CombatTechnique intrinsic actions. */
-    labels: CombatTechniqueIntrinsicActionLabels,
-} = defineType("SOHL.CombatTechnique.ACTION", {
-    AUTOMATEDCOMBATSTART: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.CombatTechnique.ACTION.automatedCombatStart",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-swords",
-        executor: "automatedCombatStart",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    AUTOMATEDBLOCKRESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.CombatTechnique.ACTION.automatedBlockResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-shield",
-        executor: "automatedBlockResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-
-    AUTOMATEDCOUNTERSTRIKERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.CombatTechnique.ACTION.automatedCounterstrikeResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-circle-half-stroke",
-        executor: "automatedCounterstrikeResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-} as StrictObject<Partial<SohlActionData>>);

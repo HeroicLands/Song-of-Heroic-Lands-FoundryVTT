@@ -30,7 +30,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
         <legend>{{localize "SOHL.CalendarSettings.import.label"}}</legend>
         <div class="form-group">
             <button type="button" data-action="importCalendar">
-                <i class="fa-solid fa-file-import"></i>
+                <i class="sohl-file-import"></i>
                 {{localize "SOHL.CalendarSettings.import.button"}}
             </button>
         </div>
@@ -45,7 +45,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="imported-calendar" data-calendar-id="{{this.id}}">
                 <span class="calendar-name">{{this.label}}</span>
                 <button type="button" class="delete-btn" data-action="deleteCalendar" data-tooltip="Delete">
-                    <i class="fa-solid fa-trash"></i>
+                    <i class="sohl-trash"></i>
                 </button>
             </div>
             {{/each}}

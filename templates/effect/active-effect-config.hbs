@@ -36,9 +36,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
     <!-- Effect Configuration Tabs -->
     <nav class="sheet-tabs tabs" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
-        <a class="item" data-tab="details"><i class="fas fa-book"></i> {{localize "EFFECT.TabDetails"}}</a>
-        <a class="item" data-tab="duration"><i class="fas fa-clock"></i> {{localize "EFFECT.TabDuration"}}</a>
-        <a class="item" data-tab="effects"><i class="fas fa-cogs"></i> {{localize "EFFECT.TabEffects"}}</a>
+        <a class="item" data-tab="details"><i class="sohl-book"></i> {{localize "EFFECT.TabDetails"}}</a>
+        <a class="item" data-tab="duration"><i class="sohl-clock"></i> {{localize "EFFECT.TabDuration"}}</a>
+        <a class="item" data-tab="effects"><i class="sohl-gears"></i> {{localize "EFFECT.TabEffects"}}</a>
     </nav>
 
     <!-- Details Tab -->
@@ -153,7 +153,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <div class="type">{{ localize "EFFECT.ChangeType" }}</div>
             <div class="value">{{ localize "EFFECT.ChangeValue" }}</div>
             <div class="effect-controls">
-                <a class="effect-control" data-action="add"><i class="far fa-plus-square"></i></a>
+                <a class="effect-control" data-action="add"><i class="sohl-add"></i></a>
             </div>
         </header>
         <ol class="changes-list">
@@ -173,7 +173,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <input type="text" name="system.changes.{{i}}.value" value="{{change.value}}"/>
                 </div>
                 <div class="effect-controls">
-                    <a class="effect-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    <a class="effect-control" data-action="delete"><i class="sohl-trash"></i></a>
                 </div>
             </li>
             {{/each}}
@@ -181,6 +181,6 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </section>
 
     <footer class="sheet-footer">
-        <button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button>
+        <button type="submit"><i class="sohl-save"></i> {{localize submitText}}</button>
     </footer>
 </form>

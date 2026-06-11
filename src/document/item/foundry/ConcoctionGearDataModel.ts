@@ -25,6 +25,10 @@ import {
 } from "@src/utils/constants";
 const { NumberField, StringField } = foundry.data.fields;
 
+/**
+ * Builds the Foundry data schema for concoction gear (sub-type, potency, strength).
+ * @returns The concoction gear data schema.
+ */
 function defineConcoctionGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -66,6 +70,10 @@ export class ConcoctionGearDataModel<
     potency!: ConcoctionGearPotency;
     strength!: number;
 
+    /**
+     * Returns the Foundry data schema for concoction gear.
+     * @returns The concoction gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineConcoctionGearSchema();
     }

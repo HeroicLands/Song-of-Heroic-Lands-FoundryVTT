@@ -26,6 +26,11 @@ import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
 import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 
+/**
+ * Initializes the SoHL system: merges its CONFIG into Foundry's and
+ * registers the document sheets.
+ * @returns The initialized {@link SohlSystem} singleton.
+ */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
@@ -34,6 +39,9 @@ function setupSystem(): SohlSystem {
     return sohl;
 }
 
+/**
+ * Registers all SoHL world and client settings with Foundry's settings API.
+ */
 function registerSystemSettings() {
     game.settings.register("sohl", "systemMigrationVersion", {
         name: "SOHL.Settings.systemMigrationVersion.label",
@@ -168,10 +176,7 @@ function registerSystemSettings() {
             try {
                 SohlSystem.applyCalendar(value);
             } catch (err) {
-                sohl.log.error(
-                    `Failed to apply calendar "${value}":`,
-                    err,
-                );
+                sohl.log.error(`Failed to apply calendar "${value}":`, err);
             }
         },
     });
@@ -186,7 +191,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.CalendarConfig.Name",
         label: "SOHL.Settings.CalendarConfig.Label",
         hint: "SOHL.Settings.CalendarConfig.Hint",
-        icon: "fa-solid fa-calendar",
+        icon: "sohl-calendar",
         type: CalendarSettingsMenu as any,
         restricted: true,
     });
@@ -205,7 +210,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.domainsMenu.name",
         label: "SOHL.Settings.domainsMenu.label",
         hint: "SOHL.Settings.domainsMenu.hint",
-        icon: "fa-solid fa-circle-nodes",
+        icon: "sohl-circle",
         type: DomainManagerApp as any,
         restricted: true,
     });
@@ -217,6 +222,11 @@ function registerSystemSettings() {
  * on subsequent world loads. Idempotent and safe to call once per session.
  */
 let __builtinDomainsSeeded = false;
+/**
+ * Registers any built-in domains missing from the world registry.
+ * Idempotent: runs at most once per session and never overwrites
+ * GM-saved overrides.
+ */
 function registerBuiltinDomains(): void {
     if (__builtinDomainsSeeded) return;
     __builtinDomainsSeeded = true;
@@ -226,10 +236,7 @@ function registerBuiltinDomains(): void {
     );
     if (missing.length === 0) return;
     void SohlDomains.register(missing, "sohl").catch((err) => {
-        sohl.log.error(
-            "SoHL | Failed to register built-in domains",
-            err,
-        );
+        sohl.log.error("SoHL | Failed to register built-in domains", err);
     });
 }
 
@@ -265,6 +272,10 @@ function applyActiveCalendar(): void {
     }
 }
 
+/**
+ * Wires SoHL combat-tracker hooks and bridges Foundry's lifecycle hooks
+ * to SoHL trigger dispatches.
+ */
 function registerSystemHooks() {
     registerCombatTrackerHooks();
 
@@ -306,7 +317,7 @@ function registerSystemHooks() {
         btn.type = "button";
         btn.classList.add("control-icon");
         btn.dataset.tooltip = game.i18n.localize("SOHL.Cohort.HUD.expand");
-        btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
+        btn.innerHTML = '<i class="sohl-people-group" inert></i>';
         btn.addEventListener("click", async (ev: Event) => {
             ev.preventDefault();
             const token = hud.document;
@@ -362,9 +373,10 @@ function registerSystemHooks() {
                     const edit: HTMLElement | null = (
                         ev.target as HTMLElement
                     )?.closest("a.edit-action");
-                    const docUuid = edit?.dataset
-                        ? resolveChatCardHandlerUuid(edit.dataset)
-                        : null;
+                    const docUuid =
+                        edit?.dataset ?
+                            resolveChatCardHandlerUuid(edit.dataset)
+                        :   null;
                     if (docUuid) {
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
@@ -457,6 +469,9 @@ Hooks.once("ready", () => {
 /*-------------------------------------------------------*/
 /*            Handlebars FUNCTIONS                       */
 /*-------------------------------------------------------*/
+/**
+ * Registers all SoHL Handlebars helpers used by the system templates.
+ */
 function registerHandlebarsHelpers() {
     /**
      * A helper to create a set of &lt;option> elements in a &lt;select> block based on a provided array.
@@ -584,7 +599,9 @@ function registerHandlebarsHelpers() {
     Handlebars.registerHelper(
         "isSmKey",
         function (scope: unknown, key: unknown) {
-            return scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""));
+            return (
+                scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""))
+            );
         },
     );
 

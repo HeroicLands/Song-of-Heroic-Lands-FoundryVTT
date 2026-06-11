@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="items-header flexrow">
                 <h3 class="item-name name">{{entry.weapon.name}}</h3>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
             <ol class="item-list">
@@ -49,26 +49,26 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{else}}
                     <div class="item-detail">
-                        <i class="fas fa-xmark fa-lg"></i>
+                        <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    <div class="item-detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.block.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    <div class="item-detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.counterstrike.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    <div class="item-detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -87,7 +87,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="items-header flexrow">
                 <h3 class="item-name name">{{entry.weapon.name}}</h3>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
             <ol class="item-list">
@@ -115,16 +115,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{else}}
                     <div class="item-detail">
-                        <i class="fas fa-xmark fa-lg"></i>
+                        <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    <div class="item-detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -143,7 +143,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
             <header class="items-header flexrow">
                 <h3 class="item-name name">{{entry.item.name}}</h3>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.item.id}}"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.item.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
             <ol class="item-list">
@@ -169,31 +169,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     </div>
                     {{else}}
                     <div class="item-detail">
-                        <i class="fas fa-xmark fa-lg"></i>
+                        <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
                     <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                    <div class="item-detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#if sm.isMelee}}
                         {{#unless sm.defense.block.disabled}}
                         <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                         {{else}}
-                        <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                        <div class="item-detail"><i class="sohl-xmark"></i></div>
                         {{/unless}}
                         {{#unless sm.defense.counterstrike.disabled}}
                         <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
                         {{else}}
-                        <div class="item-detail"><i class="fas fa-xmark fa-lg"></i></div>
+                        <div class="item-detail"><i class="sohl-xmark"></i></div>
                         {{/unless}}
                     {{else}}
                         <div class="item-detail"></div>
                         <div class="item-detail"></div>
                     {{/if}}
                     <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -214,7 +214,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <h3 class="item-name name">{{part.shortcode}}</h3>
                 <div class="item-detail">Wt: {{part.probWeight.effective}}</div>
                 <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
             <ol class="item-list bodylocations-list">
@@ -232,7 +232,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                     <div class="item-detail" data-tooltip="Fire">F:{{loc.protectionBase.fire.effective}}</div>
                     <div class="item-detail" data-tooltip="Shock">{{loc.shockValue.effective}}</div>
                     <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="fas fa-ellipsis-vertical fa-fw"></i></a>
+                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}

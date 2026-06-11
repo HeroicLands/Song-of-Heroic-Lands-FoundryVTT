@@ -46,6 +46,7 @@ export interface StrikeModeRef {
 export class SohlCombatant<
     SubType extends Combatant.SubType = Combatant.SubType,
 > extends Combatant<SubType> {
+    /** This combatant's actor as a {@link SohlActor}, or `null`. */
     override get actor(): SohlActor | null {
         return super.actor as SohlActor | null;
     }
@@ -60,14 +61,22 @@ export class SohlCombatant<
         return (this.system as SohlCombatantDataModel).lastBlockMode;
     }
 
-    /** Remember the strike mode just used to attack (persisted on the combatant). */
+    /**
+     * Remember the strike mode just used to attack (persisted on the combatant).
+     * @param itemId - The id of the item owning the strike mode.
+     * @param smId - The strike mode id.
+     */
     async recordAttackMode(itemId: string, smId: string): Promise<void> {
         await this.update({
             "system.lastAttackMode": { itemId, smId },
         } as any);
     }
 
-    /** Remember the strike mode just used to block (persisted on the combatant). */
+    /**
+     * Remember the strike mode just used to block (persisted on the combatant).
+     * @param itemId - The id of the item owning the strike mode.
+     * @param smId - The strike mode id.
+     */
     async recordBlockMode(itemId: string, smId: string): Promise<void> {
         await this.update({
             "system.lastBlockMode": { itemId, smId },
@@ -113,6 +122,9 @@ export class SohlCombatant<
      * absent group on either side is treated defensively as enemy.
      *
      * Reads only already-loaded combatant fields — no Foundry API calls.
+     *
+     * @param other - The combatant to compare against.
+     * @returns `true` if the two combatants are enemies.
      */
     isEnemyOf(other: SohlCombatant): boolean {
         return areCombatantsEnemies(
@@ -184,6 +196,9 @@ export class SohlCombatant<
      * body size is folded into its lineage `reachBase` (a dragon has a large
      * reach), so a big token's reach already accounts for the distance from
      * its center to an adjacent target. Do not "fix" this to edge-to-edge.
+     *
+     * @param other - The combatant to test reach against.
+     * @returns `true` if this combatant's reach extends to `other`.
      */
     reaches(other: SohlCombatant): boolean {
         const from = this.measurePoint;
@@ -243,6 +258,9 @@ export class SohlCombatant<
      * Returns `null` when the combatant's actor has no `BeingLogic`
      * (e.g. a Vehicle, which has no movement model) or when the actor's
      * base move in this medium is 0.
+     *
+     * @param medium - The movement medium to compute for.
+     * @returns The tactical move, or `null` when movement is unavailable.
      */
     computedMove(medium: MovementMedium): number | null {
         const beingLogic = this.actor?.logic as BeingLogic | undefined;
@@ -259,6 +277,14 @@ export class SohlCombatant<
         return this.computedMove(sys.displayedMedium);
     }
 
+    /**
+     * Seed the displayed movement medium from the actor's lineage default
+     * when the creating user did not set one explicitly.
+     * @param data - The pending creation data.
+     * @param options - The creation options.
+     * @param user - The user performing the creation.
+     * @returns `false` to veto creation, otherwise nothing.
+     */
     protected override async _preCreate(
         data: any,
         options: any,
@@ -309,6 +335,11 @@ export class SohlCombatant<
     }
 }
 
+/**
+ * Builds the Foundry data schema for the SoHL combatant: turn start location,
+ * action flag, move factor, displayed medium, and last attack/block strike modes.
+ * @returns The combatant data schema.
+ */
 function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
     return {
         startLocation: new foundry.data.fields.ObjectField({
@@ -392,6 +423,10 @@ export class SohlCombatantDataModel<
     lastAttackMode!: StrikeModeRef | null;
     lastBlockMode!: StrikeModeRef | null;
 
+    /**
+     * Returns the Foundry data schema for the SoHL combatant data model.
+     * @returns The combatant data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlCombatantDataSchema();
     }

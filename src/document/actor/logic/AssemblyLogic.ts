@@ -14,9 +14,9 @@
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
     SohlActorBaseLogic,
-    SohlActorData,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+    type SohlActorData,
+    type SohlActorLogic,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
  * A hybrid Actor/Item container for complex items.

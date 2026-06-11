@@ -20,29 +20,33 @@ import {
     ACTION_SUBTYPE,
     ActionSubType,
     SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { textToFunction } from "@src/utils/helpers";
 import { fvttCurrentUser } from "@src/core/FoundryHelpers";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import {
+    resolveContextActor,
+    resolveContextItem,
+} from "@src/utils/ContextMenuEntry";
 
 /**
  * Predicate deciding whether an action is currently available. Invoked
  * programmatically with the owning `item` and `actor`; returns `true` when
  * the action may run/appear. Compiled from `data.trigger` by
- * {@link compileTrigger}.
+ * `compileTrigger`.
  */
 export type ActionTriggerFn = (item?: SohlItem, actor?: SohlActor) => boolean;
 /**
  * Predicate deciding whether an action's UI entry (e.g. a context-menu
  * item) is shown for a given DOM element. Compiled from `data.visible` by
- * {@link compileVisibility}, composing the visibility source with execute
+ * `compileVisibility`, composing the visibility source with execute
  * permission and {@link ActionTriggerFn}.
  */
 export type ActionVisibilityFn = (element: HTMLElement) => boolean;
 /**
  * The callable that performs an action, given a {@link SohlActionContext}.
- * For INTRINSIC actions this is a bound logic method; for SCRIPT actions it
+ * For Intrinsic actions this is a bound logic method; for Script actions it
  * is compiled from the action's executor source.
  */
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
@@ -76,14 +80,14 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * @typeParam TData - The Action data interface.
  */
 export class SohlAction {
-    /** The persisted action definition (see {@link SohlActionData}). */
-    data: SohlActionData;
+    /** The persisted action definition (see {@link SohlAction.Data}). */
+    data: SohlAction.Data;
     /** The data model this action was constructed against (its parent). */
     parent: SohlDocument;
     /**
-     * The callable that performs the action. For INTRINSIC actions, the
+     * The callable that performs the action. For Intrinsic actions, the
      * named method on the scoped target logic, bound to that target; for
-     * SCRIPT actions, the compiled executor source. A no-op resolving to
+     * Script actions, the compiled executor source. A no-op resolving to
      * `undefined` when no executor is defined. See {@link ActionExecutorFn}.
      */
     executor: ActionExecutorFn;
@@ -105,63 +109,82 @@ export class SohlAction {
      *
      * The executor is resolved against the target logic selected by
      * `data.scope` (SELF → this data model's logic, ITEM → the parent item's
-     * logic, ACTOR → the owning actor's logic). For INTRINSIC actions the
+     * logic, ACTOR → the owning actor's logic). For Intrinsic actions the
      * executor is the named method on that target (bound to it); for other
      * subtypes it is compiled from `data.executor` source. When no executor
      * is supplied, a no-op resolving to `undefined` is used.
      * @param data - The action definition.
-     * @param dataModel - The data model the action belongs to; supplies the
-     *   logic targets used to bind the executor.
-     * @throws If `dataModel` or `data` is missing, if `data.scope` is
-     *   unknown, or if an INTRINSIC executor names a non-existent method on
+     * @param options - Construction options; `options.parent` is the data
+     *   model the action belongs to and supplies the logic targets used to
+     *   bind the executor.
+     * @throws If `options.parent` or `data` is missing, if `data.scope` is
+     *   unknown, or if an Intrinsic executor names a non-existent method on
      *   the resolved target.
      */
-    constructor(data: SohlActionData, dataModel: SohlDataModel<any, any>) {
-        if (!dataModel) {
-            throw new Error("Data model is required to create a SohlAction.");
+    constructor(
+        data: Partial<SohlAction.Data>,
+        options: Partial<SohlAction.Options>,
+    ) {
+        if (!options?.parent) {
+            throw new Error("Parent Logic is required to create a SohlAction.");
         }
 
         if (!data) {
             throw new Error("Action data is required to create a SohlAction.");
         }
 
-        this.data = data;
-        this.parent = dataModel;
+        this.data = {
+            shortcode: "",
+            subType: ACTION_SUBTYPE.SCRIPT,
+            title: "",
+            isAsync: false,
+            scope: SOHL_ACTION_SCOPE.SELF,
+            executor: "",
+            trigger: "true",
+            visible: "false",
+            iconFAClass: "",
+            group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            minActorOwnership: 0,
+            ...data,
+        };
+        this.parent = options.parent;
         // trigger must be compiled first — visible composes with it.
-        this.trigger = compileTrigger(data.trigger, data.title);
-        this.visible = compileVisibility(data, this.trigger);
+        this.trigger = compileTrigger(data.trigger, this.data.title);
+        this.visible = compileVisibility(this.data, this.trigger);
         if (data.executor) {
             let target: SohlLogic | undefined;
             let func: Function;
 
-            switch (data.scope) {
+            // Use this.data, not the raw input — the SELF default merged
+            // above must apply when the definition omits `scope`.
+            switch (this.data.scope) {
                 case SOHL_ACTION_SCOPE.SELF:
-                    target = dataModel.logic;
+                    target = this.parent;
                     break;
 
                 case SOHL_ACTION_SCOPE.ITEM:
-                    target = (dataModel as any).item?.logic as SohlLogic;
+                    target = this.parent.item?.logic as SohlLogic;
                     break;
 
                 case SOHL_ACTION_SCOPE.ACTOR:
-                    target = (dataModel as any).item?.actor?.logic as SohlLogic;
+                    target = this.parent.actor?.logic as SohlLogic;
                     break;
                 default:
-                    throw new Error(`Unknown action scope: ${data.scope}`);
+                    throw new Error(`Unknown action scope: ${this.data.scope}`);
             }
 
-            if (data.subType === ACTION_SUBTYPE.INTRINSIC) {
-                func = (target as any)?.[data.executor ?? ""];
+            if (this.data.subType === ACTION_SUBTYPE.INTRINSIC) {
+                func = (target as any)?.[this.data.executor ?? ""];
                 if (!func || typeof func !== "function") {
                     throw new Error(
-                        `The target of this action does not have a function named "${data.executor ?? ""}".`,
+                        `The target of this action does not have a function named "${this.data.executor ?? ""}".`,
                     );
                 }
 
                 this.executor = func.bind(target);
             } else {
-                func = textToFunction(data.executor ?? "", ["context"], {
-                    isAsync: data.isAsync,
+                func = textToFunction(this.data.executor ?? "", ["context"], {
+                    isAsync: this.data.isAsync,
                 });
                 this.executor = func.bind(target);
             }
@@ -170,13 +193,32 @@ export class SohlAction {
         }
     }
 
+    /** The action's shortcode identifier. */
+    get shortcode(): string {
+        return this.data.shortcode;
+    }
+
+    /**
+     * Serialize this action to its definition data.
+     *
+     * The runtime bindings (`parent`, the compiled `trigger`/`visible`
+     * predicates, and the bound `executor`) are reconstruction artifacts —
+     * they are rebuilt from the data by the constructor — and serializing
+     * `parent` would recurse through the owning logic's action map.
+     *
+     * @returns The action's definition data.
+     */
+    toJSON(): PlainObject {
+        return { ...this.data };
+    }
+
     /**
      * Executes the action synchronously.
      *
      * @param actionContext - The context in which to execute the action, including any additional data.
      * @returns The result of the function call.
      * @throws If execution returns a Thenable (e.g., Promise), which is unsupported.
-     * @see {@link Action.execute} for the asynchronous version of this method.
+     * @see {@link execute} for the asynchronous version of this method.
      */
     executeSync(actionContext: SohlActionContext): unknown {
         if (this.data.isAsync) {
@@ -245,43 +287,59 @@ export class SohlAction {
     }
 }
 
-/** Persisted definition of an action — the data a {@link SohlAction} is built from. */
-export interface SohlActionData {
-    /** Whether this is an intrinsic or custom action */
-    subType: ActionSubType;
+export namespace SohlAction {
+    /** Persisted definition of an action — the data a {@link SohlAction} is built from. */
+    export interface Data {
+        /** Unique code for this action on a given Logic instance. */
+        shortcode: string;
 
-    /** Display title for this action */
-    title: string;
+        /** Whether this is an intrinsic or custom action */
+        subType: ActionSubType;
 
-    /** Whether this action executes asynchronously */
-    isAsync: boolean;
+        /** Display title for this action */
+        title: string;
 
-    /** Execution context: Self, Parent Item, or Owning Actor */
-    scope: string;
+        /** Whether this action executes asynchronously */
+        isAsync: boolean;
 
-    /** Function name or code that performs the action */
-    executor: string;
+        /** Execution context: Self, Parent Item, or Owning Actor */
+        scope: string;
 
-    /** Predicate determining when this action is available */
-    trigger: string;
+        /** Function name or JS code that performs the action */
+        executor: string;
 
-    /** Controls whether this action appears in the UI */
-    visible: string;
+        /**
+         * SafeExpression determining whether an action may be executed.
+         * Note that this layers with visible; this determines whether
+         * the action can be invoked regardless of whether it is visible
+         * in the UI.
+         */
+        trigger: string;
 
-    /** FontAwesome CSS class for the action's icon */
-    iconFAClass: string;
+        /** SafeExpression determining whether this action appears in the UI */
+        visible: string;
 
-    /** Context menu group for sorting this action */
-    group: string;
+        /** FontAwesome CSS class for the action's icon */
+        iconFAClass: string;
 
-    /**
-     * Minimum Foundry document-ownership level (matching
-     * `CONST.DOCUMENT_OWNERSHIP_LEVELS`) the current user must hold on
-     * the action's parent actor to execute it. GMs always pass.
-     * Only enforced for `SCRIPT` actions; INTRINSIC actions run for any
-     * user (lifecycle calls must work everywhere).
-     */
-    minActorOwnership: number;
+        /** Context menu group for sorting this action */
+        group: string;
+
+        /**
+         * Minimum Foundry document-ownership level (matching
+         * `CONST.DOCUMENT_OWNERSHIP_LEVELS`) the current user must hold on
+         * the action's parent actor to execute it. GMs always pass.
+         * Only enforced for Script actions; Intrinsic actions run for any
+         * user (lifecycle calls must work everywhere).
+         */
+        minActorOwnership: number;
+    }
+
+    /** Options for a {@link ValueModifier}. */
+    export interface Options {
+        /** The owning Logic (required; becomes {@link SohlAction.parent}). */
+        parent: SohlLogic;
+    }
 }
 
 /**
@@ -313,7 +371,7 @@ export interface SohlActionData {
  * @returns A visibility predicate.
  */
 function compileVisibility(
-    data: SohlActionData,
+    data: SohlAction.Data,
     trigger: ActionTriggerFn,
 ): ActionVisibilityFn {
     const source = data.visible;
@@ -332,13 +390,13 @@ function compileVisibility(
     const isScript = data.subType === ACTION_SUBTYPE.SCRIPT;
     return (element: HTMLElement): boolean => {
         try {
-            const item = SohlContextMenu.resolveItem(element);
+            const item = resolveContextItem(element);
             const visible = !!expression.evaluate({
                 element,
                 item,
             });
             if (!visible) return false;
-            const actor = SohlContextMenu.resolveActor(element) ?? item?.actor;
+            const actor = resolveContextActor(element) ?? item?.actor;
             if (isScript && !userMeetsExecutePermission(data, actor)) {
                 return false;
             }
@@ -400,7 +458,7 @@ function compileTrigger(
  * actor. `testUserPermission` returns true for GMs regardless of the
  * configured level, so no explicit GM short-circuit is needed.
  *
- * The check is only meaningful for `SCRIPT` actions — INTRINSIC actions
+ * The check is only meaningful for Script actions — Intrinsic actions
  * run unconditionally, since their lifecycle calls (`postInitialize`,
  * etc.) must run on every browser regardless of who owns the document.
  * Callers are responsible for confining this check to the subtypes
@@ -410,7 +468,7 @@ function compileTrigger(
  * @returns Whether the current user is permitted to execute the action.
  */
 export function userMeetsExecutePermission(
-    data: SohlActionData,
+    data: SohlAction.Data,
     actor: SohlActor | undefined | null,
 ): boolean {
     if (!actor) return false;
@@ -422,8 +480,8 @@ export function userMeetsExecutePermission(
 
 /**
  * Authoring gate for `actionDefs` updates: any mutation that adds, removes,
- * or modifies a `SCRIPT` entry requires the calling user to be a GM.
- * `INTRINSIC` entries are unaffected.
+ * or modifies a Script entry requires the calling user to be a GM.
+ * Intrinsic entries are unaffected.
  *
  * Returns `true` to allow the update, `false` to block it. Callers (typically
  * `_preUpdate` hooks on `SohlActor` and `SohlItem`) should `return false`
@@ -434,12 +492,12 @@ export function userMeetsExecutePermission(
  * @returns Whether the mutation is permitted.
  */
 export function isScriptActionMutationAllowed(
-    oldActionDefs: SohlActionData[] | undefined,
-    newActionDefs: SohlActionData[] | undefined,
+    oldActionDefs: SohlAction.Data[] | undefined,
+    newActionDefs: SohlAction.Data[] | undefined,
     user: any,
 ): boolean {
     if (user?.isGM) return true;
-    const pickScripts = (defs: SohlActionData[] | undefined): string =>
+    const pickScripts = (defs: SohlAction.Data[] | undefined): string =>
         JSON.stringify(
             (defs ?? []).filter((a) => a.subType === ACTION_SUBTYPE.SCRIPT),
         );

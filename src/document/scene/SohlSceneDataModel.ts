@@ -14,6 +14,11 @@
 import type { SohlScene } from "@src/document/scene/SohlScene";
 import { SohlSceneLogic } from "@src/document/scene/SohlSceneLogic";
 
+/**
+ * Builds the data schema for the SoHL `Scene` data model, currently just the
+ * Theatre of the Mind (`isTotm`) toggle.
+ * @returns The Foundry data schema for the scene.
+ */
 function defineSohlSceneDataSchema(): foundry.data.fields.DataSchema {
     return {
         isTotm: new foundry.data.fields.BooleanField({
@@ -46,6 +51,7 @@ export class SohlSceneDataModel<
 
     private _logic?: SohlSceneLogic;
 
+    /** The lazily-constructed {@link SohlSceneLogic} wrapper for this scene. */
     get logic(): SohlSceneLogic {
         if (!this._logic) {
             this._logic = new SohlSceneLogic(this);
@@ -53,6 +59,10 @@ export class SohlSceneDataModel<
         return this._logic;
     }
 
+    /**
+     * Returns the Foundry data schema for the SoHL scene data model.
+     * @returns The scene data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlSceneDataSchema();
     }

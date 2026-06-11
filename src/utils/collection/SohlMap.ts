@@ -23,6 +23,7 @@ export class SohlMap<K extends string, V> {
     private mapData!: Map<K, V>;
 
     /**
+     * Create a map, optionally seeded from an array of `[key, value]` pairs.
      * @param entries - Optional initial `[key, value]` pairs.
      */
     constructor(entries?: [K, V][]) {
@@ -125,8 +126,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Adds or updates a key-value pair in the map.
-     * @description
+     * Adds or updates a key-value pair in the map.
+     *
      * Associates the specified value with the given key. If the key already exists,
      * its value is overwritten. If not, a new entry is added.
      *
@@ -149,8 +150,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Removes the specified key and its associated value from the map.
-     * @description
+     * Removes the specified key and its associated value from the map.
+     *
      * If the key exists in the map, the entry is removed and the method returns `true`.
      * Otherwise, no change is made and `false` is returned.
      *
@@ -168,12 +169,10 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Removes all key-value pairs from the map.
-     * @description
+     * Removes all key-value pairs from the map.
+     *
      * Deletes all entries from the map, resetting its size to zero. After calling this method,
      * `map.size === 0` and `map.has(key)` will return `false` for all previously stored keys.
-     *
-     * @returns void
      *
      * @example
      * const map = new Map([["a", 1], ["b", 2]]);
@@ -189,8 +188,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Determines whether a given key exists in the map.
-     * @description
+     * Determines whether a given key exists in the map.
+     *
      * Returns `true` if the map contains an entry with the specified key,
      * or `false` if no such key exists.
      *
@@ -207,8 +206,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Retrieves the value associated with the specified key.
-     * @description
+     * Retrieves the value associated with the specified key.
+     *
      * Returns the value mapped to the given key, or `undefined` if the key is not present.
      *
      * @param key - The key to retrieve a value for.
@@ -227,12 +226,13 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Returns the number of key-value pairs in the map.
-     * @description
+     * Returns the number of key-value pairs in the map.
+     *
      * Reflects the total number of entries currently stored in the map.
      * This is a read-only property.
      *
      * @readonly
+     * @returns The number of entries currently stored in the map.
      *
      * @example
      * const map = new Map();
@@ -245,8 +245,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Returns an iterator over the map's keys.
-     * @description
+     * Returns an iterator over the map's keys.
+     *
      * Produces an iterable iterator that yields each key in the map in insertion order.
      *
      * This method allows you to iterate over just the keys without accessing the associated values.
@@ -259,14 +259,13 @@ export class SohlMap<K extends string, V> {
      *   console.log(key); // "a", then "b"
      * }
      */
-
     keys(): Itr<K> {
         return Itr.from(this.mapData.keys());
     }
 
     /**
-     * @summary Returns an iterator over the map's values.
-     * @description
+     * Returns an iterator over the map's values.
+     *
      * Produces an iterable iterator that yields each value in the map in insertion order,
      * ignoring the keys.
      *
@@ -283,8 +282,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Returns an iterator over the map's entries.
-     * @description
+     * Returns an iterator over the map's entries.
+     *
      * Produces an iterable iterator that yields `[key, value]` pairs from the map,
      * in insertion order.
      *
@@ -303,8 +302,8 @@ export class SohlMap<K extends string, V> {
     }
 
     /**
-     * @summary Iterates entries while allowing dynamic expansion.
-     * @description
+     * Iterates entries while allowing dynamic expansion.
+     *
      * Provides a breadth-first iterator over all entries in the collection, including new items added
      * during the iteration itself. This allows your logic to traverse all known items and process
      * new ones as they are introduced dynamically.

@@ -24,8 +24,12 @@ import {
     buildAttackCardData,
     buildCombatCardData,
     resolveTargetCombatant,
-} from "@src/document/actor/foundry/combat-actions";
-import { IMPACT_ASPECT, MARGINAL_SUCCESS, TEST_TYPE } from "@src/utils/constants";
+} from "@src/document/actor/logic/combat-actions";
+import {
+    IMPACT_ASPECT,
+    MARGINAL_SUCCESS,
+    TEST_TYPE,
+} from "@src/utils/constants";
 import { AttackResult } from "@src/domain/result/AttackResult";
 import { DefendResult } from "@src/domain/result/DefendResult";
 import { CombatResult } from "@src/domain/result/CombatResult";
@@ -92,14 +96,16 @@ describe("resolveStrikeModeML", () => {
         const actor = makeActor([
             makeWeaponWithModes("wp1", [meleeMode("sm1")]),
         ]);
-        expect(
-            resolveStrikeModeML(actor, "wp1", "sm1", "counterstrike"),
-        ).toBe(CX_MOD);
+        expect(resolveStrikeModeML(actor, "wp1", "sm1", "counterstrike")).toBe(
+            CX_MOD,
+        );
     });
 
     it("returns null when the item does not exist on the actor", () => {
         const actor = makeActor([]);
-        expect(resolveStrikeModeML(actor, "missing", "sm1", "attack")).toBeNull();
+        expect(
+            resolveStrikeModeML(actor, "missing", "sm1", "attack"),
+        ).toBeNull();
     });
 
     it("returns null when the item has no logic.strikeModes array", () => {
@@ -181,9 +187,7 @@ describe("resolveStrikeModeImpact", () => {
 
     it("returns null when the item, strike mode, or impact is missing", () => {
         expect(resolveStrikeModeImpact(makeActor([]), "wp1", "sm1")).toBeNull();
-        const actor = makeActor([
-            makeWeaponWithModes("wp1", [{ id: "sm1" }]),
-        ]);
+        const actor = makeActor([makeWeaponWithModes("wp1", [{ id: "sm1" }])]);
         expect(resolveStrikeModeImpact(actor, "wp1", "sm1")).toBeNull();
         expect(resolveStrikeModeImpact(actor, "wp1", "nope")).toBeNull();
     });
@@ -290,18 +294,32 @@ describe("collectAttackableStrikeModes", () => {
     const actor = {
         itemTypes: {
             weapongear: [
-                { id: "sword", name: "Sword", logic: { strikeModes: [melee("swing", 5)] } },
-                { id: "bow", name: "Bow", logic: { strikeModes: [missile("shoot", 50)] } },
+                {
+                    id: "sword",
+                    name: "Sword",
+                    logic: { strikeModes: [melee("swing", 5)] },
+                },
+                {
+                    id: "bow",
+                    name: "Bow",
+                    logic: { strikeModes: [missile("shoot", 50)] },
+                },
             ],
             combattechnique: [
-                { id: "ct", name: "Brawl", logic: { strikeMode: melee("punch", 4) } },
+                {
+                    id: "ct",
+                    name: "Brawl",
+                    logic: { strikeMode: melee("punch", 4) },
+                },
             ],
         },
     } as any;
 
     it("includes melee in reach + missile within base range", () => {
         // distance 4: swing (reach 5), punch (reach 4), shoot (range 50) all in.
-        const ids = collectAttackableStrikeModes(actor, 4).map((e) => e.smId).sort();
+        const ids = collectAttackableStrikeModes(actor, 4)
+            .map((e) => e.smId)
+            .sort();
         expect(ids).toEqual(["punch", "shoot", "swing"].sort());
     });
 
@@ -323,7 +341,13 @@ describe("collectAttackableStrikeModes", () => {
                         name: "W",
                         logic: {
                             strikeModes: [
-                                { id: "x", name: "x", attack: { disabled: "no" }, isMissile: false, reach: { effective: 5 } },
+                                {
+                                    id: "x",
+                                    name: "x",
+                                    attack: { disabled: "no" },
+                                    isMissile: false,
+                                    reach: { effective: 5 },
+                                },
                             ],
                         },
                     },
@@ -359,7 +383,11 @@ describe("hasMeleeAttackStrikeMode", () => {
         const a = {
             itemTypes: {
                 combattechnique: [
-                    { id: "ct", name: "Brawl", logic: { strikeMode: mode({}) } },
+                    {
+                        id: "ct",
+                        name: "Brawl",
+                        logic: { strikeMode: mode({}) },
+                    },
                 ],
             },
         } as any;
@@ -373,7 +401,11 @@ describe("hasMeleeAttackStrikeMode", () => {
                     {
                         id: "bow",
                         name: "Bow",
-                        logic: { strikeModes: [mode({ isMelee: false, isMissile: true })] },
+                        logic: {
+                            strikeModes: [
+                                mode({ isMelee: false, isMissile: true }),
+                            ],
+                        },
                     },
                 ],
             },
@@ -388,7 +420,9 @@ describe("hasMeleeAttackStrikeMode", () => {
                     {
                         id: "w",
                         name: "W",
-                        logic: { strikeModes: [mode({ attack: { disabled: "no" } })] },
+                        logic: {
+                            strikeModes: [mode({ attack: { disabled: "no" } })],
+                        },
                     },
                 ],
             },
@@ -412,7 +446,9 @@ describe("combat status invariants", () => {
     });
 
     it("firstStatusIn returns null when none are present", () => {
-        expect(firstStatusIn(new Set(["prone"]), ["dead", "frozen"])).toBeNull();
+        expect(
+            firstStatusIn(new Set(["prone"]), ["dead", "frozen"]),
+        ).toBeNull();
         expect(firstStatusIn([], ["dead"])).toBeNull();
     });
 
@@ -455,11 +491,21 @@ describe("combat status invariants", () => {
 describe("classifyMissileRange", () => {
     it("point blank at <= half base range: spread 6, impact +2", () => {
         const r = classifyMissileRange(20, 40);
-        expect(r).toEqual({ direct: true, pointBlank: true, spread: 6, impactRangeBonus: 2 });
+        expect(r).toEqual({
+            direct: true,
+            pointBlank: true,
+            spread: 6,
+            impactRangeBonus: 2,
+        });
     });
     it("normal direct within base range: spread 8, no bonus", () => {
         const r = classifyMissileRange(30, 40);
-        expect(r).toEqual({ direct: true, pointBlank: false, spread: 8, impactRangeBonus: 0 });
+        expect(r).toEqual({
+            direct: true,
+            pointBlank: false,
+            spread: 8,
+            impactRangeBonus: 0,
+        });
     });
     it("beyond base range is a volley (not direct)", () => {
         expect(classifyMissileRange(50, 40).direct).toBe(false);
@@ -468,7 +514,9 @@ describe("classifyMissileRange", () => {
 
 describe("indexOfBestMastery", () => {
     it("returns the index of the highest mastery level", () => {
-        expect(indexOfBestMastery([{ ml: 3 }, { ml: 9 }, { ml: 5 }], (e) => e.ml)).toBe(1);
+        expect(
+            indexOfBestMastery([{ ml: 3 }, { ml: 9 }, { ml: 5 }], (e) => e.ml),
+        ).toBe(1);
     });
     it("returns -1 for an empty list", () => {
         expect(indexOfBestMastery([], (e: any) => e.ml)).toBe(-1);

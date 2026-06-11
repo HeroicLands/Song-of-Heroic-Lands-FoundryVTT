@@ -22,12 +22,17 @@ export class SkillSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template:
-                "systems/sohl/templates/item/skill-properties.hbs",
+            template: "systems/sohl/templates/item/skill-properties.hbs",
             scrollable: [""],
         },
     };
 
+    /**
+     * Adds skill-specific fields to the properties tab context.
+     * @param context - The render context to augment.
+     * @param options - Sheet render options.
+     * @returns The context extended with skill properties.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

@@ -27,6 +27,13 @@ export class AffiliationSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Augments the render context for the affiliation properties tab with the
+     * affiliation's system fields (society, office, title, level).
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The render context augmented with affiliation property data.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

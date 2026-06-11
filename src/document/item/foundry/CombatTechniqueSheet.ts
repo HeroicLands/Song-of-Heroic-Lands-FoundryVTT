@@ -28,6 +28,12 @@ export class CombatTechniqueSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Adds combat-technique strike-mode fields to the properties tab context.
+     * @param context - The render context to augment.
+     * @param options - Sheet render options.
+     * @returns The context extended with strike-mode properties.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

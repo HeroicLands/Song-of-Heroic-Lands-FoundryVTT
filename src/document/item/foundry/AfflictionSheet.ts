@@ -27,6 +27,14 @@ export class AfflictionSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Augments the render context for the affliction properties tab with the
+     * affliction's system fields (subtype, category, dormant/treated state,
+     * diagnosis bonus, level, etc.).
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The render context augmented with affliction property data.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

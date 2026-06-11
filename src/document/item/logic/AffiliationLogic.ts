@@ -13,9 +13,9 @@
 
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-    SohlItemLogic,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+    type SohlItemLogic,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 
 /**
  * Membership in an organization or faction.

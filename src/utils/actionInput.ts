@@ -50,6 +50,10 @@ export interface ResolveActionInputOptions<T> {
  * dismissed) and applies it at one site. This makes any such action callable
  * headlessly by setting `context.skipDialog = true` and providing the values in
  * `context.scope`.
+ *
+ * @param ctx - The dialog-bypass context carrying `skipDialog` and `scope`.
+ * @param opts - The source callbacks for resolving inputs from scope or dialog.
+ * @returns The resolved inputs, or `null` if the dialog was dismissed.
  */
 export async function resolveActionInput<T>(
     ctx: DialogBypassContext,
