@@ -42,10 +42,17 @@ interface PriorCombatState {
 /**
  * Wire Foundry lifecycle hooks to dispatch onto the SoHL event queue.
  * Call once during system init.
+ *
+ * @param queue - Event queue that receives the dispatched lifecycle events.
  */
 export function wireSohlHookBridge(queue: SohlEventQueue): void {
     const priorByCombat = new WeakMap<object, PriorCombatState>();
 
+    /**
+     * Captures the combat's round, turn, and active combatant before an update.
+     * @param combat - The combat document to snapshot.
+     * @returns The pre-update combat state.
+     */
     function snapshotPrior(combat: any): PriorCombatState {
         return {
             round: combat?.round ?? 0,
@@ -88,8 +95,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     Hooks.on(
         "combatRound" as any,
         async (combat: any, updateData: any, _options: any) => {
-            const prior =
-                priorByCombat.get(combat) ?? snapshotPrior(combat);
+            const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
             const newRound = updateData?.round ?? combat.round;
             priorByCombat.set(combat, snapshotPrior(combat));
 
@@ -112,14 +118,13 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
     Hooks.on(
         "combatTurn" as any,
         async (combat: any, updateData: any, _options: any) => {
-            const prior =
-                priorByCombat.get(combat) ?? snapshotPrior(combat);
+            const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
             const newRound = updateData?.round ?? combat.round;
             const newTurn = updateData?.turn ?? combat.turn;
             const newCombatant = combat.combatant;
             const priorCombatant =
                 prior.combatantId != null ?
-                    combat.combatants?.get?.(prior.combatantId) ?? null
+                    (combat.combatants?.get?.(prior.combatantId) ?? null)
                 :   null;
             priorByCombat.set(combat, snapshotPrior(combat));
 

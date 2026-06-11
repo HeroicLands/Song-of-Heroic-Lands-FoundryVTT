@@ -47,8 +47,11 @@ export class BodyStructure {
     readonly lineageLogic: LineageLogic;
 
     /**
-     * @param data Persisted body-structure data (parts and adjacency pairs).
-     * @param lineageLogic Owning lineage logic, used to resolve held items and
+     * Builds the domain body structure, wrapping each persisted part in a
+     * {@link BodyPart} and copying the adjacency pairs.
+     *
+     * @param data - Persisted body-structure data (parts and adjacency pairs).
+     * @param lineageLogic - Owning lineage logic, used to resolve held items and
      *   the canonical DataModel for `update()` payloads.
      */
     constructor(data: BodyStructure.Data, lineageLogic: LineageLogic) {
@@ -57,12 +60,22 @@ export class BodyStructure {
         this.adjacent = data.adjacent.map((pair) => [...pair]);
     }
 
-    /** Find a part by shortcode, or undefined if not found. */
+    /**
+     * Find a part by shortcode, or undefined if not found.
+     *
+     * @param shortcode - The body part shortcode to look up.
+     * @returns The matching part, or `undefined` if none exists.
+     */
     getPartByCode(shortcode: string): BodyPart | undefined {
         return this.parts.find((p) => p.shortcode === shortcode);
     }
 
-    /** Find a part by its zero-based index, or undefined if out of range. */
+    /**
+     * Find a part by its zero-based index, or undefined if out of range.
+     *
+     * @param index - The zero-based index into the parts array.
+     * @returns The part at that index, or `undefined` if out of range.
+     */
     getPartByIndex(index: number): BodyPart | undefined {
         return this.parts[index];
     }
@@ -71,6 +84,9 @@ export class BodyStructure {
      * Get all parts adjacent to the given part, based on the adjacency
      * matrix. Adjacency is bidirectional — if `["head", "thorax"]` is
      * in the matrix, then head is adjacent to thorax and vice versa.
+     *
+     * @param partCode - The shortcode of the part whose neighbors to find.
+     * @returns The parts adjacent to the given part.
      */
     getAdjacentParts(partCode: string): BodyPart[] {
         const adjacentCodes = new Set<string>();
@@ -84,7 +100,11 @@ export class BodyStructure {
         return this.parts.filter((p) => adjacentCodes.has(p.shortcode));
     }
 
-    /** Get all locations from all parts as a flat array. */
+    /**
+     * Get all locations from all parts as a flat array.
+     *
+     * @returns Every location across all parts.
+     */
     getAllLocations(): BodyLocation[] {
         return this.parts.flatMap((p) => p.locations);
     }
@@ -95,6 +115,9 @@ export class BodyStructure {
      * hold an item} and holds that specific item. Used to decide whether a
      * held weapon's strike modes are available (a mode needs at least its
      * `minParts` limbs).
+     *
+     * @param itemId - The id of the held item to count grips for.
+     * @returns The number of limbs currently gripping that item.
      */
     limbsHolding(itemId: string): number {
         return this.parts.filter(
@@ -118,11 +141,14 @@ export class BodyStructure {
      * This models the idea that a more accurate attack is more likely to
      * hit the intended target, while a less accurate one drifts along the
      * adjacency graph to neighboring body parts.
+     *
+     * @param target - Optional aimed-strike parameters; omit for pure weighted
+     *   selection.
+     * @param target.targetPart - The intended part to aim at.
+     * @param target.spread - The accuracy spread driving adjacency drift.
+     * @returns The selected body part.
      */
-    getRandomPart(target?: {
-        targetPart: BodyPart;
-        spread: number;
-    }): BodyPart {
+    getRandomPart(target?: { targetPart: BodyPart; spread: number }): BodyPart {
         if (!target) {
             return weightedRandom(this.parts);
         }
@@ -164,6 +190,12 @@ export class BodyStructure {
      * Select a random location using two-step weighted selection:
      * first pick a part (optionally with aimed targeting), then pick
      * a location within that part (weighted).
+     *
+     * @param target - Optional aimed-strike parameters; omit for pure weighted
+     *   selection.
+     * @param target.targetPart - The intended part to aim at.
+     * @param target.spread - The accuracy spread driving adjacency drift.
+     * @returns The selected body location.
      */
     getRandomLocation(target?: {
         targetPart: BodyPart;
@@ -177,6 +209,9 @@ export class BodyStructure {
      * persisted body structure. Sources the current array from the
      * canonical DataModel data, not from the (possibly mutated)
      * domain objects.
+     *
+     * @param partData - The persisted data for the part to append.
+     * @returns An `update()` payload appending the part.
      */
     addPartUpdate(partData: BodyPart.Data): PlainObject {
         const canonical = this.lineageLogic.data.bodyStructure.parts;
@@ -189,6 +224,9 @@ export class BodyStructure {
      * Build an `update()` payload that removes a part by shortcode from
      * the persisted body structure. Sources the current array from
      * the canonical DataModel data.
+     *
+     * @param shortcode - The shortcode of the part to remove.
+     * @returns An `update()` payload with the part removed.
      */
     removePartUpdate(shortcode: string): PlainObject {
         const canonical = this.lineageLogic.data.bodyStructure.parts;
@@ -202,6 +240,10 @@ export class BodyStructure {
     /**
      * Check whether an adjacency edge exists between two parts.
      * Order does not matter — edges are bidirectional.
+     *
+     * @param partA - The shortcode of the first part.
+     * @param partB - The shortcode of the second part.
+     * @returns `true` if the two parts are adjacent.
      */
     hasEdge(partA: string, partB: string): boolean {
         return this.adjacent.some(
@@ -214,6 +256,10 @@ export class BodyStructure {
      * Build an `update()` payload that adds an adjacency edge between
      * two parts. If the edge already exists (in either order), returns
      * the array unchanged. Sources from canonical DataModel data.
+     *
+     * @param partA - The shortcode of the first part.
+     * @param partB - The shortcode of the second part.
+     * @returns An `update()` payload adding the edge (unchanged if it exists).
      */
     addEdgeUpdate(partA: string, partB: string): PlainObject {
         const canonical = this.lineageLogic.data.bodyStructure.adjacent;
@@ -230,6 +276,10 @@ export class BodyStructure {
      * Build an `update()` payload that removes an adjacency edge between
      * two parts. Matches regardless of order — `["A", "B"]` and
      * `["B", "A"]` are the same edge. Sources from canonical DataModel data.
+     *
+     * @param partA - The shortcode of the first part.
+     * @param partB - The shortcode of the second part.
+     * @returns An `update()` payload with the edge removed.
      */
     removeEdgeUpdate(partA: string, partB: string): PlainObject {
         const canonical = this.lineageLogic.data.bodyStructure.adjacent;
