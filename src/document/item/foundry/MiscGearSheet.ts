@@ -27,6 +27,15 @@ export class MiscGearSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Prepare the Properties tab context with miscellaneous gear fields
+     * (quantity, weight, value, carry/equip state, quality, durability,
+     * and cohort sharing).
+     *
+     * @param context - The render context to augment with gear properties.
+     * @param options - The sheet render options.
+     * @returns The augmented render context.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

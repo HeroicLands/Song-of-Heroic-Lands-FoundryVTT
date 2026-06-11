@@ -50,7 +50,11 @@ export class ArmorGearLogic<
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a location to flexible coverage. */
+    /**
+     * Build an `update()` payload that adds a location to flexible coverage.
+     * @param location - Shortcode of the body location to add.
+     * @returns An update payload adding the location, or an empty object if already present.
+     */
     addFlexibleLocationUpdate(location: string): PlainObject {
         const canonical = this.data.locations.flexible;
         if (canonical.includes(location)) return {};
@@ -59,7 +63,11 @@ export class ArmorGearLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a location from flexible coverage. */
+    /**
+     * Build an `update()` payload that removes a location from flexible coverage.
+     * @param location - Shortcode of the body location to remove.
+     * @returns An update payload with the location filtered out of flexible coverage.
+     */
     removeFlexibleLocationUpdate(location: string): PlainObject {
         return {
             "system.locations.flexible": this.data.locations.flexible.filter(
@@ -68,7 +76,11 @@ export class ArmorGearLogic<
         };
     }
 
-    /** Build an `update()` payload that adds a location to rigid coverage. */
+    /**
+     * Build an `update()` payload that adds a location to rigid coverage.
+     * @param location - Shortcode of the body location to add.
+     * @returns An update payload adding the location, or an empty object if already present.
+     */
     addRigidLocationUpdate(location: string): PlainObject {
         const canonical = this.data.locations.rigid;
         if (canonical.includes(location)) return {};
@@ -77,7 +89,11 @@ export class ArmorGearLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a location from rigid coverage. */
+    /**
+     * Build an `update()` payload that removes a location from rigid coverage.
+     * @param location - Shortcode of the body location to remove.
+     * @returns An update payload with the location filtered out of rigid coverage.
+     */
     removeRigidLocationUpdate(location: string): PlainObject {
         return {
             "system.locations.rigid": this.data.locations.rigid.filter(
@@ -107,10 +123,9 @@ export class ArmorGearLogic<
                 this.data.protectionBase.fire,
             ),
         };
-        this.encumbrance = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.encumbrance);
+        this.encumbrance = new ValueModifier({}, { parent: this }).setBase(
+            this.data.encumbrance,
+        );
         this.traits = {};
     }
 

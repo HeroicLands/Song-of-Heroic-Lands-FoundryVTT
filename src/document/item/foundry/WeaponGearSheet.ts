@@ -27,6 +27,13 @@ export class WeaponGearSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Populates the properties tab context with weapon gear data.
+     *
+     * @param context - The sheet render context to augment.
+     * @param options - The sheet render options.
+     * @returns The augmented render context.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

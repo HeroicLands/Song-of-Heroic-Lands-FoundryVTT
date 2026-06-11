@@ -18,6 +18,11 @@ import {
 } from "@src/document/item/logic/MiscGearLogic";
 import { ITEM_KIND } from "@src/utils/constants";
 
+/**
+ * Builds the data schema for miscellaneous gear, inheriting all base gear fields.
+ *
+ * @returns The miscellaneous gear data schema.
+ */
 function defineMiscGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -41,6 +46,11 @@ export class MiscGearDataModel<
     ];
     static override readonly kind = ITEM_KIND.MISCGEAR;
 
+    /**
+     * Defines the data schema for a miscellaneous gear item.
+     *
+     * @returns The miscellaneous gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMiscGearSchema();
     }

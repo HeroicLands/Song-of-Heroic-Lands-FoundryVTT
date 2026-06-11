@@ -111,6 +111,9 @@ export class CombatResult extends OpposedTestResult {
     defenderImpact?: ImpactResult;
 
     /**
+     * Constructs a combat result from an attack/defense pair, seeding the
+     * margin, Tactical Advantages, and weapon-break check to their initial
+     * (unresolved) values.
      * @param data - Must include both
      *   {@link CombatResult.Data.attackResult | attackResult} and
      *   {@link CombatResult.Data.defendResult | defendResult}; the remaining
@@ -147,6 +150,7 @@ export class CombatResult extends OpposedTestResult {
      * here would trip the attacker's `_speaker.isOwner` gate on the defender's
      * machine. Only `defendResult` (owned by the local user) is evaluated; the
      * attacker's outcome is read as-is by {@link opposedTestEvaluate}.
+     * @returns `true` if the defender's evaluation was allowed (and the exchange resolved), `false` otherwise.
      */
     override async evaluate(): Promise<boolean> {
         const allowed = await this.defendResult.evaluate();
@@ -195,7 +199,11 @@ export class CombatResult extends OpposedTestResult {
             :   undefined;
     }
 
-    /** Build (and roll) an {@link ImpactResult} from a landing attack. */
+    /**
+     * Build (and roll) an {@link ImpactResult} from a landing attack.
+     * @param ar - The attack result that landed the blow.
+     * @returns The rolled impact result for that attack.
+     */
     private rollImpact(ar: AttackResult): ImpactResult {
         return new ImpactResult(
             {
@@ -209,7 +217,11 @@ export class CombatResult extends OpposedTestResult {
         );
     }
 
-    /** Award `|VS| − 1` Tactical Advantages to the side that won by 2+. */
+    /**
+     * Award `|VS| − 1` Tactical Advantages to the side that won by 2+.
+     * @param vs - The victory spread (attacker margin minus defender margin).
+     * @returns The Tactical Advantages owed, attributed to the winning side.
+     */
     static tacticalAdvantagesFor(vs: number): TacticalAdvantages {
         if (vs >= 2) return { side: "attacker", count: vs - 1 };
         if (vs <= -2) return { side: "defender", count: -(vs + 1) };

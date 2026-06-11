@@ -22,11 +22,21 @@ export class ConcoctionGearSheet extends SohlItemSheetBase {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/concoctiongear-properties.hbs",
+            template:
+                "systems/sohl/templates/item/concoctiongear-properties.hbs",
             scrollable: [""],
         },
     };
 
+    /**
+     * Adds concoction-gear fields (quantity, weight/value, carried/equipped
+     * flags, quality, durability, sharing, potency, strength) to the
+     * properties tab context.
+     *
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The context augmented with concoction-gear properties.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

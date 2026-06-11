@@ -14,9 +14,9 @@
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import {
     SohlActorBaseLogic,
-    SohlActorData,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+    type SohlActorData,
+    type SohlActorLogic,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
  * A fixed installation or location.

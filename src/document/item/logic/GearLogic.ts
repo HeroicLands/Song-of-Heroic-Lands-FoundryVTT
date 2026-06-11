@@ -14,10 +14,17 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
 import { fvttGetActor } from "@src/core/FoundryHelpers";
+import {
+    ACTION_SUBTYPE,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -68,11 +75,71 @@ export abstract class GearLogic<
      */
     sharedWithCohorts!: SohlActor[];
 
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns The base item actions plus the gear carried/not-carried actions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "setCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-filled",
+                executor: "setCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setNotCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setNotCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-unfilled",
+                executor: "setNotCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
+
+    /**
+     * Marks this gear as carried on the character's person.
+     *
+     * Intrinsic-action executor for the `setCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": true };
+        await this.item.update(updateData);
+    }
+
+    /**
+     * Marks this gear as not carried (stowed somewhere off-person).
+     *
+     * Intrinsic-action executor for the `setNotCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setNotCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": false };
+        await this.item.update(updateData);
+    }
+
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a cohort ID to the sharing list. */
+    /**
+     * Build an `update()` payload that adds a cohort ID to the sharing list.
+     * @param cohortId - The cohort actor ID to add to the sharing list.
+     * @returns An update payload adding the ID, or an empty object if already present.
+     */
     addSharedCohortUpdate(cohortId: string): PlainObject {
         const canonical = this.data.sharedWithCohortIds;
         if (canonical.includes(cohortId)) return {};
@@ -81,7 +148,11 @@ export abstract class GearLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a cohort ID from the sharing list. */
+    /**
+     * Build an `update()` payload that removes a cohort ID from the sharing list.
+     * @param cohortId - The cohort actor ID to remove from the sharing list.
+     * @returns An update payload with the ID filtered out of the sharing list.
+     */
     removeSharedCohortUpdate(cohortId: string): PlainObject {
         return {
             "system.sharedWithCohortIds": this.data.sharedWithCohortIds.filter(

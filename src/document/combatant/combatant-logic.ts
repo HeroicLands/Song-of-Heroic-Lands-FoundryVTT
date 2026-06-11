@@ -17,7 +17,7 @@ import { STATUS_EFFECT, type MovementMedium } from "@src/utils/constants";
  * Pure relational predicate behind {@link SohlCombatant.isEnemyOf}.
  *
  * Under the SoHL combat invariant, two combatants are enemies iff they belong
- * to different {@link CombatantGroup}s. A combatant is never its own enemy.
+ * to different `CombatantGroup`s. A combatant is never its own enemy.
  * Absent grouping (a `null`/`undefined` group id on either side) is treated
  * defensively as enemy.
  *
@@ -71,6 +71,9 @@ export interface ThreatView {
  * Pure predicate behind {@link SohlCombatant.threatenedBy}: a candidate
  * combatant threatens the subject iff it is an enemy that is alive,
  * conscious, capable, visible, and within reach.
+ *
+ * @param view - The resolved threat conditions for the candidate.
+ * @returns `true` if the candidate threatens the subject.
  */
 export function isThreatening(view: ThreatView): boolean {
     return (
@@ -102,6 +105,11 @@ export interface BeingLogicMoveView {
  * Returns `null` when the actor has no `BeingLogic` (e.g. a vehicle actor)
  * or when the actor's base move for this medium is 0 (creature cannot move
  * in this medium). Otherwise returns `effectiveBaseMove(medium) × moveFactor`.
+ *
+ * @param beingLogic - The combatant actor's move-providing logic, if any.
+ * @param medium - The movement medium to compute for.
+ * @param moveFactor - Multiplier applied to the base move rate.
+ * @returns The effective tactical move, or `null` when movement is unavailable.
  */
 export function computeMove(
     beingLogic: BeingLogicMoveView | undefined | null,
@@ -122,6 +130,10 @@ export function computeMove(
  *
  * Precedence: an explicit user-set medium > the actor's lineage default >
  * nothing (caller keeps the schema default).
+ *
+ * @param userSetMedium - An explicitly user-selected medium, if any.
+ * @param lineageDefault - The actor's lineage default medium, if any.
+ * @returns The medium to display, or `null` to keep the schema default.
  */
 export function chooseInitialDisplayedMedium(
     userSetMedium: string | undefined | null,

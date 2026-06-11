@@ -16,6 +16,11 @@ import { GearLogic, GearData } from "@src/document/item/logic/GearLogic";
 const { StringField, NumberField, BooleanField, ArrayField, DocumentIdField } =
     foundry.data.fields;
 
+/**
+ * Builds the Foundry data schema shared by all gear items (quantity, weight,
+ * value, carried/equipped state, quality, durability, container and sharing).
+ * @returns The gear data schema.
+ */
 function defineGearDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -68,6 +73,10 @@ export abstract class GearDataModel<
     isCarried!: boolean;
     isEquipped!: boolean;
 
+    /**
+     * Returns the Foundry data schema for the gear item.
+     * @returns The gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineGearDataSchema();
     }

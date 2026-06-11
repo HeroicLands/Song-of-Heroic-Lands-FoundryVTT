@@ -19,6 +19,11 @@ import {
 import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField } = foundry.data.fields;
 
+/**
+ * Builds the data schema for the Container Gear item, extending the base gear
+ * schema with the container's maximum capacity field.
+ * @returns The Foundry data schema for the container gear.
+ */
 function defineContainerGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -49,6 +54,10 @@ export class ContainerGearDataModel<
     static override readonly kind = ITEM_KIND.CONTAINERGEAR;
     maxCapacityBase!: number;
 
+    /**
+     * Returns the Foundry data schema for the container gear item.
+     * @returns The container gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineContainerGearSchema();
     }

@@ -139,7 +139,7 @@ const MAX_TRIGGER_DEPTH = 16;
  *    infinite-loop case. `fireAt > _processingFireAt` (cascading) is
  *    allowed.
  * 2. **Depth counter:** re-entrant `fire(...)` for the same trigger name
- *    is capped at {@link MAX_TRIGGER_DEPTH}. Beyond that, the call is
+ *    is capped at `MAX_TRIGGER_DEPTH`. Beyond that, the call is
  *    aborted with an error.
  *
  * ## Predicate error policy
@@ -187,6 +187,13 @@ export class SohlEventQueue {
     /** Per-trigger reentrancy depth for the loop-protection backstop. */
     private depthByTrigger: Map<string, number> = new Map();
 
+    /**
+     * Build the composite map key for a subscription.
+     *
+     * @param uuid - The subscribed document's UUID.
+     * @param kind - The subscription kind.
+     * @returns The `uuid::kind` map key.
+     */
     private key(uuid: string, kind: string): string {
         return `${uuid}::${kind}`;
     }
@@ -199,6 +206,8 @@ export class SohlEventQueue {
      * `updateWorldTime` dispatch with a `fireAt` at or before the
      * currently-dispatching event's fireAt, the call is discarded and a
      * warning is logged.
+     *
+     * @param sub - The subscription to register or overwrite.
      */
     subscribe(sub: SohlSubscription): void {
         if (!fvttIsCurrentUserGM()) return;
@@ -222,6 +231,11 @@ export class SohlEventQueue {
      *
      * The handler is responsible for calling `scheduleAt` again if a
      * recurring schedule is desired.
+     *
+     * @param uuid - The document to dispatch to when the time is reached.
+     * @param kind - The subscription kind passed to the handler.
+     * @param fireAt - The world time at or after which to fire.
+     * @param payload - Optional payload forwarded to the handler.
      */
     scheduleAt(
         uuid: string,
@@ -239,7 +253,12 @@ export class SohlEventQueue {
         });
     }
 
-    /** Remove a subscription. No-op on non-GM and when absent. */
+    /**
+     * Remove a subscription. No-op on non-GM and when absent.
+     *
+     * @param uuid - The subscribed document's UUID.
+     * @param kind - The subscription kind to remove.
+     */
     unsubscribe(uuid: string, kind: string): void {
         if (!fvttIsCurrentUserGM()) return;
         this.subs.delete(this.key(uuid, kind));
@@ -252,6 +271,8 @@ export class SohlEventQueue {
      * For `updateWorldTime`, uses a cascading loop so that handlers may
      * schedule successors that fire within the same call. For all other
      * triggers, dispatches each matching subscription once.
+     *
+     * @param ctx - The trigger context describing the event being fired.
      */
     async fire(ctx: SohlTriggerContext): Promise<void> {
         if (!fvttIsActiveGM()) return;
@@ -277,6 +298,17 @@ export class SohlEventQueue {
         }
     }
 
+    /**
+     * Dispatch `updateWorldTime` subscriptions, cascading so handlers that
+     * reschedule may fire again within the same call.
+     *
+     * @param ctx - The world-time trigger context (target time and delta).
+     * @param ctx.name - The trigger name (always `"updateWorldTime"`).
+     * @param ctx.worldTime - The new world time being dispatched to.
+     * @param ctx.dt - The delta from the previous world time.
+     * @param ctx.options - Optional Foundry update options.
+     * @param ctx.userId - The id of the user that advanced the clock.
+     */
     private async fireWorldTime(ctx: {
         name: "updateWorldTime";
         worldTime: number;
@@ -342,6 +374,12 @@ export class SohlEventQueue {
         }
     }
 
+    /**
+     * Dispatch all subscriptions matching a non-time trigger exactly once,
+     * from a snapshot taken at the start of the call.
+     *
+     * @param ctx - The trigger context being dispatched.
+     */
     private async fireDiscrete(ctx: SohlTriggerContext): Promise<void> {
         // Snapshot matching subscriptions at start; non-time triggers do
         // not cascade. Subscriptions added mid-dispatch wait for the next
@@ -370,6 +408,13 @@ export class SohlEventQueue {
         }
     }
 
+    /**
+     * Resolve a subscription's document and invoke its `handleSohlEvent`,
+     * logging and swallowing any errors so one failure cannot abort the batch.
+     *
+     * @param sub - The subscription to dispatch.
+     * @param ctx - The trigger context to pass to the handler.
+     */
     private async dispatchOne(
         sub: SohlSubscription,
         ctx: SohlTriggerContext,
@@ -400,6 +445,8 @@ export class SohlEventQueue {
     /**
      * Sorted snapshot of subscriptions for debugging. Sorted by
      * `(triggerName, fireAt, kind)` for stable inspection.
+     *
+     * @returns A copied, stably-sorted array of the current subscriptions.
      */
     debug(): SohlSubscription[] {
         return Array.from(this.subs.values())

@@ -15,9 +15,15 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
-import { MysterySubType } from "@src/utils/constants";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
+import {
+    ACTION_SUBTYPE,
+    MysterySubType,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 /**
  * A passive or charge-based mystical power associated with a character or
@@ -74,6 +80,26 @@ export class MysteryLogic<
          */
         max: ValueModifier;
     };
+
+    /**
+     * Define and return all intrinsic actions for mystery logic.
+     * @returns The intrinsic action definitions, including those inherited from the base logic.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "useMystery",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Mystery.Action.useMystery.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sparkles",
+                executor: "useMystery",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

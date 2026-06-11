@@ -39,9 +39,9 @@
  */
 import {
     SohlActorBaseLogic,
-    SohlActorData,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+    type SohlActorData,
+    type SohlActorLogic,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
  * A group of individuals acting as a unit.
@@ -106,9 +106,7 @@ export class CohortLogic<
      */
     removeMemberUpdate(name: string): PlainObject {
         return {
-            "system.members": this.data.members.filter(
-                (m) => m.name !== name,
-            ),
+            "system.members": this.data.members.filter((m) => m.name !== name),
         };
     }
 

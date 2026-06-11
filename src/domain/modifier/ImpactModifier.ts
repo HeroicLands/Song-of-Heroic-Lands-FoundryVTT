@@ -64,6 +64,9 @@ export class ImpactModifier extends ValueModifier {
     private aspect: ImpactAspect;
 
     /**
+     * Builds an impact modifier, parsing the optional damage roll and resolving
+     * the aspect (defaulting to blunt when none is supplied).
+     *
      * @param data - Impact data; `roll` (the dice) and `aspect` are optional —
      *   aspect defaults to blunt.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).

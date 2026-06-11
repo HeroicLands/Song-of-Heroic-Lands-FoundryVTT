@@ -12,7 +12,11 @@
  */
 
 import { registerKind } from "@src/utils/kindRegistry";
-import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    ATTACK_MISHAP,
+    TEST_TYPE,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
 import { ImpactModifier } from "../modifier/ImpactModifier";
 
@@ -54,6 +58,9 @@ export class AttackResult extends SuccessTestResult {
     spread: number;
 
     /**
+     * Builds an attack result, defaulting the impact modifier, aimed body part,
+     * and strike spread when not supplied.
+     *
      * @param data - Attack data; `impact`, `aimBodyPartCode`, and `spread`
      *   default to an empty {@link ImpactModifier}, `""`, and `0` respectively.
      * @param options - Result options; `options.parent` is required by the base
@@ -125,6 +132,7 @@ export class AttackResult extends SuccessTestResult {
      * @param data - Base dialog data; this override injects {@link impact}.
      * @param callback - Invoked with the submitted form data after the impact
      *   modifier is applied.
+     * @returns The dialog result from the base {@link SuccessTestResult.testDialog}.
      */
     override async testDialog(
         data: PlainObject = {},
@@ -146,7 +154,7 @@ export class AttackResult extends SuccessTestResult {
 
                 if (this.impact && formImpactSituationalModifier) {
                     this.impact.add(
-                        VALUE_DELTA_ID.PLAYER,
+                        VALUE_DELTA_INFO.PLAYER,
                         formImpactSituationalModifier,
                     );
                 }
@@ -157,7 +165,12 @@ export class AttackResult extends SuccessTestResult {
         );
     }
 
-    /** Include this attack's {@link impact} modifier in the chat-card data. */
+    /**
+     * Include this attack's {@link impact} modifier in the chat-card data.
+     *
+     * @param data - Base chat-card data to merge the impact modifier into.
+     * @returns The rendered chat data from the base {@link SuccessTestResult.toChat}.
+     */
     override async toChat(data = {}) {
         return super.toChat({
             ...data,

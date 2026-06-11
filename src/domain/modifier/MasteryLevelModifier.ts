@@ -11,18 +11,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DialogButtonCallback, inputDialog } from "@src/core/FoundryHelpers";
+import {
+    DialogButtonCallback,
+    inputDialog,
+    fvttGetTargetedTokens,
+} from "@src/core/FoundryHelpers";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { registerKind } from "@src/utils/kindRegistry";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import { FilePath, toFilePath } from "@src/utils/helpers";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     SOHL_SPEAKER_ROLL_MODE,
     TestType,
-    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 
@@ -168,7 +171,7 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
  *
  * ## Lifecycle
  *
- * Created during {@link MasteryLevelLogic.initialize} with a base from
+ * Created during the owning logic's `initialize` phase with a base from
  * the persisted mastery level. Deltas are added during evaluate/finalize
  * (e.g., injury penalties, equipment bonuses, situational modifiers from
  * the test dialog). Rebuilt each preparation cycle like all ValueModifiers.
@@ -205,6 +208,9 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     /**
+     * Builds a mastery level modifier, applying defaults for target bounds,
+     * crit-digit lists, success/value tables, and the test type and title.
+     *
      * @param data - Test data; targets default to unbounded, crit-digit lists to
      *   empty, and the description/value tables to the standard ones.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
@@ -289,77 +295,80 @@ export class MasteryLevelModifier extends ValueModifier {
             successLevelMod: number;
             rollMode: string;
         }
-        const dialogInput = await resolveActionInput<SuccessTestInput>(context, {
-            fromScope: (s) => ({
-                situationalModifier: Number(s.situationalModifier) || 0,
-                successLevelMod: Number(s.successLevelMod) || 0,
-                rollMode: String(s.rollMode ?? testResult.rollMode),
-            }),
-            dialog: async () => {
-                const dlgTemplate: FilePath = toFilePath(
-                    "systems/sohl/templates/dialog/standard-test-dialog.hbs",
-                );
-                const dialogData: PlainObject = {
-                    type: testResult.testType,
-                    title: sohl.i18n.format(
-                        "SOHL.MasteryLevelModifier.successTest.dialogTitle",
-                        {
-                            name: testResult.speaker.name,
-                            title: testResult.testType,
-                        },
-                    ),
-                    mlMod: testResult.masteryLevelModifier,
-                    situationalModifier: scope.situationalModifier ?? 0,
-                    rollMode: testResult.rollMode,
-                    rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
-                        ([k, v]) => ({
-                            group: "CHAT.RollDefault",
-                            value: k,
-                            label: v,
-                        }),
-                    ),
-                };
-                const result: PlainObject | null = await inputDialog({
-                    title: sohl.i18n.format(
-                        "SOHL.MasteryLevelModifier.successTest.dialogLabel",
-                    ),
-                    template: dlgTemplate,
-                    data: dialogData,
-                    callback: ((
-                        _event: PointerEvent | SubmitEvent,
-                        button: HTMLButtonElement,
-                        _dialog: HTMLDialogElement,
-                    ): Promise<any> => {
-                        const form = button.querySelector("form");
-                        if (!form) return Promise.resolve(null);
-                        const fd = new FormDataExtended(form);
-                        const formData = fd.object;
-                        return Promise.resolve({
-                            situationalModifier:
-                                parseInt(
-                                    String(formData.situationalModifier),
-                                    10,
-                                ) || 0,
-                            successLevelMod:
-                                parseInt(
-                                    String(formData.successLevelMod),
-                                    10,
-                                ) || 0,
-                            rollMode: String(formData.rollMode),
-                        } satisfies SuccessTestInput);
-                    }) as DialogButtonCallback,
-                    rejectClose: false,
-                });
-                return (result as SuccessTestInput | null) ?? null;
+        const dialogInput = await resolveActionInput<SuccessTestInput>(
+            context,
+            {
+                fromScope: (s) => ({
+                    situationalModifier: Number(s.situationalModifier) || 0,
+                    successLevelMod: Number(s.successLevelMod) || 0,
+                    rollMode: String(s.rollMode ?? testResult.rollMode),
+                }),
+                dialog: async () => {
+                    const dlgTemplate: FilePath = toFilePath(
+                        "systems/sohl/templates/dialog/standard-test-dialog.hbs",
+                    );
+                    const dialogData: PlainObject = {
+                        type: testResult.testType,
+                        title: sohl.i18n.format(
+                            "SOHL.MasteryLevelModifier.successTest.dialogTitle",
+                            {
+                                name: testResult.speaker.name,
+                                title: testResult.testType,
+                            },
+                        ),
+                        mlMod: testResult.masteryLevelModifier,
+                        situationalModifier: scope.situationalModifier ?? 0,
+                        rollMode: testResult.rollMode,
+                        rollModes: Object.entries(SOHL_SPEAKER_ROLL_MODE).map(
+                            ([k, v]) => ({
+                                group: "CHAT.RollDefault",
+                                value: k,
+                                label: v,
+                            }),
+                        ),
+                    };
+                    const result: PlainObject | null = await inputDialog({
+                        title: sohl.i18n.format(
+                            "SOHL.MasteryLevelModifier.successTest.dialogLabel",
+                        ),
+                        template: dlgTemplate,
+                        data: dialogData,
+                        callback: ((
+                            _event: PointerEvent | SubmitEvent,
+                            button: HTMLButtonElement,
+                            _dialog: HTMLDialogElement,
+                        ): Promise<any> => {
+                            const form = button.querySelector("form");
+                            if (!form) return Promise.resolve(null);
+                            const fd = new FormDataExtended(form);
+                            const formData = fd.object;
+                            return Promise.resolve({
+                                situationalModifier:
+                                    parseInt(
+                                        String(formData.situationalModifier),
+                                        10,
+                                    ) || 0,
+                                successLevelMod:
+                                    parseInt(
+                                        String(formData.successLevelMod),
+                                        10,
+                                    ) || 0,
+                                rollMode: String(formData.rollMode),
+                            } satisfies SuccessTestInput);
+                        }) as DialogButtonCallback,
+                        rejectClose: false,
+                    });
+                    return (result as SuccessTestInput | null) ?? null;
+                },
             },
-        });
+        );
 
         // A dismissed dialog cancels the test; a bypass always yields values.
         if (!dialogInput) return null;
 
         if (dialogInput.situationalModifier) {
             testResult.masteryLevelModifier.add(
-                VALUE_DELTA_ID.PLAYER,
+                VALUE_DELTA_INFO.PLAYER,
                 dialogInput.situationalModifier,
             );
         }
@@ -431,8 +440,9 @@ export class MasteryLevelModifier extends ValueModifier {
      * `context.priorTestResult` is provided, it is assumed to be an existing
      * `OpposedTestResult` that needs to be completed by performing the target
      * test.
-     * @param {object} options
-     * @returns {SuccessTestChatData}
+     * @param context - The action context; `context.scope.priorTestResult`
+     *   resumes an existing opposed test, otherwise a new one is started.
+     * @returns The resulting opposed test, or `null` when no target is available.
      */
     async opposedTestStart(
         context: SohlActionContext,
@@ -446,8 +456,7 @@ export class MasteryLevelModifier extends ValueModifier {
         if (!sourceTestResult) {
             // No prior test result, so we are starting a new opposed test.
             // Setup the context for the source test.
-            scope.targetToken ??=
-                SohlTokenDocument.getTargetedTokens(true)?.[0];
+            scope.targetToken ??= fvttGetTargetedTokens(true)?.[0];
             if (!scope.targetToken) return null;
             scope.situationalModifier ??= 0;
             scope.type ??= `${this.parent.type}-${this.parent.name}-opposedtest`;
@@ -555,8 +564,7 @@ export class MasteryLevelModifier extends ValueModifier {
 
         if (allowed && !context.noChat) {
             opposedTestResult.toChat({
-                template:
-                    "systems/sohl/templates/chat/opposed-result-card.hbs",
+                template: "systems/sohl/templates/chat/opposed-result-card.hbs",
                 title: sohl.i18n.format("Opposed Action Result"),
             });
         }
