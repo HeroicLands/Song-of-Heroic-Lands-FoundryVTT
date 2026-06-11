@@ -26,7 +26,7 @@
 <tr>
 <td><code>subType</code></td>
 <td><code>ActionSubType</code></td>
-<td>One of <code>BASIC</code>, <code>INTRINSIC_ACTION</code>, <code>SCRIPT_ACTION</code></td>
+<td>One of <code>INTRINSIC</code>, <code>SCRIPT</code></td>
 </tr>
 <tr>
 <td><code>scope</code></td>
@@ -76,9 +76,8 @@
 </tbody>
 </table>
 <a id="subtype-values" class="tsd-anchor"></a><h3 class="tsd-anchor-link">subType values<a href="#subtype-values" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><ul>
-<li><strong><code>BASIC</code></strong> — simplest form; executor and trigger are evaluated as plain JavaScript expressions.</li>
-<li><strong><code>INTRINSIC_ACTION</code></strong> — executor is the name of a method on the parent document's logic class. Used for first-class actions defined in code.</li>
-<li><strong><code>SCRIPT_ACTION</code></strong> — executor is a JavaScript code string, evaluated at runtime. Useful for GM-configured custom behaviors without writing a module.</li>
+<li><strong><code>INTRINSIC</code></strong> — executor is the name of a method on the parent document's logic class. Used for first-class actions defined in code.</li>
+<li><strong><code>SCRIPT</code></strong> — executor is a JavaScript code string, evaluated at runtime. Useful for GM-configured custom behaviors without writing a module.</li>
 </ul>
 <a id="scope-values" class="tsd-anchor"></a><h3 class="tsd-anchor-link">scope values<a href="#scope-values" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h3><p>Determines what <code>this</code> context is provided when the executor runs:</p>
 <ul>

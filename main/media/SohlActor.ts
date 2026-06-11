@@ -53,15 +53,17 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * Base class for all Actor documents in the SoHL system, including
  * Beings, Cohorts, Structures, Vehicles, and Assemblies.
  *
- * TODO: This file is a monolith — contains SohlActor (Document), SohlActorLogic (interface),
- * SohlActorData (interface), SohlActorBaseLogic (base class), SohlActorDataModel (base DataModel),
- * and SohlActorSheetBase (base Sheet). Should be split following the logic/foundry pattern.
+ * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
+ * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
+ * TODO: The remaining Foundry-coupled contents (SohlActor Document, SohlActorDataModel,
+ * SohlActorSheetBase) could still be split into separate files per concern.
  */
 export class SohlActor extends Actor {
     protected _speaker?: SohlSpeaker;
     protected _lifecycleActionsCache: Map<string, SohlItem>;
 
     /**
+     * Constructs a SohlActor and initializes its lifecycle-actions cache.
      * @param data - Foundry actor source data.
      * @param options - Foundry document construction options.
      */
@@ -161,6 +163,7 @@ export class SohlActor extends Actor {
      * an automated request (aimed `targetPart` + `spread`) resolves with no
      * player input; an assisted request opens the Add Injury dialog so the GM
      * can pick the location and tune armor reduction.
+     * @param btn - The clicked chat-card button carrying the injury request.
      */
     private async onCreateInjury(btn: HTMLElement): Promise<void> {
         const body = getActorBodyStructure(this);
@@ -203,14 +206,22 @@ export class SohlActor extends Actor {
      * the assisted-combat `createInjury` flow and the character sheet's manual
      * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
      * yields a blank manual-entry dialog.
+     * @param prefill - Initial values to pre-fill the dialog with.
+     * @param prefill.location - The hit-location shortcode.
+     * @param prefill.aspect - The weapon impact aspect.
+     * @param prefill.impact - The raw impact total.
+     * @param prefill.armorReduction - Manual armor reduction.
+     * @param prefill.extraBleedRisk - Force the wound to bleed.
      */
-    async addInjuryViaDialog(prefill: {
-        location?: string;
-        aspect?: string;
-        impact?: number;
-        armorReduction?: number;
-        extraBleedRisk?: boolean;
-    } = {}): Promise<void> {
+    async addInjuryViaDialog(
+        prefill: {
+            location?: string;
+            aspect?: string;
+            impact?: number;
+            armorReduction?: number;
+            extraBleedRisk?: boolean;
+        } = {},
+    ): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -269,7 +280,11 @@ export class SohlActor extends Actor {
             await createTraumaFromInjury(this, injury);
     }
 
-    /** Post an `injury-card` to chat for a resolved injury on this actor. */
+    /**
+     * Post an `injury-card` to chat for a resolved injury on this actor.
+     * @param injury - The resolved injury to render.
+     * @param addToCharSheet - Whether the injury was recorded on the sheet.
+     */
     private async postInjury(
         injury: ResolvedInjury,
         addToCharSheet: boolean,
@@ -299,8 +314,8 @@ export class SohlActor extends Actor {
      * Handle a trigger dispatched by the SoHL event queue.
      * Override in subclasses to implement actor-specific trigger handling.
      * @param kind - Subscription kind identifier
-     * @param context - Trigger context (discriminated by `context.name`)
-     * @param payload - Optional context data attached when subscribing
+     * @param _context - Trigger context (discriminated by `context.name`)
+     * @param _payload - Optional context data attached when subscribing
      */
     async handleSohlEvent(
         kind: string,
@@ -395,6 +410,7 @@ export class SohlActor extends Actor {
     /**
      * Effects living on owned items whose `targets` include this actor.
      * Phaseless; the caller filters by `change.phase` when iterating changes.
+     * @returns The active effects transferred onto this actor.
      */
     transferredActiveEffects(): SohlActiveEffect[] {
         const out: SohlActiveEffect[] = [];
@@ -577,7 +593,9 @@ export class SohlActor extends Actor {
      * world actor already exists; and, when created with items (a duplicate) and
      * an `options.cloneActorUuid`, copies the source actor's data and default
      * artwork.
-     *
+     * @param createData - The pending actor source data.
+     * @param options - Document creation options.
+     * @param user - The user requesting creation.
      * @returns `false` to veto creation, otherwise `true`.
      */
     protected override async _preCreate(
@@ -645,7 +663,7 @@ export class SohlActor extends Actor {
      * Authoring gate: block non-GM users from adding, removing, or modifying
      * SCRIPT entries in `system.actionDefs`. SCRIPT actions run
      * unsandboxed JavaScript, so authorship is restricted to the GM.
-     * INTRINSIC actions and non-actionDefs updates are unaffected.
+     * Intrinsic actions and non-actionDefs updates are unaffected.
      * @param changes - The changes about to be applied.
      * @param options - Foundry update options.
      * @param user - The user attempting the update.
@@ -684,7 +702,12 @@ export class SohlActor extends Actor {
         }
     }
 
-    /** Post-creation hook; delegates to Foundry's base `_onCreate`. */
+    /**
+     * Post-creation hook; delegates to Foundry's base `_onCreate`.
+     * @param data - The created actor source data.
+     * @param options - Document creation options.
+     * @param userId - The id of the user that created the actor.
+     */
     protected override _onCreate(
         data: PlainObject,
         options: any,
@@ -726,48 +749,25 @@ export class SohlActor extends Actor {
     // }
 }
 
-/**
- * Logic interface implemented by all actor logic classes — {@link SohlLogic}
- * specialized for {@link SohlActor} data.
+/*
+ * The Foundry-free logic-layer contracts (SohlActorLogic, SohlActorData,
+ * SohlActorBaseLogic) live in the logic layer; they are re-exported here so
+ * Foundry-side consumers can keep importing them from this module.
  */
-export interface SohlActorLogic<
-    TData extends SohlLogicData<SohlActor>,
-> extends SohlLogic<TData> {}
+export {
+    SohlActorBaseLogic,
+    type SohlActorLogic,
+    type SohlActorData,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
+import type {
+    SohlActorLogic,
+    SohlActorData,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
- * An interface representing the common data structure for all Actor types in the SoHL system.
- * @remarks The base shape of `system` on every SoHL actor; each concrete actor type's `*Data` extends it.
+ * Builds the base actor data schema (portrait, appearance, dossier).
+ * @returns The base actor data schema.
  */
-export interface SohlActorData<
-    TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlLogicData<SohlActor, TLogic> {
-    /** The actor's display label; with `withName`, includes the actor's name. */
-    label(options?: { withName: boolean }): string;
-    /** Rich-text dossier / background notes. */
-    dossier: HTMLString;
-    /** Rich-text physical-appearance description. */
-    appearance: HTMLString;
-    /** Path to the actor's portrait image. */
-    portrait: FilePath;
-}
-
-/**
- * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
- *
- * Provides the foundation that all actor logic classes build upon.
- * Concrete actor logic classes extend this to implement type-specific rules:
- * health tracking, anatomy modeling, passenger management, etc.
- *
- * @typeParam TData - The actor data interface, extending {@link SohlActorData}.
- */
-export class SohlActorBaseLogic<
-    TData extends SohlActorData = SohlActorData,
-> extends SohlLogic<TData> {
-    override initialize(): void {}
-    override evaluate(): void {}
-    override finalize(): void {}
-}
-
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
         portrait: new FilePathField({
@@ -806,6 +806,7 @@ export abstract class SohlActorDataModel<
     portrait!: FilePath;
 
     /**
+     * Constructs the actor data model, requiring a {@link SohlActor} parent.
      * @param data - Source data for the model.
      * @param options - Must provide `options.parent` as a {@link SohlActor}.
      * @throws If the parent is not a {@link SohlActor}.
@@ -830,6 +831,9 @@ export abstract class SohlActorDataModel<
     /**
      * The localized type label for this actor; with `withName`, combined with
      * the actor's name.
+     * @param options - Label-formatting options.
+     * @param options.withName - Whether to combine the type with the actor name.
+     * @returns The localized label.
      */
     label(
         options: { withName: boolean } = {
@@ -846,7 +850,10 @@ export abstract class SohlActorDataModel<
         return result;
     }
 
-    /** Define the common actor data schema (portrait, appearance, dossier). */
+    /**
+     * Define the common actor data schema (portrait, appearance, dossier).
+     * @returns The base actor data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlActorDataSchema();
     }
@@ -875,7 +882,10 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         return (this.document as any).actor;
     }
 
-    /** Register the actor sheet's render parts: `header`, `tabs`, and `facade`. */
+    /**
+     * Register the actor sheet's render parts: `header`, `tabs`, and `facade`.
+     * @param options - The render options to populate with the sheet parts.
+     */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
@@ -885,7 +895,11 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         options.parts = ["header", "tabs", "facade"];
     }
 
-    /** Build the render context shared across all sheet parts. */
+    /**
+     * Build the render context shared across all sheet parts.
+     * @param options - Sheet render options.
+     * @returns The shared render context.
+     */
     protected override async _prepareContext(
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<
@@ -907,6 +921,7 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
      * @param partId - The render part being prepared.
      * @param context - The in-progress render context.
      * @param options - Foundry render options.
+     * @returns The render context for the given part.
      */
     protected async _preparePartContext(
         partId: string,
@@ -941,7 +956,12 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         }
     }
 
-    /** Build the `header` part's render context. Override in subclasses; the base returns it unchanged. */
+    /**
+     * Build the `header` part's render context. Override in subclasses; the base returns it unchanged.
+     * @param context - The in-progress render context.
+     * @param options - Sheet render options.
+     * @returns The header part context.
+     */
     protected async _prepareHeaderContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -951,7 +971,12 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         return context;
     }
 
-    /** Build the `tabs` part's render context. Override in subclasses; the base returns it unchanged. */
+    /**
+     * Build the `tabs` part's render context. Override in subclasses; the base returns it unchanged.
+     * @param context - The in-progress render context.
+     * @param options - Sheet render options.
+     * @returns The tabs part context.
+     */
     protected async _prepareTabsContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -961,7 +986,12 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         return context;
     }
 
-    /** Build the `facade` part's render context. Override in subclasses; the base returns it unchanged. */
+    /**
+     * Build the `facade` part's render context. Override in subclasses; the base returns it unchanged.
+     * @param context - The in-progress render context.
+     * @param options - Sheet render options.
+     * @returns The facade part context.
+     */
     protected async _prepareFacadeContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -971,6 +1001,14 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         return context;
     }
 
+    /**
+     * Show or hide item rows in the sheet content based on a search query,
+     * matching each row's normalized item name against the query or regex.
+     * @param event - The triggering keyboard event, if any.
+     * @param query - The raw search query text.
+     * @param rgx - The regular expression to match item names against.
+     * @param content - The container element holding the item rows.
+     */
     protected _displayFilteredResults(
         event: KeyboardEvent | null,
         query: string,
