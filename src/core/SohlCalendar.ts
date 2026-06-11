@@ -17,7 +17,7 @@ const { SchemaField, StringField, BooleanField } = foundry.data.fields;
 
 /**
  * The decomposed time components produced by {@link SohlCalendarData}, extending
- * Foundry's base `foundry.data.CalendarData.TimeComponents` with SoHL
+ * Foundry's base {@link foundry.data.CalendarData.TimeComponents} with SoHL
  * era information so a date can be rendered relative to the world's epoch.
  */
 export interface SohlCalendarComponents
@@ -33,7 +33,7 @@ export interface SohlCalendarComponents
 }
 
 /**
- * SoHL's world calendar — a `foundry.data.CalendarData` subclass that adds
+ * SoHL's world calendar — a {@link foundry.data.CalendarData} subclass that adds
  * an era model (epoch name/abbreviation, before-era labelling, optional year
  * zero) on top of Foundry's year/month/day/season schema, and overrides the
  * timestamp formatters to render SoHL-style dates (e.g. `15 Highsun 722TR`).

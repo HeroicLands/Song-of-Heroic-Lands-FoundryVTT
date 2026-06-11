@@ -12,23 +12,24 @@
  */
 
 /**
- * Generates the TypeDoc entry-point bundle.
+ * Generates the TypeDoc entry-point bundle as a SINGLE flat barrel module.
  *
- * Rather than emit a single flat barrel (which collapses the whole public API
- * into one alphabetical list), this writes a small TREE of barrel modules under
- * `build/docbundle/` that mirrors the `src/` architecture:
+ * A single entry module is required for cross-module `{@link}` resolution to
+ * work reliably: TypeDoc's link resolver degrades as the public API is split
+ * across multiple entry-point modules, so a tree of per-group barrels (the
+ * previous approach) stranded valid links between, e.g., `Documents/Item` and
+ * `Domain/Modifier`.
  *
- *   Core, Applications, Documents/{Actor,Item,...}, Domain/{Modifier,Result,...},
- *   Utility/{AI,Collection,Helpers}
+ * Architecture grouping is instead applied at the navigation layer by
+ * {@link ./typedoc-plugin-source-category.mjs}, which assigns each symbol a
+ * `@category` derived from its `src/` path (see {@link ./docs-grouping.mjs}).
+ * The HTML/Markdown configs enable category navigation
+ * (`navigation.includeCategories`) so the sidebar still groups by Core /
+ * Documents / Domain / Utility.
  *
- * Each barrel is a TypeDoc `@module`. TypeDoc's folder-aware navigation
- * (`navigation.includeFolders`) then nests the leaf modules under their parent
- * folder, so the API sidebar reflects Core / Documents / Domain / Utility
- * instead of one long flat list.
- *
- * This file is run by `npm run docs:prepare`. The generated tree is consumed by
- * both the HTML (`typedoc-html.json`) and Markdown (`typedoc-markdown.json`)
- * builds via an `expand` entry-point strategy pointed at `build/docbundle`.
+ * Run by `npm run docs:prepare`; consumed by `typedoc-html.json` and
+ * `typedoc-markdown.json` via an `expand` entry-point strategy pointed at
+ * `build/docbundle` (which now contains the single `All.ts`).
  */
 
 import fs from "fs";
@@ -39,134 +40,48 @@ const bundleDir = path.resolve(
     process.env.SOHL_DOCBUNDLE_DIR || "build/docbundle",
 );
 
-/**
- * Maps a `src` group key (first level, or first/second level when the second
- * level is a folder) to its display path in the generated bundle tree. The last
- * segment becomes the leaf module's `@module` name; any preceding segment
- * becomes a parent folder in the navigation. Keep this in sync with `src/`.
- */
-const GROUP_DISPLAY = {
-    apps: "Applications",
-    core: "Core",
-    "document/actor": "Documents/Actor",
-    "document/item": "Documents/Item",
-    "document/chat": "Documents/Chat",
-    "document/combat": "Documents/Combat",
-    "document/combatant": "Documents/Combatant",
-    "document/effect": "Documents/Effect",
-    "document/scene": "Documents/Scene",
-    "document/token": "Documents/Token",
-    "domain/action": "Domain/Action",
-    "domain/body": "Domain/Body",
-    "domain/modifier": "Domain/Modifier",
-    "domain/movement": "Domain/Movement",
-    "domain/result": "Domain/Result",
-    "domain/strikemode": "Domain/StrikeMode",
-    // Loose files directly under src/domain (e.g. SkillBase) — kept inside the
-    // Domain folder so they don't collide with the Domain/ subgroup nodes.
-    domain: "Domain/General",
-    utils: "Utility/Helpers",
-    "utils/ai": "Utility/AI",
-    "utils/collection": "Utility/Collection",
-};
-
-/**
- * Per-file overrides keyed by the file's `src`-relative path. These take
- * precedence over the folder-based grouping and let a single oversized or
- * standalone file get its own navigation module. Keep in sync with `src/`.
- */
-const FILE_DISPLAY = {
-    // constants.ts alone is ~400 symbols (every enum/code/type-guard/label);
-    // give it a dedicated module so Utility/Helpers stays browsable.
-    "utils/constants.ts": "Utility/Constants",
-    // SkillBase is the lone loose file under src/domain; surface it directly
-    // under the Domain folder rather than in a generic catch-all module.
-    "domain/SkillBase.ts": "Domain/SkillBase",
-};
-
-/** Title-case a path segment as a fallback when a group is not mapped above. */
-function titleCase(segment) {
-    return segment
-        .split(/[-_]/)
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ");
-}
-
-/** Derive a display path for an unmapped group so new folders still render. */
-function displayFor(group) {
-    if (GROUP_DISPLAY[group]) return GROUP_DISPLAY[group];
-    const parts = group.split("/").map(titleCase);
-    return parts.join("/");
-}
-
 const files = globSync("src/**/*.ts", {
     ignore: ["**/*.test.ts", "**/*.d.ts", "**/index.ts"],
-});
+}).sort();
 
-// Bucket every source file under its final display path (the module name).
-// Per-file overrides win; otherwise fall back to folder-based grouping.
-const byDisplay = {};
-for (const file of files) {
-    const relative = path.relative("src", file).replace(/\\/g, "/");
-    let display = FILE_DISPLAY[relative];
-    if (!display) {
-        const parts = relative.split("/");
-        let groupName;
-        if (parts.length === 1) {
-            // Top-level entry files (e.g. src/sohl.ts) belong with Core wiring.
-            groupName = "core";
-        } else if (parts[1].endsWith(".ts")) {
-            // A file directly inside a first-level folder (e.g. src/core/*.ts).
-            groupName = parts[0];
-        } else {
-            // A file inside a second-level folder (e.g. src/document/actor/*).
-            groupName = `${parts[0]}/${parts[1]}`;
-        }
-        display = displayFor(groupName);
-    }
-    (byDisplay[display] ??= []).push(file);
-}
-
-// Fresh tree each run so renamed/removed groups don't leave stale barrels.
+// Fresh bundle each run so removed files don't leave stale exports.
 fs.rmSync(bundleDir, { recursive: true, force: true });
 fs.mkdirSync(bundleDir, { recursive: true });
 
-const sortedGroups = Object.entries(byDisplay).sort(([a], [b]) =>
-    a.localeCompare(b),
-);
+const barrelPath = path.join(bundleDir, "All.ts");
 
-let barrelCount = 0;
-for (const [display, groupFiles] of sortedGroups) {
-    // Use the FULL slashed path as the module name: TypeDoc's sidebar groups
-    // modules into folders by splitting the name on "/", so "Documents/Actor"
-    // nests "Actor" under a "Documents" node. A bare leaf name renders flat.
-    const moduleName = display;
-    const barrelPath = path.join(bundleDir, `${display}.ts`);
-    const barrelDir = path.dirname(barrelPath);
-    fs.mkdirSync(barrelDir, { recursive: true });
+// The module landing page is authored by hand in docs/api-module.md and pulled
+// in via TypeDoc's `{@include}` (resolved relative to this generated file).
+const moduleDocPath = path
+    .relative(bundleDir, path.resolve("docs/api-module.md"))
+    .replace(/\\/g, "/");
 
-    const header = `/**
- * @module ${moduleName}
- * @summary Public API: ${moduleName}.
- * @remarks Auto-generated by utils/build-docs-entry.mjs. Do not edit by hand.
+// The "do not edit" / grouping note is a plain comment so TypeDoc never renders
+// it; only the `{@include}`d content and `@module` tag become the module page.
+const header = `// AUTO-GENERATED by utils/build-docs-entry.mjs from src/**.
+// Do not edit by hand. Symbols are grouped in the sidebar by @category
+// (see utils/typedoc-plugin-source-category.mjs), not by module.
+
+/**
+ * {@include ${moduleDocPath}}
+ *
+ * @module API Reference
  */
 `;
 
-    const lines = [header, ""];
-    for (const file of groupFiles.sort()) {
-        let specifier = path
-            .relative(barrelDir, path.resolve(file))
-            .replace(/\\/g, "/")
-            .replace(/\.ts$/, "");
-        if (!specifier.startsWith(".")) specifier = `./${specifier}`;
-        lines.push(`export * from "${specifier}";`);
-    }
-
-    fs.writeFileSync(barrelPath, `${lines.join("\n")}\n`);
-    barrelCount += 1;
+const lines = [header, ""];
+for (const file of files) {
+    let specifier = path
+        .relative(bundleDir, path.resolve(file))
+        .replace(/\\/g, "/")
+        .replace(/\.ts$/, "");
+    if (!specifier.startsWith(".")) specifier = `./${specifier}`;
+    lines.push(`export * from "${specifier}";`);
 }
 
+fs.writeFileSync(barrelPath, `${lines.join("\n")}\n`);
+
 console.log(
-    `✅ Generated ${barrelCount} barrel module(s) under ${bundleDir} ` +
-        `from ${files.length} source files, grouped by architecture.`,
+    `✅ Generated a single flat barrel (${path.relative(process.cwd(), barrelPath)}) ` +
+        `re-exporting ${files.length} source files.`,
 );
