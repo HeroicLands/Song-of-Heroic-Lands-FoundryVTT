@@ -146,7 +146,7 @@ function resolveLocation(input: InjuryInput): BodyLocation {
  *
  * Pure and Foundry-free — composes {@link BodyStructure.getRandomLocation},
  * {@link BodyLocation.protectionBase}, and the rule helpers in
- * {@link "@src/domain/body/InjuryDefaults"}. Consumed by both the assisted
+ * `InjuryDefaults`. Consumed by both the assisted
  * Add Injury flow and automated combat's Calculate Injury step.
  * @param input - The blow parameters (impact, aspect, target body, overrides).
  * @returns The fully resolved injury.

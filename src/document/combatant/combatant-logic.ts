@@ -17,7 +17,7 @@ import { STATUS_EFFECT, type MovementMedium } from "@src/utils/constants";
  * Pure relational predicate behind {@link SohlCombatant.isEnemyOf}.
  *
  * Under the SoHL combat invariant, two combatants are enemies iff they belong
- * to different `CombatantGroup`s. A combatant is never its own enemy.
+ * to different {@link CombatantGroup}s. A combatant is never its own enemy.
  * Absent grouping (a `null`/`undefined` group id on either side) is treated
  * defensively as enemy.
  *

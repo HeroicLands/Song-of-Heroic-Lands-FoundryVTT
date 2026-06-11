@@ -22,7 +22,7 @@ const FLAG_KEY = "defaultCombatGroup";
 const MOVE_TO_GROUP_LABEL = "Move to Group…";
 
 /**
- * Register hooks supporting Foundry-native `CombatantGroup` allegiance:
+ * Register hooks supporting Foundry-native {@link CombatantGroup} allegiance:
  *
  * - A "Default Combat Group" text field injected into both the instance
  *   Token configuration and the prototype Token configuration, writing the
