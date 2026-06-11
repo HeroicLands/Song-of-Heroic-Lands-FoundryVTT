@@ -28,7 +28,7 @@ import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
-import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
+import { startAutomatedAttackFromItem } from "@src/document/actor/logic/automated-combat";
 
 /**
  * A weapon that can be wielded in combat.

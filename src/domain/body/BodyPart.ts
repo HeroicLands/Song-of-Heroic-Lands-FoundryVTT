@@ -14,7 +14,7 @@
 import type { BodyStructure } from "@src/domain/body/BodyStructure";
 import { BodyLocation } from "@src/domain/body/BodyLocation";
 import { weightedRandom } from "@src/domain/body/WeightedRandom";
-import { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import { BODY_ROLE } from "@src/utils/constants";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 

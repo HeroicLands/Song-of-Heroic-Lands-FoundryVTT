@@ -13,11 +13,11 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
-    SohlItem,
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
     MysticalAbilitySubType,

@@ -13,7 +13,7 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { TraitIntensity, TraitSubType } from "@src/utils/constants";
-import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 
 /**
  * An innate characteristic, advantage, or drawback.

@@ -18,8 +18,8 @@ import {
     KIND_KEY,
 } from "@src/utils/constants";
 import { registerKind } from "@src/utils/kindRegistry";
-import { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@src/utils/constants";

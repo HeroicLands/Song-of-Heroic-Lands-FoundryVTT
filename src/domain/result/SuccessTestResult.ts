@@ -31,7 +31,7 @@ import {
     CRITICAL_FAILURE,
     MARGINAL_SUCCESS,
     CRITICAL_SUCCESS,
-    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
     SOHL_SPEAKER_SOUND,
     SOHL_SPEAKER_ROLL_MODE,
     SUCCESS_TEST_RESULT_MOVEMENT,
@@ -366,7 +366,7 @@ export class SuccessTestResult extends TestResult {
                 const formSituationalModifier = formData.situationalModifier;
                 if (formSituationalModifier) {
                     this.masteryLevelModifier.add(
-                        VALUE_DELTA_ID.PLAYER,
+                        VALUE_DELTA_INFO.PLAYER,
                         formSituationalModifier,
                     );
                 }

@@ -39,8 +39,8 @@ import {
 } from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
 
 const FEAR_LABEL_BY_LEVEL: Record<number, string> = Object.fromEntries(

@@ -12,7 +12,11 @@
  */
 
 import { registerKind } from "@src/utils/kindRegistry";
-import { ATTACK_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    ATTACK_MISHAP,
+    TEST_TYPE,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
 import { ImpactModifier } from "../modifier/ImpactModifier";
 
@@ -146,7 +150,7 @@ export class AttackResult extends SuccessTestResult {
 
                 if (this.impact && formImpactSituationalModifier) {
                     this.impact.add(
-                        VALUE_DELTA_ID.PLAYER,
+                        VALUE_DELTA_INFO.PLAYER,
                         formImpactSituationalModifier,
                     );
                 }

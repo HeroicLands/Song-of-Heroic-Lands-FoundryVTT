@@ -11,7 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DEFEND_MISHAP, TEST_TYPE, VALUE_DELTA_ID } from "@src/utils/constants";
+import {
+    DEFEND_MISHAP,
+    TEST_TYPE,
+    VALUE_DELTA_INFO,
+} from "@src/utils/constants";
 import { SuccessTestResult } from "./SuccessTestResult";
 
 /**
@@ -45,10 +49,12 @@ export class DefendResult extends SuccessTestResult {
         options: Partial<DefendResult.Options> = {},
     ) {
         super(data, options);
-        this.masteryLevelModifier.add(
-            VALUE_DELTA_ID.PLAYER,
-            data.situationalModifier,
-        );
+        if (data.situationalModifier) {
+            this.masteryLevelModifier.add(
+                VALUE_DELTA_INFO.PLAYER,
+                data.situationalModifier,
+            );
+        }
     }
 
     /**

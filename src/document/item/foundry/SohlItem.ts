@@ -30,10 +30,10 @@ type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
-// TODO: This file is a monolith — contains SohlItem (Document), SohlItemLogic (interface),
-// SohlItemData (interface), SohlItemBaseLogic (base class), SohlItemDataModel (base DataModel),
-// and SohlItemSheetBase (base Sheet). Should be split into separate files following the
-// logic/foundry pattern used by all concrete item types.
+// NOTE: The Foundry-free contracts (SohlItemLogic, SohlItemData, SohlItemBaseLogic)
+// now live in src/document/item/logic/SohlItemBaseLogic.ts and are re-exported here.
+// TODO: The remaining Foundry-coupled contents (SohlItem Document, SohlItemDataModel,
+// SohlItemSheetBase) could still be split into separate files per concern.
 /**
  * Base class for all Item documents in the SoHL system — affiliations,
  * afflictions, gear (armor, weapons, containers, misc, projectiles,
@@ -292,46 +292,20 @@ export class SohlItem extends Item {
     }
 }
 
-export interface SohlItemLogic<
-    TData extends SohlLogicData<SohlItem>,
-> extends SohlLogic<TData> {}
-
-/**
- * @remarks The base shape of `system` on every SoHL item; each concrete item type's `*Data` extends it.
+/*
+ * The Foundry-free logic-layer contracts (SohlItemLogic, SohlItemData,
+ * SohlItemBaseLogic) live in the logic layer; they are re-exported here so
+ * Foundry-side consumers can keep importing them from this module.
  */
-export interface SohlItemData<
-    TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlLogicData<SohlItem, TLogic> {
-    /** The owning {@link SohlItem}. */
-    get item(): SohlItem;
-    /**
-     * The item's display label; with `withName`, includes the item's name, and
-     * with `withSubType`, includes its sub-type.
-     */
-    label(options?: { withName: boolean; withSubType: boolean }): string;
-    /** Rich-text GM/player notes for the item. */
-    notes: HTMLString;
-    /** Rich-text description shown on the item's sheet and chat cards. */
-    docHtml: HTMLString;
-}
-
-/**
- * Base logic class for all item types.
- *
- * Provides the minimal lifecycle implementation (no-op {@link initialize},
- * {@link evaluate}, and {@link finalize}) that all item logic classes inherit
- * from. Concrete item classes extend this to implement type-specific rules,
- * modifiers, and calculations.
- *
- * @typeParam TData - The item data interface, extending {@link SohlItemData}.
- */
-export class SohlItemBaseLogic<
-    TData extends SohlItemData = SohlItemData,
-> extends SohlLogic<TData> {
-    override initialize(): void {}
-    override evaluate(): void {}
-    override finalize(): void {}
-}
+export {
+    SohlItemBaseLogic,
+    type SohlItemLogic,
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
+import type {
+    SohlItemLogic,
+    SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {

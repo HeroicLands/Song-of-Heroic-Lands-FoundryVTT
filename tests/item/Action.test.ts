@@ -5,7 +5,7 @@ import {
     isScriptActionMutationAllowed,
 } from "@src/domain/action/SohlAction";
 import { ACTION_SUBTYPE } from "@src/utils/constants";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import * as ContextMenuEntryModule from "@src/utils/ContextMenuEntry";
 
 /** Foundry `CONST.DOCUMENT_OWNERSHIP_LEVELS` mirror for test readability. */
 const OWNERSHIP = { NONE: 0, LIMITED: 1, OBSERVER: 2, OWNER: 3 } as const;
@@ -227,7 +227,7 @@ describe("SohlAction.visible composes with trigger and permission", () => {
 
     it("hides SCRIPT action when actor.testUserPermission denies the level", () => {
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(false));
         try {
             const action = makeAction({
@@ -244,7 +244,7 @@ describe("SohlAction.visible composes with trigger and permission", () => {
 
     it("shows SCRIPT action when actor.testUserPermission allows the level", () => {
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(true));
         try {
             const action = makeAction({
@@ -263,7 +263,7 @@ describe("SohlAction.visible composes with trigger and permission", () => {
         // Actor would deny via testUserPermission, but Intrinsic bypasses
         // the permission gate.
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(false));
         try {
             const action = makeAction({

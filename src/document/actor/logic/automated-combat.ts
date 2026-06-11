@@ -14,9 +14,11 @@
 import {
     inputDialog,
     getActiveCombat,
+    fvttGetTargetedTokens,
+    fvttRangeToTarget,
     type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     buildAttackResult,
     buildAttackCardData,
@@ -27,14 +29,14 @@ import {
     firstStatusIn,
     ATTACK_BLOCKING_STATUSES,
     type AttackableStrikeMode,
-} from "@src/document/actor/foundry/combat-actions";
+} from "@src/document/actor/logic/combat-actions";
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
 import { resolveActionInput } from "@src/utils/actionInput";
 import {
     ITEM_KIND,
     STATUS_EFFECT,
     TEST_TYPE,
-    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
@@ -101,9 +103,9 @@ function combatantForToken(
 ): SohlCombatant | null {
     if (!combat) return null;
     return (
-        (combat.combatants.find(
-            (c: any) => c.tokenId === token.id,
-        ) as SohlCombatant | undefined) ?? null
+        (combat.combatants.find((c: any) => c.tokenId === token.id) as
+            | SohlCombatant
+            | undefined) ?? null
     );
 }
 
@@ -182,7 +184,7 @@ function resolveAttackContext(
         }
     } else {
         // Resolve from the client's targeted tokens, keeping only combatants.
-        const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
+        const targeted = fvttGetTargetedTokens() ?? [];
         try {
             target = resolveTargetCombatant(targeted, (t) =>
                 combatantForToken(combat, t),
@@ -206,7 +208,7 @@ function resolveAttackContext(
         return null;
     }
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
+        fvttRangeToTarget(attackerToken, targetToken) ?? Infinity;
     return { attacker, target, distanceFeet };
 }
 
@@ -247,8 +249,7 @@ export function resolveCounterstrikeContext(
         return null;
     }
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(defenderToken, attackerToken) ??
-        Infinity;
+        fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
     return { attacker, distanceFeet };
 }
 
@@ -395,7 +396,10 @@ function defaultModeIndex(
     }
     return Math.max(
         0,
-        indexOfBestMastery(modes, (m) => m.strikeMode.attack.constrainedEffective),
+        indexOfBestMastery(
+            modes,
+            (m) => m.strikeMode.attack.constrainedEffective,
+        ),
     );
 }
 
@@ -465,7 +469,7 @@ export async function startAutomatedAttack(
     const defenderActor = p.target.actor as any;
     const weaponName = p.mode.itemName;
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
+        fvttRangeToTarget(attackerToken, targetToken) ?? Infinity;
 
     const aimChoices = buildAimChoices(defenderActor);
     const defaultAim = Object.keys(aimChoices)[0] ?? "";
@@ -523,16 +527,13 @@ export async function startAutomatedAttack(
     });
     if (situationalModifier) {
         attackResult.masteryLevelModifier.add(
-            VALUE_DELTA_ID.PLAYER,
+            VALUE_DELTA_INFO.PLAYER,
             situationalModifier,
         );
     }
     if (impactRangeBonus) {
         // Point-blank missile: a flat bonus to the impact formula.
-        attackResult.impact.add(
-            { name: "SOHL.INFO.Range", shortcode: "Range" },
-            impactRangeBonus,
-        );
+        attackResult.impact.add("SOHL.INFO.Range", "Range", impactRangeBonus);
     }
     await attackResult.evaluate();
 

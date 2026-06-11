@@ -25,7 +25,10 @@ import {
 import { textToFunction } from "@src/utils/helpers";
 import { fvttCurrentUser } from "@src/core/FoundryHelpers";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import {
+    resolveContextActor,
+    resolveContextItem,
+} from "@src/utils/ContextMenuEntry";
 
 /**
  * Predicate deciding whether an action is currently available. Invoked
@@ -151,7 +154,9 @@ export class SohlAction {
             let target: SohlLogic | undefined;
             let func: Function;
 
-            switch (data.scope) {
+            // Use this.data, not the raw input — the SELF default merged
+            // above must apply when the definition omits `scope`.
+            switch (this.data.scope) {
                 case SOHL_ACTION_SCOPE.SELF:
                     target = this.parent;
                     break;
@@ -164,7 +169,7 @@ export class SohlAction {
                     target = this.parent.actor?.logic as SohlLogic;
                     break;
                 default:
-                    throw new Error(`Unknown action scope: ${data.scope}`);
+                    throw new Error(`Unknown action scope: ${this.data.scope}`);
             }
 
             if (this.data.subType === ACTION_SUBTYPE.INTRINSIC) {
@@ -189,6 +194,18 @@ export class SohlAction {
 
     get shortcode(): string {
         return this.data.shortcode;
+    }
+
+    /**
+     * Serialize this action to its definition data.
+     *
+     * The runtime bindings (`parent`, the compiled `trigger`/`visible`
+     * predicates, and the bound `executor`) are reconstruction artifacts —
+     * they are rebuilt from the data by the constructor — and serializing
+     * `parent` would recurse through the owning logic's action map.
+     */
+    toJSON(): PlainObject {
+        return { ...this.data };
     }
 
     /**
@@ -369,13 +386,13 @@ function compileVisibility(
     const isScript = data.subType === ACTION_SUBTYPE.SCRIPT;
     return (element: HTMLElement): boolean => {
         try {
-            const item = SohlContextMenu.resolveItem(element);
+            const item = resolveContextItem(element);
             const visible = !!expression.evaluate({
                 element,
                 item,
             });
             if (!visible) return false;
-            const actor = SohlContextMenu.resolveActor(element) ?? item?.actor;
+            const actor = resolveContextActor(element) ?? item?.actor;
             if (isScript && !userMeetsExecutePermission(data, actor)) {
                 return false;
             }

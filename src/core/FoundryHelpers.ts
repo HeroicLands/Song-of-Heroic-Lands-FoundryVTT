@@ -14,6 +14,8 @@
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlScene } from "@src/document/scene/SohlScene";
 
 /**
  * Foundry VTT runtime shim.
@@ -136,7 +138,11 @@ export interface AwaitDialogResult {
 export function fvttMergeObject(
     original: object,
     other: object,
-    options?: { inplace?: boolean; insertKeys?: boolean; insertValues?: boolean },
+    options?: {
+        inplace?: boolean;
+        insertKeys?: boolean;
+        insertValues?: boolean;
+    },
 ): object {
     return foundry.utils.mergeObject(original, other, options) as object;
 }
@@ -154,7 +160,6 @@ export function fvttResolveUuid(uuid: string): any {
 export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return fromUuid(uuid);
 }
-
 
 // ---------------------------------------------------------------------------
 // Dice
@@ -214,7 +219,11 @@ export function fvttCallHookCancel(name: string, ...args: unknown[]): boolean {
 }
 
 /** Report an error to the Foundry hook error handler. */
-export function fvttHookOnError(source: string, error: Error, data?: object): void {
+export function fvttHookOnError(
+    source: string,
+    error: Error,
+    data?: object,
+): void {
     Hooks.onError(source as any, error, data as any);
 }
 
@@ -300,7 +309,9 @@ export function fvttApplyRollMode(data: object, mode: string): void {
 
 /** Enrich HTML content using Foundry's TextEditor. */
 export async function fvttEnrichHTML(content: string): Promise<string> {
-    return foundry.applications.ux.TextEditor.implementation.enrichHTML(content);
+    return foundry.applications.ux.TextEditor.implementation.enrichHTML(
+        content,
+    );
 }
 
 // ---------------------------------------------------------------------------
@@ -683,4 +694,90 @@ export function getContextLogic(element: HTMLElement): any {
     const found = element.closest(".logic") as any;
     if (!found) return null;
     return fromUuidSync(found.dataset.uuid);
+}
+
+// ---------------------------------------------------------------------------
+// Token targeting helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Gets the user-targeted tokens.
+ *
+ * @remarks
+ * Note that this is the **targeted** tokens, not the selected tokens.
+ *
+ * @param single - Only return a single token if true, otherwise return an array of tokens.
+ * @returns The targeted token document(s), or null if failed.
+ */
+export function fvttGetTargetedTokens(
+    single: boolean = false,
+): SohlTokenDocument[] | null {
+    let result: SohlTokenDocument[] | null = null;
+    const targetTokens: Set<Token> = ((game as any).user as User)
+        ?.targets as unknown as Set<Token>;
+
+    if (!targetTokens || targetTokens.size === 0) {
+        sohl.log.uiWarn(`No tokens targeted.`);
+    } else {
+        if (single) {
+            if (targetTokens.size > 1) {
+                sohl.log.uiWarn(
+                    `Multiple tokens targeted, please target only one token.`,
+                );
+            }
+            result = [
+                targetTokens.values().next().value!
+                    .document as SohlTokenDocument,
+            ];
+        } else {
+            result = Array.from(
+                targetTokens.map((t) => t.document),
+            ) as SohlTokenDocument[];
+        }
+    }
+    return result;
+}
+
+/**
+ * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
+ *
+ * @param sourceToken - The source token.
+ * @param targetToken - The target token.
+ * @param gridUnits=false - Whether to return in grid units.
+ * @returns {number|null} The distance, or null if not calculable.
+ */
+export function fvttRangeToTarget(
+    sourceToken: SohlTokenDocument,
+    targetToken: SohlTokenDocument,
+    gridUnits: boolean = false,
+): number | null {
+    if (!canvas.scene?.grid) {
+        sohl.log.uiWarn(`No scene active`);
+        return null;
+    }
+    if (!gridUnits && !["feet", "ft"].includes(canvas.scene.grid.units)) {
+        sohl.log.uiWarn(
+            `Scene uses units of ${canvas.scene.grid.units} but only feet are supported, distance calculation not possible`,
+        );
+        return 0;
+    }
+
+    if ((canvas.scene as unknown as SohlScene | null)?.logic?.isTotm) return 0;
+
+    const result = getCanvas().grid?.measurePath(
+        [
+            (sourceToken as any).object.center,
+            (targetToken as any).object.center,
+        ],
+        {},
+    );
+
+    if (!result) {
+        sohl.log.uiWarn(
+            `Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`,
+        );
+        return null;
+    }
+
+    return gridUnits ? result.spaces : result.distance;
 }

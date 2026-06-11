@@ -53,9 +53,10 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * Base class for all Actor documents in the SoHL system, including
  * Beings, Cohorts, Structures, Vehicles, and Assemblies.
  *
- * TODO: This file is a monolith — contains SohlActor (Document), SohlActorLogic (interface),
- * SohlActorData (interface), SohlActorBaseLogic (base class), SohlActorDataModel (base DataModel),
- * and SohlActorSheetBase (base Sheet). Should be split following the logic/foundry pattern.
+ * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
+ * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
+ * TODO: The remaining Foundry-coupled contents (SohlActor Document, SohlActorDataModel,
+ * SohlActorSheetBase) could still be split into separate files per concern.
  */
 export class SohlActor extends Actor {
     protected _speaker?: SohlSpeaker;
@@ -728,47 +729,20 @@ export class SohlActor extends Actor {
     // }
 }
 
-/**
- * Logic interface implemented by all actor logic classes — {@link SohlLogic}
- * specialized for {@link SohlActor} data.
+/*
+ * The Foundry-free logic-layer contracts (SohlActorLogic, SohlActorData,
+ * SohlActorBaseLogic) live in the logic layer; they are re-exported here so
+ * Foundry-side consumers can keep importing them from this module.
  */
-export interface SohlActorLogic<
-    TData extends SohlLogicData<SohlActor>,
-> extends SohlLogic<TData> {}
-
-/**
- * An interface representing the common data structure for all Actor types in the SoHL system.
- * @remarks The base shape of `system` on every SoHL actor; each concrete actor type's `*Data` extends it.
- */
-export interface SohlActorData<
-    TLogic extends SohlLogic<any> = SohlLogic<any>,
-> extends SohlLogicData<SohlActor, TLogic> {
-    /** The actor's display label; with `withName`, includes the actor's name. */
-    label(options?: { withName: boolean }): string;
-    /** Rich-text dossier / background notes. */
-    dossier: HTMLString;
-    /** Rich-text physical-appearance description. */
-    appearance: HTMLString;
-    /** Path to the actor's portrait image. */
-    portrait: FilePath;
-}
-
-/**
- * Base logic class for all actor types (Being, Cohort, Structure, Vehicle, Assembly).
- *
- * Provides the foundation that all actor logic classes build upon.
- * Concrete actor logic classes extend this to implement type-specific rules:
- * health tracking, anatomy modeling, passenger management, etc.
- *
- * @typeParam TData - The actor data interface, extending {@link SohlActorData}.
- */
-export class SohlActorBaseLogic<
-    TData extends SohlActorData = SohlActorData,
-> extends SohlLogic<TData> {
-    override initialize(): void {}
-    override evaluate(): void {}
-    override finalize(): void {}
-}
+export {
+    SohlActorBaseLogic,
+    type SohlActorLogic,
+    type SohlActorData,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
+import type {
+    SohlActorLogic,
+    SohlActorData,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {

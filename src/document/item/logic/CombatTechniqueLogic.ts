@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
@@ -27,7 +27,7 @@ import {
 import { SohlAction } from "@src/domain/action/SohlAction";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
-import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
+import { startAutomatedAttackFromItem } from "@src/document/actor/logic/automated-combat";
 
 /**
  * A specialized combat maneuver or fighting style not tied to a specific

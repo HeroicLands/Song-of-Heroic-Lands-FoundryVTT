@@ -27,8 +27,8 @@ import {
 } from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 
 /**
  * An instance of harm to a character.

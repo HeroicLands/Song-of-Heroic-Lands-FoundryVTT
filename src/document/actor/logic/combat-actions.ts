@@ -666,7 +666,8 @@ export function buildCombatCardData(
         atkRollResult: successLevelText(atk.successLevel),
         atkIsSuccess: atk.isSuccess,
         atkIsCritical: atk.isCritical,
-        defRollResult: defenderContested ? successLevelText(def.successLevel) : "",
+        defRollResult:
+            defenderContested ? successLevelText(def.successLevel) : "",
         defIsSuccess: defenderContested ? def.isSuccess : false,
         defIsCritical: defenderContested ? def.isCritical : false,
         resultDesc:

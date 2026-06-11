@@ -12,7 +12,7 @@
  */
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 
 /**

@@ -23,9 +23,6 @@ import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 import { ImpactModifier } from "@src/domain/modifier/ImpactModifier";
 import { ValueModifier } from "../modifier/ValueModifier";
 
-const { NumberField, StringField, SchemaField, ObjectField, BooleanField } =
-    foundry.data.fields;
-
 /**
  * Base class for all strike modes — a specific way a weapon or combat
  * technique can be used in combat.
@@ -137,6 +134,15 @@ export abstract class StrikeModeBase {
      * to produce a SchemaField suitable for use in a TypedSchemaField.
      */
     static baseSchemaFields(): foundry.data.fields.DataSchema {
+        // Lazy access: foundry globals exist only when Foundry-side code
+        // calls this; the module itself must load without them.
+        const {
+            NumberField,
+            StringField,
+            SchemaField,
+            ObjectField,
+            BooleanField,
+        } = foundry.data.fields;
         return {
             type: new StringField({
                 required: true,

@@ -20,9 +20,9 @@ import { DefendResult } from "@src/domain/result/DefendResult";
 import type { AttackResult } from "@src/domain/result/AttackResult";
 import {
     SohlActorBaseLogic,
-    SohlActorData,
-    SohlActorLogic,
-} from "@src/document/actor/foundry/SohlActor";
+    type SohlActorData,
+    type SohlActorLogic,
+} from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import type { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import type { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
@@ -50,7 +50,7 @@ import {
     resolveCounterstrikeContext,
     buildAimChoices,
     pickChoice,
-} from "@src/document/actor/foundry/automated-combat";
+} from "@src/document/actor/logic/automated-combat";
 import {
     buildCombatCardData,
     buildAttackResult,
@@ -58,7 +58,7 @@ import {
     resolveSkillMasteryLevel,
     collectBlockableStrikeModes,
     indexOfBestMastery,
-} from "@src/document/actor/foundry/combat-actions";
+} from "@src/document/actor/logic/combat-actions";
 import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
@@ -74,7 +74,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
     TEST_TYPE,
-    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
@@ -913,7 +913,7 @@ export class BeingLogic<
         });
         if (modeInput.situationalModifier) {
             counter.masteryLevelModifier.add(
-                VALUE_DELTA_ID.PLAYER,
+                VALUE_DELTA_INFO.PLAYER,
                 modeInput.situationalModifier,
             );
         }

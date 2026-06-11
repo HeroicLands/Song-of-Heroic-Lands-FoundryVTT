@@ -153,6 +153,22 @@ export function fvttGetUser(_id: string): any {
 }
 
 // ---------------------------------------------------------------------------
+// Token targeting helpers
+// ---------------------------------------------------------------------------
+
+export function fvttGetTargetedTokens(_single: boolean = false): any[] | null {
+    return null;
+}
+
+export function fvttRangeToTarget(
+    _sourceToken: any,
+    _targetToken: any,
+    _gridUnits: boolean = false,
+): number | null {
+    return null;
+}
+
+// ---------------------------------------------------------------------------
 // Chat
 // ---------------------------------------------------------------------------
 
@@ -242,6 +258,14 @@ export function getCurrentUser(): any {
 }
 
 export function getCurrentScene(): any {
+    return null;
+}
+
+export function getActiveScene(): any {
+    return null;
+}
+
+export function getActiveCombat(): any {
     return null;
 }
 

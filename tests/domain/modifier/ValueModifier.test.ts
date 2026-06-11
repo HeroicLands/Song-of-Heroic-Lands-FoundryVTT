@@ -1,6 +1,10 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ValueDelta } from "@src/domain/modifier/ValueDelta";
-import { VALUE_DELTA_OPERATOR } from "@src/utils/constants";
+import {
+    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
+    VALUE_DELTA_OPERATOR,
+} from "@src/utils/constants";
 
 const mockParent = {
     id: "test",
@@ -316,13 +320,57 @@ describe("ValueModifier", () => {
         });
     });
 
-    describe("_oper validation", () => {
-        it("passes any name/shortcode through without validation", () => {
+    describe("operator argument forms", () => {
+        // The operators dispatch by arity:
+        //   (shortcode, value)        — registry lookup, validated
+        //   (name, shortcode, value)  — explicit, ad-hoc, unvalidated
+
+        it("two-arg form resolves the display name from the registry", () => {
+            const vm = createVM({ baseValue: 40 });
+            vm.add(VALUE_DELTA_INFO.PLAYER, 10);
+            expect(vm.effective).toBe(50);
+            const delta = vm.get(VALUE_DELTA_INFO.PLAYER);
+            expect(delta).toBeDefined();
+            expect(delta!.shortcode).toBe(VALUE_DELTA_INFO.PLAYER);
+            expect(delta!.name).toBe(
+                VALUE_DELTA_ID[VALUE_DELTA_INFO.PLAYER].name,
+            );
+        });
+
+        it("two-arg form throws on an unregistered shortcode", () => {
+            const vm = createVM({ baseValue: 10 });
+            // "Size" is a real ad-hoc shortcode but is not a VALUE_DELTA_INFO
+            // member, so the convenience form rejects it.
+            expect(() => (vm as any).add("Size", 5)).toThrow(
+                /unknown value-delta shortcode/i,
+            );
+        });
+
+        it("three-arg form passes name/shortcode through without validation", () => {
             // name / shortcode are display / identity labels, not validated
             // localization keys — any value is accepted and the delta applies.
             const vm = createVM({ baseValue: 10 });
-            expect(() => vm.add("bad.name", "TST", 5)).not.toThrow();
+            expect(() => vm.add("SOHL.INFO.Reach", "Size", 5)).not.toThrow();
             expect(vm.effective).toBe(15);
+            expect(vm.get("Size")!.name).toBe("SOHL.INFO.Reach");
+        });
+
+        it("the same dispatch applies to multiply / floor / ceiling / set", () => {
+            const mul = createVM({ baseValue: 4 });
+            mul.multiply(VALUE_DELTA_INFO.OFFHAND, 2);
+            expect(mul.effective).toBe(8);
+
+            const flr = createVM({ baseValue: 3 });
+            flr.floor(VALUE_DELTA_INFO.MINVALUE, 10);
+            expect(flr.effective).toBe(10);
+
+            const cap = createVM({ baseValue: 20 });
+            cap.ceiling(VALUE_DELTA_INFO.MAXVALUE, 10);
+            expect(cap.effective).toBe(10);
+
+            const ovr = createVM({ baseValue: 100 });
+            ovr.set(VALUE_DELTA_INFO.PLAYER, 42);
+            expect(ovr.effective).toBe(42);
         });
     });
 

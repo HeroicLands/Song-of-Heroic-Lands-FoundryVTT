@@ -20,7 +20,9 @@ import {
 import { ValueDelta } from "@src/domain/modifier/ValueDelta";
 import {
     SYMBOL,
+    VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
+    type ValueDeltaInfo,
     VALUE_DELTA_OPERATOR,
     VALUE_DELTA_OPERATOR_ORDER,
     ValueDeltaOperator,
@@ -342,8 +344,10 @@ export class ValueModifier {
         } else if (op === VALUE_DELTA_OPERATOR.CUSTOM && !this.customFunction) {
             throw new TypeError("custom handler is not defined");
         }
-        // `name` / `shortcode` are passed through as-is — they are display /
-        // identity labels, not validated localization keys.
+        // `name` / `shortcode` arrive already resolved by the public
+        // operators: the `(shortcode, value)` form validates the shortcode
+        // against the registry, while the `(name, shortcode, value)` form
+        // passes both through as-is for ad-hoc deltas.
 
         shortcode ||= data.shortcode;
 
@@ -406,28 +410,62 @@ export class ValueModifier {
     }
 
     /**
-     * Add an additive (`+value`) delta.
+     * Resolve operator arguments into a `{ name, shortcode, value }` triple.
+     *
+     * Two call forms, dispatched by argument count:
+     *
+     * - **`(shortcode, value)`** — the convenience form. `shortcode` must be
+     *   a registered {@link VALUE_DELTA_INFO} value; its display name is
+     *   resolved from {@link VALUE_DELTA_ID}. Throws when the shortcode is
+     *   not registered — use the three-argument form for ad-hoc deltas.
+     * - **`(name, shortcode, value)`** — the explicit form. `name` and
+     *   `shortcode` are used verbatim, with no registry lookup or validation.
+     *
+     * @internal
+     */
+    private _resolveDeltaArgs(args: unknown[]): {
+        name: string;
+        shortcode: string;
+        value: number;
+    } {
+        if (args.length <= 2) {
+            const shortcode = args[0] as string;
+            const info = VALUE_DELTA_ID[shortcode];
+            if (!info) {
+                throw new Error(
+                    `ValueModifier: unknown value-delta shortcode "${shortcode}". ` +
+                        `Pass a registered VALUE_DELTA_INFO shortcode, or use the ` +
+                        `(name, shortcode, value) form for an ad-hoc delta.`,
+                );
+            }
+            return {
+                name: info.name,
+                shortcode: info.shortcode,
+                value: args[1] as number,
+            };
+        }
+        return {
+            name: args[0] as string,
+            shortcode: args[1] as string,
+            value: args[2] as number,
+        };
+    }
+
+    /**
+     * Add an additive (`+value`) delta. A new delta replaces any existing one
+     * with the same shortcode.
      *
      * @remarks
-     * Accepts either `(name, shortcode, value, data?)` or
-     * `({ name, shortcode }, value, data?)`. A new delta replaces any existing
-     * one with the same shortcode.
+     * Two forms: `(shortcode, value)` resolves the display name from the
+     * {@link VALUE_DELTA_INFO} registry (and throws on an unknown shortcode);
+     * `(name, shortcode, value)` supplies both explicitly for ad-hoc deltas.
      * @returns `this`, for chaining.
      */
-    add(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.ADD,
-            data,
-        );
+    add(shortcode: ValueDeltaInfo, value: number): this;
+    add(name: string, shortcode: string, value: number): this;
+    add(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.ADD);
     }
 
     /**
@@ -451,21 +489,18 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    multiply(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
+    multiply(shortcode: ValueDeltaInfo, value: number): this;
+    multiply(name: string, shortcode: string, value: number): this;
+    multiply(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.MULTIPLY,
-            data,
         );
     }
+
     /**
      * Add an `OVERRIDE` delta that replaces the value, ignoring all other
      * modifiers. Same argument forms as {@link add}.
@@ -475,19 +510,15 @@ export class ValueModifier {
      * is sticky — once set, further modifications are ignored.
      * @returns `this`, for chaining.
      */
-    set(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
+    set(shortcode: ValueDeltaInfo, value: number): this;
+    set(name: string, shortcode: string, value: number): this;
+    set(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.OVERRIDE,
-            data,
         );
     }
 
@@ -497,20 +528,11 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    floor(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            [{ name, shortcode }, value, data = {}] = args;
-        } else {
-            [name, shortcode, value, data = {}] = args;
-        }
-        return this._oper(
-            name,
-            shortcode,
-            value,
-            VALUE_DELTA_OPERATOR.UPGRADE,
-            data,
-        );
+    floor(shortcode: ValueDeltaInfo, value: number): this;
+    floor(name: string, shortcode: string, value: number): this;
+    floor(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
+        return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.UPGRADE);
     }
 
     /**
@@ -519,25 +541,15 @@ export class ValueModifier {
      *
      * @returns `this`, for chaining.
      */
-    ceiling(...args: any[]): this {
-        let name, shortcode, value, data;
-        if (typeof args[0] === "object") {
-            name = args[0].name;
-            shortcode = args[0].shortcode;
-            value = args[1];
-            data = args[2] || {};
-        } else {
-            name = args[0];
-            shortcode = args[1];
-            value = args[2];
-            data = args[3] || {};
-        }
+    ceiling(shortcode: ValueDeltaInfo, value: number): this;
+    ceiling(name: string, shortcode: string, value: number): this;
+    ceiling(...args: unknown[]): this {
+        const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
             name,
             shortcode,
             value,
             VALUE_DELTA_OPERATOR.DOWNGRADE,
-            data,
         );
     }
 

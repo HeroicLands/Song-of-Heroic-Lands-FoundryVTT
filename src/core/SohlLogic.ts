@@ -22,11 +22,16 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { instanceToJSON } from "@src/utils/helpers";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import {
+    ContextMenuEntry,
+    type ContextMenuCondition,
+    resolveContextActor,
+    resolveContextItem,
+} from "@src/utils/ContextMenuEntry";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlMap } from "@src/utils/collection/SohlMap";
-import { SohlDataModel } from "./SohlDataModel";
+import type { SohlDataModel } from "./SohlDataModel";
 
 /**
  * Abstract base class for all business logic in the SoHL system.
@@ -89,7 +94,9 @@ export abstract class SohlLogic<
                 title: "SOHL.SohlLogic.Action.postfinalize.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-gears",
-                executor: "postfinalize",
+                // Must match the postFinalize method name exactly — intrinsic
+                // executors are resolved by case-sensitive property lookup.
+                executor: "postFinalize",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
@@ -231,24 +238,23 @@ export abstract class SohlLogic<
      *
      * @returns The available context-menu entries.
      */
-    getContextOptions(): SohlContextMenu.Entry[] {
-        const entries: SohlContextMenu.Entry[] = [];
+    getContextOptions(): ContextMenuEntry[] {
+        const entries: ContextMenuEntry[] = [];
         for (const action of this.actions.values()) {
             const data = action.data;
-            const condition: SohlContextMenu.Condition = (
+            const condition: ContextMenuCondition = (
                 target: HTMLElement,
             ): boolean => action.visible(target);
             const callback = (element: HTMLElement) => {
-                const item = SohlContextMenu.resolveItem(element);
-                const actor =
-                    SohlContextMenu.resolveActor(element) ?? item?.actor;
+                const item = resolveContextItem(element);
+                const actor = resolveContextActor(element) ?? item?.actor;
                 const ctx = new SohlActionContext({
                     speaker: actor?.getSpeaker(),
                 } as any);
                 action.execute(ctx);
             };
             entries.push(
-                new SohlContextMenu.Entry({
+                new ContextMenuEntry({
                     id: data.title,
                     name: data.title,
                     iconFAClass: data.iconFAClass,

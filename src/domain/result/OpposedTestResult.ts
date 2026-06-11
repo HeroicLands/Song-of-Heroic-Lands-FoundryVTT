@@ -13,7 +13,7 @@
 
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { TestResult } from "@src/domain/result/TestResult";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,

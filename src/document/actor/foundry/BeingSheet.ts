@@ -32,7 +32,7 @@ import {
     resolveStrikeModeImpact,
     buildDamageCardData,
     type StrikeModeTestKind,
-} from "@src/document/actor/foundry/combat-actions";
+} from "@src/document/actor/logic/combat-actions";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { toFilePath } from "@src/utils/helpers";

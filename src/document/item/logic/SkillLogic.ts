@@ -16,6 +16,7 @@ import type { MysteryLogic } from "./MysteryLogic";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
+import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import { SkillBase } from "@src/domain/SkillBase";
 import {
     ACTION_SUBTYPE,
@@ -28,7 +29,8 @@ import {
 } from "@src/utils/constants";
 import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
-import { SohlItem, SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
+import type { SohlItem } from "../foundry/SohlItem";
+import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { fvttGetSetting, fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
@@ -131,6 +133,62 @@ export class SkillLogic<
      * the `optionFate` setting; disabled when fate does not apply.
      */
     fateMasteryLevel!: MasteryLevelModifier;
+
+    /**
+     * Performs a success test against this skill's mastery level.
+     *
+     * Intrinsic-action executor for the `successTest` action; delegates to
+     * {@link MasteryLevelModifier.successTest}.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The test result, `null` if cancelled, or `false` on error.
+     */
+    async successTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null | false> {
+        return this.masteryLevel.successTest(context);
+    }
+
+    /**
+     * Begins an opposed test backed by this skill's mastery level.
+     *
+     * Intrinsic-action executor for the `opposedTestStart` action; delegates
+     * to {@link MasteryLevelModifier.opposedTestStart}.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The opposed test result, or `null` if cancelled.
+     */
+    async opposedTestStart(
+        context: SohlActionContext,
+    ): Promise<OpposedTestResult | null> {
+        return this.masteryLevel.opposedTestStart(context);
+    }
+
+    /**
+     * Flags this skill for improvement via a Skill Development Roll.
+     *
+     * Intrinsic-action executor for the `setImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setImproveFlag(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.improveFlag": true };
+        await this.item.update(updateData);
+    }
+
+    /**
+     * Clears this skill's improvement flag.
+     *
+     * Intrinsic-action executor for the `unsetImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.improveFlag": false };
+        await this.item.update(updateData);
+    }
 
     /**
      * Performs a fate test for this skill, consuming a charge from an
@@ -433,7 +491,7 @@ export class SkillLogic<
                 ) {
                     this.fateMasteryLevel.setBase(50);
                     this.fateMasteryLevel.add(
-                        "AuraSecondaryModifier",
+                        VALUE_DELTA_INFO.FATEBNS,
                         Math.trunc(auraLogic.masteryLevel.effective / 2),
                     );
                 } else {
@@ -499,7 +557,7 @@ export class SkillLogic<
             // Apply magic modifiers
             if (this.magicMod) {
                 this.fateMasteryLevel.add(
-                    VALUE_DELTA_ID[VALUE_DELTA_INFO.MAGICMOD],
+                    VALUE_DELTA_INFO.MAGICMOD,
                     this.magicMod,
                 );
             }

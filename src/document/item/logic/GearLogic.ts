@@ -14,9 +14,10 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
 import { fvttGetActor } from "@src/core/FoundryHelpers";
 import {
     ACTION_SUBTYPE,
@@ -98,6 +99,32 @@ export abstract class GearLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
         ];
+    }
+
+    /**
+     * Marks this gear as carried on the character's person.
+     *
+     * Intrinsic-action executor for the `setCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": true };
+        await this.item.update(updateData);
+    }
+
+    /**
+     * Marks this gear as not carried (stowed somewhere off-person).
+     *
+     * Intrinsic-action executor for the `setNotCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setNotCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": false };
+        await this.item.update(updateData);
     }
 
     /* --------------------------------------------- */
