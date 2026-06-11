@@ -52,7 +52,7 @@ import {
  *   (untreated wounds heal slower and risk infection)
  * - **isBleeding** — Whether the wound is actively bleeding
  *
- * Trauma contributes to the character's overall {@link BeingLogic.shockState | shock state}
+ * Trauma contributes to the character's overall shock state
  * and (for physical subtype) interacts with the anatomy model (body
  * roles, body parts, body locations) to determine hit location effects.
  *

@@ -23,7 +23,7 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
  * e.g., "Head" (containing Skull, Face), "Left Arm" (containing Upper Arm,
  * Elbow, Forearm, Hand).
  *
- * Each part is tagged with one or more {@link BodyRole}s describing which
+ * Each part is tagged with one or more `BodyRole`s describing which
  * functional roles it fulfills (VITAL, CORE, MANIPULATOR, LOCOMOTOR). Skills
  * and attributes declare which roles impair them; injury at a part impairs
  * every skill/attribute that lists any of the part's roles. Mishap behavior

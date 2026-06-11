@@ -187,7 +187,7 @@ export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
  * the die results already recorded on the SimpleRoll so that Foundry can
  * display them in chat without re-rolling.
  * @param simpleRoll - The {@link SimpleRoll} to convert.
- * @returns A promise resolving to the equivalent Foundry {@link foundry.dice.Roll}.
+ * @returns A promise resolving to the equivalent Foundry `foundry.dice.Roll`.
  */
 export async function fvttToFoundryRoll(
     simpleRoll: SimpleRoll,
@@ -625,7 +625,7 @@ export function getTokenInCombat(
 /**
  * Get the active Foundry canvas.
  *
- * @returns The current {@link foundry.canvas.Canvas} instance.
+ * @returns The current `foundry.canvas.Canvas` instance.
  * @throws If the canvas is not available.
  */
 export function getCanvas(): foundry.canvas.Canvas {
@@ -638,7 +638,7 @@ export function getCanvas(): foundry.canvas.Canvas {
 /**
  * Get the active Foundry game instance.
  *
- * @returns The current {@link foundry.Game} instance.
+ * @returns The current `foundry.Game` instance.
  * @throws If the game is not available.
  */
 export function getGame(): foundry.Game {
@@ -651,7 +651,7 @@ export function getGame(): foundry.Game {
 /**
  * Get the current user.
  *
- * @returns The current {@link User}.
+ * @returns The current `User`.
  * @throws If the user is not available.
  */
 export function getCurrentUser(): User {
@@ -664,7 +664,7 @@ export function getCurrentUser(): User {
 /**
  * Get the scene currently shown on the canvas.
  *
- * @returns The current {@link Scene}.
+ * @returns The current `Scene`.
  * @throws If no scene is available on the canvas.
  * @remarks Unlike {@link getActiveScene}, this returns the scene presently
  *   displayed on the canvas rather than the world's active scene.
@@ -682,7 +682,7 @@ export function getCurrentScene(): Scene {
  *
  * Unlike {@link getCurrentScene} (the scene presently shown on the canvas),
  * this returns `game.scenes.active` and never throws.
- * @returns The active {@link Scene}, or `null` if none is active.
+ * @returns The active `Scene`, or `null` if none is active.
  */
 export function getActiveScene(): Scene | null {
     if (!(game instanceof foundry.Game)) return null;
@@ -692,7 +692,7 @@ export function getActiveScene(): Scene | null {
 /**
  * The currently active combat encounter (`game.combat`), or `null` when the
  * game is unavailable or no combat is active. Never throws.
- * @returns The active {@link Combat}, or `null` if none is active.
+ * @returns The active `Combat`, or `null` if none is active.
  */
 export function getActiveCombat(): Combat | null {
     if (!(game instanceof foundry.Game)) return null;

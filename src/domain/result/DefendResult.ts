@@ -24,7 +24,7 @@ import { SuccessTestResult } from "./SuccessTestResult";
  *
  * ## Key properties
  *
- * - {@link situationalModifier} — player-entered modifier from the
+ * - `situationalModifier` — player-entered modifier from the
  *   defense dialog.
  *
  * ## Evaluation

@@ -33,12 +33,12 @@ import {
  * (compiled to a predicate) and whose `callback` may be omitted in favour of a
  * named logic method (`functionName`). The constructor normalizes those entries
  * into the function-based shape Foundry expects, and the class adds custom
- * positioning ({@link _setPosition}) plus static helpers for resolving the
+ * positioning (`_setPosition`) plus static helpers for resolving the
  * triggering item/actor from the DOM.
  *
  * @remarks
  * The Foundry-free entry shape, condition compilation, and DOM resolution
- * helpers live in {@link import("./ContextMenuEntry")} so the logic layer can
+ * helpers live in `import` so the logic layer can
  * use them without loading this Foundry-coupled UI class. The static helpers
  * and namespace members here delegate to (and re-export) that module.
  */

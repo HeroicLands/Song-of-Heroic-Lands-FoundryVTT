@@ -616,7 +616,7 @@ function checkScriptSafety(script: string): void {
  *
  * @remarks
  * Parameter names must be plain identifiers (so default-value expressions cannot
- * be smuggled in), and the body is screened by {@link checkScriptSafety}. A body
+ * be smuggled in), and the body is screened by `checkScriptSafety`. A body
  * that does not begin with a statement keyword is wrapped in `return (...)` so
  * expression bodies work; the function always runs in strict mode.
  *
@@ -1110,7 +1110,7 @@ export function deserializeFn(serialized: string): (...args: any[]) => any {
 }
 
 /**
- * Type guard narrowing `value` to a Foundry {@link DocumentId} (16 alphanumeric chars).
+ * Type guard narrowing `value` to a Foundry `DocumentId` (16 alphanumeric chars).
  * @param value - The value to test.
  * @returns `true` if `value` is a 16-character alphanumeric id.
  */
@@ -1119,10 +1119,10 @@ export function isDocumentId(value: unknown): value is DocumentId {
 }
 
 /**
- * Assert that `value` is a valid Foundry document id and brand it as {@link DocumentId}.
+ * Assert that `value` is a valid Foundry document id and brand it as `DocumentId`.
  *
  * @param value - The string to validate and brand.
- * @returns The same string branded as a {@link DocumentId}.
+ * @returns The same string branded as a `DocumentId`.
  * @throws TypeError if `value` is not a 16-character alphanumeric id.
  */
 export function toDocumentId(value: string): DocumentId {
@@ -1210,13 +1210,13 @@ const MasteryLevelKinds = [
 
 /**
  * Type guard narrowing a {@link SohlItem} to a mastery-level item (mystical
- * ability, skill, or trait), exposing its {@link MasteryLevelData} system data.
+ * ability, skill, or trait), exposing its `MasteryLevelData` system data.
  *
  * @param item - The item to test.
  * @returns `true` if `item` is a mastery-level item kind.
  */
 export function isMasteryItem(item: SohlItem): item is SohlItem & {
-    /** Narrowed {@link MasteryLevelData} system data. */
+    /** Narrowed `MasteryLevelData` system data. */
     system: MasteryLevelData;
 } {
     return MasteryLevelKinds.includes(item.type);

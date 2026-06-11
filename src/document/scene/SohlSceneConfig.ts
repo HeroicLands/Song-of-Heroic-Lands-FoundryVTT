@@ -58,7 +58,7 @@ function buildTabs(): Record<string, any> {
 
 /**
  * Sohl-owned Scene configuration sheet. Extends Foundry's default
- * {@link foundry.applications.sheets.SceneConfig} with a single extra tab
+ * `foundry.applications.sheets.SceneConfig` with a single extra tab
  * that exposes scene-scoped Sohl settings (currently just the Theatre of
  * the Mind toggle).
  *

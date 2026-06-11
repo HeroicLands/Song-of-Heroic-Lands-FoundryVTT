@@ -39,7 +39,7 @@ function isAvailable(option: MeleeReachOption): boolean {
 
 /**
  * An actor's melee reach: the greatest reach among its currently *available*
- * melee strike modes (see {@link isAvailable}). Returns 0 when no melee mode
+ * melee strike modes (see `isAvailable`). Returns 0 when no melee mode
  * is available.
  *
  * @param options - The candidate melee strike modes to consider.

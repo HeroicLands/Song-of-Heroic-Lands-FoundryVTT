@@ -2384,7 +2384,7 @@ export interface DefinedType<KMap extends Record<string, unknown>> {
  * - The `const` type parameter preserves the literal keys and values, so the
  *   value union is exact (not widened to `string`).
  * - `labels` produces *localization keys*, not display text — resolve them
- *   through {@link SohlLocalize} when rendering.
+ *   through `SohlLocalize` when rendering.
  * - The returned `Type` member is a compile-time-only phantom; prefer the
  *   `(typeof KIND)[keyof typeof KIND]` form shown above for naming the union.
  *

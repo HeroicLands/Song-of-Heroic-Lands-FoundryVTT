@@ -21,7 +21,7 @@ import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 
 /**
  * The Foundry-free context-menu primitives shared by the logic layer and the
- * {@link import("./SohlContextMenu").SohlContextMenu} UI control.
+ * `SohlContextMenu` UI control.
  *
  * Logic classes build {@link ContextMenuEntry} lists describing their
  * available actions; the Foundry-side `SohlContextMenu` (which extends

@@ -22,20 +22,20 @@ import type { SohlScene } from "@src/document/scene/SohlScene";
  *
  * Unlike Actor/Item logic, scenes do not participate in the phase-batched
  * initialize/evaluate/finalize lifecycle, so this is a plain class rather
- * than a {@link import("@src/core/SohlLogic").SohlLogic} subclass.
+ * than a `SohlLogic` subclass.
  */
 export class SohlSceneLogic {
     private readonly _data: SohlSceneDataModel;
 
     /**
      * Creates scene logic bound to the given scene data model.
-     * @param data - The scene's backing {@link SohlSceneDataModel} (`system`).
+     * @param data - The scene's backing `SohlSceneDataModel` (`system`).
      */
     constructor(data: SohlSceneDataModel) {
         this._data = data;
     }
 
-    /** The backing {@link SohlSceneDataModel} (the scene's `system`). */
+    /** The backing `SohlSceneDataModel` (the scene's `system`). */
     get data(): SohlSceneDataModel {
         return this._data;
     }
@@ -48,7 +48,7 @@ export class SohlSceneLogic {
     /**
      * Whether this scene is being run as Theatre of the Mind — a narrative,
      * non-tactical scene. When enabled, tactical distances between tokens
-     * are abstracted to zero by {@link import("@src/document/token/SohlTokenDocument").SohlTokenDocument.getRangeTo}.
+     * are abstracted to zero by `SohlTokenDocument.getRangeTo`.
      */
     get isTotm(): boolean {
         return this._data.isTotm;

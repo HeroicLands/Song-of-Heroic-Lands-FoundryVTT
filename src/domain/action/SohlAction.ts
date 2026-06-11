@@ -34,13 +34,13 @@ import {
  * Predicate deciding whether an action is currently available. Invoked
  * programmatically with the owning `item` and `actor`; returns `true` when
  * the action may run/appear. Compiled from `data.trigger` by
- * {@link compileTrigger}.
+ * `compileTrigger`.
  */
 export type ActionTriggerFn = (item?: SohlItem, actor?: SohlActor) => boolean;
 /**
  * Predicate deciding whether an action's UI entry (e.g. a context-menu
  * item) is shown for a given DOM element. Compiled from `data.visible` by
- * {@link compileVisibility}, composing the visibility source with execute
+ * `compileVisibility`, composing the visibility source with execute
  * permission and {@link ActionTriggerFn}.
  */
 export type ActionVisibilityFn = (element: HTMLElement) => boolean;
@@ -218,7 +218,7 @@ export class SohlAction {
      * @param actionContext - The context in which to execute the action, including any additional data.
      * @returns The result of the function call.
      * @throws If execution returns a Thenable (e.g., Promise), which is unsupported.
-     * @see {@link Action.execute} for the asynchronous version of this method.
+     * @see {@link execute} for the asynchronous version of this method.
      */
     executeSync(actionContext: SohlActionContext): unknown {
         if (this.data.isAsync) {

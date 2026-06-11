@@ -12,7 +12,7 @@
  */
 
 /**
- * A {@link foundry.data.fields.StringField} that validates its value is a
+ * A `foundry.data.fields.StringField` that validates its value is a
  * well-formed URL.
  */
 export class URLField extends foundry.data.fields.StringField {

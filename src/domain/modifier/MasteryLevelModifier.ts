@@ -171,7 +171,7 @@ const STANDARD_SUCCESS_DESCRIPTION_TABLE: SuccessTestResult.LimitedDescription[]
  *
  * ## Lifecycle
  *
- * Created during {@link MasteryLevelLogic.initialize} with a base from
+ * Created during the owning logic's `initialize` phase with a base from
  * the persisted mastery level. Deltas are added during evaluate/finalize
  * (e.g., injury penalties, equipment bonuses, situational modifiers from
  * the test dialog). Rebuilt each preparation cycle like all ValueModifiers.

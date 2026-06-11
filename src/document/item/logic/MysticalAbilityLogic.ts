@@ -38,8 +38,8 @@ import { SohlAction } from "@src/domain/action/SohlAction";
  * Each ability is linked to an **associated skill** (via shortcode) that
  * governs its activation test, and to a mystery that
  * determines its mystical tradition. Abilities track a **level** (power),
- * **charges** (uses remaining), and inherit mastery level progression from
- * {@link MasteryLevelLogic}.
+ * **charges** (uses remaining), and track mastery level progression via
+ * {@link MasteryLevelModifier}.
  *
  * Supported subtypes:
  * - Shamanic Rite: Perform a shamanic rite on target(s)

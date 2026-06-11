@@ -139,7 +139,7 @@ const MAX_TRIGGER_DEPTH = 16;
  *    infinite-loop case. `fireAt > _processingFireAt` (cascading) is
  *    allowed.
  * 2. **Depth counter:** re-entrant `fire(...)` for the same trigger name
- *    is capped at {@link MAX_TRIGGER_DEPTH}. Beyond that, the call is
+ *    is capped at `MAX_TRIGGER_DEPTH`. Beyond that, the call is
  *    aborted with an error.
  *
  * ## Predicate error policy

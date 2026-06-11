@@ -92,8 +92,8 @@ const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
  * against a target number, with modifiers from traits, gear, conditions,
  * and situational factors.
  *
- * Inherits mastery level progression, fate integration, and SDR improvement
- * from {@link MasteryLevelLogic}.
+ * Mastery level progression, fate integration, and SDR improvement are built
+ * on {@link MasteryLevelModifier}.
  *
  * @typeParam TData - The Skill data interface.
  */
@@ -110,7 +110,7 @@ export class SkillLogic<
     /**
      * The number of mastery-level boosts applied to this skill. Each boost
      * raises the base mastery level by an amount that diminishes at higher
-     * levels (see {@link calcMasteryBoost}).
+     * levels (see `calcMasteryBoost`).
      */
     boosts!: number;
 

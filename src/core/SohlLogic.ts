@@ -38,7 +38,7 @@ import type { SohlDataModel } from "./SohlDataModel";
  *
  * Every actor type and item type has a corresponding Logic class that extends
  * `SohlLogic`. Logic classes are responsible for game rules, calculations, and
- * actions — separated from data persistence ({@link SohlDataModel}) and UI
+ * actions — separated from data persistence (`SohlDataModel`) and UI
  * presentation (Sheet classes).
  *
  * Logic instances are created automatically by the data model's `create()` factory
@@ -386,7 +386,7 @@ function setDefaultAction(actions: SohlAction[]): SohlAction[] {
  *
  * Every actor/item data interface (e.g., {@link SohlItemData},
  * {@link SohlActorData}, {@link GearData}) ultimately extends this.
- * The corresponding {@link SohlDataModel} class implements it via
+ * The corresponding `SohlDataModel` class implements it via
  * Foundry's schema system.
  * @remarks The base shape of every document's `system` data, reachable as `document.system` and (typed as the interface) `document.logic.data`.
  */
@@ -402,6 +402,6 @@ export interface SohlLogicData<
     kind: string;
     /** Short identity code for this document. */
     shortcode: string;
-    /** Serialized action definitions used to build {@link SohlLogic.actions}. */
+    /** Serialized action definitions used to build the logic's `actions` map. */
     actionDefs: SohlAction.Data[];
 }

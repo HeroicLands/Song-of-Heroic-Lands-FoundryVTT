@@ -61,7 +61,7 @@ export class SohlLocalize {
 
     /**
      * Return the shared singleton instance, creating it on first access.
-     * @returns The {@link SohlLocalize} singleton.
+     * @returns The `SohlLocalize` singleton.
      */
     static getInstance(): SohlLocalize {
         if (!SohlLocalize.instance) {
@@ -473,5 +473,5 @@ export class SohlLocalize {
     }
 }
 
-/** Shared {@link SohlLocalize} singleton for localization throughout the system. */
+/** Shared `SohlLocalize` singleton for localization throughout the system. */
 export const i18n = SohlLocalize.getInstance();

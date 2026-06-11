@@ -124,7 +124,7 @@ export abstract class SohlDataModel<
      *
      * This is actually defined in the superclass (TypeDataModel), but TypeScript
      * doesn't recognize that, so we have to define it here as well.
-     * @see {@link foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES}
+     * @see `foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES`
      */
     static override readonly LOCALIZATION_PREFIXES: string[];
     static readonly kind: string = "" as const;

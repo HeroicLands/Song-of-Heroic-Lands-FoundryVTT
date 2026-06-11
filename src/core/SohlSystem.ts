@@ -138,7 +138,7 @@ import {
     STATUS_EFFECT,
 } from "@src/utils/constants";
 
-/** Map of actor kind → its {@link SohlDataModel} constructor. */
+/** Map of actor kind → its `SohlDataModel` constructor. */
 export type ActorDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlActor, any>>
@@ -205,7 +205,7 @@ export const {
     [ACTOR_KIND.VEHICLE]: VehicleSheet as any,
 } as StrictObject<Constructor<SohlActorSheetBase>>);
 
-/** Map of item kind → its {@link SohlDataModel} constructor. */
+/** Map of item kind → its `SohlDataModel` constructor. */
 export type ItemDMMap = Record<
     string,
     Constructor<SohlDataModel<any, SohlItem, any>>

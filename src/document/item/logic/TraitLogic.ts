@@ -37,7 +37,7 @@ import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
  * formulas for skills, contribute to derived values like health and
  * encumbrance, and serve as prerequisites for abilities and actions.
  *
- * Inherits mastery level progression from {@link MasteryLevelLogic}.
+ * Mastery level progression is built on {@link MasteryLevelModifier}.
  *
  * @typeParam TData - The Trait data interface.
  */
