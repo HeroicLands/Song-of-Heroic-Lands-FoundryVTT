@@ -84,11 +84,11 @@ export class SohlCombatant<
     }
 
     /**
-     * The id of this combatant's `CombatantGroup`, or `null` when ungrouped.
+     * The id of this combatant's {@link CombatantGroup}, or `null` when ungrouped.
      *
      * @remarks
      * `_source.group` is the canonical stored id. Core's `_prepareGroup()`
-     * reassigns the derived `this.group` to the resolved `CombatantGroup`
+     * reassigns the derived `this.group` to the resolved {@link CombatantGroup}
      * document when it resolves, but leaves it as the raw id (or null)
      * otherwise — so reading `_source` avoids that heterogeneity.
      */
@@ -103,7 +103,7 @@ export class SohlCombatant<
 
     /**
      * An array of combatants which are considered allies of this combatant:
-     * the other combatants sharing this one's (non-null) `CombatantGroup`.
+     * the other combatants sharing this one's (non-null) {@link CombatantGroup}.
      * The inverse of {@link isEnemyOf}.
      */
     get allies(): SohlCombatant[] {
@@ -118,7 +118,7 @@ export class SohlCombatant<
 
     /**
      * Pure relational predicate: two combatants are enemies iff they belong to
-     * different `CombatantGroup`s. A combatant is never its own enemy, and an
+     * different {@link CombatantGroup}s. A combatant is never its own enemy, and an
      * absent group on either side is treated defensively as enemy.
      *
      * Reads only already-loaded combatant fields — no Foundry API calls.

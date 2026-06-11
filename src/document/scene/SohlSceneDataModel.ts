@@ -15,7 +15,7 @@ import type { SohlScene } from "@src/document/scene/SohlScene";
 import { SohlSceneLogic } from "@src/document/scene/SohlSceneLogic";
 
 /**
- * Builds the data schema for the SoHL `Scene` data model, currently just the
+ * Builds the data schema for the SoHL {@link Scene} data model, currently just the
  * Theatre of the Mind (`isTotm`) toggle.
  * @returns The Foundry data schema for the scene.
  */
@@ -33,7 +33,7 @@ function defineSohlSceneDataSchema(): foundry.data.fields.DataSchema {
 type SohlSceneDataSchema = ReturnType<typeof defineSohlSceneDataSchema>;
 
 /**
- * The single data model registered for the Foundry `Scene` document in the
+ * The single data model registered for the Foundry {@link Scene} document in the
  * SoHL system. Scene has no user-facing subtypes, so this is the only model
  * and lives under the `base` type.
  * @internal

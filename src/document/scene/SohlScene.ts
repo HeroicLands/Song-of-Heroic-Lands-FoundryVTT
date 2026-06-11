@@ -19,7 +19,7 @@ import type { SohlSceneLogic } from "@src/document/scene/SohlSceneLogic";
  * state via {@link logic} (mirroring `SohlActor.logic` / `SohlItem.logic`)
  * rather than reaching into the underlying DataModel by hand.
  *
- * Foundry's `Scene` is a non-generic document (no subtypes), so this class
+ * Foundry's {@link Scene} is a non-generic document (no subtypes), so this class
  * is non-generic as well.
  */
 export class SohlScene extends Scene {
