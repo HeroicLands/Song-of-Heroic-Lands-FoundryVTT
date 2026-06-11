@@ -20,6 +20,11 @@ import {
 import { ITEM_KIND } from "@src/utils/constants";
 const { NumberField, ObjectField } = foundry.data.fields;
 
+/**
+ * Builds the Foundry data schema for weapon gear, extending the gear schema
+ * with weapon-specific fields (encumbrance and strike modes).
+ * @returns The weapon gear data schema.
+ */
 function defineWeaponGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -54,6 +59,10 @@ export class WeaponGearDataModel<
         return this.strikeModes;
     }
 
+    /**
+     * Returns the Foundry data schema for the weapon gear item.
+     * @returns The weapon gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineWeaponGearSchema();
     }

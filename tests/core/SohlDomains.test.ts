@@ -41,7 +41,7 @@ function makeEntry(overrides: Partial<DomainEntry> = {}): DomainEntry {
         shortcode: "sohl.test.entry",
         label: "Test Entry",
         family: DOMAIN_FAMILY.ARCANE,
-        iconFAClass: "fas fa-circle",
+        iconFAClass: "sohl-circle",
         img: "",
         description: "A test entry",
         sort: 0,
@@ -150,12 +150,12 @@ describe("SohlDomains", () => {
             await SohlDomains.register(
                 makeEntry({
                     shortcode: "sohl.test.alpha",
-                    iconFAClass: "fas fa-fire",
+                    iconFAClass: "sohl-fire",
                     img: "systems/sohl/assets/icons/fire.webp",
                 }),
             );
             const got = SohlDomains.get("sohl.test.alpha");
-            expect(got?.iconFAClass).toBe("fas fa-fire");
+            expect(got?.iconFAClass).toBe("sohl-fire");
             expect(got?.img).toBe("systems/sohl/assets/icons/fire.webp");
         });
 
@@ -279,9 +279,9 @@ describe("SohlDomains", () => {
         it("returns only entries matching the requested family", () => {
             const arcane = SohlDomains.getByFamily(DOMAIN_FAMILY.ARCANE);
             expect(arcane).toHaveLength(2);
-            expect(
-                arcane.every((e) => e.family === DOMAIN_FAMILY.ARCANE),
-            ).toBe(true);
+            expect(arcane.every((e) => e.family === DOMAIN_FAMILY.ARCANE)).toBe(
+                true,
+            );
         });
 
         it("sorts entries by sort, then by label", () => {

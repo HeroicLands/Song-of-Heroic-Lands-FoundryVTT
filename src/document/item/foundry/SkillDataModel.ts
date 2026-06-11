@@ -28,6 +28,13 @@ import { SohlItemDataModel } from "./SohlItem";
 const { ArrayField, NumberField, StringField, BooleanField } =
     foundry.data.fields;
 
+/**
+ * Builds the Skill data schema, extending the base item schema with skill
+ * subtype, mastery/base formula fields, combat category, parent skill link,
+ * initiative multiplier, and injury-impairment roles.
+ *
+ * @returns The Skill data schema.
+ */
 function defineSkillSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -91,6 +98,11 @@ export class SkillDataModel<
     initSkillMult!: number;
     impairedByRoles!: string[];
 
+    /**
+     * Returns the Skill data schema.
+     *
+     * @returns The Skill data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSkillSchema();
     }

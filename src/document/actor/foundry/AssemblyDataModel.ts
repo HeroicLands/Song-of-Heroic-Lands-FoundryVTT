@@ -16,6 +16,10 @@ import { ACTOR_KIND } from "@src/utils/constants";
 import type { AssemblyData } from "@src/document/actor/logic/AssemblyLogic";
 import { AssemblyLogic } from "@src/document/actor/logic/AssemblyLogic";
 
+/**
+ * Builds the Assembly data schema, which is identical to the base actor schema.
+ * @returns The Assembly data schema.
+ */
 function defineAssemblyDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
@@ -45,6 +49,10 @@ export class AssemblyDataModel<
     ];
     static override readonly kind = ACTOR_KIND.ASSEMBLY;
 
+    /**
+     * Defines the Assembly data schema.
+     * @returns The Assembly data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAssemblyDataSchema();
     }

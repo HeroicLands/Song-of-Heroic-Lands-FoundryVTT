@@ -27,6 +27,11 @@ import {
 const { NumberField, StringField, SchemaField, BooleanField } =
     foundry.data.fields;
 
+/**
+ * Builds the Projectile Gear data schema (sub-type and impact-base fields)
+ * on top of the base gear schema.
+ * @returns The Projectile Gear data schema.
+ */
 function defineProjectileGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -91,6 +96,10 @@ export class ProjectileGearDataModel<
         aspect: ImpactAspect;
     };
 
+    /**
+     * Defines the Projectile Gear data schema.
+     * @returns The Projectile Gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineProjectileGearSchema();
     }

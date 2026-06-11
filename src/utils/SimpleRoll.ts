@@ -56,7 +56,7 @@ export class SimpleRoll {
     }
 
     /**
-     * @summary Roll the dice randomly.
+     * Roll the dice randomly.
      * @remarks
      * If roll has already been made, this method will return the total without rolling again.
      * @returns The total of the rolls plus the modifier.
@@ -91,7 +91,7 @@ export class SimpleRoll {
     }
 
     /**
-     * @summary Returns the statistical median roll. Result is an integer.
+     * Returns the statistical median roll. Result is an integer.
      *
      * @returns {number} an integer representing the median impact
      */
@@ -188,7 +188,6 @@ export class SimpleRoll {
             rolls: [],
         });
     }
-
 }
 
 export namespace SimpleRoll {

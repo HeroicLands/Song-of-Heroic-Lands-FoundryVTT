@@ -22,10 +22,7 @@ import { ITEM_KIND, KIND_KEY } from "@src/utils/constants";
 type MasteryLevelData = MysticalAbilityData | SkillData | TraitData;
 import { SohlMap } from "@src/utils/collection/SohlMap";
 import { fvttMergeObject, fvttResolveUuid } from "@src/core/FoundryHelpers";
-import {
-    getKindForCtor,
-    getCtorForKind,
-} from "@src/utils/kindRegistry";
+import { getKindForCtor, getCtorForKind } from "@src/utils/kindRegistry";
 
 /**
  * A value permitted in a SoHL world/client setting: a JSON-like scalar
@@ -41,7 +38,7 @@ export type SohlSettingValue =
     | SohlSettingValue[];
 
 /**
- * @summary Get a static property from a class instance.
+ * Get a static property from a class instance.
  * @remarks
  * This function retrieves a static property from the class of the
  * given instance. It traverses the prototype chain to find the property
@@ -82,7 +79,8 @@ export function getStatic<T extends object>(instance: T, key: string): any {
  * Convert an integer into a roman numeral.  Taken from:
  * http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
  *
- * @param {Integer} num
+ * @param num - The integer to convert.
+ * @returns The roman-numeral representation of `num`.
  */
 export function romanize(num: number): string {
     if (isNaN(num)) return NaN as any;
@@ -209,8 +207,8 @@ export function* combine<T>(...iterators: Iterable<T>[]): Generator<T> {
 }
 
 /**
- * @summary Hashes a string into a 53-bit integer.
- * @description
+ * Hashes a string into a 53-bit integer.
+ *
  * A fast and simple 53-bit string hash function with decent collision resistance.
  *
  * @remarks
@@ -274,10 +272,7 @@ export function createUniqueName<
         /** The base name to make unique. */
         name: string;
     },
->(
-    baseName: string,
-    siblings: Map<string, T>,
-): string {
+>(baseName: string, siblings: Map<string, T>): string {
     if (!baseName) {
         throw new Error("Must provide baseName");
     }
@@ -292,6 +287,7 @@ export function createUniqueName<
 /** Error thrown when a value fails HTML validation. */
 export class InvalidHtmlError extends Error {
     /**
+     * Create an error describing an HTML validation failure.
      * @param message - Description of the validation failure.
      */
     constructor(message: string) {
@@ -300,47 +296,83 @@ export class InvalidHtmlError extends Error {
     }
 }
 
-/** Type guard narrowing `value` to `string`. */
+/**
+ * Type guard narrowing `value` to `string`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a string.
+ */
 export function isString(value: unknown): value is string {
     return typeof value === "string";
 }
 
-/** Type guard narrowing `value` to a non-`NaN` `number`. */
+/**
+ * Type guard narrowing `value` to a non-`NaN` `number`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a number and not `NaN`.
+ */
 export function isNumber(value: unknown): value is number {
     return typeof value === "number" && !Number.isNaN(value);
 }
 
-/** Type guard narrowing `value` to `boolean`. */
+/**
+ * Type guard narrowing `value` to `boolean`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a boolean.
+ */
 export function isBoolean(value: unknown): value is boolean {
     return typeof value === "boolean";
 }
 
-/** Type guard narrowing `value` to a callable `Function`. */
+/**
+ * Type guard narrowing `value` to a callable `Function`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a function.
+ */
 export function isFunction(value: unknown): value is Function {
     return typeof value === "function";
 }
 
-/** Type guard narrowing `value` to a non-null `object`. */
+/**
+ * Type guard narrowing `value` to a non-null `object`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a non-null object.
+ */
 export function isObject(value: unknown): value is object {
     return typeof value === "object" && value !== null;
 }
 
-/** Type guard narrowing `value` to `undefined`. */
+/**
+ * Type guard narrowing `value` to `undefined`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is `undefined`.
+ */
 export function isUndefined(value: unknown): value is undefined {
     return typeof value === "undefined";
 }
 
-/** Type guard narrowing `value` to `null`. */
+/**
+ * Type guard narrowing `value` to `null`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is `null`.
+ */
 export function isNull(value: unknown): value is null {
     return value === null;
 }
 
-/** Type guard narrowing `value` to `symbol`. */
+/**
+ * Type guard narrowing `value` to `symbol`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a symbol.
+ */
 export function isSymbol(value: unknown): value is symbol {
     return typeof value === "symbol";
 }
 
-/** Type guard narrowing `value` to `bigint`. */
+/**
+ * Type guard narrowing `value` to `bigint`.
+ * @param value - The value to test.
+ * @returns `true` if `value` is a bigint.
+ */
 export function isBigInt(value: unknown): value is bigint {
     return typeof value === "bigint";
 }
@@ -369,7 +401,11 @@ export type FilePath = string & {
 export const FILE_PATH_REGEX =
     /^(file:\/\/\/?|[a-zA-Z]:[\\/]|[\\/])?[^<>:"|?*\n\r]+(?:[\\/][^<>:"|?*\n\r]+)*$/;
 
-/** Type guard narrowing `value` to a {@link FilePath} via {@link FILE_PATH_REGEX}. */
+/**
+ * Type guard narrowing `value` to a {@link FilePath} via {@link FILE_PATH_REGEX}.
+ * @param value - The string to test.
+ * @returns `true` if `value` matches {@link FILE_PATH_REGEX}.
+ */
 export function isFilePath(value: string): value is FilePath {
     return FILE_PATH_REGEX.test(value);
 }
@@ -377,6 +413,8 @@ export function isFilePath(value: string): value is FilePath {
 /**
  * Assert that `value` is a valid file path and brand it as {@link FilePath}.
  *
+ * @param value - The string to validate and brand.
+ * @returns The same string branded as a {@link FilePath}.
  * @throws Error if `value` does not match {@link FILE_PATH_REGEX}.
  */
 export function toFilePath(value: string): FilePath {
@@ -393,6 +431,9 @@ export type HTMLString = string & {
 /**
  * Type guard narrowing `value` to {@link HTMLString}. Returns `true` only if
  * `value` is a string that, when parsed, contains at least one element node.
+ *
+ * @param value - The value to test.
+ * @returns `true` if `value` is a string that parses to at least one element node.
  */
 export function isHTMLString(value: unknown): value is HTMLString {
     if (typeof value !== "string") return false;
@@ -413,6 +454,8 @@ export function isHTMLString(value: unknown): value is HTMLString {
 /**
  * Assert that `value` is valid HTML markup and brand it as {@link HTMLString}.
  *
+ * @param value - The string to validate and brand.
+ * @returns The same string branded as an {@link HTMLString}.
  * @throws Error if `value` is not recognized as HTML by {@link isHTMLString}.
  */
 export function toHTMLString(value: string): HTMLString {
@@ -529,6 +572,9 @@ const VALID_PARAM = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
  * scan doesn't false-positive on flagged words appearing inside strings or
  * comments (e.g. `"window-shopping"` or `// uses fetch`). Replacements keep
  * the original character positions roughly aligned.
+ *
+ * @param script - The script source to strip.
+ * @returns The script with comments and string-literal contents removed.
  */
 function stripStringsAndComments(script: string): string {
     return script
@@ -543,6 +589,7 @@ function stripStringsAndComments(script: string): string {
  * Validate a script source against the disallowed-keyword and disallowed-pattern
  * lists, throwing if any sandbox-escape vector is detected.
  *
+ * @param script - The script source to validate.
  * @throws Error if a disallowed keyword or pattern is present.
  * @internal
  */
@@ -558,9 +605,7 @@ function checkScriptSafety(script: string): void {
     }
     for (const [pattern, label] of DISALLOWED_PATTERNS) {
         if (pattern.test(script)) {
-            throw new Error(
-                `Disallowed pattern detected in script: ${label}`,
-            );
+            throw new Error(`Disallowed pattern detected in script: ${label}`);
         }
     }
 }
@@ -571,7 +616,7 @@ function checkScriptSafety(script: string): void {
  *
  * @remarks
  * Parameter names must be plain identifiers (so default-value expressions cannot
- * be smuggled in), and the body is screened by {@link checkScriptSafety}. A body
+ * be smuggled in), and the body is screened by `checkScriptSafety`. A body
  * that does not begin with a statement keyword is wrapped in `return (...)` so
  * expression bodies work; the function always runs in strict mode.
  *
@@ -603,9 +648,9 @@ export function textToFunction(
     // recognised as a statement block.
     const bodyForCheck = stripStringsAndComments(body).trim();
     const compiled = `"use strict";\n${
-        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ?
-            body
-        :   `return (${body});`
+        /^(return|{|if|for|while|switch|try)\b/.test(bodyForCheck) ? body : (
+            `return (${body});`
+        )
     }`;
     return isAsync ?
             new AsyncFunction(...args, compiled)
@@ -657,8 +702,8 @@ export function hashToId(input: string): string {
  * bottom-up and the owning logic supplied through `ctx.parent`.
  *
  * @param value - The parsed JSON value to revive.
- * @param ctx - Reconstruction context; `ctx.parent` becomes the owning logic for
- *   any revived registered instances.
+ * @param ctx - Reconstruction context.
+ * @param ctx.parent - The owning logic for any revived registered instances.
  * @returns The revived value.
  */
 export function defaultFromJSON(
@@ -758,6 +803,7 @@ export function defaultFromJSON(
  * @param data - The serialized instance (JSON string or parsed object).
  * @param parent - The logic to own the reconstructed instance and its nested
  *   modifiers/results.
+ * @returns The reconstructed live instance.
  */
 export function instanceFromJSON<T>(
     data: PlainObject | string,
@@ -887,6 +933,9 @@ export function defaultToJSON(value: any): JsonValue | undefined {
  * Serialize an object instance to a plain JSON-safe object.
  * Strips leading underscores from property names, skips functions,
  * and includes a `__kind` field for type identification.
+ *
+ * @param instance - The object instance to serialize.
+ * @returns A plain JSON-safe object representing the instance.
  */
 export function instanceToJSON(instance: object): PlainObject {
     const result: PlainObject = {};
@@ -929,6 +978,12 @@ export function instanceToJSON(instance: object): PlainObject {
  * The owning logic (`parent`) defaults to the source's own parent, so
  * `modifier.clone()` reuses the same owner. `data` overrides are merged before
  * reviving.
+ *
+ * @typeParam T - The expected cloned type.
+ * @param instance - The instance to deep-copy.
+ * @param data - Field overrides merged into the serialized data before reviving.
+ * @param options - Reconstruction options; `options.parent` overrides the owning logic.
+ * @returns The deep-copied instance.
  */
 export function cloneInstance<T>(
     instance: object,
@@ -967,6 +1022,12 @@ export function cloneInstance<T>(
  * @throws Error if the function's source form is unsupported.
  */
 export function serializeFn(fn: (...args: any[]) => any): string {
+    /**
+     * Strip the surrounding parentheses from an arrow function's parameter
+     * source, leaving a bare comma-separated parameter list.
+     * @param paramSrc - The raw parameter source text.
+     * @returns The parameter list without enclosing parentheses.
+     */
     function normalizeArrowParams(paramSrc: string): string {
         const s = paramSrc.trim();
         if (s.startsWith("(") && s.endsWith(")")) {
@@ -1022,6 +1083,10 @@ export function serializeFn(fn: (...args: any[]) => any): string {
  * Deserialize a serialized function string in the format:
  *   "__func__:[arg1,arg2,...]body"
  * back into a live Function object.
+ *
+ * @param serialized - The serialized function string to revive.
+ * @returns The reconstructed function.
+ * @throws Error if the string is not a well-formed serialized function.
  */
 export function deserializeFn(serialized: string): (...args: any[]) => any {
     if (!serialized.startsWith("__func__:"))
@@ -1044,14 +1109,20 @@ export function deserializeFn(serialized: string): (...args: any[]) => any {
     }
 }
 
-/** Type guard narrowing `value` to a Foundry {@link DocumentId} (16 alphanumeric chars). */
+/**
+ * Type guard narrowing `value` to a Foundry `DocumentId` (16 alphanumeric chars).
+ * @param value - The value to test.
+ * @returns `true` if `value` is a 16-character alphanumeric id.
+ */
 export function isDocumentId(value: unknown): value is DocumentId {
     return typeof value === "string" && /^[a-zA-Z0-9]{16}$/.test(value);
 }
 
 /**
- * Assert that `value` is a valid Foundry document id and brand it as {@link DocumentId}.
+ * Assert that `value` is a valid Foundry document id and brand it as `DocumentId`.
  *
+ * @param value - The string to validate and brand.
+ * @returns The same string branded as a `DocumentId`.
  * @throws TypeError if `value` is not a 16-character alphanumeric id.
  */
 export function toDocumentId(value: string): DocumentId {
@@ -1070,7 +1141,11 @@ export type DocumentUuid = string & {
 const uuidRegex =
     /^(?:[A-Z][a-zA-Z]+)\.[a-zA-Z0-9]{16}$|^Compendium\.[a-z0-9-_]+\.[A-Z][a-zA-Z]+\.[a-zA-Z0-9]{16}$/;
 
-/** Type guard narrowing `value` to a {@link DocumentUuid}. */
+/**
+ * Type guard narrowing `value` to a {@link DocumentUuid}.
+ * @param value - The value to test.
+ * @returns `true` if `value` matches the document-UUID format.
+ */
 export function isDocumentUuid(value: unknown): value is DocumentUuid {
     return typeof value === "string" && uuidRegex.test(value);
 }
@@ -1078,6 +1153,8 @@ export function isDocumentUuid(value: unknown): value is DocumentUuid {
 /**
  * Assert that `value` is a valid document UUID and brand it as {@link DocumentUuid}.
  *
+ * @param value - The string to validate and brand.
+ * @returns The same string branded as a {@link DocumentUuid}.
  * @throws TypeError if `value` does not match the document-UUID format.
  */
 export function toDocumentUuid(value: string): DocumentUuid {
@@ -1114,10 +1191,11 @@ const GearKinds = [
  * Type guard narrowing a {@link SohlItem} to one of the gear item kinds (armor,
  * concoction, container, misc, projectile, or weapon), exposing its
  * {@link GearData} system data.
+ *
+ * @param item - The item to test.
+ * @returns `true` if `item` is a gear item kind.
  */
-export function isGearItem(
-    item: SohlItem,
-): item is SohlItem & {
+export function isGearItem(item: SohlItem): item is SohlItem & {
     /** Narrowed {@link GearData} system data. */
     system: GearData;
 } {
@@ -1132,12 +1210,13 @@ const MasteryLevelKinds = [
 
 /**
  * Type guard narrowing a {@link SohlItem} to a mastery-level item (mystical
- * ability, skill, or trait), exposing its {@link MasteryLevelData} system data.
+ * ability, skill, or trait), exposing its `MasteryLevelData` system data.
+ *
+ * @param item - The item to test.
+ * @returns `true` if `item` is a mastery-level item kind.
  */
-export function isMasteryItem(
-    item: SohlItem,
-): item is SohlItem & {
-    /** Narrowed {@link MasteryLevelData} system data. */
+export function isMasteryItem(item: SohlItem): item is SohlItem & {
+    /** Narrowed `MasteryLevelData` system data. */
     system: MasteryLevelData;
 } {
     return MasteryLevelKinds.includes(item.type);
@@ -1159,6 +1238,7 @@ const ItemSubTypeKinds = [
  *
  * @param item - The item to test.
  * @param subType - When given, the item's `system.subType` must equal this value.
+ * @returns `true` if `item` carries a `subType` field (and matches `subType` when supplied).
  */
 export function isItemWithSubType(
     item: SohlItem,

@@ -20,6 +20,12 @@ import { ImpactAspects, ITEM_KIND } from "@src/utils/constants";
 const { StringField, SchemaField, ArrayField, NumberField } =
     foundry.data.fields;
 
+/**
+ * Builds the data schema for the Armor Gear item, extending the base gear
+ * schema with armor-specific fields (material, covered locations, per-aspect
+ * protection, encumbrance, etc.).
+ * @returns The Foundry data schema for the armor gear.
+ */
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
@@ -65,6 +71,10 @@ export class ArmorGearDataModel<
     };
     encumbrance!: number;
 
+    /**
+     * Returns the Foundry data schema for the armor gear item.
+     * @returns The armor gear data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineArmorGearSchema();
     }

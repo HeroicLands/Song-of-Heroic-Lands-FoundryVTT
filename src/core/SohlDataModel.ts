@@ -15,7 +15,7 @@ import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { SohlActionData } from "@src/domain/action/SohlAction";
+import type { SohlAction } from "@src/domain/action/SohlAction";
 import {
     DialogButtonCallback,
     inputDialog,
@@ -53,6 +53,11 @@ const {
     JavaScriptField,
 } = foundry.data.fields;
 
+/**
+ * Builds the Foundry data schema shared by every SoHL data model (shortcode,
+ * documentation URL, and the array of action definitions).
+ * @returns The shared SoHL data schema.
+ */
 function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     return {
         shortcode: new StringField({
@@ -77,7 +82,7 @@ function defineSohlDataSchema(): foundry.data.fields.DataSchema {
                 trigger: new JavaScriptField({ initial: "true" }),
                 visible: new JavaScriptField({ initial: "true" }),
                 iconFAClass: new StringField({
-                    initial: "fas fa-question-circle",
+                    initial: "sohl-uncertainty",
                 }),
                 group: new StringField({
                     choices: SohlContextMenuSortGroups,
@@ -119,18 +124,32 @@ export abstract class SohlDataModel<
      *
      * This is actually defined in the superclass (TypeDataModel), but TypeScript
      * doesn't recognize that, so we have to define it here as well.
-     * @see {@link foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES}
+     * @see `foundry.abstract.TypeDataModel.LOCALIZATION_PREFIXES`
      */
     static override readonly LOCALIZATION_PREFIXES: string[];
     static readonly kind: string = "" as const;
     protected _logic!: TLogic;
     shortcode!: string;
-    actionDefs!: SohlActionData[];
+    actionDefs!: SohlAction.Data[];
 
+    /**
+     * Construct the data model, forwarding the source data and options to the
+     * Foundry `TypeDataModel` base.
+     * @param data - The source data for the data model.
+     * @param options - Foundry data model construction options.
+     */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         super(data as any, options as any);
     }
 
+    /**
+     * Construct the Logic instance for this data model's {@link kind}, looking
+     * up the registered logic constructor in the common actor/item registries.
+     * @param data - The source data for the Logic.
+     * @param options - Logic construction options (e.g. `parent`).
+     * @returns The newly created Logic instance.
+     * @throws If no logic constructor is registered for the kind.
+     */
     static create<L extends SohlLogic<any>>(
         data: PlainObject,
         options: PlainObject,
@@ -147,6 +166,7 @@ export abstract class SohlDataModel<
         return new logicCtor(data, options) as L;
     }
 
+    /** The Logic instance for this data model, created lazily on first access. */
     get logic(): TLogic {
         if (!this._logic) {
             this._logic = (this.constructor as any).create(
@@ -157,6 +177,7 @@ export abstract class SohlDataModel<
         return this._logic;
     }
 
+    /** This data model's kind identifier, read from its constructor. */
     get kind(): string {
         const kind: string = (this.constructor as any).kind;
         if (!kind) {
@@ -165,6 +186,15 @@ export abstract class SohlDataModel<
         return kind;
     }
 
+    /**
+     * Reconstruct a data model instance from serialized data, resolving the
+     * concrete data model class from the data's {@link KIND_KEY} and restoring
+     * any JSON-normalized field values.
+     * @param data - The serialized data (object or JSON string) including a kind key.
+     * @param options - Data model construction options.
+     * @returns The reconstructed data model instance.
+     * @throws If the data has no kind key or no data model is registered for it.
+     */
     static fromData<TDataModel extends Constructor<SohlDataModel<any, any>>>(
         data: any,
         options: PlainObject = {},
@@ -225,6 +255,13 @@ export namespace SohlDataModel {
         > = SohlDataModel;
     }
 
+    /**
+     * Mixin that adds SoHL's shared sheet behavior (drag-and-drop, context
+     * menus, effect handling, and array/object field editors) on top of a
+     * Handlebars document sheet base class.
+     * @param Base - The document sheet base class to extend.
+     * @returns A subclass of `Base` with the shared SoHL sheet behavior.
+     */
     export function SheetMixin<
         TDocument extends SohlDocument,
         TBase extends foundry.applications.api.DocumentSheetV2.AnyConstructor,
@@ -235,6 +272,11 @@ export namespace SohlDataModel {
             };
             protected _dragDrop: DragDrop[];
 
+            /**
+             * Construct the sheet and wire up its drag-and-drop handlers.
+             * @param document - The document this sheet renders.
+             * @param options - Application render/configuration options.
+             */
             constructor(document: TDocument, options: PlainObject = {}) {
                 // The HandlebarsApplicationMixin constructor typing is incompatible with
                 // our generic signature; suppress the type-check here and forward args.
@@ -243,16 +285,26 @@ export namespace SohlDataModel {
                 this._dragDrop = this._createDragDropHandlers();
             }
 
+            /** The document this sheet renders, narrowed to its concrete type. */
             override get document(): TDocument {
                 return super.document as TDocument;
             }
 
+            /**
+             * Configure the options used for a render pass, delegating to the base class.
+             * @param options - The render options to configure.
+             */
             protected override _configureRenderOptions(
                 options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
             ): void {
                 super._configureRenderOptions(options);
             }
 
+            /**
+             * Build the drag-and-drop handlers from the sheet's `dragDrop`
+             * options, binding their permission and callback hooks to this sheet.
+             * @returns The configured drag-and-drop handlers.
+             */
             protected _createDragDropHandlers(): DragDrop[] {
                 return (
                     (this.options as any).dragDrop?.map((d: PlainObject) => {
@@ -290,13 +342,23 @@ export namespace SohlDataModel {
                 return this.isEditable;
             }
 
+            /** The actor this sheet relates to: the document itself if it is an actor, otherwise its owning actor (or `null`). */
             get actor(): SohlActor | null {
                 return ActorKinds.includes(this.document.type) ?
                         (this.document as SohlActor)
                     :   this.document.actor || null;
             }
 
-            protected override async _prepareContext(options: any): Promise<PlainObject> {
+            /**
+             * Prepare the template render context, augmenting the base context
+             * with system config, ownership flags, the related actor, document
+             * data, and the set of transferred (incoming) active effects.
+             * @param options - The render options for this pass.
+             * @returns The prepared render context.
+             */
+            protected override async _prepareContext(
+                options: any,
+            ): Promise<PlainObject> {
                 const data: PlainObject = await super._prepareContext(options);
                 data.config = sohl.CONFIG;
                 data.owner = !!this.document.isOwner;
@@ -343,6 +405,14 @@ export namespace SohlDataModel {
                 this._dragDrop.forEach((d: DragDrop) => d.bind(this.element));
             }
 
+            /**
+             * Filter the sheet's item list against a search query, hiding
+             * non-matching items and collapsing categories with no matches.
+             * @param event - The keyboard event that triggered the filter.
+             * @param query - The current search query text.
+             * @param rgx - The regular expression compiled from the query.
+             * @param element - The container element holding the items and categories.
+             */
             protected _onSearchFilter(
                 event: KeyboardEvent,
                 query: string,
@@ -380,6 +450,10 @@ export namespace SohlDataModel {
                 }
             }
 
+            /**
+             * Attach SoHL context menus to the sheet's item and effect rows.
+             * @param element - The sheet root element to bind the menus to.
+             */
             protected _contextMenu(element: HTMLElement): void {
                 new SohlContextMenu(element, ".item", [], {
                     onOpen: this._onItemContextMenuOpen.bind(this),
@@ -397,6 +471,12 @@ export namespace SohlDataModel {
                 });
             }
 
+            /**
+             * Populate the active context menu with the options for the item
+             * (or action) under the opened menu's row.
+             * @param element - The element the context menu was opened on.
+             * @returns An empty array; the menu items are set on the UI context as a side effect.
+             */
             protected _onItemContextMenuOpen(
                 element: HTMLElement,
             ): SohlContextMenu.Entry[] {
@@ -426,6 +506,11 @@ export namespace SohlDataModel {
                 return [];
             }
 
+            /**
+             * Populate the active context menu with the options for the active
+             * effect under the opened menu's row.
+             * @param element - The element the context menu was opened on.
+             */
             protected _onEffectContextMenuOpen(element: HTMLElement): void {
                 let ele = element.closest("[data-effect-id]") as HTMLElement;
                 if (!ele) return;
@@ -448,8 +533,7 @@ export namespace SohlDataModel {
             protected static _getContextOptions(
                 doc: SohlDocument,
             ): SohlContextMenu.Entry[] {
-                let result =
-                    doc.getContextOptions() as SohlContextMenu.Entry[];
+                let result = doc.getContextOptions() as SohlContextMenu.Entry[];
                 if (!result || !result.length) return [];
 
                 result = result.filter(
@@ -467,6 +551,11 @@ export namespace SohlDataModel {
                 return result;
             }
 
+            /**
+             * Toggle the enabled state of the active effect for the clicked row.
+             * @param event - The pointer event that triggered the toggle.
+             * @param target - The clicked element within the effect row.
+             */
             protected static _onEffectToggle(
                 event: PointerEvent,
                 target: HTMLElement,
@@ -479,6 +568,11 @@ export namespace SohlDataModel {
                 effect?.toggleEnabledState();
             }
 
+            /**
+             * Create a new active effect on the document, picking a unique
+             * default name and origin.
+             * @throws If the document does not expose a `createEffect` method.
+             */
             protected async _onEffectCreate(): Promise<void> {
                 const createEffect = (this.document as any)
                     .createEffect as Function;
@@ -578,11 +672,23 @@ export namespace SohlDataModel {
                 }
             }
 
+            /**
+             * Handle an active effect dropped onto the sheet.
+             * @param event - The originating drop event.
+             * @param droppedEffect - The active effect that was dropped.
+             */
             protected async _onDropActiveEffect(
                 event: DragEvent,
                 droppedEffect: SohlActiveEffect,
             ): Promise<void> {}
 
+            /**
+             * Handle an actor dropped onto the sheet. When an Assembly actor is
+             * dropped onto a non-Assembly actor sheet, its items are unpacked
+             * onto the target actor (nesting preserved).
+             * @param _event - The originating drop event.
+             * @param droppedActor - The actor that was dropped.
+             */
             protected async _onDropActor(
                 _event: DragEvent,
                 droppedActor: SohlActor,
@@ -601,16 +707,33 @@ export namespace SohlDataModel {
                 if (sourceItems.length === 0) return;
             }
 
+            /**
+             * Handle a folder dropped onto the sheet.
+             * @param event - The originating drop event.
+             * @param droppedFolder - The folder that was dropped.
+             */
             protected async _onDropFolder(
                 event: DragEvent,
                 droppedFolder: Folder,
             ): Promise<void> {}
 
+            /**
+             * Handle an item dropped onto the sheet.
+             * @param event - The originating drop event.
+             * @param droppedItem - The item that was dropped.
+             */
             protected async _onDropItem(
                 event: DragEvent,
                 droppedItem: SohlItem,
             ): Promise<void> {}
 
+            /**
+             * Prompt for a primitive (string or number) value via a dialog and
+             * append it to the array field named in the trigger element's dataset.
+             * @param event - The pointer event whose target carries the array dataset.
+             * @param options - Behavior options for the add operation.
+             * @param options.allowDuplicates - When `false`, skip values already present in the array.
+             */
             protected async _addPrimitiveArrayItem(
                 event: PointerEvent,
                 { allowDuplicates = false } = {},
@@ -692,7 +815,14 @@ export namespace SohlDataModel {
                 if (result) this.render();
             }
 
-            protected async _addChoiceArrayItem(event: PointerEvent): Promise<void> {
+            /**
+             * Prompt the user to pick from a set of choices and append the
+             * chosen value to the array field named in the trigger's dataset.
+             * @param event - The pointer event whose target carries the choices and array dataset.
+             */
+            protected async _addChoiceArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.choices || !dataset.array) return;
                 let array: string[] = (
@@ -749,7 +879,14 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            protected async _addAimArrayItem(event: PointerEvent): Promise<void> {
+            /**
+             * Prompt for an aim entry (name and probability weight) and append
+             * it to the array field named in the trigger's dataset.
+             * @param event - The pointer event whose target carries the aim and array dataset.
+             */
+            protected async _addAimArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.aim || !dataset.array) return;
                 let array: { name: string; probWeightBase: number }[] = (
@@ -817,7 +954,15 @@ export namespace SohlDataModel {
                 await (this.document as SohlDocument).update(updateData);
             }
 
-            protected async _addValueDescArrayItem(event: PointerEvent): Promise<void> {
+            /**
+             * Prompt for a value-description entry (label and max value) and
+             * append it (sorted by max value) to the array field named in the
+             * trigger's dataset.
+             * @param event - The pointer event whose target carries the valueDesc and array dataset.
+             */
+            protected async _addValueDescArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.valueDesc || !dataset.array) return;
                 let array: { label: string; maxValue: number }[] = (
@@ -891,6 +1036,12 @@ export namespace SohlDataModel {
                 this.render();
             }
 
+            /**
+             * Dispatch an "add array item" action to the appropriate handler
+             * based on the trigger's dataset (aim, value description, choice, or
+             * primitive), after saving any pending sheet edits.
+             * @param event - The pointer event whose target carries the array item dataset.
+             */
             protected async _addArrayItem(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 await (this as any)._onSubmit(event); // Submit any unsaved changes
@@ -911,7 +1062,14 @@ export namespace SohlDataModel {
                 this.render();
             }
 
-            protected async _deleteArrayItem(event: PointerEvent): Promise<void> {
+            /**
+             * Remove the value identified by the trigger's dataset from its
+             * array field, after saving any pending sheet edits.
+             * @param event - The pointer event whose target carries the array and value dataset.
+             */
+            protected async _deleteArrayItem(
+                event: PointerEvent,
+            ): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.array) return;
                 await (this as any)._onSubmit(event); // Submit any unsaved changes
@@ -926,6 +1084,12 @@ export namespace SohlDataModel {
                 if (result) this.render();
             }
 
+            /**
+             * Prompt for a key/value pair via a dialog and add it to the object
+             * field named in the trigger's dataset, coercing the value to a
+             * number or boolean where appropriate.
+             * @param event - The pointer event whose target carries the object dataset.
+             */
             protected async _addObjectKey(event: PointerEvent): Promise<void> {
                 const dataset = (event.currentTarget as HTMLElement).dataset;
                 if (!dataset.object) return;

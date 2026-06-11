@@ -27,10 +27,7 @@
 
 /** Any constructor that accepts `(data, options)` — the shape every
  * serializable domain class shares. */
-export type KindConstructor = new (
-    data?: any,
-    options?: any,
-) => object;
+export type KindConstructor = new (data?: any, options?: any) => object;
 
 const kindToCtor = new Map<string, KindConstructor>();
 const ctorToKind = new Map<Function, string>();
@@ -38,18 +35,28 @@ const ctorToKind = new Map<Function, string>();
 /**
  * Register a class under its kind tag. Idempotent; a later registration for
  * the same kind replaces the earlier one (last definition wins).
+ * @param kind - The kind tag to register the class under.
+ * @param ctor - The constructor to associate with the kind tag.
  */
 export function registerKind(kind: string, ctor: KindConstructor): void {
     kindToCtor.set(kind, ctor);
     ctorToKind.set(ctor, kind);
 }
 
-/** The kind tag a class was registered under, or `undefined` if unregistered. */
+/**
+ * The kind tag a class was registered under, or `undefined` if unregistered.
+ * @param ctor - The constructor to look up.
+ * @returns The registered kind tag, or `undefined` if the class is unregistered.
+ */
 export function getKindForCtor(ctor: Function): string | undefined {
     return ctorToKind.get(ctor);
 }
 
-/** The constructor registered for a kind tag, or `undefined` if unknown. */
+/**
+ * The constructor registered for a kind tag, or `undefined` if unknown.
+ * @param kind - The kind tag to look up.
+ * @returns The registered constructor, or `undefined` if the kind is unknown.
+ */
 export function getCtorForKind(kind: string): KindConstructor | undefined {
     return kindToCtor.get(kind);
 }

@@ -13,9 +13,9 @@
 
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-    SohlItemLogic,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+    type SohlItemLogic,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 import { BodyStructure } from "@src/domain/body/BodyStructure";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { MoveBaseDict } from "@src/domain/movement/move-helpers";

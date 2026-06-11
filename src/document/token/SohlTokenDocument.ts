@@ -11,8 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getCanvas } from "@src/core/FoundryHelpers";
-import type { SohlScene } from "@src/document/scene/SohlScene";
+import {
+    getCanvas,
+    fvttGetTargetedTokens,
+    fvttRangeToTarget,
+} from "@src/core/FoundryHelpers";
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.
@@ -23,6 +26,8 @@ export class SohlTokenDocument extends TokenDocument {
      *
      * @remarks
      * Note that this is the **targeted** tokens, not the selected tokens.
+     * Delegates to the {@link fvttGetTargetedTokens} shim so that
+     * Foundry-free callers can use the same implementation.
      *
      * @param single - Only return a single token if true, otherwise return an array of tokens.
      * @returns The targeted token document(s), or null if failed.
@@ -30,27 +35,7 @@ export class SohlTokenDocument extends TokenDocument {
     static getTargetedTokens(
         single: boolean = false,
     ): SohlTokenDocument[] | null {
-        let result: SohlTokenDocument[] | null = null;
-        const targetTokens: Set<Token> = ((game as any).user as User)
-            ?.targets as unknown as Set<Token>;
-
-        if (!targetTokens || targetTokens.size === 0) {
-            sohl.log.uiWarn(`No tokens targeted.`);
-        } else {
-            if (single) {
-                if (targetTokens.size > 1) {
-                    sohl.log.uiWarn(
-                        `Multiple tokens targeted, please target only one token.`,
-                    );
-                }
-                result = [targetTokens.values().next().value!.document];
-            } else {
-                result = Array.from(
-                    targetTokens.map((t) => t.document),
-                ) as SohlTokenDocument[];
-            }
-        }
-        return result;
+        return fvttGetTargetedTokens(single);
     }
 
     /**
@@ -91,9 +76,13 @@ export class SohlTokenDocument extends TokenDocument {
     /**
      * Calculates the distance from sourceToken to targetToken in "scene" units (e.g., feet).
      *
+     * @remarks
+     * Delegates to the {@link fvttRangeToTarget} shim so that Foundry-free
+     * callers can use the same implementation.
+     *
      * @param sourceToken - The source token.
      * @param targetToken - The target token.
-     * @param gridUnits=false - Whether to return in grid units.
+     * @param gridUnits - Whether to return in grid units; defaults to false.
      * @returns {number|null} The distance, or null if not calculable.
      */
     static rangeToTarget(
@@ -101,35 +90,6 @@ export class SohlTokenDocument extends TokenDocument {
         targetToken: SohlTokenDocument,
         gridUnits: boolean = false,
     ): number | null {
-        if (!canvas.scene?.grid) {
-            sohl.log.uiWarn(`No scene active`);
-            return null;
-        }
-        if (!gridUnits && !["feet", "ft"].includes(canvas.scene.grid.units)) {
-            sohl.log.uiWarn(
-                `Scene uses units of ${canvas.scene.grid.units} but only feet are supported, distance calculation not possible`,
-            );
-            return 0;
-        }
-
-        if ((canvas.scene as unknown as SohlScene | null)?.logic?.isTotm)
-            return 0;
-
-        const result = getCanvas().grid?.measurePath(
-            [
-                (sourceToken as any).object.center,
-                (targetToken as any).object.center,
-            ],
-            {},
-        );
-
-        if (!result) {
-            sohl.log.uiWarn(
-                `Could not calculate distance from ${sourceToken.id} to ${targetToken.id}`,
-            );
-            return null;
-        }
-
-        return gridUnits ? result.spaces : result.distance;
+        return fvttRangeToTarget(sourceToken, targetToken, gridUnits);
     }
 }

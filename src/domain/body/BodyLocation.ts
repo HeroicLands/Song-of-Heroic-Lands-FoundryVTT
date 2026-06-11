@@ -90,6 +90,9 @@ export class BodyLocation {
     readonly index: number;
 
     /**
+     * Builds a single armor body location from its persisted data, binding it to
+     * its owning body part and resolving the lineage logic that supplies defaults.
+     *
      * @param data Persisted location data.
      * @param bodyPart Owning body part (supplies the lineage logic parent).
      * @param index Zero-based position within {@link BodyPart.locations}.

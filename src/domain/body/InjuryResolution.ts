@@ -111,6 +111,8 @@ export interface ResolvedInjury {
  * Per the SoHL injury rules:
  *   ≤0 → none (0) · 1–4 → M1 (1) · 5–9 → S2 (2) · 10–14 → S3 (3) ·
  *   15–19 → G4 (4) · 20+ → G5 (5)
+ * @param effectiveImpact - Impact remaining after armor reduction.
+ * @returns The numeric injury level (0–5).
  */
 export function injuryLevelFromImpact(effectiveImpact: number): number {
     if (effectiveImpact <= 0) return 0;
@@ -124,6 +126,8 @@ export function injuryLevelFromImpact(effectiveImpact: number): number {
 /**
  * Resolve the hit location: an explicit override wins; otherwise an aimed
  * (targetPart + spread) roll; otherwise a pure weighted random selection.
+ * @param input - The injury input describing the blow and target body.
+ * @returns The resolved body location.
  */
 function resolveLocation(input: InjuryInput): BodyLocation {
     if (input.location) return input.location;
@@ -144,6 +148,8 @@ function resolveLocation(input: InjuryInput): BodyLocation {
  * {@link BodyLocation.protectionBase}, and the rule helpers in
  * {@link "@src/domain/body/InjuryDefaults"}. Consumed by both the assisted
  * Add Injury flow and automated combat's Calculate Injury step.
+ * @param input - The blow parameters (impact, aspect, target body, overrides).
+ * @returns The fully resolved injury.
  */
 export function resolveInjury(input: InjuryInput): ResolvedInjury {
     const location = resolveLocation(input);
@@ -191,12 +197,12 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
     // table has no entries for M1/S2.
     const severity: InjurySeverity | null =
         level >= 3 ? (levelCode as InjurySeverity) : null;
-    const tableBleeder = severity
-        ? isBleeder(location.bleedingSusceptibility, severity, aspect)
-        : false;
-    const amputates = severity
-        ? canAmputate(location.amputability, severity, aspect)
-        : false;
+    const tableBleeder =
+        severity ?
+            isBleeder(location.bleedingSusceptibility, severity, aspect)
+        :   false;
+    const amputates =
+        severity ? canAmputate(location.amputability, severity, aspect) : false;
 
     return {
         location,
@@ -215,9 +221,8 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
         stumble: disposition(location.isStumble),
         fumble: disposition(location.isFumble),
         canAmputate: amputates,
-        amputationModifier: amputates
-            ? amputationModifier(location.amputability)
-            : null,
+        amputationModifier:
+            amputates ? amputationModifier(location.amputability) : null,
     };
 }
 
@@ -228,6 +233,8 @@ export function resolveInjury(input: InjuryInput): ResolvedInjury {
  *
  * `healingRateBase` starts at 0: Healing Rate (1–6) is established by
  * treatment, not at the moment of wounding.
+ * @param injury - The resolved injury to convert.
+ * @returns Partial Trauma item `system` data.
  */
 export function buildTraumaData(injury: ResolvedInjury): Partial<TraumaData> {
     return {

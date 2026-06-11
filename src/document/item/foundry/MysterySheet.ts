@@ -27,6 +27,13 @@ export class MysterySheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Augments the render context for the mystery properties tab with the
+     * mystery's system fields (subtype, domain, base level, charges).
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The render context augmented with mystery property data.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

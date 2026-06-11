@@ -17,7 +17,8 @@ import { ValueModifier } from "../modifier/ValueModifier";
  * Select a random item from an array, weighted by each item's `probWeight`
  * property. Items with higher weights are proportionally more likely to
  * be selected.
- *
+ * @param items - Candidate items, each carrying a `probWeight` modifier.
+ * @returns The randomly selected item.
  * @throws {Error} If the array is empty or all weights are zero.
  */
 export function weightedRandom<
@@ -25,9 +26,7 @@ export function weightedRandom<
         /** Relative selection weight (its effective value is used). */
         probWeight: ValueModifier;
     },
->(
-    items: T[],
-): T {
+>(items: T[]): T {
     const totalWeight = items.reduce(
         (sum, item) => sum + item.probWeight.effective,
         0,

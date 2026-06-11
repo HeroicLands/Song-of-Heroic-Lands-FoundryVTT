@@ -14,9 +14,11 @@
 import {
     inputDialog,
     getActiveCombat,
+    fvttGetTargetedTokens,
+    fvttRangeToTarget,
     type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import {
     buildAttackResult,
     buildAttackCardData,
@@ -27,14 +29,14 @@ import {
     firstStatusIn,
     ATTACK_BLOCKING_STATUSES,
     type AttackableStrikeMode,
-} from "@src/document/actor/foundry/combat-actions";
+} from "@src/document/actor/logic/combat-actions";
 import { toFilePath, toHTMLString } from "@src/utils/helpers";
 import { resolveActionInput } from "@src/utils/actionInput";
 import {
     ITEM_KIND,
     STATUS_EFFECT,
     TEST_TYPE,
-    VALUE_DELTA_ID,
+    VALUE_DELTA_INFO,
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
@@ -94,20 +96,29 @@ export interface StartAutomatedAttackParams {
     context: SohlActionContext<any>;
 }
 
-/** The given combat's combatant for `token`, or `null`. */
+/**
+ * The given combat's combatant for `token`, or `null`.
+ * @param combat - The combat to search, or `null`.
+ * @param token - The token whose combatant to find.
+ * @returns The matching combatant, or `null`.
+ */
 function combatantForToken(
     combat: ReturnType<typeof getActiveCombat>,
     token: SohlTokenDocument,
 ): SohlCombatant | null {
     if (!combat) return null;
     return (
-        (combat.combatants.find(
-            (c: any) => c.tokenId === token.id,
-        ) as SohlCombatant | undefined) ?? null
+        (combat.combatants.find((c: any) => c.tokenId === token.id) as
+            | SohlCombatant
+            | undefined) ?? null
     );
 }
 
-/** The active combat's combatant for `token`, or `null`. */
+/**
+ * The active combat's combatant for `token`, or `null`.
+ * @param token - The token whose combatant to find.
+ * @returns The matching combatant in the active combat, or `null`.
+ */
 export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
     return combatantForToken(getActiveCombat(), token);
 }
@@ -116,6 +127,8 @@ export function findCombatant(token: SohlTokenDocument): SohlCombatant | null {
  * A combatant's active status-effect ids, treating Foundry's DEFEATED special
  * status as the `vanquished` status so the combat invariants can test it
  * uniformly alongside the actor's own statuses.
+ * @param combatant - The combatant whose statuses to collect.
+ * @returns The set of active status-effect ids.
  */
 function combatantStatuses(combatant: SohlCombatant): Set<string> {
     const ids = new Set<string>(
@@ -135,6 +148,9 @@ function combatantStatuses(combatant: SohlCombatant): Set<string> {
  * `context.scope.targetCombatant` (a combatant id) when supplied; otherwise it
  * is resolved from the client's targeted tokens — exactly one of which must be a
  * combatant of the current combat (see {@link resolveTargetCombatant}).
+ * @param actor - The attacking actor.
+ * @param context - The action context (supplies the speaker token and scope).
+ * @returns The resolved attack context, or `null` when it cannot be formed.
  */
 function resolveAttackContext(
     actor: any,
@@ -182,7 +198,7 @@ function resolveAttackContext(
         }
     } else {
         // Resolve from the client's targeted tokens, keeping only combatants.
-        const targeted = SohlTokenDocument.getTargetedTokens() ?? [];
+        const targeted = fvttGetTargetedTokens() ?? [];
         try {
             target = resolveTargetCombatant(targeted, (t) =>
                 combatantForToken(combat, t),
@@ -206,7 +222,7 @@ function resolveAttackContext(
         return null;
     }
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
+        fvttRangeToTarget(attackerToken, targetToken) ?? Infinity;
     return { attacker, target, distanceFeet };
 }
 
@@ -226,6 +242,9 @@ export interface CounterstrikeContext {
  * attack snapshot's speaker token; the distance is measured from the
  * counterstriking `defender` to them. Returns `null` (with a UI warning) when
  * either combatant's token is unavailable or the attacker is no longer in combat.
+ * @param attackResult - The original attack snapshot (supplies the attacker's speaker token).
+ * @param defender - The counterstriking defender, or `null`.
+ * @returns The counterstrike context, or `null` when it cannot be formed.
  */
 export function resolveCounterstrikeContext(
     attackResult: AttackResult,
@@ -247,14 +266,15 @@ export function resolveCounterstrikeContext(
         return null;
     }
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(defenderToken, attackerToken) ??
-        Infinity;
+        fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
     return { attacker, distanceFeet };
 }
 
 /**
  * Build the Aim select options (a `{ shortcode: label }` map) from the
  * defender's body parts. Empty when the defender has no lineage / body structure.
+ * @param defenderActor - The actor being aimed at.
+ * @returns A map of body-part shortcode to display label.
  */
 export function buildAimChoices(defenderActor: any): Record<string, string> {
     const lineageLogic = defenderActor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0]
@@ -267,7 +287,12 @@ export function buildAimChoices(defenderActor: any): Record<string, string> {
     return choices;
 }
 
-/** Render `<option>` HTML for a `{ value: label }` map (raw-content dialogs). */
+/**
+ * Render `<option>` HTML for a `{ value: label }` map (raw-content dialogs).
+ * @param choices - The `{ value: label }` map to render.
+ * @param selected - The value to mark as selected.
+ * @returns The concatenated `<option>` HTML.
+ */
 function renderOptions(
     choices: Record<string, string>,
     selected: string,
@@ -286,6 +311,10 @@ function renderOptions(
 /**
  * Show the attack dialog (Aim + Additional Modifier) and resolve to the chosen
  * inputs, or `null` if dismissed. Side-effect-free.
+ * @param title - The dialog window title.
+ * @param aimChoices - The body-part aim options.
+ * @param defaultAim - The pre-selected aim shortcode.
+ * @returns The chosen inputs, or `null` if the dialog was dismissed.
  */
 function showAttackDialog(
     title: string,
@@ -314,6 +343,11 @@ function showAttackDialog(
 /**
  * Present a single-select dialog (with a preselected `defaultKey`) and resolve to
  * the chosen key, or `null` if dismissed. Side-effect-free.
+ * @param title - The dialog window title.
+ * @param label - The select field label.
+ * @param choices - The `{ key: label }` options.
+ * @param defaultKey - The pre-selected option key.
+ * @returns The chosen key, or `null` if the dialog was dismissed.
  */
 export function pickChoice(
     title: string,
@@ -342,6 +376,11 @@ export function pickChoice(
  * Show a defense dialog with a strike-mode select **and** an Additional Modifier
  * field, preselecting `defaultKey`; resolve to `{ key, situationalModifier }` or
  * `null` if dismissed. Side-effect-free. Used by Block.
+ * @param title - The dialog window title.
+ * @param selectLabel - The strike-mode select field label.
+ * @param choices - The `{ key: label }` strike-mode options.
+ * @param defaultKey - The pre-selected option key.
+ * @returns The chosen key and situational modifier, or `null` if dismissed.
  */
 export function showDefenseDialog(
     title: string,
@@ -382,6 +421,9 @@ export function showDefenseDialog(
 /**
  * The default mode index for a picker: the most-recently-used mode if it is
  * still available, otherwise the best-chance mode (highest effective ML).
+ * @param modes - The available attackable strike modes.
+ * @param recent - The most-recently-used mode reference, or `null`.
+ * @returns The index of the default mode in `modes`.
  */
 function defaultModeIndex(
     modes: AttackableStrikeMode[],
@@ -395,13 +437,19 @@ function defaultModeIndex(
     }
     return Math.max(
         0,
-        indexOfBestMastery(modes, (m) => m.strikeMode.attack.constrainedEffective),
+        indexOfBestMastery(
+            modes,
+            (m) => m.strikeMode.attack.constrainedEffective,
+        ),
     );
 }
 
 /**
  * Choose a strike mode from the available list (default = recent-or-best;
  * bypassable via `scope.itemId` + `scope.strikeModeId`) and run the attack.
+ * @param modes - The available attackable strike modes.
+ * @param rc - The resolved attack context (attacker, target, distance).
+ * @param context - The action context (supplies dialog-bypass scope and chat options).
  */
 async function chooseModeAndAttack(
     modes: AttackableStrikeMode[],
@@ -448,6 +496,7 @@ async function chooseModeAndAttack(
  * (Aim + modifier; dialog or `scope`) → derive spread + any point-blank impact
  * bonus → assemble and evaluate the {@link AttackResult} → record the mode on the
  * combatant → post the attack card (unless `noChat`).
+ * @param p - The attacker, target, chosen mode, and action context.
  */
 export async function startAutomatedAttack(
     p: StartAutomatedAttackParams,
@@ -465,7 +514,7 @@ export async function startAutomatedAttack(
     const defenderActor = p.target.actor as any;
     const weaponName = p.mode.itemName;
     const distanceFeet =
-        SohlTokenDocument.rangeToTarget(attackerToken, targetToken) ?? Infinity;
+        fvttRangeToTarget(attackerToken, targetToken) ?? Infinity;
 
     const aimChoices = buildAimChoices(defenderActor);
     const defaultAim = Object.keys(aimChoices)[0] ?? "";
@@ -523,16 +572,13 @@ export async function startAutomatedAttack(
     });
     if (situationalModifier) {
         attackResult.masteryLevelModifier.add(
-            VALUE_DELTA_ID.PLAYER,
+            VALUE_DELTA_INFO.PLAYER,
             situationalModifier,
         );
     }
     if (impactRangeBonus) {
         // Point-blank missile: a flat bonus to the impact formula.
-        attackResult.impact.add(
-            { name: "SOHL.INFO.Range", shortcode: "Range" },
-            impactRangeBonus,
-        );
+        attackResult.impact.add("SOHL.INFO.Range", "Range", impactRangeBonus);
     }
     await attackResult.evaluate();
 
@@ -564,6 +610,9 @@ export async function startAutomatedAttack(
  * Resolve the attacker's token from an action context, falling back to the
  * actor's first active token. Returns `null` (with a UI warning) when none is
  * available — automated combat requires a token on the canvas.
+ * @param actor - The attacking actor.
+ * @param contextToken - The token from the action context, or `null`.
+ * @returns The resolved attacker token, or `null` when none is available.
  */
 export function resolveAttackerToken(
     actor: any,
@@ -583,6 +632,8 @@ export function resolveAttackerToken(
  * Actor-level entry: resolve the target + distance, gather every **in-range**
  * attackable mode across the actor's weapons and combat techniques, then choose
  * and run. A wholly out-of-range target short-circuits.
+ * @param actorLogic - The attacking actor's logic.
+ * @param context - The action context (supplies the target, scope, and chat options).
  */
 export async function startAutomatedAttackFromActor(
     actorLogic: SohlLogic,
@@ -605,6 +656,9 @@ export async function startAutomatedAttackFromActor(
 /**
  * Item-level entry: resolve the target + distance, then offer only **this
  * item's** in-range attackable modes. Out-of-range short-circuits.
+ * @param itemLogic - The attacking item's logic.
+ * @param itemName - The item's display name (for warnings).
+ * @param context - The action context (supplies the target, scope, and chat options).
  */
 export async function startAutomatedAttackFromItem(
     itemLogic: SohlLogic,

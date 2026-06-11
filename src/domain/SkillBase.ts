@@ -60,7 +60,7 @@ import { ITEM_KIND } from "@src/utils/constants";
  *
  * ## Lifecycle
  *
- * Created during {@link MasteryLevelLogic.initialize} from the skill's
+ * Created during the owning logic's `initialize` phase from the skill's
  * persisted `skillBaseFormula` field and the actor's current items.
  * Rebuilt each preparation cycle. The computed {@link value} feeds into
  * the mastery level modifier and SDR improvement rolls.
@@ -100,13 +100,13 @@ export class SkillBase {
     /**
      * The tokenized formula (e.g. `["attr:str", "bs:hirin:2", "5"]`), or
      * `null` when the formula is absent or invalid. Produced by
-     * {@link _parseFormula}.
+     * `_parseFormula`.
      * @internal
      */
     protected _parsedFormula: string[] | null;
     /**
      * The most recently computed skill base value. Recalculated by
-     * {@link setAttributes} via {@link _calcValue}.
+     * {@link setAttributes} via `_calcValue`.
      * @internal
      */
     protected _value: number;
@@ -157,8 +157,8 @@ export class SkillBase {
      *
      * Filters `items` to attribute items, matches each `attr:` term by
      * shortcode, multiplies the attribute's effective score by any per-term
-     * multiplier, and stores the result in {@link _attrs}. Then recomputes
-     * the skill base via {@link _calcValue} (0 when there is no formula).
+     * multiplier, and stores the result in `_attrs`. Then recomputes
+     * the skill base via `_calcValue` (0 when there is no formula).
      * @param items - Candidate items; non-attribute items are ignored.
      * @throws If a matched attribute's effective score is not an integer, or
      *   if a term's multiplier is present but not a number.
@@ -232,7 +232,7 @@ export class SkillBase {
     }
 
     /**
-     * The tokenized formula terms (see {@link _parseFormula}), or `null`
+     * The tokenized formula terms (see `_parseFormula`), or `null`
      * when the formula is absent or failed to parse.
      */
     get parsedFormula(): string[] | null {
@@ -248,7 +248,7 @@ export class SkillBase {
 
     /**
      * The {@link AttributeLogic} instances resolved from the formula's
-     * `@attr` references (derived from {@link _attrs}).
+     * `@attr` references (derived from `_attrs`).
      */
     get attributes(): AttributeLogic[] {
         return Object.values(this._attrs).map((a) => a.logic);
@@ -257,7 +257,7 @@ export class SkillBase {
     /**
      * The attribute shortcodes referenced by this skill base's formula.
      *
-     * {@link _attrs} is keyed by attribute shortcode (e.g. `"str"`, `"per"`),
+     * `_attrs` is keyed by attribute shortcode (e.g. `"str"`, `"per"`),
      * so this exposes the resolved set without leaking the internal map. Used
      * by data-driven `test` expressions to detect which attributes a skill
      * draws on.
@@ -269,7 +269,7 @@ export class SkillBase {
 
     /**
      * The computed skill base number (averaged attributes plus birthsign and
-     * flat modifiers, clamped to ≥ 0). See {@link _calcValue}.
+     * flat modifiers, clamped to ≥ 0). See `_calcValue`.
      */
     get value(): number {
         return this._value;

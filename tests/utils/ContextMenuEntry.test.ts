@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import {
+    compileCondition,
+    makeConditionContext,
+    resolveContextItem,
+    resolveContextActor,
+} from "@src/utils/ContextMenuEntry";
 
 interface RowSpec {
     itemId?: string;
@@ -29,7 +34,7 @@ function mockTarget(
     return { closest } as unknown as HTMLElement;
 }
 
-describe("SohlContextMenu.compileCondition", () => {
+describe("compileCondition", () => {
     let warnSpy: ReturnType<typeof vi.spyOn>;
     beforeEach(() => {
         warnSpy = vi.spyOn(sohl.log, "warn").mockImplementation(() => {});
@@ -39,41 +44,32 @@ describe("SohlContextMenu.compileCondition", () => {
     });
 
     it("compiles 'true' to a predicate that returns true", () => {
-        const fn = SohlContextMenu.compileCondition("true", "always-show");
+        const fn = compileCondition("true", "always-show");
         expect(fn(mockTarget())).toBe(true);
     });
 
     it("compiles 'false' to a predicate that returns false", () => {
-        const fn = SohlContextMenu.compileCondition("false", "never-show");
+        const fn = compileCondition("false", "never-show");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("makes target available to the expression", () => {
-        const fn = SohlContextMenu.compileCondition(
-            "defined(target)",
-            "target-check",
-        );
+        const fn = compileCondition("defined(target)", "target-check");
         expect(fn(mockTarget())).toBe(true);
     });
 
     it("returns false (hidden) when item is not present", () => {
-        const fn = SohlContextMenu.compileCondition(
-            "defined(item)",
-            "needs-item",
-        );
+        const fn = compileCondition("defined(item)", "needs-item");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("returns false (hidden) when actor is not present", () => {
-        const fn = SohlContextMenu.compileCondition(
-            "defined(actor)",
-            "needs-actor",
-        );
+        const fn = compileCondition("defined(actor)", "needs-actor");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("returns false on compile error and warns", () => {
-        const fn = SohlContextMenu.compileCondition(
+        const fn = compileCondition(
             "item.logic.hasAttr('per')", // method call — rejected
             "bad-source",
         );
@@ -86,10 +82,7 @@ describe("SohlContextMenu.compileCondition", () => {
 
     it("returns false on evaluation error and warns", () => {
         // matches() throws on an invalid regex pattern
-        const fn = SohlContextMenu.compileCondition(
-            "matches('x', '[')",
-            "bad-eval",
-        );
+        const fn = compileCondition("matches('x', '[')", "bad-eval");
         expect(fn(mockTarget())).toBe(false);
         expect(warnSpy).toHaveBeenCalledWith(
             expect.stringContaining("threw"),
@@ -98,10 +91,10 @@ describe("SohlContextMenu.compileCondition", () => {
     });
 });
 
-describe("SohlContextMenu.makeConditionContext", () => {
+describe("makeConditionContext", () => {
     it("exposes target, item, and actor as own properties", () => {
         const target = mockTarget();
-        const ctx = SohlContextMenu.makeConditionContext(target);
+        const ctx = makeConditionContext(target);
         expect(Object.prototype.hasOwnProperty.call(ctx, "target")).toBe(true);
         expect(Object.prototype.hasOwnProperty.call(ctx, "item")).toBe(true);
         expect(Object.prototype.hasOwnProperty.call(ctx, "actor")).toBe(true);
@@ -109,7 +102,7 @@ describe("SohlContextMenu.makeConditionContext", () => {
     });
 
     it("defines item and actor as lazy getters", () => {
-        const ctx = SohlContextMenu.makeConditionContext(mockTarget());
+        const ctx = makeConditionContext(mockTarget());
         const itemDesc = Object.getOwnPropertyDescriptor(ctx, "item");
         const actorDesc = Object.getOwnPropertyDescriptor(ctx, "actor");
         expect(typeof itemDesc?.get).toBe("function");
@@ -117,46 +110,38 @@ describe("SohlContextMenu.makeConditionContext", () => {
     });
 
     it("does not resolve item when the expression never references it", () => {
-        const resolveSpy = vi.spyOn(SohlContextMenu, "resolveItem");
-        try {
-            const fn = SohlContextMenu.compileCondition("true", "no-item");
-            fn(mockTarget());
-            expect(resolveSpy).not.toHaveBeenCalled();
-        } finally {
-            resolveSpy.mockRestore();
-        }
+        // Resolution starts with a DOM walk; if the expression never touches
+        // `item`, the lazy getter must never trigger that walk.
+        const target = mockTarget();
+        const closestSpy = vi.spyOn(target, "closest");
+        const fn = compileCondition("true", "no-item");
+        fn(target);
+        expect(closestSpy).not.toHaveBeenCalledWith("[data-item-id]");
     });
 
     it("resolves item only when the expression references it", () => {
-        const resolveSpy = vi.spyOn(SohlContextMenu, "resolveItem");
-        try {
-            const fn = SohlContextMenu.compileCondition(
-                "defined(item)",
-                "uses-item",
-            );
-            fn(mockTarget());
-            expect(resolveSpy).toHaveBeenCalledTimes(1);
-        } finally {
-            resolveSpy.mockRestore();
-        }
+        const target = mockTarget();
+        const closestSpy = vi.spyOn(target, "closest");
+        const fn = compileCondition("defined(item)", "uses-item");
+        fn(target);
+        expect(closestSpy).toHaveBeenCalledWith("[data-item-id]");
     });
 });
 
-describe("SohlContextMenu.resolveItem / resolveActor", () => {
+describe("resolveContextItem / resolveContextActor", () => {
     it("returns undefined when target has no data-item-id ancestor", () => {
-        expect(SohlContextMenu.resolveItem(mockTarget())).toBeUndefined();
+        expect(resolveContextItem(mockTarget())).toBeUndefined();
     });
 
     it("returns undefined when target has no data-actor-id ancestor", () => {
-        expect(SohlContextMenu.resolveActor(mockTarget())).toBeUndefined();
+        expect(resolveContextActor(mockTarget())).toBeUndefined();
     });
 
     it("returns undefined when actor lookup fails even with data-item-id", () => {
-        // No actor row → resolveActor returns undefined → item lookup short-circuits
+        // No actor row → resolveContextActor returns undefined → item lookup
+        // short-circuits
         expect(
-            SohlContextMenu.resolveItem(
-                mockTarget({ item: { itemId: "abc123" } }),
-            ),
+            resolveContextItem(mockTarget({ item: { itemId: "abc123" } })),
         ).toBeUndefined();
     });
 });

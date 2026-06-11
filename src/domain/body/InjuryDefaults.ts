@@ -84,14 +84,17 @@ export const BLEEDING_TABLE: Record<
  * Determine whether a wound at the given location, with the given severity
  * and weapon aspect, produces a Bleeder. Use this from the injury-resolution
  * pipeline (rule section 3.3).
+ * @param susceptibility - The location's bleeding-susceptibility tier.
+ * @param severity - The injury severity (S3, G4, or G5).
+ * @param aspect - The weapon impact aspect (edged, piercing, blunt).
+ * @returns True if the wound bleeds.
  */
 export function isBleeder(
     susceptibility: string,
     severity: InjurySeverity,
     aspect: string,
 ): boolean {
-    const tier =
-        BLEEDING_TABLE[susceptibility as BleedingSusceptibility];
+    const tier = BLEEDING_TABLE[susceptibility as BleedingSusceptibility];
     if (!tier) return false;
     return tier[severity].has(aspect as ImpactAspect);
 }
@@ -122,7 +125,13 @@ export const AMPUTABILITY_MODIFIER: Record<Amputability, number | null> = {
     [AMPUTABILITY.HIGH]: -20,
 };
 
-/** True if a wound at this location can trigger an amputation test. */
+/**
+ * True if a wound at this location can trigger an amputation test.
+ * @param amputability - The location's amputability tier.
+ * @param severity - The injury severity (S3, G4, or G5).
+ * @param aspect - The weapon impact aspect (edged, piercing, blunt).
+ * @returns True if an amputation test applies.
+ */
 export function canAmputate(
     amputability: string,
     severity: InjurySeverity,
@@ -138,6 +147,8 @@ export function canAmputate(
 /**
  * The modifier to apply to the Strength test for an amputation check at
  * this location. Returns null if amputation is not applicable.
+ * @param amputability - The location's amputability tier.
+ * @returns The Strength-test modifier, or null if not applicable.
  */
 export function amputationModifier(amputability: string): number | null {
     return AMPUTABILITY_MODIFIER[amputability as Amputability] ?? null;

@@ -1,14 +1,166 @@
-import { describe, it } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
+import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ITEM_KIND } from "@src/utils/constants";
+import { makeItemLogic } from "@tests/mocks/logicHarness";
+
+/*
+ * MysteryLogic declares a "useMystery" intrinsic action whose executor names
+ * a method ("useMystery") that does not exist on the class yet — the
+ * intrinsic-actions wiring is incomplete. SohlAction's constructor throws
+ * for INTRINSIC actions whose executor cannot be resolved, so constructing
+ * MysteryLogic with its real action definitions currently throws.
+ *
+ * The real definitions are captured here at module scope (before any
+ * spying), and most tests bypass the broken definition via a
+ * defineIntrinsicActions spy. One unmocked test below documents the throw.
+ */
+const realDefs = MysteryLogic.defineIntrinsicActions();
+const safeDefs = realDefs.filter((d) => d.executor !== "useMystery");
+
+/** Default MysteryData fields; override per test. */
+function mysteryFields(overrides: Record<string, unknown> = {}) {
+    return {
+        levelBase: 0,
+        charges: { usesCharges: false, value: 0, max: 0 },
+        ...overrides,
+    };
+}
+
+function makeMystery(
+    overrides: Record<string, unknown> = {},
+    opts: Record<string, unknown> = {},
+) {
+    return makeItemLogic(
+        MysteryLogic,
+        ITEM_KIND.MYSTERY,
+        mysteryFields(overrides),
+        opts,
+    );
+}
+
+beforeEach(() => {
+    vi.spyOn(MysteryLogic, "defineIntrinsicActions").mockReturnValue(safeDefs);
+});
+
+afterEach(() => {
+    vi.restoreAllMocks();
+});
 
 describe("MysteryLogic", () => {
+    describe("construction", () => {
+        it("throws with the real intrinsic actions (useMystery executor is unimplemented)", () => {
+            // Remove the defineIntrinsicActions bypass installed by
+            // beforeEach: full construction currently throws because the
+            // "useMystery" intrinsic action names a method that does not
+            // exist on MysteryLogic (intrinsic-actions wiring incomplete).
+            vi.restoreAllMocks();
+            expect(() => makeMystery()).toThrow(/does not have a function/);
+        });
+
+        it.todo("useMystery — unimplemented intrinsic executor");
+
+        it("constructs against a plain-object MysteryData (no Foundry)", () => {
+            const logic = makeMystery();
+            expect(logic).toBeInstanceOf(MysteryLogic);
+            expect(logic.data.kind).toBe(ITEM_KIND.MYSTERY);
+        });
+
+        it("builds the intrinsic action map (postfinalize from the base class)", () => {
+            const logic = makeMystery();
+            expect(logic.actions.has("postfinalize")).toBe(true);
+        });
+    });
+
+    describe("initialize", () => {
+        it("seeds level from levelBase", () => {
+            const logic = makeMystery({ levelBase: 3 });
+            logic.initialize();
+            expect(logic.level).toBeInstanceOf(ValueModifier);
+            expect(logic.level.base).toBe(3);
+            expect(logic.level.effective).toBe(3);
+            expect(logic.level.disabled).toBeFalsy();
+        });
+
+        it("seeds level even when levelBase is 0 (only null disables)", () => {
+            const logic = makeMystery({ levelBase: 0 });
+            logic.initialize();
+            expect(logic.level.disabled).toBeFalsy();
+            expect(logic.level.base).toBe(0);
+        });
+
+        it("disables level when levelBase is null", () => {
+            const logic = makeMystery({ levelBase: null });
+            logic.initialize();
+            expect(logic.level.disabled).toBe(
+                "This mystery doesn't have a level",
+            );
+            // a disabled modifier always reports an effective value of 0
+            expect(logic.level.effective).toBe(0);
+        });
+
+        it("seeds charges.value and charges.max when charges.max is not null", () => {
+            const logic = makeMystery({
+                charges: { usesCharges: true, value: 2, max: 5 },
+            });
+            logic.initialize();
+            expect(logic.charges.value).toBeInstanceOf(ValueModifier);
+            expect(logic.charges.max).toBeInstanceOf(ValueModifier);
+            expect(logic.charges.value.base).toBe(2);
+            expect(logic.charges.value.effective).toBe(2);
+            expect(logic.charges.max.base).toBe(5);
+            expect(logic.charges.max.effective).toBe(5);
+            expect(logic.charges.value.disabled).toBeFalsy();
+            expect(logic.charges.max.disabled).toBeFalsy();
+        });
+
+        it("disables charges when charges.max is null", () => {
+            const logic = makeMystery({
+                charges: { usesCharges: false, value: 0, max: null },
+            });
+            logic.initialize();
+            expect(logic.charges.value.disabled).toBe(
+                "This mystery doesn't use charges",
+            );
+            expect(logic.charges.max.disabled).toBe(
+                "This mystery doesn't use charges",
+            );
+        });
+
+        it("gates charges on max !== null — the usesCharges flag is not consulted", () => {
+            // Documents current behavior: data.charges.usesCharges is ignored
+            // by initialize(); only a null max disables charge tracking.
+            const logic = makeMystery({
+                charges: { usesCharges: false, value: 1, max: 3 },
+            });
+            logic.initialize();
+            expect(logic.charges.value.disabled).toBeFalsy();
+            expect(logic.charges.value.base).toBe(1);
+        });
+    });
+
+    describe("lifecycle", () => {
+        it("evaluate / finalize - run without error after initialize", () => {
+            const logic = makeMystery({ levelBase: 2 });
+            logic.initialize();
+            expect(() => {
+                logic.evaluate();
+                logic.finalize();
+            }).not.toThrow();
+        });
+    });
+
+    /*
+     * The behaviors below are not present in the current MysteryLogic —
+     * MysteryData no longer carries domain/skills/subType machinery, and no
+     * fieldData/getApplicableFate/fateBonusItems helpers exist on the class.
+     * The todos are retained until that functionality is (re)implemented.
+     */
     describe("properties", () => {
         it.todo("domain - is undefined initially, resolved during evaluate");
         it.todo(
             "skills - is empty array after initialize, resolved during evaluate",
         );
-        it.todo("level - is a ValueModifier after initialize");
-        it.todo("charges.value - is a ValueModifier after initialize");
-        it.todo("charges.max - is a ValueModifier after initialize");
     });
 
     describe("fieldData", () => {
@@ -46,13 +198,7 @@ describe("MysteryLogic", () => {
         it.todo("returns matching FATEBONUS mystery items from actor");
     });
 
-    describe("initialize", () => {
-        it.todo("creates level ValueModifier from data.levelBase");
-        it.todo("creates charges.value ValueModifier from data.charges.value");
-        it.todo("creates charges.max ValueModifier from data.charges.max");
-    });
-
-    describe("evaluate", () => {
+    describe("evaluate (domain/skill resolution)", () => {
         it.todo(
             "resolves domain from SohlDomains registry by domainCode shortcode",
         );
@@ -61,13 +207,12 @@ describe("MysteryLogic", () => {
         );
         it.todo("returns early when actor is null");
     });
-
-    describe("finalize", () => {
-        it.todo("calls super.finalize");
-    });
 });
 
 describe("MysteryDataModel", () => {
+    // The DataModel is Foundry-layer (implements MysteryData via Foundry's
+    // schema system); its schema is exercised in Foundry integration, not
+    // in unit tests.
     describe("defineSchema", () => {
         it.todo("includes SohlItemDataModel base schema fields");
         it.todo("defines subType with MysterySubTypes choices");

@@ -46,6 +46,11 @@ export class StructureDataModel<
     ];
     static override readonly kind = ACTOR_KIND.STRUCTURE;
 
+    /**
+     * Defines the data schema for a Structure actor.
+     *
+     * @returns The Structure data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineStructureDataSchema();
     }
