@@ -16,8 +16,6 @@ import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 
-const { NumberField, StringField } = foundry.data.fields;
-
 /**
  * A missile strike mode — ranged attack with projectile type, range,
  * and draw time.
@@ -52,21 +50,24 @@ export class MissileStrikeMode extends StrikeModeBase {
         super(data, parentLogic, id);
         this.projectileType = data.projectileType;
         this.maxVolleyMult = data.maxVolleyMult;
-        this.baseRange = new ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.baseRangeBase);
-        this.draw = new ValueModifier(
-            {},
-            { parent: parentLogic },
-        ).setBase(data.drawBase);
+        this.baseRange = new ValueModifier({}, { parent: parentLogic }).setBase(
+            data.baseRangeBase,
+        );
+        this.draw = new ValueModifier({}, { parent: parentLogic }).setBase(
+            data.drawBase,
+        );
     }
 
     /**
      * SchemaField definition for missile strike modes — used as one branch
      * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     *
+     * @returns The data schema describing a missile strike mode.
      */
     static schemaFields(): foundry.data.fields.DataSchema {
+        // Lazy access: foundry globals exist only when Foundry-side code
+        // calls this; the module itself must load without them.
+        const { NumberField, StringField } = foundry.data.fields;
         return {
             ...StrikeModeBase.baseSchemaFields(),
             type: new StringField({

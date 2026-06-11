@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActionData } from "@src/domain/action/SohlAction";
+import type { SohlAction } from "@src/domain/action/SohlAction";
 import type { BodyLocation } from "@src/domain/body/BodyLocation";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
@@ -27,8 +27,8 @@ import {
 } from "@src/utils/constants";
 import {
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
 
 /**
  * An instance of harm to a character.
@@ -52,7 +52,7 @@ import {
  *   (untreated wounds heal slower and risk infection)
  * - **isBleeding** — Whether the wound is actively bleeding
  *
- * Trauma contributes to the character's overall {@link BeingLogic.shockState | shock state}
+ * Trauma contributes to the character's overall shock state
  * and (for physical subtype) interacts with the anatomy model (body
  * roles, body parts, body locations) to determine hit location effects.
  *
@@ -81,6 +81,37 @@ export class TraumaLogic<
      * than a specific location. Recomputed in {@link evaluate}.
      */
     bodyLocation: BodyLocation | undefined;
+
+    /**
+     * Define and return all intrinsic actions for trauma logic, adding the
+     * treatment and healing test actions to those inherited from the base logic.
+     * @returns The intrinsic action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "treatmenttest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.treatmenttest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-caduceus",
+                executor: "treatmentTest",
+                visible: "item.system.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "healingtest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Trauma.Action.healingtest.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-healing",
+                executor: "healingTest",
+                visible: "item.system.subType === 'physical'",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -114,6 +145,8 @@ export class TraumaLogic<
      * on the actor's Lineage. Returns `undefined` when the code is blank,
      * the trauma is not attached to an actor, the actor has no Lineage,
      * or no location with that shortcode exists.
+     *
+     * @returns The matching body location, or `undefined` when none applies.
      */
     private resolveBodyLocation(): BodyLocation | undefined {
         const code = this.data.bodyLocationCode;
@@ -208,40 +241,3 @@ export const UNTREATED = {
  * this Foundry-coupled module.
  */
 export { INJURY_LEVELS };
-
-/**
- * The intrinsic actions available to Trauma items, corresponding to the
- * test methods that can be invoked on the Trauma logic.
- */
-export const {
-    /** Map of intrinsic-action keys to their definitions. */
-    kind: INTRINSIC_ACTION,
-    /** Array of valid intrinsic-action key values. */
-    values: IntrinsicActions,
-    /** Type guard testing whether a value is a valid Trauma intrinsic-action key. */
-    isValue: isIntrinsicAction,
-    /** Map of intrinsic-action keys to their localized labels. */
-    labels: IntrinsicActionLabels,
-} = defineType("SOHL.Trauma.INTRINSIC_ACTION", {
-    TREATMENTTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Trauma.INTRINSIC_ACTION.treatmenttest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-staff-snake",
-        executor: "treatmentTest",
-        visible: "item.system.subType === 'physical'",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    HEALINGTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Trauma.INTRINSIC_ACTION.healingtest.title",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-heart-pulse",
-        executor: "healingTest",
-        visible: "item.system.subType === 'physical'",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-} as StrictObject<Partial<SohlActionData>>);
-/** Union of valid Trauma intrinsic-action key values. */
-export type IntrinsicAction =
-    (typeof INTRINSIC_ACTION)[keyof typeof INTRINSIC_ACTION];

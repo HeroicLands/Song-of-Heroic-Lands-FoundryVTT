@@ -17,9 +17,6 @@ import { CombatModifier } from "@src/domain/modifier/CombatModifier";
 import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { STRIKE_MODE_TYPE } from "@src/utils/constants";
 
-const { NumberField, StringField, SchemaField, BooleanField } =
-    foundry.data.fields;
-
 /**
  * A melee strike mode — close-combat attack with spread, reach, and
  * defense capabilities (block and counterstrike).
@@ -100,8 +97,13 @@ export class MeleeStrikeMode extends StrikeModeBase {
     /**
      * SchemaField definition for melee strike modes — used as one branch
      * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     * @returns The data schema describing a melee strike mode.
      */
     static schemaFields(): foundry.data.fields.DataSchema {
+        // Lazy access: foundry globals exist only when Foundry-side code
+        // calls this; the module itself must load without them.
+        const { NumberField, StringField, SchemaField, BooleanField } =
+            foundry.data.fields;
         return {
             ...StrikeModeBase.baseSchemaFields(),
             type: new StringField({

@@ -35,14 +35,18 @@ import { Itr } from "@src/utils/Itr";
 export class SohlSet<T> {
     private setData!: Set<T>;
 
+    /**
+     * Create a set, optionally seeded from an iterable of initial values.
+     * @param data - Optional iterable whose values seed the set.
+     */
     constructor(data?: Iterable<T>) {
         this.setData =
             data !== undefined ? new Set(Array.from(data)) : new Set();
     }
 
     /**
-     * @summary Default iterator for the set.
-     * @description
+     * Default iterator for the set.
+     *
      * Allows iteration over the set's values using `for...of`, spread syntax, or other iterable mechanisms.
      * Delegates to `.values()`, which returns an `Itr<T>`.
      *
@@ -58,8 +62,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Adds a value to the set.
-     * @description
+     * Adds a value to the set.
+     *
      * Inserts the specified value into the set if it does not already exist.
      * Tracks the insertion for persistence and lifecycle if supported.
      *
@@ -75,8 +79,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Removes a value from the set.
-     * @description
+     * Removes a value from the set.
+     *
      * Deletes the specified value from the set if present.
      * Marks the set as changed for persistence.
      *
@@ -91,8 +95,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Removes all values from the set.
-     * @description
+     * Removes all values from the set.
+     *
      * Empties the set completely. This operation marks the set as changed and
      * may notify the persistence system depending on implementation.
      *
@@ -104,8 +108,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Returns an iterator over the set's values.
-     * @description
+     * Returns an iterator over the set's values.
+     *
      * Provides a custom `Itr<T>` instance for use with chaining and functional operations.
      *
      * @returns An `Itr<T>` representing the values in the set.
@@ -118,8 +122,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Returns an iterator over the set's keys (same as values).
-     * @description
+     * Returns an iterator over the set's keys (same as values).
+     *
      * For compatibility with `Map`, this returns the same iterator as `.values()`.
      * This is useful for polymorphism with other collection types.
      *
@@ -135,8 +139,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Returns an iterator over `[value, value]` pairs.
-     * @description
+     * Returns an iterator over `[value, value]` pairs.
+     *
      * Mimics the behavior of `Set.prototype.entries()` in JavaScript.
      * Each entry is a pair of `[value, value]`, for compatibility with `Map` iteration.
      *
@@ -152,8 +156,8 @@ export class SohlSet<T> {
     }
 
     /**
-     * @summary Iterates entries while allowing dynamic expansion.
-     * @description
+     * Iterates entries while allowing dynamic expansion.
+     *
      * Provides a breadth-first iterator over all entries in the collection, including new items added
      * during the iteration itself. This allows your logic to traverse all known items and process
      * new ones as they are introduced dynamically.

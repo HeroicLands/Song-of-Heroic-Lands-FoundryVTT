@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
     SohlAction,
-    type SohlActionData,
     userMeetsExecutePermission,
     isScriptActionMutationAllowed,
 } from "@src/domain/action/SohlAction";
 import { ACTION_SUBTYPE } from "@src/utils/constants";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import * as ContextMenuEntryModule from "@src/utils/ContextMenuEntry";
 
 /** Foundry `CONST.DOCUMENT_OWNERSHIP_LEVELS` mirror for test readability. */
 const OWNERSHIP = { NONE: 0, LIMITED: 1, OBSERVER: 2, OWNER: 3 } as const;
@@ -24,8 +23,8 @@ function stubActor(allow: boolean): any {
 }
 
 function makeActionData(
-    overrides: Partial<SohlActionData> = {},
-): SohlActionData {
+    overrides: Partial<SohlAction.Data> = {},
+): SohlAction.Data {
     return {
         subType: "intrinsic",
         title: "test-action",
@@ -34,27 +33,37 @@ function makeActionData(
         executor: "",
         trigger: "true",
         visible: "true",
-        iconFAClass: "fas fa-question",
+        iconFAClass: "sohl-question",
         group: "general",
         minActorOwnership: 3,
         ...overrides,
-    } as SohlActionData;
+    } as SohlAction.Data;
 }
 
-function makeAction(overrides: Partial<SohlActionData> = {}): SohlAction {
-    return new SohlAction(makeActionData(overrides), {} as any);
+/**
+ * Build a stub parent Logic for a {@link SohlAction}. `resolveContext()`
+ * reads `this.parent.parent` to find the owning document, so the optional
+ * `doc` becomes the Logic's backing document.
+ */
+function stubLogic(doc?: any): any {
+    return { parent: doc };
+}
+
+function makeAction(overrides: Partial<SohlAction.Data> = {}): SohlAction {
+    return new SohlAction(makeActionData(overrides), { parent: stubLogic() });
 }
 
 /**
  * Build an action whose `resolveContext()` will surface the given actor
- * — i.e. the data model's parent document mimics a `SohlActor`.
+ * — i.e. the parent Logic's backing document mimics a `SohlActor`.
  */
 function makeActionOnActor(
     actor: any,
-    overrides: Partial<SohlActionData> = {},
+    overrides: Partial<SohlAction.Data> = {},
 ): SohlAction {
-    const dataModel = { parent: actor } as any;
-    return new SohlAction(makeActionData(overrides), dataModel);
+    return new SohlAction(makeActionData(overrides), {
+        parent: stubLogic(actor),
+    });
 }
 
 function mockElement(opts: { itemId?: string } = {}): HTMLElement {
@@ -218,7 +227,7 @@ describe("SohlAction.visible composes with trigger and permission", () => {
 
     it("hides SCRIPT action when actor.testUserPermission denies the level", () => {
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(false));
         try {
             const action = makeAction({
@@ -235,7 +244,7 @@ describe("SohlAction.visible composes with trigger and permission", () => {
 
     it("shows SCRIPT action when actor.testUserPermission allows the level", () => {
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(true));
         try {
             const action = makeAction({
@@ -250,11 +259,11 @@ describe("SohlAction.visible composes with trigger and permission", () => {
         }
     });
 
-    it("does not check permission for INTRINSIC action (lifecycle calls work for all users)", () => {
-        // Actor would deny via testUserPermission, but INTRINSIC bypasses
+    it("does not check permission for Intrinsic action (lifecycle calls work for all users)", () => {
+        // Actor would deny via testUserPermission, but Intrinsic bypasses
         // the permission gate.
         const restore = vi
-            .spyOn(SohlContextMenu, "resolveActor")
+            .spyOn(ContextMenuEntryModule, "resolveContextActor")
             .mockReturnValue(stubActor(false));
         try {
             const action = makeAction({
@@ -317,7 +326,7 @@ describe("SohlAction.execute gates on permission then trigger", () => {
         expect(blocked).toEqual([]);
     });
 
-    it("runs INTRINSIC action even when actor.testUserPermission denies", async () => {
+    it("runs Intrinsic action even when actor.testUserPermission denies", async () => {
         const action = makeActionOnActor(stubActor(false), {
             subType: ACTION_SUBTYPE.INTRINSIC,
             trigger: "true",
@@ -379,12 +388,12 @@ describe("userMeetsExecutePermission", () => {
 });
 
 describe("isScriptActionMutationAllowed", () => {
-    const intrinsic = (title: string): SohlActionData =>
+    const intrinsic = (title: string): SohlAction.Data =>
         makeActionData({
             title,
             subType: ACTION_SUBTYPE.INTRINSIC,
         });
-    const script = (title: string, body = "1"): SohlActionData =>
+    const script = (title: string, body = "1"): SohlAction.Data =>
         makeActionData({
             title,
             subType: ACTION_SUBTYPE.SCRIPT,

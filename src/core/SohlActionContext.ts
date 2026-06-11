@@ -28,7 +28,7 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
  * - **who is acting** — the {@link SohlSpeaker} (`speaker`), resolved from a
  *   token/actor/user and used as the chat-message speaker;
  * - **what is being acted upon** — the `target` token, if any (a raw
- *   `Token`, a {@link SohlTokenDocument}, or a {@link SohlActor} is normalized
+ *   {@link Token}, a {@link SohlTokenDocument}, or a {@link SohlActor} is normalized
  *   to the actor's first active token);
  * - **how to run** — `skipDialog` (bypass the action's configuration dialog)
  *   and `noChat` (suppress the chat-card output);
@@ -62,8 +62,8 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
      * Build a context from {@link SohlActionContext.Data}.
      *
      * The `speaker` is required: a {@link SohlSpeaker} is used directly, while a
-     * plain data object is wrapped in one. A `target` given as a `Token`,
-     * `TokenDocument`, or `Actor` is normalized to a {@link SohlTokenDocument}
+     * plain data object is wrapped in one. A `target` given as a {@link Token},
+     * {@link TokenDocument}, or `Actor` is normalized to a {@link SohlTokenDocument}
      * (for an actor, its first active token).
      *
      * @param data - Initial context values; all but `speaker` are optional.
@@ -119,7 +119,11 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
         this.scope = scope;
     }
 
-    /** Serialize the context to a plain object. */
+    /**
+     * Serialize the context to a plain object.
+     *
+     * @returns The plain-object representation of this context.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }

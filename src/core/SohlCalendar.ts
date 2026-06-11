@@ -232,7 +232,7 @@ export class SohlCalendarData extends foundry.data
      * without year-zero adjustment.
      * @param calendar - The calendar to use for formatting
      * @param components - The time components to format
-     * @param options - Formatting options (not used)
+     * @param _options - Formatting options (not used)
      * @returns The formatted timestamp
      */
     static override formatTimestamp(
@@ -267,7 +267,7 @@ export class SohlCalendarData extends foundry.data
      * Foreign calendar: "15 {monthName} {year} 14:30:00" (no era data).
      * @param calendar - The calendar to use for formatting
      * @param components - The time components to format
-     * @param options - Formatting options (not used)
+     * @param _options - Formatting options (not used)
      * @returns The formatted timestamp
      */
     static formatDefault(
@@ -279,8 +279,7 @@ export class SohlCalendarData extends foundry.data
             calendar.componentsToTime(components),
         );
         const dd = components.dayOfMonth + 1;
-        const monthName =
-            calendar.months!.values[components.month]?.name ?? "";
+        const monthName = calendar.months!.values[components.month]?.name ?? "";
         const hh = String(components.hour).padStart(2, "0");
         const mm = String(components.minute).padStart(2, "0");
         const ss = String(components.second).padStart(2, "0");
@@ -308,6 +307,7 @@ export class SohlCalendarData extends foundry.data
      * @param options - Formatting options
      * @param options.short - Whether to use short format (default: `false`)
      * @param options.maxTerms - The maximum number of time components to include (default: `0`, all)
+     * @param options.fromComponents - The reference time to measure from (default: the current world time)
      * @returns The formatted timestamp
      */
     static formatRelativeTime(

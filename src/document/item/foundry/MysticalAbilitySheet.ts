@@ -28,6 +28,14 @@ export class MysticalAbilitySheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Augments the render context for the mystical-ability properties tab with
+     * the ability's system fields (skill-base formula, mastery level, improve
+     * flag, subtype, associated skill, etc.).
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The render context augmented with mystical-ability property data.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

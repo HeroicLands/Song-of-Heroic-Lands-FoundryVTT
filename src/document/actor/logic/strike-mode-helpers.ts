@@ -30,6 +30,10 @@ export interface StrikeModeCandidate<T> {
  * Intrinsic modes (`heldLimbs === null`, i.e. combat techniques) are always
  * available. A weapon mode is available only when the weapon is held in at
  * least `minParts` limbs.
+ *
+ * @param heldLimbs - Limbs holding the weapon, or `null` for an intrinsic mode.
+ * @param minParts - Minimum limbs required to wield the mode.
+ * @returns `true` when the strike mode is currently available.
  */
 export function isStrikeModeAvailable(
     heldLimbs: number | null,
@@ -42,17 +46,20 @@ export function isStrikeModeAvailable(
  * The strike modes of the currently *available* candidates (see
  * {@link isStrikeModeAvailable}), preserving input order. Each mode's required
  * limb count is read from its own `minParts`.
+ *
+ * @param candidates - The strike-mode candidates paired with their held-limb counts.
+ * @returns The strike modes of the available candidates, in input order.
  */
 export function selectAvailableStrikeModes<
     T extends {
         /** Minimum limbs required to wield this mode. */
         minParts: number;
     },
->(
-    candidates: readonly StrikeModeCandidate<T>[],
-): T[] {
+>(candidates: readonly StrikeModeCandidate<T>[]): T[] {
     return candidates
-        .filter((c) => isStrikeModeAvailable(c.heldLimbs, c.strikeMode.minParts))
+        .filter((c) =>
+            isStrikeModeAvailable(c.heldLimbs, c.strikeMode.minParts),
+        )
         .map((c) => c.strikeMode);
 }
 
@@ -83,7 +90,10 @@ export function computeAvailableStrikeModes<
     weapons: readonly { id: string; strikeModes: readonly T[] }[],
 ): T[] {
     const candidates: StrikeModeCandidate<T>[] = [
-        ...techniqueModes.map((strikeMode) => ({ strikeMode, heldLimbs: null })),
+        ...techniqueModes.map((strikeMode) => ({
+            strikeMode,
+            heldLimbs: null,
+        })),
         ...weapons.flatMap((weapon) => {
             const heldLimbs = bodyStructure?.limbsHolding(weapon.id) ?? 0;
             return weapon.strikeModes.map((strikeMode) => ({

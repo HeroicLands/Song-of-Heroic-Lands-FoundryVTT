@@ -10,6 +10,7 @@ SoHL uses **test-driven development (TDD)**. Tests are written before the code t
 npm run test           # Run vitest once
 npm run test:watch     # Watch mode (re-runs on file changes)
 npm run test:coverage  # Generate coverage report
+npm run test:purity    # Logic-layer purity smoke test (see below)
 ```
 
 Tests live in `tests/` mirroring the `src/` directory structure:
@@ -127,12 +128,32 @@ When production code needs a new Foundry global:
 
 ## Writing tests for Logic classes
 
-Logic classes typically require parent data models, which require actors/items. For unit testing:
+Logic classes operate on Data **interfaces** (`SohlItemData` / `SohlActorData`) that Foundry DataModels implement in production. In tests, the harness at `tests/mocks/logicHarness.ts` supplies plain-object implementations of those interfaces, so a Logic instance is constructed exactly the way `SohlDataModel.create()` does — no Foundry required:
+
+```typescript
+import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
+import { SkillLogic } from "@src/document/item/logic/SkillLogic";
+
+const actor = makeMockActor();
+actor.items.set("str1", makeAttributeStub("str", 12));
+const logic = makeItemLogic(SkillLogic, "skill", { skillBaseFormula: "@str", masteryLevelBase: 30 }, { actor });
+logic.initialize(); // lifecycle is NOT auto-run
+expect(logic.masteryLevel.base).toBe(30);
+```
+
+Key builders: `makeItemLogic` / `makeActorLogic` (construct logic + wire back-references), `makeMockItem` / `makeMockActor` (mock documents; `update`/`getFlag` are `vi.fn()`s), `makeAttributeStub` (actor-embedded attribute satisfying both `SkillBase` and fate lookups), `MockCollection` (Foundry-Collection-like Map). See `tests/item/Skill.test.ts`, `tests/item/Gear.test.ts`, and `tests/core/SohlLogic.test.ts` for worked examples.
+
+Additional patterns:
 
 - **Pure computation** (e.g., `ValueDelta.apply()`, `SimpleRoll.median`) can be tested directly.
-- **Logic with parent dependency** — create a minimal mock parent: `const mockParent = { id: "test", name: "Test" } as any;`
-- **Logic that reads `sohl.CONFIG`** — set up the needed CONFIG entries in `globalThis.sohl.CONFIG` in a `beforeEach` block.
+- **Shim behavior** — spy on the mock module: `import * as FoundryHelpersMock from "@src/core/FoundryHelpers"; vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone");`
+- **Dice** — `vi.spyOn(SimpleRoll, "fromFormula")` returning a stub roll.
+- **Unimplemented intrinsic executors** — `SohlAction` throws at construction when an INTRINSIC executor names a missing method; while an executor is pending, filter it from `defineIntrinsicActions` with a spy and leave an `it.todo` naming it.
 - **Complex integration tests** — use `it.todo()` placeholders to document what should be tested once more infrastructure is available.
+
+## Logic-layer purity smoke test
+
+`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. Together with the ESLint boundary rule in `eslint.config.js` (no value imports of Foundry-coupled modules from those zones; `import type` is allowed), this guarantees the logic layer stays unit-testable.
 
 ## End-to-end example: testing a domain object
 

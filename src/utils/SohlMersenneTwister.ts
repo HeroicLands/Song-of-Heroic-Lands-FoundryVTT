@@ -15,7 +15,7 @@
  * A seedable Mersenne Twister (MT19937) pseudo-random number generator.
  *
  * Provides deterministic, reproducible sequences from a 32-bit integer seed —
- * useful for tests and seeded world generation where {@link Math.random} would
+ * useful for tests and seeded world generation where `Math.random` would
  * be non-reproducible. Instances may be created directly, or a process-wide
  * singleton can be used via the static helpers ({@link getInstance},
  * {@link setSeed}, {@link useMock}, {@link reset} and the static
@@ -174,7 +174,7 @@ export class SohlMersenneTwister {
     }
 
     /**
-     * Drop-in replacement for {@link Math.random}: a float in `[0, 1)`.
+     * Drop-in replacement for `Math.random`: a float in `[0, 1)`.
      * @returns A number in `[0, 1)`. Alias of {@link rnd}.
      */
     random(): number {
@@ -221,8 +221,7 @@ export class SohlMersenneTwister {
      * @returns The singleton {@link SohlMersenneTwister}.
      */
     static getInstance(): SohlMersenneTwister {
-        if (!this.instance)
-            this.instance = new SohlMersenneTwister(Date.now());
+        if (!this.instance) this.instance = new SohlMersenneTwister(Date.now());
         return this.instance;
     }
 

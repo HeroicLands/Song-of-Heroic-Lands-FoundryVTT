@@ -20,6 +20,11 @@ import { SohlItemDataModel } from "./SohlItem";
 const { ArrayField, SchemaField, NumberField, StringField } =
     foundry.data.fields;
 
+/**
+ * Builds the Attribute data schema (score, value descriptors, init formula,
+ * and impairing body roles) on top of the base item schema.
+ * @returns The Attribute data schema.
+ */
 function defineAttributeSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -81,6 +86,10 @@ export class AttributeDataModel<
     initDiceFormula!: string;
     impairedByRoles!: string[];
 
+    /**
+     * Defines the Attribute data schema.
+     * @returns The Attribute data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAttributeSchema();
     }

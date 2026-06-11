@@ -24,6 +24,12 @@ import {
 } from "@src/utils/constants";
 const { NumberField, BooleanField, StringField } = foundry.data.fields;
 
+/**
+ * Builds the data schema for the Trauma item, extending the base item schema
+ * with trauma-specific fields (subtype, level, healing rate, impact aspect,
+ * treatment/bleeding state, and body location).
+ * @returns The Foundry data schema for the trauma.
+ */
 function defineTraumaDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -74,6 +80,10 @@ export class TraumaDataModel<
     isBleeding!: boolean;
     bodyLocationCode!: string;
 
+    /**
+     * Returns the Foundry data schema for the trauma item.
+     * @returns The trauma data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineTraumaDataSchema();
     }

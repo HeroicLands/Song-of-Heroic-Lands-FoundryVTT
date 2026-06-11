@@ -49,6 +49,11 @@ Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VT
 
 Logic classes handle game rules, calculations, and actions — separated from Foundry persistence. They live in `src/document/*/logic/` and must **never** import Foundry globals directly. All Foundry API access goes through `src/core/FoundryHelpers.ts`, which is mock-swapped during testing.
 
+The layer owns its contracts: the base logic classes and the Data interfaces that the Foundry DataModels implement live in `src/document/item/logic/SohlItemBaseLogic.ts` and `src/document/actor/logic/SohlActorBaseLogic.ts` (the Foundry-side base modules re-export them for compatibility). Logic/domain code may reference Foundry-coupled classes (e.g. `SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency. The boundary is enforced two ways:
+
+- An ESLint rule (`@typescript-eslint/no-restricted-imports` in `eslint.config.js`) forbids value imports of Foundry-coupled modules from the Foundry-free zones.
+- A purity smoke test (`npm run test:purity`, part of `build:noci`) imports every logic/domain module in an environment with **no** Foundry globals; any module-level `foundry.*`/`game.*` access fails the build. See [Testing](../how-to/testing.md).
+
 ### Domain layer
 
 Pure game-mechanics objects in `src/domain/` — modifiers, test results, body structure, move-base helpers, skill base computation. These have no Foundry dependency at all and are fully unit-testable.

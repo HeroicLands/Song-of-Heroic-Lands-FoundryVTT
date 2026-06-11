@@ -25,10 +25,10 @@ import { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { SohlActionData } from "@src/domain/action/SohlAction";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
-import { startAutomatedAttackFromItem } from "@src/document/actor/foundry/automated-combat";
+import { startAutomatedAttackFromItem } from "@src/document/actor/logic/automated-combat";
 
 /**
  * A weapon that can be wielded in combat.
@@ -117,11 +117,17 @@ export class WeaponGearLogic<
      * Present a dialog asking the player to select the appropriate strike mode
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
+     *
+     * @param context - The action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(this, this.item?.name ?? "", context);
+        await startAutomatedAttackFromItem(
+            this,
+            this.item?.name ?? "",
+            context,
+        );
     }
 
     /**
@@ -140,6 +146,7 @@ export class WeaponGearLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - The action context carrying the prior/initiating combat result.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -163,12 +170,85 @@ export class WeaponGearLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - The action context carrying the prior/initiating combat result.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
+
+    /**
+     * Define and return all intrinsic actions for weapon gear logic, adding
+     * the combat actions (attack, automated combat start/resume, etc.) to
+     * those inherited from the base gear logic.
+     * @returns The intrinsic action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...GearLogic.defineIntrinsicActions(),
+            {
+                shortcode: "attack",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.attack",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sword",
+                executor: "attack",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "automatedCombatStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-crossed-swords",
+                executor: "automatedCombatStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "automatedBlockResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.automatedBlockResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-shield-reflect",
+                executor: "automatedBlockResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedCounterstrikeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.automatedCounterstrikeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "automatedCounterstrikeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "block",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.block",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sheild-reflect",
+                executor: "block",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "counterstrike",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.counterstrike",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "counterstrike",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
@@ -232,48 +312,3 @@ export interface WeaponGearData<
     /** Persisted strike modes, keyed by Foundry-style id. */
     strikeModes: StrictObject<StrikeModeBase.Data>;
 }
-
-/**
- * The intrinsic actions available to WeaponGear items.
- * This structure should correspond to the methods on the
- * WeaponGearLogic class that can be invoked as intrinsic actions.
- */
-export const {
-    /** Enum-like map of WeaponGear intrinsic action keys to their identifiers. */
-    kind: WEAPONGEAR_INTRINSIC_ACTION,
-    /** Array of all valid WeaponGear intrinsic action identifier values. */
-    values: WeaponGearIntrinsicActions,
-    /** Type guard testing whether a value is a WeaponGear intrinsic action identifier. */
-    isValue: isWeaponGearIntrinsicAction,
-    /** Localized labels for each WeaponGear intrinsic action, keyed by identifier. */
-    labels: WeaponGearIntrinsicActionLabels,
-} = defineType("SOHL.WeaponGear.ACTION", {
-    AUTOMATEDCOMBATSTART: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedCombatStart",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-swords",
-        executor: "automatedCombatStart",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    AUTOMATEDBLOCKRESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedBlockResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-shield",
-        executor: "automatedBlockResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-
-    AUTOMATEDCOUNTERSTRIKERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.WeaponGear.ACTION.automatedCounterstrikeResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-circle-half-stroke",
-        executor: "automatedCounterstrikeResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-} as StrictObject<Partial<SohlActionData>>);

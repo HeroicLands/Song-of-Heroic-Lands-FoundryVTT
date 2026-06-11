@@ -29,10 +29,17 @@ export class SohlCombat<
 > extends Combat<SubType> {
     /**
      * After combatants are created, seed each ungrouped one into a
-     * `CombatantGroup` derived from its token's `sohl.defaultCombatGroup`
+     * {@link CombatantGroup} derived from its token's `sohl.defaultCombatGroup`
      * flag (defaulting to `"Opponents"`). Batch-aware: several combatants
      * created in one operation that want the same new group share a single
      * group create. Only the active GM performs the authoritative writes.
+     *
+     * @param parent - The parent document of the created descendants.
+     * @param collection - The name of the embedded collection that was modified.
+     * @param documents - The created descendant documents.
+     * @param data - The source data used to create the documents.
+     * @param options - The options passed to the creation operation.
+     * @param userId - The id of the user that performed the creation.
      */
     protected override _onCreateDescendantDocuments(
         parent: any,
@@ -55,6 +62,13 @@ export class SohlCombat<
         void this.seedCombatantGroups(documents as SohlCombatant[]);
     }
 
+    /**
+     * Assign newly created combatants to their desired {@link CombatantGroup}s,
+     * creating any missing groups first and then updating each combatant's
+     * group, per the plan from {@link resolveGroupSeeding}.
+     *
+     * @param combatants - The combatants to seed into groups.
+     */
     private async seedCombatantGroups(
         combatants: SohlCombatant[],
     ): Promise<void> {
@@ -104,6 +118,10 @@ export class SohlCombat<
     }
 }
 
+/**
+ * Builds the Foundry data schema for the SoHL Combat document (currently empty).
+ * @returns The combat data schema.
+ */
 function defineSohlCombatDataSchema(): foundry.data.fields.DataSchema {
     return {};
 }
@@ -117,6 +135,10 @@ export class SohlCombatDataModel<
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combat"];
     static readonly kind = "sohlcombatdata";
 
+    /**
+     * Returns the Foundry data schema for the SoHL Combat document.
+     * @returns The combat data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlCombatDataSchema();
     }

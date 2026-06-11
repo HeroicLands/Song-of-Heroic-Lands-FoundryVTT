@@ -16,6 +16,11 @@ import { ACTOR_KIND } from "@src/utils/constants";
 import type { BeingData } from "@src/document/actor/logic/BeingLogic";
 import { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 
+/**
+ * Builds the Being data schema, inheriting the base actor schema unchanged.
+ *
+ * @returns The Being data schema.
+ */
 function defineBeingDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
@@ -41,6 +46,11 @@ export class BeingDataModel<
     ];
     static override readonly kind = ACTOR_KIND.BEING;
 
+    /**
+     * Returns the Being data schema.
+     *
+     * @returns The Being data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineBeingDataSchema();
     }

@@ -13,13 +13,19 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import {
-    SohlItem,
     SohlItemBaseLogic,
-    SohlItemData,
-} from "@src/document/item/foundry/SohlItem";
-import { MysticalAbilitySubType } from "@src/utils/constants";
+    type SohlItemData,
+} from "@src/document/item/logic/SohlItemBaseLogic";
+import {
+    ACTION_SUBTYPE,
+    MysticalAbilitySubType,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 /**
  * An actively invoked supernatural power.
@@ -32,8 +38,8 @@ import { MysteryLogic } from "./MysteryLogic";
  * Each ability is linked to an **associated skill** (via shortcode) that
  * governs its activation test, and to a mystery that
  * determines its mystical tradition. Abilities track a **level** (power),
- * **charges** (uses remaining), and inherit mastery level progression from
- * {@link MasteryLevelLogic}.
+ * **charges** (uses remaining), and track mastery level progression via
+ * {@link MasteryLevelModifier}.
  *
  * Supported subtypes:
  * - Shamanic Rite: Perform a shamanic rite on target(s)
@@ -94,6 +100,27 @@ export class MysticalAbilityLogic<
          */
         max: ValueModifier;
     };
+
+    /**
+     * Define and return all intrinsic actions for mystical ability logic,
+     * adding the "perform" action to those inherited from the base logic.
+     * @returns The intrinsic action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "perform",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.MysticalAbility.Action.perform.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sparkles",
+                executor: "perform",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

@@ -96,6 +96,9 @@ export class SohlActiveEffect extends ActiveEffect {
      * Walk the owning actor's items of the given kind and return those for
      * which `system.test` (a SafeExpression) evaluates truthy. An empty
      * `system.test` matches every item of that kind.
+     *
+     * @param itemKind - The item kind to filter the actor's items by.
+     * @returns The matching items (all of the kind when no test is set).
      */
     protected _resolveItemTypeTargets(itemKind: ItemKind): SohlItem[] {
         if (!this.actor) return [];
@@ -152,6 +155,17 @@ export class SohlActiveEffect extends ActiveEffect {
      *
      * `sm:` keys are only meaningful on `WEAPONGEAR` documents; on other
      * target types the change is silently skipped.
+     *
+     * @param targetDoc - The document the change is being applied to.
+     * @param change - The effect change being applied.
+     * @param changes - Accumulator of applied changes (passed through to stock
+     *   Foundry handling for non-SoHL keys).
+     * @param opts - Foundry change-application options.
+     * @param opts.replacementData - Optional replacement data forwarded to the
+     *   stock handler.
+     * @param opts.modifyTarget - Whether the target document should be modified.
+     * @returns The result of the routed handler, or `undefined` when no SoHL
+     *   handler applies.
      */
     protected static _applyChangeUnguided(
         targetDoc: any,
@@ -217,6 +231,9 @@ export class SohlActiveEffect extends ActiveEffect {
  * Map a Foundry `change.type` string to a SoHL `VALUE_DELTA_OPERATOR`.
  * Unknown types fall back to `ADD`. CUSTOM is only valid when the
  * ValueModifier has a `customFunction`.
+ *
+ * @param type - The Foundry change type string.
+ * @returns The corresponding `VALUE_DELTA_OPERATOR` (`ADD` for unknown types).
  */
 function changeTypeToOperator(type: string): string {
     switch (type) {
@@ -242,6 +259,9 @@ function changeTypeToOperator(type: string): string {
  * `ValueModifier.deltas` array. Bypasses the `add/multiply/...` API so we
  * can use a stable `"SOHL.INFO.ActiveEffect"` name (the user-facing label
  * still surfaces through `effect.name` via the shortcode).
+ *
+ * @param vm - The value modifier to receive the delta.
+ * @param change - The effect change describing the operator and value.
  */
 function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
     const effectName = change?.effect?.name ?? "Active Effect";
@@ -271,6 +291,11 @@ function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
  * Apply a `mod:<path>` change: locate the ValueModifier at `path` on the
  * target document (paths are doc-rooted, so e.g. `logic.score` resolves
  * to `targetDoc.logic.score`) and push a delta onto it.
+ *
+ * @param targetDoc - The document whose modifier is being changed.
+ * @param change - The effect change to apply.
+ * @param path - The doc-rooted property path to the target ValueModifier.
+ * @returns Always `undefined`; the modifier is mutated in place.
  */
 function dispatchModifierChange(
     targetDoc: any,
@@ -297,6 +322,12 @@ function dispatchModifierChange(
  * candidate strike mode. Empty predicate matches every strike mode.
  * Predicate errors on a single strike mode are logged and that strike mode
  * is skipped; other strike modes continue.
+ *
+ * @param targetDoc - The target weapon document (must be `WEAPONGEAR`).
+ * @param change - The effect change to apply, carrying the strike-mode predicate.
+ * @param path - The strike-mode-rooted property path to set or modify.
+ * @param useMod - When `true`, push a delta; otherwise assign the value directly.
+ * @returns Always `undefined`; strike modes are mutated in place.
  */
 function dispatchStrikeModeChange(
     targetDoc: any,
@@ -346,6 +377,12 @@ function dispatchStrikeModeChange(
     return undefined;
 }
 
+/**
+ * Builds the SoHL active-effect data schema: scope, a `test` SafeExpression,
+ * and a Foundry-compatible `changes` array extended with `strikeModePredicate`.
+ *
+ * @returns The active-effect data schema.
+ */
 function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
     return {
         scope: new StringField({
@@ -407,6 +444,11 @@ export class SohlActiveEffectDataModel<
         strikeModePredicate?: string;
     }>;
 
+    /**
+     * Returns the SoHL active-effect data schema.
+     *
+     * @returns The active-effect data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineActiveEffectDataSchema();
     }

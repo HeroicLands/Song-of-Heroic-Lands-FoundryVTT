@@ -22,7 +22,7 @@ const FLAG_KEY = "defaultCombatGroup";
 const MOVE_TO_GROUP_LABEL = "Move to Group…";
 
 /**
- * Register hooks supporting Foundry-native `CombatantGroup` allegiance:
+ * Register hooks supporting Foundry-native {@link CombatantGroup} allegiance:
  *
  * - A "Default Combat Group" text field injected into both the instance
  *   Token configuration and the prototype Token configuration, writing the
@@ -45,10 +45,7 @@ export function registerCombatGroupHooks(): void {
     // `get{ClassName}ContextOptions` for the `.combatant` menu, which
     // resolves to `getCombatTrackerContextOptions`. Register both (with a
     // dedupe guard) so the entry appears regardless of which name fires.
-    (Hooks as any).on(
-        "getCombatantContextOptions",
-        addMoveToGroupContextEntry,
-    );
+    (Hooks as any).on("getCombatantContextOptions", addMoveToGroupContextEntry);
     (Hooks as any).on(
         "getCombatTrackerContextOptions",
         addMoveToGroupContextEntry,
@@ -58,6 +55,8 @@ export function registerCombatGroupHooks(): void {
 /**
  * Inject a "Default Combat Group" text input into a Token / Prototype Token
  * config form, reading from and writing to `flags.sohl.defaultCombatGroup`.
+ * @param app - The token config application supplying the document and flag.
+ * @param html - The rendered form root (or a container holding the form).
  */
 function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
     const form: HTMLElement | null =
@@ -66,8 +65,9 @@ function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
     if (form.querySelector(".sohl-default-combat-group")) return;
 
     const current =
-        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as string | undefined) ??
-        "";
+        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as
+            | string
+            | undefined) ?? "";
 
     // No localization: the field label is fixed and group names are free text.
     const label = "Default Combat Group";
@@ -91,14 +91,18 @@ function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
     }
 }
 
-/** Push the "Move to Group…" entry onto a combatant context menu (once). */
+/**
+ * Push the "Move to Group…" entry onto a combatant context menu (once).
+ * @param _app - The combat tracker application (unused).
+ * @param menuItems - The context-menu entry list to append to.
+ */
 function addMoveToGroupContextEntry(_app: any, menuItems: any[]): void {
     if (!Array.isArray(menuItems)) return;
     if (menuItems.some((i) => i?.label === MOVE_TO_GROUP_LABEL)) return;
 
     menuItems.push({
         label: MOVE_TO_GROUP_LABEL,
-        icon: "fa-solid fa-people-arrows",
+        icon: "sohl-person-group",
         visible: () => (game as any).user?.isGM,
         onClick: (_event: Event, li: HTMLElement) => {
             const combatant = resolveCombatant(li);
@@ -107,11 +111,13 @@ function addMoveToGroupContextEntry(_app: any, menuItems: any[]): void {
     });
 }
 
-/** Resolve the `SohlCombatant` for a context-menu target element. */
+/**
+ * Resolve the `SohlCombatant` for a context-menu target element.
+ * @param li - The context-menu target element (or a descendant of the row).
+ * @returns The matching combatant, or `null` if none can be resolved.
+ */
 function resolveCombatant(li: HTMLElement): SohlCombatant | null {
-    const row = li?.closest?.(
-        "[data-combatant-id]",
-    ) as HTMLElement | null;
+    const row = li?.closest?.("[data-combatant-id]") as HTMLElement | null;
     const id = (row ?? li)?.dataset?.combatantId;
     if (!id) return null;
     const combat = (game as any).combat;
@@ -122,6 +128,7 @@ function resolveCombatant(li: HTMLElement): SohlCombatant | null {
  * Prompt the GM to move a combatant into an existing group or a new one,
  * then apply the assignment. Selecting the combatant's current group is a
  * no-op.
+ * @param combatant - The combatant to reassign to a group.
  */
 async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
     const combat = combatant.combat as any;
@@ -164,13 +171,15 @@ async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
             {
                 action: "ok",
                 label: "Move",
-                icon: "fa-solid fa-check",
+                icon: "sohl-check",
                 default: true,
                 callback: (_event: Event, button: any) => {
                     const form = button.form as HTMLFormElement;
                     return {
                         group: (
-                            form.elements.namedItem("group") as HTMLSelectElement
+                            form.elements.namedItem(
+                                "group",
+                            ) as HTMLSelectElement
                         )?.value,
                         newName: (
                             form.elements.namedItem(
@@ -183,7 +192,7 @@ async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
             {
                 action: "cancel",
                 label: "Cancel",
-                icon: "fa-solid fa-xmark",
+                icon: "sohl-xmark",
             },
         ],
         close: () => null,
@@ -207,12 +216,20 @@ async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
     await combatant.update({ group: targetGroupId } as any);
 }
 
-/** Escape a string for safe use inside an HTML attribute value. */
+/**
+ * Escape a string for safe use inside an HTML attribute value.
+ * @param value - The raw string to escape.
+ * @returns The string with `&` and `"` escaped as HTML entities.
+ */
 function escapeAttr(value: string): string {
     return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 }
 
-/** Escape a string for safe use as HTML text content. */
+/**
+ * Escape a string for safe use as HTML text content.
+ * @param value - The raw string to escape.
+ * @returns The string with `&`, `<`, and `>` escaped as HTML entities.
+ */
 function escapeHtml(value: string): string {
     return String(value)
         .replace(/&/g, "&amp;")

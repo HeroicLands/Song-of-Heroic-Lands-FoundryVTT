@@ -198,7 +198,7 @@ export class SohlLogger {
      * Inspect the current stack trace to identify the caller of the logging
      * API (the first frame outside `SohlLogger`) and resolve it, source-mapping
      * the location when possible.
-     * @returns Parsed {@link LogCallerInfo}; falls back to anonymous/unknown
+     * @returns Parsed `LogCallerInfo`; falls back to anonymous/unknown
      *   placeholders if the frame cannot be parsed.
      */
     getCallerInfo(): LogCallerInfo {
@@ -258,7 +258,7 @@ export class SohlLogger {
      * `notifyLevel` is set — surfaces a Foundry UI notification.
      * @param message The message key or text (localized and interpolated with
      *   any extra `options` keys).
-     * @param options Logging options; see {@link LogOptions}. Defaults to an
+     * @param options Logging options; see `LogOptions`. Defaults to an
      *   `INFO`-level console-only message.
      */
     log(message: string = "", options: Partial<LogOptions> = {}): void {

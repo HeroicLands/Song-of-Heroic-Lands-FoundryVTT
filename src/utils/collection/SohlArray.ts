@@ -15,7 +15,7 @@ import { Itr } from "@src/utils/Itr";
 
 /**
  * @summary A tracked array that participates in the SoHL data lifecycle.
- * @description
+ *
  * `SohlArray<T>` is an extension of the native `Array<T>` that supports automatic tracking of parent context and persistence.
  * It is used to hold ordered collections of objects such as Effects or Logic items.
  *
@@ -39,13 +39,18 @@ import { Itr } from "@src/utils/Itr";
 export class SohlArray<T> {
     private arrayData!: Array<T>;
 
+    /**
+     * Constructs a new tracked array, optionally seeded with initial elements.
+     *
+     * @param items - The initial elements to populate the array with.
+     */
     constructor(...items: T[]) {
         this.arrayData = new Array<T>(...items);
     }
 
     /**
-     * @summary Returns an iterator over the array's values.
-     * @description
+     * Returns an iterator over the array's values.
+     *
      * Yields each element of the array in numeric index order.
      * Equivalent to the default iterator and `Symbol.iterator`.
      *
@@ -61,8 +66,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Returns an iterator over the array's keys (indices).
-     * @description
+     * Returns an iterator over the array's keys (indices).
+     *
      * Yields the numeric indices of each item in the array.
      *
      * @returns An iterable iterator over the array's indices.
@@ -77,8 +82,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Returns an iterator over key-value pairs [index, element].
-     * @description
+     * Returns an iterator over key-value pairs [index, element].
+     *
      * Each iteration yields a tuple containing the index and the corresponding element.
      *
      * @returns An iterable iterator of `[index, value]` pairs.
@@ -93,8 +98,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Iterates entries while allowing dynamic expansion.
-     * @description
+     * Iterates entries while allowing dynamic expansion.
+     *
      * Provides a breadth-first iterator over all entries in the collection, including new items added
      * during the iteration itself. This allows your logic to traverse all known items and process
      * new ones as they are introduced dynamically.
@@ -138,8 +143,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary The default iterator for SohlArray.
-     * @description
+     * The default iterator for SohlArray.
+     *
      * Allows the array to be iterated using `for...of`, spreading, or other iterable utilities.
      * Equivalent to `.values()`.
      *
@@ -155,8 +160,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Adds one or more elements to the end of the array.
-     * @description
+     * Adds one or more elements to the end of the array.
+     *
      * Extends the array by appending new elements. Returns the new length of the array.
      *
      * @param items - One or more elements to add to the array.
@@ -170,8 +175,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Changes the contents of the array by removing or replacing existing elements.
-     * @description
+     * Changes the contents of the array by removing or replacing existing elements.
+     *
      * Removes elements starting at the given index and optionally inserts new elements.
      * Returns an array of the removed elements.
      *
@@ -188,8 +193,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Removes the last element from the array and returns it.
-     * @description
+     * Removes the last element from the array and returns it.
+     *
      * If the array is empty, returns `undefined`. The length of the array is decreased by one.
      *
      * @returns The removed element, or `undefined` if the array was empty.
@@ -202,8 +207,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Removes and returns the first element of the array.
-     * @description
+     * Removes and returns the first element of the array.
+     *
      * Shifts all remaining elements one position to the left and returns the removed value.
      * If the array is empty, returns `undefined`.
      *
@@ -218,8 +223,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Adds one or more elements to the beginning of the array.
-     * @description
+     * Adds one or more elements to the beginning of the array.
+     *
      * Inserts the specified elements at the start of the array, shifting existing elements to the right.
      * Returns the new length of the array.
      *
@@ -235,8 +240,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Safely assign a value at the specified index with lifecycle tracking.
-     * @description
+     * Safely assign a value at the specified index with lifecycle tracking.
+     *
      * This method replaces the element at the given index and ensures the change is properly
      * tracked for persistence and lifecycle propagation. It integrates with the SoHL system
      * by linking the new value to its parent context and notifying the parent of the update.
@@ -274,8 +279,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Creates a new array with the results of calling a function on each element.
-     * @description
+     * Creates a new array with the results of calling a function on each element.
+     *
      * Returns a new array containing the results of applying the callback function to each element.
      * Does not modify the original array.
      *
@@ -290,8 +295,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Applies a function against an accumulator and each element to reduce to a single value.
-     * @description
+     * Applies a function against an accumulator and each element to reduce to a single value.
+     *
      * The callback is applied sequentially to each element of the array and the accumulated result is returned.
      *
      * @param fn - A reducer function taking accumulator, current value, index, and array.
@@ -309,8 +314,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary The number of elements in the array.
-     * @description
+     * The number of elements in the array.
+     *
      * Reflects the total count of elements in the array. This is a read-only property.
      *
      * @readonly
@@ -322,8 +327,8 @@ export class SohlArray<T> {
     }
 
     /**
-     * @summary Returns the element at the specified index.
-     * @description
+     * Returns the element at the specified index.
+     *
      * Allows access to an element by index, including support for negative indices to count from the end.
      *
      * @param index - The index of the element to retrieve. If negative, counts from the end of the array.
