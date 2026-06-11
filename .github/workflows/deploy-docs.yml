@@ -52,6 +52,14 @@ jobs:
                       # Tags are published verbatim (e.g. v0.7.0) and mirrored to /latest
                       echo "dir=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
                       echo "is_release=true" >> "$GITHUB_OUTPUT"
+                  elif [ "${{ github.ref_type }}" = "tag" ]; then
+                      # Manually dispatched against a release tag (the reminder
+                      # printed by release.yml): treat it like the release event
+                      # — publish under /<tag> and mirror to /latest. This is the
+                      # supported manual path, since a Release made with
+                      # GITHUB_TOKEN can't auto-trigger this workflow.
+                      echo "dir=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+                      echo "is_release=true" >> "$GITHUB_OUTPUT"
                   else
                       # Branch docs live under the branch name, with "/" slugified to "-"
                       REF="${{ github.ref_name }}"
