@@ -5,16 +5,21 @@ on:
         branches:
             - main
 
+# contents: write   -> create the release, tag, and version commit
+# pull-requests: write -> open/update the "Version Packages" PR
 permissions:
     contents: write
-    packages: write
+    pull-requests: write
+
+# Never let two pushes to main race on the version PR or the release.
+concurrency:
+    group: release
+    cancel-in-progress: false
 
 jobs:
-    version:
-        name: Version using Changesets
+    release:
+        name: Version and Release
         runs-on: ubuntu-latest
-        outputs:
-            published: ${{ steps.changesets.outputs.published }}
 
         steps:
             - name: Checkout code
@@ -31,75 +36,101 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Apply version bump (if changesets exist)
+            # When changesets are pending, this opens (or updates) the
+            # "Version Packages" PR that bumps the version and rewrites
+            # CHANGELOG.md. When that PR is merged, the changesets are gone, so
+            # this step is a no-op and `hasChangesets` is false — which is the
+            # signal that a freshly-versioned commit just landed on main.
+            - name: Create or update the Version Packages PR
               id: changesets
               uses: changesets/action@v1
               with:
                   version: npx changeset version
                   commit: "chore(release): version packages"
+                  title: "chore(release): version packages"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Tag release using Changesets
-              run: npx changeset tag
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    release:
-        name: Build & Publish GitHub Release
-        needs: version
-        runs-on: ubuntu-latest
-        if: ${{ needs.version.outputs.published == 'true' }}
-
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
-
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
-                  cache: npm
-
-            - name: Install dependencies
-              run: npm ci
-
-            - name: Get version
-              id: get_version
+            # Release only when the Version PR has merged: no changesets remain
+            # AND the current package version has not already been tagged. This
+            # makes the job idempotent — ordinary pushes to main never release.
+            - name: Decide whether to release
+              id: decide
+              if: steps.changesets.outputs.hasChangesets == 'false'
               run: |
                   VERSION=$(node -p "require('./package.json').version")
-                  echo "version=v$VERSION" >> $GITHUB_OUTPUT
+                  TAG="v$VERSION"
+                  if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+                      echo "Tag $TAG already exists — nothing to release."
+                      echo "release=false" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "Version $VERSION is untagged — releasing $TAG."
+                      echo "release=true" >> "$GITHUB_OUTPUT"
+                      echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+                  fi
 
             - name: Build system
-              run: |
-                  npm run build
+              if: steps.decide.outputs.release == 'true'
+              run: npm run build
 
-            - name: Package System
-              run: |
-                  npm run build:pack-release
+            - name: Package system
+              if: steps.decide.outputs.release == 'true'
+              run: npm run build:pack-release
 
-            - name: Read Changelog
+            - name: Read changelog section for this version
               id: changelog
+              if: steps.decide.outputs.release == 'true'
               run: |
                   {
                     echo 'body<<EOF'
-                    # Emit only the latest version's section: everything between the
-                    # first "## " heading and the next "## " heading, excluding the
-                    # version header line itself (the release title already shows it).
+                    # Emit only the latest version's section: everything between
+                    # the first "## " heading and the next "## " heading,
+                    # excluding the version header line itself (the release title
+                    # already shows it).
                     awk '/^## /{c++; if (c>=2) exit; next} c==1{print}' CHANGELOG.md
                     echo 'EOF'
                   } >> "$GITHUB_OUTPUT"
 
-            - name: Upload GitHub Release assets
+            # Creates the v<version> tag and the GitHub Release, attaching the
+            # packaged manifest + zip that Foundry installs from.
+            - name: Create GitHub Release
+              if: steps.decide.outputs.release == 'true'
               uses: softprops/action-gh-release@v1
               with:
-                  tag_name: ${{ steps.get_version.outputs.version }}
-                  name: Release ${{ steps.get_version.outputs.version }}
+                  tag_name: ${{ steps.decide.outputs.tag }}
+                  name: Release ${{ steps.decide.outputs.tag }}
                   body: ${{ steps.changelog.outputs.body }}
                   files: |
                       build/release/system.zip
                       build/release/system.json
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            # The Release above was created with GITHUB_TOKEN, which by design
+            # cannot trigger another workflow — so deploy-docs.yml does NOT fire
+            # on this release. Surface the one-liner that publishes the
+            # versioned docs (and mirrors /latest) so it's not forgotten.
+            - name: Remind to publish versioned docs
+              if: steps.decide.outputs.release == 'true'
+              env:
+                  TAG: ${{ steps.decide.outputs.tag }}
+              run: |
+                  CMD="gh workflow run deploy-docs.yml --ref ${TAG}"
+                  {
+                    echo "## 📚 Publish the API docs for ${TAG}"
+                    echo ""
+                    echo "The GitHub Release was created with \`GITHUB_TOKEN\`, which"
+                    echo "can't trigger \`deploy-docs.yml\`. Run this to publish the docs"
+                    echo "under \`/${TAG}\` and mirror them to \`/latest\`:"
+                    echo ""
+                    echo '```bash'
+                    echo "${CMD}"
+                    echo '```'
+                  } >> "$GITHUB_STEP_SUMMARY"
+                  echo "============================================================"
+                  echo "Release ${TAG} published. Publish the versioned API docs with:"
+                  echo ""
+                  echo "    ${CMD}"
+                  echo ""
+                  echo "(Publishes /${TAG} and mirrors /latest.)"
+                  echo "============================================================"
