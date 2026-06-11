@@ -132,6 +132,7 @@ export abstract class StrikeModeBase {
      * The base SchemaField definitions shared by all strike-mode types.
      * Subclasses should call this and merge in their type-specific fields
      * to produce a SchemaField suitable for use in a TypedSchemaField.
+     * @returns The shared data-schema field definitions for strike modes.
      */
     static baseSchemaFields(): foundry.data.fields.DataSchema {
         // Lazy access: foundry globals exist only when Foundry-side code

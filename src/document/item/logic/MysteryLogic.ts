@@ -81,6 +81,10 @@ export class MysteryLogic<
         max: ValueModifier;
     };
 
+    /**
+     * Define and return all intrinsic actions for mystery logic.
+     * @returns The intrinsic action definitions, including those inherited from the base logic.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),

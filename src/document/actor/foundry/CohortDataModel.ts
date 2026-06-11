@@ -25,6 +25,7 @@ const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
 
 /**
  * Defines the data schema for the Cohort actor.
+ * @returns The cohort data schema.
  */
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
@@ -72,6 +73,10 @@ export class CohortDataModel<
     moveRepName!: string;
     members!: { shortcode: string; name: string; role: string }[];
 
+    /**
+     * Returns the Foundry data schema for the Cohort actor.
+     * @returns The cohort data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCohortDataSchema();
     }

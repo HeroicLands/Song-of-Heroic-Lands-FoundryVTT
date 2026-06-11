@@ -101,6 +101,11 @@ export class MysticalAbilityLogic<
         max: ValueModifier;
     };
 
+    /**
+     * Define and return all intrinsic actions for mystical ability logic,
+     * adding the "perform" action to those inherited from the base logic.
+     * @returns The intrinsic action definitions.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),

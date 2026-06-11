@@ -79,15 +79,16 @@ export class SohlSpeaker {
     readonly user: User | null;
 
     /**
-     * Construct a SohlSpeaker instance.
+     * Construct a SohlSpeaker instance, resolving the token, actor, scene,
+     * user and display name from the supplied ids.
      *
-     * @param options
-     * @param options.rollMode The roll mode to use.
-     * @param options.user The user ID.
-     * @param options.token The token ID.
-     * @param options.actor The actor ID.
-     * @param options.scene The scene ID.
-     * @param options.alias The alias to use.
+     * @param data - Speaker source data.
+     * @param data.rollMode - The roll mode to use.
+     * @param data.user - The user ID.
+     * @param data.token - The token ID.
+     * @param data.actor - The actor ID.
+     * @param data.scene - The scene ID.
+     * @param data.alias - The alias to use.
      */
     constructor(data: Partial<SohlSpeaker.Data> = {}) {
         this.token = null;
@@ -127,7 +128,10 @@ export class SohlSpeaker {
         }
     }
 
-    /** Build Foundry's `ChatMessage` speaker data from this speaker. */
+    /**
+     * Build Foundry's `ChatMessage` speaker data from this speaker.
+     * @returns The chat message speaker data (alias and resolved ids).
+     */
     getChatMessageSpeaker(): foundry.documents.ChatMessage.SpeakerData {
         return {
             alias: this.name,
@@ -149,7 +153,10 @@ export class SohlSpeaker {
         return false;
     }
 
-    /** Serialize to a plain object of resolved ids plus alias and roll mode. */
+    /**
+     * Serialize to a plain object of resolved ids plus alias and roll mode.
+     * @returns The plain-object representation of this speaker.
+     */
     toJSON(): JsonValue {
         return {
             [KIND_KEY]: SohlSpeaker.Kind,
@@ -191,6 +198,7 @@ export class SohlSpeaker {
      * @param template The template to use.
      * @param data The data for the message.
      * @param options The options for the message.
+     * @returns The created `ChatMessage`, or `undefined` if none was created.
      */
     protected async _toChatWithTemplate(
         template: FilePath,
@@ -214,6 +222,7 @@ export class SohlSpeaker {
      * @param content The HTML content of the message.
      * @param data The data for the message.
      * @param options The options for the message.
+     * @returns The created `ChatMessage`, or `undefined` if none was created.
      */
     protected async _toChatWithContent(
         content: HTMLString,

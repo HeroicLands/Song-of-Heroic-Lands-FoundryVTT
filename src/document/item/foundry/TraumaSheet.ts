@@ -27,6 +27,14 @@ export class TraumaSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Adds trauma-specific fields (subtype, level, healing rate, aspect,
+     * treatment/bleeding flags, body location) to the properties tab context.
+     *
+     * @param context - The sheet render context to extend.
+     * @param options - The sheet render options.
+     * @returns The context augmented with trauma properties.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

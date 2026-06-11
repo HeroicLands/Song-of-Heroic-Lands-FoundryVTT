@@ -116,7 +116,20 @@ export default [
             ],
             "jsdoc/require-description": "warn",
             "jsdoc/require-param": "warn",
-            "jsdoc/require-returns": "warn",
+            // A getter's prose description is its return documentation;
+            // don't also demand a redundant @returns on it.
+            "jsdoc/require-returns": ["warn", { checkGetters: false }],
+        },
+    },
+    {
+        // Tests document themselves through their `describe`/`it` names and
+        // helper signatures; full JSDoc on test scaffolding is noise.
+        files: ["tests/**/*.ts"],
+        rules: {
+            "jsdoc/require-jsdoc": "off",
+            "jsdoc/require-description": "off",
+            "jsdoc/require-param": "off",
+            "jsdoc/require-returns": "off",
         },
     },
     {

@@ -208,6 +208,9 @@ export class MasteryLevelModifier extends ValueModifier {
     }
 
     /**
+     * Builds a mastery level modifier, applying defaults for target bounds,
+     * crit-digit lists, success/value tables, and the test type and title.
+     *
      * @param data - Test data; targets default to unbounded, crit-digit lists to
      *   empty, and the description/value tables to the standard ones.
      * @param options - Must provide `options.parent` (base {@link ValueModifier}).
@@ -437,8 +440,9 @@ export class MasteryLevelModifier extends ValueModifier {
      * `context.priorTestResult` is provided, it is assumed to be an existing
      * `OpposedTestResult` that needs to be completed by performing the target
      * test.
-     * @param {object} options
-     * @returns {SuccessTestChatData}
+     * @param context - The action context; `context.scope.priorTestResult`
+     *   resumes an existing opposed test, otherwise a new one is started.
+     * @returns The resulting opposed test, or `null` when no target is available.
      */
     async opposedTestStart(
         context: SohlActionContext,

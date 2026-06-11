@@ -68,7 +68,10 @@ export interface SohlItemData<
 export class SohlItemBaseLogic<
     TData extends SohlItemData = SohlItemData,
 > extends SohlLogic<TData> {
+    /** @inheritDoc */
     override initialize(): void {}
+    /** @inheritDoc */
     override evaluate(): void {}
+    /** @inheritDoc */
     override finalize(): void {}
 }

@@ -82,7 +82,7 @@ export class SohlTokenDocument extends TokenDocument {
      *
      * @param sourceToken - The source token.
      * @param targetToken - The target token.
-     * @param gridUnits=false - Whether to return in grid units.
+     * @param gridUnits - Whether to return in grid units; defaults to false.
      * @returns {number|null} The distance, or null if not calculable.
      */
     static rangeToTarget(

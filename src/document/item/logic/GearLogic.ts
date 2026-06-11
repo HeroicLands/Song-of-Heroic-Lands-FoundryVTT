@@ -75,6 +75,10 @@ export abstract class GearLogic<
      */
     sharedWithCohorts!: SohlActor[];
 
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns The base item actions plus the gear carried/not-carried actions.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
@@ -131,7 +135,11 @@ export abstract class GearLogic<
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a cohort ID to the sharing list. */
+    /**
+     * Build an `update()` payload that adds a cohort ID to the sharing list.
+     * @param cohortId - The cohort actor ID to add to the sharing list.
+     * @returns An update payload adding the ID, or an empty object if already present.
+     */
     addSharedCohortUpdate(cohortId: string): PlainObject {
         const canonical = this.data.sharedWithCohortIds;
         if (canonical.includes(cohortId)) return {};
@@ -140,7 +148,11 @@ export abstract class GearLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a cohort ID from the sharing list. */
+    /**
+     * Build an `update()` payload that removes a cohort ID from the sharing list.
+     * @param cohortId - The cohort actor ID to remove from the sharing list.
+     * @returns An update payload with the ID filtered out of the sharing list.
+     */
     removeSharedCohortUpdate(cohortId: string): PlainObject {
         return {
             "system.sharedWithCohortIds": this.data.sharedWithCohortIds.filter(

@@ -26,6 +26,11 @@ import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
 import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 
+/**
+ * Initializes the SoHL system: merges its CONFIG into Foundry's and
+ * registers the document sheets.
+ * @returns The initialized {@link SohlSystem} singleton.
+ */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
@@ -34,6 +39,9 @@ function setupSystem(): SohlSystem {
     return sohl;
 }
 
+/**
+ * Registers all SoHL world and client settings with Foundry's settings API.
+ */
 function registerSystemSettings() {
     game.settings.register("sohl", "systemMigrationVersion", {
         name: "SOHL.Settings.systemMigrationVersion.label",
@@ -214,6 +222,11 @@ function registerSystemSettings() {
  * on subsequent world loads. Idempotent and safe to call once per session.
  */
 let __builtinDomainsSeeded = false;
+/**
+ * Registers any built-in domains missing from the world registry.
+ * Idempotent: runs at most once per session and never overwrites
+ * GM-saved overrides.
+ */
 function registerBuiltinDomains(): void {
     if (__builtinDomainsSeeded) return;
     __builtinDomainsSeeded = true;
@@ -259,6 +272,10 @@ function applyActiveCalendar(): void {
     }
 }
 
+/**
+ * Wires SoHL combat-tracker hooks and bridges Foundry's lifecycle hooks
+ * to SoHL trigger dispatches.
+ */
 function registerSystemHooks() {
     registerCombatTrackerHooks();
 
@@ -452,6 +469,9 @@ Hooks.once("ready", () => {
 /*-------------------------------------------------------*/
 /*            Handlebars FUNCTIONS                       */
 /*-------------------------------------------------------*/
+/**
+ * Registers all SoHL Handlebars helpers used by the system templates.
+ */
 function registerHandlebarsHelpers() {
     /**
      * A helper to create a set of &lt;option> elements in a &lt;select> block based on a provided array.

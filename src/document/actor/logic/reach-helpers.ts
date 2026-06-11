@@ -24,7 +24,12 @@ export interface MeleeReachOption {
     heldLimbs: number | null;
 }
 
-/** Whether a melee strike mode is currently available to the actor. */
+/**
+ * Whether a melee strike mode is currently available to the actor.
+ *
+ * @param option - The strike mode to test.
+ * @returns `true` if the mode is intrinsic or the weapon is held in enough limbs.
+ */
 function isAvailable(option: MeleeReachOption): boolean {
     // Combat techniques (heldLimbs === null) are intrinsic and always
     // available. A weapon mode is available only when the weapon is held in
@@ -36,6 +41,9 @@ function isAvailable(option: MeleeReachOption): boolean {
  * An actor's melee reach: the greatest reach among its currently *available*
  * melee strike modes (see {@link isAvailable}). Returns 0 when no melee mode
  * is available.
+ *
+ * @param options - The candidate melee strike modes to consider.
+ * @returns The greatest reach among available modes, or 0 if none are available.
  */
 export function computeActorReach(options: MeleeReachOption[]): number {
     return options

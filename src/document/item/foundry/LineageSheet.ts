@@ -28,6 +28,13 @@ export class LineageSheet extends SohlItemSheetBase {
         },
     };
 
+    /**
+     * Prepares the render context for the lineage properties tab, adding the
+     * available movement-medium choices for the dropdown.
+     * @param context - The sheet render context to augment.
+     * @param options - The sheet render options.
+     * @returns The render context extended with `movementMediumChoices`.
+     */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,

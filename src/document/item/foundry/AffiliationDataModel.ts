@@ -19,6 +19,11 @@ import {
 import { ITEM_KIND } from "@src/utils/constants";
 const { StringField, NumberField } = foundry.data.fields;
 
+/**
+ * Builds the data schema for the Affiliation item, extending the base item
+ * schema with affiliation-specific fields (society, office, title, level).
+ * @returns The Foundry data schema for the affiliation.
+ */
 function defineAffiliationDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -60,6 +65,10 @@ export class AffiliationDataModel<
     title!: string;
     level!: number;
 
+    /**
+     * Returns the Foundry data schema for the affiliation item.
+     * @returns The affiliation data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAffiliationDataSchema();
     }

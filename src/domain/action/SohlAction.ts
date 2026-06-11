@@ -114,9 +114,10 @@ export class SohlAction {
      * subtypes it is compiled from `data.executor` source. When no executor
      * is supplied, a no-op resolving to `undefined` is used.
      * @param data - The action definition.
-     * @param dataModel - The data model the action belongs to; supplies the
-     *   logic targets used to bind the executor.
-     * @throws If `dataModel` or `data` is missing, if `data.scope` is
+     * @param options - Construction options; `options.parent` is the data
+     *   model the action belongs to and supplies the logic targets used to
+     *   bind the executor.
+     * @throws If `options.parent` or `data` is missing, if `data.scope` is
      *   unknown, or if an Intrinsic executor names a non-existent method on
      *   the resolved target.
      */
@@ -192,6 +193,7 @@ export class SohlAction {
         }
     }
 
+    /** The action's shortcode identifier. */
     get shortcode(): string {
         return this.data.shortcode;
     }
@@ -203,6 +205,8 @@ export class SohlAction {
      * predicates, and the bound `executor`) are reconstruction artifacts —
      * they are rebuilt from the data by the constructor — and serializing
      * `parent` would recurse through the owning logic's action map.
+     *
+     * @returns The action's definition data.
      */
     toJSON(): PlainObject {
         return { ...this.data };

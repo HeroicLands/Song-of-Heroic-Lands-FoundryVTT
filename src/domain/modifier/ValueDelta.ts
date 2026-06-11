@@ -46,7 +46,11 @@ export class ValueDelta {
      */
     readonly [kValueDelta] = true;
 
-    /** Type guard: whether `obj` is a {@link ValueDelta} (brand check). */
+    /**
+     * Type guard: whether `obj` is a {@link ValueDelta} (brand check).
+     * @param obj - The value to test.
+     * @returns `true` if `obj` carries the {@link ValueDelta} brand.
+     */
     static isA(obj: unknown): obj is ValueDelta {
         return typeof obj === "object" && obj !== null && kValueDelta in obj;
     }
@@ -59,6 +63,8 @@ export class ValueDelta {
     }
 
     /**
+     * Constructs a value delta, normalizing `value` to a string and validating
+     * that non-`CUSTOM` operators receive a numeric value.
      * @param data - The delta fields (see {@link ValueDelta.Data}); `value` is
      *   normalized to a string.
      * @throws TypeError if a non-`CUSTOM` operator is given a non-numeric value.
@@ -90,7 +96,10 @@ export class ValueDelta {
         }
     }
 
-    /** Serialize this delta to a plain object. */
+    /**
+     * Serialize this delta to a plain object.
+     * @returns A plain-object representation of this delta.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }

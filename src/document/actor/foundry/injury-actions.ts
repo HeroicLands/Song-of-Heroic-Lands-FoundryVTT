@@ -64,13 +64,21 @@ export interface InjuryDialogForm {
     addToCharSheet: boolean;
 }
 
-/** Coerce an arbitrary value to a non-negative integer (0 on failure). */
+/**
+ * Coerce an arbitrary value to a non-negative integer (0 on failure).
+ * @param value - The value to coerce.
+ * @returns The parsed integer, or 0 if it is not finite.
+ */
 function toInt(value: unknown): number {
     const n = parseInt(String(value), 10);
     return Number.isFinite(n) ? n : 0;
 }
 
-/** Coerce a value to a valid {@link ImpactAspect}, defaulting to Blunt. */
+/**
+ * Coerce a value to a valid {@link ImpactAspect}, defaulting to Blunt.
+ * @param value - The value to coerce.
+ * @returns A valid impact aspect.
+ */
 function toAspect(value: unknown): ImpactAspect {
     const s = String(value);
     return isImpactAspect(s) ? (s as ImpactAspect) : IMPACT_ASPECT.BLUNT;
@@ -80,6 +88,8 @@ function toAspect(value: unknown): ImpactAspect {
  * Parse a chat-card `data-test-result-json` payload into an
  * {@link InjuryRequest}. Returns `null` when the payload is missing or not
  * valid JSON. Pure and Foundry-free.
+ * @param json - The raw JSON string from the chat card dataset.
+ * @returns The parsed request, or `null` if missing or invalid.
  */
 export function parseInjuryRequest(json: unknown): InjuryRequest | null {
     if (typeof json !== "string" || !json.trim()) return null;
@@ -110,6 +120,8 @@ export function parseInjuryRequest(json: unknown): InjuryRequest | null {
  * Whether an injury request should be resolved automatically (no dialog).
  * Automated combat forwards both an aimed `targetPart` and an `spread`,
  * letting the hit location be rolled with no player input.
+ * @param req - The injury request to inspect.
+ * @returns True if the request can be resolved without a dialog.
  */
 export function isAutomatedRequest(req: InjuryRequest): boolean {
     return !!req.targetPart && req.spread != null;
@@ -118,6 +130,8 @@ export function isAutomatedRequest(req: InjuryRequest): boolean {
 /**
  * Read the Add Injury dialog form into a normalized {@link InjuryDialogForm}.
  * Pure and Foundry-free; takes the plain object produced by `FormDataExtended`.
+ * @param formData - The plain object produced by `FormDataExtended`.
+ * @returns The normalized dialog form values.
  */
 export function readInjuryDialogForm(
     formData: Record<string, unknown>,
@@ -148,6 +162,9 @@ export interface InjuryCardContext {
  * Build the render context for `injury-card.hbs` from a resolved injury.
  * Pure and Foundry-free so it can be unit-tested; the Foundry layer supplies
  * the {@link InjuryCardContext} and posts the result via {@link SohlSpeaker}.
+ * @param injury - The resolved injury to render.
+ * @param ctx - Foundry-supplied context the card needs beyond the injury.
+ * @returns The render context for `injury-card.hbs`.
  */
 export function buildInjuryCardData(
     injury: ResolvedInjury,
@@ -184,17 +201,20 @@ export function buildInjuryCardData(
  * player input: the aimed `targetPart` + `spread` roll the hit location, and
  * an explicit `location` shortcode (if present) overrides it. Pure and
  * Foundry-free.
+ * @param req - The automated injury request.
+ * @param body - The target actor's body structure.
+ * @returns The resolved injury.
  */
 export function resolveAutomatedInjury(
     req: InjuryRequest,
     body: BodyStructure,
 ): ResolvedInjury {
-    const targetPart = req.targetPart
-        ? body.getPartByCode(req.targetPart)
-        : undefined;
-    const location = req.location
-        ? body.getAllLocations().find((l) => l.shortcode === req.location)
-        : undefined;
+    const targetPart =
+        req.targetPart ? body.getPartByCode(req.targetPart) : undefined;
+    const location =
+        req.location ?
+            body.getAllLocations().find((l) => l.shortcode === req.location)
+        :   undefined;
     return resolveInjury({
         impact: req.impact,
         aspect: req.aspect,
@@ -210,6 +230,8 @@ export function resolveAutomatedInjury(
 /**
  * The body structure of an actor's Lineage, or `undefined` when the actor has
  * no Lineage (and therefore no anatomy to injure).
+ * @param actor - The actor whose body structure to retrieve.
+ * @returns The body structure, or `undefined` if the actor has no Lineage.
  */
 export function getActorBodyStructure(actor: any): BodyStructure | undefined {
     const lineage = actor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0];
@@ -220,6 +242,8 @@ export function getActorBodyStructure(actor: any): BodyStructure | undefined {
  * Create a physical Trauma item on the actor from a resolved injury. Only
  * call this for an actual wound (`injury.level >= 1`); a glancing blow or
  * no-injury result must not create a Trauma. Foundry-facing.
+ * @param actor - The actor to receive the Trauma item.
+ * @param injury - The resolved injury to record.
  */
 export async function createTraumaFromInjury(
     actor: any,

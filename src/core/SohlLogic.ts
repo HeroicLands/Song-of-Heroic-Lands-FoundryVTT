@@ -194,6 +194,10 @@ export abstract class SohlLogic<
     }
 
     /**
+     * Binds this logic to its parent data model and builds the {@link actions}
+     * map from the parent's intrinsic and scripted action definitions, selecting
+     * a default action.
+     *
      * @param data - Reserved base data (unused by the base class).
      * @param options - Must provide `options.parent`, the data model this logic
      *   is embedded in; the parent's `actionDefs` are used to build
@@ -221,7 +225,11 @@ export abstract class SohlLogic<
         );
     }
 
-    /** Serialize this logic to a plain object. */
+    /**
+     * Serialize this logic to a plain object.
+     *
+     * @returns The plain-object representation of this logic.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
@@ -271,6 +279,8 @@ export abstract class SohlLogic<
      * Intrinsic action performed after finalize lifecycle stage.
      * This is intended for modules to hook into (or ActionItems to override)
      * to perform additional logic after the main lifecycle stages have completed.
+     *
+     * @param context - The action context for the post-finalize hook.
      */
     postFinalize(context: SohlActionContext): void {
         // No-op by default
@@ -332,6 +342,7 @@ export abstract class SohlLogic<
  * by context-menu group.
  *
  * @param actions - The actions to normalize; sorted and mutated in place.
+ * @returns The same array, normalized and sorted.
  */
 function setDefaultAction(actions: SohlAction[]): SohlAction[] {
     // Ensure there is at most one default, all others set to Essential

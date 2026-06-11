@@ -153,6 +153,12 @@ export class BeingSheet extends SohlActorSheetBase {
         },
     };
 
+    /**
+     * Choose which sheet parts to render, omitting the detail tabs when the
+     * actor is only viewable with limited permission.
+     *
+     * @param options - The render options whose `parts` list is populated.
+     */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
@@ -218,6 +224,12 @@ export class BeingSheet extends SohlActorSheetBase {
         }),
     ];
 
+    /**
+     * Rebind the search filters to the freshly rendered element after each render.
+     *
+     * @param context - The render context.
+     * @param options - The render options.
+     */
     protected override async _onRender(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
@@ -250,6 +262,9 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Handle the "Add Injury" button on the Trauma tab: open the Add Injury
      * dialog for manual entry of a wound on this being.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param _target - The clicked element (unused).
      */
     protected static async _onAddInjury(
         this: BeingSheet,
@@ -263,6 +278,9 @@ export class BeingSheet extends SohlActorSheetBase {
      * Handle clicks on the Atk/Blk/CX cells in the Combat tab. Resolves the
      * underlying MasteryLevelModifier from the row's data attributes and
      * runs a success test. Shift-click skips the modifier dialog.
+     *
+     * @param event - The triggering pointer event; shift-click skips the dialog.
+     * @param target - The clicked cell, carrying the strike-mode data attributes.
      */
     protected static async _onRollStrikeModeTest(
         this: BeingSheet,
@@ -303,6 +321,9 @@ export class BeingSheet extends SohlActorSheetBase {
      * mode's impact dice and posts a damage card. When a single token is
      * targeted, the card offers a Calculate Injury button carrying the rolled
      * impact and aspect, opening the assisted Add Injury flow on the target.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked cell, carrying the strike-mode data attributes.
      */
     protected static async _onRollStrikeModeImpact(
         this: BeingSheet,
@@ -361,6 +382,15 @@ export class BeingSheet extends SohlActorSheetBase {
     /*  Part Context Dispatcher                     */
     /* -------------------------------------------- */
 
+    /**
+     * Dispatch context preparation to the matching per-part handler and fire
+     * the corresponding `sohl.actor.<type>.prepare*Context` hook for each part.
+     *
+     * @param partId - The identifier of the sheet part being rendered.
+     * @param context - The render context to augment.
+     * @param options - The render options.
+     * @returns The augmented render context for the part.
+     */
     protected override async _preparePartContext(
         partId: string,
         context: RenderContext,
@@ -460,7 +490,13 @@ export class BeingSheet extends SohlActorSheetBase {
     /*  Context Preparation Methods                 */
     /* -------------------------------------------- */
 
-    /** Prepare context for the sheet header: name, image, health, status effects, body parts. */
+    /**
+     * Prepare context for the sheet header: name, image, health, status effects, body parts.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected override async _prepareHeaderContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -503,7 +539,13 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Tabs navigation. */
+    /**
+     * Prepare context for the Tabs navigation.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected override async _prepareTabsContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -511,7 +553,13 @@ export class BeingSheet extends SohlActorSheetBase {
         return context;
     }
 
-    /** Prepare context for the Facade tab: bio image and description. */
+    /**
+     * Prepare context for the Facade tab: bio image and description.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected override async _prepareFacadeContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -523,7 +571,13 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Profile tab: attributes, traits, affiliations, biography. */
+    /**
+     * Prepare context for the Profile tab: attributes, traits, affiliations, biography.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareProfileContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -581,7 +635,13 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Skills tab: skills grouped by subType. */
+    /**
+     * Prepare context for the Skills tab: skills grouped by subType.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareSkillsContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -607,6 +667,10 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Prepare context for the Combat tab: weapons with strike modes,
      * combat techniques, and the full body anatomy structure.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
      */
     protected async _prepareCombatContext(
         context: RenderContext,
@@ -654,7 +718,13 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Trauma tab: traumas and afflictions. */
+    /**
+     * Prepare context for the Trauma tab: traumas and afflictions.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareTraumaContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -681,6 +751,10 @@ export class BeingSheet extends SohlActorSheetBase {
 
     /**
      * Prepare context for the Mysteries tab: mysteries, mystical abilities.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
      */
     protected async _prepareMysteriesContext(
         context: RenderContext,
@@ -713,6 +787,10 @@ export class BeingSheet extends SohlActorSheetBase {
     /**
      * Prepare context for the Gear tab: containers with nested items
      * and encumbrance totals.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
      */
     protected async _prepareGearContext(
         context: RenderContext,
@@ -771,7 +849,13 @@ export class BeingSheet extends SohlActorSheetBase {
         });
     }
 
-    /** Prepare context for the Actions tab: actor-level actions. */
+    /**
+     * Prepare context for the Actions tab: actor-level actions.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareActionsContext(
         context: RenderContext,
         _options: RenderOptions,
@@ -780,7 +864,13 @@ export class BeingSheet extends SohlActorSheetBase {
         return Object.assign(context, { actions });
     }
 
-    /** Prepare context for the Effects tab: own and transferred effects. */
+    /**
+     * Prepare context for the Effects tab: own and transferred effects.
+     *
+     * @param context - The render context to augment.
+     * @param _options - The render options (unused).
+     * @returns The augmented render context.
+     */
     protected async _prepareEffectsContext(
         context: RenderContext,
         _options: RenderOptions,

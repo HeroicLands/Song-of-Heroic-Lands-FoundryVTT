@@ -102,6 +102,9 @@ export class SuccessTestResult extends TestResult {
     protected _successStarTable: SuccessTestResult.LimitedDescription[];
 
     /**
+     * Constructs a success-test result, seeding state from the given data and
+     * options (and from a prior serialized result when one is provided).
+     *
      * @param data - Test data; all fields are optional and defaulted. When
      *   `options.testResult` is supplied, its serialized state is merged in
      *   first, so a result can be reconstructed from a prior one (e.g. an
@@ -325,6 +328,7 @@ export class SuccessTestResult extends TestResult {
      * @param data - Extra template data merged into the dialog.
      * @param callback - Invoked with the submitted form data once the dialog
      *   inputs have been applied.
+     * @returns The dialog render/submit result.
      */
     async testDialog(
         data: PlainObject = {},
@@ -641,6 +645,15 @@ export namespace SuccessTestResult {
     }
 }
 
+/**
+ * Resolves a limited-description table against a test result: finds the entry
+ * matching the target value and last digit, writes its label/description into
+ * `chatData`, and returns the associated numeric result.
+ * @param chatData - The test result providing the target value and last digit,
+ *   and receiving the resolved `resultText`/`resultDesc`.
+ * @param testDescTable - The candidate description entries, sorted by max value.
+ * @returns The numeric result of the matching entry, or 0 if none matches.
+ */
 function handleLimitedDescription(
     chatData: SuccessTestResult,
     testDescTable: SuccessTestResult.LimitedDescription[],

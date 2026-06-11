@@ -82,6 +82,11 @@ export class TraumaLogic<
      */
     bodyLocation: BodyLocation | undefined;
 
+    /**
+     * Define and return all intrinsic actions for trauma logic, adding the
+     * treatment and healing test actions to those inherited from the base logic.
+     * @returns The intrinsic action definitions.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
@@ -140,6 +145,8 @@ export class TraumaLogic<
      * on the actor's Lineage. Returns `undefined` when the code is blank,
      * the trauma is not attached to an actor, the actor has no Lineage,
      * or no location with that shortcode exists.
+     *
+     * @returns The matching body location, or `undefined` when none applies.
      */
     private resolveBodyLocation(): BodyLocation | undefined {
         const code = this.data.bodyLocationCode;

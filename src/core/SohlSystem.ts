@@ -308,7 +308,11 @@ export const {
 export class SohlSystem {
     private static instance: SohlSystem | null = null;
 
-    /** Return the singleton instance, creating it on first call. */
+    /**
+     * Return the singleton instance, creating it on first call.
+     *
+     * @returns The shared {@link SohlSystem} instance.
+     */
     static getInstance(): SohlSystem {
         if (!this.instance) {
             this.instance = new SohlSystem();
@@ -537,6 +541,9 @@ export class SohlSystem {
     /**
      * Register a calendar configuration. Overwrites any existing registration
      * with the same ID.
+     *
+     * @param id - The unique identifier for the calendar.
+     * @param registration - The calendar registration to store.
      */
     static registerCalendar(
         id: string,
@@ -547,6 +554,8 @@ export class SohlSystem {
 
     /**
      * Remove a calendar registration. Throws if the calendar is builtin.
+     *
+     * @param id - The identifier of the calendar to remove.
      */
     static unregisterCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -559,6 +568,9 @@ export class SohlSystem {
 
     /**
      * Get a registered calendar by ID.
+     *
+     * @param id - The identifier of the calendar to retrieve.
+     * @returns The matching calendar registration, or `undefined` if none.
      */
     static getCalendar(
         id: string,
@@ -577,6 +589,8 @@ export class SohlSystem {
      * Apply a registered calendar to CONFIG.time, and re-initialize
      * game.time so the change takes effect without a reload. Safe to call
      * during the `init` hook before game.time exists.
+     *
+     * @param id - The identifier of the registered calendar to apply.
      */
     static applyCalendar(id: string): void {
         const cal = this._calendars.get(id);
@@ -603,6 +617,11 @@ export class SohlSystem {
         return (this.constructor as any).constants;
     }
 
+    /**
+     * Constructs the system singleton, wiring up the localization, logging,
+     * and event-queue services. Use {@link getInstance} rather than calling
+     * this directly.
+     */
     protected constructor() {
         this.i18n = SohlLocalize.getInstance();
         this.log = SohlLogger.getInstance();

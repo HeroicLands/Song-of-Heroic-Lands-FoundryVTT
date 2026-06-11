@@ -31,6 +31,11 @@ const {
     BooleanField,
 } = foundry.data.fields;
 
+/**
+ * Builds the Foundry data schema for a trait (sub-type, numeric/text value,
+ * score, intensity, value descriptors, and choices).
+ * @returns The trait data schema.
+ */
 function defineTraitSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -104,6 +109,10 @@ export class TraitDataModel<
     }[];
     choices!: StrictObject<string>;
 
+    /**
+     * Returns the Foundry data schema for a trait.
+     * @returns The trait data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineTraitSchema();
     }

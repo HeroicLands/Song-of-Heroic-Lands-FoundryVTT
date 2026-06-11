@@ -75,6 +75,13 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         },
     };
 
+    /**
+     * Build the render context: every registered domain grouped by family,
+     * sorted within each family, with delete/override flags computed per entry.
+     *
+     * @param _options - The render options (unused).
+     * @returns The template context of domain groups and an emptiness flag.
+     */
     protected override async _prepareContext(_options: any): Promise<any> {
         const all = SohlDomains.getAll();
         const grouped = new Map<DomainFamily, RenderRow[]>();
@@ -132,6 +139,9 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * Open the add-domain dialog. The shortcode is automatically prefixed
      * with `world.` so GM-created entries can never collide with system
      * or module shortcodes.
+     *
+     * @param _event - The triggering DOM event (unused).
+     * @param _target - The element the action was bound to (unused).
      */
     protected static async _onAddDomain(
         this: DomainManagerApp,
@@ -150,6 +160,9 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * Open the edit dialog for an existing entry. System and module
      * entries can be edited; the resulting save creates a `world.`
      * override (because we cannot mutate system defaults persistently).
+     *
+     * @param _event - The triggering DOM event (unused).
+     * @param target - The clicked element, carrying the `data-shortcode`.
      */
     protected static async _onEditDomain(
         this: DomainManagerApp,
@@ -175,6 +188,9 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * Remove a world-source entry after a confirmation dialog. The button
      * is disabled in the template for non-world entries; this is a
      * defensive second guard.
+     *
+     * @param _event - The triggering DOM event (unused).
+     * @param target - The clicked element, carrying the `data-shortcode`.
      */
     protected static async _onDeleteDomain(
         this: DomainManagerApp,
@@ -208,6 +224,11 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
     /**
      * Build a small DialogV2 form for adding or editing an entry. Returns
      * the resulting `DomainEntry` or `null` if the user cancels.
+     *
+     * @param opts - The prompt options.
+     * @param opts.isNew - Whether the form is for a new entry rather than an edit.
+     * @param opts.existing - The entry to pre-populate when editing.
+     * @returns The entered `DomainEntry`, or `null` if the user cancels.
      */
     private static async promptForEntry(opts: {
         isNew: boolean;

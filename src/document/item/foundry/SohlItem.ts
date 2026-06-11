@@ -136,6 +136,7 @@ export class SohlItem extends Item {
      * Effects living elsewhere whose `targets` include this item. Walks
      * sibling items and the owning actor. Phaseless; the caller filters by
      * `change.phase` when iterating changes.
+     * @returns The effects on siblings and the actor that target this item.
      */
     transferredActiveEffects(): SohlActiveEffect[] {
         const out: SohlActiveEffect[] = [];
@@ -172,6 +173,7 @@ export class SohlItem extends Item {
      * priority, and dispatch each to the static `applyChange` path
      * (which routes through `SohlActiveEffect._applyChangeUnguided` for
      * SoHL-prefixed keys). Mirrors Foundry's `Actor#applyActiveEffects`.
+     * @param phase - The change phase whose effect changes to apply this pass.
      */
     applyActiveEffects(phase: string): void {
         const AEClass = foundry.documents.ActiveEffect as any;
@@ -271,8 +273,8 @@ export class SohlItem extends Item {
      * Handle a trigger dispatched by the SoHL event queue.
      * Override in subclasses to implement item-specific trigger handling.
      * @param kind - Subscription kind identifier
-     * @param context - Trigger context (discriminated by `context.name`)
-     * @param payload - Optional context data attached when subscribing
+     * @param _context - Trigger context (discriminated by `context.name`)
+     * @param _payload - Optional context data attached when subscribing
      */
     async handleSohlEvent(
         kind: string,
@@ -307,6 +309,11 @@ import type {
     SohlItemData,
 } from "@src/document/item/logic/SohlItemBaseLogic";
 
+/**
+ * Builds the base data schema shared by all SoHL items (the notes and
+ * generated documentation HTML fields).
+ * @returns The Foundry data schema common to every item kind.
+ */
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
         notes: new HTMLField(),
@@ -333,6 +340,13 @@ export abstract class SohlItemDataModel<
     notes!: HTMLString;
     docHtml!: HTMLString;
 
+    /**
+     * Builds the item data model, enforcing that its parent document is a
+     * {@link SohlItem}.
+     * @param data - Source data for the data model.
+     * @param options - Data model options; `parent` must be a `SohlItem`.
+     * @throws If the supplied parent is not a `SohlItem`.
+     */
     constructor(data: PlainObject = {}, options: PlainObject = {}) {
         if (!(options.parent instanceof SohlItem)) {
             throw new Error("Parent must be of type SohlItem");
@@ -340,16 +354,18 @@ export abstract class SohlItemDataModel<
         super(data, options);
     }
 
+    /** The owning {@link SohlItem} document. */
     get item(): SohlItem {
         return this.parent;
     }
 
+    /** Localization key prefix for this item kind, e.g. `"SOHL.Item.skill"`. */
     get i18nPrefix(): string {
         return `SOHL.Item.${this.kind}`;
     }
 
     /**
-     * @description Get the full label for this item, optionally including name and subtype.
+     * Get the full label for this item, optionally including name and subtype.
      * @remarks
      * The item name and item subtype are both optional, although shown by default.
      * In English, the format will be:
@@ -361,7 +377,9 @@ export abstract class SohlItemDataModel<
      * RU: `Навык боя Ближний бой`
      * DE: `Nahkampf Kampffertigkeit`
      *
-     * @param options
+     * @param options - Controls which parts of the label are included.
+     * @param options.withName - Whether to prefix the label with the item name.
+     * @param options.withSubType - Whether to include the item subtype in the label.
      * @returns The fully localized string in the appropriate language based on the
      * user's settings.
      */
@@ -388,6 +406,10 @@ export abstract class SohlItemDataModel<
         return result;
     }
 
+    /**
+     * Returns the Foundry data schema common to all SoHL items.
+     * @returns The base item data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineSohlItemDataSchema();
     }
@@ -446,18 +468,26 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         },
     };
 
+    /** The {@link SohlItem} document this sheet edits. */
     override get document(): SohlItem {
         return super.document as SohlItem;
     }
 
+    /** The {@link SohlItem} document this sheet edits. */
     get item(): SohlItem {
         return this.document;
     }
 
+    /** The actor owning this item, or null if the item is unowned. */
     get actor(): SohlActor | null {
         return this.item.actor;
     }
 
+    /**
+     * Selects which sheet parts to render: always the header and tabs, plus
+     * the remaining tabs unless the document is in limited-view mode.
+     * @param options - Render options whose `parts` array is populated in place.
+     */
     protected override _configureRenderOptions(
         options: Partial<foundry.applications.api.HandlebarsApplicationMixin.RenderOptions>,
     ): void {
@@ -471,6 +501,11 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options.parts.push("properties", "description", "actions", "effects");
     }
 
+    /**
+     * Builds the shared render context delegated to all sheet parts.
+     * @param options - Sheet render options.
+     * @returns The base render context shared across parts.
+     */
     protected override async _prepareContext(
         options: RenderOptions,
     ): Promise<RenderContext> {
@@ -483,6 +518,14 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return context;
     }
 
+    /**
+     * Augments the render context for a specific part and fires the matching
+     * `sohl.<type>.prepare*Context` hook so subscribers can extend it.
+     * @param partId - The identifier of the part being rendered.
+     * @param context - The render context to augment.
+     * @param options - Sheet render options.
+     * @returns The context extended with part-specific data.
+     */
     protected async _preparePartContext(
         partId: string,
         context: RenderContext,
@@ -549,6 +592,12 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         }
     }
 
+    /**
+     * Prepare context for the tabs navigation part.
+     * @param context - The render context to augment.
+     * @param options - Sheet render options.
+     * @returns The context, unchanged by the base implementation.
+     */
     protected async _prepareTabsContext(
         context: RenderContext,
         options: RenderOptions,
@@ -559,6 +608,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Prepare context for the sheet header.
      * Provides the item name, image, and type label.
+     * @param context - The render context to augment.
+     * @param _options - Sheet render options (unused).
+     * @returns The context extended with header fields.
      */
     protected async _prepareHeaderContext(
         context: RenderContext,
@@ -588,6 +640,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * The base implementation provides the common item properties
      * (notes, textReference). Subclasses override
      * this to add type-specific properties.
+     * @param context - The render context to augment.
+     * @param _options - Sheet render options (unused).
+     * @returns The context extended with common item properties.
      */
     protected async _preparePropertiesContext(
         context: RenderContext,
@@ -603,6 +658,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Prepare context for the Description tab.
      * Provides enriched HTML for the full-page ProseMirror description editor.
+     * @param context - The render context to augment.
+     * @param _options - Sheet render options (unused).
+     * @returns The context extended with the enriched description HTML.
      */
     protected async _prepareDescriptionContext(
         context: RenderContext,
@@ -619,6 +677,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Prepare context for the Actions tab.
      * Provides the list of action items associated with this item.
+     * @param context - The render context to augment.
+     * @param _options - Sheet render options (unused).
+     * @returns The context extended with the item's actions.
      */
     protected async _prepareActionsContext(
         context: RenderContext,
@@ -631,6 +692,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     /**
      * Prepare context for the Effects tab.
      * Provides the item's own effects and any transferred effects.
+     * @param context - The render context to augment.
+     * @param _options - Sheet render options (unused).
+     * @returns The context extended with own and transferred effects.
      */
     protected async _prepareEffectsTabContext(
         context: RenderContext,
@@ -649,6 +713,12 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return Object.assign(context, { effects, trxEffects });
     }
 
+    /**
+     * Route a dropped item to the gear or non-gear drop handler based on
+     * whether it carries the `isCarried` property.
+     * @param event - The originating drop event.
+     * @param droppedItem - The item that was dropped onto this sheet.
+     */
     protected async _onDropItem(
         event: DragEvent,
         droppedItem: SohlItem,
@@ -664,6 +734,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         }
     }
 
+    /**
+     * Create one or more embedded items on the owning actor from dropped data,
+     * prompting to overwrite any pre-existing similar item.
+     * @param data - The dropped item data, or an array of item data.
+     * @param event - The originating drop event (unused).
+     * @returns The created items, or `false` if creation was not performed.
+     */
     protected async _onDropItemCreate(
         data: PlainObject,
         event: DragEvent,
@@ -715,6 +792,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return result || false;
     }
 
+    /**
+     * Prompt the user for how many units of a stacked item to move into a
+     * destination container.
+     * @param item - The stacked item being moved.
+     * @param destContainer - The container the item is being moved into.
+     * @returns The quantity the user chose to move (0 if cancelled or invalid).
+     */
     protected async _moveQtyDialog(
         item: SohlItem,
         destContainer: SohlItem,
@@ -769,6 +853,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         return result || 0;
     }
 
+    /**
+     * Handle dropping a gear item, either sorting it within its current
+     * container or moving (and optionally splitting the stack) into a new one.
+     * @param event - The originating drop event.
+     * @param droppedItem - The gear item that was dropped.
+     * @returns The created/moved item, `true` if merely re-sorted, or `false` on a rejected move.
+     */
     protected async _onDropGear(
         event: DragEvent,
         droppedItem: SohlItem,
@@ -830,6 +921,13 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         );
     }
 
+    /**
+     * Handle dropping a non-gear item, sorting it among siblings if it already
+     * belongs to this document or creating it on the actor otherwise.
+     * @param event - The originating drop event.
+     * @param droppedItem - The non-gear item that was dropped.
+     * @returns `true` if the item was sorted or created, `false` otherwise.
+     */
     protected async _onDropNonGear(
         event: DragEvent,
         droppedItem: SohlItem,
@@ -848,7 +946,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
      * Handle a drop event for an existing embedded Item to sort that Item relative to its siblings.
      * @param event - The initiating drop event
      * @param item - The dropped Item document
-     * @return A Promise which resolves to the sorted list of sibling items, or undefined if sorting was not possible.
+     * @returns A Promise which resolves to the sorted list of sibling items, or undefined if sorting was not possible.
      */
     protected _onSortItem(
         event: DragEvent,

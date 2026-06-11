@@ -68,6 +68,9 @@ export class BodyPart {
     }
 
     /**
+     * Builds a single body part from its persisted data, resolving its held
+     * item and probability weight and constructing its child locations.
+     *
      * @param data Persisted part data.
      * @param bodyStructure Owning body structure (supplies actor and lineage logic).
      * @param index Zero-based position within {@link BodyStructure.parts}.
@@ -104,12 +107,20 @@ export class BodyPart {
         return `system.bodyStructure.parts.${this.index}`;
     }
 
-    /** Find a location by shortcode, or undefined if not found. */
+    /**
+     * Find a location by shortcode, or undefined if not found.
+     * @param shortcode Shortcode of the location to find.
+     * @returns The matching location, or undefined if none matches.
+     */
     getLocationByCode(shortcode: string): BodyLocation | undefined {
         return this.locations.find((loc) => loc.shortcode === shortcode);
     }
 
-    /** Find a location by its zero-based index, or undefined if out of range. */
+    /**
+     * Find a location by its zero-based index, or undefined if out of range.
+     * @param index Zero-based index of the location within this part.
+     * @returns The location at that index, or undefined if out of range.
+     */
     getLocationByIndex(index: number): BodyLocation | undefined {
         return this.locations[index];
     }
@@ -117,6 +128,7 @@ export class BodyPart {
     /**
      * Select a random location within this part, weighted by each
      * location's {@link BodyLocation.probWeight}.
+     * @returns A randomly selected location.
      */
     getRandomLocation(): BodyLocation {
         return weightedRandom(this.locations);
@@ -127,6 +139,8 @@ export class BodyPart {
      * part's persisted locations array. Sources the current array from
      * the canonical DataModel data, not from the (possibly mutated)
      * domain objects.
+     * @param locationData Persisted data for the location to append.
+     * @returns An update payload appending the location to this part.
      */
     addLocationUpdate(locationData: BodyLocation.Data): PlainObject {
         const canonical =
@@ -141,6 +155,8 @@ export class BodyPart {
      * Build an `update()` payload that removes a location by shortcode from
      * this part's persisted locations array. Sources the current array
      * from the canonical DataModel data.
+     * @param shortcode Shortcode of the location to remove.
+     * @returns An update payload with the location filtered out of this part.
      */
     removeLocationUpdate(shortcode: string): PlainObject {
         const canonical =

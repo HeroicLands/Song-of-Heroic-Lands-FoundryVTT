@@ -117,6 +117,8 @@ export class WeaponGearLogic<
      * Present a dialog asking the player to select the appropriate strike mode
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
+     *
+     * @param context - The action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
@@ -144,6 +146,7 @@ export class WeaponGearLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - The action context carrying the prior/initiating combat result.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -167,6 +170,7 @@ export class WeaponGearLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - The action context carrying the prior/initiating combat result.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -174,6 +178,12 @@ export class WeaponGearLogic<
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
 
+    /**
+     * Define and return all intrinsic actions for weapon gear logic, adding
+     * the combat actions (attack, automated combat start/resume, etc.) to
+     * those inherited from the base gear logic.
+     * @returns The intrinsic action definitions.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...GearLogic.defineIntrinsicActions(),

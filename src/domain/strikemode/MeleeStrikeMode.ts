@@ -97,6 +97,7 @@ export class MeleeStrikeMode extends StrikeModeBase {
     /**
      * SchemaField definition for melee strike modes — used as one branch
      * of the TypedSchemaField on `CombatTechniqueDataModel.strikeMode`.
+     * @returns The data schema describing a melee strike mode.
      */
     static schemaFields(): foundry.data.fields.DataSchema {
         // Lazy access: foundry globals exist only when Foundry-side code

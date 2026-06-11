@@ -24,6 +24,7 @@ export class Itr<T> implements IterableIterator<T> {
     private iterator: Iterator<T>;
 
     /**
+     * Wrap a source iterable, capturing its iterator for lazy consumption.
      * @param iterable - The source iterable to wrap.
      */
     constructor(iterable: Iterable<T>) {
@@ -32,6 +33,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Create a new Itr instance from an iterable.
+     * @param iterable - The source iterable to wrap.
+     * @returns A new {@link Itr} over the iterable.
      */
     static from<U>(iterable: Iterable<U>): Itr<U> {
         return new Itr(iterable);
@@ -39,6 +42,7 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Default iterator to enable `for...of` usage.
+     * @yields Each element of the underlying iterator in order.
      */
     *[Symbol.iterator](): IterableIterator<T> {
         let result = this.iterator.next();
@@ -50,6 +54,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Return the next element in the iterator.
+     * @param args - Optional value forwarded to the underlying iterator's `next`.
+     * @returns The next iterator result.
      */
     next(...args: [] | [undefined]): IteratorResult<T> {
         return this.iterator.next(...args);
@@ -57,6 +63,7 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Convert to an array.
+     * @returns An array of all remaining elements.
      */
     toArray(): T[] {
         return Array.from(this);
@@ -64,8 +71,15 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Take the first `n` elements.
+     * @param n - The maximum number of elements to yield.
+     * @returns A new {@link Itr} over the first `n` elements.
      */
     take(n: number): Itr<T> {
+        /**
+         * Yield up to `n` elements from the source.
+         * @param iter - The source iterable.
+         * @yields The first `n` elements.
+         */
         function* generator(iter: Iterable<T>) {
             let i = 0;
             for (const item of iter) {
@@ -78,8 +92,15 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Skip the first `n` elements.
+     * @param n - The number of leading elements to skip.
+     * @returns A new {@link Itr} over the elements after the first `n`.
      */
     drop(n: number): Itr<T> {
+        /**
+         * Yield elements after skipping the first `n`.
+         * @param iter - The source iterable.
+         * @yields Each element past the first `n`.
+         */
         function* generator(iter: Iterable<T>) {
             let i = 0;
             for (const item of iter) {
@@ -91,6 +112,7 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Apply a function to each element.
+     * @param callback - Invoked with each element and its index.
      */
     forEach(callback: (value: T, index: number) => void): void {
         let index = 0;
@@ -101,8 +123,15 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Map values to a new Itr.
+     * @param callback - Maps each element and its index to a new value.
+     * @returns A new {@link Itr} over the mapped values.
      */
     map<U>(callback: (value: T, index: number) => U): Itr<U> {
+        /**
+         * Yield each source element transformed by `callback`.
+         * @param iter - The source iterable.
+         * @yields The mapped value for each element.
+         */
         function* generator(iter: Iterable<T>) {
             let index = 0;
             for (const item of iter) {
@@ -114,8 +143,15 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Filter values to a new Itr.
+     * @param callback - Returns `true` for each element to keep.
+     * @returns A new {@link Itr} over the matching elements.
      */
     filter(callback: (value: T, index: number) => boolean): Itr<T> {
+        /**
+         * Yield only the source elements for which `callback` returns `true`.
+         * @param iter - The source iterable.
+         * @yields Each element that passes the predicate.
+         */
         function* generator(iter: Iterable<T>) {
             let index = 0;
             for (const item of iter) {
@@ -127,6 +163,9 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Reduce to a single value.
+     * @param callback - Combines the accumulator with each element and its index.
+     * @param initialValue - The initial accumulator value.
+     * @returns The final accumulated value.
      */
     reduce<U>(
         callback: (accumulator: U, value: T, index: number) => U,
@@ -142,6 +181,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Find the first element that matches a condition.
+     * @param callback - Returns `true` for the element to find.
+     * @returns The first matching element, or `undefined` if none match.
      */
     find(callback: (value: T, index: number) => boolean): T | undefined {
         let index = 0;
@@ -153,6 +194,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Check if some elements match a condition.
+     * @param callback - Returns `true` for a matching element.
+     * @returns `true` if at least one element matches.
      */
     some(callback: (value: T, index: number) => boolean): boolean {
         let index = 0;
@@ -164,6 +207,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Check if any element matches the specified value
+     * @param value - The value to search for (strict equality).
+     * @returns `true` if the value is present.
      */
     includes(value: T): boolean {
         for (const item of this) {
@@ -174,6 +219,8 @@ export class Itr<T> implements IterableIterator<T> {
 
     /**
      * Check if all elements match a condition.
+     * @param callback - Returns `true` for an element that satisfies the condition.
+     * @returns `true` if every element matches.
      */
     every(callback: (value: T, index: number) => boolean): boolean {
         let index = 0;

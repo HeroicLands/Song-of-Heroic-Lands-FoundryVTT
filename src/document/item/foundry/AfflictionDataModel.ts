@@ -27,6 +27,12 @@ import {
 } from "@src/utils/constants";
 const { StringField, BooleanField, NumberField } = foundry.data.fields;
 
+/**
+ * Builds the data schema for the Affliction item, extending the base item
+ * schema with affliction-specific fields (subtype, contagion, healing rate,
+ * transmission, etc.).
+ * @returns The Foundry data schema for the affliction.
+ */
 function defineAfflictionSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -90,6 +96,10 @@ export class AfflictionDataModel<
     contagionIndexBase!: number;
     transmission!: AfflictionTransmission;
 
+    /**
+     * Returns the Foundry data schema for the affliction item.
+     * @returns The affliction data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineAfflictionSchema();
     }

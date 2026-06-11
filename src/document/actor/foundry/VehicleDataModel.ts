@@ -101,6 +101,10 @@ export class VehicleDataModel<
     static override readonly kind = ACTOR_KIND.VEHICLE;
     occupants!: string[];
 
+    /**
+     * Returns the Foundry data schema for the vehicle actor.
+     * @returns The vehicle data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineVehicleDataSchema();
     }

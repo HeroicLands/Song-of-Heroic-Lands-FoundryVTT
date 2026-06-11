@@ -18,6 +18,7 @@ const FoundrySceneConfig: any = (foundry as any).applications.sheets
  * Build a PARTS map that injects the SoHL tab between `misc` and `footer`.
  * Static field initializers can't easily do conditional placement, so it
  * happens here once at class definition time.
+ * @returns The PARTS map with the SoHL tab inserted before the footer.
  */
 function buildParts(): Record<string, any> {
     const parent: Record<string, any> = { ...FoundrySceneConfig.PARTS };
@@ -31,6 +32,11 @@ function buildParts(): Record<string, any> {
     return parent;
 }
 
+/**
+ * Builds the TABS map that appends the SoHL tab to the Scene config's sheet
+ * tab group.
+ * @returns The TABS map with the SoHL tab added.
+ */
 function buildTabs(): Record<string, any> {
     const parentTabs: Record<string, any> = FoundrySceneConfig.TABS ?? {};
     const sheet = parentTabs.sheet ?? { tabs: [], initial: "basics" };

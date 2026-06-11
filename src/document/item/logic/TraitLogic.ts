@@ -54,7 +54,13 @@ export class TraitLogic<
     /* Array update helpers                          */
     /* --------------------------------------------- */
 
-    /** Build an `update()` payload that adds a value description entry. */
+    /**
+     * Build an `update()` payload that adds a value description entry.
+     * @param entry - The label/maxValue pair to append.
+     * @param entry.label - The display label for the value-description band.
+     * @param entry.maxValue - The upper bound this band applies up to.
+     * @returns An `update()` payload writing the extended `system.valueDesc` array.
+     */
     addValueDescUpdate(entry: {
         label: string;
         maxValue: number;
@@ -64,7 +70,11 @@ export class TraitLogic<
         };
     }
 
-    /** Build an `update()` payload that removes a value description by label. */
+    /**
+     * Build an `update()` payload that removes a value description by label.
+     * @param label - The label of the value-description entry to remove.
+     * @returns An `update()` payload writing the filtered `system.valueDesc` array.
+     */
     removeValueDescUpdate(label: string): PlainObject {
         return {
             "system.valueDesc": this.data.valueDesc.filter(

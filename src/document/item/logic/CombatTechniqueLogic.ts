@@ -59,6 +59,8 @@ export class CombatTechniqueLogic<
      * Present a dialog asking the player to select the appropriate strike mode
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
+     *
+     * @param context - Action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
@@ -86,6 +88,7 @@ export class CombatTechniqueLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -109,6 +112,7 @@ export class CombatTechniqueLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */

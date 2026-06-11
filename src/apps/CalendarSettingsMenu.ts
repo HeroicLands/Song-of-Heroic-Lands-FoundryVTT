@@ -61,6 +61,12 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
         },
     };
 
+    /**
+     * Build the render context: the registered calendars, the active calendar
+     * id, the imported (non-builtin) calendars, and the form footer buttons.
+     * @param options - The render options.
+     * @returns The template render context.
+     */
     protected override async _prepareContext(options: any): Promise<any> {
         const activeId = game.settings.get("sohl", "activeCalendar") as string;
         const calendars: { id: string; label: string; active: boolean }[] = [];
@@ -100,6 +106,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
     /**
      * Handle the import calendar action. Opens a FilePicker for JSON files,
      * validates the selected file, and registers it as a new calendar.
+     * @param _event - The triggering event (unused).
+     * @param _target - The element the action was invoked on (unused).
      */
     protected static async _onImportCalendar(
         this: CalendarSettingsMenu,
@@ -183,6 +191,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
     /**
      * Handle deleting an imported calendar.
+     * @param _event - The triggering event (unused).
+     * @param target - The element the action was invoked on; supplies the calendar id.
      */
     protected static async _onDeleteCalendar(
         this: CalendarSettingsMenu,
@@ -236,6 +246,8 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
 
     /**
      * Handle form submission — save the active calendar selection.
+     * @param _formConfig - The form configuration (unused).
+     * @param event - The submit event.
      */
     protected override async _onSubmitForm(
         _formConfig: any,

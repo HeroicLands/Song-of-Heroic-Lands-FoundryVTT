@@ -24,6 +24,12 @@ import { SohlItemDataModel } from "./SohlItem";
 const { SchemaField, NumberField, StringField, BooleanField, DocumentIdField } =
     foundry.data.fields;
 
+/**
+ * Builds the data schema for the Mystical Ability item, extending the base item
+ * schema with mystical-ability-specific fields (subtype, associated skill and
+ * mystery codes, mastery level, charges, etc.).
+ * @returns The Foundry data schema for the mystical ability.
+ */
 function defineMysticalAbilityDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -98,6 +104,10 @@ export class MysticalAbilityDataModel<
         max: number;
     };
 
+    /**
+     * Returns the Foundry data schema for the mystical ability item.
+     * @returns The mystical ability data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineMysticalAbilityDataSchema();
     }

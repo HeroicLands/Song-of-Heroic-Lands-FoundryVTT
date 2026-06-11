@@ -71,7 +71,12 @@ export const DEFENSE_DISABLING_STATUSES: readonly string[] = [
     STATUS_EFFECT.INCAPACITATED,
 ];
 
-/** The first id in `forbidden` present in `statuses`, or `null`. Pure. */
+/**
+ * The first id in `forbidden` present in `statuses`, or `null`. Pure.
+ * @param statuses - The status-effect ids currently active.
+ * @param forbidden - The status ids to scan for, in priority order.
+ * @returns The first forbidden id found in `statuses`, or `null` if none.
+ */
 export function firstStatusIn(
     statuses: Iterable<string>,
     forbidden: readonly string[],
@@ -80,7 +85,12 @@ export function firstStatusIn(
     return forbidden.find((s) => set.has(s)) ?? null;
 }
 
-/** Whether any id in `forbidden` is present in `statuses`. Pure. */
+/**
+ * Whether any id in `forbidden` is present in `statuses`. Pure.
+ * @param statuses - The status-effect ids currently active.
+ * @param forbidden - The status ids to scan for.
+ * @returns `true` if any forbidden id is present in `statuses`.
+ */
 export function hasAnyStatus(
     statuses: Iterable<string>,
     forbidden: readonly string[],
@@ -130,7 +140,10 @@ export function resolveStrikeModeML(
  * with that shortcode.
  *
  * @param actor     Anything exposing `itemTypes.skill` (a SohlActor at runtime).
+ * @param actor.itemTypes - The actor's items grouped by type.
+ * @param actor.itemTypes.skill - The actor's skill items.
  * @param shortcode The skill's `system.shortcode` (e.g. `"dge"`).
+ * @returns The skill's mastery-level modifier, or `null` if no skill matches.
  */
 export function resolveSkillMasteryLevel(
     actor: { itemTypes?: { skill?: any[] } },
@@ -160,6 +173,9 @@ export interface BlockableStrikeMode {
  * combat techniques — i.e. melee modes whose `defense.block` is present and not
  * disabled (not `noBlock`). Pure and Foundry-free; used to populate the Block
  * dialog and to resolve the chosen mode's block modifier.
+ * @param actor - The actor whose weapons and combat techniques are scanned.
+ * @param actor.itemTypes - The actor's items grouped by type.
+ * @returns The block-capable strike modes with their live block modifiers.
  */
 export function collectBlockableStrikeModes(actor: {
     itemTypes?: any;
@@ -211,6 +227,10 @@ export interface AttackableStrikeMode {
  *   not support, so those modes are excluded entirely.
  *
  * An empty result means the target is out of range of every mode.
+ * @param actor - The actor whose weapons and combat techniques are scanned.
+ * @param actor.itemTypes - The actor's items grouped by type.
+ * @param distanceFeet - The distance to the target, in feet.
+ * @returns The strike modes able to reach the target at `distanceFeet`.
  */
 export function collectAttackableStrikeModes(
     actor: { itemTypes?: any },
@@ -247,6 +267,9 @@ export function collectAttackableStrikeModes(
  * `noAttack`). Range-independent (reach is checked when the counterstrike is
  * actually resolved); this is the capability gate for showing the Counterstrike
  * button. Pure and Foundry-free.
+ * @param actor - The actor whose weapons and combat techniques are scanned.
+ * @param actor.itemTypes - The actor's items grouped by type.
+ * @returns `true` if the actor has any usable melee attack strike mode.
  */
 export function hasMeleeAttackStrikeMode(actor: { itemTypes?: any }): boolean {
     const itemTypes = actor.itemTypes ?? {};
@@ -278,6 +301,9 @@ export interface MissileRangeBand {
  * `≤ baseRange/2` is point blank (spread 6, impact +2); `≤ baseRange` is a
  * normal direct shot (spread 8, no bonus); beyond is a volley (`direct:false`,
  * unsupported by automated combat). Pure.
+ * @param distanceFeet - The distance to the target, in feet.
+ * @param baseRangeFeet - The strike mode's base range, in feet.
+ * @returns The range band (direct/point-blank flags, spread, impact bonus).
  */
 export function classifyMissileRange(
     distanceFeet: number,
@@ -295,6 +321,9 @@ export function classifyMissileRange(
 /**
  * Index of the entry with the highest effective mastery level (the "best
  * chance" default), or -1 for an empty list. Pure.
+ * @param entries - The candidate entries to compare.
+ * @param ml - Extracts the effective mastery level from an entry.
+ * @returns The index of the highest-mastery entry, or -1 if `entries` is empty.
  */
 export function indexOfBestMastery<T>(
     entries: T[],
@@ -319,6 +348,9 @@ export function indexOfBestMastery<T>(
  * unit-tested. The Being sheet's Impact click handler uses this to convert the
  * row's data attributes into the impact modifier to roll.
  *
+ * @param actor  Anything with an `items.get(id)` accessor (a SohlActor at runtime).
+ * @param itemId ID of the item carrying the strike mode (weapon or combat technique).
+ * @param smId   ID of the strike mode within that item.
  * @returns The impact modifier, or `null` if the item or strike mode is
  *          missing, or the mode delivers no impact (disabled).
  */
@@ -338,7 +370,10 @@ export function resolveStrikeModeImpact(
     return impact;
 }
 
-/** A fresh, rolled d100. */
+/**
+ * A fresh, rolled d100.
+ * @returns A new {@link SimpleRoll} that has already been rolled.
+ */
 function rollAttackDie(): SimpleRoll {
     const roll = new SimpleRoll({
         numDice: 1,
@@ -380,6 +415,8 @@ export interface BuildAttackInput {
  *
  * The result is *not* yet evaluated; the caller runs `evaluate()` (on the
  * attacker's client, which owns the speaker) before posting the attack card.
+ * @param input - The resolved attack/impact modifiers and result metadata.
+ * @returns A new, unevaluated {@link AttackResult}.
  */
 export function buildAttackResult(input: BuildAttackInput): AttackResult {
     // Clone so the result is independent of (and serializable without) the live
@@ -419,6 +456,10 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
  * Pure: `targeted` is the current target list and `toCombatant` maps a token to
  * its combatant (or `null`), so the rule is unit-testable without canvas/combat
  * globals.
+ * @param targeted - The client's currently targeted tokens.
+ * @param toCombatant - Maps a token to its combatant, or `null` if it is not one.
+ * @returns The single targeted combatant.
+ * @throws If zero or more than one targeted token maps to a combatant.
  */
 export function resolveTargetCombatant<Tok, Comb>(
     targeted: Tok[],
@@ -469,6 +510,8 @@ export interface DamageCardInput {
  * The Calculate Injury button carries `data-test-result-json` with just
  * `{ impact, aspect }` (no aim data), so clicking it on the target opens the
  * assisted Add Injury dialog rather than auto-resolving. Pure and Foundry-free.
+ * @param input - The rolled impact and attacker/target metadata for the card.
+ * @returns The render context for `damage-card.hbs`.
  */
 export function buildDamageCardData(
     input: DamageCardInput,
@@ -533,6 +576,8 @@ export interface AttackCardInput {
  * (`AttackResult.aimBodyPartCode`). All four defense buttons are emitted;
  * per-defender capability gating (Block/Counterstrike) happens later, at
  * chat-card render time.
+ * @param input - The evaluated attack result and attacker/target metadata.
+ * @returns The render context for `attack-card.hbs`.
  */
 export function buildAttackCardData(
     input: AttackCardInput,
@@ -590,7 +635,11 @@ export interface CombatCardInput {
     defendTarget?: CombatCardTarget | null;
 }
 
-/** Map a numeric success level to its display text. */
+/**
+ * Map a numeric success level to its display text.
+ * @param sl - The numeric success level.
+ * @returns The display text (e.g. "Critical Success", "Marginal Failure").
+ */
 function successLevelText(sl: number): string {
     if (sl <= CRITICAL_FAILURE) return "Critical Failure";
     if (sl === MARGINAL_FAILURE) return "Marginal Failure";
@@ -604,6 +653,10 @@ function successLevelText(sl: number): string {
  * {@link buildDamageCardData}: the `createInjury` handler opens the Add Injury
  * dialog from `{ impact, aspect }` (no aim forwarded yet → assisted, not
  * automated).
+ * @param impact - The landing side's impact result, or `undefined` if it missed.
+ * @param target - The struck combatant's injury-button data, or `null`.
+ * @returns The injury-button payload, or `null` if the side did not land or has
+ *          no target.
  */
 function injuryButton(
     impact: ImpactResult | undefined,
@@ -636,6 +689,8 @@ function injuryButton(
  * defender did not contest, so its column is dashed. Each side that lands a
  * blow gets a "Calculate <Token> Injury" button wired to the `createInjury`
  * action (assisted). Counterstrike can land both sides at once.
+ * @param input - The resolved combat exchange and card metadata.
+ * @returns The render context for `attack-result-card.hbs`.
  */
 export function buildCombatCardData(
     input: CombatCardInput,

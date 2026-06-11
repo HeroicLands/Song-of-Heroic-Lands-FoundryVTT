@@ -38,6 +38,11 @@ const {
     ArrayField,
 } = foundry.data.fields;
 
+/**
+ * Builds the data schema for a lineage item, extending the base item schema
+ * with body structure, movement, encumbrance, body weight, and reach fields.
+ * @returns The lineage item data schema.
+ */
 function defineLineageDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -263,6 +268,10 @@ export class LineageDataModel<
     bodyWeightBase!: number;
     reachBase!: number;
 
+    /**
+     * Defines the data schema for the lineage item.
+     * @returns The lineage item data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineLineageDataSchema();
     }

@@ -17,11 +17,23 @@ import { AIAdapter, CompletionOptions } from "@src/utils/ai/AIAdapter";
 export class OpenAIProvider extends AIAdapter {
     private apiKey: string;
 
+    /**
+     * Create a provider that authenticates to the OpenAI API.
+     * @param apiKey - The OpenAI API key used to authorize requests.
+     */
     constructor(apiKey: string) {
         super();
         this.apiKey = apiKey;
     }
 
+    /**
+     * Send a prompt to the OpenAI chat completions endpoint and return the
+     * trimmed text of the first choice.
+     * @param prompt - The user prompt to complete.
+     * @param options - Optional completion settings (model, system prompt,
+     *   temperature, max tokens).
+     * @returns The completion text, or an empty string if none is returned.
+     */
     async completePrompt(
         prompt: string,
         options: CompletionOptions = {},
@@ -68,6 +80,11 @@ export class OpenAIProvider extends AIAdapter {
         return data.choices?.[0]?.message?.content?.trim() || "";
     }
 
+    /**
+     * Summarize what a snippet of code does in a single paragraph.
+     * @param code - The source code to summarize.
+     * @returns A one-paragraph summary of the code's behavior.
+     */
     async summarizeCode(code: string): Promise<string> {
         return this.completePrompt(
             `Summarize what the following code does in a single paragraph:\n\n${code}`,
@@ -75,6 +92,12 @@ export class OpenAIProvider extends AIAdapter {
         );
     }
 
+    /**
+     * Simulate the likely outcomes of a described game action in a fantasy
+     * RPG system.
+     * @param description - A description of the game action to simulate.
+     * @returns The simulated likely outcomes.
+     */
     async simulateOutcome(description: string): Promise<string> {
         return this.completePrompt(
             `Given the following game action description, simulate the likely outcomes in a fantasy RPG system:\n\n${description}`,

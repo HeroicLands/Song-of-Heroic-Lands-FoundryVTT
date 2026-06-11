@@ -87,6 +87,8 @@ export class ValueModifier {
     deltas!: ValueDelta[];
 
     /**
+     * Construct a modifier from optional initial state and apply it.
+     *
      * @param data - Initial state; `baseValue`, `deltas`, `disabledReason`, and
      *   `customFunction` are all optional.
      * @param options - Must provide `options.parent`, the owning Logic.
@@ -108,7 +110,11 @@ export class ValueModifier {
         this._apply();
     }
 
-    /** Serialize this modifier (base, deltas, disabled state) to a plain object. */
+    /**
+     * Serialize this modifier (base, deltas, disabled state) to a plain object.
+     *
+     * @returns The plain-object representation.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
@@ -125,6 +131,12 @@ export class ValueModifier {
         return cloneInstance<T>(this, data, options);
     }
 
+    /**
+     * Recompute the effective value and abbreviation from the base and
+     * deltas, but only when {@link dirty}. Called lazily by the value getters.
+     *
+     * @internal
+     */
     protected _apply(): void {
         if (!this.dirty) return;
         this.dirty = false;
@@ -283,7 +295,13 @@ export class ValueModifier {
         this.dirty = true;
     }
 
-    /** Chainable form of the {@link disabled} setter. */
+    /**
+     * Chainable form of the {@link disabled} setter.
+     *
+     * @param reason - A reason string, or a boolean (`true` applies a default
+     *   reason; `false` clears it).
+     * @returns `this`, for chaining.
+     */
     setDisabled(reason: string | boolean): this {
         this.disabled = reason;
         return this;
@@ -330,6 +348,14 @@ export class ValueModifier {
      * Core delta-mutation routine shared by {@link add}, {@link multiply},
      * {@link set}, {@link floor}, and {@link ceiling}.
      *
+     * @param name - The delta's display name (a localization key).
+     * @param shortcode - The delta's identity shortcode; a new delta replaces
+     *   any existing one with the same shortcode.
+     * @param value - The delta's value.
+     * @param op - The operator to apply (defaults to `ADD`).
+     * @param data - Extra delta data; supplies a fallback `shortcode` when one
+     *   is not given.
+     * @returns `this`, for chaining.
      * @internal
      */
     protected _oper(
@@ -377,6 +403,7 @@ export class ValueModifier {
     /**
      * Find the delta with the given shortcode.
      *
+     * @param shortcode - The delta shortcode to look up.
      * @returns The matching {@link ValueDelta}, or `undefined`.
      * @throws TypeError if `shortcode` is not a string.
      */
@@ -389,6 +416,8 @@ export class ValueModifier {
     /**
      * Whether a delta with the given shortcode is present.
      *
+     * @param shortcode - The delta shortcode to test for.
+     * @returns `true` if a matching delta exists.
      * @throws TypeError if `shortcode` is not a string.
      */
     has(shortcode: string): boolean {
@@ -400,6 +429,7 @@ export class ValueModifier {
     /**
      * Remove the delta with the given shortcode, if present.
      *
+     * @param shortcode - The delta shortcode to remove.
      * @throws TypeError if `shortcode` is not a string.
      */
     delete(shortcode: string): void {
@@ -421,6 +451,8 @@ export class ValueModifier {
      * - **`(name, shortcode, value)`** — the explicit form. `name` and
      *   `shortcode` are used verbatim, with no registry lookup or validation.
      *
+     * @param args - The operator arguments, in either of the two forms above.
+     * @returns The resolved `{ name, shortcode, value }` triple.
      * @internal
      */
     private _resolveDeltaArgs(args: unknown[]): {
@@ -462,7 +494,9 @@ export class ValueModifier {
      * @returns `this`, for chaining.
      */
     add(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
     add(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
     add(...args: unknown[]): this {
         const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.ADD);
@@ -472,7 +506,8 @@ export class ValueModifier {
      * Fold another modifier into this one.
      *
      * @param other - The modifier to merge from.
-     * @param options - When `includeBase` is set, adopt `other`'s base value.
+     * @param options - Merge options.
+     * @param options.includeBase - When set, adopt `other`'s base value.
      * @returns `this`, for chaining.
      */
     addVM(
@@ -490,7 +525,9 @@ export class ValueModifier {
      * @returns `this`, for chaining.
      */
     multiply(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
     multiply(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
     multiply(...args: unknown[]): this {
         const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
@@ -511,7 +548,9 @@ export class ValueModifier {
      * @returns `this`, for chaining.
      */
     set(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
     set(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
     set(...args: unknown[]): this {
         const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
@@ -529,7 +568,9 @@ export class ValueModifier {
      * @returns `this`, for chaining.
      */
     floor(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
     floor(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
     floor(...args: unknown[]): this {
         const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(name, shortcode, value, VALUE_DELTA_OPERATOR.UPGRADE);
@@ -542,7 +583,9 @@ export class ValueModifier {
      * @returns `this`, for chaining.
      */
     ceiling(shortcode: ValueDeltaInfo, value: number): this;
+    /** @inheritDoc */
     ceiling(name: string, shortcode: string, value: number): this;
+    /** @inheritDoc */
     ceiling(...args: unknown[]): this {
         const { name, shortcode, value } = this._resolveDeltaArgs(args);
         return this._oper(
@@ -555,6 +598,12 @@ export class ValueModifier {
 
     /** Render the deltas as an HTML breakdown (name + adjustment per row) for chat cards and tooltips; empty when disabled. */
     get chatHtml(): string {
+        /**
+         * Format a single delta's adjustment for display (e.g. `+2`, `×2`).
+         *
+         * @param delta - The delta to format.
+         * @returns The formatted adjustment string.
+         */
         function getValue(delta: ValueDelta): string {
             switch (delta.op) {
                 case VALUE_DELTA_OPERATOR.ADD:

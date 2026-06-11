@@ -68,6 +68,9 @@ export class OpposedTestResult extends TestResult {
     breakTies!: boolean;
 
     /**
+     * Constructs an opposed test result from a source success test plus either
+     * a target success test or a target token (from which a fresh target test
+     * is created).
      * @param data - Must provide `sourceTestResult`, and either
      *   `targetTestResult` or `targetToken` (a fresh target success test is
      *   created from the token when only the latter is given).

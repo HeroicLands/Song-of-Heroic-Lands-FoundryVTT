@@ -126,6 +126,9 @@ export class BeingLogic<
      *
      * Returns a ValueModifier with base 0 if the actor has no lineage or
      * the lineage has no value for this medium.
+     *
+     * @param medium - The movement medium (e.g. terrestrial, aquatic) to read.
+     * @returns A `ValueModifier` seeded with the lineage's base move for the medium.
      */
     effectiveBaseMove(medium: MovementMedium): ValueModifier {
         const lineageItem = (this.actor?.itemTypes as any)?.[
@@ -293,6 +296,7 @@ export class BeingLogic<
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,
      * this will return the resulting damage and location so it can then be used
      * to apply damage to the being's body roles and parts.
+     * @param context - Action context carrying the combat result in its scope.
      * @param [context.scope.CombatResult] The CombatResult representing the result of the attack or effect.
      * @returns The impact result, or null if no impact occurred.
      */
@@ -507,6 +511,7 @@ export class BeingLogic<
      * - `priorTestResult` is the prior opposed test result that is being retried
      * - `sourceSuccessTestResult` is the result of the test that initiated the opposed test
      *
+     * @param context - Action context carrying the prior/source test result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.sourceSuccessTestResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
      */
@@ -592,6 +597,8 @@ export class BeingLogic<
      * Present a dialog asking the player to select the appropriate strike mode
      * to use to begin automated combat, then delegate processing of the combat start to
      * the selected strike mode's item.
+     *
+     * @param context - Action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
@@ -615,6 +622,7 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -723,6 +731,7 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -793,6 +802,8 @@ export class BeingLogic<
      *
      * The attack snapshot arrives in `context.scope.attackResultJson` (set by the
      * defender's chat-card button); its speaker token identifies the attacker.
+     *
+     * @param context - Action context carrying the attacker's attack snapshot in its scope.
      */
     async automatedCounterstrikeResume(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
@@ -967,6 +978,7 @@ export class BeingLogic<
      * - `combatResult` is the prior automated resume result that is being reassessed
      * - `attackResult` is the result of the automated attack that initiated the automated resume
      *
+     * @param context - Action context carrying the combat or attack result in its scope.
      * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
      * @param [context.scope.attackResult] The test result that initiated the opposed test
      */
@@ -1006,6 +1018,9 @@ export class BeingLogic<
      * button's dataset (`data-attack-result-json` → `scope.attackResultJson`).
      * Returns `null` (with a warning) when absent. Parent is this defender's
      * logic, per the snapshot-on-defender model.
+     *
+     * @param context - Action context whose scope holds the attack-result JSON snapshot.
+     * @returns The rehydrated `AttackResult`, or null if no snapshot is present.
      */
     private rehydrateAttackResult(
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
@@ -1020,7 +1035,13 @@ export class BeingLogic<
         return instanceFromJSON<AttackResult>(json, this);
     }
 
-    /** Compose the `CombatResult` for a resolved exchange (attacker snapshot + defender response). */
+    /**
+     * Compose the `CombatResult` for a resolved exchange (attacker snapshot + defender response).
+     * @param attackResult - The attacker's evaluated attack snapshot.
+     * @param defendResult - The defender's response (a defend result or counterstrike attack).
+     * @param context - Action context supplying the speaker for the result.
+     * @returns The composed `CombatResult` pairing the attack and defense.
+     */
     private buildCombatResult(
         attackResult: AttackResult,
         defendResult: AttackResult | DefendResult,
@@ -1041,6 +1062,10 @@ export class BeingLogic<
     /**
      * Post the combat-result card as the defender. A landing blow carries a
      * "Calculate <Token> Injury" button. Suppressed when `context.noChat`.
+     * @param combatResult - The resolved exchange to render on the card.
+     * @param attackResult - The attacker's attack snapshot for the card data.
+     * @param defenseLabel - Human-readable label describing the defense used.
+     * @param context - Action context supplying the speaker and chat-suppression flag.
      */
     private async postCombatResultCard(
         combatResult: CombatResult,

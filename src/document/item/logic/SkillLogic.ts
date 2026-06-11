@@ -396,6 +396,11 @@ export class SkillLogic<
         return 1;
     }
 
+    /**
+     * Define and return all intrinsic actions for skill logic.
+     *
+     * @returns The intrinsic action definitions, including those inherited from the base logic.
+     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),

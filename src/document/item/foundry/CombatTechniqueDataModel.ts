@@ -23,6 +23,12 @@ import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 
 const { StringField, SchemaField, TypedSchemaField } = foundry.data.fields;
 
+/**
+ * Builds the CombatTechnique data schema, extending the base item schema with
+ * a technique group and a discriminated melee/missile strike-mode field.
+ *
+ * @returns The CombatTechnique data schema.
+ */
 function defineCombatTechniqueSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlItemDataModel.defineSchema(),
@@ -67,6 +73,11 @@ export class CombatTechniqueDataModel<
     group!: string;
     strikeMode!: MeleeStrikeMode.Data | MissileStrikeMode.Data;
 
+    /**
+     * Returns the CombatTechnique data schema.
+     *
+     * @returns The CombatTechnique data schema.
+     */
     static override defineSchema(): foundry.data.fields.DataSchema {
         return defineCombatTechniqueSchema();
     }

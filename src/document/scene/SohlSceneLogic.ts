@@ -27,6 +27,10 @@ import type { SohlScene } from "@src/document/scene/SohlScene";
 export class SohlSceneLogic {
     private readonly _data: SohlSceneDataModel;
 
+    /**
+     * Creates scene logic bound to the given scene data model.
+     * @param data - The scene's backing {@link SohlSceneDataModel} (`system`).
+     */
     constructor(data: SohlSceneDataModel) {
         this._data = data;
     }

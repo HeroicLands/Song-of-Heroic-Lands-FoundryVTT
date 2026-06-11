@@ -1911,6 +1911,8 @@ export type ActiveEffectScope =
  * `choices` for the scope `StringField` so that a scope value of an item
  * kind (e.g. `"weapongear"`) is validated and the matching `*_EFFECT_KEY`
  * block can be selected for the changes UI.
+ *
+ * @returns The built-in scope values followed by every registered item kind.
  */
 export function ActiveEffectScopeChoices(): string[] {
     return [...ActiveEffectScopes, ...ItemKinds];

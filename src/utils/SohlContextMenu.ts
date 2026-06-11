@@ -93,6 +93,9 @@ export class SohlContextMenu
      * Compile a context-menu `condition` into a predicate suitable for
      * Foundry's ContextMenu base class.
      * @see {@link compileCondition}
+     * @param source - The condition source to compile.
+     * @param entryName - The entry name, used for error reporting.
+     * @returns A predicate evaluating the condition against a target element.
      */
     static compileCondition(
         source: SohlContextMenu.Condition,
@@ -104,6 +107,8 @@ export class SohlContextMenu
     /**
      * Build the lazy evaluation context for a context-menu condition.
      * @see {@link makeConditionContext}
+     * @param target - The element the context menu was opened on.
+     * @returns The evaluation context exposed to the condition.
      */
     static makeConditionContext(target: HTMLElement): Record<string, unknown> {
         return makeConditionContext(target);
@@ -113,6 +118,8 @@ export class SohlContextMenu
      * Resolve the SohlItem indicated by the closest `[data-item-id]`
      * ancestor of `target`.
      * @see {@link resolveContextItem}
+     * @param target - The element the context menu was opened on.
+     * @returns The resolved item, or `undefined` if none is found.
      */
     static resolveItem(target: HTMLElement): SohlItem | undefined {
         return resolveContextItem(target);
@@ -122,6 +129,8 @@ export class SohlContextMenu
      * Resolve the SohlActor indicated by the closest `[data-actor-id]`
      * ancestor of `target`.
      * @see {@link resolveContextActor}
+     * @param target - The element the context menu was opened on.
+     * @returns The resolved actor, or `undefined` if none is found.
      */
     static resolveActor(target: HTMLElement): SohlActor | undefined {
         return resolveContextActor(target);

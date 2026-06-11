@@ -134,7 +134,16 @@ export interface AwaitDialogResult {
 // Utilities
 // ---------------------------------------------------------------------------
 
-/** Deep-merge two objects using Foundry's mergeObject. */
+/**
+ * Deep-merge two objects using Foundry's mergeObject.
+ * @param original - The base object to merge into.
+ * @param other - The object whose values are merged on top.
+ * @param options - Foundry merge options.
+ * @param options.inplace - Whether to mutate `original` in place.
+ * @param options.insertKeys - Whether to insert keys absent from `original`.
+ * @param options.insertValues - Whether to insert values for nested keys absent from `original`.
+ * @returns The merged object.
+ */
 export function fvttMergeObject(
     original: object,
     other: object,
@@ -151,12 +160,20 @@ export function fvttMergeObject(
 // Document resolution
 // ---------------------------------------------------------------------------
 
-/** Synchronously resolve a document by UUID. */
+/**
+ * Synchronously resolve a document by UUID.
+ * @param uuid - The document UUID to resolve.
+ * @returns The resolved document, or `null` if not found.
+ */
 export function fvttResolveUuid(uuid: string): any {
     return fromUuidSync(uuid);
 }
 
-/** Asynchronously resolve a document by UUID. */
+/**
+ * Asynchronously resolve a document by UUID.
+ * @param uuid - The document UUID to resolve.
+ * @returns A promise resolving to the document, or `null` if not found.
+ */
 export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return fromUuid(uuid);
 }
@@ -169,6 +186,8 @@ export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
  * Convert a {@link SimpleRoll} to a Foundry VTT Roll instance, preserving
  * the die results already recorded on the SimpleRoll so that Foundry can
  * display them in chat without re-rolling.
+ * @param simpleRoll - The {@link SimpleRoll} to convert.
+ * @returns A promise resolving to the equivalent Foundry {@link foundry.dice.Roll}.
  */
 export async function fvttToFoundryRoll(
     simpleRoll: SimpleRoll,
@@ -204,7 +223,11 @@ export async function fvttToFoundryRoll(
 // Hooks
 // ---------------------------------------------------------------------------
 
-/** Call all hooks registered for the given event name. */
+/**
+ * Call all hooks registered for the given event name.
+ * @param name - The hook event name.
+ * @param args - Arguments forwarded to each hook handler.
+ */
 export function fvttCallHook(name: string, ...args: unknown[]): void {
     Hooks.callAll(name as any, ...args);
 }
@@ -213,12 +236,20 @@ export function fvttCallHook(name: string, ...args: unknown[]): void {
  * Call hooks with cancellation support. Returns false if any handler
  * returns false explicitly, indicating that processing should be skipped.
  * Used for pre-phase hooks (preInitialize, preEvaluate, preFinalize).
+ * @param name - The hook event name.
+ * @param args - Arguments forwarded to each hook handler.
+ * @returns `false` if any handler returned `false`, otherwise `true`.
  */
 export function fvttCallHookCancel(name: string, ...args: unknown[]): boolean {
     return Hooks.call(name as any, ...args);
 }
 
-/** Report an error to the Foundry hook error handler. */
+/**
+ * Report an error to the Foundry hook error handler.
+ * @param source - The source identifier where the error originated.
+ * @param error - The error to report.
+ * @param data - Optional context data for the error handler.
+ */
 export function fvttHookOnError(
     source: string,
     error: Error,
@@ -231,7 +262,10 @@ export function fvttHookOnError(
 // System identity and CONFIG
 // ---------------------------------------------------------------------------
 
-/** Whether the current user has the GM role. */
+/**
+ * Whether the current user has the GM role.
+ * @returns `true` if the current user is a GM.
+ */
 export function fvttIsCurrentUserGM(): boolean {
     return !!(game as any).user?.isGM;
 }
@@ -240,27 +274,44 @@ export function fvttIsCurrentUserGM(): boolean {
 // Game state
 // ---------------------------------------------------------------------------
 
-/** Get the current world time in seconds. */
+/**
+ * Get the current world time in seconds.
+ * @returns The current world time in seconds.
+ */
 export function fvttWorldTime(): number {
     return game.time.worldTime;
 }
 
-/** Retrieve a game setting value. */
+/**
+ * Retrieve a game setting value.
+ * @param module - The module/system namespace the setting is registered under.
+ * @param key - The setting key.
+ * @returns The stored setting value.
+ */
 export function fvttGetSetting(module: string, key: string): unknown {
     return (game as any).settings.get(module, key);
 }
 
-/** Whether the current user is the active GM. */
+/**
+ * Whether the current user is the active GM.
+ * @returns `true` if the current user is the active GM.
+ */
 export function fvttIsActiveGM(): boolean {
     return !!(game as any).user?.isActiveGM;
 }
 
-/** Get the current user document. */
+/**
+ * Get the current user document.
+ * @returns The current user document.
+ */
 export function fvttCurrentUser(): any {
     return (game as any).user;
 }
 
-/** Get the Intl.ListFormat formatter for the current game locale. */
+/**
+ * Get the Intl.ListFormat formatter for the current game locale.
+ * @returns The locale-aware list formatter.
+ */
 export function fvttGetListFormatter(): Intl.ListFormat {
     return (game as any).i18n.getListFormatter();
 }
@@ -269,22 +320,38 @@ export function fvttGetListFormatter(): Intl.ListFormat {
 // Document lookups
 // ---------------------------------------------------------------------------
 
-/** Get an actor by ID from the world collection. */
+/**
+ * Get an actor by ID from the world collection.
+ * @param id - The actor document ID.
+ * @returns The actor, or `null` if not found.
+ */
 export function fvttGetActor(id: string): any {
     return (game as any).actors?.get(id) ?? null;
 }
 
-/** Get a scene by ID from the world collection. */
+/**
+ * Get a scene by ID from the world collection.
+ * @param id - The scene document ID.
+ * @returns The scene, or `null` if not found.
+ */
 export function fvttGetScene(id: string): any {
     return (game as any).scenes?.get(id) ?? null;
 }
 
-/** Get a token by ID from the current canvas. */
+/**
+ * Get a token by ID from the current canvas.
+ * @param id - The token ID.
+ * @returns The token, or `null` if not found.
+ */
 export function fvttGetToken(id: string): any {
     return (canvas as any)?.tokens?.get(id) ?? null;
 }
 
-/** Get a user by ID from the world collection. */
+/**
+ * Get a user by ID from the world collection.
+ * @param id - The user document ID.
+ * @returns The user, or `null` if not found.
+ */
 export function fvttGetUser(id: string): any {
     return (game as any).users?.get(id) ?? null;
 }
@@ -293,12 +360,20 @@ export function fvttGetUser(id: string): any {
 // Chat
 // ---------------------------------------------------------------------------
 
-/** Create a chat message. */
+/**
+ * Create a chat message.
+ * @param data - The chat message creation data.
+ * @returns A promise resolving to the created chat message.
+ */
 export async function fvttCreateChatMessage(data: object): Promise<any> {
     return foundry.documents.ChatMessage.create(data);
 }
 
-/** Apply the specified roll mode to chat message data. */
+/**
+ * Apply the specified roll mode to chat message data.
+ * @param data - The chat message data to mutate in place.
+ * @param mode - The roll mode to apply.
+ */
 export function fvttApplyRollMode(data: object, mode: string): void {
     ChatMessage.applyRollMode(data, mode as any);
 }
@@ -307,7 +382,11 @@ export function fvttApplyRollMode(data: object, mode: string): void {
 // Rich text
 // ---------------------------------------------------------------------------
 
-/** Enrich HTML content using Foundry's TextEditor. */
+/**
+ * Enrich HTML content using Foundry's TextEditor.
+ * @param content - The raw HTML/text content to enrich.
+ * @returns A promise resolving to the enriched HTML.
+ */
 export async function fvttEnrichHTML(content: string): Promise<string> {
     return foundry.applications.ux.TextEditor.implementation.enrichHTML(
         content,
@@ -366,6 +445,8 @@ export async function toHTMLWithContent(
  * If the user clicks yes, the promise resolves to `true`. If no, `false`.
  * If the user dismisses the dialog, the promise resolves to `null`, or
  * rejects with an error if `rejectClose` is `true`.
+ * @param config - The dialog configuration; supply either `content` or `template`.
+ * @returns The user's choice (`true`/`false`), or `null` if dismissed.
  */
 export async function yesNoDialog(
     config: Partial<DialogConfig> = {},
@@ -386,6 +467,8 @@ export async function yesNoDialog(
  *
  * If the user clicks OK, the promise resolves to `true`. If dismissed,
  * resolves to `null`, or rejects if `rejectClose` is `true`.
+ * @param config - The dialog configuration; supply either `content` or `template`.
+ * @returns `true` if OK was clicked, or `null` if dismissed.
  */
 export async function okDialog(
     config: Partial<DialogConfig> = {},
@@ -406,6 +489,8 @@ export async function okDialog(
  *
  * When OK is clicked, resolves to a FormDataExtended object. If dismissed,
  * resolves to `null`, or rejects if `rejectClose` is `true`.
+ * @param config - The dialog configuration plus an optional submit `callback`.
+ * @returns The collected form data, or `null` if dismissed.
  */
 export async function inputDialog(
     config: Partial<DialogConfig & { callback: DialogButtonCallback }> = {},
@@ -427,6 +512,8 @@ export async function inputDialog(
  * Resolves to the identifier of the clicked button or the value returned
  * by its callback. If dismissed, resolves to `null`, or rejects if
  * `rejectClose` is `true`.
+ * @param config - The dialog configuration; supply either `content` or `template`.
+ * @returns The clicked button's identifier or callback value, or `null` if dismissed.
  */
 export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
     if (!config.template) {
@@ -446,6 +533,10 @@ export async function awaitDialog(config: Partial<DialogConfig>): Promise<any> {
 
 /**
  * Unregister a custom sheet for a Foundry document class.
+ * @param documentClass - The Foundry document class the sheet was registered for.
+ * @param sheetClass - The sheet class to unregister.
+ * @param root0 - Unregistration options.
+ * @param root0.types - The document subtypes to unregister the sheet for.
  */
 export function unregisterSheet(
     documentClass: any,
@@ -591,6 +682,7 @@ export function getCurrentScene(): Scene {
  *
  * Unlike {@link getCurrentScene} (the scene presently shown on the canvas),
  * this returns `game.scenes.active` and never throws.
+ * @returns The active {@link Scene}, or `null` if none is active.
  */
 export function getActiveScene(): Scene | null {
     if (!(game instanceof foundry.Game)) return null;
@@ -600,6 +692,7 @@ export function getActiveScene(): Scene | null {
 /**
  * The currently active combat encounter (`game.combat`), or `null` when the
  * game is unavailable or no combat is active. Never throws.
+ * @returns The active {@link Combat}, or `null` if none is active.
  */
 export function getActiveCombat(): Combat | null {
     if (!(game instanceof foundry.Game)) return null;
@@ -612,6 +705,11 @@ export function getActiveCombat(): Combat | null {
 
 /**
  * Retrieves documents from specified packs based on document name and type.
+ * @param packNames - The compendium pack names to search.
+ * @param options - Filtering options.
+ * @param options.documentName - The document type the pack must hold (e.g. `"Item"`).
+ * @param options.docType - Optional document subtype to filter by.
+ * @returns The matching documents as plain objects.
  */
 export async function getDocsFromPacks(
     packNames: string[],
@@ -636,6 +734,13 @@ export async function getDocsFromPacks(
 
 /**
  * Retrieves a document from specified packs based on name and optional type.
+ * @param docName - The name of the document to find.
+ * @param packNames - The compendium pack names to search.
+ * @param options - Lookup options.
+ * @param options.documentName - The document type the pack must hold.
+ * @param options.docType - Optional document subtype to filter by.
+ * @param options.keepId - Whether to preserve the source `_id` (otherwise a new ID is assigned).
+ * @returns The matching document data prepared for import, or `undefined` if not found.
  */
 export async function getDocumentFromPacks(
     docName: string,
@@ -681,7 +786,11 @@ export async function getDocumentFromPacks(
 // Context menu helpers
 // ---------------------------------------------------------------------------
 
-/** Resolve the SohlItem for a context menu target element. */
+/**
+ * Resolve the SohlItem for a context menu target element.
+ * @param header - The context menu target element.
+ * @returns The resolved {@link SohlItem}, or `null` if none could be resolved.
+ */
 export function getContextItem(header: HTMLElement): SohlItem | null {
     const element = header.closest(".item") as HTMLElement;
     const item =
@@ -689,7 +798,11 @@ export function getContextItem(header: HTMLElement): SohlItem | null {
     return item && typeof item === "object" ? (item as SohlItem) : null;
 }
 
-/** Resolve the Logic instance for a context menu target element. */
+/**
+ * Resolve the Logic instance for a context menu target element.
+ * @param element - The context menu target element.
+ * @returns The resolved Logic instance, or `null` if none could be resolved.
+ */
 export function getContextLogic(element: HTMLElement): any {
     const found = element.closest(".logic") as any;
     if (!found) return null;
@@ -743,7 +856,7 @@ export function fvttGetTargetedTokens(
  *
  * @param sourceToken - The source token.
  * @param targetToken - The target token.
- * @param gridUnits=false - Whether to return in grid units.
+ * @param gridUnits - Whether to return the distance in grid units rather than scene units.
  * @returns {number|null} The distance, or null if not calculable.
  */
 export function fvttRangeToTarget(

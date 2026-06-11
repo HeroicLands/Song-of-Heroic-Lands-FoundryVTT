@@ -37,6 +37,9 @@ import { SuccessTestResult } from "./SuccessTestResult";
  */
 export class DefendResult extends SuccessTestResult {
     /**
+     * Build a defense result, folding any player-entered situational modifier
+     * into the mastery level as a `PLAYER` delta.
+     *
      * @param data - Defense data; `data.situationalModifier` (the player-entered
      *   defense modifier) is added to the {@link masteryLevelModifier} as a
      *   `PLAYER` delta.

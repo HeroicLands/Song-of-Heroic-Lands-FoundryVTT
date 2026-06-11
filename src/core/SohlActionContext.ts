@@ -119,7 +119,11 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
         this.scope = scope;
     }
 
-    /** Serialize the context to a plain object. */
+    /**
+     * Serialize the context to a plain object.
+     *
+     * @returns The plain-object representation of this context.
+     */
     toJSON(): PlainObject {
         return instanceToJSON(this);
     }
