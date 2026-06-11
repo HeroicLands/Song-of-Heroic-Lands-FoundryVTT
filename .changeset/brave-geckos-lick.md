@@ -1,0 +1,5 @@
+---
+"sohl": minor
+---
+
+Event Queue
