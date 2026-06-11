@@ -24,7 +24,7 @@ export interface SeedingCombatant {
     desiredName: string | null | undefined;
 }
 
-/** An existing `CombatantGroup` on the combat. */
+/** An existing {@link CombatantGroup} on the combat. */
 export interface ExistingGroup {
     /** The group's id. */
     id: string;
@@ -47,7 +47,7 @@ export interface GroupSeedingPlan {
 
 /**
  * Compute, without touching Foundry, how a batch of newly created combatants
- * should be seeded into `CombatantGroup`s.
+ * should be seeded into {@link CombatantGroup}s.
  *
  * For each combatant lacking a group, the desired name (falling back to
  * {@link DEFAULT_COMBAT_GROUP} when blank) is matched case-insensitively

@@ -21,7 +21,7 @@ import {
 
 /**
  * SoHL's Combat document. Seeds newly created combatants into
- * `CombatantGroup`s (see {@link resolveGroupSeeding}) and drives the
+ * {@link CombatantGroup}s (see {@link resolveGroupSeeding}) and drives the
  * system's combat lifecycle.
  */
 export class SohlCombat<
@@ -29,7 +29,7 @@ export class SohlCombat<
 > extends Combat<SubType> {
     /**
      * After combatants are created, seed each ungrouped one into a
-     * `CombatantGroup` derived from its token's `sohl.defaultCombatGroup`
+     * {@link CombatantGroup} derived from its token's `sohl.defaultCombatGroup`
      * flag (defaulting to `"Opponents"`). Batch-aware: several combatants
      * created in one operation that want the same new group share a single
      * group create. Only the active GM performs the authoritative writes.
@@ -63,7 +63,7 @@ export class SohlCombat<
     }
 
     /**
-     * Assign newly created combatants to their desired `CombatantGroup`s,
+     * Assign newly created combatants to their desired {@link CombatantGroup}s,
      * creating any missing groups first and then updating each combatant's
      * group, per the plan from {@link resolveGroupSeeding}.
      *
