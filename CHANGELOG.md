@@ -4,14 +4,16 @@
 
 ### Minor Changes
 
-- 2436ecc: Event Queue
+- 2436ecc: **Event Queue**
 
     Prior simple time-based event queue replaced with trigger-oriented event queue
-    - **Generalized from time-only to trigger-based dispatch.** Subscriptions identify a trigger (`updateWorldTime`, `combatStart`, `turnStart`, etc.) plus optional `fireAt` for time scheduling; `mod:` / `sm:` change application is integrated.
+    - **Generalized from time-only to trigger-based dispatch.** Subscriptions identify
+      a trigger (`updateWorldTime`, `combatStart`, `turnStart`, etc.) plus optional
+     `fireAt` for time scheduling; `mod:` / `sm:` change application is integrated.
     - **Substantial expansion** in scope (`c6bf726`) with matching test coverage.
     - The retired `SOHL_EVENT` constants are gone in favor of the generalized trigger taxonomy.
 
-- d87fd75: Restructure and improve the developer/user documentation for readability and usability
+- d87fd75: **Restructure and improve the developer/user documentation for readability and usability**
 
     An intentional, major reorganization of the developer/API documentation. The
     goal is a clearer information architecture, consistent per-document framing,
@@ -65,11 +67,11 @@
       framing, and cross-linked; stable localization keys, data fields, and code
       remain untouched.
 
-- 2436ecc: Folder Reorganization
+- 2436ecc: **Folder Reorganization**
 
     All document classes live under `src/document/`; old `src/actor/`, `src/item/`, `src/effect/` directories are gone. Tests mirror the new layout.
 
-- ea32d8d: Expose `getContextOptions()` as public API; keep the Foundry binding internal
+- ea32d8d: **Expose `getContextOptions()` as public API; keep the Foundry binding internal**
 
     The instance `getContextOptions()` method is now **public** on `SohlActor`,
     `SohlItem`, `SohlActiveEffect`, and `SohlLogic`, so external code can enumerate
@@ -86,11 +88,11 @@
     persistence/UI binding stays out of the published API. No runtime behavior
     changes.
 
-- 2436ecc: Calendar
+- 2436ecc: **Calendar**
     - Substantially expanded with parallel test coverage growth.
     - `seasons` system removed.
 
-- 2b490e6: Define and Initialize Intrinsic Actions Workflow
+- 2b490e6: **Define and Initialize Intrinsic Actions Workflow**
 
     **Executor wiring.** Intrinsic actions resolve their executor by
     case-sensitive method lookup on the scoped logic object at construction
@@ -162,20 +164,20 @@
     orchestration glue (dialogs, tokens, chat posting, persistence) is Foundry-bound
     and requires in-app verification.
 
-- 2436ecc: Per-actor cohort handling
+- 2436ecc: **Per-actor cohort handling**
 
     Cohort drop logic now goes through a dialog (`CohortDataModel.handleCohortDrop`) instead of a token placement no-op.
 
-- a659b3c: Safe Expressions
+- a659b3c: **Safe Expressions**
     - a sandboxed expression evaluator
     - synatax based on JS, but does not use a JS evaluator, instead uses a custom highly limited evaluator
     - significantly improves safety for common simple evaluations
 
-- 2436ecc: Reorganized to remove variants
+- 2436ecc: **Reorganized to remove variants**
 
     The `MistyIsle`/`Lgnd*` variant split is gone — every document, logic class, and pack now targets the single Legendary ruleset. Hooks remain for module-side extension.
 
-- 2436ecc: Combat resolution (assisted & automated)
+- 2436ecc: **Combat resolution (assisted & automated)**
 
     Implements the two combat modes documented in `docs/reference/combat-modes.md`.
     - **Chat-card dispatch fix.** The `renderChatMessageHTML` handler read only `data-doc-uuid`, but the combat/injury cards emit `data-handler-uuid` / `data-handler-actor-uuid` / `data-action-handler-uuid`, so none of their buttons dispatched. A new Foundry-free `resolveChatCardHandlerUuid()` (`src/document/chat/chat-card-dispatch.ts`) normalizes the reader across all card conventions without renaming any template attribute.
@@ -185,7 +187,7 @@
     - **Injury cards & Add Injury flow.** `injury-card.hbs` / `injury-dialog.hbs` rewritten to the new model. `SohlActor.onChatCardButton` dispatches the `createInjury` action: an automated request (aimed `targetPart` + `accuracy` forwarded in `data-test-result-json`) resolves with no dialog, while an assisted request opens the Add Injury dialog. The Trauma tab gains a manual **Add Injury** action. Pure, unit-tested helpers (`parseInjuryRequest`, `readInjuryDialogForm`, `buildInjuryCardData`, `resolveAutomatedInjury`) live in `src/document/actor/foundry/injury-actions.ts`.
     - **CombatResult resolution.** `CombatResult.opposedTestEvaluate` / `calcMeleeCombatResult` / `calcDodgeCombatResult` are implemented against the live `OpposedTestResult` API (the previous bodies were commented-out legacy referencing a dead API). Outcomes key off the victory score `VS = attacker.normSuccessLevel − defender.normSuccessLevel` (raw level difference, so the tables resolve every exchange by relative margin): Block lands the attack on `VS >= 0` (a tie also forces a defender weapon-break roll); Counterstrike lands the attacker on `VS >= 0` and the defender whenever its own roll succeeds (both may land); Dodge lands on `VS > 0`, or a tie with a lower dodge roll; Ignore lands the attack when it succeeds. Tactical Advantages (`|VS|−1` to the winner of a 2+ margin) and the weapon-break check are surfaced as display-only fields. Fully unit-tested.
 
-- 2436ecc: New `Assembly` and `Disposition` Document Types
+- 2436ecc: **New `Assembly` and `Disposition` Document Types**
 
     `Assembly` actors (variant-invariant composition containers) and a `Disposition` item type were added.
 
@@ -213,7 +215,7 @@
     The `defense.counterstrike` modifier, the `SM_COUNTERSTRIKE` ActiveEffect key,
     `TEST_TYPE.COUNTERSTRIKE`, and the assisted **CX** column are all retained.
 
-- 2b490e6: Restore the Foundry-free logic layer and make it enforceable and tested
+- 2b490e6: **Restore the Foundry-free logic layer and make it enforceable and tested**
 
     The logic layer was designed to be unit-testable outside Foundry — logic
     classes define Data interfaces that the Foundry DataModels implement, and
@@ -298,7 +300,7 @@
       `functionName`); it now resolves the context item and invokes the named
       logic method.
 
-- 2436ecc: Combat group allegiance on Foundry-native CombatantGroup
+- 2436ecc: **Combat group allegiance on Foundry-native CombatantGroup**
 
     Adopts v14's `CombatantGroup` as the single source of truth for combat allegiance under one invariant: two combatants are enemies iff they belong to different groups. Replaces the unused custom `groups[]` / `groupStances` faction-matrix system (discharges roadmap **T2-4**).
     - New `tokenDocument.flags.sohl.defaultCombatGroup` (free-form string, default `"Opponents"`) with a "Default Combat Group" field injected into both the Token and Prototype Token config sheets (`combat-group-hooks.ts`).
@@ -306,11 +308,11 @@
     - `SohlCombatant.isEnemyOf()`, a reworked `allies` getter (same group = ally), and a real `threatenedBy` getter: an enemy threatens unless it is defeated, incapacitated (`unconscious`/`sleep`/`stun`/`restrain`/`paralysis`/`frozen` — `THREAT_NEGATING_STATUSES`), hidden, or out of reach. Weapon reach is a documented placeholder (`reaches()` returns `true`) pending a separate roadmap item.
     - A "Move to Group…" combat-tracker context-menu entry and a per-row group-name label (display only — no group-based turn ordering).
 
-- 2436ecc: Logic Extraction
+- 2436ecc: **Logic Extraction**
 
     Document classes (`SohlItem`, `SohlActor`) are thin Foundry wrappers; per-type rules live in `*Logic` classes under `src/document/*/logic/`. All Foundry API access funnels through `src/core/FoundryHelpers.ts`.
 
-- 2436ecc: Major Overhaul of Active Effects System
+- 2436ecc: **Major Overhaul of Active Effects System**
 
     A ground-up rebuild of how SoHL applies ActiveEffects, with three composable change-key prefixes and a scope-driven targeting model.
     - **Scope Vocabulary** (`SohlActiveEffectDataModel.scope`):
@@ -339,7 +341,7 @@
     - **Aural Shock status**: added as a registered `statusEffect` (`auralShock`, "Aural Shock", `shock.svg`) — toggleable from the token HUD. The Being sheet header status panel now renders short condition abbreviations (e.g. `STN`, `ASHK`) with full-name tooltips and an active-state highlight, and corrects the `stunned`→`stun` id.
     - **Effect Key Catalog**: `*_EFFECT_KEY` blocks added or completed for: Attribute, Affliction, ArmorGear, CombatTechnique, ConcoctionGear, ContainerGear, Lineage, MiscGear, Mystery, MysticalAbility, ProjectileGear, Skill, Trait, Trauma, WeaponGear. Each block lists the modifier-target paths consumable by `mod:`-prefixed effect changes. Matching lang entries shipped in `lang/en.json`.
 
-- 2436ecc: Scene Enhancements
+- 2436ecc: **Scene Enhancements**
 
     **`SohlScene` replaces `SohlRegion`/`SohlEncounter`/region-behavior.** New `SohlSceneDataModel`, `SohlSceneConfig`, `SohlSceneLogic` along with combat-tracker hooks (`combat-tracker-hooks.ts`) that inject `moveFactor` / `displayedMedium` fields and computed move display per tracker row.
 
@@ -347,7 +349,7 @@
 
     BeingLogic.reach`is the greatest reach among the actor's currently *available* melee strike modes: combat-technique modes are intrinsic (always available); a weapon mode counts only while the weapon is held in at least its`minParts` limbs (`canHoldItem`body parts).`SohlCombatant.reach`surfaces that value for the combatant. The availability + max logic lives in the Foundry-free`reach-helpers.ts` (`computeActorReach`). `SohlCombatant.reaches(other)`returns whether this combatant's reach covers the center-to-center grid distance to`other`, so `threatenedBy`now reports an enemy`c`as a threat when`c`'s melee reach extends to the combatant.
 
-- 2436ecc: Lineage Item
+- 2436ecc: **Lineage Item**
 
     A new item representing the anatomy and movement characteristics of a being.
     - **`move-helpers`** replaces `MovementFactorDefaults` / `MovementProfile` — a single source of truth for medium-aware movement math.
@@ -356,7 +358,7 @@
 
 ### Patch Changes
 
-- ea32d8d: Expand API reference documentation (TSDoc)
+- ea32d8d: **Expand API reference documentation (TSDoc)**
 
     Add accurate TSDoc across high-value public API surfaces so developers building
     against SoHL get complete, trustworthy reference docs. This is a comments-only,
@@ -478,7 +480,7 @@
       fails on any undocumented symbol outside `constants.ts`, so the "fully
       documented" state is now enforceable rather than manually checked.
 
-- fc3c528: Enforce explicit `override` modifiers with `noImplicitOverride`
+- fc3c528: **Enforce explicit `override` modifiers with `noImplicitOverride`**
 
     Enable the TypeScript `noImplicitOverride` compiler option and add the `override`
     keyword to every class member that overrides a base-class member — 67 members
@@ -504,7 +506,7 @@
     marked, because the base member isn't visible to the type checker; this is
     expected and harmless.
 
-- 3e931a1: Fix the release automation so versioned changes actually publish.
+- 3e931a1: **Fix the release automation so versioned changes actually publish.**
 
     The release workflow's build-and-publish job was gated on a `published` output
     that `changeset version` never sets, so the GitHub Release and packaged
@@ -525,7 +527,7 @@
     build to `/latest` (matching the automatic release behavior) when run against
     a tag.
 
-- ea32d8d: Normalize member visibility to the underscore naming convention
+- ea32d8d: **Normalize member visibility to the underscore naming convention**
 
     Align member visibility with the project's underscore naming convention so the
     two always agree: a leading underscore means `protected`, while `private`
@@ -551,8 +553,8 @@
     `protected` also removes them from the published API reference (TypeDoc excludes
     protected members).
 
-- 4e0a3fb: Overhaul the generated API documentation: working cross-references, a
-  hierarchical navigation tree, and links out to the Foundry API.
+- 4e0a3fb: **Overhaul the generated API documentation: working cross-references, a
+  hierarchical navigation tree, and links out to the Foundry API.**
 
     **Cross-reference resolution.** A docs build surfaced 178 unresolved `{@link}`
     warnings. TypeDoc's link resolver degrades as the API is split across multiple
