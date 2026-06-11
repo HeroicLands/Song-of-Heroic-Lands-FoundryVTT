@@ -87,9 +87,11 @@ export default [
         files: ["src/**/*.ts", "tests/**/*.ts"],
         languageOptions: {
             parser: tsParser,
-            parserOptions: {
-                project: "./tsconfig.json",
-            },
+            // No `parserOptions.project`: none of the configured rules
+            // (no-restricted-imports, jsdoc) need type information, so we
+            // avoid type-aware linting — it is slower and breaks when the
+            // repo is reached through a symlinked path the TSConfig's file
+            // list doesn't match.
             ecmaVersion: "latest",
             sourceType: "module",
             globals: {
