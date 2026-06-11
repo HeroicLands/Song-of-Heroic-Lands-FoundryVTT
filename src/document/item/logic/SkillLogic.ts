@@ -18,7 +18,10 @@ import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier"
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { SkillBase } from "@src/domain/SkillBase";
 import {
+    ACTION_SUBTYPE,
     ITEM_KIND,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
     VALUE_DELTA_ID,
     VALUE_DELTA_INFO,
     type SkillSubType,
@@ -28,6 +31,7 @@ import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlItem, SohlItemBaseLogic, SohlItemData } from "../foundry/SohlItem";
 import { fvttGetSetting, fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 // TODO: This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
@@ -332,6 +336,63 @@ export class SkillLogic<
     /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
     get sdrIncr() {
         return 1;
+    }
+
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "successTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.successTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-bullseye-arrow",
+                executor: "successTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setImproveFlag",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.setImproveFlag",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-filled",
+                executor: "setImproveFlag",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "unsetImproveFlag",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.unsetImproveFlag",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-unfilled",
+                executor: "unsetImproveFlag",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "improveWithSDR",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.improveWithSDR",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-filled",
+                executor: "improveWithSDR",
+                visible:
+                    "item.system.canImprove && !item.system.data.improveFlag",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "opposedTestStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.opposedTestStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-confrontation",
+                executor: "opposedTestStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
     }
 
     /* --------------------------------------------- */

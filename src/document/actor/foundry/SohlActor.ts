@@ -204,13 +204,15 @@ export class SohlActor extends Actor {
      * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
      * yields a blank manual-entry dialog.
      */
-    async addInjuryViaDialog(prefill: {
-        location?: string;
-        aspect?: string;
-        impact?: number;
-        armorReduction?: number;
-        extraBleedRisk?: boolean;
-    } = {}): Promise<void> {
+    async addInjuryViaDialog(
+        prefill: {
+            location?: string;
+            aspect?: string;
+            impact?: number;
+            armorReduction?: number;
+            extraBleedRisk?: boolean;
+        } = {},
+    ): Promise<void> {
         const body = getActorBodyStructure(this);
         if (!body) {
             sohl.log.uiWarn(
@@ -645,7 +647,7 @@ export class SohlActor extends Actor {
      * Authoring gate: block non-GM users from adding, removing, or modifying
      * SCRIPT entries in `system.actionDefs`. SCRIPT actions run
      * unsandboxed JavaScript, so authorship is restricted to the GM.
-     * INTRINSIC actions and non-actionDefs updates are unaffected.
+     * Intrinsic actions and non-actionDefs updates are unaffected.
      * @param changes - The changes about to be applied.
      * @param options - Foundry update options.
      * @param user - The user attempting the update.

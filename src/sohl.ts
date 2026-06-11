@@ -168,10 +168,7 @@ function registerSystemSettings() {
             try {
                 SohlSystem.applyCalendar(value);
             } catch (err) {
-                sohl.log.error(
-                    `Failed to apply calendar "${value}":`,
-                    err,
-                );
+                sohl.log.error(`Failed to apply calendar "${value}":`, err);
             }
         },
     });
@@ -186,7 +183,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.CalendarConfig.Name",
         label: "SOHL.Settings.CalendarConfig.Label",
         hint: "SOHL.Settings.CalendarConfig.Hint",
-        icon: "fa-solid fa-calendar",
+        icon: "sohl-calendar",
         type: CalendarSettingsMenu as any,
         restricted: true,
     });
@@ -205,7 +202,7 @@ function registerSystemSettings() {
         name: "SOHL.Settings.domainsMenu.name",
         label: "SOHL.Settings.domainsMenu.label",
         hint: "SOHL.Settings.domainsMenu.hint",
-        icon: "fa-solid fa-circle-nodes",
+        icon: "sohl-circle",
         type: DomainManagerApp as any,
         restricted: true,
     });
@@ -226,10 +223,7 @@ function registerBuiltinDomains(): void {
     );
     if (missing.length === 0) return;
     void SohlDomains.register(missing, "sohl").catch((err) => {
-        sohl.log.error(
-            "SoHL | Failed to register built-in domains",
-            err,
-        );
+        sohl.log.error("SoHL | Failed to register built-in domains", err);
     });
 }
 
@@ -306,7 +300,7 @@ function registerSystemHooks() {
         btn.type = "button";
         btn.classList.add("control-icon");
         btn.dataset.tooltip = game.i18n.localize("SOHL.Cohort.HUD.expand");
-        btn.innerHTML = '<i class="fa-solid fa-users" inert></i>';
+        btn.innerHTML = '<i class="sohl-people-group" inert></i>';
         btn.addEventListener("click", async (ev: Event) => {
             ev.preventDefault();
             const token = hud.document;
@@ -362,9 +356,10 @@ function registerSystemHooks() {
                     const edit: HTMLElement | null = (
                         ev.target as HTMLElement
                     )?.closest("a.edit-action");
-                    const docUuid = edit?.dataset
-                        ? resolveChatCardHandlerUuid(edit.dataset)
-                        : null;
+                    const docUuid =
+                        edit?.dataset ?
+                            resolveChatCardHandlerUuid(edit.dataset)
+                        :   null;
                     if (docUuid) {
                         const doc = foundry.utils.fromUuidSync(docUuid);
                         if (
@@ -584,7 +579,9 @@ function registerHandlebarsHelpers() {
     Handlebars.registerHelper(
         "isSmKey",
         function (scope: unknown, key: unknown) {
-            return scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""));
+            return (
+                scope === "weapongear" && /^(mod:)?sm:/.test(String(key ?? ""))
+            );
         },
     );
 

@@ -42,7 +42,7 @@ function buildTabs(): Record<string, any> {
                 ...(sheet.tabs ?? []),
                 {
                     id: "sohl",
-                    icon: "fa-solid fa-masks-theater",
+                    icon: "sohl-drama-masks",
                     label: "SOHL.Scene.SHEET.tab.sohl.label",
                 },
             ],

@@ -18,8 +18,14 @@ import {
     SohlItemBaseLogic,
     SohlItemData,
 } from "@src/document/item/foundry/SohlItem";
-import { MysticalAbilitySubType } from "@src/utils/constants";
+import {
+    ACTION_SUBTYPE,
+    MysticalAbilitySubType,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 /**
  * An actively invoked supernatural power.
@@ -94,6 +100,22 @@ export class MysticalAbilityLogic<
          */
         max: ValueModifier;
     };
+
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "perform",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.MysticalAbility.Action.perform.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sparkles",
+                executor: "perform",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */

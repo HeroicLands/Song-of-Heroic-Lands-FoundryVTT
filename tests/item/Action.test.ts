@@ -33,7 +33,7 @@ function makeActionData(
         executor: "",
         trigger: "true",
         visible: "true",
-        iconFAClass: "fas fa-question",
+        iconFAClass: "sohl-question",
         group: "general",
         minActorOwnership: 3,
         ...overrides,
@@ -259,8 +259,8 @@ describe("SohlAction.visible composes with trigger and permission", () => {
         }
     });
 
-    it("does not check permission for INTRINSIC action (lifecycle calls work for all users)", () => {
-        // Actor would deny via testUserPermission, but INTRINSIC bypasses
+    it("does not check permission for Intrinsic action (lifecycle calls work for all users)", () => {
+        // Actor would deny via testUserPermission, but Intrinsic bypasses
         // the permission gate.
         const restore = vi
             .spyOn(SohlContextMenu, "resolveActor")
@@ -326,7 +326,7 @@ describe("SohlAction.execute gates on permission then trigger", () => {
         expect(blocked).toEqual([]);
     });
 
-    it("runs INTRINSIC action even when actor.testUserPermission denies", async () => {
+    it("runs Intrinsic action even when actor.testUserPermission denies", async () => {
         const action = makeActionOnActor(stubActor(false), {
             subType: ACTION_SUBTYPE.INTRINSIC,
             trigger: "true",

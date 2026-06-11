@@ -462,7 +462,7 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
             tabs: [
                 {
                     id: "properties",
-                    // icon: "fas fa-user",
+                    // icon: "sohl-person",
                     label: "SOHL.Item.tab.properties",
                 },
                 { id: "description", label: "SOHL.Item.tab.description" },
@@ -497,7 +497,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         options.parts.push("properties", "description", "actions", "effects");
     }
 
-    protected override async _prepareContext(options: RenderOptions): Promise<RenderContext> {
+    protected override async _prepareContext(
+        options: RenderOptions,
+    ): Promise<RenderContext> {
         const context = await super._prepareContext(options);
 
         // Add any shared data needed across all parts here

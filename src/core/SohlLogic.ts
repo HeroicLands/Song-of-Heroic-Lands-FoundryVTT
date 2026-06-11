@@ -86,9 +86,9 @@ export abstract class SohlLogic<
             {
                 shortcode: "postfinalize",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
+                title: "SOHL.SohlLogic.Action.postfinalize.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-gears",
+                iconFAClass: "sohl-gears",
                 executor: "postfinalize",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,

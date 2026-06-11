@@ -353,9 +353,9 @@ export class AfflictionLogic<
             {
                 shortcode: "transmitaffliction",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.transmitaffliction.title",
+                title: "SOHL.Affliction.Action.transmitaffliction.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-head-side-cough",
+                iconFAClass: "sohl-drowning",
                 executor: "transmitAffliction",
                 visible: "item.logic.canTransmit",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -363,9 +363,9 @@ export class AfflictionLogic<
             {
                 shortcode: "contractafflictiontest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.contractafflictiontest.title",
+                title: "SOHL.Affliction.Action.contractafflictiontest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-virus",
+                iconFAClass: "sohl-vomiting",
                 executor: "contractAfflictionTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -373,9 +373,9 @@ export class AfflictionLogic<
             {
                 shortcode: "coursetest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.coursetest.title",
+                title: "SOHL.Affliction.Action.coursetest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-heart-pulse",
+                iconFAClass: "sohl-heart-beats",
                 executor: "courseTest",
                 // FIXME: original gated on actor's endurance and item.system.isDormant;
                 // reduced to "true" pending a proper implementation.
@@ -385,9 +385,9 @@ export class AfflictionLogic<
             {
                 shortcode: "fatiguetest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.fatigetest.title",
+                title: "SOHL.Affliction.Action.fatigetest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-face-downcast-sweat",
+                iconFAClass: "sohl-sleepy",
                 executor: "fatigueTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -395,9 +395,9 @@ export class AfflictionLogic<
             {
                 shortcode: "moraletest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.moraletest.title",
+                title: "SOHL.Affliction.Action.moraletest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "far fa-people-group",
+                iconFAClass: "sohl-rally-the-troops",
                 executor: "moraleTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -405,9 +405,9 @@ export class AfflictionLogic<
             {
                 shortcode: "feartest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.fearTest.title",
+                title: "SOHL.Affliction.Action.fearTest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "far fa-face-scream",
+                iconFAClass: "sohl-terror",
                 executor: "fearTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
@@ -415,9 +415,9 @@ export class AfflictionLogic<
             {
                 shortcode: "treatmenttest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.treatmentTest.title",
+                title: "SOHL.Affliction.Action.treatmentTest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-staff-snake",
+                iconFAClass: "sohl-caduceus",
                 executor: "treatmentTest",
                 // FIXME: original gated on actor's "pysn" skill and item.system.isBleeding;
                 // reduced to "true" pending a proper implementation.
@@ -427,8 +427,8 @@ export class AfflictionLogic<
             {
                 shortcode: "diagnosistest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.DIAGNOSISTEST",
-                iconFAClass: "fas fa-stethoscope",
+                title: "SOHL.Affliction.Action.DIAGNOSISTEST",
+                iconFAClass: "sohl-stethoscope",
                 executor: "diagnosisTest",
                 visible: "defined(item) && !item.system.isTreated",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -436,8 +436,8 @@ export class AfflictionLogic<
             {
                 shortcode: "healingtest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Affliction.INTRINSIC_ACTION.HEALINGTEST",
-                iconFAClass: "fas fa-heart-pulse",
+                title: "SOHL.Affliction.Action.HEALINGTEST",
+                iconFAClass: "sohl-healing",
                 executor: "healingTest",
                 // FIXME: original gated on actor's endurance and item.system.isBleeding;
                 // reduced to "true" pending a proper implementation.

@@ -1068,6 +1068,136 @@ export class BeingLogic<
         );
     }
 
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns A map of action shortcodes to their definitions
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlActorBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "shockTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.shockTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-rear-aura",
+                executor: "shockTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "stumbleTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.stumbleTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-falling",
+                executor: "stumbleTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "fumbleTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.fumbleTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-drop-weapon",
+                executor: "fumbleTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "moraleTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.moraleTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-rally-the-troops",
+                executor: "moraleTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "fearTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.fearTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-terror",
+                executor: "fearTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "calcImpact",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.calcImpact",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-pierced-body",
+                executor: "calcImpact",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "contractAfflictionTest",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.contractAfflictionTest",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-vomiting",
+                executor: "contractAfflictionTest",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "opposedTestResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.opposedTestResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-continue",
+                executor: "opposedTestResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedBlockResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedBlockResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-shield-reflect",
+                executor: "automatedBlockResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedCounterstrikeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedCounterstrikeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "automatedCounterstrikeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedDodgeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedDodgeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-dodge",
+                executor: "automatedDodgeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedIgnoreResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedIgnoreResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-shrug",
+                executor: "automatedIgnoreResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+        ];
+    }
+
     /* --------------------------------------------- */
     /* Common Lifecycle Actions                      */
     /* --------------------------------------------- */
@@ -1136,26 +1266,6 @@ export class BeingLogic<
             );
         }
     }
-
-    /**
-     * Define and return all intrinsic actions for this logic type.
-     * @returns A map of action shortcodes to their definitions
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...SohlActorBaseLogic.defineIntrinsicActions(),
-            // {
-            //     shortcode: "postfinalize",
-            //     subType: ACTION_SUBTYPE.INTRINSIC,
-            //     title: "SOHL.SohlLogic.INTRINSIC_ACTION.postfinalize.title",
-            //     scope: SOHL_ACTION_SCOPE.SELF,
-            //     iconFAClass: "fas fa-gears",
-            //     executor: "postfinalize",
-            //     visible: "true",
-            //     group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-            // },
-        ];
-    }
 }
 
 /**
@@ -1168,138 +1278,3 @@ export class BeingLogic<
 export interface BeingData<
     TLogic extends SohlActorLogic<BeingData> = SohlActorLogic<any>,
 > extends SohlActorData<TLogic> {}
-
-/**
- * The intrinsic actions available to Being actors.
- * This structure should correspond to the methods on the
- * Being class that can be invoked as intrinsic actions.
- */
-export const {
-    /** Map of intrinsic-action keys to their definitions. */
-    kind: BEING_INTRINSIC_ACTION,
-    /** Array of valid intrinsic-action key values. */
-    values: BeingIntrinsicActions,
-    /** Type guard testing whether a value is a valid Being intrinsic-action key. */
-    isValue: isBeingIntrinsicAction,
-    /** Map of intrinsic-action keys to their localized labels. */
-    labels: BeingIntrinsicActionLabels,
-} = defineType("SOHL.Being.ACTION", {
-    SHOCKTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.shocktest",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-face-eyes-xmarks",
-        executor: "shockTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-    },
-    STUMBLETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.stumbleTest",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-person-falling",
-        executor: "stumbleTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    FUMBLETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.fumbleTest",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-ball-pile",
-        executor: "fumbleTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    MORALETEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.moraleTest",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-people-group",
-        executor: "moraleTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    FEARTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.fearTest",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "far fa-face-scream",
-        executor: "fearTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    CALCIMPACT: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.calcImpact",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-person-burst",
-        executor: "calcImpact",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    CONTRACTAFFLICTIONTEST: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.contractAfflictionTEST",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-virus",
-        executor: "contractAfflictionTest",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    OPPOSEDTESTRESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.opposedTestResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-people-arrows",
-        executor: "opposedTestResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-    AUTOMATEDCOMBATSTART: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.automatedCombatStart",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-swords",
-        executor: "automatedCombatStart",
-        visible: "true",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-    },
-    AUTOMATEDBLOCKRESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.automatedBlockResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-shield",
-        executor: "automatedBlockResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-
-    AUTOMATEDCOUNTERSTRIKERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.automatedCounterstrikeResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-circle-half-stroke",
-        executor: "automatedCounterstrikeResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-    AUTOMATEDDODGERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.automatedDodgeResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-person-walking-arrow-loop-left",
-        executor: "automatedDodgeResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-    AUTOMATEDIGNORERESUME: {
-        subType: ACTION_SUBTYPE.INTRINSIC,
-        title: "SOHL.Being.ACTION.automatedIgnoreResume",
-        scope: SOHL_ACTION_SCOPE.SELF,
-        iconFAClass: "fas fa-ban",
-        executor: "automatedIgnoreResume",
-        visible: "false",
-        group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-    },
-} as StrictObject<Partial<SohlAction.Data>>);

@@ -434,11 +434,7 @@ export namespace SohlContextMenu {
             }
             this.id = data.id;
             this.name = data.name;
-            this.icon =
-                data.icon ||
-                toHTMLString(
-                    `<i class="${data.iconFAClass}${data.group === SOHL_CONTEXT_MENU_SORT_GROUP.DEFAULT ? " fa-beat-fade" : ""}"></i>`,
-                );
+            this.icon = data.icon;
             this.condition = data.condition;
             this.callback =
                 data.callback ||

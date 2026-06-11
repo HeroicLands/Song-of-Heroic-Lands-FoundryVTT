@@ -37,7 +37,7 @@ export interface DomainEntry {
     label: string;
     /** The family this entry belongs to. */
     family: DomainFamily;
-    /** Font Awesome CSS class for the icon, e.g. `"fas fa-fire"`. */
+    /** CSS class for the icon, e.g. `"sohl-fire"`. */
     iconFAClass: string;
     /** Path to a PNG/WEBP image for the entry, or an empty string. */
     img: string;
@@ -142,21 +142,20 @@ export class SohlDomains {
      * Return entries shaped as `{ shortcode, label }` pairs suitable for
      * populating a `<select>` dropdown. Optionally filter by family.
      */
-    static getChoices(
-        family?: DomainFamily,
-    ): Array<{
+    static getChoices(family?: DomainFamily): Array<{
         /** The domain entry's shortcode. */
         shortcode: string;
         /** The domain entry's display label. */
         label: string;
     }> {
         const store = readStore();
-        const entries = family
-            ? SohlDomains.getByFamily(family)
-            : Object.values(store).sort((a, b) => {
-                  if (a.sort !== b.sort) return a.sort - b.sort;
-                  return a.label.localeCompare(b.label);
-              });
+        const entries =
+            family ?
+                SohlDomains.getByFamily(family)
+            :   Object.values(store).sort((a, b) => {
+                    if (a.sort !== b.sort) return a.sort - b.sort;
+                    return a.label.localeCompare(b.label);
+                });
         return entries.map((e) => ({
             shortcode: e.shortcode,
             label: e.label,

@@ -174,43 +174,68 @@ export class WeaponGearLogic<
         context: SohlActionContext<Partial<CombatResult.ContextScope>>,
     ): Promise<void> {}
 
-    /**
-     * Define and return all intrinsic actions for this logic type.
-     * @returns A map of action shortcodes to their definitions
-     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...GearLogic.defineIntrinsicActions(),
             {
-                shortcode: "automatedcombatstart",
+                shortcode: "attack",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.ACTION.automatedCombatStart",
+                title: "SOHL.WeaponGear.Action.attack",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-swords",
+                iconFAClass: "sohl-sword",
+                executor: "attack",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "automatedCombatStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-crossed-swords",
                 executor: "automatedCombatStart",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
-                shortcode: "automatedblockresume",
+                shortcode: "automatedBlockResume",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.ACTION.automatedBlockResume",
+                title: "SOHL.WeaponGear.Action.automatedBlockResume",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-shield",
+                iconFAClass: "sohl-shield-reflect",
                 executor: "automatedBlockResume",
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
-
             {
-                shortcode: "automatedcounterstrikeresume",
+                shortcode: "automatedCounterstrikeResume",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.CombatTechnique.ACTION.automatedCounterstrikeResume",
+                title: "SOHL.WeaponGear.Action.automatedCounterstrikeResume",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-circle-half-stroke",
+                iconFAClass: "sohl-riposte",
                 executor: "automatedCounterstrikeResume",
                 visible: "false",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "block",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.block",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sheild-reflect",
+                executor: "block",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+            {
+                shortcode: "counterstrike",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.WeaponGear.Action.counterstrike",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "counterstrike",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
         ];
     }

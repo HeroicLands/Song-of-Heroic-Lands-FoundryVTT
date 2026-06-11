@@ -442,8 +442,8 @@ export class SohlSystem {
                     sohleffectdata: "SOHL.SohlActiveEffect.sohleffectdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-aura",
-                    sohleffectdata: "fa-duotone fa-people-group",
+                    base: "sohl-aura",
+                    sohleffectdata: "sohl-aura",
                 },
                 types: ["base", "sohleffectdata"],
             },
@@ -458,8 +458,8 @@ export class SohlSystem {
                     sohlcombatantdata: "SOHL.SohlCombatant.combatantdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-user-helmet-safety",
-                    sohlcombatantdata: "fa-duotone fa-people-group",
+                    base: "sohl-swordman",
+                    sohlcombatantdata: "sohl-swordman",
                 },
                 types: ["base", "sohlcombatantdata"],
             },
@@ -474,8 +474,8 @@ export class SohlSystem {
                     sohlcombatdata: "SOHL.SohlCombat.combatdata",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-shield-halved",
-                    sohlcombatdata: "fa-duotone fa-people-group",
+                    base: "sohl-sword-clash",
+                    sohlcombatdata: "sohl-sword-clash",
                 },
                 types: ["base", "sohlcombatdata"],
             },
@@ -494,7 +494,7 @@ export class SohlSystem {
                     base: "Base",
                 },
                 typeIcons: {
-                    base: "fa-duotone fa-map",
+                    base: "sohl-map",
                 },
                 types: ["base"],
             },

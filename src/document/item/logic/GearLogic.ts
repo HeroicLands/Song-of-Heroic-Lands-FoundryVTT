@@ -18,6 +18,12 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import { fvttGetActor } from "@src/core/FoundryHelpers";
+import {
+    ACTION_SUBTYPE,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/domain/action/SohlAction";
 
 /**
  * Abstract base logic for all physical gear items — the foundation for
@@ -67,6 +73,32 @@ export abstract class GearLogic<
      * duplicating item data.
      */
     sharedWithCohorts!: SohlActor[];
+
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "setCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-filled",
+                executor: "setCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setNotCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setNotCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-unfilled",
+                executor: "setNotCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
+    }
 
     /* --------------------------------------------- */
     /* Array update helpers                          */

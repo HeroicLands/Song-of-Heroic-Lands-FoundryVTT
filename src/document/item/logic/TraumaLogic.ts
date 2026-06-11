@@ -82,19 +82,15 @@ export class TraumaLogic<
      */
     bodyLocation: BodyLocation | undefined;
 
-    /**
-     * Define and return all intrinsic actions for this logic type.
-     * @returns A map of action shortcodes to their definitions
-     */
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlItemBaseLogic.defineIntrinsicActions(),
             {
                 shortcode: "treatmenttest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Trauma.INTRINSIC_ACTION.treatmenttest.title",
+                title: "SOHL.Trauma.Action.treatmenttest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-staff-snake",
+                iconFAClass: "sohl-caduceus",
                 executor: "treatmentTest",
                 visible: "item.system.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -102,9 +98,9 @@ export class TraumaLogic<
             {
                 shortcode: "healingtest",
                 subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Trauma.INTRINSIC_ACTION.healingtest.title",
+                title: "SOHL.Trauma.Action.healingtest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "fas fa-heart-pulse",
+                iconFAClass: "sohl-healing",
                 executor: "healingTest",
                 visible: "item.system.subType === 'physical'",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

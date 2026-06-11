@@ -51,7 +51,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
         classes: ["sohl", "domain-manager"],
         window: {
             title: "SOHL.DomainManager.title",
-            icon: "fa-solid fa-circle-nodes",
+            icon: "sohl-circle",
             contentClasses: ["standard-form"],
         },
         position: {
@@ -113,11 +113,12 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             const familyKey = Object.entries(DOMAIN_FAMILY).find(
                 ([, v]) => v === family,
             )?.[0];
-            const familyLabel = familyKey
-                ? domainFamilyLabels[
-                      familyKey as keyof typeof domainFamilyLabels
-                  ]
-                : family;
+            const familyLabel =
+                familyKey ?
+                    domainFamilyLabels[
+                        familyKey as keyof typeof domainFamilyLabels
+                    ]
+                :   family;
             groups.push({ family, familyLabel, entries });
         }
 
@@ -192,14 +193,13 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             );
             return;
         }
-        const confirmed =
-            await foundry.applications.api.DialogV2.confirm({
-                window: { title: "SOHL.DomainManager.delete" },
-                content: `<p>${game.i18n.format(
-                    "SOHL.DomainManager.deleteConfirm",
-                    { label: existing.label },
-                )}</p>`,
-            } as any);
+        const confirmed = await foundry.applications.api.DialogV2.confirm({
+            window: { title: "SOHL.DomainManager.delete" },
+            content: `<p>${game.i18n.format(
+                "SOHL.DomainManager.deleteConfirm",
+                { label: existing.label },
+            )}</p>`,
+        } as any);
         if (!confirmed) return;
         await SohlDomains.remove(shortcode);
         this.render();
@@ -218,15 +218,15 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
             const familyKey = Object.entries(DOMAIN_FAMILY).find(
                 ([, v]) => v === f,
             )?.[0];
-            const label = familyKey
-                ? game.i18n.localize(
-                      domainFamilyLabels[
-                          familyKey as keyof typeof domainFamilyLabels
-                      ],
-                  )
-                : (f as string);
-            const selected =
-                existing?.family === f ? "selected" : "";
+            const label =
+                familyKey ?
+                    game.i18n.localize(
+                        domainFamilyLabels[
+                            familyKey as keyof typeof domainFamilyLabels
+                        ],
+                    )
+                :   (f as string);
+            const selected = existing?.family === f ? "selected" : "";
             return `<option value="${f}" ${selected}>${label}</option>`;
         }).join("");
 
@@ -281,9 +281,10 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
 
         const result = await foundry.applications.api.DialogV2.prompt({
             window: {
-                title: opts.isNew
-                    ? "SOHL.DomainManager.add"
-                    : "SOHL.DomainManager.edit",
+                title:
+                    opts.isNew ?
+                        "SOHL.DomainManager.add"
+                    :   "SOHL.DomainManager.edit",
             },
             content,
             ok: {

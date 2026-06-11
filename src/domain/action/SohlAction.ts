@@ -43,7 +43,7 @@ export type ActionTriggerFn = (item?: SohlItem, actor?: SohlActor) => boolean;
 export type ActionVisibilityFn = (element: HTMLElement) => boolean;
 /**
  * The callable that performs an action, given a {@link SohlActionContext}.
- * For INTRINSIC actions this is a bound logic method; for SCRIPT actions it
+ * For Intrinsic actions this is a bound logic method; for Script actions it
  * is compiled from the action's executor source.
  */
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
@@ -82,9 +82,9 @@ export class SohlAction {
     /** The data model this action was constructed against (its parent). */
     parent: SohlDocument;
     /**
-     * The callable that performs the action. For INTRINSIC actions, the
+     * The callable that performs the action. For Intrinsic actions, the
      * named method on the scoped target logic, bound to that target; for
-     * SCRIPT actions, the compiled executor source. A no-op resolving to
+     * Script actions, the compiled executor source. A no-op resolving to
      * `undefined` when no executor is defined. See {@link ActionExecutorFn}.
      */
     executor: ActionExecutorFn;
@@ -106,7 +106,7 @@ export class SohlAction {
      *
      * The executor is resolved against the target logic selected by
      * `data.scope` (SELF → this data model's logic, ITEM → the parent item's
-     * logic, ACTOR → the owning actor's logic). For INTRINSIC actions the
+     * logic, ACTOR → the owning actor's logic). For Intrinsic actions the
      * executor is the named method on that target (bound to it); for other
      * subtypes it is compiled from `data.executor` source. When no executor
      * is supplied, a no-op resolving to `undefined` is used.
@@ -114,7 +114,7 @@ export class SohlAction {
      * @param dataModel - The data model the action belongs to; supplies the
      *   logic targets used to bind the executor.
      * @throws If `dataModel` or `data` is missing, if `data.scope` is
-     *   unknown, or if an INTRINSIC executor names a non-existent method on
+     *   unknown, or if an Intrinsic executor names a non-existent method on
      *   the resolved target.
      */
     constructor(
@@ -308,7 +308,7 @@ export namespace SohlAction {
          * Minimum Foundry document-ownership level (matching
          * `CONST.DOCUMENT_OWNERSHIP_LEVELS`) the current user must hold on
          * the action's parent actor to execute it. GMs always pass.
-         * Only enforced for `SCRIPT` actions; INTRINSIC actions run for any
+         * Only enforced for Script actions; Intrinsic actions run for any
          * user (lifecycle calls must work everywhere).
          */
         minActorOwnership: number;
@@ -437,7 +437,7 @@ function compileTrigger(
  * actor. `testUserPermission` returns true for GMs regardless of the
  * configured level, so no explicit GM short-circuit is needed.
  *
- * The check is only meaningful for `SCRIPT` actions — INTRINSIC actions
+ * The check is only meaningful for Script actions — Intrinsic actions
  * run unconditionally, since their lifecycle calls (`postInitialize`,
  * etc.) must run on every browser regardless of who owns the document.
  * Callers are responsible for confining this check to the subtypes
@@ -459,8 +459,8 @@ export function userMeetsExecutePermission(
 
 /**
  * Authoring gate for `actionDefs` updates: any mutation that adds, removes,
- * or modifies a `SCRIPT` entry requires the calling user to be a GM.
- * `INTRINSIC` entries are unaffected.
+ * or modifies a Script entry requires the calling user to be a GM.
+ * Intrinsic entries are unaffected.
  *
  * Returns `true` to allow the update, `false` to block it. Callers (typically
  * `_preUpdate` hooks on `SohlActor` and `SohlItem`) should `return false`

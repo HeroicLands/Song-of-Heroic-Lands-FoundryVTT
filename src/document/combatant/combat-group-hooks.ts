@@ -45,10 +45,7 @@ export function registerCombatGroupHooks(): void {
     // `get{ClassName}ContextOptions` for the `.combatant` menu, which
     // resolves to `getCombatTrackerContextOptions`. Register both (with a
     // dedupe guard) so the entry appears regardless of which name fires.
-    (Hooks as any).on(
-        "getCombatantContextOptions",
-        addMoveToGroupContextEntry,
-    );
+    (Hooks as any).on("getCombatantContextOptions", addMoveToGroupContextEntry);
     (Hooks as any).on(
         "getCombatTrackerContextOptions",
         addMoveToGroupContextEntry,
@@ -66,8 +63,9 @@ function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
     if (form.querySelector(".sohl-default-combat-group")) return;
 
     const current =
-        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as string | undefined) ??
-        "";
+        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as
+            | string
+            | undefined) ?? "";
 
     // No localization: the field label is fixed and group names are free text.
     const label = "Default Combat Group";
@@ -98,7 +96,7 @@ function addMoveToGroupContextEntry(_app: any, menuItems: any[]): void {
 
     menuItems.push({
         label: MOVE_TO_GROUP_LABEL,
-        icon: "fa-solid fa-people-arrows",
+        icon: "sohl-person-group",
         visible: () => (game as any).user?.isGM,
         onClick: (_event: Event, li: HTMLElement) => {
             const combatant = resolveCombatant(li);
@@ -109,9 +107,7 @@ function addMoveToGroupContextEntry(_app: any, menuItems: any[]): void {
 
 /** Resolve the `SohlCombatant` for a context-menu target element. */
 function resolveCombatant(li: HTMLElement): SohlCombatant | null {
-    const row = li?.closest?.(
-        "[data-combatant-id]",
-    ) as HTMLElement | null;
+    const row = li?.closest?.("[data-combatant-id]") as HTMLElement | null;
     const id = (row ?? li)?.dataset?.combatantId;
     if (!id) return null;
     const combat = (game as any).combat;
@@ -164,13 +160,15 @@ async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
             {
                 action: "ok",
                 label: "Move",
-                icon: "fa-solid fa-check",
+                icon: "sohl-check",
                 default: true,
                 callback: (_event: Event, button: any) => {
                     const form = button.form as HTMLFormElement;
                     return {
                         group: (
-                            form.elements.namedItem("group") as HTMLSelectElement
+                            form.elements.namedItem(
+                                "group",
+                            ) as HTMLSelectElement
                         )?.value,
                         newName: (
                             form.elements.namedItem(
@@ -183,7 +181,7 @@ async function promptMoveToGroup(combatant: SohlCombatant): Promise<void> {
             {
                 action: "cancel",
                 label: "Cancel",
-                icon: "fa-solid fa-xmark",
+                icon: "sohl-xmark",
             },
         ],
         close: () => null,
