@@ -690,6 +690,21 @@ export class SohlSystem {
     }
 
     /**
+     * The {@link CombatantLogic} of every combatant in the active combat — a
+     * direct entry point into the combatant logic layer
+     * (`sohl.currentCombatCombatantLogics`). Empty when no combat is active.
+     *
+     * @returns One {@link CombatantLogic} per combatant in `game.combat`.
+     */
+    get currentCombatCombatantLogics(): CombatantLogic[] {
+        return (
+            game.combat?.combatants.map(
+                (c) => (c as SohlCombatant).logic,
+            ) ?? []
+        );
+    }
+
+    /**
      * Constructs the system singleton, wiring up the localization, logging,
      * and event-queue services. Use {@link getInstance} rather than calling
      * this directly.

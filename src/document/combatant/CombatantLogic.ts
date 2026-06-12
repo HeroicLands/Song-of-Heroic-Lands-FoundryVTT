@@ -12,6 +12,9 @@
  */
 
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type { MovementMedium } from "@src/utils/constants";
+import { computeMove } from "./combatant-logic";
 import type { SohlCombatant, StrikeModeRef } from "./SohlCombatant";
 
 /**
@@ -56,4 +59,70 @@ export class CombatantLogic<
     override evaluate(): void {}
     /** Finalize-phase hook; base combatant logic does nothing. */
     override finalize(): void {}
+
+    /** The strike mode last used to attack, or `null` (combat-scoped). */
+    get lastAttackMode(): StrikeModeRef | null {
+        return this.data.lastAttackMode;
+    }
+
+    /** The strike mode last used to block, or `null` (combat-scoped). */
+    get lastBlockMode(): StrikeModeRef | null {
+        return this.data.lastBlockMode;
+    }
+
+    /**
+     * Remember the strike mode just used to attack (persisted on the combatant).
+     * @param itemId - The id of the item owning the strike mode.
+     * @param smId - The strike mode id.
+     */
+    async recordAttackMode(itemId: string, smId: string): Promise<void> {
+        await this.data.update({
+            "system.lastAttackMode": { itemId, smId },
+        });
+    }
+
+    /**
+     * Remember the strike mode just used to block (persisted on the combatant).
+     * @param itemId - The id of the item owning the strike mode.
+     * @param smId - The strike mode id.
+     */
+    async recordBlockMode(itemId: string, smId: string): Promise<void> {
+        await this.data.update({
+            "system.lastBlockMode": { itemId, smId },
+        });
+    }
+
+    /** Whether this combatant has acted this turn. */
+    get didAction(): boolean {
+        return this.data.didAction;
+    }
+
+    /**
+     * This combatant's melee reach (feet) — the reach of its actor (the greatest
+     * reach among the actor's available melee strike modes). 0 when the actor is
+     * absent or is not a Being.
+     */
+    get reach(): number {
+        return (this.actorLogic as BeingLogic | null)?.reach ?? 0;
+    }
+
+    /**
+     * The computed tactical move for this combatant in the given medium,
+     * accounting for the combatant's situational `moveFactor` scalar.
+     * `null` when the actor has no movement model (e.g. a Vehicle).
+     * @param medium - The movement medium to compute for.
+     * @returns The tactical move, or `null` when unavailable.
+     */
+    computedMove(medium: MovementMedium): number | null {
+        return computeMove(
+            this.actorLogic as BeingLogic | undefined,
+            medium,
+            this.data.moveFactor ?? 1,
+        );
+    }
+
+    /** The computed move for the combat-tracker's displayed medium. */
+    get displayedMove(): number | null {
+        return this.computedMove(this.data.displayedMedium as MovementMedium);
+    }
 }

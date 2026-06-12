@@ -23,7 +23,6 @@ import {
     areCombatantsEnemies,
     isThreatening,
     THREAT_NEGATING_STATUSES,
-    computeMove,
     chooseInitialDisplayedMedium,
 } from "./combatant-logic";
 import {
@@ -53,14 +52,19 @@ export class SohlCombatant<
         return super.actor as SohlActor | null;
     }
 
+    /** The {@link CombatantLogic} for this combatant. */
+    get logic(): CombatantLogic {
+        return (this.system as any).logic as CombatantLogic;
+    }
+
     /** The strike mode last used to attack, or `null` (combat-scoped). */
     get lastAttackMode(): StrikeModeRef | null {
-        return (this.system as SohlCombatantDataModel).lastAttackMode;
+        return this.logic.lastAttackMode;
     }
 
     /** The strike mode last used to block, or `null` (combat-scoped). */
     get lastBlockMode(): StrikeModeRef | null {
-        return (this.system as SohlCombatantDataModel).lastBlockMode;
+        return this.logic.lastBlockMode;
     }
 
     /**
@@ -69,9 +73,7 @@ export class SohlCombatant<
      * @param smId - The strike mode id.
      */
     async recordAttackMode(itemId: string, smId: string): Promise<void> {
-        await this.update({
-            "system.lastAttackMode": { itemId, smId },
-        } as any);
+        await this.logic.recordAttackMode(itemId, smId);
     }
 
     /**
@@ -80,9 +82,7 @@ export class SohlCombatant<
      * @param smId - The strike mode id.
      */
     async recordBlockMode(itemId: string, smId: string): Promise<void> {
-        await this.update({
-            "system.lastBlockMode": { itemId, smId },
-        } as any);
+        await this.logic.recordBlockMode(itemId, smId);
     }
 
     /**
@@ -169,7 +169,7 @@ export class SohlCombatant<
      * modes. 0 when the actor is absent or is not a Being.
      */
     get reach(): number {
-        return (this.actor?.logic as BeingLogic | undefined)?.reach ?? 0;
+        return this.logic.reach;
     }
 
     /**
@@ -217,7 +217,7 @@ export class SohlCombatant<
      * @returns True if the combatant has performed an action, false otherwise.
      */
     get didAction(): boolean {
-        return (this.system as SohlCombatantDataModel).didAction;
+        return this.logic.didAction;
     }
 
     /**
@@ -265,9 +265,7 @@ export class SohlCombatant<
      * @returns The tactical move, or `null` when movement is unavailable.
      */
     computedMove(medium: MovementMedium): number | null {
-        const beingLogic = this.actor?.logic as BeingLogic | undefined;
-        const sys = this.system as SohlCombatantDataModel;
-        return computeMove(beingLogic as any, medium, sys.moveFactor ?? 1);
+        return this.logic.computedMove(medium);
     }
 
     /**
@@ -275,8 +273,7 @@ export class SohlCombatant<
      * for this combatant. Tracker rows read this getter.
      */
     get displayedMove(): number | null {
-        const sys = this.system as SohlCombatantDataModel;
-        return this.computedMove(sys.displayedMedium);
+        return this.logic.displayedMove;
     }
 
     /**
