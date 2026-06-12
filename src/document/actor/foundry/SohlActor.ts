@@ -16,7 +16,10 @@ import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
-import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type {
+    SohlItem,
+    SohlItemLogic,
+} from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SohlDataModel } from "@src/core/SohlDataModel";
@@ -821,6 +824,21 @@ export abstract class SohlActorDataModel<
     /** The owning {@link SohlActor}. */
     get actor(): SohlActor {
         return this.parent;
+    }
+
+    /**
+     * The logic instance of every embedded item — the single Foundry-coupled
+     * accessor the actor logic layer iterates through ({@link SohlActorData}
+     * port). The pure `allLogics` / `logicTypes` / `getItemLogic` getters on the
+     * actor logic derive everything from this list.
+     */
+    get itemLogics(): SohlItemLogic<any>[] {
+        return this.parent.items.map((it) => it.logic);
+    }
+
+    /** Whether the actor is owned by at least one player (non-GM) user. */
+    get hasPlayerOwner(): boolean {
+        return this.parent.hasPlayerOwner ?? false;
     }
 
     /** Localization key prefix for this actor kind (e.g. `SOHL.Actor.being`). */

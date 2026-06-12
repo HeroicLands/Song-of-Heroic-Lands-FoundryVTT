@@ -115,7 +115,7 @@ export abstract class GearLogic<
      */
     async setCarried(_context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.isCarried": true };
-        await this.item.update(updateData);
+        await this.data.update(updateData);
     }
 
     /**
@@ -128,7 +128,7 @@ export abstract class GearLogic<
      */
     async setNotCarried(_context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.isCarried": false };
-        await this.item.update(updateData);
+        await this.data.update(updateData);
     }
 
     /* --------------------------------------------- */
@@ -189,9 +189,11 @@ export abstract class GearLogic<
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-        if (this.data.containerId && this.actor) {
+        if (this.data.containerId) {
             this.containedIn =
-                this.actor.items.get(this.data.containerId)?.logic ?? null;
+                (this.actorLogic?.allLogics.find(
+                    (logic) => logic.id === this.data.containerId,
+                ) as GearLogic | undefined) ?? null;
         }
     }
 

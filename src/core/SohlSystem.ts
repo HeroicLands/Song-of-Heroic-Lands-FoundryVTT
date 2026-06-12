@@ -53,6 +53,8 @@ import { VehicleSheet } from "@src/document/actor/foundry/VehicleSheet";
 import { AffiliationLogic } from "@src/document/item/logic/AffiliationLogic";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ArmorGearLogic } from "@src/document/item/logic/ArmorGearLogic";
+import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
+import { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { CombatTechniqueLogic } from "@src/document/item/logic/CombatTechniqueLogic";
 import { ConcoctionGearLogic } from "@src/document/item/logic/ConcoctionGearLogic";
 import { ContainerGearLogic } from "@src/document/item/logic/ContainerGearLogic";
@@ -77,6 +79,10 @@ import { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataMo
 import { AfflictionSheet } from "@src/document/item/foundry/AfflictionSheet";
 import { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataModel";
 import { ArmorGearSheet } from "@src/document/item/foundry/ArmorGearSheet";
+import { AttributeDataModel } from "@src/document/item/foundry/AttributeDataModel";
+import { AttributeSheet } from "@src/document/item/foundry/AttributeSheet";
+import { LineageDataModel } from "@src/document/item/foundry/LineageDataModel";
+import { LineageSheet } from "@src/document/item/foundry/LineageSheet";
 import { CombatTechniqueDataModel } from "@src/document/item/foundry/CombatTechniqueDataModel";
 import { CombatTechniqueSheet } from "@src/document/item/foundry/CombatTechniqueSheet";
 import { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
@@ -129,6 +135,7 @@ import {
     actorKindLabels,
     ACTOR_METADATA,
     ITEM_KIND,
+    ItemKind,
     ItemKinds,
     itemKindLabels,
     ITEM_METADATA,
@@ -215,7 +222,9 @@ export const ITEM_DM_DEF: ItemDMMap = {
     [ITEM_KIND.AFFILIATION]: AffiliationDataModel,
     [ITEM_KIND.AFFLICTION]: AfflictionDataModel,
     [ITEM_KIND.ARMORGEAR]: ArmorGearDataModel,
+    [ITEM_KIND.ATTRIBUTE]: AttributeDataModel,
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueDataModel,
+    [ITEM_KIND.LINEAGE]: LineageDataModel,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearDataModel,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearDataModel,
     [ITEM_KIND.TRAUMA]: TraumaDataModel,
@@ -248,6 +257,51 @@ export const CommonItemDataModels: ItemDMMap[keyof ItemDMMap][] = Object.values(
     COMMON_ITEM_DATA_MODEL,
 );
 
+/**
+ * Canonical item-kind → Logic-class registry, keyed by {@link ITEM_KIND}.
+ *
+ * @remarks
+ * Declared as a precise object literal (no widening) so per-kind constructor
+ * types survive — that is what {@link ItemLogicByKind} derives from. The runtime
+ * registry {@link COMMON_ITEM_LOGIC} is intentionally widened (see below) to
+ * preserve string-keyed indexing by consumers such as `SohlDataModel.create`.
+ */
+export const ITEM_LOGIC_DEF = {
+    [ITEM_KIND.AFFILIATION]: AffiliationLogic,
+    [ITEM_KIND.AFFLICTION]: AfflictionLogic,
+    [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
+    [ITEM_KIND.ATTRIBUTE]: AttributeLogic,
+    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
+    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
+    [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
+    [ITEM_KIND.LINEAGE]: LineageLogic,
+    [ITEM_KIND.TRAUMA]: TraumaLogic,
+    [ITEM_KIND.MISCGEAR]: MiscGearLogic,
+    [ITEM_KIND.MYSTERY]: MysteryLogic,
+    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
+    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
+    [ITEM_KIND.SKILL]: SkillLogic,
+    [ITEM_KIND.TRAIT]: TraitLogic,
+    [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
+};
+
+// Compile-time check: ensure every ItemKind has an ITEM_LOGIC_DEF entry.
+// If there is an ItemKind without a Logic class, this line will fail to type-check.
+const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF;
+
+/**
+ * Item-kind → concrete Logic *instance* type, derived from {@link ITEM_LOGIC_DEF}.
+ *
+ * @remarks
+ * Lets callers resolve the precise logic type for a kind — e.g.
+ * `ItemLogicByKind["skill"]` is `SkillLogic`. Consumed by
+ * `SohlActor.getItemLogic` to return a concrete logic type from the item kind
+ * passed at the call site.
+ */
+export type ItemLogicByKind = {
+    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<(typeof ITEM_LOGIC_DEF)[K]>;
+};
+
 export const {
     /** The item-kind → Logic-class registry map. */
     kind: COMMON_ITEM_LOGIC,
@@ -257,22 +311,10 @@ export const {
     isValue: isCommonItemLogic,
     /** Localized labels keyed by item kind. */
     labels: CommonItemLogicLabels,
-} = defineType("TYPES.Item", {
-    [ITEM_KIND.AFFILIATION]: AffiliationLogic,
-    [ITEM_KIND.AFFLICTION]: AfflictionLogic,
-    [ITEM_KIND.ARMORGEAR]: ArmorGearLogic,
-    [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueLogic,
-    [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearLogic,
-    [ITEM_KIND.CONTAINERGEAR]: ContainerGearLogic,
-    [ITEM_KIND.TRAUMA]: TraumaLogic,
-    [ITEM_KIND.MISCGEAR]: MiscGearLogic,
-    [ITEM_KIND.MYSTERY]: MysteryLogic,
-    [ITEM_KIND.MYSTICALABILITY]: MysticalAbilityLogic,
-    [ITEM_KIND.PROJECTILEGEAR]: ProjectileGearLogic,
-    [ITEM_KIND.SKILL]: SkillLogic,
-    [ITEM_KIND.TRAIT]: TraitLogic,
-    [ITEM_KIND.WEAPONGEAR]: WeaponGearLogic,
-} as StrictObject<Constructor<SohlItemLogic<any>>>);
+} = defineType(
+    "TYPES.Item",
+    ITEM_LOGIC_DEF as StrictObject<Constructor<SohlItemLogic<any>>>,
+);
 
 export const {
     /** The item-kind → sheet-class registry map. */
@@ -287,7 +329,9 @@ export const {
     [ITEM_KIND.AFFILIATION]: AffiliationSheet,
     [ITEM_KIND.AFFLICTION]: AfflictionSheet,
     [ITEM_KIND.ARMORGEAR]: ArmorGearSheet,
+    [ITEM_KIND.ATTRIBUTE]: AttributeSheet,
     [ITEM_KIND.COMBATTECHNIQUE]: CombatTechniqueSheet,
+    [ITEM_KIND.LINEAGE]: LineageSheet,
     [ITEM_KIND.CONCOCTIONGEAR]: ConcoctionGearSheet,
     [ITEM_KIND.CONTAINERGEAR]: ContainerGearSheet,
     [ITEM_KIND.TRAUMA]: TraumaSheet,
@@ -615,6 +659,28 @@ export class SohlSystem {
     /** The {@link constants} module (`sohl.constants`). */
     get constants(): typeof constants {
         return (this.constructor as any).constants;
+    }
+
+    /**
+     * The logic instance of every world actor — a direct entry point into the
+     * actor logic layer (`sohl.actorLogics`), instead of going through
+     * `game.actors` and reading each `.logic`.
+     *
+     * @returns One {@link SohlActorLogic} per world actor.
+     */
+    get actorLogics(): SohlActorLogic<any>[] {
+        return game.actors.map((actor) => (actor as SohlActor).logic);
+    }
+
+    /**
+     * The logic instance of every world (non-embedded) item — a direct entry
+     * point into the item logic layer (`sohl.itemLogics`), instead of going
+     * through `game.items` and reading each `.logic`.
+     *
+     * @returns One {@link SohlItemLogic} per world item.
+     */
+    get itemLogics(): SohlItemLogic<any>[] {
+        return game.items.map((item) => (item as SohlItem).logic);
     }
 
     /**

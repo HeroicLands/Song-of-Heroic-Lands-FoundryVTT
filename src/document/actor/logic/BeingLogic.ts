@@ -131,10 +131,7 @@ export class BeingLogic<
      * @returns A `ValueModifier` seeded with the lineage's base move for the medium.
      */
     effectiveBaseMove(medium: MovementMedium): ValueModifier {
-        const lineageItem = (this.actor?.itemTypes as any)?.[
-            ITEM_KIND.LINEAGE
-        ]?.[0];
-        const lineageLogic = lineageItem?.logic as LineageLogic | undefined;
+        const lineageLogic = this.logicTypes[ITEM_KIND.LINEAGE][0];
         const base = readBaseMove(lineageLogic?.moveBase, medium);
         return new ValueModifier({}, { parent: this }).setBase(base);
     }
@@ -154,20 +151,14 @@ export class BeingLogic<
      * `reach`, so it should be read after item preparation.
      */
     get reach(): number {
-        const actor = this.actor;
-        if (!actor) return 0;
-        const itemTypes = (actor as any).itemTypes ?? {};
-
-        const bodyStructure = (
-            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
-        )?.bodyStructure;
+        const lt = this.logicTypes;
+        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
 
         const options: MeleeReachOption[] = [];
 
         // Combat techniques: intrinsic, always available.
-        for (const ct of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-            const sm = (ct.logic as CombatTechniqueLogic | undefined)
-                ?.strikeMode;
+        for (const ct of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+            const sm = ct.strikeMode;
             if (sm instanceof MeleeStrikeMode) {
                 options.push({
                     reach: sm.reach.effective,
@@ -179,12 +170,9 @@ export class BeingLogic<
 
         // Weapons: a melee mode is available only if the weapon is held in at
         // least `minParts` limbs.
-        for (const weapon of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
+        for (const weapon of lt[ITEM_KIND.WEAPONGEAR]) {
             const heldLimbs = bodyStructure?.limbsHolding(weapon.id) ?? 0;
-            const strikeModes =
-                (weapon.logic as WeaponGearLogic | undefined)?.strikeModes ??
-                [];
-            for (const sm of strikeModes) {
+            for (const sm of weapon.strikeModes ?? []) {
                 if (sm instanceof MeleeStrikeMode) {
                     options.push({
                         reach: sm.reach.effective,
@@ -209,29 +197,19 @@ export class BeingLogic<
      * after item preparation. Returns an empty array when no mode is available.
      */
     get availableStrikeModes(): StrikeModeBase[] {
-        const actor = this.actor;
-        if (!actor) return [];
-        const itemTypes = (actor as any).itemTypes ?? {};
-
-        const bodyStructure = (
-            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
-        )?.bodyStructure;
+        const lt = this.logicTypes;
+        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
 
         const techniqueModes: StrikeModeBase[] = [];
-        for (const ct of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-            const sm = (ct.logic as CombatTechniqueLogic | undefined)
-                ?.strikeMode;
+        for (const ct of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+            const sm = ct.strikeMode;
             if (sm) techniqueModes.push(sm);
         }
 
-        const weapons = (itemTypes[ITEM_KIND.WEAPONGEAR] ?? []).map(
-            (weapon: any) => ({
-                id: weapon.id as string,
-                strikeModes:
-                    (weapon.logic as WeaponGearLogic | undefined)
-                        ?.strikeModes ?? [],
-            }),
-        );
+        const weapons = lt[ITEM_KIND.WEAPONGEAR].map((weapon) => ({
+            id: weapon.id,
+            strikeModes: weapon.strikeModes ?? [],
+        }));
 
         return computeAvailableStrikeModes(
             bodyStructure,
@@ -1246,16 +1224,12 @@ export class BeingLogic<
      * being has no lineage (hence no body structure).
      */
     private aggregateArmorProtection(): void {
-        const itemTypes = (this.actor as any)?.itemTypes ?? {};
-        const bodyStructure = (
-            itemTypes[ITEM_KIND.LINEAGE]?.[0]?.logic as LineageLogic | undefined
-        )?.bodyStructure;
+        const lt = this.logicTypes;
+        const bodyStructure = lt[ITEM_KIND.LINEAGE][0]?.bodyStructure;
         if (!bodyStructure) return;
 
         const layers: ArmorLayer[] = [];
-        for (const armor of itemTypes[ITEM_KIND.ARMORGEAR] ?? []) {
-            const logic = armor.logic as ArmorGearLogic | undefined;
-            if (!logic) continue;
+        for (const logic of lt[ITEM_KIND.ARMORGEAR]) {
             layers.push({
                 material: (logic.data as any).material ?? "",
                 protection: {
@@ -1282,12 +1256,10 @@ export class BeingLogic<
         // not throw), but the being cannot participate in most being actions
         // (it cannot wield weapons, move, etc.) and should be treated as
         // unusable. Surface that as a warning so it gets noticed and fixed.
-        const hasLineage = !!(this.actor?.itemTypes as any)?.[
-            ITEM_KIND.LINEAGE
-        ]?.[0];
+        const hasLineage = this.logicTypes[ITEM_KIND.LINEAGE].length > 0;
         if (!hasLineage) {
             sohl.log.warn(
-                `Being "${this.actor?.name ?? "?"}" has no Lineage item; it cannot participate in most being actions (movement, weapons, reach, etc.) and should be considered unusable until a Lineage is added.`,
+                `Being "${this.name}" has no Lineage item; it cannot participate in most being actions (movement, weapons, reach, etc.) and should be considered unusable until a Lineage is added.`,
             );
         }
     }

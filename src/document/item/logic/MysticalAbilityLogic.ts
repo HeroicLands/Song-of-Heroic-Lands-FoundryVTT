@@ -20,6 +20,7 @@ import {
 } from "@src/document/item/logic/SohlItemBaseLogic";
 import {
     ACTION_SUBTYPE,
+    ITEM_KIND,
     MysticalAbilitySubType,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
@@ -170,16 +171,17 @@ export class MysticalAbilityLogic<
     override evaluate(): void {
         super.evaluate();
 
-        if (!this.actor) return;
-        const allItemTypes = this.actor.itemTypes;
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
 
-        this.assocSkill = allItemTypes.skill.find(
-            (it: SohlItem) => it.system.shortcode === this.data.assocSkillCode,
-        )?.logic as SkillLogic;
-        this.assocMystery = allItemTypes.mystery.find(
-            (it: SohlItem) =>
-                it.system.shortcode === this.data.assocMysteryCode,
-        )?.logic as MysteryLogic;
+        this.assocSkill = actorLogic.getItemLogic(
+            this.data.assocSkillCode ?? "",
+            ITEM_KIND.SKILL,
+        ) as SkillLogic;
+        this.assocMystery = actorLogic.getItemLogic(
+            this.data.assocMysteryCode ?? "",
+            ITEM_KIND.MYSTERY,
+        ) as MysteryLogic;
     }
 
     /** @inheritdoc */

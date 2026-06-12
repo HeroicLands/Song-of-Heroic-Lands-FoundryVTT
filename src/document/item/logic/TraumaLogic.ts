@@ -151,11 +151,8 @@ export class TraumaLogic<
     private resolveBodyLocation(): BodyLocation | undefined {
         const code = this.data.bodyLocationCode;
         if (!code) return undefined;
-        const lineageItem = (this.actor?.itemTypes as any)?.[
-            ITEM_KIND.LINEAGE
-        ]?.[0];
-        if (!lineageItem) return undefined;
-        const lineageLogic = lineageItem.logic as LineageLogic | undefined;
+        const lineageLogic =
+            this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0];
         return lineageLogic?.bodyStructure
             ?.getAllLocations()
             .find((loc) => loc.shortcode === code);

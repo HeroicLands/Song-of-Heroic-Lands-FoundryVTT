@@ -236,7 +236,7 @@ export class AfflictionLogic<
      */
     async transmit(context: SohlActionContext): Promise<void> {
         const {
-            type = `affliction-${(this.item as any)?.name}-transmit`,
+            type = `affliction-${this.name}-transmit`,
             title = `${this.label} Transmit`,
         } = context;
         // TODO - Affliction Transmit

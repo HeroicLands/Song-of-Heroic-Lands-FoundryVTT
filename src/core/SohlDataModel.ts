@@ -14,6 +14,7 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import {
@@ -184,6 +185,71 @@ export abstract class SohlDataModel<
             throw new Error("kind must be defined");
         }
         return kind;
+    }
+
+    // --- SohlLogicData Foundry-document port ---------------------------------
+    // The logic layer reaches the document through these members instead of the
+    // Foundry document directly, keeping it Foundry-free and testable.
+
+    /** The owning document's id. */
+    get id(): string {
+        return (this.parent as any)?.id ?? "";
+    }
+
+    /** The owning document's name. */
+    get name(): string {
+        return (this.parent as any)?.name ?? "";
+    }
+
+    /** The owning document's type (its actor or item kind). */
+    get type(): string {
+        return (this.parent as any)?.type ?? this.kind;
+    }
+
+    /** Whether the current user owns the document (edit permission). */
+    get isOwner(): boolean {
+        return (this.parent as any)?.isOwner ?? false;
+    }
+
+    /**
+     * The owning actor's logic: this document's own logic when it is an actor,
+     * the owning actor's logic when it is an item/effect, or `null`.
+     */
+    get actorLogic(): SohlActorLogic<any> | null {
+        const doc = this.parent as any;
+        if (!doc) return null;
+        const actorDoc = ActorKinds.includes(doc.type) ? doc : doc.actor;
+        return (actorDoc?.logic as SohlActorLogic<any>) ?? null;
+    }
+
+    /**
+     * Read a namespaced flag from the owning document.
+     * @param scope - The flag scope (module/system id, e.g. `"sohl"`).
+     * @param key - The flag key within the scope.
+     * @returns The stored flag value, or `undefined` if unset.
+     */
+    getFlag(scope: string, key: string): unknown {
+        return (this.parent as any)?.getFlag(scope, key);
+    }
+
+    /**
+     * Write a namespaced flag on the owning document.
+     * @param scope - The flag scope (module/system id, e.g. `"sohl"`).
+     * @param key - The flag key within the scope.
+     * @param value - The value to store.
+     * @returns Resolves once the flag is persisted.
+     */
+    setFlag(scope: string, key: string, value: unknown): Promise<unknown> {
+        return (this.parent as any)?.setFlag(scope, key, value);
+    }
+
+    /**
+     * Persist a partial update to the owning document (self-mutation only).
+     * @param data - The partial update payload (Foundry update syntax).
+     * @returns Resolves once the update completes.
+     */
+    update(data: object): Promise<unknown> {
+        return (this.parent as any)?.update(data);
     }
 
     /**
