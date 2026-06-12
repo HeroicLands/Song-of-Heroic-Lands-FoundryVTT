@@ -13,6 +13,7 @@
  */
 
 import { vi } from "vitest";
+import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
  * Minimal stand-in for Foundry's `Collection`: a Map whose `find`/`some`/
@@ -54,8 +55,77 @@ export interface MockActorOptions {
 }
 
 /**
- * Build a mock actor document: `items` is a {@link MockCollection} keyed by
- * item id; `getSpeaker()` returns a capture-friendly stub speaker.
+ * Build a {@link SohlActorData} port object backed by a mock actor document.
+ * `itemLogics`/`actorLogic` are lazy getters (so items added after construction
+ * via `actor.items.set(...)` are picked up); flag/update calls delegate to the
+ * document's vi.fn()s.
+ */
+function buildActorData(actor: any, kind: string): any {
+    const data: any = {
+        id: actor.id,
+        name: actor.name,
+        type: actor.type,
+        uuid: `Actor.${actor.id}`,
+        isOwner: actor.isOwner,
+        kind,
+        shortcode: kind,
+        actionDefs: [],
+        dossier: "",
+        appearance: "",
+        portrait: "",
+        hasPlayerOwner: actor.hasPlayerOwner,
+        update: actor.update,
+        getFlag: actor.getFlag,
+        setFlag: actor.setFlag,
+        label: (_o?: unknown) => `${kind} label`,
+        parent: actor,
+        logic: null,
+    };
+    // `itemLogics` is what the actor logic's logicTypes/getItemLogic/allLogics
+    // read. Bridge BOTH harness conventions: items added via makeItemLogic (in
+    // `actor.items`, real logics with `data.kind`) and bare stubs set on
+    // `actor.itemTypes` (tagged with their kind from the group key). Deduped by
+    // logic identity so an item present in both is counted once.
+    Object.defineProperty(data, "itemLogics", {
+        get: () => {
+            const seen = new Set<any>();
+            const out: any[] = [];
+            const add = (it: any, logic: any, kind?: string) => {
+                if (!logic || seen.has(logic)) return;
+                seen.add(logic);
+                if (kind && !logic.data?.kind) {
+                    logic.data = { ...(logic.data ?? {}), kind };
+                }
+                // Bare stubs carry id/name on the item, not the logic; the
+                // production code reads them off the logic, so copy them down.
+                if (it?.id != null && logic.id == null) logic.id = it.id;
+                if (it?.name != null && logic.name == null) logic.name = it.name;
+                out.push(logic);
+            };
+            for (const it of actor.items.values())
+                add(it, it.logic, it.logic?.data?.kind ?? it.type);
+            for (const [kind, arr] of Object.entries(
+                actor.itemTypes ?? {},
+            )) {
+                for (const it of (arr as any[]) ?? []) add(it, it.logic, kind);
+            }
+            return out;
+        },
+        enumerable: false,
+    });
+    Object.defineProperty(data, "actorLogic", {
+        get: () => actor.logic,
+        enumerable: false,
+    });
+    Object.defineProperty(data, "actor", { get: () => actor, enumerable: false });
+    return data;
+}
+
+/**
+ * Build a mock actor document carrying a real {@link SohlActorBaseLogic} over a
+ * {@link SohlActorData} port. `items` is a {@link MockCollection} keyed by item
+ * id; the attached actor logic's `allLogics` / `logicTypes` / `getItemLogic`
+ * read those items' `.logic` through `data.itemLogics`.
  */
 export function makeMockActor(opts: MockActorOptions = {}): any {
     const actor: any = {
@@ -69,7 +139,13 @@ export function makeMockActor(opts: MockActorOptions = {}): any {
         getSpeaker: vi.fn(() => makeMockSpeaker()),
         update: vi.fn(async (data: any) => data),
         getFlag: vi.fn(() => undefined),
+        setFlag: vi.fn(async () => undefined),
     };
+    const data = buildActorData(actor, opts.kind ?? "being");
+    const logic = new SohlActorBaseLogic({}, { parent: data });
+    data.logic = logic;
+    actor.system = data;
+    actor.logic = logic;
     return actor;
 }
 
@@ -98,6 +174,7 @@ export function makeMockItem(kind: string, opts: MockItemOptions = {}): any {
         getFlag: vi.fn(
             (scope: string, key: string) => flags[`${scope}.${key}`],
         ),
+        setFlag: vi.fn(async () => undefined),
         update: vi.fn(async (data: any) => data),
         system: null, // wired to the data object by makeItemData
         logic: null, // wired by makeItemLogic
@@ -120,11 +197,21 @@ export function makeItemData(
 ): any {
     const item = makeMockItem(kind, opts);
     const data: any = {
+        id: item.id,
+        name: item.name,
+        type: kind,
+        uuid: `Item.${item.id}`,
+        isOwner: item.isOwner,
         kind,
         shortcode: opts.shortcode ?? kind,
         actionDefs: [],
         notes: "",
         docHtml: "",
+        // Port members delegate to the mock document, so `logic.item.update` /
+        // `logic.item.getFlag` assertions still observe the call.
+        update: item.update,
+        getFlag: item.getFlag,
+        setFlag: item.setFlag,
         label: (_o?: unknown) => `${kind} label`,
         parent: item,
         logic: null, // wired by makeItemLogic
@@ -132,6 +219,10 @@ export function makeItemData(
     };
     Object.defineProperty(data, "item", {
         get: () => item,
+        enumerable: false,
+    });
+    Object.defineProperty(data, "actorLogic", {
+        get: () => item.actor?.logic ?? null,
         enumerable: false,
     });
     item.system = data;
@@ -175,22 +266,7 @@ export function makeActorData(
     opts: MockActorOptions & { shortcode?: string } = {},
 ): any {
     const actor = makeMockActor({ ...opts, kind });
-    const data: any = {
-        kind,
-        shortcode: opts.shortcode ?? kind,
-        actionDefs: [],
-        dossier: "",
-        appearance: "",
-        portrait: "",
-        label: (_o?: unknown) => `${kind} label`,
-        parent: actor,
-        logic: null, // wired by makeActorLogic
-        ...fields,
-    };
-    Object.defineProperty(data, "actor", {
-        get: () => actor,
-        enumerable: false,
-    });
+    const data = Object.assign(buildActorData(actor, kind), fields);
     actor.system = data;
     return data;
 }
@@ -241,7 +317,7 @@ export function makeAttributeStub(
         parent: { name: opts.name ?? shortcode },
         system: { shortcode },
         logic: {
-            data: { shortcode },
+            data: { kind: "attribute", shortcode, name: opts.name ?? shortcode },
             score: { effective: score },
             masteryLevel: {
                 disabled: opts.disabled ?? "",

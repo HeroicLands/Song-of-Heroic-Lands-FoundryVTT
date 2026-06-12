@@ -45,6 +45,38 @@ const attackerParent = {
     item: { logic: { availableFate: [] } },
 } as any;
 
+/**
+ * Adapt the legacy `{ itemTypes: { kind: [{ id, name, system, logic }] } }`
+ * mock shape into the {@link SohlActorLogic} surface the combat helpers now
+ * consume: `logicTypes[kind]` arrays of item logics (with `id`/`name`/`data`)
+ * and `getItemLogic(shortcode, kind)`.
+ */
+function asActorLogic(input: any): any {
+    const itemTypes: Record<string, any[]> = input?.itemTypes ?? input ?? {};
+    const logicTypes: Record<string, any[]> = {};
+    for (const [kind, arr] of Object.entries(itemTypes)) {
+        logicTypes[kind] = (arr ?? []).map((it) => ({
+            ...it.logic,
+            id: it.id ?? it.logic?.id,
+            name: it.name ?? it.logic?.name,
+            data: {
+                kind,
+                shortcode: it.system?.shortcode,
+                ...(it.logic?.data ?? {}),
+            },
+        }));
+    }
+    return {
+        logicTypes: new Proxy(logicTypes, {
+            get: (t, k) => (t as any)[k] ?? [],
+        }),
+        getItemLogic: (shortcode: string, kind: string) =>
+            (logicTypes[kind] ?? []).find(
+                (l) => l.data?.shortcode === shortcode,
+            ),
+    };
+}
+
 function makeActor(items: any[]): any {
     return {
         items: {
@@ -195,17 +227,15 @@ describe("resolveStrikeModeImpact", () => {
 
 describe("resolveSkillMasteryLevel", () => {
     const dodgeML = Symbol("dodge-ml");
-    const actor = {
-        itemTypes: {
-            skill: [
-                { system: { shortcode: "shk" }, logic: { masteryLevel: {} } },
-                {
-                    system: { shortcode: "dge" },
-                    logic: { masteryLevel: dodgeML },
-                },
-            ],
-        },
-    } as any;
+    const actor = asActorLogic({
+        skill: [
+            { system: { shortcode: "shk" }, logic: { masteryLevel: {} } },
+            {
+                system: { shortcode: "dge" },
+                logic: { masteryLevel: dodgeML },
+            },
+        ],
+    });
 
     it("returns the mastery level of the skill with the given shortcode", () => {
         expect(resolveSkillMasteryLevel(actor, "dge")).toBe(dodgeML);
@@ -213,7 +243,7 @@ describe("resolveSkillMasteryLevel", () => {
 
     it("returns null when no skill has that shortcode", () => {
         expect(resolveSkillMasteryLevel(actor, "nope")).toBeNull();
-        expect(resolveSkillMasteryLevel({} as any, "dge")).toBeNull();
+        expect(resolveSkillMasteryLevel(asActorLogic({}), "dge")).toBeNull();
     });
 });
 
@@ -260,7 +290,7 @@ describe("collectBlockableStrikeModes", () => {
     } as any;
 
     it("lists only melee modes with an enabled block", () => {
-        const entries = collectBlockableStrikeModes(actor);
+        const entries = collectBlockableStrikeModes(asActorLogic(actor));
         expect(entries).toHaveLength(1);
         expect(entries[0]).toMatchObject({
             itemId: "shield",
@@ -272,7 +302,7 @@ describe("collectBlockableStrikeModes", () => {
     });
 
     it("returns [] when nothing can block", () => {
-        expect(collectBlockableStrikeModes({} as any)).toEqual([]);
+        expect(collectBlockableStrikeModes(asActorLogic({}))).toEqual([]);
     });
 });
 
@@ -317,19 +347,19 @@ describe("collectAttackableStrikeModes", () => {
 
     it("includes melee in reach + missile within base range", () => {
         // distance 4: swing (reach 5), punch (reach 4), shoot (range 50) all in.
-        const ids = collectAttackableStrikeModes(actor, 4)
+        const ids = collectAttackableStrikeModes(asActorLogic(actor), 4)
             .map((e) => e.smId)
             .sort();
         expect(ids).toEqual(["punch", "shoot", "swing"].sort());
     });
 
     it("drops melee out of reach (missile still in base range)", () => {
-        const ids = collectAttackableStrikeModes(actor, 30).map((e) => e.smId);
+        const ids = collectAttackableStrikeModes(asActorLogic(actor), 30).map((e) => e.smId);
         expect(ids).toEqual(["shoot"]);
     });
 
     it("returns [] when the target is out of range of every mode (volley excluded)", () => {
-        expect(collectAttackableStrikeModes(actor, 100)).toEqual([]);
+        expect(collectAttackableStrikeModes(asActorLogic(actor), 100)).toEqual([]);
     });
 
     it("excludes noAttack modes", () => {
@@ -354,7 +384,7 @@ describe("collectAttackableStrikeModes", () => {
                 ],
             },
         } as any;
-        expect(collectAttackableStrikeModes(a, 1)).toEqual([]);
+        expect(collectAttackableStrikeModes(asActorLogic(a), 1)).toEqual([]);
     });
 });
 
@@ -376,7 +406,7 @@ describe("hasMeleeAttackStrikeMode", () => {
                 ],
             },
         } as any;
-        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+        expect(hasMeleeAttackStrikeMode(asActorLogic(a))).toBe(true);
     });
 
     it("true via a combat technique's melee mode", () => {
@@ -391,7 +421,7 @@ describe("hasMeleeAttackStrikeMode", () => {
                 ],
             },
         } as any;
-        expect(hasMeleeAttackStrikeMode(a)).toBe(true);
+        expect(hasMeleeAttackStrikeMode(asActorLogic(a))).toBe(true);
     });
 
     it("false when the only modes are missile (no melee counterstrike)", () => {
@@ -410,7 +440,7 @@ describe("hasMeleeAttackStrikeMode", () => {
                 ],
             },
         } as any;
-        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+        expect(hasMeleeAttackStrikeMode(asActorLogic(a))).toBe(false);
     });
 
     it("false when the melee mode is noAttack (attack disabled)", () => {
@@ -427,11 +457,11 @@ describe("hasMeleeAttackStrikeMode", () => {
                 ],
             },
         } as any;
-        expect(hasMeleeAttackStrikeMode(a)).toBe(false);
+        expect(hasMeleeAttackStrikeMode(asActorLogic(a))).toBe(false);
     });
 
     it("false for an actor with no items", () => {
-        expect(hasMeleeAttackStrikeMode({} as any)).toBe(false);
+        expect(hasMeleeAttackStrikeMode(asActorLogic({}))).toBe(false);
     });
 });
 
