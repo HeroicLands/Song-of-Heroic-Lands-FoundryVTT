@@ -13,6 +13,7 @@
 
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import {
     ACTION_SUBTYPE,
@@ -120,17 +121,17 @@ export abstract class SohlLogic<
 
     /** The owning document's id. */
     get id(): DocumentId {
-        return this.parent.parent.id;
+        return this.data.id as DocumentId;
     }
 
     /** The owning document's name. */
     get name(): string {
-        return this.parent.parent.name;
+        return this.data.name;
     }
 
     /** The owning document's type (its actor or item kind). */
     get type(): string {
-        return this.parent.parent.type;
+        return this.data.type;
     }
 
     /**
@@ -146,13 +147,28 @@ export abstract class SohlLogic<
         }
     }
 
-    /** The owning {@link SohlActor} — the item's actor when this logic is on an item — or `null`. */
+    /**
+     * The owning {@link SohlActor} — the document itself when it is an actor,
+     * otherwise its owning actor (for an item, combatant, or effect), or `null`.
+     */
     get actor(): SohlActor | null {
-        if ("actor" in this.parent) {
-            return this.parent.actor as SohlActor;
-        } else {
-            return this.item?.actor ?? null;
-        }
+        const doc = this.parent?.parent as any;
+        if (!doc) return null;
+        if (ActorKinds.includes(doc.type)) return doc as SohlActor;
+        return (doc.actor as SohlActor | null) ?? null;
+    }
+
+    /**
+     * The logic of the owning actor — the Foundry-free way to reach the actor
+     * layer from any logic. For an actor's own logic this is itself; for an
+     * item's logic it is the owning actor's logic; otherwise `null`.
+     *
+     * @remarks Resolved through the {@link SohlLogicData} port, so logic code
+     * can navigate to the actor (and iterate items via `allLogics` /
+     * `logicTypes` / `getItemLogic`) without touching the Foundry document.
+     */
+    get actorLogic(): SohlActorLogic<any> | null {
+        return this.data.actorLogic;
     }
 
     /** A {@link SohlSpeaker} for the owning actor/item (a blank speaker if neither resolves). */
@@ -398,10 +414,43 @@ export interface SohlLogicData<
     parent: TParent | null;
     /** The logic instance built from this data. */
     logic: TLogic;
+    /** The owning document's id. */
+    id: string;
+    /** The owning document's name. */
+    name: string;
+    /** The owning document's type (its actor or item kind). */
+    type: string;
+    /**
+     * The owning document's globally-unique id, treated as an **opaque**
+     * identity token: pass it through (e.g. into chat-card data) and resolve it
+     * back to logic via `logicFromUuid` / `logicFromUuidSync` — never `fromUuid`
+     * it to a Foundry document inside the logic layer.
+     */
+    uuid: string;
+    /** Whether the current user owns the document (edit permission). */
+    isOwner: boolean;
     /** The document kind (its actor or item type id). */
     kind: string;
     /** Short identity code for this document. */
     shortcode: string;
     /** Serialized action definitions used to build the logic's `actions` map. */
     actionDefs: SohlAction.Data[];
+
+    // --- Foundry-document port -------------------------------------------
+    // These members let the logic layer reach the owning actor's logic, flags,
+    // and persistence WITHOUT importing or naming the Foundry document class.
+    // The Foundry data model (`SohlDataModel`) implements them by delegating to
+    // its `parent` document; tests supply a fake data object.
+
+    /**
+     * The logic of the owning actor — this actor's own logic when the data is
+     * an actor's, the owning actor's logic when it is an item's, or `null`.
+     */
+    actorLogic: SohlActorLogic<any> | null;
+    /** Read a namespaced flag from the owning document. */
+    getFlag(scope: string, key: string): unknown;
+    /** Write a namespaced flag on the owning document. */
+    setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
+    /** Persist a partial update to the owning document (self-mutation only). */
+    update(data: object): Promise<unknown>;
 }

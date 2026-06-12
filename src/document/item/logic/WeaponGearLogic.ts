@@ -123,11 +123,7 @@ export class WeaponGearLogic<
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(
-            this,
-            this.item?.name ?? "",
-            context,
-        );
+        await startAutomatedAttackFromItem(this, this.name, context);
     }
 
     /**
@@ -279,10 +275,8 @@ export class WeaponGearLogic<
         // wielder's lineage reach. A non-Being wielder (or none) has no
         // lineage, so reach stays at length alone.
         const lineageReach =
-            (
-                (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
-                    ?.logic as LineageLogic | undefined
-            )?.reach.effective ?? 0;
+            this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0]?.reach
+                .effective ?? 0;
         for (const sm of this.strikeModes) {
             if (sm instanceof MeleeStrikeMode) {
                 sm.reach.add("SOHL.INFO.Reach", "Size", lineageReach);

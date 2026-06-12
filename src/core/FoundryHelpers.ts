@@ -16,6 +16,8 @@ import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/SohlScene";
+import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 
 /**
  * Foundry VTT runtime shim.
@@ -176,6 +178,36 @@ export function fvttResolveUuid(uuid: string): any {
  */
 export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return fromUuid(uuid);
+}
+
+/**
+ * Resolve a document UUID to its SoHL logic instance, synchronously.
+ *
+ * @remarks The logic-layer counterpart of `fromUuidSync`: it hides the Foundry
+ * document entirely, returning only the logic, so the logic layer can treat a
+ * UUID as an opaque token and round-trip it back to logic. Like `fromUuidSync`,
+ * it returns `null` for documents not already in memory (e.g. unloaded
+ * compendium entries) — use {@link logicFromUuid} when that is possible.
+ * @param uuid - The (opaque) document UUID.
+ * @returns The document's logic, or `null` if unresolved.
+ */
+export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
+    return (fromUuidSync(uuid) as any)?.logic ?? null;
+}
+
+/**
+ * Resolve a document UUID to its SoHL logic instance.
+ *
+ * @remarks The async logic-layer counterpart of `fromUuid`, resolving
+ * compendium / not-yet-loaded documents as well. Hides the Foundry document,
+ * returning only the logic.
+ * @param uuid - The (opaque) document UUID.
+ * @returns A promise resolving to the document's logic, or `null` if unresolved.
+ */
+export async function logicFromUuid(
+    uuid: string,
+): Promise<SohlLogic<any> | null> {
+    return ((await fromUuid(uuid)) as any)?.logic ?? null;
 }
 
 // ---------------------------------------------------------------------------
@@ -893,4 +925,66 @@ export function fvttRangeToTarget(
     }
 
     return gridUnits ? result.spaces : result.distance;
+}
+
+/**
+ * The point used to measure distance to/from a combatant — its token center
+ * (with elevation), or `null` when no placed token is available.
+ * @param combatant - The combatant whose token center to read.
+ * @returns The measure point, or `null`.
+ */
+function combatantMeasurePoint(
+    combatant: SohlCombatant,
+): { x: number; y: number; elevation: number } | null {
+    const token = (combatant as any).token;
+    const center = token?.object?.center ?? token?.center;
+    if (!center) return null;
+    return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
+}
+
+/**
+ * The center-to-center grid distance (feet) between two combatants' tokens, or
+ * `null` when either token position is unavailable. The scene-coupled geometry
+ * behind `CombatantLogic.reaches`.
+ * @param a - The first combatant.
+ * @param b - The second combatant.
+ * @returns The grid distance in feet, or `null`.
+ */
+export function combatantGridDistance(
+    a: SohlCombatant,
+    b: SohlCombatant,
+): number | null {
+    const from = combatantMeasurePoint(a);
+    const to = combatantMeasurePoint(b);
+    if (!from || !to) return null;
+    return getCanvas().grid?.measurePath([from, to], {})?.distance ?? null;
+}
+
+/**
+ * The number of grid spaces a combatant has moved from a start location to its
+ * token's current position.
+ * @param combatant - The combatant whose movement to measure.
+ * @param start - The turn-start location.
+ * @param start.x - The start X coordinate.
+ * @param start.y - The start Y coordinate.
+ * @param start.elevation - The start elevation.
+ * @returns The number of spaces moved.
+ */
+export function combatantSpacesMoved(
+    combatant: SohlCombatant,
+    start: { x: number; y: number; elevation: number },
+): number {
+    const current = combatantMeasurePoint(combatant) ?? {
+        x: start.x,
+        y: start.y,
+        elevation: 0,
+    };
+    const result = getCanvas().grid?.measurePath(
+        [
+            { x: start.x, y: start.y, elevation: start.elevation },
+            { x: current.x, y: current.y, elevation: current.elevation },
+        ],
+        {},
+    );
+    return result?.spaces ?? 0;
 }

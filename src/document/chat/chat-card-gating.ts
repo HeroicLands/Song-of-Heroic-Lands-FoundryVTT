@@ -54,16 +54,20 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
     // Not an attack card with defense buttons — leave everything alone.
     if (!dodge && !counter && !block && !ignore) return;
 
+    // The defense buttons address the defender's **combatant**; the actor (and
+    // its statuses/capability) is reached through it.
     const uuid = (dodge ?? counter ?? block ?? ignore)?.dataset
         .handlerActorUuid;
     const defender = uuid ? (foundry.utils.fromUuidSync(uuid) as any) : null;
+    const defenderActor = defender?.actor ?? null;
+    const actorLogic = defenderActor?.logic ?? null;
 
     if (!defender?.isOwner) {
         // Not the defender's owner: remove every defense button.
         for (const b of [dodge, counter, block, ignore]) b?.remove();
     } else if (
         hasAnyStatus(
-            (defender.statuses ?? []) as Iterable<string>,
+            (defenderActor?.statuses ?? []) as Iterable<string>,
             DEFENSE_DISABLING_STATUSES,
         )
     ) {
@@ -71,10 +75,14 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
         for (const b of [dodge, counter, block]) b?.remove();
     } else {
         // Owner: keep Dodge + Ignore; gate Block + Counterstrike by capability.
-        if (block && collectBlockableStrikeModes(defender).length === 0) {
+        if (
+            block &&
+            (!actorLogic ||
+                collectBlockableStrikeModes(actorLogic).length === 0)
+        ) {
             block.remove();
         }
-        if (counter && !hasMeleeAttackStrikeMode(defender)) {
+        if (counter && (!actorLogic || !hasMeleeAttackStrikeMode(actorLogic))) {
             counter.remove();
         }
     }

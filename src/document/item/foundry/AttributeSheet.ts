@@ -17,21 +17,27 @@ import {
 } from "@src/document/item/foundry/SohlItem";
 
 /** @internal */
-export class TraitSheet extends SohlItemSheetBase {
+export class AttributeSheet extends SohlItemSheetBase {
     static override PARTS = {
         ...super.PARTS,
         properties: {
             container: { classes: ["tab-body"], id: "tabs" },
-            template: "systems/sohl/templates/item/trait-properties.hbs",
+            template: "systems/sohl/templates/item/attribute-properties.hbs",
             scrollable: [""],
         },
     };
 
     /**
-     * Adds trait-specific fields to the properties tab context.
+     * Adds attribute-specific fields to the properties tab context.
+     *
+     * @remarks
+     * `scoreBase` and `initDiceFormula` are editable scalar fields that save via
+     * the standard sheet form submission. `valueDesc` and `impairedByRoles` are
+     * arrays surfaced read-only; live array editing depends on the array-editor
+     * wiring in {@link SohlDataModel}, which is not currently active.
      * @param context - The render context to augment.
      * @param options - Sheet render options.
-     * @returns The context extended with trait properties.
+     * @returns The context extended with attribute properties.
      */
     protected override async _preparePropertiesContext(
         context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>,
@@ -42,19 +48,10 @@ export class TraitSheet extends SohlItemSheetBase {
         await super._preparePropertiesContext(context, options);
         const system = this.document.system as any;
         return Object.assign(context, {
-            skillBaseFormula: system.skillBaseFormula,
-            masteryLevelBase: system.masteryLevelBase,
-            improveFlag: system.improveFlag,
-            textValue: system.textValue,
-            score: {
-                value: system.score?.value ?? 0,
-                max: system.score?.max ?? 0,
-            },
-            isNumeric: system.isNumeric,
-            intensity: system.intensity,
-            valueDesc: system.valueDesc,
-            choices: system.choices,
-            diceFormula: system.diceFormula,
+            scoreBase: system.scoreBase,
+            initDiceFormula: system.initDiceFormula,
+            valueDesc: system.valueDesc ?? [],
+            impairedByRoles: system.impairedByRoles ?? [],
         });
     }
 }

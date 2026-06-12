@@ -65,11 +65,7 @@ export class CombatTechniqueLogic<
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(
-            this,
-            this.item?.name ?? "",
-            context,
-        );
+        await startAutomatedAttackFromItem(this, this.name, context);
     }
 
     /**
@@ -185,10 +181,8 @@ export class CombatTechniqueLogic<
         // lineage reach (0 for a non-Being or no lineage).
         if (this.strikeMode instanceof MeleeStrikeMode) {
             const lineageReach =
-                (
-                    (this.actor?.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0]
-                        ?.logic as LineageLogic | undefined
-                )?.reach.effective ?? 0;
+                this.actorLogic?.logicTypes[ITEM_KIND.LINEAGE][0]?.reach
+                    .effective ?? 0;
             this.strikeMode.reach.add("SOHL.INFO.Reach", "Size", lineageReach);
         }
     }
