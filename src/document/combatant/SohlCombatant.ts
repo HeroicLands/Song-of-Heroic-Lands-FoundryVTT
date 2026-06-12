@@ -14,16 +14,11 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { getCanvas } from "@src/core/FoundryHelpers";
-import {
-    areCombatantsEnemies,
-    isThreatening,
-    THREAT_NEGATING_STATUSES,
-    computeMove,
-    chooseInitialDisplayedMedium,
-} from "./combatant-logic";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import type { CombatantLogic } from "./CombatantLogic";
+import { chooseInitialDisplayedMedium } from "./combatant-logic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -51,14 +46,61 @@ export class SohlCombatant<
         return super.actor as SohlActor | null;
     }
 
+    /** The {@link CombatantLogic} for this combatant. */
+    get logic(): CombatantLogic {
+        return (this.system as any).logic as CombatantLogic;
+    }
+
+    /**
+     * Dispatch a chat-card button click to this combatant's logic — the
+     * automated-combat defense resumes (Block/Dodge/Counterstrike/Ignore) live
+     * on {@link CombatantLogic} as intrinsic actions, and the attack card's
+     * defense buttons address the defender's combatant. The button's dataset
+     * becomes the action's `scope`.
+     * @param btn - The clicked chat-card button element.
+     */
+    async onChatCardButton(btn: HTMLElement): Promise<void> {
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        const context = new SohlActionContext({
+            speaker: this.logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            scope: { ...btn.dataset },
+        });
+
+        const action =
+            this.logic.actions.get(actionName) ??
+            [...this.logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (this.logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(this.logic, context);
+        } else {
+            sohl.log.warn(
+                `SoHL | ${this.name} (Combatant) received unhandled chat-card action "${actionName}".`,
+            );
+        }
+    }
+
     /** The strike mode last used to attack, or `null` (combat-scoped). */
     get lastAttackMode(): StrikeModeRef | null {
-        return (this.system as SohlCombatantDataModel).lastAttackMode;
+        return this.logic.lastAttackMode;
     }
 
     /** The strike mode last used to block, or `null` (combat-scoped). */
     get lastBlockMode(): StrikeModeRef | null {
-        return (this.system as SohlCombatantDataModel).lastBlockMode;
+        return this.logic.lastBlockMode;
     }
 
     /**
@@ -67,9 +109,7 @@ export class SohlCombatant<
      * @param smId - The strike mode id.
      */
     async recordAttackMode(itemId: string, smId: string): Promise<void> {
-        await this.update({
-            "system.lastAttackMode": { itemId, smId },
-        } as any);
+        await this.logic.recordAttackMode(itemId, smId);
     }
 
     /**
@@ -78,9 +118,7 @@ export class SohlCombatant<
      * @param smId - The strike mode id.
      */
     async recordBlockMode(itemId: string, smId: string): Promise<void> {
-        await this.update({
-            "system.lastBlockMode": { itemId, smId },
-        } as any);
+        await this.logic.recordBlockMode(itemId, smId);
     }
 
     /**
@@ -93,12 +131,7 @@ export class SohlCombatant<
      * otherwise — so reading `_source` avoids that heterogeneity.
      */
     get groupId(): string | null {
-        const src = (this as any)._source?.group;
-        if (typeof src === "string" && src) return src;
-        const g = (this as any).group;
-        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
-        if (typeof g === "string" && g) return g;
-        return null;
+        return this.logic.groupId;
     }
 
     /**
@@ -107,13 +140,7 @@ export class SohlCombatant<
      * The inverse of {@link isEnemyOf}.
      */
     get allies(): SohlCombatant[] {
-        if (!this.combat) return [];
-        if (!this.groupId) return [];
-
-        return this.combat.combatants.contents.filter(
-            (combatant: SohlCombatant) =>
-                combatant !== this && !this.isEnemyOf(combatant),
-        ) as SohlCombatant[];
+        return this.logic.allies.map((cl) => cl.combatant!);
     }
 
     /**
@@ -127,38 +154,16 @@ export class SohlCombatant<
      * @returns `true` if the two combatants are enemies.
      */
     isEnemyOf(other: SohlCombatant): boolean {
-        return areCombatantsEnemies(
-            this.groupId,
-            other.groupId,
-            other === this,
-        );
+        return this.logic.isEnemyOf(other.logic);
     }
 
     /**
-     * An array of combatants which are currently threatening this combatant.
-     * A combatant `c` threatens this one iff it is an enemy that is not
-     * defeated, not incapacitated (see {@link THREAT_NEGATING_STATUSES}),
-     * not hidden, and within weapon reach. This is useful for various combat
-     * mechanics, such as determining if a combatant is outnumbered or can be
-     * attacked in melee.
+     * The combatants currently threatening this one — enemies that are not
+     * defeated, not incapacitated, not hidden, and within reach. See
+     * {@link CombatantLogic.threatenedBy}.
      */
     get threatenedBy(): SohlCombatant[] {
-        if (!this.combat) return [];
-
-        return this.combat.combatants.contents.filter((c: SohlCombatant) => {
-            if (c === this) return false;
-            const statuses: Set<string> =
-                (c.actor as any)?.statuses ?? new Set<string>();
-            return isThreatening({
-                isEnemy: this.isEnemyOf(c),
-                isDefeated: c.isDefeated,
-                isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
-                    statuses.has(s),
-                ),
-                isHidden: !!(c.token as any)?.hidden,
-                reaches: c.reaches(this),
-            });
-        }) as SohlCombatant[];
+        return this.logic.threatenedBy.map((cl) => cl.combatant!);
     }
 
     /**
@@ -167,46 +172,26 @@ export class SohlCombatant<
      * modes. 0 when the actor is absent or is not a Being.
      */
     get reach(): number {
-        return (this.actor?.logic as BeingLogic | undefined)?.reach ?? 0;
-    }
-
-    /**
-     * The point used to measure distance to/from this combatant — its token
-     * center (with elevation), or `null` when no placed token is available.
-     */
-    private get measurePoint(): {
-        x: number;
-        y: number;
-        elevation: number;
-    } | null {
-        const token = this.token as any;
-        const center = token?.object?.center ?? token?.center;
-        if (!center) return null;
-        return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
+        return this.logic.reach;
     }
 
     /**
      * Whether this combatant's melee reach extends to `other` — i.e. the
      * center-to-center grid distance between the two combatants' tokens is
-     * within this combatant's {@link reach}. Returns `false` when either
-     * token position is unavailable.
+     * within this combatant's {@link reach}. Returns `false` when either token
+     * position is unavailable.
      *
      * @remarks
      * Distance is measured center-to-center *by design*: a large creature's
-     * body size is folded into its lineage `reachBase` (a dragon has a large
-     * reach), so a big token's reach already accounts for the distance from
-     * its center to an adjacent target. Do not "fix" this to edge-to-edge.
+     * body size is folded into its lineage `reachBase`, so a big token's reach
+     * already accounts for the distance from its center to an adjacent target.
+     * Do not "fix" this to edge-to-edge.
      *
      * @param other - The combatant to test reach against.
      * @returns `true` if this combatant's reach extends to `other`.
      */
     reaches(other: SohlCombatant): boolean {
-        const from = this.measurePoint;
-        const to = other.measurePoint;
-        if (!from || !to) return false;
-        const result = getCanvas().grid?.measurePath([from, to], {});
-        const distance = result?.distance ?? Infinity;
-        return distance <= this.reach;
+        return this.logic.reaches(other.logic);
     }
 
     /**
@@ -215,7 +200,7 @@ export class SohlCombatant<
      * @returns True if the combatant has performed an action, false otherwise.
      */
     get didAction(): boolean {
-        return (this.system as SohlCombatantDataModel).didAction;
+        return this.logic.didAction;
     }
 
     /**
@@ -225,30 +210,7 @@ export class SohlCombatant<
      * @returns The number of spaces moved this turn.
      */
     get spacesMovedThisTurn(): number {
-        const start = (this.system as SohlCombatantDataModel).startLocation;
-        const current = (this.token as any)?.object?.center ??
-            (this.token as any)?.center ?? {
-                x: start.x,
-                y: start.y,
-            };
-
-        const result = getCanvas().grid?.measurePath(
-            [
-                {
-                    x: start.x,
-                    y: start.y,
-                    elevation: start.elevation,
-                },
-                {
-                    x: current.x,
-                    y: current.y,
-                    elevation: (this.token as any)?.elevation,
-                },
-            ],
-            {},
-        );
-
-        return result?.spaces ?? 0;
+        return this.logic.spacesMovedThisTurn;
     }
 
     /**
@@ -263,9 +225,7 @@ export class SohlCombatant<
      * @returns The tactical move, or `null` when movement is unavailable.
      */
     computedMove(medium: MovementMedium): number | null {
-        const beingLogic = this.actor?.logic as BeingLogic | undefined;
-        const sys = this.system as SohlCombatantDataModel;
-        return computeMove(beingLogic as any, medium, sys.moveFactor ?? 1);
+        return this.logic.computedMove(medium);
     }
 
     /**
@@ -273,8 +233,7 @@ export class SohlCombatant<
      * for this combatant. Tracker rows read this getter.
      */
     get displayedMove(): number | null {
-        const sys = this.system as SohlCombatantDataModel;
-        return this.computedMove(sys.displayedMedium);
+        return this.logic.displayedMove;
     }
 
     /**
@@ -342,6 +301,7 @@ export class SohlCombatant<
  */
 function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
     return {
+        ...defineSohlDataSchema(),
         startLocation: new foundry.data.fields.ObjectField({
             initial: {
                 x: 0,
@@ -409,9 +369,9 @@ type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 /** @internal */
 export class SohlCombatantDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
-> extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant> {
+> extends SohlDataModel<TSchema, SohlCombatant, CombatantLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
-    static readonly kind = "sohlcombatantdata";
+    static override readonly kind = "sohlcombatantdata";
     startLocation!: {
         x: number;
         y: number;

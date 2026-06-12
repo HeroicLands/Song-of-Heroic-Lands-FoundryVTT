@@ -1,0 +1,60 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="tab properties" data-tab="properties">
+    <div class="grid grid-3col">
+        {{formField fields.shortcode rootId="attribute-shortcode" classes="text-field" stacked=true value=system.shortcode}}
+        {{formField fields.scoreBase rootId="attribute-scorebase" classes="text-field" stacked=true value=system.scoreBase}}
+        {{formField fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
+    </div>
+
+    <div class="items">
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">Value Descriptors</h3>
+                <div class="detail ele">Max Value</div>
+            </header>
+            <ol class="items-list">
+                {{#each valueDesc}}
+                <li class="item flexrow">
+                    <div class="item-name name">{{this.label}}</div>
+                    <div class="detail ele">{{this.maxValue}}</div>
+                </li>
+                {{else}}
+                <li class="item flexrow">
+                    <div class="item-name name">—</div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+
+    <div class="items">
+        <div class="items-list">
+            <header class="items-header flexrow">
+                <h3 class="item-name name">Impaired By Roles</h3>
+            </header>
+            <ol class="items-list">
+                {{#each impairedByRoles}}
+                <li class="item flexrow">
+                    <div class="item-name name">{{this}}</div>
+                </li>
+                {{else}}
+                <li class="item flexrow">
+                    <div class="item-name name">—</div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</section>

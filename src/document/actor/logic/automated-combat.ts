@@ -230,6 +230,12 @@ function resolveAttackContext(
 export interface CounterstrikeContext {
     /** The original attacker's combatant — always the counterstrike's target. */
     attacker: SohlCombatant;
+    /**
+     * The attacker's opaque chat-target address (display name + actor UUID),
+     * resolved here in the scene layer so the logic layer can address the
+     * counterstrike card without touching the Foundry actor.
+     */
+    attackerAddress: { name: string; actorUuid: string };
     /** Center-to-center distance from defender to attacker, in feet. */
     distanceFeet: number;
 }
@@ -267,7 +273,14 @@ export function resolveCounterstrikeContext(
     }
     const distanceFeet =
         fvttRangeToTarget(defenderToken, attackerToken) ?? Infinity;
-    return { attacker, distanceFeet };
+    return {
+        attacker,
+        attackerAddress: {
+            name: attackerToken.name ?? "",
+            actorUuid: (attacker.actor as any)?.uuid ?? "",
+        },
+        distanceFeet,
+    };
 }
 
 /**
@@ -596,7 +609,9 @@ export async function startAutomatedAttack(
             defenderActor ?
                 {
                     name: targetToken.name ?? "",
-                    actorUuid: defenderActor.uuid,
+                    // The defense buttons dispatch to the defender's COMBATANT
+                    // (its CombatantLogic hosts the resume actions).
+                    actorUuid: (p.target as any)?.uuid ?? "",
                 }
             :   null,
     });
@@ -643,7 +658,10 @@ export async function startAutomatedAttackFromActor(
     const rc = resolveAttackContext(actor, context);
     if (!rc) return;
 
-    const modes = collectAttackableStrikeModes(actor, rc.distanceFeet);
+    const modes = collectAttackableStrikeModes(
+        actorLogic.actorLogic!,
+        rc.distanceFeet,
+    );
     if (modes.length === 0) {
         sohl.log.uiWarn(
             `${(rc.target.token as SohlTokenDocument | null)?.name} is out of range of any strike mode (melee or missile).`,
@@ -670,9 +688,10 @@ export async function startAutomatedAttackFromItem(
     if (!rc) return;
 
     const itemId = itemLogic.item?.id;
-    const modes = collectAttackableStrikeModes(actor, rc.distanceFeet).filter(
-        (m) => m.itemId === itemId,
-    );
+    const modes = collectAttackableStrikeModes(
+        itemLogic.actorLogic!,
+        rc.distanceFeet,
+    ).filter((m) => m.itemId === itemId);
     if (modes.length === 0) {
         sohl.log.uiWarn(
             `${itemName} has no strike mode in range of ${(rc.target.token as SohlTokenDocument | null)?.name}.`,

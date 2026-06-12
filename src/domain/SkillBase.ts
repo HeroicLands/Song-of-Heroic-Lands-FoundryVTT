@@ -11,12 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type {
-    AttributeData,
-    AttributeLogic,
-} from "@src/document/item/logic/AttributeLogic";
-import { ITEM_KIND } from "@src/utils/constants";
+import type { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
+import type { TraitLogic } from "@src/document/item/logic/TraitLogic";
 
 /**
  * Computes the **skill base** (SB) for a skill from a formula referencing
@@ -112,23 +108,24 @@ export class SkillBase {
     protected _value: number;
 
     /**
-     * Builds a skill base from a formula and, optionally, the actor's items.
+     * Builds a skill base from a formula and, optionally, the actor's
+     * attribute logics.
      *
-     * Parses {@link formula} immediately and, when `options.items` are given,
-     * resolves attribute references and computes {@link value}. Birthsign
-     * tokens are extracted from `options.birthsign` for `bs:` term matching.
+     * Parses {@link formula} immediately and, when `options.attributes` are
+     * given, resolves attribute references and computes {@link value}.
+     * Birthsign tokens are extracted from `options.birthsign` for `bs:` term
+     * matching. Operates entirely on the logic layer — no Foundry documents.
      * @param formula - The skill base formula string (see class docs for
      *   syntax). An empty/falsy value yields an inactive skill base.
      * @param options - Optional inputs.
-     * @param options.items - The actor's items; attribute items among them
-     *   are used to resolve `@attr` references. Must be iterable.
-     * @param options.birthsign - The character's birthsign item, whose
-     *   `textValue` supplies the birthsign tokens.
-     * @throws If `options.items` is provided but is not iterable.
+     * @param options.attributes - The actor's attribute logics, used to resolve
+     *   `@attr` references (matched by `data.shortcode`).
+     * @param options.birthsign - The character's birthsign trait logic, whose
+     *   `data.textValue` supplies the birthsign tokens.
      */
     constructor(
         formula: string,
-        options: { items?: SohlItem[]; birthsign?: SohlItem } = {},
+        options: { attributes?: AttributeLogic[]; birthsign?: TraitLogic } = {},
     ) {
         if (!formula) {
             this._formula = null;
@@ -136,82 +133,54 @@ export class SkillBase {
             this._birthsigns = [];
         }
 
-        if (options?.items && !(Symbol.iterator in Object(options.items))) {
-            throw new Error("items must be iterable");
-        }
-
         this._formula = formula || null;
         this._attrs = {};
         this._birthsigns =
-            (options.birthsign?.system as any)?.textValue?.split("-") || [];
+            options.birthsign?.data.textValue?.split("-") || [];
         this._parsedFormula = this._parseFormula;
         this._value = 0;
-        if (options.items) {
-            this.setAttributes(options.items);
+        if (options.attributes) {
+            this.setAttributes(options.attributes);
         }
     }
 
     /**
-     * Resolves the formula's `@attr` references against the supplied items
-     * and recomputes {@link value}.
+     * Resolves the formula's `@attr` references against the supplied attribute
+     * logics and recomputes {@link value}.
      *
-     * Filters `items` to attribute items, matches each `attr:` term by
-     * shortcode, multiplies the attribute's effective score by any per-term
-     * multiplier, and stores the result in `_attrs`. Then recomputes
-     * the skill base via `_calcValue` (0 when there is no formula).
-     * @param items - Candidate items; non-attribute items are ignored.
+     * Matches each `attr:` term by shortcode against `attributes`, multiplies
+     * the attribute's effective score by any per-term multiplier, and stores
+     * the result in `_attrs`. Then recomputes the skill base via `_calcValue`
+     * (0 when there is no formula).
+     * @param attributes - The actor's attribute logics; matched by `data.shortcode`.
      * @throws If a matched attribute's effective score is not an integer, or
      *   if a term's multiplier is present but not a number.
      */
-    setAttributes(items: SohlItem[] = []): void {
-        const attributes: SohlItem[] = [];
-        for (const it of items) {
-            if ((it.type as string) === ITEM_KIND.ATTRIBUTE)
-                attributes.push(it);
-        }
+    setAttributes(attributes: AttributeLogic[] = []): void {
         this._parsedFormula?.forEach((param) => {
-            const type = typeof param;
+            if (typeof param !== "string") return;
+            const [subType, name, multval] = param.split(":");
+            if (subType !== "attr") return;
 
-            if (type === "string") {
-                const [subType, name, multval] = param.split(":");
-                if (subType === "attr") {
-                    const attr = attributes.find(
-                        (a) =>
-                            (a.system as unknown as AttributeData).shortcode ===
-                            name,
-                    );
+            const attrLogic = attributes.find(
+                (a) => a.data.shortcode === name,
+            );
+            if (!attrLogic) return;
 
-                    if (attr) {
-                        const attrLogic = attr.logic as
-                            | AttributeLogic
-                            | undefined;
-                        const score = attrLogic?.score?.effective ?? Number.NaN;
-                        if (Number.isInteger(score)) {
-                            let mult =
-                                typeof multval === "string" ?
-                                    Number.parseInt(multval, 10)
-                                :   1;
-                            if (Number.isNaN(mult)) {
-                                throw new Error(
-                                    "invalid attribute multiplier not number",
-                                );
-                            }
-                            const shortcode = (
-                                attr.system as unknown as AttributeData
-                            ).shortcode;
-                            this._attrs[shortcode] = {
-                                name: attr.parent?.name || "",
-                                value: score * mult,
-                                logic: attrLogic!,
-                            };
-                        } else {
-                            throw new Error(
-                                "invalid attribute value not number",
-                            );
-                        }
-                    }
-                }
+            const score = attrLogic.score?.effective ?? Number.NaN;
+            if (!Number.isInteger(score)) {
+                throw new Error("invalid attribute value not number");
             }
+            const mult =
+                typeof multval === "string" ? Number.parseInt(multval, 10) : 1;
+            if (Number.isNaN(mult)) {
+                throw new Error("invalid attribute multiplier not number");
+            }
+            this._attrs[attrLogic.data.shortcode] = {
+                name: attrLogic.data.name || "",
+                value: score * mult,
+                logic: attrLogic,
+            };
         });
         this._value = this.formula ? this._calcValue() : 0;
     }

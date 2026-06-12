@@ -174,7 +174,7 @@ export class SkillLogic<
      */
     async setImproveFlag(_context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": true };
-        await this.item.update(updateData);
+        await this.data.update(updateData);
     }
 
     /**
@@ -187,7 +187,7 @@ export class SkillLogic<
      */
     async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
         const updateData: PlainObject = { "system.improveFlag": false };
-        await this.item.update(updateData);
+        await this.data.update(updateData);
     }
 
     /**
@@ -319,7 +319,7 @@ export class SkillLogic<
      * If no roll formula flag is set, this method does nothing.
      */
     async recalculate(): Promise<void> {
-        const rollFormula = this.item.getFlag("sohl", "rollFormula") as
+        const rollFormula = this.data.getFlag("sohl", "rollFormula") as
             | string
             | undefined;
         if (!rollFormula) return;
@@ -332,7 +332,7 @@ export class SkillLogic<
         const updateData: PlainObject = {
             "system.masteryLevelBase": roll.total,
         };
-        await this.item.update(updateData);
+        await this.data.update(updateData);
     }
 
     /**
@@ -381,7 +381,7 @@ export class SkillLogic<
      */
     get canImprove() {
         return (
-            (fvttIsCurrentUserGM() || this.item?.isOwner) &&
+            (fvttIsCurrentUserGM() || this.data.isOwner) &&
             !this.masteryLevel.disabled
         );
     }
@@ -481,18 +481,18 @@ export class SkillLogic<
         );
 
         // Calculate Fate Mastery Level
-        if (this.actor) {
+        const actorLogic = this.actorLogic;
+        if (actorLogic) {
             const fateSetting = fvttGetSetting("sohl", "optionFate");
 
-            const auraLogic = this.actor.items.find(
-                (it) =>
-                    it.type === ITEM_KIND.ATTRIBUTE &&
-                    (it.system as any).shortcode === "aur",
-            )?.logic as AttributeLogic | undefined;
+            const auraLogic = actorLogic.getItemLogic(
+                "aur",
+                ITEM_KIND.ATTRIBUTE,
+            );
             if (auraLogic && !auraLogic.masteryLevel.disabled) {
                 if (
                     fateSetting === "everyone" ||
-                    (fateSetting === "pconly" && this.actor.hasPlayerOwner)
+                    (fateSetting === "pconly" && actorLogic.hasPlayerOwner)
                 ) {
                     this.fateMasteryLevel.setBase(50);
                     this.fateMasteryLevel.add(
@@ -511,22 +511,21 @@ export class SkillLogic<
 
         // Calculate Skill Base
         this.skillBase ||= new SkillBase(this.data.skillBaseFormula, {
-            items: Array.from(this.actor?.items.values() || []),
+            attributes: this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE] ?? [],
         });
     }
 
     /** @inheritdoc */
     override evaluate(): void {
         super.evaluate();
-        if (this.data.parentSkillCode && this.actor) {
+        if (this.data.parentSkillCode) {
             // If this skill references a parent skill, find it and link it here so we can pull in its properties as needed
-            const parentItem = this.actor.items.find(
-                (it) =>
-                    it.type === ITEM_KIND.SKILL &&
-                    (it.system as any).shortcode === this.data.parentSkillCode,
+            const parentLogic = this.actorLogic?.getItemLogic(
+                this.data.parentSkillCode,
+                ITEM_KIND.SKILL,
             );
-            if (parentItem) {
-                this.parentSkill = parentItem.logic as SkillLogic;
+            if (parentLogic) {
+                this.parentSkill = parentLogic;
             }
         }
         if (this.masteryLevel.base > 0) {
