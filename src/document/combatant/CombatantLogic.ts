@@ -12,9 +12,18 @@
  */
 
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
+import {
+    combatantGridDistance,
+    combatantSpacesMoved,
+} from "@src/core/FoundryHelpers";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { MovementMedium } from "@src/utils/constants";
-import { computeMove } from "./combatant-logic";
+import {
+    areCombatantsEnemies,
+    isThreatening,
+    THREAT_NEGATING_STATUSES,
+    computeMove,
+} from "./combatant-logic";
 import type { SohlCombatant, StrikeModeRef } from "./SohlCombatant";
 
 /**
@@ -124,5 +133,93 @@ export class CombatantLogic<
     /** The computed move for the combat-tracker's displayed medium. */
     get displayedMove(): number | null {
         return this.computedMove(this.data.displayedMedium as MovementMedium);
+    }
+
+    // --- Relational / spatial (scene-coupled edge) ---------------------------
+
+    /** The owning {@link SohlCombatant} document — the combatant's scene edge. */
+    get combatant(): SohlCombatant | null {
+        return this.data.parent;
+    }
+
+    /**
+     * The {@link CombatantLogic} of every combatant in the same active combat
+     * (including this one), or an empty array when not in combat.
+     */
+    get combatantLogics(): CombatantLogic[] {
+        const combat = this.combatant?.combat;
+        return combat ? combat.combatants.map((c: any) => c.logic) : [];
+    }
+
+    /** This combatant's group id, or `null` when ungrouped. */
+    get groupId(): string | null {
+        const c = this.combatant as any;
+        const src = c?._source?.group;
+        if (typeof src === "string" && src) return src;
+        const g = c?.group;
+        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
+        if (typeof g === "string" && g) return g;
+        return null;
+    }
+
+    /**
+     * Whether the two combatants are enemies — they belong to different groups.
+     * @param other - The combatant logic to compare against.
+     * @returns `true` if they are enemies.
+     */
+    isEnemyOf(other: CombatantLogic): boolean {
+        return areCombatantsEnemies(this.groupId, other.groupId, other === this);
+    }
+
+    /**
+     * The combatant logics sharing this one's (non-null) group — the inverse of
+     * {@link isEnemyOf}.
+     */
+    get allies(): CombatantLogic[] {
+        if (!this.groupId) return [];
+        return this.combatantLogics.filter(
+            (cl) => cl !== this && !this.isEnemyOf(cl),
+        );
+    }
+
+    /**
+     * The combatant logics currently threatening this one — enemies that are
+     * not defeated, not incapacitated, not hidden, and within reach.
+     */
+    get threatenedBy(): CombatantLogic[] {
+        return this.combatantLogics.filter((cl) => {
+            if (cl === this) return false;
+            const statuses: Set<string> =
+                (cl.combatant?.actor as any)?.statuses ?? new Set<string>();
+            return isThreatening({
+                isEnemy: this.isEnemyOf(cl),
+                isDefeated: !!cl.combatant?.isDefeated,
+                isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
+                    statuses.has(s),
+                ),
+                isHidden: !!(cl.combatant?.token as any)?.hidden,
+                reaches: cl.reaches(this),
+            });
+        });
+    }
+
+    /**
+     * Whether this combatant's melee reach extends to `other` — center-to-center
+     * grid distance is within this combatant's {@link reach}.
+     * @param other - The combatant logic to test reach against.
+     * @returns `true` if reach extends to `other`.
+     */
+    reaches(other: CombatantLogic): boolean {
+        const a = this.combatant;
+        const b = other.combatant;
+        if (!a || !b) return false;
+        const distance = combatantGridDistance(a, b);
+        return distance !== null && distance <= this.reach;
+    }
+
+    /** The number of grid spaces moved since the start of this turn. */
+    get spacesMovedThisTurn(): number {
+        const c = this.combatant;
+        return c ? combatantSpacesMoved(c, this.data.startLocation) : 0;
     }
 }

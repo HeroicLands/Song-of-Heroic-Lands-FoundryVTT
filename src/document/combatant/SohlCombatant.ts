@@ -14,17 +14,10 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { getCanvas } from "@src/core/FoundryHelpers";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import type { CombatantLogic } from "./CombatantLogic";
-import {
-    areCombatantsEnemies,
-    isThreatening,
-    THREAT_NEGATING_STATUSES,
-    chooseInitialDisplayedMedium,
-} from "./combatant-logic";
+import { chooseInitialDisplayedMedium } from "./combatant-logic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -95,12 +88,7 @@ export class SohlCombatant<
      * otherwise — so reading `_source` avoids that heterogeneity.
      */
     get groupId(): string | null {
-        const src = (this as any)._source?.group;
-        if (typeof src === "string" && src) return src;
-        const g = (this as any).group;
-        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
-        if (typeof g === "string" && g) return g;
-        return null;
+        return this.logic.groupId;
     }
 
     /**
@@ -109,13 +97,7 @@ export class SohlCombatant<
      * The inverse of {@link isEnemyOf}.
      */
     get allies(): SohlCombatant[] {
-        if (!this.combat) return [];
-        if (!this.groupId) return [];
-
-        return this.combat.combatants.contents.filter(
-            (combatant: SohlCombatant) =>
-                combatant !== this && !this.isEnemyOf(combatant),
-        ) as SohlCombatant[];
+        return this.logic.allies.map((cl) => cl.combatant!);
     }
 
     /**
@@ -129,38 +111,16 @@ export class SohlCombatant<
      * @returns `true` if the two combatants are enemies.
      */
     isEnemyOf(other: SohlCombatant): boolean {
-        return areCombatantsEnemies(
-            this.groupId,
-            other.groupId,
-            other === this,
-        );
+        return this.logic.isEnemyOf(other.logic);
     }
 
     /**
-     * An array of combatants which are currently threatening this combatant.
-     * A combatant `c` threatens this one iff it is an enemy that is not
-     * defeated, not incapacitated (see {@link THREAT_NEGATING_STATUSES}),
-     * not hidden, and within weapon reach. This is useful for various combat
-     * mechanics, such as determining if a combatant is outnumbered or can be
-     * attacked in melee.
+     * The combatants currently threatening this one — enemies that are not
+     * defeated, not incapacitated, not hidden, and within reach. See
+     * {@link CombatantLogic.threatenedBy}.
      */
     get threatenedBy(): SohlCombatant[] {
-        if (!this.combat) return [];
-
-        return this.combat.combatants.contents.filter((c: SohlCombatant) => {
-            if (c === this) return false;
-            const statuses: Set<string> =
-                (c.actor as any)?.statuses ?? new Set<string>();
-            return isThreatening({
-                isEnemy: this.isEnemyOf(c),
-                isDefeated: c.isDefeated,
-                isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
-                    statuses.has(s),
-                ),
-                isHidden: !!(c.token as any)?.hidden,
-                reaches: c.reaches(this),
-            });
-        }) as SohlCombatant[];
+        return this.logic.threatenedBy.map((cl) => cl.combatant!);
     }
 
     /**
@@ -173,42 +133,22 @@ export class SohlCombatant<
     }
 
     /**
-     * The point used to measure distance to/from this combatant — its token
-     * center (with elevation), or `null` when no placed token is available.
-     */
-    private get measurePoint(): {
-        x: number;
-        y: number;
-        elevation: number;
-    } | null {
-        const token = this.token as any;
-        const center = token?.object?.center ?? token?.center;
-        if (!center) return null;
-        return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
-    }
-
-    /**
      * Whether this combatant's melee reach extends to `other` — i.e. the
      * center-to-center grid distance between the two combatants' tokens is
-     * within this combatant's {@link reach}. Returns `false` when either
-     * token position is unavailable.
+     * within this combatant's {@link reach}. Returns `false` when either token
+     * position is unavailable.
      *
      * @remarks
      * Distance is measured center-to-center *by design*: a large creature's
-     * body size is folded into its lineage `reachBase` (a dragon has a large
-     * reach), so a big token's reach already accounts for the distance from
-     * its center to an adjacent target. Do not "fix" this to edge-to-edge.
+     * body size is folded into its lineage `reachBase`, so a big token's reach
+     * already accounts for the distance from its center to an adjacent target.
+     * Do not "fix" this to edge-to-edge.
      *
      * @param other - The combatant to test reach against.
      * @returns `true` if this combatant's reach extends to `other`.
      */
     reaches(other: SohlCombatant): boolean {
-        const from = this.measurePoint;
-        const to = other.measurePoint;
-        if (!from || !to) return false;
-        const result = getCanvas().grid?.measurePath([from, to], {});
-        const distance = result?.distance ?? Infinity;
-        return distance <= this.reach;
+        return this.logic.reaches(other.logic);
     }
 
     /**
@@ -227,30 +167,7 @@ export class SohlCombatant<
      * @returns The number of spaces moved this turn.
      */
     get spacesMovedThisTurn(): number {
-        const start = (this.system as SohlCombatantDataModel).startLocation;
-        const current = (this.token as any)?.object?.center ??
-            (this.token as any)?.center ?? {
-                x: start.x,
-                y: start.y,
-            };
-
-        const result = getCanvas().grid?.measurePath(
-            [
-                {
-                    x: start.x,
-                    y: start.y,
-                    elevation: start.elevation,
-                },
-                {
-                    x: current.x,
-                    y: current.y,
-                    elevation: (this.token as any)?.elevation,
-                },
-            ],
-            {},
-        );
-
-        return result?.spaces ?? 0;
+        return this.logic.spacesMovedThisTurn;
     }
 
     /**

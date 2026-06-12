@@ -17,6 +17,7 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/SohlScene";
 import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 
 /**
  * Foundry VTT runtime shim.
@@ -924,4 +925,66 @@ export function fvttRangeToTarget(
     }
 
     return gridUnits ? result.spaces : result.distance;
+}
+
+/**
+ * The point used to measure distance to/from a combatant — its token center
+ * (with elevation), or `null` when no placed token is available.
+ * @param combatant - The combatant whose token center to read.
+ * @returns The measure point, or `null`.
+ */
+function combatantMeasurePoint(
+    combatant: SohlCombatant,
+): { x: number; y: number; elevation: number } | null {
+    const token = (combatant as any).token;
+    const center = token?.object?.center ?? token?.center;
+    if (!center) return null;
+    return { x: center.x, y: center.y, elevation: token?.elevation ?? 0 };
+}
+
+/**
+ * The center-to-center grid distance (feet) between two combatants' tokens, or
+ * `null` when either token position is unavailable. The scene-coupled geometry
+ * behind `CombatantLogic.reaches`.
+ * @param a - The first combatant.
+ * @param b - The second combatant.
+ * @returns The grid distance in feet, or `null`.
+ */
+export function combatantGridDistance(
+    a: SohlCombatant,
+    b: SohlCombatant,
+): number | null {
+    const from = combatantMeasurePoint(a);
+    const to = combatantMeasurePoint(b);
+    if (!from || !to) return null;
+    return getCanvas().grid?.measurePath([from, to], {})?.distance ?? null;
+}
+
+/**
+ * The number of grid spaces a combatant has moved from a start location to its
+ * token's current position.
+ * @param combatant - The combatant whose movement to measure.
+ * @param start - The turn-start location.
+ * @param start.x - The start X coordinate.
+ * @param start.y - The start Y coordinate.
+ * @param start.elevation - The start elevation.
+ * @returns The number of spaces moved.
+ */
+export function combatantSpacesMoved(
+    combatant: SohlCombatant,
+    start: { x: number; y: number; elevation: number },
+): number {
+    const current = combatantMeasurePoint(combatant) ?? {
+        x: start.x,
+        y: start.y,
+        elevation: 0,
+    };
+    const result = getCanvas().grid?.measurePath(
+        [
+            { x: start.x, y: start.y, elevation: start.elevation },
+            { x: current.x, y: current.y, elevation: current.elevation },
+        ],
+        {},
+    );
+    return result?.spaces ?? 0;
 }
