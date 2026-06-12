@@ -17,6 +17,8 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { getCanvas } from "@src/core/FoundryHelpers";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
+import type { CombatantLogic } from "./CombatantLogic";
 import {
     areCombatantsEnemies,
     isThreatening,
@@ -342,6 +344,7 @@ export class SohlCombatant<
  */
 function defineSohlCombatantDataSchema(): foundry.data.fields.DataSchema {
     return {
+        ...defineSohlDataSchema(),
         startLocation: new foundry.data.fields.ObjectField({
             initial: {
                 x: 0,
@@ -409,9 +412,9 @@ type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 /** @internal */
 export class SohlCombatantDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
-> extends foundry.abstract.TypeDataModel<TSchema, SohlCombatant> {
+> extends SohlDataModel<TSchema, SohlCombatant, CombatantLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
-    static readonly kind = "sohlcombatantdata";
+    static override readonly kind = "sohlcombatantdata";
     startLocation!: {
         x: number;
         y: number;

@@ -116,6 +116,7 @@ import {
     SohlCombatant,
     SohlCombatantDataModel,
 } from "@src/document/combatant/SohlCombatant";
+import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
 import {
     SohlCombat,
     SohlCombatDataModel,
@@ -194,6 +195,11 @@ export const {
     [ACTOR_KIND.STRUCTURE]: StructureLogic,
     [ACTOR_KIND.VEHICLE]: VehicleLogic,
 } as StrictObject<Constructor<SohlActorLogic<any>>>);
+
+/** Combatant-kind → Logic-class registry (the combatant has a single kind). */
+export const COMBATANT_LOGIC: StrictObject<Constructor<CombatantLogic>> = {
+    [SohlCombatantDataModel.kind]: CombatantLogic,
+};
 
 export const {
     /** The actor-kind → sheet-class registry map. */

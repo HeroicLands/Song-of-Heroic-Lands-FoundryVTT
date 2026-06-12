@@ -22,7 +22,7 @@ import type {
 } from "@src/document/item/foundry/SohlItem";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlDataModel } from "@src/core/SohlDataModel";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { SkillBase } from "@src/domain/SkillBase";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
@@ -773,6 +773,7 @@ import type {
  */
 function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
     return {
+        ...defineSohlDataSchema(),
         portrait: new FilePathField({
             categories: ["IMAGE"],
             initial: foundry.CONST.DEFAULT_TOKEN,

@@ -42,7 +42,11 @@ import {
     toHTMLString,
 } from "@src/utils/helpers";
 import { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import { COMMON_ACTOR_LOGIC, COMMON_ITEM_LOGIC } from "@src/core/SohlSystem";
+import {
+    COMMON_ACTOR_LOGIC,
+    COMMON_ITEM_LOGIC,
+    COMBATANT_LOGIC,
+} from "@src/core/SohlSystem";
 import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const {
@@ -56,15 +60,14 @@ const {
 
 /**
  * Builds the Foundry data schema shared by every SoHL data model (shortcode,
- * documentation URL, and the array of action definitions).
+ * documentation URL, and the array of action definitions). Concrete document
+ * schemas (`defineSohlItemDataSchema`, `defineSohlActorDataSchema`, the
+ * combatant schema) spread this so every SoHL data model carries these fields.
  * @returns The shared SoHL data schema.
  */
-function defineSohlDataSchema(): foundry.data.fields.DataSchema {
+export function defineSohlDataSchema(): foundry.data.fields.DataSchema {
     return {
-        shortcode: new StringField({
-            blank: false,
-            required: true,
-        }),
+        shortcode: new StringField({ initial: "" }),
         docUrl: new URLField(),
         actionDefs: new ArrayField(
             new SchemaField({
@@ -160,7 +163,7 @@ export abstract class SohlDataModel<
             COMMON_ACTOR_LOGIC[kind];
         logicCtor ??= COMMON_ITEM_LOGIC[kind];
         //logicCtor ??= EFFECT_LOGIC[kind];
-        //logicCtor ??= COMBATANT_LOGIC[kind];
+        logicCtor ??= COMBATANT_LOGIC[kind];
         if (!logicCtor) {
             throw new Error(`No logic constructor found for kind "${kind}"`);
         }
