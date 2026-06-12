@@ -158,10 +158,6 @@ describe("BeingLogic", () => {
                 "calcImpact",
                 "contractAfflictionTest",
                 "opposedTestResume",
-                "automatedBlockResume",
-                "automatedCounterstrikeResume",
-                "automatedDodgeResume",
-                "automatedIgnoreResume",
             ]) {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
@@ -436,72 +432,6 @@ describe("BeingLogic", () => {
             await logic.automatedCombatStart(ctx);
             expect(spy).toHaveBeenCalledWith(logic, ctx);
         });
-    });
-
-    describe("automated combat resumes", () => {
-        it("each resume warns and aborts when scope has no attackResultJson", async () => {
-            const logic = makeBeing();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            const ctx = { scope: {} } as any;
-            await logic.automatedBlockResume(ctx);
-            await logic.automatedDodgeResume(ctx);
-            await logic.automatedCounterstrikeResume(ctx);
-            await logic.automatedIgnoreResume(ctx);
-            expect(warn).toHaveBeenCalledTimes(4);
-            for (const call of warn.mock.calls) {
-                expect(call[0]).toMatch(/no attack result to resolve/);
-            }
-        });
-
-        it("automatedBlockResume warns when no strike mode can block", async () => {
-            const logic = makeBeing();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await logic.automatedBlockResume({
-                scope: { attackResultJson: {} },
-            } as any);
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no strike mode able to block/),
-            );
-        });
-
-        it("automatedDodgeResume warns when the being has no Dodge skill", async () => {
-            const logic = makeBeing();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await logic.automatedDodgeResume({
-                scope: { attackResultJson: {} },
-            } as any);
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/no Dodge skill/),
-            );
-        });
-
-        it("automatedCounterstrikeResume warns when attacker/defender tokens are unavailable", async () => {
-            const logic = makeBeing();
-            const warn = vi.spyOn(sohl.log, "uiWarn");
-            await logic.automatedCounterstrikeResume({
-                scope: { attackResultJson: {} },
-                token: null,
-            } as any);
-            expect(warn).toHaveBeenCalledWith(
-                expect.stringMatching(/attacker's and defender's tokens/),
-            );
-        });
-
-        it.todo(
-            "automatedBlockResume - rolls the block and posts a combat-result card (needs CombatResult/dialog infrastructure)",
-        );
-        it.todo(
-            "automatedDodgeResume - rolls the Dodge skill against the attack snapshot",
-        );
-        it.todo(
-            "automatedCounterstrikeResume - rolls a counter-attack against the original attacker",
-        );
-        it.todo(
-            "automatedIgnoreResume - resolves the exchange without a defender roll",
-        );
-        it.todo(
-            "resumes are bypassable via context.skipDialog with values from context.scope",
-        );
     });
 
     describe("lifecycle", () => {

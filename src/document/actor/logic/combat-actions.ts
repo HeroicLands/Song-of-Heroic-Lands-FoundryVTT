@@ -25,6 +25,7 @@ import {
     type ImpactAspect,
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
+import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { AttackResult } from "@src/domain/result/AttackResult";
@@ -139,19 +140,18 @@ export function resolveStrikeModeML(
  * …) to roll against the right skill. Returns `null` when the actor has no skill
  * with that shortcode.
  *
- * @param actor     Anything exposing `itemTypes.skill` (a SohlActor at runtime).
- * @param actor.itemTypes - The actor's items grouped by type.
- * @param actor.itemTypes.skill - The actor's skill items.
+ * @param actorLogic The actor's logic, whose skill is resolved via `getItemLogic`.
  * @param shortcode The skill's `system.shortcode` (e.g. `"dge"`).
  * @returns The skill's mastery-level modifier, or `null` if no skill matches.
  */
 export function resolveSkillMasteryLevel(
-    actor: { itemTypes?: { skill?: any[] } },
+    actorLogic: SohlActorLogic<any>,
     shortcode: string,
 ): MasteryLevelModifier | null {
-    const skills = actor.itemTypes?.skill ?? [];
-    const skill = skills.find((s: any) => s?.system?.shortcode === shortcode);
-    return (skill?.logic?.masteryLevel as MasteryLevelModifier) ?? null;
+    const skill = actorLogic.getItemLogic(shortcode, ITEM_KIND.SKILL);
+    return (
+        ((skill as any)?.masteryLevel as MasteryLevelModifier) ?? null
+    );
 }
 
 /** A defender strike mode usable for a Block, with its (live) block modifier. */
@@ -173,33 +173,32 @@ export interface BlockableStrikeMode {
  * combat techniques — i.e. melee modes whose `defense.block` is present and not
  * disabled (not `noBlock`). Pure and Foundry-free; used to populate the Block
  * dialog and to resolve the chosen mode's block modifier.
- * @param actor - The actor whose weapons and combat techniques are scanned.
- * @param actor.itemTypes - The actor's items grouped by type.
+ * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
  * @returns The block-capable strike modes with their live block modifiers.
  */
-export function collectBlockableStrikeModes(actor: {
-    itemTypes?: any;
-}): BlockableStrikeMode[] {
+export function collectBlockableStrikeModes(
+    actorLogic: SohlActorLogic<any>,
+): BlockableStrikeMode[] {
     const out: BlockableStrikeMode[] = [];
-    const itemTypes = actor.itemTypes ?? {};
-    const consider = (item: any, sm: any) => {
+    const consider = (logic: { id: string; name: string }, sm: any) => {
         const block = sm?.defense?.block as MasteryLevelModifier | undefined;
         if (block && !(block as any).disabled) {
             out.push({
-                itemId: item.id,
+                itemId: logic.id,
                 smId: sm.id,
-                itemName: item.name,
-                label: `${item.name} — ${sm.name}`,
+                itemName: logic.name,
+                label: `${logic.name} — ${sm.name}`,
                 ml: block,
             });
         }
     };
-    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-        for (const sm of item.logic?.strikeModes ?? []) consider(item, sm);
+    const lt = actorLogic.logicTypes;
+    for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
+        for (const sm of logic.strikeModes ?? []) consider(logic, sm);
     }
-    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-        const sm = item.logic?.strikeMode;
-        if (sm) consider(item, sm);
+    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+        const sm = logic.strikeMode;
+        if (sm) consider(logic, sm);
     }
     return out;
 }
@@ -227,18 +226,16 @@ export interface AttackableStrikeMode {
  *   not support, so those modes are excluded entirely.
  *
  * An empty result means the target is out of range of every mode.
- * @param actor - The actor whose weapons and combat techniques are scanned.
- * @param actor.itemTypes - The actor's items grouped by type.
+ * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
  * @param distanceFeet - The distance to the target, in feet.
  * @returns The strike modes able to reach the target at `distanceFeet`.
  */
 export function collectAttackableStrikeModes(
-    actor: { itemTypes?: any },
+    actorLogic: SohlActorLogic<any>,
     distanceFeet: number,
 ): AttackableStrikeMode[] {
     const out: AttackableStrikeMode[] = [];
-    const itemTypes = actor.itemTypes ?? {};
-    const consider = (item: any, sm: any) => {
+    const consider = (logic: { id: string; name: string }, sm: any) => {
         if (!sm || sm.attack?.disabled) return;
         const inRange =
             sm.isMissile ?
@@ -246,17 +243,18 @@ export function collectAttackableStrikeModes(
             :   distanceFeet <= (sm.reach?.effective ?? 0);
         if (!inRange) return;
         out.push({
-            itemId: item.id,
+            itemId: logic.id,
             smId: sm.id,
-            itemName: item.name,
+            itemName: logic.name,
             strikeMode: sm as StrikeModeBase,
         });
     };
-    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-        for (const sm of item.logic?.strikeModes ?? []) consider(item, sm);
+    const lt = actorLogic.logicTypes;
+    for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
+        for (const sm of logic.strikeModes ?? []) consider(logic, sm);
     }
-    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-        consider(item, item.logic?.strikeMode);
+    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+        consider(logic, logic.strikeMode);
     }
     return out;
 }
@@ -267,19 +265,19 @@ export function collectAttackableStrikeModes(
  * `noAttack`). Range-independent (reach is checked when the counterstrike is
  * actually resolved); this is the capability gate for showing the Counterstrike
  * button. Pure and Foundry-free.
- * @param actor - The actor whose weapons and combat techniques are scanned.
- * @param actor.itemTypes - The actor's items grouped by type.
+ * @param actorLogic - The actor's logic; its weapons and combat techniques are scanned via logicTypes.
  * @returns `true` if the actor has any usable melee attack strike mode.
  */
-export function hasMeleeAttackStrikeMode(actor: { itemTypes?: any }): boolean {
-    const itemTypes = actor.itemTypes ?? {};
+export function hasMeleeAttackStrikeMode(
+    actorLogic: SohlActorLogic<any>,
+): boolean {
     const usable = (sm: any) => !!sm && !sm.attack?.disabled && !!sm.isMelee;
-    for (const item of itemTypes[ITEM_KIND.WEAPONGEAR] ?? []) {
-        for (const sm of item.logic?.strikeModes ?? [])
-            if (usable(sm)) return true;
+    const lt = actorLogic.logicTypes;
+    for (const logic of lt[ITEM_KIND.WEAPONGEAR]) {
+        for (const sm of logic.strikeModes ?? []) if (usable(sm)) return true;
     }
-    for (const item of itemTypes[ITEM_KIND.COMBATTECHNIQUE] ?? []) {
-        if (usable(item.logic?.strikeMode)) return true;
+    for (const logic of lt[ITEM_KIND.COMBATTECHNIQUE]) {
+        if (usable(logic.strikeMode)) return true;
     }
     return false;
 }

@@ -16,7 +16,7 @@ import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import { SohlDataModel } from "@src/core/SohlDataModel";
+import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import { fvttCallHook } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
@@ -316,6 +316,7 @@ import type {
  */
 function defineSohlItemDataSchema(): foundry.data.fields.DataSchema {
     return {
+        ...defineSohlDataSchema(),
         notes: new HTMLField(),
         docHtml: new HTMLField(),
     };

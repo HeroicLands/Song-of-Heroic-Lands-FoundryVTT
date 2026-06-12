@@ -1,37 +1,29 @@
 import { describe, it, expect } from "vitest";
 import { SkillBase } from "@src/domain/SkillBase";
-import { ITEM_KIND } from "@src/utils/constants";
 
-// Helper to create a mock attribute item
-function mockAttribute(
-    shortcode: string,
-    score: number,
-    opts: { type?: string } = {},
-) {
+// Helper to create a mock AttributeLogic — SkillBase reads only
+// `data.shortcode`, `data.name`, and `score.effective`.
+function mockAttribute(shortcode: string, score: number): any {
     return {
-        type: opts.type ?? ITEM_KIND.ATTRIBUTE,
-        parent: { name: shortcode },
-        system: { shortcode },
-        logic: {
-            data: { shortcode },
-            score: { effective: score },
-        },
+        data: { shortcode, name: shortcode },
+        score: { effective: score },
     } as any;
 }
 
-function mockBirthsign(textValue: string) {
+// Helper to create a mock TraitLogic birthsign — SkillBase reads only
+// `data.textValue`.
+function mockBirthsign(textValue: string): any {
     return {
-        type: ITEM_KIND.TRAIT,
-        system: { textValue },
+        data: { textValue },
     } as any;
 }
 
 function createSkillBase(
     formula: string,
-    items: any[] = [],
+    attributes: any[] = [],
     birthsign?: any,
 ): SkillBase {
-    const opts: any = { items };
+    const opts: any = { attributes };
     if (birthsign) opts.birthsign = birthsign;
     return new SkillBase(formula, opts);
 }
@@ -192,14 +184,17 @@ describe("SkillBase", () => {
     });
 
     describe("setAttributes", () => {
-        it("ignores items that are not of kind ATTRIBUTE", () => {
-            const sb = createSkillBase("@str, @per", [
+        it("ignores attributes not referenced by the formula", () => {
+            // The caller passes only attribute logics (already filtered by
+            // kind via `logicTypes[ATTRIBUTE]`), so SkillBase matches purely by
+            // formula shortcode and ignores any extra attributes.
+            const sb = createSkillBase("@str, @dex", [
                 mockAttribute("str", 60),
-                mockAttribute("per", 50, { type: ITEM_KIND.TRAIT }),
+                mockAttribute("dex", 40),
+                mockAttribute("wis", 100), // not referenced by the formula
             ]);
-            // Only str resolves (per is a TRAIT, not an ATTRIBUTE)
-            // str=60, per=0 → average=(60+0)/2=30, primary>secondary → ceil=30
-            expect(sb.value).toBe(30);
+            // average of str & dex = 50; wis is ignored
+            expect(sb.value).toBe(50);
         });
     });
 
