@@ -609,7 +609,9 @@ export async function startAutomatedAttack(
             defenderActor ?
                 {
                     name: targetToken.name ?? "",
-                    actorUuid: defenderActor.uuid,
+                    // The defense buttons dispatch to the defender's COMBATANT
+                    // (its CombatantLogic hosts the resume actions).
+                    actorUuid: (p.target as any)?.uuid ?? "",
                 }
             :   null,
     });

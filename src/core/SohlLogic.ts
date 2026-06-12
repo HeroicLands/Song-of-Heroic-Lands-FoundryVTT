@@ -147,13 +147,15 @@ export abstract class SohlLogic<
         }
     }
 
-    /** The owning {@link SohlActor} — the item's actor when this logic is on an item — or `null`. */
+    /**
+     * The owning {@link SohlActor} — the document itself when it is an actor,
+     * otherwise its owning actor (for an item, combatant, or effect), or `null`.
+     */
     get actor(): SohlActor | null {
-        if ("actor" in this.parent) {
-            return this.parent.actor as SohlActor;
-        } else {
-            return this.item?.actor ?? null;
-        }
+        const doc = this.parent?.parent as any;
+        if (!doc) return null;
+        if (ActorKinds.includes(doc.type)) return doc as SohlActor;
+        return (doc.actor as SohlActor | null) ?? null;
     }
 
     /**

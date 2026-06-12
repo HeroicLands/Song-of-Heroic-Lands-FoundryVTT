@@ -14,6 +14,7 @@
 
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
 
 /**
  * Minimal stand-in for Foundry's `Collection`: a Map whose `find`/`some`/
@@ -285,6 +286,62 @@ export function makeActorLogic<T>(
     const logic = new LogicCtor({}, { parent: data });
     data.logic = logic;
     data.parent.logic = logic;
+    return logic;
+}
+
+/**
+ * Construct a {@link CombatantLogic} over a {@link CombatantData} port backed by
+ * a mock combatant document. `actorLogic` resolves to the supplied (or a fresh)
+ * mock actor's logic, so the resume methods can read strike-mode capability.
+ *
+ * @param opts.actor - The combatant's actor mock (defaults to a fresh one).
+ * @param opts.token - The combatant's token (default `null`).
+ * @param opts.combat - The active combat (default `null`).
+ */
+export function makeCombatantLogic(
+    opts: { actor?: any; token?: any; combat?: any; name?: string } = {},
+): any {
+    const actor = opts.actor ?? makeMockActor();
+    const combatant: any = {
+        id: "combatant00mock1",
+        name: opts.name ?? actor.name,
+        documentName: "Combatant",
+        isOwner: true,
+        actor,
+        token: opts.token ?? null,
+        combat: opts.combat ?? null,
+        update: vi.fn(async (data: any) => data),
+        getFlag: vi.fn(() => undefined),
+        setFlag: vi.fn(async () => undefined),
+    };
+    const data: any = {
+        id: combatant.id,
+        name: combatant.name,
+        type: "sohlcombatantdata",
+        uuid: `Combatant.${combatant.id}`,
+        isOwner: true,
+        kind: "sohlcombatantdata",
+        shortcode: "",
+        actionDefs: [],
+        startLocation: { x: 0, y: 0, elevation: 0 },
+        didAction: false,
+        moveFactor: 1,
+        displayedMedium: "terrestrial",
+        lastAttackMode: null,
+        lastBlockMode: null,
+        update: combatant.update,
+        getFlag: combatant.getFlag,
+        setFlag: combatant.setFlag,
+        parent: combatant,
+        logic: null,
+    };
+    Object.defineProperty(data, "actorLogic", {
+        get: () => actor.logic,
+        enumerable: false,
+    });
+    const logic = new CombatantLogic({}, { parent: data });
+    data.logic = logic;
+    combatant.logic = logic;
     return logic;
 }
 

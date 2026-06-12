@@ -16,8 +16,38 @@ import {
     combatantGridDistance,
     combatantSpacesMoved,
 } from "@src/core/FoundryHelpers";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
+import { CombatResult } from "@src/domain/result/CombatResult";
+import { DefendResult } from "@src/domain/result/DefendResult";
+import type { AttackResult } from "@src/domain/result/AttackResult";
+import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
-import type { MovementMedium } from "@src/utils/constants";
+import {
+    collectBlockableStrikeModes,
+    collectAttackableStrikeModes,
+    resolveSkillMasteryLevel,
+    indexOfBestMastery,
+    buildAttackResult,
+    buildCombatCardData,
+} from "@src/document/actor/logic/combat-actions";
+import {
+    showDefenseDialog,
+    buildAimChoices,
+    pickChoice,
+    resolveCounterstrikeContext,
+} from "@src/document/actor/logic/automated-combat";
+import { resolveActionInput } from "@src/utils/actionInput";
+import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
+import {
+    ACTION_SUBTYPE,
+    SKILL_CODE,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+    TEST_TYPE,
+    VALUE_DELTA_INFO,
+    type MovementMedium,
+} from "@src/utils/constants";
+import { SohlAction } from "@src/domain/action/SohlAction";
 import {
     areCombatantsEnemies,
     isThreatening,
@@ -221,5 +251,451 @@ export class CombatantLogic<
     get spacesMovedThisTurn(): number {
         const c = this.combatant;
         return c ? combatantSpacesMoved(c, this.data.startLocation) : 0;
+    }
+
+    // --- Automated combat resume (defender side) -----------------------------
+    // The combatant *is* the defender, so `this` replaces the looked-up
+    // combatant and `this.actorLogic` supplies strike-mode capability.
+
+    /**
+     * Resume automated combat with a **Block** — pick a blocking strike mode
+     * (dialog, or from scope when `skipDialog`) and resolve the exchange.
+     * @param context - Action context carrying the attack snapshot in its scope.
+     */
+    async automatedBlockResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
+        const attackResult = this.rehydrateAttackResult(context);
+        if (!attackResult) return;
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+
+        const entries = collectBlockableStrikeModes(actorLogic);
+        if (!entries.length) {
+            sohl.log.uiWarn(`${this.name} has no strike mode able to block.`);
+            return;
+        }
+        const choices: Record<string, string> = {};
+        entries.forEach((e, i) => {
+            choices[String(i)] = e.label;
+        });
+
+        const recent = this.lastBlockMode;
+        let defaultIdx =
+            recent ?
+                entries.findIndex(
+                    (e) => e.itemId === recent.itemId && e.smId === recent.smId,
+                )
+            :   -1;
+        if (defaultIdx < 0) {
+            defaultIdx = Math.max(
+                0,
+                indexOfBestMastery(entries, (e) => e.ml.constrainedEffective),
+            );
+        }
+
+        const input = await resolveActionInput<{
+            key: string;
+            situationalModifier: number;
+        }>(context, {
+            fromScope: (s) => {
+                const idx = entries.findIndex(
+                    (e) => e.itemId === s.itemId && e.smId === s.strikeModeId,
+                );
+                return {
+                    key: idx >= 0 ? String(idx) : String(defaultIdx),
+                    situationalModifier:
+                        Number.parseInt(String(s.situationalModifier), 10) || 0,
+                };
+            },
+            dialog: () =>
+                showDefenseDialog(
+                    `${this.name} — Select Block`,
+                    "Block with:",
+                    choices,
+                    String(defaultIdx),
+                ),
+        });
+        if (!input) return;
+        const entry = entries[Number(input.key)];
+        if (!entry) return;
+
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.BLOCK.id,
+                masteryLevelModifier: entry.ml.clone<MasteryLevelModifier>(
+                    {},
+                    { parent: this },
+                ),
+                situationalModifier: input.situationalModifier,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+        const combatResult = this.buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        await combatResult.evaluate();
+        await this.recordBlockMode(entry.itemId, entry.smId);
+        await this.postCombatResultCard(
+            combatResult,
+            attackResult,
+            `Block w/ ${entry.itemName}`,
+            context,
+        );
+    }
+
+    /**
+     * Resume automated combat with a **Dodge** — roll the defender's Dodge skill.
+     * @param context - Action context carrying the attack snapshot in its scope.
+     */
+    async automatedDodgeResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
+        const attackResult = this.rehydrateAttackResult(context);
+        if (!attackResult) return;
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+
+        const dodgeML = resolveSkillMasteryLevel(actorLogic, SKILL_CODE.DODGE);
+        if (!dodgeML) {
+            sohl.log.uiWarn(`${this.name} has no Dodge skill to defend with.`);
+            return;
+        }
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.DODGE.id,
+                masteryLevelModifier: dodgeML.clone<MasteryLevelModifier>(
+                    {},
+                    { parent: this },
+                ),
+                situationalModifier: 0,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+        const combatResult = this.buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        await combatResult.evaluate();
+        await this.postCombatResultCard(
+            combatResult,
+            attackResult,
+            "Dodge",
+            context,
+        );
+    }
+
+    /**
+     * Resume automated combat with a **Counterstrike** — a melee attack back at
+     * the original attacker; both sides can land in the same exchange.
+     * @param context - Action context carrying the attacker's attack snapshot.
+     */
+    async automatedCounterstrikeResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
+        const attackResult = this.rehydrateAttackResult(context);
+        if (!attackResult) return;
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+
+        // The counterstrike targets the original attacker; distance is
+        // defender (this combatant) → attacker.
+        const rc = resolveCounterstrikeContext(attackResult, this.combatant);
+        if (!rc) return;
+
+        const entries = collectAttackableStrikeModes(
+            actorLogic,
+            rc.distanceFeet,
+        ).filter(
+            (e) =>
+                (e.strikeMode as any).isMelee &&
+                !(e.strikeMode as any).defense?.counterstrike?.disabled,
+        );
+        if (!entries.length) {
+            sohl.log.uiWarn(
+                `${this.name} has no melee strike mode in reach to counterstrike.`,
+            );
+            return;
+        }
+        const choices: Record<string, string> = {};
+        entries.forEach((e, i) => {
+            choices[String(i)] = `${e.itemName} — ${e.strikeMode.name}`;
+        });
+
+        const recent = this.lastAttackMode;
+        let defaultIdx =
+            recent ?
+                entries.findIndex(
+                    (e) => e.itemId === recent.itemId && e.smId === recent.smId,
+                )
+            :   -1;
+        if (defaultIdx < 0) {
+            defaultIdx = Math.max(
+                0,
+                indexOfBestMastery(
+                    entries,
+                    (e) =>
+                        (e.strikeMode as any).defense.counterstrike
+                            .constrainedEffective,
+                ),
+            );
+        }
+
+        const modeInput = await resolveActionInput<{
+            key: string;
+            situationalModifier: number;
+        }>(context, {
+            fromScope: (s) => {
+                const idx = entries.findIndex(
+                    (e) => e.itemId === s.itemId && e.smId === s.strikeModeId,
+                );
+                return {
+                    key: idx >= 0 ? String(idx) : String(defaultIdx),
+                    situationalModifier:
+                        Number.parseInt(String(s.situationalModifier), 10) || 0,
+                };
+            },
+            dialog: () =>
+                showDefenseDialog(
+                    `${this.name} — Select Counterstrike`,
+                    "Counterstrike with:",
+                    choices,
+                    String(defaultIdx),
+                ),
+        });
+        if (!modeInput) return;
+        const entry = entries[Number(modeInput.key)];
+        if (!entry) return;
+        const sm = entry.strikeMode as any;
+
+        const aimChoices = buildAimChoices(rc.attacker.actor);
+        const defaultAim = Object.keys(aimChoices)[0] ?? "";
+        const aim = await resolveActionInput<string | null>(context, {
+            fromScope: (s) => String((s as any).aim ?? defaultAim),
+            dialog: () =>
+                pickChoice(
+                    `${this.name} — Aim Counterstrike`,
+                    "Aim at:",
+                    aimChoices,
+                    defaultAim,
+                ),
+        });
+        if (aim === null) return;
+
+        const counter = buildAttackResult({
+            attackML: sm.defense.counterstrike,
+            impact: sm.impact,
+            parent: this,
+            token: context.token ?? null,
+            testType: TEST_TYPE.AUTOCOMBATMELEE.id,
+            aimBodyPartCode: aim,
+            spread: sm.spread?.effective ?? 0,
+            title: entry.itemName,
+        });
+        if (modeInput.situationalModifier) {
+            counter.masteryLevelModifier.add(
+                VALUE_DELTA_INFO.PLAYER,
+                modeInput.situationalModifier,
+            );
+        }
+
+        const combatResult = this.buildCombatResult(
+            attackResult,
+            counter,
+            context,
+        );
+        await combatResult.evaluate();
+        await this.recordAttackMode(entry.itemId, entry.smId);
+
+        if (context.noChat) return;
+        const cardData = buildCombatCardData({
+            combatResult,
+            title: "Attack Result",
+            actorId: this.id,
+            attackerName: attackResult.speaker?.name ?? "",
+            defenderName: this.name,
+            attackWeapon: attackResult.title ?? "",
+            defenseLabel: `Counterstrike w/ ${entry.itemName}`,
+            // The attacker's blow strikes this defender.
+            attackTarget: {
+                name: this.name,
+                actorUuid: this.combatant?.actor?.uuid ?? "",
+            },
+            // The counterstrike strikes the original attacker.
+            defendTarget: rc.attackerAddress,
+        });
+        await context.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
+            cardData,
+        );
+    }
+
+    /**
+     * Resume automated combat with **Ignore** — no defensive contest.
+     * @param context - Action context carrying the attack snapshot in its scope.
+     */
+    async automatedIgnoreResume(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
+        const attackResult = this.rehydrateAttackResult(context);
+        if (!attackResult) return;
+
+        const defendResult = new DefendResult(
+            {
+                testType: TEST_TYPE.IGNORE.id,
+                situationalModifier: 0,
+                speaker: context.speaker,
+                token: context.token ?? undefined,
+            } as any,
+            { parent: this },
+        );
+        const combatResult = this.buildCombatResult(
+            attackResult,
+            defendResult,
+            context,
+        );
+        combatResult.opposedTestEvaluate();
+        await this.postCombatResultCard(
+            combatResult,
+            attackResult,
+            "Ignore",
+            context,
+        );
+    }
+
+    /**
+     * Rehydrate the attacker's evaluated `AttackResult` snapshot from the
+     * defense button's dataset. Returns `null` (with a warning) when absent.
+     * @param context - Action context whose scope holds the attack-result JSON.
+     * @returns The rehydrated `AttackResult`, or `null` if none is present.
+     */
+    private rehydrateAttackResult(
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): AttackResult | null {
+        const json = (context.scope as any)?.attackResultJson;
+        if (!json) {
+            sohl.log.uiWarn(
+                `${this.name}: automated-combat resume had no attack result to resolve.`,
+            );
+            return null;
+        }
+        return instanceFromJSON<AttackResult>(json, this);
+    }
+
+    /**
+     * Compose the `CombatResult` for a resolved exchange.
+     * @param attackResult - The attacker's evaluated attack snapshot.
+     * @param defendResult - The defender's response (defend result or counterstrike).
+     * @param context - Action context supplying the speaker.
+     * @returns The composed `CombatResult`.
+     */
+    private buildCombatResult(
+        attackResult: AttackResult,
+        defendResult: AttackResult | DefendResult,
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): CombatResult {
+        return new CombatResult(
+            {
+                attackResult,
+                defendResult,
+                sourceTestResult: attackResult,
+                targetTestResult: defendResult,
+                speaker: context.speaker,
+            } as any,
+            { parent: this },
+        );
+    }
+
+    /**
+     * Post the combat-result card as the defender. Suppressed when
+     * `context.noChat`.
+     * @param combatResult - The resolved exchange to render.
+     * @param attackResult - The attacker's attack snapshot for the card data.
+     * @param defenseLabel - Human-readable label describing the defense used.
+     * @param context - Action context supplying the speaker and chat flag.
+     */
+    private async postCombatResultCard(
+        combatResult: CombatResult,
+        attackResult: AttackResult,
+        defenseLabel: string,
+        context: SohlActionContext<Partial<CombatResult.ContextScope>>,
+    ): Promise<void> {
+        if (context.noChat) return;
+        const cardData = buildCombatCardData({
+            combatResult,
+            title: "Attack Result",
+            actorId: this.id,
+            attackerName: attackResult.speaker?.name ?? "",
+            defenderName: this.name,
+            attackWeapon: attackResult.title ?? "",
+            defenseLabel,
+            attackTarget: {
+                name: this.name,
+                actorUuid: this.combatant?.actor?.uuid ?? "",
+            },
+        });
+        await context.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
+            cardData,
+        );
+    }
+
+    /**
+     * Define the combatant's intrinsic actions — the automated-combat defense
+     * resumes, dispatched to this combatant from the attack card's defense
+     * buttons.
+     * @returns The combatant intrinsic-action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlLogic.defineIntrinsicActions(),
+            {
+                shortcode: "automatedBlockResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedBlockResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-shield-reflect",
+                executor: "automatedBlockResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedCounterstrikeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedCounterstrikeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-riposte",
+                executor: "automatedCounterstrikeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedDodgeResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedDodgeResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-dodge",
+                executor: "automatedDodgeResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+            {
+                shortcode: "automatedIgnoreResume",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.Action.automatedIgnoreResume",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-shrug",
+                executor: "automatedIgnoreResume",
+                visible: "false",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+            },
+        ];
     }
 }

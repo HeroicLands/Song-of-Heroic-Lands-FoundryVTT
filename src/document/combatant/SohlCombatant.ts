@@ -16,6 +16,7 @@ import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatantLogic } from "./CombatantLogic";
 import { chooseInitialDisplayedMedium } from "./combatant-logic";
 import {
@@ -48,6 +49,48 @@ export class SohlCombatant<
     /** The {@link CombatantLogic} for this combatant. */
     get logic(): CombatantLogic {
         return (this.system as any).logic as CombatantLogic;
+    }
+
+    /**
+     * Dispatch a chat-card button click to this combatant's logic — the
+     * automated-combat defense resumes (Block/Dodge/Counterstrike/Ignore) live
+     * on {@link CombatantLogic} as intrinsic actions, and the attack card's
+     * defense buttons address the defender's combatant. The button's dataset
+     * becomes the action's `scope`.
+     * @param btn - The clicked chat-card button element.
+     */
+    async onChatCardButton(btn: HTMLElement): Promise<void> {
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        const context = new SohlActionContext({
+            speaker: this.logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            scope: { ...btn.dataset },
+        });
+
+        const action =
+            this.logic.actions.get(actionName) ??
+            [...this.logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (this.logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(this.logic, context);
+        } else {
+            sohl.log.warn(
+                `SoHL | ${this.name} (Combatant) received unhandled chat-card action "${actionName}".`,
+            );
+        }
     }
 
     /** The strike mode last used to attack, or `null` (combat-scoped). */
