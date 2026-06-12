@@ -206,6 +206,11 @@ export abstract class SohlDataModel<
         return (this.parent as any)?.type ?? this.kind;
     }
 
+    /** The owning document's globally-unique id (opaque identity token). */
+    get uuid(): string {
+        return (this.parent as any)?.uuid ?? "";
+    }
+
     /** Whether the current user owns the document (edit permission). */
     get isOwner(): boolean {
         return (this.parent as any)?.isOwner ?? false;

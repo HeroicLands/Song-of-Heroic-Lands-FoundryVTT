@@ -16,6 +16,7 @@ import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/SohlScene";
+import type { SohlLogic } from "@src/core/SohlLogic";
 
 /**
  * Foundry VTT runtime shim.
@@ -176,6 +177,36 @@ export function fvttResolveUuid(uuid: string): any {
  */
 export async function fvttResolveUuidAsync(uuid: string): Promise<any> {
     return fromUuid(uuid);
+}
+
+/**
+ * Resolve a document UUID to its SoHL logic instance, synchronously.
+ *
+ * @remarks The logic-layer counterpart of `fromUuidSync`: it hides the Foundry
+ * document entirely, returning only the logic, so the logic layer can treat a
+ * UUID as an opaque token and round-trip it back to logic. Like `fromUuidSync`,
+ * it returns `null` for documents not already in memory (e.g. unloaded
+ * compendium entries) — use {@link logicFromUuid} when that is possible.
+ * @param uuid - The (opaque) document UUID.
+ * @returns The document's logic, or `null` if unresolved.
+ */
+export function logicFromUuidSync(uuid: string): SohlLogic<any> | null {
+    return (fromUuidSync(uuid) as any)?.logic ?? null;
+}
+
+/**
+ * Resolve a document UUID to its SoHL logic instance.
+ *
+ * @remarks The async logic-layer counterpart of `fromUuid`, resolving
+ * compendium / not-yet-loaded documents as well. Hides the Foundry document,
+ * returning only the logic.
+ * @param uuid - The (opaque) document UUID.
+ * @returns A promise resolving to the document's logic, or `null` if unresolved.
+ */
+export async function logicFromUuid(
+    uuid: string,
+): Promise<SohlLogic<any> | null> {
+    return ((await fromUuid(uuid)) as any)?.logic ?? null;
 }
 
 // ---------------------------------------------------------------------------

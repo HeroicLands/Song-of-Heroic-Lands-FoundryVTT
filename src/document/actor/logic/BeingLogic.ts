@@ -610,10 +610,10 @@ export class BeingLogic<
         const attackResult = this.rehydrateAttackResult(context);
         if (!attackResult) return;
 
-        const entries = collectBlockableStrikeModes(this.actor as any);
+        const entries = collectBlockableStrikeModes(this);
         if (!entries.length) {
             sohl.log.uiWarn(
-                `${this.actor?.name} has no strike mode able to block.`,
+                `${this.name} has no strike mode able to block.`,
             );
             return;
         }
@@ -657,7 +657,7 @@ export class BeingLogic<
             },
             dialog: () =>
                 showDefenseDialog(
-                    `${this.actor?.name} — Select Block`,
+                    `${this.name} — Select Block`,
                     "Block with:",
                     choices,
                     String(defaultIdx),
@@ -720,13 +720,10 @@ export class BeingLogic<
         if (!attackResult) return;
 
         // Dodge rolls the defender's Dodge skill; no dialog.
-        const dodgeML = resolveSkillMasteryLevel(
-            this.actor as any,
-            SKILL_CODE.DODGE,
-        );
+        const dodgeML = resolveSkillMasteryLevel(this, SKILL_CODE.DODGE);
         if (!dodgeML) {
             sohl.log.uiWarn(
-                `${this.actor?.name} has no Dodge skill to defend with.`,
+                `${this.name} has no Dodge skill to defend with.`,
             );
             return;
         }
@@ -802,7 +799,7 @@ export class BeingLogic<
         // its counterstrike modifier is not independently disabled. A ranged
         // attacker out of melee reach yields none → cannot counterstrike.
         const entries = collectAttackableStrikeModes(
-            this.actor as any,
+            this,
             rc.distanceFeet,
         ).filter(
             (e) =>
@@ -811,7 +808,7 @@ export class BeingLogic<
         );
         if (!entries.length) {
             sohl.log.uiWarn(
-                `${this.actor?.name} has no melee strike mode in reach to counterstrike.`,
+                `${this.name} has no melee strike mode in reach to counterstrike.`,
             );
             return;
         }
@@ -859,7 +856,7 @@ export class BeingLogic<
             },
             dialog: () =>
                 showDefenseDialog(
-                    `${this.actor?.name} — Select Counterstrike`,
+                    `${this.name} — Select Counterstrike`,
                     "Counterstrike with:",
                     choices,
                     String(defaultIdx),
@@ -877,7 +874,7 @@ export class BeingLogic<
             fromScope: (s) => String((s as any).aim ?? defaultAim),
             dialog: () =>
                 pickChoice(
-                    `${this.actor?.name} — Aim Counterstrike`,
+                    `${this.name} — Aim Counterstrike`,
                     "Aim at:",
                     aimChoices,
                     defaultAim,
@@ -922,24 +919,15 @@ export class BeingLogic<
         const cardData = buildCombatCardData({
             combatResult,
             title: "Attack Result",
-            actorId: this.actor?.id ?? null,
+            actorId: this.id,
             attackerName: attackResult.speaker?.name ?? "",
-            defenderName: this.actor?.name ?? "",
+            defenderName: this.name,
             attackWeapon: attackResult.title ?? "",
             defenseLabel: `Counterstrike w/ ${entry.itemName}`,
             // The attacker's blow strikes this defender.
-            attackTarget:
-                this.actor ?
-                    { name: this.actor.name ?? "", actorUuid: this.actor.uuid }
-                :   null,
+            attackTarget: { name: this.name, actorUuid: this.data.uuid },
             // The counterstrike strikes the original attacker.
-            defendTarget:
-                rc.attacker.actor ?
-                    {
-                        name: rc.attacker.token?.name ?? "",
-                        actorUuid: rc.attacker.actor.uuid,
-                    }
-                :   null,
+            defendTarget: rc.attackerAddress,
         });
         await context.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),
@@ -1006,7 +994,7 @@ export class BeingLogic<
         const json = (context.scope as any)?.attackResultJson;
         if (!json) {
             sohl.log.uiWarn(
-                `${this.actor?.name}: automated-combat resume had no attack result to resolve.`,
+                `${this.name}: automated-combat resume had no attack result to resolve.`,
             );
             return null;
         }
@@ -1055,15 +1043,12 @@ export class BeingLogic<
         const cardData = buildCombatCardData({
             combatResult,
             title: "Attack Result",
-            actorId: this.actor?.id ?? null,
+            actorId: this.id,
             attackerName: attackResult.speaker?.name ?? "",
-            defenderName: this.actor?.name ?? "",
+            defenderName: this.name,
             attackWeapon: attackResult.title ?? "",
             defenseLabel,
-            attackTarget:
-                this.actor ?
-                    { name: this.actor.name ?? "", actorUuid: this.actor.uuid }
-                :   null,
+            attackTarget: { name: this.name, actorUuid: this.data.uuid },
         });
         await context.speaker.toChat(
             toFilePath("systems/sohl/templates/chat/attack-result-card.hbs"),

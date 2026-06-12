@@ -511,7 +511,7 @@ export class SkillLogic<
 
         // Calculate Skill Base
         this.skillBase ||= new SkillBase(this.data.skillBaseFormula, {
-            items: Array.from(this.actor?.items.values() || []),
+            attributes: this.actorLogic?.logicTypes[ITEM_KIND.ATTRIBUTE] ?? [],
         });
     }
 

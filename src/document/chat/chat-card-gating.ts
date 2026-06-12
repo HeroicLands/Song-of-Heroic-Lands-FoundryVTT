@@ -71,10 +71,10 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
         for (const b of [dodge, counter, block]) b?.remove();
     } else {
         // Owner: keep Dodge + Ignore; gate Block + Counterstrike by capability.
-        if (block && collectBlockableStrikeModes(defender).length === 0) {
+        if (block && collectBlockableStrikeModes(defender.logic).length === 0) {
             block.remove();
         }
-        if (counter && !hasMeleeAttackStrikeMode(defender)) {
+        if (counter && !hasMeleeAttackStrikeMode(defender.logic)) {
             counter.remove();
         }
     }

@@ -418,6 +418,13 @@ export interface SohlLogicData<
     name: string;
     /** The owning document's type (its actor or item kind). */
     type: string;
+    /**
+     * The owning document's globally-unique id, treated as an **opaque**
+     * identity token: pass it through (e.g. into chat-card data) and resolve it
+     * back to logic via `logicFromUuid` / `logicFromUuidSync` — never `fromUuid`
+     * it to a Foundry document inside the logic layer.
+     */
+    uuid: string;
     /** Whether the current user owns the document (edit permission). */
     isOwner: boolean;
     /** The document kind (its actor or item type id). */
