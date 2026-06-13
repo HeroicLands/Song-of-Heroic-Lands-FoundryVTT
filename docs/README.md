@@ -17,6 +17,7 @@ Design and rationale — how and why the system is built the way it is.
 - [Architecture Overview](concepts/architecture.md)
 - [Lifecycle Model](concepts/lifecycle-model.md)
 - [Assembly Architecture](concepts/assembly-architecture.md)
+- [CSS Architecture & Styleguide](concepts/css-architecture.md)
 
 ## How-to
 
