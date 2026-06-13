@@ -241,6 +241,18 @@ export class Actors {
         const merged = overlay ? deepMerge(base, overlay) : base;
         merged.type = type;
         merged._id = makeId(actorId, `${type}:${shortcode || merged.name}:${indexKey}`);
+        // Foundry's pack compiler flattens the document hierarchy into LevelDB,
+        // storing each embedded document under its own `_key`. Embedded items
+        // therefore need a hierarchical key, as do any effects they carry
+        // (re-keyed under this actor's item rather than the items-pack key they
+        // inherited). Mirrors the items pack convention in items.mjs.
+        merged._key = `!actors.items!${actorId}.${merged._id}`;
+        if (Array.isArray(merged.effects)) {
+            for (const effect of merged.effects) {
+                if (!effect?._id) continue;
+                effect._key = `!actors.items.effects!${actorId}.${merged._id}.${effect._id}`;
+            }
+        }
         return merged;
     }
 
