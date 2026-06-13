@@ -29,3 +29,10 @@
     @include meta.load-css("components/bodyloc");
     @include meta.load-css("components/effects");
 }
+
+/* Document-sheet frame layout. Loaded under the COMPOUND `.sohl.sheet` selector
+   because ApplicationV2 puts `sohl` and `sheet` on the same frame element, so the
+   descendant `.sohl .sheet` never matches. See components/_sheet.scss. */
+.sohl.sheet {
+    @include meta.load-css("components/sheet");
+}
