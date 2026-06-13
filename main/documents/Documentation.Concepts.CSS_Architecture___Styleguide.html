@@ -147,16 +147,18 @@ e.g. <code>--sohl-radius-*</code>, <code>--sohl-shadow-*</code>). Generate them 
 map-driven pattern already proven by <code>$typography-scale</code> / <code>type-style()</code> in
 <code>scss/utils/_typography.scss</code>:</p>
 <pre><code class="scss">// abstracts/_tokens.scss
-$sohl-space: (
+$space: (
     "xs": 2px,
-    "sm": 4px,
-    "md": 8px,
-    "lg": 16px,
+    "sm": 5px,
+    "md": 10px,
+    "lg": 20px,
 );
 
-.sohl {
-    @each $name, $value in $sohl-space {
-        --sohl-space-#{$name}: #{$value};
+@mixin emit-tokens {
+    :root {
+        @each $name, $value in $space {
+            --sohl-space-#{$name}: #{$value};
+        }
     }
 }
 </code><button type="button">Copy</button></pre>
@@ -168,20 +170,30 @@ $sohl-space: (
 </code><button type="button">Copy</button></pre>
 
 <p>Why custom properties (not just SCSS variables): they live at <strong>runtime</strong>, so a theme
-or a variant module can re-skin the system by overriding <code>--sohl-*</code> on <code>.sohl</code> without
-recompiling SCSS. SCSS variables remain the <strong>source of truth</strong> in the maps; the custom
-properties are the <strong>runtime surface</strong>.</p>
-<p>Declare <code>--sohl-*</code> on the <code>.sohl</code> namespace root so they cascade into every system
-surface (sheets, chat cards, standalone apps).</p>
+or a variant module can re-skin the system by overriding <code>--sohl-*</code> (on <code>:root</code> or on
+<code>.sohl</code>) without recompiling SCSS. SCSS variables remain the <strong>source of truth</strong> in the
+maps; the custom properties are the <strong>runtime surface</strong>.</p>
+<p>Emit <code>--sohl-*</code> on <strong><code>:root</code></strong> (via the <code>emit-tokens</code> mixin called once from
+<code>scss/sohl.scss</code>). <code>:root</code> is an ancestor of everything, so the tokens resolve on every
+system surface — including the <strong>unscoped</strong> global UI that SoHL restyles (chat cards,
+tooltips) which is not nested under <code>.sohl</code>. A theme can still narrow an override to
+<code>.sohl</code> if it only wants to retint SoHL's own surfaces.</p>
 <p><strong>Keep these distinct from Foundry's own variables.</strong> <code>scss/utils/_foundry-vars.scss</code>
 redefines Foundry-core properties (<code>--color-text-primary</code>, <code>--color-border-*</code>, …) so
 core UI picks up our palette. Those use Foundry's <code>--color-*</code> namespace by necessity
 and are <em>not</em> part of the <code>--sohl-*</code> token set; don't merge the two.</p>
 <a id="5-cascade-layers-layer" class="tsd-anchor"></a><h2 class="tsd-anchor-link">5. Cascade layers (<code>@layer</code>)<a href="#5-cascade-layers-layer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Decision: wrap system output in named cascade layers with a documented order.</strong></p>
-<p>Layered styles always lose to unlayered styles of the same origin. Foundry-core CSS is
-(largely) unlayered, so to <em>win</em> against core we still need real specificity — but
-<strong>within</strong> our own styles, <code>@layer</code> lets later layers beat earlier ones regardless of
-selector specificity, killing the need for <code>!important</code> and deep nesting.</p>
+<p>Foundry v14 core wraps <strong>all</strong> of its own CSS in a declared layer stack:</p>
+<pre><code class="css"><span class="hl-8">@layer</span><span class="hl-1"> reset, variables, elements, blocks, applications, compatibility, layouts, system, modules, exceptions;</span>
+</code><button type="button">Copy</button></pre>
+
+<p>Two facts drive our approach. First, <strong>unlayered styles beat every layered style of the
+same origin</strong> — so a layered SoHL rule can never be defeated by a <em>higher-specificity</em>
+SoHL rule in an <em>earlier</em> layer; layer order wins. Second, because layer precedence is
+fixed by <strong>first declaration</strong>, any layer name SoHL introduces that Foundry did not
+declare is registered <em>after</em> Foundry's entire stack. So SoHL's own <code>sohl.*</code> layers sit
+above <code>reset … system … exceptions</code>, and <strong>every <code>sohl</code> layer beats Foundry core without
+<code>!important</code> or deep nesting.</strong></p>
 <p>Declare the order once, at the top of the entry stylesheet:</p>
 <pre><code class="scss">@layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
 </code><button type="button">Copy</button></pre>
@@ -189,10 +201,13 @@ selector specificity, killing the need for <code>!important</code> and deep nest
 <p>Order rationale (earlier = lower priority): <code>base</code> (resets/overrides) → <code>layout</code>
 (structure) → <code>components</code> (widgets) → <code>apps</code> (sheet-specific tweaks override the
 generic widget) → <code>utilities</code> (single-purpose helpers win last, as intended).
-<code>abstracts/</code> is unlayered because it emits nothing.</p>
-<p>When a rule genuinely must beat unlayered Foundry-core styles, raise its <strong>specificity</strong>
-deliberately (e.g. the compound namespace selector in §6) rather than reaching for
-<code>!important</code>.</p>
+<code>abstracts/</code> is unlayered because it emits nothing; <code>@font-face</code>/icon glyphs are left
+unlayered too (no cascade competition).</p>
+<p>Because all of SoHL is layered, prefer adjusting <strong>layer placement</strong> over <code>!important</code>
+or specificity hacks when one SoHL rule must beat another. The one thing that still
+outranks a <code>sohl</code> layer is an <em>unlayered</em> rule — so avoid emitting unlayered style rules
+(beyond the deliberate <code>@font-face</code>/icon exceptions), or they will silently win over the
+whole layer stack.</p>
 <a id="6-scoping-rule--the-87-lesson-written-down" class="tsd-anchor"></a><h2 class="tsd-anchor-link">6. Scoping rule — the #87 lesson, written down<a href="#6-scoping-rule--the-87-lesson-written-down" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p>ApplicationV2 puts <strong>all</strong> of an application's option classes on the <strong>same frame
 element</strong>. So for a sheet whose classes are <code>sohl sheet</code>:</p>
 <ul>
