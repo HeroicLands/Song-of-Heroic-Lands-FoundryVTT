@@ -115,8 +115,8 @@ import {
 import {
     SohlCombatant,
     SohlCombatantDataModel,
-} from "@src/document/combatant/SohlCombatant";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+} from "@src/document/combatant/foundry/SohlCombatant";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import {
     SohlCombat,
     SohlCombatDataModel,
@@ -293,7 +293,8 @@ export const ITEM_LOGIC_DEF = {
 
 // Compile-time check: ensure every ItemKind has an ITEM_LOGIC_DEF entry.
 // If there is an ItemKind without a Logic class, this line will fail to type-check.
-const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF;
+const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> =
+    ITEM_LOGIC_DEF;
 
 /**
  * Item-kind → concrete Logic *instance* type, derived from {@link ITEM_LOGIC_DEF}.
@@ -305,7 +306,9 @@ const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF
  * passed at the call site.
  */
 export type ItemLogicByKind = {
-    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<(typeof ITEM_LOGIC_DEF)[K]>;
+    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<
+        (typeof ITEM_LOGIC_DEF)[K]
+    >;
 };
 
 export const {
@@ -698,9 +701,7 @@ export class SohlSystem {
      */
     get currentCombatCombatantLogics(): CombatantLogic[] {
         return (
-            game.combat?.combatants.map(
-                (c) => (c as SohlCombatant).logic,
-            ) ?? []
+            game.combat?.combatants.map((c) => (c as SohlCombatant).logic) ?? []
         );
     }
 

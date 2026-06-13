@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { makeCombatantLogic, makeMockActor } from "@tests/mocks/logicHarness";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import * as AutomatedCombat from "@src/document/actor/logic/automated-combat";
 
 describe("CombatantLogic", () => {

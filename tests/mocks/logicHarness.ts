@@ -14,7 +14,7 @@
 
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
 
 /**
@@ -101,14 +101,13 @@ function buildActorData(actor: any, kind: string): any {
                 // Bare stubs carry id/name on the item, not the logic; the
                 // production code reads them off the logic, so copy them down.
                 if (it?.id != null && logic.id == null) logic.id = it.id;
-                if (it?.name != null && logic.name == null) logic.name = it.name;
+                if (it?.name != null && logic.name == null)
+                    logic.name = it.name;
                 out.push(logic);
             };
             for (const it of actor.items.values())
                 add(it, it.logic, it.logic?.data?.kind ?? it.type);
-            for (const [kind, arr] of Object.entries(
-                actor.itemTypes ?? {},
-            )) {
+            for (const [kind, arr] of Object.entries(actor.itemTypes ?? {})) {
                 for (const it of (arr as any[]) ?? []) add(it, it.logic, kind);
             }
             return out;
@@ -119,7 +118,10 @@ function buildActorData(actor: any, kind: string): any {
         get: () => actor.logic,
         enumerable: false,
     });
-    Object.defineProperty(data, "actor", { get: () => actor, enumerable: false });
+    Object.defineProperty(data, "actor", {
+        get: () => actor,
+        enumerable: false,
+    });
     return data;
 }
 
@@ -355,9 +357,7 @@ export function makeCombatantLogic(
  * @param opts.actor - The token's actor mock (defaults to a fresh one).
  * @param opts.name - The token's name (defaults to the actor's name).
  */
-export function makeTokenLogic(
-    opts: { actor?: any; name?: string } = {},
-): any {
+export function makeTokenLogic(opts: { actor?: any; name?: string } = {}): any {
     const actor = opts.actor ?? makeMockActor();
     const token: any = {
         id: "token0000000mok",
@@ -423,7 +423,11 @@ export function makeAttributeStub(
         parent: { name: opts.name ?? shortcode },
         system: { shortcode },
         logic: {
-            data: { kind: "attribute", shortcode, name: opts.name ?? shortcode },
+            data: {
+                kind: "attribute",
+                shortcode,
+                name: opts.name ?? shortcode,
+            },
             score: { effective: score },
             masteryLevel: {
                 disabled: opts.disabled ?? "",

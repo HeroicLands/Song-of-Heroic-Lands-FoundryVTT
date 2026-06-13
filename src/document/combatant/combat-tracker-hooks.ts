@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import {
     MOVEMENT_MEDIUM,
     movementMediumLabels,
@@ -25,9 +25,10 @@ import {
  * computed once; per-row gating and dispatch route through the specific
  * combatant's {@link SohlCombatant.getContextOptions}.
  */
-const COMBATANT_MENU_ACTION_DEFS = CombatantLogic.defineIntrinsicActions().filter(
-    (d) => d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
-);
+const COMBATANT_MENU_ACTION_DEFS =
+    CombatantLogic.defineIntrinsicActions().filter(
+        (d) => d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+    );
 
 /**
  * Register hooks that enhance the default Foundry combat tracker and the
@@ -71,12 +72,13 @@ export function registerCombatTrackerHooks(): void {
             const displayedMedium = sys.displayedMedium ?? "terrestrial";
 
             const i18n = (game as any).i18n;
-            const factorLabel = i18n?.localize?.(
-                "SOHL.Combatant.FIELDS.moveFactor.label",
-            ) ?? "Move Factor";
-            const mediumLabel = i18n?.localize?.(
-                "SOHL.Combatant.FIELDS.displayedMedium.label",
-            ) ?? "Tracker Medium";
+            const factorLabel =
+                i18n?.localize?.("SOHL.Combatant.FIELDS.moveFactor.label") ??
+                "Move Factor";
+            const mediumLabel =
+                i18n?.localize?.(
+                    "SOHL.Combatant.FIELDS.displayedMedium.label",
+                ) ?? "Tracker Medium";
 
             const options = (
                 Object.entries(MOVEMENT_MEDIUM) as [string, string][]
@@ -116,59 +118,57 @@ export function registerCombatTrackerHooks(): void {
         },
     );
 
-    (Hooks as any).on(
-        "renderCombatTracker",
-        (_app: any, html: HTMLElement) => {
-            const combat = (game as any).combat;
-            if (!combat) return;
-            const rows = Array.from(
-                html.querySelectorAll<HTMLElement>("[data-combatant-id]"),
-            );
-            for (const row of rows) {
-                const id = row.dataset.combatantId;
-                if (!id) continue;
-                const combatant = combat.combatants?.get?.(id) as
-                    | SohlCombatant
-                    | undefined;
-                if (!combatant) continue;
+    (Hooks as any).on("renderCombatTracker", (_app: any, html: HTMLElement) => {
+        const combat = (game as any).combat;
+        if (!combat) return;
+        const rows = Array.from(
+            html.querySelectorAll<HTMLElement>("[data-combatant-id]"),
+        );
+        for (const row of rows) {
+            const id = row.dataset.combatantId;
+            if (!id) continue;
+            const combatant = combat.combatants?.get?.(id) as
+                | SohlCombatant
+                | undefined;
+            if (!combatant) continue;
 
-                // Group-name label (display only — no row grouping).
-                if (!row.querySelector(".sohl-group-chip")) {
-                    const groupName = combatant.groupId
-                        ? combat.groups?.get?.(combatant.groupId)?.name
-                        : undefined;
-                    if (groupName) {
-                        const groupChip = document.createElement("span");
-                        groupChip.classList.add("sohl-group-chip");
-                        groupChip.title = "Combat group";
-                        groupChip.textContent = groupName;
-                        const nameEl = row.querySelector(".token-name");
-                        if (nameEl) {
-                            nameEl.appendChild(groupChip);
-                        } else {
-                            row.appendChild(groupChip);
-                        }
+            // Group-name label (display only — no row grouping).
+            if (!row.querySelector(".sohl-group-chip")) {
+                const groupName =
+                    combatant.groupId ?
+                        combat.groups?.get?.(combatant.groupId)?.name
+                    :   undefined;
+                if (groupName) {
+                    const groupChip = document.createElement("span");
+                    groupChip.classList.add("sohl-group-chip");
+                    groupChip.title = "Combat group";
+                    groupChip.textContent = groupName;
+                    const nameEl = row.querySelector(".token-name");
+                    if (nameEl) {
+                        nameEl.appendChild(groupChip);
+                    } else {
+                        row.appendChild(groupChip);
                     }
                 }
-
-                const move = combatant.displayedMove;
-                if (move === null || move === undefined) continue;
-                if (row.querySelector(".sohl-move-chip")) continue;
-
-                const chip = document.createElement("span");
-                chip.classList.add("sohl-move-chip");
-                chip.title = "Computed move (ft/round)";
-                chip.textContent = `${move} ft`;
-
-                const initiative = row.querySelector(".token-initiative");
-                if (initiative) {
-                    initiative.appendChild(chip);
-                } else {
-                    row.appendChild(chip);
-                }
             }
-        },
-    );
+
+            const move = combatant.displayedMove;
+            if (move === null || move === undefined) continue;
+            if (row.querySelector(".sohl-move-chip")) continue;
+
+            const chip = document.createElement("span");
+            chip.classList.add("sohl-move-chip");
+            chip.title = "Computed move (ft/round)";
+            chip.textContent = `${move} ft`;
+
+            const initiative = row.querySelector(".token-initiative");
+            if (initiative) {
+                initiative.appendChild(chip);
+            } else {
+                row.appendChild(chip);
+            }
+        }
+    });
 }
 
 /**

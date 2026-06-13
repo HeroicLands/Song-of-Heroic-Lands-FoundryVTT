@@ -17,8 +17,8 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/SohlScene";
 import type { SohlLogic } from "@src/core/SohlLogic";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
-import type { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
+import type { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
 

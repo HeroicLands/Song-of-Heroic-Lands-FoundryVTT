@@ -55,8 +55,11 @@ import {
     isThreatening,
     THREAT_NEGATING_STATUSES,
     computeMove,
-} from "./combatant-logic";
-import type { SohlCombatant, StrikeModeRef } from "./SohlCombatant";
+} from "@src/document/combatant/combatant-logic";
+import type {
+    SohlCombatant,
+    StrikeModeRef,
+} from "@src/document/combatant/foundry/SohlCombatant";
 
 /**
  * The Foundry-free data contract for a SoHL combatant — the
@@ -200,7 +203,11 @@ export class CombatantLogic<
      * @returns `true` if they are enemies.
      */
     isEnemyOf(other: CombatantLogic): boolean {
-        return areCombatantsEnemies(this.groupId, other.groupId, other === this);
+        return areCombatantsEnemies(
+            this.groupId,
+            other.groupId,
+            other === this,
+        );
     }
 
     /**
@@ -273,9 +280,7 @@ export class CombatantLogic<
      *
      * @param context - Action context (supplies the target, scope, and chat options).
      */
-    async automatedCombatStart(
-        context: SohlActionContext<any>,
-    ): Promise<void> {
+    async automatedCombatStart(context: SohlActionContext<any>): Promise<void> {
         const actorLogic = this.actorLogic;
         if (!actorLogic) return;
 

@@ -18,8 +18,8 @@ import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { CombatantLogic } from "./CombatantLogic";
-import { chooseInitialDisplayedMedium } from "./combatant-logic";
+import type { CombatantLogic } from "../logic/CombatantLogic";
+import { chooseInitialDisplayedMedium } from "../combatant-logic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
 import {
     ITEM_KIND,
