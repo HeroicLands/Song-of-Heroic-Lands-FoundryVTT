@@ -1,0 +1,15 @@
+// Window chrome shared by every SoHL surface (sheets and the standalone apps).
+// Loaded under the plain `.sohl` scope. The sheet-frame-only overflow/padding
+// lives in layout/_sheet.scss.
+
+.window-content {
+    background: url("../assets/ui/parchment.jpg") repeat;
+    font-size: 13px;
+    color: var(--sohl-color-text-primary);
+}
+
+.print-window-content {
+    font-size: 13px;
+    color: var(--sohl-color-text-primary);
+    background: var(--sohl-color-text-inverse);
+}

@@ -1,3 +1,5 @@
+// Resource widget (timed/consumable resources and artifacts).
+
 .resource {
     display: flex;
     flex: 1;
@@ -14,21 +16,7 @@
     }
 }
 
-.resource-label {
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
 .artifact {
     padding-top: 5px;
     align-items: center;
-}
-
-.text-field {
-    align-items: top;
-
-    label {
-        font-weight: bold;
-        text-transform: uppercase;    
-    }
 }
