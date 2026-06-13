@@ -193,7 +193,7 @@ export class WeaponGearLogic<
      *   flow ({@link automatedCombatStart}) is the supported entry point.
      */
     async attack(_context: SohlActionContext): Promise<void> {
-        // TODO - Weapon direct attack
+        // TODO(#69) - Weapon direct attack
         sohl.log.uiWarn(
             `A direct attack with "${this.name}" is not yet implemented.`,
         );
@@ -208,7 +208,7 @@ export class WeaponGearLogic<
      * @remarks Not yet implemented; warns and returns.
      */
     async block(_context: SohlActionContext): Promise<void> {
-        // TODO - Weapon direct block
+        // TODO(#69) - Weapon direct block
         sohl.log.uiWarn(
             `A direct block with "${this.name}" is not yet implemented.`,
         );
@@ -223,7 +223,7 @@ export class WeaponGearLogic<
      * @remarks Not yet implemented; warns and returns.
      */
     async counterstrike(_context: SohlActionContext): Promise<void> {
-        // TODO - Weapon direct counterstrike
+        // TODO(#69) - Weapon direct counterstrike
         sohl.log.uiWarn(
             `A direct counterstrike with "${this.name}" is not yet implemented.`,
         );
