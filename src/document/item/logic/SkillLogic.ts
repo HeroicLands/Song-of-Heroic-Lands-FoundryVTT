@@ -39,7 +39,7 @@ import {
 import { AttributeLogic } from "./AttributeLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
 
-// TODO: This needs to be internationalized
+// TODO(#70): This needs to be internationalized
 const FATE_DESC_TABLE: SuccessTestResult.LimitedDescription[] = [
     {
         maxValue: -1,
@@ -216,7 +216,7 @@ export class SkillLogic<
     async fateTest(context: SohlActionContext): Promise<void> {
         if (this.fateMasteryLevel.disabled) return;
 
-        //TODO: Need to figure out which fate items to consume here
+        //TODO(#71): Need to figure out which fate items to consume here
         const fateItem = this.availableFate.find(
             (it) =>
                 (it.logic as unknown as MysteryLogic).charges.value.effective >
@@ -297,7 +297,7 @@ export class SkillLogic<
                     ),
             resultDesc:
                 isSuccess ?
-                    //TODO: "{label} increased by {incr} to {final}"
+                    //TODO(#70): "{label} increased by {incr} to {final}"
                     sohl.i18n.format(
                         "SOHL.MasteryLevel.improveSDR.increase.desc",
                         {
@@ -375,7 +375,7 @@ export class SkillLogic<
      */
     get availableFate(): SohlItem[] {
         let result: SohlItem[] = [];
-        // TODO: Implement this properly
+        // TODO(#71): Implement this properly
         // if (!this.masteryLevel.disabled && this.actor) {
         //     this.actor.allItems.forEach((it: SohlItem) => {
         //         if (it.type === ITEM_KIND.MYSTERY) {
