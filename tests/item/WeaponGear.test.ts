@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { WeaponGearLogic } from "@src/document/item/logic/WeaponGearLogic";
 import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
@@ -90,22 +90,6 @@ describe("WeaponGearLogic strike mode update payloads", () => {
 /* Class-level WeaponGearLogic tests                                  */
 /* ------------------------------------------------------------------ */
 
-/*
- * WeaponGearLogic.defineIntrinsicActions() declares the executors "attack",
- * "block", and "counterstrike", but no methods with those names exist on the
- * class (only automatedCombatStart / automatedBlockResume /
- * automatedCounterstrikeResume are implemented). SohlAction's constructor
- * throws for an INTRINSIC action whose executor names a non-existent method,
- * so constructing a WeaponGearLogic currently throws. The real definitions
- * are captured here at module scope, BEFORE any spying, and the broken
- * entries are filtered out so the rest of the class can be tested.
- */
-const realDefs = WeaponGearLogic.defineIntrinsicActions();
-const MISSING_EXECUTORS = ["attack", "block", "counterstrike"];
-const safeDefs = realDefs.filter(
-    (d) => !MISSING_EXECUTORS.includes(d.executor as string),
-);
-
 /** Default WeaponGearData fields; override per test. */
 function weaponFields(overrides: Record<string, unknown> = {}) {
     return {
@@ -186,27 +170,7 @@ describe("WeaponGearLogic", () => {
         vi.restoreAllMocks();
     });
 
-    describe("construction (real intrinsic action definitions)", () => {
-        // The attack / block / counterstrike executors are unimplemented:
-        // defineIntrinsicActions() names them but WeaponGearLogic has no
-        // methods with those names, so SohlAction's executor resolution
-        // throws during construction.
-        it("currently throws because the attack/block/counterstrike executors do not exist", () => {
-            expect(() => makeWeapon()).toThrow(/does not have a function/);
-        });
-
-        it.todo("implements the 'attack' intrinsic action executor");
-        it.todo("implements the 'block' intrinsic action executor");
-        it.todo("implements the 'counterstrike' intrinsic action executor");
-    });
-
-    describe("with the unimplemented executors filtered out", () => {
-        beforeEach(() => {
-            vi.spyOn(WeaponGearLogic, "defineIntrinsicActions").mockReturnValue(
-                safeDefs,
-            );
-        });
-
+    describe("behavior (all intrinsic actions wired)", () => {
         describe("construction", () => {
             it("constructs against a plain-object WeaponGearData (no Foundry)", () => {
                 const logic = makeWeapon();
@@ -214,9 +178,12 @@ describe("WeaponGearLogic", () => {
                 expect(logic.data.kind).toBe(ITEM_KIND.WEAPONGEAR);
             });
 
-            it("defines the automated-combat intrinsic actions plus inherited gear actions", () => {
+            it("defines the combat intrinsic actions plus inherited gear actions", () => {
                 const logic = makeWeapon();
                 for (const shortcode of [
+                    "attack",
+                    "block",
+                    "counterstrike",
                     "automatedCombatStart",
                     "automatedBlockResume",
                     "automatedCounterstrikeResume",
@@ -227,6 +194,18 @@ describe("WeaponGearLogic", () => {
                     expect(logic.actions.has(shortcode), shortcode).toBe(true);
                 }
             });
+
+            it.each(["attack", "block", "counterstrike"] as const)(
+                "%s — warns (not yet implemented)",
+                async (method) => {
+                    const logic = makeWeapon();
+                    const warn = vi.spyOn(sohl.log, "uiWarn");
+                    await expect(
+                        (logic as any)[method]({} as any),
+                    ).resolves.toBeUndefined();
+                    expect(warn).toHaveBeenCalled();
+                },
+            );
         });
 
         describe("initialize", () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
     TraumaLogic,
     SHOCK,
@@ -56,57 +56,38 @@ function makeActorWithLineage(locations: { shortcode: string }[]): any {
     return actor;
 }
 
-/*
- * TraumaLogic.defineIntrinsicActions() declares the INTRINSIC executors
- * "treatmentTest" and "healingTest", but neither exists as a method on the
- * class yet (unimplemented mechanics). SohlAction's constructor throws for
- * an INTRINSIC action whose executor is not a function on the target, so
- * the class cannot be constructed with its full intrinsic set. Tests
- * construct it with the missing executors filtered out.
- *
- * Captured BEFORE the spy below is installed.
- */
-const realDefs = TraumaLogic.defineIntrinsicActions();
-const MISSING = ["treatmentTest", "healingTest"];
-const safeDefs = realDefs.filter(
-    (d) => !MISSING.includes(d.executor as string),
-);
-
-beforeEach(() => {
-    vi.spyOn(TraumaLogic, "defineIntrinsicActions").mockReturnValue(safeDefs);
-});
-
 afterEach(() => {
     vi.restoreAllMocks();
 });
 
 describe("TraumaLogic", () => {
     describe("construction", () => {
-        it("throws with the full intrinsic action set (unimplemented executors)", () => {
-            // treatmentTest and healingTest are declared as INTRINSIC
-            // executors but do not exist as methods on TraumaLogic, so
-            // SohlAction's constructor rejects them. Remove this test once
-            // those mechanics are implemented.
-            vi.restoreAllMocks();
-            expect(() => makeTrauma()).toThrow(/does not have a function/);
-        });
-
         it("constructs against a plain-object TraumaData (no Foundry)", () => {
             const logic = makeTrauma();
             expect(logic).toBeInstanceOf(TraumaLogic);
             expect(logic.data.kind).toBe(ITEM_KIND.TRAUMA);
         });
 
-        it("builds the intrinsic action map (postfinalize from the base class)", () => {
+        it("builds the intrinsic action map (postfinalize + the test actions)", () => {
             const logic = makeTrauma();
             expect(logic.actions.has("postfinalize")).toBe(true);
-            expect(logic.actions.has("treatmenttest")).toBe(false);
-            expect(logic.actions.has("healingtest")).toBe(false);
+            expect(logic.actions.has("treatmenttest")).toBe(true);
+            expect(logic.actions.has("healingtest")).toBe(true);
         });
 
-        // Unimplemented intrinsic executors:
-        it.todo("treatmentTest — unimplemented intrinsic executor");
-        it.todo("healingTest — unimplemented intrinsic executor");
+        it("treatmentTest — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeTrauma();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.treatmentTest({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("healingTest — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeTrauma();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.healingTest({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
     });
 
     describe("initialize", () => {
