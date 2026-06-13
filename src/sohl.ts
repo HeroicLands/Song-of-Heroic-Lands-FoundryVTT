@@ -360,7 +360,9 @@ function registerSystemHooks() {
         (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
             // Per-client gating: show defender-response buttons only to the
             // defender's owner, and only the defenses they're capable of.
-            gateAutomatedDefenseButtons(element);
+            gateAutomatedDefenseButtons(element, (uuid) =>
+                foundry.utils.fromUuidSync(uuid),
+            );
 
             element.addEventListener("click", (ev) => {
                 const btn: HTMLButtonElement | null = (
