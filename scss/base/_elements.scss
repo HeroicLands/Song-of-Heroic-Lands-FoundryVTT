@@ -1,0 +1,82 @@
+// Form-element resets and defaults, scoped under `.sohl`. These are base-layer
+// rules: generic styling for inputs, selects, buttons, checkboxes, the form-group
+// layout, and the embedded TinyMCE editor area.
+
+input[type="text"],
+input[type="number"],
+select {
+    height: calc(100% - 2px);
+    border: 1px solid var(--sohl-color-bg-input);
+    background: var(--sohl-color-bg-overlay-light);
+    color: var(--sohl-color-text-primary);
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border: 1px solid var(--sohl-color-border-strong);
+    box-shadow: 0 0 8px red;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    color: var(--sohl-color-text-muted);
+}
+
+// `:disabled:hover`/`:disabled:focus` already outrank the plain `:hover`/`:focus`
+// rules above by specificity, and SoHL sits in a cascade layer that beats Foundry
+// core (which sets no `!important` here) — so the override needs none.
+input:disabled:hover,
+select:disabled:hover,
+textarea:disabled:hover,
+input:disabled:focus,
+select:disabled:focus,
+textarea:disabled:focus {
+    box-shadow: none;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+button {
+    background: var(--sohl-color-bg-overlay-medium);
+    border: 2px groove var(--sohl-color-border-subtle);
+}
+
+label.checkbox {
+    flex: auto;
+    padding: 0;
+    margin: 0;
+    height: 22px;
+    line-height: 22px;
+    font-size: 11px;
+}
+
+label.checkbox > input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0 2px 0 0;
+    position: relative;
+    top: 4px;
+}
+
+label.checkbox.right > input[type="checkbox"] {
+    margin: 0 0 0 2px;
+}
+
+label.init-checkbox {
+    flex: auto;
+    padding: 0;
+    margin: 0 0 0 2px;
+    height: 22px;
+    line-height: 22px;
+}
+
+form .form-group .form-fields {
+    justify-content: flex-start;
+}
+
+.tox .tox-edit-area {
+    padding: 0 8px;
+}

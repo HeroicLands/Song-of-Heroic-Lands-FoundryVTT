@@ -1,0 +1,15 @@
+// Generic labelled-field widgets, reused across sheets.
+
+.resource-label {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.text-field {
+    align-items: top;
+
+    label {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+}

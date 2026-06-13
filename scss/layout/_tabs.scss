@@ -1,4 +1,4 @@
-@use "../utils/typography";
+@use "../abstracts/typography";
 
 nav.tabs {
     flex: 0 0 auto;
@@ -23,6 +23,8 @@ nav.tabs {
     }
 }
 
-//.tab-body .tab {
-//    margin-right: 5px;
-//}
+.tab-body,
+.tab-body .tab,
+.tab-body .tab .editor {
+    height: 100%;
+}

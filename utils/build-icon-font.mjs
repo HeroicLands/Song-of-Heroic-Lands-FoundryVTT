@@ -17,7 +17,7 @@
  * Pipeline: SVG files -> SVG font (svgicons2svgfont) -> TTF (svg2ttf)
  * -> WOFF2 (ttf2woff2). Emits three committed artifacts:
  *   - assets/fonts/sohl-icons.woff2       (the font)
- *   - scss/utils/_icons.scss              (@font-face + .sohl-<name> rules)
+ *   - scss/abstracts/_icons.scss              (@font-face + .sohl-<name> rules)
  *   - assets/icons/icon-codepoints.json   (stable name -> codepoint map)
  *
  * The codepoint map is persisted so each icon keeps the same Private Use Area
@@ -47,7 +47,7 @@ const ICONS_DIR = "assets/icons";
 const TEMPLATES_DIR = "templates";
 const CODEPOINTS_PATH = join(ICONS_DIR, "icon-codepoints.json");
 const WOFF2_PATH = "assets/fonts/sohl-icons.woff2";
-const SCSS_PATH = "scss/utils/_icons.scss";
+const SCSS_PATH = "scss/abstracts/_icons.scss";
 const CLASS_PREFIX = "sohl-";
 const FONT_NAME = "SoHL Icons";
 const FONT_HEIGHT = 1000;
