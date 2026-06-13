@@ -45,7 +45,7 @@ jobs:
               run: npm run build
 
             - name: Build API documentation
-              run: npm run docs:html
+              run: npm run docs:prepare && npm run docs:html
 
             - name: Upload API Documentation
               if: always()
