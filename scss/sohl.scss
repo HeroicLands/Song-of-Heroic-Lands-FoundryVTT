@@ -1,38 +1,66 @@
-// Import utilities.
 @use "sass:meta";
+
+// Abstracts — no CSS output: design-token maps + the emit mixin, plus shared
+// SCSS mixins. (See abstracts/_tokens.scss and docs/concepts/css-architecture.md.)
+@use "abstracts/tokens";
+@use "utils/mixins";
+
+// @font-face declarations and icon glyphs. Left UNLAYERED on purpose: font-face
+// has no cascade competition, and the generated icon classes already use their
+// own specificity. Loaded once via @use.
 @use "utils/typography";
 @use "utils/icons";
-@use "utils/colors";
-@use "utils/mixins";
-@use "utils/variables";
-@use "utils/foundry-vars";
 
-/* Global styles */
-@use "global/window";
-@use "global/editor";
-@use "global/grid";
-@use "global/flex";
-@use "global/chat";
-@use "global/tooltip";
-@use "global/nav";
-@use "global/hotbar";
+// Render design tokens to `:root` custom properties so every surface — including
+// the unscoped global UI (chat, tooltips) — can read them and a theme can
+// override them at runtime.
+@include tokens.emit-tokens;
 
-/* Styles limited to sohl sheets */
-.sohl {
-    @include meta.load-css("components/top");
-    @include meta.load-css("components/facade");
-    @include meta.load-css("components/forms");
-    @include meta.load-css("components/resource");
-    @include meta.load-css("components/tabs");
-    @include meta.load-css("components/items");
-    @include meta.load-css("components/profile");
-    @include meta.load-css("components/bodyloc");
-    @include meta.load-css("components/effects");
+// Cascade layers. SoHL declares its own `sohl.*` layers; because they are first
+// registered AFTER Foundry core's full layer stack (reset … applications …
+// system … exceptions), every `sohl` layer beats Foundry core without
+// `!important` or deep nesting. Order is low → high priority.
+//
+// Today only `base` and `components` carry rules; `layout`, `apps`, and
+// `utilities` are declared now so the order is fixed, and the file/component
+// reorg (#92) and component extraction (#93) populate them without re-stating it.
+@layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
+
+// base — Foundry-core variable overrides and the global Foundry UI restyling
+// (window chrome, editor, chat, tooltips, nav, hotbar, grid/flex helpers). These
+// were always loaded first; keeping them in the lowest layer preserves that.
+@layer sohl.base {
+    @include meta.load-css("utils/foundry-vars");
+
+    @include meta.load-css("global/window");
+    @include meta.load-css("global/editor");
+    @include meta.load-css("global/grid");
+    @include meta.load-css("global/flex");
+    @include meta.load-css("global/chat");
+    @include meta.load-css("global/tooltip");
+    @include meta.load-css("global/nav");
+    @include meta.load-css("global/hotbar");
 }
 
-/* Document-sheet frame layout. Loaded under the COMPOUND `.sohl.sheet` selector
-   because ApplicationV2 puts `sohl` and `sheet` on the same frame element, so the
-   descendant `.sohl .sheet` never matches. See components/_sheet.scss. */
-.sohl.sheet {
-    @include meta.load-css("components/sheet");
+// components — everything scoped to the `.sohl` namespace, in its original load
+// order so the intra-`.sohl` cascade is unchanged. The document-sheet frame is
+// loaded under the COMPOUND `.sohl.sheet` selector: ApplicationV2 puts `sohl`
+// and `sheet` on the same frame element, so the descendant `.sohl .sheet` never
+// matches (see #87 and docs/concepts/css-architecture.md §6).
+@layer sohl.components {
+    .sohl {
+        @include meta.load-css("components/top");
+        @include meta.load-css("components/facade");
+        @include meta.load-css("components/forms");
+        @include meta.load-css("components/resource");
+        @include meta.load-css("components/tabs");
+        @include meta.load-css("components/items");
+        @include meta.load-css("components/profile");
+        @include meta.load-css("components/bodyloc");
+        @include meta.load-css("components/effects");
+    }
+
+    .sohl.sheet {
+        @include meta.load-css("components/sheet");
+    }
 }

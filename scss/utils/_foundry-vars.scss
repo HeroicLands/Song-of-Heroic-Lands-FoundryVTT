@@ -1,18 +1,21 @@
-@use "utils/colors" as *;
+// Map SoHL design tokens onto the Foundry-core custom properties so core UI
+// elements pick up our palette. These are Foundry's own `--color-*` names (not
+// the `--sohl-*` token namespace); they are intentionally scoped to `.sohl` so
+// we only retint our own surfaces, never the rest of the Foundry application.
 
 .sohl {
     /* Core text */
-    --color-text-primary: #{$c-text-primary};
-    --color-text-secondary: #{$c-text-secondary};
+    --color-text-primary: var(--sohl-color-text-primary);
+    --color-text-secondary: var(--sohl-color-text-secondary);
 
     /* Foundry uses these for “light on dark” cases */
-    --color-text-light-primary: #{$c-text-inverse};
-    --color-text-light-secondary: #{$c-text-inverse};
+    --color-text-light-primary: var(--sohl-color-text-inverse);
+    --color-text-light-secondary: var(--sohl-color-text-inverse);
 
     /* Borders used by core UI elements */
-    --color-border-light-primary: #{$c-border-default};
-    --color-border-light-secondary: #{$c-border-subtle};
-    --color-border-dark: #{$c-border-strong};
+    --color-border-light-primary: var(--sohl-color-border-default);
+    --color-border-light-secondary: var(--sohl-color-border-subtle);
+    --color-border-dark: var(--sohl-color-border-strong);
 
-    --color-border-highlight: #{$c-border-strong};
+    --color-border-highlight: var(--sohl-color-border-strong);
 }

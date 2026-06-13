@@ -1,18 +1,5 @@
-@use "../utils/typography";
-
-.item-form {
-    @include typography.type-style("body-text");
-}
-
 form .form-group .form-fields {
     justify-content: flex-start;
-}
-
-.macro-sheet .form-group .condition {
-    .condition {
-        height: 20%;
-        resize: none;
-    }
 }
 
 .tab-body,
