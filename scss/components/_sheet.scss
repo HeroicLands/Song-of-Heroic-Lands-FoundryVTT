@@ -109,35 +109,6 @@ span.sep {
         border-right: 2px groove colors.$c-border-subtle;
     }
 
-    .summary {
-        flex: 0 0 100%;
-        height: 40px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        border-top: 2px groove colors.$c-border-subtle;
-        border-bottom: none;
-
-        li {
-            height: calc(100% - 6px);
-            float: left;
-            margin: 2px 0;
-            padding: 0;
-            border-right: 2px groove colors.$c-border-subtle;
-            line-height: 34px;
-            color: colors.$c-text-muted;
-
-            :last-child {
-                border-right: none;
-            }
-        }
-    }
-
-    .subtype {
-        font-size: 16px;
-        font-weight: 700;
-    }
-
     .status-effects {
         display: flex;
         flex-wrap: wrap;
@@ -158,24 +129,6 @@ span.sep {
                 background: colors.$c-danger;
                 border-color: colors.$c-danger;
             }
-        }
-    }
-}
-
-.sheet-navigation {
-    flex: 0 0 30px;
-    margin-bottom: 5px;
-    font-size: 20px;
-    font-weight: 700;
-
-    .item {
-        height: 30px;
-        line-height: 32px;
-        margin: 0 24px;
-        border-bottom: 3px solid colors.$c-border-strong;
-
-        .active {
-            border-bottom: 3px solid colors.$c-danger;
         }
     }
 }
