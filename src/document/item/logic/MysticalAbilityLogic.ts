@@ -138,7 +138,7 @@ export class MysticalAbilityLogic<
     async perform(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Mystical Ability Perform
+        // TODO(#74) - Mystical Ability Perform
         sohl.log.uiWarn(
             `Performing "${this.name}" is not yet implemented.`,
         );
