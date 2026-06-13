@@ -1,0 +1,61 @@
+// Reusable list-widget scaffolding. The item, effect, and body-location lists
+// share the same skeleton — a scrollable body, a header row, an inner reset
+// list, a control cluster — and differ only in their columns and accent colors.
+// These mixins are that skeleton; the list partials consume them and add only
+// their own columns. Emits no CSS on its own (mixins only).
+
+@use "../abstracts/typography";
+
+// The outer `<ul>`/`<ol>` that holds a list's header + rows.
+@mixin scroll-body {
+    list-style: none;
+    margin: 7px 0;
+    padding: 0;
+    overflow-y: hidden;
+}
+
+// A bare inner list (no bullets, no spacing).
+@mixin reset {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+// The `<h2>` section title above a list. Color/background/border vary per list.
+@mixin section-title($color, $background, $border) {
+    flex: 1;
+    margin: 0;
+    line-height: 36px;
+    @include typography.type-style("label");
+    color: $color;
+    background-color: $background;
+    border-top: 2px groove $border;
+    border-bottom: 2px groove $border;
+    padding: 5px;
+}
+
+// The column-label header row, including the shared `h3` label styling.
+@mixin header-row($background, $border) {
+    margin: 2px 0;
+    padding: 0;
+    align-items: center;
+    background: $background;
+    border: 2px groove $border;
+    font-weight: bold;
+    line-height: 24px;
+
+    h3 {
+        margin: 0;
+        padding-left: 5px;
+        @include typography.type-style("label-small");
+    }
+}
+
+// The right-aligned control cluster at the end of a header/row. `$width` covers
+// the narrow (45px) and wide (65px) variants.
+@mixin controls($width: 45px) {
+    flex: 0 0 $width;
+    text-align: right;
+    padding-right: 5px;
+    font-size: 12px;
+}
