@@ -25,7 +25,7 @@ import {
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 /**
  * The Foundry-free data contract for a SoHL token — the {@link SohlLogicData}

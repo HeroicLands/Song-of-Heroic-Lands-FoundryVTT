@@ -26,7 +26,7 @@ import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
 import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 /**
  * Initializes the SoHL system: merges its CONFIG into Foundry's and

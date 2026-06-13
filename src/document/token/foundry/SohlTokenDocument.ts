@@ -20,7 +20,7 @@ import { SohlActionContext } from "@src/core/SohlActionContext";
 import {
     SohlTokenDocumentLogic,
     type TokenData,
-} from "@src/document/token/SohlTokenDocumentLogic";
+} from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.

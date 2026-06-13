@@ -62,6 +62,8 @@ const FOUNDRY_FREE_ZONES = [
     "src/document/actor/logic/**/*.ts",
     "src/document/combatant/logic/**/*.ts",
     "src/document/combat/logic/**/*.ts",
+    "src/document/token/logic/**/*.ts",
+    "src/document/scene/logic/**/*.ts",
     "src/domain/**/*.ts",
     "src/core/SohlLogic.ts",
     "src/core/SohlActionContext.ts",

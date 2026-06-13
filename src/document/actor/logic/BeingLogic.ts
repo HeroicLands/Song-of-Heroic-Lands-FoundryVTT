@@ -40,7 +40,7 @@ import {
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
 import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
 import {

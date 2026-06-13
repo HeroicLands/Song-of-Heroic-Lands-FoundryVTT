@@ -15,7 +15,7 @@ import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type {
     SohlItem,
     SohlItemLogic,

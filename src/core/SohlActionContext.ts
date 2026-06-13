@@ -12,7 +12,7 @@
  */
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { instanceToJSON, cloneInstance } from "@src/utils/helpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";

@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { makeTokenLogic, makeMockActor } from "@tests/mocks/logicHarness";
-import { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 import * as helpers from "@src/utils/helpers";
 
 /**

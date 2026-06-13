@@ -18,7 +18,7 @@ import {
     fvttRangeToTarget,
     type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import {
     buildAttackResult,
     buildAttackCardData,

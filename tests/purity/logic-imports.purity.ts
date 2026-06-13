@@ -49,6 +49,14 @@ const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
         "../../src/document/combat/logic/**/*.ts",
         { eager: false },
     ),
+    "token logic layer": import.meta.glob(
+        "../../src/document/token/logic/**/*.ts",
+        { eager: false },
+    ),
+    "scene logic layer": import.meta.glob(
+        "../../src/document/scene/logic/**/*.ts",
+        { eager: false },
+    ),
     "domain layer": import.meta.glob("../../src/domain/**/*.ts", {
         eager: false,
     }),

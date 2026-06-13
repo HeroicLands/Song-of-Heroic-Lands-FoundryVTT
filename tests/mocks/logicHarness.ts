@@ -15,7 +15,7 @@
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
-import { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
  * Minimal stand-in for Foundry's `Collection`: a Map whose `find`/`some`/

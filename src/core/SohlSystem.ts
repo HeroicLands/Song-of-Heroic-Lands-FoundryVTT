@@ -121,9 +121,9 @@ import {
     SohlCombat,
     SohlCombatDataModel,
 } from "@src/document/combat/foundry/SohlCombat";
-import { SohlScene } from "@src/document/scene/SohlScene";
-import { SohlSceneDataModel } from "@src/document/scene/SohlSceneDataModel";
-import { SohlSceneConfig } from "@src/document/scene/SohlSceneConfig";
+import { SohlScene } from "@src/document/scene/foundry/SohlScene";
+import { SohlSceneDataModel } from "@src/document/scene/foundry/SohlSceneDataModel";
+import { SohlSceneConfig } from "@src/document/scene/foundry/SohlSceneConfig";
 // Utilities
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
