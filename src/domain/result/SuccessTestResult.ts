@@ -384,7 +384,7 @@ export class SuccessTestResult extends TestResult {
                     throw new Error(`Invalid roll mode "${formData.rollMode}"`);
                 }
 
-                // FIXME
+                // FIXME(#75)
                 // if (isMovement(data.targetMovement)) {
                 //     this.targetMovement = data.targetMovement;
                 // } else {

@@ -2084,7 +2084,7 @@ export const {
         id: "dodgeTest",
         name: "Dodge Test",
         iconClass: "sohl-dodge",
-        // FIXME: original walked actor.items.find for a usable "Dodge" skill;
+        // FIXME(#64): original walked actor.items.find for a usable "Dodge" skill;
         // reduce to "true" until SafeExpression supports collection iteration.
         condition: "true",
         group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
