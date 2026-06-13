@@ -1,10 +1,9 @@
-@use "../utils/colors";
 @use "../utils/typography";
 
 section.highlight {
     padding: 0 5px;
-    background: colors.$c-bg-overlay-light;
-    border: 1px solid colors.$c-border-strong;
+    background: var(--sohl-color-bg-overlay-light);
+    border: 1px solid var(--sohl-color-border-strong);
 }
 
 .editor,

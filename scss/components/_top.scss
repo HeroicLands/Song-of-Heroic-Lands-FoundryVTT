@@ -1,54 +1,55 @@
-@use "../utils/colors";
-
 .window-content {
     background: url("../assets/ui/parchment.jpg") repeat;
     font-size: 13px;
-    color: colors.$c-text-primary;
+    color: var(--sohl-color-text-primary);
 }
 
 .print-window-content {
     font-size: 13px;
-    color: colors.$c-text-primary;
-    background: colors.$c-text-inverse;
+    color: var(--sohl-color-text-primary);
+    background: var(--sohl-color-text-inverse);
 }
 
 input[type="text"],
 input[type="number"],
 select {
     height: calc(100% - 2px);
-    border: 1px solid colors.$c-bg-input;
-    background: colors.$c-bg-overlay-light;
-    color: colors.$c-text-primary;
+    border: 1px solid var(--sohl-color-bg-input);
+    background: var(--sohl-color-bg-overlay-light);
+    color: var(--sohl-color-text-primary);
 }
 
 input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="text"]:focus,
 input[type="number"]:focus {
-    border: 1px solid colors.$c-border-strong;
+    border: 1px solid var(--sohl-color-border-strong);
     box-shadow: 0 0 8px red;
 }
 
 input:disabled,
 select:disabled,
 textarea:disabled {
-    color: colors.$c-text-muted;
+    color: var(--sohl-color-text-muted);
 }
 
+// `:disabled:hover`/`:disabled:focus` already outrank the plain `:hover`/`:focus`
+// rules above by specificity, and SoHL now sits in a cascade layer that beats
+// Foundry core (which sets no `!important` here) — so the override needs none.
 input:disabled:hover,
 select:disabled:hover,
 textarea:disabled:hover,
 input:disabled:focus,
 select:disabled:focus,
 textarea:disabled:focus {
-    box-shadow: none !important;
-    border: 1px solid transparent !important;
-    outline: none !important;
+    box-shadow: none;
+    border: 1px solid transparent;
+    outline: none;
 }
 
 button {
-    background: colors.$c-bg-overlay-medium;
-    border: 2px groove colors.$c-border-subtle;
+    background: var(--sohl-color-bg-overlay-medium);
+    border: 2px groove var(--sohl-color-border-subtle);
 }
 
 label.checkbox {
@@ -106,7 +107,7 @@ img.bio-image {
     flex: 0 0 200px;
     margin-right: 10px;
     object-fit: contain;
-    background: colors.$c-text-inverse;
+    background: var(--sohl-color-text-inverse);
 }
 
 label.header {
@@ -136,12 +137,12 @@ label.header {
             font-size: 16px;
             vertical-align: -0.125em;
             text-align: right;
-            color: colors.$c-text-muted;
+            color: var(--sohl-color-text-muted);
             padding-right: 5px;
         }
 
         .disabled {
-            color: colors.$c-text-muted;
+            color: var(--sohl-color-text-muted);
         }
     }
 }

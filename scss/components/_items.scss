@@ -1,4 +1,3 @@
-@use "../utils/colors";
 @use "../utils/typography";
 
 .items {
@@ -7,23 +6,23 @@
         margin: 0;
         line-height: 36px;
         @include typography.type-style("label");
-        color: colors.$c-text-primary;
-        background-color: colors.$c-bg-header;
-        border-top: 2px groove colors.$c-border-subtle;
-        border-bottom: 2px groove colors.$c-border-subtle;
+        color: var(--sohl-color-text-primary);
+        background-color: var(--sohl-color-bg-header);
+        border-top: 2px groove var(--sohl-color-border-subtle);
+        border-bottom: 2px groove var(--sohl-color-border-subtle);
         padding: 5px;
     }
 
     .danger {
-        color: colors.$c-danger;
+        color: var(--sohl-color-danger);
     }
 
     .disabled {
-        color: colors.$c-text-muted;
+        color: var(--sohl-color-text-muted);
     }
 
     .nocarry {
-        color: colors.$c-text-muted;
+        color: var(--sohl-color-text-muted);
     }
 
     .items-list {
@@ -36,8 +35,8 @@
             margin: 2px 0;
             padding: 0;
             align-items: center;
-            background: colors.$c-bg-overlay-dark;
-            border: 2px groove colors.$c-border-subtle;
+            background: var(--sohl-color-bg-overlay-dark);
+            border: 2px groove var(--sohl-color-border-subtle);
             font-weight: bold;
             line-height: 24px;
 
@@ -52,8 +51,8 @@
             }
 
             .item-name {
-                color: colors.$c-text-primary;
-                border-right: 1px solid colors.$c-border-default;
+                color: var(--sohl-color-text-primary);
+                border-right: 1px solid var(--sohl-color-border-default);
 
                 i {
                     font-size: 12px;
@@ -71,12 +70,12 @@
             }
 
             .overmaxcap {
-                color: colors.$c-danger;
+                color: var(--sohl-color-danger);
                 font-weight: bold;
             }
 
             .overencumberedcap {
-                color: colors.$c-alert;
+                color: var(--sohl-color-alert);
                 font-weight: bold;
             }
         }
@@ -92,7 +91,7 @@
             cursor: pointer;
             max-height: 30px;
             overflow: hidden;
-            border-right: 1px solid colors.$c-border-default;
+            border-right: 1px solid var(--sohl-color-border-default);
 
             h4 {
                 margin: 0;
@@ -107,7 +106,7 @@
             cursor: pointer;
             max-height: 30px;
             overflow: hidden;
-            border-right: 1px solid colors.$c-border-default;
+            border-right: 1px solid var(--sohl-color-border-default);
 
             h4 {
                 margin: 0;
@@ -120,7 +119,7 @@
 
         .detail {
             font-size: 12px;
-            border-right: 1px solid colors.$c-border-default;
+            border-right: 1px solid var(--sohl-color-border-default);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -202,7 +201,7 @@
         .item {
             line-height: 24px;
             padding: 0 2px;
-            border-bottom: 1px solid colors.$c-border-default;
+            border-bottom: 1px solid var(--sohl-color-border-default);
 
             .item-image {
                 flex: 0 0 30px;

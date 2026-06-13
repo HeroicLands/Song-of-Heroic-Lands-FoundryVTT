@@ -1,0 +1,73 @@
+// Design tokens — the single source of truth for SoHL's themeable values.
+//
+// SCSS maps below are the compile-time source (usable in loops/functions); the
+// `emit-tokens` mixin renders them to CSS custom properties on `:root` so the
+// whole UI — including unscoped surfaces like chat cards and tooltips — can read
+// them, and so a theme or variant module can re-skin at runtime by overriding
+// `--sohl-*` without recompiling. Components consume the custom properties
+// (`var(--sohl-color-*)`), never the SCSS maps directly.
+//
+// Palette rule: if a new color is needed, first try solving the problem with
+// weight, spacing, border strength, or opacity before adding hue.
+
+@use "sass:map";
+@use "../utils/typography";
+
+$colors: (
+    // Primary text
+    "text-primary": #191813, // body text
+    "text-secondary": #343225, // UI, tabs, labels
+    "text-muted": #8e8c7f, // hints, metadata, disabled
+    "text-inverse": #f6f4ea, // text on dark backgrounds
+    // Borders
+    "border-subtle": #eeede0, // separators, table lines
+    "border-default": #c9c7b8, // panels, inputs
+    "border-strong": #8a887c, // active / focus / emphasis
+    // Backgrounds
+    "bg-header": #c9c7b8,
+    "bg-overlay-light": rgba(0, 0, 0, 0.04),
+    "bg-overlay-medium": rgba(0, 0, 0, 0.08),
+    "bg-overlay-dark": rgba(0, 0, 0, 0.12),
+    "bg-input": #7a7971,
+    "bg-input-active": #d6d2b4,
+    // State
+    "warning": #a8a200,
+    "alert": #a87c00,
+    "danger": #c84a3a,
+    "success": #5f6f3a,
+    "info": #4f6b73,
+    // Indicators
+    "health-bar": #6f979a, // health/endurance bar fill
+    // Accents
+    "tooltip-bg": #c7b35a,
+    "tooltip-text": #191813,
+);
+
+$space: (
+    "xs": 2px, // tight gaps between chips/badges
+    "sm": 5px, // default control padding
+    "md": 10px, // block separation
+    "lg": 20px, // section spacing
+);
+
+$fonts: (
+    "mono": typography.$font-mono,
+    "sans": typography.$font-sans,
+    "body": typography.$font-body,
+    "title": typography.$font-title,
+);
+
+// Render every map to `--sohl-*` custom properties on :root.
+@mixin emit-tokens {
+    :root {
+        @each $name, $value in $colors {
+            --sohl-color-#{$name}: #{$value};
+        }
+        @each $name, $value in $space {
+            --sohl-space-#{$name}: #{$value};
+        }
+        @each $name, $value in $fonts {
+            --sohl-font-#{$name}: #{$value};
+        }
+    }
+}

@@ -1,4 +1,3 @@
-@use "../utils/colors";
 @use "../utils/typography";
 
 .effects {
@@ -7,19 +6,19 @@
         margin: 0;
         line-height: 36px;
         @include typography.type-style("label");
-        color: colors.$c-text-muted;
-        background-color: colors.$c-border-default;
-        border-top: 2px groove colors.$c-text-inverse;
-        border-bottom: 2px groove colors.$c-text-inverse;
+        color: var(--sohl-color-text-muted);
+        background-color: var(--sohl-color-border-default);
+        border-top: 2px groove var(--sohl-color-text-inverse);
+        border-bottom: 2px groove var(--sohl-color-text-inverse);
         padding: 5px;
     }
 
     .danger {
-        color: colors.$c-danger;
+        color: var(--sohl-color-danger);
     }
 
     .disabled {
-        color: colors.$c-text-muted;
+        color: var(--sohl-color-text-muted);
     }
 
     .effects-list {
@@ -32,8 +31,8 @@
             margin: 2px 0;
             padding: 0;
             align-items: center;
-            background: colors.$c-bg-overlay-dark;
-            border: 2px groove colors.$c-border-subtle;
+            background: var(--sohl-color-bg-overlay-dark);
+            border: 2px groove var(--sohl-color-border-subtle);
             font-weight: bold;
             line-height: 24px;
 
@@ -44,9 +43,9 @@
             }
 
             .name {
-                color: colors.$c-text-primary;
+                color: var(--sohl-color-text-primary);
                 flex: 0 0 150px;
-                border-right: 1px solid colors.$c-border-default;
+                border-right: 1px solid var(--sohl-color-border-default);
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
@@ -61,7 +60,7 @@
                 flex: 0 0 45px;
                 text-align: right;
                 padding-right: 5px;
-                color: colors.$c-text-primary;
+                color: var(--sohl-color-text-primary);
             }
         }
 
@@ -72,7 +71,7 @@
         }
 
         .effect {
-            border-bottom: 1px solid colors.$c-border-default;
+            border-bottom: 1px solid var(--sohl-color-border-default);
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -90,7 +89,7 @@
             .name {
                 flex: 0 0 150px;
                 max-height: 30px;
-                border-right: 1px solid colors.$c-border-default;
+                border-right: 1px solid var(--sohl-color-border-default);
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
@@ -107,7 +106,7 @@
 
         .detail {
             font-size: 12px;
-            border-right: 1px solid colors.$c-border-default;
+            border-right: 1px solid var(--sohl-color-border-default);
         }
 
         .ele {
@@ -152,7 +151,7 @@
             text-align: right;
             padding-right: 5px;
             font-size: 12px;
-            color: colors.$c-text-primary;
+            color: var(--sohl-color-text-primary);
 
             .effect-control {
                 flex: 0 0 22px;
