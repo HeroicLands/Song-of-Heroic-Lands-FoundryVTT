@@ -1,0 +1,237 @@
+# CSS Architecture & Styleguide
+
+> **Audience:** Anyone writing or refactoring SCSS for the SoHL system — core
+> contributors and variant-module authors.
+
+See also: [Architecture Overview](./architecture.md), [Effects Integration](../reference/effects-integration.md).
+
+This page is the **decision record and conventions** for the system's stylesheets.
+It is the foundation ratified by [epic #95](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95)
+before any code moves; the migration itself happens in its child issues (#90–#94).
+Until those land, the source under `scss/` does **not** yet match every rule below —
+this document describes the *target*, and is the contract migrations are measured
+against.
+
+> **Why this exists.** [#87](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/pull/87)
+> uncovered a whole block of sheet-layout CSS that was silently dead: `.sohl .sheet`
+> (descendant) can never match an ApplicationV2 frame, because Foundry puts `sohl`
+> and `sheet` on the *same* element. That symptom sat on top of years of accreted
+> structure — dead selectors, near-duplicate widget blocks, mixed-concern files, and
+> ad-hoc naming. The rules here exist so that class of bug cannot recur and so the
+> stylesheets stay extensible.
+
+## 1. Tooling — stay on SCSS (Dart Sass)
+
+**Decision: keep SCSS; modernize how we use it.**
+
+SCSS is the right tool for a Foundry system and we are not switching:
+
+- Foundry loads a **single compiled stylesheet** per `system.json` `styles[]`
+  (`css/sohl.css`). SCSS compiles the whole `scss/` graph to that one file — exactly
+  the model Foundry expects.
+- The codebase leans on SCSS features that have no plain-CSS equivalent: the
+  `@use`/`@forward` module graph, mixins, and **generation loops/maps** — e.g.
+  `scss/utils/_icons.scss` (~688 LOC of auto-generated font-icon classes) and the
+  `$typography-scale` map + `type-style()` mixin in `scss/utils/_typography.scss`
+  (~383 LOC).
+
+We do **not** adopt:
+
+- **Tailwind** — fights Foundry's owned/Handlebars-rendered DOM and scatters styling
+  into templates as utility-class soup.
+- **CSS-in-JS / CSS Modules** — there is no component tree to hook; styling targets
+  Foundry-rendered markup.
+
+The modern move is to keep SCSS for structure/loops and adopt the **native-CSS**
+features that fix our actual pain: **custom properties** (tokens + runtime theming),
+**`@layer`** (beat Foundry-core specificity predictably), and **`:where()`** (low
+specificity scoping). These are covered below.
+
+## 2. Folder architecture (ITCSS-inspired / 7-1)
+
+Source lives under `scss/`, organized by **role**, loaded lowest-output-first so the
+cascade reads top-to-bottom. Target folders:
+
+| Folder        | Holds                                                                 | Emits CSS? |
+| ------------- | -------------------------------------------------------------------- | ---------- |
+| `abstracts/`  | Design tokens, SCSS variables/maps, functions, mixins                | No         |
+| `base/`       | Resets, element defaults, Foundry-core variable overrides            | Yes        |
+| `layout/`     | Structural skeleton: sheet frame, window-content, tabs, grid         | Yes        |
+| `components/` | Reusable widgets: item-row, list, header, resource, field, effect, body-location | Yes |
+| `apps/`       | Sheet-type-specific tweaks: being, item sheets, standalone apps      | Yes        |
+| `utilities/`  | Single-purpose helpers: flex, spacing                                | Yes        |
+
+**`abstracts/` must emit no CSS** — importing it has zero output, so it can be
+`@use`-d freely from any partial without duplicating rules.
+
+Migration map from the current layout:
+
+- `scss/utils/` → `abstracts/` (tokens, maps, mixins, functions) — except the parts
+  that emit rules, which move to where their output belongs.
+- `scss/global/` → split across `base/` (resets, Foundry overrides, `chat`, `editor`,
+  `tooltip`, `hotbar`), `layout/` (`window`, `nav`, `grid`), and `utilities/` (`flex`).
+- `scss/components/` → `components/` (reusable widgets) and `apps/` (sheet-type-specific
+  blocks such as the being sheet and the various item sheets).
+
+## 3. Naming — BEM under the `.sohl` namespace
+
+**Decision: BEM (`block__element--modifier`), everything namespaced under `.sohl`.**
+
+Retire ad-hoc, type-suffixed, and abbreviated names. Examples of the transform:
+
+| Current (ad-hoc)           | Target (BEM)                                        |
+| -------------------------- | --------------------------------------------------- |
+| `.sheet-header-being`      | `.sohl-sheet__header--being`                        |
+| `.header-fields`           | `.sohl-sheet__fields`                               |
+| `.charname`                | `.sohl-sheet__name`                                 |
+| `.bodylocation-name`       | `.sohl-body-location__name`                         |
+| `.items-list` / `.item`    | `.sohl-list` / `.sohl-list__item`                   |
+
+Conventions:
+
+- One **block** per reusable widget (`sohl-list`, `sohl-header`, `sohl-field`,
+  `sohl-resource`, `sohl-effect`, `sohl-body-location`).
+- **Elements** are parts of a block (`__name`, `__value`, `__header`). **Modifiers**
+  are variants/state (`--being`, `--active`, `--danger`).
+- Prefer a modifier over a near-duplicate block. Two header blocks that differ only by
+  context become one `sohl-header` block with a modifier.
+
+**Do not rename data hooks or localization keys.** `data-*` attributes consumed by
+`src/` and `lang/en.json` keys are part of the system's contract and stay stable
+(see the backwards-compatibility and stable-localization-keys rules in `CLAUDE.md`).
+BEM applies to **class names only**.
+
+## 4. Design tokens as CSS custom properties
+
+**Decision: expose design tokens as `--sohl-*` custom properties, generated from SCSS
+maps.**
+
+Token families: `--sohl-color-*`, `--sohl-space-*`, `--sohl-font-*` (extend as needed,
+e.g. `--sohl-radius-*`, `--sohl-shadow-*`). Generate them from SCSS maps using the same
+map-driven pattern already proven by `$typography-scale` / `type-style()` in
+`scss/utils/_typography.scss`:
+
+```scss
+// abstracts/_tokens.scss
+$sohl-space: (
+    "xs": 2px,
+    "sm": 4px,
+    "md": 8px,
+    "lg": 16px,
+);
+
+.sohl {
+    @each $name, $value in $sohl-space {
+        --sohl-space-#{$name}: #{$value};
+    }
+}
+```
+
+```scss
+// consumed in a component
+.sohl-list__item {
+    padding: var(--sohl-space-sm) var(--sohl-space-md);
+}
+```
+
+Why custom properties (not just SCSS variables): they live at **runtime**, so a theme
+or a variant module can re-skin the system by overriding `--sohl-*` on `.sohl` without
+recompiling SCSS. SCSS variables remain the **source of truth** in the maps; the custom
+properties are the **runtime surface**.
+
+Declare `--sohl-*` on the `.sohl` namespace root so they cascade into every system
+surface (sheets, chat cards, standalone apps).
+
+**Keep these distinct from Foundry's own variables.** `scss/utils/_foundry-vars.scss`
+redefines Foundry-core properties (`--color-text-primary`, `--color-border-*`, …) so
+core UI picks up our palette. Those use Foundry's `--color-*` namespace by necessity
+and are *not* part of the `--sohl-*` token set; don't merge the two.
+
+## 5. Cascade layers (`@layer`)
+
+**Decision: wrap system output in named cascade layers with a documented order.**
+
+Layered styles always lose to unlayered styles of the same origin. Foundry-core CSS is
+(largely) unlayered, so to *win* against core we still need real specificity — but
+**within** our own styles, `@layer` lets later layers beat earlier ones regardless of
+selector specificity, killing the need for `!important` and deep nesting.
+
+Declare the order once, at the top of the entry stylesheet:
+
+```scss
+@layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
+```
+
+Order rationale (earlier = lower priority): `base` (resets/overrides) → `layout`
+(structure) → `components` (widgets) → `apps` (sheet-specific tweaks override the
+generic widget) → `utilities` (single-purpose helpers win last, as intended).
+`abstracts/` is unlayered because it emits nothing.
+
+When a rule genuinely must beat unlayered Foundry-core styles, raise its **specificity**
+deliberately (e.g. the compound namespace selector in §6) rather than reaching for
+`!important`.
+
+## 6. Scoping rule — the #87 lesson, written down
+
+ApplicationV2 puts **all** of an application's option classes on the **same frame
+element**. So for a sheet whose classes are `sohl sheet`:
+
+- `.sohl .sheet` — **descendant**, expects `sheet` *inside* `sohl`. **Never matches.** ❌
+- `.sohl.sheet` — **compound**, matches the one element carrying both classes. ✅
+
+**Rule: target frame/option classes with a compound selector, never a descendant.**
+The live example is the entry stylesheet, where sheet-frame layout is loaded under the
+compound selector precisely for this reason (`scss/sohl.scss`):
+
+```scss
+/* Loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2 puts
+   `sohl` and `sheet` on the same frame element. */
+.sohl.sheet {
+    @include meta.load-css("components/sheet");
+}
+```
+
+**Keep specificity low with `:where()`.** When scoping by namespace but not trying to
+out-specify anything, wrap the namespace in `:where()` so it contributes zero
+specificity and stays easy to override:
+
+```scss
+:where(.sohl) .sohl-list__item { /* low-specificity, easy to theme */ }
+```
+
+Reserve plain `.sohl` (specificity-bearing) for rules that must actually win against
+core.
+
+## 7. Module loading — `@use`/`@forward`, with `meta.load-css` only for scoped output
+
+**Decision: `@use`/`@forward` is the canonical module graph. Use `meta.load-css` only
+when output must be emitted *inside* a selector scope.**
+
+The current entry mixes both (`scss/sohl.scss`): top-level utilities/globals via `@use`,
+sheet components via `@include meta.load-css(...)` nested inside `.sohl { }` and
+`.sohl.sheet { }`. Resolve it as:
+
+- **`@use` / `@forward`** for the dependency graph — abstracts, base, layout, and any
+  partial whose selectors already carry their own scope. Expose tokens/mixins through a
+  single barrel (`abstracts/_index.scss` that `@forward`s the token, function, and mixin
+  partials), so consumers write one `@use "abstracts" as *;`.
+- **`@include meta.load-css("…")`** *only* where a partial's rules must be wrapped in a
+  selector at load time — i.e. emitting a component's output inside `.sohl { }` or
+  `.sohl.sheet { }`. This is the deliberate exception, not the default.
+
+Authoring convention going forward: a new partial defines selectors that are already
+fully scoped (BEM block under the namespace) and is pulled in with `@use`; reach for
+`meta.load-css` only when wrapping is unavoidable.
+
+## 8. Migration
+
+This page is decisions only. The implementation is sequenced across epic #95:
+
+- **#90** — remove dead SCSS, verified against templates.
+- **#91** — design-token + cascade-layer + scoping foundation (§4, §5, §6).
+- **#92** — reorganize files/folders to §2.
+- **#93** — extract reusable component partials (list/header/field).
+- **#94** — apply BEM naming (§3) and sync templates/`src/` selectors.
+
+Until each lands, expect `scss/` to lag this document. When they conflict, **this
+document is the target** and the code is what still needs migrating.
