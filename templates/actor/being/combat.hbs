@@ -11,7 +11,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab combat" data-tab="combat">
+<section class="tab combat{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="combat">
     {{#if isGM}}
     {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
     <fieldset class="sohl-default-combat-group">
