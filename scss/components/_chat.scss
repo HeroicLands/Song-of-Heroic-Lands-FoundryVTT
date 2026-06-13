@@ -1,4 +1,4 @@
-@use "../utils/typography";
+@use "../abstracts/typography";
 
 .chat-card {
     @include typography.type-style("chat-body");

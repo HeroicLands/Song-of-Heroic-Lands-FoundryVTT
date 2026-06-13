@@ -11,7 +11,7 @@
 // weight, spacing, border strength, or opacity before adding hue.
 
 @use "sass:map";
-@use "../utils/typography";
+@use "../abstracts/typography";
 
 $colors: (
     // Primary text

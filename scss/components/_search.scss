@@ -1,0 +1,55 @@
+// Search/filter bar used on container and list sheets, plus the small image and
+// header helpers that sit alongside it.
+
+.search-bar {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding-bottom: 5px;
+}
+
+img.bio-image {
+    flex: 0 0 200px;
+    margin-right: 10px;
+    object-fit: contain;
+    background: var(--sohl-color-text-inverse);
+}
+
+label.header {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+    padding-left: 4px;
+}
+
+.search-items {
+    display: flex;
+    padding-bottom: 2px;
+
+    .search-criteria {
+        flex: 1 0 100px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    .search-controls {
+        flex: 0 0 25px;
+        text-align: right;
+        line-height: var(--form-field-height);
+
+        .search-control {
+            flex: 0 0 22px;
+            font-size: 16px;
+            vertical-align: -0.125em;
+            text-align: right;
+            color: var(--sohl-color-text-muted);
+            padding-right: 5px;
+        }
+
+        .disabled {
+            color: var(--sohl-color-text-muted);
+        }
+    }
+}
