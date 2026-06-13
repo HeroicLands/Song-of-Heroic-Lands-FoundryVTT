@@ -355,7 +355,7 @@ export class AfflictionLogic<
     async fatigueTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Affliction Fatigue Test
+        // TODO(#68) - Affliction Fatigue Test
         sohl.log.uiWarn("Affliction Fatigue Test is not yet implemented.");
         return null;
     }
@@ -372,7 +372,7 @@ export class AfflictionLogic<
     async moraleTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Affliction Morale Test
+        // TODO(#68) - Affliction Morale Test
         sohl.log.uiWarn("Affliction Morale Test is not yet implemented.");
         return null;
     }
@@ -389,7 +389,7 @@ export class AfflictionLogic<
     async fearTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Affliction Fear Test
+        // TODO(#68) - Affliction Fear Test
         sohl.log.uiWarn("Affliction Fear Test is not yet implemented.");
         return null;
     }

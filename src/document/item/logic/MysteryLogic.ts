@@ -111,7 +111,7 @@ export class MysteryLogic<
      * @remarks Not yet implemented; warns and returns.
      */
     async useMystery(_context: SohlActionContext): Promise<void> {
-        // TODO - Use Mystery
+        // TODO(#72) - Use Mystery
         sohl.log.uiWarn(`Using "${this.name}" is not yet implemented.`);
     }
 

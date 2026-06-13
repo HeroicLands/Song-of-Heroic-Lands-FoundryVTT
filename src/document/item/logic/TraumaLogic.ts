@@ -96,7 +96,7 @@ export class TraumaLogic<
     async treatmentTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Trauma Treatment Test
+        // TODO(#73) - Trauma Treatment Test
         sohl.log.uiWarn("Trauma Treatment Test is not yet implemented.");
         return null;
     }
@@ -113,7 +113,7 @@ export class TraumaLogic<
     async healingTest(
         _context: SohlActionContext,
     ): Promise<SuccessTestResult | null> {
-        // TODO - Trauma Healing Test
+        // TODO(#73) - Trauma Healing Test
         sohl.log.uiWarn("Trauma Healing Test is not yet implemented.");
         return null;
     }
