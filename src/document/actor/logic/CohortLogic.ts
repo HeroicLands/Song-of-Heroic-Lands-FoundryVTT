@@ -67,7 +67,7 @@ import {
  * @typeParam TData - The Cohort data interface.
  */
 /**
- * TODO: Shared Gear Tab
+ * TODO(#76): Shared Gear Tab
  * The Cohort sheet should provide a "Shared Gear" tab that aggregates
  * gear items from all member actors whose `sharedWithCohortIds` includes
  * this cohort's actor ID. This gives a single-glance view of all

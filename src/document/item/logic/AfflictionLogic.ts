@@ -183,7 +183,7 @@ export class AfflictionLogic<
      * @remarks Not yet implemented; always returns `true`.
      */
     get canTransmit(): boolean {
-        // TODO - Implement Affliction canTransmit
+        // TODO(#67) - Implement Affliction canTransmit
         return true;
     }
 
@@ -193,7 +193,7 @@ export class AfflictionLogic<
      * @remarks Not yet implemented; always returns `true`.
      */
     get canContract(): boolean {
-        // TODO - Implement Affliction canContract
+        // TODO(#67) - Implement Affliction canContract
         return true;
     }
 
@@ -204,7 +204,7 @@ export class AfflictionLogic<
      * @remarks Not yet implemented; always returns `true`.
      */
     get hasCourse(): boolean {
-        // TODO - Implement Affliction hasCourse
+        // TODO(#67) - Implement Affliction hasCourse
         return true;
     }
 
@@ -214,7 +214,7 @@ export class AfflictionLogic<
      * @remarks Not yet implemented; always returns `true`.
      */
     get canTreat(): boolean {
-        // TODO - Implement Affliction canTreat
+        // TODO(#67) - Implement Affliction canTreat
         return true;
     }
 
@@ -224,7 +224,7 @@ export class AfflictionLogic<
      * @remarks Not yet implemented; always returns `true`.
      */
     get canHeal(): boolean {
-        // TODO - Implement Affliction canHeal
+        // TODO(#67) - Implement Affliction canHeal
         return true;
     }
 
@@ -239,7 +239,7 @@ export class AfflictionLogic<
             type = `affliction-${this.name}-transmit`,
             title = `${this.label} Transmit`,
         } = context;
-        // TODO - Affliction Transmit
+        // TODO(#68) - Affliction Transmit
         sohl.log.warn("Affliction Transmit Not Implemented");
     }
 
@@ -259,7 +259,7 @@ export class AfflictionLogic<
             title = `${this.label} Contract Test`,
         } = context;
 
-        // TODO - Affliction Contract Test
+        // TODO(#68) - Affliction Contract Test
         throw new Error("Affliction Contract Test Not Implemented");
     }
 
@@ -279,7 +279,7 @@ export class AfflictionLogic<
             title = `${this.label} Course Test`,
         } = context;
 
-        // TODO - Affliction Course Test
+        // TODO(#68) - Affliction Course Test
         throw new Error("Affliction Course Test Not Implemented");
     }
 
@@ -299,7 +299,7 @@ export class AfflictionLogic<
             title = `${this.label} Diagnosis Test`,
         } = context;
 
-        // TODO - Affliction Diagnosis Test
+        // TODO(#68) - Affliction Diagnosis Test
         throw new Error("Affliction Diagnosis Test Not Implemented");
     }
 
@@ -319,7 +319,7 @@ export class AfflictionLogic<
             title = `${this.label} Treatment Test`,
         } = context;
 
-        // TODO - Affliction Treatment Test
+        // TODO(#68) - Affliction Treatment Test
         throw new Error("Affliction Treatment Test Not Implemented");
     }
 
@@ -339,7 +339,7 @@ export class AfflictionLogic<
             title = `${this.label} Healing Test`,
         } = context;
 
-        // TODO - Affliction Healing Test
+        // TODO(#68) - Affliction Healing Test
         throw new Error("Affliction Healing Test Not Implemented");
     }
 
@@ -428,7 +428,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-heart-beats",
                 executor: "courseTest",
-                // FIXME: original gated on actor's endurance and item.system.isDormant;
+                // FIXME(#65): original gated on actor's endurance and item.system.isDormant;
                 // reduced to "true" pending a proper implementation.
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -470,7 +470,7 @@ export class AfflictionLogic<
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-caduceus",
                 executor: "treatmentTest",
-                // FIXME: original gated on actor's "pysn" skill and item.system.isBleeding;
+                // FIXME(#65): original gated on actor's "pysn" skill and item.system.isBleeding;
                 // reduced to "true" pending a proper implementation.
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
@@ -490,7 +490,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.HEALINGTEST",
                 iconFAClass: "sohl-healing",
                 executor: "healingTest",
-                // FIXME: original gated on actor's endurance and item.system.isBleeding;
+                // FIXME(#65): original gated on actor's endurance and item.system.isBleeding;
                 // reduced to "true" pending a proper implementation.
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,

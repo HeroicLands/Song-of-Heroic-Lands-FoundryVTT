@@ -29,7 +29,7 @@ import {
 } from "@src/utils/constants";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 
-// TODO: This needs to be internationalized
+// TODO(#70): This needs to be internationalized
 const STANDARD_SUCCESS_VALUE_TABLE: SuccessTestResult.LimitedDescription[] = [
     {
         maxValue: 0,
@@ -393,7 +393,7 @@ export class MasteryLevelModifier extends ValueModifier {
      * @returns The evaluated {@link SuccessTestResult}, `null` if cancelled, or
      *   `false` on error.
      */
-    // TODO(doc): the locally-built success-value scope (svTable / targetValueFunc)
+    // TODO(#78): the locally-built success-value scope (svTable / targetValueFunc)
     // is not currently passed into successTest — confirm the intended wiring.
     async successValueTest(
         context: SohlActionContext,
