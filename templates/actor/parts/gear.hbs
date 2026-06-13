@@ -11,7 +11,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab gear" data-tab="gear">
+<section class="tab gear{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="gear">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-gear" value=""
             aria-label="Search Gear" placeholder="Search Gear" autocomplete="off" />

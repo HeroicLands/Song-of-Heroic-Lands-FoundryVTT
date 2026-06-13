@@ -24,7 +24,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab members" data-tab="members">
+<section class="tab members{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="members">
     {{!-- Leader and Movement Rep --}}
     {{#if leaderName}}
     <div class="cohort-info flexrow">
