@@ -17,7 +17,7 @@ import {
     type ExistingGroup,
     type SeedingCombatant,
     resolveGroupSeeding,
-} from "./combat-logic";
+} from "../logic/combat-logic";
 
 /**
  * SoHL's Combat document. Seeds newly created combatants into

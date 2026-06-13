@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveGroupSeeding } from "@src/document/combat/combat-logic";
+import { resolveGroupSeeding } from "@src/document/combat/logic/combat-logic";
 
 describe("resolveGroupSeeding", () => {
     it("creates a group for a single new combatant and assigns it", () => {

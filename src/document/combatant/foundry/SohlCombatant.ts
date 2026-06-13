@@ -20,7 +20,7 @@ import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { CombatantLogic } from "../logic/CombatantLogic";
 import { chooseInitialDisplayedMedium } from "../logic/CombatantLogic";
-import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
+import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,

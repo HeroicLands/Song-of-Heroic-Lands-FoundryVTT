@@ -120,7 +120,7 @@ import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import {
     SohlCombat,
     SohlCombatDataModel,
-} from "@src/document/combat/SohlCombat";
+} from "@src/document/combat/foundry/SohlCombat";
 import { SohlScene } from "@src/document/scene/SohlScene";
 import { SohlSceneDataModel } from "@src/document/scene/SohlSceneDataModel";
 import { SohlSceneConfig } from "@src/document/scene/SohlSceneConfig";
@@ -701,7 +701,8 @@ export class SohlSystem {
      */
     get currentCombatCombatantLogics(): CombatantLogic[] {
         return (
-            game.combat?.combatants.map((c) => (c as SohlCombatant).logic) ?? []
+            game.combat?.combatants.map((c: any) => (c as SohlCombatant).logic) ??
+            []
         );
     }
 
