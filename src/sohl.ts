@@ -25,6 +25,7 @@ import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
 import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
+import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 
 /**
  * Initializes the SoHL system: merges its CONFIG into Foundry's and
@@ -34,6 +35,12 @@ import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    // TokenDocument is not a typed document (no `system` DataModel), so it is
+    // registered directly here rather than through a `sohl.CONFIG` block. This
+    // makes canvas tokens `SohlTokenDocument` instances, giving them the
+    // transient `.logic` adapter and `onChatCardButton` that the opposed-test
+    // flow dispatches to.
+    CONFIG.Token.documentClass = SohlTokenDocument as any;
     sohl.setupSheets();
     console.log("Song of Heroic Lands | System initialized");
     return sohl;

@@ -337,7 +337,7 @@ export class SohlActor extends Actor {
     getToken(): SohlTokenDocument | null {
         // Case 1: synthetic (unlinked) actor -> has a backing TokenDocument
         if (this.isToken && this.token) {
-            return this.token; // TokenDocument
+            return this.token as SohlTokenDocument; // TokenDocument
         }
 
         // Case 2: linked actor -> find an active-scene token linked to this actor
@@ -348,7 +348,7 @@ export class SohlActor extends Actor {
             (td) => td.actorLink && td.actorId === this.id,
         );
 
-        return linkedTokens[0] ?? null;
+        return (linkedTokens[0] as SohlTokenDocument) ?? null;
     }
 
     /**

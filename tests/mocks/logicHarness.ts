@@ -15,6 +15,7 @@
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
 
 /**
  * Minimal stand-in for Foundry's `Collection`: a Map whose `find`/`some`/
@@ -342,6 +343,54 @@ export function makeCombatantLogic(
     const logic = new CombatantLogic({}, { parent: data });
     data.logic = logic;
     combatant.logic = logic;
+    return logic;
+}
+
+/**
+ * Construct a {@link SohlTokenDocumentLogic} over a transient {@link TokenData}
+ * port backed by a mock token document. `actorLogic` resolves to the supplied
+ * (or a fresh) mock actor's logic, so the opposed-test methods can read the
+ * actor's skills/attributes.
+ *
+ * @param opts.actor - The token's actor mock (defaults to a fresh one).
+ * @param opts.name - The token's name (defaults to the actor's name).
+ */
+export function makeTokenLogic(
+    opts: { actor?: any; name?: string } = {},
+): any {
+    const actor = opts.actor ?? makeMockActor();
+    const token: any = {
+        id: "token0000000mok",
+        name: opts.name ?? actor.name,
+        documentName: "Token",
+        isOwner: true,
+        actor,
+        getFlag: vi.fn(() => undefined),
+        setFlag: vi.fn(async () => undefined),
+        update: vi.fn(async (data: any) => data),
+    };
+    const data: any = {
+        id: token.id,
+        name: token.name,
+        type: "token",
+        uuid: `Token.${token.id}`,
+        isOwner: true,
+        kind: "token",
+        shortcode: "token",
+        actionDefs: [],
+        getFlag: token.getFlag,
+        setFlag: token.setFlag,
+        update: token.update,
+        parent: token,
+        logic: null,
+    };
+    Object.defineProperty(data, "actorLogic", {
+        get: () => actor.logic,
+        enumerable: false,
+    });
+    const logic = new SohlTokenDocumentLogic({}, { parent: data });
+    data.logic = logic;
+    token.logic = logic;
     return logic;
 }
 

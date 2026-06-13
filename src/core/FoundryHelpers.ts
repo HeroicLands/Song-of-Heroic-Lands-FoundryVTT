@@ -18,6 +18,9 @@ import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlScene } from "@src/document/scene/SohlScene";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlTokenDocumentLogic } from "@src/document/token/SohlTokenDocumentLogic";
 
 /**
  * Foundry VTT runtime shim.
@@ -729,6 +732,52 @@ export function getActiveScene(): Scene | null {
 export function getActiveCombat(): Combat | null {
     if (!(game instanceof foundry.Game)) return null;
     return (game.combat as Combat | undefined) ?? null;
+}
+
+/**
+ * The {@link CombatantLogic} for the given actor's combatant in the active
+ * combat, or `null` when the game is unavailable, no combat is active, or the
+ * actor is not a combatant. The actor's active token (when one exists) is used
+ * to disambiguate; otherwise the first combatant for the actor is taken.
+ *
+ * Lets Foundry-free logic (e.g. weapon/technique item logic) reach the
+ * combatant action layer without touching `game`/`canvas` directly.
+ * @param actor - The actor whose active combatant to resolve.
+ * @returns The combatant's logic, or `null`.
+ */
+export function fvttActiveCombatantForActor(
+    actor: SohlActor | null,
+): CombatantLogic | null {
+    if (!actor) return null;
+    const combat = getActiveCombat();
+    if (!combat) return null;
+    const tokenId = (actor.getActiveTokens?.()?.[0] as any)?.document?.id;
+    const combatants = combat.combatants as any;
+    const combatant = (combatants.find?.(
+        (c: any) =>
+            (tokenId != null && c.tokenId === tokenId) ||
+            c.actor?.id === actor.id,
+    ) ?? null) as SohlCombatant | null;
+    return (combatant?.logic as CombatantLogic | undefined) ?? null;
+}
+
+/**
+ * The {@link SohlTokenDocumentLogic} for the given actor's active token on the
+ * canvas, or `null` when the game is unavailable or the actor has no token.
+ *
+ * Lets Foundry-free logic (e.g. skill/attribute item logic) reach the
+ * token-logic layer — where opposed tests live — without touching `canvas`.
+ * @param actor - The actor whose active token logic to resolve.
+ * @returns The token's logic, or `null`.
+ */
+export function fvttActiveTokenLogicForActor(
+    actor: SohlActor | null,
+): SohlTokenDocumentLogic | null {
+    if (!actor) return null;
+    const token = (actor.getActiveTokens?.()?.[0] as any)?.document as
+        | { logic?: SohlTokenDocumentLogic }
+        | undefined;
+    return token?.logic ?? null;
 }
 
 // ---------------------------------------------------------------------------

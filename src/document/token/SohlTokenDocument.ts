@@ -16,11 +16,97 @@ import {
     fvttGetTargetedTokens,
     fvttRangeToTarget,
 } from "@src/core/FoundryHelpers";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import {
+    SohlTokenDocumentLogic,
+    type TokenData,
+} from "@src/document/token/SohlTokenDocumentLogic";
 
 /**
  * A helper class for working with TokenDocument instances in the SoHL system.
  */
 export class SohlTokenDocument extends TokenDocument {
+    /** Cached transient {@link SohlTokenDocumentLogic} for this token. */
+    private _sohlLogic: SohlTokenDocumentLogic | null = null;
+
+    /**
+     * This token's {@link SohlTokenDocumentLogic}, built lazily over a transient
+     * {@link SohlLogicData} adapter. Tokens are not typed documents, so (unlike
+     * actors/items/combatants) the logic is not created by `SohlDataModel`; the
+     * adapter derives identity from the live token and resolves `actorLogic`
+     * from `token.actor`. No SoHL state is persisted on the token.
+     */
+    get logic(): SohlTokenDocumentLogic {
+        if (!this._sohlLogic) {
+            const token = this;
+            const data: TokenData = {
+                parent: token,
+                logic: null as any,
+                id: token.id ?? "",
+                name: token.name ?? "",
+                type: "token",
+                uuid: token.uuid,
+                isOwner: token.isOwner,
+                kind: "token",
+                shortcode: "token",
+                actionDefs: [],
+                get actorLogic() {
+                    return (token.actor as any)?.logic ?? null;
+                },
+                getFlag: (scope: string, key: string) =>
+                    (token as any).getFlag(scope, key),
+                setFlag: (scope: string, key: string, value: unknown) =>
+                    (token as any).setFlag(scope, key, value),
+                update: (d: object) => (token as any).update(d),
+            } as TokenData;
+            const logic = new SohlTokenDocumentLogic({}, { parent: data });
+            data.logic = logic;
+            this._sohlLogic = logic;
+        }
+        return this._sohlLogic;
+    }
+
+    /**
+     * Dispatch a chat-card button click to this token's logic — the opposed-test
+     * resume lives on {@link SohlTokenDocumentLogic} as an intrinsic action, and
+     * the opposed-request card's Respond button addresses the target token. The
+     * button's dataset becomes the action's `scope`. Mirrors
+     * {@link SohlCombatant.onChatCardButton}.
+     * @param btn - The clicked chat-card button element.
+     */
+    async onChatCardButton(btn: HTMLElement): Promise<void> {
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        const context = new SohlActionContext({
+            speaker: this.logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            scope: { ...btn.dataset },
+        });
+
+        const action =
+            this.logic.actions.get(actionName) ??
+            [...this.logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (this.logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(this.logic, context);
+        } else {
+            sohl.log.warn(
+                `SoHL | ${this.name} (Token) received unhandled chat-card action "${actionName}".`,
+            );
+        }
+    }
     /**
      * Gets the user-targeted tokens.
      *
@@ -63,7 +149,7 @@ export class SohlTokenDocument extends TokenDocument {
                     );
                 }
 
-                result = [selectedTokens[0].document];
+                result = [selectedTokens[0].document as SohlTokenDocument];
             } else {
                 result = selectedTokens.map(
                     (t) => t.document,

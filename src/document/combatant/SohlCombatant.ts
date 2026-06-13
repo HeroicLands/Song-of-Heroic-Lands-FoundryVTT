@@ -93,6 +93,18 @@ export class SohlCombatant<
         }
     }
 
+    /**
+     * Begin an automated attack with this combatant as the attacker — the
+     * single entry point for combat start. Delegates to
+     * {@link CombatantLogic.automatedCombatStart}; the per-weapon and
+     * per-technique item actions route here, passing their source logic and
+     * strike mode in the context scope.
+     * @param context - The action context (target, scope, chat options).
+     */
+    async automatedCombatStart(context: SohlActionContext): Promise<void> {
+        await this.logic.automatedCombatStart(context);
+    }
+
     /** The strike mode last used to attack, or `null` (combat-scoped). */
     get lastAttackMode(): StrikeModeRef | null {
         return this.logic.lastAttackMode;

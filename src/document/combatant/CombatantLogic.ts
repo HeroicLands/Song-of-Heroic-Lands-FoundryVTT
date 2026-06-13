@@ -35,6 +35,8 @@ import {
     buildAimChoices,
     pickChoice,
     resolveCounterstrikeContext,
+    startAutomatedAttackFromCombatant,
+    startAutomatedAttackFromItem,
 } from "@src/document/actor/logic/automated-combat";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
@@ -251,6 +253,54 @@ export class CombatantLogic<
     get spacesMovedThisTurn(): number {
         const c = this.combatant;
         return c ? combatantSpacesMoved(c, this.data.startLocation) : 0;
+    }
+
+    // --- Automated combat start (attacker side) ------------------------------
+
+    /**
+     * Begin an automated attack — the **single entry point** for combat start.
+     * The combatant *is* the attacker (`this`), so the attacker token/combatant
+     * and its strike-mode capability come from `this`/`this.actorLogic`.
+     *
+     * Branches on the action scope:
+     * - **item-logic-scoped** — `scope.logicUuid` names the source weapon /
+     *   combat-technique logic (with an optional `scope.smId` strike mode); only
+     *   that item's in-range modes are offered. Used when the
+     *   {@link WeaponGearLogic}/{@link CombatTechniqueLogic} `automatedCombatStart`
+     *   actions delegate into the combatant.
+     * - **combatant-scoped** — no `logicUuid`; every in-range mode across the
+     *   combatant's weapons and combat techniques is offered.
+     *
+     * @param context - Action context (supplies the target, scope, and chat options).
+     */
+    async automatedCombatStart(
+        context: SohlActionContext<any>,
+    ): Promise<void> {
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+
+        const logicUuid = (context.scope as any)?.logicUuid as
+            | string
+            | undefined;
+        if (logicUuid) {
+            const itemLogic = (actorLogic as BeingLogic).allLogics.find(
+                (l) => l.uuid === logicUuid,
+            );
+            if (!itemLogic) {
+                sohl.log.uiWarn(
+                    `${this.name} has no item matching the requested attack.`,
+                );
+                return;
+            }
+            await startAutomatedAttackFromItem(
+                itemLogic,
+                itemLogic.name,
+                context,
+            );
+            return;
+        }
+
+        await startAutomatedAttackFromCombatant(this, context);
     }
 
     // --- Automated combat resume (defender side) -----------------------------
@@ -656,6 +706,16 @@ export class CombatantLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlLogic.defineIntrinsicActions(),
+            {
+                shortcode: "automatedCombatStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.ACTION.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-crossed-swords",
+                executor: "automatedCombatStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
             {
                 shortcode: "automatedBlockResume",
                 subType: ACTION_SUBTYPE.INTRINSIC,

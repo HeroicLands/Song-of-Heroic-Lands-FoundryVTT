@@ -27,7 +27,7 @@ import {
 import { SohlAction } from "@src/domain/action/SohlAction";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import type { CombatResult } from "@src/domain/result/CombatResult";
-import { startAutomatedAttackFromItem } from "@src/document/actor/logic/automated-combat";
+import { fvttActiveCombatantForActor } from "@src/core/FoundryHelpers";
 
 /**
  * A specialized combat maneuver or fighting style not tied to a specific
@@ -56,16 +56,26 @@ export class CombatTechniqueLogic<
     /* --------------------------------------------- */
 
     /**
-     * Present a dialog asking the player to select the appropriate strike mode
-     * to use to begin automated combat, then delegate processing of the combat start to
-     * the selected strike mode's item.
+     * Begin automated combat with this combat technique. Delegates into the
+     * attacker's {@link CombatantLogic.automatedCombatStart} action — the single
+     * combat-start entry point — passing this technique's `logicUuid` (and any
+     * `smId` already in scope) so only this technique's in-range strike modes are
+     * offered.
      *
      * @param context - Action context driving the automated combat start.
      */
     async automatedCombatStart(
         context: SohlActionContext<EmptyObject>,
     ): Promise<void> {
-        await startAutomatedAttackFromItem(this, this.name, context);
+        const combatantLogic = fvttActiveCombatantForActor(this.actor);
+        if (!combatantLogic) {
+            sohl.log.uiWarn(
+                `${this.name} cannot start automated combat: its actor is not in the active combat.`,
+            );
+            return;
+        }
+        (context.scope as PlainObject).logicUuid = this.uuid;
+        await combatantLogic.automatedCombatStart(context);
     }
 
     /**

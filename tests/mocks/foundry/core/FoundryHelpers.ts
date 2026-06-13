@@ -269,6 +269,14 @@ export function getActiveCombat(): any {
     return null;
 }
 
+export function fvttActiveCombatantForActor(_actor: any): any {
+    return null;
+}
+
+export function fvttActiveTokenLogicForActor(_actor: any): any {
+    return null;
+}
+
 // ---------------------------------------------------------------------------
 // Pack / compendium helpers
 // ---------------------------------------------------------------------------

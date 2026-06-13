@@ -31,7 +31,11 @@ import { FilePath, toFilePath } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import type { SohlItem } from "../foundry/SohlItem";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
-import { fvttGetSetting, fvttIsCurrentUserGM } from "@src/core/FoundryHelpers";
+import {
+    fvttGetSetting,
+    fvttIsCurrentUserGM,
+    fvttActiveTokenLogicForActor,
+} from "@src/core/FoundryHelpers";
 import { AttributeLogic } from "./AttributeLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
 
@@ -152,16 +156,27 @@ export class SkillLogic<
     /**
      * Begins an opposed test backed by this skill's mastery level.
      *
-     * Intrinsic-action executor for the `opposedTestStart` action; delegates
-     * to {@link MasteryLevelModifier.opposedTestStart}.
+     * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
+     * are token-based: this delegates into the actor's token logic
+     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this skill's
+     * `logicUuid` as the source — exactly as the weapon/technique combat actions
+     * delegate into the combatant.
      *
      * @param context - The action context (speaker, scope) for the test.
-     * @returns The opposed test result, or `null` if cancelled.
+     * @returns The opposed test result, or `null` if cancelled or unavailable.
      */
     async opposedTestStart(
         context: SohlActionContext,
     ): Promise<OpposedTestResult | null> {
-        return this.masteryLevel.opposedTestStart(context);
+        const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
+        if (!tokenLogic) {
+            sohl.log.uiWarn(
+                `${this.name} cannot start an opposed test: its actor has no token on the canvas.`,
+            );
+            return null;
+        }
+        (context.scope as PlainObject).logicUuid = this.uuid;
+        return tokenLogic.opposedTestStart(context);
     }
 
     /**

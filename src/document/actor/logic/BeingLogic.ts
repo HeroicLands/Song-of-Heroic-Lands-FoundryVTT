@@ -13,7 +13,6 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import { CombatResult } from "@src/domain/result/CombatResult";
 import {
@@ -41,7 +40,6 @@ import {
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
 import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
-import { startAutomatedAttackFromActor } from "@src/document/actor/logic/automated-combat";
 import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
@@ -459,110 +457,6 @@ export class BeingLogic<
     }
 
     /**
-     * Present a dialog asking the player to Select the appropriate item to use
-     * for the opposed test, then delegate processing of the opposed request to that item.
-     *
-     * @remarks
-     * One of `priorTestResult` or `sourceSuccessTestResult` must be supplied in `context.scope`:
-     * - `priorTestResult` is the prior opposed test result that is being retried
-     * - `sourceSuccessTestResult` is the result of the test that initiated the opposed test
-     *
-     * @param context - Action context carrying the prior/source test result in its scope.
-     * @param [context.scope.priorTestResult] A prior opposed test result that is being retried.
-     * @param [context.scope.sourceSuccessTestResult] The original test result that initiated the opposed test; used to help select the appropriate item for the resume.
-     */
-    async opposedTestResume(
-        context: SohlActionContext<Partial<OpposedTestResult.ContextScope>>,
-    ): Promise<void> {
-        const { priorTestResult, sourceSuccessTestResult } = context.scope;
-        if (!priorTestResult && !sourceSuccessTestResult) {
-            throw new Error(
-                "opposedTestResume requires priorTestResult or sourceSuccessTestResult in scope.",
-            );
-        }
-        // const sourceItem = priorTestResult.sourceTestResult.item;
-        // const skill = await Utility.getOpposedItem({
-        //     actor: this.parent,
-        //     label: _l(
-        //         "SOHL.Actor.being.opposedTestResume.getOpposedItem.label",
-        //     ),
-        //     title: _l(
-        //         "SOHL.Actor.being.opposedTestResume.getOpposedItem.title",
-        //         {
-        //             name: token.name,
-        //         },
-        //     ),
-        //     func: (it) => {
-        //         let result = false;
-        //         if (
-        //             (it.system instanceof TraitItemData &&
-        //                 it.system.intensity === "attribute" &&
-        //                 !it.system.$masteryLevel.disabled) ||
-        //             it.system instanceof SkillItemData
-        //         ) {
-        //             const name = _l(
-        //                 "SOHL.Actor.being.opposedTestResume.getOpposedItem.attributeLabel",
-        //                 {
-        //                     name: it.name,
-        //                     ml: it.system.$masteryLevel.effective,
-        //                 },
-        //             );
-        //             result = {
-        //                 key: name,
-        //                 value: {
-        //                     name,
-        //                     uuid: it.uuid,
-        //                     value: it.system.$masteryLevel,
-        //                     item: it,
-        //                 },
-        //             };
-        //         }
-        //         return result;
-        //     },
-        //     compareFn: (a, b) => {
-        //         if (
-        //             a.value.item.type === sourceItem.type &&
-        //             a.value.item.name === sourceItem.name
-        //         )
-        //             return -1; // Move item to the front
-        //         if (
-        //             b.value.item.type === sourceItem.type &&
-        //             b.value.item.name === sourceItem.name
-        //         )
-        //             return -1; // Move item to the front
-        //         return 0; // Keep relative order for other items
-        //     },
-        // });
-        // if (skill === null) {
-        //     return null;
-        // } else if (skill === false) {
-        //     ui.notifications.warn(
-        //         _l(
-        //             "SOHL.Actor.being.opposedTestResume.getOpposedItem.noUsableSkills",
-        //             { name: token.name },
-        //         ),
-        //     );
-        //     return null;
-        // } else {
-        //     skill.system.execute("opposedTestResume", options);
-        // }
-        return;
-    }
-
-    /**
-     * Present a dialog asking the player to select the appropriate strike mode
-     * to use to begin automated combat, then delegate processing of the combat start to
-     * the selected strike mode's item.
-     *
-     * @param context - Action context driving the automated combat start.
-     */
-    async automatedCombatStart(
-        context: SohlActionContext<EmptyObject>,
-    ): Promise<void> {
-        await startAutomatedAttackFromActor(this, context);
-    }
-
-    /**
      * Define and return all intrinsic actions for this logic type.
      * @returns A map of action shortcodes to their definitions
      */
@@ -638,16 +532,6 @@ export class BeingLogic<
                 executor: "contractAfflictionTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
-            },
-            {
-                shortcode: "opposedTestResume",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Being.Action.opposedTestResume",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-continue",
-                executor: "opposedTestResume",
-                visible: "false",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
             },
         ];
     }

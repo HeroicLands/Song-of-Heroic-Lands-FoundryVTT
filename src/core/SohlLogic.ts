@@ -124,6 +124,11 @@ export abstract class SohlLogic<
         return this.data.id as DocumentId;
     }
 
+    /** The owning document's UUID — the opaque identity token from the data port. */
+    get uuid(): string {
+        return this.data.uuid;
+    }
+
     /** The owning document's name. */
     get name(): string {
         return this.data.name;

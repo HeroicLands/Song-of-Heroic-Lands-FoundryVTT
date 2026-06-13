@@ -90,9 +90,8 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
         this.target = null;
         if (target) {
             if (target instanceof foundry.canvas.placeables.Token) {
-                this.target = (
-                    target as foundry.canvas.placeables.Token
-                ).document;
+                this.target = (target as foundry.canvas.placeables.Token)
+                    .document as SohlTokenDocument;
             } else {
                 const type = (target as any).documentName;
                 if (type === "Token") {
@@ -102,7 +101,7 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
                         target as SohlActor
                     ).getActiveTokens();
                     if (tokens.length) {
-                        this.target = tokens[0].document;
+                        this.target = tokens[0].document as SohlTokenDocument;
                     }
                 } else {
                     throw new Error(
