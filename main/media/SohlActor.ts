@@ -58,7 +58,7 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  *
  * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
  * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
- * TODO: The remaining Foundry-coupled contents (SohlActor Document, SohlActorDataModel,
+ * TODO(#77): The remaining Foundry-coupled contents (SohlActor Document, SohlActorDataModel,
  * SohlActorSheetBase) could still be split into separate files per concern.
  */
 export class SohlActor extends Actor {
@@ -309,7 +309,7 @@ export class SohlActor extends Actor {
      * @param btn The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        // TODO: Handle chat card edit actions here
+        // TODO(#66): Handle chat card edit actions here
         console.log("Edit action clicked:", btn);
     }
 

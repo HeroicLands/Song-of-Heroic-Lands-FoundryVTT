@@ -23,8 +23,6 @@ import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
 import { GearLogic } from "../logic/GearLogic";
 const { HTMLField } = foundry.data.fields;
-// TODO: This still uses the deprecated global TextEditor. Should use the
-// FoundryHelpers shim (enrichHTML) like Being.ts does, for consistency.
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlItem>;
@@ -32,7 +30,7 @@ type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
 
 // NOTE: The Foundry-free contracts (SohlItemLogic, SohlItemData, SohlItemBaseLogic)
 // now live in src/document/item/logic/SohlItemBaseLogic.ts and are re-exported here.
-// TODO: The remaining Foundry-coupled contents (SohlItem Document, SohlItemDataModel,
+// TODO(#77): The remaining Foundry-coupled contents (SohlItem Document, SohlItemDataModel,
 // SohlItemSheetBase) could still be split into separate files per concern.
 /**
  * Base class for all Item documents in the SoHL system — affiliations,
@@ -265,7 +263,7 @@ export class SohlItem extends Item {
      * @param btn The button element that was clicked.
      */
     async onChatCardEditAction(btn: HTMLElement): Promise<void> {
-        // TODO: Handle chat card edit actions here
+        // TODO(#66): Handle chat card edit actions here
         console.log("Edit action clicked:", btn);
     }
 
