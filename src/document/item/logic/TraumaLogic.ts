@@ -12,6 +12,8 @@
  */
 
 import type { SohlAction } from "@src/domain/action/SohlAction";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import type { BodyLocation } from "@src/domain/body/BodyLocation";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
@@ -81,6 +83,40 @@ export class TraumaLogic<
      * than a specific location. Recomputed in {@link evaluate}.
      */
     bodyLocation: BodyLocation | undefined;
+
+    /**
+     * Roll the treatment test, applying medical care to this trauma.
+     *
+     * Intrinsic-action executor for the `treatmenttest` action.
+     *
+     * @param _context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async treatmentTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Trauma Treatment Test
+        sohl.log.uiWarn("Trauma Treatment Test is not yet implemented.");
+        return null;
+    }
+
+    /**
+     * Roll the healing test, resolving natural recovery from this trauma.
+     *
+     * Intrinsic-action executor for the `healingtest` action.
+     *
+     * @param _context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async healingTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Trauma Healing Test
+        sohl.log.uiWarn("Trauma Healing Test is not yet implemented.");
+        return null;
+    }
 
     /**
      * Define and return all intrinsic actions for trauma logic, adding the

@@ -184,6 +184,52 @@ export class WeaponGearLogic<
     ): Promise<void> {}
 
     /**
+     * Make a direct (non-automated) attack with this weapon.
+     *
+     * Intrinsic-action executor for the `attack` action.
+     *
+     * @param _context - The action context driving the attack.
+     * @remarks Not yet implemented; warns and returns. The automated combat
+     *   flow ({@link automatedCombatStart}) is the supported entry point.
+     */
+    async attack(_context: SohlActionContext): Promise<void> {
+        // TODO - Weapon direct attack
+        sohl.log.uiWarn(
+            `A direct attack with "${this.name}" is not yet implemented.`,
+        );
+    }
+
+    /**
+     * Make a direct (non-automated) block with this weapon.
+     *
+     * Intrinsic-action executor for the `block` action.
+     *
+     * @param _context - The action context driving the block.
+     * @remarks Not yet implemented; warns and returns.
+     */
+    async block(_context: SohlActionContext): Promise<void> {
+        // TODO - Weapon direct block
+        sohl.log.uiWarn(
+            `A direct block with "${this.name}" is not yet implemented.`,
+        );
+    }
+
+    /**
+     * Make a direct (non-automated) counterstrike with this weapon.
+     *
+     * Intrinsic-action executor for the `counterstrike` action.
+     *
+     * @param _context - The action context driving the counterstrike.
+     * @remarks Not yet implemented; warns and returns.
+     */
+    async counterstrike(_context: SohlActionContext): Promise<void> {
+        // TODO - Weapon direct counterstrike
+        sohl.log.uiWarn(
+            `A direct counterstrike with "${this.name}" is not yet implemented.`,
+        );
+    }
+
+    /**
      * Define and return all intrinsic actions for weapon gear logic, adding
      * the combat actions (attack, automated combat start/resume, etc.) to
      * those inherited from the base gear logic.

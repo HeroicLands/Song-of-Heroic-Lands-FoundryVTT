@@ -1,23 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysticalAbilityLogic } from "@src/document/item/logic/MysticalAbilityLogic";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
-
-/*
- * MysticalAbilityLogic declares a "perform" intrinsic action whose executor
- * names a method ("perform") that does not exist on the class yet — the
- * intrinsic-actions wiring is incomplete. SohlAction's constructor throws
- * for INTRINSIC actions whose executor cannot be resolved, so constructing
- * MysticalAbilityLogic with its real action definitions currently throws.
- *
- * The real definitions are captured here at module scope (before any
- * spying), and most tests bypass the broken definition via a
- * defineIntrinsicActions spy. One unmocked test below documents the throw.
- */
-const realDefs = MysticalAbilityLogic.defineIntrinsicActions();
-const safeDefs = realDefs.filter((d) => d.executor !== "perform");
 
 /** Default MysticalAbilityData fields; override per test. */
 function abilityFields(overrides: Record<string, unknown> = {}) {
@@ -86,28 +72,23 @@ function makeMysteryStubOnActor(actor: any, shortcode: string) {
     return logic;
 }
 
-beforeEach(() => {
-    vi.spyOn(MysticalAbilityLogic, "defineIntrinsicActions").mockReturnValue(
-        safeDefs,
-    );
-});
-
 afterEach(() => {
     vi.restoreAllMocks();
 });
 
 describe("MysticalAbilityLogic", () => {
     describe("construction", () => {
-        it("throws with the real intrinsic actions (perform executor is unimplemented)", () => {
-            // Remove the defineIntrinsicActions bypass installed by
-            // beforeEach: full construction currently throws because the
-            // "perform" intrinsic action names a method that does not exist
-            // on MysticalAbilityLogic (intrinsic-actions wiring incomplete).
-            vi.restoreAllMocks();
-            expect(() => makeAbility()).toThrow(/does not have a function/);
+        it("constructs with its real intrinsic actions (perform is wired)", () => {
+            const logic = makeAbility();
+            expect(logic.actions.has("perform")).toBe(true);
         });
 
-        it.todo("perform — unimplemented intrinsic executor");
+        it("perform — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeAbility();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.perform({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
 
         it("constructs against a plain-object MysticalAbilityData (no Foundry)", () => {
             const logic = makeAbility();
