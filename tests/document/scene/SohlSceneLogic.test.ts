@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { SohlSceneLogic } from "@src/document/scene/SohlSceneLogic";
+import { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
 
 function makeData(isTotm: boolean) {
     return { isTotm } as any;

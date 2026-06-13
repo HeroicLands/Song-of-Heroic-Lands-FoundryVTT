@@ -18,7 +18,7 @@ import {
     fvttRangeToTarget,
     type DialogButtonCallback,
 } from "@src/core/FoundryHelpers";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import {
     buildAttackResult,
     buildAttackCardData,
@@ -40,7 +40,7 @@ import {
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import type { AttackResult } from "@src/domain/result/AttackResult";
 
 /**
@@ -644,22 +644,22 @@ export function resolveAttackerToken(
 }
 
 /**
- * Actor-level entry: resolve the target + distance, gather every **in-range**
- * attackable mode across the actor's weapons and combat techniques, then choose
- * and run. A wholly out-of-range target short-circuits.
- * @param actorLogic - The attacking actor's logic.
+ * Combatant-level entry: resolve the target + distance, gather every
+ * **in-range** attackable mode across the combatant's weapons and combat
+ * techniques, then choose and run. A wholly out-of-range target short-circuits.
+ * @param combatantLogic - The attacking combatant's logic.
  * @param context - The action context (supplies the target, scope, and chat options).
  */
-export async function startAutomatedAttackFromActor(
-    actorLogic: SohlLogic,
+export async function startAutomatedAttackFromCombatant(
+    combatantLogic: SohlLogic,
     context: SohlActionContext<any>,
 ): Promise<void> {
-    const actor = actorLogic.actor as any;
+    const actor = combatantLogic.actor as any;
     const rc = resolveAttackContext(actor, context);
     if (!rc) return;
 
     const modes = collectAttackableStrikeModes(
-        actorLogic.actorLogic!,
+        combatantLogic.actorLogic!,
         rc.distanceFeet,
     );
     if (modes.length === 0) {

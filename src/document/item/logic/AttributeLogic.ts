@@ -14,6 +14,15 @@
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { SohlItemBaseLogic, type SohlItemData } from "./SohlItemBaseLogic";
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { OpposedTestResult } from "@src/domain/result/OpposedTestResult";
+import { SohlAction } from "@src/domain/action/SohlAction";
+import { fvttActiveTokenLogicForActor } from "@src/core/FoundryHelpers";
+import {
+    ACTION_SUBTYPE,
+    SOHL_ACTION_SCOPE,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
 
 /**
  * An innate characteristic.
@@ -81,6 +90,55 @@ export class AttributeLogic<
                 (vd) => vd.label !== label,
             ),
         };
+    }
+
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Begins an opposed test backed by this attribute's mastery level.
+     *
+     * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
+     * are token-based: this delegates into the actor's token logic
+     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this attribute's
+     * `logicUuid` as the source — the same delegation the skill uses.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The opposed test result, or `null` if cancelled or unavailable.
+     */
+    async opposedTestStart(
+        context: SohlActionContext,
+    ): Promise<OpposedTestResult | null> {
+        const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
+        if (!tokenLogic) {
+            sohl.log.uiWarn(
+                `${this.name} cannot start an opposed test: its actor has no token on the canvas.`,
+            );
+            return null;
+        }
+        (context.scope as PlainObject).logicUuid = this.uuid;
+        return tokenLogic.opposedTestStart(context);
+    }
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns The attribute intrinsic-action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "opposedTestStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Skill.Action.opposedTestStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-confrontation",
+                executor: "opposedTestStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
+        ];
     }
 
     /* --------------------------------------------- */

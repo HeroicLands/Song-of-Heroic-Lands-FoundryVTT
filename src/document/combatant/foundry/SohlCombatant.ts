@@ -17,8 +17,10 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlActionContext } from "@src/core/SohlActionContext";
-import type { CombatantLogic } from "./CombatantLogic";
-import { chooseInitialDisplayedMedium } from "./combatant-logic";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { CombatantLogic } from "../logic/CombatantLogic";
+import { chooseInitialDisplayedMedium } from "../logic/CombatantLogic";
+import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -91,6 +93,120 @@ export class SohlCombatant<
                 `SoHL | ${this.name} (Combatant) received unhandled chat-card action "${actionName}".`,
             );
         }
+    }
+
+    /**
+     * Begin an automated attack with this combatant as the attacker — the
+     * single entry point for combat start. Delegates to
+     * {@link CombatantLogic.automatedCombatStart}; the per-weapon and
+     * per-technique item actions route here, passing their source logic and
+     * strike mode in the context scope.
+     * @param context - The action context (target, scope, chat options).
+     */
+    async automatedCombatStart(context: SohlActionContext): Promise<void> {
+        await this.logic.automatedCombatStart(context);
+    }
+
+    /**
+     * The context-menu entries for this combatant — the combatant's available
+     * actions. Delegates to {@link CombatantLogic.getContextOptions} (the shared
+     * {@link SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
+     * tracker's row context menu is built from these.
+     * @returns The combatant's context-menu entries.
+     */
+    getContextOptions(): SohlContextMenu.Entry[] {
+        return this.logic.getContextOptions();
+    }
+
+    /**
+     * Prompt the GM to move this combatant into an existing {@link CombatantGroup}
+     * or a new one, then apply the assignment. Selecting the combatant's current
+     * group is a no-op. Backs the `moveToGroup` intrinsic action.
+     */
+    async moveToGroup(): Promise<void> {
+        const combat = this.combat as any;
+        if (!combat) return;
+
+        const groups = (combat.groups?.contents ?? []) as any[];
+        const currentId = this.groupId;
+
+        const options = groups
+            .map((g) => {
+                const sel = g.id === currentId ? " selected" : "";
+                return `<option value="${escapeAttr(g.id)}"${sel}>${escapeHtml(
+                    g.name,
+                )}</option>`;
+            })
+            .join("");
+
+        const content = `
+            <div class="form-group">
+                <label>Group</label>
+                <div class="form-fields">
+                    <select name="group">
+                        ${options}
+                        <option value="__new__">➕ New group…</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>New group name</label>
+                <div class="form-fields">
+                    <input type="text" name="newName" placeholder="${DEFAULT_COMBAT_GROUP}">
+                </div>
+            </div>
+        `;
+
+        const result = await (foundry.applications.api.DialogV2 as any).wait({
+            window: { title: "Move to Group" },
+            content,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Move",
+                    icon: "sohl-check",
+                    default: true,
+                    callback: (_event: Event, button: any) => {
+                        const form = button.form as HTMLFormElement;
+                        return {
+                            group: (
+                                form.elements.namedItem(
+                                    "group",
+                                ) as HTMLSelectElement
+                            )?.value,
+                            newName: (
+                                form.elements.namedItem(
+                                    "newName",
+                                ) as HTMLInputElement
+                            )?.value,
+                        };
+                    },
+                },
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    icon: "sohl-xmark",
+                },
+            ],
+            close: () => null,
+        });
+
+        if (!result || result === "cancel") return;
+
+        let targetGroupId: string | undefined;
+        if (result.group === "__new__") {
+            const name = result.newName?.trim() || DEFAULT_COMBAT_GROUP;
+            const [created] = (await combat.createEmbeddedDocuments(
+                "CombatantGroup",
+                [{ name }],
+            )) as any[];
+            targetGroupId = created?.id;
+        } else {
+            targetGroupId = result.group || undefined;
+        }
+
+        if (!targetGroupId || targetGroupId === currentId) return;
+        await this.update({ group: targetGroupId } as any);
     }
 
     /** The strike mode last used to attack, or `null` (combat-scoped). */
@@ -295,6 +411,27 @@ export class SohlCombatant<
 }
 
 /**
+ * Escape a string for safe use inside an HTML attribute value.
+ * @param value - The raw string to escape.
+ * @returns The string with `&` and `"` escaped as HTML entities.
+ */
+function escapeAttr(value: string): string {
+    return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
+/**
+ * Escape a string for safe use as HTML text content.
+ * @param value - The raw string to escape.
+ * @returns The string with `&`, `<`, and `>` escaped as HTML entities.
+ */
+function escapeHtml(value: string): string {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+/**
  * Builds the Foundry data schema for the SoHL combatant: turn start location,
  * action flag, move factor, displayed medium, and last attack/block strike modes.
  * @returns The combatant data schema.
@@ -382,6 +519,48 @@ export class SohlCombatantDataModel<
     displayedMedium!: MovementMedium;
     lastAttackMode!: StrikeModeRef | null;
     lastBlockMode!: StrikeModeRef | null;
+
+    // --- Derived Foundry-side facts (the combatant data port) ----------------
+    // These expose live document/scene state to the Foundry-free CombatantLogic
+    // through the SohlLogicData port, so the logic never reads the combatant
+    // document directly.
+
+    /**
+     * This combatant's {@link CombatantGroup} id, or `null` when ungrouped.
+     *
+     * @remarks
+     * `_source.group` is the canonical stored id. Core's `_prepareGroup()`
+     * reassigns the derived `group` to the resolved group document when it
+     * resolves but leaves it as the raw id (or null) otherwise — so reading
+     * `_source` first avoids that heterogeneity.
+     */
+    get groupId(): string | null {
+        const c = this.parent as any;
+        const src = c?._source?.group;
+        if (typeof src === "string" && src) return src;
+        const g = c?.group;
+        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
+        if (typeof g === "string" && g) return g;
+        return null;
+    }
+
+    /** Whether this combatant is defeated (Foundry's DEFEATED special status). */
+    get isDefeated(): boolean {
+        return !!(this.parent as any)?.isDefeated;
+    }
+
+    /** The active status-effect ids on this combatant's actor. */
+    get statuses(): Set<string> {
+        return (
+            ((this.parent as any)?.actor?.statuses as Set<string>) ??
+            new Set<string>()
+        );
+    }
+
+    /** Whether this combatant's token is hidden from players. */
+    get isHidden(): boolean {
+        return !!(this.parent as any)?.token?.hidden;
+    }
 
     /**
      * Returns the Foundry data schema for the SoHL combatant data model.

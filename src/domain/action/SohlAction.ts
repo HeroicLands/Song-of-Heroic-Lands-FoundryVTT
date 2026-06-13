@@ -351,8 +351,8 @@ export namespace SohlAction {
  * trigger`:
  *
  * 1. The visibility source is evaluated as a SafeExpression with
- *    `{element, item}` (its public contract). If false, the action is
- *    hidden.
+ *    `{element, item, isGM}` (its public contract; `isGM` reflects whether
+ *    the current user is a GM). If false, the action is hidden.
  * 2. For `SCRIPT` subtypes, the current user must satisfy
  *    `data.minActorOwnership` against the surrounding actor (see
  *    {@link userMeetsExecutePermission}). This mirrors `execute()`'s
@@ -394,6 +394,7 @@ function compileVisibility(
             const visible = !!expression.evaluate({
                 element,
                 item,
+                isGM: !!fvttCurrentUser()?.isGM,
             });
             if (!visible) return false;
             const actor = resolveContextActor(element) ?? item?.actor;

@@ -3,7 +3,7 @@ import {
     areCombatantsEnemies,
     isThreatening,
     THREAT_NEGATING_STATUSES,
-} from "@src/document/combatant/combatant-logic";
+} from "@src/document/combatant/logic/CombatantLogic";
 
 describe("areCombatantsEnemies", () => {
     it("returns false when comparing a combatant to itself", () => {

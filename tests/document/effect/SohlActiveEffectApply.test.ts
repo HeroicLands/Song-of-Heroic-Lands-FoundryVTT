@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 
