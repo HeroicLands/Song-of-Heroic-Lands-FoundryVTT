@@ -113,16 +113,18 @@ map-driven pattern already proven by `$typography-scale` / `type-style()` in
 
 ```scss
 // abstracts/_tokens.scss
-$sohl-space: (
+$space: (
     "xs": 2px,
-    "sm": 4px,
-    "md": 8px,
-    "lg": 16px,
+    "sm": 5px,
+    "md": 10px,
+    "lg": 20px,
 );
 
-.sohl {
-    @each $name, $value in $sohl-space {
-        --sohl-space-#{$name}: #{$value};
+@mixin emit-tokens {
+    :root {
+        @each $name, $value in $space {
+            --sohl-space-#{$name}: #{$value};
+        }
     }
 }
 ```
@@ -135,12 +137,15 @@ $sohl-space: (
 ```
 
 Why custom properties (not just SCSS variables): they live at **runtime**, so a theme
-or a variant module can re-skin the system by overriding `--sohl-*` on `.sohl` without
-recompiling SCSS. SCSS variables remain the **source of truth** in the maps; the custom
-properties are the **runtime surface**.
+or a variant module can re-skin the system by overriding `--sohl-*` (on `:root` or on
+`.sohl`) without recompiling SCSS. SCSS variables remain the **source of truth** in the
+maps; the custom properties are the **runtime surface**.
 
-Declare `--sohl-*` on the `.sohl` namespace root so they cascade into every system
-surface (sheets, chat cards, standalone apps).
+Emit `--sohl-*` on **`:root`** (via the `emit-tokens` mixin called once from
+`scss/sohl.scss`). `:root` is an ancestor of everything, so the tokens resolve on every
+system surface — including the **unscoped** global UI that SoHL restyles (chat cards,
+tooltips) which is not nested under `.sohl`. A theme can still narrow an override to
+`.sohl` if it only wants to retint SoHL's own surfaces.
 
 **Keep these distinct from Foundry's own variables.** `scss/utils/_foundry-vars.scss`
 redefines Foundry-core properties (`--color-text-primary`, `--color-border-*`, …) so
@@ -151,10 +156,19 @@ and are *not* part of the `--sohl-*` token set; don't merge the two.
 
 **Decision: wrap system output in named cascade layers with a documented order.**
 
-Layered styles always lose to unlayered styles of the same origin. Foundry-core CSS is
-(largely) unlayered, so to *win* against core we still need real specificity — but
-**within** our own styles, `@layer` lets later layers beat earlier ones regardless of
-selector specificity, killing the need for `!important` and deep nesting.
+Foundry v14 core wraps **all** of its own CSS in a declared layer stack:
+
+```css
+@layer reset, variables, elements, blocks, applications, compatibility, layouts, system, modules, exceptions;
+```
+
+Two facts drive our approach. First, **unlayered styles beat every layered style of the
+same origin** — so a layered SoHL rule can never be defeated by a *higher-specificity*
+SoHL rule in an *earlier* layer; layer order wins. Second, because layer precedence is
+fixed by **first declaration**, any layer name SoHL introduces that Foundry did not
+declare is registered *after* Foundry's entire stack. So SoHL's own `sohl.*` layers sit
+above `reset … system … exceptions`, and **every `sohl` layer beats Foundry core without
+`!important` or deep nesting.**
 
 Declare the order once, at the top of the entry stylesheet:
 
@@ -165,11 +179,14 @@ Declare the order once, at the top of the entry stylesheet:
 Order rationale (earlier = lower priority): `base` (resets/overrides) → `layout`
 (structure) → `components` (widgets) → `apps` (sheet-specific tweaks override the
 generic widget) → `utilities` (single-purpose helpers win last, as intended).
-`abstracts/` is unlayered because it emits nothing.
+`abstracts/` is unlayered because it emits nothing; `@font-face`/icon glyphs are left
+unlayered too (no cascade competition).
 
-When a rule genuinely must beat unlayered Foundry-core styles, raise its **specificity**
-deliberately (e.g. the compound namespace selector in §6) rather than reaching for
-`!important`.
+Because all of SoHL is layered, prefer adjusting **layer placement** over `!important`
+or specificity hacks when one SoHL rule must beat another. The one thing that still
+outranks a `sohl` layer is an *unlayered* rule — so avoid emitting unlayered style rules
+(beyond the deliberate `@font-face`/icon exceptions), or they will silently win over the
+whole layer stack.
 
 ## 6. Scoping rule — the #87 lesson, written down
 

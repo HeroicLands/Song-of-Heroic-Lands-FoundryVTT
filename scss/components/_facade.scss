@@ -1,10 +1,8 @@
-@use "../utils/colors";
-
 .facade {
     img.facade-image {
         flex: 0 0 200px;
         object-fit: contain;
-        background: colors.$c-text-inverse;
+        background: var(--sohl-color-text-inverse);
     }
 
     .facade-description {

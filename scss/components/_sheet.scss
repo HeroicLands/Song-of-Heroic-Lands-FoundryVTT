@@ -1,5 +1,3 @@
-@use "../utils/colors";
-
 // Layout for the document-sheet frame and its contents.
 //
 // This partial is loaded from `sohl.scss` under `.sohl.sheet` (a COMPOUND
@@ -16,12 +14,13 @@
 // `.sohl`, and the bare `input` / `select` resets below would otherwise leak
 // into them.
 
+// Frame-only layout here. The parchment background, base font-size, and text
+// color are owned by `.window-content` in components/_top.scss (the broader
+// `.sohl` scope, which also covers the standalone SoHL apps); this block adds
+// only the sheet-frame overflow/padding to avoid duplicating those declarations.
 .window-content {
     overflow-y: hidden;
-    padding: 5px;
-    background: url("../assets/ui/parchment.jpg") repeat;
-    font-size: 13px;
-    color: colors.$c-text-primary;
+    padding: var(--sohl-space-sm);
 }
 
 .window-content form {
@@ -45,7 +44,7 @@ input[type="text"]:hover,
 input[type="number"]:hover,
 input[type="text"]:focus,
 input[type="number"]:focus {
-    border: 1px solid colors.$c-border-strong;
+    border: 1px solid var(--sohl-color-border-strong);
 }
 
 select {
@@ -56,7 +55,7 @@ select {
 }
 
 .editable .rollable:hover {
-    color: colors.$c-text-primary;
+    color: var(--sohl-color-text-primary);
     text-shadow: 0 0 10px red;
     cursor: pointer;
 }
@@ -66,7 +65,7 @@ span.sep {
     margin: 0 1px;
     display: inline;
     position: relative;
-    color: colors.$c-bg-input;
+    color: var(--sohl-color-bg-input);
     font-weight: normal;
 }
 
@@ -106,7 +105,7 @@ span.sep {
         height: 100px;
         object-fit: contain;
         border: none;
-        border-right: 2px groove colors.$c-border-subtle;
+        border-right: 2px groove var(--sohl-color-border-subtle);
     }
 
     .status-effects {
@@ -120,14 +119,14 @@ span.sep {
             font-size: 11px;
             font-weight: 700;
             line-height: 16px;
-            border: 1px solid colors.$c-border-subtle;
+            border: 1px solid var(--sohl-color-border-subtle);
             border-radius: 3px;
-            color: colors.$c-text-muted;
+            color: var(--sohl-color-text-muted);
 
             &.active {
-                color: colors.$c-text-inverse;
-                background: colors.$c-danger;
-                border-color: colors.$c-danger;
+                color: var(--sohl-color-text-inverse);
+                background: var(--sohl-color-danger);
+                border-color: var(--sohl-color-danger);
             }
         }
     }

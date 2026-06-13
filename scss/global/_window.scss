@@ -1,9 +1,7 @@
-@use "../utils/colors";
-
 .rollable {
     &:hover,
     &:focus {
-        color: colors.$c-border-default;
+        color: var(--sohl-color-border-default);
         text-shadow: 0 0 10px red;
         cursor: pointer;
     }
