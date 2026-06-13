@@ -33,7 +33,7 @@
         "distclean": "node utils/clean.mjs --distclean",
         "build": "npm ci && npm run build:noci",
         "build:local": "npm i && npm run build:noci",
-        "build:noci": "run-s build:types build:prepare test:coverage test:purity build:code",
+        "build:noci": "run-s lint:todos build:types build:prepare test:coverage test:purity build:code",
         "build:prepare": "run-p build:css build:db build:system",
         "build:db": "run-s build:assets build:compiledb",
         "build:types": "tsc -p tsconfig.json",
@@ -78,6 +78,7 @@
         "format:check": "prettier --check .",
         "lint": "eslint src/",
         "lint:fix": "eslint src/ --fix",
+        "lint:todos": "node utils/check-todos.mjs",
         "changeset": "changeset",
         "changeset:version": "changeset version",
         "changeset:check": "changeset check"

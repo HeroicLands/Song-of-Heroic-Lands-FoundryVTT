@@ -28,6 +28,9 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
+            - name: Check TODO issue links
+              run: npm run lint:todos
+
             - name: Run tests with coverage
               run: npm run test:coverage
 
