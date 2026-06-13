@@ -332,6 +332,13 @@ export function makeCombatantLogic(
         displayedMedium: "terrestrial",
         lastAttackMode: null,
         lastBlockMode: null,
+        // Derived Foundry-side facts (the combatant data port). Defaults here
+        // mirror an ungrouped, healthy, visible combatant; relational tests can
+        // override per mock.
+        groupId: null,
+        isDefeated: false,
+        statuses: new Set<string>(),
+        isHidden: false,
         update: combatant.update,
         getFlag: combatant.getFlag,
         setFlag: combatant.setFlag,

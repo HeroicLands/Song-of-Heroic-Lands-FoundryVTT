@@ -762,6 +762,38 @@ export function fvttActiveCombatantForActor(
 }
 
 /**
+ * The {@link CombatantLogic} of every combatant in the same combat as the given
+ * combatant (including it), or an empty array when it is not in a combat.
+ *
+ * Lets the Foundry-free {@link CombatantLogic} reach its peers (for ally /
+ * threat queries) without walking `combatant.combat.combatants` directly.
+ * @param combatant - The combatant whose peers to resolve.
+ * @returns The peer combatant logics, or an empty array.
+ */
+export function fvttCombatantLogics(
+    combatant: SohlCombatant | null,
+): CombatantLogic[] {
+    const combat = (combatant as any)?.combat;
+    if (!combat) return [];
+    return (combat.combatants as any).map(
+        (c: any) => c.logic,
+    ) as CombatantLogic[];
+}
+
+/**
+ * Prompt the GM to move a combatant into a {@link CombatantGroup}, delegating
+ * the dialog and group creation/assignment to the document. Lets the
+ * Foundry-free {@link CombatantLogic.moveToGroup} action trigger the operation
+ * without invoking document methods directly.
+ * @param combatant - The combatant to reassign.
+ */
+export async function fvttPromptMoveCombatantToGroup(
+    combatant: SohlCombatant | null,
+): Promise<void> {
+    await (combatant as any)?.moveToGroup?.();
+}
+
+/**
  * The {@link SohlTokenDocumentLogic} for the given actor's active token on the
  * canvas, or `null` when the game is unavailable or the actor has no token.
  *

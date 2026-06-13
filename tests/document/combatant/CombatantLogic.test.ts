@@ -9,6 +9,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { makeCombatantLogic, makeMockActor } from "@tests/mocks/logicHarness";
 import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import * as AutomatedCombat from "@src/document/actor/logic/automated-combat";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 describe("CombatantLogic", () => {
     describe("automatedCombatStart (attacker side)", () => {
@@ -137,12 +138,13 @@ describe("CombatantLogic", () => {
             vi.restoreAllMocks();
         });
 
-        it("delegates to the combatant document's moveToGroup", async () => {
+        it("delegates to the fvttPromptMoveCombatantToGroup shim with this combatant", async () => {
+            const spy = vi
+                .spyOn(FoundryHelpers, "fvttPromptMoveCombatantToGroup")
+                .mockResolvedValue(undefined);
             const logic = makeCombatantLogic();
-            const moveToGroup = vi.fn().mockResolvedValue(undefined);
-            (logic.combatant as any).moveToGroup = moveToGroup;
             await logic.moveToGroup({ scope: {} } as any);
-            expect(moveToGroup).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith(logic.combatant);
         });
     });
 

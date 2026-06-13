@@ -40,7 +40,7 @@ import {
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import type { AttackResult } from "@src/domain/result/AttackResult";
 
 /**

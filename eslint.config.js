@@ -60,6 +60,7 @@ const foundryGlobals = {
 const FOUNDRY_FREE_ZONES = [
     "src/document/item/logic/**/*.ts",
     "src/document/actor/logic/**/*.ts",
+    "src/document/combatant/logic/**/*.ts",
     "src/domain/**/*.ts",
     "src/core/SohlLogic.ts",
     "src/core/SohlActionContext.ts",

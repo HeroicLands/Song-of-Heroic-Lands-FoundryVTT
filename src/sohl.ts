@@ -15,7 +15,7 @@ import type { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlSystem } from "@src/core/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
-import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";

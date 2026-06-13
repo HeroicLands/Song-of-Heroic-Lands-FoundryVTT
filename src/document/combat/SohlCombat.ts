@@ -12,7 +12,7 @@
  */
 
 import { fvttIsActiveGM } from "@src/core/FoundryHelpers";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import {
     type ExistingGroup,
     type SeedingCombatant,

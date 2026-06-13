@@ -19,7 +19,7 @@ import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { CombatantLogic } from "../logic/CombatantLogic";
-import { chooseInitialDisplayedMedium } from "../combatant-logic";
+import { chooseInitialDisplayedMedium } from "../logic/CombatantLogic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
 import {
     ITEM_KIND,
@@ -519,6 +519,48 @@ export class SohlCombatantDataModel<
     displayedMedium!: MovementMedium;
     lastAttackMode!: StrikeModeRef | null;
     lastBlockMode!: StrikeModeRef | null;
+
+    // --- Derived Foundry-side facts (the combatant data port) ----------------
+    // These expose live document/scene state to the Foundry-free CombatantLogic
+    // through the SohlLogicData port, so the logic never reads the combatant
+    // document directly.
+
+    /**
+     * This combatant's {@link CombatantGroup} id, or `null` when ungrouped.
+     *
+     * @remarks
+     * `_source.group` is the canonical stored id. Core's `_prepareGroup()`
+     * reassigns the derived `group` to the resolved group document when it
+     * resolves but leaves it as the raw id (or null) otherwise — so reading
+     * `_source` first avoids that heterogeneity.
+     */
+    get groupId(): string | null {
+        const c = this.parent as any;
+        const src = c?._source?.group;
+        if (typeof src === "string" && src) return src;
+        const g = c?.group;
+        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
+        if (typeof g === "string" && g) return g;
+        return null;
+    }
+
+    /** Whether this combatant is defeated (Foundry's DEFEATED special status). */
+    get isDefeated(): boolean {
+        return !!(this.parent as any)?.isDefeated;
+    }
+
+    /** The active status-effect ids on this combatant's actor. */
+    get statuses(): Set<string> {
+        return (
+            ((this.parent as any)?.actor?.statuses as Set<string>) ??
+            new Set<string>()
+        );
+    }
+
+    /** Whether this combatant's token is hidden from players. */
+    get isHidden(): boolean {
+        return !!(this.parent as any)?.token?.hidden;
+    }
 
     /**
      * Returns the Foundry data schema for the SoHL combatant data model.

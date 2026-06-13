@@ -277,6 +277,16 @@ export function fvttActiveTokenLogicForActor(_actor: any): any {
     return null;
 }
 
+export function fvttCombatantLogics(_combatant: any): any[] {
+    return [];
+}
+
+export async function fvttPromptMoveCombatantToGroup(
+    _combatant: any,
+): Promise<void> {
+    return undefined;
+}
+
 // ---------------------------------------------------------------------------
 // Pack / compendium helpers
 // ---------------------------------------------------------------------------
