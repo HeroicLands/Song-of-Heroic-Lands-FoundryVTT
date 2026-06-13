@@ -275,8 +275,14 @@ export abstract class SohlLogic<
                 target: HTMLElement,
             ): boolean => action.visible(target);
             const callback = (element: HTMLElement) => {
+                // Resolve the acting actor from the clicked row when present
+                // (sheet menus carry `data-actor-id`); otherwise fall back to
+                // this logic's own actor so menus on documents without that
+                // marker — e.g. a combatant row in the combat tracker — still
+                // dispatch with the correct speaker.
                 const item = resolveContextItem(element);
-                const actor = resolveContextActor(element) ?? item?.actor;
+                const actor =
+                    resolveContextActor(element) ?? item?.actor ?? this.actor;
                 const ctx = new SohlActionContext({
                     speaker: actor?.getSpeaker(),
                 } as any);

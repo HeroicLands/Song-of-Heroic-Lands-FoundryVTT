@@ -17,8 +17,10 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { CombatantLogic } from "./CombatantLogic";
 import { chooseInitialDisplayedMedium } from "./combatant-logic";
+import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
@@ -103,6 +105,108 @@ export class SohlCombatant<
      */
     async automatedCombatStart(context: SohlActionContext): Promise<void> {
         await this.logic.automatedCombatStart(context);
+    }
+
+    /**
+     * The context-menu entries for this combatant — the combatant's available
+     * actions. Delegates to {@link CombatantLogic.getContextOptions} (the shared
+     * {@link SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
+     * tracker's row context menu is built from these.
+     * @returns The combatant's context-menu entries.
+     */
+    getContextOptions(): SohlContextMenu.Entry[] {
+        return this.logic.getContextOptions();
+    }
+
+    /**
+     * Prompt the GM to move this combatant into an existing {@link CombatantGroup}
+     * or a new one, then apply the assignment. Selecting the combatant's current
+     * group is a no-op. Backs the `moveToGroup` intrinsic action.
+     */
+    async moveToGroup(): Promise<void> {
+        const combat = this.combat as any;
+        if (!combat) return;
+
+        const groups = (combat.groups?.contents ?? []) as any[];
+        const currentId = this.groupId;
+
+        const options = groups
+            .map((g) => {
+                const sel = g.id === currentId ? " selected" : "";
+                return `<option value="${escapeAttr(g.id)}"${sel}>${escapeHtml(
+                    g.name,
+                )}</option>`;
+            })
+            .join("");
+
+        const content = `
+            <div class="form-group">
+                <label>Group</label>
+                <div class="form-fields">
+                    <select name="group">
+                        ${options}
+                        <option value="__new__">➕ New group…</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>New group name</label>
+                <div class="form-fields">
+                    <input type="text" name="newName" placeholder="${DEFAULT_COMBAT_GROUP}">
+                </div>
+            </div>
+        `;
+
+        const result = await (foundry.applications.api.DialogV2 as any).wait({
+            window: { title: "Move to Group" },
+            content,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Move",
+                    icon: "sohl-check",
+                    default: true,
+                    callback: (_event: Event, button: any) => {
+                        const form = button.form as HTMLFormElement;
+                        return {
+                            group: (
+                                form.elements.namedItem(
+                                    "group",
+                                ) as HTMLSelectElement
+                            )?.value,
+                            newName: (
+                                form.elements.namedItem(
+                                    "newName",
+                                ) as HTMLInputElement
+                            )?.value,
+                        };
+                    },
+                },
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    icon: "sohl-xmark",
+                },
+            ],
+            close: () => null,
+        });
+
+        if (!result || result === "cancel") return;
+
+        let targetGroupId: string | undefined;
+        if (result.group === "__new__") {
+            const name = result.newName?.trim() || DEFAULT_COMBAT_GROUP;
+            const [created] = (await combat.createEmbeddedDocuments(
+                "CombatantGroup",
+                [{ name }],
+            )) as any[];
+            targetGroupId = created?.id;
+        } else {
+            targetGroupId = result.group || undefined;
+        }
+
+        if (!targetGroupId || targetGroupId === currentId) return;
+        await this.update({ group: targetGroupId } as any);
     }
 
     /** The strike mode last used to attack, or `null` (combat-scoped). */
@@ -304,6 +408,27 @@ export class SohlCombatant<
         }
         return "0";
     }
+}
+
+/**
+ * Escape a string for safe use inside an HTML attribute value.
+ * @param value - The raw string to escape.
+ * @returns The string with `&` and `"` escaped as HTML entities.
+ */
+function escapeAttr(value: string): string {
+    return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
+/**
+ * Escape a string for safe use as HTML text content.
+ * @param value - The raw string to escape.
+ * @returns The string with `&`, `<`, and `>` escaped as HTML entities.
+ */
+function escapeHtml(value: string): string {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
 
 /**

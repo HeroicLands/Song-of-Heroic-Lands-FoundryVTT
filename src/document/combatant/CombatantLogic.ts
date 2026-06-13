@@ -303,6 +303,16 @@ export class CombatantLogic<
         await startAutomatedAttackFromCombatant(this, context);
     }
 
+    /**
+     * Reassign this combatant to a {@link CombatantGroup} — GM-only. The picker
+     * dialog and group creation/assignment are Foundry-document work, so this
+     * executor delegates to {@link SohlCombatant.moveToGroup}.
+     * @param _context - The action context (unused; the dialog gathers input).
+     */
+    async moveToGroup(_context: SohlActionContext): Promise<void> {
+        await this.combatant?.moveToGroup();
+    }
+
     // --- Automated combat resume (defender side) -----------------------------
     // The combatant *is* the defender, so `this` replaces the looked-up
     // combatant and `this.actorLogic` supplies strike-mode capability.
@@ -715,6 +725,16 @@ export class CombatantLogic<
                 executor: "automatedCombatStart",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "moveToGroup",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Combatant.ACTION.moveToGroup",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-person-group",
+                executor: "moveToGroup",
+                visible: "isGM",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
             {
                 shortcode: "automatedBlockResume",

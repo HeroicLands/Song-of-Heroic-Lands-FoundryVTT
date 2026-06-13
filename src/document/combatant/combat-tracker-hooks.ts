@@ -12,19 +12,59 @@
  */
 
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
-import { registerCombatGroupHooks } from "@src/document/combatant/combat-group-hooks";
-import { MOVEMENT_MEDIUM, movementMediumLabels } from "@src/utils/constants";
+import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
+import {
+    MOVEMENT_MEDIUM,
+    movementMediumLabels,
+    SOHL_CONTEXT_MENU_SORT_GROUP,
+} from "@src/utils/constants";
+
+/** Token flag namespace/key for the default combat group name. */
+const FLAG_SCOPE = "sohl";
+const FLAG_KEY = "defaultCombatGroup";
 
 /**
- * Register hooks that enhance the default Foundry combat tracker and
- * combatant config sheet with SoHL's `moveFactor` and `displayedMedium`
- * fields, plus an inline computed-move display per tracker row.
+ * The non-HIDDEN combatant intrinsic actions — the skeleton (label/icon) for the
+ * combat-tracker context-menu entries. Uniform across combatants, so it is
+ * computed once; per-row gating and dispatch route through the specific
+ * combatant's {@link SohlCombatant.getContextOptions}.
+ */
+const COMBATANT_MENU_ACTION_DEFS = CombatantLogic.defineIntrinsicActions().filter(
+    (d) => d.group !== SOHL_CONTEXT_MENU_SORT_GROUP.HIDDEN,
+);
+
+/**
+ * Register hooks that enhance the default Foundry combat tracker and the
+ * combatant / token config sheets:
  *
- * Uses DOM-injection hooks rather than overriding Foundry's templates so
- * the system continues to work across Foundry version updates.
+ * - A "Default Combat Group" field on the Token / Prototype Token config,
+ *   writing `flags.sohl.defaultCombatGroup` (read by {@link SohlCombat} to
+ *   auto-group combatants).
+ * - The combat-tracker row context menu, populated from each combatant's
+ *   {@link SohlCombatant.getContextOptions} (Automated Attack, Move to Group…).
+ * - The `moveFactor` / `displayedMedium` fields on the combatant config and a
+ *   per-row computed-move chip in the tracker.
+ *
+ * Uses DOM-injection / context hooks rather than overriding Foundry classes so
+ * the system keeps working across Foundry version updates.
  */
 export function registerCombatTrackerHooks(): void {
-    registerCombatGroupHooks();
+    (Hooks as any).on("renderTokenConfig", injectDefaultCombatGroupField);
+    (Hooks as any).on(
+        "renderPrototypeTokenConfig",
+        injectDefaultCombatGroupField,
+    );
+
+    // The combatant tracker context menu is documented as
+    // `getCombatantContextOptions`, but core's default `get{ClassName}ContextOptions`
+    // dispatch can resolve to `getCombatTrackerContextOptions`. Register both
+    // (with a dedupe guard) so the entries appear regardless of which fires.
+    (Hooks as any).on("getCombatantContextOptions", addCombatantActionEntries);
+    (Hooks as any).on(
+        "getCombatTrackerContextOptions",
+        addCombatantActionEntries,
+    );
 
     (Hooks as any).on(
         "renderCombatantConfig",
@@ -139,4 +179,132 @@ export function registerCombatTrackerHooks(): void {
             }
         },
     );
+}
+
+/**
+ * Resolve the `SohlCombatant` for a context-menu target element.
+ * @param li - The context-menu target element (or a descendant of the row).
+ * @returns The matching combatant, or `null` if none can be resolved.
+ */
+function getCombatant(li: HTMLElement): SohlCombatant | null {
+    const row = li?.closest?.("[data-combatant-id]") as HTMLElement | null;
+    const id = (row ?? li)?.dataset?.combatantId;
+    if (!id) return null;
+    const combat = (game as any).combat;
+    return (combat?.combatants?.get?.(id) as SohlCombatant | undefined) ?? null;
+}
+
+/**
+ * Build the combat-tracker row context-menu entries for the combatant's
+ * available actions. Each entry is keyed by a non-HIDDEN combatant intrinsic
+ * action; its visibility and dispatch route through the row's combatant
+ * {@link SohlCombatant.getContextOptions} entry of the same id — so the action
+ * system (and the action's own `visible` predicate, e.g. GM-only Move to Group)
+ * drives behavior. Entries are gated on `combatant.isOwner` because the
+ * combatant is not part of the action `visible` predicate's scope.
+ *
+ * Exported (and parameterized on `resolveCombatant`) so the mapping is unit
+ * testable without a live combat tracker.
+ * @param resolveCombatant - Resolves the combatant for a menu target element.
+ * @returns The Foundry context-menu entries.
+ */
+export function buildCombatantActionMenuEntries(
+    resolveCombatant: (li: HTMLElement) => SohlCombatant | null,
+): any[] {
+    return COMBATANT_MENU_ACTION_DEFS.filter((def) => !!def.title).map(
+        (def) => {
+            const title = def.title!;
+            return {
+                __sohlActionTitle: title,
+                label: title,
+                icon: def.iconFAClass,
+                visible: (li: HTMLElement): boolean => {
+                    const combatant = resolveCombatant(li);
+                    if (!combatant?.isOwner) return false;
+                    const entry = combatant
+                        .getContextOptions()
+                        .find((e) => e.id === title);
+                    if (!entry) return false;
+                    return typeof entry.condition === "function" ?
+                            entry.condition(li)
+                        :   true;
+                },
+                onClick: (_event: Event, li: HTMLElement): void => {
+                    const combatant = resolveCombatant(li);
+                    const entry = combatant
+                        ?.getContextOptions()
+                        .find((e) => e.id === title);
+                    entry?.callback?.(li);
+                },
+            };
+        },
+    );
+}
+
+/**
+ * Append the combatant's available-action entries to a combat-tracker row
+ * context menu (deduped by action title).
+ * @param _app - The combat tracker application (unused).
+ * @param menuItems - The context-menu entry list to append to.
+ */
+function addCombatantActionEntries(_app: any, menuItems: any[]): void {
+    if (!Array.isArray(menuItems)) return;
+    for (const entry of buildCombatantActionMenuEntries(getCombatant)) {
+        if (
+            menuItems.some(
+                (i) => i?.__sohlActionTitle === entry.__sohlActionTitle,
+            )
+        ) {
+            continue;
+        }
+        menuItems.push(entry);
+    }
+}
+
+/**
+ * Inject a "Default Combat Group" text input into a Token / Prototype Token
+ * config form, reading from and writing to `flags.sohl.defaultCombatGroup`.
+ * @param app - The token config application supplying the document and flag.
+ * @param html - The rendered form root (or a container holding the form).
+ */
+function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
+    const form: HTMLElement | null =
+        html?.tagName === "FORM" ? html : html?.querySelector?.("form");
+    if (!form) return;
+    if (form.querySelector(".sohl-default-combat-group")) return;
+
+    const current =
+        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as
+            | string
+            | undefined) ?? "";
+
+    // No localization: the field label is fixed and group names are free text.
+    const label = "Default Combat Group";
+
+    const group = document.createElement("div");
+    group.classList.add("form-group", "sohl-default-combat-group");
+    group.innerHTML = `
+        <label>${label}</label>
+        <div class="form-fields">
+            <input type="text" name="flags.${FLAG_SCOPE}.${FLAG_KEY}"
+                value="${escapeAttr(current)}"
+                placeholder="${DEFAULT_COMBAT_GROUP}">
+        </div>
+    `;
+
+    const footer = form.querySelector("footer");
+    if (footer) {
+        form.insertBefore(group, footer);
+    } else {
+        form.appendChild(group);
+    }
+}
+
+/**
+ * Escape a string for safe use inside an HTML attribute value.
+ * @param value - The raw string to escape.
+ * @returns The string with `&` and `"` escaped as HTML entities.
+ */
+function escapeAttr(value: string): string {
+    return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 }

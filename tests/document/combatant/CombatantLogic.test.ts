@@ -107,19 +107,70 @@ describe("CombatantLogic", () => {
     });
 
     describe("intrinsic actions", () => {
-        it("declares the combat-start action and the four defense resumes", () => {
+        it("declares the combat-start, move-to-group, and four defense-resume actions", () => {
             const shortcodes = CombatantLogic.defineIntrinsicActions().map(
                 (a) => a.shortcode,
             );
             expect(shortcodes).toEqual(
                 expect.arrayContaining([
                     "automatedCombatStart",
+                    "moveToGroup",
                     "automatedBlockResume",
                     "automatedDodgeResume",
                     "automatedCounterstrikeResume",
                     "automatedIgnoreResume",
                 ]),
             );
+        });
+
+        it("gates moveToGroup on isGM and surfaces it as a non-hidden action", () => {
+            const move = CombatantLogic.defineIntrinsicActions().find(
+                (a) => a.shortcode === "moveToGroup",
+            );
+            expect(move?.visible).toBe("isGM");
+            expect(move?.group).not.toBe("hidden");
+        });
+    });
+
+    describe("moveToGroup", () => {
+        afterEach(() => {
+            vi.restoreAllMocks();
+        });
+
+        it("delegates to the combatant document's moveToGroup", async () => {
+            const logic = makeCombatantLogic();
+            const moveToGroup = vi.fn().mockResolvedValue(undefined);
+            (logic.combatant as any).moveToGroup = moveToGroup;
+            await logic.moveToGroup({ scope: {} } as any);
+            expect(moveToGroup).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("getContextOptions (combatant tracker dispatch)", () => {
+        afterEach(() => {
+            vi.restoreAllMocks();
+        });
+
+        it("dispatches with the combatant's own actor speaker when the element has no data-actor-id", () => {
+            const logic = makeCombatantLogic();
+            const entries = logic.getContextOptions();
+            const entry = entries.find(
+                (e: any) => e.id === "SOHL.Being.ACTION.automatedCombatStart",
+            );
+            expect(entry).toBeTruthy();
+
+            const action = logic.actions.get("automatedCombatStart");
+            const exec = vi
+                .spyOn(action, "execute")
+                .mockResolvedValue(undefined);
+
+            // An element with no [data-actor-id]/[data-item-id] ancestor.
+            const el = { closest: () => null } as unknown as HTMLElement;
+            entry.callback(el);
+
+            expect(exec).toHaveBeenCalledTimes(1);
+            const ctx = exec.mock.calls[0][0] as any;
+            expect(ctx.speaker).toBeTruthy();
         });
     });
 });

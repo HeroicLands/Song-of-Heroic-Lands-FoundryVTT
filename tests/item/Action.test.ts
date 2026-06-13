@@ -113,6 +113,22 @@ describe("SohlAction.visible", () => {
         expect(action.visible(mockElement())).toBe(false);
     });
 
+    it("exposes isGM, true when the current user is a GM", () => {
+        const prev = (globalThis as any).game.user.isGM;
+        (globalThis as any).game.user.isGM = true;
+        const action = makeAction({ visible: "isGM" });
+        expect(action.visible(mockElement())).toBe(true);
+        (globalThis as any).game.user.isGM = prev;
+    });
+
+    it("exposes isGM, false when the current user is not a GM", () => {
+        const prev = (globalThis as any).game.user.isGM;
+        (globalThis as any).game.user.isGM = false;
+        const action = makeAction({ visible: "isGM" });
+        expect(action.visible(mockElement())).toBe(false);
+        (globalThis as any).game.user.isGM = prev;
+    });
+
     it("returns false (hidden) on compile error and warns", () => {
         const action = makeAction({
             visible: "item.logic.hasAttr('per')", // method call — rejected

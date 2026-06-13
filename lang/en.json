@@ -580,6 +580,7 @@
     "SOHL.CombatTechniqueStrikeMode.FIELDS.group.label": "Group",
     "SOHL.CombatTechniqueStrikeMode.FIELDS.lengthBase.hint": "Effective range of this combat technique",
     "SOHL.CombatTechniqueStrikeMode.FIELDS.lengthBase.label": "Length",
+    "SOHL.Combatant.ACTION.moveToGroup": "Move to Group…",
     "SOHL.Combatant.FIELDS.didAction.hint": "Whether this combatant has performed an action this turn",
     "SOHL.Combatant.FIELDS.didAction.label": "Acted",
     "SOHL.Combatant.FIELDS.displayedMedium.hint": "Which medium's computed move is shown for this combatant in the combat tracker",
