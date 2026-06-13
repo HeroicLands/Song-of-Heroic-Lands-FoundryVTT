@@ -3,6 +3,7 @@ import { AttributeLogic } from "@src/document/item/logic/AttributeLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
 import { ITEM_KIND } from "@src/utils/constants";
+import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
 /** Default AttributeData fields; override per test. */
@@ -43,6 +44,38 @@ describe("AttributeLogic", () => {
         it("builds the intrinsic action map (postfinalize from the base class)", () => {
             const logic = makeAttribute();
             expect(logic.actions.has("postfinalize")).toBe(true);
+        });
+
+        it("declares the opposedTestStart intrinsic action", () => {
+            const logic = makeAttribute();
+            expect(logic.actions.has("opposedTestStart")).toBe(true);
+        });
+    });
+
+    describe("intrinsic executors", () => {
+        it("opposedTestStart - delegates to the actor's token logic with this attribute's uuid in scope", async () => {
+            const result = { isOpposed: true } as any;
+            const opposedTestStart = vi.fn().mockResolvedValue(result);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttActiveTokenLogicForActor",
+            ).mockReturnValue({ opposedTestStart } as any);
+            const logic = makeAttribute();
+            const ctx = { scope: {} } as any;
+            await expect(logic.opposedTestStart(ctx)).resolves.toBe(result);
+            expect(opposedTestStart).toHaveBeenCalledWith(ctx);
+            expect(ctx.scope.logicUuid).toBe(logic.uuid);
+        });
+
+        it("opposedTestStart - warns and returns null when the actor has no token", async () => {
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttActiveTokenLogicForActor",
+            ).mockReturnValue(null);
+            const logic = makeAttribute();
+            const ctx = { scope: {} } as any;
+            await expect(logic.opposedTestStart(ctx)).resolves.toBeNull();
+            expect(ctx.scope.logicUuid).toBeUndefined();
         });
     });
 

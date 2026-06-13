@@ -36,12 +36,20 @@ import {
  *   non-`noBlock` melee mode; **Counterstrike** only if it has a non-`noAttack`
  *   melee mode. **Dodge** and **Ignore** are always available to the owner.
  *
- * Foundry-facing glue: it touches the DOM and `fromUuidSync`, composing the pure,
- * unit-tested capability helpers. A no-op on any card without these buttons.
+ * Composes the pure, unit-tested capability helpers and manipulates the DOM.
+ * Foundry document resolution is injected via `resolveDefender` (the caller
+ * passes `foundry.utils.fromUuidSync`), so the gating itself carries no Foundry
+ * dependency and is unit-testable with a stub element + stub defender. A no-op
+ * on any card without these buttons.
  *
  * @param element The chat message's rendered root element.
+ * @param resolveDefender Resolves the defender document from a button's
+ *   `data-handler-actor-uuid` (the caller supplies the Foundry lookup).
  */
-export function gateAutomatedDefenseButtons(element: HTMLElement): void {
+export function gateAutomatedDefenseButtons(
+    element: HTMLElement,
+    resolveDefender: (uuid: string) => any,
+): void {
     const find = (action: string) =>
         element.querySelector<HTMLButtonElement>(
             `button[data-action="${action}"]`,
@@ -58,7 +66,7 @@ export function gateAutomatedDefenseButtons(element: HTMLElement): void {
     // its statuses/capability) is reached through it.
     const uuid = (dodge ?? counter ?? block ?? ignore)?.dataset
         .handlerActorUuid;
-    const defender = uuid ? (foundry.utils.fromUuidSync(uuid) as any) : null;
+    const defender = uuid ? resolveDefender(uuid) : null;
     const defenderActor = defender?.actor ?? null;
     const actorLogic = defenderActor?.logic ?? null;
 

@@ -11,7 +11,6 @@ import {
     MOVEMENT_MEDIUM,
 } from "@src/utils/constants";
 import * as FoundryHelpersMock from "@src/core/FoundryHelpers";
-import * as AutomatedCombat from "@src/document/actor/logic/automated-combat";
 import { makeActorLogic, makeItemLogic } from "@tests/mocks/logicHarness";
 
 /** Construct a BeingLogic against a plain-object BeingData. */
@@ -157,7 +156,6 @@ describe("BeingLogic", () => {
                 "fearTest",
                 "calcImpact",
                 "contractAfflictionTest",
-                "opposedTestResume",
             ]) {
                 expect(logic.actions.has(shortcode), shortcode).toBe(true);
             }
@@ -398,41 +396,8 @@ describe("BeingLogic", () => {
         it.todo("contractAfflictionTest - tests contraction of an affliction");
     });
 
-    describe("opposedTestResume", () => {
-        it("throws when neither priorTestResult nor sourceSuccessTestResult is in scope", async () => {
-            const logic = makeBeing();
-            await expect(
-                logic.opposedTestResume({ scope: {} } as any),
-            ).rejects.toThrow(
-                /requires priorTestResult or sourceSuccessTestResult/,
-            );
-        });
-
-        it("resolves when a sourceSuccessTestResult is supplied", async () => {
-            const logic = makeBeing();
-            await expect(
-                logic.opposedTestResume({
-                    scope: { sourceSuccessTestResult: {} },
-                } as any),
-            ).resolves.toBeUndefined();
-        });
-
-        it.todo(
-            "presents an item-selection dialog and delegates to the chosen skill (selection flow not yet implemented)",
-        );
-    });
-
-    describe("automatedCombatStart", () => {
-        it("delegates to startAutomatedAttackFromActor with itself and the context", async () => {
-            const spy = vi
-                .spyOn(AutomatedCombat, "startAutomatedAttackFromActor")
-                .mockResolvedValue(undefined as any);
-            const logic = makeBeing();
-            const ctx = { scope: {} } as any;
-            await logic.automatedCombatStart(ctx);
-            expect(spy).toHaveBeenCalledWith(logic, ctx);
-        });
-    });
+    // Opposed-test resume moved off the actor onto SohlTokenDocumentLogic
+    // (opposed tests are token-based). See SohlTokenDocumentLogic.test.ts.
 
     describe("lifecycle", () => {
         it("initialize/evaluate/finalize run without items present", () => {

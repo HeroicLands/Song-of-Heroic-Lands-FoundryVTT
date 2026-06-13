@@ -14,7 +14,8 @@
 
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
  * Minimal stand-in for Foundry's `Collection`: a Map whose `find`/`some`/
@@ -100,14 +101,13 @@ function buildActorData(actor: any, kind: string): any {
                 // Bare stubs carry id/name on the item, not the logic; the
                 // production code reads them off the logic, so copy them down.
                 if (it?.id != null && logic.id == null) logic.id = it.id;
-                if (it?.name != null && logic.name == null) logic.name = it.name;
+                if (it?.name != null && logic.name == null)
+                    logic.name = it.name;
                 out.push(logic);
             };
             for (const it of actor.items.values())
                 add(it, it.logic, it.logic?.data?.kind ?? it.type);
-            for (const [kind, arr] of Object.entries(
-                actor.itemTypes ?? {},
-            )) {
+            for (const [kind, arr] of Object.entries(actor.itemTypes ?? {})) {
                 for (const it of (arr as any[]) ?? []) add(it, it.logic, kind);
             }
             return out;
@@ -118,7 +118,10 @@ function buildActorData(actor: any, kind: string): any {
         get: () => actor.logic,
         enumerable: false,
     });
-    Object.defineProperty(data, "actor", { get: () => actor, enumerable: false });
+    Object.defineProperty(data, "actor", {
+        get: () => actor,
+        enumerable: false,
+    });
     return data;
 }
 
@@ -329,6 +332,13 @@ export function makeCombatantLogic(
         displayedMedium: "terrestrial",
         lastAttackMode: null,
         lastBlockMode: null,
+        // Derived Foundry-side facts (the combatant data port). Defaults here
+        // mirror an ungrouped, healthy, visible combatant; relational tests can
+        // override per mock.
+        groupId: null,
+        isDefeated: false,
+        statuses: new Set<string>(),
+        isHidden: false,
         update: combatant.update,
         getFlag: combatant.getFlag,
         setFlag: combatant.setFlag,
@@ -342,6 +352,52 @@ export function makeCombatantLogic(
     const logic = new CombatantLogic({}, { parent: data });
     data.logic = logic;
     combatant.logic = logic;
+    return logic;
+}
+
+/**
+ * Construct a {@link SohlTokenDocumentLogic} over a transient {@link TokenData}
+ * port backed by a mock token document. `actorLogic` resolves to the supplied
+ * (or a fresh) mock actor's logic, so the opposed-test methods can read the
+ * actor's skills/attributes.
+ *
+ * @param opts.actor - The token's actor mock (defaults to a fresh one).
+ * @param opts.name - The token's name (defaults to the actor's name).
+ */
+export function makeTokenLogic(opts: { actor?: any; name?: string } = {}): any {
+    const actor = opts.actor ?? makeMockActor();
+    const token: any = {
+        id: "token0000000mok",
+        name: opts.name ?? actor.name,
+        documentName: "Token",
+        isOwner: true,
+        actor,
+        getFlag: vi.fn(() => undefined),
+        setFlag: vi.fn(async () => undefined),
+        update: vi.fn(async (data: any) => data),
+    };
+    const data: any = {
+        id: token.id,
+        name: token.name,
+        type: "token",
+        uuid: `Token.${token.id}`,
+        isOwner: true,
+        kind: "token",
+        shortcode: "token",
+        actionDefs: [],
+        getFlag: token.getFlag,
+        setFlag: token.setFlag,
+        update: token.update,
+        parent: token,
+        logic: null,
+    };
+    Object.defineProperty(data, "actorLogic", {
+        get: () => actor.logic,
+        enumerable: false,
+    });
+    const logic = new SohlTokenDocumentLogic({}, { parent: data });
+    data.logic = logic;
+    token.logic = logic;
     return logic;
 }
 
@@ -374,7 +430,11 @@ export function makeAttributeStub(
         parent: { name: opts.name ?? shortcode },
         system: { shortcode },
         logic: {
-            data: { kind: "attribute", shortcode, name: opts.name ?? shortcode },
+            data: {
+                kind: "attribute",
+                shortcode,
+                name: opts.name ?? shortcode,
+            },
             score: { effective: score },
             masteryLevel: {
                 disabled: opts.disabled ?? "",

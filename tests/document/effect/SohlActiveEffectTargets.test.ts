@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import { ACTIVE_EFFECT_SCOPE, ITEM_KIND } from "@src/utils/constants";
 
 /**

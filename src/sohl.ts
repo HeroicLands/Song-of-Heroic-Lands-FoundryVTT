@@ -15,16 +15,18 @@ import type { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlSystem } from "@src/core/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { AIAdapter } from "@src/utils/ai/AIAdapter";
-import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
-import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
+import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
+import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
 import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
 import { SohlDomains } from "@src/core/SohlDomains";
 import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
+import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 /**
  * Initializes the SoHL system: merges its CONFIG into Foundry's and
@@ -34,6 +36,12 @@ import { BUILTIN_DOMAINS } from "@src/core/builtinDomains";
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
     foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    // TokenDocument is not a typed document (no `system` DataModel), so it is
+    // registered directly here rather than through a `sohl.CONFIG` block. This
+    // makes canvas tokens `SohlTokenDocument` instances, giving them the
+    // transient `.logic` adapter and `onChatCardButton` that the opposed-test
+    // flow dispatches to.
+    CONFIG.Token.documentClass = SohlTokenDocument as any;
     sohl.setupSheets();
     console.log("Song of Heroic Lands | System initialized");
     return sohl;
@@ -278,6 +286,7 @@ function applyActiveCalendar(): void {
  */
 function registerSystemHooks() {
     registerCombatTrackerHooks();
+    registerCombatantConfigHooks();
 
     // Translate Foundry's built-in lifecycle hooks (updateWorldTime,
     // combatStart, combatRound, combatTurn, deleteCombat) into SoHL
@@ -334,7 +343,7 @@ function registerSystemHooks() {
         leftCol.appendChild(btn);
     });
 
-    Hooks.on(
+    (Hooks as any).on(
         "chatMessage",
         (
             _app: ChatLog,
@@ -346,12 +355,14 @@ function registerSystemHooks() {
         ) => AIAdapter.chatMessage(ui.chat, message, data),
     );
 
-    Hooks.on(
+    (Hooks as any).on(
         "renderChatMessageHTML",
         (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
             // Per-client gating: show defender-response buttons only to the
             // defender's owner, and only the defenses they're capable of.
-            gateAutomatedDefenseButtons(element);
+            gateAutomatedDefenseButtons(element, (uuid) =>
+                foundry.utils.fromUuidSync(uuid),
+            );
 
             element.addEventListener("click", (ev) => {
                 const btn: HTMLButtonElement | null = (
@@ -423,7 +434,7 @@ function registerSystemHooks() {
 }
 
 // Register init hook
-Hooks.once("init", () => {
+(Hooks as any).once("init", () => {
     const initMessage = `===========================================================
  _____                            __
 /  ___|                          / _|
@@ -461,7 +472,7 @@ Hooks.once("init", () => {
 });
 
 // Register ready hook
-Hooks.once("ready", () => {
+(Hooks as any).once("ready", () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
 });

@@ -15,6 +15,8 @@ import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import {
     combatantGridDistance,
     combatantSpacesMoved,
+    fvttCombatantLogics,
+    fvttPromptMoveCombatantToGroup,
 } from "@src/core/FoundryHelpers";
 import type { SohlActionContext } from "@src/core/SohlActionContext";
 import { CombatResult } from "@src/domain/result/CombatResult";
@@ -35,6 +37,8 @@ import {
     buildAimChoices,
     pickChoice,
     resolveCounterstrikeContext,
+    startAutomatedAttackFromCombatant,
+    startAutomatedAttackFromItem,
 } from "@src/document/actor/logic/automated-combat";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
@@ -43,18 +47,16 @@ import {
     SKILL_CODE,
     SOHL_ACTION_SCOPE,
     SOHL_CONTEXT_MENU_SORT_GROUP,
+    STATUS_EFFECT,
     TEST_TYPE,
     VALUE_DELTA_INFO,
     type MovementMedium,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/domain/action/SohlAction";
-import {
-    areCombatantsEnemies,
-    isThreatening,
-    THREAT_NEGATING_STATUSES,
-    computeMove,
-} from "./combatant-logic";
-import type { SohlCombatant, StrikeModeRef } from "./SohlCombatant";
+import type {
+    SohlCombatant,
+    StrikeModeRef,
+} from "@src/document/combatant/foundry/SohlCombatant";
 
 /**
  * The Foundry-free data contract for a SoHL combatant — the
@@ -75,6 +77,16 @@ export interface CombatantData extends SohlLogicData<SohlCombatant> {
     lastAttackMode: StrikeModeRef | null;
     /** Strike mode last used to block (`{ itemId, smId }`), or `null`. */
     lastBlockMode: StrikeModeRef | null;
+
+    // --- Derived Foundry-side facts (kept off the logic's direct reach) ------
+    /** This combatant's {@link CombatantGroup} id, or `null` when ungrouped. */
+    groupId: string | null;
+    /** Whether this combatant is defeated (Foundry DEFEATED special status). */
+    isDefeated: boolean;
+    /** The active status-effect ids on this combatant's actor. */
+    statuses: Set<string>;
+    /** Whether this combatant's token is hidden from players. */
+    isHidden: boolean;
 }
 
 /**
@@ -177,19 +189,12 @@ export class CombatantLogic<
      * (including this one), or an empty array when not in combat.
      */
     get combatantLogics(): CombatantLogic[] {
-        const combat = this.combatant?.combat;
-        return combat ? combat.combatants.map((c: any) => c.logic) : [];
+        return fvttCombatantLogics(this.combatant);
     }
 
     /** This combatant's group id, or `null` when ungrouped. */
     get groupId(): string | null {
-        const c = this.combatant as any;
-        const src = c?._source?.group;
-        if (typeof src === "string" && src) return src;
-        const g = c?.group;
-        if (g && typeof g === "object" && typeof g.id === "string") return g.id;
-        if (typeof g === "string" && g) return g;
-        return null;
+        return this.data.groupId;
     }
 
     /**
@@ -198,7 +203,11 @@ export class CombatantLogic<
      * @returns `true` if they are enemies.
      */
     isEnemyOf(other: CombatantLogic): boolean {
-        return areCombatantsEnemies(this.groupId, other.groupId, other === this);
+        return areCombatantsEnemies(
+            this.groupId,
+            other.groupId,
+            other === this,
+        );
     }
 
     /**
@@ -219,15 +228,13 @@ export class CombatantLogic<
     get threatenedBy(): CombatantLogic[] {
         return this.combatantLogics.filter((cl) => {
             if (cl === this) return false;
-            const statuses: Set<string> =
-                (cl.combatant?.actor as any)?.statuses ?? new Set<string>();
             return isThreatening({
                 isEnemy: this.isEnemyOf(cl),
-                isDefeated: !!cl.combatant?.isDefeated,
+                isDefeated: cl.data.isDefeated,
                 isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
-                    statuses.has(s),
+                    cl.data.statuses.has(s),
                 ),
-                isHidden: !!(cl.combatant?.token as any)?.hidden,
+                isHidden: cl.data.isHidden,
                 reaches: cl.reaches(this),
             });
         });
@@ -251,6 +258,62 @@ export class CombatantLogic<
     get spacesMovedThisTurn(): number {
         const c = this.combatant;
         return c ? combatantSpacesMoved(c, this.data.startLocation) : 0;
+    }
+
+    // --- Automated combat start (attacker side) ------------------------------
+
+    /**
+     * Begin an automated attack — the **single entry point** for combat start.
+     * The combatant *is* the attacker (`this`), so the attacker token/combatant
+     * and its strike-mode capability come from `this`/`this.actorLogic`.
+     *
+     * Branches on the action scope:
+     * - **item-logic-scoped** — `scope.logicUuid` names the source weapon /
+     *   combat-technique logic (with an optional `scope.smId` strike mode); only
+     *   that item's in-range modes are offered. Used when the
+     *   {@link WeaponGearLogic}/{@link CombatTechniqueLogic} `automatedCombatStart`
+     *   actions delegate into the combatant.
+     * - **combatant-scoped** — no `logicUuid`; every in-range mode across the
+     *   combatant's weapons and combat techniques is offered.
+     *
+     * @param context - Action context (supplies the target, scope, and chat options).
+     */
+    async automatedCombatStart(context: SohlActionContext<any>): Promise<void> {
+        const actorLogic = this.actorLogic;
+        if (!actorLogic) return;
+
+        const logicUuid = (context.scope as any)?.logicUuid as
+            | string
+            | undefined;
+        if (logicUuid) {
+            const itemLogic = (actorLogic as BeingLogic).allLogics.find(
+                (l) => l.uuid === logicUuid,
+            );
+            if (!itemLogic) {
+                sohl.log.uiWarn(
+                    `${this.name} has no item matching the requested attack.`,
+                );
+                return;
+            }
+            await startAutomatedAttackFromItem(
+                itemLogic,
+                itemLogic.name,
+                context,
+            );
+            return;
+        }
+
+        await startAutomatedAttackFromCombatant(this, context);
+    }
+
+    /**
+     * Reassign this combatant to a {@link CombatantGroup} — GM-only. The picker
+     * dialog and group creation/assignment are Foundry-document work, so this
+     * executor delegates to {@link SohlCombatant.moveToGroup}.
+     * @param _context - The action context (unused; the dialog gathers input).
+     */
+    async moveToGroup(_context: SohlActionContext): Promise<void> {
+        await fvttPromptMoveCombatantToGroup(this.combatant);
     }
 
     // --- Automated combat resume (defender side) -----------------------------
@@ -526,7 +589,7 @@ export class CombatantLogic<
             // The attacker's blow strikes this defender.
             attackTarget: {
                 name: this.name,
-                actorUuid: this.combatant?.actor?.uuid ?? "",
+                actorUuid: this.actorLogic?.uuid ?? "",
             },
             // The counterstrike strikes the original attacker.
             defendTarget: rc.attackerAddress,
@@ -638,7 +701,7 @@ export class CombatantLogic<
             defenseLabel,
             attackTarget: {
                 name: this.name,
-                actorUuid: this.combatant?.actor?.uuid ?? "",
+                actorUuid: this.actorLogic?.uuid ?? "",
             },
         });
         await context.speaker.toChat(
@@ -656,6 +719,26 @@ export class CombatantLogic<
     static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
         return [
             ...SohlLogic.defineIntrinsicActions(),
+            {
+                shortcode: "automatedCombatStart",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Being.ACTION.automatedCombatStart",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-crossed-swords",
+                executor: "automatedCombatStart",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "moveToGroup",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Combatant.ACTION.moveToGroup",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-person-group",
+                executor: "moveToGroup",
+                visible: "isGM",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
+            },
             {
                 shortcode: "automatedBlockResume",
                 subType: ACTION_SUBTYPE.INTRINSIC,
@@ -698,4 +781,143 @@ export class CombatantLogic<
             },
         ];
     }
+}
+
+/* --------------------------------------------------------------------------
+ * Pure combatant predicates and helpers
+ *
+ * Side-effect-free, Foundry-free functions backing the combatant rules above.
+ * Kept as module-level functions (rather than methods) so they are trivially
+ * unit-testable with plain inputs.
+ * ------------------------------------------------------------------------ */
+
+/**
+ * Pure relational predicate behind {@link CombatantLogic.isEnemyOf}.
+ *
+ * Under the SoHL combat invariant, two combatants are enemies iff they belong
+ * to different {@link CombatantGroup}s. A combatant is never its own enemy.
+ * Absent grouping (a `null`/`undefined` group id on either side) is treated
+ * defensively as enemy.
+ *
+ * @param thisGroupId - The group id of the subject combatant.
+ * @param otherGroupId - The group id of the other combatant.
+ * @param isSelf - True when both ids refer to the same combatant.
+ * @returns True if the two combatants are enemies.
+ */
+export function areCombatantsEnemies(
+    thisGroupId: string | null | undefined,
+    otherGroupId: string | null | undefined,
+    isSelf: boolean,
+): boolean {
+    if (isSelf) return false;
+    if (thisGroupId && otherGroupId && thisGroupId === otherGroupId) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Foundry status-effect ids that incapacitate a combatant enough that it no
+ * longer threatens its enemies. Uses Foundry's canonical ids (note `stun`,
+ * not `stunned`). `dead`/defeat is handled separately via the DEFEATED special
+ * status effect (`combatant.isDefeated`).
+ */
+export const THREAT_NEGATING_STATUSES = [
+    STATUS_EFFECT.UNCONSCIOUS,
+    STATUS_EFFECT.SLEEP,
+    STATUS_EFFECT.STUN,
+    STATUS_EFFECT.RESTRAINED,
+    STATUS_EFFECT.PARALYZED,
+    STATUS_EFFECT.FROZEN,
+] as const;
+
+/** The condition view consumed by {@link isThreatening}. */
+export interface ThreatView {
+    /** The candidate threatens the subject's allegiance (different group). */
+    isEnemy: boolean;
+    /** The candidate is defeated (DEFEATED special status). */
+    isDefeated: boolean;
+    /** The candidate carries a {@link THREAT_NEGATING_STATUSES} status. */
+    isIncapacitated: boolean;
+    /** The candidate is hidden from the subject. */
+    isHidden: boolean;
+    /** The candidate is within weapon reach of the subject. */
+    reaches: boolean;
+}
+
+/**
+ * Pure predicate behind {@link CombatantLogic.threatenedBy}: a candidate
+ * combatant threatens the subject iff it is an enemy that is alive, conscious,
+ * capable, visible, and within reach.
+ *
+ * @param view - The resolved threat conditions for the candidate.
+ * @returns `true` if the candidate threatens the subject.
+ */
+export function isThreatening(view: ThreatView): boolean {
+    return (
+        view.isEnemy &&
+        !view.isDefeated &&
+        !view.isIncapacitated &&
+        !view.isHidden &&
+        view.reaches
+    );
+}
+
+/** Minimal contract a combatant's actor logic must satisfy for move computation. */
+export interface BeingLogicMoveView {
+    /**
+     * The actor's base move for a given medium.
+     *
+     * @param medium - The movement medium (e.g. ground, swimming, flying).
+     * @returns An object whose `effective` is the base move rate.
+     */
+    effectiveBaseMove(medium: MovementMedium): {
+        /** The effective base move rate for the medium. */
+        effective: number;
+    };
+}
+
+/**
+ * Compute the effective tactical move for a combatant in the given medium.
+ *
+ * Returns `null` when the actor has no `BeingLogic` (e.g. a vehicle actor) or
+ * when the actor's base move for this medium is 0 (creature cannot move in this
+ * medium). Otherwise returns `effectiveBaseMove(medium) × moveFactor`.
+ *
+ * @param beingLogic - The combatant actor's move-providing logic, if any.
+ * @param medium - The movement medium to compute for.
+ * @param moveFactor - Multiplier applied to the base move rate.
+ * @returns The effective tactical move, or `null` when movement is unavailable.
+ */
+export function computeMove(
+    beingLogic: BeingLogicMoveView | undefined | null,
+    medium: MovementMedium,
+    moveFactor: number,
+): number | null {
+    if (!beingLogic || typeof beingLogic.effectiveBaseMove !== "function") {
+        return null;
+    }
+    const base = beingLogic.effectiveBaseMove(medium).effective;
+    if (!base) return null;
+    return base * moveFactor;
+}
+
+/**
+ * Decide which medium a newly created combatant should display in the combat
+ * tracker.
+ *
+ * Precedence: an explicit user-set medium > the actor's lineage default >
+ * nothing (caller keeps the schema default).
+ *
+ * @param userSetMedium - An explicitly user-selected medium, if any.
+ * @param lineageDefault - The actor's lineage default medium, if any.
+ * @returns The medium to display, or `null` to keep the schema default.
+ */
+export function chooseInitialDisplayedMedium(
+    userSetMedium: string | undefined | null,
+    lineageDefault: string | undefined | null,
+): string | null {
+    if (userSetMedium) return userSetMedium;
+    if (lineageDefault) return lineageDefault;
+    return null;
 }

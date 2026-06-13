@@ -12,6 +12,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <section class="tab combat" data-tab="combat">
+    {{#if isGM}}
+    {{!-- Default combat group: auto-assigns this actor's combatants on combat start --}}
+    <fieldset class="sohl-default-combat-group">
+        <legend>{{localize "SOHL.Actor.FIELDS.defaultCombatGroup.label"}}</legend>
+        <div class="form-group">
+            <label>{{localize "SOHL.Actor.FIELDS.defaultCombatGroup.label"}}</label>
+            <div class="form-fields">
+                <input type="text" name="system.defaultCombatGroup"
+                    value="{{defaultCombatGroup}}"
+                    placeholder="Opponents"
+                    data-tooltip="{{localize 'SOHL.Actor.FIELDS.defaultCombatGroup.hint'}}">
+            </div>
+        </div>
+    </fieldset>
+    {{/if}}
+
     {{!-- Melee Weapons --}}
     {{#if meleeWeapons.length}}
     <fieldset>

@@ -11,11 +11,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type {
     SohlItem,
     SohlItemLogic,
@@ -337,7 +337,7 @@ export class SohlActor extends Actor {
     getToken(): SohlTokenDocument | null {
         // Case 1: synthetic (unlinked) actor -> has a backing TokenDocument
         if (this.isToken && this.token) {
-            return this.token; // TokenDocument
+            return this.token as SohlTokenDocument; // TokenDocument
         }
 
         // Case 2: linked actor -> find an active-scene token linked to this actor
@@ -348,7 +348,7 @@ export class SohlActor extends Actor {
             (td) => td.actorLink && td.actorId === this.id,
         );
 
-        return linkedTokens[0] ?? null;
+        return (linkedTokens[0] as SohlTokenDocument) ?? null;
     }
 
     /**
@@ -780,6 +780,17 @@ function defineSohlActorDataSchema(): foundry.data.fields.DataSchema {
         }),
         appearance: new HTMLField(),
         dossier: new HTMLField(),
+        /**
+         * The {@link CombatantGroup} name this actor's combatants are auto-
+         * assigned to when they enter combat (blank → the default group). Read
+         * by `SohlCombat.seedCombatantGroups` at combatant creation. Lives on the
+         * actor (not the token) because tokens cannot carry typed system data.
+         */
+        defaultCombatGroup: new foundry.data.fields.StringField({
+            required: false,
+            blank: true,
+            initial: "",
+        }),
     };
 }
 
@@ -808,6 +819,11 @@ export abstract class SohlActorDataModel<
     appearance!: HTMLString;
     /** Path to the actor's portrait image. */
     portrait!: FilePath;
+    /**
+     * The {@link CombatantGroup} name this actor's combatants are auto-assigned
+     * to on entering combat; blank uses the default group.
+     */
+    defaultCombatGroup!: string;
 
     /**
      * Constructs the actor data model, requiring a {@link SohlActor} parent.

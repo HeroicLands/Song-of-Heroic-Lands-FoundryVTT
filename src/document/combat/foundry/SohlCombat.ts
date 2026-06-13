@@ -12,12 +12,12 @@
  */
 
 import { fvttIsActiveGM } from "@src/core/FoundryHelpers";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import {
     type ExistingGroup,
     type SeedingCombatant,
     resolveGroupSeeding,
-} from "./combat-logic";
+} from "../logic/combat-logic";
 
 /**
  * SoHL's Combat document. Seeds newly created combatants into
@@ -76,7 +76,7 @@ export class SohlCombat<
             id: c.id!,
             hasGroup: !!c.groupId,
             desiredName:
-                ((c.token as any)?.getFlag?.("sohl", "defaultCombatGroup") as
+                ((c.actor as any)?.system?.defaultCombatGroup as
                     | string
                     | undefined) ?? null,
         }));
