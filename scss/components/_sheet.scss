@@ -1,0 +1,181 @@
+@use "../utils/colors";
+
+// Layout for the document-sheet frame and its contents.
+//
+// This partial is loaded from `sohl.scss` under `.sohl.sheet` (a COMPOUND
+// selector), so every top-level rule below scopes to elements inside a sheet
+// frame, e.g. `.sohl.sheet .window-content`.
+//
+// It must NOT be loaded under the plain `.sohl { }` wrapper used for the other
+// components: ApplicationV2 places `sohl`, `sheet`, and the sheet-type class on
+// the SAME frame element, so the descendant selector `.sohl .sheet …` (with a
+// space) never matches. The compound `.sohl.sheet …` does. (See issue #87.)
+//
+// Likewise it must stay scoped to `.sheet` rather than bare `.sohl`: chat cards
+// and the standalone SoHL apps (Domain Manager, Calendar Settings) also carry
+// `.sohl`, and the bare `input` / `select` resets below would otherwise leak
+// into them.
+
+.window-content {
+    overflow-y: hidden;
+    padding: 5px;
+    background: url("../assets/ui/parchment.jpg") repeat;
+    font-size: 13px;
+    color: colors.$c-text-primary;
+}
+
+.window-content form {
+    height: 100%;
+    overflow: hidden;
+}
+
+.window-content .tab {
+    height: 100%;
+    overflow-y: hidden;
+    align-content: flex-start;
+}
+
+input[type="text"],
+input[type="number"] {
+    background: none;
+    border: 1px solid transparent;
+}
+
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border: 1px solid colors.$c-border-strong;
+}
+
+select {
+    flex: 1;
+    font-size: 12px;
+    height: 22px;
+    background: transparent;
+}
+
+.editable .rollable:hover {
+    color: colors.$c-text-primary;
+    text-shadow: 0 0 10px red;
+    cursor: pointer;
+}
+
+span.sep {
+    flex: none;
+    margin: 0 1px;
+    display: inline;
+    position: relative;
+    color: colors.$c-bg-input;
+    font-weight: normal;
+}
+
+.editor {
+    height: 100%;
+}
+
+.editor .tox-toolbar-overlord,
+.editor .tox-toolbar__primary {
+    background: none;
+}
+
+.sheet-header {
+    .header-details {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    h1 {
+        flex: 1;
+        border-bottom: none;
+        height: 60px;
+        margin: 0;
+        padding: 5px;
+
+        input {
+            display: block;
+            height: 50px;
+            font-size: 32px;
+            margin: 0;
+        }
+    }
+
+    img.actor-img {
+        flex: 0 0 100px;
+        max-width: 100px;
+        height: 100px;
+        object-fit: contain;
+        border: none;
+        border-right: 2px groove colors.$c-border-subtle;
+    }
+
+    .summary {
+        flex: 0 0 100%;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border-top: 2px groove colors.$c-border-subtle;
+        border-bottom: none;
+
+        li {
+            height: calc(100% - 6px);
+            float: left;
+            margin: 2px 0;
+            padding: 0;
+            border-right: 2px groove colors.$c-border-subtle;
+            line-height: 34px;
+            color: colors.$c-text-muted;
+
+            :last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    .subtype {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .status-effects {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 4px;
+
+        .toggle-status-effect {
+            padding: 1px 5px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 16px;
+            border: 1px solid colors.$c-border-subtle;
+            border-radius: 3px;
+            color: colors.$c-text-muted;
+
+            &.active {
+                color: colors.$c-text-inverse;
+                background: colors.$c-danger;
+                border-color: colors.$c-danger;
+            }
+        }
+    }
+}
+
+.sheet-navigation {
+    flex: 0 0 30px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 700;
+
+    .item {
+        height: 30px;
+        line-height: 32px;
+        margin: 0 24px;
+        border-bottom: 3px solid colors.$c-border-strong;
+
+        .active {
+            border-bottom: 3px solid colors.$c-danger;
+        }
+    }
+}
