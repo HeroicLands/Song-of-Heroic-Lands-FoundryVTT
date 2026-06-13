@@ -27,6 +27,8 @@ import {
 } from "@src/utils/constants";
 import { MysteryLogic } from "./MysteryLogic";
 import { SohlAction } from "@src/domain/action/SohlAction";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 
 /**
  * An actively invoked supernatural power.
@@ -121,6 +123,26 @@ export class MysticalAbilityLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
         ];
+    }
+
+    /**
+     * Actively invoke this mystical ability (cast the spell, perform the rite,
+     * channel the power, etc.), resolving its activation test.
+     *
+     * Intrinsic-action executor for the `perform` action.
+     *
+     * @param _context - The action context (speaker, scope) for the activation.
+     * @returns The activation test result, or `null` if it could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async perform(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Mystical Ability Perform
+        sohl.log.uiWarn(
+            `Performing "${this.name}" is not yet implemented.`,
+        );
+        return null;
     }
 
     /* --------------------------------------------- */

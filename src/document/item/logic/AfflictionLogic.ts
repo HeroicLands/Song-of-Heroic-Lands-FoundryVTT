@@ -344,6 +344,57 @@ export class AfflictionLogic<
     }
 
     /**
+     * Roll the fatigue test for a fatigue-subtype affliction.
+     *
+     * Intrinsic-action executor for the `fatiguetest` action.
+     *
+     * @param _context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async fatigueTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Affliction Fatigue Test
+        sohl.log.uiWarn("Affliction Fatigue Test is not yet implemented.");
+        return null;
+    }
+
+    /**
+     * Roll the morale test for a morale-subtype affliction.
+     *
+     * Intrinsic-action executor for the `moraletest` action.
+     *
+     * @param _context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async moraleTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Affliction Morale Test
+        sohl.log.uiWarn("Affliction Morale Test is not yet implemented.");
+        return null;
+    }
+
+    /**
+     * Roll the fear test for a fear-subtype affliction.
+     *
+     * Intrinsic-action executor for the `feartest` action.
+     *
+     * @param _context - The action context for the test.
+     * @returns The success test result, or `null` if the test could not be run.
+     * @remarks Not yet implemented; warns and returns `null`.
+     */
+    async fearTest(
+        _context: SohlActionContext,
+    ): Promise<SuccessTestResult | null> {
+        // TODO - Affliction Fear Test
+        sohl.log.uiWarn("Affliction Fear Test is not yet implemented.");
+        return null;
+    }
+
+    /**
      * Define and return all intrinsic actions for this logic type.
      * @returns A map of action shortcodes to their definitions
      */
@@ -356,7 +407,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.transmitaffliction.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-drowning",
-                executor: "transmitAffliction",
+                executor: "transmit",
                 visible: "item.logic.canTransmit",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
@@ -366,7 +417,7 @@ export class AfflictionLogic<
                 title: "SOHL.Affliction.Action.contractafflictiontest.title",
                 scope: SOHL_ACTION_SCOPE.SELF,
                 iconFAClass: "sohl-vomiting",
-                executor: "contractAfflictionTest",
+                executor: "contractTest",
                 visible: "true",
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.GENERAL,
             },
