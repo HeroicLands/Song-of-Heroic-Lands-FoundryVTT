@@ -41,7 +41,7 @@
       "_id": "xGUOjaeC7UCnZAVn",
       "system": {
         "scope": "test",
-        "test": "(item.type === 'skill' && has('per', item.logic.skillBase.attrShortcodes)) || (item.type === 'attribute' && item.system.shortcode === 'per')"
+        "test": "(doc.type==='skill' && doc.logic.hasAttr('per'))||(doc.type==='attribute' && doc.system.shortcode==='per')"
       },
       "changes": [
         {
