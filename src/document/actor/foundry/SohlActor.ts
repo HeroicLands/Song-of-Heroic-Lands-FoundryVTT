@@ -966,6 +966,10 @@ export abstract class SohlActorSheetBase extends SohlActorSheetBase_Base {
         foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>
     > {
         const type = this.document.type;
+        // Expose the prepared tab descriptor for this part so content
+        // sections can resolve their `active` state and tab group. The
+        // navigation part itself iterates the full `tabs` record instead.
+        (context as any).tab = (context as any).tabs?.[partId];
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
