@@ -57,6 +57,10 @@ const PURE_ZONES: Record<string, Record<string, () => Promise<unknown>>> = {
         "../../src/document/scene/logic/**/*.ts",
         { eager: false },
     ),
+    "effect logic layer": import.meta.glob(
+        "../../src/document/effect/logic/**/*.ts",
+        { eager: false },
+    ),
     "domain layer": import.meta.glob("../../src/domain/**/*.ts", {
         eager: false,
     }),

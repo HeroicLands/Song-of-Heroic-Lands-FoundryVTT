@@ -343,7 +343,7 @@ function registerSystemHooks() {
         leftCol.appendChild(btn);
     });
 
-    Hooks.on(
+    (Hooks as any).on(
         "chatMessage",
         (
             _app: ChatLog,
@@ -355,7 +355,7 @@ function registerSystemHooks() {
         ) => AIAdapter.chatMessage(ui.chat, message, data),
     );
 
-    Hooks.on(
+    (Hooks as any).on(
         "renderChatMessageHTML",
         (_chatMsg: ChatMessage, element: HTMLElement, _data: PlainObject) => {
             // Per-client gating: show defender-response buttons only to the
@@ -434,7 +434,7 @@ function registerSystemHooks() {
 }
 
 // Register init hook
-Hooks.once("init", () => {
+(Hooks as any).once("init", () => {
     const initMessage = `===========================================================
  _____                            __
 /  ___|                          / _|
@@ -472,7 +472,7 @@ Hooks.once("init", () => {
 });
 
 // Register ready hook
-Hooks.once("ready", () => {
+(Hooks as any).once("ready", () => {
     registerHandlebarsHelpers();
     SohlSystem.ready = true;
 });

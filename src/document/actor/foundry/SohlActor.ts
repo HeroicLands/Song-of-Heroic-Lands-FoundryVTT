@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { SohlAction } from "@src/domain/action/SohlAction";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";

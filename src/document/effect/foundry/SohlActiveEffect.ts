@@ -16,25 +16,14 @@ import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import {
     ACTIVE_EFFECT_SCOPE,
-    ActiveEffectScopeChoices,
     ITEM_KIND,
-    ITEM_METADATA,
     isItemKind,
     type ItemKind,
     ItemKinds,
-    VALUE_DELTA_OPERATOR,
 } from "@src/utils/constants";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
-import { ValueDelta } from "@src/domain/modifier/ValueDelta";
-const {
-    StringField,
-    JavaScriptField,
-    ArrayField,
-    SchemaField,
-    NumberField,
-    AnyField,
-} = foundry.data.fields;
+import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 
 /**
  * SoHL's Active Effect document. Resolves its owning item/actor and applies
@@ -200,9 +189,9 @@ export class SohlActiveEffect extends ActiveEffect {
     }
 
     /**
-     * Get the context menu options for a specific SohlItem document.
-     * @param doc The SohlItem document to get context options for.
-     * @returns The context menu options for the specified SohlItem document.
+     * Get the context menu options for a specific SohlActiveEffect document.
+     * @param doc The active-effect document to get context options for.
+     * @returns The context menu options for the specified document.
      */
     protected static _getContextOptions(
         doc: SohlActiveEffect,
@@ -224,66 +213,6 @@ export class SohlActiveEffect extends ActiveEffect {
      */
     getContextOptions(): SohlContextMenu.Entry[] {
         return [];
-    }
-}
-
-/**
- * Map a Foundry `change.type` string to a SoHL `VALUE_DELTA_OPERATOR`.
- * Unknown types fall back to `ADD`. CUSTOM is only valid when the
- * ValueModifier has a `customFunction`.
- *
- * @param type - The Foundry change type string.
- * @returns The corresponding `VALUE_DELTA_OPERATOR` (`ADD` for unknown types).
- */
-function changeTypeToOperator(type: string): string {
-    switch (type) {
-        case "add":
-            return VALUE_DELTA_OPERATOR.ADD;
-        case "multiply":
-            return VALUE_DELTA_OPERATOR.MULTIPLY;
-        case "override":
-            return VALUE_DELTA_OPERATOR.OVERRIDE;
-        case "upgrade":
-            return VALUE_DELTA_OPERATOR.UPGRADE;
-        case "downgrade":
-            return VALUE_DELTA_OPERATOR.DOWNGRADE;
-        case "custom":
-            return VALUE_DELTA_OPERATOR.CUSTOM;
-        default:
-            return VALUE_DELTA_OPERATOR.ADD;
-    }
-}
-
-/**
- * Push a `ValueDelta` constructed from the change directly onto the
- * `ValueModifier.deltas` array. Bypasses the `add/multiply/...` API so we
- * can use a stable `"SOHL.INFO.ActiveEffect"` name (the user-facing label
- * still surfaces through `effect.name` via the shortcode).
- *
- * @param vm - The value modifier to receive the delta.
- * @param change - The effect change describing the operator and value.
- */
-function pushDeltaToValueModifier(vm: ValueModifier, change: any): void {
-    const effectName = change?.effect?.name ?? "Active Effect";
-    const shortcode = effectName.slice(0, 16);
-    try {
-        const delta = new ValueDelta({
-            name: "SOHL.INFO.ActiveEffect",
-            shortcode,
-            op: changeTypeToOperator(String(change.type ?? "add")),
-            value: String(change.value ?? 0),
-        });
-        // Remove any existing delta from this same effect, then push fresh.
-        vm.deltas = vm.deltas.filter((d) => d.shortcode !== shortcode);
-        vm.deltas.push(delta);
-        // Mark the modifier dirty so the next `effective` access recomputes.
-        (vm as any).dirty = true;
-    } catch (err) {
-        sohl.log.warn("ActiveEffect delta construction failed:", {
-            effect: effectName,
-            change,
-            error: err,
-        });
     }
 }
 
@@ -375,191 +304,4 @@ function dispatchStrikeModeChange(
         }
     }
     return undefined;
-}
-
-/**
- * Builds the SoHL active-effect data schema: scope, a `test` SafeExpression,
- * and a Foundry-compatible `changes` array extended with `strikeModePredicate`.
- *
- * @returns The active-effect data schema.
- */
-function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
-    return {
-        scope: new StringField({
-            blank: false,
-            initial: ACTIVE_EFFECT_SCOPE.THIS,
-            // Dynamic so newly-registered item types are included automatically.
-            choices: () => ActiveEffectScopeChoices(),
-        }),
-        test: new JavaScriptField({}),
-        // SYNC: replicate of foundry-vtt-dev/common/data/active-effect.mjs
-        // (v14). Keep key/type/value/phase/priority verbatim per the upstream
-        // doc comment: "A system can override the changes SchemaField but
-        // must preserve definitions for type, phase, and priority."
-        // SoHL extension: strikeModePredicate (last field).
-        changes: new ArrayField(
-            new SchemaField({
-                key: new StringField({ required: true }),
-                type: new StringField({
-                    required: true,
-                    blank: false,
-                    initial: "add",
-                }),
-                value: new AnyField({
-                    required: true,
-                    nullable: true,
-                    initial: "",
-                }),
-                phase: new StringField({
-                    required: true,
-                    blank: false,
-                    initial: "initial",
-                }),
-                priority: new NumberField(),
-                // SoHL extension — only consulted when key matches ^(mod:)?sm:
-                strikeModePredicate: new JavaScriptField({}),
-            }),
-        ),
-    };
-}
-
-type SohlActiveEffectDataSchema = ReturnType<
-    typeof defineActiveEffectDataSchema
->;
-
-/** @internal */
-export class SohlActiveEffectDataModel<
-    TSchema extends foundry.data.fields.DataSchema = SohlActiveEffectDataSchema,
-> extends foundry.abstract.TypeDataModel<TSchema, SohlActiveEffect> {
-    static override readonly LOCALIZATION_PREFIXES = ["SOHL.ActiveEffect"];
-    static readonly kind = "sohleffectdata";
-    scope!: string;
-    test!: string;
-    changes!: Array<{
-        key: string;
-        type: string;
-        value: unknown;
-        phase: string;
-        priority?: number | null;
-        strikeModePredicate?: string;
-    }>;
-
-    /**
-     * Returns the SoHL active-effect data schema.
-     *
-     * @returns The active-effect data schema.
-     */
-    static override defineSchema(): foundry.data.fields.DataSchema {
-        return defineActiveEffectDataSchema();
-    }
-}
-
-const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
-/** @internal */
-export class SohlActiveEffectSheet extends BaseAEConfig {
-    static override PARTS = {
-        header: { template: "templates/sheets/active-effect/header.hbs" },
-        tabs: { template: "templates/generic/tab-navigation.hbs" },
-        details: {
-            template: "systems/sohl/templates/effects/details.hbs",
-            scrollable: [""],
-        },
-        duration: { template: "templates/sheets/active-effect/duration.hbs" },
-        changes: {
-            template: "systems/sohl/templates/effects/changes.hbs",
-            scrollable: ["ol[data-changes]"],
-        },
-        footer: { template: "templates/generic/form-footer.hbs" },
-    };
-
-    /** @inheritDoc */
-    protected override async _preparePartContext(
-        partId: string,
-        context: PlainObject,
-    ): Promise<foundry.applications.api.ApplicationV2.RenderContextOf<this>> {
-        const partContext: PlainObject = await super._preparePartContext(
-            partId,
-            context as any,
-            {},
-        );
-        if (partContext.tabs?.partId)
-            partContext.tab = partContext.tabs[partId];
-        const document: SohlItem | SohlActor = (this as any).object;
-        switch (partId) {
-            case "details": {
-                partContext.targetTypes = {};
-                if (partContext.isActorEffect) {
-                    partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] =
-                        sohl.i18n.localize("EFFECT.ThisActor");
-                } else {
-                    partContext.targetTypes[ACTIVE_EFFECT_SCOPE.THIS] =
-                        sohl.i18n.format("EFFECT.ThisItem", {
-                            itemType: (document.parent?.system as any)
-                                ?.typeLabel,
-                        });
-                    partContext.targetTypes[ACTIVE_EFFECT_SCOPE.ACTOR] =
-                        sohl.i18n.localize("EFFECT.Actor");
-                }
-                // Add an entry for each registered item kind.
-                for (const [key, clazz] of Object.entries(
-                    sohl.CONFIG.Item.dataModels,
-                )) {
-                    partContext.targetTypes[key] = (clazz as any).typeLabel;
-                }
-                break;
-            }
-
-            case "duration":
-                // partContext.startTimeTemporal = new SohlTemporal(
-                //     partContext.startTime,
-                // );
-                // partContext.endTimeTemporal = new SohlTemporal(
-                //     partContext.endTime,
-                // );
-                break;
-
-            case "changes": {
-                // v14: Use ActiveEffect.CHANGE_TYPES (string-keyed registry)
-                // instead of deprecated CONST.ACTIVE_EFFECT_MODES (numeric)
-                partContext.changeTypes = Object.entries(
-                    (ActiveEffect as any).CHANGE_TYPES ?? {},
-                ).reduce(
-                    (
-                        types: StrictObject<string>,
-                        [key, config]: [string, any],
-                    ) => {
-                        types[key] = sohl.i18n.localize(config.label ?? key);
-                        return types;
-                    },
-                    {},
-                );
-                // The `key` dropdown should reflect the EFFECT_KEY namespace
-                // determined by `system.scope`:
-                //   - "this": the parent doc's own type
-                //   - "actor": the owning actor's type
-                //   - <itemKind>: that item kind's metadata
-                const scope = (document as any).system?.scope;
-                let metadataType: string;
-                if (scope === ACTIVE_EFFECT_SCOPE.THIS) {
-                    metadataType = document.parent?.type ?? document.type;
-                } else if (scope === ACTIVE_EFFECT_SCOPE.ACTOR) {
-                    metadataType = (document as any).actor?.type ?? "";
-                } else {
-                    metadataType = scope ?? "";
-                }
-                const itemData =
-                    metadataType in ITEM_METADATA ?
-                        ITEM_METADATA[
-                            metadataType as keyof typeof ITEM_METADATA
-                        ]
-                    :   undefined;
-                partContext.keyChoices = (itemData as any)?.KeyChoices || [];
-                // Surface the scope to the template so the strikeModePredicate
-                // row can conditionally render for weapongear scope + sm: keys.
-                partContext.scope = scope;
-                break;
-            }
-        }
-        return partContext as foundry.applications.api.ApplicationV2.RenderContextOf<this>;
-    }
 }

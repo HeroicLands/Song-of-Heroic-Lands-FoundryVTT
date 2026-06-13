@@ -107,11 +107,9 @@ import { WeaponGearDataModel } from "@src/document/item/foundry/WeaponGearDataMo
 import { WeaponGearSheet } from "@src/document/item/foundry/WeaponGearSheet";
 
 // Effect/combatant/combat/region
-import {
-    SohlActiveEffect,
-    SohlActiveEffectDataModel,
-    SohlActiveEffectSheet,
-} from "@src/document/effect/SohlActiveEffect";
+import { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
+import { SohlActiveEffectDataModel } from "@src/document/effect/foundry/SohlActiveEffectDataModel";
+import { SohlActiveEffectSheet } from "@src/document/effect/foundry/SohlActiveEffectSheet";
 import {
     SohlCombatant,
     SohlCombatantDataModel,
