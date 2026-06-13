@@ -139,11 +139,6 @@
             text-align: center;
         }
 
-        .subtype {
-            flex: 0 0 90px;
-            text-align: center;
-        }
-
         .impact {
             flex: 0 0 60px;
             text-align: center;
@@ -230,8 +225,4 @@
             border-bottom: none;
         }
     }
-}
-
-.items-block + .items-block {
-    margin-top: 10px;
 }
