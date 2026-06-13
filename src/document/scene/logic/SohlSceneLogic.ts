@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSceneDataModel } from "@src/document/scene/SohlSceneDataModel";
-import type { SohlScene } from "@src/document/scene/SohlScene";
+import type { SohlSceneDataModel } from "@src/document/scene/foundry/SohlSceneDataModel";
+import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
 
 /**
  * Scene-scoped gameplay logic for the SoHL system. Lightweight by design:

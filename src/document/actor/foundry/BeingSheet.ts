@@ -36,7 +36,7 @@ import {
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { toFilePath } from "@src/utils/helpers";
-import { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
@@ -715,6 +715,9 @@ export class BeingSheet extends SohlActorSheetBase {
             missileWeapons,
             combatTechniques,
             bodyStructure,
+            defaultCombatGroup:
+                (actor.system as any).defaultCombatGroup ?? "",
+            isGM: !!(game as any).user?.isGM,
         });
     }
 

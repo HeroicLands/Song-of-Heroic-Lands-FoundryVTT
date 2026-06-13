@@ -248,16 +248,31 @@ describe("SkillLogic", () => {
             expect(spy).toHaveBeenCalledWith(ctx);
         });
 
-        it("opposedTestStart - delegates to masteryLevel.opposedTestStart", async () => {
+        it("opposedTestStart - delegates to the actor's token logic with this skill's uuid in scope", async () => {
+            const result = { isOpposed: true } as any;
+            const opposedTestStart = vi.fn().mockResolvedValue(result);
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttActiveTokenLogicForActor",
+            ).mockReturnValue({ opposedTestStart } as any);
             const logic = makeSkill();
             logic.initialize();
-            const result = { isOpposed: true } as any;
-            const spy = vi
-                .spyOn(logic.masteryLevel, "opposedTestStart")
-                .mockResolvedValue(result);
             const ctx = { scope: {} } as any;
             await expect(logic.opposedTestStart(ctx)).resolves.toBe(result);
-            expect(spy).toHaveBeenCalledWith(ctx);
+            expect(opposedTestStart).toHaveBeenCalledWith(ctx);
+            expect(ctx.scope.logicUuid).toBe(logic.uuid);
+        });
+
+        it("opposedTestStart - warns and returns null when the actor has no token", async () => {
+            vi.spyOn(
+                FoundryHelpersMock,
+                "fvttActiveTokenLogicForActor",
+            ).mockReturnValue(null);
+            const logic = makeSkill();
+            logic.initialize();
+            const ctx = { scope: {} } as any;
+            await expect(logic.opposedTestStart(ctx)).resolves.toBeNull();
+            expect(ctx.scope.logicUuid).toBeUndefined();
         });
     });
 

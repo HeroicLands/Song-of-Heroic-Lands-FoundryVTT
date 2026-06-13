@@ -26,7 +26,7 @@ import {
 } from "@src/utils/constants";
 import type { SohlLogic } from "@src/core/SohlLogic";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { StrikeModeBase } from "@src/domain/strikemode/StrikeModeBase";
 import { AttackResult } from "@src/domain/result/AttackResult";
 import type { CombatResult } from "@src/domain/result/CombatResult";

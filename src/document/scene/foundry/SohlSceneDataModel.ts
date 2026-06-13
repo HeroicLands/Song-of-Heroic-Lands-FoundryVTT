@@ -11,8 +11,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlScene } from "@src/document/scene/SohlScene";
-import { SohlSceneLogic } from "@src/document/scene/SohlSceneLogic";
+import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
+import { SohlSceneLogic } from "@src/document/scene/logic/SohlSceneLogic";
 
 /**
  * Builds the data schema for the SoHL {@link Scene} data model, currently just the

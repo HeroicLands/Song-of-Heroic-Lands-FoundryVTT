@@ -12,7 +12,7 @@
  */
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
 import type { HTMLString } from "@src/utils/helpers";
 import { SohlActionContext } from "@src/core/SohlActionContext";

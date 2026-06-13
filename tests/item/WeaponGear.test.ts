@@ -4,7 +4,7 @@ import { MeleeStrikeMode } from "@src/domain/strikemode/MeleeStrikeMode";
 import { MissileStrikeMode } from "@src/domain/strikemode/MissileStrikeMode";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { IMPACT_ASPECT, ITEM_KIND } from "@src/utils/constants";
-import * as AutomatedCombat from "@src/document/actor/logic/automated-combat";
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 
 /*
@@ -386,14 +386,32 @@ describe("WeaponGearLogic", () => {
         });
 
         describe("intrinsic executors", () => {
-            it("automatedCombatStart - delegates to startAutomatedAttackFromItem with this logic, item name, and context", async () => {
-                const spy = vi
-                    .spyOn(AutomatedCombat, "startAutomatedAttackFromItem")
+            it("automatedCombatStart - delegates to the attacker combatant's automatedCombatStart, passing this logic's uuid in scope", async () => {
+                const automatedCombatStart = vi
+                    .fn()
                     .mockResolvedValue(undefined);
+                vi.spyOn(
+                    FoundryHelpers,
+                    "fvttActiveCombatantForActor",
+                ).mockReturnValue({ automatedCombatStart } as any);
                 const logic = makeWeapon({}, { name: "Broadsword" });
                 const ctx = { scope: {} } as any;
                 await logic.automatedCombatStart(ctx);
-                expect(spy).toHaveBeenCalledWith(logic, "Broadsword", ctx);
+                expect(automatedCombatStart).toHaveBeenCalledWith(ctx);
+                expect(ctx.scope.logicUuid).toBe(logic.uuid);
+            });
+
+            it("automatedCombatStart - warns and aborts when the actor is not in the active combat", async () => {
+                vi.spyOn(
+                    FoundryHelpers,
+                    "fvttActiveCombatantForActor",
+                ).mockReturnValue(null);
+                const logic = makeWeapon({}, { name: "Broadsword" });
+                const ctx = { scope: {} } as any;
+                await expect(
+                    logic.automatedCombatStart(ctx),
+                ).resolves.toBeUndefined();
+                expect(ctx.scope.logicUuid).toBeUndefined();
             });
 
             it.todo(

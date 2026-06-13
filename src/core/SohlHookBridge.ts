@@ -61,7 +61,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
         };
     }
 
-    Hooks.on(
+    (Hooks as any).on(
         "updateWorldTime" as any,
         async (
             worldTime: number,
@@ -80,19 +80,19 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
         },
     );
 
-    Hooks.on("combatStart" as any, async (combat: any) => {
+    (Hooks as any).on("combatStart" as any, async (combat: any) => {
         priorByCombat.set(combat, snapshotPrior(combat));
         if (!fvttIsActiveGM()) return;
         await queue.fire({ name: "combatStart", combat });
     });
 
-    Hooks.on("deleteCombat" as any, async (combat: any) => {
+    (Hooks as any).on("deleteCombat" as any, async (combat: any) => {
         priorByCombat.delete(combat);
         if (!fvttIsActiveGM()) return;
         await queue.fire({ name: "combatEnd", combat });
     });
 
-    Hooks.on(
+    (Hooks as any).on(
         "combatRound" as any,
         async (combat: any, updateData: any, _options: any) => {
             const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);
@@ -115,7 +115,7 @@ export function wireSohlHookBridge(queue: SohlEventQueue): void {
         },
     );
 
-    Hooks.on(
+    (Hooks as any).on(
         "combatTurn" as any,
         async (combat: any, updateData: any, _options: any) => {
             const prior = priorByCombat.get(combat) ?? snapshotPrior(combat);

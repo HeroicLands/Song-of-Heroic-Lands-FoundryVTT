@@ -14,10 +14,13 @@
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { FilePath, toSanitizedHTML, HTMLString } from "@src/utils/helpers";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
-import type { SohlScene } from "@src/document/scene/SohlScene";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
+import type { SohlScene } from "@src/document/scene/foundry/SohlScene";
 import type { SohlLogic } from "@src/core/SohlLogic";
-import type { SohlCombatant } from "@src/document/combatant/SohlCombatant";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
+import type { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
  * Foundry VTT runtime shim.
@@ -729,6 +732,84 @@ export function getActiveScene(): Scene | null {
 export function getActiveCombat(): Combat | null {
     if (!(game instanceof foundry.Game)) return null;
     return (game.combat as Combat | undefined) ?? null;
+}
+
+/**
+ * The {@link CombatantLogic} for the given actor's combatant in the active
+ * combat, or `null` when the game is unavailable, no combat is active, or the
+ * actor is not a combatant. The actor's active token (when one exists) is used
+ * to disambiguate; otherwise the first combatant for the actor is taken.
+ *
+ * Lets Foundry-free logic (e.g. weapon/technique item logic) reach the
+ * combatant action layer without touching `game`/`canvas` directly.
+ * @param actor - The actor whose active combatant to resolve.
+ * @returns The combatant's logic, or `null`.
+ */
+export function fvttActiveCombatantForActor(
+    actor: SohlActor | null,
+): CombatantLogic | null {
+    if (!actor) return null;
+    const combat = getActiveCombat();
+    if (!combat) return null;
+    const tokenId = (actor.getActiveTokens?.()?.[0] as any)?.document?.id;
+    const combatants = combat.combatants as any;
+    const combatant = (combatants.find?.(
+        (c: any) =>
+            (tokenId != null && c.tokenId === tokenId) ||
+            c.actor?.id === actor.id,
+    ) ?? null) as SohlCombatant | null;
+    return (combatant?.logic as CombatantLogic | undefined) ?? null;
+}
+
+/**
+ * The {@link CombatantLogic} of every combatant in the same combat as the given
+ * combatant (including it), or an empty array when it is not in a combat.
+ *
+ * Lets the Foundry-free {@link CombatantLogic} reach its peers (for ally /
+ * threat queries) without walking `combatant.combat.combatants` directly.
+ * @param combatant - The combatant whose peers to resolve.
+ * @returns The peer combatant logics, or an empty array.
+ */
+export function fvttCombatantLogics(
+    combatant: SohlCombatant | null,
+): CombatantLogic[] {
+    const combat = (combatant as any)?.combat;
+    if (!combat) return [];
+    return (combat.combatants as any).map(
+        (c: any) => c.logic,
+    ) as CombatantLogic[];
+}
+
+/**
+ * Prompt the GM to move a combatant into a {@link CombatantGroup}, delegating
+ * the dialog and group creation/assignment to the document. Lets the
+ * Foundry-free {@link CombatantLogic.moveToGroup} action trigger the operation
+ * without invoking document methods directly.
+ * @param combatant - The combatant to reassign.
+ */
+export async function fvttPromptMoveCombatantToGroup(
+    combatant: SohlCombatant | null,
+): Promise<void> {
+    await (combatant as any)?.moveToGroup?.();
+}
+
+/**
+ * The {@link SohlTokenDocumentLogic} for the given actor's active token on the
+ * canvas, or `null` when the game is unavailable or the actor has no token.
+ *
+ * Lets Foundry-free logic (e.g. skill/attribute item logic) reach the
+ * token-logic layer — where opposed tests live — without touching `canvas`.
+ * @param actor - The actor whose active token logic to resolve.
+ * @returns The token's logic, or `null`.
+ */
+export function fvttActiveTokenLogicForActor(
+    actor: SohlActor | null,
+): SohlTokenDocumentLogic | null {
+    if (!actor) return null;
+    const token = (actor.getActiveTokens?.()?.[0] as any)?.document as
+        | { logic?: SohlTokenDocumentLogic }
+        | undefined;
+    return token?.logic ?? null;
 }
 
 // ---------------------------------------------------------------------------

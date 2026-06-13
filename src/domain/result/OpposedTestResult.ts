@@ -13,7 +13,7 @@
 
 import { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
 import { TestResult } from "@src/domain/result/TestResult";
-import type { SohlTokenDocument } from "@src/document/token/SohlTokenDocument";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import {
     isOpposedTestResultTieBreak,
     OPPOSED_TEST_RESULT_TIEBREAK,
@@ -195,6 +195,19 @@ export class OpposedTestResult extends TestResult {
             title: "SOHL.OpposedTestResult.toChat.title",
             opposedTestResult: this,
             opposedTestResultJson: this.toJSON(),
+            // The opposed test is token-addressed: the Respond button resolves on
+            // the TARGET token (`SohlTokenDocument.onChatCardButton` →
+            // `SohlTokenDocumentLogic.opposedTestResume`).
+            targetToken: this.targetTestResult.token,
+            opposedTests: [
+                {
+                    action: "opposedTestResume",
+                    icon: "fas fa-reply",
+                    label: sohl.i18n.localize(
+                        "SOHL.OpposedTestResult.toChat.respond",
+                    ),
+                },
+            ],
             description: sohl.i18n.format(
                 "SOHL.OpposedTestResult.toChat.description",
                 {

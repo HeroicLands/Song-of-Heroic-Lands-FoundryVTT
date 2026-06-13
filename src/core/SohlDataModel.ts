@@ -13,7 +13,7 @@
 
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
+import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 import type { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import type { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import type { SohlAction } from "@src/domain/action/SohlAction";

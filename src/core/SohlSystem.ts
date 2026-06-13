@@ -107,23 +107,21 @@ import { WeaponGearDataModel } from "@src/document/item/foundry/WeaponGearDataMo
 import { WeaponGearSheet } from "@src/document/item/foundry/WeaponGearSheet";
 
 // Effect/combatant/combat/region
-import {
-    SohlActiveEffect,
-    SohlActiveEffectDataModel,
-    SohlActiveEffectSheet,
-} from "@src/document/effect/SohlActiveEffect";
+import { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
+import { SohlActiveEffectDataModel } from "@src/document/effect/foundry/SohlActiveEffectDataModel";
+import { SohlActiveEffectSheet } from "@src/document/effect/foundry/SohlActiveEffectSheet";
 import {
     SohlCombatant,
     SohlCombatantDataModel,
-} from "@src/document/combatant/SohlCombatant";
-import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
+} from "@src/document/combatant/foundry/SohlCombatant";
+import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
 import {
     SohlCombat,
     SohlCombatDataModel,
-} from "@src/document/combat/SohlCombat";
-import { SohlScene } from "@src/document/scene/SohlScene";
-import { SohlSceneDataModel } from "@src/document/scene/SohlSceneDataModel";
-import { SohlSceneConfig } from "@src/document/scene/SohlSceneConfig";
+} from "@src/document/combat/foundry/SohlCombat";
+import { SohlScene } from "@src/document/scene/foundry/SohlScene";
+import { SohlSceneDataModel } from "@src/document/scene/foundry/SohlSceneDataModel";
+import { SohlSceneConfig } from "@src/document/scene/foundry/SohlSceneConfig";
 // Utilities
 import * as utils from "@src/utils/helpers";
 import * as constants from "@src/utils/constants";
@@ -293,7 +291,8 @@ export const ITEM_LOGIC_DEF = {
 
 // Compile-time check: ensure every ItemKind has an ITEM_LOGIC_DEF entry.
 // If there is an ItemKind without a Logic class, this line will fail to type-check.
-const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF;
+const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> =
+    ITEM_LOGIC_DEF;
 
 /**
  * Item-kind → concrete Logic *instance* type, derived from {@link ITEM_LOGIC_DEF}.
@@ -305,7 +304,9 @@ const _ensureItemLogicCoversAllKinds: Record<ItemKind, unknown> = ITEM_LOGIC_DEF
  * passed at the call site.
  */
 export type ItemLogicByKind = {
-    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<(typeof ITEM_LOGIC_DEF)[K]>;
+    [K in keyof typeof ITEM_LOGIC_DEF]: InstanceType<
+        (typeof ITEM_LOGIC_DEF)[K]
+    >;
 };
 
 export const {
@@ -698,9 +699,8 @@ export class SohlSystem {
      */
     get currentCombatCombatantLogics(): CombatantLogic[] {
         return (
-            game.combat?.combatants.map(
-                (c) => (c as SohlCombatant).logic,
-            ) ?? []
+            game.combat?.combatants.map((c: any) => (c as SohlCombatant).logic) ??
+            []
         );
     }
 
