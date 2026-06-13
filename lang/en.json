@@ -71,6 +71,8 @@
     "SOHL.ActiveEffect.targetLabel.ThisItem": "This {itemName}",
     "SOHL.Actor.FIELDS.appearance.hint": "Physical description and observable traits",
     "SOHL.Actor.FIELDS.appearance.label": "Appearance",
+    "SOHL.Actor.FIELDS.defaultCombatGroup.hint": "Combatant group this actor is auto-assigned to when it enters combat. Blank uses the default group (Opponents).",
+    "SOHL.Actor.FIELDS.defaultCombatGroup.label": "Default Combat Group",
     "SOHL.Actor.FIELDS.docUrl.hint": "Link to the canonical documentation on heroiclands.org or other reference material",
     "SOHL.Actor.FIELDS.docUrl.label": "Documentation URL",
     "SOHL.Actor.FIELDS.dossier.hint": "Backstory and biographical information",

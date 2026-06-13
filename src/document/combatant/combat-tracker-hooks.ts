@@ -13,16 +13,11 @@
 
 import { SohlCombatant } from "@src/document/combatant/SohlCombatant";
 import { CombatantLogic } from "@src/document/combatant/CombatantLogic";
-import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/combat-logic";
 import {
     MOVEMENT_MEDIUM,
     movementMediumLabels,
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
-
-/** Token flag namespace/key for the default combat group name. */
-const FLAG_SCOPE = "sohl";
-const FLAG_KEY = "defaultCombatGroup";
 
 /**
  * The non-HIDDEN combatant intrinsic actions — the skeleton (label/icon) for the
@@ -36,26 +31,21 @@ const COMBATANT_MENU_ACTION_DEFS = CombatantLogic.defineIntrinsicActions().filte
 
 /**
  * Register hooks that enhance the default Foundry combat tracker and the
- * combatant / token config sheets:
+ * combatant config sheet:
  *
- * - A "Default Combat Group" field on the Token / Prototype Token config,
- *   writing `flags.sohl.defaultCombatGroup` (read by {@link SohlCombat} to
- *   auto-group combatants).
  * - The combat-tracker row context menu, populated from each combatant's
  *   {@link SohlCombatant.getContextOptions} (Automated Attack, Move to Group…).
  * - The `moveFactor` / `displayedMedium` fields on the combatant config and a
  *   per-row computed-move chip in the tracker.
  *
+ * (The actor's default combat group — read by {@link SohlCombat} to auto-group
+ * combatants — is a typed field on the actor data model, edited on the actor
+ * sheet, not a token flag.)
+ *
  * Uses DOM-injection / context hooks rather than overriding Foundry classes so
  * the system keeps working across Foundry version updates.
  */
 export function registerCombatTrackerHooks(): void {
-    (Hooks as any).on("renderTokenConfig", injectDefaultCombatGroupField);
-    (Hooks as any).on(
-        "renderPrototypeTokenConfig",
-        injectDefaultCombatGroupField,
-    );
-
     // The combatant tracker context menu is documented as
     // `getCombatantContextOptions`, but core's default `get{ClassName}ContextOptions`
     // dispatch can resolve to `getCombatTrackerContextOptions`. Register both
@@ -259,52 +249,4 @@ function addCombatantActionEntries(_app: any, menuItems: any[]): void {
         }
         menuItems.push(entry);
     }
-}
-
-/**
- * Inject a "Default Combat Group" text input into a Token / Prototype Token
- * config form, reading from and writing to `flags.sohl.defaultCombatGroup`.
- * @param app - The token config application supplying the document and flag.
- * @param html - The rendered form root (or a container holding the form).
- */
-function injectDefaultCombatGroupField(app: any, html: HTMLElement): void {
-    const form: HTMLElement | null =
-        html?.tagName === "FORM" ? html : html?.querySelector?.("form");
-    if (!form) return;
-    if (form.querySelector(".sohl-default-combat-group")) return;
-
-    const current =
-        (app?.document?.getFlag?.(FLAG_SCOPE, FLAG_KEY) as
-            | string
-            | undefined) ?? "";
-
-    // No localization: the field label is fixed and group names are free text.
-    const label = "Default Combat Group";
-
-    const group = document.createElement("div");
-    group.classList.add("form-group", "sohl-default-combat-group");
-    group.innerHTML = `
-        <label>${label}</label>
-        <div class="form-fields">
-            <input type="text" name="flags.${FLAG_SCOPE}.${FLAG_KEY}"
-                value="${escapeAttr(current)}"
-                placeholder="${DEFAULT_COMBAT_GROUP}">
-        </div>
-    `;
-
-    const footer = form.querySelector("footer");
-    if (footer) {
-        form.insertBefore(group, footer);
-    } else {
-        form.appendChild(group);
-    }
-}
-
-/**
- * Escape a string for safe use inside an HTML attribute value.
- * @param value - The raw string to escape.
- * @returns The string with `&` and `"` escaped as HTML entities.
- */
-function escapeAttr(value: string): string {
-    return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 }

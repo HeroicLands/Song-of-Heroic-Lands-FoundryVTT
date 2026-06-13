@@ -76,7 +76,7 @@ export class SohlCombat<
             id: c.id!,
             hasGroup: !!c.groupId,
             desiredName:
-                ((c.token as any)?.getFlag?.("sohl", "defaultCombatGroup") as
+                ((c.actor as any)?.system?.defaultCombatGroup as
                     | string
                     | undefined) ?? null,
         }));
