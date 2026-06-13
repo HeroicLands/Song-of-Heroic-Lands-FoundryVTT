@@ -11,7 +11,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab mysteries" data-tab="mysteries">
+<section class="tab mysteries{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="mysteries">
     {{!-- Mysteries --}}
     {{#each mysteryGroups as |mysteries groupName|}}
     <fieldset>

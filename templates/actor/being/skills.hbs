@@ -24,7 +24,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab skills" data-tab="skills">
+<section class="tab skills{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="skills">
     <div class="search-items">
         <input class="search-criteria" type="search" name="search-skills" value=""
             aria-label="Search Skills" placeholder="Search Skills" autocomplete="off" />

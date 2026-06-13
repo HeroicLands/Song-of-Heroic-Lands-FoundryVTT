@@ -11,7 +11,7 @@ https://www.gnu.org/licenses/gpl-3.0.html
 SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
-<section class="tab facade" data-tab="facade">
+<section class="tab facade{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="facade">
     <div class="flexrow">
         <img class="facade-image" src="{{bioImage}}" data-edit="system.bioImage"
             title="{{actorName}}" height="300" width="200" />

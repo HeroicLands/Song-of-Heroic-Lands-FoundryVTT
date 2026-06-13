@@ -51,7 +51,7 @@ export class BeingSheet extends SohlActorSheetBase {
         },
         tabs: {
             id: "tabs",
-            template: "systems/sohl/templates/actor/being/tabs.hbs",
+            template: "templates/generic/tab-navigation.hbs",
         },
         facade: {
             id: "facade",
@@ -397,6 +397,10 @@ export class BeingSheet extends SohlActorSheetBase {
         options: RenderOptions,
     ): Promise<RenderContext> {
         const type = this.document.type;
+        // Expose the prepared tab descriptor for this part so content
+        // sections can resolve their `active` state and tab group. The
+        // navigation part itself iterates the full `tabs` record instead.
+        (context as any).tab = (context as any).tabs?.[partId];
         switch (partId) {
             case "header":
                 context = await this._prepareHeaderContext(context, options);
