@@ -1,22 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { MysteryLogic } from "@src/document/item/logic/MysteryLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
-
-/*
- * MysteryLogic declares a "useMystery" intrinsic action whose executor names
- * a method ("useMystery") that does not exist on the class yet — the
- * intrinsic-actions wiring is incomplete. SohlAction's constructor throws
- * for INTRINSIC actions whose executor cannot be resolved, so constructing
- * MysteryLogic with its real action definitions currently throws.
- *
- * The real definitions are captured here at module scope (before any
- * spying), and most tests bypass the broken definition via a
- * defineIntrinsicActions spy. One unmocked test below documents the throw.
- */
-const realDefs = MysteryLogic.defineIntrinsicActions();
-const safeDefs = realDefs.filter((d) => d.executor !== "useMystery");
 
 /** Default MysteryData fields; override per test. */
 function mysteryFields(overrides: Record<string, unknown> = {}) {
@@ -39,26 +25,23 @@ function makeMystery(
     );
 }
 
-beforeEach(() => {
-    vi.spyOn(MysteryLogic, "defineIntrinsicActions").mockReturnValue(safeDefs);
-});
-
 afterEach(() => {
     vi.restoreAllMocks();
 });
 
 describe("MysteryLogic", () => {
     describe("construction", () => {
-        it("throws with the real intrinsic actions (useMystery executor is unimplemented)", () => {
-            // Remove the defineIntrinsicActions bypass installed by
-            // beforeEach: full construction currently throws because the
-            // "useMystery" intrinsic action names a method that does not
-            // exist on MysteryLogic (intrinsic-actions wiring incomplete).
-            vi.restoreAllMocks();
-            expect(() => makeMystery()).toThrow(/does not have a function/);
+        it("constructs with its real intrinsic actions (useMystery is wired)", () => {
+            const logic = makeMystery();
+            expect(logic.actions.has("useMystery")).toBe(true);
         });
 
-        it.todo("useMystery — unimplemented intrinsic executor");
+        it("useMystery — warns (not yet implemented)", async () => {
+            const logic = makeMystery();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.useMystery({} as any)).resolves.toBeUndefined();
+            expect(warn).toHaveBeenCalled();
+        });
 
         it("constructs against a plain-object MysteryData (no Foundry)", () => {
             const logic = makeMystery();

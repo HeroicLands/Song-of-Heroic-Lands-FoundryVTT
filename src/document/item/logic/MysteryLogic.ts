@@ -24,6 +24,7 @@ import {
     SOHL_CONTEXT_MENU_SORT_GROUP,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/domain/action/SohlAction";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
 
 /**
  * A passive or charge-based mystical power associated with a character or
@@ -99,6 +100,19 @@ export class MysteryLogic<
                 group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
             },
         ];
+    }
+
+    /**
+     * Invoke this mystery's power (spend a charge, request the boon, etc.).
+     *
+     * Intrinsic-action executor for the `useMystery` action.
+     *
+     * @param _context - The action context (speaker, scope) for the invocation.
+     * @remarks Not yet implemented; warns and returns.
+     */
+    async useMystery(_context: SohlActionContext): Promise<void> {
+        // TODO - Use Mystery
+        sohl.log.uiWarn(`Using "${this.name}" is not yet implemented.`);
     }
 
     /* --------------------------------------------- */

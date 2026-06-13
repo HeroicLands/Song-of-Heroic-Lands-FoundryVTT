@@ -1,11 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { AfflictionLogic } from "@src/document/item/logic/AfflictionLogic";
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import {
     AFFLICTION_SUBTYPE,
     AFFLICTION_TRANSMISSION,
     ITEM_KIND,
-    SOHL_ACTION_SCOPE,
 } from "@src/utils/constants";
 import { makeItemLogic } from "@tests/mocks/logicHarness";
 
@@ -37,66 +36,28 @@ function makeAffliction(
     );
 }
 
-/*
- * AfflictionLogic.defineIntrinsicActions() declares several INTRINSIC
- * executors that do not exist as methods on the class yet (unimplemented
- * mechanics — roadmap T1-2/T2-1). SohlAction's constructor throws for an
- * INTRINSIC action whose executor is not a function on the target, so the
- * class cannot be constructed with its full intrinsic set. Tests construct
- * it with the missing executors filtered out.
- *
- * Captured BEFORE the spy below is installed.
- */
-const realDefs = AfflictionLogic.defineIntrinsicActions();
-const MISSING = [
-    "transmitAffliction",
-    "contractAfflictionTest",
-    "fatigueTest",
-    "moraleTest",
-    "fearTest",
-];
-const safeDefs = realDefs
-    .filter((d) => !MISSING.includes(d.executor as string))
-    // The "diagnosistest" and "healingtest" defs omit `scope`; SohlAction's
-    // constructor switches on the RAW data.scope (before its SELF default is
-    // applied) and throws "Unknown action scope: undefined" for them — see
-    // the suspected source bug noted in the test below. Patch SELF in so the
-    // existing diagnosisTest/healingTest executors can be wired up.
-    .map((d) => (d.scope ? d : { ...d, scope: SOHL_ACTION_SCOPE.SELF }));
-
-beforeEach(() => {
-    vi.spyOn(AfflictionLogic, "defineIntrinsicActions").mockReturnValue(
-        safeDefs,
-    );
-});
-
 afterEach(() => {
     vi.restoreAllMocks();
 });
 
 describe("AfflictionLogic", () => {
     describe("construction", () => {
-        it("throws with the full intrinsic action set (unimplemented executors)", () => {
-            // Roadmap T1-2/T2-1: transmitAffliction, contractAfflictionTest,
-            // fatigueTest, moraleTest, and fearTest are declared as INTRINSIC
-            // executors but do not exist as methods on AfflictionLogic, so
-            // SohlAction's constructor rejects them. Remove this test once
-            // those mechanics are implemented.
-            vi.restoreAllMocks();
-            expect(() => makeAffliction()).toThrow(/does not have a function/);
-        });
-
         it("constructs against a plain-object AfflictionData (no Foundry)", () => {
             const logic = makeAffliction();
             expect(logic).toBeInstanceOf(AfflictionLogic);
             expect(logic.data.kind).toBe(ITEM_KIND.AFFLICTION);
         });
 
-        it("builds the implemented intrinsic actions", () => {
+        it("builds all intrinsic actions (every executor resolves)", () => {
             const logic = makeAffliction();
             for (const shortcode of [
                 "postfinalize",
+                "transmitaffliction",
+                "contractafflictiontest",
                 "coursetest",
+                "fatiguetest",
+                "moraletest",
+                "feartest",
                 "treatmenttest",
                 "diagnosistest",
                 "healingtest",
@@ -105,12 +66,28 @@ describe("AfflictionLogic", () => {
             }
         });
 
-        // Unimplemented intrinsic executors (roadmap T1-2/T2-1):
-        it.todo("transmitAffliction — unimplemented intrinsic executor");
-        it.todo("contractAfflictionTest — unimplemented intrinsic executor");
-        it.todo("fatigueTest — unimplemented intrinsic executor");
-        it.todo("moraleTest — unimplemented intrinsic executor");
-        it.todo("fearTest — unimplemented intrinsic executor");
+        // The transmitaffliction / contractafflictiontest actions now point at
+        // the existing transmit() / contractTest() methods (name mismatch fix).
+        it("fatigueTest — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeAffliction();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.fatigueTest({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("moraleTest — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeAffliction();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.moraleTest({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
+
+        it("fearTest — warns and resolves null (not yet implemented)", async () => {
+            const logic = makeAffliction();
+            const warn = vi.spyOn(sohl.log, "uiWarn");
+            await expect(logic.fearTest({} as any)).resolves.toBeNull();
+            expect(warn).toHaveBeenCalled();
+        });
     });
 
     describe("getters", () => {
