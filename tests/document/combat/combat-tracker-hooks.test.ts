@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { buildCombatantActionMenuEntries } from "@src/document/combatant/combat-tracker-hooks";
+import { buildCombatantActionMenuEntries } from "@src/document/combat/combat-tracker-hooks";
 
 const ATTACK_TITLE = "SOHL.Being.ACTION.automatedCombatStart";
 const MOVE_TITLE = "SOHL.Combatant.ACTION.moveToGroup";

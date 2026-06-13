@@ -19,7 +19,8 @@ import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
 import { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
-import { registerCombatTrackerHooks } from "@src/document/combatant/combat-tracker-hooks";
+import { registerCombatTrackerHooks } from "@src/document/combat/combat-tracker-hooks";
+import { registerCombatantConfigHooks } from "@src/document/combatant/combatant-config-hooks";
 import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
 import { CalendarSettingsMenu } from "@src/apps/CalendarSettingsMenu";
 import { DomainManagerApp } from "@src/apps/DomainManagerApp";
@@ -285,6 +286,7 @@ function applyActiveCalendar(): void {
  */
 function registerSystemHooks() {
     registerCombatTrackerHooks();
+    registerCombatantConfigHooks();
 
     // Translate Foundry's built-in lifecycle hooks (updateWorldTime,
     // combatStart, combatRound, combatTurn, deleteCombat) into SoHL

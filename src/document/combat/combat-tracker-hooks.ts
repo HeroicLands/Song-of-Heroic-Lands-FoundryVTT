@@ -13,11 +13,7 @@
 
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
-import {
-    MOVEMENT_MEDIUM,
-    movementMediumLabels,
-    SOHL_CONTEXT_MENU_SORT_GROUP,
-} from "@src/utils/constants";
+import { SOHL_CONTEXT_MENU_SORT_GROUP } from "@src/utils/constants";
 
 /**
  * The non-HIDDEN combatant intrinsic actions — the skeleton (label/icon) for the
@@ -31,17 +27,15 @@ const COMBATANT_MENU_ACTION_DEFS =
     );
 
 /**
- * Register hooks that enhance the default Foundry combat tracker and the
- * combatant config sheet:
+ * Register hooks that enhance the Foundry **combat tracker** (the `Combat`
+ * document's application):
  *
  * - The combat-tracker row context menu, populated from each combatant's
  *   {@link SohlCombatant.getContextOptions} (Automated Attack, Move to Group…).
- * - The `moveFactor` / `displayedMedium` fields on the combatant config and a
- *   per-row computed-move chip in the tracker.
+ * - A per-row computed-move chip and combat-group label on the tracker.
  *
- * (The actor's default combat group — read by {@link SohlCombat} to auto-group
- * combatants — is a typed field on the actor data model, edited on the actor
- * sheet, not a token flag.)
+ * The per-combatant config-sheet fields live in `combatant-config-hooks.ts`;
+ * lifecycle (combatStart/turn/round) dispatch lives in `SohlHookBridge`.
  *
  * Uses DOM-injection / context hooks rather than overriding Foundry classes so
  * the system keeps working across Foundry version updates.
@@ -55,67 +49,6 @@ export function registerCombatTrackerHooks(): void {
     (Hooks as any).on(
         "getCombatTrackerContextOptions",
         addCombatantActionEntries,
-    );
-
-    (Hooks as any).on(
-        "renderCombatantConfig",
-        (app: any, html: HTMLElement) => {
-            const combatant = app.document as SohlCombatant | undefined;
-            if (!combatant) return;
-            const sys = combatant.system as any;
-
-            const form = html.querySelector("form");
-            if (!form) return;
-            if (form.querySelector(".sohl-move-fields")) return;
-
-            const moveFactor = sys.moveFactor ?? 1;
-            const displayedMedium = sys.displayedMedium ?? "terrestrial";
-
-            const i18n = (game as any).i18n;
-            const factorLabel =
-                i18n?.localize?.("SOHL.Combatant.FIELDS.moveFactor.label") ??
-                "Move Factor";
-            const mediumLabel =
-                i18n?.localize?.(
-                    "SOHL.Combatant.FIELDS.displayedMedium.label",
-                ) ?? "Tracker Medium";
-
-            const options = (
-                Object.entries(MOVEMENT_MEDIUM) as [string, string][]
-            )
-                .map(([key, value]) => {
-                    const localized =
-                        i18n?.localize?.(
-                            movementMediumLabels[
-                                key as keyof typeof movementMediumLabels
-                            ],
-                        ) ?? value;
-                    const sel = value === displayedMedium ? " selected" : "";
-                    return `<option value="${value}"${sel}>${localized}</option>`;
-                })
-                .join("");
-
-            const fieldset = document.createElement("fieldset");
-            fieldset.classList.add("sohl-move-fields");
-            fieldset.innerHTML = `
-                <div class="form-group">
-                    <label>${factorLabel}</label>
-                    <input type="number" min="0" step="0.05"
-                        name="system.moveFactor" value="${moveFactor}">
-                </div>
-                <div class="form-group">
-                    <label>${mediumLabel}</label>
-                    <select name="system.displayedMedium">${options}</select>
-                </div>
-            `;
-
-            const footer = form.querySelector("footer");
-            if (footer) {
-                form.insertBefore(fieldset, footer);
-            } else {
-                form.appendChild(fieldset);
-            }
-        },
     );
 
     (Hooks as any).on("renderCombatTracker", (_app: any, html: HTMLElement) => {
