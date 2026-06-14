@@ -125,8 +125,7 @@ export class SohlActorBaseLogic<
     ): ItemLogicByKind[K] | undefined {
         return this.data.itemLogics.find(
             (logic) =>
-                logic.data.kind === type &&
-                logic.data.shortcode === shortcode,
+                logic.data.kind === type && logic.data.shortcode === shortcode,
         ) as ItemLogicByKind[K] | undefined;
     }
 

@@ -6,6 +6,7 @@
 
 Add a kind-indexed item-logic registry and typed lookup so callers get the
 concrete logic type for an item kind without casting.
+
 - **`getItemLogic(shortcode, kind)`** on the actor logic returns the concrete
   logic for that kind — e.g. `getItemLogic("stealth", ITEM_KIND.SKILL)` is typed
   `SkillLogic | undefined`. It matches on **both** `shortcode` and kind, so a

@@ -117,7 +117,7 @@ describe("SohlActiveEffect.targets", () => {
         const actor = makeActorWithItems([sk1]);
         const eff = makeEffect({
             scope: ITEM_KIND.SKILL,
-            test: 'item.system.code === ', // syntactically incomplete
+            test: "item.system.code === ", // syntactically incomplete
             parent: actor,
             actor,
         });

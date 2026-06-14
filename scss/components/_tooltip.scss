@@ -31,7 +31,8 @@
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: var(--sohl-color-tooltip-bg) transparent transparent transparent;
+    border-color: var(--sohl-color-tooltip-bg) transparent transparent
+        transparent;
 }
 
 .tooltip:hover .tooltiptext {

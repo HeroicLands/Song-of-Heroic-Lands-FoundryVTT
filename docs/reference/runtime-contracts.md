@@ -20,22 +20,22 @@ Primary file: `src/core/SohlSystem.ts`
 
 #### Modifier classes
 
-| CONFIG key | Default class | Description |
-|------------|---------------|-------------|
-| `CONFIG.ValueModifier` | `ValueModifier` | Base auditable value tracker |
-| `CONFIG.CombatModifier` | `CombatModifier` | Combat-specific modifier |
-| `CONFIG.ImpactModifier` | `ImpactModifier` | Damage/impact modifier |
-| `CONFIG.MasteryLevelModifier` | `MasteryLevelModifier` | Test mastery level modifier |
+| CONFIG key                    | Default class          | Description                  |
+| ----------------------------- | ---------------------- | ---------------------------- |
+| `CONFIG.ValueModifier`        | `ValueModifier`        | Base auditable value tracker |
+| `CONFIG.CombatModifier`       | `CombatModifier`       | Combat-specific modifier     |
+| `CONFIG.ImpactModifier`       | `ImpactModifier`       | Damage/impact modifier       |
+| `CONFIG.MasteryLevelModifier` | `MasteryLevelModifier` | Test mastery level modifier  |
 
 #### Result classes
 
-| CONFIG key | Default class | Description |
-|------------|---------------|-------------|
-| `CONFIG.SuccessTestResult` | `SuccessTestResult` | Single test result |
-| `CONFIG.OpposedTestResult` | `OpposedTestResult` | Opposed test result |
-| `CONFIG.AttackResult` | `AttackResult` | Attack resolution (carries impact + aim) |
-| `CONFIG.DefendResult` | `DefendResult` | Defense resolution |
-| `CONFIG.CombatResult` | `CombatResult` | Full combat outcome |
+| CONFIG key                 | Default class       | Description                              |
+| -------------------------- | ------------------- | ---------------------------------------- |
+| `CONFIG.SuccessTestResult` | `SuccessTestResult` | Single test result                       |
+| `CONFIG.OpposedTestResult` | `OpposedTestResult` | Opposed test result                      |
+| `CONFIG.AttackResult`      | `AttackResult`      | Attack resolution (carries impact + aim) |
+| `CONFIG.DefendResult`      | `DefendResult`      | Defense resolution                       |
+| `CONFIG.CombatResult`      | `CombatResult`      | Full combat outcome                      |
 
 #### Document sheets
 

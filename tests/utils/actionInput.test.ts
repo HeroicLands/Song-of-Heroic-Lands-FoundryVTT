@@ -12,7 +12,10 @@ describe("resolveActionInput", () => {
     it("reads inputs from scope (not the dialog) when skipDialog is set", async () => {
         const dialog = vi.fn(async () => ({ aim: "from-dialog" }));
         const result = await resolveActionInput(
-            { skipDialog: true, scope: { aim: "head", situationalModifier: 5 } },
+            {
+                skipDialog: true,
+                scope: { aim: "head", situationalModifier: 5 },
+            },
             {
                 fromScope: (s) => ({
                     aim: String(s.aim),

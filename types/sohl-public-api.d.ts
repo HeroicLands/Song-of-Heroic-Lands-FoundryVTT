@@ -34,32 +34,95 @@ export type { SohlActionContext } from "../src/common/SohlActionContext";
 export type { SohlSpeaker } from "../src/common/SohlSpeaker";
 
 // Actor types
-export type { BeingLogic, BeingData } from "../src/common/actor/logic/BeingLogic";
-export type { AssemblyLogic, AssemblyData } from "../src/common/actor/logic/AssemblyLogic";
-export type { CohortLogic, CohortData } from "../src/common/actor/logic/CohortLogic";
-export type { StructureLogic, StructureData } from "../src/common/actor/logic/StructureLogic";
-export type { VehicleLogic, VehicleData } from "../src/common/actor/logic/VehicleLogic";
+export type {
+    BeingLogic,
+    BeingData,
+} from "../src/common/actor/logic/BeingLogic";
+export type {
+    AssemblyLogic,
+    AssemblyData,
+} from "../src/common/actor/logic/AssemblyLogic";
+export type {
+    CohortLogic,
+    CohortData,
+} from "../src/common/actor/logic/CohortLogic";
+export type {
+    StructureLogic,
+    StructureData,
+} from "../src/common/actor/logic/StructureLogic";
+export type {
+    VehicleLogic,
+    VehicleData,
+} from "../src/common/actor/logic/VehicleLogic";
 
 // Item types — base classes
 export type { GearLogic, GearData } from "../src/common/item/logic/GearLogic";
-export type { MasteryLevelLogic, MasteryLevelData } from "../src/common/item/logic/MasteryLevelLogic";
+export type {
+    MasteryLevelLogic,
+    MasteryLevelData,
+} from "../src/common/item/logic/MasteryLevelLogic";
 
 // Item types — concrete
-export type { ActionLogic, ActionData } from "../src/common/item/logic/ActionLogic";
-export type { AffiliationLogic, AffiliationData } from "../src/common/item/logic/AffiliationLogic";
-export type { AfflictionLogic, AfflictionData } from "../src/common/item/logic/AfflictionLogic";
-export type { ArmorGearLogic, ArmorGearData } from "../src/common/item/logic/ArmorGearLogic";
-export type { CombatTechniqueLogic, CombatTechniqueData } from "../src/common/item/logic/CombatTechniqueLogic";
-export type { ConcoctionGearLogic, ConcoctionGearData } from "../src/common/item/logic/ConcoctionGearLogic";
-export type { ContainerGearLogic, ContainerGearData } from "../src/common/item/logic/ContainerGearLogic";
-export type { TraumaLogic, TraumaData } from "../src/common/item/logic/TraumaLogic";
-export type { MiscGearLogic, MiscGearData } from "../src/common/item/logic/MiscGearLogic";
-export type { MysteryLogic, MysteryData } from "../src/common/item/logic/MysteryLogic";
-export type { MysticalAbilityLogic, MysticalAbilityData } from "../src/common/item/logic/MysticalAbilityLogic";
-export type { ProjectileGearLogic, ProjectileGearData } from "../src/common/item/logic/ProjectileGearLogic";
-export type { SkillLogic, SkillData } from "../src/common/item/logic/SkillLogic";
-export type { TraitLogic, TraitData } from "../src/common/item/logic/TraitLogic";
-export type { WeaponGearLogic, WeaponGearData } from "../src/common/item/logic/WeaponGearLogic";
+export type {
+    ActionLogic,
+    ActionData,
+} from "../src/common/item/logic/ActionLogic";
+export type {
+    AffiliationLogic,
+    AffiliationData,
+} from "../src/common/item/logic/AffiliationLogic";
+export type {
+    AfflictionLogic,
+    AfflictionData,
+} from "../src/common/item/logic/AfflictionLogic";
+export type {
+    ArmorGearLogic,
+    ArmorGearData,
+} from "../src/common/item/logic/ArmorGearLogic";
+export type {
+    CombatTechniqueLogic,
+    CombatTechniqueData,
+} from "../src/common/item/logic/CombatTechniqueLogic";
+export type {
+    ConcoctionGearLogic,
+    ConcoctionGearData,
+} from "../src/common/item/logic/ConcoctionGearLogic";
+export type {
+    ContainerGearLogic,
+    ContainerGearData,
+} from "../src/common/item/logic/ContainerGearLogic";
+export type {
+    TraumaLogic,
+    TraumaData,
+} from "../src/common/item/logic/TraumaLogic";
+export type {
+    MiscGearLogic,
+    MiscGearData,
+} from "../src/common/item/logic/MiscGearLogic";
+export type {
+    MysteryLogic,
+    MysteryData,
+} from "../src/common/item/logic/MysteryLogic";
+export type {
+    MysticalAbilityLogic,
+    MysticalAbilityData,
+} from "../src/common/item/logic/MysticalAbilityLogic";
+export type {
+    ProjectileGearLogic,
+    ProjectileGearData,
+} from "../src/common/item/logic/ProjectileGearLogic";
+export type {
+    SkillLogic,
+    SkillData,
+} from "../src/common/item/logic/SkillLogic";
+export type {
+    TraitLogic,
+    TraitData,
+} from "../src/common/item/logic/TraitLogic";
+export type {
+    WeaponGearLogic,
+    WeaponGearData,
+} from "../src/common/item/logic/WeaponGearLogic";
 
 // Modifier types
 export type { ValueModifier } from "../src/common/modifier/ValueModifier";

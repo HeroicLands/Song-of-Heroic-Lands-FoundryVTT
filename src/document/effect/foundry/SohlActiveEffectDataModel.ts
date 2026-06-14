@@ -17,8 +17,14 @@ import {
 } from "@src/utils/constants";
 import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
 
-const { StringField, JavaScriptField, ArrayField, SchemaField, NumberField, AnyField } =
-    foundry.data.fields;
+const {
+    StringField,
+    JavaScriptField,
+    ArrayField,
+    SchemaField,
+    NumberField,
+    AnyField,
+} = foundry.data.fields;
 
 /**
  * Builds the SoHL active-effect data schema: scope, a `test` SafeExpression,

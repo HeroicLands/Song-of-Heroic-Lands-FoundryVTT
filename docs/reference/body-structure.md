@@ -44,16 +44,16 @@ Domain objects are reconstructed on every preparation cycle. Active effects may 
 
 A body part is a primary anatomical division — Head, Torso, an arm, a leg, a wing. Persisted fields, per [LineageDataModel.ts:44-153](../../src/document/item/foundry/LineageDataModel.ts#L44-L153):
 
-| Field | Type | Purpose |
-|---|---|---|
-| `shortcode` | string | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths. |
-| `name` | string | Display name (e.g., `"Head"`). Stored literally; not a localization key. |
-| `roles` | `BodyRole[]` | Functional tags the part fulfills — see [Body Roles](#body-roles). |
-| `combatArea` | number | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection. |
-| `canHoldItem` | boolean | Whether this part can grip an item. Arms typically `true`; others `false`. |
-| `heldItemId` | string \| null | The ID of the item currently held, if any. |
-| `favoredFlag` | boolean | Marks the part as favored (off-hand vs. main-hand semantics). |
-| `locations` | `BodyLocation.Data[]` | The hit locations nested within this part. |
+| Field         | Type                  | Purpose                                                                                            |
+| ------------- | --------------------- | -------------------------------------------------------------------------------------------------- |
+| `shortcode`   | string                | Stable identifier (e.g., `headpart`). Used in adjacency lookups and update paths.                  |
+| `name`        | string                | Display name (e.g., `"Head"`). Stored literally; not a localization key.                           |
+| `roles`       | `BodyRole[]`          | Functional tags the part fulfills — see [Body Roles](#body-roles).                                 |
+| `combatArea`  | number                | Targetable surface area in square feet. Doubles as the weight for unaimed-attack random selection. |
+| `canHoldItem` | boolean               | Whether this part can grip an item. Arms typically `true`; others `false`.                         |
+| `heldItemId`  | string \| null        | The ID of the item currently held, if any.                                                         |
+| `favoredFlag` | boolean               | Marks the part as favored (off-hand vs. main-hand semantics).                                      |
+| `locations`   | `BodyLocation.Data[]` | The hit locations nested within this part.                                                         |
 
 A convenience getter `BodyPart.affectsMobility` is `true` when the part has any of the `vital`, `core`, or `locomotor` roles ([src/domain/body/BodyPart.ts:54-61](../../src/domain/body/BodyPart.ts#L54-L61)).
 
@@ -61,15 +61,15 @@ A convenience getter `BodyPart.affectsMobility` is `true` when the part has any 
 
 A body location is a specific hit point within a part — Skull, Thorax, Right Elbow. Persisted fields, per [LineageDataModel.ts:88-150](../../src/document/item/foundry/LineageDataModel.ts#L88-L150):
 
-| Field | Type | Purpose |
-|---|---|---|
-| `shortcode` | string | Stable identifier (e.g., `skullloc`, `relbloc`). |
-| `name` | string | Display name (e.g., `"Skull"`). Stored literally. |
-| `probWeight` | integer | Relative weight for random hit selection within the parent part. |
-| `shockValue` | integer | Inherent shock inflicted by an injury at this location, regardless of severity. |
-| `bleedingSusceptibility` | tier | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds. |
-| `amputability` | tier | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
-| `protectionBase` | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts). |
+| Field                    | Type                             | Purpose                                                                                                                                                                                       |
+| ------------------------ | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `shortcode`              | string                           | Stable identifier (e.g., `skullloc`, `relbloc`).                                                                                                                                              |
+| `name`                   | string                           | Display name (e.g., `"Skull"`). Stored literally.                                                                                                                                             |
+| `probWeight`             | integer                          | Relative weight for random hit selection within the parent part.                                                                                                                              |
+| `shockValue`             | integer                          | Inherent shock inflicted by an injury at this location, regardless of severity.                                                                                                               |
+| `bleedingSusceptibility` | tier                             | `none` / `low` / `medium` / `high`. Combined with injury severity and weapon aspect by `BleedingDefaults` to decide whether a wound bleeds.                                                   |
+| `amputability`           | tier                             | `none` / `low` / `medium` / `high`. Drives the Strength-test modifier when a G5 Edge injury would amputate; see `AmputationDefaults`. `none` means amputation is disallowed at this location. |
+| `protectionBase`         | `{blunt, edged, piercing, fire}` | Natural armor values per [`ImpactAspect`](../../src/utils/constants.ts).                                                                                                                      |
 
 Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleeding; same for amputability).
 
@@ -77,12 +77,12 @@ Both tiers map to the rulebook's shaded markers (none/white/grey/black for bleed
 
 A cross-cutting tag set. The four values, defined in [src/utils/constants.ts](../../src/utils/constants.ts) under `BODY_ROLE`:
 
-| Role | Anatomical examples |
-|---|---|
-| `vital` | Brain, sensory organs, vital nerve clusters. Head for vertebrates; cephalothorax for arachnids; ganglia for invertebrates. |
-| `core` | Power and balance. Torso for humans; abdomen for insects; mantle for cephalopods; body segments for snakes. |
-| `manipulator` | Fine work and intentional force. Arms, paws, tentacles, trunks; jaws used as bite-weapons. |
-| `locomotor` | Movement. Legs, wings, fins; tentacles used for swimming. |
+| Role          | Anatomical examples                                                                                                        |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `vital`       | Brain, sensory organs, vital nerve clusters. Head for vertebrates; cephalothorax for arachnids; ganglia for invertebrates. |
+| `core`        | Power and balance. Torso for humans; abdomen for insects; mantle for cephalopods; body segments for snakes.                |
+| `manipulator` | Fine work and intentional force. Arms, paws, tentacles, trunks; jaws used as bite-weapons.                                 |
+| `locomotor`   | Movement. Legs, wings, fins; tentacles used for swimming.                                                                  |
 
 A part may carry multiple roles. A wolf's foreleg might be `[locomotor, manipulator]`; its head `[vital, manipulator]` (bite attacks).
 
@@ -138,27 +138,27 @@ When authoring a new lineage, set the literal `name` field and add the correspon
 
 ## Reference: Human lineage
 
-The only lineage shipped today is **Human** ([assets/packs/items/_source/Human_R0F5737O8cfOraMc.json](../../assets/packs/items/_source/Human_R0F5737O8cfOraMc.json)). Its body structure:
+The only lineage shipped today is **Human** ([assets/packs/items/\_source/Human_R0F5737O8cfOraMc.json](../../assets/packs/items/_source/Human_R0F5737O8cfOraMc.json)). Its body structure:
 
-| Part shortcode | Name | Roles | `combatArea` | Can hold |
-|---|---|---|---:|---|
-| `headpart` | Head | `vital` | 1 | no |
-| `torsopart` | Torso | `core` | 4 | no |
-| `larmpart` | Left Arm | `manipulator` | 2 | yes |
-| `rarmpart` | Right Arm | `manipulator` | 2 | yes |
-| `llegpart` | Left Leg | `locomotor` | 3 | no |
-| `rlegpart` | Right Leg | `locomotor` | 3 | no |
+| Part shortcode | Name      | Roles         | `combatArea` | Can hold |
+| -------------- | --------- | ------------- | -----------: | -------- |
+| `headpart`     | Head      | `vital`       |            1 | no       |
+| `torsopart`    | Torso     | `core`        |            4 | no       |
+| `larmpart`     | Left Arm  | `manipulator` |            2 | yes      |
+| `rarmpart`     | Right Arm | `manipulator` |            2 | yes      |
+| `llegpart`     | Left Leg  | `locomotor`   |            3 | no       |
+| `rlegpart`     | Right Leg | `locomotor`   |            3 | no       |
 
 Locations:
 
-| Part | Location shortcodes |
-|---|---|
-| `headpart` | `skullloc`, `leyeloc`, `reyeloc`, `noseloc`, `lcheekloc`, `rcheekloc`, `learloc`, `rearloc`, `mouthloc`, `jawloc`, `neckloc` |
-| `torsopart` | `thrxloc`, `abdmnloc`, `plvisloc` |
-| `larmpart` | `lshldloc`, `lupaloc`, `lelbloc`, `lfraloc`, `lhandloc` |
-| `rarmpart` | `rshldloc`, `rupaloc`, `relbloc`, `rfraloc`, `rhandloc` |
-| `llegpart` | `lthghloc`, `lkneeloc`, `lcalfloc`, `lfootloc` |
-| `rlegpart` | `rthghloc`, `rkneeloc`, `rcalfloc`, `rfootloc` |
+| Part        | Location shortcodes                                                                                                          |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `headpart`  | `skullloc`, `leyeloc`, `reyeloc`, `noseloc`, `lcheekloc`, `rcheekloc`, `learloc`, `rearloc`, `mouthloc`, `jawloc`, `neckloc` |
+| `torsopart` | `thrxloc`, `abdmnloc`, `plvisloc`                                                                                            |
+| `larmpart`  | `lshldloc`, `lupaloc`, `lelbloc`, `lfraloc`, `lhandloc`                                                                      |
+| `rarmpart`  | `rshldloc`, `rupaloc`, `relbloc`, `rfraloc`, `rhandloc`                                                                      |
+| `llegpart`  | `lthghloc`, `lkneeloc`, `lcalfloc`, `lfootloc`                                                                               |
+| `rlegpart`  | `rthghloc`, `rkneeloc`, `rcalfloc`, `rfootloc`                                                                               |
 
 Adjacency: torso is the hub — head, both arms, and both legs all connect to it; head also connects directly to both arms.
 
@@ -195,7 +195,9 @@ const update = bodyStructure.addPartUpdate({
     canHoldItem: false,
     heldItemId: null,
     combatArea: 1,
-    locations: [/* BodyLocation.Data entries */],
+    locations: [
+        /* BodyLocation.Data entries */
+    ],
 });
 await lineageItem.update(update);
 ```

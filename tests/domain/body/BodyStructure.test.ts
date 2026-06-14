@@ -125,8 +125,7 @@ describe("BodyStructure", () => {
             ({
                 actor: {
                     items: {
-                        get: (id: string) =>
-                            ids.includes(id) ? { id } : null,
+                        get: (id: string) => (ids.includes(id) ? { id } : null),
                     },
                 },
                 data: { bodyStructure: HOLDING_DATA },
@@ -343,8 +342,7 @@ describe("BodyStructure", () => {
             };
             const part = body.getPartByCode("head")!;
             const update = part.addLocationUpdate(newLoc);
-            const locs =
-                update["system.bodyStructure.parts.0.locations"];
+            const locs = update["system.bodyStructure.parts.0.locations"];
             expect(locs).toHaveLength(3);
             expect(locs[2].shortcode).toBe("neck");
         });
@@ -355,8 +353,7 @@ describe("BodyStructure", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const part = body.getPartByCode("head")!;
             const update = part.removeLocationUpdate("skull");
-            const locs =
-                update["system.bodyStructure.parts.0.locations"];
+            const locs = update["system.bodyStructure.parts.0.locations"];
             expect(locs).toHaveLength(1);
             expect(locs[0].shortcode).toBe("face");
         });
@@ -365,8 +362,7 @@ describe("BodyStructure", () => {
             const body = new BodyStructure(SAMPLE_DATA, MOCK_BEING_LOGIC);
             const part = body.getPartByCode("head")!;
             const update = part.removeLocationUpdate("nonexistent");
-            const locs =
-                update["system.bodyStructure.parts.0.locations"];
+            const locs = update["system.bodyStructure.parts.0.locations"];
             expect(locs).toHaveLength(2);
         });
     });

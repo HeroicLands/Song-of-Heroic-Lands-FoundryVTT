@@ -135,8 +135,7 @@ export class SkillBase {
 
         this._formula = formula || null;
         this._attrs = {};
-        this._birthsigns =
-            options.birthsign?.data.textValue?.split("-") || [];
+        this._birthsigns = options.birthsign?.data.textValue?.split("-") || [];
         this._parsedFormula = this._parseFormula;
         this._value = 0;
         if (options.attributes) {
@@ -162,9 +161,7 @@ export class SkillBase {
             const [subType, name, multval] = param.split(":");
             if (subType !== "attr") return;
 
-            const attrLogic = attributes.find(
-                (a) => a.data.shortcode === name,
-            );
+            const attrLogic = attributes.find((a) => a.data.shortcode === name);
             if (!attrLogic) return;
 
             const score = attrLogic.score?.effective ?? Number.NaN;

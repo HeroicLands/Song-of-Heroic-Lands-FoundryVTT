@@ -109,14 +109,14 @@ See [Lifecycle Model](./lifecycle-model.md) for the full rationale and rules.
 
 Game-mechanics value objects in `src/domain/` are rebuilt from persisted data each preparation cycle. They may be mutated during the lifecycle (e.g., active effects adding modifiers), but mutations are not persisted.
 
-| Directory | Purpose |
-|-----------|---------|
-| `domain/modifier/` | Auditable tracked values built from a base plus ordered deltas. |
-| `domain/result/` | Test and combat resolution outcomes. |
-| `domain/body/` | Anatomical structure with weighted hit-location selection. |
-| `domain/movement/` | Per-medium base-move lookup. |
-| `domain/action/` | Executable action definitions (context-menu entries, chat buttons). |
-| `domain/` (top level) | Skill-base formula computation. |
+| Directory             | Purpose                                                             |
+| --------------------- | ------------------------------------------------------------------- |
+| `domain/modifier/`    | Auditable tracked values built from a base plus ordered deltas.     |
+| `domain/result/`      | Test and combat resolution outcomes.                                |
+| `domain/body/`        | Anatomical structure with weighted hit-location selection.          |
+| `domain/movement/`    | Per-medium base-move lookup.                                        |
+| `domain/action/`      | Executable action definitions (context-menu entries, chat buttons). |
+| `domain/` (top level) | Skill-base formula computation.                                     |
 
 For the classes in each area, see **Domain** in the API reference, and [Modifier Model](../reference/modifier-model.md), [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md), and [Body Structure](../reference/body-structure.md).
 
@@ -169,11 +169,11 @@ Any effect one actor would impose on another is mediated by a **chat-message han
 2. On success it posts a chat card with a button **addressed to the target's owner**, whose label states unambiguously what is being acknowledged or applied.
 3. The **target's owning client** clicks it, runs any required test first (e.g. a resistance roll), and applies the change **to itself**.
 
-Example: a wizard casts Sleep on a victim. The wizard rolls to land the spell; on success the card shows the *victim's* owner a button ("Acknowledge you fall asleep", possibly gated behind a resistance test). The victim's client marks the victim asleep — the wizard never touches the victim's state.
+Example: a wizard casts Sleep on a victim. The wizard rolls to land the spell; on success the card shows the _victim's_ owner a button ("Acknowledge you fall asleep", possibly gated behind a resistance test). The victim's client marks the victim asleep — the wizard never touches the victim's state.
 
 **Why:** Foundry permissions — a client can only reliably update documents it owns — and player accountability: each player (the GM owns all actors) stays in control of, and every cross-actor consequence stays visible in chat for, their own character.
 
-This already underlies automated combat: defense buttons dispatch to the *defender's* client, and the "Calculate Injury" button resolves on the *target's* client. To implement a new cross-actor mechanic, follow [Extension Points → Cross-actor effects](../how-to/extension-points.md#cross-actor-effects-the-acknowledge-button-pattern).
+This already underlies automated combat: defense buttons dispatch to the _defender's_ client, and the "Calculate Injury" button resolves on the _target's_ client. To implement a new cross-actor mechanic, follow [Extension Points → Cross-actor effects](../how-to/extension-points.md#cross-actor-effects-the-acknowledge-button-pattern).
 
 ## Architectural rules
 
@@ -188,16 +188,16 @@ This already underlies automated combat: defense buttons dispatch to the *defend
 
 ## Where to learn more
 
-| Topic | Document |
-|-------|----------|
-| Lifecycle phases | [Lifecycle Model](./lifecycle-model.md) |
-| Extending SoHL | [Extension Points](../how-to/extension-points.md) |
-| Lifecycle hooks | [Lifecycle Hooks](../how-to/lifecycle-hooks.md) |
-| Action items | [Actions](../how-to/actions.md) |
+| Topic             | Document                                                                 |
+| ----------------- | ------------------------------------------------------------------------ |
+| Lifecycle phases  | [Lifecycle Model](./lifecycle-model.md)                                  |
+| Extending SoHL    | [Extension Points](../how-to/extension-points.md)                        |
+| Lifecycle hooks   | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
+| Action items      | [Actions](../how-to/actions.md)                                          |
 | Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
-| Modifier system | [Modifier Model](../reference/modifier-model.md) |
-| Body anatomy | [Body Structure](../reference/body-structure.md) |
-| Active effects | [Effects Integration](../reference/effects-integration.md) |
-| Testing | [Testing Guide](../how-to/testing.md) |
-| Type catalog | [Type Catalog](../reference/type-catalog.md) |
-| Runtime contracts | [Runtime Contracts](../reference/runtime-contracts.md) |
+| Modifier system   | [Modifier Model](../reference/modifier-model.md)                         |
+| Body anatomy      | [Body Structure](../reference/body-structure.md)                         |
+| Active effects    | [Effects Integration](../reference/effects-integration.md)               |
+| Testing           | [Testing Guide](../how-to/testing.md)                                    |
+| Type catalog      | [Type Catalog](../reference/type-catalog.md)                             |
+| Runtime contracts | [Runtime Contracts](../reference/runtime-contracts.md)                   |

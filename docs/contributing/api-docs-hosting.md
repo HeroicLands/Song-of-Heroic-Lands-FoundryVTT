@@ -27,16 +27,16 @@ The branch root also carries the `CNAME` (custom domain) and `.nojekyll` (so gen
 
 ## How publishing works
 
-The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: *Deploy from a branch → `gh-pages` → `/ (root)`*). The workflow builds the HTML (`npm run docs:prepare && npm run docs:html`, output in `build/stage/docs`), then commits the result into the appropriate subdirectory of `gh-pages`, **replacing only that subdirectory** and leaving every other version untouched. That selective replacement is what lets versions accumulate.
+The docs are served by GitHub Pages from the **`gh-pages` branch** (Pages source: _Deploy from a branch → `gh-pages` → `/ (root)`_). The workflow builds the HTML (`npm run docs:prepare && npm run docs:html`, output in `build/stage/docs`), then commits the result into the appropriate subdirectory of `gh-pages`, **replacing only that subdirectory** and leaving every other version untouched. That selective replacement is what lets versions accumulate.
 
 The workflow runs on four events:
 
-| Trigger | What it publishes |
-|---|---|
-| Push to `main` | `/main` |
-| Release published | `/<tag>` and `/latest` |
+| Trigger                      | What it publishes                          |
+| ---------------------------- | ------------------------------------------ |
+| Push to `main`               | `/main`                                    |
+| Release published            | `/<tag>` and `/latest`                     |
 | `workflow_dispatch` (manual) | `/<branch-slug>` for the branch you select |
-| Branch deleted | removes that branch's `/<slug>` directory |
+| Branch deleted               | removes that branch's `/<slug>` directory  |
 
 All runs share the `gh-pages-deploy` concurrency group, so they serialize and never race on the branch (a release, for example, triggers both a `/main` publish from the push and a `/<tag>` + `/latest` publish from the release event — these queue rather than collide).
 
@@ -44,7 +44,7 @@ All runs share the `gh-pages-deploy` concurrency group, so they serialize and ne
 
 Feature branches are **not** published automatically — you publish them on demand:
 
-1. Make sure your branch contains the current `deploy-docs.yml` (merge `main` into it if needed). Manual dispatch runs the workflow file *from the selected branch*, and the **Run workflow** button only appears once the workflow exists on the default branch — so the workflow must already be on `main`.
+1. Make sure your branch contains the current `deploy-docs.yml` (merge `main` into it if needed). Manual dispatch runs the workflow file _from the selected branch_, and the **Run workflow** button only appears once the workflow exists on the default branch — so the workflow must already be on `main`.
 2. In the repository, go to **Actions → Deploy API Docs to GitHub Pages → Run workflow**.
 3. In the branch dropdown, select your feature branch and run it.
 4. After the run completes, the docs are live at `api.heroiclands.org/<branch-slug>/` (with `/` replaced by `-`).

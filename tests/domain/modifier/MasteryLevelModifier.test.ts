@@ -1,10 +1,14 @@
 describe("MasteryLevelModifier", () => {
     describe("constructor", () => {
-        it.todo("creates an instance with default values when no data provided");
+        it.todo(
+            "creates an instance with default values when no data provided",
+        );
         it.todo("throws when constructed without a parent");
         it.todo("initializes minTarget and maxTarget from data");
         it.todo("initializes successLevelMod from data");
-        it.todo("initializes critFailureDigits and critSuccessDigits from data");
+        it.todo(
+            "initializes critFailureDigits and critSuccessDigits from data",
+        );
         it.todo("initializes testDescTable and svTable from data or defaults");
         it.todo("constructs type from parent.data.kind and parent.name");
         it.todo("constructs title from localized format string");
@@ -43,8 +47,12 @@ describe("MasteryLevelModifier", () => {
 
     describe("opposedTestResume", () => {
         it.todo("throws when priorTestResult is not provided");
-        it.todo("performs target success test when targetTestResult is missing");
-        it.todo("re-displays dialog for both tests when targetTestResult exists");
+        it.todo(
+            "performs target success test when targetTestResult is missing",
+        );
+        it.todo(
+            "re-displays dialog for both tests when targetTestResult exists",
+        );
         it.todo("evaluates the opposed test result");
         it.todo("sends result to chat when allowed and noChat is false");
     });

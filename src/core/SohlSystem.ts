@@ -699,8 +699,9 @@ export class SohlSystem {
      */
     get currentCombatCombatantLogics(): CombatantLogic[] {
         return (
-            game.combat?.combatants.map((c: any) => (c as SohlCombatant).logic) ??
-            []
+            game.combat?.combatants.map(
+                (c: any) => (c as SohlCombatant).logic,
+            ) ?? []
         );
     }
 

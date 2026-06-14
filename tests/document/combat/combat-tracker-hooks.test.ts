@@ -65,7 +65,9 @@ describe("buildCombatantActionMenuEntries", () => {
         const entries = buildCombatantActionMenuEntries(() =>
             makeStubCombatant({}),
         );
-        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
+        const attack = entries.find(
+            (e) => e.__sohlActionTitle === ATTACK_TITLE,
+        );
         expect(attack.label).toBe(ATTACK_TITLE);
         expect(attack.icon).toBe("sohl-crossed-swords");
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
@@ -87,7 +89,9 @@ describe("buildCombatantActionMenuEntries", () => {
                 moveVisible: false,
             }),
         );
-        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
+        const attack = entries.find(
+            (e) => e.__sohlActionTitle === ATTACK_TITLE,
+        );
         const move = entries.find((e) => e.__sohlActionTitle === MOVE_TITLE);
         expect(attack.visible(li)).toBe(true);
         expect(move.visible(li)).toBe(false);
@@ -98,7 +102,9 @@ describe("buildCombatantActionMenuEntries", () => {
         const entries = buildCombatantActionMenuEntries(() =>
             makeStubCombatant({ attackCb }),
         );
-        const attack = entries.find((e) => e.__sohlActionTitle === ATTACK_TITLE);
+        const attack = entries.find(
+            (e) => e.__sohlActionTitle === ATTACK_TITLE,
+        );
         attack.onClick({} as Event, li);
         expect(attackCb).toHaveBeenCalledWith(li);
     });

@@ -226,12 +226,7 @@ describe("calcMeleeCombatResult — Ignore", () => {
 });
 
 describe("calcDodgeCombatResult — Dodge", () => {
-    const dodge = (
-        atk: number,
-        def: number,
-        atkRoll = 50,
-        defRoll = 50,
-    ) => {
+    const dodge = (atk: number, def: number, atkRoll = 50, defRoll = 50) => {
         const cr = makeCombat(
             makeSide({ level: atk, rollTotal: atkRoll }),
             makeSide({

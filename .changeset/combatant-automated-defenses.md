@@ -6,6 +6,7 @@
 
 A defender's automated-combat defenses are a combatant concern, so they move
 off the actor and the attack card dispatches them to the combatant.
+
 - The automated **Block** / **Dodge** / **Counterstrike** / **Ignore** resumes
   move from `BeingLogic` to `CombatantLogic` as intrinsic actions; `this` is the
   defender combatant and `this.actorLogic` supplies strike-mode capability.
