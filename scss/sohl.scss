@@ -6,70 +6,63 @@
 @use "abstracts/typography";
 @use "abstracts/mixins";
 
-// @font-face declarations and generated icon glyphs. Left UNLAYERED on purpose:
-// neither has cascade competition. Loaded once via @use.
+// @font-face declarations and generated icon glyphs.
 @use "abstracts/icons";
 
 // Render design tokens to `:root` custom properties.
 @include tokens.emit-tokens;
 
-// Cascade layers — see css-architecture.md §5. SoHL's `sohl.*` layers register
-// after Foundry core's stack, so each beats core without `!important`. Order is
-// low → high priority. The `.sohl` / compound `.sohl.sheet` wrappers below carry
-// the scoping; the folder a partial lives in mirrors its layer.
-@layer sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities;
+// SoHL's CSS is emitted UNLAYERED on purpose. Foundry v14 core is fully wrapped
+// in cascade layers (`@layer reset … applications … system … exceptions`), and
+// unlayered styles always beat layered styles of the same origin — so unlayered
+// SoHL reliably wins over Foundry core without `!important` or deep nesting. (An
+// earlier attempt to put SoHL in custom `@layer sohl.*` layers regressed: the
+// layered rules stopped winning. See #106 and css-architecture.md §5.)
+//
+// The partials below are loaded in priority order (later wins, like the previous
+// layer order: base → layout → components → utilities). The `.sohl` / compound
+// `.sohl.sheet` wrappers carry the scoping; the folder mirrors that grouping.
 
 // base — Foundry-core variable overrides, global Foundry UI restyling, and the
 // scoped element/window resets.
-@layer sohl.base {
-    @include meta.load-css("base/foundry-vars");
-    @include meta.load-css("base/editor");
-    @include meta.load-css("base/hotbar");
+@include meta.load-css("base/foundry-vars");
+@include meta.load-css("base/editor");
+@include meta.load-css("base/hotbar");
 
-    .sohl {
-        @include meta.load-css("base/elements");
-        @include meta.load-css("base/window");
-    }
+.sohl {
+    @include meta.load-css("base/elements");
+    @include meta.load-css("base/window");
 }
 
-// layout — structural skeleton: the tab system and the document-sheet frame. The
-// frame is loaded under the COMPOUND `.sohl.sheet` selector because ApplicationV2
-// puts `sohl` and `sheet` on the same element (see css-architecture.md §6, #87).
-@layer sohl.layout {
-    @include meta.load-css("layout/grid");
+// layout — structural skeleton: grid, the tab system, and the document-sheet
+// frame. The frame is loaded under the COMPOUND `.sohl.sheet` selector because
+// ApplicationV2 puts `sohl` and `sheet` on the same element (css-architecture.md
+// §6, #87).
+@include meta.load-css("layout/grid");
 
-    .sohl {
-        @include meta.load-css("layout/tabs");
-    }
+.sohl {
+    @include meta.load-css("layout/tabs");
+}
 
-    .sohl.sheet {
-        @include meta.load-css("layout/sheet");
-    }
+.sohl.sheet {
+    @include meta.load-css("layout/sheet");
 }
 
 // components — reusable widgets. The unscoped chat/tooltip/rollable surfaces are
 // not nested under `.sohl`; the rest are scoped to the `.sohl` namespace.
-@layer sohl.components {
-    @include meta.load-css("components/chat");
-    @include meta.load-css("components/tooltip");
-    @include meta.load-css("components/rollable");
+@include meta.load-css("components/chat");
+@include meta.load-css("components/tooltip");
+@include meta.load-css("components/rollable");
 
-    .sohl {
-        @include meta.load-css("components/search");
-        @include meta.load-css("components/facade");
-        @include meta.load-css("components/field");
-        @include meta.load-css("components/resource");
-        @include meta.load-css("components/items");
-        @include meta.load-css("components/profile");
-        @include meta.load-css("components/effects");
-    }
+.sohl {
+    @include meta.load-css("components/search");
+    @include meta.load-css("components/facade");
+    @include meta.load-css("components/field");
+    @include meta.load-css("components/resource");
+    @include meta.load-css("components/items");
+    @include meta.load-css("components/profile");
+    @include meta.load-css("components/effects");
 }
 
-// utilities — single-purpose helpers; highest priority so they always win.
-// Grid lives in the `layout` layer rather than here: several component rules
-// legitimately override grid spacing (e.g. chat's `.mingap` tightens a grid gap),
-// which the BEM pass (#94) will convert to modifiers; until then keeping grid below
-// `components` preserves those overrides. Flex helpers have no such overrides.
-@layer sohl.utilities {
-    @include meta.load-css("utilities/flex");
-}
+// utilities — single-purpose helpers, loaded last so they win.
+@include meta.load-css("utilities/flex");
