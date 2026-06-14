@@ -32,21 +32,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#each skillGroups as |skills groupName|}}
     <fieldset>
         <legend>{{@key}}</legend>
-        <ol class="item-list skills-list">
-            <li class="items-header flexrow">
-                <h3 class="item-name">Skill</h3>
-                <div class="item-detail">SB</div>
-                <div class="item-detail">ML</div>
+        <ol class="list__items skills-list">
+            <li class="list__header flexrow">
+                <h3 class="list__name">Skill</h3>
+                <div class="list__detail">SB</div>
+                <div class="list__detail">ML</div>
             </li>
             {{#each skills as |skill|}}
             <li class="item flexrow" data-item-id="{{skill.id}}" data-item-name="{{skill.name}}">
-                <div class="item-name default-action flexrow">
+                <div class="list__name default-action flexrow">
                     <h4>{{skill.name}}</h4>
                 </div>
-                <div class="item-detail">{{skill.system.skillBaseFormula}}</div>
-                <div class="item-detail">{{skill.system.masteryLevelBase}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                <div class="list__detail">{{skill.system.skillBaseFormula}}</div>
+                <div class="list__detail">{{skill.system.masteryLevelBase}}</div>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}

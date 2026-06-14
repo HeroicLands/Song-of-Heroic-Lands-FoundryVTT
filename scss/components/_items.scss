@@ -1,7 +1,7 @@
 @use "../abstracts/mixins";
 @use "list";
 
-.items {
+.list-section {
     h2 {
         @include list.section-title(
             var(--sohl-color-text-primary),
@@ -22,10 +22,10 @@
         color: var(--sohl-color-text-muted);
     }
 
-    .items-list {
+    .list {
         @include list.scroll-body;
 
-        .items-header {
+        .list__header {
             @include list.header-row(
                 var(--sohl-color-bg-overlay-dark),
                 var(--sohl-color-border-subtle)
@@ -35,7 +35,7 @@
                 padding-right: 5px;
             }
 
-            .item-name {
+            .list__name {
                 color: var(--sohl-color-text-primary);
                 border-right: 1px solid var(--sohl-color-border-default);
 
@@ -63,7 +63,7 @@
             }
         }
 
-        .item-list {
+        .list__items {
             @include list.reset;
         }
 
@@ -148,18 +148,18 @@
             text-align: center;
         }
 
-        .item-controls {
+        .list__controls {
             @include list.controls(45px);
 
-            .item-control {
+            .list__control {
                 flex: 0 0 22px;
             }
         }
 
-        .item-controls-wide {
+        .list__controls--wide {
             @include list.controls(65px);
 
-            .item-control {
+            .list__control {
                 flex: 0 0 22px;
             }
         }
@@ -169,7 +169,7 @@
             padding: 0 2px;
             border-bottom: 1px solid var(--sohl-color-border-default);
 
-            .item-image {
+            .list__image {
                 flex: 0 0 30px;
                 background-size: 24px 24px;
                 background-repeat: no-repeat;
