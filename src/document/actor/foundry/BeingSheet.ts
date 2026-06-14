@@ -276,6 +276,10 @@ export class BeingSheet extends SohlActorSheetBase {
         const statusId = target.getAttribute("data-status-id");
         if (!statusId) return;
         await this.document.toggleStatusEffect(statusId);
+        // Re-render so the pill's `active` highlight reflects the new state —
+        // the embedded ActiveEffect change does not reliably re-render the
+        // header part on its own.
+        this.render();
     }
 
     /**
