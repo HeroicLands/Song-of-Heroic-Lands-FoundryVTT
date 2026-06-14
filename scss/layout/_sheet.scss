@@ -149,8 +149,8 @@ span.sep {
             // Clicking toggles the status; active pills get the blue cue.
             &.active {
                 color: var(--sohl-color-text-inverse);
-                background: var(--sohl-color-info);
-                border-color: var(--sohl-color-info);
+                background: var(--sohl-color-active);
+                border-color: var(--sohl-color-active);
             }
         }
     }
