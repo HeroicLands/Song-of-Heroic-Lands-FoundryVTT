@@ -13,31 +13,31 @@ Sheet) see **Documents → Actor** and **Documents → Item** in the API referen
 
 ## Actors
 
-| Type | Code | Description |
-| ---- | ---- | ----------- |
-| Being | `being` | A single person, creature, or NPC. |
-| Assembly | `assembly` | A hybrid Actor/Item container for complex items. |
-| Cohort | `cohort` | A group of individuals acting as a unit. |
-| Structure | `structure` | A fixed installation or location. |
-| Vehicle | `vehicle` | A movable inanimate conveyance. |
+| Type      | Code        | Description                                      |
+| --------- | ----------- | ------------------------------------------------ |
+| Being     | `being`     | A single person, creature, or NPC.               |
+| Assembly  | `assembly`  | A hybrid Actor/Item container for complex items. |
+| Cohort    | `cohort`    | A group of individuals acting as a unit.         |
+| Structure | `structure` | A fixed installation or location.                |
+| Vehicle   | `vehicle`   | A movable inanimate conveyance.                  |
 
 ## Items
 
-| Type | Code | Description |
-| ---- | ---- | ----------- |
-| Affiliation | `affiliation` | Membership in an organization or faction. |
-| Affliction | `affliction` | An ongoing condition affecting a character. |
-| Armor | `armorgear` | Wearable protective equipment. |
-| Attribute | `attribute` | An innate characteristic. |
-| Combat Technique | `combattechnique` | A specialized combat maneuver or fighting style not tied to a specific weapon. |
-| Concoction | `concoctiongear` | A consumable alchemical mixture. |
-| Container | `containergear` | Storage for other items. |
-| Trauma | `trauma` | An instance of harm to a character. |
-| Lineage | `lineage` | Anatomical and movement template for a being's lineage (species / heritage). |
-| Misc Gear | `miscgear` | General-purpose equipment. |
-| Mystery | `mystery` | A passive or charge-based mystical power associated with a character or object. |
-| Mystical Ability | `mysticalability` | An actively invoked supernatural power. |
-| Projectile | `projectilegear` | Ammunition for ranged weapons. |
-| Skill | `skill` | A trained capability with a mastery level. |
-| Trait | `trait` | An innate characteristic, advantage, or drawback. |
-| Weapon | `weapongear` | A weapon that can be wielded in combat. |
+| Type             | Code              | Description                                                                     |
+| ---------------- | ----------------- | ------------------------------------------------------------------------------- |
+| Affiliation      | `affiliation`     | Membership in an organization or faction.                                       |
+| Affliction       | `affliction`      | An ongoing condition affecting a character.                                     |
+| Armor            | `armorgear`       | Wearable protective equipment.                                                  |
+| Attribute        | `attribute`       | An innate characteristic.                                                       |
+| Combat Technique | `combattechnique` | A specialized combat maneuver or fighting style not tied to a specific weapon.  |
+| Concoction       | `concoctiongear`  | A consumable alchemical mixture.                                                |
+| Container        | `containergear`   | Storage for other items.                                                        |
+| Trauma           | `trauma`          | An instance of harm to a character.                                             |
+| Lineage          | `lineage`         | Anatomical and movement template for a being's lineage (species / heritage).    |
+| Misc Gear        | `miscgear`        | General-purpose equipment.                                                      |
+| Mystery          | `mystery`         | A passive or charge-based mystical power associated with a character or object. |
+| Mystical Ability | `mysticalability` | An actively invoked supernatural power.                                         |
+| Projectile       | `projectilegear`  | Ammunition for ranged weapons.                                                  |
+| Skill            | `skill`           | A trained capability with a mastery level.                                      |
+| Trait            | `trait`           | An innate characteristic, advantage, or drawback.                               |
+| Weapon           | `weapongear`      | A weapon that can be wielded in combat.                                         |

@@ -389,9 +389,14 @@ describe("SohlEventQueue", () => {
                 ): Promise<void> => {
                     const fireAt = (payload as any).fireAt;
                     seen.push(fireAt);
-                    queue.scheduleAt("injury", "healingTest", fireAt + FIVE_DAYS, {
-                        fireAt: fireAt + FIVE_DAYS,
-                    });
+                    queue.scheduleAt(
+                        "injury",
+                        "healingTest",
+                        fireAt + FIVE_DAYS,
+                        {
+                            fireAt: fireAt + FIVE_DAYS,
+                        },
+                    );
                 },
             });
 
@@ -530,7 +535,8 @@ describe("SohlEventQueue", () => {
                     _ctx: SohlTriggerContext,
                 ): Promise<void> => {
                     calls++;
-                    if (calls < 3) queue.scheduleAt("u", "k", 100 * (calls + 1));
+                    if (calls < 3)
+                        queue.scheduleAt("u", "k", 100 * (calls + 1));
                 },
             });
             queue.scheduleAt("u", "k", 100);

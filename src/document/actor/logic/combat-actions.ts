@@ -149,9 +149,7 @@ export function resolveSkillMasteryLevel(
     shortcode: string,
 ): MasteryLevelModifier | null {
     const skill = actorLogic.getItemLogic(shortcode, ITEM_KIND.SKILL);
-    return (
-        ((skill as any)?.masteryLevel as MasteryLevelModifier) ?? null
-    );
+    return ((skill as any)?.masteryLevel as MasteryLevelModifier) ?? null;
 }
 
 /** A defender strike mode usable for a Block, with its (live) block modifier. */

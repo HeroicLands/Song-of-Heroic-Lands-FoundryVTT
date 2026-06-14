@@ -25,14 +25,14 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 
 ## Key commands
 
-| Command | What it does |
-|---------|-------------|
-| `npm run build` | Full pipeline: types → test → bundle |
+| Command               | What it does                             |
+| --------------------- | ---------------------------------------- |
+| `npm run build`       | Full pipeline: types → test → bundle     |
 | `npm run build:types` | TypeScript compilation only (fast check) |
-| `npm run test` | Run vitest |
-| `npm run test:watch` | Watch mode |
-| `npm run push:qa` | Sync build to QA Foundry instance |
-| `npm run docs` | Generate TypeDoc |
+| `npm run test`        | Run vitest                               |
+| `npm run test:watch`  | Watch mode                               |
+| `npm run push:qa`     | Sync build to QA Foundry instance        |
+| `npm run docs`        | Generate TypeDoc                         |
 
 ## How to read the codebase
 
@@ -41,9 +41,9 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 1. **[Architecture Overview](../concepts/architecture.md)** — the mental model. Read this first.
 2. **[src/core/SohlLogic.ts](../../src/core/SohlLogic.ts)** — the abstract base for all Logic classes. The class-level JSDoc explains the phase-batched lifecycle.
 3. **Pick one item type** and trace through its three classes:
-   - Logic: `src/document/item/logic/SkillLogic.ts` (business rules)
-   - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
-   - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
+    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules)
+    - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
+    - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 
 ### The three-class pattern
 
@@ -80,14 +80,14 @@ See [Lifecycle Model](../concepts/lifecycle-model.md) for why this ordering matt
 
 Pure game-mechanics objects live in `src/domain/`:
 
-| Directory | What's there |
-|-----------|-------------|
-| `domain/modifier/` | `ValueModifier` — the core tracked-value primitive. Almost every derived number is a ValueModifier. |
-| `domain/result/` | Test and combat results — the output of skill checks, attacks, defenses. |
-| `domain/body/` | Body structure — anatomy, hit locations, aimed strike resolution. |
-| `domain/movement/` | Per-medium base-move lookup (`readBaseMove`). |
-| `domain/action/` | Action definitions — context menu entries and executable logic. |
-| `domain/SkillBase.ts` | Skill base formula computation from traits. |
+| Directory             | What's there                                                                                        |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
+| `domain/modifier/`    | `ValueModifier` — the core tracked-value primitive. Almost every derived number is a ValueModifier. |
+| `domain/result/`      | Test and combat results — the output of skill checks, attacks, defenses.                            |
+| `domain/body/`        | Body structure — anatomy, hit locations, aimed strike resolution.                                   |
+| `domain/movement/`    | Per-medium base-move lookup (`readBaseMove`).                                                       |
+| `domain/action/`      | Action definitions — context menu entries and executable logic.                                     |
+| `domain/SkillBase.ts` | Skill base formula computation from traits.                                                         |
 
 These are rebuilt from persisted data each preparation cycle and may be mutated during the lifecycle, but mutations are not persisted.
 
@@ -116,6 +116,7 @@ See [Extension Points — Item type extension](./extension-points.md#2-actor-and
 ### Adding a domain object
 
 Follow the pattern in `src/domain/body/`:
+
 1. Create the class with a `Data` interface for the persisted shape.
 2. Construct it during `initialize()` from DataModel data.
 3. Add `updatePath` and array helper methods if it wraps persisted arrays.
@@ -146,14 +147,14 @@ User guide source: `assets/packs/journals/data/user-guide/*.md` — compiled int
 
 ## Where to find things
 
-| I want to... | Look at... |
-|--------------|-----------|
-| Understand the architecture | [Architecture](../concepts/architecture.md) |
-| See all actor/item types | [Type Catalog](../reference/type-catalog.md) |
-| Understand how values are tracked | [Modifier Model](../reference/modifier-model.md) |
-| Understand combat resolution | [Combat Pipeline](../reference/combat-resolution-pipeline.md) |
-| Understand hit locations | [Body Structure](../reference/body-structure.md) |
-| Add house rules via module | [Lifecycle Hooks](./lifecycle-hooks.md) |
-| Add per-item behavior | [Actions](./actions.md) |
-| Write tests | [Testing](./testing.md) |
-| Understand active effects | [Effects Integration](../reference/effects-integration.md) |
+| I want to...                      | Look at...                                                    |
+| --------------------------------- | ------------------------------------------------------------- |
+| Understand the architecture       | [Architecture](../concepts/architecture.md)                   |
+| See all actor/item types          | [Type Catalog](../reference/type-catalog.md)                  |
+| Understand how values are tracked | [Modifier Model](../reference/modifier-model.md)              |
+| Understand combat resolution      | [Combat Pipeline](../reference/combat-resolution-pipeline.md) |
+| Understand hit locations          | [Body Structure](../reference/body-structure.md)              |
+| Add house rules via module        | [Lifecycle Hooks](./lifecycle-hooks.md)                       |
+| Add per-item behavior             | [Actions](./actions.md)                                       |
+| Write tests                       | [Testing](./testing.md)                                       |
+| Understand active effects         | [Effects Integration](../reference/effects-integration.md)    |

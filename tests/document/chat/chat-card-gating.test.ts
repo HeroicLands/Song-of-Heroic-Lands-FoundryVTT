@@ -95,9 +95,8 @@ describe("gateAutomatedDefenseButtons", () => {
     it("leaves only Ignore when an owned defender is incapacitated", () => {
         incapacitated.mockReturnValue(true);
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(
-            makeElement(buttons),
-            () => makeDefender(true),
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true),
         );
         expect(buttons[ACTIONS.dodge].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.counter].remove).toHaveBeenCalled();
@@ -108,9 +107,8 @@ describe("gateAutomatedDefenseButtons", () => {
     it("removes Block (only) when an owned, healthy defender has no block-capable mode", () => {
         canBlock.mockReturnValue([]);
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(
-            makeElement(buttons),
-            () => makeDefender(true),
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true),
         );
         expect(buttons[ACTIONS.block].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.counter].remove).not.toHaveBeenCalled();
@@ -121,9 +119,8 @@ describe("gateAutomatedDefenseButtons", () => {
     it("removes Counterstrike (only) when an owned, healthy defender has no melee-attack mode", () => {
         canCounter.mockReturnValue(false);
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(
-            makeElement(buttons),
-            () => makeDefender(true),
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true),
         );
         expect(buttons[ACTIONS.counter].remove).toHaveBeenCalled();
         expect(buttons[ACTIONS.block].remove).not.toHaveBeenCalled();
@@ -132,9 +129,8 @@ describe("gateAutomatedDefenseButtons", () => {
 
     it("keeps all four for an owned, healthy, fully-capable defender", () => {
         const buttons = allButtons();
-        gateAutomatedDefenseButtons(
-            makeElement(buttons),
-            () => makeDefender(true),
+        gateAutomatedDefenseButtons(makeElement(buttons), () =>
+            makeDefender(true),
         );
         for (const key of Object.values(ACTIONS)) {
             expect(buttons[key].remove).not.toHaveBeenCalled();
@@ -145,9 +141,8 @@ describe("gateAutomatedDefenseButtons", () => {
         const buttons = allButtons();
         const emptied = makeContainer(true);
         const kept = makeContainer(false);
-        gateAutomatedDefenseButtons(
-            makeElement(buttons, [emptied, kept]),
-            () => makeDefender(false),
+        gateAutomatedDefenseButtons(makeElement(buttons, [emptied, kept]), () =>
+            makeDefender(false),
         );
         expect(emptied.remove).toHaveBeenCalledTimes(1);
         expect(kept.remove).not.toHaveBeenCalled();

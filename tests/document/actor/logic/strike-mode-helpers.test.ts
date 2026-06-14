@@ -101,9 +101,11 @@ describe("computeAvailableStrikeModes", () => {
     it("treats an unheld weapon (limbsHolding 0) as unavailable", () => {
         const swing = mode("swing", 1);
         expect(
-            computeAvailableStrikeModes(body({}), [], [
-                { id: "axe", strikeModes: [swing] },
-            ]),
+            computeAvailableStrikeModes(
+                body({}),
+                [],
+                [{ id: "axe", strikeModes: [swing] }],
+            ),
         ).toEqual([]);
     });
 
@@ -111,9 +113,11 @@ describe("computeAvailableStrikeModes", () => {
         const punch = mode("punch", 1);
         const swing = mode("swing", 1);
         expect(
-            computeAvailableStrikeModes(undefined, [punch], [
-                { id: "axe", strikeModes: [swing] },
-            ]),
+            computeAvailableStrikeModes(
+                undefined,
+                [punch],
+                [{ id: "axe", strikeModes: [swing] }],
+            ),
         ).toEqual([punch]);
     });
 

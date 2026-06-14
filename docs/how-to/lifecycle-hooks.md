@@ -37,34 +37,34 @@ For each phase, SoHL emits both a `pre*` hook (cancellable) and a `post*` hook (
 
 Emitted for every item on every actor during data preparation.
 
-| Hook name | Cancellable | Arguments | When |
-|-----------|------------|-----------|------|
-| `sohl.{itemType}.preInitialize` | yes | `(item, ctx)` | Before item `initialize()` |
-| `sohl.{itemType}.postInitialize` | no | `(item, ctx)` | After item `initialize()` |
-| `sohl.{itemType}.preEvaluate` | yes | `(item, ctx)` | Before item `evaluate()` |
-| `sohl.{itemType}.postEvaluate` | no | `(item, ctx)` | After item `evaluate()` |
-| `sohl.{itemType}.preFinalize` | yes | `(item, ctx)` | Before item `finalize()` |
-| `sohl.{itemType}.postFinalize` | no | `(item, ctx)` | After item `finalize()` |
+| Hook name                        | Cancellable | Arguments     | When                       |
+| -------------------------------- | ----------- | ------------- | -------------------------- |
+| `sohl.{itemType}.preInitialize`  | yes         | `(item, ctx)` | Before item `initialize()` |
+| `sohl.{itemType}.postInitialize` | no          | `(item, ctx)` | After item `initialize()`  |
+| `sohl.{itemType}.preEvaluate`    | yes         | `(item, ctx)` | Before item `evaluate()`   |
+| `sohl.{itemType}.postEvaluate`   | no          | `(item, ctx)` | After item `evaluate()`    |
+| `sohl.{itemType}.preFinalize`    | yes         | `(item, ctx)` | Before item `finalize()`   |
+| `sohl.{itemType}.postFinalize`   | no          | `(item, ctx)` | After item `finalize()`    |
 
 `{itemType}` is the Foundry item type string. Common values:
 
-| Type string | Item |
-|-------------|------|
-| `skill` | Skill |
-| `affiliation` | Affiliation |
-| `affliction` | Affliction |
-| `armorgear` | Armor Gear |
+| Type string       | Item             |
+| ----------------- | ---------------- |
+| `skill`           | Skill            |
+| `affiliation`     | Affiliation      |
+| `affliction`      | Affliction       |
+| `armorgear`       | Armor Gear       |
 | `combattechnique` | Combat Technique |
-| `concoctiongear` | Concoction Gear |
-| `containergear` | Container Gear |
-| `injury` | Injury |
-| `miscgear` | Misc Gear |
-| `mystery` | Mystery |
+| `concoctiongear`  | Concoction Gear  |
+| `containergear`   | Container Gear   |
+| `injury`          | Injury           |
+| `miscgear`        | Misc Gear        |
+| `mystery`         | Mystery          |
 | `mysticalability` | Mystical Ability |
-| `projectilegear` | Projectile Gear |
-| `skill` | Skill |
-| `trait` | Trait |
-| `weapongear` | Weapon Gear |
+| `projectilegear`  | Projectile Gear  |
+| `skill`           | Skill            |
+| `trait`           | Trait            |
+| `weapongear`      | Weapon Gear      |
 
 For the canonical list, see `ITEM_KIND` in `src/utils/constants.ts`.
 
@@ -72,35 +72,36 @@ For the canonical list, see `ITEM_KIND` in `src/utils/constants.ts`.
 
 Emitted for the actor itself during data preparation.
 
-| Hook name | Cancellable | Arguments | When |
-|-----------|------------|-----------|------|
-| `sohl.actor.{actorType}.preInitialize` | yes | `(actor)` | Before actor `initialize()` |
-| `sohl.actor.{actorType}.postInitialize` | no | `(actor)` | After actor `initialize()` |
-| `sohl.actor.{actorType}.preEvaluate` | yes | `(actor, ctx)` | Before actor `evaluate()` |
-| `sohl.actor.{actorType}.postEvaluate` | no | `(actor, ctx)` | After actor `evaluate()` |
-| `sohl.actor.{actorType}.preFinalize` | yes | `(actor, ctx)` | Before actor `finalize()` |
-| `sohl.actor.{actorType}.postFinalize` | no | `(actor, ctx)` | After actor `finalize()` |
+| Hook name                               | Cancellable | Arguments      | When                        |
+| --------------------------------------- | ----------- | -------------- | --------------------------- |
+| `sohl.actor.{actorType}.preInitialize`  | yes         | `(actor)`      | Before actor `initialize()` |
+| `sohl.actor.{actorType}.postInitialize` | no          | `(actor)`      | After actor `initialize()`  |
+| `sohl.actor.{actorType}.preEvaluate`    | yes         | `(actor, ctx)` | Before actor `evaluate()`   |
+| `sohl.actor.{actorType}.postEvaluate`   | no          | `(actor, ctx)` | After actor `evaluate()`    |
+| `sohl.actor.{actorType}.preFinalize`    | yes         | `(actor, ctx)` | Before actor `finalize()`   |
+| `sohl.actor.{actorType}.postFinalize`   | no          | `(actor, ctx)` | After actor `finalize()`    |
 
 `{actorType}` is the Foundry actor type string:
 
-| Type string | Actor |
-|-------------|-------|
-| `being` | Being |
-| `cohort` | Cohort |
+| Type string | Actor     |
+| ----------- | --------- |
+| `being`     | Being     |
+| `cohort`    | Cohort    |
 | `structure` | Structure |
-| `vehicle` | Vehicle |
-| `assembly` | Assembly |
+| `vehicle`   | Vehicle   |
+| `assembly`  | Assembly  |
 
 ### System registration hook
 
 | Hook name | Cancellable | Arguments | When |
-|-----------|------------|-----------|------|
+| --------- | ----------- | --------- | ---- |
 
 ## Hook arguments
 
 ### `item` (SohlItem)
 
 The item currently being processed. Key properties:
+
 - `item.type` — Foundry type string (e.g., `"skill"`)
 - `item.system` — the item's DataModel (persisted fields)
 - `item.system.logic` — the item's Logic instance (derived behavior)
@@ -110,6 +111,7 @@ The item currently being processed. Key properties:
 ### `actor` (SohlActor)
 
 The actor currently being processed. Key properties:
+
 - `actor.type` — Foundry type string (e.g., `"being"`)
 - `actor.system` — the actor's DataModel
 - `actor.system.logic` — the actor's Logic instance
@@ -118,12 +120,12 @@ The actor currently being processed. Key properties:
 
 The lifecycle context object. Key properties:
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `ctx.speaker` | `SohlSpeaker` | Identity of who triggered the preparation |
-| `ctx.target` | `SohlTokenDocument \| null` | Target token, if any |
-| `ctx.skipDialog` | `boolean` | Whether UI dialogs should be suppressed |
-| `ctx.noChat` | `boolean` | Whether chat output should be suppressed |
+| Property         | Type                        | Description                               |
+| ---------------- | --------------------------- | ----------------------------------------- |
+| `ctx.speaker`    | `SohlSpeaker`               | Identity of who triggered the preparation |
+| `ctx.target`     | `SohlTokenDocument \| null` | Target token, if any                      |
+| `ctx.skipDialog` | `boolean`                   | Whether UI dialogs should be suppressed   |
+| `ctx.noChat`     | `boolean`                   | Whether chat output should be suppressed  |
 
 `ctx` is not provided for actor `preInitialize`/`postInitialize` (actor-level hooks in `prepareBaseData`).
 

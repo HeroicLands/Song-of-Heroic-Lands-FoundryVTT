@@ -28,15 +28,15 @@ The queue is a dispatch engine. It carries no game rules — every rule lives in
 
 SoHL's trigger names are **identical to Foundry's `CONFIG.ActiveEffect.expiryEvents` vocabulary**. An Active Effect with `duration.expiry: "turnStart"` and a SoHL subscription on `"turnStart"` are responding to the same moment, in the same shape, with the same data.
 
-| Trigger | Context shape passed to the handler |
-| --- | --- |
-| `updateWorldTime` | `{ name, worldTime, dt, options?, userId? }` |
-| `combatStart` | `{ name, combat }` |
-| `combatEnd` | `{ name, combat }` |
-| `roundStart` | `{ name, combat, round, skipped }` |
-| `roundEnd` | `{ name, combat, round, skipped }` |
-| `turnStart` | `{ name, combat, combatant, turn, round, skipped }` |
-| `turnEnd` | `{ name, combat, combatant, turn, round, skipped }` |
+| Trigger           | Context shape passed to the handler                 |
+| ----------------- | --------------------------------------------------- |
+| `updateWorldTime` | `{ name, worldTime, dt, options?, userId? }`        |
+| `combatStart`     | `{ name, combat }`                                  |
+| `combatEnd`       | `{ name, combat }`                                  |
+| `roundStart`      | `{ name, combat, round, skipped }`                  |
+| `roundEnd`        | `{ name, combat, round, skipped }`                  |
+| `turnStart`       | `{ name, combat, combatant, turn, round, skipped }` |
+| `turnEnd`         | `{ name, combat, combatant, turn, round, skipped }` |
 
 `combatEnd` is dispatched when Foundry fires `deleteCombat` (combat document deletion). `roundEnd` / `turnEnd` are derived in [`SohlHookBridge`](../../src/core/SohlHookBridge.ts) by tracking the prior state per-combat across `combatRound` / `combatTurn` invocations.
 
@@ -85,15 +85,15 @@ sohl.events.subscribe({
 });
 ```
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `uuid` | string | UUID of the owning document. Resolved via `fromUuid` at dispatch time. |
-| `kind` | string | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs. |
-| `triggerName` | string | The trigger to listen to (must match a `ctx.name` passed to `fire`). |
-| `fireAt?` | number | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering. |
-| `predicate?` | `(ctx) => boolean` | Optional filter. Returning false skips this dispatch (subscription preserved). |
-| `payload?` | object | Optional data handed back to the handler as the third argument. |
-| `oneShot?` | boolean | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`. |
+| Field         | Type               | Purpose                                                                                                                 |
+| ------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `uuid`        | string             | UUID of the owning document. Resolved via `fromUuid` at dispatch time.                                                  |
+| `kind`        | string             | Subscription identifier, scoped to the document. Convention: lowerCamelCase verbs.                                      |
+| `triggerName` | string             | The trigger to listen to (must match a `ctx.name` passed to `fire`).                                                    |
+| `fireAt?`     | number             | Optional scheduled world-time. Required for `updateWorldTime` subscriptions when you want time-based dispatch ordering. |
+| `predicate?`  | `(ctx) => boolean` | Optional filter. Returning false skips this dispatch (subscription preserved).                                          |
+| `payload?`    | object             | Optional data handed back to the handler as the third argument.                                                         |
+| `oneShot?`    | boolean            | If true, the subscription is removed before its handler runs. Set automatically by `scheduleAt`.                        |
 
 ### `scheduleAt(uuid, kind, fireAt, payload?)`
 
@@ -183,12 +183,12 @@ This pattern gives you four properties for free:
 
 ## Cancelling subscriptions
 
-| Trigger | Mechanism |
-| --- | --- |
-| State changed | `finalize()` calls `sohl.events.unsubscribe(uuid, kind)` because the triggering condition no longer applies. |
-| Document deleted | Next dispatch resolves the UUID to `null` and silently skips. |
-| One-shot fired | `scheduleAt` subscriptions auto-remove before the handler runs. |
-| Handler decides | The handler may call `unsubscribe` on itself or any document mid-dispatch (subject to loop protection). |
+| Trigger          | Mechanism                                                                                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| State changed    | `finalize()` calls `sohl.events.unsubscribe(uuid, kind)` because the triggering condition no longer applies. |
+| Document deleted | Next dispatch resolves the UUID to `null` and silently skips.                                                |
+| One-shot fired   | `scheduleAt` subscriptions auto-remove before the handler runs.                                              |
+| Handler decides  | The handler may call `unsubscribe` on itself or any document mid-dispatch (subject to loop protection).      |
 
 ## Cascading dispatch on `updateWorldTime`
 
@@ -216,7 +216,10 @@ Implication: don't try to "fire myself again for right now" from a handler. Adva
 To add a SoHL-specific trigger (e.g. `"sohlInjuryHealed"`):
 
 ```typescript
-import { registerSohlTrigger, fireSohlTrigger } from "@src/core/SohlEventTrigger";
+import {
+    registerSohlTrigger,
+    fireSohlTrigger,
+} from "@src/core/SohlEventTrigger";
 
 // During system init — adds the name to CONFIG.ActiveEffect.expiryEvents
 // so it appears in the effect-config UI's duration→expiry dropdown.
@@ -236,8 +239,8 @@ Predicates that throw are caught and logged. That dispatch is skipped; the subsc
 ## Inspection and debugging
 
 ```typescript
-sohl.events.size;     // number of registered subscriptions
-sohl.events.debug();  // sorted snapshot for the console
+sohl.events.size; // number of registered subscriptions
+sohl.events.debug(); // sorted snapshot for the console
 ```
 
 `debug()` returns a shallow copy sorted by `(triggerName, fireAt, kind)`. Useful in the Foundry console:

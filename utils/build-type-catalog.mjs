@@ -71,14 +71,16 @@ function describeLogic(file, className) {
         .replace(/^\s*\*\s?/gm, "")
         .replace(/\r/g, "")
         .trim();
-    const firstPara = text.split(/\n\s*\n/)[0].replace(/\s+/g, " ").trim();
+    const firstPara = text
+        .split(/\n\s*\n/)[0]
+        .replace(/\s+/g, " ")
+        .trim();
     // First sentence only.
-    let sentence = (firstPara.match(/^(.*?[.!?])(\s|$)/)?.[1] ?? firstPara).trim();
+    let sentence = (
+        firstPara.match(/^(.*?[.!?])(\s|$)/)?.[1] ?? firstPara
+    ).trim();
     // Resolve {@link Target | label} / {@link Target} to plain text.
-    sentence = sentence.replace(
-        /\{@link\s+[^}|]+?\|\s*([^}]+?)\s*\}/g,
-        "$1",
-    );
+    sentence = sentence.replace(/\{@link\s+[^}|]+?\|\s*([^}]+?)\s*\}/g, "$1");
     sentence = sentence.replace(/\{@link\s+([^}]+?)\s*\}/g, "$1");
     // Capitalize and ensure terminal punctuation.
     if (sentence) sentence = sentence[0].toUpperCase() + sentence.slice(1);

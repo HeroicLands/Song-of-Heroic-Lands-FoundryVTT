@@ -7,6 +7,7 @@
 The Combatant now has a logic layer on the same footing as actors and items,
 consolidating combat logic that was previously split across the document,
 `combatant-logic.ts`, and the combat-action helpers.
+
 - `SohlCombatantDataModel` extends `SohlDataModel` (gaining the `SohlLogicData`
   port); a new `CombatantLogic` is registered and resolved by
   `SohlDataModel.create`, so `combatant.logic` returns a `CombatantLogic`.

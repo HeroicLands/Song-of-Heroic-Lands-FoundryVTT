@@ -7,8 +7,12 @@ describe("CombatModifier", () => {
     });
 
     describe("inheritance", () => {
-        it.todo("inherits all ValueModifier methods (add, multiply, set, floor, ceiling)");
-        it.todo("inherits MasteryLevelModifier properties (minTarget, maxTarget, successLevelMod)");
+        it.todo(
+            "inherits all ValueModifier methods (add, multiply, set, floor, ceiling)",
+        );
+        it.todo(
+            "inherits MasteryLevelModifier properties (minTarget, maxTarget, successLevelMod)",
+        );
         it.todo("inherits constrainedEffective from MasteryLevelModifier");
     });
 

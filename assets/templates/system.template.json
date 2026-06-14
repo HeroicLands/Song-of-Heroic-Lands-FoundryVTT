@@ -108,11 +108,7 @@
             "name": "Song of Heroic Lands",
             "sorting": "m",
             "color": "#094fcb",
-            "packs": [
-                "items",
-                "journals",
-                "actors"
-            ]
+            "packs": ["items", "journals", "actors"]
         }
     ],
     "packs": [

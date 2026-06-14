@@ -8,10 +8,10 @@ Adds `docs/concepts/css-architecture.md` — the decision record that grounds th
 CSS/SCSS refactor epic (#95). It ratifies, with rationale and examples drawn from the
 current `scss/` tree, the choices the rest of the epic builds on:
 
-- **Tool:** stay on SCSS (Dart Sass); modernize *usage* rather than switching to
+- **Tool:** stay on SCSS (Dart Sass); modernize _usage_ rather than switching to
   Tailwind or CSS-in-JS.
 - **Folders:** ITCSS-inspired `abstracts/ · base/ · layout/ · components/ · apps/ ·
-  utilities/`, with a migration map from today's `utils/ · global/ · components/`.
+utilities/`, with a migration map from today's `utils/ · global/ · components/`.
 - **Naming:** BEM (`block__element--modifier`) under the `.sohl` namespace; `data-*`
   hooks and `lang/en.json` keys stay stable.
 - **Tokens:** `--sohl-*` custom properties generated from SCSS maps, kept distinct

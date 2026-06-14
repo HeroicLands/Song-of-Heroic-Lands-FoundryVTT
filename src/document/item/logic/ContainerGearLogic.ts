@@ -45,10 +45,9 @@ export class ContainerGearLogic<
     /** @inheritdoc */
     override initialize(): void {
         super.initialize();
-        this.maxCapacity = new ValueModifier(
-            {},
-            { parent: this },
-        ).setBase(this.data.maxCapacityBase);
+        this.maxCapacity = new ValueModifier({}, { parent: this }).setBase(
+            this.data.maxCapacityBase,
+        );
     }
 
     /** @inheritdoc */

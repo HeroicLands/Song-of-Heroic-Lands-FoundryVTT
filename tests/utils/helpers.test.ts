@@ -486,10 +486,10 @@ describe("textToFunction", () => {
         ).toThrow(/Disallowed pattern/);
     });
 
-    it("blocks the Function-constructor escape via [\"constructor\"]", () => {
-        expect(() =>
-            textToFunction('({})["constructor"]("x")', []),
-        ).toThrow(/Disallowed pattern/);
+    it('blocks the Function-constructor escape via ["constructor"]', () => {
+        expect(() => textToFunction('({})["constructor"]("x")', [])).toThrow(
+            /Disallowed pattern/,
+        );
     });
 
     it("blocks __proto__ chain access", () => {
@@ -540,9 +540,9 @@ describe("textToFunction", () => {
     });
 
     it("rejects non-identifier parameter names", () => {
-        expect(() =>
-            textToFunction("return x;", ["x = sideEffect()"]),
-        ).toThrow(/Invalid parameter name/);
+        expect(() => textToFunction("return x;", ["x = sideEffect()"])).toThrow(
+            /Invalid parameter name/,
+        );
         expect(() => textToFunction("return 1;", ["a, b"])).toThrow(
             /Invalid parameter name/,
         );
