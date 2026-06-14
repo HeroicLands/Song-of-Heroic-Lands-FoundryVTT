@@ -256,8 +256,27 @@ export class BeingSheet extends SohlActorSheetBase {
             rollStrikeModeTest: BeingSheet._onRollStrikeModeTest,
             rollStrikeModeImpact: BeingSheet._onRollStrikeModeImpact,
             addInjury: BeingSheet._onAddInjury,
+            toggleStatus: BeingSheet._onToggleStatus,
         },
     };
+
+    /**
+     * Toggle a status effect from the header status pills. Creates the active
+     * effect if absent, deletes it if present, keyed by the pill's
+     * `data-status-id`.
+     *
+     * @param _event - The triggering pointer event (unused).
+     * @param target - The clicked pill, carrying `data-status-id`.
+     */
+    protected static async _onToggleStatus(
+        this: BeingSheet,
+        _event: PointerEvent,
+        target: HTMLElement,
+    ): Promise<void> {
+        const statusId = target.getAttribute("data-status-id");
+        if (!statusId) return;
+        await this.document.toggleStatusEffect(statusId);
+    }
 
     /**
      * Handle the "Add Injury" button on the Trauma tab: open the Add Injury
@@ -534,12 +553,29 @@ export class BeingSheet extends SohlActorSheetBase {
             { id: STATUS_EFFECT.DEAD, abbr: "DED", label: "Dead" },
         ].map((s) => ({ ...s, active: statuses.has(s.id) }));
 
+        // Read-only body-location lozenges, sourced from the actor's Lineage body
+        // structure (dynamic — varies by lineage).
+        const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
+        const bodyStructure = (lineageItem?.logic as LineageLogic | undefined)
+            ?.bodyStructure;
+        const bodyParts = (bodyStructure?.parts ?? []).map((p) => ({
+            shortcode: p.shortcode,
+        }));
+
+        // Health bar: `health.effective` is the current health percentage.
+        const healthPct = Math.max(
+            0,
+            Math.min(100, Math.round(logic?.health?.effective ?? 0)),
+        );
+
         return Object.assign(context, {
             actorName: actor.name,
             actorImg: actor.img,
             health: logic?.health,
+            healthPct,
             shockState: logic?.shockState,
             statusEffects,
+            bodyParts,
         });
     }
 
