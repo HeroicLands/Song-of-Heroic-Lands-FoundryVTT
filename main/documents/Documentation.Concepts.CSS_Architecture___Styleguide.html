@@ -236,7 +236,9 @@ compound selector precisely for this reason (<code>scss/sohl.scss</code>):</p>
 <p><strong>Keep specificity low with <code>:where()</code>.</strong> When scoping by namespace but not trying to
 out-specify anything, wrap the namespace in <code>:where()</code> so it contributes zero
 specificity and stays easy to override:</p>
-<pre><code class="scss">:where(.sohl) .sohl-list__item { /* low-specificity, easy to theme */ }
+<pre><code class="scss">:where(.sohl) .sohl-list__item {
+    /* low-specificity, easy to theme */
+}
 </code><button type="button">Copy</button></pre>
 
 <p>Reserve plain <code>.sohl</code> (specificity-bearing) for rules that must actually win against
