@@ -1,16 +1,13 @@
-@use "../abstracts/typography";
+@use "../abstracts/mixins";
+@use "list";
 
 .items {
     h2 {
-        flex: 1;
-        margin: 0;
-        line-height: 36px;
-        @include typography.type-style("label");
-        color: var(--sohl-color-text-primary);
-        background-color: var(--sohl-color-bg-header);
-        border-top: 2px groove var(--sohl-color-border-subtle);
-        border-bottom: 2px groove var(--sohl-color-border-subtle);
-        padding: 5px;
+        @include list.section-title(
+            var(--sohl-color-text-primary),
+            var(--sohl-color-bg-header),
+            var(--sohl-color-border-subtle)
+        );
     }
 
     .danger {
@@ -26,28 +23,16 @@
     }
 
     .items-list {
-        list-style: none;
-        margin: 7px 0;
-        padding: 0;
-        overflow-y: hidden;
+        @include list.scroll-body;
 
         .items-header {
-            margin: 2px 0;
-            padding: 0;
-            align-items: center;
-            background: var(--sohl-color-bg-overlay-dark);
-            border: 2px groove var(--sohl-color-border-subtle);
-            font-weight: bold;
-            line-height: 24px;
+            @include list.header-row(
+                var(--sohl-color-bg-overlay-dark),
+                var(--sohl-color-border-subtle)
+            );
 
-            h3 {
-                margin: 0;
-                padding-left: 5px;
-                @include typography.type-style("label-small");
-
-                .fas {
-                    padding-right: 5px;
-                }
+            h3 .fas {
+                padding-right: 5px;
             }
 
             .item-name {
@@ -64,9 +49,7 @@
                 flex: 0 0 140px;
                 text-align: right;
                 padding-right: 10px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
             }
 
             .overmaxcap {
@@ -81,9 +64,7 @@
         }
 
         .item-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+            @include list.reset;
         }
 
         .name {
@@ -113,18 +94,13 @@
                 white-space: nowrap;
                 overflow-x: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
             }
         }
 
         .detail {
             font-size: 12px;
             border-right: 1px solid var(--sohl-color-border-default);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .notes {
@@ -153,9 +129,7 @@
             text-align: center;
             padding-left: 1px;
             padding-right: 1px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
 
             .value {
                 padding-left: 3px;
@@ -166,9 +140,7 @@
             flex: 0 0 120px;
             text-align: left;
             padding-left: 5px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .aspect {
@@ -177,10 +149,7 @@
         }
 
         .item-controls {
-            flex: 0 0 45px;
-            text-align: right;
-            padding-right: 5px;
-            font-size: 12px;
+            @include list.controls(45px);
 
             .item-control {
                 flex: 0 0 22px;
@@ -188,10 +157,7 @@
         }
 
         .item-controls-wide {
-            flex: 0 0 65px;
-            text-align: right;
-            padding-right: 5px;
-            font-size: 12px;
+            @include list.controls(65px);
 
             .item-control {
                 flex: 0 0 22px;
