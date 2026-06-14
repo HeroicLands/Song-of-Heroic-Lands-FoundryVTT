@@ -18,22 +18,12 @@ import {
     domainFamilyLabels,
     type DomainFamily,
 } from "@src/utils/constants";
+import { buildDomainGroups } from "@src/apps/logic/domain-manager-view";
 
 const DomainManagerApp_Base: any =
     foundry.applications.api.HandlebarsApplicationMixin(
         foundry.applications.api.ApplicationV2,
     );
-
-interface RenderRow extends DomainEntry {
-    canDelete: boolean;
-    isOverride: boolean;
-}
-
-interface RenderGroup {
-    family: DomainFamily;
-    familyLabel: string;
-    entries: RenderRow[];
-}
 
 /**
  * GM-facing manager for the world-scoped Domain registry. Lists all
@@ -82,52 +72,7 @@ export class DomainManagerApp extends (DomainManagerApp_Base as typeof foundry.a
      * @returns The template context of domain groups and an emptiness flag.
      */
     protected override async _prepareContext(_options: any): Promise<any> {
-        const all = SohlDomains.getAll();
-        const grouped = new Map<DomainFamily, RenderRow[]>();
-        for (const family of DomainFamilies) {
-            grouped.set(family as DomainFamily, []);
-        }
-        for (const entry of Object.values(all)) {
-            const family = entry.family;
-            const list = grouped.get(family);
-            if (!list) continue;
-            list.push({
-                ...entry,
-                canDelete: entry.source === "world",
-                // The current registry stores only the active entry per
-                // shortcode, so we cannot detect "overridden a default" by
-                // looking at the live registry alone. We mark world
-                // entries whose shortcode begins with `sohl.` as overrides
-                // — that is the only way a GM can shadow a system default
-                // through the UI.
-                isOverride:
-                    entry.source === "world" &&
-                    entry.shortcode.startsWith("sohl."),
-            });
-        }
-        // Sort within each family by sort then label.
-        for (const [, list] of grouped) {
-            list.sort((a, b) => {
-                if (a.sort !== b.sort) return a.sort - b.sort;
-                return a.label.localeCompare(b.label);
-            });
-        }
-
-        const groups: RenderGroup[] = [];
-        for (const [family, entries] of grouped) {
-            if (entries.length === 0) continue;
-            const familyKey = Object.entries(DOMAIN_FAMILY).find(
-                ([, v]) => v === family,
-            )?.[0];
-            const familyLabel =
-                familyKey ?
-                    domainFamilyLabels[
-                        familyKey as keyof typeof domainFamilyLabels
-                    ]
-                :   family;
-            groups.push({ family, familyLabel, entries });
-        }
-
+        const groups = buildDomainGroups(Object.values(SohlDomains.getAll()));
         return {
             groups,
             isEmpty: groups.length === 0,

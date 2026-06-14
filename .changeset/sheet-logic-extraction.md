@@ -27,3 +27,10 @@ overwrite-on-drop). The sheet keeps the Foundry-facing drop dialog and mutation.
 _SohlActiveEffectSheet_ → new `effect-sheet-view.ts`: `buildChangeTypesMap` (the
 localized change-`mode` label map), `resolveEffectMetadataType` (scope → effect-key
 namespace), and `resolveEffectKeyChoices` (its `ITEM_METADATA` key-choices lookup).
+
+_Settings apps_ → new `src/apps/logic/domain-manager-view.ts` (`buildDomainGroups` —
+group by family, sort, and compute delete/override flags) and
+`src/apps/logic/calendar-settings-view.ts` (`buildCalendarViewModel` — the calendar
+dropdown rows and imported-calendar list, taking a `localize` callback). The new
+`src/apps/logic/**` directory is added to the Foundry-free zones (the ESLint
+boundary rule and the purity smoke test).
