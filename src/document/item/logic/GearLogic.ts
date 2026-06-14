@@ -75,62 +75,6 @@ export abstract class GearLogic<
      */
     sharedWithCohorts!: SohlActor[];
 
-    /**
-     * Define and return all intrinsic actions for this logic type.
-     * @returns The base item actions plus the gear carried/not-carried actions.
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...SohlItemBaseLogic.defineIntrinsicActions(),
-            {
-                shortcode: "setCarried",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setCarried",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-round-star-filled",
-                executor: "setCarried",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-            {
-                shortcode: "setNotCarried",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.Gear.Action.setNotCarried",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-round-star-unfilled",
-                executor: "setNotCarried",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-        ];
-    }
-
-    /**
-     * Marks this gear as carried on the character's person.
-     *
-     * Intrinsic-action executor for the `setCarried` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setCarried(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.isCarried": true };
-        await this.data.update(updateData);
-    }
-
-    /**
-     * Marks this gear as not carried (stowed somewhere off-person).
-     *
-     * Intrinsic-action executor for the `setNotCarried` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setNotCarried(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.isCarried": false };
-        await this.data.update(updateData);
-    }
-
     /* --------------------------------------------- */
     /* Array update helpers                          */
     /* --------------------------------------------- */
@@ -159,6 +103,66 @@ export abstract class GearLogic<
                 (id) => id !== cohortId,
             ),
         };
+    }
+
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Marks this gear as carried on the character's person.
+     *
+     * Intrinsic-action executor for the `setCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": true };
+        await this.data.update(updateData);
+    }
+
+    /**
+     * Marks this gear as not carried (stowed somewhere off-person).
+     *
+     * Intrinsic-action executor for the `setNotCarried` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setNotCarried(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.isCarried": false };
+        await this.data.update(updateData);
+    }
+
+    /**
+     * Define and return all intrinsic actions for this logic type.
+     * @returns The base item actions plus the gear carried/not-carried actions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "setCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-filled",
+                executor: "setCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+            {
+                shortcode: "setNotCarried",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.Gear.Action.setNotCarried",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-round-star-unfilled",
+                executor: "setNotCarried",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
     }
 
     /* --------------------------------------------- */

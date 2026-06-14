@@ -84,6 +84,10 @@ export class TraumaLogic<
      */
     bodyLocation: BodyLocation | undefined;
 
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
     /**
      * Roll the treatment test, applying medical care to this trauma.
      *
