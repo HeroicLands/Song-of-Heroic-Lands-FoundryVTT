@@ -302,6 +302,10 @@ export abstract class SohlLogic<
         return entries;
     }
 
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
     /**
      * Intrinsic action performed after finalize lifecycle stage.
      * This is intended for modules to hook into (or ActionItems to override)
@@ -313,13 +317,16 @@ export abstract class SohlLogic<
         // No-op by default
     }
 
-    /*--------------------------------------
-     * Phase-batched lifecycle methods
-     *
-     * Called by SohlActor.prepareEmbeddedData() in three barrier-separated
-     * passes across ALL items, NOT per-item like Foundry's default.
-     * See the class-level JSDoc and docs/concepts/lifecycle-model.md.
-     *--------------------------------------*/
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
+    /*
+     * Phase-batched lifecycle methods, called by
+     * SohlActor.prepareEmbeddedData() in three barrier-separated passes across
+     * ALL items, NOT per-item like Foundry's default. See the class-level JSDoc
+     * and docs/concepts/lifecycle-model.md.
+     */
 
     /**
      * Set up base state from persisted data: create ValueModifiers, set base

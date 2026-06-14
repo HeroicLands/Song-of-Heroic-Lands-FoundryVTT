@@ -104,13 +104,6 @@ export interface CombatantData extends SohlLogicData<SohlCombatant> {
 export class CombatantLogic<
     TData extends CombatantData = CombatantData,
 > extends SohlLogic<TData> {
-    /** Initialize-phase hook; base combatant logic does nothing. */
-    override initialize(): void {}
-    /** Evaluate-phase hook; base combatant logic does nothing. */
-    override evaluate(): void {}
-    /** Finalize-phase hook; base combatant logic does nothing. */
-    override finalize(): void {}
-
     /** The strike mode last used to attack, or `null` (combat-scoped). */
     get lastAttackMode(): StrikeModeRef | null {
         return this.data.lastAttackMode;
@@ -259,6 +252,10 @@ export class CombatantLogic<
         const c = this.combatant;
         return c ? combatantSpacesMoved(c, this.data.startLocation) : 0;
     }
+
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
 
     // --- Automated combat start (attacker side) ------------------------------
 
@@ -781,6 +778,17 @@ export class CombatantLogic<
             },
         ];
     }
+
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
+    /** Initialize-phase hook; base combatant logic does nothing. */
+    override initialize(): void {}
+    /** Evaluate-phase hook; base combatant logic does nothing. */
+    override evaluate(): void {}
+    /** Finalize-phase hook; base combatant logic does nothing. */
+    override finalize(): void {}
 }
 
 /* --------------------------------------------------------------------------

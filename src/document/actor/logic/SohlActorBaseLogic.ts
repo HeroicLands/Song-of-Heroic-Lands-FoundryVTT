@@ -98,13 +98,6 @@ export interface SohlActorData<
 export class SohlActorBaseLogic<
     TData extends SohlActorData = SohlActorData,
 > extends SohlLogic<TData> {
-    /** Initialize-phase hook; base actor logic does nothing. */
-    override initialize(): void {}
-    /** Evaluate-phase hook; base actor logic does nothing. */
-    override evaluate(): void {}
-    /** Finalize-phase hook; base actor logic does nothing. */
-    override finalize(): void {}
-
     /**
      * Find an embedded item's logic by its `shortcode` and item kind.
      *
@@ -173,4 +166,15 @@ export class SohlActorBaseLogic<
     get hasPlayerOwner(): boolean {
         return this.data.hasPlayerOwner;
     }
+
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
+    /** Initialize-phase hook; base actor logic does nothing. */
+    override initialize(): void {}
+    /** Evaluate-phase hook; base actor logic does nothing. */
+    override evaluate(): void {}
+    /** Finalize-phase hook; base actor logic does nothing. */
+    override finalize(): void {}
 }
