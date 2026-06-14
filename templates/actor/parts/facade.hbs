@@ -13,9 +13,9 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 <section class="tab facade{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="facade">
     <div class="flexrow">
-        <img class="facade-image" src="{{bioImage}}" data-edit="system.bioImage"
+        <img class="facade__image" src="{{bioImage}}" data-edit="system.bioImage"
             title="{{actorName}}" height="300" width="200" />
-        <div class="facade-description">
+        <div class="facade__description">
             {{editor descriptionHTML target="system.description" button=false editable=editable engine="prosemirror" collaborate=false}}
         </div>
     </div>

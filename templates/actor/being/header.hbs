@@ -25,14 +25,14 @@ SPDX-License-Identifier: GPL-3.0-or-later
 --}}
 
 <header class="sheet-header flexrow">
-    <img class="actor-img" src="{{actorImg}}" data-edit="img" alt="{{actorName}}" />
-    <div class="header-details">
+    <img class="sheet-header__portrait" src="{{actorImg}}" data-edit="img" alt="{{actorName}}" />
+    <div class="sheet-header__details">
         <h1 class="actor-name">
             <input name="name" type="text" value="{{actorName}}" placeholder="{{localize 'Name'}}" />
         </h1>
-        <div class="status-effects">
+        <div class="sheet-header__statuses">
             {{#each statusEffects}}
-            <a class="toggle-status-effect {{#if this.active}}active{{/if}}" data-status-id="{{this.id}}" data-tooltip="{{this.label}}">{{this.abbr}}</a>
+            <a class="sheet-header__status {{#if this.active}}active{{/if}}" data-status-id="{{this.id}}" data-tooltip="{{this.label}}">{{this.abbr}}</a>
             {{/each}}
         </div>
     </div>
