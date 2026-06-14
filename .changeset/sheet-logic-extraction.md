@@ -18,3 +18,8 @@ copies across skills, traits, afflictions, mysteries, and abilities),
 `buildStatusPills`, `buildBodyPartLozenges`, `clampHealthPct`, and
 `splitWeaponsByRange`. The in-sheet `fvttEnrichHTML` proxy is replaced with a direct
 `TextEditor` call (the proxy exists for the logic layer, not for sheets).
+
+_SohlItemSheetBase_ → new `item-sheet-view.ts`: `localizeSubType` (subtype-label
+localization with raw fallback), `keyTransferredEffects` (enabled transferred
+effects keyed by id), and `findSimilarItem` (the name/type/subtype match behind
+overwrite-on-drop). The sheet keeps the Foundry-facing drop dialog and mutation.
