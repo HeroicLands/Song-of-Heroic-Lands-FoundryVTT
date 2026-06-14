@@ -22,16 +22,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    <ol class="effects-list">
-        <li class="effects-header flexrow">
+    <ol class="effects__list">
+        <li class="effects__header flexrow">
             <h3 class="name">Effect</h3>
             <div class="target">Target</div>
             <div class="duration">Remaining</div>
             <div class="changes">Changes</div>
         </li>
-        <ol class="effect-list">
+        <ol class="effects__items">
             {{#each effects as |effect|}}
-            <li class="effect {{#if effect.disabled}}disabled{{/if}} flexrow"
+            <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
                 data-effect-id="{{effect.id}}" data-effect-parent-uuid="{{effect.parent.uuid}}">
                 <div class="name">
                     <div class="image" style="background-image: url('{{effect.img}}')"></div>
@@ -40,11 +40,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 <div class="ele target">{{effect.system.targetLabel}}</div>
                 <div class="ele duration">{{#if effect.isTemporary}}{{effect.duration.label}}{{else}}Indefinite{{/if}}</div>
                 <div class="ele changes">{{effect.system.changes.length}} changes</div>
-                <div class="effect-controls">
-                    <a class="effect-control effect-toggle">
+                <div class="effects__controls">
+                    <a class="effects__control effect-toggle">
                         <i class="fas {{#if effect.disabled}}sohl-toggle-off{{else}}sohl-toggle-on{{/if}}"></i>
                     </a>
-                    <a class="effect-control effect-contextmenu" title="Menu">
+                    <a class="effects__control effect-contextmenu" title="Menu">
                         <i class="sohl-ellipsis-vertical"></i>
                     </a>
                 </div>
@@ -54,16 +54,16 @@ SPDX-License-Identifier: GPL-3.0-or-later
     </ol>
 
     {{#if (gt (length trxEffects) 0)}}
-    <ol class="effects-list">
-        <li class="effects-header flexrow">
+    <ol class="effects__list">
+        <li class="effects__header flexrow">
             <h3 class="name">Transferred Effect</h3>
             <div class="source">Source</div>
             <div class="duration">Remaining</div>
             <div class="changes">Changes</div>
         </li>
-        <ol class="effect-list">
+        <ol class="effects__items">
             {{#each trxEffects as |effect|}}
-            <li class="effect {{#if effect.disabled}}disabled{{/if}} flexrow"
+            <li class="effects__row {{#if effect.disabled}}disabled{{/if}} flexrow"
                 data-effect-id="{{effect.id}}">
                 <div class="name">
                     <div class="image" style="background-image: url('{{effect.img}}')"></div>
