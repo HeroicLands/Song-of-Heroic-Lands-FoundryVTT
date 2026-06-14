@@ -165,7 +165,10 @@ describe("result round-trip (serialize -> string -> rehydrate)", () => {
                         { parent },
                     ),
                     impact: new ImpactModifier(
-                        { roll: { numDice: 2, dieFaces: 6 }, aspect: "edged" } as any,
+                        {
+                            roll: { numDice: 2, dieFaces: 6 },
+                            aspect: "edged",
+                        } as any,
                         { parent },
                     ),
                 } as any,

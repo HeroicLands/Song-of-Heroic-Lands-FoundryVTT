@@ -20,12 +20,14 @@ When an Assembly is dropped onto another actor (e.g., a Being), its items are un
 ## Example
 
 A "Full Plate Armor" Assembly might contain:
+
 - A Plate Cuirass ArmorGear item
 - A Plate Helm ArmorGear item
 - Plate Gauntlets ArmorGear item
 - Plate Greaves ArmorGear item
 
 A "Treasure Chest" Assembly might contain:
+
 - A ContainerGear item
 - MiscGear items (coins, bandages, rope)
 - ConcoctionGear items (potions)

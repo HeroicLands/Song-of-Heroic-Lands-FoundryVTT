@@ -8,17 +8,17 @@ export default defineConfig({
         alias: [
             // FoundryHelpers must come before the general @src/* alias
             // so the test mock takes precedence during testing
-            ...(isTest
-                ? [
-                      {
-                          find: "@src/core/FoundryHelpers",
-                          replacement: path.resolve(
-                              __dirname,
-                              "tests/mocks/foundry/core/FoundryHelpers.ts",
-                          ),
-                      },
-                  ]
-                : []),
+            ...(isTest ?
+                [
+                    {
+                        find: "@src/core/FoundryHelpers",
+                        replacement: path.resolve(
+                            __dirname,
+                            "tests/mocks/foundry/core/FoundryHelpers.ts",
+                        ),
+                    },
+                ]
+            :   []),
             {
                 find: /^@types\/(.*)/,
                 replacement: path.resolve(__dirname, "types/$1"),

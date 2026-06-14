@@ -105,16 +105,16 @@ This file runs before all tests and provides:
 
 The boundary is clear: **if SoHL controls it, test it directly. If Foundry provides it, shim it.**
 
-| Dependency | Approach | Reason |
-|---|---|---|
-| `sohl.i18n.localize()` | Direct access | We own the SohlSystem object |
-| `sohl.log.warn()` | Direct access | We own the logger |
-| `sohl.CONFIG.ValueModifier` | Direct access | We own the CONFIG registry |
-| `game.settings.get()` | Shim | Foundry game state |
-| `ui.notifications.warn()` | Shim | Foundry UI |
-| `Hooks.callAll()` | Shim | Foundry hook system |
-| `Roll.create()` | Shim | Foundry dice engine |
-| `fromUuidSync()` | Shim | Foundry document resolution |
+| Dependency                        | Approach            | Reason                           |
+| --------------------------------- | ------------------- | -------------------------------- |
+| `sohl.i18n.localize()`            | Direct access       | We own the SohlSystem object     |
+| `sohl.log.warn()`                 | Direct access       | We own the logger                |
+| `sohl.CONFIG.ValueModifier`       | Direct access       | We own the CONFIG registry       |
+| `game.settings.get()`             | Shim                | Foundry game state               |
+| `ui.notifications.warn()`         | Shim                | Foundry UI                       |
+| `Hooks.callAll()`                 | Shim                | Foundry hook system              |
+| `Roll.create()`                   | Shim                | Foundry dice engine              |
+| `fromUuidSync()`                  | Shim                | Foundry document resolution      |
 | `foundry.data.fields.StringField` | Neither (type-only) | Compile-time schema constructors |
 
 ## Adding new shim functions
@@ -131,12 +131,21 @@ When production code needs a new Foundry global:
 Logic classes operate on Data **interfaces** (`SohlItemData` / `SohlActorData`) that Foundry DataModels implement in production. In tests, the harness at `tests/mocks/logicHarness.ts` supplies plain-object implementations of those interfaces, so a Logic instance is constructed exactly the way `SohlDataModel.create()` does — no Foundry required:
 
 ```typescript
-import { makeItemLogic, makeMockActor, makeAttributeStub } from "@tests/mocks/logicHarness";
+import {
+    makeItemLogic,
+    makeMockActor,
+    makeAttributeStub,
+} from "@tests/mocks/logicHarness";
 import { SkillLogic } from "@src/document/item/logic/SkillLogic";
 
 const actor = makeMockActor();
 actor.items.set("str1", makeAttributeStub("str", 12));
-const logic = makeItemLogic(SkillLogic, "skill", { skillBaseFormula: "@str", masteryLevelBase: 30 }, { actor });
+const logic = makeItemLogic(
+    SkillLogic,
+    "skill",
+    { skillBaseFormula: "@str", masteryLevelBase: 30 },
+    { actor },
+);
 logic.initialize(); // lifecycle is NOT auto-run
 expect(logic.masteryLevel.base).toBe(30);
 ```

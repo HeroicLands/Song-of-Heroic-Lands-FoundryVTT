@@ -6,6 +6,7 @@
 
 The combat helpers and the Being combat-resume flow no longer reach the Foundry
 actor for items or chat-target identity.
+
 - `collectBlockableStrikeModes`, `collectAttackableStrikeModes`,
   `hasMeleeAttackStrikeMode`, and `resolveSkillMasteryLevel` now take the actor
   **logic** and iterate `logicTypes` / `getItemLogic` rather than `itemTypes`.

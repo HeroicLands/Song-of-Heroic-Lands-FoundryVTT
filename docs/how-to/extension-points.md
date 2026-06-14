@@ -41,6 +41,7 @@ Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
 **Extend by adding new classes and registering them**, rather than editing core logic in-place.
 
 When in doubt:
+
 1. Find the nearest existing example.
 2. Replicate the pattern.
 3. Change the minimum.
@@ -74,6 +75,7 @@ Current startup sequence (from `src/sohl.ts`):
 Core actor classes: `src/document/actor/` with base `SohlActor` in `foundry/`.
 
 Layering:
+
 - Document (`SohlActor`) = Foundry integration
 - DataModel (`system`) = persisted schema
 - Logic (`system.logic`) = rules behavior + derived properties
@@ -100,17 +102,20 @@ Same layering as actors.
 ## 3) Combat / tests / resolution pipeline
 
 Core components:
+
 - `src/domain/result/*` — test and combat result classes
 - `src/domain/modifier/*` — value tracking and modification
 - `src/document/combatant/` — combatant tracking
 - `src/core/SohlActionContext.ts` — request context
 
 **Safe extension:**
+
 - Add new `*Result` types for new outcomes
 - Add new `*Modifier` types for new influences
 - Keep results serializable for chat/UI
 
 **High-risk:**
+
 - Changing shared modifier interpretation rules
 - Changing success thresholds or resolution order
 
@@ -121,6 +126,7 @@ See [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) and
 Core: `src/document/effect/SohlActiveEffect.ts`
 
 SoHL extends Foundry's targeting via:
+
 - `targetType`: `this`, `actor`, or an item document type
 - `targetName`: regex matched against item shortcodes
 
@@ -162,18 +168,19 @@ introducing a new attribute name.
 Enforce **[actor state sovereignty](../concepts/architecture.md#actor-state-sovereignty)**: an actor mutates only itself. To make one actor affect another, **never reach into the target** — instead:
 
 1. **Resolve the source side on the source.** Roll the attack / spell / effect test against the source's own modifiers and mutate only the source.
-2. **Emit a target-addressed button.** Post a chat card whose button carries the *target* actor's uuid in `data-handler-actor-uuid` (or `data-handler-uuid`) and an `action`. The label must make the consequence unmistakable ("Acknowledge you fall asleep").
+2. **Emit a target-addressed button.** Post a chat card whose button carries the _target_ actor's uuid in `data-handler-actor-uuid` (or `data-handler-uuid`) and an `action`. The label must make the consequence unmistakable ("Acknowledge you fall asleep").
 3. **Apply on the target's client.** In the target's `onChatCardButton` `action` case, run any required test first (e.g. a resistance roll), then mutate **this** actor.
 
 Render-time gating makes the button appear only to the responding actor's owner (the GM owns all). `gateAutomatedDefenseButtons` (`src/document/chat/chat-card-gating.ts`) is the reference: it removes a button whose `data-handler-actor-uuid` actor the current user does not own (`actor.isOwner`). Reuse this gating for any new target-addressed button.
 
-**Working examples already in the tree:** automated-combat defense buttons (resolve on the *defender's* client) and the `createInjury` / "Calculate Injury" button (the *target* wounds itself). Model new mechanics — spells, conditions, knockback, afflictions — on these; do not add a code path where the source writes the target's state.
+**Working examples already in the tree:** automated-combat defense buttons (resolve on the _defender's_ client) and the `createInjury` / "Calculate Injury" button (the _target_ wounds itself). Model new mechanics — spells, conditions, knockback, afflictions — on these; do not add a code path where the source writes the target's state.
 
 ## 6) Localization
 
 - `lang/en.json`
 
 **Rules:**
+
 - Never rename keys (breaks translations and downstream consumers).
 - Add new keys; deprecate old keys slowly if needed.
 
@@ -182,6 +189,7 @@ Render-time gating makes the button appear only to the responding actor's owner 
 `src/core/SohlSystem.ts` — the central registry for CONFIG mappings.
 
 **Rules:**
+
 - Keep mappings explicit.
 - Avoid runtime reflection-based wiring.
 - Validate registrations early during init.
@@ -196,7 +204,9 @@ Register in your module's `init` hook:
 Hooks.once("init", () => {
     game.system.api.SohlSystem.registerCalendar("my-calendar", {
         label: "My Campaign Calendar",
-        config: { /* calendar data */ },
+        config: {
+            /* calendar data */
+        },
         builtin: true,
     });
 });
@@ -204,13 +214,13 @@ Hooks.once("init", () => {
 
 **Registry API** (on `SohlSystem`):
 
-| Method | Description |
-|--------|-------------|
-| `registerCalendar(id, registration)` | Register or overwrite a calendar |
-| `unregisterCalendar(id)` | Remove a calendar (throws if `builtin`) |
-| `getCalendar(id)` | Get a registration by ID |
-| `calendars` | `SohlMap` of all registered calendars |
-| `applyCalendar(id)` | Apply a calendar to `CONFIG.time` |
+| Method                               | Description                             |
+| ------------------------------------ | --------------------------------------- |
+| `registerCalendar(id, registration)` | Register or overwrite a calendar        |
+| `unregisterCalendar(id)`             | Remove a calendar (throws if `builtin`) |
+| `getCalendar(id)`                    | Get a registration by ID                |
+| `calendars`                          | `SohlMap` of all registered calendars   |
+| `applyCalendar(id)`                  | Apply a calendar to `CONFIG.time`       |
 
 ## What to update when you add something
 

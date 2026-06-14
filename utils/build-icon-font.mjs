@@ -68,9 +68,10 @@ function readIcons() {
  * longer exist) are kept so a deleted-then-restored icon reclaims its code.
  */
 function resolveCodepoints(icons) {
-    const map = existsSync(CODEPOINTS_PATH)
-        ? JSON.parse(readFileSync(CODEPOINTS_PATH, "utf8"))
-        : {};
+    const map =
+        existsSync(CODEPOINTS_PATH) ?
+            JSON.parse(readFileSync(CODEPOINTS_PATH, "utf8"))
+        :   {};
     const used = new Set(Object.values(map));
     let next = PUA_START;
     const nextFree = () => {
@@ -102,8 +103,7 @@ function elementIsFilled(attrs, noneClasses) {
     if (fillAttr) return fillAttr.toLowerCase() !== "none";
 
     const classes = attrs.match(/\bclass\s*=\s*"([^"]*)"/i)?.[1];
-    if (classes)
-        return !classes.split(/\s+/).some((c) => noneClasses.has(c));
+    if (classes) return !classes.split(/\s+/).some((c) => noneClasses.has(c));
 
     return true; // no fill specified anywhere => default black => filled
 }
@@ -129,7 +129,9 @@ function reportStrokeOnly(icons) {
                 if (declaresNoFill(rule[2])) noneClasses.add(rule[1]);
 
         const shapes = [
-            ...svg.matchAll(/<(?:path|polygon|circle|rect|ellipse)\b([^>]*)>/gi),
+            ...svg.matchAll(
+                /<(?:path|polygon|circle|rect|ellipse)\b([^>]*)>/gi,
+            ),
         ];
         // Stroke-only ⇔ at least one shape, and none of them is filled.
         return (
@@ -200,7 +202,10 @@ function buildSvgFont(icons, codepoints) {
             .on("error", reject);
 
         for (const icon of icons) {
-            const svg = normalizeSvg(readFileSync(icon.path, "utf8"), icon.name);
+            const svg = normalizeSvg(
+                readFileSync(icon.path, "utf8"),
+                icon.name,
+            );
             const glyph = Readable.from(svg);
             glyph.metadata = {
                 unicode: [String.fromCodePoint(codepoints[icon.name])],
@@ -273,9 +278,7 @@ function collectTemplateRefs(dir, refs = new Set()) {
 /** Report template classes that have no matching glyph (visibility, not a failure). */
 function reportCoverage(icons) {
     if (!existsSync(TEMPLATES_DIR)) return;
-    const glyphClasses = new Set(
-        icons.map((i) => `${CLASS_PREFIX}${i.name}`),
-    );
+    const glyphClasses = new Set(icons.map((i) => `${CLASS_PREFIX}${i.name}`));
     const refs = [...collectTemplateRefs(TEMPLATES_DIR)].sort();
     const missing = refs.filter((r) => !glyphClasses.has(r));
     if (missing.length) {

@@ -17,12 +17,12 @@ Foundry v14 introduced a built-in calendar API (`foundry.data.CalendarData`, `CO
 
 The four extension points are all on `CONFIG.time`:
 
-| Slot | Type | Purpose |
-|---|---|---|
-| `CONFIG.time.worldCalendarConfig` | `CalendarConfig` | The data passed to the calendar constructor |
-| `CONFIG.time.worldCalendarClass` | `typeof CalendarData` | The class instantiated for `game.time.calendar` |
-| `CONFIG.time.formatters` | `{[name]: TimeFormatter}` | Named formatters callable via `calendar.format(time, name)` |
-| `CONFIG.time.earthCalendarConfig` / `earthCalendarClass` | same | The IRL companion calendar (`game.time.earthCalendar`) |
+| Slot                                                     | Type                      | Purpose                                                     |
+| -------------------------------------------------------- | ------------------------- | ----------------------------------------------------------- |
+| `CONFIG.time.worldCalendarConfig`                        | `CalendarConfig`          | The data passed to the calendar constructor                 |
+| `CONFIG.time.worldCalendarClass`                         | `typeof CalendarData`     | The class instantiated for `game.time.calendar`             |
+| `CONFIG.time.formatters`                                 | `{[name]: TimeFormatter}` | Named formatters callable via `calendar.format(time, name)` |
+| `CONFIG.time.earthCalendarConfig` / `earthCalendarClass` | same                      | The IRL companion calendar (`game.time.earthCalendar`)      |
 
 Foundry constructs `game.time` inside `Game#setupGame()`. Construction reads `CONFIG.time.worldCalendarConfig` and `worldCalendarClass` and instantiates `new worldCalendarClass(deepClone(worldCalendarConfig), {strict: true})`. The `init` hook fires earlier (in `Game#initializeGame`), so any system that sets `CONFIG.time.*` in `init` is guaranteed to be in effect when `game.time` comes up.
 
@@ -40,11 +40,11 @@ The `updateWorldTime` hook fires after every world-time change — this is the u
 
 Registered into `CONFIG.time.formatters` in `src/core/SohlSystem.ts` under the `sohl.*` namespace (to guarantee no collision with built-in or module formatter names) and callable via `game.time.calendar.format(worldTime, name)`:
 
-| Name | SoHL calendar | Foreign calendar | When to use |
-|---|---|---|---|
-| `"sohl.timestamp"` | ` 0722-04-15 14:30:00` (sign prefix, era-aware year) | `0722-04-15 14:30:00` (no prefix, raw year) | Logs, sortable strings, internal storage |
-| `"sohl.default"` | `15 Highsun 722TR 14:30:00` | `15 {monthName} 722 14:30:00` (uses the active calendar's month names; no era) | Sheet displays, chat cards, anywhere a human reads it |
-| `"sohl.relative"` | `3 days, 4 hours until` / `2 hours ago` | identical | Countdowns, "next healing check in N days", recent events |
+| Name               | SoHL calendar                                        | Foreign calendar                                                               | When to use                                               |
+| ------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| `"sohl.timestamp"` | ` 0722-04-15 14:30:00` (sign prefix, era-aware year) | `0722-04-15 14:30:00` (no prefix, raw year)                                    | Logs, sortable strings, internal storage                  |
+| `"sohl.default"`   | `15 Highsun 722TR 14:30:00`                          | `15 {monthName} 722 14:30:00` (uses the active calendar's month names; no era) | Sheet displays, chat cards, anywhere a human reads it     |
+| `"sohl.relative"`  | `3 days, 4 hours until` / `2 hours ago`              | identical                                                                      | Countdowns, "next healing check in N days", recent events |
 
 **All three formatters are safe to call against any active calendar.** Each performs an `instanceof SohlCalendarData` check at the top; on a foreign calendar instance they degrade to a calendar-agnostic format that uses only standard `CalendarData` fields and the active calendar's own month names. This means system code can call `game.time.calendar.format(t, "sohl.default")` without first checking which module owns the calendar.
 
@@ -60,10 +60,10 @@ SoHL keeps a registry of calendars keyed by ID. `SohlSystem.registerCalendar(id,
 
 Two world settings drive the GM-facing workflow:
 
-| Setting | Purpose |
-|---|---|
-| `sohl.activeCalendar` | ID of the currently active calendar. Default `"sohl-default"`. Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
-| `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions. |
+| Setting                  | Purpose                                                                                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `sohl.activeCalendar`    | ID of the currently active calendar. Default `"sohl-default"`. Its `onChange` handler calls `SohlSystem.applyCalendar`, which re-initializes `game.time` — no reload required. |
+| `sohl.importedCalendars` | Map of imported calendar configs persisted across sessions.                                                                                                                    |
 
 The `Calendar Settings` menu (`src/apps/CalendarSettingsMenu.ts`) lets the GM:
 
@@ -110,9 +110,9 @@ The preferred accessor in SoHL code is `sohl.calendar` — it returns whatever `
 import { fvttWorldTime } from "@src/core/FoundryHelpers";
 
 const now = fvttWorldTime();
-const human   = sohl.calendar.format(now, "sohl.default");     // SoHL: "15 Highsun 722TR 14:30:00"; foreign: "15 {monthName} 722 14:30:00"
-const stamp   = sohl.calendar.format(now, "sohl.timestamp");   // SoHL: " 0722-04-15 14:30:00"; foreign: "0722-04-15 14:30:00"
-const future  = sohl.calendar.format(eventTime, "sohl.relative"); // "3 days, 4 hours until"
+const human = sohl.calendar.format(now, "sohl.default"); // SoHL: "15 Highsun 722TR 14:30:00"; foreign: "15 {monthName} 722 14:30:00"
+const stamp = sohl.calendar.format(now, "sohl.timestamp"); // SoHL: " 0722-04-15 14:30:00"; foreign: "0722-04-15 14:30:00"
+const future = sohl.calendar.format(eventTime, "sohl.relative"); // "3 days, 4 hours until"
 ```
 
 All three names are valid against any active calendar — see the formatter table above. For the SoHL-specific accessor `SohlCalendarData.worldDate` (returns `SohlCalendarComponents` for the current world time), see `src/core/SohlCalendar.ts`. That accessor is only safe when SoHL's calendar is actually active — prefer `sohl.calendar.timeToComponents(fvttWorldTime())` in code that should survive a foreign calendar override.
@@ -140,13 +140,15 @@ When showing "next healing check at …" in a sheet, read the subscription's `fi
 Use the `displayWorldTime` helper registered in `src/sohl.ts`:
 
 ```hbs
-{{!-- Defaults to "sohl.default" --}}
-Next healing check: {{displayWorldTime injury.nextHealingCheck}}
+{{! Defaults to "sohl.default" }}
+Next healing check:
+{{displayWorldTime injury.nextHealingCheck}}
 
-{{!-- Pick any registered formatter via the format= hash arg --}}
-Logged at {{displayWorldTime t format="sohl.timestamp"}}
+{{! Pick any registered formatter via the format= hash arg }}
+Logged at
+{{displayWorldTime t format="sohl.timestamp"}}
 
-{{!-- sohl.relative also accepts short / maxTerms via hash args --}}
+{{! sohl.relative also accepts short / maxTerms via hash args }}
 {{displayWorldTime eventTime format="sohl.relative" short=true maxTerms=2}}
 ```
 

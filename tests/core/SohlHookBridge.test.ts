@@ -142,10 +142,10 @@ describe("SohlHookBridge", () => {
         }
 
         it("on combatStart, fires combatStart and initializes the per-combat prior tracker", async () => {
-            const combat = makeCombat(
-                { round: 1, turn: 0, combatantId: "A" },
-                ["A", "B"],
-            );
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
+                "A",
+                "B",
+            ]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
 
@@ -182,10 +182,9 @@ describe("SohlHookBridge", () => {
         });
 
         it("on combatRound, fires roundEnd then roundStart", async () => {
-            const combat = makeCombat(
-                { round: 1, turn: 0, combatantId: "A" },
-                ["A"],
-            );
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
+                "A",
+            ]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
 
@@ -213,10 +212,9 @@ describe("SohlHookBridge", () => {
         });
 
         it("short-circuits combatTurn / combatRound on non-active-GM", async () => {
-            const combat = makeCombat(
-                { round: 1, turn: 0, combatantId: "A" },
-                ["A"],
-            );
+            const combat = makeCombat({ round: 1, turn: 0, combatantId: "A" }, [
+                "A",
+            ]);
             await captured.hooks.get("combatStart")![0](combat);
             fireSpy.mockClear();
             setUserFlags({ isGM: true, isActiveGM: false });

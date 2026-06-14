@@ -58,11 +58,11 @@ SoHL has `transfer: false` for all effects — Foundry's automatic transfer-to-a
 
 A change `key` may carry one of three composable SoHL prefixes:
 
-| Prefix | Semantics |
-|---|---|
-| `mod:<path>` | Push a `ValueDelta` onto the `ValueModifier` at `<path>` on the target document (paths are doc-rooted, e.g. `mod:logic.score` resolves to `targetDoc.logic.score`). The `change.type` (`add`, `multiply`, `override`, `upgrade`, `downgrade`, `custom`) maps to the corresponding `VALUE_DELTA_OPERATOR`. |
-| `sm:<path>` | For each strike mode on the target weapon matching `change.strikeModePredicate`, set `<path>` on the strike mode (raw assignment). WeaponGear targets only. |
-| `mod:sm:<path>` | Composes the above: for each matching strike mode, push a `ValueDelta` onto the `ValueModifier` at `<path>` on that strike mode. |
+| Prefix          | Semantics                                                                                                                                                                                                                                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mod:<path>`    | Push a `ValueDelta` onto the `ValueModifier` at `<path>` on the target document (paths are doc-rooted, e.g. `mod:logic.score` resolves to `targetDoc.logic.score`). The `change.type` (`add`, `multiply`, `override`, `upgrade`, `downgrade`, `custom`) maps to the corresponding `VALUE_DELTA_OPERATOR`. |
+| `sm:<path>`     | For each strike mode on the target weapon matching `change.strikeModePredicate`, set `<path>` on the strike mode (raw assignment). WeaponGear targets only.                                                                                                                                               |
+| `mod:sm:<path>` | Composes the above: for each matching strike mode, push a `ValueDelta` onto the `ValueModifier` at `<path>` on that strike mode.                                                                                                                                                                          |
 
 Standard `system.*` keys fall through to Foundry's stock change application unchanged.
 
@@ -73,18 +73,28 @@ A SoHL extension on the per-change schema, only consulted when the key matches `
 ```jsonc
 // Example: "Honed Edge" — +1 attack and +1 impact on all cutting strike modes
 {
-  "name": "Honed Edge",
-  "transfer": false,
-  "system": {
-    "scope": "this",
-    "test": "",
-    "changes": [
-      { "key": "mod:sm:attack", "type": "add", "value": "1", "phase": "initial",
-        "strikeModePredicate": "sm.traits.cutting === true" },
-      { "key": "mod:sm:impact", "type": "add", "value": "1", "phase": "initial",
-        "strikeModePredicate": "sm.traits.cutting === true" }
-    ]
-  }
+    "name": "Honed Edge",
+    "transfer": false,
+    "system": {
+        "scope": "this",
+        "test": "",
+        "changes": [
+            {
+                "key": "mod:sm:attack",
+                "type": "add",
+                "value": "1",
+                "phase": "initial",
+                "strikeModePredicate": "sm.traits.cutting === true",
+            },
+            {
+                "key": "mod:sm:impact",
+                "type": "add",
+                "value": "1",
+                "phase": "initial",
+                "strikeModePredicate": "sm.traits.cutting === true",
+            },
+        ],
+    },
 }
 ```
 
@@ -157,15 +167,15 @@ SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](
 
 ### Built-in triggers
 
-| Trigger | Context fields (alongside `name`) | Foundry hook driving it |
-| --- | --- | --- |
-| `updateWorldTime` | `worldTime, dt, options?, userId?` | `updateWorldTime` |
-| `combatStart` | `combat` | `combatStart` |
-| `combatEnd` | `combat` | `deleteCombat` |
-| `roundStart` | `combat, round, skipped` | `combatRound` (derived) |
-| `roundEnd` | `combat, round, skipped` | `combatRound` (derived) |
-| `turnStart` | `combat, combatant, turn, round, skipped` | `combatTurn` (derived) |
-| `turnEnd` | `combat, combatant, turn, round, skipped` | `combatTurn` (derived) |
+| Trigger           | Context fields (alongside `name`)         | Foundry hook driving it |
+| ----------------- | ----------------------------------------- | ----------------------- |
+| `updateWorldTime` | `worldTime, dt, options?, userId?`        | `updateWorldTime`       |
+| `combatStart`     | `combat`                                  | `combatStart`           |
+| `combatEnd`       | `combat`                                  | `deleteCombat`          |
+| `roundStart`      | `combat, round, skipped`                  | `combatRound` (derived) |
+| `roundEnd`        | `combat, round, skipped`                  | `combatRound` (derived) |
+| `turnStart`       | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
+| `turnEnd`         | `combat, combatant, turn, round, skipped` | `combatTurn` (derived)  |
 
 `roundEnd` / `turnEnd` are synthesised in [`SohlHookBridge`](../../src/core/SohlHookBridge.ts) by tracking the prior state per combat across `combatRound` / `combatTurn` fires.
 
@@ -174,7 +184,10 @@ SoHL ships its own dispatcher for document-level subscriptions ([`sohl.events`](
 Use `registerSohlTrigger(name, label)` to add a custom trigger name to both Foundry's expiry-event registry (so it appears in the effect-config UI) and SoHL's vocabulary:
 
 ```typescript
-import { registerSohlTrigger, fireSohlTrigger } from "@src/core/SohlEventTrigger";
+import {
+    registerSohlTrigger,
+    fireSohlTrigger,
+} from "@src/core/SohlEventTrigger";
 
 registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
 ```

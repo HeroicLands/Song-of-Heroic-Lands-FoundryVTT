@@ -1,6 +1,8 @@
 describe("ImpactModifier", () => {
     describe("constructor", () => {
-        it.todo("creates an instance with default values (null roll, BLUNT aspect)");
+        it.todo(
+            "creates an instance with default values (null roll, BLUNT aspect)",
+        );
         it.todo("accepts roll data and creates a SimpleRoll");
         it.todo("accepts a valid aspect");
         it.todo("defaults to BLUNT for invalid aspect");
@@ -34,6 +36,8 @@ describe("ImpactModifier", () => {
 
     describe("evaluate()", () => {
         it.todo("returns roll total when roll already exists");
-        it.todo("creates a SimpleRoll from formula and rolls when no prior roll");
+        it.todo(
+            "creates a SimpleRoll from formula and rolls when no prior roll",
+        );
     });
 });

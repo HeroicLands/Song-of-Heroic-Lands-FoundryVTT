@@ -145,18 +145,18 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 | `attackResult` | `AttackResult` | The attacker's result |
 | `defendResult` | `DefendResult` | The defender's result |
 
-| `margin`             | `number`            | Victory score `VS` (see below)    |
-| `tacticalAdvantages` | `{ side, count }`   | TAs awarded by the exchange       |
-| `weaponBreakCheck`   | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
+| `margin` | `number` | Victory score `VS` (see below) |
+| `tacticalAdvantages` | `{ side, count }` | TAs awarded by the exchange |
+| `weaponBreakCheck` | `"attacker" \| "defender" \| "none"` | Whose weapon must roll for breakage |
 
 **Determines** (via `opposedTestEvaluate()`):
 
 - Who lands a blow — the derived getters `attackerLandsBlow` /
   `defenderLandsBlow` (the defender only via Counterstrike). "Lands a blow" means
-  *connected*; the blow may still be fully absorbed by armor during impact
+  _connected_; the blow may still be fully absorbed by armor during impact
   resolution, so it does not by itself imply damage.
 - The **victory score** `VS = attacker.normSuccessLevel − defender.normSuccessLevel`.
-  This is the **raw level difference**, deliberately *not* the inherited
+  This is the **raw level difference**, deliberately _not_ the inherited
   `sourceWins`/`isTied` getters — those carve out a "both failed" case, whereas
   the SoHL combat tables resolve every exchange by relative margin (a less-bad
   failure still beats a worse one).
@@ -164,12 +164,12 @@ The full combat exchange — composes AttackResult + DefendResult via opposed te
 
 Per-defense outcome:
 
-| Defense       | Attacker delivers | Defender delivers | Notes |
-|---------------|-------------------|-------------------|-------|
-| Block         | `VS >= 0`         | never             | tie also sets `weaponBreakCheck = "defender"` |
-| Counterstrike | `VS >= 0`         | when its own roll succeeds | both blows may land |
-| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never | |
-| Ignore        | the attack itself succeeds | never | no defender contest |
+| Defense       | Attacker delivers                                         | Defender delivers          | Notes                                         |
+| ------------- | --------------------------------------------------------- | -------------------------- | --------------------------------------------- |
+| Block         | `VS >= 0`                                                 | never                      | tie also sets `weaponBreakCheck = "defender"` |
+| Counterstrike | `VS >= 0`                                                 | when its own roll succeeds | both blows may land                           |
+| Dodge         | `VS > 0`, or tie with a lower dodge roll than attack roll | never                      |                                               |
+| Ignore        | the attack itself succeeds                                | never                      | no defender contest                           |
 
 Tactical Advantages: the winner of a `|VS| >= 2` exchange earns `|VS| − 1` TAs
 (attacker on `VS >= 2`, defender on `VS <= -2`).
@@ -194,13 +194,13 @@ manual Add Injury flow:
 
 ## Chat card templates
 
-| Template                   | Used by                     | Purpose                          |
-| -------------------------- | --------------------------- | -------------------------------- |
-| `standard-test-card.hbs`   | SuccessTestResult           | Standard test outcome            |
-| `opposed-request-card.hbs` | OpposedTestResult (phase 1) | "Respond to opposed test" prompt |
-| `opposed-result-card.hbs`  | OpposedTestResult (phase 2) | Final opposed outcome            |
-| `attack-card.hbs`          | AttackResult                | Attack-specific display          |
-| `attack-result-card.hbs`   | AttackResult                | Attack outcome details           |
+| Template                   | Used by                     | Purpose                                 |
+| -------------------------- | --------------------------- | --------------------------------------- |
+| `standard-test-card.hbs`   | SuccessTestResult           | Standard test outcome                   |
+| `opposed-request-card.hbs` | OpposedTestResult (phase 1) | "Respond to opposed test" prompt        |
+| `opposed-result-card.hbs`  | OpposedTestResult (phase 2) | Final opposed outcome                   |
+| `attack-card.hbs`          | AttackResult                | Attack-specific display                 |
+| `attack-result-card.hbs`   | AttackResult                | Attack outcome details                  |
 | `damage-card.hbs`          | `buildDamageCardData`       | Rolled impact + Calculate Injury button |
 | `injury-card.hbs`          | `buildInjuryCardData`       | Resolved injury (level, shock, mishaps) |
 

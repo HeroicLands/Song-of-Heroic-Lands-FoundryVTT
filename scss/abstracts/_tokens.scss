@@ -15,14 +15,21 @@
 
 $colors: (
     // Primary text
-    "text-primary": #191813, // body text
-    "text-secondary": #343225, // UI, tabs, labels
-    "text-muted": #8e8c7f, // hints, metadata, disabled
-    "text-inverse": #f6f4ea, // text on dark backgrounds
+    "text-primary": #191813,
+    // body text
+    "text-secondary": #343225,
+    // UI, tabs, labels
+    "text-muted": #8e8c7f,
+    // hints, metadata, disabled
+    "text-inverse": #f6f4ea,
+    // text on dark backgrounds
     // Borders
-    "border-subtle": #eeede0, // separators, table lines
-    "border-default": #c9c7b8, // panels, inputs
-    "border-strong": #8a887c, // active / focus / emphasis
+    "border-subtle": #eeede0,
+    // separators, table lines
+    "border-default": #c9c7b8,
+    // panels, inputs
+    "border-strong": #8a887c,
+    // active / focus / emphasis
     // Backgrounds
     "bg-header": #c9c7b8,
     "bg-overlay-light": rgba(0, 0, 0, 0.04),
@@ -36,18 +43,23 @@ $colors: (
     "danger": #c84a3a,
     "success": #5f6f3a,
     "info": #4f6b73,
-    "active": #2a52d6, // saturated blue cue for toggled-on / selected state
+    "active": #2a52d6,
+    // saturated blue cue for toggled-on / selected state
     // Indicators
-    "health-bar": #6f979a, // health/endurance bar fill
+    "health-bar": #6f979a,
+    // health/endurance bar fill
     // Accents
     "tooltip-bg": #c7b35a,
-    "tooltip-text": #191813,
+    "tooltip-text": #191813
 );
 
 $space: (
-    "xs": 2px, // tight gaps between chips/badges
-    "sm": 5px, // default control padding
-    "md": 10px, // block separation
+    "xs": 2px,
+    // tight gaps between chips/badges
+    "sm": 5px,
+    // default control padding
+    "md": 10px,
+    // block separation
     "lg": 20px, // section spacing
 );
 
