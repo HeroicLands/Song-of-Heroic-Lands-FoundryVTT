@@ -62,6 +62,14 @@ Pure game-mechanics objects in `src/domain/` — modifiers, test results, body s
 
 Sheet classes and Handlebars templates (`.hbs`) handle UI. Sheets extend `SohlActorSheetBase` or `SohlItemSheetBase`. Chat cards use templates in `templates/chat/`.
 
+#### Sheet view-model modules
+
+A sheet (or settings app) is Foundry code: it owns the DOM, fires hooks, mutates documents, and enriches HTML. But its `_prepare*Context` methods often also contain **pure data-shaping** — grouping, sorting, hierarchy building, label/scope resolution. That logic belongs in the Foundry-free layer, not inline in the sheet, so it can be unit-tested and is covered by the boundary guards.
+
+The convention: a sheet/app class `FooSheet`/`FooApp` with pure view-model logic gets a `foo-sheet-view.ts` (apps: `foo-view.ts`) module of free functions in the **sibling `logic/` directory** (e.g. `actor/logic/being-sheet-view.ts`, `apps/logic/domain-manager-view.ts`). These take accessor callbacks or minimal structural inputs — never Foundry document types — so they stay value-Foundry-free; the sheet keeps only orchestration and delegates the shaping. The canonical example is `being-sheet-view.ts`.
+
+Create such a module **only when there is real logic to hold** — trivial field-injection (`system.foo → context.foo`) stays inline. Don't add empty placeholder modules.
+
 ## Three-class pattern
 
 Every actor and item type is split into three classes across two directories:

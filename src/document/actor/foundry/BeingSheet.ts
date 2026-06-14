@@ -15,13 +15,12 @@ import {
     SohlActor,
     SohlActorSheetBase,
 } from "@src/document/actor/foundry/SohlActor";
-import { fvttCallHook, fvttEnrichHTML } from "@src/core/FoundryHelpers";
+import { fvttCallHook } from "@src/core/FoundryHelpers";
 import {
     ITEM_KIND,
     MOVEMENT_MEDIUM,
     MovementMedium,
     movementMediumLabels,
-    STATUS_EFFECT,
     TRAIT_INTENSITY,
 } from "@src/utils/constants";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
@@ -33,6 +32,14 @@ import {
     buildDamageCardData,
     type StrikeModeTestKind,
 } from "@src/document/actor/logic/combat-actions";
+import {
+    groupBySubType,
+    buildContainerTree,
+    buildStatusPills,
+    buildBodyPartLozenges,
+    clampHealthPct,
+    splitWeaponsByRange,
+} from "@src/document/actor/logic/being-sheet-view";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { toFilePath } from "@src/utils/helpers";
@@ -41,6 +48,8 @@ import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument
 type RenderContext =
     foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>;
 type RenderOptions = foundry.applications.api.DocumentSheetV2.RenderOptions;
+
+const TextEditor = foundry.applications.ux.TextEditor.implementation;
 
 /** @internal */
 export class BeingSheet extends SohlActorSheetBase {
@@ -549,48 +558,20 @@ export class BeingSheet extends SohlActorSheetBase {
             const legacyId = effect?.flags?.core?.statusId;
             if (legacyId) statuses.add(legacyId);
         }
-        const statusEffects = [
-            { id: STATUS_EFFECT.SLEEP, abbr: "SLP", label: "Sleep" },
-            { id: STATUS_EFFECT.PRONE, abbr: "PRN", label: "Prone" },
-            { id: STATUS_EFFECT.STUN, abbr: "STN", label: "Stun" },
-            {
-                id: STATUS_EFFECT.AURAL_SHOCK,
-                abbr: "ASHK",
-                label: "Aural Shock",
-            },
-            {
-                id: STATUS_EFFECT.INCAPACITATED,
-                abbr: "INC",
-                label: "Incapacitated",
-            },
-            {
-                id: STATUS_EFFECT.UNCONSCIOUS,
-                abbr: "UNC",
-                label: "Unconscious",
-            },
-            { id: STATUS_EFFECT.DEAD, abbr: "DED", label: "Dead" },
-        ].map((s) => ({ ...s, active: statuses.has(s.id) }));
+        const statusEffects = buildStatusPills(statuses);
 
         // Read-only body-location lozenges, sourced from the actor's Lineage body
         // structure (dynamic — varies by lineage).
         const lineageItem = (actor.itemTypes as any)?.[ITEM_KIND.LINEAGE]?.[0];
         const bodyStructure = (lineageItem?.logic as LineageLogic | undefined)
             ?.bodyStructure;
-        const bodyParts = (bodyStructure?.parts ?? []).map((p) => ({
-            shortcode: p.shortcode,
-        }));
-
-        // Health bar: `health.effective` is the current health percentage.
-        const healthPct = Math.max(
-            0,
-            Math.min(100, Math.round(logic?.health?.effective ?? 0)),
-        );
+        const bodyParts = buildBodyPartLozenges(bodyStructure);
 
         return Object.assign(context, {
             actorName: actor.name,
             actorImg: actor.img,
             health: logic?.health,
-            healthPct,
+            healthPct: clampHealthPct(logic?.health?.effective),
             shockState: logic?.shockState,
             statusEffects,
             bodyParts,
@@ -625,7 +606,9 @@ export class BeingSheet extends SohlActorSheetBase {
         const system = this.document.system as any;
         return Object.assign(context, {
             bioImage: system.bioImage,
-            descriptionHTML: await fvttEnrichHTML(system.description ?? ""),
+            descriptionHTML: await TextEditor.enrichHTML(
+                system.description ?? "",
+            ),
         });
     }
 
@@ -648,11 +631,10 @@ export class BeingSheet extends SohlActorSheetBase {
         }
 
         const traits = actor.itemTypes[ITEM_KIND.TRAIT] ?? [];
-        const traitGroups: StrictObject<SohlItem[]> = {};
-        for (const trait of traits) {
-            const subType = (trait.system as any).subType ?? "other";
-            (traitGroups[subType] ??= []).push(trait);
-        }
+        const traitGroups = groupBySubType(
+            traits,
+            (trait) => (trait.system as any).subType,
+        );
 
         const affiliations = actor.itemTypes[ITEM_KIND.AFFILIATION] ?? [];
 
@@ -689,7 +671,7 @@ export class BeingSheet extends SohlActorSheetBase {
             traitGroups,
             affiliations,
             movement,
-            biographyHTML: await fvttEnrichHTML(system.biography ?? ""),
+            biographyHTML: await TextEditor.enrichHTML(system.biography ?? ""),
         });
     }
 
@@ -705,19 +687,11 @@ export class BeingSheet extends SohlActorSheetBase {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const skills = this.document.itemTypes[ITEM_KIND.SKILL] ?? [];
-        const skillGroups: StrictObject<SohlItem[]> = {};
-
-        for (const skill of skills) {
-            const subType = (skill.system as any).subType ?? "other";
-            (skillGroups[subType] ??= []).push(skill);
-        }
-
-        // Sort skills within each group by name
-        for (const group of Object.values(skillGroups)) {
-            group.sort((a: SohlItem, b: SohlItem) =>
-                a.name.localeCompare(b.name),
-            );
-        }
+        const skillGroups = groupBySubType(
+            skills,
+            (skill) => (skill.system as any).subType,
+            (a, b) => a.name.localeCompare(b.name),
+        );
 
         return Object.assign(context, { skillGroups });
     }
@@ -737,23 +711,12 @@ export class BeingSheet extends SohlActorSheetBase {
         const actor = this.document;
         const logic = actor.logic as BeingLogic;
 
-        // Weapons with their strike mode domain objects
+        // Weapons split into melee/missile by their strike mode domain objects
         const weapons = actor.itemTypes[ITEM_KIND.WEAPONGEAR] ?? [];
-        const meleeWeapons: any[] = [];
-        const missileWeapons: any[] = [];
-
-        for (const weapon of weapons) {
-            const weaponLogic = weapon.logic as any;
-            const allModes = weaponLogic?.strikeModes ?? [];
-            const melee = allModes.filter((sm: any) => sm.isMelee);
-            const missile = allModes.filter((sm: any) => sm.isMissile);
-            if (melee.length > 0) {
-                meleeWeapons.push({ weapon, strikeModes: melee });
-            }
-            if (missile.length > 0) {
-                missileWeapons.push({ weapon, strikeModes: missile });
-            }
-        }
+        const { meleeWeapons, missileWeapons } = splitWeaponsByRange(
+            weapons,
+            (weapon) => (weapon.logic as any)?.strikeModes ?? [],
+        );
 
         // Combat techniques with their strike mode domain objects
         const combatTechniques = (
@@ -796,11 +759,10 @@ export class BeingSheet extends SohlActorSheetBase {
         const afflictions = actor.itemTypes[ITEM_KIND.AFFLICTION] ?? [];
 
         // Group afflictions by subType
-        const afflictionGroups: StrictObject<SohlItem[]> = {};
-        for (const affliction of afflictions) {
-            const subType = (affliction.system as any).subType ?? "other";
-            (afflictionGroups[subType] ??= []).push(affliction);
-        }
+        const afflictionGroups = groupBySubType(
+            afflictions,
+            (affliction) => (affliction.system as any).subType,
+        );
 
         return Object.assign(context, {
             traumas,
@@ -824,19 +786,17 @@ export class BeingSheet extends SohlActorSheetBase {
 
         // Mysteries grouped by subType
         const mysteries = actor.itemTypes[ITEM_KIND.MYSTERY] ?? [];
-        const mysteryGroups: StrictObject<SohlItem[]> = {};
-        for (const mystery of mysteries) {
-            const subType = (mystery.system as any).subType ?? "other";
-            (mysteryGroups[subType] ??= []).push(mystery);
-        }
+        const mysteryGroups = groupBySubType(
+            mysteries,
+            (mystery) => (mystery.system as any).subType,
+        );
 
         // Mystical abilities grouped by subType
         const abilities = actor.itemTypes[ITEM_KIND.MYSTICALABILITY] ?? [];
-        const abilityGroups: StrictObject<SohlItem[]> = {};
-        for (const ability of abilities) {
-            const subType = (ability.system as any).subType ?? "other";
-            (abilityGroups[subType] ??= []).push(ability);
-        }
+        const abilityGroups = groupBySubType(
+            abilities,
+            (ability) => (ability.system as any).subType,
+        );
 
         return Object.assign(context, {
             mysteryGroups,
@@ -858,14 +818,10 @@ export class BeingSheet extends SohlActorSheetBase {
     ): Promise<RenderContext> {
         const actor = this.document;
 
-        // Build container hierarchy
-        const containers: any[] = [];
         const containerGear = actor.itemTypes[ITEM_KIND.CONTAINERGEAR] ?? [];
 
-        // Virtual "On Body" container for ungrouped gear
-        const onBodyItems: SohlItem[] = [];
-
-        // Collect all gear items
+        // Collect all gear items (containers themselves included, so a
+        // top-level container appears both as a node and under "On Body").
         const gearTypes = [
             ITEM_KIND.ARMORGEAR,
             ITEM_KIND.WEAPONGEAR,
@@ -879,29 +835,12 @@ export class BeingSheet extends SohlActorSheetBase {
             allGear.push(...(actor.itemTypes[type] ?? []));
         }
 
-        const containerIds = new Set(containerGear.map((c: SohlItem) => c.id));
-
-        // Build a map of containerId → items inside that container
-        const containerContents = new Map<string, SohlItem[]>();
-        for (const item of allGear) {
-            const containerId = (item.system as any).containerId;
-            if (containerId && containerIds.has(containerId)) {
-                const list = containerContents.get(containerId) ?? [];
-                list.push(item);
-                containerContents.set(containerId, list);
-            } else {
-                // Not in any container — goes to "On Body"
-                onBodyItems.push(item);
-            }
-        }
-
-        // Build container entries with their contents
-        for (const container of containerGear) {
-            containers.push({
-                container,
-                items: containerContents.get(container.id!) ?? [],
-            });
-        }
+        const { containers, onBodyItems } = buildContainerTree(
+            containerGear,
+            allGear,
+            (item) => item.id,
+            (item) => (item.system as any).containerId,
+        );
 
         return Object.assign(context, {
             containers,
