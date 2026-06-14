@@ -19,7 +19,7 @@ import {
     type DomainFamily,
 } from "@src/utils/constants";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const DomainManagerApp_Base: any =
     foundry.applications.api.HandlebarsApplicationMixin(
         foundry.applications.api.ApplicationV2,
