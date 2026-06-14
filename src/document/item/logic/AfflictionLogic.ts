@@ -228,6 +228,10 @@ export class AfflictionLogic<
         return true;
     }
 
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
     /**
      * Attempt to transmit this affliction from its bearer to another actor.
      *

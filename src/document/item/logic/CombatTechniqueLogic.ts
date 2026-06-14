@@ -52,7 +52,7 @@ export class CombatTechniqueLogic<
     strikeMode!: StrikeModeBase;
 
     /* --------------------------------------------- */
-    /* Combat Intrinsic Actions                            */
+    /* Intrinsic Actions                             */
     /* --------------------------------------------- */
 
     /**
