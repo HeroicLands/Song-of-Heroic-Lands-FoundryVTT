@@ -323,7 +323,6 @@ export class SohlEventQueue {
         const dispatched = new WeakSet<SohlSubscription>();
         const worldTime = ctx.worldTime;
 
-         
         while (true) {
             let next: SohlSubscription | undefined;
             let nextKey: string | undefined;

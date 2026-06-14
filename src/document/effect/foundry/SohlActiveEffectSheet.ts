@@ -11,9 +11,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ACTIVE_EFFECT_SCOPE, ITEM_METADATA } from "@src/utils/constants";
+import { ACTIVE_EFFECT_SCOPE } from "@src/utils/constants";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import {
+    buildChangeTypesMap,
+    resolveEffectMetadataType,
+    resolveEffectKeyChoices,
+} from "@src/document/effect/logic/effect-sheet-view";
 
 const BaseAEConfig = foundry.applications.sheets.ActiveEffectConfig;
 
@@ -89,17 +94,8 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
             case "changes": {
                 // v14: Use ActiveEffect.CHANGE_TYPES (string-keyed registry)
                 // instead of deprecated CONST.ACTIVE_EFFECT_MODES (numeric)
-                partContext.changeTypes = Object.entries(
-                    (ActiveEffect as any).CHANGE_TYPES ?? {},
-                ).reduce(
-                    (
-                        types: StrictObject<string>,
-                        [key, config]: [string, any],
-                    ) => {
-                        types[key] = sohl.i18n.localize(config.label ?? key);
-                        return types;
-                    },
-                    {},
+                partContext.changeTypes = buildChangeTypesMap(
+                    (ActiveEffect as any).CHANGE_TYPES,
                 );
                 // The `key` dropdown should reflect the EFFECT_KEY namespace
                 // determined by `system.scope`:
@@ -107,21 +103,13 @@ export class SohlActiveEffectSheet extends BaseAEConfig {
                 //   - "actor": the owning actor's type
                 //   - <itemKind>: that item kind's metadata
                 const scope = (document as any).system?.scope;
-                let metadataType: string;
-                if (scope === ACTIVE_EFFECT_SCOPE.THIS) {
-                    metadataType = document.parent?.type ?? document.type;
-                } else if (scope === ACTIVE_EFFECT_SCOPE.ACTOR) {
-                    metadataType = (document as any).actor?.type ?? "";
-                } else {
-                    metadataType = scope ?? "";
-                }
-                const itemData =
-                    metadataType in ITEM_METADATA ?
-                        ITEM_METADATA[
-                            metadataType as keyof typeof ITEM_METADATA
-                        ]
-                    :   undefined;
-                partContext.keyChoices = (itemData as any)?.KeyChoices || [];
+                const metadataType = resolveEffectMetadataType(
+                    scope,
+                    document.type,
+                    document.parent?.type,
+                    (document as any).actor?.type,
+                );
+                partContext.keyChoices = resolveEffectKeyChoices(metadataType);
                 // Surface the scope to the template so the strikeModePredicate
                 // row can conditionally render for weapongear scope + sm: keys.
                 partContext.scope = scope;
