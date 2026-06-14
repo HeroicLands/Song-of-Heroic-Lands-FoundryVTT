@@ -22,6 +22,12 @@ import { fvttCallHook } from "@src/core/FoundryHelpers";
 import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
 import { isScriptActionMutationAllowed } from "@src/domain/action/SohlAction";
 import { GearLogic } from "../logic/GearLogic";
+import {
+    localizeSubType,
+    keyTransferredEffects,
+    findSimilarItem,
+    type ItemMatchKey,
+} from "@src/document/item/logic/item-sheet-view";
 const { HTMLField } = foundry.data.fields;
 const TextEditor = foundry.applications.ux.TextEditor.implementation;
 type RenderContext =
@@ -617,14 +623,8 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
     ): Promise<RenderContext> {
         const system = this.document.system as any;
         const subType = system.subType ?? "";
-        let subTypeLabel = "";
-        if (subType) {
-            // Try to localize the subtype using the type's localization prefix
-            const kind = system.constructor?.kind ?? this.document.type;
-            const locKey = `SOHL.${kind}.SubType.${subType}`;
-            const localized = sohl.i18n.localize(locKey);
-            subTypeLabel = localized !== locKey ? localized : subType;
-        }
+        const kind = system.constructor?.kind ?? this.document.type;
+        const subTypeLabel = localizeSubType(subType, kind);
         return Object.assign(context, {
             itemName: this.document.name,
             itemImg: this.document.img,
@@ -700,15 +700,9 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         _options: RenderOptions,
     ): Promise<RenderContext> {
         const effects = (this.document as any).effects?.contents ?? [];
-        const trxEffects: PlainObject = {};
-        const transferredEffects = (this.document as any).transferredEffects;
-        if (transferredEffects) {
-            for (const effect of transferredEffects) {
-                if (!effect.disabled) {
-                    trxEffects[effect.id] = effect;
-                }
-            }
-        }
+        const trxEffects = keyTransferredEffects(
+            (this.document as any).transferredEffects,
+        );
         return Object.assign(context, { effects, trxEffects });
     }
 
@@ -750,12 +744,10 @@ export abstract class SohlItemSheetBase extends SohlItemSheetBase_Base {
         const toCreate = [];
         for (let itemData of itemList) {
             // Determine if a similar item exists
-            let similarItem = this.actor.items.find(
-                (it: SohlItem) =>
-                    it.name === itemData.name &&
-                    it.type === itemData.type &&
-                    (it.system as any).subType === itemData.system.subType,
-            );
+            const similarItem = findSimilarItem(
+                itemData as ItemMatchKey,
+                this.actor.items as any,
+            ) as SohlItem | undefined;
 
             if (similarItem) {
                 const confirm = await Dialog.confirm({
