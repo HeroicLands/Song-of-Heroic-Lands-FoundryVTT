@@ -42,21 +42,21 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{!-- Member List --}}
     <fieldset>
         <legend>Members</legend>
-        <ol class="item-list">
-            <li class="items-header flexrow">
-                <h3 class="item-name">Name</h3>
-                <div class="item-detail">Shortcode</div>
-                <div class="item-detail">Role</div>
+        <ol class="list__items">
+            <li class="list__header flexrow">
+                <h3 class="list__name">Name</h3>
+                <div class="list__detail">Shortcode</div>
+                <div class="list__detail">Role</div>
             </li>
             {{#each members as |member|}}
             <li class="item flexrow" data-item-id="{{member.id}}" data-item-name="{{member.name}}">
-                <div class="item-name default-action flexrow">
+                <div class="list__name default-action flexrow">
                     <h4 data-tooltip="{{member.name}}">{{member.name}}</h4>
                 </div>
-                <div class="item-detail">{{member.shortcode}}</div>
-                <div class="item-detail">{{member.role}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                <div class="list__detail">{{member.shortcode}}</div>
+                <div class="list__detail">{{member.role}}</div>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}

@@ -33,58 +33,58 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Melee Weapons</legend>
         {{#each meleeWeapons as |entry|}}
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">{{entry.weapon.name}}</h3>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">{{entry.weapon.name}}</h3>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
-            <ol class="item-list">
-                <li class="items-header flexrow">
-                    <h3 class="item-name">Strike Mode</h3>
-                    <div class="item-detail" data-tooltip="Heft">HFT</div>
-                    <div class="item-detail" data-tooltip="Reach">RCH</div>
-                    <div class="item-detail" data-tooltip="Spread">Spr</div>
-                    <div class="item-detail" data-tooltip="Impact">Impact</div>
-                    <div class="item-detail" data-tooltip="Attack ML">Atk</div>
-                    <div class="item-detail" data-tooltip="Block ML">Blk</div>
-                    <div class="item-detail" data-tooltip="Counterstrike ML">CX</div>
+            <ol class="list__items">
+                <li class="list__header flexrow">
+                    <h3 class="list__name">Strike Mode</h3>
+                    <div class="list__detail" data-tooltip="Heft">HFT</div>
+                    <div class="list__detail" data-tooltip="Reach">RCH</div>
+                    <div class="list__detail" data-tooltip="Spread">Spr</div>
+                    <div class="list__detail" data-tooltip="Impact">Impact</div>
+                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
+                    <div class="list__detail" data-tooltip="Block ML">Blk</div>
+                    <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
                 <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
-                    <div class="item-name default-action flexrow">
+                    <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="item-detail">{{sm.length.effective}}</div>
-                    <div class="item-detail">{{sm.reach.effective}}</div>
-                    <div class="item-detail">{{sm.spread.effective}}</div>
+                    <div class="list__detail">{{sm.length.effective}}</div>
+                    <div class="list__detail">{{sm.reach.effective}}</div>
+                    <div class="list__detail">{{sm.spread.effective}}</div>
                     {{#unless sm.impact.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
-                    <div class="item-detail">
+                    <div class="list__detail">
                         <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.block.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#unless sm.defense.counterstrike.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
-                    <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <div class="list__controls">
+                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -99,48 +99,48 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Ranged Weapons</legend>
         {{#each missileWeapons as |entry|}}
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">{{entry.weapon.name}}</h3>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">{{entry.weapon.name}}</h3>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.weapon.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
-            <ol class="item-list">
-                <li class="items-header flexrow">
-                    <h3 class="item-name">Strike Mode</h3>
-                    <div class="item-detail" data-tooltip="Pull Strength">Pull</div>
-                    <div class="item-detail" data-tooltip="Draw Time">Draw</div>
-                    <div class="item-detail" data-tooltip="Base Range">BR</div>
-                    <div class="item-detail" data-tooltip="Max Volley Multiplier">MaxVM</div>
-                    <div class="item-detail" data-tooltip="Impact">Impact</div>
-                    <div class="item-detail" data-tooltip="Attack ML">Atk</div>
+            <ol class="list__items">
+                <li class="list__header flexrow">
+                    <h3 class="list__name">Strike Mode</h3>
+                    <div class="list__detail" data-tooltip="Pull Strength">Pull</div>
+                    <div class="list__detail" data-tooltip="Draw Time">Draw</div>
+                    <div class="list__detail" data-tooltip="Base Range">BR</div>
+                    <div class="list__detail" data-tooltip="Max Volley Multiplier">MaxVM</div>
+                    <div class="list__detail" data-tooltip="Impact">Impact</div>
+                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
                 <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.weapon.id}}">
-                    <div class="item-name default-action flexrow">
+                    <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="item-detail">{{sm.draw.effective}}</div>
-                    <div class="item-detail">{{sm.draw.effective}}</div>
-                    <div class="item-detail">{{sm.baseRange.effective}}</div>
-                    <div class="item-detail">{{sm.maxVolleyMult}}</div>
+                    <div class="list__detail">{{sm.draw.effective}}</div>
+                    <div class="list__detail">{{sm.draw.effective}}</div>
+                    <div class="list__detail">{{sm.baseRange.effective}}</div>
+                    <div class="list__detail">{{sm.maxVolleyMult}}</div>
                     {{#unless sm.impact.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
-                    <div class="item-detail">
+                    <div class="list__detail">
                         <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
-                    <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <div class="list__controls">
+                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -155,61 +155,61 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Combat Techniques</legend>
         {{#each combatTechniques as |entry|}}
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">{{entry.item.name}}</h3>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu" data-item-id="{{entry.item.id}}"><i class="sohl-ellipsis-vertical"></i></a>
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">{{entry.item.name}}</h3>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu" data-item-id="{{entry.item.id}}"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
-            <ol class="item-list">
-                <li class="items-header flexrow">
-                    <h3 class="item-name">Strike Mode</h3>
-                    <div class="item-detail" data-tooltip="Spread">Spr</div>
-                    <div class="item-detail" data-tooltip="Impact">Impact</div>
-                    <div class="item-detail" data-tooltip="Attack ML">Atk</div>
-                    <div class="item-detail" data-tooltip="Block ML">Blk</div>
-                    <div class="item-detail" data-tooltip="Counterstrike ML">CX</div>
+            <ol class="list__items">
+                <li class="list__header flexrow">
+                    <h3 class="list__name">Strike Mode</h3>
+                    <div class="list__detail" data-tooltip="Spread">Spr</div>
+                    <div class="list__detail" data-tooltip="Impact">Impact</div>
+                    <div class="list__detail" data-tooltip="Attack ML">Atk</div>
+                    <div class="list__detail" data-tooltip="Block ML">Blk</div>
+                    <div class="list__detail" data-tooltip="Counterstrike ML">CX</div>
                 </li>
                 {{#each entry.strikeModes as |sm|}}
                 <li class="item flexrow" data-sm-id="{{sm.id}}" data-item-id="{{entry.item.id}}">
-                    <div class="item-name default-action flexrow">
+                    <div class="list__name default-action flexrow">
                         <h4 data-tooltip="{{sm.name}}">{{sm.name}}</h4>
                     </div>
-                    <div class="item-detail">
+                    <div class="list__detail">
                         {{#if sm.isMelee}}{{sm.spread.effective}}{{/if}}
                     </div>
                     {{#unless sm.impact.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
+                    <div class="list__detail rollable" data-action="rollStrikeModeImpact" data-tooltip="Roll impact">
                         {{sm.impact.label}}
                     </div>
                     {{else}}
-                    <div class="item-detail">
+                    <div class="list__detail">
                         <i class="sohl-xmark"></i>
                     </div>
                     {{/unless}}
                     {{#unless sm.attack.disabled}}
-                    <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
+                    <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="attack" data-tooltip="Roll attack (shift-click to skip dialog)">{{sm.attack.effective}}</div>
                     {{else}}
-                    <div class="item-detail"><i class="sohl-xmark"></i></div>
+                    <div class="list__detail"><i class="sohl-xmark"></i></div>
                     {{/unless}}
                     {{#if sm.isMelee}}
                         {{#unless sm.defense.block.disabled}}
-                        <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
+                        <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="block" data-tooltip="Roll block (shift-click to skip dialog)">{{sm.defense.block.effective}}</div>
                         {{else}}
-                        <div class="item-detail"><i class="sohl-xmark"></i></div>
+                        <div class="list__detail"><i class="sohl-xmark"></i></div>
                         {{/unless}}
                         {{#unless sm.defense.counterstrike.disabled}}
-                        <div class="item-detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
+                        <div class="list__detail rollable" data-action="rollStrikeModeTest" data-test-kind="counterstrike" data-tooltip="Roll counterstrike (shift-click to skip dialog)">{{sm.defense.counterstrike.effective}}</div>
                         {{else}}
-                        <div class="item-detail"><i class="sohl-xmark"></i></div>
+                        <div class="list__detail"><i class="sohl-xmark"></i></div>
                         {{/unless}}
                     {{else}}
-                        <div class="item-detail"></div>
-                        <div class="item-detail"></div>
+                        <div class="list__detail"></div>
+                        <div class="list__detail"></div>
                     {{/if}}
-                    <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <div class="list__controls">
+                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}
@@ -224,31 +224,31 @@ SPDX-License-Identifier: GPL-3.0-or-later
     <fieldset>
         <legend>Anatomy</legend>
         {{#each bodyStructure.parts as |part|}}
-        <div class="items-list bodypart">
-            <header class="items-header flexrow">
+        <div class="list bodypart">
+            <header class="list__header flexrow">
                 <div class="body-drop"><i class="fas fa-chevron-right"></i></div>
-                <h3 class="item-name name">{{part.shortcode}}</h3>
-                <div class="item-detail">Wt: {{part.probWeight.effective}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                <h3 class="list__name name">{{part.shortcode}}</h3>
+                <div class="list__detail">Wt: {{part.probWeight.effective}}</div>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </header>
-            <ol class="item-list bodylocations-list">
+            <ol class="list__items bodylocations-list">
                 {{#each part.locations as |loc|}}
                 <li class="item bodylocation flexrow" data-part-index="{{part.index}}" data-loc-index="{{loc.index}}">
                     <div class="body-drop"></div>
                     <div class="body-drop"></div>
-                    <div class="item-name default-action flexrow">
+                    <div class="list__name default-action flexrow">
                         <h4>{{loc.shortcode}}</h4>
                     </div>
-                    <div class="item-detail" data-tooltip="Probability">{{loc.probWeight.effective}}</div>
-                    <div class="item-detail" data-tooltip="Blunt">B:{{loc.protectionBase.blunt.effective}}</div>
-                    <div class="item-detail" data-tooltip="Edged">E:{{loc.protectionBase.edged.effective}}</div>
-                    <div class="item-detail" data-tooltip="Piercing">P:{{loc.protectionBase.piercing.effective}}</div>
-                    <div class="item-detail" data-tooltip="Fire">F:{{loc.protectionBase.fire.effective}}</div>
-                    <div class="item-detail" data-tooltip="Shock">{{loc.shockValue.effective}}</div>
-                    <div class="item-controls">
-                        <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                    <div class="list__detail" data-tooltip="Probability">{{loc.probWeight.effective}}</div>
+                    <div class="list__detail" data-tooltip="Blunt">B:{{loc.protectionBase.blunt.effective}}</div>
+                    <div class="list__detail" data-tooltip="Edged">E:{{loc.protectionBase.edged.effective}}</div>
+                    <div class="list__detail" data-tooltip="Piercing">P:{{loc.protectionBase.piercing.effective}}</div>
+                    <div class="list__detail" data-tooltip="Fire">F:{{loc.protectionBase.fire.effective}}</div>
+                    <div class="list__detail" data-tooltip="Shock">{{loc.shockValue.effective}}</div>
+                    <div class="list__controls">
+                        <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                     </div>
                 </li>
                 {{/each}}

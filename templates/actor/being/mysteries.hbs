@@ -16,36 +16,36 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#each mysteryGroups as |mysteries groupName|}}
     <fieldset>
         <legend>{{@key}} Mysteries</legend>
-        <ol class="item-list">
-            <li class="items-header flexrow">
-                <h3 class="item-name">Mystery</h3>
-                <div class="item-detail">Bonus</div>
-                <div class="item-detail">Charges</div>
-                <div class="item-detail">Notes</div>
+        <ol class="list__items">
+            <li class="list__header flexrow">
+                <h3 class="list__name">Mystery</h3>
+                <div class="list__detail">Bonus</div>
+                <div class="list__detail">Charges</div>
+                <div class="list__detail">Notes</div>
             </li>
             {{#each mysteries as |mystery|}}
             <li class="item flexrow" data-item-id="{{mystery.id}}" data-item-name="{{mystery.name}}">
-                <div class="item-name default-action flexrow">
-                    <div class="item-image" style="background-image: url('{{mystery.img}}')"></div>
+                <div class="list__name default-action flexrow">
+                    <div class="list__image" style="background-image: url('{{mystery.img}}')"></div>
                     <h4 data-tooltip="{{mystery.name}}">{{mystery.name}}</h4>
                 </div>
-                <div class="item-detail">
+                <div class="list__detail">
                     {{#if mystery.logic.level.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
                     {{numberFormat mystery.logic.level.effective sign=true}}
                     {{/if}}
                 </div>
-                <div class="item-detail">
+                <div class="list__detail">
                     {{#if mystery.logic.charges.value.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
                     {{mystery.logic.charges.value.effective}}{{#if (gt mystery.logic.charges.max.effective 0)}}/{{numberFormat mystery.logic.charges.max.effective}}{{/if}}
                     {{/if}}
                 </div>
-                <div class="item-detail">{{mystery.system.notes}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                <div class="list__detail">{{mystery.system.notes}}</div>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}
@@ -57,36 +57,36 @@ SPDX-License-Identifier: GPL-3.0-or-later
     {{#each abilityGroups as |abilities groupName|}}
     <fieldset>
         <legend>{{@key}} Mystical Abilities</legend>
-        <ol class="item-list">
-            <li class="items-header flexrow">
-                <h3 class="item-name">Ability</h3>
-                <div class="item-detail">ML</div>
-                <div class="item-detail">Charges</div>
-                <div class="item-detail">Notes</div>
+        <ol class="list__items">
+            <li class="list__header flexrow">
+                <h3 class="list__name">Ability</h3>
+                <div class="list__detail">ML</div>
+                <div class="list__detail">Charges</div>
+                <div class="list__detail">Notes</div>
             </li>
             {{#each abilities as |ability|}}
             <li class="item flexrow" data-item-id="{{ability.id}}" data-item-name="{{ability.name}}">
-                <div class="item-name default-action flexrow">
-                    <div class="item-image" style="background-image: url('{{ability.img}}')"></div>
+                <div class="list__name default-action flexrow">
+                    <div class="list__image" style="background-image: url('{{ability.img}}')"></div>
                     <h4 data-tooltip="{{ability.name}}">{{ability.name}}</h4>
                 </div>
-                <div class="item-detail">
+                <div class="list__detail">
                     {{#if ability.logic.level.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
                     {{ability.logic.level.effective}}
                     {{/if}}
                 </div>
-                <div class="item-detail">
+                <div class="list__detail">
                     {{#if ability.logic.charges.value.disabled}}
                     <i class="sohl-xmark"></i>
                     {{else}}
                     {{ability.logic.charges.value.effective}}{{#if (gt ability.logic.charges.max.effective 0)}}/{{numberFormat ability.logic.charges.max.effective}}{{/if}}
                     {{/if}}
                 </div>
-                <div class="item-detail">{{ability.system.notes}}</div>
-                <div class="item-controls">
-                    <a class="item-control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
+                <div class="list__detail">{{ability.system.notes}}</div>
+                <div class="list__controls">
+                    <a class="list__control item-contextmenu" title="Menu"><i class="sohl-ellipsis-vertical"></i></a>
                 </div>
             </li>
             {{/each}}
