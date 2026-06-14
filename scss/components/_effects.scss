@@ -1,16 +1,13 @@
-@use "../abstracts/typography";
+@use "../abstracts/mixins";
+@use "list";
 
 .effects {
     h2 {
-        flex: 1;
-        margin: 0;
-        line-height: 36px;
-        @include typography.type-style("label");
-        color: var(--sohl-color-text-muted);
-        background-color: var(--sohl-color-border-default);
-        border-top: 2px groove var(--sohl-color-text-inverse);
-        border-bottom: 2px groove var(--sohl-color-text-inverse);
-        padding: 5px;
+        @include list.section-title(
+            var(--sohl-color-text-muted),
+            var(--sohl-color-border-default),
+            var(--sohl-color-text-inverse)
+        );
     }
 
     .danger {
@@ -22,33 +19,19 @@
     }
 
     .effects-list {
-        list-style: none;
-        margin: 7px 0;
-        padding: 0;
-        overflow-y: hidden;
+        @include list.scroll-body;
 
         .effects-header {
-            margin: 2px 0;
-            padding: 0;
-            align-items: center;
-            background: var(--sohl-color-bg-overlay-dark);
-            border: 2px groove var(--sohl-color-border-subtle);
-            font-weight: bold;
-            line-height: 24px;
-
-            h3 {
-                margin: 0;
-                padding-left: 5px;
-                @include typography.type-style("label-small");
-            }
+            @include list.header-row(
+                var(--sohl-color-bg-overlay-dark),
+                var(--sohl-color-border-subtle)
+            );
 
             .name {
                 color: var(--sohl-color-text-primary);
                 flex: 0 0 150px;
                 border-right: 1px solid var(--sohl-color-border-default);
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
 
                 i {
                     font-size: 12px;
@@ -65,16 +48,12 @@
         }
 
         .effect-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
+            @include list.reset;
         }
 
         .effect {
             border-bottom: 1px solid var(--sohl-color-border-default);
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
 
             .image {
                 flex: 0 0 30px;
@@ -90,9 +69,7 @@
                 flex: 0 0 150px;
                 max-height: 30px;
                 border-right: 1px solid var(--sohl-color-border-default);
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
 
                 h4 {
                     margin: 0;
@@ -123,34 +100,25 @@
             flex: 0 0 150px;
             text-align: center;
             padding-left: 5px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .target {
             flex: 0 0 150px;
             text-align: center;
             padding-left: 5px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .changes {
             flex: 1 0 60px;
             text-align: left;
             padding-left: 5px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .effect-controls {
-            flex: 0 0 45px;
-            text-align: right;
-            padding-right: 5px;
-            font-size: 12px;
+            @include list.controls(45px);
             color: var(--sohl-color-text-primary);
 
             .effect-control {
