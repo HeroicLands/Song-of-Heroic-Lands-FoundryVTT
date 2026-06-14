@@ -12,8 +12,8 @@
  */
 
 import { SohlSystem } from "@src/core/SohlSystem";
+import { buildCalendarViewModel } from "@src/apps/logic/calendar-settings-view";
 
- 
 const CalendarSettingsMenu_Base: any =
     foundry.applications.api.HandlebarsApplicationMixin(
         foundry.applications.api.ApplicationV2,
@@ -69,24 +69,11 @@ export class CalendarSettingsMenu extends (CalendarSettingsMenu_Base as typeof f
      */
     protected override async _prepareContext(options: any): Promise<any> {
         const activeId = game.settings.get("sohl", "activeCalendar") as string;
-        const calendars: { id: string; label: string; active: boolean }[] = [];
-        for (const [id, reg] of SohlSystem.calendars.entries()) {
-            calendars.push({
-                id,
-                label: game.i18n.localize(reg.label),
-                active: id === activeId,
-            });
-        }
-
-        const imported: { id: string; label: string }[] = [];
-        for (const [id, reg] of SohlSystem.calendars.entries()) {
-            if (!reg.builtin) {
-                imported.push({
-                    id,
-                    label: game.i18n.localize(reg.label),
-                });
-            }
-        }
+        const { calendars, imported } = buildCalendarViewModel(
+            SohlSystem.calendars.entries(),
+            activeId,
+            (key) => game.i18n.localize(key),
+        );
 
         return {
             calendars,
