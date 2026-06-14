@@ -23,3 +23,7 @@ _SohlItemSheetBase_ → new `item-sheet-view.ts`: `localizeSubType` (subtype-lab
 localization with raw fallback), `keyTransferredEffects` (enabled transferred
 effects keyed by id), and `findSimilarItem` (the name/type/subtype match behind
 overwrite-on-drop). The sheet keeps the Foundry-facing drop dialog and mutation.
+
+_SohlActiveEffectSheet_ → new `effect-sheet-view.ts`: `buildChangeTypesMap` (the
+localized change-`mode` label map), `resolveEffectMetadataType` (scope → effect-key
+namespace), and `resolveEffectKeyChoices` (its `ITEM_METADATA` key-choices lookup).
