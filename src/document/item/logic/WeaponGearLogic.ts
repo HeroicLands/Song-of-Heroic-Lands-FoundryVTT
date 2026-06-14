@@ -110,7 +110,7 @@ export class WeaponGearLogic<
     }
 
     /* --------------------------------------------- */
-    /* Combat Intrinsic Actions                            */
+    /* Intrinsic Actions                             */
     /* --------------------------------------------- */
 
     /**

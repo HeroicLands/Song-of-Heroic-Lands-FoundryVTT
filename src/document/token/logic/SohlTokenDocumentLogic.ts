@@ -70,15 +70,6 @@ interface OpposedItemLogic {
 export class SohlTokenDocumentLogic<
     TData extends TokenData = TokenData,
 > extends SohlLogic<TData> {
-    /** @inheritdoc */
-    override initialize(): void {}
-
-    /** @inheritdoc */
-    override evaluate(): void {}
-
-    /** @inheritdoc */
-    override finalize(): void {}
-
     /** This token's actor name, for dialog/warning text. */
     private get actorName(): string {
         return this.actorLogic?.name ?? this.name;
@@ -101,6 +92,10 @@ export class SohlTokenDocumentLogic<
                 !il.masteryLevel.disabled,
         ) as OpposedItemLogic[];
     }
+
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
 
     /**
      * Begin an opposed test from this (the **source**) token — the canonical
@@ -241,4 +236,17 @@ export class SohlTokenDocumentLogic<
             },
         ];
     }
+
+    /* --------------------------------------------- */
+    /* Common Lifecycle Actions                      */
+    /* --------------------------------------------- */
+
+    /** @inheritdoc */
+    override initialize(): void {}
+
+    /** @inheritdoc */
+    override evaluate(): void {}
+
+    /** @inheritdoc */
+    override finalize(): void {}
 }

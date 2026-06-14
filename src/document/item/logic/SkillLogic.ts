@@ -139,73 +139,6 @@ export class SkillLogic<
     fateMasteryLevel!: MasteryLevelModifier;
 
     /**
-     * Performs a success test against this skill's mastery level.
-     *
-     * Intrinsic-action executor for the `successTest` action; delegates to
-     * {@link MasteryLevelModifier.successTest}.
-     *
-     * @param context - The action context (speaker, scope) for the test.
-     * @returns The test result, `null` if cancelled, or `false` on error.
-     */
-    async successTest(
-        context: SohlActionContext,
-    ): Promise<SuccessTestResult | null | false> {
-        return this.masteryLevel.successTest(context);
-    }
-
-    /**
-     * Begins an opposed test backed by this skill's mastery level.
-     *
-     * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
-     * are token-based: this delegates into the actor's token logic
-     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this skill's
-     * `logicUuid` as the source — exactly as the weapon/technique combat actions
-     * delegate into the combatant.
-     *
-     * @param context - The action context (speaker, scope) for the test.
-     * @returns The opposed test result, or `null` if cancelled or unavailable.
-     */
-    async opposedTestStart(
-        context: SohlActionContext,
-    ): Promise<OpposedTestResult | null> {
-        const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
-        if (!tokenLogic) {
-            sohl.log.uiWarn(
-                `${this.name} cannot start an opposed test: its actor has no token on the canvas.`,
-            );
-            return null;
-        }
-        (context.scope as PlainObject).logicUuid = this.uuid;
-        return tokenLogic.opposedTestStart(context);
-    }
-
-    /**
-     * Flags this skill for improvement via a Skill Development Roll.
-     *
-     * Intrinsic-action executor for the `setImproveFlag` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async setImproveFlag(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.improveFlag": true };
-        await this.data.update(updateData);
-    }
-
-    /**
-     * Clears this skill's improvement flag.
-     *
-     * Intrinsic-action executor for the `unsetImproveFlag` action.
-     *
-     * @param _context - The action context (unused).
-     * @returns Resolves once the item update completes.
-     */
-    async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.improveFlag": false };
-        await this.data.update(updateData);
-    }
-
-    /**
      * Performs a fate test for this skill, consuming a charge from an
      * applicable Fate mystery on success.
      *
@@ -247,82 +180,6 @@ export class SkillLogic<
             );
             fateItem.update(updateData);
         }
-    }
-
-    /**
-     * Attempts to improve the skill via a Skill Development Roll (SDR): rolls
-     * `1d100 + skillBase` against the current base mastery level, and on a
-     * success raises {@link SkillData.masteryLevelBase} by {@link sdrIncr}. The
-     * outcome is posted to chat regardless.
-     *
-     * @param context - The action context whose speaker receives the chat card.
-     * @returns Resolves once the roll is evaluated and the chat card is posted.
-     */
-    async improveWithSDR(context: SohlActionContext): Promise<void> {
-        const updateData: PlainObject = { "system.improveFlag": false };
-        const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase.value}`);
-        roll.roll();
-        const isSuccess = roll.total > this.masteryLevel.base;
-
-        if (isSuccess) {
-            updateData["system.masteryLevelBase"] =
-                this.data.masteryLevelBase + this.sdrIncr;
-        }
-        const chatTemplate: FilePath = toFilePath(
-            "systems/sohl/templates/chat/standard-test-card.hbs",
-        );
-        const chatTemplateData = {
-            type: `${this.data.kind}-${this.name}-improve-sdr`,
-            title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
-                label: this.label,
-            }),
-            effTarget: this.masteryLevel.base,
-            isSuccess: isSuccess,
-            rollValue: roll.total,
-            rollResult: roll.result,
-            showResult: true,
-            resultText:
-                isSuccess ?
-                    sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.increase.title",
-                        {
-                            label: this.label,
-                        },
-                    )
-                :   sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.noIncrease.title",
-                        {
-                            label: this.label,
-                        },
-                    ),
-            resultDesc:
-                isSuccess ?
-                    //TODO(#70): "{label} increased by {incr} to {final}"
-                    sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.increase.desc",
-                        {
-                            label: this.label,
-                            incr: this.sdrIncr,
-                            final: this.masteryLevel.base + this.sdrIncr,
-                        },
-                    )
-                :   sohl.i18n.format(
-                        "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
-                        {
-                            label: this.label,
-                            incr: this.sdrIncr,
-                            final: this.masteryLevel.base + this.sdrIncr,
-                        },
-                    ),
-            description:
-                isSuccess ?
-                    sohl.i18n.format("SOHL.TestResult.SUCCESS")
-                :   sohl.i18n.format("SOHL.TestResult.FAILURE"),
-            notes: "",
-            sdrIncr: this.sdrIncr,
-        };
-
-        context.speaker.toChat(chatTemplate, chatTemplateData);
     }
 
     /**
@@ -409,6 +266,153 @@ export class SkillLogic<
     /** The amount by which {@link improveWithSDR} raises the base mastery level on success. */
     get sdrIncr() {
         return 1;
+    }
+
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
+    /**
+     * Performs a success test against this skill's mastery level.
+     *
+     * Intrinsic-action executor for the `successTest` action; delegates to
+     * {@link MasteryLevelModifier.successTest}.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The test result, `null` if cancelled, or `false` on error.
+     */
+    async successTest(
+        context: SohlActionContext,
+    ): Promise<SuccessTestResult | null | false> {
+        return this.masteryLevel.successTest(context);
+    }
+
+    /**
+     * Begins an opposed test backed by this skill's mastery level.
+     *
+     * Intrinsic-action executor for the `opposedTestStart` action. Opposed tests
+     * are token-based: this delegates into the actor's token logic
+     * {@link SohlTokenDocumentLogic.opposedTestStart}, passing this skill's
+     * `logicUuid` as the source — exactly as the weapon/technique combat actions
+     * delegate into the combatant.
+     *
+     * @param context - The action context (speaker, scope) for the test.
+     * @returns The opposed test result, or `null` if cancelled or unavailable.
+     */
+    async opposedTestStart(
+        context: SohlActionContext,
+    ): Promise<OpposedTestResult | null> {
+        const tokenLogic = fvttActiveTokenLogicForActor(this.actor);
+        if (!tokenLogic) {
+            sohl.log.uiWarn(
+                `${this.name} cannot start an opposed test: its actor has no token on the canvas.`,
+            );
+            return null;
+        }
+        (context.scope as PlainObject).logicUuid = this.uuid;
+        return tokenLogic.opposedTestStart(context);
+    }
+
+    /**
+     * Flags this skill for improvement via a Skill Development Roll.
+     *
+     * Intrinsic-action executor for the `setImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async setImproveFlag(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.improveFlag": true };
+        await this.data.update(updateData);
+    }
+
+    /**
+     * Clears this skill's improvement flag.
+     *
+     * Intrinsic-action executor for the `unsetImproveFlag` action.
+     *
+     * @param _context - The action context (unused).
+     * @returns Resolves once the item update completes.
+     */
+    async unsetImproveFlag(_context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.improveFlag": false };
+        await this.data.update(updateData);
+    }
+
+    /**
+     * Attempts to improve the skill via a Skill Development Roll (SDR): rolls
+     * `1d100 + skillBase` against the current base mastery level, and on a
+     * success raises {@link SkillData.masteryLevelBase} by {@link sdrIncr}. The
+     * outcome is posted to chat regardless.
+     *
+     * @param context - The action context whose speaker receives the chat card.
+     * @returns Resolves once the roll is evaluated and the chat card is posted.
+     */
+    async improveWithSDR(context: SohlActionContext): Promise<void> {
+        const updateData: PlainObject = { "system.improveFlag": false };
+        const roll = SimpleRoll.fromFormula(`1d100+${this.skillBase.value}`);
+        roll.roll();
+        const isSuccess = roll.total > this.masteryLevel.base;
+
+        if (isSuccess) {
+            updateData["system.masteryLevelBase"] =
+                this.data.masteryLevelBase + this.sdrIncr;
+        }
+        const chatTemplate: FilePath = toFilePath(
+            "systems/sohl/templates/chat/standard-test-card.hbs",
+        );
+        const chatTemplateData = {
+            type: `${this.data.kind}-${this.name}-improve-sdr`,
+            title: sohl.i18n.format("SOHL.MasteryLevel.improveSDR.title", {
+                label: this.label,
+            }),
+            effTarget: this.masteryLevel.base,
+            isSuccess: isSuccess,
+            rollValue: roll.total,
+            rollResult: roll.result,
+            showResult: true,
+            resultText:
+                isSuccess ?
+                    sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.increase.title",
+                        {
+                            label: this.label,
+                        },
+                    )
+                :   sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.noIncrease.title",
+                        {
+                            label: this.label,
+                        },
+                    ),
+            resultDesc:
+                isSuccess ?
+                    //TODO(#70): "{label} increased by {incr} to {final}"
+                    sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.increase.desc",
+                        {
+                            label: this.label,
+                            incr: this.sdrIncr,
+                            final: this.masteryLevel.base + this.sdrIncr,
+                        },
+                    )
+                :   sohl.i18n.format(
+                        "SOHL.MasteryLevel.improveSDR.noIncrease.desc",
+                        {
+                            label: this.label,
+                            incr: this.sdrIncr,
+                            final: this.masteryLevel.base + this.sdrIncr,
+                        },
+                    ),
+            description:
+                isSuccess ?
+                    sohl.i18n.format("SOHL.TestResult.SUCCESS")
+                :   sohl.i18n.format("SOHL.TestResult.FAILURE"),
+            notes: "",
+            sdrIncr: this.sdrIncr,
+        };
+
+        context.speaker.toChat(chatTemplate, chatTemplateData);
     }
 
     /**

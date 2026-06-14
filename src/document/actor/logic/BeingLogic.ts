@@ -245,6 +245,10 @@ export class BeingLogic<
         );
     }
 
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
+
     /**
      * Apply the impact of an attack or effect to this being, calculating the resulting
      * location and damage. If armor or other defenses are unable to fully mitigate the impact,

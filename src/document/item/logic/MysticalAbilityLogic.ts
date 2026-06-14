@@ -104,26 +104,9 @@ export class MysticalAbilityLogic<
         max: ValueModifier;
     };
 
-    /**
-     * Define and return all intrinsic actions for mystical ability logic,
-     * adding the "perform" action to those inherited from the base logic.
-     * @returns The intrinsic action definitions.
-     */
-    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
-        return [
-            ...SohlItemBaseLogic.defineIntrinsicActions(),
-            {
-                shortcode: "perform",
-                subType: ACTION_SUBTYPE.INTRINSIC,
-                title: "SOHL.MysticalAbility.Action.perform.title",
-                scope: SOHL_ACTION_SCOPE.SELF,
-                iconFAClass: "sohl-sparkles",
-                executor: "perform",
-                visible: "true",
-                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
-            },
-        ];
-    }
+    /* --------------------------------------------- */
+    /* Intrinsic Actions                             */
+    /* --------------------------------------------- */
 
     /**
      * Actively invoke this mystical ability (cast the spell, perform the rite,
@@ -143,6 +126,27 @@ export class MysticalAbilityLogic<
             `Performing "${this.name}" is not yet implemented.`,
         );
         return null;
+    }
+
+    /**
+     * Define and return all intrinsic actions for mystical ability logic,
+     * adding the "perform" action to those inherited from the base logic.
+     * @returns The intrinsic action definitions.
+     */
+    static override defineIntrinsicActions(): Partial<SohlAction.Data>[] {
+        return [
+            ...SohlItemBaseLogic.defineIntrinsicActions(),
+            {
+                shortcode: "perform",
+                subType: ACTION_SUBTYPE.INTRINSIC,
+                title: "SOHL.MysticalAbility.Action.perform.title",
+                scope: SOHL_ACTION_SCOPE.SELF,
+                iconFAClass: "sohl-sparkles",
+                executor: "perform",
+                visible: "true",
+                group: SOHL_CONTEXT_MENU_SORT_GROUP.ESSENTIAL,
+            },
+        ];
     }
 
     /* --------------------------------------------- */
