@@ -14,3 +14,11 @@
 @mixin hide {
     display: none;
 }
+
+// Single-line overflow ellipsis. Repeated across every list column, so it lives
+// here as the canonical helper.
+@mixin truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

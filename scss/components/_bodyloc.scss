@@ -1,9 +1,9 @@
+@use "../abstracts/mixins";
+@use "list";
+
 .bodylocations {
     .zone-list {
-        list-style: none;
-        margin: 7px 0px;
-        padding: 0;
-        overflow-y: hidden;
+        @include list.scroll-body;
         line-height: normal;
 
         .body-drop {
@@ -40,9 +40,7 @@
 
         .bodylocation-name {
             flex: 0 0 120px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
             padding-left: 5px;
         }
 
@@ -50,9 +48,7 @@
             flex: 0 0 120px;
             text-align: left;
             padding-left: 10px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .bodylocation-part {
@@ -67,9 +63,7 @@
         .bodylocation-notes {
             flex: 1 0 100px;
             padding-left: 10px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            @include mixins.truncate;
         }
 
         .zone-header {
@@ -88,9 +82,7 @@
 
             .zone-name {
                 flex: 0 0 140px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
                 padding-left: 5px;
 
                 h4 {
@@ -102,17 +94,13 @@
                 flex: 0 0 100px;
                 text-align: left;
                 padding-left: 10px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
             }
 
             .zone-notes {
                 flex: 1 0 100px;
                 padding-left: 10px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
             }
         }
 
@@ -132,9 +120,7 @@
 
             .bodypart-name {
                 flex: 0 0 130px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
                 padding-left: 5px;
                 border-right: 1px solid var(--sohl-color-border-default);
 
@@ -146,9 +132,7 @@
             .bodypart-notes {
                 flex: 1 0 100px;
                 padding-left: 10px;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
+                @include mixins.truncate;
             }
         }
     }
