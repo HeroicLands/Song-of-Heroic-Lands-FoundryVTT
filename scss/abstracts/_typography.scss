@@ -331,12 +331,12 @@ $typography-scale: (
     ),
     "input-label": (
         family: $font-title,
-        size: 12px,
+        size: 14px,
         weight: 700,
     ),
     "body-text": (
         family: $font-body,
-        size: 13px,
+        size: 16px,
         weight: 400,
     ),
     "tooltip": (
@@ -361,12 +361,12 @@ $typography-scale: (
     ),
     "editor": (
         family: $font-body,
-        size: 13px,
+        size: 16px,
         weight: 400,
     ),
     "textarea": (
         family: $font-mono,
-        size: 13px,
+        size: 16px,
         weight: 400,
     ),
 );
