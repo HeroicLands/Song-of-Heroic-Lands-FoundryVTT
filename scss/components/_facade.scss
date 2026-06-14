@@ -1,11 +1,11 @@
 .facade {
-    img.facade-image {
+    img.facade__image {
         flex: 0 0 200px;
         object-fit: contain;
         background: var(--sohl-color-text-inverse);
     }
 
-    .facade-description {
+    .facade__description {
         margin-left: 5px;
     }
 }

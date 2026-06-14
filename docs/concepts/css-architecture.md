@@ -75,26 +75,35 @@ Migration map from the current layout:
 
 ## 3. Naming — BEM under the `.sohl` namespace
 
-**Decision: BEM (`block__element--modifier`), everything namespaced under `.sohl`.**
+**Decision: BEM (`block__element--modifier`), namespaced by the `.sohl` /
+`.sohl.sheet` wrapper rather than a per-class prefix.**
 
-Retire ad-hoc, type-suffixed, and abbreviated names. Examples of the transform:
+Every component is already emitted inside the `.sohl { }` (or compound `.sohl.sheet { }`)
+wrapper set up in `scss/sohl.scss` (§5), which provides the namespace. So BEM block names
+are written **without** a redundant `sohl-` prefix — the wrapper supplies it, and writing
+`.sohl .facade__image` keeps the same specificity as the name it replaces. Retire ad-hoc,
+type-suffixed, and abbreviated names. Examples of the transform:
 
-| Current (ad-hoc)           | Target (BEM)                                        |
-| -------------------------- | --------------------------------------------------- |
-| `.sheet-header-being`      | `.sohl-sheet__header--being`                        |
-| `.header-fields`           | `.sohl-sheet__fields`                               |
-| `.charname`                | `.sohl-sheet__name`                                 |
-| `.bodylocation-name`       | `.sohl-body-location__name`                         |
-| `.items-list` / `.item`    | `.sohl-list` / `.sohl-list__item`                   |
+| Current (ad-hoc)        | Target (BEM, under the `.sohl` wrapper) |
+| ----------------------- | --------------------------------------- |
+| `.header-details`       | `.sheet-header__details`                |
+| `.actor-img`            | `.sheet-header__portrait`               |
+| `.toggle-status-effect` | `.sheet-header__status`                 |
+| `.facade-image`         | `.facade__image`                        |
+| `.bodylocation-name`    | `.body-location__name`                  |
 
 Conventions:
 
-- One **block** per reusable widget (`sohl-list`, `sohl-header`, `sohl-field`,
-  `sohl-resource`, `sohl-effect`, `sohl-body-location`).
-- **Elements** are parts of a block (`__name`, `__value`, `__header`). **Modifiers**
+- One **block** per reusable widget (`sheet-header`, `facade`, `list`, `field`,
+  `resource`, `effect`, `body-location`).
+- **Elements** are parts of a block (`__name`, `__details`, `__portrait`). **Modifiers**
   are variants/state (`--being`, `--active`, `--danger`).
 - Prefer a modifier over a near-duplicate block. Two header blocks that differ only by
-  context become one `sohl-header` block with a modifier.
+  context become one block with a modifier.
+- **Leave these alone:** Foundry-owned classes (`window-content`, `tab`, `tabs`, `active`
+  as a Foundry/JS-toggled state, `flexrow`, `form-group`, …), `data-action` / `data-tab`
+  values, and `lang/` keys. BEM applies to **SoHL's own CSS class names only**; renaming a
+  class that JS or Foundry sets silently breaks it.
 
 **Do not rename data hooks or localization keys.** `data-*` attributes consumed by
 `src/` and `lang/en.json` keys are part of the system's contract and stay stable
