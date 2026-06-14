@@ -135,9 +135,9 @@ span.sep {
             flex: 0 0 auto;
             min-width: 40px;
             padding: 2px 8px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
-            line-height: 18px;
+            line-height: 22px;
             text-align: center;
             text-decoration: none;
             cursor: pointer;
@@ -146,10 +146,11 @@ span.sep {
             border: 1px solid var(--sohl-color-border-strong);
             border-radius: 16px;
 
+            // Clicking toggles the status; active pills get the blue cue.
             &.active {
                 color: var(--sohl-color-text-inverse);
-                background: var(--sohl-color-danger);
-                border-color: var(--sohl-color-danger);
+                background: var(--sohl-color-info);
+                border-color: var(--sohl-color-info);
             }
         }
     }
@@ -161,7 +162,7 @@ span.sep {
         padding: 5px;
 
         .sheet-header__health-label {
-            font-size: 14px;
+            font-size: 17px;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -193,9 +194,9 @@ span.sep {
 
         .sheet-header__location {
             padding: 2px 10px;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 700;
-            line-height: 18px;
+            line-height: 22px;
             text-align: center;
             color: var(--sohl-color-text-primary);
             background: var(--sohl-color-bg-overlay-light);
