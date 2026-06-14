@@ -95,46 +95,55 @@ that emit rules, which move to where their output belongs.</li>
 <li><code>scss/components/</code> → <code>components/</code> (reusable widgets) and <code>apps/</code> (sheet-type-specific
 blocks such as the being sheet and the various item sheets).</li>
 </ul>
-<a id="3-naming--bem-under-the-sohl-namespace" class="tsd-anchor"></a><h2 class="tsd-anchor-link">3. Naming — BEM under the <code>.sohl</code> namespace<a href="#3-naming--bem-under-the-sohl-namespace" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Decision: BEM (<code>block__element--modifier</code>), everything namespaced under <code>.sohl</code>.</strong></p>
-<p>Retire ad-hoc, type-suffixed, and abbreviated names. Examples of the transform:</p>
+<a id="3-naming--bem-under-the-sohl-namespace" class="tsd-anchor"></a><h2 class="tsd-anchor-link">3. Naming — BEM under the <code>.sohl</code> namespace<a href="#3-naming--bem-under-the-sohl-namespace" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2><p><strong>Decision: BEM (<code>block__element--modifier</code>), namespaced by the <code>.sohl</code> /
+<code>.sohl.sheet</code> wrapper rather than a per-class prefix.</strong></p>
+<p>Every component is already emitted inside the <code>.sohl { }</code> (or compound <code>.sohl.sheet { }</code>)
+wrapper set up in <code>scss/sohl.scss</code> (§5), which provides the namespace. So BEM block names
+are written <strong>without</strong> a redundant <code>sohl-</code> prefix — the wrapper supplies it, and writing
+<code>.sohl .facade__image</code> keeps the same specificity as the name it replaces. Retire ad-hoc,
+type-suffixed, and abbreviated names. Examples of the transform:</p>
 <table>
 <thead>
 <tr>
 <th>Current (ad-hoc)</th>
-<th>Target (BEM)</th>
+<th>Target (BEM, under the <code>.sohl</code> wrapper)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>.sheet-header-being</code></td>
-<td><code>.sohl-sheet__header--being</code></td>
+<td><code>.header-details</code></td>
+<td><code>.sheet-header__details</code></td>
 </tr>
 <tr>
-<td><code>.header-fields</code></td>
-<td><code>.sohl-sheet__fields</code></td>
+<td><code>.actor-img</code></td>
+<td><code>.sheet-header__portrait</code></td>
 </tr>
 <tr>
-<td><code>.charname</code></td>
-<td><code>.sohl-sheet__name</code></td>
+<td><code>.toggle-status-effect</code></td>
+<td><code>.sheet-header__status</code></td>
+</tr>
+<tr>
+<td><code>.facade-image</code></td>
+<td><code>.facade__image</code></td>
 </tr>
 <tr>
 <td><code>.bodylocation-name</code></td>
-<td><code>.sohl-body-location__name</code></td>
-</tr>
-<tr>
-<td><code>.items-list</code> / <code>.item</code></td>
-<td><code>.sohl-list</code> / <code>.sohl-list__item</code></td>
+<td><code>.body-location__name</code></td>
 </tr>
 </tbody>
 </table>
 <p>Conventions:</p>
 <ul>
-<li>One <strong>block</strong> per reusable widget (<code>sohl-list</code>, <code>sohl-header</code>, <code>sohl-field</code>,
-<code>sohl-resource</code>, <code>sohl-effect</code>, <code>sohl-body-location</code>).</li>
-<li><strong>Elements</strong> are parts of a block (<code>__name</code>, <code>__value</code>, <code>__header</code>). <strong>Modifiers</strong>
+<li>One <strong>block</strong> per reusable widget (<code>sheet-header</code>, <code>facade</code>, <code>list</code>, <code>field</code>,
+<code>resource</code>, <code>effect</code>, <code>body-location</code>).</li>
+<li><strong>Elements</strong> are parts of a block (<code>__name</code>, <code>__details</code>, <code>__portrait</code>). <strong>Modifiers</strong>
 are variants/state (<code>--being</code>, <code>--active</code>, <code>--danger</code>).</li>
 <li>Prefer a modifier over a near-duplicate block. Two header blocks that differ only by
-context become one <code>sohl-header</code> block with a modifier.</li>
+context become one block with a modifier.</li>
+<li><strong>Leave these alone:</strong> Foundry-owned classes (<code>window-content</code>, <code>tab</code>, <code>tabs</code>, <code>active</code>
+as a Foundry/JS-toggled state, <code>flexrow</code>, <code>form-group</code>, …), <code>data-action</code> / <code>data-tab</code>
+values, and <code>lang/</code> keys. BEM applies to <strong>SoHL's own CSS class names only</strong>; renaming a
+class that JS or Foundry sets silently breaks it.</li>
 </ul>
 <p><strong>Do not rename data hooks or localization keys.</strong> <code>data-*</code> attributes consumed by
 <code>src/</code> and <code>lang/en.json</code> keys are part of the system's contract and stay stable
