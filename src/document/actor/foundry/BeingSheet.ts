@@ -534,7 +534,19 @@ export class BeingSheet extends SohlActorSheetBase {
         // Status effects shown in the header. `id` must match a registered
         // status (Foundry's id is `stun`, not `stunned`); `abbr` is the short
         // label rendered, `label` is the tooltip.
-        const statuses = (actor as any).statuses ?? new Set<string>();
+        //
+        // SoHL's custom data-prep lifecycle does not populate the core
+        // `actor.statuses` set, so derive the active status ids from the actor's
+        // applied active effects directly (each status effect carries the status
+        // id in its core `statuses` field).
+        const statuses = new Set<string>();
+        const appliedEffects =
+            (actor as any).appliedEffects ?? (actor as any).effects ?? [];
+        for (const effect of appliedEffects) {
+            for (const sid of (effect.statuses ?? []) as Iterable<string>) {
+                statuses.add(sid);
+            }
+        }
         const statusEffects = [
             { id: STATUS_EFFECT.SLEEP, abbr: "SLP", label: "Sleep" },
             { id: STATUS_EFFECT.PRONE, abbr: "PRN", label: "Prone" },
