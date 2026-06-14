@@ -219,7 +219,7 @@ export class BeingSheet extends SohlActorSheetBase {
         }),
         new foundry.applications.ux.SearchFilter({
             inputSelector: 'input[name="search-effects"]',
-            contentSelector: ".effects-list",
+            contentSelector: ".effects__list",
             callback: this._displayFilteredResults.bind(this),
         }),
     ];
