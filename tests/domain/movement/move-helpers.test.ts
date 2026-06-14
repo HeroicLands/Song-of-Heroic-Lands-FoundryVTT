@@ -53,9 +53,7 @@ describe("readBaseMove", () => {
     });
 
     it("returns 0 for an unrecognized medium key", () => {
-        expect(
-            readBaseMove(sample, "ethereal" as any),
-        ).toBe(0);
+        expect(readBaseMove(sample, "ethereal" as any)).toBe(0);
     });
 
     it("reflects post-AE values (caller passes already-modified dict)", () => {

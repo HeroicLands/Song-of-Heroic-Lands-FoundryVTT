@@ -6,7 +6,10 @@
  */
 
 // Foundry adds paddedString to Number.prototype; replicate it for tests.
-(Number.prototype as any).paddedString = function (this: number, digits: number): string {
+(Number.prototype as any).paddedString = function (
+    this: number,
+    digits: number,
+): string {
     if (this < 0) return "-" + Math.abs(this).toString().padStart(digits, "0");
     return this.toString().padStart(digits, "0");
 };
@@ -24,14 +27,20 @@ const i18n = {
         }
         return result;
     },
-    normalizeText(text: string, _opts?: { caseInsensitive?: boolean; ascii?: boolean }): string {
+    normalizeText(
+        text: string,
+        _opts?: { caseInsensitive?: boolean; ascii?: boolean },
+    ): string {
         return text.toLowerCase().trim();
     },
     formatListOr(items: string[]): string {
         return items.join(" or ");
     },
     getListFormatter(): Intl.ListFormat {
-        return new Intl.ListFormat("en", { style: "long", type: "conjunction" });
+        return new Intl.ListFormat("en", {
+            style: "long",
+            type: "conjunction",
+        });
     },
 };
 
@@ -107,7 +116,9 @@ const sohlMock = {
             constructor(config: any = {}, _options?: any) {
                 Object.assign(this, config);
             }
-            static defineSchema(): any { return {}; }
+            static defineSchema(): any {
+                return {};
+            }
 
             private _secondsPerDay(): number {
                 const d = this.days;
@@ -120,12 +131,16 @@ const sohlMock = {
             timeToComponents(time: number = 0): any {
                 const secondsPerDay = this._secondsPerDay();
                 const secondsPerYear = this._secondsPerYear();
-                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerHour =
+                    this.days.secondsPerMinute * this.days.minutesPerHour;
                 const secondsPerMinute = this.days.secondsPerMinute;
 
                 let year = Math.floor(time / secondsPerYear);
                 let rem = time - year * secondsPerYear;
-                if (rem < 0) { year -= 1; rem += secondsPerYear; }
+                if (rem < 0) {
+                    year -= 1;
+                    rem += secondsPerYear;
+                }
                 const day = Math.floor(rem / secondsPerDay);
                 rem -= day * secondsPerDay;
 
@@ -139,20 +154,35 @@ const sohlMock = {
 
                 const totalDays = Math.floor(time / secondsPerDay);
                 const wlen = this.days.values.length;
-                const dayOfWeek = (((totalDays + (this.years?.firstWeekday ?? 0)) % wlen) + wlen) % wlen;
+                const dayOfWeek =
+                    (((totalDays + (this.years?.firstWeekday ?? 0)) % wlen) +
+                        wlen) %
+                    wlen;
 
                 const hour = Math.floor(rem / secondsPerHour);
                 rem -= hour * secondsPerHour;
                 const minute = Math.floor(rem / secondsPerMinute);
                 const second = rem - minute * secondsPerMinute;
 
-                return { day, dayOfMonth, dayOfWeek, hour, leapYear: false, minute, month, season: undefined, second, year };
+                return {
+                    day,
+                    dayOfMonth,
+                    dayOfWeek,
+                    hour,
+                    leapYear: false,
+                    minute,
+                    month,
+                    season: undefined,
+                    second,
+                    year,
+                };
             }
 
             componentsToTime(c: any): number {
                 const secondsPerDay = this._secondsPerDay();
                 const secondsPerYear = this._secondsPerYear();
-                const secondsPerHour = this.days.secondsPerMinute * this.days.minutesPerHour;
+                const secondsPerHour =
+                    this.days.secondsPerMinute * this.days.minutesPerHour;
                 const secondsPerMinute = this.days.secondsPerMinute;
 
                 let time = (c.year ?? 0) * secondsPerYear;
@@ -160,21 +190,35 @@ const sohlMock = {
                     time += c.day * secondsPerDay;
                 } else if (c.month != null && c.dayOfMonth != null) {
                     let d = c.dayOfMonth;
-                    for (let m = 0; m < c.month; m++) d += this.months.values[m].days;
+                    for (let m = 0; m < c.month; m++)
+                        d += this.months.values[m].days;
                     time += d * secondsPerDay;
                 }
                 time += (c.hour ?? 0) * secondsPerHour;
                 time += (c.minute ?? 0) * secondsPerMinute;
-                time += (c.second ?? 0);
+                time += c.second ?? 0;
                 return time;
             }
         },
         fields: {
-            StringField: class { constructor(public options: any = {}) {} },
-            NumberField: class { constructor(public options: any = {}) {} },
-            BooleanField: class { constructor(public options: any = {}) {} },
-            ArrayField: class { constructor(public element?: any, public options: any = {}) {} },
-            ObjectField: class { constructor(public options: any = {}) {} },
+            StringField: class {
+                constructor(public options: any = {}) {}
+            },
+            NumberField: class {
+                constructor(public options: any = {}) {}
+            },
+            BooleanField: class {
+                constructor(public options: any = {}) {}
+            },
+            ArrayField: class {
+                constructor(
+                    public element?: any,
+                    public options: any = {},
+                ) {}
+            },
+            ObjectField: class {
+                constructor(public options: any = {}) {}
+            },
             SchemaField: class {
                 fields: any;
                 options: any;
@@ -183,25 +227,37 @@ const sohlMock = {
                     this.options = options;
                 }
             },
-            HTMLField: class { constructor(public options: any = {}) {} },
-            FilePathField: class { constructor(public options: any = {}) {} },
-            DocumentIdField: class { constructor(public options: any = {}) {} },
+            HTMLField: class {
+                constructor(public options: any = {}) {}
+            },
+            FilePathField: class {
+                constructor(public options: any = {}) {}
+            },
+            DocumentIdField: class {
+                constructor(public options: any = {}) {}
+            },
         },
     },
     abstract: {
         TypeDataModel: class {
             constructor(_data?: any, _options?: any) {}
-            static defineSchema() { return {}; }
+            static defineSchema() {
+                return {};
+            }
         },
     },
     applications: {
         ux: {
             TextEditor: {
                 implementation: {
-                    async enrichHTML(content: string) { return content; },
+                    async enrichHTML(content: string) {
+                        return content;
+                    },
                 },
             },
-            ContextMenu: class { constructor(..._args: any[]) {} },
+            ContextMenu: class {
+                constructor(..._args: any[]) {}
+            },
         },
         sheets: {
             ActiveEffectConfig: class {
@@ -211,13 +267,17 @@ const sohlMock = {
     },
     documents: {
         ChatMessage: {
-            async create(_data: any) { return null; },
+            async create(_data: any) {
+                return null;
+            },
         },
     },
     dice: {
         Roll: class {
             constructor(public formula: string) {}
-            async evaluate() { return { total: 0 }; }
+            async evaluate() {
+                return { total: 0 };
+            }
         },
     },
 };
@@ -225,7 +285,9 @@ const sohlMock = {
 (globalThis as any).game = {
     time: { worldTime: 0 },
     settings: {
-        get(_module: string, _key: string) { return undefined; },
+        get(_module: string, _key: string) {
+            return undefined;
+        },
         register() {},
     },
     i18n: i18n,
@@ -249,7 +311,9 @@ const sohlMock = {
 
 (globalThis as any).Hooks = {
     callAll(_name: string, ..._args: any[]) {},
-    call(_name: string, ..._args: any[]) { return true; },
+    call(_name: string, ..._args: any[]) {
+        return true;
+    },
     onError(_source: string, _error: Error, _data?: any) {},
     on(_name: string, _fn: Function) {},
     once(_name: string, _fn: Function) {},
@@ -267,7 +331,9 @@ const sohlMock = {
     create(formula: string) {
         return {
             formula,
-            async evaluate() { return { total: 0 }; },
+            async evaluate() {
+                return { total: 0 };
+            },
             total: 0,
         };
     },
@@ -306,10 +372,15 @@ const sohlMock = {
     constructor(_data?: any, _context?: any) {}
 };
 (globalThis as any).Ray = class {
-    constructor(public origin: any, public destination: any) {}
+    constructor(
+        public origin: any,
+        public destination: any,
+    ) {}
 };
 (globalThis as any).Dialog = {
-    async prompt(_opts: any) { return null; },
+    async prompt(_opts: any) {
+        return null;
+    },
 };
 (globalThis as any).FormDataExtended = class {
     object = {};

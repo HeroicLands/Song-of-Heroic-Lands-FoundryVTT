@@ -257,9 +257,7 @@ describe("SohlCalendarData", () => {
                     7,
             );
             const out = SohlCalendarData.formatTimestamp(cal, c);
-            expect(out).toMatch(
-                /^ \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/,
-            );
+            expect(out).toMatch(/^ \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
         });
 
         it("Foreign calendar: formats as 'YYYY-MM-DD HH:MM:SS' (no sign prefix, no year-zero adjustment)", () => {

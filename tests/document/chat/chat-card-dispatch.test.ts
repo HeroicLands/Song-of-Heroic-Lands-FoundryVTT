@@ -80,9 +80,9 @@ describe("resolveChatCardHandlerUuid", () => {
     });
 
     it("returns null when no recognized uuid attribute is present", () => {
-        expect(resolveChatCardHandlerUuid(dataset({ action: "fateTest" }))).toBe(
-            null,
-        );
+        expect(
+            resolveChatCardHandlerUuid(dataset({ action: "fateTest" })),
+        ).toBe(null);
     });
 
     it("returns null for an empty dataset", () => {

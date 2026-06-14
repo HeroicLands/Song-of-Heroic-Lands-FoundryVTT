@@ -22,15 +22,21 @@ describe("SohlSpeaker serialization round-trip", () => {
 describe("SohlSpeaker", () => {
     describe("constructor", () => {
         it.todo("initializes token, actor, scene to null by default");
-        it.todo("sets rollMode from data or falls back to core setting or SYSTEM default");
+        it.todo(
+            "sets rollMode from data or falls back to core setting or SYSTEM default",
+        );
         it.todo("resolves token from data.token via fvttGetToken");
         it.todo("derives actor from resolved token");
         it.todo("resolves actor from data.actor when no token is available");
         it.todo("resolves scene from data.scene via fvttGetScene");
         it.todo("resolves user from data.user or falls back to current user");
         it.todo("uses data.alias for name when provided");
-        it.todo("falls back to token name, actor name, character name, or user name");
-        it.todo("defaults name to 'Unknown Speaker' when nothing else is available");
+        it.todo(
+            "falls back to token name, actor name, character name, or user name",
+        );
+        it.todo(
+            "defaults name to 'Unknown Speaker' when nothing else is available",
+        );
     });
 
     describe("getChatMessageSpeaker", () => {
@@ -45,7 +51,9 @@ describe("SohlSpeaker", () => {
     });
 
     describe("toJSON", () => {
-        it.todo("returns plain object with token, actor, scene, alias, user, rollMode");
+        it.todo(
+            "returns plain object with token, actor, scene, alias, user, rollMode",
+        );
     });
 
     describe("toChat", () => {

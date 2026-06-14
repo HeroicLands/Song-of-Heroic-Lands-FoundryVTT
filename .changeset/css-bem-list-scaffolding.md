@@ -8,17 +8,17 @@ Unify the ad-hoc `item-*` / `items-*` scaffolding classes — used ~250× across
 list-bearing sheet — into a single `list` BEM block, renamed in lockstep across the
 templates and `scss/components/_items.scss`:
 
-| Old | New |
-| --- | --- |
-| `items` | `list-section` |
-| `items-list` | `list` |
-| `item-list` | `list__items` |
-| `items-header` | `list__header` |
-| `item-name` | `list__name` |
-| `item-detail` | `list__detail` |
+| Old                                    | New                                       |
+| -------------------------------------- | ----------------------------------------- |
+| `items`                                | `list-section`                            |
+| `items-list`                           | `list`                                    |
+| `item-list`                            | `list__items`                             |
+| `items-header`                         | `list__header`                            |
+| `item-name`                            | `list__name`                              |
+| `item-detail`                          | `list__detail`                            |
 | `item-controls` / `item-controls-wide` | `list__controls` / `list__controls--wide` |
-| `item-control` | `list__control` |
-| `item-image` | `list__image` |
+| `item-control`                         | `list__control`                           |
+| `item-image`                           | `list__image`                             |
 
 **Deliberately kept** (JS-coupled — renaming them would silently break behavior):
 `.item` (the row class queried by `_displayFilteredResults` for every search filter),

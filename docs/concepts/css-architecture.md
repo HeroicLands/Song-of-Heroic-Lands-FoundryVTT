@@ -9,13 +9,13 @@ This page is the **decision record and conventions** for the system's stylesheet
 It is the foundation ratified by [epic #95](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/issues/95)
 before any code moves; the migration itself happens in its child issues (#90–#94).
 Until those land, the source under `scss/` does **not** yet match every rule below —
-this document describes the *target*, and is the contract migrations are measured
+this document describes the _target_, and is the contract migrations are measured
 against.
 
 > **Why this exists.** [#87](https://github.com/toastygm/Song-of-Heroic-Lands-FoundryVTT/pull/87)
 > uncovered a whole block of sheet-layout CSS that was silently dead: `.sohl .sheet`
 > (descendant) can never match an ApplicationV2 frame, because Foundry puts `sohl`
-> and `sheet` on the *same* element. That symptom sat on top of years of accreted
+> and `sheet` on the _same_ element. That symptom sat on top of years of accreted
 > structure — dead selectors, near-duplicate widget blocks, mixed-concern files, and
 > ad-hoc naming. The rules here exist so that class of bug cannot recur and so the
 > stylesheets stay extensible.
@@ -52,14 +52,14 @@ specificity scoping). These are covered below.
 Source lives under `scss/`, organized by **role**, loaded lowest-output-first so the
 cascade reads top-to-bottom. Target folders:
 
-| Folder        | Holds                                                                 | Emits CSS? |
-| ------------- | -------------------------------------------------------------------- | ---------- |
-| `abstracts/`  | Design tokens, SCSS variables/maps, functions, mixins                | No         |
-| `base/`       | Resets, element defaults, Foundry-core variable overrides            | Yes        |
-| `layout/`     | Structural skeleton: sheet frame, window-content, tabs, grid         | Yes        |
-| `components/` | Reusable widgets: item-row, list, header, resource, field, effect, body-location | Yes |
-| `apps/`       | Sheet-type-specific tweaks: being, item sheets, standalone apps      | Yes        |
-| `utilities/`  | Single-purpose helpers: flex, spacing                                | Yes        |
+| Folder        | Holds                                                                            | Emits CSS? |
+| ------------- | -------------------------------------------------------------------------------- | ---------- |
+| `abstracts/`  | Design tokens, SCSS variables/maps, functions, mixins                            | No         |
+| `base/`       | Resets, element defaults, Foundry-core variable overrides                        | Yes        |
+| `layout/`     | Structural skeleton: sheet frame, window-content, tabs, grid                     | Yes        |
+| `components/` | Reusable widgets: item-row, list, header, resource, field, effect, body-location | Yes        |
+| `apps/`       | Sheet-type-specific tweaks: being, item sheets, standalone apps                  | Yes        |
+| `utilities/`  | Single-purpose helpers: flex, spacing                                            | Yes        |
 
 **`abstracts/` must emit no CSS** — importing it has zero output, so it can be
 `@use`-d freely from any partial without duplicating rules.
@@ -159,7 +159,7 @@ tooltips) which is not nested under `.sohl`. A theme can still narrow an overrid
 **Keep these distinct from Foundry's own variables.** `scss/utils/_foundry-vars.scss`
 redefines Foundry-core properties (`--color-text-primary`, `--color-border-*`, …) so
 core UI picks up our palette. Those use Foundry's `--color-*` namespace by necessity
-and are *not* part of the `--sohl-*` token set; don't merge the two.
+and are _not_ part of the `--sohl-*` token set; don't merge the two.
 
 ## 5. Cascade layers (`@layer`)
 
@@ -172,10 +172,10 @@ Foundry v14 core wraps **all** of its own CSS in a declared layer stack:
 ```
 
 Two facts drive our approach. First, **unlayered styles beat every layered style of the
-same origin** — so a layered SoHL rule can never be defeated by a *higher-specificity*
-SoHL rule in an *earlier* layer; layer order wins. Second, because layer precedence is
+same origin** — so a layered SoHL rule can never be defeated by a _higher-specificity_
+SoHL rule in an _earlier_ layer; layer order wins. Second, because layer precedence is
 fixed by **first declaration**, any layer name SoHL introduces that Foundry did not
-declare is registered *after* Foundry's entire stack. So SoHL's own `sohl.*` layers sit
+declare is registered _after_ Foundry's entire stack. So SoHL's own `sohl.*` layers sit
 above `reset … system … exceptions`, and **every `sohl` layer beats Foundry core without
 `!important` or deep nesting.**
 
@@ -193,7 +193,7 @@ unlayered too (no cascade competition).
 
 Because all of SoHL is layered, prefer adjusting **layer placement** over `!important`
 or specificity hacks when one SoHL rule must beat another. The one thing that still
-outranks a `sohl` layer is an *unlayered* rule — so avoid emitting unlayered style rules
+outranks a `sohl` layer is an _unlayered_ rule — so avoid emitting unlayered style rules
 (beyond the deliberate `@font-face`/icon exceptions), or they will silently win over the
 whole layer stack.
 
@@ -202,7 +202,7 @@ whole layer stack.
 ApplicationV2 puts **all** of an application's option classes on the **same frame
 element**. So for a sheet whose classes are `sohl sheet`:
 
-- `.sohl .sheet` — **descendant**, expects `sheet` *inside* `sohl`. **Never matches.** ❌
+- `.sohl .sheet` — **descendant**, expects `sheet` _inside_ `sohl`. **Never matches.** ❌
 - `.sohl.sheet` — **compound**, matches the one element carrying both classes. ✅
 
 **Rule: target frame/option classes with a compound selector, never a descendant.**
@@ -222,7 +222,9 @@ out-specify anything, wrap the namespace in `:where()` so it contributes zero
 specificity and stays easy to override:
 
 ```scss
-:where(.sohl) .sohl-list__item { /* low-specificity, easy to theme */ }
+:where(.sohl) .sohl-list__item {
+    /* low-specificity, easy to theme */
+}
 ```
 
 Reserve plain `.sohl` (specificity-bearing) for rules that must actually win against
@@ -231,7 +233,7 @@ core.
 ## 7. Module loading — `@use`/`@forward`, with `meta.load-css` only for scoped output
 
 **Decision: `@use`/`@forward` is the canonical module graph. Use `meta.load-css` only
-when output must be emitted *inside* a selector scope.**
+when output must be emitted _inside_ a selector scope.**
 
 The current entry mixes both (`scss/sohl.scss`): top-level utilities/globals via `@use`,
 sheet components via `@include meta.load-css(...)` nested inside `.sohl { }` and
@@ -241,7 +243,7 @@ sheet components via `@include meta.load-css(...)` nested inside `.sohl { }` and
   partial whose selectors already carry their own scope. Expose tokens/mixins through a
   single barrel (`abstracts/_index.scss` that `@forward`s the token, function, and mixin
   partials), so consumers write one `@use "abstracts" as *;`.
-- **`@include meta.load-css("…")`** *only* where a partial's rules must be wrapped in a
+- **`@include meta.load-css("…")`** _only_ where a partial's rules must be wrapped in a
   selector at load time — i.e. emitting a component's output inside `.sohl { }` or
   `.sohl.sheet { }`. This is the deliberate exception, not the default.
 

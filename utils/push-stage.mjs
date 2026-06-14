@@ -61,9 +61,7 @@ function main() {
         console.error(
             `No destination configured for stage '${stage}'. Set environment variable ${envVarName}.`,
         );
-        console.error(
-            `Example: ${envVarName}="/path/to/foundryvtt/data"`,
-        );
+        console.error(`Example: ${envVarName}="/path/to/foundryvtt/data"`);
         process.exit(1);
     }
 
@@ -71,9 +69,10 @@ function main() {
     // For remote rsync targets (host:path), insert after the colon.
     const colonIdx = dataRoot.indexOf(":");
     const isRemote = colonIdx > 0 && !dataRoot.startsWith("/");
-    const destination = isRemote
-        ? `${dataRoot.slice(0, colonIdx + 1)}${path.posix.join(dataRoot.slice(colonIdx + 1), "Data/systems/sohl/")}`
-        : path.join(dataRoot, "Data", "systems", "sohl") + "/";
+    const destination =
+        isRemote ?
+            `${dataRoot.slice(0, colonIdx + 1)}${path.posix.join(dataRoot.slice(colonIdx + 1), "Data/systems/sohl/")}`
+        :   path.join(dataRoot, "Data", "systems", "sohl") + "/";
 
     // Verify rsync is available for remote targets
     if (isRemote) {

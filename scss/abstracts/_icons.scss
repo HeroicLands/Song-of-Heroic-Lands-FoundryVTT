@@ -26,663 +26,1983 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.sohl-abbot-meeple::before { content: "\e001"; }
-.sohl-abdominal-armor::before { content: "\e002"; }
-.sohl-acrobatic::before { content: "\e003"; }
-.sohl-acrobatics::before { content: "\e004"; }
-.sohl-acting::before { content: "\e005"; }
-.sohl-ages::before { content: "\e006"; }
-.sohl-agriculture::before { content: "\e007"; }
-.sohl-alchemy::before { content: "\e008"; }
-.sohl-all-seeing-eye::before { content: "\e009"; }
-.sohl-anatomy::before { content: "\e00a"; }
-.sohl-anchor::before { content: "\e00b"; }
-.sohl-anemia::before { content: "\e00c"; }
-.sohl-animalcraft::before { content: "\e00d"; }
-.sohl-anvil::before { content: "\e00e"; }
-.sohl-anvil-impact::before { content: "\e00f"; }
-.sohl-apron::before { content: "\e010"; }
-.sohl-aquarius::before { content: "\e011"; }
-.sohl-aries::before { content: "\e012"; }
-.sohl-arm-bandage::before { content: "\e013"; }
-.sohl-arm-sling::before { content: "\e014"; }
-.sohl-armor::before { content: "\e015"; }
-.sohl-armor-vest::before { content: "\e016"; }
-.sohl-arrow::before { content: "\e017"; }
-.sohl-arrowed::before { content: "\e018"; }
-.sohl-astrology::before { content: "\e019"; }
-.sohl-atlas::before { content: "\e01a"; }
-.sohl-aura::before { content: "\e01b"; }
-.sohl-awareness::before { content: "\e01c"; }
-.sohl-axe::before { content: "\e01d"; }
-.sohl-back-pain::before { content: "\e01e"; }
-.sohl-backstab::before { content: "\e01f"; }
-.sohl-backup::before { content: "\e020"; }
-.sohl-badger::before { content: "\e021"; }
-.sohl-baldr::before { content: "\e022"; }
-.sohl-bandage-roll::before { content: "\e023"; }
-.sohl-barbute::before { content: "\e024"; }
-.sohl-basket::before { content: "\e025"; }
-.sohl-bass::before { content: "\e026"; }
-.sohl-battle-axe::before { content: "\e027"; }
-.sohl-beams-aura::before { content: "\e028"; }
-.sohl-bear::before { content: "\e029"; }
-.sohl-bell-shield::before { content: "\e02a"; }
-.sohl-biceps::before { content: "\e02b"; }
-.sohl-bison::before { content: "\e02c"; }
-.sohl-black-knight-helm::before { content: "\e02d"; }
-.sohl-blacksmith::before { content: "\e02e"; }
-.sohl-blowgun::before { content: "\e02f"; }
-.sohl-boar::before { content: "\e030"; }
-.sohl-boat-fishing::before { content: "\e031"; }
-.sohl-bobcat::before { content: "\e032"; }
-.sohl-body::before { content: "\e033"; }
-.sohl-body-balance::before { content: "\e034"; }
-.sohl-body-height::before { content: "\e035"; }
-.sohl-body-swapping::before { content: "\e036"; }
-.sohl-bolas::before { content: "\e037"; }
-.sohl-bone-knife::before { content: "\e038"; }
-.sohl-book::before { content: "\e039"; }
-.sohl-book-cover::before { content: "\e03a"; }
-.sohl-book-sparkles::before { content: "\e03b"; }
-.sohl-boomerang::before { content: "\e03c"; }
-.sohl-boots::before { content: "\e03d"; }
-.sohl-bottle-vapors::before { content: "\e03e"; }
-.sohl-bowman::before { content: "\e03f"; }
-.sohl-bracer::before { content: "\e040"; }
-.sohl-brain-dump::before { content: "\e041"; }
-.sohl-brandy-bottle::before { content: "\e042"; }
-.sohl-breastplate::before { content: "\e043"; }
-.sohl-brewing::before { content: "\e044"; }
-.sohl-brick-pile::before { content: "\e045"; }
-.sohl-brick-wall::before { content: "\e046"; }
-.sohl-bright-explosion::before { content: "\e047"; }
-.sohl-broad-dagger::before { content: "\e048"; }
-.sohl-bubbling-flask::before { content: "\e049"; }
-.sohl-buffalo-head::before { content: "\e04a"; }
-.sohl-bull::before { content: "\e04b"; }
-.sohl-bullseye::before { content: "\e04c"; }
-.sohl-burning-dot::before { content: "\e04d"; }
-.sohl-burning-meteor::before { content: "\e04e"; }
-.sohl-caduceus::before { content: "\e04f"; }
-.sohl-camp-cooking-pot::before { content: "\e050"; }
-.sohl-campfire::before { content: "\e051"; }
-.sohl-cancer::before { content: "\e052"; }
-.sohl-candle::before { content: "\e053"; }
-.sohl-candle-flame::before { content: "\e054"; }
-.sohl-candle-holder::before { content: "\e055"; }
-.sohl-cap::before { content: "\e056"; }
-.sohl-capricorn::before { content: "\e057"; }
-.sohl-carrying-sack::before { content: "\e058"; }
-.sohl-cartwheel::before { content: "\e059"; }
-.sohl-cash::before { content: "\e05a"; }
-.sohl-category::before { content: "\e05b"; }
-.sohl-catfish::before { content: "\e05c"; }
-.sohl-cauldron::before { content: "\e05d"; }
-.sohl-cavalry::before { content: "\e05e"; }
-.sohl-caveman::before { content: "\e05f"; }
-.sohl-celebration-fire::before { content: "\e060"; }
-.sohl-centaur::before { content: "\e061"; }
-.sohl-ceramics::before { content: "\e062"; }
-.sohl-ceremonial-mask::before { content: "\e063"; }
-.sohl-chain-mail::before { content: "\e064"; }
-.sohl-chalk-outline-murder::before { content: "\e065"; }
-.sohl-chaos::before { content: "\e066"; }
-.sohl-character::before { content: "\e067"; }
-.sohl-charm::before { content: "\e068"; }
-.sohl-chemical-drop::before { content: "\e069"; }
-.sohl-chest::before { content: "\e06a"; }
-.sohl-chest-armor::before { content: "\e06b"; }
-.sohl-chicken::before { content: "\e06c"; }
-.sohl-circle::before { content: "\e06d"; }
-.sohl-claw::before { content: "\e06e"; }
-.sohl-climbing::before { content: "\e06f"; }
-.sohl-cloak::before { content: "\e070"; }
-.sohl-cloak-dagger::before { content: "\e071"; }
-.sohl-closed-barbute::before { content: "\e072"; }
-.sohl-club::before { content: "\e073"; }
-.sohl-cobweb::before { content: "\e074"; }
-.sohl-coiling-curl::before { content: "\e075"; }
-.sohl-coins::before { content: "\e076"; }
-.sohl-coma::before { content: "\e077"; }
-.sohl-concentration-orb::before { content: "\e078"; }
-.sohl-confrontation::before { content: "\e079"; }
-.sohl-conqueror::before { content: "\e07a"; }
-.sohl-contortionist::before { content: "\e07b"; }
-.sohl-convict::before { content: "\e07c"; }
-.sohl-convince::before { content: "\e07d"; }
-.sohl-cook::before { content: "\e07e"; }
-.sohl-cookery::before { content: "\e07f"; }
-.sohl-cooking-pot::before { content: "\e080"; }
-.sohl-corner-explosion::before { content: "\e081"; }
-.sohl-cow::before { content: "\e082"; }
-.sohl-creativity::before { content: "\e083"; }
-.sohl-crested-helmet::before { content: "\e084"; }
-.sohl-cross-mark::before { content: "\e085"; }
-.sohl-crossbow::before { content: "\e086"; }
-.sohl-crossed-axes::before { content: "\e087"; }
-.sohl-crossed-swords::before { content: "\e088"; }
-.sohl-crow::before { content: "\e089"; }
-.sohl-crowbar::before { content: "\e08a"; }
-.sohl-crystal-wand::before { content: "\e08b"; }
-.sohl-cultist::before { content: "\e08c"; }
-.sohl-curling-vines::before { content: "\e08d"; }
-.sohl-curly-mask::before { content: "\e08e"; }
-.sohl-daemon-skull::before { content: "\e08f"; }
-.sohl-dagger::before { content: "\e090"; }
-.sohl-damage::before { content: "\e091"; }
-.sohl-dance::before { content: "\e092"; }
-.sohl-dart::before { content: "\e093"; }
-.sohl-deadly-strike::before { content: "\e094"; }
-.sohl-death::before { content: "\e095"; }
-.sohl-deer::before { content: "\e096"; }
-.sohl-deer-track::before { content: "\e097"; }
-.sohl-default-action::before { content: "\e098"; }
-.sohl-despair::before { content: "\e099"; }
-.sohl-dice-d20::before { content: "\e09a"; }
-.sohl-dice-d6::before { content: "\e09b"; }
-.sohl-dig-dug::before { content: "\e09c"; }
-.sohl-disease::before { content: "\e09d"; }
-.sohl-distraction::before { content: "\e09e"; }
-.sohl-divination::before { content: "\e09f"; }
-.sohl-dodge::before { content: "\e0a0"; }
-.sohl-dodging::before { content: "\e0a1"; }
-.sohl-donkey::before { content: "\e0a2"; }
-.sohl-dorsal-scales::before { content: "\e0a3"; }
-.sohl-double-face-mask::before { content: "\e0a4"; }
-.sohl-double-ringed-orb::before { content: "\e0a5"; }
-.sohl-dove::before { content: "\e0a6"; }
-.sohl-drama-masks::before { content: "\e0a7"; }
-.sohl-drawing::before { content: "\e0a8"; }
-.sohl-dread::before { content: "\e0a9"; }
-.sohl-dream::before { content: "\e0aa"; }
-.sohl-dress::before { content: "\e0ab"; }
-.sohl-drum::before { content: "\e0ac"; }
-.sohl-duality::before { content: "\e0ad"; }
-.sohl-duck::before { content: "\e0ae"; }
-.sohl-dulcimer::before { content: "\e0af"; }
-.sohl-eagle::before { content: "\e0b0"; }
-.sohl-egyptian-walk::before { content: "\e0b1"; }
-.sohl-elbow-pad::before { content: "\e0b2"; }
-.sohl-element-air::before { content: "\e0b3"; }
-.sohl-element-earth::before { content: "\e0b4"; }
-.sohl-element-fire::before { content: "\e0b5"; }
-.sohl-element-water::before { content: "\e0b6"; }
-.sohl-embalming::before { content: "\e0b7"; }
-.sohl-embrassed-energy::before { content: "\e0b8"; }
-.sohl-emerald::before { content: "\e0b9"; }
-.sohl-empathy::before { content: "\e0ba"; }
-.sohl-energy-arrow::before { content: "\e0bb"; }
-.sohl-engineering::before { content: "\e0bc"; }
-.sohl-enrage::before { content: "\e0bd"; }
-.sohl-entangled-typhoon::before { content: "\e0be"; }
-.sohl-evade::before { content: "\e0bf"; }
-.sohl-explosion-rays::before { content: "\e0c0"; }
-.sohl-face-to-face::before { content: "\e0c1"; }
-.sohl-falcon::before { content: "\e0c2"; }
-.sohl-falling::before { content: "\e0c3"; }
-.sohl-fangs::before { content: "\e0c4"; }
-.sohl-farmer::before { content: "\e0c5"; }
-.sohl-fat::before { content: "\e0c6"; }
-.sohl-feather::before { content: "\e0c7"; }
-.sohl-fire::before { content: "\e0c8"; }
-.sohl-fire-dash::before { content: "\e0c9"; }
-.sohl-fire-silhouette::before { content: "\e0ca"; }
-.sohl-fireball::before { content: "\e0cb"; }
-.sohl-fish-scales::before { content: "\e0cc"; }
-.sohl-fishing::before { content: "\e0cd"; }
-.sohl-flail::before { content: "\e0ce"; }
-.sohl-flanged-mace::before { content: "\e0cf"; }
-.sohl-flat-paw-print::before { content: "\e0d0"; }
-.sohl-flax::before { content: "\e0d1"; }
-.sohl-flute::before { content: "\e0d2"; }
-.sohl-footprint::before { content: "\e0d3"; }
-.sohl-foraging::before { content: "\e0d4"; }
-.sohl-fox::before { content: "\e0d5"; }
-.sohl-freyja::before { content: "\e0d6"; }
-.sohl-freyr::before { content: "\e0d7"; }
-.sohl-frozen-body::before { content: "\e0d8"; }
-.sohl-full-wood-bucket::before { content: "\e0d9"; }
-.sohl-galleon::before { content: "\e0da"; }
-.sohl-gauntlet::before { content: "\e0db"; }
-.sohl-gear::before { content: "\e0dc"; }
-.sohl-gears::before { content: "\e0dd"; }
-.sohl-gem-chain::before { content: "\e0de"; }
-.sohl-gem-pendant::before { content: "\e0df"; }
-.sohl-gemini::before { content: "\e0e0"; }
-.sohl-gems::before { content: "\e0e1"; }
-.sohl-ghost-ally::before { content: "\e0e2"; }
-.sohl-giant::before { content: "\e0e3"; }
-.sohl-glaive::before { content: "\e0e4"; }
-.sohl-glassworking::before { content: "\e0e5"; }
-.sohl-gloves::before { content: "\e0e6"; }
-.sohl-goat::before { content: "\e0e7"; }
-.sohl-goose::before { content: "\e0e8"; }
-.sohl-grab-hold::before { content: "\e0e9"; }
-.sohl-grab-take::before { content: "\e0ea"; }
-.sohl-grainflail::before { content: "\e0eb"; }
-.sohl-grappling-hook::before { content: "\e0ec"; }
-.sohl-greaves::before { content: "\e0ed"; }
-.sohl-guards::before { content: "\e0ee"; }
-.sohl-half-body-crawling::before { content: "\e0ef"; }
-.sohl-hammer::before { content: "\e0f0"; }
-.sohl-hamster::before { content: "\e0f1"; }
-.sohl-hand::before { content: "\e0f2"; }
-.sohl-hand-sparkles::before { content: "\e0f3"; }
-.sohl-hands::before { content: "\e0f4"; }
-.sohl-harp::before { content: "\e0f5"; }
-.sohl-hat::before { content: "\e0f6"; }
-.sohl-hawk::before { content: "\e0f7"; }
-.sohl-head-gear::before { content: "\e0f8"; }
-.sohl-headbutt::before { content: "\e0f9"; }
-.sohl-headshot::before { content: "\e0fa"; }
-.sohl-heart-inside::before { content: "\e0fb"; }
-.sohl-heart-organ::before { content: "\e0fc"; }
-.sohl-heavy-helm::before { content: "\e0fd"; }
-.sohl-hedgehog::before { content: "\e0fe"; }
-.sohl-hel::before { content: "\e0ff"; }
-.sohl-helm::before { content: "\e100"; }
-.sohl-heraldry::before { content: "\e101"; }
-.sohl-herblore::before { content: "\e102"; }
-.sohl-hidework::before { content: "\e103"; }
-.sohl-high-kick::before { content: "\e104"; }
-.sohl-high-punch::before { content: "\e105"; }
-.sohl-hood::before { content: "\e106"; }
-.sohl-hooded-assassin::before { content: "\e107"; }
-.sohl-hooded-figure::before { content: "\e108"; }
-.sohl-hoof::before { content: "\e109"; }
-.sohl-horn::before { content: "\e10a"; }
-.sohl-horns::before { content: "\e10b"; }
-.sohl-horse::before { content: "\e10c"; }
-.sohl-horse-riding::before { content: "\e10d"; }
-.sohl-human-pyramid::before { content: "\e10e"; }
-.sohl-hunting::before { content: "\e10f"; }
-.sohl-icicles-aura::before { content: "\e110"; }
-.sohl-imprisoned::before { content: "\e111"; }
-.sohl-initiative::before { content: "\e112"; }
-.sohl-injury::before { content: "\e113"; }
-.sohl-ink::before { content: "\e114"; }
-.sohl-inner-self::before { content: "\e115"; }
-.sohl-internal-injury::before { content: "\e116"; }
-.sohl-invisible::before { content: "\e117"; }
-.sohl-jaguar::before { content: "\e118"; }
-.sohl-jewel::before { content: "\e119"; }
-.sohl-jeweled-chalice::before { content: "\e11a"; }
-.sohl-juggler::before { content: "\e11b"; }
-.sohl-jump::before { content: "\e11c"; }
-.sohl-jump-across::before { content: "\e11d"; }
-.sohl-jumping-rope::before { content: "\e11e"; }
-.sohl-key::before { content: "\e11f"; }
-.sohl-king::before { content: "\e120"; }
-.sohl-knapsack::before { content: "\e121"; }
-.sohl-knee-bandage::before { content: "\e122"; }
-.sohl-knee-pad::before { content: "\e123"; }
-.sohl-kneeling::before { content: "\e124"; }
-.sohl-knockout::before { content: "\e125"; }
-.sohl-knuckledusters::before { content: "\e126"; }
-.sohl-lamellar::before { content: "\e127"; }
-.sohl-lance::before { content: "\e128"; }
-.sohl-lantern::before { content: "\e129"; }
-.sohl-lantern-flame::before { content: "\e12a"; }
-.sohl-law::before { content: "\e12b"; }
-.sohl-leather-armor::before { content: "\e12c"; }
-.sohl-leather-boot::before { content: "\e12d"; }
-.sohl-leather-vest::before { content: "\e12e"; }
-.sohl-leg-armor::before { content: "\e12f"; }
-.sohl-leggings::before { content: "\e130"; }
-.sohl-leo::before { content: "\e131"; }
-.sohl-leopard::before { content: "\e132"; }
-.sohl-libra::before { content: "\e133"; }
-.sohl-life::before { content: "\e134"; }
-.sohl-light-helm::before { content: "\e135"; }
-.sohl-lion::before { content: "\e136"; }
-.sohl-lock::before { content: "\e137"; }
-.sohl-locked-chest::before { content: "\e138"; }
-.sohl-lockpicks::before { content: "\e139"; }
-.sohl-loincloth::before { content: "\e13a"; }
-.sohl-loki::before { content: "\e13b"; }
-.sohl-longbow::before { content: "\e13c"; }
-.sohl-lore::before { content: "\e13d"; }
-.sohl-love::before { content: "\e13e"; }
-.sohl-lovers::before { content: "\e13f"; }
-.sohl-lute::before { content: "\e140"; }
-.sohl-lynx::before { content: "\e141"; }
-.sohl-lyre::before { content: "\e142"; }
-.sohl-mace::before { content: "\e143"; }
-.sohl-magic-portal::before { content: "\e144"; }
-.sohl-magic-shield::before { content: "\e145"; }
-.sohl-magic-wand::before { content: "\e146"; }
-.sohl-magnifying-glass::before { content: "\e147"; }
-.sohl-mail-shirt::before { content: "\e148"; }
-.sohl-mailed-fist::before { content: "\e149"; }
-.sohl-manacles::before { content: "\e14a"; }
-.sohl-mantle::before { content: "\e14b"; }
-.sohl-masonry::before { content: "\e14c"; }
-.sohl-master-of-arms::before { content: "\e14d"; }
-.sohl-mathematics::before { content: "\e14e"; }
-.sohl-medallist::before { content: "\e14f"; }
-.sohl-meditation::before { content: "\e150"; }
-.sohl-meeple::before { content: "\e151"; }
-.sohl-mental::before { content: "\e152"; }
-.sohl-metal-bar::before { content: "\e153"; }
-.sohl-metal-skirt::before { content: "\e154"; }
-.sohl-mighty-force::before { content: "\e155"; }
-.sohl-miner::before { content: "\e156"; }
-.sohl-mining::before { content: "\e157"; }
-.sohl-minions::before { content: "\e158"; }
-.sohl-mirror::before { content: "\e159"; }
-.sohl-miscgear::before { content: "\e15a"; }
-.sohl-mischevous::before { content: "\e15b"; }
-.sohl-morality::before { content: "\e15c"; }
-.sohl-mounted-knight::before { content: "\e15d"; }
-.sohl-muscle::before { content: "\e15e"; }
-.sohl-muscle-fat::before { content: "\e15f"; }
-.sohl-muscle-up::before { content: "\e160"; }
-.sohl-muscular-torso::before { content: "\e161"; }
-.sohl-musical-notes::before { content: "\e162"; }
-.sohl-musician-singing::before { content: "\e163"; }
-.sohl-nails::before { content: "\e164"; }
-.sohl-needle::before { content: "\e165"; }
-.sohl-net::before { content: "\e166"; }
-.sohl-ninja-heroic-stance::before { content: "\e167"; }
-.sohl-nunchaku::before { content: "\e168"; }
-.sohl-occurrence::before { content: "\e169"; }
-.sohl-odin::before { content: "\e16a"; }
-.sohl-old-lantern::before { content: "\e16b"; }
-.sohl-oppression::before { content: "\e16c"; }
-.sohl-oratory::before { content: "\e16d"; }
-.sohl-otter::before { content: "\e16e"; }
-.sohl-overexertion::before { content: "\e16f"; }
-.sohl-owl::before { content: "\e170"; }
-.sohl-ox::before { content: "\e171"; }
-.sohl-padlock-open::before { content: "\e172"; }
-.sohl-pan-flute::before { content: "\e173"; }
-.sohl-parrot::before { content: "\e174"; }
-.sohl-pauldrons::before { content: "\e175"; }
-.sohl-pegasus::before { content: "\e176"; }
-.sohl-pentacle::before { content: "\e177"; }
-.sohl-people-group::before { content: "\e178"; }
-.sohl-perfume::before { content: "\e179"; }
-.sohl-perfume-bottle::before { content: "\e17a"; }
-.sohl-person::before { content: "\e17b"; }
-.sohl-pickaxe::before { content: "\e17c"; }
-.sohl-pierced-body::before { content: "\e17d"; }
-.sohl-piety::before { content: "\e17e"; }
-.sohl-pigeon::before { content: "\e17f"; }
-.sohl-pikeman::before { content: "\e180"; }
-.sohl-piloting::before { content: "\e181"; }
-.sohl-pisces::before { content: "\e182"; }
-.sohl-pitchfork::before { content: "\e183"; }
-.sohl-piton::before { content: "\e184"; }
-.sohl-poison-bottle::before { content: "\e185"; }
-.sohl-polearm::before { content: "\e186"; }
-.sohl-potion::before { content: "\e187"; }
-.sohl-potion-ball::before { content: "\e188"; }
-.sohl-prayer::before { content: "\e189"; }
-.sohl-prisoner::before { content: "\e18a"; }
-.sohl-psionics::before { content: "\e18b"; }
-.sohl-psychic-waves::before { content: "\e18c"; }
-.sohl-public-speaker::before { content: "\e18d"; }
-.sohl-pull::before { content: "\e18e"; }
-.sohl-punch::before { content: "\e18f"; }
-.sohl-punch-blast::before { content: "\e190"; }
-.sohl-push::before { content: "\e191"; }
-.sohl-question-mark::before { content: "\e192"; }
-.sohl-quill::before { content: "\e193"; }
-.sohl-quill-ink::before { content: "\e194"; }
-.sohl-quiver::before { content: "\e195"; }
-.sohl-rabbit::before { content: "\e196"; }
-.sohl-reasoning::before { content: "\e197"; }
-.sohl-rhetoric::before { content: "\e198"; }
-.sohl-ribcage::before { content: "\e199"; }
-.sohl-robber::before { content: "\e19a"; }
-.sohl-robe::before { content: "\e19b"; }
-.sohl-rogue::before { content: "\e19c"; }
-.sohl-rope::before { content: "\e19d"; }
-.sohl-round-bottom-flask::before { content: "\e19e"; }
-.sohl-round-shield::before { content: "\e19f"; }
-.sohl-run::before { content: "\e1a0"; }
-.sohl-runecraft::before { content: "\e1a1"; }
-.sohl-running-ninja::before { content: "\e1a2"; }
-.sohl-sack::before { content: "\e1a3"; }
-.sohl-sagittarius::before { content: "\e1a4"; }
-.sohl-sai::before { content: "\e1a5"; }
-.sohl-sandals::before { content: "\e1a6"; }
-.sohl-scale-mail::before { content: "\e1a7"; }
-.sohl-scales::before { content: "\e1a8"; }
-.sohl-scorpio::before { content: "\e1a9"; }
-.sohl-screaming::before { content: "\e1aa"; }
-.sohl-scroll::before { content: "\e1ab"; }
-.sohl-scroll-unfurled::before { content: "\e1ac"; }
-.sohl-scythe::before { content: "\e1ad"; }
-.sohl-seabass::before { content: "\e1ae"; }
-.sohl-sensuousness::before { content: "\e1af"; }
-.sohl-sewing-needle::before { content: "\e1b0"; }
-.sohl-shark::before { content: "\e1b1"; }
-.sohl-shattered-glass::before { content: "\e1b2"; }
-.sohl-sheep::before { content: "\e1b3"; }
-.sohl-shield::before { content: "\e1b4"; }
-.sohl-shield-bash::before { content: "\e1b5"; }
-.sohl-shield-reflect::before { content: "\e1b6"; }
-.sohl-ship::before { content: "\e1b7"; }
-.sohl-shirt::before { content: "\e1b8"; }
-.sohl-shock::before { content: "\e1b9"; }
-.sohl-shoe::before { content: "\e1ba"; }
-.sohl-shoulder-scales::before { content: "\e1bb"; }
-.sohl-shouting::before { content: "\e1bc"; }
-.sohl-shrug::before { content: "\e1bd"; }
-.sohl-shuriken::before { content: "\e1be"; }
-.sohl-sick::before { content: "\e1bf"; }
-.sohl-sickle::before { content: "\e1c0"; }
-.sohl-sing::before { content: "\e1c1"; }
-.sohl-skeleton::before { content: "\e1c2"; }
-.sohl-ski::before { content: "\e1c3"; }
-.sohl-skier::before { content: "\e1c4"; }
-.sohl-skills::before { content: "\e1c5"; }
-.sohl-skirt::before { content: "\e1c6"; }
-.sohl-slavery-whip::before { content: "\e1c7"; }
-.sohl-sleeping-bag::before { content: "\e1c8"; }
-.sohl-sleepy::before { content: "\e1c9"; }
-.sohl-sling::before { content: "\e1ca"; }
-.sohl-slingshot::before { content: "\e1cb"; }
-.sohl-sly::before { content: "\e1cc"; }
-.sohl-small-fire::before { content: "\e1cd"; }
-.sohl-smart::before { content: "\e1ce"; }
-.sohl-smitten::before { content: "\e1cf"; }
-.sohl-snake::before { content: "\e1d0"; }
-.sohl-sparkle::before { content: "\e1d1"; }
-.sohl-sparkles::before { content: "\e1d2"; }
-.sohl-speaking::before { content: "\e1d3"; }
-.sohl-spear::before { content: "\e1d4"; }
-.sohl-spell-book::before { content: "\e1d5"; }
-.sohl-spider-web::before { content: "\e1d6"; }
-.sohl-spiked-mace::before { content: "\e1d7"; }
-.sohl-spiked-wall::before { content: "\e1d8"; }
-.sohl-spiral-bottle::before { content: "\e1d9"; }
-.sohl-spirit::before { content: "\e1da"; }
-.sohl-sprint::before { content: "\e1db"; }
-.sohl-stack::before { content: "\e1dc"; }
-.sohl-staff::before { content: "\e1dd"; }
-.sohl-stag::before { content: "\e1de"; }
-.sohl-standing-potion::before { content: "\e1df"; }
-.sohl-star::before { content: "\e1e0"; }
-.sohl-stealth::before { content: "\e1e1"; }
-.sohl-steeltoe-boots::before { content: "\e1e2"; }
-.sohl-stiletto::before { content: "\e1e3"; }
-.sohl-stone-axe::before { content: "\e1e4"; }
-.sohl-stone-bust::before { content: "\e1e5"; }
-.sohl-stone-spear::before { content: "\e1e6"; }
-.sohl-stones::before { content: "\e1e7"; }
-.sohl-storm::before { content: "\e1e8"; }
-.sohl-strike::before { content: "\e1e9"; }
-.sohl-striking-arrows::before { content: "\e1ea"; }
-.sohl-striking-balls::before { content: "\e1eb"; }
-.sohl-striking-splinter::before { content: "\e1ec"; }
-.sohl-string::before { content: "\e1ed"; }
-.sohl-strong::before { content: "\e1ee"; }
-.sohl-strong-man::before { content: "\e1ef"; }
-.sohl-sun-priest::before { content: "\e1f0"; }
-.sohl-surgical-instruments::before { content: "\e1f1"; }
-.sohl-surprised::before { content: "\e1f2"; }
-.sohl-surrender::before { content: "\e1f3"; }
-.sohl-surrounded-shield::before { content: "\e1f4"; }
-.sohl-surtr::before { content: "\e1f5"; }
-.sohl-survival::before { content: "\e1f6"; }
-.sohl-suspicious::before { content: "\e1f7"; }
-.sohl-swimming::before { content: "\e1f8"; }
-.sohl-sword::before { content: "\e1f9"; }
-.sohl-sword-smithing::before { content: "\e1fa"; }
-.sohl-swordman::before { content: "\e1fb"; }
-.sohl-swordwoman::before { content: "\e1fc"; }
-.sohl-tarot-card::before { content: "\e1fd"; }
-.sohl-tarotry::before { content: "\e1fe"; }
-.sohl-taurus::before { content: "\e1ff"; }
-.sohl-teacher::before { content: "\e200"; }
-.sohl-team-downgrade::before { content: "\e201"; }
-.sohl-team-upgrade::before { content: "\e202"; }
-.sohl-telepathy::before { content: "\e203"; }
-.sohl-teleport::before { content: "\e204"; }
-.sohl-terror::before { content: "\e205"; }
-.sohl-textilecraft::before { content: "\e206"; }
-.sohl-third-eye::before { content: "\e207"; }
-.sohl-thor::before { content: "\e208"; }
-.sohl-three-friends::before { content: "\e209"; }
-.sohl-throne-king::before { content: "\e20a"; }
-.sohl-throw::before { content: "\e20b"; }
-.sohl-tied-scroll::before { content: "\e20c"; }
-.sohl-tightrope::before { content: "\e20d"; }
-.sohl-timber::before { content: "\e20e"; }
-.sohl-tired::before { content: "\e20f"; }
-.sohl-torch::before { content: "\e210"; }
-.sohl-tornado::before { content: "\e211"; }
-.sohl-tracking::before { content: "\e212"; }
-.sohl-treasure-map::before { content: "\e213"; }
-.sohl-tree::before { content: "\e214"; }
-.sohl-tree-branch::before { content: "\e215"; }
-.sohl-tribunal-jury::before { content: "\e216"; }
-.sohl-trident::before { content: "\e217"; }
-.sohl-trip::before { content: "\e218"; }
-.sohl-trousers::before { content: "\e219"; }
-.sohl-trout::before { content: "\e21a"; }
-.sohl-tuna::before { content: "\e21b"; }
-.sohl-tunic::before { content: "\e21c"; }
-.sohl-turkey::before { content: "\e21d"; }
-.sohl-two-shadows::before { content: "\e21e"; }
-.sohl-tyr::before { content: "\e21f"; }
-.sohl-uncertainty::before { content: "\e220"; }
-.sohl-unicorn::before { content: "\e221"; }
-.sohl-uprising::before { content: "\e222"; }
-.sohl-user-gear::before { content: "\e223"; }
-.sohl-vampire-cape::before { content: "\e224"; }
-.sohl-venus-of-willendorf::before { content: "\e225"; }
-.sohl-vest::before { content: "\e226"; }
-.sohl-virgo::before { content: "\e227"; }
-.sohl-visored-helm::before { content: "\e228"; }
-.sohl-vortex::before { content: "\e229"; }
-.sohl-walk::before { content: "\e22a"; }
-.sohl-warhammer::before { content: "\e22b"; }
-.sohl-water::before { content: "\e22c"; }
-.sohl-water-mill::before { content: "\e22d"; }
-.sohl-wave-crest::before { content: "\e22e"; }
-.sohl-waves::before { content: "\e22f"; }
-.sohl-weakness::before { content: "\e230"; }
-.sohl-weather::before { content: "\e231"; }
-.sohl-weight::before { content: "\e232"; }
-.sohl-weight-lifting-up::before { content: "\e233"; }
-.sohl-whale::before { content: "\e234"; }
-.sohl-whip::before { content: "\e235"; }
-.sohl-whirlwind::before { content: "\e236"; }
-.sohl-will::before { content: "\e237"; }
-.sohl-wind::before { content: "\e238"; }
-.sohl-wisdom::before { content: "\e239"; }
-.sohl-wizard-staff::before { content: "\e23a"; }
-.sohl-wolf::before { content: "\e23b"; }
-.sohl-wolf-head::before { content: "\e23c"; }
-.sohl-wood-pen::before { content: "\e23d"; }
-.sohl-woodcraft::before { content: "\e23e"; }
-.sohl-ymir::before { content: "\e23f"; }
-.sohl-zodiac::before { content: "\e240"; }
-.sohl-zodiac-aquarius::before { content: "\e241"; }
-.sohl-zodiac-aries::before { content: "\e242"; }
-.sohl-zodiac-cancer::before { content: "\e243"; }
-.sohl-zodiac-capricorn::before { content: "\e244"; }
-.sohl-zodiac-gemini::before { content: "\e245"; }
-.sohl-zodiac-leo::before { content: "\e246"; }
-.sohl-zodiac-libra::before { content: "\e247"; }
-.sohl-zodiac-pisces::before { content: "\e248"; }
-.sohl-zodiac-sagittarius::before { content: "\e249"; }
-.sohl-zodiac-scorpio::before { content: "\e24a"; }
-.sohl-zodiac-taurus::before { content: "\e24b"; }
-.sohl-zodiac-virgo::before { content: "\e24c"; }
-.sohl-zombie::before { content: "\e24d"; }
-.sohl-add::before { content: "\e24e"; }
-.sohl-arrows-shield::before { content: "\e24f"; }
-.sohl-bear-head::before { content: "\e250"; }
-.sohl-blade-drag::before { content: "\e251"; }
-.sohl-block::before { content: "\e252"; }
-.sohl-blood::before { content: "\e253"; }
-.sohl-bullseye-arrow::before { content: "\e254"; }
-.sohl-calendar::before { content: "\e255"; }
-.sohl-check::before { content: "\e256"; }
-.sohl-check-mark::before { content: "\e257"; }
-.sohl-clock::before { content: "\e258"; }
-.sohl-close::before { content: "\e259"; }
-.sohl-continue::before { content: "\e25a"; }
-.sohl-delete::before { content: "\e25b"; }
-.sohl-download::before { content: "\e25c"; }
-.sohl-drama::before { content: "\e25d"; }
-.sohl-drop::before { content: "\e25e"; }
-.sohl-drop-weapon::before { content: "\e25f"; }
-.sohl-drowning::before { content: "\e260"; }
-.sohl-eagle-head::before { content: "\e261"; }
-.sohl-edit::before { content: "\e262"; }
-.sohl-ellipsis-horizontal::before { content: "\e263"; }
-.sohl-ellipsis-vertical::before { content: "\e264"; }
-.sohl-file-create::before { content: "\e265"; }
-.sohl-file-download::before { content: "\e266"; }
-.sohl-file-duplicate::before { content: "\e267"; }
-.sohl-file-edit::before { content: "\e268"; }
-.sohl-file-export::before { content: "\e269"; }
-.sohl-file-import::before { content: "\e26a"; }
-.sohl-file-upload::before { content: "\e26b"; }
-.sohl-flag::before { content: "\e26c"; }
-.sohl-flamer::before { content: "\e26d"; }
-.sohl-fluffy-cloud::before { content: "\e26e"; }
-.sohl-hazard-sign::before { content: "\e26f"; }
-.sohl-head-with-eye::before { content: "\e270"; }
-.sohl-healing::before { content: "\e271"; }
-.sohl-heart-beats::before { content: "\e272"; }
-.sohl-heart-plus::before { content: "\e273"; }
-.sohl-help::before { content: "\e274"; }
-.sohl-holy-oak::before { content: "\e275"; }
-.sohl-info::before { content: "\e276"; }
-.sohl-knocked-out-stars::before { content: "\e277"; }
-.sohl-magic-swirl::before { content: "\e278"; }
-.sohl-map::before { content: "\e279"; }
-.sohl-menu::before { content: "\e27a"; }
-.sohl-minus::before { content: "\e27b"; }
-.sohl-old-wagon::before { content: "\e27c"; }
-.sohl-peace-dove::before { content: "\e27d"; }
-.sohl-plus::before { content: "\e27e"; }
-.sohl-plus-or-minus::before { content: "\e27f"; }
-.sohl-rally-the-troops::before { content: "\e280"; }
-.sohl-rear-aura::before { content: "\e281"; }
-.sohl-remove::before { content: "\e282"; }
-.sohl-riposte::before { content: "\e283"; }
-.sohl-round-star-filled::before { content: "\e284"; }
-.sohl-round-star-unfilled::before { content: "\e285"; }
-.sohl-save::before { content: "\e286"; }
-.sohl-search::before { content: "\e287"; }
-.sohl-settings::before { content: "\e288"; }
-.sohl-six-petal-flower::before { content: "\e289"; }
-.sohl-splashy-stream::before { content: "\e28a"; }
-.sohl-stethoscope::before { content: "\e28b"; }
-.sohl-swap-bag::before { content: "\e28c"; }
-.sohl-sword-break::before { content: "\e28d"; }
-.sohl-sword-clash::before { content: "\e28e"; }
-.sohl-toggle-off::before { content: "\e28f"; }
-.sohl-toggle-on::before { content: "\e290"; }
-.sohl-trash::before { content: "\e291"; }
-.sohl-upload::before { content: "\e292"; }
-.sohl-warning::before { content: "\e293"; }
-.sohl-xmark::before { content: "\e294"; }
+.sohl-abbot-meeple::before {
+    content: "\e001";
+}
+.sohl-abdominal-armor::before {
+    content: "\e002";
+}
+.sohl-acrobatic::before {
+    content: "\e003";
+}
+.sohl-acrobatics::before {
+    content: "\e004";
+}
+.sohl-acting::before {
+    content: "\e005";
+}
+.sohl-ages::before {
+    content: "\e006";
+}
+.sohl-agriculture::before {
+    content: "\e007";
+}
+.sohl-alchemy::before {
+    content: "\e008";
+}
+.sohl-all-seeing-eye::before {
+    content: "\e009";
+}
+.sohl-anatomy::before {
+    content: "\e00a";
+}
+.sohl-anchor::before {
+    content: "\e00b";
+}
+.sohl-anemia::before {
+    content: "\e00c";
+}
+.sohl-animalcraft::before {
+    content: "\e00d";
+}
+.sohl-anvil::before {
+    content: "\e00e";
+}
+.sohl-anvil-impact::before {
+    content: "\e00f";
+}
+.sohl-apron::before {
+    content: "\e010";
+}
+.sohl-aquarius::before {
+    content: "\e011";
+}
+.sohl-aries::before {
+    content: "\e012";
+}
+.sohl-arm-bandage::before {
+    content: "\e013";
+}
+.sohl-arm-sling::before {
+    content: "\e014";
+}
+.sohl-armor::before {
+    content: "\e015";
+}
+.sohl-armor-vest::before {
+    content: "\e016";
+}
+.sohl-arrow::before {
+    content: "\e017";
+}
+.sohl-arrowed::before {
+    content: "\e018";
+}
+.sohl-astrology::before {
+    content: "\e019";
+}
+.sohl-atlas::before {
+    content: "\e01a";
+}
+.sohl-aura::before {
+    content: "\e01b";
+}
+.sohl-awareness::before {
+    content: "\e01c";
+}
+.sohl-axe::before {
+    content: "\e01d";
+}
+.sohl-back-pain::before {
+    content: "\e01e";
+}
+.sohl-backstab::before {
+    content: "\e01f";
+}
+.sohl-backup::before {
+    content: "\e020";
+}
+.sohl-badger::before {
+    content: "\e021";
+}
+.sohl-baldr::before {
+    content: "\e022";
+}
+.sohl-bandage-roll::before {
+    content: "\e023";
+}
+.sohl-barbute::before {
+    content: "\e024";
+}
+.sohl-basket::before {
+    content: "\e025";
+}
+.sohl-bass::before {
+    content: "\e026";
+}
+.sohl-battle-axe::before {
+    content: "\e027";
+}
+.sohl-beams-aura::before {
+    content: "\e028";
+}
+.sohl-bear::before {
+    content: "\e029";
+}
+.sohl-bell-shield::before {
+    content: "\e02a";
+}
+.sohl-biceps::before {
+    content: "\e02b";
+}
+.sohl-bison::before {
+    content: "\e02c";
+}
+.sohl-black-knight-helm::before {
+    content: "\e02d";
+}
+.sohl-blacksmith::before {
+    content: "\e02e";
+}
+.sohl-blowgun::before {
+    content: "\e02f";
+}
+.sohl-boar::before {
+    content: "\e030";
+}
+.sohl-boat-fishing::before {
+    content: "\e031";
+}
+.sohl-bobcat::before {
+    content: "\e032";
+}
+.sohl-body::before {
+    content: "\e033";
+}
+.sohl-body-balance::before {
+    content: "\e034";
+}
+.sohl-body-height::before {
+    content: "\e035";
+}
+.sohl-body-swapping::before {
+    content: "\e036";
+}
+.sohl-bolas::before {
+    content: "\e037";
+}
+.sohl-bone-knife::before {
+    content: "\e038";
+}
+.sohl-book::before {
+    content: "\e039";
+}
+.sohl-book-cover::before {
+    content: "\e03a";
+}
+.sohl-book-sparkles::before {
+    content: "\e03b";
+}
+.sohl-boomerang::before {
+    content: "\e03c";
+}
+.sohl-boots::before {
+    content: "\e03d";
+}
+.sohl-bottle-vapors::before {
+    content: "\e03e";
+}
+.sohl-bowman::before {
+    content: "\e03f";
+}
+.sohl-bracer::before {
+    content: "\e040";
+}
+.sohl-brain-dump::before {
+    content: "\e041";
+}
+.sohl-brandy-bottle::before {
+    content: "\e042";
+}
+.sohl-breastplate::before {
+    content: "\e043";
+}
+.sohl-brewing::before {
+    content: "\e044";
+}
+.sohl-brick-pile::before {
+    content: "\e045";
+}
+.sohl-brick-wall::before {
+    content: "\e046";
+}
+.sohl-bright-explosion::before {
+    content: "\e047";
+}
+.sohl-broad-dagger::before {
+    content: "\e048";
+}
+.sohl-bubbling-flask::before {
+    content: "\e049";
+}
+.sohl-buffalo-head::before {
+    content: "\e04a";
+}
+.sohl-bull::before {
+    content: "\e04b";
+}
+.sohl-bullseye::before {
+    content: "\e04c";
+}
+.sohl-burning-dot::before {
+    content: "\e04d";
+}
+.sohl-burning-meteor::before {
+    content: "\e04e";
+}
+.sohl-caduceus::before {
+    content: "\e04f";
+}
+.sohl-camp-cooking-pot::before {
+    content: "\e050";
+}
+.sohl-campfire::before {
+    content: "\e051";
+}
+.sohl-cancer::before {
+    content: "\e052";
+}
+.sohl-candle::before {
+    content: "\e053";
+}
+.sohl-candle-flame::before {
+    content: "\e054";
+}
+.sohl-candle-holder::before {
+    content: "\e055";
+}
+.sohl-cap::before {
+    content: "\e056";
+}
+.sohl-capricorn::before {
+    content: "\e057";
+}
+.sohl-carrying-sack::before {
+    content: "\e058";
+}
+.sohl-cartwheel::before {
+    content: "\e059";
+}
+.sohl-cash::before {
+    content: "\e05a";
+}
+.sohl-category::before {
+    content: "\e05b";
+}
+.sohl-catfish::before {
+    content: "\e05c";
+}
+.sohl-cauldron::before {
+    content: "\e05d";
+}
+.sohl-cavalry::before {
+    content: "\e05e";
+}
+.sohl-caveman::before {
+    content: "\e05f";
+}
+.sohl-celebration-fire::before {
+    content: "\e060";
+}
+.sohl-centaur::before {
+    content: "\e061";
+}
+.sohl-ceramics::before {
+    content: "\e062";
+}
+.sohl-ceremonial-mask::before {
+    content: "\e063";
+}
+.sohl-chain-mail::before {
+    content: "\e064";
+}
+.sohl-chalk-outline-murder::before {
+    content: "\e065";
+}
+.sohl-chaos::before {
+    content: "\e066";
+}
+.sohl-character::before {
+    content: "\e067";
+}
+.sohl-charm::before {
+    content: "\e068";
+}
+.sohl-chemical-drop::before {
+    content: "\e069";
+}
+.sohl-chest::before {
+    content: "\e06a";
+}
+.sohl-chest-armor::before {
+    content: "\e06b";
+}
+.sohl-chicken::before {
+    content: "\e06c";
+}
+.sohl-circle::before {
+    content: "\e06d";
+}
+.sohl-claw::before {
+    content: "\e06e";
+}
+.sohl-climbing::before {
+    content: "\e06f";
+}
+.sohl-cloak::before {
+    content: "\e070";
+}
+.sohl-cloak-dagger::before {
+    content: "\e071";
+}
+.sohl-closed-barbute::before {
+    content: "\e072";
+}
+.sohl-club::before {
+    content: "\e073";
+}
+.sohl-cobweb::before {
+    content: "\e074";
+}
+.sohl-coiling-curl::before {
+    content: "\e075";
+}
+.sohl-coins::before {
+    content: "\e076";
+}
+.sohl-coma::before {
+    content: "\e077";
+}
+.sohl-concentration-orb::before {
+    content: "\e078";
+}
+.sohl-confrontation::before {
+    content: "\e079";
+}
+.sohl-conqueror::before {
+    content: "\e07a";
+}
+.sohl-contortionist::before {
+    content: "\e07b";
+}
+.sohl-convict::before {
+    content: "\e07c";
+}
+.sohl-convince::before {
+    content: "\e07d";
+}
+.sohl-cook::before {
+    content: "\e07e";
+}
+.sohl-cookery::before {
+    content: "\e07f";
+}
+.sohl-cooking-pot::before {
+    content: "\e080";
+}
+.sohl-corner-explosion::before {
+    content: "\e081";
+}
+.sohl-cow::before {
+    content: "\e082";
+}
+.sohl-creativity::before {
+    content: "\e083";
+}
+.sohl-crested-helmet::before {
+    content: "\e084";
+}
+.sohl-cross-mark::before {
+    content: "\e085";
+}
+.sohl-crossbow::before {
+    content: "\e086";
+}
+.sohl-crossed-axes::before {
+    content: "\e087";
+}
+.sohl-crossed-swords::before {
+    content: "\e088";
+}
+.sohl-crow::before {
+    content: "\e089";
+}
+.sohl-crowbar::before {
+    content: "\e08a";
+}
+.sohl-crystal-wand::before {
+    content: "\e08b";
+}
+.sohl-cultist::before {
+    content: "\e08c";
+}
+.sohl-curling-vines::before {
+    content: "\e08d";
+}
+.sohl-curly-mask::before {
+    content: "\e08e";
+}
+.sohl-daemon-skull::before {
+    content: "\e08f";
+}
+.sohl-dagger::before {
+    content: "\e090";
+}
+.sohl-damage::before {
+    content: "\e091";
+}
+.sohl-dance::before {
+    content: "\e092";
+}
+.sohl-dart::before {
+    content: "\e093";
+}
+.sohl-deadly-strike::before {
+    content: "\e094";
+}
+.sohl-death::before {
+    content: "\e095";
+}
+.sohl-deer::before {
+    content: "\e096";
+}
+.sohl-deer-track::before {
+    content: "\e097";
+}
+.sohl-default-action::before {
+    content: "\e098";
+}
+.sohl-despair::before {
+    content: "\e099";
+}
+.sohl-dice-d20::before {
+    content: "\e09a";
+}
+.sohl-dice-d6::before {
+    content: "\e09b";
+}
+.sohl-dig-dug::before {
+    content: "\e09c";
+}
+.sohl-disease::before {
+    content: "\e09d";
+}
+.sohl-distraction::before {
+    content: "\e09e";
+}
+.sohl-divination::before {
+    content: "\e09f";
+}
+.sohl-dodge::before {
+    content: "\e0a0";
+}
+.sohl-dodging::before {
+    content: "\e0a1";
+}
+.sohl-donkey::before {
+    content: "\e0a2";
+}
+.sohl-dorsal-scales::before {
+    content: "\e0a3";
+}
+.sohl-double-face-mask::before {
+    content: "\e0a4";
+}
+.sohl-double-ringed-orb::before {
+    content: "\e0a5";
+}
+.sohl-dove::before {
+    content: "\e0a6";
+}
+.sohl-drama-masks::before {
+    content: "\e0a7";
+}
+.sohl-drawing::before {
+    content: "\e0a8";
+}
+.sohl-dread::before {
+    content: "\e0a9";
+}
+.sohl-dream::before {
+    content: "\e0aa";
+}
+.sohl-dress::before {
+    content: "\e0ab";
+}
+.sohl-drum::before {
+    content: "\e0ac";
+}
+.sohl-duality::before {
+    content: "\e0ad";
+}
+.sohl-duck::before {
+    content: "\e0ae";
+}
+.sohl-dulcimer::before {
+    content: "\e0af";
+}
+.sohl-eagle::before {
+    content: "\e0b0";
+}
+.sohl-egyptian-walk::before {
+    content: "\e0b1";
+}
+.sohl-elbow-pad::before {
+    content: "\e0b2";
+}
+.sohl-element-air::before {
+    content: "\e0b3";
+}
+.sohl-element-earth::before {
+    content: "\e0b4";
+}
+.sohl-element-fire::before {
+    content: "\e0b5";
+}
+.sohl-element-water::before {
+    content: "\e0b6";
+}
+.sohl-embalming::before {
+    content: "\e0b7";
+}
+.sohl-embrassed-energy::before {
+    content: "\e0b8";
+}
+.sohl-emerald::before {
+    content: "\e0b9";
+}
+.sohl-empathy::before {
+    content: "\e0ba";
+}
+.sohl-energy-arrow::before {
+    content: "\e0bb";
+}
+.sohl-engineering::before {
+    content: "\e0bc";
+}
+.sohl-enrage::before {
+    content: "\e0bd";
+}
+.sohl-entangled-typhoon::before {
+    content: "\e0be";
+}
+.sohl-evade::before {
+    content: "\e0bf";
+}
+.sohl-explosion-rays::before {
+    content: "\e0c0";
+}
+.sohl-face-to-face::before {
+    content: "\e0c1";
+}
+.sohl-falcon::before {
+    content: "\e0c2";
+}
+.sohl-falling::before {
+    content: "\e0c3";
+}
+.sohl-fangs::before {
+    content: "\e0c4";
+}
+.sohl-farmer::before {
+    content: "\e0c5";
+}
+.sohl-fat::before {
+    content: "\e0c6";
+}
+.sohl-feather::before {
+    content: "\e0c7";
+}
+.sohl-fire::before {
+    content: "\e0c8";
+}
+.sohl-fire-dash::before {
+    content: "\e0c9";
+}
+.sohl-fire-silhouette::before {
+    content: "\e0ca";
+}
+.sohl-fireball::before {
+    content: "\e0cb";
+}
+.sohl-fish-scales::before {
+    content: "\e0cc";
+}
+.sohl-fishing::before {
+    content: "\e0cd";
+}
+.sohl-flail::before {
+    content: "\e0ce";
+}
+.sohl-flanged-mace::before {
+    content: "\e0cf";
+}
+.sohl-flat-paw-print::before {
+    content: "\e0d0";
+}
+.sohl-flax::before {
+    content: "\e0d1";
+}
+.sohl-flute::before {
+    content: "\e0d2";
+}
+.sohl-footprint::before {
+    content: "\e0d3";
+}
+.sohl-foraging::before {
+    content: "\e0d4";
+}
+.sohl-fox::before {
+    content: "\e0d5";
+}
+.sohl-freyja::before {
+    content: "\e0d6";
+}
+.sohl-freyr::before {
+    content: "\e0d7";
+}
+.sohl-frozen-body::before {
+    content: "\e0d8";
+}
+.sohl-full-wood-bucket::before {
+    content: "\e0d9";
+}
+.sohl-galleon::before {
+    content: "\e0da";
+}
+.sohl-gauntlet::before {
+    content: "\e0db";
+}
+.sohl-gear::before {
+    content: "\e0dc";
+}
+.sohl-gears::before {
+    content: "\e0dd";
+}
+.sohl-gem-chain::before {
+    content: "\e0de";
+}
+.sohl-gem-pendant::before {
+    content: "\e0df";
+}
+.sohl-gemini::before {
+    content: "\e0e0";
+}
+.sohl-gems::before {
+    content: "\e0e1";
+}
+.sohl-ghost-ally::before {
+    content: "\e0e2";
+}
+.sohl-giant::before {
+    content: "\e0e3";
+}
+.sohl-glaive::before {
+    content: "\e0e4";
+}
+.sohl-glassworking::before {
+    content: "\e0e5";
+}
+.sohl-gloves::before {
+    content: "\e0e6";
+}
+.sohl-goat::before {
+    content: "\e0e7";
+}
+.sohl-goose::before {
+    content: "\e0e8";
+}
+.sohl-grab-hold::before {
+    content: "\e0e9";
+}
+.sohl-grab-take::before {
+    content: "\e0ea";
+}
+.sohl-grainflail::before {
+    content: "\e0eb";
+}
+.sohl-grappling-hook::before {
+    content: "\e0ec";
+}
+.sohl-greaves::before {
+    content: "\e0ed";
+}
+.sohl-guards::before {
+    content: "\e0ee";
+}
+.sohl-half-body-crawling::before {
+    content: "\e0ef";
+}
+.sohl-hammer::before {
+    content: "\e0f0";
+}
+.sohl-hamster::before {
+    content: "\e0f1";
+}
+.sohl-hand::before {
+    content: "\e0f2";
+}
+.sohl-hand-sparkles::before {
+    content: "\e0f3";
+}
+.sohl-hands::before {
+    content: "\e0f4";
+}
+.sohl-harp::before {
+    content: "\e0f5";
+}
+.sohl-hat::before {
+    content: "\e0f6";
+}
+.sohl-hawk::before {
+    content: "\e0f7";
+}
+.sohl-head-gear::before {
+    content: "\e0f8";
+}
+.sohl-headbutt::before {
+    content: "\e0f9";
+}
+.sohl-headshot::before {
+    content: "\e0fa";
+}
+.sohl-heart-inside::before {
+    content: "\e0fb";
+}
+.sohl-heart-organ::before {
+    content: "\e0fc";
+}
+.sohl-heavy-helm::before {
+    content: "\e0fd";
+}
+.sohl-hedgehog::before {
+    content: "\e0fe";
+}
+.sohl-hel::before {
+    content: "\e0ff";
+}
+.sohl-helm::before {
+    content: "\e100";
+}
+.sohl-heraldry::before {
+    content: "\e101";
+}
+.sohl-herblore::before {
+    content: "\e102";
+}
+.sohl-hidework::before {
+    content: "\e103";
+}
+.sohl-high-kick::before {
+    content: "\e104";
+}
+.sohl-high-punch::before {
+    content: "\e105";
+}
+.sohl-hood::before {
+    content: "\e106";
+}
+.sohl-hooded-assassin::before {
+    content: "\e107";
+}
+.sohl-hooded-figure::before {
+    content: "\e108";
+}
+.sohl-hoof::before {
+    content: "\e109";
+}
+.sohl-horn::before {
+    content: "\e10a";
+}
+.sohl-horns::before {
+    content: "\e10b";
+}
+.sohl-horse::before {
+    content: "\e10c";
+}
+.sohl-horse-riding::before {
+    content: "\e10d";
+}
+.sohl-human-pyramid::before {
+    content: "\e10e";
+}
+.sohl-hunting::before {
+    content: "\e10f";
+}
+.sohl-icicles-aura::before {
+    content: "\e110";
+}
+.sohl-imprisoned::before {
+    content: "\e111";
+}
+.sohl-initiative::before {
+    content: "\e112";
+}
+.sohl-injury::before {
+    content: "\e113";
+}
+.sohl-ink::before {
+    content: "\e114";
+}
+.sohl-inner-self::before {
+    content: "\e115";
+}
+.sohl-internal-injury::before {
+    content: "\e116";
+}
+.sohl-invisible::before {
+    content: "\e117";
+}
+.sohl-jaguar::before {
+    content: "\e118";
+}
+.sohl-jewel::before {
+    content: "\e119";
+}
+.sohl-jeweled-chalice::before {
+    content: "\e11a";
+}
+.sohl-juggler::before {
+    content: "\e11b";
+}
+.sohl-jump::before {
+    content: "\e11c";
+}
+.sohl-jump-across::before {
+    content: "\e11d";
+}
+.sohl-jumping-rope::before {
+    content: "\e11e";
+}
+.sohl-key::before {
+    content: "\e11f";
+}
+.sohl-king::before {
+    content: "\e120";
+}
+.sohl-knapsack::before {
+    content: "\e121";
+}
+.sohl-knee-bandage::before {
+    content: "\e122";
+}
+.sohl-knee-pad::before {
+    content: "\e123";
+}
+.sohl-kneeling::before {
+    content: "\e124";
+}
+.sohl-knockout::before {
+    content: "\e125";
+}
+.sohl-knuckledusters::before {
+    content: "\e126";
+}
+.sohl-lamellar::before {
+    content: "\e127";
+}
+.sohl-lance::before {
+    content: "\e128";
+}
+.sohl-lantern::before {
+    content: "\e129";
+}
+.sohl-lantern-flame::before {
+    content: "\e12a";
+}
+.sohl-law::before {
+    content: "\e12b";
+}
+.sohl-leather-armor::before {
+    content: "\e12c";
+}
+.sohl-leather-boot::before {
+    content: "\e12d";
+}
+.sohl-leather-vest::before {
+    content: "\e12e";
+}
+.sohl-leg-armor::before {
+    content: "\e12f";
+}
+.sohl-leggings::before {
+    content: "\e130";
+}
+.sohl-leo::before {
+    content: "\e131";
+}
+.sohl-leopard::before {
+    content: "\e132";
+}
+.sohl-libra::before {
+    content: "\e133";
+}
+.sohl-life::before {
+    content: "\e134";
+}
+.sohl-light-helm::before {
+    content: "\e135";
+}
+.sohl-lion::before {
+    content: "\e136";
+}
+.sohl-lock::before {
+    content: "\e137";
+}
+.sohl-locked-chest::before {
+    content: "\e138";
+}
+.sohl-lockpicks::before {
+    content: "\e139";
+}
+.sohl-loincloth::before {
+    content: "\e13a";
+}
+.sohl-loki::before {
+    content: "\e13b";
+}
+.sohl-longbow::before {
+    content: "\e13c";
+}
+.sohl-lore::before {
+    content: "\e13d";
+}
+.sohl-love::before {
+    content: "\e13e";
+}
+.sohl-lovers::before {
+    content: "\e13f";
+}
+.sohl-lute::before {
+    content: "\e140";
+}
+.sohl-lynx::before {
+    content: "\e141";
+}
+.sohl-lyre::before {
+    content: "\e142";
+}
+.sohl-mace::before {
+    content: "\e143";
+}
+.sohl-magic-portal::before {
+    content: "\e144";
+}
+.sohl-magic-shield::before {
+    content: "\e145";
+}
+.sohl-magic-wand::before {
+    content: "\e146";
+}
+.sohl-magnifying-glass::before {
+    content: "\e147";
+}
+.sohl-mail-shirt::before {
+    content: "\e148";
+}
+.sohl-mailed-fist::before {
+    content: "\e149";
+}
+.sohl-manacles::before {
+    content: "\e14a";
+}
+.sohl-mantle::before {
+    content: "\e14b";
+}
+.sohl-masonry::before {
+    content: "\e14c";
+}
+.sohl-master-of-arms::before {
+    content: "\e14d";
+}
+.sohl-mathematics::before {
+    content: "\e14e";
+}
+.sohl-medallist::before {
+    content: "\e14f";
+}
+.sohl-meditation::before {
+    content: "\e150";
+}
+.sohl-meeple::before {
+    content: "\e151";
+}
+.sohl-mental::before {
+    content: "\e152";
+}
+.sohl-metal-bar::before {
+    content: "\e153";
+}
+.sohl-metal-skirt::before {
+    content: "\e154";
+}
+.sohl-mighty-force::before {
+    content: "\e155";
+}
+.sohl-miner::before {
+    content: "\e156";
+}
+.sohl-mining::before {
+    content: "\e157";
+}
+.sohl-minions::before {
+    content: "\e158";
+}
+.sohl-mirror::before {
+    content: "\e159";
+}
+.sohl-miscgear::before {
+    content: "\e15a";
+}
+.sohl-mischevous::before {
+    content: "\e15b";
+}
+.sohl-morality::before {
+    content: "\e15c";
+}
+.sohl-mounted-knight::before {
+    content: "\e15d";
+}
+.sohl-muscle::before {
+    content: "\e15e";
+}
+.sohl-muscle-fat::before {
+    content: "\e15f";
+}
+.sohl-muscle-up::before {
+    content: "\e160";
+}
+.sohl-muscular-torso::before {
+    content: "\e161";
+}
+.sohl-musical-notes::before {
+    content: "\e162";
+}
+.sohl-musician-singing::before {
+    content: "\e163";
+}
+.sohl-nails::before {
+    content: "\e164";
+}
+.sohl-needle::before {
+    content: "\e165";
+}
+.sohl-net::before {
+    content: "\e166";
+}
+.sohl-ninja-heroic-stance::before {
+    content: "\e167";
+}
+.sohl-nunchaku::before {
+    content: "\e168";
+}
+.sohl-occurrence::before {
+    content: "\e169";
+}
+.sohl-odin::before {
+    content: "\e16a";
+}
+.sohl-old-lantern::before {
+    content: "\e16b";
+}
+.sohl-oppression::before {
+    content: "\e16c";
+}
+.sohl-oratory::before {
+    content: "\e16d";
+}
+.sohl-otter::before {
+    content: "\e16e";
+}
+.sohl-overexertion::before {
+    content: "\e16f";
+}
+.sohl-owl::before {
+    content: "\e170";
+}
+.sohl-ox::before {
+    content: "\e171";
+}
+.sohl-padlock-open::before {
+    content: "\e172";
+}
+.sohl-pan-flute::before {
+    content: "\e173";
+}
+.sohl-parrot::before {
+    content: "\e174";
+}
+.sohl-pauldrons::before {
+    content: "\e175";
+}
+.sohl-pegasus::before {
+    content: "\e176";
+}
+.sohl-pentacle::before {
+    content: "\e177";
+}
+.sohl-people-group::before {
+    content: "\e178";
+}
+.sohl-perfume::before {
+    content: "\e179";
+}
+.sohl-perfume-bottle::before {
+    content: "\e17a";
+}
+.sohl-person::before {
+    content: "\e17b";
+}
+.sohl-pickaxe::before {
+    content: "\e17c";
+}
+.sohl-pierced-body::before {
+    content: "\e17d";
+}
+.sohl-piety::before {
+    content: "\e17e";
+}
+.sohl-pigeon::before {
+    content: "\e17f";
+}
+.sohl-pikeman::before {
+    content: "\e180";
+}
+.sohl-piloting::before {
+    content: "\e181";
+}
+.sohl-pisces::before {
+    content: "\e182";
+}
+.sohl-pitchfork::before {
+    content: "\e183";
+}
+.sohl-piton::before {
+    content: "\e184";
+}
+.sohl-poison-bottle::before {
+    content: "\e185";
+}
+.sohl-polearm::before {
+    content: "\e186";
+}
+.sohl-potion::before {
+    content: "\e187";
+}
+.sohl-potion-ball::before {
+    content: "\e188";
+}
+.sohl-prayer::before {
+    content: "\e189";
+}
+.sohl-prisoner::before {
+    content: "\e18a";
+}
+.sohl-psionics::before {
+    content: "\e18b";
+}
+.sohl-psychic-waves::before {
+    content: "\e18c";
+}
+.sohl-public-speaker::before {
+    content: "\e18d";
+}
+.sohl-pull::before {
+    content: "\e18e";
+}
+.sohl-punch::before {
+    content: "\e18f";
+}
+.sohl-punch-blast::before {
+    content: "\e190";
+}
+.sohl-push::before {
+    content: "\e191";
+}
+.sohl-question-mark::before {
+    content: "\e192";
+}
+.sohl-quill::before {
+    content: "\e193";
+}
+.sohl-quill-ink::before {
+    content: "\e194";
+}
+.sohl-quiver::before {
+    content: "\e195";
+}
+.sohl-rabbit::before {
+    content: "\e196";
+}
+.sohl-reasoning::before {
+    content: "\e197";
+}
+.sohl-rhetoric::before {
+    content: "\e198";
+}
+.sohl-ribcage::before {
+    content: "\e199";
+}
+.sohl-robber::before {
+    content: "\e19a";
+}
+.sohl-robe::before {
+    content: "\e19b";
+}
+.sohl-rogue::before {
+    content: "\e19c";
+}
+.sohl-rope::before {
+    content: "\e19d";
+}
+.sohl-round-bottom-flask::before {
+    content: "\e19e";
+}
+.sohl-round-shield::before {
+    content: "\e19f";
+}
+.sohl-run::before {
+    content: "\e1a0";
+}
+.sohl-runecraft::before {
+    content: "\e1a1";
+}
+.sohl-running-ninja::before {
+    content: "\e1a2";
+}
+.sohl-sack::before {
+    content: "\e1a3";
+}
+.sohl-sagittarius::before {
+    content: "\e1a4";
+}
+.sohl-sai::before {
+    content: "\e1a5";
+}
+.sohl-sandals::before {
+    content: "\e1a6";
+}
+.sohl-scale-mail::before {
+    content: "\e1a7";
+}
+.sohl-scales::before {
+    content: "\e1a8";
+}
+.sohl-scorpio::before {
+    content: "\e1a9";
+}
+.sohl-screaming::before {
+    content: "\e1aa";
+}
+.sohl-scroll::before {
+    content: "\e1ab";
+}
+.sohl-scroll-unfurled::before {
+    content: "\e1ac";
+}
+.sohl-scythe::before {
+    content: "\e1ad";
+}
+.sohl-seabass::before {
+    content: "\e1ae";
+}
+.sohl-sensuousness::before {
+    content: "\e1af";
+}
+.sohl-sewing-needle::before {
+    content: "\e1b0";
+}
+.sohl-shark::before {
+    content: "\e1b1";
+}
+.sohl-shattered-glass::before {
+    content: "\e1b2";
+}
+.sohl-sheep::before {
+    content: "\e1b3";
+}
+.sohl-shield::before {
+    content: "\e1b4";
+}
+.sohl-shield-bash::before {
+    content: "\e1b5";
+}
+.sohl-shield-reflect::before {
+    content: "\e1b6";
+}
+.sohl-ship::before {
+    content: "\e1b7";
+}
+.sohl-shirt::before {
+    content: "\e1b8";
+}
+.sohl-shock::before {
+    content: "\e1b9";
+}
+.sohl-shoe::before {
+    content: "\e1ba";
+}
+.sohl-shoulder-scales::before {
+    content: "\e1bb";
+}
+.sohl-shouting::before {
+    content: "\e1bc";
+}
+.sohl-shrug::before {
+    content: "\e1bd";
+}
+.sohl-shuriken::before {
+    content: "\e1be";
+}
+.sohl-sick::before {
+    content: "\e1bf";
+}
+.sohl-sickle::before {
+    content: "\e1c0";
+}
+.sohl-sing::before {
+    content: "\e1c1";
+}
+.sohl-skeleton::before {
+    content: "\e1c2";
+}
+.sohl-ski::before {
+    content: "\e1c3";
+}
+.sohl-skier::before {
+    content: "\e1c4";
+}
+.sohl-skills::before {
+    content: "\e1c5";
+}
+.sohl-skirt::before {
+    content: "\e1c6";
+}
+.sohl-slavery-whip::before {
+    content: "\e1c7";
+}
+.sohl-sleeping-bag::before {
+    content: "\e1c8";
+}
+.sohl-sleepy::before {
+    content: "\e1c9";
+}
+.sohl-sling::before {
+    content: "\e1ca";
+}
+.sohl-slingshot::before {
+    content: "\e1cb";
+}
+.sohl-sly::before {
+    content: "\e1cc";
+}
+.sohl-small-fire::before {
+    content: "\e1cd";
+}
+.sohl-smart::before {
+    content: "\e1ce";
+}
+.sohl-smitten::before {
+    content: "\e1cf";
+}
+.sohl-snake::before {
+    content: "\e1d0";
+}
+.sohl-sparkle::before {
+    content: "\e1d1";
+}
+.sohl-sparkles::before {
+    content: "\e1d2";
+}
+.sohl-speaking::before {
+    content: "\e1d3";
+}
+.sohl-spear::before {
+    content: "\e1d4";
+}
+.sohl-spell-book::before {
+    content: "\e1d5";
+}
+.sohl-spider-web::before {
+    content: "\e1d6";
+}
+.sohl-spiked-mace::before {
+    content: "\e1d7";
+}
+.sohl-spiked-wall::before {
+    content: "\e1d8";
+}
+.sohl-spiral-bottle::before {
+    content: "\e1d9";
+}
+.sohl-spirit::before {
+    content: "\e1da";
+}
+.sohl-sprint::before {
+    content: "\e1db";
+}
+.sohl-stack::before {
+    content: "\e1dc";
+}
+.sohl-staff::before {
+    content: "\e1dd";
+}
+.sohl-stag::before {
+    content: "\e1de";
+}
+.sohl-standing-potion::before {
+    content: "\e1df";
+}
+.sohl-star::before {
+    content: "\e1e0";
+}
+.sohl-stealth::before {
+    content: "\e1e1";
+}
+.sohl-steeltoe-boots::before {
+    content: "\e1e2";
+}
+.sohl-stiletto::before {
+    content: "\e1e3";
+}
+.sohl-stone-axe::before {
+    content: "\e1e4";
+}
+.sohl-stone-bust::before {
+    content: "\e1e5";
+}
+.sohl-stone-spear::before {
+    content: "\e1e6";
+}
+.sohl-stones::before {
+    content: "\e1e7";
+}
+.sohl-storm::before {
+    content: "\e1e8";
+}
+.sohl-strike::before {
+    content: "\e1e9";
+}
+.sohl-striking-arrows::before {
+    content: "\e1ea";
+}
+.sohl-striking-balls::before {
+    content: "\e1eb";
+}
+.sohl-striking-splinter::before {
+    content: "\e1ec";
+}
+.sohl-string::before {
+    content: "\e1ed";
+}
+.sohl-strong::before {
+    content: "\e1ee";
+}
+.sohl-strong-man::before {
+    content: "\e1ef";
+}
+.sohl-sun-priest::before {
+    content: "\e1f0";
+}
+.sohl-surgical-instruments::before {
+    content: "\e1f1";
+}
+.sohl-surprised::before {
+    content: "\e1f2";
+}
+.sohl-surrender::before {
+    content: "\e1f3";
+}
+.sohl-surrounded-shield::before {
+    content: "\e1f4";
+}
+.sohl-surtr::before {
+    content: "\e1f5";
+}
+.sohl-survival::before {
+    content: "\e1f6";
+}
+.sohl-suspicious::before {
+    content: "\e1f7";
+}
+.sohl-swimming::before {
+    content: "\e1f8";
+}
+.sohl-sword::before {
+    content: "\e1f9";
+}
+.sohl-sword-smithing::before {
+    content: "\e1fa";
+}
+.sohl-swordman::before {
+    content: "\e1fb";
+}
+.sohl-swordwoman::before {
+    content: "\e1fc";
+}
+.sohl-tarot-card::before {
+    content: "\e1fd";
+}
+.sohl-tarotry::before {
+    content: "\e1fe";
+}
+.sohl-taurus::before {
+    content: "\e1ff";
+}
+.sohl-teacher::before {
+    content: "\e200";
+}
+.sohl-team-downgrade::before {
+    content: "\e201";
+}
+.sohl-team-upgrade::before {
+    content: "\e202";
+}
+.sohl-telepathy::before {
+    content: "\e203";
+}
+.sohl-teleport::before {
+    content: "\e204";
+}
+.sohl-terror::before {
+    content: "\e205";
+}
+.sohl-textilecraft::before {
+    content: "\e206";
+}
+.sohl-third-eye::before {
+    content: "\e207";
+}
+.sohl-thor::before {
+    content: "\e208";
+}
+.sohl-three-friends::before {
+    content: "\e209";
+}
+.sohl-throne-king::before {
+    content: "\e20a";
+}
+.sohl-throw::before {
+    content: "\e20b";
+}
+.sohl-tied-scroll::before {
+    content: "\e20c";
+}
+.sohl-tightrope::before {
+    content: "\e20d";
+}
+.sohl-timber::before {
+    content: "\e20e";
+}
+.sohl-tired::before {
+    content: "\e20f";
+}
+.sohl-torch::before {
+    content: "\e210";
+}
+.sohl-tornado::before {
+    content: "\e211";
+}
+.sohl-tracking::before {
+    content: "\e212";
+}
+.sohl-treasure-map::before {
+    content: "\e213";
+}
+.sohl-tree::before {
+    content: "\e214";
+}
+.sohl-tree-branch::before {
+    content: "\e215";
+}
+.sohl-tribunal-jury::before {
+    content: "\e216";
+}
+.sohl-trident::before {
+    content: "\e217";
+}
+.sohl-trip::before {
+    content: "\e218";
+}
+.sohl-trousers::before {
+    content: "\e219";
+}
+.sohl-trout::before {
+    content: "\e21a";
+}
+.sohl-tuna::before {
+    content: "\e21b";
+}
+.sohl-tunic::before {
+    content: "\e21c";
+}
+.sohl-turkey::before {
+    content: "\e21d";
+}
+.sohl-two-shadows::before {
+    content: "\e21e";
+}
+.sohl-tyr::before {
+    content: "\e21f";
+}
+.sohl-uncertainty::before {
+    content: "\e220";
+}
+.sohl-unicorn::before {
+    content: "\e221";
+}
+.sohl-uprising::before {
+    content: "\e222";
+}
+.sohl-user-gear::before {
+    content: "\e223";
+}
+.sohl-vampire-cape::before {
+    content: "\e224";
+}
+.sohl-venus-of-willendorf::before {
+    content: "\e225";
+}
+.sohl-vest::before {
+    content: "\e226";
+}
+.sohl-virgo::before {
+    content: "\e227";
+}
+.sohl-visored-helm::before {
+    content: "\e228";
+}
+.sohl-vortex::before {
+    content: "\e229";
+}
+.sohl-walk::before {
+    content: "\e22a";
+}
+.sohl-warhammer::before {
+    content: "\e22b";
+}
+.sohl-water::before {
+    content: "\e22c";
+}
+.sohl-water-mill::before {
+    content: "\e22d";
+}
+.sohl-wave-crest::before {
+    content: "\e22e";
+}
+.sohl-waves::before {
+    content: "\e22f";
+}
+.sohl-weakness::before {
+    content: "\e230";
+}
+.sohl-weather::before {
+    content: "\e231";
+}
+.sohl-weight::before {
+    content: "\e232";
+}
+.sohl-weight-lifting-up::before {
+    content: "\e233";
+}
+.sohl-whale::before {
+    content: "\e234";
+}
+.sohl-whip::before {
+    content: "\e235";
+}
+.sohl-whirlwind::before {
+    content: "\e236";
+}
+.sohl-will::before {
+    content: "\e237";
+}
+.sohl-wind::before {
+    content: "\e238";
+}
+.sohl-wisdom::before {
+    content: "\e239";
+}
+.sohl-wizard-staff::before {
+    content: "\e23a";
+}
+.sohl-wolf::before {
+    content: "\e23b";
+}
+.sohl-wolf-head::before {
+    content: "\e23c";
+}
+.sohl-wood-pen::before {
+    content: "\e23d";
+}
+.sohl-woodcraft::before {
+    content: "\e23e";
+}
+.sohl-ymir::before {
+    content: "\e23f";
+}
+.sohl-zodiac::before {
+    content: "\e240";
+}
+.sohl-zodiac-aquarius::before {
+    content: "\e241";
+}
+.sohl-zodiac-aries::before {
+    content: "\e242";
+}
+.sohl-zodiac-cancer::before {
+    content: "\e243";
+}
+.sohl-zodiac-capricorn::before {
+    content: "\e244";
+}
+.sohl-zodiac-gemini::before {
+    content: "\e245";
+}
+.sohl-zodiac-leo::before {
+    content: "\e246";
+}
+.sohl-zodiac-libra::before {
+    content: "\e247";
+}
+.sohl-zodiac-pisces::before {
+    content: "\e248";
+}
+.sohl-zodiac-sagittarius::before {
+    content: "\e249";
+}
+.sohl-zodiac-scorpio::before {
+    content: "\e24a";
+}
+.sohl-zodiac-taurus::before {
+    content: "\e24b";
+}
+.sohl-zodiac-virgo::before {
+    content: "\e24c";
+}
+.sohl-zombie::before {
+    content: "\e24d";
+}
+.sohl-add::before {
+    content: "\e24e";
+}
+.sohl-arrows-shield::before {
+    content: "\e24f";
+}
+.sohl-bear-head::before {
+    content: "\e250";
+}
+.sohl-blade-drag::before {
+    content: "\e251";
+}
+.sohl-block::before {
+    content: "\e252";
+}
+.sohl-blood::before {
+    content: "\e253";
+}
+.sohl-bullseye-arrow::before {
+    content: "\e254";
+}
+.sohl-calendar::before {
+    content: "\e255";
+}
+.sohl-check::before {
+    content: "\e256";
+}
+.sohl-check-mark::before {
+    content: "\e257";
+}
+.sohl-clock::before {
+    content: "\e258";
+}
+.sohl-close::before {
+    content: "\e259";
+}
+.sohl-continue::before {
+    content: "\e25a";
+}
+.sohl-delete::before {
+    content: "\e25b";
+}
+.sohl-download::before {
+    content: "\e25c";
+}
+.sohl-drama::before {
+    content: "\e25d";
+}
+.sohl-drop::before {
+    content: "\e25e";
+}
+.sohl-drop-weapon::before {
+    content: "\e25f";
+}
+.sohl-drowning::before {
+    content: "\e260";
+}
+.sohl-eagle-head::before {
+    content: "\e261";
+}
+.sohl-edit::before {
+    content: "\e262";
+}
+.sohl-ellipsis-horizontal::before {
+    content: "\e263";
+}
+.sohl-ellipsis-vertical::before {
+    content: "\e264";
+}
+.sohl-file-create::before {
+    content: "\e265";
+}
+.sohl-file-download::before {
+    content: "\e266";
+}
+.sohl-file-duplicate::before {
+    content: "\e267";
+}
+.sohl-file-edit::before {
+    content: "\e268";
+}
+.sohl-file-export::before {
+    content: "\e269";
+}
+.sohl-file-import::before {
+    content: "\e26a";
+}
+.sohl-file-upload::before {
+    content: "\e26b";
+}
+.sohl-flag::before {
+    content: "\e26c";
+}
+.sohl-flamer::before {
+    content: "\e26d";
+}
+.sohl-fluffy-cloud::before {
+    content: "\e26e";
+}
+.sohl-hazard-sign::before {
+    content: "\e26f";
+}
+.sohl-head-with-eye::before {
+    content: "\e270";
+}
+.sohl-healing::before {
+    content: "\e271";
+}
+.sohl-heart-beats::before {
+    content: "\e272";
+}
+.sohl-heart-plus::before {
+    content: "\e273";
+}
+.sohl-help::before {
+    content: "\e274";
+}
+.sohl-holy-oak::before {
+    content: "\e275";
+}
+.sohl-info::before {
+    content: "\e276";
+}
+.sohl-knocked-out-stars::before {
+    content: "\e277";
+}
+.sohl-magic-swirl::before {
+    content: "\e278";
+}
+.sohl-map::before {
+    content: "\e279";
+}
+.sohl-menu::before {
+    content: "\e27a";
+}
+.sohl-minus::before {
+    content: "\e27b";
+}
+.sohl-old-wagon::before {
+    content: "\e27c";
+}
+.sohl-peace-dove::before {
+    content: "\e27d";
+}
+.sohl-plus::before {
+    content: "\e27e";
+}
+.sohl-plus-or-minus::before {
+    content: "\e27f";
+}
+.sohl-rally-the-troops::before {
+    content: "\e280";
+}
+.sohl-rear-aura::before {
+    content: "\e281";
+}
+.sohl-remove::before {
+    content: "\e282";
+}
+.sohl-riposte::before {
+    content: "\e283";
+}
+.sohl-round-star-filled::before {
+    content: "\e284";
+}
+.sohl-round-star-unfilled::before {
+    content: "\e285";
+}
+.sohl-save::before {
+    content: "\e286";
+}
+.sohl-search::before {
+    content: "\e287";
+}
+.sohl-settings::before {
+    content: "\e288";
+}
+.sohl-six-petal-flower::before {
+    content: "\e289";
+}
+.sohl-splashy-stream::before {
+    content: "\e28a";
+}
+.sohl-stethoscope::before {
+    content: "\e28b";
+}
+.sohl-swap-bag::before {
+    content: "\e28c";
+}
+.sohl-sword-break::before {
+    content: "\e28d";
+}
+.sohl-sword-clash::before {
+    content: "\e28e";
+}
+.sohl-toggle-off::before {
+    content: "\e28f";
+}
+.sohl-toggle-on::before {
+    content: "\e290";
+}
+.sohl-trash::before {
+    content: "\e291";
+}
+.sohl-upload::before {
+    content: "\e292";
+}
+.sohl-warning::before {
+    content: "\e293";
+}
+.sohl-xmark::before {
+    content: "\e294";
+}

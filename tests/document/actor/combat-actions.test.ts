@@ -354,12 +354,16 @@ describe("collectAttackableStrikeModes", () => {
     });
 
     it("drops melee out of reach (missile still in base range)", () => {
-        const ids = collectAttackableStrikeModes(asActorLogic(actor), 30).map((e) => e.smId);
+        const ids = collectAttackableStrikeModes(asActorLogic(actor), 30).map(
+            (e) => e.smId,
+        );
         expect(ids).toEqual(["shoot"]);
     });
 
     it("returns [] when the target is out of range of every mode (volley excluded)", () => {
-        expect(collectAttackableStrikeModes(asActorLogic(actor), 100)).toEqual([]);
+        expect(collectAttackableStrikeModes(asActorLogic(actor), 100)).toEqual(
+            [],
+        );
     });
 
     it("excludes noAttack modes", () => {

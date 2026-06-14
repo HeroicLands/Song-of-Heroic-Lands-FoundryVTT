@@ -7,6 +7,7 @@
 The logic layer now reaches its owning document through the `SohlLogicData`
 data interface (a port implemented by the Foundry data model) instead of the
 Foundry document directly, so logic classes can be unit tested without Foundry.
+
 - `SohlLogicData` exposes `id`, `name`, `type`, `uuid`, `isOwner`, `kind`,
   `shortcode`, `actorLogic`, `getFlag`, `setFlag`, and `update`; the actor data
   adds `itemLogics` and `hasPlayerOwner`. `SohlDataModel` implements them by

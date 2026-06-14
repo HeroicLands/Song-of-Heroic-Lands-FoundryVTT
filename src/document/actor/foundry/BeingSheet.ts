@@ -773,8 +773,7 @@ export class BeingSheet extends SohlActorSheetBase {
             missileWeapons,
             combatTechniques,
             bodyStructure,
-            defaultCombatGroup:
-                (actor.system as any).defaultCombatGroup ?? "",
+            defaultCombatGroup: (actor.system as any).defaultCombatGroup ?? "",
             isGM: !!(game as any).user?.isGM,
         });
     }

@@ -21,7 +21,9 @@ describe("selectActorTokens", () => {
         it("returns the embedded token when it is on the active scene", () => {
             const embedded = token("a1", false);
             const scene = [token("a2", true), embedded, token("a3", false)];
-            expect(selectActorTokens(scene, "a1", embedded)).toEqual([embedded]);
+            expect(selectActorTokens(scene, "a1", embedded)).toEqual([
+                embedded,
+            ]);
         });
 
         it("returns empty when the embedded token is not on the active scene", () => {
@@ -40,7 +42,9 @@ describe("selectActorTokens", () => {
             // synthetic actor is represented only by its own embedded token.
             const embedded = token("a1", false);
             const scene = [token("a1", true), embedded];
-            expect(selectActorTokens(scene, "a1", embedded)).toEqual([embedded]);
+            expect(selectActorTokens(scene, "a1", embedded)).toEqual([
+                embedded,
+            ]);
         });
     });
 
@@ -80,10 +84,7 @@ describe("selectActorCombatant", () => {
     it("returns the combatant whose tokenId is one of the actor's tokens", () => {
         const target = combatant("t2");
         const combatants = [combatant("t1"), target, combatant("t3")];
-        const result = selectActorCombatant(
-            combatants,
-            new Set(["t2", "t9"]),
-        );
+        const result = selectActorCombatant(combatants, new Set(["t2", "t9"]));
         expect(result).toBe(target);
     });
 
@@ -91,10 +92,7 @@ describe("selectActorCombatant", () => {
         const first = combatant("t2");
         const second = combatant("t3");
         const combatants = [combatant("t1"), first, second];
-        const result = selectActorCombatant(
-            combatants,
-            new Set(["t2", "t3"]),
-        );
+        const result = selectActorCombatant(combatants, new Set(["t2", "t3"]));
         expect(result).toBe(first);
     });
 

@@ -7,6 +7,7 @@
 The `attribute` and `lineage` item kinds shipped with data-model, logic, and
 sheet classes but were never registered, so items of those kinds did not
 function.
+
 - Register both kinds in the item data-model, logic, and sheet registries so
   they load and behave like every other item kind.
 - Fix `AttributeSheet`, which was a copy-paste of `TraitSheet` — it exported a

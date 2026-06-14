@@ -54,7 +54,10 @@ const SAMPLE_DATA: BodyStructure.Data = {
     adjacent: [["head", "thorax"]],
 } as any;
 
-const MOCK_LINEAGE_LOGIC = { actor: null, data: { bodyStructure: SAMPLE_DATA } } as any;
+const MOCK_LINEAGE_LOGIC = {
+    actor: null,
+    data: { bodyStructure: SAMPLE_DATA },
+} as any;
 
 function makeBody(): BodyStructure {
     return new BodyStructure(SAMPLE_DATA, MOCK_LINEAGE_LOGIC);
@@ -64,14 +67,20 @@ function loc(body: BodyStructure, code: string) {
     return body.getAllLocations().find((l) => l.shortcode === code)!;
 }
 
-const mail = (locations: { flexible?: string[]; rigid?: string[] }): ArmorLayer => ({
+const mail = (locations: {
+    flexible?: string[];
+    rigid?: string[];
+}): ArmorLayer => ({
     material: "Mail",
     protection: { blunt: 2, edged: 4, piercing: 3, fire: 0 },
     flexibleLocations: locations.flexible ?? [],
     rigidLocations: locations.rigid ?? [],
 });
 
-const cloth = (locations: { flexible?: string[]; rigid?: string[] }): ArmorLayer => ({
+const cloth = (locations: {
+    flexible?: string[];
+    rigid?: string[];
+}): ArmorLayer => ({
     material: "Cloth",
     protection: { blunt: 1, edged: 1, piercing: 1, fire: 1 },
     flexibleLocations: locations.flexible ?? [],

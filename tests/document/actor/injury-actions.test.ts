@@ -165,12 +165,17 @@ describe("readInjuryDialogForm", () => {
 describe("resolveAutomatedInjury", () => {
     it("rolls the aimed location via targetPart + spread", () => {
         const body = makeBody();
-        const skull = body.getAllLocations().find((l) => l.shortcode === "skull")!;
-        const spy = vi
-            .spyOn(body, "getRandomLocation")
-            .mockReturnValue(skull);
+        const skull = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "skull")!;
+        const spy = vi.spyOn(body, "getRandomLocation").mockReturnValue(skull);
         const injury = resolveAutomatedInjury(
-            { impact: 8, aspect: IMPACT_ASPECT.EDGED, targetPart: "head", spread: 6 },
+            {
+                impact: 8,
+                aspect: IMPACT_ASPECT.EDGED,
+                targetPart: "head",
+                spread: 6,
+            },
             body,
         );
         expect(spy).toHaveBeenCalledWith({
@@ -202,7 +207,9 @@ describe("resolveAutomatedInjury", () => {
 describe("buildInjuryCardData", () => {
     it("maps a resolved injury onto the card render context", () => {
         const body = makeBody();
-        const neck = body.getAllLocations().find((l) => l.shortcode === "neck")!;
+        const neck = body
+            .getAllLocations()
+            .find((l) => l.shortcode === "neck")!;
         const injury = resolveInjury({
             impact: 22,
             aspect: IMPACT_ASPECT.EDGED,

@@ -68,7 +68,11 @@ describe("SkillBase", () => {
 
         it("parses numeric modifiers and accumulates them", () => {
             const sb = createSkillBase("@str, @int, 5");
-            expect((sb as any)._parseFormula).toEqual(["attr:str", "attr:int", "5"]);
+            expect((sb as any)._parseFormula).toEqual([
+                "attr:str",
+                "attr:int",
+                "5",
+            ]);
         });
 
         it("accumulates multiple numeric modifiers", () => {
@@ -205,7 +209,11 @@ describe("SkillBase", () => {
         });
 
         it("birthsigns returns the parsed birthsign array", () => {
-            const sb = createSkillBase("@str, @int", [], mockBirthsign("hirin"));
+            const sb = createSkillBase(
+                "@str, @int",
+                [],
+                mockBirthsign("hirin"),
+            );
             expect(sb.birthsigns).toEqual(["hirin"]);
         });
 

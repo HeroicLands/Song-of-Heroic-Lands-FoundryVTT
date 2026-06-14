@@ -44,7 +44,10 @@ describe("SohlEventTrigger", () => {
         });
 
         it("adds the trigger name and label to CONFIG.ActiveEffect.expiryEvents", () => {
-            registerSohlTrigger("sohlInjuryHealed", "SOHL.Trigger.InjuryHealed");
+            registerSohlTrigger(
+                "sohlInjuryHealed",
+                "SOHL.Trigger.InjuryHealed",
+            );
             expect(
                 (globalThis as any).CONFIG.ActiveEffect.expiryEvents
                     .sohlInjuryHealed,
