@@ -4,11 +4,19 @@ nav.tabs {
     flex: 0 0 auto;
     margin-bottom: 5px;
     @include typography.type-style("tab");
+    font-variant: small-caps;
     line-height: 32px;
     //    margin: 0 24px;
     border-top: none;
     border-bottom: none;
     color: var(--sohl-color-text-secondary);
+
+    // Tab glyphs. Sized up generously here because the icon-font glyphs render
+    // small within their em (see icon-font sizing issue); revisit once the font
+    // is regenerated to fill the em.
+    i {
+        font-size: 1.3em;
+    }
 
     &:hover,
     &:focus {
