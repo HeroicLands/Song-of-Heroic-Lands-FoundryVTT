@@ -537,15 +537,17 @@ export class BeingSheet extends SohlActorSheetBase {
         //
         // SoHL's custom data-prep lifecycle does not populate the core
         // `actor.statuses` set, so derive the active status ids from the actor's
-        // applied active effects directly (each status effect carries the status
-        // id in its core `statuses` field).
+        // active effects directly. Iterate the raw `effects` collection (not
+        // `appliedEffects`, which SoHL may filter via suppression) — a status
+        // effect's mere presence means the status is on; it carries the id in
+        // its core `statuses` field.
         const statuses = new Set<string>();
-        const appliedEffects =
-            (actor as any).appliedEffects ?? (actor as any).effects ?? [];
-        for (const effect of appliedEffects) {
+        for (const effect of ((actor as any).effects ?? []) as Iterable<any>) {
             for (const sid of (effect.statuses ?? []) as Iterable<string>) {
                 statuses.add(sid);
             }
+            const legacyId = effect?.flags?.core?.statusId;
+            if (legacyId) statuses.add(legacyId);
         }
         const statusEffects = [
             { id: STATUS_EFFECT.SLEEP, abbr: "SLP", label: "Sleep" },

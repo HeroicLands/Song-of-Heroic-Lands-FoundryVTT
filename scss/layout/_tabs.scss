@@ -10,6 +10,11 @@ nav.tabs {
     border-bottom: none;
     color: var(--sohl-color-text-secondary);
 
+    // Tab glyphs sit ~20% larger than the tab label text.
+    i {
+        font-size: 1.2em;
+    }
+
     &:hover,
     &:focus {
         background: var(--sohl-color-bg-overlay-dark);
