@@ -39,22 +39,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{/if}}
     </div>
 
-    <div class="items">
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">Value Desc</h3>
+    <div class="list-section">
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">Value Desc</h3>
                 <div class="detail ele">Max</div>
-                <div class="item-controls">
-                    <a class="item-control add-array-item" data-array="system.aim" data-object-type="ValueDesc"
+                <div class="list__controls">
+                    <a class="list__control add-array-item" data-array="system.aim" data-object-type="ValueDesc"
                         data-title="Add Value Description"><i class="sohl-plus"></i> Add</a>
                 </div>
             </header>
-            <ol class="items-list">
+            <ol class="list">
                 {{#each idata.aim}}
                 <li class="item flexrow">
-                    <div class="item-name name">{{label}}</div>
+                    <div class="list__name name">{{label}}</div>
                     <div class="detail ele">{{maxValue}}</div>
-                    <div class="item-controls">
+                    <div class="list__controls">
                         <a class="delete-array-item" data-array="system.aim" data-index="{{@index}}"
                             title="Delete Value Description"><i class="sohl-trash"></i></a>
                     </div>
@@ -64,22 +64,22 @@ SPDX-License-Identifier: GPL-3.0-or-later
         </div>
     </div>
 
-    <div class="items">
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">Choice Label</h3>
+    <div class="list-section">
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">Choice Label</h3>
                 <div class="detail notes">Key</div>
-                <div class="item-controls">
-                    <a class="item-control add-object-key" data-object="system.choices"
+                <div class="list__controls">
+                    <a class="list__control add-object-key" data-object="system.choices"
                         data-title="Add Choice"><i class="sohl-plus"></i> Add</a>
                 </div>
             </header>
-            <ol class="items-list">
+            <ol class="list">
                 {{#each idata.choices}}
                 <li class="item flexrow">
-                    <div class="item-name name" title="{{this}}">{{this}}</div>
+                    <div class="list__name name" title="{{this}}">{{this}}</div>
                     <div class="detail notes" title="{{@key}}">{{@key}}</div>
-                    <div class="item-controls">
+                    <div class="list__controls">
                         <a class="delete-object-key" data-object="system.choices" data-key="{{@key}}"
                             title="Delete Choice"><i class="sohl-trash"></i></a>
                     </div>

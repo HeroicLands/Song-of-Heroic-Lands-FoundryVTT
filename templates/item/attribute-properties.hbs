@@ -18,40 +18,40 @@ SPDX-License-Identifier: GPL-3.0-or-later
         {{formField fields.initDiceFormula rootId="attribute-initdice" classes="text-field" stacked=true value=system.initDiceFormula}}
     </div>
 
-    <div class="items">
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">Value Descriptors</h3>
+    <div class="list-section">
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">Value Descriptors</h3>
                 <div class="detail ele">Max Value</div>
             </header>
-            <ol class="items-list">
+            <ol class="list">
                 {{#each valueDesc}}
                 <li class="item flexrow">
-                    <div class="item-name name">{{this.label}}</div>
+                    <div class="list__name name">{{this.label}}</div>
                     <div class="detail ele">{{this.maxValue}}</div>
                 </li>
                 {{else}}
                 <li class="item flexrow">
-                    <div class="item-name name">—</div>
+                    <div class="list__name name">—</div>
                 </li>
                 {{/each}}
             </ol>
         </div>
     </div>
 
-    <div class="items">
-        <div class="items-list">
-            <header class="items-header flexrow">
-                <h3 class="item-name name">Impaired By Roles</h3>
+    <div class="list-section">
+        <div class="list">
+            <header class="list__header flexrow">
+                <h3 class="list__name name">Impaired By Roles</h3>
             </header>
-            <ol class="items-list">
+            <ol class="list">
                 {{#each impairedByRoles}}
                 <li class="item flexrow">
-                    <div class="item-name name">{{this}}</div>
+                    <div class="list__name name">{{this}}</div>
                 </li>
                 {{else}}
                 <li class="item flexrow">
-                    <div class="item-name name">—</div>
+                    <div class="list__name name">—</div>
                 </li>
                 {{/each}}
             </ol>
