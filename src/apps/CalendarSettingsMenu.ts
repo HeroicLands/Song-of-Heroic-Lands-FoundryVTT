@@ -13,7 +13,6 @@
 
 import { SohlSystem } from "@src/core/SohlSystem";
 
- 
 const CalendarSettingsMenu_Base: any =
     foundry.applications.api.HandlebarsApplicationMixin(
         foundry.applications.api.ApplicationV2,

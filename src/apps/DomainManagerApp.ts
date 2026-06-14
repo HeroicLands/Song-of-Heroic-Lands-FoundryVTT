@@ -19,7 +19,6 @@ import {
     type DomainFamily,
 } from "@src/utils/constants";
 
- 
 const DomainManagerApp_Base: any =
     foundry.applications.api.HandlebarsApplicationMixin(
         foundry.applications.api.ApplicationV2,
