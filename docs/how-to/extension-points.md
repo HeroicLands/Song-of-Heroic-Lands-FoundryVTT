@@ -162,7 +162,7 @@ format are documented in the
 
 - [Macros and Actions](../concepts/macros-and-actions.md)
 - [Lifecycle Hooks](./lifecycle-hooks.md)
-- [Lifecycle Model](../concepts/lifecycle-model.md)
+- {@link SohlLogic}
 - [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
 - [Modifier Model](../reference/modifier-model.md)
 - [Effects Integration](../reference/effects-integration.md)

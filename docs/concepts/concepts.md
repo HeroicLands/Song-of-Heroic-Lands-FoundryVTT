@@ -2,7 +2,6 @@
 title: Concepts
 children:
     Architecture Overview: ./architecture.md
-    Lifecycle Model: ./lifecycle-model.md
     Macros and Actions: ./macros-and-actions.md
     The SoHL API: ./sohl-api.md
     CSS Architecture & Styleguide: ./css-architecture.md

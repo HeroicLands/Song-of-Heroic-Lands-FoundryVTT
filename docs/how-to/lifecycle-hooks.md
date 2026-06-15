@@ -19,7 +19,7 @@ defines them:
   `sohl.actor.<actorType>.…`) are {@link ITEM_KIND} and {@link ACTOR_KIND}.
 - **The phase model** — the three phases (`initialize` → `evaluate` → `finalize`)
   and the barrier guarantees — is in
-  [Lifecycle Model](../concepts/lifecycle-model.md).
+  {@link SohlLogic}.
 
 ## Guarding persistent side effects
 
@@ -32,5 +32,5 @@ rather than once per connected client. See the worked recipe in
 
 - [Macros and Actions](../concepts/macros-and-actions.md) — per-item behavior instead of type-wide.
 - [Extension Points](./extension-points.md) — choosing an extension scope.
-- [Lifecycle Model](../concepts/lifecycle-model.md) — the phase model and rationale.
+- {@link SohlLogic} — the phase model and rationale.
 - [Writing Modules](../contributing/module-development.md) — building the module these hooks live in.

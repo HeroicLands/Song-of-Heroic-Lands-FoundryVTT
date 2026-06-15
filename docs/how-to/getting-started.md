@@ -51,7 +51,7 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:
 
 - **[Three-class pattern](../concepts/architecture.md#three-class-pattern)** — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via `logic.data`.
-- **[Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle)** and **[Lifecycle Model](../concepts/lifecycle-model.md)** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
+- **[Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle)** and **{@link SohlLogic}** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
 - **[Domain objects](../concepts/architecture.md#domain-objects)** — the `src/domain/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
 - **[FoundryHelpers shim](../concepts/architecture.md#foundryhelpers-shim)** — how Logic stays Foundry-free: the `fvtt` prefix convention, and `sohl.log.uiWarn` / `sohl.log.uiError` for notifications.
 

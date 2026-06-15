@@ -41,7 +41,6 @@ maps directly to a group here:
 ### Concepts — how and why the system is built
 
 - [Architecture Overview](concepts/architecture.md)
-- [Lifecycle Model](concepts/lifecycle-model.md)
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [The SoHL API](concepts/sohl-api.md)
 

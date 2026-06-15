@@ -15,7 +15,6 @@ This documentation is **developer- and API-facing only**. Player- and GM-facing 
 Design and rationale — how and why the system is built the way it is.
 
 - [Architecture Overview](concepts/architecture.md)
-- [Lifecycle Model](concepts/lifecycle-model.md)
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [The SoHL API](concepts/sohl-api.md)
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
