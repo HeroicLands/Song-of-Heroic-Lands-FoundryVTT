@@ -39,9 +39,10 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 ### Start here
 
 1. **[Architecture Overview](../concepts/architecture.md)** — the mental model. Read this first.
-2. **[src/core/SohlLogic.ts](../../src/core/SohlLogic.ts)** — the abstract base for all Logic classes. The class-level JSDoc explains the phase-batched lifecycle.
+2. **{@link SohlLogic}** — the abstract base for all Logic classes. The
+   class-level JSDoc explains the phase-batched lifecycle.
 3. **Pick one item type** and trace through its three classes:
-    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules)
+    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules) —
     - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
     - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 

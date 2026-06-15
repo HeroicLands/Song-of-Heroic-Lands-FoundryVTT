@@ -62,9 +62,11 @@ content will be removed immediately.
 - **Prerequisites:** **Node.js** (see `engines` in
   [`package.json`](../../package.json) for supported versions) and **Git**. All
   other tooling (TypeScript, Vite, Sass, Prettier, ESLint, vitest) installs via
-  `npm ci` and runs from `node_modules`. Optional, for specific workflows: **rsync**
-  (deploying to remote Foundry instances via `npm run push:dev` / `push:prod`) and a
-  `GITHUB_TOKEN` in `.env.local` (for `npm run deploy:release`).
+  `npm ci` and runs from `node_modules`. Optional, for specific workflows: SSH
+  access to a remote host (deploying to a remote Foundry instance via
+  `npm run push:dev` / `push:prod`, which use SFTP over SSH — no `rsync` needed) and
+  `gh auth login` (so the legacy local release helper, `utils/release.mjs`, can read
+  a GitHub token from your keychain).
 - **First steps:** fork the repo, branch from `main`, run `npm ci`, and copy
   `.env.local.example` to `.env.local` (gitignored; one per developer). See
   [Getting Started](../how-to/getting-started.md) for the full setup and codebase
@@ -206,7 +208,7 @@ against real world data — migrations must never require manual user interventi
 If you want to _extend_ the system rather than change its core — ship house rules,
 add content or automation, or script behavior — do it from the outside:
 
-- [Writing Modules](./modules.md) — build a Foundry module that integrates with or
+- [Writing Modules](./module-development.md) — build a Foundry module that integrates with or
   extends SoHL via hooks, registries, the `sohl` public object, and CSS variables.
 - [Macros and Actions](../how-to/macros-and-actions.md) — write macro-bar scripts or
   document-attached Script Actions against the SoHL API.

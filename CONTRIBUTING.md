@@ -20,7 +20,7 @@ guide**, which provides guidance on standard methods to extend the functionality
 of the system with a module. It is published on the website and mirrored in-repo:
 
 - Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.Writing_Modules.html>
-- In-repo: [docs/contributing/modules.md](docs/contributing/modules.md)
+- In-repo: [docs/contributing/module-development.md](docs/contributing/module-development.md)
 
 # Macro or Actions developers
 

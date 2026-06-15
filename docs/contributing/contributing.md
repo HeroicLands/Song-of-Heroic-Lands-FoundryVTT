@@ -3,7 +3,7 @@ title: Contributing
 children:
     System Development: ./system-development.md
     Writing Changesets: ./writing-changesets.md
-    Writing Modules: ./modules.md
+    Writing Modules: ./module-development.md
     API Docs Hosting: ./api-docs-hosting.md
 ---
 
@@ -16,7 +16,7 @@ the right guide:
 
 - [System Development](./system-development.md) — contributing to the SoHL **system
   codebase**: governance, licensing, the rules of development, and the PR workflow.
-- [Writing Modules](./modules.md) — build a Foundry **module** that integrates with
+- [Writing Modules](./module-development.md) — build a Foundry **module** that integrates with
   or extends SoHL.
 - [Writing Changesets](./writing-changesets.md) — record a change for the changelog
   and release notes (part of the System Development workflow).

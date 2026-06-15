@@ -64,7 +64,7 @@ before the function is created — `window`, `document`, `globalThis`, `eval`,
 `fetch`, `require`, `import`, `setTimeout`, `.constructor`, `.__proto__`, and the
 like. A Script Action can compute over the SoHL/Foundry objects it's handed, but
 it can't touch the DOM, the network, or timers. If you need those, you need a
-[module](../contributing/modules.md), not a Script Action.
+[module](../contributing/module-development.md), not a Script Action.
 
 ```js
 // Script Action with scope = ACTOR — `this` is the actor's logic,
@@ -104,5 +104,5 @@ type rather than attach one action, use [Lifecycle Hooks](./lifecycle-hooks.md).
 - [Lifecycle Hooks](./lifecycle-hooks.md) — type-wide behavior instead of a
   per-document action.
 - [Extension Points](./extension-points.md) — defining intrinsic actions and new types.
-- [Writing Modules](../contributing/modules.md) — when a script outgrows a macro or
+- [Writing Modules](../contributing/module-development.md) — when a script outgrows a macro or
   action.

@@ -42,7 +42,7 @@ SoHL is a Foundry **system** with id `sohl` (see `system.json`), requiring Found
 }
 ```
 
-(See Foundry's module-development documentation for the full manifest schema.)
+(See Foundry's module-development.md documentation for the full manifest schema.)
 Your module's entry script then hooks into the system at runtime, as below.
 
 ## Reaching the SoHL API
