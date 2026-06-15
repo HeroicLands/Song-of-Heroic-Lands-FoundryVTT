@@ -56,6 +56,11 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * surfaced as an entry on that document's **context menu** (and on chat-card
  * buttons). Choosing the entry runs the action.
  *
+ * A **Script action** is, in effect, a *macro attached to a document*: instead of
+ * sitting on the macro bar it lives on a specific actor or item and runs with that
+ * document as its context. An **intrinsic action** (below) is the same thing
+ * authored in code rather than typed by a GM.
+ *
  * Actions are how a character or item *does* something — run a skill test, make
  * an attack, activate a mystical ability. They come in two flavors that differ
  * only in where the executor comes from:
@@ -82,6 +87,15 @@ export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
  * from their stored string forms, so a finished `SohlAction` is ready to
  * {@link execute}. See {@link SohlLogic.getContextOptions} for how actions become
  * context-menu entries.
+ *
+ * If a Script action's body needs capabilities the sandbox forbids (DOM, network,
+ * timers), reach for a Foundry **module** instead.
+ *
+ * @example
+ * // A Script action body, scope = ACTOR: `this` is the actor's logic and
+ * // `context` carries the speaker.
+ * const health = this.health?.effective ?? 0;
+ * sohl.log.info(`${context.speaker?.alias}: ${health}% health`);
  */
 export class SohlAction {
     /** The persisted action definition (see {@link SohlAction.Data}). */
@@ -303,7 +317,10 @@ export namespace SohlAction {
         /** Display title for this action */
         title: string;
 
-        /** Whether this action executes asynchronously */
+        /**
+         * Whether this action executes asynchronously — set when the executor
+         * body uses `await`. See {@link textToFunction}.
+         */
         isAsync: boolean;
 
         /** Execution context: Self, Parent Item, or Owning Actor */
@@ -313,14 +330,14 @@ export namespace SohlAction {
         executor: string;
 
         /**
-         * SafeExpression determining whether an action may be executed.
+         * {@link SafeExpression} determining whether an action may be executed.
          * Note that this layers with visible; this determines whether
          * the action can be invoked regardless of whether it is visible
          * in the UI.
          */
         trigger: string;
 
-        /** SafeExpression determining whether this action appears in the UI */
+        /** {@link SafeExpression} determining whether this action appears in the UI */
         visible: string;
 
         /** FontAwesome CSS class for the action's icon */
