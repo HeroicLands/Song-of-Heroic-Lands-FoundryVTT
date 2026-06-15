@@ -1,44 +1,88 @@
 ---
 title: Contributing
 children:
+    Writing Changesets: ./writing-changesets.md
+    Writing Modules: ./modules.md
     API Docs Hosting: ./api-docs-hosting.md
 ---
 
-# Contributing
+# Contributing to the SoHL system
 
-How to make a change to Song of Heroic Lands (SoHL) that fits the system's
-architecture and gets merged. Stability, architectural coherence, and long-term
-maintainability are critical here — many people run long campaigns on this system,
-so this guide is deliberately strict about process.
+How to make a change to the Song of Heroic Lands (SoHL) **system codebase** that
+fits its architecture and gets merged. Stability, architectural coherence, and
+long-term maintainability are critical — many people run long campaigns on this
+system, so this guide is deliberately strict about process. Read it before your
+first contribution.
 
-New here? Start from the repository's [CONTRIBUTING.md](../../CONTRIBUTING.md),
-which lays out the onboarding sequence and the binding licensing/IP terms, then
-come back to this page for the standards and the day-to-day workflow rules.
+> Want to **build a module**, or write **macros / Script Actions**, rather than
+> change the system itself? Start from the repository's
+> [CONTRIBUTING.md](../../CONTRIBUTING.md), which points each audience to the right
+> guide. This page is for working on the system codebase.
 
 ## Governance
 
-- The project is maintained by the repository owner. Architectural decisions
-  remain under maintainer authority.
+- The project is maintained by the repository owner. Architectural decisions remain
+  under maintainer authority.
 - All changes are submitted via Pull Request — no direct commits to protected
   branches.
 - Contributions are welcome, but maintainers reserve the right to decline changes
   that do not align with the long-term direction of the system.
 
-## Licensing and prohibited content
+## License agreement
 
-By contributing you certify you have the right to the material and agree it is
-licensed under **GPL-3.0-or-later** (code) and **CC-BY-SA-4.0** (documentation and
-creative content). Never add third-party copyrighted material — rulebook text or
-tables, or the names/trademarks/trade dress of **Kelestia Productions Ltd.** or
-**Columbia Games**. The full, binding statement is in
-[CONTRIBUTING.md](../../CONTRIBUTING.md); read it before your first contribution.
+By submitting a contribution (code, documentation, or creative content), you certify
+that:
+
+- You have the legal right to contribute the material.
+- You agree that your contribution is licensed under the project's dual-license
+  structure:
+    - [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html) for software code
+    - [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/) for documentation and creative content
+- Your contribution may be redistributed under those licenses.
+
+Contributors retain copyright to their contributions.
+
+## Prohibited content
+
+Under no circumstances may copyrighted material from other projects or systems be
+placed in this repository. This includes, but is not limited to:
+
+- Copyrighted text, verbatim rule descriptions, or tables from any third-party
+  publisher's rulebooks or supplements
+- Names, trademarks, or trade dress of **Kelestia Productions Ltd.** or
+  **Columbia Games**
+- Art, maps, illustrations, or other creative assets owned by third parties
+- Any content whose inclusion would infringe on the intellectual property rights of
+  others
+
+Game mechanics themselves are not copyrightable and may be implemented, but the
+specific creative expression used to describe them (rulebook text, proprietary
+terminology, etc.) may not be reproduced. If you are unsure whether material is
+permissible, ask before contributing it. Contributions found to contain prohibited
+content will be removed immediately.
+
+## Getting set up
+
+- **Prerequisites:** **Node.js** (see `engines` in
+  [`package.json`](../../package.json) for supported versions) and **Git**. All
+  other tooling (TypeScript, Vite, Sass, Prettier, ESLint, vitest) installs via
+  `npm ci` and runs from `node_modules`. Optional, for specific workflows: **rsync**
+  (deploying to remote Foundry instances via `npm run push:dev` / `push:prod`) and a
+  `GITHUB_TOKEN` in `.env.local` (for `npm run deploy:release`).
+- **First steps:** fork the repo, branch from `main`, run `npm ci`, and copy
+  `.env.local.example` to `.env.local` (gitignored; one per developer). See
+  [Getting Started](../how-to/getting-started.md) for the full setup and codebase
+  tour.
+- **Learn the mental model before changing anything:**
+  [Architecture Overview](../concepts/architecture.md) — the three-layer design and
+  a map of the `src/` tree.
 
 ## Core rules (non-negotiable)
 
 1. **No cosmetic refactors.** This is a large, interdependent system; cosmetic
    churn causes regressions. Change code because behavior needs it.
-2. **Extension over rewrites.** Prefer hooks, action items, registries, and
-   subclassing over editing core source.
+2. **Extension over rewrites.** Prefer hooks, actions, registries, and subclassing
+   over editing core source.
 3. **Small, focused changes.** One feature, one bug fix, or one documentation
    improvement per PR. No mixed refactors or "drive-by cleanups."
 4. **No placeholders or stubs.** Submit complete, working implementations.
@@ -95,8 +139,7 @@ build on any unlinked marker.
 whether the change is user-facing. `cleanup/*`, `docs/*`, and `chore/*` need none.
 Keep the changeset current as work progresses (don't write it only at the end),
 reference the issue, and describe **only the fix** — the problem context lives in
-the issue. In changeset summaries, do not use `#` ATX headings; use `**bold
-labels**` and `_underscores_` for italics.
+the issue. See [Writing Changesets](./writing-changesets.md) for details.
 
 ### Format before commit
 
@@ -155,6 +198,22 @@ against real world data — migrations must never require manual user interventi
   workflows.
 - **Foundry v14.** Target Foundry VTT v14+ and follow the v14 patterns described in
   the [Architecture Overview](../concepts/architecture.md).
+
+## Extending SoHL instead of changing it
+
+If you want to _extend_ the system rather than change its core — ship house rules,
+add content or automation, or script behavior — do it from the outside:
+
+- [Writing Modules](./modules.md) — build a Foundry module that integrates with or
+  extends SoHL via hooks, registries, the `sohl` public object, and CSS variables.
+- [Macros and Actions](../how-to/macros-and-actions.md) — write macro-bar scripts or
+  document-attached Script Actions against the SoHL API.
+- [The SoHL API](../how-to/sohl-api.md) — the document and `sohl` surfaces scripts
+  and modules use.
+
+These build on the deeper how-to references —
+[Extension Points](../how-to/extension-points.md) and
+[Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
 ## AI-assisted contributions
 
