@@ -160,15 +160,13 @@ Submit with a clear description of what changed and why.
 
 ## Architectural boundaries
 
-The **logic/domain layer is Foundry-free** and stays that way by enforcement: an
-ESLint `@typescript-eslint/no-restricted-imports` rule blocks value imports of
-Foundry-coupled modules from the logic zones (type-only imports are allowed), and
-`npm run test:purity` imports every logic/domain module in an environment with no
-Foundry globals. New logic/domain code must not value-import from `**/foundry/**`
-or other Foundry-coupled modules — use `import type`, or add a `fvtt*` shim to
-`src/core/FoundryHelpers.ts` (plus its mock). Read
-[Architecture Overview](../concepts/architecture.md) for the mental model and
-[Extension Points](../how-to/extension-points.md) before changing core systems.
+The **logic/domain layer is Foundry-free**, and new logic/domain code must keep it
+that way: never value-import from `**/foundry/**` or other Foundry-coupled modules —
+use `import type`, or add a `fvtt*` shim to `src/core/FoundryHelpers.ts` (plus its
+mock). The boundary, why it holds, and the ESLint + purity guards that enforce it are
+described in [Architecture → Logic layer](../concepts/architecture.md#logic-layer) —
+read it (and [Extension Points](../how-to/extension-points.md)) before changing core
+systems.
 
 ## Do not touch without maintainer approval
 
