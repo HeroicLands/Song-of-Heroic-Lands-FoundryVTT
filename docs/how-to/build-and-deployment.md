@@ -12,8 +12,8 @@ release process. **Manual steps are called out explicitly** with a 🔧 marker.
 ## 1. First-time setup
 
 🔧 **Prerequisites:** **Node.js ≥ 24** (see `engines` in `package.json`) and
-**Git**. `rsync` is needed only for deploying to a Foundry instance; everything
-else installs locally.
+**Git** — that's all you need to build and test. Deploying to a Foundry instance may
+need extra access depending on the target (for example, SSH for a remote host).
 
 ```bash
 git clone https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git
@@ -23,19 +23,10 @@ npm ci                             # clean install from package-lock.json → no
 npm run build                      # full build into build/stage/
 ```
 
-🔧 **`.env.local`** is gitignored — each developer keeps their own. It supplies the
-paths the deploy scripts rsync to. Edit only the variables you use:
-
-| Variable               | Purpose                                                                                                                | Used by             |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `FOUNDRYVTT_DEV_DATA`  | Foundry **dev** data root — a local path or an rsync remote (`host:/path`).                                            | `npm run push:dev`  |
-| `FOUNDRYVTT_QA_DATA`   | Foundry **QA** data root (same format).                                                                                | `npm run push:qa`   |
-| `FOUNDRYVTT_PROD_DATA` | Foundry **production** data root (same format).                                                                        | `npm run push:prod` |
-| `GITHUB_TOKEN`         | A PAT with `repo` scope, for the legacy local release path. Releases are normally cut by CI, which uses its own token. | `utils/release.mjs` |
-
-The push scripts append `Data/systems/sohl/` to the data root automatically, so
-point each variable at the Foundry **user-data directory** (the one containing
-`Data/`), not at `systems/`.
+🔧 **`.env.local`** (gitignored — each developer keeps their own) holds the Foundry
+paths that drive deployment. You only need it when deploying to a Foundry instance;
+[§6 Deploying to a Foundry instance](#6-deploying-to-a-foundry-instance) lists every
+variable and what it's for.
 
 ## 2. npm scripts
 
@@ -97,7 +88,7 @@ sequence; `run-p` runs them in parallel.
 
 | Script                                     | What it does                                                                                       |
 | ------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| `push:dev` / `push:qa` / `push:prod`       | 🔧 rsync `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                              |
+| `push:dev` / `push:qa` / `push:prod`       | 🔧 copy `build/stage/` to the matching `FOUNDRYVTT_*_DATA` instance.                               |
 | `deploy:dev` / `deploy:qa` / `deploy:prod` | 🔧 `build` then the matching `push:*`.                                                             |
 | `deploy:release`                           | `build` then `build:pack-release` — produce the release zip locally.                               |
 | `changeset`                                | Create a changeset (interactive). See [Writing Changesets](../contributing/writing-changesets.md). |
@@ -144,7 +135,7 @@ build/
 
 **`build/stage/` _is_ the system directory.** Its contents are exactly what an
 installed `Data/systems/sohl/` looks like — Foundry would load it as-is. Everything
-downstream derives from it: the push scripts rsync it verbatim into a Foundry data
+downstream derives from it: the push scripts copy it verbatim into a Foundry data
 directory, and `build:pack-release` simply zips its contents into the release
 `system.zip`. There is no separate transform step — the staged directory **is** the
 system, and `system.zip` is just an archive of it.
@@ -164,7 +155,7 @@ LevelDB format under `build/stage/packs/<pack>/`.
 
 ### Design decision — committed pack sources
 
-The pack content is _authored_ in the HeroicLands vault, but **the build never reads
+The pack content is _authored_ in the HeroicLands Obsidian vault, but **the build never reads
 the vault directly.** Instead, a separate `packs:export` step pulls everything out of
 the vault and writes it as plain JSON under `assets/packs/*/_source/`, and those JSON
 trees are **committed to this repository**.
@@ -177,7 +168,8 @@ source of truth; the committed `_source/` JSON is the **build's** source of trut
 
 ### Authoring content in the HeroicLands vault
 
-The authoritative content lives in the **HeroicLands Obsidian vault**, a sibling
+The authoritative content lives in the
+[HeroicLands Obsidian Vault](https://github.com/HeroicLands/HeroicLands), a sibling
 repository the pack scripts expect at **`../HeroicLands/`** (next to this repo — see
 `utils/packs/export.mjs`). Items, actors, and journal entries are authored there as
 Markdown files with YAML frontmatter (`package: sohl`, a `type:`, a stable `id:`,
@@ -186,6 +178,7 @@ and folder/embedding metadata).
 🔧 **Regenerating the pack sources from the vault** (maintainers with the vault):
 
 ```bash
+git clone https://github.com/HeroicLands/HeroicLands.git ../HeroicLands
 npm run packs:export      # vault → assets/packs/*/_source/ (wipes & rewrites them)
 npm run build:compiledb   # _source/ JSON → build/stage/packs/ (LevelDB)
 # or both at once:
@@ -194,39 +187,38 @@ npm run packs:rebuild
 
 `packs:export` (`utils/packs/export.mjs`) drives three per-pack compilers
 (`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): they walk the vault, select
-files by frontmatter, validate folders against each pack's `folders.yaml`, render
-Markdown to HTML (journals split into pages by `#` headings), resolve an actor's
-embedded items, and write per-entry JSON to the `_source/` tree.
-
-**The `_key` field.** Foundry's LevelDB compiler keys every document — including
-_embedded_ ones — by a hierarchical `_key`. The exporters write these explicitly:
-e.g. an actor's embedded item gets `!actors.items!<actorId>.<itemId>` and an effect
-on it `!actors.items.effects!<actorId>.<itemId>.<effectId>`. Without them the
-compile aborts with `LEVEL_INVALID_KEY`.
+files by frontmatter, validate folders against each pack's `folders.yaml`, and
+write per-entry JSON to the `_source/` tree.
 
 ## 6. Deploying to a Foundry instance
 
-The push scripts rsync the staged system into a Foundry data directory:
+The push scripts copy the staged system into a Foundry data directory:
 
 ```bash
-npm run deploy:qa      # build, then push:qa   (build + rsync in one step)
-npm run push:qa        # rsync build/stage/ only (no rebuild)
+npm run deploy:qa      # build, then push:qa   (build + copy in one step)
+npm run push:qa        # copy build/stage/ only (no rebuild)
 ```
 
-Each `push:*` (`utils/push-stage.mjs`) runs:
+The Foundry paths that drive deployment live in **`.env.local`** (copy it from
+`.env.local.example`). Use **absolute paths only** — `$HOME` and `~` are not
+expanded. A value may be a local path or a remote target (`host:/path`).
 
-```
-rsync -avh --delete build/stage/  <FOUNDRYVTT_*_DATA>/Data/systems/sohl/
-```
+| Variable                                               | Used for                                                                                                                                                                                            |
+| ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FOUNDRYVTT_DEV_DATA`                                  | The Foundry **user-data root** for the **dev** environment. `npm run push:dev` deploys `build/stage/` into `<root>/Data/systems/sohl/` — the `Data/systems/sohl/` suffix is appended automatically. |
+| `FOUNDRYVTT_QA_DATA`                                   | The user-data root for **QA**, used by `npm run push:qa`.                                                                                                                                           |
+| `FOUNDRYVTT_PROD_DATA`                                 | The user-data root for **production**, used by `npm run push:prod`.                                                                                                                                 |
+| `FOUNDRYVTT_DEV` / `FOUNDRYVTT_QA` / `FOUNDRYVTT_PROD` | The Foundry **application install** path for each environment (recorded for convenience; the deploy step uses the `*_DATA` roots above).                                                            |
+| `GITHUB_TOKEN`                                         | A GitHub personal-access token with `repo` scope, for cutting a release via the GitHub API (`npm run deploy:release`). Releases are normally cut by CI, which supplies its own token.               |
 
-`--delete` makes the target an exact mirror of `build/stage/`. A remote
-`host:/path` data root rsyncs over SSH.
+Point each `*_DATA` variable at the Foundry **user-data directory** (the one that
+contains `Data/`), not at `systems/` — the deploy appends the rest.
 
 🔧 **Manual steps around a deploy:**
 
 - Stop (or at least be ready to reload) Foundry — a running server can hold file
   locks and won't pick up code changes until reloaded.
-- After the rsync, **reload/restart** Foundry to load the new system.
+- After the deploy completes, **reload/restart** Foundry to load the new system.
 - The first time you use it in a world, select **SoHL** as the world's game system.
 
 ## 7. The release process
@@ -285,7 +277,7 @@ to invoke it — read the file itself for the authoritative detail. In brief:
 | `check-todos.mjs`                   | Fail the build on unlinked `TODO`/`FIXME` markers.                                 |
 | `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                            |
 | `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                  |
-| `push-stage.mjs`                    | rsync `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                    |
+| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                   |
 | `release.mjs`                       | Legacy local release path (CI normally cuts releases).                             |
 | `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                           |
 | `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                            |
