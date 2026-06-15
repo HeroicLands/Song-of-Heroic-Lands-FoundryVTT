@@ -160,7 +160,7 @@ format are documented in the
 
 ## Deep dives
 
-- [Macros and Actions](./macros-and-actions.md)
+- [Macros and Actions](../concepts/macros-and-actions.md)
 - [Lifecycle Hooks](./lifecycle-hooks.md)
 - [Lifecycle Model](../concepts/lifecycle-model.md)
 - [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)

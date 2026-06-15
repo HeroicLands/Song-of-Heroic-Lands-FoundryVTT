@@ -92,6 +92,6 @@ Result: the same module can be installed everywhere, activated per world, and ex
 
 ## Related docs
 
-- [Macros and Actions](./macros-and-actions.md) — authoring macros and Script Actions
+- [Macros and Actions](../concepts/macros-and-actions.md) — authoring macros and Script Actions
 - [Lifecycle Hooks (Developer Guide)](./lifecycle-hooks.md) — complete hook name reference for module authors
 - [Extension Points (Developer Guide)](./extension-points.md)

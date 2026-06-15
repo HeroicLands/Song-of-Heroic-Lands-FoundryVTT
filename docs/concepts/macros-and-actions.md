@@ -1,7 +1,7 @@
 # Macros and Actions
 
 There are two ways to run custom behavior in a Song of Heroic Lands world, and
-both are built on [The SoHL API](./sohl-api.md). They are **different things**:
+both are built on [The SoHL API](../how-to/sohl-api.md). They are **different things**:
 
 - A **macro** lives on the **macro bar**, can be given a **hotkey**, and is **not**
   attached to any document.
@@ -12,7 +12,7 @@ This page walks from the familiar (macros) to the SoHL-specific (actions), then
 shows that SoHL uses the very same action mechanism internally.
 
 > For _using_ actions during play, see the in-game **User Guide → Actions**. This
-> page is about _authoring_ them.
+> page explains what they are and how the mechanism works.
 
 ## Macros
 
@@ -21,7 +21,7 @@ hotkey, and run on demand — see Foundry's
 [Macros article](https://foundryvtt.com/article/macros/) for the feature itself. It
 isn't tied to any particular actor or item, so it carries no document context of its
 own — you reach whatever you need through the API (the `sohl` surface for helpers,
-the document surface for a specific thing; see [The SoHL API](./sohl-api.md)).
+the document surface for a specific thing; see [The SoHL API](../how-to/sohl-api.md)).
 
 ```js
 // Macro: report the selected token's actor health.
@@ -67,15 +67,15 @@ document's context menu. The only difference is where the `executor` comes from:
 So "intrinsic actions" are simply the system doing, in code, what a GM does with a
 Script Action: attaching an executable, context-menu-activated behavior to a
 document. Developers adding a new built-in action define it this way on the relevant
-Logic class — see [Extension Points](./extension-points.md) and {@link SohlAction} /
+Logic class — see [Extension Points](../how-to/extension-points.md) and {@link SohlAction} /
 {@link SohlLogic} in the API reference. To affect _all_ documents of a type rather
-than attach one action, use [Lifecycle Hooks](./lifecycle-hooks.md).
+than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
 ## See also
 
-- [The SoHL API](./sohl-api.md) — the document and `sohl` surfaces these scripts use.
-- [Lifecycle Hooks](./lifecycle-hooks.md) — type-wide behavior instead of a
+- [The SoHL API](../how-to/sohl-api.md) — the document and `sohl` surfaces these scripts use.
+- [Lifecycle Hooks](../how-to/lifecycle-hooks.md) — type-wide behavior instead of a
   per-document action.
-- [Extension Points](./extension-points.md) — defining intrinsic actions and new types.
+- [Extension Points](../how-to/extension-points.md) — defining intrinsic actions and new types.
 - [Writing Modules](../contributing/module-development.md) — when a script outgrows a macro or
   action.

@@ -143,7 +143,7 @@ SoHL provides two levels of extension for customizing behavior without modifying
 
 1. **Modules via lifecycle hooks** — Foundry modules listen for hooks emitted at each lifecycle phase to augment behavior broadly across items or actors. See [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
-2. **Actions** — document-attached executable logic surfaced on context menus, for per-item behavior. See [Macros and Actions](../how-to/macros-and-actions.md).
+2. **Actions** — document-attached executable logic surfaced on context menus, for per-item behavior. See [Macros and Actions](./macros-and-actions.md).
 
 ## FoundryHelpers shim
 
@@ -201,7 +201,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 | Lifecycle phases  | [Lifecycle Model](./lifecycle-model.md)                                  |
 | Extending SoHL    | [Extension Points](../how-to/extension-points.md)                        |
 | Lifecycle hooks   | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
-| Actions           | [Macros and Actions](../how-to/macros-and-actions.md)                    |
+| Actions           | [Macros and Actions](./macros-and-actions.md)                            |
 | Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
 | Modifier system   | [Modifier Model](../reference/modifier-model.md)                         |
 | Body anatomy      | [Body Structure](../reference/body-structure.md)                         |

@@ -1,6 +1,6 @@
 # The SoHL API
 
-Scripts — Foundry [macros and Script Actions](./macros-and-actions.md) — and
+Scripts — Foundry [macros and Script Actions](../concepts/macros-and-actions.md) — and
 [modules](../contributing/module-development.md) all reach into Song of Heroic Lands through
 **two distinct surfaces**. Keeping them straight is the key to writing anything
 against SoHL:
@@ -68,7 +68,7 @@ another.
 
 ## See also
 
-- [Macros and Actions](./macros-and-actions.md) — scripting against these surfaces.
+- [Macros and Actions](../concepts/macros-and-actions.md) — scripting against these surfaces.
 - [Writing Modules](../contributing/module-development.md) — extending the system in a package.
 - [Architecture Overview](../concepts/architecture.md) — the three-layer model.
 - [API Reference](https://api.heroiclands.org/latest) — every exported symbol.

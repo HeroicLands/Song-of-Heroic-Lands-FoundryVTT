@@ -16,6 +16,7 @@ Design and rationale — how and why the system is built the way it is.
 
 - [Architecture Overview](concepts/architecture.md)
 - [Lifecycle Model](concepts/lifecycle-model.md)
+- [Macros and Actions](concepts/macros-and-actions.md)
 - [Assembly Architecture](concepts/assembly-architecture.md)
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
 
@@ -27,7 +28,6 @@ Task-oriented guides for getting something done.
 - [Extension Points](how-to/extension-points.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
 - [The SoHL API](how-to/sohl-api.md)
-- [Macros and Actions](how-to/macros-and-actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 

@@ -210,7 +210,7 @@ add content or automation, or script behavior — do it from the outside:
 
 - [Writing Modules](./module-development.md) — build a Foundry module that integrates with or
   extends SoHL via hooks, registries, the `sohl` public object, and CSS variables.
-- [Macros and Actions](../how-to/macros-and-actions.md) — write macro-bar scripts or
+- [Macros and Actions](../concepts/macros-and-actions.md) — write macro-bar scripts or
   document-attached Script Actions against the SoHL API.
 - [The SoHL API](../how-to/sohl-api.md) — the document and `sohl` surfaces scripts
   and modules use.

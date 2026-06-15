@@ -111,6 +111,6 @@ User guide content is authored in the HeroicLands Obsidian vault, committed here
 | Understand combat resolution      | [Combat Pipeline](../reference/combat-resolution-pipeline.md) |
 | Understand hit locations          | [Body Structure](../reference/body-structure.md)              |
 | Add house rules via module        | [Lifecycle Hooks](./lifecycle-hooks.md)                       |
-| Add per-item behavior             | [Macros and Actions](./macros-and-actions.md)                 |
+| Add per-item behavior             | [Macros and Actions](../concepts/macros-and-actions.md)       |
 | Write tests                       | [Testing](./testing.md)                                       |
 | Understand active effects         | [Effects Integration](../reference/effects-integration.md)    |
