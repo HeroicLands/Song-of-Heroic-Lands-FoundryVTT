@@ -61,7 +61,7 @@ Tests run in Node via vitest (no browser, no Foundry server) by supplying test d
 
 - **The `FoundryHelpers` shim is mock-swapped.** vitest aliases `@src/core/FoundryHelpers` to `tests/mocks/foundry/core/FoundryHelpers.ts` (see `vitest.config.ts`). Spy on that mock to stub or assert shim calls — e.g. `vi.spyOn(FoundryHelpersMock, "fvttGetSetting").mockReturnValue("everyone")`. When production needs a new global, add the `fvtt`-prefixed wrapper and its mock counterpart (see [Adding new shim functions](#adding-new-shim-functions)).
 - **The Data interfaces are supplied as plain objects.** `tests/mocks/logicHarness.ts` builds a Logic instance from a plain `*Data` object exactly as `SohlDataModel.create()` does — no Foundry required (see [Writing tests for Logic classes](#writing-tests-for-logic-classes)).
-- **The `sohl` surface is set up directly, not shimmed.** `globalThis.sohl` (a `SohlSystem` instance — `sohl.i18n`, `sohl.log`, `sohl.CONFIG`) is SoHL's own, so `tests/setup.ts` installs a minimal one rather than wrapping it (along with the few compile-time Foundry stubs — `foundry.data.fields.*`, `game`, etc. — that modules touch at import). Rule of thumb: **if SoHL owns it, set it up directly; if Foundry provides it, shim it.**
+- **The `sohl` surface is set up directly, not shimmed.** `globalThis.sohl` (a {@link SohlSystem} instance — `sohl.i18n`, `sohl.log`, `sohl.CONFIG`) is SoHL's own, so `tests/setup.ts` installs a minimal one rather than wrapping it (along with the few compile-time Foundry stubs — `foundry.data.fields.*`, `game`, etc. — that modules touch at import). Rule of thumb: **if SoHL owns it, set it up directly; if Foundry provides it, shim it.**
 
 ## Adding new shim functions
 
