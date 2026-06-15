@@ -47,12 +47,19 @@ Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VT
 
 ### Logic layer
 
-Logic classes handle game rules, calculations, and actions — separated from Foundry persistence. They live in `src/document/*/logic/` and must **never** import Foundry globals directly. All Foundry API access goes through `src/core/FoundryHelpers.ts`, which is mock-swapped during testing.
+Logic classes handle game rules, calculations, and actions — separated from Foundry persistence and UI. They live in `src/document/*/logic/`.
 
-The layer owns its contracts: the base logic classes and the Data interfaces that the Foundry DataModels implement live in `src/document/item/logic/SohlItemBaseLogic.ts` and `src/document/actor/logic/SohlActorBaseLogic.ts` (the Foundry-side base modules re-export them for compatibility). Logic/domain code may reference Foundry-coupled classes (e.g. `SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency. The boundary is enforced two ways:
+**Foundry isolation.** The logic layer is forbidden from interacting with anything Foundry-level directly. It reaches Foundry through exactly two channels:
+
+1. **The `FoundryHelpers` shim** (`src/core/FoundryHelpers.ts`) — every Foundry global or API call (`game.*`, `canvas.*`, `Hooks.*`, `Roll`, dialogs, …) goes through its `fvtt`-prefixed wrappers. See [FoundryHelpers shim](#foundryhelpers-shim).
+2. **The Data interfaces on `logic.data`** — a document's persisted shape is a `*Data` interface (`SohlItemData` / `SohlActorData` and per-type extensions) that the **logic layer owns** and the Foundry `DataModel` implements. Logic reads a document's persisted fields through `logic.data` (the typed shape), never by reaching into `document.system` or Foundry internals. These contracts live in `src/document/item/logic/SohlItemBaseLogic.ts` and `src/document/actor/logic/SohlActorBaseLogic.ts` (the Foundry-side base modules re-export them for compatibility).
+
+Logic/domain code may also _reference_ Foundry-coupled classes (`SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency.
+
+This isolation is precisely what makes the logic layer **unit-testable with no Foundry running**: both channels are replaced with test doubles (see [Testing](../how-to/testing.md)). It is enforced two ways:
 
 - An ESLint rule (`@typescript-eslint/no-restricted-imports` in `eslint.config.js`) forbids value imports of Foundry-coupled modules from the Foundry-free zones.
-- A purity smoke test (`npm run test:purity`, part of `build:noci`) imports every logic/domain module in an environment with **no** Foundry globals; any module-level `foundry.*`/`game.*` access fails the build. See [Testing](../how-to/testing.md).
+- A purity smoke test (`npm run test:purity`, part of `build:noci`) imports every logic/domain module with **no** Foundry globals present; any module-level `foundry.*`/`game.*` access fails the build.
 
 ### Domain layer
 
