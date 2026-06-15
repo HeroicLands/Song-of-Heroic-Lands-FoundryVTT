@@ -12,6 +12,7 @@
  */
 
 import { DOMAIN_FAMILY, type DomainFamily } from "@src/utils/constants";
+import { fvttGetSetting, fvttSetSetting } from "@src/core/FoundryHelpers";
 
 const SETTING_MODULE = "sohl";
 const SETTING_KEY = "domains";
@@ -67,25 +68,12 @@ export interface DomainEntry {
 
 type DomainStore = Record<string, DomainEntry>;
 
-interface SettingsAPI {
-    get(module: string, key: string): unknown;
-    set(module: string, key: string, value: unknown): Promise<unknown>;
-}
-
-/**
- * The Foundry settings API used to read and write the domain store.
- * @returns The `game.settings` object typed as {@link SettingsAPI}.
- */
-function settings(): SettingsAPI {
-    return (game as any).settings as SettingsAPI;
-}
-
 /**
  * Read the stored domain registry, returning a defensive shallow copy.
  * @returns The current domain store, or an empty object if none is stored.
  */
 function readStore(): DomainStore {
-    const raw = settings().get(SETTING_MODULE, SETTING_KEY);
+    const raw = fvttGetSetting(SETTING_MODULE, SETTING_KEY);
     if (!raw || typeof raw !== "object") return {};
     // Defensive shallow copy so callers cannot mutate the stored object
     // through any reference they happen to hold onto.
@@ -97,7 +85,7 @@ function readStore(): DomainStore {
  * @param store - The domain store to write.
  */
 async function writeStore(store: DomainStore): Promise<void> {
-    await settings().set(SETTING_MODULE, SETTING_KEY, store);
+    await fvttSetSetting(SETTING_MODULE, SETTING_KEY, store);
 }
 
 /**
