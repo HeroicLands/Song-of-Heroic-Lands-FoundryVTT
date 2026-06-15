@@ -45,59 +45,14 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
     - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
     - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 
-### The three-class pattern
+### The mental model
 
-Every actor and item type follows the same split:
+The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:
 
-```
-Logic class (in logic/)     — game rules, calculations, lifecycle methods
-DataModel class (in foundry/) — Foundry schema, persisted fields
-Sheet class (in foundry/)     — UI presentation
-```
-
-Logic classes are Foundry-free and unit-testable. DataModel and Sheet classes depend on the Foundry runtime.
-
-### Data flow
-
-```
-Persisted data (DataModel schema)
-    ↓ prepareBaseData
-Actor logic.initialize()
-    ↓ prepareEmbeddedData (overridden)
-All items: logic.initialize()  ← phase 1
-All items: logic.evaluate()    ← phase 2 (can read sibling items)
-All items: logic.finalize()    ← phase 3 (can read evaluated state)
-    ↓ prepareDerivedData
-Actor logic.evaluate()
-Actor logic.finalize()
-    ↓
-Sheet reads logic properties for rendering
-```
-
-See [Lifecycle Model](../concepts/lifecycle-model.md) for why this ordering matters.
-
-### Domain objects
-
-Pure game-mechanics objects live in `src/domain/`:
-
-| Directory             | What's there                                                                                        |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `domain/modifier/`    | `ValueModifier` — the core tracked-value primitive. Almost every derived number is a ValueModifier. |
-| `domain/result/`      | Test and combat results — the output of skill checks, attacks, defenses.                            |
-| `domain/body/`        | Body structure — anatomy, hit locations, aimed strike resolution.                                   |
-| `domain/movement/`    | Per-medium base-move lookup (`readBaseMove`).                                                       |
-| `domain/action/`      | Action definitions — context menu entries and executable logic.                                     |
-| `domain/SkillBase.ts` | Skill base formula computation from traits.                                                         |
-
-These are rebuilt from persisted data each preparation cycle and may be mutated during the lifecycle, but mutations are not persisted.
-
-### FoundryHelpers shim
-
-`src/core/FoundryHelpers.ts` wraps all Foundry globals. Logic classes import from it (e.g., `import { fvttGetSetting } from "@src/core/FoundryHelpers"`). During testing, vitest swaps it for a mock at `tests/mocks/foundry/core/FoundryHelpers.ts`.
-
-Exports that wrap Foundry globals use the `fvtt` prefix. Functions that don't (e.g., `inputDialog`, `getContextItem`) use plain names.
-
-For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError`, not the shim.
+- **[Three-class pattern](../concepts/architecture.md#three-class-pattern)** — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via `logic.data`.
+- **[Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle)** and **[Lifecycle Model](../concepts/lifecycle-model.md)** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
+- **[Domain objects](../concepts/architecture.md#domain-objects)** — the `src/domain/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
+- **[FoundryHelpers shim](../concepts/architecture.md#foundryhelpers-shim)** — how Logic stays Foundry-free: the `fvtt` prefix convention, and `sohl.log.uiWarn` / `sohl.log.uiError` for notifications.
 
 ## How to make a change
 
