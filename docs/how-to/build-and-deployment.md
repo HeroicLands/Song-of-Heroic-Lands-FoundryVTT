@@ -133,12 +133,12 @@ build/
 │   ├── lang/         localization (copied)
 │   ├── assets/       icons, fonts, audio, ui, silhouette (copied)
 │   ├── packs/        compiled LevelDB compendium packs
-│   └── docs/         generated API docs (after `npm run docs`)
-├── dist/             release artifacts (after build:pack-release)
-│   ├── system.zip    zip of build/stage/
-│   └── system.json   copy of the manifest
+│   └── docs/         generated HTML API docs (after `npm run docs`)
+├── dist/             release files — uploaded to the GitHub Release
+│   ├── system.zip    the released system archive (a zip of build/stage/)
+│   └── system.json   the released manifest
 ├── docbundle/        generated TypeDoc entry barrel (All.ts)
-├── docs/             intermediate TypeDoc Markdown output
+├── docs/             the Markdown documentation tree (from docs:md)
 └── tmp/              scratch (e.g. unpacked packs)
 ```
 
