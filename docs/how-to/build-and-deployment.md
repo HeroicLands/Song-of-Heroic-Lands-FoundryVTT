@@ -6,14 +6,15 @@ script, how the build pipeline works, the layout of the `build/` directory,
 compendium packs and the Obsidian vault, deploying to a Foundry instance, and the
 release process. **Manual steps are called out explicitly** with a 🔧 marker.
 
-> Audience: maintainers and contributors working on the SoHL system itself. For the
-> rules of contributing, see [System Development](../contributing/system-development.md).
+> Audience: maintainers and contributors working on the SoHL system itself. For
+> the rules of contributing, see
+> [System Development](../contributing/system-development.md).
 
 ## 1. First-time setup
 
 🔧 **Prerequisites:** **Node.js ≥ 24** (see `engines` in `package.json`) and
-**Git** — that's all you need to build and test. Deploying to a Foundry instance may
-need extra access depending on the target (for example, SSH for a remote host).
+**Git** — that's all you need to build and test. Deploying to a Foundry instance
+may need extra access depending on the target (for example, SSH for a remote host).
 
 ```bash
 git clone https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT.git
@@ -25,8 +26,13 @@ npm run build                      # full build into build/stage/
 
 🔧 **`.env.local`** (gitignored — each developer keeps their own) holds the Foundry
 paths that drive deployment. You only need it when deploying to a Foundry instance;
-[§6 Deploying to a Foundry instance](#6-deploying-to-a-foundry-instance) lists every
-variable and what it's for.
+[§6 Deploying to a Foundry instance](#6-deploying-to-a-foundry-instance) lists
+every variable and what it's for.
+
+See the file **`.gitignore`** for the specifics of which files are local only
+and not stored in the repo. In particular, if you create a `nogit` folder,
+anything inside of it will be ignored. If you use VSCode or IntelliJ, those
+IDE configurations will also be ignored.
 
 ## 2. npm scripts
 
@@ -155,10 +161,11 @@ LevelDB format under `build/stage/packs/<pack>/`.
 
 ### Design decision — committed pack sources
 
-The pack content is _authored_ in the HeroicLands Obsidian vault, but **the build never reads
-the vault directly.** Instead, a separate `packs:export` step pulls everything out of
-the vault and writes it as plain JSON under `assets/packs/*/_source/`, and those JSON
-trees are **committed to this repository**.
+The pack content is _authored_ in the HeroicLands Obsidian vault, but **the build
+never reads the vault directly.** Instead, a separate `packs:export` step pulls
+everything out of the vault and writes it as plain JSON under
+`assets/packs/*/_source/`, and those JSON trees are **committed to this
+repository**.
 
 This is deliberate. It means the system builds from the repo alone — a contributor
 can run `npm run build` (or `npm run build:compiledb` for packs only) **without the
@@ -170,10 +177,10 @@ source of truth; the committed `_source/` JSON is the **build's** source of trut
 
 The authoritative content lives in the
 [HeroicLands Obsidian Vault](https://github.com/HeroicLands/HeroicLands), a sibling
-repository the pack scripts expect at **`../HeroicLands/`** (next to this repo — see
-`utils/packs/export.mjs`). Items, actors, and journal entries are authored there as
-Markdown files with YAML frontmatter (`package: sohl`, a `type:`, a stable `id:`,
-and folder/embedding metadata).
+repository the pack scripts expect at **`../HeroicLands/`** (next to this repo —
+see `utils/packs/export.mjs`). Items, actors, and journal entries are authored
+there as Markdown files with YAML frontmatter (`package: sohl`, a `type:`, a
+stable `id:`, and folder/embedding metadata).
 
 🔧 **Regenerating the pack sources from the vault** (maintainers with the vault):
 
@@ -186,9 +193,9 @@ npm run packs:rebuild
 ```
 
 `packs:export` (`utils/packs/export.mjs`) drives three per-pack compilers
-(`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): they walk the vault, select
-files by frontmatter, validate folders against each pack's `folders.yaml`, and
-write per-entry JSON to the `_source/` tree.
+(`utils/packs/items.mjs`, `journals.mjs`, `actors.mjs`): they walk the vault,
+select files by frontmatter, validate folders against each pack's `folders.yaml`,
+and write per-entry JSON to the `_source/` tree.
 
 ## 6. Deploying to a Foundry instance
 
@@ -201,7 +208,24 @@ npm run push:qa        # copy build/stage/ only (no rebuild)
 
 The Foundry paths that drive deployment live in **`.env.local`** (copy it from
 `.env.local.example`). Use **absolute paths only** — `$HOME` and `~` are not
-expanded. A value may be a local path or a remote target (`host:/path`).
+expanded. A `*_DATA` value may be either:
+
+- a **local path** (e.g. `/Users/me/fvtt/data`) — deployed with an intrinsic
+  Node file copy, or
+- a **remote SFTP target** (`[user@]host:/path`) — deployed over SFTP via
+  `ssh2-sftp-client`, a pure-JS SSH client (no `ssh` binary required). By
+  default the running **SSH agent** is used — `$SSH_AUTH_SOCK` on macOS/Linux,
+  or the OpenSSH named pipe on Windows automatically — so if `ssh host` already
+  works no extra config is needed. No password or passphrase is read from
+  `.env.local` (for an encrypted key, load it into the agent with `ssh-add`).
+  Per-stage overrides exist for username, port, agent endpoint
+  (`..._AGENT=pageant` for PuTTY), and a key-file path that skips the agent
+  entirely — see the comments in `.env.local.example`.
+
+Either way the push is a **full mirror**: the destination
+`Data/systems/sohl/` is cleared and rewritten so it ends up an exact copy of
+`build/stage/` (stale files are removed). SFTP has no delta transfer, so a
+remote push re-uploads the whole staged build each time.
 
 | Variable                                               | Used for                                                                                                                                                                                            |
 | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -209,7 +233,6 @@ expanded. A value may be a local path or a remote target (`host:/path`).
 | `FOUNDRYVTT_QA_DATA`                                   | The user-data root for **QA**, used by `npm run push:qa`.                                                                                                                                           |
 | `FOUNDRYVTT_PROD_DATA`                                 | The user-data root for **production**, used by `npm run push:prod`.                                                                                                                                 |
 | `FOUNDRYVTT_DEV` / `FOUNDRYVTT_QA` / `FOUNDRYVTT_PROD` | The Foundry **application install** path for each environment (recorded for convenience; the deploy step uses the `*_DATA` roots above).                                                            |
-| `GITHUB_TOKEN`                                         | A GitHub personal-access token with `repo` scope, for cutting a release via the GitHub API (`npm run deploy:release`). Releases are normally cut by CI, which supplies its own token.               |
 
 Point each `*_DATA` variable at the Foundry **user-data directory** (the one that
 contains `Data/`), not at `systems/` — the deploy appends the rest.
@@ -223,10 +246,10 @@ contains `Data/`), not at `systems/` — the deploy appends the rest.
 
 ## 7. Cutting a release
 
-**There is no `npm run release`.** A release is cut by **merging the auto-generated
-"Version Packages" PR**; the `Version and Release` GitHub Actions workflow
-(`.github/workflows/release.yml`) does the build, tag, GitHub Release, and asset
-upload. The only command you type by hand is the docs-deploy dispatch at the end.
+A release is cut by **merging the auto-generated "Version Packages" PR**; the
+`Version and Release` GitHub Actions workflow (`.github/workflows/release.yml`)
+does the build, tag, GitHub Release, and asset upload. The only command you
+type by hand is the docs-deploy dispatch at the end.
 
 ### While developing
 
@@ -242,19 +265,26 @@ These accumulate on `main` as PRs merge.
 
 ### To cut the release (maintainer)
 
-1. Make sure every change you want in the release is merged to `main`, each with its
-   changeset.
+1. Make sure every change you want in the release is merged to `main`, each
+   with its changeset.
 2. On each push to `main`, the workflow opens or updates a PR titled
    **`chore(release): version packages`** — it runs `changeset version` to bump
    `package.json` and rewrite `CHANGELOG.md`. Review it (the version and changelog
    are the release).
-3. 🔧 **Merge that PR.** Merging _is_ the release — there's nothing else to run
-   locally. The workflow re-runs on the merge, sees a new untagged version, and
-   automatically:
+3. 🔧 **Merge that PR** — in the GitHub UI, or from the CLI (the changesets
+   action opens it from the `changeset-release/main` branch):
+
+    ```bash
+    gh pr merge changeset-release/main [--admin] --squash --delete-branch
+    ```
+
+    Merging _is_ the release — there's nothing else to run locally. The workflow
+    re-runs on the merge, sees a new untagged version, and automatically:
     - runs `npm run build` then `npm run build:pack-release`,
     - creates the `v<version>` git tag and a **GitHub Release**,
     - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
       and updates from).
+
 4. 🔧 **Publish the versioned API docs.** The Release is created with the Actions
    `GITHUB_TOKEN`, which by design can't trigger another workflow, so the docs
    workflow does **not** fire on its own. Run (substituting the version just
@@ -269,8 +299,8 @@ These accumulate on `main` as PRs merge.
 That's the entire release. Two notes:
 
 - `npm run deploy:release` only builds the release zip **locally** (into
-  `build/dist/`) for inspection — it does **not** publish anything. Releasing always
-  goes through the merge-the-PR flow above.
+  `build/dist/`) for inspection — it does **not** publish anything. Releasing
+  always goes through the merge-the-PR flow above.
 - A push to `main` with no pending changesets whose version is already tagged does
   nothing — ordinary merges never release.
 
@@ -287,30 +317,30 @@ That's the entire release. Two notes:
 
 ## 8. The build utility scripts
 
-The build/deploy/doc/pack tooling lives in **`utils/`** (with the pack tooling under
-`utils/packs/`). Each script carries a header comment describing its purpose and how
-to invoke it — read the file itself for the authoritative detail. In brief:
+The build/deploy/doc/pack tooling lives in **`utils/`** (with the pack tooling
+under `utils/packs/`). Each script carries a header comment describing its purpose
+and how to invoke it — read the file itself for the authoritative detail. In brief:
 
-| Script                              | Purpose                                                                            |
-| ----------------------------------- | ---------------------------------------------------------------------------------- |
-| `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                    |
-| `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                 |
-| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                     |
-| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                     |
-| `build-docs-entry.mjs`              | Generate the single TypeDoc entry barrel for cross-link resolution.                |
-| `sync-doc-version.mjs`              | Pin `…/latest` doc links to `…/v<version>` in generated output.                    |
-| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                       |
-| `check-todos.mjs`                   | Fail the build on unlinked `TODO`/`FIXME` markers.                                 |
-| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                            |
-| `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                  |
-| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                   |
-| `release.mjs`                       | Legacy local release path (CI normally cuts releases).                             |
-| `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                           |
-| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                            |
-| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                          |
-| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                |
-| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                 |
-| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema). |
+| Script                              | Purpose                                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| `build-system-json.mjs`             | Generate `build/stage/system.json` from the template + version.                           |
+| `copy-assets.mjs`                   | Stage templates, lang, assets, and root files into `build/stage/`.                        |
+| `build-icon-font.mjs`               | Build the icon font from SVGs.                                                            |
+| `build-type-catalog.mjs`            | Generate `docs/reference/type-catalog.md` from the kind enums.                            |
+| `build-docs-entry.mjs`              | Generate the single TypeDoc entry barrel for cross-link resolution.                       |
+| `sync-doc-version.mjs`              | Pin `…/latest` doc links to `…/v<version>` in generated output.                           |
+| `docs-coverage.mjs`                 | Report doc-comment coverage.                                                              |
+| `check-todos.mjs`                   | Fail the build on unlinked `TODO`/`FIXME` markers.                                        |
+| `clean.mjs`                         | Remove build output (`--distclean` for a deeper clean).                                   |
+| `pack-release.mjs`                  | Zip `build/stage/` into the release `system.zip` + `system.json`.                         |
+| `push-stage.mjs`                    | deploy `build/stage/` to a Foundry instance (`dev`/`qa`/`prod`).                          |
+| `release.mjs`                       | Legacy local release path; authenticate with `gh auth login` (CI normally cuts releases). |
+| `packs/build-compendiums.mjs`       | Compile/unpack `_source/` ↔ LevelDB packs (Foundry CLI).                                  |
+| `packs/export.mjs`                  | Vault → `_source/` export orchestrator.                                                   |
+| `packs/{items,journals,actors}.mjs` | Per-pack vault compilers.                                                                 |
+| `packs/helpers.mjs`                 | Shared pack helpers (frontmatter, `_key`, folders).                                       |
+| `packs/clean-sources.mjs`           | Remove generated `_source/` trees.                                                        |
+| `typedoc-plugin-*.mjs`              | TypeDoc plugins (source categories, nested nav, Foundry links, data-field schema).        |
 
 ## See also
 
