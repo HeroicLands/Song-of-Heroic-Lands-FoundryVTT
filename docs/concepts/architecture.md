@@ -162,17 +162,7 @@ For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger), n
 
 ## Build system
 
-```bash
-npm run build              # Full pipeline: types → test → bundle
-npm run build:types        # TypeScript compilation only
-npm run build:code         # Vite bundle
-npm run build:css          # Sass compilation
-npm run test               # Vitest
-npm run push:qa            # Sync to QA Foundry instance
-npm run docs               # Generate TypeDoc
-```
-
-Build output goes to `build/stage/`, which mirrors the Foundry system directory. `system.json` is generated from `assets/templates/system.template.json`.
+`npm run build` runs the full pipeline (type-check → test → bundle with Vite) into **`build/stage/`**, which mirrors the installed Foundry system directory — Foundry could load it as-is. For the script catalog, the pipeline stages, the `build/` layout, and how `system.json` is assembled, see [Build, Deployment, and Release](../how-to/build-and-deployment.md).
 
 ## Actor state sovereignty
 
