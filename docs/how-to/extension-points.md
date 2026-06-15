@@ -14,27 +14,7 @@ Lifecycle hooks are emitted with item-type granularity (`sohl.<itemType>.<stage>
 
 ### Recommended module guard pattern
 
-When a hook performs persistent side effects, use both a world-setting toggle and a GM-only guard:
-
-```js
-Hooks.once("init", () => {
-    game.settings.register("my-house-rules", "enableMysticalTweaks", {
-        name: "Enable mystical house rules",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: false,
-    });
-});
-
-Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
-    if (item.system.shortcode !== "curse") return;
-    if (!game.settings.get("my-house-rules", "enableMysticalTweaks")) return;
-    if (!game.user?.isGM) return;
-
-    // guarded, single-authority side effects
-});
-```
+When a hook performs persistent side effects, guard it with a world-setting toggle **and** a GM-only check, so the rule is opt-in per world and runs under a single authority. See the worked recipe in [House Rules Cookbook — guard pattern](./house-rules-cookbook.md#recipe-3-the-recommended-guard-pattern).
 
 ## Golden rule
 
