@@ -190,8 +190,14 @@ against real world data — migrations must never require manual user interventi
 - **JSDoc.** Public-API JSDoc feeds TypeDoc generation — keep it complete and
   lint-clean. PRs that modify behavior update the relevant docs: JSDoc for public
   APIs, [Extension Points](../how-to/extension-points.md) for extension points, and
-  the user guide under `../../assets/packs/journals/data/user-guide/` for user
-  workflows.
+  the user guide under `../../assets/packs/journals/_source/` for user workflows.
+- **Documentation links.** In `docs/` markdown, link to code by **symbol**, not
+  coordinates. Use `{@link Symbol}` / `{@link Symbol.member}` for API-documented
+  symbols — it resolves to the symbol page on api.heroiclands.org and never drifts.
+  For symbols absent from the API (DataModels, Sheets), use a path-only file link
+  (no line numbers) and name the symbol in prose. **Never** use line-range fragments
+  (`#L120-L140`): they rot silently on any edit and duplicate TypeDoc's automatic,
+  commit-pinned source links.
 - **Foundry v14.** Target Foundry VTT v14+ and follow the v14 patterns described in
   the [Architecture Overview](../concepts/architecture.md).
 
