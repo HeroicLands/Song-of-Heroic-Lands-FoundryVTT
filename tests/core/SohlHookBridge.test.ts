@@ -8,15 +8,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SohlEventQueue } from "@src/core/SohlEventQueue";
 import { wireSohlHookBridge } from "@src/core/SohlHookBridge";
+// Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 type HookFn = (...args: any[]) => any;
 
 function setUserFlags(opts: { isGM: boolean; isActiveGM: boolean }): void {
-    (globalThis as any).game.user = {
-        id: "testUser",
-        isGM: opts.isGM,
-        isActiveGM: opts.isActiveGM,
-    };
+    vi.spyOn(FoundryHelpers, "fvttIsCurrentUserGM").mockReturnValue(opts.isGM);
+    vi.spyOn(FoundryHelpers, "fvttIsActiveGM").mockReturnValue(opts.isActiveGM);
 }
 
 function captureHooks(): {
@@ -62,7 +61,7 @@ describe("SohlHookBridge", () => {
 
     afterEach(() => {
         captured.restore();
-        setUserFlags({ isGM: true, isActiveGM: true });
+        vi.restoreAllMocks();
     });
 
     it("registers all expected Foundry hooks", () => {

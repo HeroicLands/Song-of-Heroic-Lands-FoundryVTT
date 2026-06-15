@@ -6,6 +6,9 @@ import {
 } from "@src/domain/action/SohlAction";
 import { ACTION_SUBTYPE } from "@src/utils/constants";
 import * as ContextMenuEntryModule from "@src/utils/ContextMenuEntry";
+// Resolves to the mock-swapped shim in tests (vitest.config.ts alias); spy on
+// it instead of poking raw Foundry globals.
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 /** Foundry `CONST.DOCUMENT_OWNERSHIP_LEVELS` mirror for test readability. */
 const OWNERSHIP = { NONE: 0, LIMITED: 1, OBSERVER: 2, OWNER: 3 } as const;
@@ -114,19 +117,21 @@ describe("SohlAction.visible", () => {
     });
 
     it("exposes isGM, true when the current user is a GM", () => {
-        const prev = (globalThis as any).game.user.isGM;
-        (globalThis as any).game.user.isGM = true;
+        const userSpy = vi
+            .spyOn(FoundryHelpers, "fvttCurrentUser")
+            .mockReturnValue({ isGM: true } as any);
         const action = makeAction({ visible: "isGM" });
         expect(action.visible(mockElement())).toBe(true);
-        (globalThis as any).game.user.isGM = prev;
+        userSpy.mockRestore();
     });
 
     it("exposes isGM, false when the current user is not a GM", () => {
-        const prev = (globalThis as any).game.user.isGM;
-        (globalThis as any).game.user.isGM = false;
+        const userSpy = vi
+            .spyOn(FoundryHelpers, "fvttCurrentUser")
+            .mockReturnValue({ isGM: false } as any);
         const action = makeAction({ visible: "isGM" });
         expect(action.visible(mockElement())).toBe(false);
-        (globalThis as any).game.user.isGM = prev;
+        userSpy.mockRestore();
     });
 
     it("returns false (hidden) on compile error and warns", () => {
@@ -381,16 +386,18 @@ describe("userMeetsExecutePermission", () => {
     });
 
     it("passes the configured minActorOwnership to testUserPermission", () => {
+        const user = { isGM: false } as any;
+        const userSpy = vi
+            .spyOn(FoundryHelpers, "fvttCurrentUser")
+            .mockReturnValue(user);
         const spy = vi.fn().mockReturnValue(true);
         const actor = { testUserPermission: spy } as any;
         userMeetsExecutePermission(
             makeActionData({ minActorOwnership: OWNERSHIP.OBSERVER }),
             actor,
         );
-        expect(spy).toHaveBeenCalledWith(
-            (globalThis as any).game.user,
-            OWNERSHIP.OBSERVER,
-        );
+        expect(spy).toHaveBeenCalledWith(user, OWNERSHIP.OBSERVER);
+        userSpy.mockRestore();
     });
 
     it("defaults to OWNER when minActorOwnership is missing", () => {

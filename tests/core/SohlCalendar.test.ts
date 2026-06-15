@@ -5,8 +5,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import {
+    describe,
+    it,
+    expect,
+    vi,
+    beforeAll,
+    afterAll,
+    afterEach,
+} from "vitest";
 import { SohlCalendarData } from "@src/core/SohlCalendar";
+// Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
+
+afterEach(() => {
+    vi.restoreAllMocks();
+});
 
 const SECONDS_PER_DAY = 24 * 60 * 60;
 const SOHL_YEAR_DAYS = 360;
@@ -161,7 +175,7 @@ describe("SohlCalendarData", () => {
 
     describe("worldDate", () => {
         it("returns era-enriched components for the current world time", () => {
-            (globalThis as any).game.time.worldTime = 0;
+            vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(0);
             const cal = new SohlCalendarData(makeSohlConfig());
             const c = cal.worldDate;
             expect(c.year).toBe(0);
@@ -315,7 +329,7 @@ describe("SohlCalendarData", () => {
 
     describe("formatRelativeTime (static)", () => {
         function setWorldTime(t: number): void {
-            (globalThis as any).game.time.worldTime = t;
+            vi.spyOn(FoundryHelpers, "fvttWorldTime").mockReturnValue(t);
         }
 
         const origFormat = (globalThis as any).sohl.i18n.format;

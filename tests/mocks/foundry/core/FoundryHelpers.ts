@@ -120,6 +120,14 @@ export function fvttGetSetting(_module: string, _key: string): unknown {
     return undefined;
 }
 
+export async function fvttSetSetting(
+    _module: string,
+    _key: string,
+    _value: unknown,
+): Promise<unknown> {
+    return undefined;
+}
+
 export function fvttIsActiveGM(): boolean {
     return !!(globalThis as any).game?.user?.isActiveGM;
 }
