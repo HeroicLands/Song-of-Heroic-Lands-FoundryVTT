@@ -611,21 +611,57 @@ function checkScriptSafety(script: string): void {
 }
 
 /**
- * Compile a string of script source into a live (optionally async) function,
- * after validating its parameters and rejecting unsafe constructs.
+ * Compile a string of JavaScript source into a live, callable function inside a
+ * screened sandbox — SoHL's mechanism for running author-supplied script
+ * (notably a {@link SohlAction | Script Action}'s body) without exposing `eval`,
+ * the DOM, the network, timers, or the prototype chain.
  *
  * @remarks
- * Parameter names must be plain identifiers (so default-value expressions cannot
- * be smuggled in), and the body is screened by `checkScriptSafety`. A body
- * that does not begin with a statement keyword is wrapped in `return (...)` so
- * expression bodies work; the function always runs in strict mode.
+ * The source is **statically screened before the function is built**, so unsafe
+ * input throws here rather than at call time. Screening rejects:
  *
- * @param script - The function body (or single expression) source.
- * @param args - Parameter names; each must be a valid identifier.
+ * - A fixed list of dangerous globals/identifiers — `window`, `document`,
+ *   `globalThis`, `Function`, `eval`, `fetch`, `XMLHttpRequest`, `require`,
+ *   `import`, `setTimeout`/`setInterval`, `process`, web workers, storage,
+ *   `navigator`/`location`, `Reflect`/`Proxy`, `atob`/`btoa`, and similar
+ *   (matched outside string/comment text, so `"window-shopping"` is fine).
+ * - Prototype-escape patterns — `.constructor`, `["constructor"]`, `.__proto__`,
+ *   `["__proto__"]` — which could otherwise reach the `Function` constructor
+ *   even with the names above blocked.
+ *
+ * Parameter names must be plain identifiers (so a default-value expression like
+ * `"x = sideEffect()"` cannot be smuggled through the parameter list). A body
+ * that does not begin with a statement keyword (`return`/`{`/`if`/`for`/`while`/
+ * `switch`/`try`) is wrapped as `return (<body>);` so a bare expression works.
+ * The function always runs in strict mode.
+ *
+ * This is a *sandbox*, not a hard security boundary against an attacker who
+ * already has other access — it screens the well-known escape vectors so that
+ * data-authored script (e.g. a GM's Script Action) can run with reasonable safety.
+ *
+ * @param script - The function body, or a single expression, as source text.
+ * @param args - Parameter names for the compiled function; each must be a valid
+ *   identifier.
  * @param options - Options.
- * @param options.isAsync - Compile as an async function when `true`.
- * @returns The compiled `Function` (or async function).
- * @throws Error if a parameter name is invalid or the script fails the safety check.
+ * @param options.isAsync - Compile as an async function (so the body may
+ *   `await`) when `true`.
+ * @returns The compiled `Function` (or `AsyncFunction`).
+ * @throws Error if a parameter name is invalid, or if the script contains a
+ *   disallowed keyword or pattern.
+ * @example
+ * // Expression body — auto-wrapped in `return (...)`.
+ * const ml = textToFunction("attr.score * 5", ["attr"]);
+ * ml({ score: 8 }); // 40
+ *
+ * @example
+ * // Statement body with an explicit return; multiple parameters.
+ * const fn = textToFunction("const t = a + b; return t > 10;", ["a", "b"]);
+ * fn(7, 5); // true
+ *
+ * @example
+ * // Unsafe source is rejected when compiled, never run.
+ * textToFunction("fetch('/x')", []); // throws: disallowed keyword
+ * textToFunction("({}).constructor", []); // throws: disallowed pattern
  */
 export function textToFunction(
     script: string,

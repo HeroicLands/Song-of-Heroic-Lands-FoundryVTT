@@ -14,22 +14,13 @@
 import jsep from "jsep";
 
 /**
- * A safe, sandboxed evaluator for the small JS-like expression language used
- * by data-driven predicates (e.g. an Active Effect's `test` field).
+ * A safe, sandboxed evaluator for the small JS-like expression language used by
+ * SoHL's data-driven predicates. The public entry point is {@link SafeExpression};
+ * see its documentation for the supported grammar and usage examples.
  *
  * Expressions are parsed with {@link https://github.com/EricSmekens/jsep | jsep}
- * into an AST, statically validated, then evaluated by walking that AST. The
- * language is a strict **allowlist**: there is no way to reach `eval`, the
- * `Function` constructor, the prototype chain, or any method — the only
- * callable values are the named helpers supplied to the constructor.
- *
- * Supported: literals, array literals, identifiers (resolved from the
- * evaluation context), property access (dot and bracket — getters included),
- * the operators `=== !== < > <= >= + - * / %`, the short-circuiting `&&`/`||`,
- * the unary operators `! - +`, ternary conditionals, and calls to registered
- * helpers. Everything else — assignment, bitwise/loose-equality operators,
- * `typeof`/`new`/`delete`/`instanceof`, statements, template/regex literals,
- * method calls — is rejected at parse or validation time.
+ * into an AST, statically validated against a strict allowlist, then evaluated by
+ * walking that AST.
  */
 
 /** Binary operators the evaluator implements (jsep is narrowed to match). */
@@ -93,10 +84,88 @@ export type ExpressionHelper = (...args: unknown[]) => unknown;
 export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
 
 /**
- * A parsed, validated, reusable safe expression.
+ * A parsed, validated, reusable safe expression — SoHL's way to evaluate a
+ * condition that was written as a *string* (for example, a predicate a GM types
+ * into an action's `trigger` field, or an Active Effect's `test`) without the
+ * dangers of `eval`.
  *
- * Construction parses and validates the expression once; {@link evaluate} may
- * then be called any number of times against different contexts.
+ * It exists because such strings come from data, not source code: they must be
+ * evaluated against live game objects, yet must never be able to run arbitrary
+ * code, reach the DOM or network, or escape through the prototype chain.
+ * `SafeExpression` parses the string into a syntax tree, **statically validates**
+ * it against a strict allowlist, then evaluates that tree by hand. Anything
+ * outside the allowed language is rejected — usually before it ever runs.
+ *
+ * ## Using it
+ *
+ * Two steps: build once, then evaluate as often as you like.
+ *
+ * 1. **Construct** — `new SafeExpression(source, helpers?)` parses and validates
+ *    `source` immediately. If the string uses anything unsupported it throws a
+ *    {@link SafeExpressionError} right here, so a bad predicate fails loudly at
+ *    setup time instead of silently at use time. Construction is the costly step;
+ *    keep the instance and reuse it.
+ * 2. **Evaluate** — `expr.evaluate(context?)` runs the expression against
+ *    `context`, a plain object of variable bindings. Every bare identifier in the
+ *    expression is looked up by name in `context`. It returns whatever the
+ *    expression computes (for a predicate, a boolean).
+ *
+ * @example
+ * // A simple predicate. `level` and `injured` are read from the context object.
+ * const expr = new SafeExpression("level >= 3 && !injured");
+ * expr.evaluate({ level: 5, injured: false }); // true
+ * expr.evaluate({ level: 2, injured: false }); // false
+ * expr.evaluate({ level: 9, injured: true });  // false
+ *
+ * ## The language
+ *
+ * **Allowed:** literals (`3`, `"orc"`, `true`), array literals (`[1, 2]`),
+ * identifiers resolved from the context, property access by dot or bracket
+ * (`actor.name`, `tags["ranged"]`), the operators `=== !== < > <= >= + - * / %`,
+ * the short-circuiting `&&` and `||`, the unary `! - +`, the ternary
+ * `cond ? a : b`, and calls to **helpers** (below).
+ *
+ * **Rejected — at parse/validation time, before anything runs:** assignment
+ * (`=`), bitwise and loose-equality operators (`& | == !=`), `typeof` / `new` /
+ * `delete` / `instanceof`, statements (`;`, `if`, `for`), template and regex
+ * literals, and — importantly — **method calls**. You cannot write `actor.die()`;
+ * the only callable values are the helpers you supply.
+ *
+ * @example
+ * // Property access and a ternary, evaluated against nested context data.
+ * const expr = new SafeExpression("actor.hp > 0 ? actor.name : 'down'");
+ * expr.evaluate({ actor: { hp: 4, name: "Grymm" } }); // "Grymm"
+ * expr.evaluate({ actor: { hp: 0, name: "Grymm" } }); // "down"
+ *
+ * ## Helpers
+ *
+ * Because method calls are banned, **helpers** are how you expose behavior to an
+ * expression. Pass a map of name → function as the second constructor argument;
+ * the expression may then call those names. Helpers receive already-evaluated
+ * arguments and may return anything.
+ *
+ * @example
+ * // Supply helpers, then call them by name from the expression.
+ * const expr = new SafeExpression("has(tags, 'ranged') && len(tags) <= 3", {
+ *     has: (arr, v) => Array.isArray(arr) && arr.includes(v),
+ *     len: (arr) => (Array.isArray(arr) ? arr.length : 0),
+ * });
+ * expr.evaluate({ tags: ["ranged", "magic"] }); // true
+ *
+ * ## Errors
+ *
+ * Every failure — a parse error, an unsupported node, an unknown identifier at
+ * evaluation, or an attempt to extract a method — surfaces as a
+ * {@link SafeExpressionError}. Syntax and validation failures throw from the
+ * constructor; runtime failures throw from {@link evaluate}.
+ *
+ * @example
+ * // Unsafe or unsupported syntax never runs — it throws when you build it.
+ * new SafeExpression("actor.die()"); // SafeExpressionError: method call
+ * new SafeExpression("a = 1");       // SafeExpressionError: assignment
+ *
+ * @see {@link SafeExpressionError} — the single error type every failure uses.
+ * @see {@link ExpressionHelper} — the helper function signature.
  */
 export class SafeExpression {
     /** The original expression source string. */

@@ -52,32 +52,36 @@ export type ActionVisibilityFn = (element: HTMLElement) => boolean;
 export type ActionExecutorFn = (context: SohlActionContext) => Promise<unknown>;
 
 /**
- * Logic for the **Action** item type — an executable procedure attached to
- * a document.
+ * An executable **action** attached to a document (an actor or item) and
+ * surfaced as an entry on that document's **context menu** (and on chat-card
+ * buttons). Choosing the entry runs the action.
  *
- * Actions represent anything a character or item can *do*: performing a skill
- * test, making an attack, activating a mystical ability, using an item, or
- * triggering a custom script. They appear as clickable entries in context menus
- * and chat cards.
+ * Actions are how a character or item *does* something — run a skill test, make
+ * an attack, activate a mystical ability. They come in two flavors that differ
+ * only in where the executor comes from:
  *
- * There are two subtypes:
- * - **Intrinsic actions** — Built-in actions defined by Logic classes (e.g.,
- *   `attackTest` on a StrikeMode, `healingTest` on a Trauma). These call
- *   a named method on the target logic.
- * - **Custom actions** — User-defined actions with arbitrary executor code.
+ * - **Intrinsic actions** — defined in code by Logic classes via
+ *   `defineIntrinsicActions()`. The `executor` is the *name of a method* on the
+ *   scoped target logic (e.g. `useMystery` on a Mystery), looked up and bound at
+ *   construction. This is how the system ships its built-in actions.
+ * - **Script actions** — GM-authored. The `executor` is a JavaScript body
+ *   compiled in a sandbox by {@link textToFunction} (no DOM, network, timers, or
+ *   prototype escapes) and called with a {@link SohlActionContext} as its
+ *   `context` parameter. Stored per-document and permission-gated; there is no
+ *   end-user authoring UI.
  *
- * Each action has:
- * - An **executor** function that performs the action
- * - A **trigger** predicate that determines when the action is available
- * - A **visible** flag/function controlling UI display
- * - A **scope** (SELF, ITEM, or ACTOR) determining which logic object
- *   the executor runs against
+ * Either way, an action carries:
+ * - a **scope** (`SELF` / `ITEM` / `ACTOR`) selecting which logic the executor
+ *   binds to — i.e. what `this` is when it runs (the action's own logic, the
+ *   owning item's, or the owning actor's);
+ * - a {@link trigger} predicate (availability) and a {@link visible} predicate
+ *   (UI display), each authored as a {@link SafeExpression} string;
+ * - an {@link executor} that performs the work.
  *
- * During initialization, the Action resolves its executor, trigger, and
- * visibility from stored string representations into callable functions,
- * and binds them to the appropriate target logic based on scope.
- *
- * @typeParam TData - The Action data interface.
+ * The constructor compiles `trigger`/`visible` and resolves/binds `executor`
+ * from their stored string forms, so a finished `SohlAction` is ready to
+ * {@link execute}. See {@link SohlLogic.getContextOptions} for how actions become
+ * context-menu entries.
  */
 export class SohlAction {
     /** The persisted action definition (see {@link SohlAction.Data}). */

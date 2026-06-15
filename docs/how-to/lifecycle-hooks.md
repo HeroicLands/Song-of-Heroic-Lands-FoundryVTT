@@ -2,14 +2,14 @@
 
 > **Audience:** Foundry module developers who want to augment SoHL actor/item behavior broadly, without modifying SoHL source.
 >
-> **Complexity:** Moderate. Lifecycle hooks require writing a Foundry module (JavaScript/TypeScript) but do not require understanding SoHL internals deeply. This is the recommended approach for house rules that apply broadly across many items or actors. For simpler, no-code customization on specific items, see [Action Items](./actions.md) in the user guide.
+> **Complexity:** Moderate. Lifecycle hooks require writing a Foundry module (JavaScript/TypeScript) but do not require understanding SoHL internals deeply. This is the recommended approach for house rules that apply broadly across many items or actors. For behavior on one specific item, see [Macros and Actions](./macros-and-actions.md).
 
-See also: [Action Items](./actions.md), [Extension Points](./extension-points.md), [Lifecycle Model](../concepts/lifecycle-model.md), [House Rules Cookbook](./house-rules-cookbook.md).
+See also: [Macros and Actions](./macros-and-actions.md), [Extension Points](./extension-points.md), [Lifecycle Model](../concepts/lifecycle-model.md), [House Rules Cookbook](./house-rules-cookbook.md).
 
 **You are here**
 
 - This page covers SoHL's **lifecycle hooks**: Foundry VTT hook points emitted during data preparation that modules can listen to.
-- For narrow per-item logic, use [Action Items](./actions.md) instead.
+- For narrow per-item logic, use [Macros and Actions](./macros-and-actions.md) instead.
 
 ## Overview
 
@@ -19,7 +19,7 @@ SoHL emits Foundry VTT `Hooks` at each phase of its preparation lifecycle. Modul
 - Apply house rules that affect all items of a given type across all actors.
 - React to or suppress phase execution entirely (via cancellable `pre*` hooks).
 
-Because this mechanism uses Foundry module hooks, it requires building and installing a separate Foundry module. It is not appropriate for per-item customization — for that, use [Action Items](./actions.md).
+Because this mechanism uses Foundry module hooks, it requires building and installing a separate Foundry module. It is not appropriate for per-item customization — for that, use [Macros and Actions](./macros-and-actions.md).
 
 ## Lifecycle phase recap
 

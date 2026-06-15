@@ -26,7 +26,8 @@ Task-oriented guides for getting something done.
 - [Getting Started (New Developer Guide)](how-to/getting-started.md)
 - [Extension Points](how-to/extension-points.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
-- [Actions](how-to/actions.md)
+- [The SoHL API](how-to/sohl-api.md)
+- [Macros and Actions](how-to/macros-and-actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 

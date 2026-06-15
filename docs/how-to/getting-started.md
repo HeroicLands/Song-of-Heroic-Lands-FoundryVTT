@@ -155,6 +155,6 @@ User guide source: `assets/packs/journals/data/user-guide/*.md` — compiled int
 | Understand combat resolution      | [Combat Pipeline](../reference/combat-resolution-pipeline.md) |
 | Understand hit locations          | [Body Structure](../reference/body-structure.md)              |
 | Add house rules via module        | [Lifecycle Hooks](./lifecycle-hooks.md)                       |
-| Add per-item behavior             | [Actions](./actions.md)                                       |
+| Add per-item behavior             | [Macros and Actions](./macros-and-actions.md)                 |
 | Write tests                       | [Testing](./testing.md)                                       |
 | Understand active effects         | [Effects Integration](../reference/effects-integration.md)    |

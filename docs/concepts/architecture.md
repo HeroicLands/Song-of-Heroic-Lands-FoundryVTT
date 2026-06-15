@@ -143,7 +143,7 @@ SoHL provides two levels of extension for customizing behavior without modifying
 
 1. **Modules via lifecycle hooks** — Foundry modules listen for hooks emitted at each lifecycle phase to augment behavior broadly across items or actors. See [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
-2. **Action items** — document-attached executable logic for per-item overrides. See [Actions](../how-to/actions.md).
+2. **Actions** — document-attached executable logic surfaced on context menus, for per-item behavior. See [Macros and Actions](../how-to/macros-and-actions.md).
 
 ## FoundryHelpers shim
 
@@ -186,7 +186,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 ## Architectural rules
 
 1. **Logic layer stays Foundry-free.** All Foundry API calls go through `FoundryHelpers.ts`.
-2. **Extension over rewrites.** Use hooks and action items, not source modifications.
+2. **Extension over rewrites.** Use hooks and actions, not source modifications.
 3. **Backwards compatibility.** Never rename data fields without a migration strategy.
 4. **No global search-and-replace.** Cross-cutting changes must be scoped and validated.
 5. **Stable localization keys.** Never rename keys in `lang/en.json` — add new ones.
@@ -201,7 +201,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 | Lifecycle phases  | [Lifecycle Model](./lifecycle-model.md)                                  |
 | Extending SoHL    | [Extension Points](../how-to/extension-points.md)                        |
 | Lifecycle hooks   | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
-| Action items      | [Actions](../how-to/actions.md)                                          |
+| Actions           | [Macros and Actions](../how-to/macros-and-actions.md)                    |
 | Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
 | Modifier system   | [Modifier Model](../reference/modifier-model.md)                         |
 | Body anatomy      | [Body Structure](../reference/body-structure.md)                         |
