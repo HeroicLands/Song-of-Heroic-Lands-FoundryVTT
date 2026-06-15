@@ -101,8 +101,8 @@ jobs:
                   name: Release ${{ steps.decide.outputs.tag }}
                   body: ${{ steps.changelog.outputs.body }}
                   files: |
-                      build/release/system.zip
-                      build/release/system.json
+                      build/dist/system.zip
+                      build/dist/system.json
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
