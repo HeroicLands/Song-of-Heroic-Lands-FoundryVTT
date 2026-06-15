@@ -221,43 +221,69 @@ contains `Data/`), not at `systems/` — the deploy appends the rest.
 - After the deploy completes, **reload/restart** Foundry to load the new system.
 - The first time you use it in a world, select **SoHL** as the world's game system.
 
-## 7. The release process
+## 7. Cutting a release
 
-Releases are driven by [changesets](../contributing/writing-changesets.md) and cut by
-CI; the maintainer's only manual steps are authoring changesets and merging the
-version PR.
+**There is no `npm run release`.** A release is cut by **merging the auto-generated
+"Version Packages" PR**; the `Version and Release` GitHub Actions workflow
+(`.github/workflows/release.yml`) does the build, tag, GitHub Release, and asset
+upload. The only command you type by hand is the docs-deploy dispatch at the end.
 
-1. 🔧 **Author changesets.** Every `feat`/`bug` PR adds a `.changeset/*.md` entry
-   (`npm run changeset`). These accumulate on `main`.
-2. **Version PR (CI).** On push to `main`, `.github/workflows/release.yml` runs
-   `changeset version` and opens/updates a **"Version Packages"** PR that bumps
-   `package.json` and rewrites `CHANGELOG.md`.
-3. 🔧 **Merge the Version Packages PR.** This is the human "cut a release" decision.
-4. **Release (CI).** When that merge lands and the new version isn't yet tagged,
-   `release.yml` runs `npm run build` + `npm run build:pack-release`, creates the
-   `v<version>` tag and a **GitHub Release**, and uploads `system.zip` + `system.json`
-   as assets. Foundry installs/updates from those URLs (the `manifest`/`download`
-   fields baked into `system.json`).
-5. **API docs (CI).** `.github/workflows/deploy-docs.yml` publishes the versioned
-   docs to `api.heroiclands.org/v<version>/` and updates `/latest/`. It runs on the
-   release event; 🔧 if it doesn't fire (the default Actions token doesn't always
-   trigger downstream workflows), dispatch it manually — `release.yml` prints the
-   exact command:
+### While developing
+
+Every `feat`/`bug` PR carries a changeset (see
+[Writing Changesets](../contributing/writing-changesets.md)):
+
+```bash
+npm run changeset   # choose the version bump, write the summary
+# then commit the generated .changeset/*.md with your PR
+```
+
+These accumulate on `main` as PRs merge.
+
+### To cut the release (maintainer)
+
+1. Make sure every change you want in the release is merged to `main`, each with its
+   changeset.
+2. On each push to `main`, the workflow opens or updates a PR titled
+   **`chore(release): version packages`** — it runs `changeset version` to bump
+   `package.json` and rewrite `CHANGELOG.md`. Review it (the version and changelog
+   are the release).
+3. 🔧 **Merge that PR.** Merging _is_ the release — there's nothing else to run
+   locally. The workflow re-runs on the merge, sees a new untagged version, and
+   automatically:
+    - runs `npm run build` then `npm run build:pack-release`,
+    - creates the `v<version>` git tag and a **GitHub Release**,
+    - attaches `system.zip` + `system.json` (the manifest/download Foundry installs
+      and updates from).
+4. 🔧 **Publish the versioned API docs.** The Release is created with the Actions
+   `GITHUB_TOKEN`, which by design can't trigger another workflow, so the docs
+   workflow does **not** fire on its own. Run (substituting the version just
+   released — the release job also prints this exact line in its run summary):
 
     ```bash
-    gh workflow run deploy-docs.yml --ref v<version>
+    gh workflow run deploy-docs.yml --ref v<version>   # e.g. v0.7.1
     ```
+
+    This publishes `api.heroiclands.org/v<version>/` and mirrors it to `/latest/`.
+
+That's the entire release. Two notes:
+
+- `npm run deploy:release` only builds the release zip **locally** (into
+  `build/dist/`) for inspection — it does **not** publish anything. Releasing always
+  goes through the merge-the-PR flow above.
+- A push to `main` with no pending changesets whose version is already tagged does
+  nothing — ordinary merges never release.
 
 **At a glance — who does what:**
 
-| Step                          | Manual?                                 | By         |
-| ----------------------------- | --------------------------------------- | ---------- |
-| Author changesets             | 🔧 yes                                  | developer  |
-| Open the Version Packages PR  | no (CI)                                 | —          |
-| Merge the Version Packages PR | 🔧 yes                                  | maintainer |
-| Tag + GitHub Release + assets | no (CI)                                 | —          |
-| Publish versioned API docs    | mostly CI; 🔧 manual dispatch if needed | maintainer |
-| Deploy to a Foundry instance  | 🔧 yes                                  | operator   |
+| Step                          | Manual?                                                     | By         |
+| ----------------------------- | ----------------------------------------------------------- | ---------- |
+| Author changesets             | 🔧 yes                                                      | developer  |
+| Open the Version Packages PR  | no (CI)                                                     | —          |
+| Merge the Version Packages PR | 🔧 yes                                                      | maintainer |
+| Tag + GitHub Release + assets | no (CI)                                                     | —          |
+| Publish versioned API docs    | 🔧 yes (`gh workflow run deploy-docs.yml --ref v<version>`) | maintainer |
+| Deploy to a Foundry instance  | 🔧 yes                                                      | operator   |
 
 ## 8. The build utility scripts
 
