@@ -24,6 +24,10 @@
  * `scoreBase` set from the map value. Each entry in `sohl.items` is similarly
  * resolved by `(type, shortcode)` and deep-merged with the entry's other
  * properties. `sohl.skills` is ignored.
+ *
+ * Not a standalone script — exports the `Actors` compiler class, imported and
+ * driven by `utils/packs/export.mjs` (`npm run packs:export`). Must run after
+ * the items pass, since it reads the items pack's `_source/` tree.
  */
 
 import fs from "fs";

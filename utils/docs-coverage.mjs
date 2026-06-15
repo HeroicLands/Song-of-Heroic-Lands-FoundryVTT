@@ -21,6 +21,14 @@
  * in CLAUDE.md / the player rules site rather than per-member TSDoc. Its
  * top-level tables/helpers (notably `defineType`) are still documented; only the
  * member-level `notDocumented` noise is ignored here.
+ *
+ * Reads nothing; shells out to `npx typedoc --options typedoc-html.json
+ * --validation.notDocumented` and parses its output. Exits non-zero (failing
+ * CI) if any in-scope symbol is undocumented.
+ *
+ * Usage:
+ *   npm run docs:coverage:check  // node utils/docs-coverage.mjs
+ *   node utils/docs-coverage.mjs // direct invocation (no args)
  */
 import { spawnSync } from "node:child_process";
 

@@ -11,6 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Packages the staged build into a distributable release archive.
+ *
+ * Reads `build/stage/system.json` for the version, zips the entire
+ * `build/stage` directory (max compression) to `build/dist/system.zip`, and
+ * copies `system.json` alongside it into `build/dist`. Exports `packStage()`
+ * for programmatic use and runs it automatically when invoked directly.
+ *
+ * Usage:
+ *   npm run build:pack-release   // node utils/pack-release.mjs
+ *   node utils/pack-release.mjs  // direct invocation (no args)
+ */
+
 import fs from "fs";
 import fsp from "fs/promises";
 import archiver from "archiver";

@@ -11,6 +11,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Legacy local GitHub-release helper — cuts a release from a local build.
+ *
+ * Reads the version from `build/stage/system.json`, then creates a GitHub
+ * release tagged `v<version>` on the `main` commit of
+ * `HeroicLands/Song-of-Heroic-Lands-FoundryVTT` (the tag is created if
+ * absent) and uploads `build/system-<version>.zip` (as `sohl-<version>.zip`)
+ * and `system.json` as release assets. Requires `GITHUB_TOKEN` in
+ * `.env.local`/`.env`/the environment, plus a prior `npm run build` and
+ * `npm run build:pack-release`.
+ *
+ * NOTE: Legacy — CI normally cuts releases (see the release workflow); no
+ * npm script wires this in. Kept for manual/local releases.
+ *
+ * Usage:
+ *   node utils/release.mjs                 // GITHUB_TOKEN must be set
+ */
+
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

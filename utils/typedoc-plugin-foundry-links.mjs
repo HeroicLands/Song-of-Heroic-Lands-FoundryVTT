@@ -23,6 +23,9 @@
  * already-qualified references (`foundry.dice.Roll`) are used as-is. Unknown
  * Foundry symbols are left unlinked rather than guessed.
  *
+ * Not invoked directly — loaded by TypeDoc via the `plugin` array in
+ * typedoc-html.json / typedoc-markdown.json.
+ *
  * @param {import("typedoc").Application} app
  */
 export function load(app) {

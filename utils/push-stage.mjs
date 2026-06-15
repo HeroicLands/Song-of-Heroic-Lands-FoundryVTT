@@ -11,6 +11,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Deploy the staged build to a Foundry data directory via rsync.
+ *
+ * Loads `.env.local` (then `.env`) from the repo root and reads the
+ * destination from `FOUNDRYVTT_<STAGE>_DATA` (dev/qa/prod). rsyncs
+ * `build/stage/` → `<dataRoot>/Data/systems/sohl/` with `--delete`,
+ * supporting both local paths and remote `host:path` targets (the latter
+ * requires rsync on PATH). Exits non-zero on a missing stage/env var or an
+ * rsync failure.
+ *
+ * Usage:
+ *   npm run push:dev                       // → node utils/push-stage.mjs dev
+ *   npm run push:qa                        // → node utils/push-stage.mjs qa
+ *   npm run push:prod                      // → node utils/push-stage.mjs prod
+ *   node utils/push-stage.mjs <dev|qa|prod>
+ */
+
 import path from "path";
 import process from "process";
 import { spawnSync } from "child_process";
