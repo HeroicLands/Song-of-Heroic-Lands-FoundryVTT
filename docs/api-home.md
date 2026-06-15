@@ -44,7 +44,6 @@ maps directly to a group here:
 - [Lifecycle Model](concepts/lifecycle-model.md)
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [The SoHL API](concepts/sohl-api.md)
-- [Assembly Architecture](concepts/assembly-architecture.md)
 
 ### How-to — task-oriented guides
 

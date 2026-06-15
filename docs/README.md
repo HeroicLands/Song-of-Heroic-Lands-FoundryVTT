@@ -18,7 +18,6 @@ Design and rationale — how and why the system is built the way it is.
 - [Lifecycle Model](concepts/lifecycle-model.md)
 - [Macros and Actions](concepts/macros-and-actions.md)
 - [The SoHL API](concepts/sohl-api.md)
-- [Assembly Architecture](concepts/assembly-architecture.md)
 - [CSS Architecture & Styleguide](concepts/css-architecture.md)
 
 ## How-to

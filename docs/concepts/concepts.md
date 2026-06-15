@@ -5,7 +5,6 @@ children:
     Lifecycle Model: ./lifecycle-model.md
     Macros and Actions: ./macros-and-actions.md
     The SoHL API: ./sohl-api.md
-    Assembly Architecture: ./assembly-architecture.md
     CSS Architecture & Styleguide: ./css-architecture.md
 ---
 
