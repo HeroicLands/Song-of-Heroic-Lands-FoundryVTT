@@ -68,7 +68,7 @@ maps directly to a group here:
 
 ### Contributing — standards and how to contribute
 
-- [Contributing Guide](contributing/contributing.md)
+- [System Development](contributing/system-development.md)
 - [API Docs Hosting](contributing/api-docs-hosting.md)
 
 ---

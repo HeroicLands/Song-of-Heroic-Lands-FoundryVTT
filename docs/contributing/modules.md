@@ -109,4 +109,4 @@ custom properties — no markup changes. See
   helps testability.
 
 For the standards your contributions to the core system must meet (as opposed to a
-standalone module), see the [Contributing guide](./contributing.md).
+standalone module), see [System Development](./system-development.md).

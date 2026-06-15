@@ -5,11 +5,12 @@ Thank you for your interest in contributing to _Song of Heroic Lands_.
 # System Development
 
 If you are interested in contributing directly to the _Song of Heroic Lands_
-system codebase, please review the **Contributing guide**, which holds the rules
-of development in this repo. It is published on the website and mirrored in-repo:
+system codebase, please review the **System Development guide**, which holds the
+rules of development in this repo. It is published on the website and mirrored
+in-repo:
 
-- Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.html>
-- In-repo: [docs/contributing/contributing.md](docs/contributing/contributing.md)
+- Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.System_Development.html>
+- In-repo: [docs/contributing/system-development.md](docs/contributing/system-development.md)
 
 # Writing Modules
 

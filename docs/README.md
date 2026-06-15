@@ -49,7 +49,7 @@ Contracts, catalogs, and specifications.
 
 How to contribute: standards, the development workflow, and maintainer/project-meta.
 
-- [Contributing Guide](contributing/contributing.md) — standards, the rules of development, and how to submit a change.
+- [System Development](contributing/system-development.md) — standards, the rules of development, and how to submit a change.
 - [API Docs Hosting (api.heroiclands.org)](contributing/api-docs-hosting.md)
 
 ## Player & GM rules (external)
