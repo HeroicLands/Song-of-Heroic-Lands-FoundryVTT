@@ -95,10 +95,17 @@ Primary file: `src/utils/constants.ts`
 
 Changing constants is a high-impact operation: treat as migration-sensitive.
 
+## Chat-card dispatch contract
+
+Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed by the `renderChatMessageHTML` hook in `src/sohl.ts`. The handler document is resolved from the clicked element's dataset by `resolveChatCardHandlerUuid(dataset)` (`src/document/chat/chat-card-dispatch.ts`), which normalizes the differing attribute conventions across cards with this precedence:
+
+1. `data-doc-uuid` (standard-test, fate, edit-action cards)
+2. `data-handler-uuid` (damage, injury, attack-result cards)
+3. `data-handler-actor-uuid` (attack-card defender responder)
+4. `data-action-handler-uuid` (opposed-request / opposed-result cards)
+
+The resolved document's `onChatCardButton(btn)` (or `onChatCardEditAction`) is then invoked; handlers switch on `btn.dataset.action`. New card buttons must emit one of the attributes above and add an `action` case rather than introducing a new attribute name. For the procedure, see [Extension Points — Adding a chat-card button](../how-to/extension-points.md#adding-a-chat-card-button).
+
 ## Safe extension checklist
 
-1. Add new kind constant + metadata.
-2. Implement data model + logic + (if needed) sheet class.
-3. Register mappings in `SohlSystem` config/registries.
-4. Verify `fromData(...)` and drag/drop/sheet contexts resolve correctly.
-5. Validate startup.
+To add a new actor or item type, follow the worked example in [Extension Points — Actor and Item type extension](../how-to/extension-points.md#2-actor-and-item-type-extension): add the kind constant + metadata → data model + logic + sheet → register in `SohlSystem` → verify `fromData(...)`/drag-drop/sheet contexts resolve → validate startup.
