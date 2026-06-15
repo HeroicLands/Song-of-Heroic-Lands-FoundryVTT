@@ -112,8 +112,12 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The data model this logic is associated with.
-     * @remarks This is a convenience accessor for `this.parent`.
+     * This logic's typed data — its `*Data` interface (e.g. `SkillData`), the same
+     * persisted object as `document.system`. Prefer **`document.logic.data`** when
+     * reading a document's fields from a macro, Script Action, or module: it is the
+     * typed, API-documented surface (autocomplete and reference links resolve),
+     * whereas `document.system` is typed as the internal DataModel.
+     * @remarks Convenience accessor for {@link parent}.
      */
     get data(): TData {
         return this.parent;

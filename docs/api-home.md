@@ -43,6 +43,7 @@ maps directly to a group here:
 - [Architecture Overview](concepts/architecture.md)
 - [Lifecycle Model](concepts/lifecycle-model.md)
 - [Macros and Actions](concepts/macros-and-actions.md)
+- [The SoHL API](concepts/sohl-api.md)
 - [Assembly Architecture](concepts/assembly-architecture.md)
 
 ### How-to — task-oriented guides
@@ -50,7 +51,6 @@ maps directly to a group here:
 - [Getting Started](how-to/getting-started.md)
 - [Extension Points](how-to/extension-points.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
-- [The SoHL API](how-to/sohl-api.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 

@@ -5,7 +5,6 @@ children:
     Build, Deployment, and Release: ./build-and-deployment.md
     Extension Points: ./extension-points.md
     Lifecycle Hooks: ./lifecycle-hooks.md
-    The SoHL API: ./sohl-api.md
     House Rules Cookbook: ./house-rules-cookbook.md
     Testing: ./testing.md
 ---

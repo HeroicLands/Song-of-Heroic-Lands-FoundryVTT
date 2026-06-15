@@ -212,7 +212,7 @@ add content or automation, or script behavior — do it from the outside:
   extends SoHL via hooks, registries, the `sohl` public object, and CSS variables.
 - [Macros and Actions](../concepts/macros-and-actions.md) — write macro-bar scripts or
   document-attached Script Actions against the SoHL API.
-- [The SoHL API](../how-to/sohl-api.md) — the document and `sohl` surfaces scripts
+- [The SoHL API](../concepts/sohl-api.md) — the document and `sohl` surfaces scripts
   and modules use.
 
 These build on the deeper how-to references —

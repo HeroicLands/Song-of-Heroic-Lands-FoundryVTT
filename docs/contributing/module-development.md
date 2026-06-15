@@ -49,7 +49,7 @@ Your module's entry script then hooks into the system at runtime, as below.
 
 A module reaches SoHL through the same two surfaces any script uses — the global
 `sohl` object (system-wide services and helpers) and each document's `.logic`
-(per-document state and actions). See **[The SoHL API](../how-to/sohl-api.md)**
+(per-document state and actions). See **[The SoHL API](../concepts/sohl-api.md)**
 for both surfaces and the `SohlSystem` member reference. For **type-safe** module
 development, the public class and type surface is published in
 `types/sohl-public-api.d.ts`; import those types with `import type` for editor

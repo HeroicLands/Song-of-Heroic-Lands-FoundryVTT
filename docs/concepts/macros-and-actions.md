@@ -1,7 +1,7 @@
 # Macros and Actions
 
 There are two ways to run custom behavior in a Song of Heroic Lands world, and
-both are built on [The SoHL API](../how-to/sohl-api.md). They are **different things**:
+both are built on [The SoHL API](./sohl-api.md). They are **different things**:
 
 - A **macro** lives on the **macro bar**, can be given a **hotkey**, and is **not**
   attached to any document.
@@ -21,7 +21,7 @@ hotkey, and run on demand — see Foundry's
 [Macros article](https://foundryvtt.com/article/macros/) for the feature itself. It
 isn't tied to any particular actor or item, so it carries no document context of its
 own — you reach whatever you need through the API (the `sohl` surface for helpers,
-the document surface for a specific thing; see [The SoHL API](../how-to/sohl-api.md)).
+the document surface for a specific thing; see [The SoHL API](./sohl-api.md)).
 
 ```js
 // Macro: report the selected token's actor health.
@@ -48,10 +48,6 @@ sandbox, and a worked example are all documented on **{@link SohlAction}** (and
 {@link SohlAction.Data}). If a body needs what the sandbox forbids (DOM, network,
 timers), use a [module](../contributing/module-development.md) instead.
 
-A short body that isn't a statement is treated as an expression and returned, so a
-one-liner works; use an explicit `return` for multi-statement bodies, and set the
-action's `isAsync` flag if the body uses `await`.
-
 ## How SoHL uses this internally: intrinsic actions
 
 The same mechanism powers SoHL's own built-in behaviors. **Every** action — a GM's
@@ -73,7 +69,7 @@ than attach one action, use [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
 ## See also
 
-- [The SoHL API](../how-to/sohl-api.md) — the document and `sohl` surfaces these scripts use.
+- [The SoHL API](./sohl-api.md) — the document and `sohl` surfaces these scripts use.
 - [Lifecycle Hooks](../how-to/lifecycle-hooks.md) — type-wide behavior instead of a
   per-document action.
 - [Extension Points](../how-to/extension-points.md) — defining intrinsic actions and new types.
