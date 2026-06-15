@@ -103,48 +103,24 @@ This yields the lifecycle barrier semantics used throughout SoHL:
 
 ## Lifecycle hooks and Action items
 
-During item phases, SoHL emits item-type lifecycle hooks and executes lifecycle-named Action items:
+The same initialize → evaluate → finalize schedule is where SoHL's two phase-local
+extension points fire. For each item, within its phase loop in
+`SohlActor.prepareEmbeddedData()`, the order is:
 
-- `sohl.<itemType>.postInitialize`
-- `sohl.<itemType>.postEvaluate`
-- `sohl.<itemType>.postFinalize`
+1. run the item logic's phase method (`initialize` / `evaluate` / `finalize`),
+2. emit the matching `sohl.<itemType>.post<Phase>` hook, then
+3. execute the item's matching lifecycle-named Action, if any.
 
-These are phase-local extension points layered on top of the same initialize/evaluate/finalize schedule.
+So hooks run **before** lifecycle Action execution for the same item and stage — and
+the phase barriers still hold with hooks active (all `postInitialize` activity
+completes before any `evaluate` begins, and so on). A handler must therefore honor
+the same phase assumptions as the logic it augments: no finalize-only work in
+`postInitialize`.
 
-### Hook naming and granularity
-
-- Hook names are item-type specific.
-- If you need shortcode-specific behavior, branch in the handler using `item.system.shortcode`.
-
-### Hook payload
-
-Each lifecycle hook is called with:
-
-1. `item` — the current item in that phase,
-2. `ctx` — the `SohlActionContext` created for actor lifecycle processing.
-
-### Per-item phase order
-
-Within each item phase loop in `SohlActor.prepareEmbeddedData()`, the order is:
-
-1. run item logic phase method (`initialize`, `evaluate`, or `finalize`),
-2. emit matching lifecycle hook (`Hooks.callAll(...)`),
-3. execute matching lifecycle-named Action item if present.
-
-So hooks run **before** lifecycle Action execution for the same item and stage.
-
-### Phase-barrier behavior still applies
-
-- Even with hooks, SoHL keeps phase barriers intact:
-    - all `postInitialize` activity completes before any `evaluate` loop begins,
-    - all `postEvaluate` activity completes before any `finalize` loop begins.
-- Hook listeners should still honor phase assumptions (for example, no finalize-only dependency work in `postInitialize`).
-
-### Practical guidance for hook authors
-
-- Keep handlers idempotent where possible (prepare runs can occur multiple times).
-- Prefer deterministic mutations and avoid relying on UI state.
-- Use narrow in-handler filters (for example on `item.system.shortcode`) to avoid unintended broad effects.
+The emitted-hook **contract** (names, cancellable `pre*` semantics, arguments) is
+documented on {@link SohlActor}; authoring a module against these hooks — narrowing
+by `item.system.shortcode`, the idempotency / GM-guard pattern — is covered in
+[Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
 ## Implementation guidance
 
