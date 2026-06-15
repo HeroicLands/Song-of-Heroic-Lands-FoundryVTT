@@ -65,8 +65,9 @@ maps directly to a group here:
 - [Calendar](reference/calendar.md)
 - [Event Queue](reference/event-queue.md)
 
-### Contributing — maintainer and project-meta
+### Contributing — standards and how to contribute
 
+- [Contributing Guide](contributing/contributing.md)
 - [API Docs Hosting](contributing/api-docs-hosting.md)
 
 ---

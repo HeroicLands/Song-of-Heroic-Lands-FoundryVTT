@@ -1,150 +1,79 @@
 # Contributing to Song of Heroic Lands (SoHL)
 
-Thank you for your interest in contributing to SoHL, a Foundry VTT game system. Stability, architectural coherence, and long-term maintainability are critical to this project. Please read this document carefully before submitting changes.
+Thank you for your interest in contributing to SoHL, a Foundry VTT game system.
+Stability, architectural coherence, and long-term maintainability are critical to
+this project — many people run long campaigns on it. All changes are submitted via
+Pull Request; architectural decisions remain under maintainer authority.
 
-## Governance
+This page is the **entry point**. It covers what you agree to by contributing, then
+points you, in order, to everything you need to make a correct change.
 
-- The project is maintained by the repository owner. Architectural decisions remain under maintainer authority.
-- All changes must be submitted via Pull Request — no direct commits to protected branches.
-- Contributions are welcome, but maintainers reserve the right to decline changes that do not align with the long-term direction of the system.
+## Before you contribute
 
-## License Agreement
+### License Agreement
 
-By submitting a contribution (code, documentation, or creative content), you certify that:
+By submitting a contribution (code, documentation, or creative content), you certify
+that:
 
 - You have the legal right to contribute the material.
-- You agree that your contribution is licensed under the project's dual-license structure:
+- You agree that your contribution is licensed under the project's dual-license
+  structure:
     - **GPL-3.0-or-later** for software code
     - **CC-BY-SA-4.0** for documentation and creative content
 - Your contribution may be redistributed under those licenses.
 
 Contributors retain copyright to their contributions.
 
-## Prohibited Content
+### Prohibited Content
 
-Under no circumstances may copyrighted material from other projects or systems be placed in this repository. This includes, but is not limited to:
+Under no circumstances may copyrighted material from other projects or systems be
+placed in this repository. This includes, but is not limited to:
 
-- Copyrighted text, verbatim rule descriptions, or tables from any third-party publisher's rulebooks or supplements
-- Names, trademarks, or trade dress of **Kelestia Productions Ltd.** or **Columbia Games**
+- Copyrighted text, verbatim rule descriptions, or tables from any third-party
+  publisher's rulebooks or supplements
+- Names, trademarks, or trade dress of **Kelestia Productions Ltd.** or
+  **Columbia Games**
 - Art, maps, illustrations, or other creative assets owned by third parties
-- Any content whose inclusion would infringe on the intellectual property rights of others
+- Any content whose inclusion would infringe on the intellectual property rights of
+  others
 
-Game mechanics themselves are not copyrightable and may be implemented, but the specific creative expression used to describe them (rulebook text, proprietary terminology, etc.) may not be reproduced.
-
-If you are unsure whether material is permissible, ask before contributing it. Contributions found to contain prohibited content will be removed immediately.
+Game mechanics themselves are not copyrightable and may be implemented, but the
+specific creative expression used to describe them (rulebook text, proprietary
+terminology, etc.) may not be reproduced. If you are unsure whether material is
+permissible, ask before contributing it. Contributions found to contain prohibited
+content will be removed immediately.
 
 ## Prerequisites
 
-- **Node.js** (see `engines` in `package.json` for supported versions)
-- **Git** — required for version control
+- **Node.js** (see `engines` in [`package.json`](package.json) for supported
+  versions) and **Git**.
+- All other tooling (TypeScript, Vite, Sass, Prettier, ESLint, vitest) installs via
+  `npm ci` and runs from `node_modules`.
+- Optional, for specific workflows: **rsync** (deploying to remote Foundry instances
+  via `npm run push:dev` / `push:prod`) and a `GITHUB_TOKEN` in `.env.local` (for
+  `npm run deploy:release`).
 
-The following are only needed for specific workflows:
+## Start here
 
-- **rsync** — required for deploying to remote Foundry VTT instances
-  (`npm run push:dev`, `npm run push:prod`). Not needed for local deployments
-  or for building the system.
+Follow these steps in order — each links the canonical document for that stage:
 
-Releases are created via the GitHub API (no local git tagging required).
-Set `GITHUB_TOKEN` in `.env.local` to use `npm run deploy:release`.
-
-All other tooling (TypeScript, Vite, Sass, Prettier, ESLint, etc.) is installed
-automatically via `npm ci` and runs from the project's `node_modules`.
-
-## Getting Started
-
-1. Fork the repository and create a feature branch from `main`.
-2. Run `npm ci` to install dependencies.
-3. Copy `.env.local.example` to `.env.local` and fill in the paths for your
-   local Foundry VTT installations. This file is gitignored — each developer
-   maintains their own copy. See the comments in the example file for details.
-4. Read [Getting Started](docs/how-to/getting-started.md) for an overview of the codebase and how to make changes.
-5. Review [Architecture Overview](docs/concepts/architecture.md) for the mental model and project conventions.
-6. Make your changes, ensuring `npm run build` and `npm run docs` both pass.
-7. Submit a Pull Request with a clear description of what changed and why.
-
-## Development Standards
-
-### Small, Focused Changes
-
-Each pull request should address one concern:
-
-- One feature, one bug fix, or one documentation improvement.
-- Do not mix refactors with feature changes, include "drive-by cleanups," or submit broad stylistic rewrites.
-
-### Preserve Architecture
-
-Before changing core systems, read `docs/concepts/` and `docs/how-to/extension-points.md`, and follow established patterns. Prefer:
-
-- Subclassing over branching logic
-- Adding new Result/Modifier types instead of modifying shared pipelines
-- Extending via registries rather than altering base behavior
-
-### Documentation
-
-Pull requests that modify behavior must include corresponding documentation updates:
-
-- Public APIs — update JSDoc comments (these feed TypeDoc generation)
-- Extension points — update `docs/how-to/extension-points.md`
-- User workflows — update the user guide in `assets/packs/journals/data/user-guide/`
-
-### Backwards Compatibility
-
-Backwards compatibility is critical. Many people use this system for long-running campaigns, and any change that affects the data model can prevent them from upgrading without damaging their worlds. Treat every data model change as high-risk.
-
-**Prohibited without maintainer approval:**
-
-- Renaming, removing, or restructuring existing data fields
-- Changing the shape or type of stored data
-- Altering the meaning or units of existing values
-- Removing or renaming document types or subtypes
-
-**If a data model change is unavoidable, it must:**
-
-- Be discussed with the maintainer and approved before implementation
-- Be clearly documented, explaining what changed and why
-- Include automatic migration code that detects worlds on the old schema and patches them to the new schema seamlessly on upgrade
-- Be tested against real world data to verify that existing campaigns survive the migration without data loss or corruption
-- Never require manual intervention from users — migrations must be fully automatic
-
-### Localization
-
-- Never rename existing localization keys in `lang/en.json` — add new keys instead.
-- Keep localization files consistent and organized.
-
-### AI-Assisted Contributions
-
-AI tools may be used to assist with contributions, but you are fully responsible for the result. Do not submit unreviewed AI-generated code. Ensure all output maintains architectural consistency and avoids introducing speculative abstractions or unnecessary complexity.
-
-## Validation
-
-Before submitting a PR, run:
-
-```bash
-npm run build
-npm run docs
-```
-
-Both must complete without errors.
-
-## Areas Requiring Maintainer Discussion
-
-Open an issue before working on any of the following. Do not submit unsolicited PRs for these areas:
-
-- Core data model changes
-- Combat resolution pipeline changes
-- System initialization or registration
-- Class registry changes
-- Migration logic
-- Large refactors or cross-cutting changes
-
-## Welcome Contributions
-
-The following areas are especially welcome and generally safe to contribute to without prior discussion:
-
-- Documentation improvements and clarifications
-- JSDoc comment improvements
-- User guide enhancements
-- Bug fixes with minimal, well-scoped changes
-- Isolated UI/UX improvements
-- Additional test coverage
-- Localization contributions
+1. **Set up your environment** — [Getting Started](docs/how-to/getting-started.md):
+   fork the repo, create a feature branch from `main`, run `npm ci`, and copy
+   `.env.local.example` to `.env.local` (gitignored; one per developer).
+2. **Learn the mental model** — [Architecture Overview](docs/concepts/architecture.md):
+   the three-layer design and a map of the `src/` tree. Read this before changing
+   anything.
+3. **Read the standards and workflow** — the **Contributing guide**, which holds the
+   rules of development (no cosmetic refactors, the issue-first workflow, branch
+   naming, test-driven development, changesets, format-before-commit, what needs
+   maintainer discussion, and what's welcome). It is published on the website and
+   mirrored in-repo:
+    - Website: <https://api.heroiclands.org/latest/documents/Documentation.Contributing.html>
+    - In-repo: [docs/contributing/contributing.md](docs/contributing/contributing.md)
+    - Maintainer infrastructure: [API Docs Hosting](docs/contributing/api-docs-hosting.md)
+4. **Browse the API** — [API Reference](https://api.heroiclands.org/latest):
+   generated TypeDoc, grouped to mirror the source (Core / Documents / Domain /
+   Utility).
+5. **Make your change and open a Pull Request** — keep it small and focused (one
+   feature, bug fix, or doc improvement), and ensure both `npm run build` and
+   `npm run docs` pass before submitting.

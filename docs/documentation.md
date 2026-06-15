@@ -16,4 +16,4 @@ the sections here explain how and why the system is built.
 - **Concepts** — the mental model and architecture.
 - **How-to** — task-oriented guides, from setup to house rules.
 - **Reference** — contracts, catalogs, and subsystem deep-dives.
-- **Contributing** — maintainer and project-meta.
+- **Contributing** — how to contribute: standards, the development workflow, and boundaries.
