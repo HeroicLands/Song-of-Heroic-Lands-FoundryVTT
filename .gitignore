@@ -11,9 +11,28 @@
 CLAUDE.md
 AI.md
 
-# Visual Studio
+# IDE and editor config — per-user; never commit one contributor's editor setup
+# (project-wide policy like Prettier/ESLint config stays tracked; it's not IDE-specific)
+# VS Code (incl. recommended-extensions and settings)
 /.vscode/
 /*.code-workspace
+# JetBrains IDEs (IntelliJ IDEA, WebStorm, etc.) and Fleet
+/.idea/
+/.fleet/
+# Zed
+/.zed/
+# Sublime Text (project + workspace)
+*.sublime-workspace
+*.sublime-project
+# Vim / Neovim
+*.swp
+*.swo
+Session.vim
+.netrwhist
+# Emacs (backups, auto-save, lock files)
+*~
+\#*\#
+.\#*
 
 # GitHub
 .github/copilot-instructions.md
