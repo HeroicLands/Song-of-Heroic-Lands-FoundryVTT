@@ -6,7 +6,7 @@ See also: [Architecture Overview](../concepts/architecture.md), [Extension Point
 
 ## Prerequisites
 
-- Node.js (LTS)
+- Node.js ≥ 24 (see `engines` in `package.json`)
 - Git
 - A local Foundry VTT v14+ installation (for testing in-browser)
 
@@ -140,10 +140,10 @@ docs/
 ├── how-to/       Extension points, hooks, actions, testing, this guide
 ├── reference/    Type catalog, modifier model, combat pipeline, body structure,
 │                 effects integration, runtime contracts
-└── dev/          Developer docs index
+└── contributing/ Contribution workflow, changesets, system development
 ```
 
-User guide source: `assets/packs/journals/data/user-guide/*.md` — compiled into Foundry journal entries during build.
+User guide content is authored in the HeroicLands Obsidian vault, committed here as JSON under `assets/packs/journals/_source/`, and compiled into Foundry journal entries during build (see [Build & Deployment §5](./build-and-deployment.md#5-compendium-packs-and-the-obsidian-vault)).
 
 ## Where to find things
 
