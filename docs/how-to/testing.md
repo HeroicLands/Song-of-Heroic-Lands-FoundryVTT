@@ -110,7 +110,7 @@ Additional patterns:
 
 ## Logic-layer purity smoke test
 
-`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. Together with the ESLint boundary rule in `eslint.config.js` (no value imports of Foundry-coupled modules from those zones; `import type` is allowed), this guarantees the logic layer stays unit-testable.
+`npm run test:purity` (part of `build:noci`) runs `tests/purity/logic-imports.purity.ts` under `vitest.purity.config.ts` — a config with **no** `tests/setup.ts`, so no Foundry global stubs exist. It dynamically imports every module in the Foundry-free zones (`src/document/*/logic/`, `src/domain/`, the pure core files, `src/utils/ContextMenuEntry.ts`); any module-level `foundry.*`/`game.*` access throws and fails the suite. This is one of the two boundary guards — see [Architecture → Logic layer](../concepts/architecture.md#logic-layer) for what they enforce and the complementary ESLint rule.
 
 ## End-to-end example: testing a domain object
 
