@@ -16,13 +16,12 @@ import {
 } from "vitest";
 import { SohlEventQueue } from "@src/core/SohlEventQueue";
 import type { SohlTriggerContext } from "@src/core/SohlEventTrigger";
+// Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 function setUserFlags(opts: { isGM: boolean; isActiveGM: boolean }): void {
-    (globalThis as any).game.user = {
-        id: "testUser",
-        isGM: opts.isGM,
-        isActiveGM: opts.isActiveGM,
-    };
+    vi.spyOn(FoundryHelpers, "fvttIsCurrentUserGM").mockReturnValue(opts.isGM);
+    vi.spyOn(FoundryHelpers, "fvttIsActiveGM").mockReturnValue(opts.isActiveGM);
 }
 
 function worldTimeCtx(worldTime: number): SohlTriggerContext {
@@ -42,9 +41,7 @@ describe("SohlEventQueue", () => {
     });
 
     afterEach(() => {
-        warnSpy.mockRestore();
-        errorSpy.mockRestore();
-        setUserFlags({ isGM: true, isActiveGM: true });
+        vi.restoreAllMocks();
     });
 
     describe("subscribe / unsubscribe (GM gating)", () => {

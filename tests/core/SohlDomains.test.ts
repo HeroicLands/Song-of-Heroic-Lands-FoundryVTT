@@ -11,26 +11,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { SohlDomains, type DomainEntry } from "@src/core/SohlDomains";
 import { DOMAIN_FAMILY } from "@src/utils/constants";
+// Mock-swapped shim (vitest alias); spy on it instead of touching raw Foundry globals.
+import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
 /**
- * Backs game.settings with an in-memory store so SohlDomains can read/write
- * the "sohl.domains" setting under test. Foundry's real settings API is
- * stubbed in tests/setup.ts to return undefined; we override it per-test.
+ * Backs the settings shim with an in-memory store so SohlDomains can read/write
+ * the "sohl.domains" setting under test, by spying on the mock-swapped
+ * `fvttGetSetting`/`fvttSetSetting` rather than touching raw Foundry globals.
  */
 function installSettingsStore(): { reset: () => void } {
     const store = new Map<string, unknown>();
-    (globalThis as any).game.settings = {
-        get(_module: string, key: string): unknown {
-            return store.get(`${_module}.${key}`);
+    vi.spyOn(FoundryHelpers, "fvttGetSetting").mockImplementation(
+        (module: string, key: string) => store.get(`${module}.${key}`),
+    );
+    vi.spyOn(FoundryHelpers, "fvttSetSetting").mockImplementation(
+        async (module: string, key: string, value: unknown) => {
+            store.set(`${module}.${key}`, value);
+            return value;
         },
-        async set(_module: string, key: string, value: unknown): Promise<void> {
-            store.set(`${_module}.${key}`, value);
-        },
-        register() {},
-    };
+    );
     return {
         reset: () => store.clear(),
     };
@@ -60,6 +62,10 @@ describe("SohlDomains", () => {
         // explicitly.
         (globalThis as any).sohl.ready = false;
         store.reset();
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
     });
 
     describe("register", () => {

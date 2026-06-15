@@ -328,6 +328,21 @@ export function fvttGetSetting(module: string, key: string): unknown {
 }
 
 /**
+ * Persist a game setting value.
+ * @param module - The module/system namespace the setting is registered under.
+ * @param key - The setting key.
+ * @param value - The value to store.
+ * @returns A promise resolving once the setting is written.
+ */
+export function fvttSetSetting(
+    module: string,
+    key: string,
+    value: unknown,
+): Promise<unknown> {
+    return (game as any).settings.set(module, key, value);
+}
+
+/**
  * Whether the current user is the active GM.
  * @returns `true` if the current user is the active GM.
  */
