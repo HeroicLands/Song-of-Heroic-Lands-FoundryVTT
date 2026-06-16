@@ -14,7 +14,6 @@
 import type { SohlSpeaker } from "@src/core/SohlSpeaker";
 import { SohlSystem } from "@src/core/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
-import { AIAdapter } from "@src/utils/ai/AIAdapter";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { resolveChatCardHandlerUuid } from "@src/document/chat/chat-card-dispatch";
 import { gateAutomatedDefenseButtons } from "@src/document/chat/chat-card-gating";
@@ -342,18 +341,6 @@ function registerSystemHooks() {
         });
         leftCol.appendChild(btn);
     });
-
-    (Hooks as any).on(
-        "chatMessage",
-        (
-            _app: ChatLog,
-            message: string,
-            data: {
-                speaker?: Partial<SohlSpeaker.Data>;
-                user: string | null;
-            },
-        ) => AIAdapter.chatMessage(ui.chat, message, data),
-    );
 
     (Hooks as any).on(
         "renderChatMessageHTML",
