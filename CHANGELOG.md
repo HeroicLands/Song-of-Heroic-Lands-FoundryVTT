@@ -1,5 +1,515 @@
 # sohl
 
+## 0.8.0
+
+### Minor Changes
+
+- 45d5ef6: **Automated combat start on the combatant; opposed tests on the token**
+
+    Two entry points move to the document that owns them, paralleling the earlier
+    relocation of the automated-combat defenses to the combatant.
+
+    _Automated combat start_ becomes a single entry point on the combatant:
+    - `CombatantLogic.automatedCombatStart` is the canonical (ESSENTIAL) action. It
+      branches on scope: an `itemLogic`-scoped start (a `logicUuid` naming a weapon
+      or combat technique, with an optional `smId`) offers only that item's in-range
+      strike modes; a combatant-scoped start offers every in-range mode.
+    - `WeaponGearLogic` / `CombatTechniqueLogic` `automatedCombatStart` now delegate
+      into the attacker's combatant action, passing `{ logicUuid, smId }`, via the
+      new `fvttActiveCombatantForActor` helper. The orphaned `BeingLogic.automatedCombatStart`
+      is removed.
+    - `startAutomatedAttackFromActor` is renamed to `startAutomatedAttackFromCombatant`
+      and takes the combatant logic. `SohlLogic` gains a `uuid` getter.
+
+    _Opposed tests_ (skill-vs-skill, skill-vs-attribute, attribute-vs-attribute)
+    become token-based:
+    - `SohlTokenDocument` is registered as `CONFIG.Token.documentClass` and gains a
+      transient `.logic` adapter (no DataModel — tokens persist no SoHL state) plus
+      `onChatCardButton`.
+    - New `SohlTokenDocumentLogic` hosts `opposedTestStart` (resolves the source
+      skill/attribute by `logicUuid` and runs its test) and `opposedTestResume` (the
+      opposed-request card's Respond button addresses the **target token**;
+      reconstructs the prior result, lets the defender pick the responding skill or
+      attribute, and resolves the contest). The actor is always derived from the
+      token.
+    - `SkillLogic` and `AttributeLogic` `opposedTestStart` delegate into the actor's
+      token logic via the new `fvttActiveTokenLogicForActor` helper; the stubbed
+      `BeingLogic.opposedTestResume` is removed. The opposed-request card now renders
+      a Respond button addressed by token UUID.
+
+- baf8b3b: **Relocate the automated combat defenses to the combatant**
+
+    A defender's automated-combat defenses are a combatant concern, so they move
+    off the actor and the attack card dispatches them to the combatant.
+    - The automated **Block** / **Dodge** / **Counterstrike** / **Ignore** resumes
+      move from `BeingLogic` to `CombatantLogic` as intrinsic actions; `this` is the
+      defender combatant and `this.actorLogic` supplies strike-mode capability.
+      `BeingLogic` keeps only the attacker entry (`automatedCombatStart`).
+    - `SohlCombatant` gains `onChatCardButton`, dispatching generically to its
+      logic. The attack card's defense buttons now address the defender's
+      **combatant**, and `chat-card-gating` reaches the actor (statuses, capability)
+      through it. The "Calculate Injury" buttons still address the **actor**.
+    - `SohlLogic.actor` resolves the owning actor from the document, so it works for
+      a combatant (or effect) instead of throwing.
+
+- 45d5ef6: **Combatant actions on the combat-tracker context menu**
+
+    Right-clicking a combatant in the combat tracker now lists that combatant's
+    available actions, so the automated-combat start (added alongside) is actually
+    reachable from the UI.
+    - A `getCombatantContextOptions` hook maps each row combatant's
+      `getContextOptions()` into the tracker menu, reusing the same delegation
+      contract `SohlActor`/`SohlItem` use (`SohlCombatant.getContextOptions()` →
+      `CombatantLogic.getContextOptions()`). Entries are gated on `combatant.isOwner`
+      (owner + GM).
+    - **Automated Attack** appears for the combatant's owner; **Move to Group…** is
+      now a first-class GM-only `CombatantLogic.moveToGroup` intrinsic action
+      (replacing the previous bespoke context-menu entry), so it flows through the
+      same mechanism.
+    - Action `visible` predicates gain an `isGM` binding, letting an action declare
+      `visible: "isGM"`.
+
+- 7b24271: **CSS foundation: design tokens, cascade layers, and a single scoping model**
+
+    Lay the foundation the rest of the CSS refactor (epic #95) builds on. No visual change
+    is intended — the compiled CSS is computed-value-equivalent to before, apart from the
+    dead-rule deletions and the redundant-`!important` removal noted below.
+
+    **Design tokens.** New `scss/abstracts/_tokens.scss` is the single source of truth for
+    the palette, spacing, and font stacks as SCSS maps, emitted to CSS custom properties on
+    `:root` (`--sohl-color-*`, `--sohl-space-*`, `--sohl-font-*`). Every component now
+    consumes the custom properties (`var(--sohl-color-…)`) instead of SCSS color variables,
+    so the system is themeable at runtime without recompiling. `utils/_colors.scss` and
+    `utils/_variables.scss` are removed (folded into the tokens layer); `utils/_foundry-vars.scss`
+    now maps the Foundry `--color-*` overrides onto the new tokens.
+
+    **Cascade layers.** `scss/sohl.scss` declares a documented layer order
+    (`sohl.base, sohl.layout, sohl.components, sohl.apps, sohl.utilities`). Foundry v14 core
+    is fully layered, so SoHL's own `sohl.*` layers — registered after Foundry's stack — beat
+    core without `!important` or deep nesting. Current rules map to `base` (Foundry-core
+    overrides + global UI) and `components` (the `.sohl` namespace block, in unchanged order);
+    `layout`/`apps`/`utilities` are reserved for the file reorg (#92) and component
+    extraction (#93). The now-redundant `!important` flags on the disabled-input focus reset
+    are dropped (specificity + layer already win).
+
+    **Scoping model.** Settled on the compound `.sohl.sheet` pattern for frame classes and
+    documented it. Removed the dead `.item-form` and `.macro-sheet` selectors (the classes
+    no longer exist under ApplicationV2), and de-duplicated `.window-content` so the parchment
+    background/font/color have a single owner (`components/_top.scss`) while the sheet frame
+    adds only its overflow/padding.
+
+    The styleguide (`docs/concepts/css-architecture.md`) is updated to match: tokens emit on
+    `:root`, and the cascade-layer section now reflects Foundry v14's layered core.
+
+- 45d5ef6: **Default Combat Group moves from a token flag to the actor**
+
+    The combatant group an actor auto-joins when it enters combat is now a typed
+    `defaultCombatGroup` field on the actor data model, set on the actor sheet's
+    **Combat** tab (GM-only), instead of a `flags.sohl.defaultCombatGroup` token
+    flag.
+    - `SohlCombat`'s combatant-group seeding reads `actor.system.defaultCombatGroup`;
+      blank still falls back to the default group (`Opponents`).
+    - The Token / Prototype-Token config field is removed; the value is edited on
+      the actor. TokenDocument has no typed system data, so the actor (which exists
+      before the combatant) is the better-integrated, pre-configurable home.
+
+    _Note:_ any value previously set via the old token field is not migrated — set
+    the actor's Default Combat Group instead.
+
+- baf8b3b: **Foundry-free combat strike-mode collection and chat addressing**
+
+    The combat helpers and the Being combat-resume flow no longer reach the Foundry
+    actor for items or chat-target identity.
+    - `collectBlockableStrikeModes`, `collectAttackableStrikeModes`,
+      `hasMeleeAttackStrikeMode`, and `resolveSkillMasteryLevel` now take the actor
+      **logic** and iterate `logicTypes` / `getItemLogic` rather than `itemTypes`.
+    - Combat chat cards address the defender via the logic's own `name` and (opaque)
+      `uuid`, and the opponent via an opaque `attackerAddress` (name + uuid) carried
+      on the counterstrike context and resolved in the scene layer. Emission still
+      goes through `SohlSpeaker#toChat`.
+
+- baf8b3b: **Foundry-free combatant logic (`CombatantLogic`)**
+
+    The Combatant now has a logic layer on the same footing as actors and items,
+    consolidating combat logic that was previously split across the document,
+    `combatant-logic.ts`, and the combat-action helpers.
+    - `SohlCombatantDataModel` extends `SohlDataModel` (gaining the `SohlLogicData`
+      port); a new `CombatantLogic` is registered and resolved by
+      `SohlDataModel.create`, so `combatant.logic` returns a `CombatantLogic`.
+    - `CombatantLogic` owns the combatant's combat-scoped state (last attack/block
+      mode, `didAction`, move factor), capability (`reach`, `computedMove` via
+      `this.actorLogic`), relational queries (`groupId`, `allies`, `isEnemyOf`,
+      `threatenedBy` over sibling combatant logics), and spatial queries
+      (`reaches`, `spacesMovedThisTurn`). `SohlCombatant` delegates to it.
+    - The token-center geometry moves to `FoundryHelpers`
+      (`combatantGridDistance` / `combatantSpacesMoved`) — the one scene-coupled
+      edge — and **`sohl.currentCombatCombatantLogics`** exposes the
+      `CombatantLogic` of every combatant in the active combat.
+
+- baf8b3b: **Foundry-free logic-layer data port**
+
+    The logic layer now reaches its owning document through the `SohlLogicData`
+    data interface (a port implemented by the Foundry data model) instead of the
+    Foundry document directly, so logic classes can be unit tested without Foundry.
+    - `SohlLogicData` exposes `id`, `name`, `type`, `uuid`, `isOwner`, `kind`,
+      `shortcode`, `actorLogic`, `getFlag`, `setFlag`, and `update`; the actor data
+      adds `itemLogics` and `hasPlayerOwner`. `SohlDataModel` implements them by
+      delegating to its parent document.
+    - `SohlLogic` identity getters now read `this.data.*`, and a new `actorLogic`
+      getter navigates from any logic to its owning actor's logic.
+    - **`uuid` is an opaque identity token** — never resolved to a Foundry document
+      inside the logic layer. New `logicFromUuid` / `logicFromUuidSync` helpers (in
+      `FoundryHelpers`) resolve a uuid back to a `SohlLogic`, keeping the document
+      deref inside the shim.
+
+- baf8b3b: **Register the `attribute` and `lineage` item kinds**
+
+    The `attribute` and `lineage` item kinds shipped with data-model, logic, and
+    sheet classes but were never registered, so items of those kinds did not
+    function.
+    - Register both kinds in the item data-model, logic, and sheet registries so
+      they load and behave like every other item kind.
+    - Fix `AttributeSheet`, which was a copy-paste of `TraitSheet` — it exported a
+      class literally named `TraitSheet` and rendered trait fields. It now renders
+      the attribute's own fields (`scoreBase`, `initDiceFormula`, value descriptors,
+      and impairing body roles) via a new `attribute-properties.hbs` template, with
+      the array fields shown read-only.
+
+- eadc8b2: **Restore the Being sheet header: clickable status pills, health bar, body-location lozenges**
+
+    Rebuild the Being sheet header to match the previous design, in `templates/actor/being/header.hbs`, `scss/layout/_sheet.scss`, and `src/document/actor/foundry/BeingSheet.ts`:
+    - **Status pills** now look like the old rounded lozenges (grouped top-right, wrapping) and are **clickable to toggle** the status — a new `toggleStatus` action calls `actor.toggleStatusEffect(statusId)`, creating/deleting the active effect. Active pills are highlighted.
+    - **Health bar** restored: a "HEALTH: x%" label over a filled bar, driven by `health.effective` (added `healthPct` to the header context).
+    - **Body-location lozenges** restored as a read-only, full-width row beneath the main header, generated dynamically from the actor's Lineage body structure (`bodyStructure.parts`).
+
+    Status `data-status-id`/tooltips and localization keys are unchanged.
+
+- baf8b3b: **SkillBase computed entirely in the logic layer**
+
+    `SkillBase` now takes the actor's `AttributeLogic` instances and a `TraitLogic`
+    birthsign instead of Foundry items, so skill-base resolution no longer touches
+    the Foundry layer.
+    - The constructor option changes from `{ items }` to
+      `{ attributes?: AttributeLogic[]; birthsign?: TraitLogic }`.
+    - Attribute references are matched by `data.shortcode` and scored from
+      `score.effective`; the birthsign tokens are read from the trait's
+      `data.textValue`. Callers pass `actorLogic.logicTypes[ATTRIBUTE]`.
+
+- baf8b3b: **Typed item-logic registry and actor-logic accessors**
+
+    Add a kind-indexed item-logic registry and typed lookup so callers get the
+    concrete logic type for an item kind without casting.
+    - **`getItemLogic(shortcode, kind)`** on the actor logic returns the concrete
+      logic for that kind — e.g. `getItemLogic("stealth", ITEM_KIND.SKILL)` is typed
+      `SkillLogic | undefined`. It matches on **both** `shortcode` and kind, so a
+      shortcode shared across kinds cannot return an unexpected item.
+    - **`allLogics`** and **`logicTypes`** on the actor logic — the logic-layer
+      analogues of `Actor#items` and `Actor#itemTypes`, with each group typed to its
+      kind (`logicTypes.skill` is `SkillLogic[]`).
+    - **`sohl.actorLogics`** and **`sohl.itemLogics`** expose every world actor's and
+      item's logic instance directly, instead of going through `game.actors` /
+      `game.items` and reading each `.logic`.
+    - A precise `ITEM_LOGIC_DEF` registry with a compile-time completeness guard
+      drives the `ItemLogicByKind` type map; registering a new item kind without a
+      logic class is now a type error.
+
+### Patch Changes
+
+- 0dfbfb2: **Document the target CSS/SCSS architecture and conventions (styleguide)**
+
+    Adds `docs/concepts/css-architecture.md` — the decision record that grounds the
+    CSS/SCSS refactor epic (#95). It ratifies, with rationale and examples drawn from the
+    current `scss/` tree, the choices the rest of the epic builds on:
+    - **Tool:** stay on SCSS (Dart Sass); modernize _usage_ rather than switching to
+      Tailwind or CSS-in-JS.
+    - **Folders:** ITCSS-inspired `abstracts/ · base/ · layout/ · components/ · apps/ ·
+utilities/`, with a migration map from today's `utils/ · global/ · components/`.
+    - **Naming:** BEM (`block__element--modifier`) under the `.sohl` namespace; `data-*`
+      hooks and `lang/en.json` keys stay stable.
+    - **Tokens:** `--sohl-*` custom properties generated from SCSS maps, kept distinct
+      from the Foundry `--color-*` overrides.
+    - **Cascade:** a documented `@layer` order.
+    - **Scoping:** the #87 rule written down — compound `.sohl.sheet` (never descendant),
+      `:where()` for low specificity.
+    - **Module loading:** `@use`/`@forward` canonical, `meta.load-css` reserved for
+      scoped output.
+
+    Documentation only — no `.scss`/`.css` changes. Linked from `docs/README.md`,
+    `docs/concepts/concepts.md`, and the `CLAUDE.md` quick reference.
+
+- 4075201: **Finish the BEM pass: effects component, dead-CSS deletion (part 3 of #94)**
+
+    Completes the naming capstone of the CSS refactor (epic #95).
+    - **Effects component** → BEM `effects` block: `effects-list → effects__list`,
+      `effects-header → effects__header`, `effect-list → effects__items`,
+      `effect → effects__row`, `effect-controls → effects__controls`,
+      `effect-control → effects__control`, renamed in lockstep across the effect templates
+      and `scss/components/_effects.scss`. The `.effects-list` `SearchFilter`
+      `contentSelector` in `BeingSheet.ts` is updated to match. Event hooks
+      (`effect-toggle`, `effect-create`, `effect-contextmenu`) and generic columns are kept.
+    - **Dead CSS removed:** the entire `scss/components/_bodyloc.scss` (every rule was
+      mis-scoped under `.bodylocations .zone-list` ancestors that the body-structure template
+      never renders, so none of it matched), plus the unused `.nocarry` / `.overmaxcap` /
+      `.overencumberedcap` state rules.
+
+    **Intentionally kept** (documented in the styleguide): generic leaf columns (`.name`,
+    `.detail`, `.type`, …) scoped under their block, and the standard state classes
+    `.active` / `.disabled` / `.danger` — `.active`/`.disabled` are Foundry/template
+    conventions and renaming them would break tab/disabled behavior.
+
+    Note: the effects search filter was already non-functional before this change —
+    `_displayFilteredResults` queries `.item`, but effect rows are `.effects__row` (were
+    `.effect`). That pre-existing bug is left as-is (separate fix); the rename keeps the
+    filter wiring internally consistent.
+
+- c5ffc5f: **Apply BEM naming to the header and facade components (part 1 of the naming pass)**
+
+    First slice of the BEM renaming capstone, scoped to the two component families whose CSS
+    classes are **not** referenced from `src/` (no JS selectors) and whose state is
+    template-driven — so the rename is a pure SCSS + template change with no behavioral risk:
+    - **Header block** (`scss/layout/_sheet.scss` + the 8 `*/header.hbs` templates):
+      `header-details → sheet-header__details`, `actor-img → sheet-header__portrait`,
+      `status-effects → sheet-header__statuses`, `toggle-status-effect → sheet-header__status`.
+    - **Facade** (`scss/components/_facade.scss` + `facade.hbs`):
+      `facade-image → facade__image`, `facade-description → facade__description`.
+
+    SCSS and templates are renamed in lockstep (verified: zero remaining references to the old
+    names anywhere in `scss/`, `templates/`, or `src/`). `data-*` attributes, `data-action` /
+    `data-tab` values, localization keys, the generic `.active` state class, and Foundry-owned
+    classes (`flexrow`, …) are left unchanged. The `.sohl` / `.sohl.sheet` wrappers are kept,
+    so specificity is unchanged.
+
+    The styleguide (`docs/concepts/css-architecture.md` §3) is updated to nail down the
+    convention: BEM block names are namespaced by the `.sohl` wrapper (no redundant `sohl-`
+    prefix), and Foundry/JS-owned classes and `data-*`/`lang` keys are explicitly off-limits.
+
+    Remaining BEM clusters (the list classes, which are entangled with the `SearchFilter`
+    `contentSelector`s in `BeingSheet.ts`, and the state-modifier normalization) follow in
+    later per-component slices so each stays reviewable and visually verifiable.
+
+- 326b802: **Apply BEM to the shared list scaffolding (part 2 of the naming pass)**
+
+    Unify the ad-hoc `item-*` / `items-*` scaffolding classes — used ~250× across every
+    list-bearing sheet — into a single `list` BEM block, renamed in lockstep across the
+    templates and `scss/components/_items.scss`:
+
+    | Old                                    | New                                       |
+    | -------------------------------------- | ----------------------------------------- |
+    | `items`                                | `list-section`                            |
+    | `items-list`                           | `list`                                    |
+    | `item-list`                            | `list__items`                             |
+    | `items-header`                         | `list__header`                            |
+    | `item-name`                            | `list__name`                              |
+    | `item-detail`                          | `list__detail`                            |
+    | `item-controls` / `item-controls-wide` | `list__controls` / `list__controls--wide` |
+    | `item-control`                         | `list__control`                           |
+    | `item-image`                           | `list__image`                             |
+
+    **Deliberately kept** (JS-coupled — renaming them would silently break behavior):
+    `.item` (the row class queried by `_displayFilteredResults` for every search filter),
+    `.item-contextmenu` and `.default-action` (event hooks), and the eight `SearchFilter`
+    `contentSelector` classes. Generic single-word leaf columns (`.name`, `.detail`,
+    `.type`, …) are left scoped under their block, and Foundry-owned classes (`flexrow`, …)
+    are untouched. `data-*` / `data-action` values and `lang/` keys are unchanged.
+
+    Template class lists were rewritten only inside `class="…"` attributes, so handlebars
+    expressions and `data-*` are unaffected; verified zero orphaned old tokens remain in
+    `scss/` or `templates/`. The rename is consistent (wrapper + children moved together), so
+    ancestor-scoped styling is preserved.
+
+    Remaining for a follow-up: the effect/body-location component-specific classes (the
+    effect list's `contentSelector` needs a paired `src/` edit, and much of the
+    body-location SCSS is dead and better deleted than renamed) and the state-modifier
+    normalization (`active`/`disabled` are JS/Foundry-toggled and need per-site care).
+
+- e59b66b: **Reorganize SCSS into the target folder architecture**
+
+    Move every partial into the agreed `abstracts/ base/ layout/ components/ utilities/`
+    layout and split the mixed-concern "dumping ground" files, so each partial holds a single
+    concern. Pure regrouping — the compiled CSS rule set is **identical** to before (verified:
+    the set of selectors and the set of declarations both diff clean against the previous
+    build); only rule ordering and `@layer` wrapping change.
+    - `abstracts/` — `_tokens`, `_typography`, `_mixins`, `_icons` (the icon-font generator
+      now writes to `scss/abstracts/_icons.scss`).
+    - `base/` — `_foundry-vars`, `_editor`, `_hotbar`, plus `_elements` (form-element resets)
+      and `_window` (window chrome) split out of the old `_top`/`_forms`.
+    - `layout/` — `_sheet` (frame), `_tabs` (tab nav + `.tab-body`), `_grid`.
+    - `components/` — `_facade`, `_items`, `_profile`, `_bodyloc`, `_effects`, `_chat`,
+      `_tooltip`, `_rollable`, plus `_search` (from `_top`) and `_field` (split from
+      `_resource`).
+    - `utilities/` — `_flex` (incl. the `flex-group-*` helpers moved out of `_grid`).
+    - Removed the empty/commented-out `_nav` partial and the now-empty `utils/`, `global/`
+      directories.
+
+    `scss/sohl.scss` loads the folders in the documented `@layer` order
+    (`base → layout → components → utilities`). Grid helpers load in `layout` rather than
+    `utilities` so the existing component-level overrides (e.g. chat's `.mingap` tightening a
+    grid gap) keep winning; the BEM pass (#94) will convert those to modifiers and promote
+    grid to the utilities layer.
+
+- 522f3ea: **Extract the reusable list-widget component (DRY items/effects/body-location)**
+
+    The item, effect, and body-location lists each re-implemented the same skeleton —
+    scrollable body, header row, reset inner list, control cluster, and the
+    ellipsis-truncation triple repeated on nearly every column. Extract that skeleton into
+    shared mixins so the three lists become thin consumers:
+    - `abstracts/_mixins.scss` gains `truncate` (the `text-overflow`/`white-space`/`overflow`
+      ellipsis triple used ~15× across the lists).
+    - New `components/_list.scss` provides the list mixins: `scroll-body`, `reset`,
+      `section-title`, `header-row`, and `controls` (emits no CSS itself).
+    - `components/_items.scss`, `_effects.scss`, and `_bodyloc.scss` now `@include` those
+      mixins and keep only their own columns and accent colors.
+
+    Class names are unchanged, so **templates are untouched** and the compiled CSS is
+    equivalent: the only diff against the previous build is a cosmetic `margin: 7px 0px` →
+    `margin: 7px 0` normalization (identical computed value) on the body-location list.
+
+    Scope note: the header duplication this epic targeted (`.sheet-header-being/-object`) was
+    already removed in the dead-code pass, and the form field was split into its own partial
+    in the folder reorg; the remaining BEM-driven shared-class adoption in templates lands in
+    the naming pass.
+
+- aab39fa: **Constrain the actor sheet header portrait**
+
+    Fixes [#57](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/57):
+    the header portrait sizing rule now targets `img.actor-img` — the class the actor
+    header templates actually render — instead of the stale `img.profile` selector.
+    The portrait is held to 100px again on all five actor sheets, so the header is
+    compact and the tab content area gets its space back.
+
+- a73e58c: **Key embedded items when exporting the actors pack**
+
+    Fixes [#59](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/59):
+    the actor pack exporter now writes a hierarchical `_key`
+    (`!actors.items!<actorId>.<itemId>`, and `!actors.items.effects!…` for any
+    effects an item carries) on each embedded item. Foundry's LevelDB pack compiler
+    keys every embedded document by `_key`, so without it the compile aborted with
+    `LEVEL_INVALID_KEY` ("Key cannot be null or undefined") as soon as the actors
+    pack contained an actor.
+
+- 17accf7: **Repair actor sheet tab navigation**
+
+    Fixes [#53](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/53):
+    the Being actor sheet crashed on render, and tab content rendered hidden on all
+    actor sheets (Being, Cohort, Structure, Vehicle, Assembly). The Being `tabs` part
+    now uses Foundry's core navigation template, and every actor tab section resolves
+    its `active` state and tab group so the correct tab body is shown.
+
+- dd55166: **Fix actor import crash from unwired intrinsic actions**
+
+    Fixes [#62](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/62):
+    importing an actor (e.g. `Basic_Folk`) threw _"The target of this action does not
+    have a function named 'perform'"_ during data preparation. Several Logic classes
+    declared intrinsic actions whose `executor` named a method that did not exist or
+    was misnamed, and `SohlAction`'s constructor rejects an unresolved intrinsic
+    executor — aborting the whole actor's data preparation.
+
+    Every declared intrinsic executor now resolves to a real method. Not-yet-built
+    actions (`mysticalability` perform, `mystery` useMystery, `weapongear`
+    attack/block/counterstrike, `trauma` treatment/healing tests, `affliction`
+    fatigue/morale/fear tests) degrade gracefully with a "not yet implemented"
+    warning instead of throwing, and the `affliction` transmit/contract actions now
+    point at their existing `transmit`/`contractTest` methods. Adds the missing
+    action-title localization keys.
+
+- 48eb22a: **Fix the release workflow so GitHub Releases include the system archive**
+
+    Fixes [#120](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/120):
+    the release workflow uploaded its assets from `build/release/`, but the packaging
+    step writes `system.zip` and `system.json` to `build/dist/`. The upload now points
+    at `build/dist/`, so published Releases carry the installable system files that
+    Foundry's manifest/download URLs reference.
+
+- baf8b3b: **Fix the shared data-model schema spread**
+
+    `defineSohlDataSchema()` — the schema for the fields every SoHL data model is
+    meant to carry (`shortcode`, `docUrl`, `actionDefs`) — was defined but never
+    spread into any concrete schema, so those fields were absent from every item
+    and actor data model. Spread it into the item, actor, and combatant base
+    schemas so the fields exist and persist. `shortcode` is made lenient
+    (`initial: ""`), a safe default since it was previously unvalidated everywhere.
+
+- 0712d1b: **Repair sheet layout broken by a dead CSS scope**
+
+    Fixes [#87](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/87):
+    the Being sheet (and every other SoHL document sheet) rendered with an oversized
+    header and cramped tab content. The sheet-layout rules in `_top.scss` lived inside
+    a top-level `.sheet { … }` block, but because the stylesheet loads each component
+    inside `.sohl { }` they compiled to the descendant selector `.sohl .sheet`. Foundry's
+    ApplicationV2 places `sohl`, `sheet`, and the sheet-type class on the **same** frame
+    element, so that descendant selector never matched and the whole block — including
+    the portrait size cap and the tab-body height — was silently dead.
+
+    The block now lives in its own `components/_sheet.scss` partial, loaded under the
+    compound `.sohl.sheet` selector so it matches the frame as intended. This also
+    explains why the earlier `img.profile` → `img.actor-img` rename (#57) had no visible
+    effect: the rule it edited never applied.
+
+- 7310900: **Correct valueDesc element localization keys in en.json**
+
+    Fixes [#55](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/55):
+    the `Trait.valueDesc` element subfields now localize under
+    `valueDesc.element.label.*` / `valueDesc.element.maxValue.*`, matching Foundry's
+    array-of-schema convention. This removes the key collision that aborted
+    localization on world load and places the keys where the field auto-localizer
+    looks them up.
+
+- baf8b3b: **Icon attributions**
+
+    Expand the icon-attribution list in the README with credits for additional
+    icons sourced from The Noun Project and Game-Icons, and sort the list
+    alphabetically.
+
+- 3a3d980: **Remove dead SCSS verified against templates**
+
+    Delete ~408 lines of SCSS whose selectors match no `.hbs` template and no `src/` class
+    reference. Mechanical cleanup ahead of the CSS reorganization (epic #95), with each
+    deletion grep-verified against `templates/` and `src/`:
+    - `scss/components/_forms.scss` — the `.sheet-header-being` and `.sheet-header-object`
+      blocks (superseded by the live `.sheet-header` / `.header-details` / `img.actor-img`
+      markup), plus the now-unused `@use "../utils/colors"`.
+    - `scss/components/_sheet.scss` — the orphaned `.summary`, `.subtype`, and top-level
+      `.sheet-navigation` blocks (templates use Foundry tab navigation, not `.sheet-navigation`).
+    - `scss/components/_top.scss` — `img.token-image`.
+    - `scss/components/_items.scss` — the `.subtype` list column and the `.items-block`
+      adjacency rule.
+
+    No renaming, no folder moves, no changes to any live selector (e.g. `.item-subtype`,
+    `.status-effects`). Pure deletion; `npm run build:css` and `npm run build` both pass.
+
+- bb6c368: **Move pure view-model logic out of sheet classes into Foundry-free modules**
+
+    Fixes [#117](https://github.com/HeroicLands/Song-of-Heroic-Lands-FoundryVTT/issues/117).
+
+    Pure data-shaping that had been written inline inside Foundry sheet classes — where
+    it was excluded from test coverage and sat outside the Foundry-free boundary guards
+    (the ESLint logic-zone rule and the purity test) — moves into co-located `*-view`
+    helper modules under each document's `logic/` directory, each with unit tests. The
+    sheets keep only their Foundry-facing orchestration. No user-facing behavior change.
+
+    _BeingSheet_ → new `being-sheet-view.ts`: `groupBySubType` (replacing five inline
+    copies across skills, traits, afflictions, mysteries, and abilities),
+    `buildContainerTree` (the gear hierarchy and virtual "On Body" list),
+    `buildStatusPills`, `buildBodyPartLozenges`, `clampHealthPct`, and
+    `splitWeaponsByRange`. The in-sheet `fvttEnrichHTML` proxy is replaced with a direct
+    `TextEditor` call (the proxy exists for the logic layer, not for sheets).
+
+    _SohlItemSheetBase_ → new `item-sheet-view.ts`: `localizeSubType` (subtype-label
+    localization with raw fallback), `keyTransferredEffects` (enabled transferred
+    effects keyed by id), and `findSimilarItem` (the name/type/subtype match behind
+    overwrite-on-drop). The sheet keeps the Foundry-facing drop dialog and mutation.
+
+    _SohlActiveEffectSheet_ → new `effect-sheet-view.ts`: `buildChangeTypesMap` (the
+    localized change-`mode` label map), `resolveEffectMetadataType` (scope → effect-key
+    namespace), and `resolveEffectKeyChoices` (its `ITEM_METADATA` key-choices lookup).
+
+    _Settings apps_ → new `src/apps/logic/domain-manager-view.ts` (`buildDomainGroups` —
+    group by family, sort, and compute delete/override flags) and
+    `src/apps/logic/calendar-settings-view.ts` (`buildCalendarViewModel` — the calendar
+    dropdown rows and imported-calendar list, taking a `localize` callback). The new
+    `src/apps/logic/**` directory is added to the Foundry-free zones (the ESLint
+    boundary rule and the purity smoke test).
+
 ## 0.7.0
 
 ### Minor Changes
