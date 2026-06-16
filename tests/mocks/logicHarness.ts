@@ -14,7 +14,7 @@
 
 import { vi } from "vitest";
 import { SohlActorBaseLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
-import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
@@ -293,7 +293,7 @@ export function makeActorLogic<T>(
 }
 
 /**
- * Construct a {@link CombatantLogic} over a {@link CombatantData} port backed by
+ * Construct a {@link SohlCombatantLogic} over a {@link CombatantData} port backed by
  * a mock combatant document. `actorLogic` resolves to the supplied (or a fresh)
  * mock actor's logic, so the resume methods can read strike-mode capability.
  *
@@ -349,7 +349,7 @@ export function makeCombatantLogic(
         get: () => actor.logic,
         enumerable: false,
     });
-    const logic = new CombatantLogic({}, { parent: data });
+    const logic = new SohlCombatantLogic({}, { parent: data });
     data.logic = logic;
     combatant.logic = logic;
     return logic;

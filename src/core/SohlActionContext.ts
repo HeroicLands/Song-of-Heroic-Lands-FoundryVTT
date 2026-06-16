@@ -11,11 +11,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type {
+    SohlActor,
+    SohlActorLogic,
+} from "@src/document/actor/foundry/SohlActor";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { instanceToJSON, cloneInstance } from "@src/utils/helpers";
 import { registerKind } from "@src/utils/kindRegistry";
 import { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /**
  * The execution context passed to every SoHL action.
@@ -54,8 +58,8 @@ import { SohlSpeaker } from "@src/core/SohlSpeaker";
 export class SohlActionContext<S extends UnknownObject = UnknownObject> {
     /** Who is performing the action (resolved chat-message speaker). */
     speaker: SohlSpeaker;
-    /** The token being acted upon, or `null` when the action has no target. */
-    target: SohlTokenDocument | null;
+    /** The token being acted upon, or `undefined` when the action has no target. */
+    target?: SohlTokenDocumentLogic;
     /** When true, skip the action's configuration dialog and use defaults. */
     skipDialog: boolean;
     /** When true, suppress chat-card output for the action. */
@@ -96,30 +100,10 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
         if (speaker instanceof SohlSpeaker) this.speaker = speaker;
         else this.speaker = new SohlSpeaker(speaker);
 
-        this.target = null;
-        if (target) {
-            if (target instanceof foundry.canvas.placeables.Token) {
-                this.target = (target as foundry.canvas.placeables.Token)
-                    .document as SohlTokenDocument;
-            } else {
-                const type = (target as any).documentName;
-                if (type === "Token") {
-                    this.target = target as SohlTokenDocument;
-                } else if (type === "Actor") {
-                    const tokens: Token[] = (
-                        target as SohlActor
-                    ).getActiveTokens();
-                    if (tokens.length) {
-                        this.target = tokens[0].document as SohlTokenDocument;
-                    }
-                } else {
-                    throw new Error(
-                        `Target with uuid ${target.uuid} is not a valid token or actor.`,
-                    );
-                }
-            }
-        }
-
+        this.target =
+            target instanceof SohlTokenDocumentLogic ? target : (
+                (target as SohlActorLogic<any>)?.speaker.tokenLogic
+            );
         this.skipDialog = skipDialog;
         this.noChat = noChat;
         this.type = type;
@@ -152,13 +136,13 @@ export class SohlActionContext<S extends UnknownObject = UnknownObject> {
     }
 
     /** The acting user's assigned character, or `null`. */
-    get character(): SohlActor | null {
-        return (this.speaker.user as any).character ?? null;
+    get character(): SohlActorLogic<any> | undefined {
+        return this.speaker.actorLogic;
     }
 
     /** The speaker's token, or `null`. */
-    get token(): SohlTokenDocument | null {
-        return this.speaker.token ?? null;
+    get token(): SohlTokenDocumentLogic | undefined {
+        return this.speaker.tokenLogic;
     }
 }
 
@@ -176,11 +160,7 @@ export namespace SohlActionContext {
         /** The speaker, as a {@link SohlSpeaker} or its data. */
         speaker?: SohlSpeaker | Partial<SohlSpeaker.Data>;
         /** The target token/actor; normalized to a token document. */
-        target?:
-            | SohlActor
-            | SohlTokenDocument
-            | foundry.canvas.placeables.Token
-            | null;
+        target?: SohlActorLogic<any>;
         /** Skip the action's configuration dialog. */
         skipDialog?: boolean;
         /** Suppress chat-card output. */

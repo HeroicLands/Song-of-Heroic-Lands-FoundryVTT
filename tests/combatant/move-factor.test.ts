@@ -15,7 +15,7 @@ import { describe, it, expect } from "vitest";
 import {
     computeMove,
     chooseInitialDisplayedMedium,
-} from "@src/document/combatant/logic/CombatantLogic";
+} from "@src/document/combatant/logic/SohlCombatantLogic";
 import { MOVEMENT_MEDIUM } from "@src/utils/constants";
 
 function fakeBeingLogic(moveBase: Record<string, number>) {

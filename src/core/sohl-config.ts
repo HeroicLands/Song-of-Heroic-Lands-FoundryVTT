@@ -129,7 +129,7 @@ import {
     SohlCombatant,
     SohlCombatantDataModel,
 } from "@src/document/combatant/foundry/SohlCombatant";
-import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import {
     SohlCombat,
     SohlCombatDataModel,
@@ -190,8 +190,8 @@ export const {
 } as StrictObject<Constructor<SohlActorLogic<any>>>);
 
 /** Combatant-kind → Logic-class registry (the combatant has a single kind). */
-export const COMBATANT_LOGIC: StrictObject<Constructor<CombatantLogic>> = {
-    [SohlCombatantDataModel.kind]: CombatantLogic,
+export const COMBATANT_LOGIC: StrictObject<Constructor<SohlCombatantLogic>> = {
+    [SohlCombatantDataModel.kind]: SohlCombatantLogic,
 };
 
 export const {

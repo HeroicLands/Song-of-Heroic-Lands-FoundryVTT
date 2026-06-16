@@ -18,8 +18,8 @@ import {
     KIND_KEY,
 } from "@src/utils/constants";
 import { registerKind } from "@src/utils/kindRegistry";
-import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
-import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
+// import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+// import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { FilePath, isFilePath, HTMLString } from "@src/utils/helpers";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlSpeakerStyle } from "@src/utils/constants";
@@ -36,6 +36,8 @@ import {
     fvttCreateChatMessage,
     fvttToFoundryRoll,
 } from "@src/core/FoundryHelpers";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
+import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 
 /**
  * Identifies who is speaking/acting and renders that voice to chat.
@@ -68,15 +70,15 @@ export class SohlSpeaker {
     /** The roll mode applied to messages this speaker posts. */
     readonly rollMode: string;
     /** The resolved token, or `null`. */
-    readonly token: SohlTokenDocument | null;
+    readonly tokenLogic?: SohlTokenDocumentLogic;
     /** The resolved actor (from the token or directly), or `null`. */
-    readonly actor: SohlActor | null;
+    readonly actorLogic?: SohlActorLogic<any>;
     /** The resolved scene, or `null`. */
-    readonly scene: Scene | null;
+    readonly sceneId?: string;
     /** The display name/alias used for attribution. */
     readonly name: string;
     /** The resolved user (defaults to the current user), or `null`. */
-    readonly user: User | null;
+    readonly userId?: string;
 
     /**
      * Construct a SohlSpeaker instance, resolving the token, actor, scene,
@@ -91,9 +93,6 @@ export class SohlSpeaker {
      * @param data.alias - The alias to use.
      */
     constructor(data: Partial<SohlSpeaker.Data> = {}) {
-        this.token = null;
-        this.actor = null;
-        this.scene = null;
         this.rollMode =
             data.rollMode ||
             (fvttGetSetting("core", "rollMode") as string) ||
@@ -102,29 +101,24 @@ export class SohlSpeaker {
             if (!(canvas instanceof foundry.canvas.Canvas)) {
                 throw new Error("Canvas is not initialized");
             } else {
-                this.token = (fvttGetToken(data.token) ||
-                    null) as SohlTokenDocument | null;
+                this.tokenLogic = fvttGetToken(data.token)?.logic;
             }
-            this.actor = this.token?.actor || null;
+            this.actorLogic = this.tokenLogic?.actor?.logic;
         }
-        if (!this.actor && data.actor) {
-            this.actor = fvttGetActor(data.actor);
+        if (!this.actorLogic && data.actor) {
+            this.actorLogic = fvttGetActor(data.actor)?.logic;
         }
         if (data.scene) {
-            this.scene = fvttGetScene(data.scene);
+            this.sceneId = data.scene;
         }
 
-        this.user = data.user ? fvttGetUser(data.user) : fvttCurrentUser();
-        if (data.alias) {
-            this.name = data.alias;
-        } else if (this.token?.name) {
-            this.name = this.token.name;
-        } else if (this.actor?.name) {
-            this.name = this.actor.name;
-        } else if ((this.user as any)?.character?.name) {
-            this.name = (this.user as any).character.name;
-        } else {
-            this.name = this.user?.name || "Unknown Speaker";
+        this.userId = data.user ?? fvttCurrentUser().id;
+        this.name =
+            data.alias || this.tokenLogic?.name || this.actorLogic?.name || "";
+        if (!this.name) {
+            const user = fvttGetUser(data.user || "");
+            this.name =
+                user?.character?.name || user?.name || "Unknown Speaker";
         }
     }
 
@@ -135,18 +129,18 @@ export class SohlSpeaker {
     getChatMessageSpeaker(): foundry.documents.ChatMessage.SpeakerData {
         return {
             alias: this.name,
-            token: this.token?.id ?? null,
-            actor: this.actor?.id ?? null,
-            scene: (this.scene as any)?.id ?? null,
+            token: this.tokenLogic?.parent?.id ?? null,
+            actor: this.actorLogic?.parent?.id ?? null,
+            scene: this.sceneId ?? null,
         };
     }
 
     /** Whether the current user owns the speaker's token (or actor). */
     get isOwner() {
-        if (this.token) {
-            return this.token.isOwner;
-        } else if (this.actor) {
-            return this.actor.isOwner;
+        if (this.tokenLogic) {
+            return this.tokenLogic.data.isOwner;
+        } else if (this.actorLogic) {
+            return this.actorLogic.data.isOwner;
         }
 
         // If no token or actor is found, return false
@@ -160,11 +154,11 @@ export class SohlSpeaker {
     toJSON(): JsonValue {
         return {
             [KIND_KEY]: SohlSpeaker.Kind,
-            token: this.token?.id ?? "",
-            actor: this.actor?.id ?? "",
-            scene: this.scene?.id ?? "",
+            token: this.tokenLogic?.id ?? "",
+            actor: this.actorLogic?.id ?? "",
+            scene: this.sceneId ?? "",
             alias: this.name,
-            user: this.user?.id || null,
+            user: this.userId || null,
             rollMode: this.rollMode,
         };
     }
@@ -302,11 +296,19 @@ export namespace SohlSpeaker {
      * roll mode and user. Any subset may be supplied; unspecified pieces are
      * resolved from context at construction.
      */
-    export interface Data extends foundry.documents.ChatMessage.SpeakerData {
+    export interface Data {
+        /** Scene Id of the scene containing the speaker */
+        scene: string;
+        /** Actor Id */
+        actor: string;
+        /** TokenDocument Id */
+        token: string;
+        /** Display name of the speaker */
+        alias: string;
+        /** Acting user Id */
+        user: string;
         /** Roll mode to apply to messages from this speaker. */
         rollMode: SohlSpeakerRollMode;
-        /** Id of the acting user. */
-        user: string;
     }
 }
 

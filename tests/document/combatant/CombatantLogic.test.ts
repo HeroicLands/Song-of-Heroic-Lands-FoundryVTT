@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { makeCombatantLogic, makeMockActor } from "@tests/mocks/logicHarness";
-import { CombatantLogic } from "@src/document/combatant/logic/CombatantLogic";
+import { SohlCombatantLogic } from "@src/document/combatant/logic/SohlCombatantLogic";
 import * as AutomatedCombat from "@src/document/actor/logic/automated-combat";
 import * as FoundryHelpers from "@src/core/FoundryHelpers";
 
@@ -109,7 +109,7 @@ describe("CombatantLogic", () => {
 
     describe("intrinsic actions", () => {
         it("declares the combat-start, move-to-group, and four defense-resume actions", () => {
-            const shortcodes = CombatantLogic.defineIntrinsicActions().map(
+            const shortcodes = SohlCombatantLogic.defineIntrinsicActions().map(
                 (a) => a.shortcode,
             );
             expect(shortcodes).toEqual(
@@ -125,7 +125,7 @@ describe("CombatantLogic", () => {
         });
 
         it("gates moveToGroup on isGM and surfaces it as a non-hidden action", () => {
-            const move = CombatantLogic.defineIntrinsicActions().find(
+            const move = SohlCombatantLogic.defineIntrinsicActions().find(
                 (a) => a.shortcode === "moveToGroup",
             );
             expect(move?.visible).toBe("isGM");

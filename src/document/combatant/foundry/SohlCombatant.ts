@@ -18,8 +18,8 @@ import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
 import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
 import { SohlActionContext } from "@src/core/SohlActionContext";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { CombatantLogic } from "../logic/CombatantLogic";
-import { chooseInitialDisplayedMedium } from "../logic/CombatantLogic";
+import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
+import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";
 import {
     ITEM_KIND,
@@ -48,15 +48,15 @@ export class SohlCombatant<
         return super.actor as SohlActor | null;
     }
 
-    /** The {@link CombatantLogic} for this combatant. */
-    get logic(): CombatantLogic {
-        return (this.system as any).logic as CombatantLogic;
+    /** The {@link SohlCombatantLogic} for this combatant. */
+    get logic(): SohlCombatantLogic {
+        return (this.system as any).logic as SohlCombatantLogic;
     }
 
     /**
      * Dispatch a chat-card button click to this combatant's logic — the
      * automated-combat defense resumes (Block/Dodge/Counterstrike/Ignore) live
-     * on {@link CombatantLogic} as intrinsic actions, and the attack card's
+     * on {@link SohlCombatantLogic} as intrinsic actions, and the attack card's
      * defense buttons address the defender's combatant. The button's dataset
      * becomes the action's `scope`.
      * @param btn - The clicked chat-card button element.
@@ -98,7 +98,7 @@ export class SohlCombatant<
     /**
      * Begin an automated attack with this combatant as the attacker — the
      * single entry point for combat start. Delegates to
-     * {@link CombatantLogic.automatedCombatStart}; the per-weapon and
+     * {@link SohlCombatantLogic.automatedCombatStart}; the per-weapon and
      * per-technique item actions route here, passing their source logic and
      * strike mode in the context scope.
      * @param context - The action context (target, scope, chat options).
@@ -109,7 +109,7 @@ export class SohlCombatant<
 
     /**
      * The context-menu entries for this combatant — the combatant's available
-     * actions. Delegates to {@link CombatantLogic.getContextOptions} (the shared
+     * actions. Delegates to {@link SohlCombatantLogic.getContextOptions} (the shared
      * {@link SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
      * tracker's row context menu is built from these.
      * @returns The combatant's context-menu entries.
@@ -276,7 +276,7 @@ export class SohlCombatant<
     /**
      * The combatants currently threatening this one — enemies that are not
      * defeated, not incapacitated, not hidden, and within reach. See
-     * {@link CombatantLogic.threatenedBy}.
+     * {@link SohlCombatantLogic.threatenedBy}.
      */
     get threatenedBy(): SohlCombatant[] {
         return this.logic.threatenedBy.map((cl) => cl.combatant!);
@@ -506,7 +506,7 @@ type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 /** @internal */
 export class SohlCombatantDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
-> extends SohlDataModel<TSchema, SohlCombatant, CombatantLogic> {
+> extends SohlDataModel<TSchema, SohlCombatant, SohlCombatantLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
     static override readonly kind = "sohlcombatantdata";
     startLocation!: {

@@ -162,7 +162,9 @@ export class SuccessTestResult extends TestResult {
         if (options.chatSpeaker) {
             this._speaker = options.chatSpeaker;
         } else {
-            this._speaker = new SohlSpeaker({ token: this._token?.id });
+            this._speaker = new SohlSpeaker({
+                token: this._token?.id ?? undefined,
+            });
         }
         this._targetValueFunc = data.targetValueFunc || ((sl: number) => sl);
     }

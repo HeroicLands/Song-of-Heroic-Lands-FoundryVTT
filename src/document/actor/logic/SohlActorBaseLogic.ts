@@ -14,9 +14,11 @@
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SohlItemLogic } from "@src/document/item/foundry/SohlItem";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
-import type { ItemLogicByKind } from "@src/core/SohlSystem";
 import { ItemKinds, type ItemKind } from "@src/utils/constants";
 import type { FilePath, HTMLString } from "@src/utils/helpers";
+import { SohlTriggerContext } from "@src/core/SohlEventTrigger";
+import { SohlActionContext } from "@src/core/SohlActionContext";
+import type { ItemLogicByKind } from "@src/core/sohl-config";
 
 /**
  * The Foundry-free foundation of the actor logic layer.
@@ -164,6 +166,40 @@ export class SohlActorBaseLogic<
     /** Whether the actor is owned by at least one player (non-GM) user. */
     get hasPlayerOwner(): boolean {
         return this.data.hasPlayerOwner;
+    }
+
+    /**
+     * Returns the {@link SohlActionContext} for this actor.
+     * @param token The token to use for context, if any.
+     * @returns The action context for this actor.
+     */
+    protected _getContext(token?: TokenDocument): SohlActionContext {
+        return new SohlActionContext({
+            speaker: this.speaker,
+        });
+    }
+
+    /**
+     * Sets up the intrinsic actions for this actor.
+     * @param context The action context to use for setup.
+     */
+    setupIntrinsicActions(context: SohlActionContext): void {}
+
+    /**
+     * Handle a trigger dispatched by the SoHL event queue.
+     * Override in subclasses to implement actor-specific trigger handling.
+     * @param kind - Subscription kind identifier
+     * @param _context - Trigger context (discriminated by `context.name`)
+     * @param _payload - Optional context data attached when subscribing
+     */
+    async handleSohlEvent(
+        kind: string,
+        _context: SohlTriggerContext,
+        _payload?: Record<string, unknown>,
+    ): Promise<void> {
+        console.warn(
+            `SoHL | ${this.name} (Actor) received unhandled event "${kind}"`,
+        );
     }
 
     /* --------------------------------------------- */

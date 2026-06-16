@@ -46,7 +46,7 @@ import {
     COMMON_ACTOR_LOGIC,
     COMMON_ITEM_LOGIC,
     COMBATANT_LOGIC,
-} from "@src/core/SohlSystem";
+} from "@src/core/sohl-config";
 import { URLField } from "./URLField";
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const {

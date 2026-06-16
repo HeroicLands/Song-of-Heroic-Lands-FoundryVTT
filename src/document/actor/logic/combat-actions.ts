@@ -33,6 +33,7 @@ import type { CombatResult } from "@src/domain/result/CombatResult";
 import type { ImpactResult } from "@src/domain/result/ImpactResult";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { instanceToJSON } from "@src/utils/helpers";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
 
 /** Which strike-mode test a combat action resolves: attack, block, or counterstrike. */
 export type StrikeModeTestKind = "attack" | "block" | "counterstrike";
@@ -390,7 +391,7 @@ export interface BuildAttackInput {
     /** Logic that owns the resulting AttackResult and its cloned modifiers (the attacker). */
     parent: SohlLogic;
     /** The attacker's token, recorded on the result. */
-    token: SohlTokenDocument | null;
+    tokenLogic?: SohlTokenDocumentLogic;
     /** Test type id, e.g. `TEST_TYPE.AUTOCOMBATMELEE.id`. */
     testType: string;
     /** The targeted body part shortcode, stored on the result for the cards + injury. */
@@ -431,7 +432,7 @@ export function buildAttackResult(input: BuildAttackInput): AttackResult {
             roll: input.roll ?? rollAttackDie(),
             masteryLevelModifier,
             impact,
-            token: input.token ?? undefined,
+            tokenLogic: input.tokenLogic ?? undefined,
             testType: input.testType,
             aimBodyPartCode: input.aimBodyPartCode ?? "",
             spread: input.spread ?? 0,

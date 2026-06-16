@@ -13,7 +13,7 @@ import {
     readInjuryDialogForm,
     buildInjuryCardData,
     resolveAutomatedInjury,
-} from "@src/document/actor/foundry/injury-actions";
+} from "@src/document/actor/logic/injury-actions";
 import { resolveInjury } from "@src/domain/body/InjuryResolution";
 import { IMPACT_ASPECT } from "@src/utils/constants";
 

@@ -11,19 +11,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { toHTMLString } from "@src/utils/helpers";
+import { ITEM_KIND } from "@src/utils/constants";
+import type { SohlActionContext } from "@src/core/SohlActionContext";
+import type { AttackResult } from "@src/domain/result/AttackResult";
+import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
+import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
+import type {
+    SohlCombatant,
+    StrikeModeRef,
+} from "@src/document/combatant/foundry/SohlCombatant";
+import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import { SohlLogic, SohlLogicData } from "@src/core/SohlLogic";
 import {
     combatantGridDistance,
     combatantSpacesMoved,
     fvttCombatantLogics,
     fvttPromptMoveCombatantToGroup,
+    getActiveCombat,
 } from "@src/core/FoundryHelpers";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
 import { CombatResult } from "@src/domain/result/CombatResult";
 import { DefendResult } from "@src/domain/result/DefendResult";
-import type { AttackResult } from "@src/domain/result/AttackResult";
-import type { MasteryLevelModifier } from "@src/domain/modifier/MasteryLevelModifier";
-import type { BeingLogic } from "@src/document/actor/logic/BeingLogic";
 import {
     collectBlockableStrikeModes,
     collectAttackableStrikeModes,
@@ -32,14 +40,6 @@ import {
     buildAttackResult,
     buildCombatCardData,
 } from "@src/document/actor/logic/combat-actions";
-import {
-    showDefenseDialog,
-    buildAimChoices,
-    pickChoice,
-    resolveCounterstrikeContext,
-    startAutomatedAttackFromCombatant,
-    startAutomatedAttackFromItem,
-} from "@src/document/actor/logic/automated-combat";
 import { resolveActionInput } from "@src/utils/actionInput";
 import { instanceFromJSON, toFilePath } from "@src/utils/helpers";
 import {
@@ -53,10 +53,22 @@ import {
     type MovementMedium,
 } from "@src/utils/constants";
 import { SohlAction } from "@src/domain/action/SohlAction";
-import type {
-    SohlCombatant,
-    StrikeModeRef,
-} from "@src/document/combatant/foundry/SohlCombatant";
+import { SohlTokenDocumentLogic } from "@src/document/token/logic/SohlTokenDocumentLogic";
+import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
+import {
+    inputDialog,
+    fvttGetTargetedTokens,
+    fvttRangeToTarget,
+    type DialogButtonCallback,
+} from "@src/core/FoundryHelpers";
+import {
+    buildAttackCardData,
+    resolveTargetCombatant,
+    classifyMissileRange,
+    firstStatusIn,
+    ATTACK_BLOCKING_STATUSES,
+    type AttackableStrikeMode,
+} from "@src/document/actor/logic/combat-actions";
 
 /**
  * The Foundry-free data contract for a SoHL combatant — the
@@ -64,7 +76,7 @@ import type {
  * combatant's persisted combat-scoped state. Implemented by
  * `SohlCombatantDataModel`.
  */
-export interface CombatantData extends SohlLogicData<SohlCombatant> {
+export interface SohlCombatantData extends SohlLogicData<SohlCombatant> {
     /** Turn-start location used to measure spaces moved this turn. */
     startLocation: { x: number; y: number; elevation: number };
     /** Whether this combatant has acted this turn. */
@@ -101,9 +113,49 @@ export interface CombatantData extends SohlLogicData<SohlCombatant> {
  * flow) lives here as intrinsic actions, distinct from the actor's combat
  * *capability* (strike modes, reach) on the actor logic.
  */
-export class CombatantLogic<
-    TData extends CombatantData = CombatantData,
+export class SohlCombatantLogic<
+    TData extends SohlCombatantData = SohlCombatantData,
 > extends SohlLogic<TData> {
+    /**
+     * Find the combatant logic for a given actor in the active combat.
+     *
+     * Scans the active combat's combatants for the first whose actor matches
+     * `actorLogic` (by id) and returns that combatant's logic. Use it to reach an
+     * actor's combat-scoped state (e.g. {@link lastAttackMode}, {@link didAction})
+     * when you only hold the actor's logic.
+     *
+     * @param actorLogic - The actor logic to look up.
+     * @returns The matching combatant's logic, or `undefined` if there is no
+     *   active combat or the actor is not a combatant in it.
+     */
+    static fromActorLogic(
+        actorLogic: SohlActorLogic<any>,
+    ): Optional<SohlCombatantLogic> {
+        return getActiveCombat()?.combatants?.find(
+            (c) => c.actor.id === actorLogic.data.id,
+        )?.logic;
+    }
+
+    /**
+     * Find the combatant logic for a given token in the active combat.
+     *
+     * Scans the active combat's combatants for the first whose token matches
+     * `tokenLogic` (by id) and returns that combatant's logic. Use it to reach an
+     * token's combat-scoped state (e.g. {@link lastAttackMode}, {@link didAction})
+     * when you only hold the token's logic.
+     *
+     * @param tokenLogic - The token logic to look up.
+     * @returns The matching combatant's logic, or `undefined` if there is no
+     *   active combat or the token is not a combatant in it.
+     */
+    static fromTokenLogic(
+        tokenLogic: SohlTokenDocumentLogic,
+    ): Optional<SohlCombatantLogic> {
+        return getActiveCombat()?.combatants?.find(
+            (c) => c.token.id === tokenLogic.id,
+        )?.logic;
+    }
+
     /** The strike mode last used to attack, or `null` (combat-scoped). */
     get lastAttackMode(): StrikeModeRef | null {
         return this.data.lastAttackMode;
@@ -112,6 +164,14 @@ export class CombatantLogic<
     /** The strike mode last used to block, or `null` (combat-scoped). */
     get lastBlockMode(): StrikeModeRef | null {
         return this.data.lastBlockMode;
+    }
+
+    /**
+     * Return this Combatant's TokenDocument's Logic
+     * @returns the token document's logic
+     */
+    get tokenLogic(): SohlTokenDocumentLogic {
+        return (this.parent as any).token.logic;
     }
 
     /**
@@ -151,6 +211,25 @@ export class CombatantLogic<
     }
 
     /**
+     * Pure predicate behind {@link SohlCombatantLogic.threatenedBy}: a candidate
+     * combatant threatens the subject iff it is an enemy that is alive, conscious,
+     * capable, visible, and within reach.
+     *
+     * @param other - The combatant (logic) to test against
+     * @returns `true` if the candidate threatens the subject.
+     */
+    isThreatening(other: SohlCombatantLogic): boolean {
+        return (
+            other !== this &&
+            this.isEnemyOf(other) &&
+            !other.data.isDefeated &&
+            !THREAT_NEGATING_STATUSES.some((s) => other.data.statuses.has(s)) &&
+            !other.data.isHidden &&
+            other.reaches(this)
+        );
+    }
+
+    /**
      * The computed tactical move for this combatant in the given medium,
      * accounting for the combatant's situational `moveFactor` scalar.
      * `null` when the actor has no movement model (e.g. a Vehicle).
@@ -158,11 +237,8 @@ export class CombatantLogic<
      * @returns The tactical move, or `null` when unavailable.
      */
     computedMove(medium: MovementMedium): number | null {
-        return computeMove(
-            this.actorLogic as BeingLogic | undefined,
-            medium,
-            this.data.moveFactor ?? 1,
-        );
+        return (this.actorLogic as BeingLogic)?.effectiveBaseMove(medium)
+            .effective;
     }
 
     /** The computed move for the combat-tracker's displayed medium. */
@@ -178,10 +254,10 @@ export class CombatantLogic<
     }
 
     /**
-     * The {@link CombatantLogic} of every combatant in the same active combat
+     * The {@link SohlCombatantLogic} of every combatant in the same active combat
      * (including this one), or an empty array when not in combat.
      */
-    get combatantLogics(): CombatantLogic[] {
+    get combatantLogics(): SohlCombatantLogic[] {
         return fvttCombatantLogics(this.combatant);
     }
 
@@ -195,7 +271,7 @@ export class CombatantLogic<
      * @param other - The combatant logic to compare against.
      * @returns `true` if they are enemies.
      */
-    isEnemyOf(other: CombatantLogic): boolean {
+    isEnemyOf(other: SohlCombatantLogic): boolean {
         return areCombatantsEnemies(
             this.groupId,
             other.groupId,
@@ -207,7 +283,7 @@ export class CombatantLogic<
      * The combatant logics sharing this one's (non-null) group — the inverse of
      * {@link isEnemyOf}.
      */
-    get allies(): CombatantLogic[] {
+    get allies(): SohlCombatantLogic[] {
         if (!this.groupId) return [];
         return this.combatantLogics.filter(
             (cl) => cl !== this && !this.isEnemyOf(cl),
@@ -218,18 +294,9 @@ export class CombatantLogic<
      * The combatant logics currently threatening this one — enemies that are
      * not defeated, not incapacitated, not hidden, and within reach.
      */
-    get threatenedBy(): CombatantLogic[] {
+    get threatenedBy(): SohlCombatantLogic[] {
         return this.combatantLogics.filter((cl) => {
-            if (cl === this) return false;
-            return isThreatening({
-                isEnemy: this.isEnemyOf(cl),
-                isDefeated: cl.data.isDefeated,
-                isIncapacitated: THREAT_NEGATING_STATUSES.some((s) =>
-                    cl.data.statuses.has(s),
-                ),
-                isHidden: cl.data.isHidden,
-                reaches: cl.reaches(this),
-            });
+            return this.isThreatening(cl);
         });
     }
 
@@ -239,7 +306,7 @@ export class CombatantLogic<
      * @param other - The combatant logic to test reach against.
      * @returns `true` if reach extends to `other`.
      */
-    reaches(other: CombatantLogic): boolean {
+    reaches(other: SohlCombatantLogic): boolean {
         const a = this.combatant;
         const b = other.combatant;
         if (!a || !b) return false;
@@ -274,16 +341,13 @@ export class CombatantLogic<
      *   combatant's weapons and combat techniques is offered.
      *
      * @param context - Action context (supplies the target, scope, and chat options).
+     * @param context.scope
+     * @param context.scope.logicUuid ItemLogic to use
      */
     async automatedCombatStart(context: SohlActionContext<any>): Promise<void> {
-        const actorLogic = this.actorLogic;
-        if (!actorLogic) return;
-
-        const logicUuid = (context.scope as any)?.logicUuid as
-            | string
-            | undefined;
+        const logicUuid: string | undefined = (context.scope as any)?.logicUuid;
         if (logicUuid) {
-            const itemLogic = (actorLogic as BeingLogic).allLogics.find(
+            const itemLogic = (this.actorLogic as BeingLogic).allLogics.find(
                 (l) => l.uuid === logicUuid,
             );
             if (!itemLogic) {
@@ -292,15 +356,11 @@ export class CombatantLogic<
                 );
                 return;
             }
-            await startAutomatedAttackFromItem(
-                itemLogic,
-                itemLogic.name,
-                context,
-            );
+            await startAutomatedAttack(this, context);
             return;
         }
 
-        await startAutomatedAttackFromCombatant(this, context);
+        await startAutomatedAttack(this, context);
     }
 
     /**
@@ -553,7 +613,7 @@ export class CombatantLogic<
             attackML: sm.defense.counterstrike,
             impact: sm.impact,
             parent: this,
-            token: context.token ?? null,
+            token: context.token,
             testType: TEST_TYPE.AUTOCOMBATMELEE.id,
             aimBodyPartCode: aim,
             spread: sm.spread?.effective ?? 0,
@@ -800,7 +860,7 @@ export class CombatantLogic<
  * ------------------------------------------------------------------------ */
 
 /**
- * Pure relational predicate behind {@link CombatantLogic.isEnemyOf}.
+ * Pure relational predicate behind {@link SohlCombatantLogic.isEnemyOf}.
  *
  * Under the SoHL combat invariant, two combatants are enemies iff they belong
  * to different {@link CombatantGroup}s. A combatant is never its own enemy.
@@ -839,52 +899,6 @@ export const THREAT_NEGATING_STATUSES = [
     STATUS_EFFECT.FROZEN,
 ] as const;
 
-/** The condition view consumed by {@link isThreatening}. */
-export interface ThreatView {
-    /** The candidate threatens the subject's allegiance (different group). */
-    isEnemy: boolean;
-    /** The candidate is defeated (DEFEATED special status). */
-    isDefeated: boolean;
-    /** The candidate carries a {@link THREAT_NEGATING_STATUSES} status. */
-    isIncapacitated: boolean;
-    /** The candidate is hidden from the subject. */
-    isHidden: boolean;
-    /** The candidate is within weapon reach of the subject. */
-    reaches: boolean;
-}
-
-/**
- * Pure predicate behind {@link CombatantLogic.threatenedBy}: a candidate
- * combatant threatens the subject iff it is an enemy that is alive, conscious,
- * capable, visible, and within reach.
- *
- * @param view - The resolved threat conditions for the candidate.
- * @returns `true` if the candidate threatens the subject.
- */
-export function isThreatening(view: ThreatView): boolean {
-    return (
-        view.isEnemy &&
-        !view.isDefeated &&
-        !view.isIncapacitated &&
-        !view.isHidden &&
-        view.reaches
-    );
-}
-
-/** Minimal contract a combatant's actor logic must satisfy for move computation. */
-export interface BeingLogicMoveView {
-    /**
-     * The actor's base move for a given medium.
-     *
-     * @param medium - The movement medium (e.g. ground, swimming, flying).
-     * @returns An object whose `effective` is the base move rate.
-     */
-    effectiveBaseMove(medium: MovementMedium): {
-        /** The effective base move rate for the medium. */
-        effective: number;
-    };
-}
-
 /**
  * Compute the effective tactical move for a combatant in the given medium.
  *
@@ -898,17 +912,10 @@ export interface BeingLogicMoveView {
  * @returns The effective tactical move, or `null` when movement is unavailable.
  */
 export function computeMove(
-    beingLogic: BeingLogicMoveView | undefined | null,
     medium: MovementMedium,
     moveFactor: number,
-): number | null {
-    if (!beingLogic || typeof beingLogic.effectiveBaseMove !== "function") {
-        return null;
-    }
-    const base = beingLogic.effectiveBaseMove(medium).effective;
-    if (!base) return null;
-    return base * moveFactor;
-}
+    beingLogic?: BeingLogic,
+): number | null {}
 
 /**
  * Decide which medium a newly created combatant should display in the combat
@@ -928,4 +935,542 @@ export function chooseInitialDisplayedMedium(
     if (userSetMedium) return userSetMedium;
     if (lineageDefault) return lineageDefault;
     return null;
+}
+
+/**
+ * Orchestration glue for **automated combat** — the attacker's entry flow.
+ *
+ * This module is the Foundry-facing layer: it drives dialogs and posts the
+ * attack chat card. The Foundry-free, unit-tested pieces it composes
+ * (`buildAttackResult`, `buildAttackCardData`, `collectAttackableStrikeModes`,
+ * `classifyMissileRange`, …) live in `combat-actions.ts`.
+ *
+ * Every dialog here is **bypassable**: with `context.skipDialog` set, the same
+ * inputs are read from `context.scope` instead (see {@link resolveActionInput}).
+ * Dialog callbacks are side-effect-free. `context.noChat` suppresses the chat
+ * post. Together these let the whole flow run headlessly.
+ *
+ * Range gates the available modes: melee by reach, missile by base range.
+ * **Volley** (a missile beyond base range) is an area attack with no aim and is
+ * **not supported** — such modes never appear, and a wholly out-of-range target
+ * short-circuits with a warning.
+ */
+
+/**
+ * A combatant's active status-effect ids, treating Foundry's DEFEATED special
+ * status as the `vanquished` status so the combat invariants can test it
+ * uniformly alongside the actor's own statuses.
+ * @param combatant - The combatant whose statuses to collect.
+ * @returns The set of active status-effect ids.
+ */
+function combatantStatuses(combatant: SohlCombatant): Set<string> {
+    const ids = new Set<string>(
+        ((combatant.actor as any)?.statuses ?? []) as Iterable<string>,
+    );
+    if ((combatant as any).isDefeated) ids.add(STATUS_EFFECT.VANQUISHED);
+    return ids;
+}
+
+/**
+ * The resolved participants of an attack. Automated combat is between
+ * **combatants** — each carries its own token (`.token`) and actor (`.actor`),
+ * and the in-combat invariant is enforced by the type.
+ */
+interface AttackContext {
+    /** The attacking combatant. */
+    attacker: SohlCombatantLogic;
+    /** The target combatant. */
+    target: SohlCombatantLogic;
+    /** Center-to-center distance between their tokens, in feet. */
+    distanceFeet: number;
+}
+
+/**
+ * Resolve the attacker's token, the **target combatant** (and its token), and
+ * the center-to-center distance between them. Returns `null` (with a UI warning)
+ * when the attacker has no token, there is no active combat, or the target rule
+ * isn't met.
+ *
+ * Automated combat targets a *combatant*, not a token. The target is taken from
+ * `context.scope.targetCombatant` (a combatant id) when supplied; otherwise it
+ * is resolved from the client's targeted tokens — exactly one of which must be a
+ * combatant of the current combat (see {@link resolveTargetCombatant}).
+ * @param actor - The attacking actor.
+ * @param context - The action context (supplies the speaker token and scope).
+ * @returns The resolved attack context, or `null` when it cannot be formed.
+ */
+function resolveAttackContext(
+    actor: any,
+    context: SohlActionContext<any>,
+): AttackContext | null {
+    const attackerToken = resolveAttackerToken(actor, context.token);
+    if (!attackerToken) return null;
+    const combat = getActiveCombat();
+    if (!combat) {
+        sohl.log.uiWarn("Automated combat requires an active combat.");
+        return null;
+    }
+    const attacker = combatantForToken(combat, attackerToken);
+    if (!attacker) {
+        sohl.log.uiWarn(
+            "The attacker is not a combatant in the current combat.",
+        );
+        return null;
+    }
+    // Invariant: the attacker must not be incapacitated/dead/defeated.
+    const attackerStatus = firstStatusIn(
+        combatantStatuses(attacker),
+        ATTACK_BLOCKING_STATUSES,
+    );
+    if (attackerStatus) {
+        sohl.log.uiWarn(
+            `${attackerToken.name ?? "The attacker"} cannot make an automated attack while ${attackerStatus}.`,
+        );
+        return null;
+    }
+
+    let target: SohlCombatant | null;
+    const scopeTarget = (context.scope as any)?.targetCombatant;
+    if (scopeTarget) {
+        // Programmatic / headless: an explicit combatant id wins.
+        target =
+            (combat.combatants.get?.(scopeTarget) as
+                | SohlCombatant
+                | undefined) ?? null;
+        if (!target) {
+            sohl.log.uiWarn(
+                "The specified target combatant is not in the current combat.",
+            );
+            return null;
+        }
+    } else {
+        // Resolve from the client's targeted tokens, keeping only combatants.
+        const targeted = fvttGetTargetedTokens() ?? [];
+        try {
+            target = resolveTargetCombatant(targeted, (t) =>
+                combatantForToken(combat, t),
+            );
+        } catch (err) {
+            sohl.log.uiWarn((err as Error).message);
+            return null;
+        }
+    }
+
+    const targetToken = target.token as SohlTokenDocument | null;
+    if (!targetToken) {
+        sohl.log.uiWarn("The target combatant has no token on the canvas.");
+        return null;
+    }
+    // Invariant: a dead defender cannot be the target of an automated attack.
+    if (firstStatusIn(combatantStatuses(target), [STATUS_EFFECT.DEAD])) {
+        sohl.log.uiWarn(
+            `${targetToken.name ?? "The target"} is dead and cannot be attacked.`,
+        );
+        return null;
+    }
+    const distanceFeet =
+        fvttRangeToTarget(attackerToken, targetToken) ?? Infinity;
+    return { attacker, target, distanceFeet };
+}
+
+/** The resolved spatial context of a counterstrike (defender striking back). */
+export interface CounterstrikeContext {
+    /** The original attacker's combatant — always the counterstrike's target. */
+    attacker: SohlCombatant;
+    /**
+     * The attacker's opaque chat-target address (display name + actor UUID),
+     * resolved here in the scene layer so the logic layer can address the
+     * counterstrike card without touching the Foundry actor.
+     */
+    attackerAddress: { name: string; actorUuid: string };
+    /** Center-to-center distance from defender to attacker, in feet. */
+    distanceFeet: number;
+}
+
+/**
+ * Resolve the counterstrike's spatial context. A counterstrike is itself an
+ * attack, but its target is **never** resolved from the client's targeted tokens:
+ * the target combatant is **always the original attacker** (the counterstrike
+ * strikes back at whoever attacked). The attacker combatant is recovered from the
+ * attack snapshot's speaker token; the distance is measured from the
+ * counterstriking `defender` to them. Returns `null` (with a UI warning) when
+ * either combatant's token is unavailable or the attacker is no longer in combat.
+ * @param attackResult - The original attack snapshot (supplies the attacker's speaker token).
+ * @param defender - The counterstriking defender, or `null`.
+ * @returns The counterstrike context, or `null` when it cannot be formed.
+ */
+export function resolveCounterstrikeContext(
+    attackResult: AttackResult,
+    defender: SohlCombatant | null,
+): CounterstrikeContext | null {
+    const attackerTokenLogic = attackResult.speaker?.tokenLogic;
+    const defenderTokenLogic = defender?.logic;
+    if (!attackerTokenLogic || !defenderTokenLogic) {
+        sohl.log.uiWarn(
+            "Counterstrike needs both the attacker's and defender's tokens on the canvas.",
+        );
+        return null;
+    }
+    const attacker = combatantForToken(getActiveCombat(), attackerTokenLogic);
+    if (!attacker) {
+        sohl.log.uiWarn(
+            "The attacker is no longer a combatant in the current combat.",
+        );
+        return null;
+    }
+    const distanceFeet =
+        fvttRangeToTarget(defenderTokenLogic, attackerTokenLogic) ?? Infinity;
+    return {
+        attacker,
+        attackerAddress: {
+            name: attackerTokenLogic.name ?? "",
+            actorUuid: (attacker.actor as any)?.uuid ?? "",
+        },
+        distanceFeet,
+    };
+}
+
+/**
+ * Build the Aim select options (a `{ shortcode: label }` map) from the
+ * defender's body parts. Empty when the defender has no lineage / body structure.
+ * @param defenderActor - The actor being aimed at.
+ * @returns A map of body-part shortcode to display label.
+ */
+export function buildAimChoices(defenderActor: any): Record<string, string> {
+    const lineageLogic = defenderActor?.itemTypes?.[ITEM_KIND.LINEAGE]?.[0]
+        ?.logic as any;
+    const parts: any[] = lineageLogic?.bodyStructure?.parts ?? [];
+    const choices: Record<string, string> = {};
+    for (const part of parts) {
+        choices[part.shortcode] = part.locations?.[0]?.name ?? part.shortcode;
+    }
+    return choices;
+}
+
+/**
+ * Render `<option>` HTML for a `{ value: label }` map (raw-content dialogs).
+ * @param choices - The `{ value: label }` map to render.
+ * @param selected - The value to mark as selected.
+ * @returns The concatenated `<option>` HTML.
+ */
+function renderOptions(
+    choices: Record<string, string>,
+    selected: string,
+): string {
+    return Object.entries(choices)
+        .map(([value, label]) => {
+            const safe = String(label)
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+            const sel = value === selected ? " selected" : "";
+            return `<option value="${value}"${sel}>${safe}</option>`;
+        })
+        .join("");
+}
+
+/** The attack dialog's results (from the dialog form or from `scope`). */
+interface AttackDialogResult {
+    /** The targeted body part (shortcode). */
+    aim: string;
+    /** Player-entered additional modifier. */
+    situationalModifier: number;
+}
+
+/**
+ * Show the attack dialog (Aim + Additional Modifier) and resolve to the chosen
+ * inputs, or `null` if dismissed. Side-effect-free.
+ * @param title - The dialog window title.
+ * @param aimChoices - The body-part aim options.
+ * @param defaultAim - The pre-selected aim shortcode.
+ * @returns The chosen inputs, or `null` if the dialog was dismissed.
+ */
+function showAttackDialog(
+    title: string,
+    aimChoices: Record<string, string>,
+    defaultAim: string,
+): Promise<AttackDialogResult | null> {
+    return inputDialog({
+        title,
+        template: toFilePath("systems/sohl/templates/dialog/attack-dialog.hbs"),
+        data: { aimChoices, defaultAim, situationalModifier: 0 },
+        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
+            const form = button.querySelector("form");
+            if (!form) return Promise.resolve(null);
+            const fd = new FormDataExtended(form);
+            const f = fd.object as PlainObject;
+            return Promise.resolve({
+                aim: String(f.aim ?? defaultAim),
+                situationalModifier:
+                    Number.parseInt(String(f.situationalModifier), 10) || 0,
+            } satisfies AttackDialogResult);
+        }) as DialogButtonCallback,
+        rejectClose: false,
+    }) as Promise<AttackDialogResult | null>;
+}
+
+/**
+ * Present a single-select dialog (with a preselected `defaultKey`) and resolve to
+ * the chosen key, or `null` if dismissed. Side-effect-free.
+ * @param title - The dialog window title.
+ * @param label - The select field label.
+ * @param choices - The `{ key: label }` options.
+ * @param defaultKey - The pre-selected option key.
+ * @returns The chosen key, or `null` if the dialog was dismissed.
+ */
+export function pickChoice(
+    title: string,
+    label: string,
+    choices: Record<string, string>,
+    defaultKey: string,
+): Promise<string | null> {
+    return inputDialog({
+        title,
+        content: toHTMLString(
+            `<form><div class="form-group"><label>${label}</label><select name="choice">${renderOptions(choices, defaultKey)}</select></div></form>`,
+        ),
+        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
+            const form = button.querySelector("form");
+            if (!form) return Promise.resolve(null);
+            const fd = new FormDataExtended(form);
+            return Promise.resolve(
+                String((fd.object as PlainObject).choice ?? defaultKey),
+            );
+        }) as DialogButtonCallback,
+        rejectClose: false,
+    }) as Promise<string | null>;
+}
+
+/**
+ * Show a defense dialog with a strike-mode select **and** an Additional Modifier
+ * field, preselecting `defaultKey`; resolve to `{ key, situationalModifier }` or
+ * `null` if dismissed. Side-effect-free. Used by Block.
+ * @param title - The dialog window title.
+ * @param selectLabel - The strike-mode select field label.
+ * @param choices - The `{ key: label }` strike-mode options.
+ * @param defaultKey - The pre-selected option key.
+ * @returns The chosen key and situational modifier, or `null` if dismissed.
+ */
+export function showDefenseDialog(
+    title: string,
+    selectLabel: string,
+    choices: Record<string, string>,
+    defaultKey: string,
+): Promise<{
+    /** The selected choice key (e.g. the chosen strike mode). */
+    key: string;
+    /** The player-entered situational modifier. */
+    situationalModifier: number;
+} | null> {
+    return inputDialog({
+        title,
+        content: toHTMLString(
+            `<form>` +
+                `<div class="form-group"><label>${selectLabel}</label>` +
+                `<select name="choice">${renderOptions(choices, defaultKey)}</select></div>` +
+                `<div class="form-group"><label>Additional Modifier:</label>` +
+                `<input type="number" name="situationalModifier" value="0" /></div>` +
+                `</form>`,
+        ),
+        callback: ((_event, button: HTMLButtonElement): Promise<any> => {
+            const form = button.querySelector("form");
+            if (!form) return Promise.resolve(null);
+            const fd = new FormDataExtended(form);
+            const f = fd.object as PlainObject;
+            return Promise.resolve({
+                key: String(f.choice ?? defaultKey),
+                situationalModifier:
+                    Number.parseInt(String(f.situationalModifier), 10) || 0,
+            });
+        }) as DialogButtonCallback,
+        rejectClose: false,
+    }) as Promise<{ key: string; situationalModifier: number } | null>;
+}
+
+/**
+ * The default mode index for a picker: the most-recently-used mode if it is
+ * still available, otherwise the best-chance mode (highest effective ML).
+ * @param modes - The available attackable strike modes.
+ * @param recent - The most-recently-used mode reference, or `null`.
+ * @returns The index of the default mode in `modes`.
+ */
+function defaultModeIndex(
+    modes: AttackableStrikeMode[],
+    recent: { itemId: string; smId: string } | null,
+): number {
+    if (recent) {
+        const idx = modes.findIndex(
+            (m) => m.itemId === recent.itemId && m.smId === recent.smId,
+        );
+        if (idx >= 0) return idx;
+    }
+    return Math.max(
+        0,
+        indexOfBestMastery(
+            modes,
+            (m) => m.strikeMode.attack.constrainedEffective,
+        ),
+    );
+}
+
+/**
+ * Choose a strike mode from the available list (default = recent-or-best;
+ * bypassable via `scope.itemId` + `scope.strikeModeId`) and run the attack.
+ * @param modes - The available attackable strike modes.
+ * @param rc - The resolved attack context (attacker, target, distance).
+ * @param context - The action context (supplies dialog-bypass scope and chat options).
+ */
+async function chooseModeAndAttack(
+    modes: AttackableStrikeMode[],
+    rc: AttackContext,
+    context: SohlActionContext<any>,
+): Promise<void> {
+    const recent = rc.attacker.lastAttackMode ?? null;
+    const defaultIdx = defaultModeIndex(modes, recent);
+    const choices: Record<string, string> = {};
+    modes.forEach((m, i) => {
+        choices[String(i)] = `${m.itemName} — ${m.strikeMode.name}`;
+    });
+    const attackerName = (rc.attacker.token as SohlTokenDocument | null)?.name;
+
+    const pickedKey = await resolveActionInput<string | null>(context, {
+        fromScope: (s) => {
+            const idx = modes.findIndex(
+                (m) => m.itemId === s.itemId && m.smId === s.strikeModeId,
+            );
+            return idx >= 0 ? String(idx) : String(defaultIdx);
+        },
+        dialog: () =>
+            pickChoice(
+                `${attackerName} — Select Attack`,
+                "Strike Mode:",
+                choices,
+                String(defaultIdx),
+            ),
+    });
+    if (pickedKey === null) return;
+    const entry = modes[Number(pickedKey)];
+    if (!entry) return;
+
+    await startAutomatedAttack({
+        attacker: rc.attacker,
+        target: rc.target,
+        mode: entry,
+        context,
+    });
+}
+
+/**
+ * Run the attacker-side flow for a chosen strike mode: resolve attack inputs
+ * (Aim + modifier; dialog or `scope`) → derive spread + any point-blank impact
+ * bonus → assemble and evaluate the {@link AttackResult} → record the mode on the
+ * combatant → post the attack card (unless `noChat`).
+ * @param attacker The attacking combatant (supplies token, actor, and last-used-mode persistence).
+ * @param target The target combatant (supplies token + actor).
+ * @param mode The chosen attackable strike mode (carries the owning item's id/name + the mode).
+ * @param context The action context — supplies the speaker, `skipDialog`, `noChat`, and `scope`.
+ */
+export async function startAutomatedAttack(
+    attacker: SohlCombatantLogic,
+    target: SohlCombatantLogic,
+    mode: AttackableStrikeMode,
+    context: SohlActionContext<any>,
+): Promise<void> {
+    if (!attacker || !target) {
+        sohl.log.uiWarn(
+            "Automated combat requires both attacker and target combatants.",
+        );
+        return;
+    }
+    const distanceFeet =
+        fvttRangeToTarget(attacker.tokenLogic, target.tokenLogic) ?? Infinity;
+
+    const aimChoices = buildAimChoices(target.actorLogic);
+    const defaultAim = Object.keys(aimChoices)[0] ?? "";
+    const input = await resolveActionInput<AttackDialogResult>(context, {
+        fromScope: (s) => ({
+            aim: String(s.aim ?? defaultAim),
+            situationalModifier:
+                Number.parseInt(String(s.situationalModifier), 10) || 0,
+        }),
+        dialog: () =>
+            showAttackDialog(
+                `${attacker.name} vs. ${target.name} Attack with ${mode.strikeMode.name}`,
+                aimChoices,
+                defaultAim,
+            ),
+    });
+    if (!input) return;
+    const { aim, situationalModifier } = input;
+
+    // Spread (for injury hit-location scatter) + any impact range bonus.
+    let spread: number;
+    let impactRangeBonus = 0;
+    if (mode.strikeMode.isMissile) {
+        const band = classifyMissileRange(
+            distanceFeet,
+            mode.strikeMode.baseRange?.effective ?? 0,
+        );
+        if (!band.direct) {
+            // Should not happen (range-filtered upstream), but guard volley.
+            sohl.log.uiWarn(
+                `${target.name} is beyond direct range (volley is not supported).`,
+            );
+            return;
+        }
+        spread = band.spread;
+        impactRangeBonus = band.impactRangeBonus;
+    } else {
+        spread = mode.strikeMode.spread?.effective ?? 0;
+    }
+
+    const testType =
+        sm.isMissile ?
+            TEST_TYPE.AUTOCOMBATMISSILE.id
+        :   TEST_TYPE.AUTOCOMBATMELEE.id;
+    const attackResult = buildAttackResult({
+        attackML: mode.strikeMode.attack,
+        impact: mode.strikeMode.impact,
+        parent: mode.strikeMode.parentLogic,
+        tokenLogic,
+        testType,
+        aimBodyPartCode: aim,
+        spread,
+        title: smName,
+    });
+    if (situationalModifier) {
+        attackResult.masteryLevelModifier.add(
+            VALUE_DELTA_INFO.PLAYER,
+            situationalModifier,
+        );
+    }
+    if (impactRangeBonus) {
+        // Point-blank missile: a flat bonus to the impact formula.
+        attackResult.impact.add("SOHL.INFO.Range", "Range", impactRangeBonus);
+    }
+    await attackResult.evaluate();
+
+    // Remember this mode so it defaults next time on this combatant.
+    await p.attacker.recordAttackMode(p.mode.itemId, sm.id);
+
+    if (context.noChat) return;
+    const cardData = buildAttackCardData({
+        attackResult,
+        title: `${smName} ${sm.isMelee ? "Melee" : "Missile"} Attack`,
+        attackerName: attackerTokenLogic.name ?? "",
+        actorId: p.attacker.actor?.id ?? null,
+        aimLabel: aimChoices[aim] ?? aim,
+        target:
+            defenderActor ?
+                {
+                    name: targetTokenLogic.name ?? "",
+                    // The defense buttons dispatch to the defender's COMBATANT
+                    // (its CombatantLogic hosts the resume actions).
+                    actorUuid: (p.target as any)?.uuid ?? "",
+                }
+            :   null,
+    });
+    await context.speaker.toChat(
+        toFilePath("systems/sohl/templates/chat/attack-card.hbs"),
+        cardData,
+    );
 }

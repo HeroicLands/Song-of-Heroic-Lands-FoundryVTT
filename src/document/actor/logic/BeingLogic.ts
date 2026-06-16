@@ -13,7 +13,7 @@
 
 import { ValueModifier } from "@src/domain/modifier/ValueModifier";
 import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
+import { SohlActionContext } from "@src/core/SohlActionContext";
 import { CombatResult } from "@src/domain/result/CombatResult";
 import {
     SohlActorBaseLogic,
@@ -39,13 +39,19 @@ import {
     selectActorTokens,
     selectActorCombatant,
 } from "@src/document/actor/logic/token-helpers";
-import { getActiveScene, getActiveCombat } from "@src/core/FoundryHelpers";
+import {
+    getActiveScene,
+    getActiveCombat,
+    inputDialog,
+    DialogButtonCallback,
+} from "@src/core/FoundryHelpers";
 import type { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument";
 import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
 import { readBaseMove } from "@src/domain/movement/move-helpers";
 import {
     ACTION_SUBTYPE,
     defineType,
+    IMPACT_ASPECT,
     ITEM_KIND,
     MovementMedium,
     SOHL_ACTION_SCOPE,
@@ -55,6 +61,22 @@ import {
 import { SohlAction } from "@src/domain/action/SohlAction";
 import { SimpleRoll } from "@src/utils/SimpleRoll";
 import { SohlLogic } from "@src/core/SohlLogic";
+import {
+    buildInjuryCardData,
+    createTraumaFromInjury,
+    getActorBodyStructure,
+    InjuryDialogForm,
+    isAutomatedRequest,
+    parseInjuryRequest,
+    readInjuryDialogForm,
+    resolveAutomatedInjury,
+} from "@src/document/actor/logic/injury-actions";
+import { toFilePath } from "@src/utils/helpers";
+import {
+    ResolvedInjury,
+    resolveInjury,
+} from "@src/domain/body/InjuryResolution";
+import { SohlSpeaker } from "@src/core/SohlSpeaker";
 
 /**
  * A single person, creature, or NPC.
@@ -601,6 +623,212 @@ export class BeingLogic<
                 `Being "${this.name}" has no Lineage item; it cannot participate in most being actions (movement, weapons, reach, etc.) and should be considered unusable until a Lineage is added.`,
             );
         }
+    }
+
+    /**
+     * Resolve and post an injury from a chat-card `createInjury` click. The
+     * forward-carried `data-test-result-json` discriminates the two modes:
+     * an automated request (aimed `targetPart` + `spread`) resolves with no
+     * player input; an assisted request opens the Add Injury dialog so the GM
+     * can pick the location and tune armor reduction.
+     * @param btn - The clicked chat-card button carrying the injury request.
+     */
+    private async onCreateInjury(btn: HTMLElement): Promise<void> {
+        const body = getActorBodyStructure(this);
+        if (!body) {
+            sohl.log.uiWarn(
+                `${this.name} has no Lineage body structure; cannot resolve an injury.`,
+            );
+            return;
+        }
+
+        const req = parseInjuryRequest(btn.dataset.testResultJson);
+        if (!req) {
+            sohl.log.uiWarn(
+                `SoHL | createInjury button on ${this.name} carried no valid injury request.`,
+            );
+            return;
+        }
+
+        // Automated: aim was forwarded, so resolve and record with no dialog.
+        if (isAutomatedRequest(req)) {
+            const injury = resolveAutomatedInjury(req, body);
+            await this.postInjury(injury, injury.level >= 1);
+            if (injury.level >= 1) await createTraumaFromInjury(this, injury);
+            return;
+        }
+
+        // Assisted: let the player confirm location, aspect, impact, and armor.
+        await this.addInjuryViaDialog({
+            location: req.location ?? "",
+            aspect: req.aspect,
+            impact: req.impact,
+            armorReduction: req.armorReduction ?? 0,
+            extraBleedRisk: !!req.extraBleedRisk,
+        });
+    }
+
+    /**
+     * Open the Add Injury dialog, resolve the player's input into an injury,
+     * post the injury card, and (when requested) record the Trauma. Shared by
+     * the assisted-combat `createInjury` flow and the character sheet's manual
+     * Add Injury action. Pre-fills the dialog from `prefill`; an empty prefill
+     * yields a blank manual-entry dialog.
+     * @param prefill - Initial values to pre-fill the dialog with.
+     * @param prefill.location - The hit-location shortcode.
+     * @param prefill.aspect - The weapon impact aspect.
+     * @param prefill.impact - The raw impact total.
+     * @param prefill.armorReduction - Manual armor reduction.
+     * @param prefill.extraBleedRisk - Force the wound to bleed.
+     */
+    async addInjuryViaDialog(
+        prefill: {
+            location?: string;
+            aspect?: string;
+            impact?: number;
+            armorReduction?: number;
+            extraBleedRisk?: boolean;
+        } = {},
+    ): Promise<void> {
+        const body = getActorBodyStructure(this);
+        if (!body) {
+            sohl.log.uiWarn(
+                `${this.name} has no Lineage body structure; cannot add an injury.`,
+            );
+            return;
+        }
+
+        const dialogData = {
+            hitLocations: body
+                .getAllLocations()
+                .map((l) => ({ code: l.shortcode, name: l.name })),
+            aspectChoices: Object.values(IMPACT_ASPECT),
+            location: prefill.location ?? "",
+            aspect: prefill.aspect ?? "",
+            impactVal: prefill.impact ?? 0,
+            armorReduction: prefill.armorReduction ?? 0,
+            extraBleedRisk: !!prefill.extraBleedRisk,
+            addToCharSheet: true,
+            askRecordInjury: true,
+        };
+
+        const result = await inputDialog({
+            title: `${this.name}: Add Injury`,
+            template: toFilePath(
+                "systems/sohl/templates/dialog/injury-dialog.hbs",
+            ),
+            data: dialogData,
+            callback: ((
+                _event: PointerEvent | SubmitEvent,
+                button: HTMLButtonElement,
+            ): Promise<InjuryDialogForm | null> => {
+                const form = button.querySelector("form");
+                if (!form) return Promise.resolve(null);
+                const fd = new FormDataExtended(form);
+                return Promise.resolve(readInjuryDialogForm(fd.object));
+            }) as DialogButtonCallback,
+            rejectClose: false,
+        });
+        if (!result) return;
+
+        const form = result as InjuryDialogForm;
+        const location = body
+            .getAllLocations()
+            .find((l) => l.shortcode === form.locationCode);
+        const injury = resolveInjury({
+            impact: form.impact,
+            aspect: form.aspect,
+            body,
+            location,
+            armorReduction: form.armorReduction,
+            extraBleedRisk: form.extraBleedRisk,
+        });
+        await this.postInjury(injury, form.addToCharSheet);
+        if (form.addToCharSheet && injury.level >= 1)
+            await createTraumaFromInjury(this, injury);
+    }
+
+    /**
+     * Post an `injury-card` to chat for a resolved injury on this actor.
+     * @param injury - The resolved injury to render.
+     * @param addToCharSheet - Whether the injury was recorded on the sheet.
+     */
+    private async postInjury(
+        injury: ResolvedInjury,
+        addToCharSheet: boolean,
+    ): Promise<void> {
+        const data = buildInjuryCardData(injury, {
+            actorId: this.id,
+            handlerActorUuid: this.uuid,
+            name: this.name ?? "",
+            addToCharSheet,
+        });
+        await this.speaker.toChat(
+            toFilePath("systems/sohl/templates/chat/injury-card.hbs"),
+            data,
+        );
+    }
+
+    /**
+     * Helper method to handle chat card button clicks.
+     * @param btn The button element that was clicked.
+     * @param logic The action logic to use
+     */
+    static async onChatCardButton(
+        btn: HTMLElement,
+        logic: BeingLogic,
+    ): Promise<void> {
+        const actionName = btn.dataset.action;
+        if (!actionName) return;
+
+        // `createInjury` is handled directly (it posts an injury rather than
+        // running an intrinsic action).
+        if (actionName === "createInjury") {
+            await logic.onCreateInjury(btn);
+            return;
+        }
+
+        // Otherwise dispatch generically to the actor's logic — the same shape
+        // SohlItem uses — so defender chat-card actions (e.g. the automated
+        // combat defenses) reach their intrinsic-action methods. The button's
+        // dataset becomes the action's `scope`.
+        const context = new SohlActionContext({
+            speaker: logic.speaker,
+            type: actionName,
+            title: btn.textContent?.trim() ?? actionName,
+            scope: { ...btn.dataset },
+        });
+
+        const action =
+            logic.actions.get(actionName) ??
+            [...logic.actions.values()].find(
+                (act) =>
+                    act.data.executor === actionName ||
+                    act.data.title === actionName,
+            );
+
+        if (action) {
+            await action.execute(context);
+            return;
+        }
+
+        const fn = (logic as any)[actionName];
+        if (typeof fn === "function") {
+            await fn.call(logic, context);
+        } else {
+            sohl.log.warn(
+                `SoHL | ${this.name} (Actor) received unhandled chat-card action "${actionName}".`,
+            );
+        }
+    }
+
+    /**
+     * Helper method to handle chat card edit actions.
+     * @param btn The button element that was clicked.
+     */
+    async onChatCardEditAction(btn: HTMLElement): Promise<void> {
+        // TODO(#66): Handle chat card edit actions here
+        console.log("Edit action clicked:", btn);
     }
 }
 

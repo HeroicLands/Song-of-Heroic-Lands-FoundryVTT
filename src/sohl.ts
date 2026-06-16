@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSpeaker } from "@src/core/SohlSpeaker";
+import { SOHLCONFIG } from "@src/core/sohl-config";
 import { SohlSystem } from "@src/core/SohlSystem";
 import { ACTOR_KIND, LOGLEVEL } from "@src/utils/constants";
 import { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
@@ -34,9 +34,9 @@ import { SohlTokenDocument } from "@src/document/token/foundry/SohlTokenDocument
  */
 function setupSystem(): SohlSystem {
     const sohl = SohlSystem.getInstance();
-    foundry.utils.mergeObject(CONFIG, sohl.CONFIG);
+    foundry.utils.mergeObject(CONFIG, SOHLCONFIG);
     // TokenDocument is not a typed document (no `system` DataModel), so it is
-    // registered directly here rather than through a `sohl.CONFIG` block. This
+    // registered directly here rather than through a `SOHLCONFIG` block. This
     // makes canvas tokens `SohlTokenDocument` instances, giving them the
     // transient `.logic` adapter and `onChatCardButton` that the opposed-test
     // flow dispatches to.
