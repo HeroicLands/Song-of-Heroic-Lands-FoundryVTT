@@ -11,6 +11,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Compendium pack CLI — compile / unpack / clean LevelDB packs.
+ *
+ * Wraps `@foundryvtt/foundryvtt-cli` behind a yargs `package <action>`
+ * command over the `items`, `journals`, and `actors` packs:
+ *   - compile: builds LevelDB at `build/stage/packs/<name>/` from each pack's
+ *     committed `assets/packs/<name>/_source/` tree (produced by
+ *     `npm run packs:export`); no vault access needed.
+ *   - unpack: extracts `build/stage/packs/<name>/` back to per-entry JSON
+ *     under `build/tmp/packs/<name>/`, rebuilding folder paths.
+ *   - clean: normalizes/strips committed JSON under `build/tmp/packs/`.
+ * Reads the system version from `assets/templates/system.template.json`.
+ *
+ * Usage:
+ *   npm run build:compiledb                // → … package compile (all packs)
+ *   npm run build:unpackdb                 // → … package unpack
+ *   node ./utils/packs/build-compendiums.mjs package compile [pack]
+ *   node ./utils/packs/build-compendiums.mjs package unpack [pack] [entry]
+ *   node ./utils/packs/build-compendiums.mjs package clean [pack] [entry]
+ */
+
 import fs from "fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import log from "loglevel";

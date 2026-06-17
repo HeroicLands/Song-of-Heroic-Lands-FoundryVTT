@@ -19,6 +19,14 @@
  * Only `TODO`/`FIXME` are enforced (not `HACK`/`XXX`), and only inside
  * comments — string-literal contents are ignored so values like `"XXX"` or a
  * quoted `"TODO"` never trip the check. Exits non-zero on any violation.
+ *
+ * Recursively scans every `.ts` file under `src/`; writes nothing. Prints
+ * offending `file:line` locations and exits non-zero (failing CI) on any
+ * unlinked marker.
+ *
+ * Usage:
+ *   npm run lint:todos         // node utils/check-todos.mjs
+ *   node utils/check-todos.mjs // direct invocation (no args)
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";

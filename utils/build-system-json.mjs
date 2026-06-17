@@ -11,6 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Generates the Foundry `system.json` manifest for the build.
+ *
+ * Reads `assets/templates/system.template.json` and `package.json`, then
+ * stamps the template with the current `version` and the GitHub
+ * url/bugs/manifest/download URLs, and writes the result to
+ * `build/stage/system.json` (creating the stage directory if needed).
+ *
+ * Usage:
+ *   npm run build:system             // node utils/build-system-json.mjs
+ *   node utils/build-system-json.mjs // direct invocation (no args)
+ */
+
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 

@@ -25,6 +25,9 @@
  * Folder placement is identical to the items pack: `sohl.folder` in
  * frontmatter is the target folder's id (from folders.yaml), resolved
  * against a folders.yaml list via the constructor's `folderResolver`.
+ *
+ * Not a standalone script — exports the `Journals` compiler class, imported
+ * and driven by `utils/packs/export.mjs` (`npm run packs:export`).
  */
 
 import fs from "fs";

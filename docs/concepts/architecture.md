@@ -2,7 +2,7 @@
 
 > **Audience:** Developers, contributors, and anyone needing a mental model of the system.
 
-See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), [Lifecycle Model](./lifecycle-model.md).
+See also: [Documentation Hub](../README.md), [Extension Points](../how-to/extension-points.md), {@link SohlLogic}.
 
 > **New to the codebase? Start here.** Read this page top to bottom for the mental model, then branch out through the [Where to learn more](#where-to-learn-more) index at the end.
 
@@ -47,12 +47,19 @@ Document classes (`SohlActor`, `SohlItem`, `SohlActiveEffect`) handle Foundry VT
 
 ### Logic layer
 
-Logic classes handle game rules, calculations, and actions — separated from Foundry persistence. They live in `src/document/*/logic/` and must **never** import Foundry globals directly. All Foundry API access goes through `src/core/FoundryHelpers.ts`, which is mock-swapped during testing.
+Logic classes handle game rules, calculations, and actions — separated from Foundry persistence and UI. They live in `src/document/*/logic/`.
 
-The layer owns its contracts: the base logic classes and the Data interfaces that the Foundry DataModels implement live in `src/document/item/logic/SohlItemBaseLogic.ts` and `src/document/actor/logic/SohlActorBaseLogic.ts` (the Foundry-side base modules re-export them for compatibility). Logic/domain code may reference Foundry-coupled classes (e.g. `SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency. The boundary is enforced two ways:
+**Foundry isolation.** The logic layer is forbidden from interacting with anything Foundry-level directly. It reaches Foundry through exactly two channels:
+
+1. **The `FoundryHelpers` shim** (`src/core/FoundryHelpers.ts`) — every Foundry global or API call (`game.*`, `canvas.*`, `Hooks.*`, `Roll`, dialogs, …) goes through its `fvtt`-prefixed wrappers. See [FoundryHelpers shim](#foundryhelpers-shim).
+2. **The Data interfaces on `logic.data`** — a document's persisted shape is a `*Data` interface (`SohlItemData` / `SohlActorData` and per-type extensions) that the **logic layer owns** and the Foundry `DataModel` implements. Logic reads a document's persisted fields through `logic.data` (the typed shape), never by reaching into `document.system` or Foundry internals. These contracts live in `src/document/item/logic/SohlItemBaseLogic.ts` and `src/document/actor/logic/SohlActorBaseLogic.ts` (the Foundry-side base modules re-export them for compatibility).
+
+Logic/domain code may also _reference_ Foundry-coupled classes (`SohlItem`, `SohlActor`, `SohlTokenDocument`) with **`import type` only** — type imports are erased at compile time and create no runtime dependency.
+
+This isolation is precisely what makes the logic layer **unit-testable with no Foundry running**: both channels are replaced with test doubles (see [Testing](../how-to/testing.md)). It is enforced two ways:
 
 - An ESLint rule (`@typescript-eslint/no-restricted-imports` in `eslint.config.js`) forbids value imports of Foundry-coupled modules from the Foundry-free zones.
-- A purity smoke test (`npm run test:purity`, part of `build:noci`) imports every logic/domain module in an environment with **no** Foundry globals; any module-level `foundry.*`/`game.*` access fails the build. See [Testing](../how-to/testing.md).
+- A purity smoke test (`npm run test:purity`, part of `build:noci`) imports every logic/domain module with **no** Foundry globals present; any module-level `foundry.*`/`game.*` access fails the build.
 
 ### Domain layer
 
@@ -111,7 +118,7 @@ Foundry VTT processes each embedded item fully before moving to the next, so sib
 2. **evaluate** — compute derived values using sibling items' initialized state.
 3. **finalize** — resolve cross-item dependencies requiring evaluated state.
 
-See [Lifecycle Model](./lifecycle-model.md) for the full rationale and rules.
+See {@link SohlLogic} for the full rationale and rules.
 
 ## Domain objects
 
@@ -143,7 +150,7 @@ SoHL provides two levels of extension for customizing behavior without modifying
 
 1. **Modules via lifecycle hooks** — Foundry modules listen for hooks emitted at each lifecycle phase to augment behavior broadly across items or actors. See [Lifecycle Hooks](../how-to/lifecycle-hooks.md).
 
-2. **Action items** — document-attached executable logic for per-item overrides. See [Actions](../how-to/actions.md).
+2. **Actions** — document-attached executable logic surfaced on context menus, for per-item behavior. See [Macros and Actions](./macros-and-actions.md).
 
 ## FoundryHelpers shim
 
@@ -155,17 +162,7 @@ For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError` (SohlLogger), n
 
 ## Build system
 
-```bash
-npm run build              # Full pipeline: types → test → bundle
-npm run build:types        # TypeScript compilation only
-npm run build:code         # Vite bundle
-npm run build:css          # Sass compilation
-npm run test               # Vitest
-npm run push:qa            # Sync to QA Foundry instance
-npm run docs               # Generate TypeDoc
-```
-
-Build output goes to `build/stage/`, which mirrors the Foundry system directory. `system.json` is generated from `assets/templates/system.template.json`.
+`npm run build` runs the full pipeline (type-check → test → bundle with Vite) into **`build/stage/`**, which mirrors the installed Foundry system directory — Foundry could load it as-is. For the script catalog, the pipeline stages, the `build/` layout, and how `system.json` is assembled, see [Build, Deployment, and Release](../how-to/build-and-deployment.md).
 
 ## Actor state sovereignty
 
@@ -186,7 +183,7 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 ## Architectural rules
 
 1. **Logic layer stays Foundry-free.** All Foundry API calls go through `FoundryHelpers.ts`.
-2. **Extension over rewrites.** Use hooks and action items, not source modifications.
+2. **Extension over rewrites.** Use hooks and actions, not source modifications.
 3. **Backwards compatibility.** Never rename data fields without a migration strategy.
 4. **No global search-and-replace.** Cross-cutting changes must be scoped and validated.
 5. **Stable localization keys.** Never rename keys in `lang/en.json` — add new ones.
@@ -198,10 +195,10 @@ This already underlies automated combat: defense buttons dispatch to the _defend
 
 | Topic             | Document                                                                 |
 | ----------------- | ------------------------------------------------------------------------ |
-| Lifecycle phases  | [Lifecycle Model](./lifecycle-model.md)                                  |
+| Lifecycle phases  | {@link SohlLogic}                                                        |
 | Extending SoHL    | [Extension Points](../how-to/extension-points.md)                        |
 | Lifecycle hooks   | [Lifecycle Hooks](../how-to/lifecycle-hooks.md)                          |
-| Action items      | [Actions](../how-to/actions.md)                                          |
+| Actions           | [Macros and Actions](./macros-and-actions.md)                            |
 | Combat resolution | [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) |
 | Modifier system   | [Modifier Model](../reference/modifier-model.md)                         |
 | Body anatomy      | [Body Structure](../reference/body-structure.md)                         |

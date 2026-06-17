@@ -2,7 +2,7 @@
 
 > **Audience:** GMs and developers who want to change behavior without forking SoHL.
 
-See also: [Documentation Hub](../README.md), [Extension Points](./extension-points.md)
+See also: [Documentation](../documentation.md), [Extension Points](./extension-points.md)
 
 This page gives quick, practical patterns for choosing and implementing house rules.
 
@@ -11,17 +11,20 @@ This page gives quick, practical patterns for choosing and implementing house ru
 - Use an **Action item** when you want to change behavior for one specific item (for example, only `curse`).
 - Use a **Module hook** when you want to apply logic broadly across many items (for example, all spells).
 
-## Recipe 1: Change one spell only (Action item)
+## Recipe 1: Change one spell only (Script Action)
 
-Goal: change only `mysticalability.curse` behavior after initialize.
+Goal: change only the `Curse` mystical ability's behavior after initialize.
 
 1. Open the `Curse` mystical ability item.
-2. Add an Action item with name:
-    - `mysticalability.curse.postInitialize`
-3. Set Action fields as needed (`scope`, `isAsync`, permissions, etc.).
+2. Add a **Script Action** whose **shortcode** is the lifecycle stage you want to
+   hook — `postInitialize` (likewise `postEvaluate` or `postFinalize`). After each
+   phase, the system runs the item's action whose shortcode matches that stage. The
+   action is attached to this item, so it runs only for `Curse` — no item-type or
+   shortcode prefix is needed in the name.
+3. Set Action fields as needed (`scope`, `isAsync`, `trigger`/`visible`, etc.).
 4. Put your logic in the Action executor.
 
-Result: only the `Curse` item runs this logic during lifecycle.
+Result: only the `Curse` item runs this logic during its lifecycle.
 
 ## Recipe 2: Apply a rule to many spells (Module)
 
@@ -47,9 +50,9 @@ Hooks.on("sohl.mysticalability.postInitialize", (item, ctx) => {
 
 Result: one module can apply consistent logic across multiple spells without changing SoHL source.
 
-## Recipe 3: Use the recommended guard pattern (setting + GM-only)
+## Recipe 3: The recommended guard pattern
 
-Goal: make house rules easy to toggle per world and prevent duplicate side effects.
+Goal: make house rules easy to toggle per world (a world setting) and prevent duplicate side effects (a GM-only guard).
 
 Pattern: combine a world setting check with a GM-only guard before applying persistent changes.
 
@@ -89,6 +92,6 @@ Result: the same module can be installed everywhere, activated per world, and ex
 
 ## Related docs
 
-- [Actions](./actions.md) — full field-by-field reference on creating and configuring Action items
+- [Macros and Actions](../concepts/macros-and-actions.md) — authoring macros and Script Actions
 - [Lifecycle Hooks (Developer Guide)](./lifecycle-hooks.md) — complete hook name reference for module authors
 - [Extension Points (Developer Guide)](./extension-points.md)

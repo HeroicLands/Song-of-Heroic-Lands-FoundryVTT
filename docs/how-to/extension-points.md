@@ -8,37 +8,17 @@ See also: [Architecture Overview](../concepts/architecture.md), [House Rules Coo
 ## Choosing extension scope
 
 - Use a **Module hook** for additive behavior without modifying SoHL source — best for house rules that affect many items or actors.
-- Use **Action items** for single-item behavior overrides (e.g., one specific spell).
+- Use **actions** (context-menu entries on a document) for single-item behavior overrides (e.g., one specific spell).
 
 Lifecycle hooks are emitted with item-type granularity (`sohl.<itemType>.<stage>`). Filter by `item.system.shortcode` inside the handler for narrower targeting.
 
 ### Recommended module guard pattern
 
-When a hook performs persistent side effects, use both a world-setting toggle and a GM-only guard:
-
-```js
-Hooks.once("init", () => {
-    game.settings.register("my-house-rules", "enableMysticalTweaks", {
-        name: "Enable mystical house rules",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: false,
-    });
-});
-
-Hooks.on("sohl.mysticalability.postFinalize", async (item, ctx) => {
-    if (item.system.shortcode !== "curse") return;
-    if (!game.settings.get("my-house-rules", "enableMysticalTweaks")) return;
-    if (!game.user?.isGM) return;
-
-    // guarded, single-authority side effects
-});
-```
+When a hook performs persistent side effects, guard it with a world-setting toggle **and** a GM-only check, so the rule is opt-in per world and runs under a single authority. See the worked recipe in [House Rules Cookbook — guard pattern](./house-rules-cookbook.md#recipe-3-the-recommended-guard-pattern).
 
 ## Golden rule
 
-**Extend by adding new classes and registering them**, rather than editing core logic in-place.
+**Extend by adding new classes and registering them**, rather than editing core logic in-place — see the [architectural rules](../concepts/architecture.md#architectural-rules) and [extension mechanisms](../concepts/architecture.md#extension-mechanisms).
 
 When in doubt:
 
@@ -54,19 +34,7 @@ Common extension needs: register new settings, sheets, hooks, or document classe
 
 **Guidelines:** Keep registration logic explicit and centralized. Avoid side-effect imports.
 
-Current startup sequence (from `src/sohl.ts`):
-
-- `Hooks.once("init")`
-    - registers system settings,
-    - configures system,
-    - rehydrates imported calendars,
-    - applies the active calendar,
-    - registers system hooks,
-    - sets combat/time defaults,
-    - registers Region and RegionBehavior sheets.
-- `Hooks.once("ready")`
-    - registers Handlebars helpers,
-    - sets `SohlSystem.ready = true`.
+Registration runs in `Hooks.once("init")` (settings, system config, calendars, hooks, combat/time defaults, sheet registration), then `Hooks.once("ready")` (Handlebars helpers, then `SohlSystem.ready = true`). Read `src/sohl.ts` for the authoritative order, and add new registration alongside the existing calls there and in {@link SohlSystem}.
 
 ## 2) Actor and Item type extension
 
@@ -74,14 +42,9 @@ Current startup sequence (from `src/sohl.ts`):
 
 Core actor classes: `src/document/actor/` with base `SohlActor` in `foundry/`.
 
-Layering:
+The per-type split into Document, DataModel, Logic, and Sheet classes — and how they relate — is covered by the [three-layer architecture](../concepts/architecture.md#three-layer-architecture) and [three-class pattern](../concepts/architecture.md#three-class-pattern); read those rather than re-deriving them here.
 
-- Document (`SohlActor`) = Foundry integration
-- DataModel (`system`) = persisted schema
-- Logic (`system.logic`) = rules behavior + derived properties
-- Sheet = UI/editor behavior
-
-**How to extend:** Add logic class in `src/document/actor/logic/`, data model + sheet in `src/document/actor/foundry/`, register in `SohlSystem.ts`.
+**How to extend:** Add logic class in `src/document/actor/logic/`, data model + sheet in `src/document/actor/foundry/`, register in {@link SohlSystem}.
 
 ### Items
 
@@ -91,11 +54,13 @@ Same layering as actors.
 
 **Worked example (new Item kind):**
 
-1. Add kind constant in `src/utils/constants.ts` (`ITEM_KIND`).
-2. Create logic class in `src/document/item/logic/` and data model + sheet in `src/document/item/foundry/`.
-3. Register data model/logic/sheet in `src/core/SohlSystem.ts`.
+1. Add the kind constant + metadata in `src/utils/constants.ts` (`ITEM_KIND`, `*_METADATA`).
+2. Create the logic class in `src/document/item/logic/` and the data model + sheet in `src/document/item/foundry/`.
+3. Register the data model / logic / sheet in {@link SohlSystem}.
 4. Add templates and localization keys.
-5. Validate sheet rendering and context-menu behavior.
+5. Verify `fromData(...)`, drag/drop, sheet rendering, and context-menu behavior resolve; validate startup.
+
+This is the canonical "add a type" procedure — the [Runtime Contracts](../reference/runtime-contracts.md) safe-extension checklist points here.
 
 **Avoid:** Adding `if type === X` branches in base classes; prefer polymorphism.
 
@@ -123,16 +88,9 @@ See [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md) and
 
 ## 4) Active effects
 
-Core: `src/document/effect/SohlActiveEffect.ts`
+Core: {@link SohlActiveEffect}.
 
-SoHL extends Foundry's targeting via:
-
-- `targetType`: `this`, `actor`, or an item document type
-- `targetName`: regex matched against item shortcodes
-
-With `targetType=<itemType>`, one effect can affect multiple sibling items of that type on the same actor.
-
-See [Effects Integration](../reference/effects-integration.md).
+SoHL extends Foundry's ActiveEffect with an expanded targeting model (`targetType` / `targetName`) so one effect can target self, the owning actor, or sibling items by type. See [Active Effects](../concepts/architecture.md#active-effects) for the model and [Effects Integration](../reference/effects-integration.md) for the full reference.
 
 ## 5) UI: templates and chat cards
 
@@ -142,26 +100,18 @@ See [Effects Integration](../reference/effects-integration.md).
 
 **Safe extension:** Add new templates rather than overloading existing ones. Keep template context objects stable and well-documented.
 
-### Chat-card button dispatch contract
+### Adding a chat-card button
 
-Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed
-by the `renderChatMessageHTML` hook in `sohl.ts`. The handler document is
-resolved from the clicked element's dataset by
-`resolveChatCardHandlerUuid(dataset)` (`src/document/chat/chat-card-dispatch.ts`),
-which normalizes the differing attribute conventions across cards with this
-precedence:
+Chat-card buttons (inside `.card-buttons`) and `a.edit-action` links are routed by
+the `renderChatMessageHTML` hook in `sohl.ts`, which resolves the handler document
+from the clicked element's dataset and invokes its `onChatCardButton(btn)` (or
+`onChatCardEditAction`). The dataset attribute precedence is a contract — see
+[Chat-card dispatch contract](../reference/runtime-contracts.md#chat-card-dispatch-contract).
 
-1. `data-doc-uuid` (standard-test, fate, edit-action cards)
-2. `data-handler-uuid` (damage, injury, attack-result cards)
-3. `data-handler-actor-uuid` (attack-card defender responder)
-4. `data-action-handler-uuid` (opposed-request / opposed-result cards)
-
-The resolved document's `onChatCardButton(btn)` (or `onChatCardEditAction`) is
-invoked. `SohlActor.onChatCardButton` switches on `btn.dataset.action`; today it
-handles `createInjury` (opens the assisted Add Injury dialog, or resolves with
-no dialog when the payload carries aim data). When adding a new card button,
-emit one of the dataset attributes above and add an `action` case rather than
-introducing a new attribute name.
+When adding a new button: **emit one of the recognized dataset attributes** (do not
+introduce a new attribute name), and **add an `action` case** to the resolved
+document's handler — e.g. {@link SohlActor.onChatCardButton}, which switches on
+`btn.dataset.action` (today it handles `createInjury`).
 
 ### Cross-actor effects (the acknowledge-button pattern)
 
@@ -196,42 +146,23 @@ Render-time gating makes the button appear only to the responding actor's owner 
 
 ## 8) Calendar registration
 
-SoHL provides a calendar registry that modules can use to add custom calendars. Registered calendars appear in the GM's calendar settings dropdown.
-
-Register in your module's `init` hook:
-
-```js
-Hooks.once("init", () => {
-    game.system.api.SohlSystem.registerCalendar("my-calendar", {
-        label: "My Campaign Calendar",
-        config: {
-            /* calendar data */
-        },
-        builtin: true,
-    });
-});
-```
-
-**Registry API** (on `SohlSystem`):
-
-| Method                               | Description                             |
-| ------------------------------------ | --------------------------------------- |
-| `registerCalendar(id, registration)` | Register or overwrite a calendar        |
-| `unregisterCalendar(id)`             | Remove a calendar (throws if `builtin`) |
-| `getCalendar(id)`                    | Get a registration by ID                |
-| `calendars`                          | `SohlMap` of all registered calendars   |
-| `applyCalendar(id)`                  | Apply a calendar to `CONFIG.time`       |
+SoHL keeps a registry of calendars that modules can extend; registered calendars
+appear in the GM's calendar settings. The registry API
+(`SohlSystem.registerCalendar` / `unregisterCalendar` / `getCalendar` /
+`applyCalendar` / `calendars`), how to register from a module, and the JSON import
+format are documented in the
+[Calendar Reference](../reference/calendar.md#calendar-registry-and-gm-workflow).
 
 ## What to update when you add something
 
 - **New actor/item type:** Add class, register, add templates, update JSDoc, update docs.
-- **New user-facing workflow:** Add `docs/user/...` doc, update journal generation spec.
+- **New user-facing workflow:** Add or update the user guide under `assets/packs/journals/_source/` (compiled into Foundry journal entries at build).
 
 ## Deep dives
 
-- [Action Items — Developer Reference](./actions.md)
+- [Macros and Actions](../concepts/macros-and-actions.md)
 - [Lifecycle Hooks](./lifecycle-hooks.md)
-- [Lifecycle Model](../concepts/lifecycle-model.md)
+- {@link SohlLogic}
 - [Combat Resolution Pipeline](../reference/combat-resolution-pipeline.md)
 - [Modifier Model](../reference/modifier-model.md)
 - [Effects Integration](../reference/effects-integration.md)

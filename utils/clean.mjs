@@ -11,6 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Removes generated build/cache directories from the repo root.
+ *
+ * Deletes `build`, `.vite`, `.vitepress`, and `.rollup.cache`. With the
+ * `--distclean` flag it additionally removes `node_modules`. Missing
+ * directories are ignored, so the script is safe to run repeatedly.
+ *
+ * Usage:
+ *   npm run clean                        // node utils/clean.mjs
+ *   npm run distclean                    // node utils/clean.mjs --distclean
+ *   node utils/clean.mjs [--distclean]   // direct invocation
+ */
+
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";

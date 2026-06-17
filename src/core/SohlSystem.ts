@@ -352,9 +352,29 @@ export const {
 } as StrictObject<Constructor<SohlItemSheetBase>>);
 
 /**
- * Central system class for the Song of Heroic Lands (SoHL).
- * Provides the canonical runtime registry/config surface for constructing
- * data models, results, and modifiers.
+ * The central runtime object for Song of Heroic Lands — and what the global
+ * **`sohl`** variable points at.
+ *
+ * A single `SohlSystem` instance is created during Foundry's **`init`** hook
+ * (via {@link getInstance}) and installed as `globalThis.sohl`, so it is
+ * reachable from `init` onward — before `ready` ({@link SohlSystem.ready} flips
+ * to `true` once `ready`-hook setup finishes). Macros, modules, and Script
+ * Actions reach SoHL's system-wide services through it. This is the canonical
+ * reference for that **`sohl` surface**; the members below are the full list.
+ *
+ * For working with one *specific* actor or item, prefer that document's `.logic`
+ * (the "document surface") over walking these collections — see the **The SoHL
+ * API** how-to guide for the two-surface model. What `sohl` offers, by category:
+ *
+ * - **Services** — {@link i18n} (localization), {@link log} (logging),
+ *   {@link events} (the trigger/event queue).
+ * - **Helpers & constants** — {@link utils} (e.g. `sohl.utils.romanize()`) and
+ *   {@link constants} (`ACTOR_KIND`, `ITEM_KIND`, …).
+ * - **Direct entries into the logic layer** — {@link actorLogics},
+ *   {@link itemLogics}, {@link currentCombatCombatantLogics}.
+ * - **Config & calendar** — {@link CONFIG} (the document/sheet/DataModel,
+ *   modifier, and result classes merged into Foundry's `CONFIG` at init) and the
+ *   active {@link calendar}.
  */
 export class SohlSystem {
     private static instance: SohlSystem | null = null;

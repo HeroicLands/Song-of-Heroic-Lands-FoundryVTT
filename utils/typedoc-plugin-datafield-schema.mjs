@@ -11,6 +11,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * TypeDoc plugin: append a "Schema" table to each data-model class.
+ *
+ * Inspects `@DataField({ ... })` property decorators during conversion and,
+ * at resolve-end, appends a Markdown table (Data Name / Type / Required /
+ * Initial) to the owning class's doc comment. Function-valued `initial`
+ * defaults render as `<function>`.
+ *
+ * Not invoked directly — loaded by TypeDoc via the `plugin` array in
+ * typedoc-html.json / typedoc-markdown.json.
+ */
+
 import { Converter, ReflectionKind, Comment } from "typedoc";
 
 /**

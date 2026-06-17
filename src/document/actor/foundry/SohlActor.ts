@@ -56,6 +56,42 @@ const { HTMLField, StringField, FilePathField } = foundry.data.fields;
  * Base class for all Actor documents in the SoHL system, including
  * Beings, Cohorts, Structures, Vehicles, and Assemblies.
  *
+ * ## Lifecycle hooks
+ *
+ * During data preparation SoHL fires cancellable Foundry hooks around each
+ * lifecycle phase, so a **module** can augment or replace actor/item behavior
+ * without editing system source. Two families are emitted:
+ *
+ * - **Item hooks** — `sohl.<itemType>.{pre,post}{Initialize,Evaluate,Finalize}`,
+ *   once per embedded item (from {@link prepareEmbeddedData}). Args `(item, ctx)`.
+ * - **Actor hooks** — `sohl.actor.<actorType>.{pre,post}{Initialize,Evaluate,Finalize}`,
+ *   for the actor itself (the init pair from {@link prepareBaseData}, evaluate and
+ *   finalize from {@link prepareDerivedData}). Args `(actor, ctx)` — `ctx` is
+ *   omitted for the init pair.
+ *
+ * `ctx` is a {@link SohlActionContext}; `<itemType>`/`<actorType>` are the type
+ * strings in {@link ITEM_KIND} / {@link ACTOR_KIND}. The `pre*` hooks are
+ * **cancellable**: if any listener returns `false`, that phase's logic method is
+ * skipped and its matching `post*` hook is not fired. Phase barriers still hold
+ * (every item finishes `initialize` before any `evaluate`, and so on) — see the
+ * phase model on {@link SohlLogic}.
+ *
+ * @example
+ * // Augment every Skill after it evaluates (register from a module's init hook).
+ * Hooks.on("sohl.skill.postEvaluate", (item, ctx) => {
+ *     if (item.system.shortcode !== "tactics") return;
+ *     item.system.logic.masteryLevel.add("tactics-bonus", 5);
+ * });
+ *
+ * @example
+ * // Replace a phase: returning false from a `pre*` hook skips the built-in logic
+ * // (and suppresses the matching `post*` hook) for that document.
+ * Hooks.on("sohl.skill.preEvaluate", (item, ctx) => {
+ *     if (item.system.shortcode !== "tactics") return;
+ *     myCustomEvaluate(item, ctx);
+ *     return false; // cancel the default evaluate()
+ * });
+ *
  * NOTE: The Foundry-free contracts (SohlActorLogic, SohlActorData, SohlActorBaseLogic)
  * now live in src/document/actor/logic/SohlActorBaseLogic.ts and are re-exported here.
  * TODO(#77): The remaining Foundry-coupled contents (SohlActor Document, SohlActorDataModel,

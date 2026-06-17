@@ -68,6 +68,16 @@ import type { SohlDataModel } from "./SohlDataModel";
  *    depending on a fully computed Aura trait). All `evaluate()` calls
  *    complete before any `finalize()` runs.
  *
+ * How Foundry's data-preparation hooks map onto these phases (the actor's own
+ * logic runs around the item passes):
+ *
+ * ```text
+ * Foundry calls:            SoHL runs:
+ * prepareBaseData()     →   actor.logic.initialize()
+ * prepareEmbeddedData() →   per item: initialize()  ═ barrier ═  evaluate()  ═ barrier ═  finalize()
+ * prepareDerivedData()  →   actor.logic.evaluate(), then actor.logic.finalize()
+ * ```
+ *
  * These method names are deliberately different from Foundry's
  * `prepareBaseData`/`prepareDerivedData` to signal that they follow
  * different ordering rules. Do not implement Foundry's preparation
@@ -112,8 +122,12 @@ export abstract class SohlLogic<
     }
 
     /**
-     * The data model this logic is associated with.
-     * @remarks This is a convenience accessor for `this.parent`.
+     * This logic's typed data — its `*Data` interface (e.g. `SkillData`), the same
+     * persisted object as `document.system`. Prefer **`document.logic.data`** when
+     * reading a document's fields from a macro, Script Action, or module: it is the
+     * typed, API-documented surface (autocomplete and reference links resolve),
+     * whereas `document.system` is typed as the internal DataModel.
+     * @remarks Convenience accessor for {@link parent}.
      */
     get data(): TData {
         return this.parent;
@@ -339,6 +353,9 @@ export abstract class SohlLogic<
      *
      * **Not safe to access:** sibling items on the same actor — they may not
      * have initialized yet. Cross-item reads belong in {@link evaluate}.
+     *
+     * **Example:** a Skill creates its `MasteryLevelModifier` and `SkillBase`
+     * from persisted fields; it does not yet read trait attribute values.
      */
     initialize(): void {}
 
@@ -354,6 +371,9 @@ export abstract class SohlLogic<
      * **Not safe to access:** sibling items' evaluated state — another item's
      * `evaluate()` may not have run yet. Dependencies on evaluated state
      * belong in {@link finalize}.
+     *
+     * **Example:** a Skill reads trait attribute values to compute its skill
+     * base; a gear item resolves its `containerId` to find its parent container.
      */
     abstract evaluate(): void;
 
@@ -365,6 +385,9 @@ export abstract class SohlLogic<
      * Called on every item after ALL items have completed {@link evaluate}.
      *
      * **Safe to access:** all sibling items' initialized and evaluated state.
+     *
+     * **Example:** fate mastery level (which depends on an already-evaluated
+     * Aura trait); encumbrance totals summed across all evaluated gear.
      */
     abstract finalize(): void;
 }
