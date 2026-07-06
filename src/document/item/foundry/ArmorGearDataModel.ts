@@ -29,7 +29,7 @@ const { StringField, SchemaField, ArrayField, NumberField } =
 function defineArmorGearSchema(): foundry.data.fields.DataSchema {
     return {
         ...GearDataModel.defineSchema(),
-        material: new StringField(),
+        material: new StringField({ initial: "" }),
         locations: new SchemaField({
             flexible: new ArrayField(new StringField()),
             rigid: new ArrayField(new StringField()),

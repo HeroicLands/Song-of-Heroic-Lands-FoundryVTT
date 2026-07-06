@@ -187,7 +187,10 @@ export interface MysteryData<
         usesCharges: boolean;
         /** Current number of charges remaining. */
         value: number;
-        /** Maximum number of charges; −1 indicates infinite uses. */
-        max: number;
+        /**
+         * Maximum number of charges. `0` means no maximum; `null` means the
+         * mystery does not use charges.
+         */
+        max: number | null;
     };
 }

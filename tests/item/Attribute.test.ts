@@ -71,7 +71,7 @@ describe("AttributeLogic", () => {
             vi.spyOn(
                 FoundryHelpersMock,
                 "fvttActiveTokenLogicForActor",
-            ).mockReturnValue(null);
+            ).mockReturnValue(undefined);
             const logic = makeAttribute();
             const ctx = { scope: {} } as any;
             await expect(logic.opposedTestStart(ctx)).resolves.toBeNull();

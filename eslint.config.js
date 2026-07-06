@@ -107,6 +107,11 @@ export default [
             jsdoc,
         },
         rules: {
+            // Enforce strict equality, but bless the `== null` / `!= null`
+            // idiom used deliberately at Foundry boundaries to match both
+            // `null` and `undefined` in one check. See the null/undefined
+            // convention in docs/contributing/system-development.md.
+            eqeqeq: ["error", "always", { null: "ignore" }],
             // Recommended JSDoc rules
             "jsdoc/require-jsdoc": [
                 "warn",

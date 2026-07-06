@@ -145,7 +145,7 @@ export function fvttGetListFormatter(): Intl.ListFormat {
 // ---------------------------------------------------------------------------
 
 export function fvttGetActor(_id: string): any {
-    return null;
+    return undefined;
 }
 
 export function fvttLogicFromUuidSync(_uuid: string): any {
@@ -153,31 +153,33 @@ export function fvttLogicFromUuidSync(_uuid: string): any {
 }
 
 export function fvttGetScene(_id: string): any {
-    return null;
+    return undefined;
 }
 
 export function fvttGetToken(_id: string): any {
-    return null;
+    return undefined;
 }
 
 export function fvttGetUser(_id: string): any {
-    return null;
+    return undefined;
 }
 
 // ---------------------------------------------------------------------------
 // Token targeting helpers
 // ---------------------------------------------------------------------------
 
-export function fvttGetTargetedTokens(_single: boolean = false): any[] | null {
-    return null;
+export function fvttGetTargetedTokens(
+    _single: boolean = false,
+): any[] | undefined {
+    return undefined;
 }
 
 export function fvttRangeToTarget(
     _sourceToken: any,
     _targetToken: any,
     _gridUnits: boolean = false,
-): number | null {
-    return null;
+): number | undefined {
+    return undefined;
 }
 
 // ---------------------------------------------------------------------------
@@ -274,19 +276,19 @@ export function getCurrentScene(): any {
 }
 
 export function getActiveScene(): any {
-    return null;
+    return undefined;
 }
 
 export function getActiveCombat(): any {
-    return null;
+    return undefined;
 }
 
 export function fvttActiveCombatantForActor(_actor: any): any {
-    return null;
+    return undefined;
 }
 
 export function fvttActiveTokenLogicForActor(_actor: any): any {
-    return null;
+    return undefined;
 }
 
 export function fvttCombatantLogics(_combatant: any): any[] {
@@ -323,7 +325,7 @@ export async function getDocumentFromPacks(
 // ---------------------------------------------------------------------------
 
 export function getContextItem(_header: HTMLElement): any {
-    return null;
+    return undefined;
 }
 
 export function getContextLogic(_element: HTMLElement): any {

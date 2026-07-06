@@ -218,12 +218,12 @@ export class SohlCombatant<
     }
 
     /** The strike mode last used to attack, or `undefined` (combat-scoped). */
-    get lastAttackMode(): Optional<StrikeModeBase> {
+    get lastAttackMode(): StrikeModeBase | undefined {
         return this.logic.lastAttackMode;
     }
 
     /** The strike mode last used to block, or `undefined` (combat-scoped). */
-    get lastBlockMode(): Optional<StrikeModeBase> {
+    get lastBlockMode(): StrikeModeBase | undefined {
         return this.logic.lastBlockMode;
     }
 

@@ -30,8 +30,8 @@ const { ArrayField, SchemaField, StringField, BooleanField, DocumentIdField } =
 function defineCohortDataSchema(): foundry.data.fields.DataSchema {
     return {
         ...SohlActorDataModel.defineSchema(),
-        leaderName: new StringField(),
-        moveRepName: new StringField(),
+        leaderName: new StringField({ initial: "" }),
+        moveRepName: new StringField({ initial: "" }),
         members: new ArrayField(
             new SchemaField({
                 shortcode: new StringField({

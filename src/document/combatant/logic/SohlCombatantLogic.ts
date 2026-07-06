@@ -169,7 +169,7 @@ export class SohlCombatantLogic<
      */
     static fromActorLogic(
         actorLogic: SohlActorLogic<any> | undefined,
-    ): Optional<SohlCombatantLogic> {
+    ): SohlCombatantLogic | undefined {
         return getActiveCombat()?.combatants?.find(
             (c) => c.actor?.id === actorLogic?.data.id,
         )?.logic;
@@ -189,21 +189,21 @@ export class SohlCombatantLogic<
      */
     static fromTokenLogic(
         tokenLogic: SohlTokenDocumentLogic | undefined,
-    ): Optional<SohlCombatantLogic> {
+    ): SohlCombatantLogic | undefined {
         return getActiveCombat()?.combatants?.find(
             (c) => c.token?.id === tokenLogic?.id,
         )?.logic;
     }
 
     /** The strike mode last used to attack, or `undefined` (combat-scoped). */
-    get lastAttackMode(): Optional<StrikeModeBase> {
+    get lastAttackMode(): StrikeModeBase | undefined {
         return this.data.lastAttackMode ?
                 StrikeModeBase.fromPointerData(this.data.lastAttackMode)
             :   undefined;
     }
 
     /** The strike mode last used to block, or `undefined` (combat-scoped). */
-    get lastBlockMode(): Optional<StrikeModeBase> {
+    get lastBlockMode(): StrikeModeBase | undefined {
         return this.data.lastBlockMode ?
                 StrikeModeBase.fromPointerData(this.data.lastBlockMode)
             :   undefined;
@@ -352,7 +352,7 @@ export class SohlCombatantLogic<
         const b = other.combatant;
         if (!a || !b) return false;
         const distance = combatantGridDistance(a, b);
-        return distance !== null && distance <= this.reach;
+        return distance != null && distance <= this.reach;
     }
 
     /** The number of grid spaces moved since the start of this turn. */

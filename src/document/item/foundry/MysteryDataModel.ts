@@ -58,7 +58,8 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             // then the mystery does not use charges
             max: new NumberField({
                 integer: true,
-                initial: 0,
+                nullable: true,
+                initial: null,
                 min: 0,
             }),
         }),

@@ -200,6 +200,28 @@ against real world data — migrations must never require manual user interventi
   commit-pinned source links.
 - **Foundry v14.** Target Foundry VTT v14+ and follow the v14 patterns described in
   the [Architecture Overview](../concepts/architecture.md).
+- **Null vs. undefined — null at the edges, undefined in the core.** Absence is not
+  spelled two ways at random:
+    - _Persistence and the Foundry API boundary use `null`._ DataModel fields and
+      the Foundry APIs that natively return `null` (`DialogV2` dismissal, `getFlag`,
+      document lookups) keep it — Foundry mandates it and `null` survives
+      `JSON.stringify` where `undefined` keys are dropped.
+    - _The logic/domain layer uses `undefined`_ for "maybe absent" — matching
+      optional parameters/properties (`?:`), which already yield `undefined`. Write
+      `T | undefined` directly; there is no `Optional<T>` alias (an alias cannot
+      cover `?:` positions, so it could never be the single consistent spelling).
+    - _The `FoundryHelpers` shim normalizes_ Foundry `null` to `undefined` as values
+      cross into the logic layer.
+    - `== null` / `!= null` (matches both) is the blessed idiom at genuine mixed
+      boundaries; `eqeqeq` (configured with `{ null: "ignore" }`) enforces strict
+      equality everywhere else.
+- **DataModel empty values — sentinel vs. nullable.** In persisted schemas the choice
+  is semantic, not serialization-driven (both `null` and `""`/`0` round-trip). Use a
+  typed blank sentinel (`""`, `0`, `[]`, `{}`) when the empty state is itself a valid
+  value; use `nullable: true, initial: null` only when "unset / not-applicable" must be
+  distinguishable from _every_ valid value (an optional cap, a die size, an optional
+  reference). Always set `initial` explicitly — a bare `new StringField()` is
+  non-required and silently initializes to `undefined`, not `""`.
 
 ## Extending SoHL instead of changing it
 

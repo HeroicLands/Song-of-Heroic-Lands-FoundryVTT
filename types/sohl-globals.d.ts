@@ -77,10 +77,6 @@ declare global {
             :   { [K in keyof T]?: DeepPartial<T[K]> }
         :   T;
 
-    /** Optional field */
-    type Optional<T> = T | undefined;
-    type OptArray<T> = T[] | undefined;
-
     /** A constructed object (non-plain) */
     type ConstructedObject = object & {
         constructor: {

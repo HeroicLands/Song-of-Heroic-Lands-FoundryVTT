@@ -56,7 +56,7 @@ function defineActiveEffectDataSchema(): foundry.data.fields.DataSchema {
                 }),
                 value: new AnyField({
                     required: true,
-                    nullable: true,
+                    nullable: false,
                     initial: "",
                 }),
                 phase: new StringField({
