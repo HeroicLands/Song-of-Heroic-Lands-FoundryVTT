@@ -5,7 +5,7 @@ import {
     isShock,
     UNTREATED,
 } from "@src/document/item/logic/TraumaLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import { makeItemLogic, makeMockActor } from "@tests/mocks/logicHarness";
 

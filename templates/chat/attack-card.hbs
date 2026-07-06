@@ -19,10 +19,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
     parameters of the attack.
 
     The whole evaluated AttackResult is embedded (kind-stamped) in each defense
-    button's `data-attack-result-json`, serialized with the registered `toJSON`
-    helper. The defender's client rehydrates it with `instanceFromJSON`. The Aim
-    is carried separately in `data-aim` so it survives to the defense resume and
-    the injury card. The defense buttons dispatch to the defender's actor (via
+    button's single `data-scope` blob — `JSON.stringify(defaultToJSON(scope))` —
+    which the dispatch handler revives so the flow reads it as a live
+    `context.scope.attackResult`. The Aim is also carried on `data-aim` for the
+    injury card. The defense buttons dispatch to the defender's actor (via
     `data-handler-actor-uuid`) so the chosen defense resolves on the defender's
     client.
 --}}
@@ -58,7 +58,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 data-action="automatedDodgeResume"
                 data-handler-actor-uuid="{{handlerActorUuid}}"
                 data-aim="{{aim}}"
-                data-attack-result-json="{{toJSON attackResultData}}"
+                data-scope="{{toJSON scopeData}}"
             >
                 Dodge
             </button>
@@ -69,7 +69,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 data-action="automatedCounterstrikeResume"
                 data-handler-actor-uuid="{{handlerActorUuid}}"
                 data-aim="{{aim}}"
-                data-attack-result-json="{{toJSON attackResultData}}"
+                data-scope="{{toJSON scopeData}}"
             >
                 Counterstrike
             </button>
@@ -80,7 +80,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 data-action="automatedBlockResume"
                 data-handler-actor-uuid="{{handlerActorUuid}}"
                 data-aim="{{aim}}"
-                data-attack-result-json="{{toJSON attackResultData}}"
+                data-scope="{{toJSON scopeData}}"
             >
                 Block
             </button>
@@ -91,7 +91,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
                 data-action="automatedIgnoreResume"
                 data-handler-actor-uuid="{{handlerActorUuid}}"
                 data-aim="{{aim}}"
-                data-attack-result-json="{{toJSON attackResultData}}"
+                data-scope="{{toJSON scopeData}}"
             >
                 Ignore
             </button>

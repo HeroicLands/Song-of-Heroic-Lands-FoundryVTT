@@ -11,6 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Copies static assets into the build output tree.
+ *
+ * Recursively copies `assets/docs` into `build/docs`, and the audio/icons/
+ * silhouette/fonts/ui asset folders plus `lang` and `templates` into
+ * `build/stage/...`; also copies `LICENSE.md` and `README.md` into
+ * `build/stage`. Destination directories are created as needed.
+ *
+ * Usage:
+ *   npm run build:assets        // node utils/copy-assets.mjs
+ *   node utils/copy-assets.mjs  // direct invocation (no args)
+ */
+
 import { copyFileSync, mkdirSync, readdirSync, statSync } from "fs";
 import { join, dirname } from "path";
 

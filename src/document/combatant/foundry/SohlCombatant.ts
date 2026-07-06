@@ -11,15 +11,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { buildActionScope } from "@src/utils/helpers";
 import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
 import type { SkillLogic } from "@src/document/item/logic/SkillLogic";
 import type { SohlItem } from "@src/document/item/foundry/SohlItem";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { SohlDataModel, defineSohlDataSchema } from "@src/core/SohlDataModel";
-import { SohlActionContext } from "@src/core/SohlActionContext";
+import {
+    SohlDataModel,
+    defineSohlDataSchema,
+} from "@src/core/foundry/SohlDataModel";
+import { SohlActionContext } from "@src/entity/action/SohlActionContext";
 import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
-import type { CombatantLogic } from "../logic/CombatantLogic";
-import { chooseInitialDisplayedMedium } from "../logic/CombatantLogic";
+import type { SohlCombatantLogic } from "../logic/SohlCombatantLogic";
+import { chooseInitialDisplayedMedium } from "../logic/SohlCombatantLogic";
 import { DEFAULT_COMBAT_GROUP } from "@src/document/combat/logic/combat-logic";
 import {
     ITEM_KIND,
@@ -27,6 +31,7 @@ import {
     MovementMedium,
     MovementMediums,
 } from "@src/utils/constants";
+import { StrikeModeBase } from "@src/entity/strikemode/StrikeModeBase";
 
 /** A reference to a specific strike mode on an item: `{ itemId, smId }`. */
 export interface StrikeModeRef {
@@ -48,15 +53,15 @@ export class SohlCombatant<
         return super.actor as SohlActor | null;
     }
 
-    /** The {@link CombatantLogic} for this combatant. */
-    get logic(): CombatantLogic {
-        return (this.system as any).logic as CombatantLogic;
+    /** The {@link SohlCombatantLogic} for this combatant. */
+    get logic(): SohlCombatantLogic {
+        return (this.system as any).logic as SohlCombatantLogic;
     }
 
     /**
      * Dispatch a chat-card button click to this combatant's logic — the
      * automated-combat defense resumes (Block/Dodge/Counterstrike/Ignore) live
-     * on {@link CombatantLogic} as intrinsic actions, and the attack card's
+     * on {@link SohlCombatantLogic} as intrinsic actions, and the attack card's
      * defense buttons address the defender's combatant. The button's dataset
      * becomes the action's `scope`.
      * @param btn - The clicked chat-card button element.
@@ -69,7 +74,10 @@ export class SohlCombatant<
             speaker: this.logic.speaker,
             type: actionName,
             title: btn.textContent?.trim() ?? actionName,
-            scope: { ...btn.dataset },
+            scope: buildActionScope(
+                btn.dataset,
+                (this.logic as any).actorLogic ?? this.logic,
+            ),
         });
 
         const action =
@@ -98,18 +106,18 @@ export class SohlCombatant<
     /**
      * Begin an automated attack with this combatant as the attacker — the
      * single entry point for combat start. Delegates to
-     * {@link CombatantLogic.automatedCombatStart}; the per-weapon and
+     * {@link SohlCombatantLogic.startAutomatedAttack}; the per-weapon and
      * per-technique item actions route here, passing their source logic and
      * strike mode in the context scope.
      * @param context - The action context (target, scope, chat options).
      */
-    async automatedCombatStart(context: SohlActionContext): Promise<void> {
-        await this.logic.automatedCombatStart(context);
+    async startAutomatedAttack(context: SohlActionContext): Promise<void> {
+        await this.logic.startAutomatedAttack(context);
     }
 
     /**
      * The context-menu entries for this combatant — the combatant's available
-     * actions. Delegates to {@link CombatantLogic.getContextOptions} (the shared
+     * actions. Delegates to {@link SohlCombatantLogic.getContextOptions} (the shared
      * {@link SohlLogic} contract), mirroring `SohlActor`/`SohlItem`. The combat
      * tracker's row context menu is built from these.
      * @returns The combatant's context-menu entries.
@@ -209,32 +217,34 @@ export class SohlCombatant<
         await this.update({ group: targetGroupId } as any);
     }
 
-    /** The strike mode last used to attack, or `null` (combat-scoped). */
-    get lastAttackMode(): StrikeModeRef | null {
+    /** The strike mode last used to attack, or `undefined` (combat-scoped). */
+    get lastAttackMode(): Optional<StrikeModeBase> {
         return this.logic.lastAttackMode;
     }
 
-    /** The strike mode last used to block, or `null` (combat-scoped). */
-    get lastBlockMode(): StrikeModeRef | null {
+    /** The strike mode last used to block, or `undefined` (combat-scoped). */
+    get lastBlockMode(): Optional<StrikeModeBase> {
         return this.logic.lastBlockMode;
     }
 
     /**
      * Remember the strike mode just used to attack (persisted on the combatant).
-     * @param itemId - The id of the item owning the strike mode.
+     * @param itemUuid - The id of the item owning the strike mode.
      * @param smId - The strike mode id.
      */
-    async recordAttackMode(itemId: string, smId: string): Promise<void> {
-        await this.logic.recordAttackMode(itemId, smId);
+    async recordAttackMode(itemUuid: string, smId: string): Promise<void> {
+        const mode = StrikeModeBase.fromPointerData({ itemUuid, smId });
+        if (mode) await this.logic.recordAttackMode(mode);
     }
 
     /**
      * Remember the strike mode just used to block (persisted on the combatant).
-     * @param itemId - The id of the item owning the strike mode.
+     * @param itemUuid - The id of the item owning the strike mode.
      * @param smId - The strike mode id.
      */
-    async recordBlockMode(itemId: string, smId: string): Promise<void> {
-        await this.logic.recordBlockMode(itemId, smId);
+    async recordBlockMode(itemUuid: string, smId: string): Promise<void> {
+        const mode = StrikeModeBase.fromPointerData({ itemUuid, smId });
+        if (mode) await this.logic.recordBlockMode(mode);
     }
 
     /**
@@ -276,7 +286,7 @@ export class SohlCombatant<
     /**
      * The combatants currently threatening this one — enemies that are not
      * defeated, not incapacitated, not hidden, and within reach. See
-     * {@link CombatantLogic.threatenedBy}.
+     * {@link SohlCombatantLogic.threatenedBy}.
      */
     get threatenedBy(): SohlCombatant[] {
         return this.logic.threatenedBy.map((cl) => cl.combatant!);
@@ -506,7 +516,7 @@ type SohlCombatantDataSchema = ReturnType<typeof defineSohlCombatantDataSchema>;
 /** @internal */
 export class SohlCombatantDataModel<
     TSchema extends foundry.data.fields.DataSchema = SohlCombatantDataSchema,
-> extends SohlDataModel<TSchema, SohlCombatant, CombatantLogic> {
+> extends SohlDataModel<TSchema, SohlCombatant, SohlCombatantLogic> {
     static override readonly LOCALIZATION_PREFIXES = ["SOHL.Combatant"];
     static override readonly kind = "sohlcombatantdata";
     startLocation!: {

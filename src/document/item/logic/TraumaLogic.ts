@@ -11,12 +11,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlAction } from "@src/domain/action/SohlAction";
-import type { SohlActionContext } from "@src/core/SohlActionContext";
-import type { SuccessTestResult } from "@src/domain/result/SuccessTestResult";
-import type { BodyLocation } from "@src/domain/body/BodyLocation";
+import type { SohlAction } from "@src/entity/action/SohlAction";
+import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+import type { SuccessTestResult } from "@src/entity/result/SuccessTestResult";
+import type { BodyLocation } from "@src/entity/body/BodyLocation";
 import type { LineageLogic } from "@src/document/item/logic/LineageLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import {
     ACTION_SUBTYPE,
     defineType,

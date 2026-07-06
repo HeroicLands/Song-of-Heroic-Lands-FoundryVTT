@@ -16,6 +16,10 @@
  * under `assets/packs/`. Run before `packs:export` (via `packs:rebuild`)
  * when you want a guaranteed-fresh regeneration, or by itself to drop
  * stale exports.
+ *
+ * Usage:
+ *   npm run packs:clean                    // → node utils/packs/clean-sources.mjs
+ *   node utils/packs/clean-sources.mjs
  */
 
 import fs from "fs";

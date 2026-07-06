@@ -6,12 +6,12 @@
  */
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { BodyStructure } from "@src/domain/body/BodyStructure";
+import { BodyStructure } from "@src/entity/body/BodyStructure";
 import {
     injuryLevelFromImpact,
     resolveInjury,
     buildTraumaData,
-} from "@src/domain/body/InjuryResolution";
+} from "@src/entity/body/injury-resolution";
 import { IMPACT_ASPECT, TRAUMA_SUBTYPE } from "@src/utils/constants";
 
 // Skull: moderate bleeder, not amputable, real natural armor on all but fire.
@@ -69,12 +69,13 @@ const SAMPLE_DATA: BodyStructure.Data = {
 } as any;
 
 const MOCK_LINEAGE_LOGIC = {
+    kind: "lineage",
     actor: null,
     data: { bodyStructure: SAMPLE_DATA },
 } as any;
 
 function makeBody(): BodyStructure {
-    return new BodyStructure(SAMPLE_DATA, MOCK_LINEAGE_LOGIC);
+    return new BodyStructure(SAMPLE_DATA, { parent: MOCK_LINEAGE_LOGIC });
 }
 
 function loc(body: BodyStructure, code: string) {

@@ -66,11 +66,9 @@ const FOUNDRY_FREE_ZONES = [
     "src/document/scene/logic/**/*.ts",
     "src/document/effect/logic/**/*.ts",
     "src/apps/logic/**/*.ts",
-    "src/domain/**/*.ts",
-    "src/core/SohlLogic.ts",
-    "src/core/SohlActionContext.ts",
-    "src/core/SohlSpeaker.ts",
-    "src/core/SohlEventTrigger.ts",
+    "src/entity/**/*.ts",
+    "src/core/logic/SohlLogic.ts",
+    "src/core/logic/SohlSpeaker.ts",
     "src/utils/ContextMenuEntry.ts",
 ];
 

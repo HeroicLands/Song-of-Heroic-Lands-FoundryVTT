@@ -41,15 +41,14 @@ maps directly to a group here:
 ### Concepts — how and why the system is built
 
 - [Architecture Overview](concepts/architecture.md)
-- [Lifecycle Model](concepts/lifecycle-model.md)
-- [Assembly Architecture](concepts/assembly-architecture.md)
+- [Macros and Actions](concepts/macros-and-actions.md)
+- [The SoHL API](concepts/sohl-api.md)
 
 ### How-to — task-oriented guides
 
 - [Getting Started](how-to/getting-started.md)
 - [Extension Points](how-to/extension-points.md)
 - [Lifecycle Hooks](how-to/lifecycle-hooks.md)
-- [Actions](how-to/actions.md)
 - [House Rules Cookbook](how-to/house-rules-cookbook.md)
 - [Testing](how-to/testing.md)
 
@@ -65,8 +64,9 @@ maps directly to a group here:
 - [Calendar](reference/calendar.md)
 - [Event Queue](reference/event-queue.md)
 
-### Contributing — maintainer and project-meta
+### Contributing — standards and how to contribute
 
+- [System Development](contributing/system-development.md)
 - [API Docs Hosting](contributing/api-docs-hosting.md)
 
 ---

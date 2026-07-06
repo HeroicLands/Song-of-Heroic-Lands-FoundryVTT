@@ -24,6 +24,9 @@ import { Renderer } from "typedoc";
  * Implemented by wrapping the active theme's `buildNavigation` at render
  * start, so it works with any DefaultTheme-derived theme without subclassing.
  *
+ * Not invoked directly — loaded by TypeDoc via the `plugin` array in
+ * typedoc-html.json / typedoc-markdown.json.
+ *
  * @param {import("typedoc").Application} app
  */
 export function load(app) {

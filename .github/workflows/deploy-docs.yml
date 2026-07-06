@@ -44,6 +44,7 @@ jobs:
               run: |
                   npm run docs:prepare
                   npm run docs:html
+                  npm run docs:version
 
             - name: Determine target directory
               id: meta

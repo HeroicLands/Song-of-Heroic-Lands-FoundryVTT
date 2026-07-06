@@ -11,9 +11,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/**
+ * Legacy local GitHub-release helper — cuts a release from a local build.
+ *
+ * Reads the version from `build/stage/system.json`, then creates a GitHub
+ * release tagged `v<version>` on the `main` commit of
+ * `HeroicLands/Song-of-Heroic-Lands-FoundryVTT` (the tag is created if
+ * absent) and uploads `build/system-<version>.zip` (as `sohl-<version>.zip`)
+ * and `system.json` as release assets. Needs a GitHub token — either
+ * `gh auth login` (preferred; keychain-backed) or `GITHUB_TOKEN` in the
+ * environment — plus a prior `npm run build` and `npm run build:pack-release`.
+ *
+ * NOTE: Legacy — CI normally cuts releases (see the release workflow); no
+ * npm script wires this in. Kept for manual/local releases.
+ *
+ * Usage:
+ *   node utils/release.mjs                 // after `gh auth login`
+ */
+
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { execFileSync } from "child_process";
 import { Octokit } from "@octokit/rest";
 import dotenv from "dotenv";
 
@@ -25,13 +44,36 @@ const repoRoot = path.resolve(
 dotenv.config({ path: path.join(repoRoot, ".env.local") });
 dotenv.config({ path: path.join(repoRoot, ".env") });
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+/**
+ * Resolve a GitHub token without requiring a PAT on disk.
+ *
+ * Prefers `GITHUB_TOKEN` from the environment (for CI / explicit overrides),
+ * then falls back to the `gh` CLI's keychain-backed token (`gh auth token`),
+ * so a local release works after `gh auth login` with no secret in
+ * `.env.local`.
+ *
+ * @returns {string | undefined}
+ */
+function resolveGithubToken() {
+    if (process.env.GITHUB_TOKEN) return process.env.GITHUB_TOKEN;
+    try {
+        const token = execFileSync("gh", ["auth", "token"], {
+            encoding: "utf8",
+        }).trim();
+        return token || undefined;
+    } catch {
+        return undefined;
+    }
+}
+
+const GITHUB_TOKEN = resolveGithubToken();
 const REPO_OWNER = "HeroicLands";
 const REPO_NAME = "Song-of-Heroic-Lands-FoundryVTT";
 
 if (!GITHUB_TOKEN) {
     console.error(
-        "GITHUB_TOKEN is not set. Add it to .env.local or set it in your environment.",
+        "No GitHub token available. Run 'gh auth login', or set GITHUB_TOKEN " +
+            "in your environment (avoid committing it to a file).",
     );
     process.exit(1);
 }

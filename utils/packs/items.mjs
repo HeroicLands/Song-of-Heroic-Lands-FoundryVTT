@@ -24,6 +24,9 @@
  * vault frontmatter, read via `sohlField()`. The rendered markdown body
  * becomes `system.docHtml`. Folder assignment is deferred — every item
  * currently emits `folder: null`.
+ *
+ * Not a standalone script — exports the `Items` compiler class, imported and
+ * driven by `utils/packs/export.mjs` (`npm run packs:export`).
  */
 
 import fs from "fs";

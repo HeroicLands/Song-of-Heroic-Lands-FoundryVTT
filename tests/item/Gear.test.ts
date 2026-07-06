@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { MiscGearLogic } from "@src/document/item/logic/MiscGearLogic";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { ITEM_KIND } from "@src/utils/constants";
 import {
     makeItemLogic,
@@ -70,10 +70,10 @@ describe("GearLogic (via MiscGearLogic)", () => {
             expect(logic.durability.effective).toBe(15);
         });
 
-        it("resets containedIn to null", () => {
+        it("leaves containedIn undefined", () => {
             const logic = makeGear();
             logic.initialize();
-            expect(logic.containedIn).toBeNull();
+            expect(logic.containedIn).toBeUndefined();
         });
 
         it("resolves sharedWithCohorts to [] when no ids are shared", () => {
@@ -103,7 +103,7 @@ describe("GearLogic (via MiscGearLogic)", () => {
             expect(logic.containedIn).toBe(containerLogic);
         });
 
-        it("leaves containedIn null when the container is not found", () => {
+        it("leaves containedIn undefined when the container is not found", () => {
             const actor = makeMockActor();
             const logic = makeGear(
                 { containerId: "missing000000001" },
@@ -111,14 +111,14 @@ describe("GearLogic (via MiscGearLogic)", () => {
             );
             logic.initialize();
             logic.evaluate();
-            expect(logic.containedIn).toBeNull();
+            expect(logic.containedIn).toBeUndefined();
         });
 
-        it("leaves containedIn null when the item has no actor", () => {
+        it("leaves containedIn undefined when the item has no actor", () => {
             const logic = makeGear({ containerId: "containerid00001" });
             logic.initialize();
             logic.evaluate();
-            expect(logic.containedIn).toBeNull();
+            expect(logic.containedIn).toBeUndefined();
         });
     });
 

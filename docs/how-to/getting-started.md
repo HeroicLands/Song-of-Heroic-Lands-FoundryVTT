@@ -6,7 +6,7 @@ See also: [Architecture Overview](../concepts/architecture.md), [Extension Point
 
 ## Prerequisites
 
-- Node.js (LTS)
+- Node.js ≥ 24 (see `engines` in `package.json`)
 - Git
 - A local Foundry VTT v14+ installation (for testing in-browser)
 
@@ -39,65 +39,21 @@ If the build succeeds, you're ready. If tests fail, check `tests/setup.ts` — i
 ### Start here
 
 1. **[Architecture Overview](../concepts/architecture.md)** — the mental model. Read this first.
-2. **[src/core/SohlLogic.ts](../../src/core/SohlLogic.ts)** — the abstract base for all Logic classes. The class-level JSDoc explains the phase-batched lifecycle.
+2. **{@link SohlLogic}** — the abstract base for all Logic classes. The
+   class-level JSDoc explains the phase-batched lifecycle.
 3. **Pick one item type** and trace through its three classes:
-    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules)
+    - Logic: `src/document/item/logic/SkillLogic.ts` (business rules) —
     - DataModel: `src/document/item/foundry/SkillDataModel.ts` (persisted schema)
     - Sheet: `src/document/item/foundry/SkillSheet.ts` (UI)
 
-### The three-class pattern
+### The mental model
 
-Every actor and item type follows the same split:
+The design and rationale live in the concept docs — read them there rather than duplicated here, so there's a single source of truth that can't drift:
 
-```
-Logic class (in logic/)     — game rules, calculations, lifecycle methods
-DataModel class (in foundry/) — Foundry schema, persisted fields
-Sheet class (in foundry/)     — UI presentation
-```
-
-Logic classes are Foundry-free and unit-testable. DataModel and Sheet classes depend on the Foundry runtime.
-
-### Data flow
-
-```
-Persisted data (DataModel schema)
-    ↓ prepareBaseData
-Actor logic.initialize()
-    ↓ prepareEmbeddedData (overridden)
-All items: logic.initialize()  ← phase 1
-All items: logic.evaluate()    ← phase 2 (can read sibling items)
-All items: logic.finalize()    ← phase 3 (can read evaluated state)
-    ↓ prepareDerivedData
-Actor logic.evaluate()
-Actor logic.finalize()
-    ↓
-Sheet reads logic properties for rendering
-```
-
-See [Lifecycle Model](../concepts/lifecycle-model.md) for why this ordering matters.
-
-### Domain objects
-
-Pure game-mechanics objects live in `src/domain/`:
-
-| Directory             | What's there                                                                                        |
-| --------------------- | --------------------------------------------------------------------------------------------------- |
-| `domain/modifier/`    | `ValueModifier` — the core tracked-value primitive. Almost every derived number is a ValueModifier. |
-| `domain/result/`      | Test and combat results — the output of skill checks, attacks, defenses.                            |
-| `domain/body/`        | Body structure — anatomy, hit locations, aimed strike resolution.                                   |
-| `domain/movement/`    | Per-medium base-move lookup (`readBaseMove`).                                                       |
-| `domain/action/`      | Action definitions — context menu entries and executable logic.                                     |
-| `domain/SkillBase.ts` | Skill base formula computation from traits.                                                         |
-
-These are rebuilt from persisted data each preparation cycle and may be mutated during the lifecycle, but mutations are not persisted.
-
-### FoundryHelpers shim
-
-`src/core/FoundryHelpers.ts` wraps all Foundry globals. Logic classes import from it (e.g., `import { fvttGetSetting } from "@src/core/FoundryHelpers"`). During testing, vitest swaps it for a mock at `tests/mocks/foundry/core/FoundryHelpers.ts`.
-
-Exports that wrap Foundry globals use the `fvtt` prefix. Functions that don't (e.g., `inputDialog`, `getContextItem`) use plain names.
-
-For UI notifications, use `sohl.log.uiWarn` / `sohl.log.uiError`, not the shim.
+- **[Three-class pattern](../concepts/architecture.md#three-class-pattern)** — every actor/item type splits into a Foundry-free Logic class (game rules), a DataModel (persisted schema), and a Sheet (UI), plus how to reach a document's data via `logic.data`.
+- **[Phase-batched lifecycle](../concepts/architecture.md#phase-batched-lifecycle)** and **{@link SohlLogic}** — how `initialize → evaluate → finalize` map onto Foundry's `prepare*` hooks, and the barriers that let sibling items depend on one another.
+- **[Domain objects](../concepts/architecture.md#domain-objects)** — the `src/domain/` value objects (modifiers, results, body, movement, actions), rebuilt from persisted data each preparation cycle.
+- **[FoundryHelpers shim](../concepts/architecture.md#foundryhelpers-shim)** — how Logic stays Foundry-free: the `fvtt` prefix convention, and `sohl.log.uiWarn` / `sohl.log.uiError` for notifications.
 
 ## How to make a change
 
@@ -140,10 +96,10 @@ docs/
 ├── how-to/       Extension points, hooks, actions, testing, this guide
 ├── reference/    Type catalog, modifier model, combat pipeline, body structure,
 │                 effects integration, runtime contracts
-└── dev/          Developer docs index
+└── contributing/ Contribution workflow, changesets, system development
 ```
 
-User guide source: `assets/packs/journals/data/user-guide/*.md` — compiled into Foundry journal entries during build.
+User guide content is authored in the HeroicLands Obsidian vault, committed here as JSON under `assets/packs/journals/_source/`, and compiled into Foundry journal entries during build (see [Build & Deployment §5](./build-and-deployment.md#5-compendium-packs-and-the-obsidian-vault)).
 
 ## Where to find things
 
@@ -155,6 +111,6 @@ User guide source: `assets/packs/journals/data/user-guide/*.md` — compiled int
 | Understand combat resolution      | [Combat Pipeline](../reference/combat-resolution-pipeline.md) |
 | Understand hit locations          | [Body Structure](../reference/body-structure.md)              |
 | Add house rules via module        | [Lifecycle Hooks](./lifecycle-hooks.md)                       |
-| Add per-item behavior             | [Actions](./actions.md)                                       |
+| Add per-item behavior             | [Macros and Actions](../concepts/macros-and-actions.md)       |
 | Write tests                       | [Testing](./testing.md)                                       |
 | Understand active effects         | [Effects Integration](../reference/effects-integration.md)    |

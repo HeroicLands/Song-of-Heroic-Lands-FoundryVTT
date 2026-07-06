@@ -55,7 +55,7 @@ Base-move values live on the actor's Lineage item as a `moveBase: { terrestrial,
 
 Primary file:
 
-- `src/core/SohlCalendar.ts`
+- `src/core/foundry/SohlCalendar.ts`
 
 `SohlCalendarData` extends Foundry calendar data with era metadata and formatting helpers:
 

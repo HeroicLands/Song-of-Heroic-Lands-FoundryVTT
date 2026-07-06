@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BodyLocation } from "@src/domain/body/BodyLocation";
+import { BodyLocation } from "@src/entity/body/BodyLocation";
 
 const SAMPLE_DATA: BodyLocation.Data = {
     shortcode: "skull",
@@ -20,10 +20,17 @@ const MOCK_PART = {
     bodyStructure: { lineageLogic: { actor: null } },
 } as any;
 
+// A Lineage-kinded owning logic (the parent every body entity requires).
+const MOCK_LINEAGE = { kind: "lineage", actor: null } as any;
+
 describe("BodyLocation", () => {
     describe("construction", () => {
         it("creates from data with all properties", () => {
-            const loc = new BodyLocation(SAMPLE_DATA, MOCK_PART, 0);
+            const loc = new BodyLocation(SAMPLE_DATA, {
+                parent: MOCK_LINEAGE,
+                bodyPart: MOCK_PART,
+                index: 0,
+            });
             expect(loc.shortcode).toBe("skull");
             expect(loc.bleedingSusceptibility).toBe("medium");
             expect(loc.amputability).toBe("none");
@@ -35,7 +42,11 @@ describe("BodyLocation", () => {
 
     describe("updatePath", () => {
         it("builds dot-notation path from parent part and index", () => {
-            const loc = new BodyLocation(SAMPLE_DATA, MOCK_PART, 2);
+            const loc = new BodyLocation(SAMPLE_DATA, {
+                parent: MOCK_LINEAGE,
+                bodyPart: MOCK_PART,
+                index: 2,
+            });
             expect(loc.updatePath).toBe(
                 "system.bodyStructure.parts.1.locations.2",
             );

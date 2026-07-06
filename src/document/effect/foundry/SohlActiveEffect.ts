@@ -22,7 +22,7 @@ import {
     ItemKinds,
 } from "@src/utils/constants";
 import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
-import { ValueModifier } from "@src/domain/modifier/ValueModifier";
+import { ValueModifier } from "@src/entity/modifier/ValueModifier";
 import { pushDeltaToValueModifier } from "@src/document/effect/logic/effect-logic";
 
 /**
