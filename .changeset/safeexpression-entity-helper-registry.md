@@ -21,6 +21,12 @@ rather than a copy carried by every instance.
   world-authored custom helpers.
 - **Module split.** `SafeExpressionError` and the helper registry are separate
   modules from `SafeExpression` to keep the layer import-cycle-free.
+- **World-authored custom helpers.** A new **Expression Helper Library** settings
+  menu (GM-only) lets a world import a JSON file mapping helper names to
+  `{ args?: string[], body: string }` entries. The bodies are compiled with the
+  existing sandboxed `textToFunction` and installed into the registry alongside
+  the built-ins; the library persists in a world setting and reloads on world
+  start. Invalid entries are skipped and reported rather than blocking the rest.
 
 No behavior change to the expression language itself; existing predicates
 (action `trigger`/`visible`, Active Effect `test`, context-menu string

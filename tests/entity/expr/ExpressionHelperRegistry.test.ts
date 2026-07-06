@@ -89,4 +89,54 @@ describe("ExpressionHelperRegistry", () => {
             expect(reg.has("has")).toBe(true);
         });
     });
+
+    describe("loadLibrary", () => {
+        it("installs valid helpers from a map and reports them", () => {
+            const result = reg.loadLibrary({
+                addOne: { args: ["n"], body: "return n + 1" },
+                greet: { args: ["who"], body: "'hi ' + who" },
+            });
+            expect(result.installed.sort()).toEqual(["addOne", "greet"]);
+            expect(result.skipped).toEqual([]);
+            expect(reg.get("addOne")!(41)).toBe(42);
+            expect(reg.get("greet")!("bob")).toBe("hi bob");
+        });
+
+        it("clears previously loaded custom helpers on each load", () => {
+            reg.loadLibrary({ a: { body: "return 1" } });
+            expect(reg.has("a")).toBe(true);
+            reg.loadLibrary({ b: { body: "return 2" } });
+            expect(reg.has("a")).toBe(false);
+            expect(reg.has("b")).toBe(true);
+            // Built-ins survive.
+            expect(reg.has("has")).toBe(true);
+        });
+
+        it("skips entries with a missing or non-string body", () => {
+            const result = reg.loadLibrary({
+                ok: { body: "return 1" },
+                noBody: { args: ["n"] },
+                notObj: "return 2",
+            });
+            expect(result.installed).toEqual(["ok"]);
+            expect(result.skipped.map((s) => s.name).sort()).toEqual([
+                "noBody",
+                "notObj",
+            ]);
+        });
+
+        it("skips entries whose body fails safety screening", () => {
+            const result = reg.loadLibrary({
+                evil: { body: "return fetch('/x')" },
+            });
+            expect(result.installed).toEqual([]);
+            expect(result.skipped[0].name).toBe("evil");
+            expect(reg.has("evil")).toBe(false);
+        });
+
+        it("tolerates a non-object library (returns empty result)", () => {
+            expect(reg.loadLibrary(null).installed).toEqual([]);
+            expect(reg.loadLibrary("nope").installed).toEqual([]);
+        });
+    });
 });

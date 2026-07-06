@@ -262,10 +262,26 @@ export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
     },
 });
 
+/** Outcome of loading a custom-helper library — what installed and what did not. */
+export interface LoadLibraryResult {
+    /** Names of helpers successfully installed. */
+    installed: string[];
+    /** Entries that were skipped, each with a reason. */
+    skipped: { name: string; reason: string }[];
+}
+
 /** The live registry: built-ins plus any custom helpers installed at runtime. */
 const registry = new Map<string, ExpressionHelper>(
     Object.entries(STANDARD_HELPERS),
 );
+
+/** Reset the registry to the built-in helpers only (drops all custom ones). */
+function resetToBuiltins(): void {
+    registry.clear();
+    for (const [name, fn] of Object.entries(STANDARD_HELPERS)) {
+        registry.set(name, fn);
+    }
+}
 
 /**
  * The global, process-wide helper library that every {@link SafeExpression}
@@ -331,13 +347,61 @@ export const expressionHelpers = {
     },
 
     /**
+     * Replace all custom helpers with a world-authored library.
+     *
+     * Resets to the built-ins, then compiles and installs each valid entry.
+     * Invalid or unsafe entries are skipped (not thrown) so one bad helper
+     * cannot block the rest; the result reports what installed and what did
+     * not. Call whenever the world's helper file changes.
+     * @param raw The parsed library: a map of helper name to {@link HelperSource}.
+     * @returns Which helpers installed and which were skipped (with reasons).
+     */
+    loadLibrary(raw: unknown): LoadLibraryResult {
+        resetToBuiltins();
+        const installed: string[] = [];
+        const skipped: { name: string; reason: string }[] = [];
+        if (!raw || typeof raw !== "object") return { installed, skipped };
+        for (const [name, entry] of Object.entries(
+            raw as Record<string, unknown>,
+        )) {
+            if (!entry || typeof entry !== "object") {
+                skipped.push({ name, reason: "entry is not an object" });
+                continue;
+            }
+            const { args, body } = entry as HelperSource;
+            if (typeof body !== "string") {
+                skipped.push({ name, reason: "missing string 'body'" });
+                continue;
+            }
+            if (
+                args !== undefined &&
+                (!Array.isArray(args) ||
+                    args.some((a) => typeof a !== "string"))
+            ) {
+                skipped.push({ name, reason: "'args' must be a string array" });
+                continue;
+            }
+            try {
+                registry.set(
+                    name,
+                    textToFunction(body, args ?? []) as ExpressionHelper,
+                );
+                installed.push(name);
+            } catch (err) {
+                skipped.push({
+                    name,
+                    reason: err instanceof Error ? err.message : String(err),
+                });
+            }
+        }
+        return { installed, skipped };
+    },
+
+    /**
      * Remove all custom helpers, restoring the registry to the built-ins only.
      * Used when reloading a world's helper file (and to isolate unit tests).
      */
     clearCustom(): void {
-        registry.clear();
-        for (const [name, fn] of Object.entries(STANDARD_HELPERS)) {
-            registry.set(name, fn);
-        }
+        resetToBuiltins();
     },
 };
