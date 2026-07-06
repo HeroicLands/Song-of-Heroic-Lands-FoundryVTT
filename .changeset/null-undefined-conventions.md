@@ -61,7 +61,9 @@ explicitly.
 - Left correctly-nullable fields as-is: `AttributeDataModel.scoreBase` (`null` =
   trait has no score, e.g. Scarred) and `TraitDataModel.score.max` (`null` = no
   cap).
-- Made `MysteryDataModel` `charges.max` nullable (`initial: null`) so its
-  documented tri-state — `0` = no maximum, `null` = does not use charges — is
-  actually representable; the consuming `MysteryLogic` already branched on
-  `max !== null`.
+- Made the `MysteryDataModel` fields whose documented `null` semantics were
+  unreachable actually nullable (`initial: null`): `charges.max` (`0` = no
+  maximum, `null` = does not use charges), `charges.value` (`null` = infinite
+  charges), and `levelBase` (`null` = no defined level). `MysteryLogic` already
+  branched on `!== null`; its `charges.value` is normalized `?? undefined` before
+  seeding the `ValueModifier`, which rejects `null`.

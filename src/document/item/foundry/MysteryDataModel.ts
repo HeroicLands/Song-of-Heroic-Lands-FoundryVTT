@@ -40,10 +40,11 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             required: true,
             choices: MysterySubTypes,
         }),
-        // Note: if value is null, then there is no defined level
+        // Note: if levelBase is null, then there is no defined level
         levelBase: new NumberField({
             integer: true,
-            initial: 0,
+            nullable: true,
+            initial: null,
             min: 0,
         }),
         charges: new SchemaField({
@@ -51,7 +52,8 @@ function defineMysterySchema(): foundry.data.fields.DataSchema {
             // Note: if value is null, then there are infinite charges remaining
             value: new NumberField({
                 integer: true,
-                initial: 0,
+                nullable: true,
+                initial: null,
                 min: 0,
             }),
             // Note: if max is 0, then there is no maximum, if max is null,
