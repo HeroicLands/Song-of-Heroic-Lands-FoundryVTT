@@ -232,7 +232,10 @@ export class BeingSheet extends SohlActorSheetBase {
      * @param options - The render options.
      */
     protected override async _onRender(
-        context: foundry.applications.api.DocumentSheetV2.RenderContext<SohlActor>,
+        // Typed `any` to avoid an fvtt-types deep-comparison / stack-depth blowup
+        // when matching this override against the base sheet's `_onRender`; the
+        // heavy `RenderContext<SohlActor>` type is what trips it.
+        context: any,
         options: foundry.applications.api.DocumentSheetV2.RenderOptions,
     ): Promise<void> {
         super._onRender(context, options);

@@ -11,37 +11,41 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlSystem } from "@src/common";
-import type { GroupStance } from "@src/utils/constants";
-import type { SohlMap, SohlLogger, SohlLocalize } from "@src/utils/helpers";
-import type { SohlTokenDocument } from "@src/common/document/SohlTokenDocument";
-import type { SohlActiveEffect } from "@src/document/effect/SohlActiveEffect";
-import type { SohlActor } from "@src/common/actor/SohlActor";
-import type {
-    SohlCombat,
-    CombatDataModel,
-} from "@src/document/combat/SohlCombat";
-import type { Being } from "@src/common/actor/Being";
-import type { Assembly } from "@src/common/actor/Assembly";
-import type { SohlCombatant } from "@src/common/combat/SohlCombatant";
-import type { SohlCombatantData } from "@src/common/combatant/SohlCombatantData";
-import type { SohlItem } from "@src/common/item/SohlItem";
-import type { AffiliationLogic } from "@src/common/item/Affiliation";
-import type { AfflictionLogic } from "@src/common/item/Affliction";
-import type { ArmorGear } from "@src/common/item/ArmorGear";
-import type { CombatTechniqueLogic } from "@src/common/item/CombatTechnique";
-import type { ConcoctionGearLogic } from "@src/common/item/ConcoctionGear";
-import type { ContainerGearLogic } from "@src/common/item/ContainerGear";
-import type { TraumaLogic } from "@src/common/item/Trauma";
-import type { MiscGearLogic } from "@src/common/item/MiscGear";
-import type { MysteryLogic } from "@src/common/item/Mystery";
-import type { MysticalAbilityLogic } from "@src/common/item/MysticalAbility";
-import type { ProjectileGearLogic } from "@src/common/item/ProjectileGear";
-import type { SkillLogic } from "@src/common/item/Skill";
-import type { TraitLogic } from "@src/common/item/Trait";
-import type { WeaponGearLogic } from "@src/common/item/WeaponGear";
-import type { SohlLogic } from "@src/core/logic/SohlLogic";
+import type { SohlSystem } from "@src/core/logic/SohlSystem";
 import type { SohlActionContext } from "@src/entity/action/SohlActionContext";
+// Document classes
+import type { SohlActor } from "@src/document/actor/foundry/SohlActor";
+import type { SohlItem } from "@src/document/item/foundry/SohlItem";
+import type { SohlCombat } from "@src/document/combat/foundry/SohlCombat";
+import type { SohlCombatant } from "@src/document/combatant/foundry/SohlCombatant";
+import type { SohlActiveEffect } from "@src/document/effect/foundry/SohlActiveEffect";
+// Actor data models
+import type { BeingDataModel } from "@src/document/actor/foundry/BeingDataModel";
+import type { AssemblyDataModel } from "@src/document/actor/foundry/AssemblyDataModel";
+import type { CohortDataModel } from "@src/document/actor/foundry/CohortDataModel";
+import type { StructureDataModel } from "@src/document/actor/foundry/StructureDataModel";
+import type { VehicleDataModel } from "@src/document/actor/foundry/VehicleDataModel";
+// Item data models
+import type { AttributeDataModel } from "@src/document/item/foundry/AttributeDataModel";
+import type { LineageDataModel } from "@src/document/item/foundry/LineageDataModel";
+import type { AffiliationDataModel } from "@src/document/item/foundry/AffiliationDataModel";
+import type { AfflictionDataModel } from "@src/document/item/foundry/AfflictionDataModel";
+import type { ArmorGearDataModel } from "@src/document/item/foundry/ArmorGearDataModel";
+import type { CombatTechniqueDataModel } from "@src/document/item/foundry/CombatTechniqueDataModel";
+import type { ConcoctionGearDataModel } from "@src/document/item/foundry/ConcoctionGearDataModel";
+import type { ContainerGearDataModel } from "@src/document/item/foundry/ContainerGearDataModel";
+import type { TraumaDataModel } from "@src/document/item/foundry/TraumaDataModel";
+import type { MiscGearDataModel } from "@src/document/item/foundry/MiscGearDataModel";
+import type { MysteryDataModel } from "@src/document/item/foundry/MysteryDataModel";
+import type { MysticalAbilityDataModel } from "@src/document/item/foundry/MysticalAbilityDataModel";
+import type { ProjectileGearDataModel } from "@src/document/item/foundry/ProjectileGearDataModel";
+import type { SkillDataModel } from "@src/document/item/foundry/SkillDataModel";
+import type { TraitDataModel } from "@src/document/item/foundry/TraitDataModel";
+import type { WeaponGearDataModel } from "@src/document/item/foundry/WeaponGearDataModel";
+// Combat / combatant / effect data models
+import type { SohlCombatDataModel } from "@src/document/combat/foundry/SohlCombat";
+import type { SohlCombatantDataModel } from "@src/document/combatant/foundry/SohlCombatant";
+import type { SohlActiveEffectDataModel } from "@src/document/effect/foundry/SohlActiveEffectDataModel";
 
 // ✅ Custom utility types
 declare global {
@@ -100,7 +104,7 @@ declare global {
         P extends any[] = any[],
     > = Constructor<TInstance, P> | AbstractConstructor<TInstance, P>;
     type ConstructorOrFunction = Constructor | AnyFunction;
-    type Mixin<M, T extends Constructor = AnyConstructor> = (
+    type Mixin<M, T extends Constructor = Constructor> = (
         Base: T,
     ) => new (...args: ConstructorParameters<T>) => InstanceType<T> & M;
 
@@ -219,11 +223,11 @@ declare module "fvtt-types/configuration" {
     }
 
     interface ConfiguredActor<SubType extends Actor.SubType> {
-        document: SohlActor<SohlActorLogic, any, SubType>;
+        document: SohlActor;
     }
 
     interface ConfiguredItem<SubType extends Item.SubType> {
-        document: SohlItem<SohlItemLogic, any, SubType>;
+        document: SohlItem;
     }
 
     interface ConfiguredCombat<SubType extends Combat.SubType> {
@@ -235,32 +239,42 @@ declare module "fvtt-types/configuration" {
     }
 
     interface ConfiguredActiveEffect<SubType extends ActiveEffect.SubType> {
-        document: SohlActiveEffect<SubType>;
+        document: SohlActiveEffect;
     }
 
     interface DataModelConfig {
+        // Generics pinned to `any` to break the DataModel -> Logic -> Data ->
+        // system -> DataModelConfig instantiation cycle (see the Item note below).
         Actor: {
-            being: typeof Being.DataModel;
-            assembly: typeof Assembly.DataModel;
-            cohort: typeof Cohort.DataModel;
-            structure: typeof Structure.DataModel;
-            vehicle: typeof Vehicle.DataModel;
+            being: Constructor<BeingDataModel<any, any>>;
+            assembly: Constructor<AssemblyDataModel<any, any>>;
+            cohort: Constructor<CohortDataModel<any, any>>;
+            structure: Constructor<StructureDataModel<any, any>>;
+            vehicle: Constructor<VehicleDataModel<any, any>>;
         };
+        // Generics are pinned to `any` here: the concrete DataModel classes
+        // carry self-referential `TLogic` defaults (DataModel -> Logic -> Data
+        // -> system -> DataModelConfig), which sends fvtt-types into infinite
+        // instantiation when it derives per-subtype `system` types. Pinning to
+        // `<any, any>` breaks that cycle; per-subtype `system` is typed loosely
+        // (as it already was while this file was broken).
         Item: {
-            affiliation: typeof AffiliationLogic.DataModel;
-            affliction: typeof AfflictionLogic.DataModel;
-            armorgear: typeof ArmorGear.DataModel;
-            combattechnique: typeof CombatTechniqueLogic.DataModel;
-            concoctiongear: typeof ConcoctionGearLogic.DataModel;
-            containergear: typeof ContainerGearLogic.DataModel;
-            trauma: typeof TraumaLogic.DataModel;
-            miscgear: typeof MiscGearLogic.DataModel;
-            mystery: typeof MysteryLogic.DataModel;
-            mysticalability: typeof MysticalAbilityLogic.DataModel;
-            projectilegear: typeof ProjectileGearLogic.DataModel;
-            skill: typeof SkillLogic.DataModel;
-            trait: typeof TraitLogic.DataModel;
-            weapongear: typeof WeaponGearLogic.DataModel;
+            attribute: Constructor<AttributeDataModel<any, any>>;
+            lineage: Constructor<LineageDataModel<any, any>>;
+            affiliation: Constructor<AffiliationDataModel<any, any>>;
+            affliction: Constructor<AfflictionDataModel<any, any>>;
+            armorgear: Constructor<ArmorGearDataModel<any, any>>;
+            combattechnique: Constructor<CombatTechniqueDataModel<any, any>>;
+            concoctiongear: Constructor<ConcoctionGearDataModel<any, any>>;
+            containergear: Constructor<ContainerGearDataModel<any, any>>;
+            trauma: Constructor<TraumaDataModel<any, any>>;
+            miscgear: Constructor<MiscGearDataModel<any, any>>;
+            mystery: Constructor<MysteryDataModel<any, any>>;
+            mysticalability: Constructor<MysticalAbilityDataModel<any, any>>;
+            projectilegear: Constructor<ProjectileGearDataModel<any, any>>;
+            skill: Constructor<SkillDataModel<any, any>>;
+            trait: Constructor<TraitDataModel<any, any>>;
+            weapongear: Constructor<WeaponGearDataModel<any, any>>;
         };
         Combat: {
             sohlcombatdata: typeof SohlCombatDataModel;
@@ -269,7 +283,7 @@ declare module "fvtt-types/configuration" {
             sohlcombatantdata: typeof SohlCombatantDataModel;
         };
         ActiveEffect: {
-            sohleffectdata: typeof SohlEffectData.DataModel;
+            sohleffectdata: typeof SohlActiveEffectDataModel;
         };
     }
 }

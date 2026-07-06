@@ -28,6 +28,7 @@ import {
     COMMON_ITEM_SHEETS,
     SOHLCONFIG,
     type CalendarRegistration,
+    type SohlConfig,
 } from "@src/core/foundry/sohl-config";
 import { SohlActorLogic } from "@src/document/actor/logic/SohlActorBaseLogic";
 import { SohlItemLogic } from "@src/document/item/logic/SohlItemBaseLogic";
@@ -89,6 +90,15 @@ export class SohlSystem {
     readonly log: SohlLogger;
     /** In-memory trigger/event dispatcher (`sohl.events`). */
     readonly events: SohlEventQueue;
+
+    /**
+     * The SoHL system configuration (`sohl.CONFIG`) — the document, sheet,
+     * DataModel, modifier, and result registries merged into Foundry's `CONFIG`
+     * at init. See {@link SOHLCONFIG}.
+     */
+    get CONFIG(): SohlConfig {
+        return SOHLCONFIG;
+    }
 
     /* -------------------------------------------- */
     /*  Calendar Registry                           */

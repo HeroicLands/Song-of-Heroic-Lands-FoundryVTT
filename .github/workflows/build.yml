@@ -31,6 +31,9 @@ jobs:
             - name: Check TODO issue links
               run: npm run lint:todos
 
+            - name: Type-check project declaration files (skipLibCheck off)
+              run: npm run lint:dts
+
             - name: Run tests with coverage
               run: npm run test:coverage
 

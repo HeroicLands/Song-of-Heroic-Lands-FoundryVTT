@@ -171,7 +171,7 @@ export class SohlCombatantLogic<
         actorLogic: SohlActorLogic<any> | undefined,
     ): Optional<SohlCombatantLogic> {
         return getActiveCombat()?.combatants?.find(
-            (c) => c.actor.id === actorLogic?.data.id,
+            (c) => c.actor?.id === actorLogic?.data.id,
         )?.logic;
     }
 
@@ -191,7 +191,7 @@ export class SohlCombatantLogic<
         tokenLogic: SohlTokenDocumentLogic | undefined,
     ): Optional<SohlCombatantLogic> {
         return getActiveCombat()?.combatants?.find(
-            (c) => c.token.id === tokenLogic?.id,
+            (c) => c.token?.id === tokenLogic?.id,
         )?.logic;
     }
 
