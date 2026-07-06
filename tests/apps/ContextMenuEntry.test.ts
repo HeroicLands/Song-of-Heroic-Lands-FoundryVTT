@@ -4,7 +4,7 @@ import {
     makeConditionContext,
     resolveContextItem,
     resolveContextActor,
-} from "@src/utils/ContextMenuEntry";
+} from "@src/apps/logic/ContextMenuEntry";
 
 interface RowSpec {
     itemId?: string;

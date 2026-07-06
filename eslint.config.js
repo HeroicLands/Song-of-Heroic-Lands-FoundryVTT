@@ -69,7 +69,6 @@ const FOUNDRY_FREE_ZONES = [
     "src/entity/**/*.ts",
     "src/core/logic/SohlLogic.ts",
     "src/core/logic/SohlSpeaker.ts",
-    "src/utils/ContextMenuEntry.ts",
 ];
 
 export default [

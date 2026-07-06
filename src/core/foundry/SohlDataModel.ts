@@ -41,7 +41,7 @@ import {
     toFilePath,
     toHTMLString,
 } from "@src/utils/helpers";
-import { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 import {
     COMMON_ACTOR_LOGIC,
     COMMON_ITEM_LOGIC,

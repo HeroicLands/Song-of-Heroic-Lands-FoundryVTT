@@ -11,7 +11,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { SohlContextMenu } from "@src/utils/SohlContextMenu";
+import type { SohlContextMenu } from "@src/apps/foundry/SohlContextMenu";
 // Type-only imports (erased at runtime) so this stays a dependency-free leaf
 // module that both the branded classes and their consumers can import.
 import type { SohlLogic } from "@src/core/logic/SohlLogic";
