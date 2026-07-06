@@ -23,7 +23,7 @@ import {
 } from "@src/utils/constants";
 import { textToFunction } from "@src/utils/helpers";
 import { fvttCurrentUser } from "@src/core/FoundryHelpers";
-import { SafeExpression, STANDARD_HELPERS } from "@src/utils/SafeExpression";
+import { SafeExpression } from "@src/entity/expr/SafeExpression";
 import {
     resolveContextActor,
     resolveContextItem,
@@ -184,8 +184,12 @@ export class SohlAction extends SohlEntity {
             ...data,
         };
         // trigger must be compiled first — visible composes with it.
-        this.trigger = compileTrigger(data.trigger, this.data.title);
-        this.visible = compileVisibility(this.data, this.trigger);
+        this.trigger = compileTrigger(
+            data.trigger,
+            this.data.title,
+            this.parent,
+        );
+        this.visible = compileVisibility(this.data, this.trigger, this.parent);
         if (data.executor) {
             let target: SohlLogic | undefined;
             let func: Function;
@@ -400,18 +404,20 @@ export namespace SohlAction {
  * @param data The full action data; used for source, title, subType, and
  *   `minActorOwnership`.
  * @param trigger The compiled trigger predicate to compose with.
+ * @param parent The owning action's logic, used as the expression's parent.
  * @returns A visibility predicate.
  */
 function compileVisibility(
     data: SohlAction.Data,
     trigger: ActionTriggerFn,
+    parent: SohlLogic,
 ): ActionVisibilityFn {
     const source = data.visible;
     const title = data.title;
     const text = source && source.trim() ? source : "true";
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression(text, STANDARD_HELPERS);
+        expression = new SafeExpression({ source: text }, { parent });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile action visibility expression; action will be hidden:",
@@ -454,16 +460,18 @@ function compileVisibility(
  * @param source The safe-expression source from `data.trigger`. Treated as
  *   `"true"` if blank/missing.
  * @param title The owning action's title, used in log output.
+ * @param parent The owning action's logic, used as the expression's parent.
  * @returns A trigger predicate that accepts `item` and `actor` bindings.
  */
 function compileTrigger(
     source: string | undefined,
     title: string,
+    parent: SohlLogic,
 ): ActionTriggerFn {
     const text = source && source.trim() ? source : "true";
     let expression: SafeExpression;
     try {
-        expression = new SafeExpression(text, STANDARD_HELPERS);
+        expression = new SafeExpression({ source: text }, { parent });
     } catch (err) {
         sohl.log.warn(
             "Failed to compile action trigger expression; action will be inactive:",

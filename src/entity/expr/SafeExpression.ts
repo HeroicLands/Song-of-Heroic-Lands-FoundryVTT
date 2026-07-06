@@ -12,6 +12,13 @@
  */
 
 import jsep from "jsep";
+import { registerKind } from "@src/utils/kindRegistry";
+import { SohlEntity } from "../SohlEntity";
+import { expressionHelpers } from "./ExpressionHelperRegistry";
+import { SafeExpressionError, errorMessage } from "./SafeExpressionError";
+
+// Re-exported so callers can import the error type alongside the class.
+export { SafeExpressionError } from "./SafeExpressionError";
 
 /**
  * A safe, sandboxed evaluator for the small JS-like expression language used by
@@ -20,7 +27,8 @@ import jsep from "jsep";
  *
  * Expressions are parsed with {@link https://github.com/EricSmekens/jsep | jsep}
  * into an AST, statically validated against a strict allowlist, then evaluated by
- * walking that AST.
+ * walking that AST. Callable helpers come from the global
+ * {@link expressionHelpers} registry (built-ins plus any world-loaded helpers).
  */
 
 /** Binary operators the evaluator implements (jsep is narrowed to match). */
@@ -46,9 +54,6 @@ const UNARY_OPERATORS = new Set(["!", "-", "+"]);
 /** Property names that may never be used as member keys (prototype escapes). */
 const DENIED_KEYS = new Set(["constructor", "__proto__", "prototype"]);
 
-/** Upper bound on a `matches()` regular-expression pattern, as a ReDoS guard. */
-const MAX_PATTERN_LENGTH = 200;
-
 // Narrow jsep's default grammar to the safe subset. jsep is a process-wide
 // singleton and an ES module's top level evaluates exactly once, so removing
 // the bitwise and loose-equality operators here makes that syntax fail fast at
@@ -58,30 +63,6 @@ for (const operator of ["&", "|", "^", "<<", ">>", ">>>", "==", "!="]) {
     jsep.removeBinaryOp(operator);
 }
 jsep.removeUnaryOp("~");
-
-/**
- * Error raised when an expression cannot be parsed, fails validation, or
- * throws during evaluation. Every failure surfaced by {@link SafeExpression}
- * is an instance of this class.
- */
-export class SafeExpressionError extends Error {
-    /**
-     * Create a SafeExpressionError.
-     * @param message Human-readable description of the failure.
-     * @param options Optional error options, e.g. the underlying `cause`.
-     * @param options.cause The underlying error that triggered this failure.
-     */
-    constructor(message: string, options?: { cause?: unknown }) {
-        super(message, options);
-        this.name = "SafeExpressionError";
-    }
-}
-
-/** A helper function callable from an expression; receives evaluated args. */
-export type ExpressionHelper = (...args: unknown[]) => unknown;
-
-/** A read-only map of helper name to implementation. */
-export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
 
 /**
  * A parsed, validated, reusable safe expression — SoHL's way to evaluate a
@@ -96,15 +77,18 @@ export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
  * it against a strict allowlist, then evaluates that tree by hand. Anything
  * outside the allowed language is rejected — usually before it ever runs.
  *
+ * It is a {@link SohlEntity}: only its {@link source} is persisted (via
+ * {@link toJSON}); the parsed AST is rebuilt in the constructor on revival.
+ *
  * ## Using it
  *
  * Two steps: build once, then evaluate as often as you like.
  *
- * 1. **Construct** — `new SafeExpression(source, helpers?)` parses and validates
- *    `source` immediately. If the string uses anything unsupported it throws a
- *    {@link SafeExpressionError} right here, so a bad predicate fails loudly at
- *    setup time instead of silently at use time. Construction is the costly step;
- *    keep the instance and reuse it.
+ * 1. **Construct** — `new SafeExpression({ source }, { parent })` parses and
+ *    validates `source` immediately. If the string uses anything unsupported it
+ *    throws a {@link SafeExpressionError} right here, so a bad predicate fails
+ *    loudly at setup time instead of silently at use time. Construction is the
+ *    costly step; keep the instance and reuse it.
  * 2. **Evaluate** — `expr.evaluate(context?)` runs the expression against
  *    `context`, a plain object of variable bindings. Every bare identifier in the
  *    expression is looked up by name in `context`. It returns whatever the
@@ -112,7 +96,7 @@ export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
  *
  * @example
  * // A simple predicate. `level` and `injured` are read from the context object.
- * const expr = new SafeExpression("level >= 3 && !injured");
+ * const expr = new SafeExpression({ source: "level >= 3 && !injured" }, { parent });
  * expr.evaluate({ level: 5, injured: false }); // true
  * expr.evaluate({ level: 2, injured: false }); // false
  * expr.evaluate({ level: 9, injured: true });  // false
@@ -129,27 +113,21 @@ export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
  * (`=`), bitwise and loose-equality operators (`& | == !=`), `typeof` / `new` /
  * `delete` / `instanceof`, statements (`;`, `if`, `for`), template and regex
  * literals, and — importantly — **method calls**. You cannot write `actor.die()`;
- * the only callable values are the helpers you supply.
- *
- * @example
- * // Property access and a ternary, evaluated against nested context data.
- * const expr = new SafeExpression("actor.hp > 0 ? actor.name : 'down'");
- * expr.evaluate({ actor: { hp: 4, name: "Grymm" } }); // "Grymm"
- * expr.evaluate({ actor: { hp: 0, name: "Grymm" } }); // "down"
+ * the only callable values are the registered helpers.
  *
  * ## Helpers
  *
  * Because method calls are banned, **helpers** are how you expose behavior to an
- * expression. Pass a map of name → function as the second constructor argument;
- * the expression may then call those names. Helpers receive already-evaluated
- * arguments and may return anything.
+ * expression. They come from the global {@link expressionHelpers} registry — the
+ * built-in library plus any world-loaded custom helpers — and are resolved by
+ * name when the expression is validated and evaluated.
  *
  * @example
- * // Supply helpers, then call them by name from the expression.
- * const expr = new SafeExpression("has(tags, 'ranged') && len(tags) <= 3", {
- *     has: (arr, v) => Array.isArray(arr) && arr.includes(v),
- *     len: (arr) => (Array.isArray(arr) ? arr.length : 0),
- * });
+ * // `has` and `len` are built-in helpers; the expression may call them by name.
+ * const expr = new SafeExpression(
+ *     { source: "has('ranged', tags) && len(tags) <= 3" },
+ *     { parent },
+ * );
  * expr.evaluate({ tags: ["ranged", "magic"] }); // true
  *
  * ## Errors
@@ -159,36 +137,37 @@ export type HelperRegistry = Readonly<Record<string, ExpressionHelper>>;
  * {@link SafeExpressionError}. Syntax and validation failures throw from the
  * constructor; runtime failures throw from {@link evaluate}.
  *
- * @example
- * // Unsafe or unsupported syntax never runs — it throws when you build it.
- * new SafeExpression("actor.die()"); // SafeExpressionError: method call
- * new SafeExpression("a = 1");       // SafeExpressionError: assignment
- *
  * @see {@link SafeExpressionError} — the single error type every failure uses.
- * @see {@link ExpressionHelper} — the helper function signature.
+ * @see {@link expressionHelpers} — the global helper registry.
  */
-export class SafeExpression {
+export class SafeExpression extends SohlEntity {
     /** The original expression source string. */
     readonly source: string;
 
-    /** The parsed and validated abstract syntax tree. */
+    /** The parsed and validated abstract syntax tree (not serialized). */
     private readonly ast: jsep.Expression;
-
-    /** The helper functions callable from this expression. */
-    private readonly helpers: HelperRegistry;
 
     /**
      * Parse and statically validate an expression.
-     * @param source The expression text.
-     * @param helpers Helper functions callable from the expression.
+     * @param data The expression data.
+     * @param data.source The expression text.
+     * @param options Entity options, including the owning `parent` logic.
      * @throws {SafeExpressionError} If the expression cannot be parsed or
      *   contains unsupported or unsafe syntax.
      */
-    constructor(source: string, helpers: HelperRegistry = {}) {
-        this.source = source;
-        this.helpers = helpers;
+    constructor(
+        data: Partial<SafeExpression.Data> = {},
+        options: Partial<SafeExpression.Options> = {},
+    ) {
+        super(data, options);
+        if (typeof data.source !== "string") {
+            throw new SafeExpressionError(
+                "SafeExpression requires a source string",
+            );
+        }
+        this.source = data.source;
         try {
-            this.ast = jsep(source);
+            this.ast = jsep(this.source);
         } catch (err) {
             throw new SafeExpressionError(
                 `Could not parse expression: ${errorMessage(err)}`,
@@ -196,6 +175,18 @@ export class SafeExpression {
             );
         }
         this.validate(this.ast);
+    }
+
+    /**
+     * Serialize to a plain object — only the {@link source} is persisted; the
+     * AST is rebuilt from it on reconstruction.
+     * @returns The serialized expression data.
+     */
+    override toJSON(): PlainObject {
+        return {
+            ...super.toJSON(),
+            source: this.source,
+        };
     }
 
     /**
@@ -302,7 +293,7 @@ export class SafeExpression {
                     );
                 }
                 const name = (call.callee as jsep.Identifier).name;
-                if (!Object.prototype.hasOwnProperty.call(this.helpers, name)) {
+                if (!expressionHelpers.has(name)) {
                     throw new SafeExpressionError(`Unknown helper: ${name}`);
                 }
                 for (const arg of call.arguments) {
@@ -385,7 +376,7 @@ export class SafeExpression {
         if (Object.prototype.hasOwnProperty.call(context, name)) {
             return context[name];
         }
-        if (Object.prototype.hasOwnProperty.call(this.helpers, name)) {
+        if (expressionHelpers.has(name)) {
             throw new SafeExpressionError(
                 `Helper "${name}" can only be called, not referenced`,
             );
@@ -522,15 +513,19 @@ export class SafeExpression {
      * @param node The call expression node.
      * @param context Variable bindings available to the expression.
      * @returns The helper's return value.
-     * @throws {SafeExpressionError} If the helper throws.
+     * @throws {SafeExpressionError} If the helper is unknown or throws.
      */
     private evalCall(
         node: jsep.CallExpression,
         context: Record<string, unknown>,
     ): unknown {
-        // validate() has already guaranteed the callee is a known helper.
+        // validate() guaranteed the callee was a known helper at construction;
+        // re-check here in case the registry changed between build and use.
         const name = (node.callee as jsep.Identifier).name;
-        const helper = this.helpers[name];
+        const helper = expressionHelpers.get(name);
+        if (!helper) {
+            throw new SafeExpressionError(`Unknown helper: ${name}`);
+        }
         const args = node.arguments.map((arg) => this.evalNode(arg, context));
         try {
             return helper(...args);
@@ -544,237 +539,17 @@ export class SafeExpression {
     }
 }
 
-/**
- * Extract a readable message from an unknown thrown value.
- * @param err The caught value.
- * @returns A human-readable message.
- */
-function errorMessage(err: unknown): string {
-    return err instanceof Error ? err.message : String(err);
-}
+export namespace SafeExpression {
+    /** Kind tag used by the kind registry and serialization. */
+    export const Kind: string = "SafeExpression";
 
-/**
- * Count the elements of an array/string or the own keys of an object.
- * @param value The collection to measure.
- * @returns The element/key count; 0 for `null`, `undefined`, or non-collections.
- */
-function collectionSize(value: unknown): number {
-    if (value === null || value === undefined) return 0;
-    if (Array.isArray(value) || typeof value === "string") {
-        return value.length;
+    /** Persisted data shape for a safe expression. */
+    export interface Data extends SohlEntity.Data {
+        /** The expression source string — the only persisted field. */
+        source: string;
     }
-    if (typeof value === "object") return Object.keys(value).length;
-    return 0;
+
+    export interface Options extends SohlEntity.Options {}
 }
 
-/**
- * The default helper registry — pure, null-tolerant utility functions for
- * collection membership, string and numeric operations, and type checks.
- *
- * Helpers are the only callable values in the expression language; extend the
- * language by passing a registry that includes additional entries.
- */
-export const STANDARD_HELPERS: HelperRegistry = Object.freeze({
-    /**
-     * Test membership: array element, or own key of an object.
-     * @param value The value (or key) to look for.
-     * @param collection The array or object to search.
-     * @returns Whether `value` is in `collection`.
-     */
-    has(value: unknown, collection: unknown): boolean {
-        if (Array.isArray(collection)) return collection.includes(value);
-        if (collection !== null && typeof collection === "object") {
-            return Object.prototype.hasOwnProperty.call(
-                collection,
-                value as PropertyKey,
-            );
-        }
-        return false;
-    },
-
-    /**
-     * Element/key count of a collection.
-     * @param collection An array, string, or object.
-     * @returns The count, or 0 for nullish/non-collection values.
-     */
-    len(collection: unknown): number {
-        return collectionSize(collection);
-    },
-
-    /**
-     * Whether a collection has no elements/keys.
-     * @param collection An array, string, or object.
-     * @returns `true` when empty or nullish.
-     */
-    empty(collection: unknown): boolean {
-        return collectionSize(collection) === 0;
-    },
-
-    /**
-     * Lowercase a value's string form.
-     * @param value The value to lowercase.
-     * @returns The lowercased string.
-     */
-    lower(value: unknown): string {
-        return String(value).toLowerCase();
-    },
-
-    /**
-     * Uppercase a value's string form.
-     * @param value The value to uppercase.
-     * @returns The uppercased string.
-     */
-    upper(value: unknown): string {
-        return String(value).toUpperCase();
-    },
-
-    /**
-     * Whether a string starts with a prefix.
-     * @param value The string to test.
-     * @param prefix The prefix to look for.
-     * @returns Whether `value` starts with `prefix`.
-     */
-    startsWith(value: unknown, prefix: unknown): boolean {
-        return String(value).startsWith(String(prefix));
-    },
-
-    /**
-     * Whether a string ends with a suffix.
-     * @param value The string to test.
-     * @param suffix The suffix to look for.
-     * @returns Whether `value` ends with `suffix`.
-     */
-    endsWith(value: unknown, suffix: unknown): boolean {
-        return String(value).endsWith(String(suffix));
-    },
-
-    /**
-     * Whether a string contains a substring.
-     * @param value The string to search.
-     * @param sub The substring to look for.
-     * @returns Whether `value` contains `sub`.
-     */
-    contains(value: unknown, sub: unknown): boolean {
-        return String(value).includes(String(sub));
-    },
-
-    /**
-     * Test a string against a regular expression supplied as a string.
-     * @param value The string to test.
-     * @param pattern The regular-expression pattern (a string).
-     * @param flags Optional regular-expression flags.
-     * @returns Whether the pattern matches.
-     * @throws {SafeExpressionError} If the pattern is too long or invalid.
-     */
-    matches(value: unknown, pattern: unknown, flags?: unknown): boolean {
-        const source = String(pattern);
-        if (source.length > MAX_PATTERN_LENGTH) {
-            throw new SafeExpressionError(
-                "matches(): regular-expression pattern is too long",
-            );
-        }
-        let regex: RegExp;
-        try {
-            regex = new RegExp(
-                source,
-                flags === undefined || flags === null ? "" : String(flags),
-            );
-        } catch (err) {
-            throw new SafeExpressionError(
-                "matches(): invalid regular expression",
-                { cause: err },
-            );
-        }
-        return regex.test(String(value));
-    },
-
-    /**
-     * Smallest of the given numbers.
-     * @param values The numbers to compare.
-     * @returns The minimum value.
-     */
-    min(...values: unknown[]): number {
-        return Math.min(...(values as number[]));
-    },
-
-    /**
-     * Largest of the given numbers.
-     * @param values The numbers to compare.
-     * @returns The maximum value.
-     */
-    max(...values: unknown[]): number {
-        return Math.max(...(values as number[]));
-    },
-
-    /**
-     * Round a number to the nearest integer.
-     * @param value The number to round.
-     * @returns The rounded value.
-     */
-    round(value: unknown): number {
-        return Math.round(value as number);
-    },
-
-    /**
-     * Round a number down to an integer.
-     * @param value The number to floor.
-     * @returns The floored value.
-     */
-    floor(value: unknown): number {
-        return Math.floor(value as number);
-    },
-
-    /**
-     * Round a number up to an integer.
-     * @param value The number to ceil.
-     * @returns The ceiled value.
-     */
-    ceil(value: unknown): number {
-        return Math.ceil(value as number);
-    },
-
-    /**
-     * Absolute value of a number.
-     * @param value The number.
-     * @returns The absolute value.
-     */
-    abs(value: unknown): number {
-        return Math.abs(value as number);
-    },
-
-    /**
-     * Whether a value is a real number (not `NaN`).
-     * @param value The value to test.
-     * @returns Whether `value` is a number.
-     */
-    isNumber(value: unknown): boolean {
-        return typeof value === "number" && !Number.isNaN(value);
-    },
-
-    /**
-     * Whether a value is a string.
-     * @param value The value to test.
-     * @returns Whether `value` is a string.
-     */
-    isString(value: unknown): boolean {
-        return typeof value === "string";
-    },
-
-    /**
-     * Whether a value is an array.
-     * @param value The value to test.
-     * @returns Whether `value` is an array.
-     */
-    isArray(value: unknown): boolean {
-        return Array.isArray(value);
-    },
-
-    /**
-     * Whether a value is neither `undefined` nor `null`.
-     * @param value The value to test.
-     * @returns Whether `value` is defined.
-     */
-    defined(value: unknown): boolean {
-        return value !== undefined && value !== null;
-    },
-});
+registerKind(SafeExpression.Kind, SafeExpression);

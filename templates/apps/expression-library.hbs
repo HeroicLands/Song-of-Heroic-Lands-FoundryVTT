@@ -1,0 +1,55 @@
+{{!--
+This file is part of the Song of Heroic Lands (SoHL) system for Foundry VTT.
+Copyright (c) 2024–2026 Tom Rodriguez ("Toasty") <toasty@heroiclands.com>
+
+Licensed under the GNU General Public License v3.0 (GPLv3).
+You may copy, modify, and distribute this file under the terms of that license.
+
+See LICENSE.md in the project root or:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+SPDX-License-Identifier: GPL-3.0-or-later
+--}}
+
+<section class="expression-library">
+    {{!-- Import Helper Library --}}
+    <fieldset>
+        <legend>{{localize "SOHL.ExpressionLibrary.import.label"}}</legend>
+        <p class="hint">{{localize "SOHL.ExpressionLibrary.import.hint"}}</p>
+        {{#if hasPath}}
+        <div class="form-group">
+            <label>{{localize "SOHL.ExpressionLibrary.import.current"}}</label>
+            <span class="library-path">{{path}}</span>
+        </div>
+        {{/if}}
+        <div class="form-group">
+            <button type="button" data-action="importLibrary">
+                <i class="sohl-file-import"></i>
+                {{localize "SOHL.ExpressionLibrary.import.button"}}
+            </button>
+            {{#if hasCustom}}
+            <button type="button" data-action="clearLibrary">
+                <i class="sohl-trash"></i>
+                {{localize "SOHL.ExpressionLibrary.clear.button"}}
+            </button>
+            {{/if}}
+        </div>
+    </fieldset>
+
+    {{!-- Loaded custom helpers --}}
+    <fieldset>
+        <legend>{{localize "SOHL.ExpressionLibrary.helpers.label"}}</legend>
+        <p class="hint">
+            {{localize "SOHL.ExpressionLibrary.helpers.builtinCount"}}: {{builtinCount}}
+        </p>
+        {{#if hasCustom}}
+        <ul class="custom-helpers">
+            {{#each customHelpers}}
+            <li class="custom-helper"><code>{{this.signature}}</code></li>
+            {{/each}}
+        </ul>
+        {{else}}
+        <p class="hint">{{localize "SOHL.ExpressionLibrary.helpers.none"}}</p>
+        {{/if}}
+    </fieldset>
+</section>

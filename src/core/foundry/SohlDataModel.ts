@@ -529,19 +529,24 @@ export namespace SohlDataModel {
              * @param element - The sheet root element to bind the menus to.
              */
             protected _contextMenu(element: HTMLElement): void {
+                const parent = (this.document as any).logic;
                 new SohlContextMenu(element, ".item", [], {
                     onOpen: this._onItemContextMenuOpen.bind(this),
+                    parent,
                 });
                 new SohlContextMenu(element, ".item-contextmenu", [], {
                     eventName: "click",
                     onOpen: this._onItemContextMenuOpen.bind(this),
+                    parent,
                 });
                 new SohlContextMenu(element, ".effect", [], {
                     onOpen: this._onEffectContextMenuOpen.bind(this),
+                    parent,
                 });
                 new SohlContextMenu(element, ".effect-contextmenu", [], {
                     eventName: "click",
                     onOpen: this._onEffectContextMenuOpen.bind(this),
+                    parent,
                 });
             }
 
