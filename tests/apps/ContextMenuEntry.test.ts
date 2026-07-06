@@ -6,6 +6,17 @@ import {
     resolveContextActor,
 } from "@src/apps/logic/ContextMenuEntry";
 
+// String conditions compile to a SafeExpression, which (as a SohlEntity)
+// requires an owning parent logic. A truthy stand-in is enough here.
+const mockParent = { id: "test" } as any;
+
+/** compileCondition with the mock parent supplied (for string conditions). */
+const cond = (
+    source: string,
+    entryName: string,
+): ((target: HTMLElement) => boolean) =>
+    compileCondition(source, entryName, mockParent);
+
 interface RowSpec {
     itemId?: string;
     actorId?: string;
@@ -44,35 +55,32 @@ describe("compileCondition", () => {
     });
 
     it("compiles 'true' to a predicate that returns true", () => {
-        const fn = compileCondition("true", "always-show");
+        const fn = cond("true", "always-show");
         expect(fn(mockTarget())).toBe(true);
     });
 
     it("compiles 'false' to a predicate that returns false", () => {
-        const fn = compileCondition("false", "never-show");
+        const fn = cond("false", "never-show");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("makes target available to the expression", () => {
-        const fn = compileCondition("defined(target)", "target-check");
+        const fn = cond("defined(target)", "target-check");
         expect(fn(mockTarget())).toBe(true);
     });
 
     it("returns false (hidden) when item is not present", () => {
-        const fn = compileCondition("defined(item)", "needs-item");
+        const fn = cond("defined(item)", "needs-item");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("returns false (hidden) when actor is not present", () => {
-        const fn = compileCondition("defined(actor)", "needs-actor");
+        const fn = cond("defined(actor)", "needs-actor");
         expect(fn(mockTarget())).toBe(false);
     });
 
     it("returns false on compile error and warns", () => {
-        const fn = compileCondition(
-            "item.logic.hasAttr('per')", // method call — rejected
-            "bad-source",
-        );
+        const fn = cond("item.logic.hasAttr('per')", "bad-source");
         expect(fn(mockTarget())).toBe(false);
         expect(warnSpy).toHaveBeenCalledWith(
             expect.stringContaining("Failed to compile"),
@@ -82,7 +90,7 @@ describe("compileCondition", () => {
 
     it("returns false on evaluation error and warns", () => {
         // matches() throws on an invalid regex pattern
-        const fn = compileCondition("matches('x', '[')", "bad-eval");
+        const fn = cond("matches('x', '[')", "bad-eval");
         expect(fn(mockTarget())).toBe(false);
         expect(warnSpy).toHaveBeenCalledWith(
             expect.stringContaining("threw"),
@@ -114,7 +122,7 @@ describe("makeConditionContext", () => {
         // `item`, the lazy getter must never trigger that walk.
         const target = mockTarget();
         const closestSpy = vi.spyOn(target, "closest");
-        const fn = compileCondition("true", "no-item");
+        const fn = cond("true", "no-item");
         fn(target);
         expect(closestSpy).not.toHaveBeenCalledWith("[data-item-id]");
     });
@@ -122,7 +130,7 @@ describe("makeConditionContext", () => {
     it("resolves item only when the expression references it", () => {
         const target = mockTarget();
         const closestSpy = vi.spyOn(target, "closest");
-        const fn = compileCondition("defined(item)", "uses-item");
+        const fn = cond("defined(item)", "uses-item");
         fn(target);
         expect(closestSpy).toHaveBeenCalledWith("[data-item-id]");
     });

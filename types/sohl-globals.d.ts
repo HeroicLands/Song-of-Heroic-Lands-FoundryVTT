@@ -211,6 +211,8 @@ declare module "fvtt-types/configuration" {
         "sohl.activeCalendar": string;
         "sohl.importedCalendars": Record<string, any>;
         "sohl.domains": Record<string, any>;
+        "sohl.expressionHelpers": Record<string, any>;
+        "sohl.expressionHelpersPath": string;
     }
 
     interface DocumentClassConfig {
